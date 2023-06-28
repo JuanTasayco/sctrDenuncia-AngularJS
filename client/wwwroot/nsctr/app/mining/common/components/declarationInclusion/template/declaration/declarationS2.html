@@ -1,0 +1,130 @@
+<div class="secondStep">
+
+	<form action="" name="frmSecondStep">
+
+		<div class="g-section-inner">
+			<div class="container">
+				<div class="row">
+					<div class="col-md-12">
+						<h2 class="g-sub-title c-red">Información de Declaración</h2>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-md-6 mb-xs-2">
+						<mpf-textarea
+							label="{label: 'Datos de Obra o Centro de Trabajo', required: false}"
+							name="nDatosObra"
+							ng-model="dataS2.mDatosObra"
+							ng-required="false">
+						</mpf-textarea>
+						<ul class="g-error">
+							<li ng-show="frmSecondStep.nDatosObra.$invalid && !frmSecondStep.nDatosObra.$pristine">* Ingrese centro de trabajo</li>
+						</ul>
+						<div class="gH7 mt-xs-1">Completa los datos de obra o centro de trabajo</div>
+					</div>
+					<div class="col-md-6 mb-xs-2">
+						<mpf-textarea
+							class="mb-xs-1"
+							label="{label: 'Centro de costos', required: false}"
+							name="nCentroCostos"
+							ng-model="dataS2.mCentroCostos"
+							ng-maxlength="80">
+						</mpf-textarea>
+						<span class="gH7">El centro de costos específico se imprimirá en el recibo y factura correspondiente</span>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-md-6">
+						<mpf-select
+							label="{label: 'Locación', required: false}"
+							name="nLocacion"
+							ng-model="dataS2.mLocacion"
+							m-data-source="dataS2.locationData"
+							text-field="locationName"
+							value-field="locationId"
+							m-Empty-Option="{enterData:true}"
+							ng-required="false">
+						</mpf-select>
+						<ul class="g-error">
+							<li ng-show="frmSecondStep.nLocacion.$invalid && !frmSecondStep.nLocacion.$pristine">* Seleccione una locación</li>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+
+
+		<div class="g-section-inner">
+			<div class="container">
+
+				<div class="row">
+					<div class="col-md-12">
+						<h2 class="g-sub-title c-red">Detalle de los Riesgos</h2>
+					</div>
+				</div>
+
+				<div
+					class="row mb-xs-2"
+					ng-repeat="riskPremium in dataS2.risksPremium">
+					<nsctr-risk-premium-table
+						module="data.MODULE"
+						currency-type="data.CURRENCY_TYPES.soles.description"
+						risk-premium="riskPremium">
+					</nsctr-risk-premium-table>
+				</div>
+
+			</div>
+		</div>
+
+
+		<div class="g-section-inner" ng-if="dataS2.pendingRisksPremium.length > 0">
+			<div class="container">
+
+				<div class="row">
+					<div class="col-sm-8">
+						<h2 class="g-sub-title red">Información de Planilla Pendiente</h2>
+						<p>Esta planilla se facturará en la vigencia a la que corresponde</p>
+					</div>
+					<div class="col-sm-4 mb-xs-2 no-mb-sm">
+						<a
+							class="g-btn g-btn-verde block"
+							ng-click="$ctrl.fnDownloadPendingPayroll()">
+							Descargar Planilla Pendiente
+						</a>
+					</div>
+				</div>
+
+				<div
+					class="row mb-xs-2"
+					ng-repeat="riskPremium in dataS2.pendingRisksPremium">
+					<nsctr-pending-risk-premium-table
+						module="data.MODULE"
+						currency-type="data.CURRENCY_TYPES.soles.description"
+						risk-premium="riskPremium">
+					</nsctr-pending-risk-premium-table>
+				</div>
+
+			</div>
+		</div>
+
+
+		<div class="g-section">
+			<div class="container">
+				<div class="row">
+					<div class="col-md-4 col-sm-6 col-md-offset-4 col-sm-offset-3">
+						<a
+							href="javascript:void(0)"
+							class="g-btn g-btn-verde block"
+							ng-click="fnGenerate()">
+							Generar
+						</a>
+					</div>
+				</div>
+			</div>
+		</div>
+
+
+
+	</form>
+
+</div>

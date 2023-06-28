@@ -1,0 +1,11 @@
+.alerts-container(ng-show="alerts.length")
+    .container
+        //- i.glyphicon.glyphicon-remove-circle.close-all(ng-click="clear()", ng-show="alerts.length > 1")
+        img.glyphicon.glyphicon-remove-circle.close-all(ng-click="clear()", src='gaiafrontend/img/icons/remove-icon.png', ng-show="alerts.length > 1")
+        div.group-alert(ng-class="{'group-alerts': alerts.length > 1}")
+            div(ng-repeat="alert in alerts", mp-alert="{{alert.type}}", mp-alert-close="remove($index)", mp-alert-code="alert.code")
+                h1.h3 {{alert.content.title}}
+                p {{alert.content.description}}
+                ul
+                    li(ng-repeat="error in alert.content.errors")
+                        a(ng-click="focusFormControl(error.form, error.formControl)") {{error.description}}

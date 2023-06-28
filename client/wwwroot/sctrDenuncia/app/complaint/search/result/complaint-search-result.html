@@ -1,0 +1,110 @@
+<div class="container">
+    <div class="row">
+        <div class="col-md-12 mb-xs-2">
+            <span class="total-label-records">{{ $ctrl.pagination.totalRecords }}
+                {{ $ctrl.pagination.totalRecords==1? "registro encontrado": "registros encontrados" }}</span>
+        </div>
+    </div>
+    <div ng-repeat="item in $ctrl.result" class="row item-search">
+        <div class="col-md-12 mb-xs-2">
+            <div class="clearfix g-box g-overflow-hidden-xs mb-xs-2">
+                <div class="row g-box-content">
+                    <div class="col-xs-12 col-sm-11">
+                        <ul class="clearfix g-list second-design pb-xs-0-5">
+                            <li class="col-xs-12 col-sm-12">
+                                <div class="col-xs-12 pl-xs-0">
+                                    <div class="gH5 item-label resumen-item-denuncia">No.
+                                        {{item.periodoDenuncia}}-{{item.nroDenuncia}}</div>
+                                    <span class="state"
+                                        ng-class="{'state-registrado': item.estado=='R' , 'state-aprobado':item.estado=='P' , 'state-rechazado':item.estado=='H', 'state-finalizado':item.estado=='F' }">{{ item.descEstado }}</span>
+                                </div>
+                            </li>
+                        </ul>
+                        <ul class="clearfix g-list second-design pb-xs-0-5">
+                            <li class="col-xs-12 col-sm-12">
+                                <div class="col-xs-12 pl-xs-0">
+                                    <div class="gH5 item-label resumen-item-denuncia">{{item.nombreAsegurado}} -
+                                        {{item.tipoDocAsegurado}} {{item.nroDocAsegurado}}</div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="col-xs-2 col-sm-1 text-right pr-xs-3 mt-xs-1">
+                        <a class="second-design"
+                            ui-sref="complaint.item({periodo: item.periodoDenuncia, nrodenuncia:item.nroDenuncia, codasegurado: item.codAfiliado})">
+                            <i class="glyphicon glyphicon-menu-right"></i> </a>
+                    </div>
+                </div>
+                <div class="row pt-xs-1 pb-xs-1 gBgcGray5">
+                    <ul class="clearfix g-list second-design">
+                        <li class="col-xs-12 col-sm-2">
+                            <div class="col-xs-12 ">
+                                <span>Fecha de Ocurrencia</span>
+                            </div>
+                        </li>
+                        <li class="col-xs-12 col-sm-2">
+                            <div class="col-xs-12  ">
+                                <span>Tipo</span>
+                            </div>
+                        </li>
+                        <li class="col-xs-12 col-sm-2">
+                            <div class="col-xs-12  ">
+                                <span>Nro de Poliza</span>
+                            </div>
+                        </li>
+                        <li class="col-xs-12 col-sm-4">
+                            <div class="col-xs-12  ">
+                                <span>Cliente</span>
+                            </div>
+
+                        </li>
+                        <li class="col-xs-12 col-sm-2">
+                            <div class="col-xs-12  ">
+                                <span>Denuncia provisional</span>
+                            </div>
+
+                        </li>
+                    </ul>
+                    <ul class="clearfix g-list second-design">
+                        <li class="col-xs-12 col-sm-2">
+                            <div class="col-xs-12 ">
+                                <span class="item-label">{{item.fecDenuncia | date:'dd/MM/yyyy'}}</span>
+                            </div>
+                        </li>
+                        <li class="col-xs-12 col-sm-2">
+                            <div class="col-xs-12  ">
+                                <span class="item-label">{{item.tipoAccidente}}</span>
+                            </div>
+                        </li>
+                        <li class="col-xs-12 col-sm-2">
+                            <div class="col-xs-12  ">
+                                <span class="item-label">{{item.nroPoliza}}</span>
+                            </div>
+                        </li>
+                        <li class="col-xs-12 col-sm-4">
+                            <div class="col-xs-12  ">
+                                <span class="item-label">{{item.razonSocialCliente}} - {{item.tipoDocCliente}}
+                                    {{item.nroDocCliente}}</span>
+                            </div>
+
+                        </li>
+                        <li class="col-xs-12 col-sm-2">
+                            <div class="col-xs-12  ">
+                                <span class="item-label">{{item.marcaProvisional == 'S' ? 'SI' : 'NO' }}</span>
+                            </div>
+                        </li>
+                    </ul>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row" ng-show="$ctrl.pagination.totalRecords > $ctrl.pagination.sizePerPage">
+        <div class="col-md-12">
+            <ul uib-pagination class="g-pagination" ng-model="$ctrl.pagination.currentPage"
+                max-size="$ctrl.pagination.maxSize" total-items="$ctrl.pagination.totalRecords"
+                ng-change="$ctrl._pageChanged()" items-per-page="$ctrl.pagination.sizePerPage"
+                boundary-link-numbers="true"></ul>
+        </div>
+    </div>
+</div>

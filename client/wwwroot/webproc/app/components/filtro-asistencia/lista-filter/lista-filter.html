@@ -1,0 +1,51 @@
+<div class="clearfix pt-xs-2 pb-xs-4 pb-md-2 gBgcGray5 wp-fl-col">
+  <div class="clearfix">
+    <div class="col-sm-8">
+      <h2 class="g-sub-title c-black">{{::$ctrl.wptitle}}</h2>
+    </div>
+    <div class="col-sm-4 mt-sm-1 g-text-right-xs" data-ng-class="($ctrl.listaChecks && $ctrl.listaChecks.length) ? '' : 'wp-link--disable'">
+      <a class="g-link green" data-ng-click="$ctrl.onGuardar()">Guardar</a>
+      <span class="wp-mask__link"></span>
+    </div>
+  </div>
+  <div
+    class="g-relative clearfix u-ph-15"
+    data-ng-show="$ctrl.listaCombo && $ctrl.listaCombo.length">
+    <mpf-select
+      data-m-Empty-Option="{enterData: true}"
+      data-m-data-source="$ctrl.listaCombo"
+      data-ng-change="$ctrl.emitirSeleccionCbo()"
+      data-ng-model="$ctrl.cbo"
+      data-text-field="descripcion"
+      data-value-field="codigo"
+      label="{label: '', required: false}"
+      name="nCboLista">
+    </mpf-select>
+  </div>
+  <div class="clearfix u-ph-15 mt-xs-3 wp-fl-inner-overflow" data-ng-class="($ctrl.listaCombo && $ctrl.listaCombo.length) ? '' : 'mt-md-5'">
+    <div class="mb-xs-1 wp-check__lst" data-ng-if="$ctrl.listaChecks && $ctrl.listaChecks.length">
+      <div class="chk__lbl u-cursor--pointer" data-ng-class="$ctrl.toggleSeleccion ? 'chk--is-checked' : ''" data-ng-click="$ctrl.seleccionarTodos()">
+        <input class="chk__input" name="chkAll" type="checkbox">
+        <span class="chk__ico"></span>
+        <span class="chk__txt u-txt--bold">SELECCIONAR TODOS</span>
+      </div>
+    </div>
+    <div class="mb-xs-1 wp-check__lst" data-ng-repeat="item in $ctrl.listaChecks">
+      <label class="chk__lbl">
+        <input
+          class="chk__input"
+          checklist-change="$ctrl.onChangelistaSeleccionada()"
+          data-checklist-model="$ctrl.listaSeleccionada"
+          data-checklist-value="item"
+          name=""
+          type="checkbox">
+        <span class="chk__ico"></span>
+        <span
+          class="chk__txt"
+          data-ng-class="{'u-txt--bold': !item.codigo}">
+          {{item.descripcion}}
+        </span>
+      </label>
+    </div>
+  </div>
+</div>

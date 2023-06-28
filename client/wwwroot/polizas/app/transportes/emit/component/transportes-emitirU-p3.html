@@ -1,0 +1,244 @@
+<div class="third-step" ng-form="fData">
+	
+	<div class="g-section-inner">
+  	<!-- Importes -->
+  	<div class="container">
+			<!-- Título -->
+			<div class="row">
+				<div class="col-md-12">
+			  	<h2 class="g-sub-title">Importes</h2>
+			  </div>
+			</div>
+			<div class="row">
+				<div class="col-md-4 mb-xs-2">
+					<mpf-input label="{label: 'Tipo de subscripción', required: true}" ng-model="$parent.firstStep.poliza.NombreTipoSuscripcion" ng-required="true" name="cTipoDeSubscripcion" ng-disabled="true"></mpf-input>
+				</div>
+				<div class="col-md-4 mb-xs-2">
+					<mpf-input label="{label: 'Tasa de derecho de aduana', required: true}" ng-model="$parent.firstStep.poliza.TasaDerechoAduana" ng-required="true" name="ctasaDerechoAduana" ng-disabled="true"></mpf-input>
+				</div>
+				<div class="col-md-4 mb-xs-2">
+					<mpf-input label="{label: 'Limite máximo de embarque', required: true}" ng-model="$parent.firstStep.poliza.LimiteEmbarque" ng-required="true" name="cLimiteMaximoEmbarque" ng-disabled="true"></mpf-input>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-4 mb-xs-2">
+					<mpf-select ng-model="data.valuacionMercaderia" label="{label: 'Valuaci&oacute;n mercader&iacute;a', required: true}" m-data-source="valuacionesMercaderia" text-field="NombreValuacion" value-field="CodigoValuacion" m-Empty-Option="{enterData:true}" name="cvaluacionMercaderia" mpf-validation="required" add-messages></mpf-select>
+				</div>
+				<div class="col-md-4 mb-xs-2">
+					<mpf-input label="{label: 'Valor mercadería(FOB)', required: true}" ng-model="data.valorMercaderia" ng-required="true" name="cValorMercaderia" mpf-validation="required, onlyNumberDecimal" add-messages></mpf-input>
+				</div>
+				<div class="col-md-4 mb-xs-2">
+					<mpf-input label="{label: 'Flete', required: false}" ng-model="data.flete" ng-required="true" name="cFlete" mpf-validation="required, onlyNumberDecimal" add-messages></mpf-input>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-4 mb-xs-2">
+					<mpf-input label="{label: 'Derecho aduana', required: true}" ng-model="data.derechoAduana" ng-required="true" name="cDerechoDeAduana" mpf-validation="required, onlyNumber" add-messages></mpf-input>
+				</div>
+				<div class="col-md-4 mb-xs-2">
+					<div class="row">
+						<div class="col-md-6">
+							<mpf-input label="{label: '% de sobreseguro', required: true}" ng-model="data.porcentajeSobreseguro" ng-required="true" name="cPorcentajeSobreseguro" mpf-validation="required, porcentajeSobreseguro" add-messages></mpf-input>
+						</div>
+						<div class="col-md-6 pt-xs-2">
+							M&iacute;nima: 0 M&aacute;xima: {{$parent.firstStep.poliza.LimiteSobreSeguro}}
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="g-inner-section button-separator">
+	  <div class="container">
+	    <div class="row">
+	    	<div class="col-md-12">
+	      <!-- <button type='button' ng-disabled="!fData.$valid" class="col-md-4 g-btn g-btn-verde" ng-click="calcularPrima()">CALCULAR PRIMA</a> -->
+	      <a type='button' class="col-md-4 col-md-offset-4 col-xs-12 g-btn g-btn-verde" ng-click="calcularPrima()">CALCULAR PRIMA</a>
+	      </div>
+	    </div>
+	  </div>
+	</div>
+	<div class="col-md-12 mb-xs-2">
+		<div class="container">
+			<div class="col-md-12 g-box g-calcular-prima">
+				<div class="row gBgcGray5 pb-xs-0-5 pt-xs-0-5 g-list-md">
+					<div class="col-md-6 col-md-offset-3 clearfix">
+						<div class="col-xs-7 item-label">
+							<span class="ico-mapfre_82_circle ico-bullet"></span>Importe Sobreseguro $:
+						</div>
+						<div class="col-xs-5 item-dato g-text-uppercase text-right">{{(data.calculo.ImporteSobreSeguro || '0') | number: cFormatDecimal}}</div>
+					</div>
+				</div>
+				<div class="row pb-xs-0-5 pt-xs-0-5 g-list-md">
+					<div class="col-md-6 col-md-offset-3 clearfix">
+						<div class="col-xs-7 item-label">
+							<span class="ico-mapfre_82_circle ico-bullet"></span>Importe asegurador mercader&iacute;a $:
+						</div>
+						<div class="col-xs-5 item-dato g-text-uppercase text-right">{{(data.calculo.ImporteAsegurado || '0') | number: cFormatDecimal}}</div>
+					</div>
+				</div>
+				<div class="row gBgcGray5 pb-xs-0-5 pt-xs-0-5 g-list-md">
+					<div class="col-md-6 col-md-offset-3 clearfix">
+						<div class="col-xs-7 item-label">
+							<span class="ico-mapfre_82_circle ico-bullet"></span>Importe derecho de aduana $:
+						</div>
+						<div class="col-xs-5 item-dato g-text-uppercase text-right">{{(data.calculo.ImporteDerechoAduana || '0') | number: cFormatDecimal}}</div>
+					</div>
+				</div>
+				<div class="row pb-xs-0-5 pt-xs-0-5 g-list-md">
+					<div class="col-md-6 col-md-offset-3 clearfix">
+						<div class="col-xs-7 item-label">
+							<span class="ico-mapfre_82_circle ico-bullet"></span>Importe asegurado $:
+						</div>
+						<div class="col-xs-5 item-dato g-text-uppercase text-right">{{(data.calculo.TotalImporteAsegurado || '0') | number: cFormatDecimal}}</div>
+					</div>
+				</div>
+				<div class="row gBgcGray5 pb-xs-0-5 pt-xs-0-5 g-list-md">
+					<div class="col-md-6 col-md-offset-3 clearfix">
+						<div class="col-xs-7 item-label">
+							<span class="ico-mapfre_82_circle ico-bullet"></span>Importe Prima $:
+						</div>
+						<div class="col-xs-5 item-dato g-text-uppercase text-right">{{(data.calculo.PrimaNeta || '0') | number: cFormatDecimal}}</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- Button -->
+	<div class="g-section">
+		<div class="container">
+			<div class="row">
+				<div class="col-md-4 mb-xs-1">
+					<span class="gCGray3">*Campos obligatorios</span>
+				</div>
+				<div class="col-md-4">
+					<a type='button' class="g-btn g-btn-verde block" ng-click="nextStep()">Siguiente</a>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+</div>
+
+
+
+
+<!-- Antigua estructura -->
+<!-- <div class="paso3" ng-form="fData">
+	<div class="container">
+		<div class="row">
+			<div class="col-md-12">
+				<div class="title">Importes</div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-4 mb-xs-2">
+				<mpf-input label="{label: 'Tipo de subscripción', required: true}" ng-model="$parent.firstStep.poliza.NombreTipoSuscripcion" ng-required="true" name="cTipoDeSubscripcion" ng-disabled="true"></mpf-input>
+			</div>
+			<div class="col-md-4 mb-xs-2">
+				<mpf-input label="{label: 'Tasa de derecho de aduana', required: true}" ng-model="$parent.firstStep.poliza.TasaDerechoAduana" ng-required="true" name="ctasaDerechoAduana" ng-disabled="true"></mpf-input>
+			</div>
+			<div class="col-md-4 mb-xs-2">
+				<mpf-input label="{label: 'Limite máximo de embarque', required: true}" ng-model="$parent.firstStep.poliza.LimiteEmbarque" ng-required="true" name="cLimiteMaximoEmbarque" ng-disabled="true"></mpf-input>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-4 mb-xs-2">
+				<mpf-select ng-model="data.valuacionMercaderia" label="{label: 'Valuaci&oacute;n mercader&iacute;a', required: true}" m-data-source="valuacionesMercaderia" text-field="NombreValuacion" value-field="CodigoValuacion" m-Empty-Option="{enterData:true}" name="cvaluacionMercaderia" mpf-validation="required" add-messages></mpf-select>
+			</div>
+			<div class="col-md-4 mb-xs-2">
+				<mpf-input label="{label: 'Valor mercadería(FOB)', required: true}" ng-model="data.valorMercaderia" ng-required="true" name="cValorMercaderia" mpf-validation="required, onlyNumber" add-messages></mpf-input>
+			</div>
+			<div class="col-md-4 mb-xs-2">
+				<mpf-input label="{label: 'Flete', required: false}" ng-model="data.flete" ng-required="true" name="cFlete" mpf-validation="required, onlyNumber" add-messages></mpf-input>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-4 mb-xs-2">
+				<mpf-input label="{label: 'Derecho aduana', required: true}" ng-model="data.derechoAduana" ng-required="true" name="cDerechoDeAduana" mpf-validation="required, onlyNumber" add-messages></mpf-input>
+			</div>
+			<div class="col-md-4 mb-xs-2">
+				<div class="row">
+					<div class="col-md-6 mb-xs-2">
+						<mpf-input label="{label: '% de sobreseguro', required: true}" ng-model="data.porcentajeSobreseguro" ng-required="true" name="cPorcentajeSobreseguro" mpf-validation="required, porcentajeSobreseguro" add-messages></mpf-input>
+					</div>
+					<div class="col-md-6 pt-md-4">
+						M&iacute;nima: 0 M&aacute;xima: {{$parent.firstStep.poliza.LimiteSobreSeguro}}
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="g-inner-section button-separator">
+	  <div class="container">
+	    <div class="row">
+	    	<div class="col-md-12">
+	      <a type='button' class="col-md-4 col-md-offset-4 col-xs-12 g-btn g-btn-verde" ng-click="calcularPrima()">CALCULAR PRIMA</a>
+	      </div>
+	    </div>
+	  </div>
+	</div>
+	<div class="col-md-12 mb-xs-2">
+		<div class="container calcularPrima">
+		<div class="row">
+			<div class="col-md-3 col-xs-8">
+				<span class="ico-mapfre_82_circle g-datastep-info-dot"></span>
+				Importe Sobreseguro $:
+			</div>
+			<div class="col-md-9 col-xs-4">
+				{{(data.calculo.ImporteSobreSeguro || '0') | number: cFormatDecimal}}
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-3 col-xs-8">
+				<span class="ico-mapfre_82_circle g-datastep-info-dot"></span>
+				Importe asegurador mercader&iacute;a $:
+			</div>
+			<div class="col-md-9 col-xs-4">
+				{{(data.calculo.ImporteAsegurado || '0') | number: cFormatDecimal}}
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-3 col-xs-8">
+				<span class="ico-mapfre_82_circle g-datastep-info-dot"></span>
+				Importe derecho de aduana $:
+			</div>
+			<div class="col-md-9 col-xs-4">
+				{{(data.calculo.ImporteDerechoAduana || '0') | number: cFormatDecimal}}
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-3 col-xs-8">
+				<span class="ico-mapfre_82_circle g-datastep-info-dot"></span>
+				Importe asegurado $:
+			</div>
+			<div class="col-md-9 col-xs-4">
+				{{(data.calculo.TotalImporteAsegurado || '0') | number: cFormatDecimal}}
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-3 col-xs-8">
+				<span class="ico-mapfre_82_circle g-datastep-info-dot"></span>
+				Importe Prima $:
+			</div>
+			<div class="col-md-9 col-xs-4">
+				{{(data.calculo.PrimaNeta || '0') | number: cFormatDecimal}}
+			</div>
+		</div>
+		</div>
+	</div>
+	
+	<div class="g-section">
+		<div class="container">
+			<div class="row">
+				<div class="col-md-4 mb-xs-1">
+					<span class="gCGray3">*Campos obligatorios</span>
+				</div>
+				<div class="col-md-4">
+					<a type='button' ng-disabled="!fData.$valid" class="g-btn g-btn-verde block" ng-click="nextStep()">SIGUIENTE</a>
+				</div>
+			</div>
+		</div>
+	</div>
+</div> -->

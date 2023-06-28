@@ -1,0 +1,52 @@
+<!-- Firma -->
+<div class="row h-myd-ml--0 h-myd-mr--0 h-myd--show h-oim-none">
+  <div class="col-xs-12">
+    <div class="c-myd-sign">
+
+      <div class="c-myd-sign--header">
+
+        <div class="c-myd-sign--header-title">
+          <div class="title">
+            <div class="text">
+              <div class="info">
+                <p>Firma digital de {{ panel.label }}</p>
+                <span>{{ panel.text }}</span>
+              </div>
+              <i ng-if="panel.showSignaturePad"
+                  ng-click="panel.showSignaturePad = !panel.showSignaturePad"
+                  ng-class="{'ico-mapfre_76_chevrondown': !panel.showSignaturePad, 'ico-mapfre_77_chevronup': panel.showSignaturePad}"></i>
+            </div>
+            <div ng-if="!panel.showSignaturePad" class="document" ng-click="panel.viewQuote()">
+              <i class="ico-mapfre-349-myd-pdf"></i>
+              <span>Ver documento</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="c-myd-sign--header-info" ng-if="!panel.showSignaturePad">
+          <!-- Step 1: sin firmar -->
+          <div class="step1" ng-show="!panel.successSign">
+            <div class="sign" ng-click="panel.showSignaturePad = !panel.showSignaturePad">
+              <span ng-if="!panel.showSignaturePad">FIRMAR</span>
+              <i ng-class="{'ico-mapfre_76_chevrondown': !panel.showSignaturePad, 'ico-mapfre_76_chevronup': panel.showSignaturePad}"></i>
+            </div>
+          </div>
+
+          <!-- Step 2: firmado -->
+          <div class="step2" ng-if="panel.successSign">
+            <div class="sign done">
+              <span class="">FIRMADO</span>
+              <i class="ico-mapfre-346-sucess"></i>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Firma -->
+      <div class="c-myd-sign--body active" ng-if="panel.showSignaturePad">
+        <signature signature-image="panel.saveSignature($event.data)"></signature>
+      </div>
+    </div>
+  </div>
+</div>

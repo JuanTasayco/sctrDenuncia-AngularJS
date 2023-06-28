@@ -1,0 +1,356 @@
+<div class="row mb-xs-2">
+  <div class="col-md-12">
+    <h2 class="gCGray1"><b style="font-size: medium;"> Datos del {{$ctrl.cabecera}}</b></h2>
+  </div>
+</div>
+<div id="formEmitir">
+  <div class="row">
+    <div class="col-md-4 mb-xs-2" ng-if="$ctrl.cabecera === $ctrl.constantsCps.TABS.BENEFICI && $ctrl.ramo === $ctrl.constantsCps.RAMOS.NF">
+      <mpf-select ng-model="$ctrl.cotizacion.modelo.tipoBeneficiario" name="tipoBeneficiario{{$ctrl.index}}"
+        label="{label: 'Tipo de Beneficiario',required: $ctrl.reqTipoBeneficiario}" m-data-source="$ctrl.tipoBeneficiario"
+        text-field="Text" value-field="Codigo" m-Empty-Option="{enterData:true}" mpf-validation="required"
+        ng-disabled="$ctrl.disabled || $ctrl.isReadOnly" ng-required="$ctrl.reqTipoBeneficiario">
+      </mpf-select>
+      <ul class="g-error" style="position: absolute;">
+        <li
+          ng-show="$ctrl.form.tipoBeneficiario{{$ctrl.index}}.$error.required && !$ctrl.form.tipoBeneficiario{{$ctrl.index}}.$pristine">
+          * Este campo es obligatorio</li>
+      </ul>
+    </div>
+    <div class="col-md-4 mb-xs-2">
+      <mpf-select ng-model="$ctrl.cotizacion.modelo.idDocumento" name="tipodocumento{{$ctrl.index}}"
+        label="{label: 'Tipo de documento',required: $ctrl.reqTiDocumento}" m-data-source="$ctrl.tipoDocumento"
+        text-field="Codigo" value-field="Codigo" m-Empty-Option="{enterData:true}" mpf-validation="required"
+        ng-disabled="$ctrl.disabled || $ctrl.isReadOnly" ng-required="$ctrl.reqTiDocumento" ng-change="$ctrl.cotizacion.modelo.numDocumento=null">
+      </mpf-select>
+      <ul class="g-error" style="position: absolute;">
+        <li
+          ng-show="$ctrl.form.tipodocumento{{$ctrl.index}}.$error.required && !$ctrl.form.tipodocumento{{$ctrl.index}}.$pristine">
+          * Este campo es obligatorio</li>
+      </ul>
+    </div>
+    <div class="col-md-4 mb-xs-2">
+      <mpf-input label="{label: 'Número de documento', required: $ctrl.reqNrDocumento}" name="documento{{$ctrl.index}}"
+        ng-model="$ctrl.cotizacion.modelo.numDocumento" m-Empty-Option="{enterData:true}" mpf-validation="onlyNumber"
+        ng-required="$ctrl.reqNrDocumento" ng-disabled="$ctrl.disabled || $ctrl.isReadOnly" ng-minlength="8"
+        ng-maxlength="$ctrl.maxlengthnroDocumento" ng-blur="$ctrl.getPersonEquifax()">
+      </mpf-input>
+      <ul class="g-error" style="position: absolute;">
+        <li
+          ng-show="$ctrl.form.documento{{$ctrl.index}}.$error.required && !$ctrl.form.documento{{$ctrl.index}}.$pristine">
+          * Este campo es obligatorio</li>
+      </ul>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-4 mb-xs-2">
+      <mpf-input label="{label: $ctrl.labelName, required: $ctrl.reqNombres}" name="nombres{{$ctrl.index}}"
+        ng-model="$ctrl.cotizacion.modelo.nombre" m-Empty-Option="{enterData:true}" ng-maxlength="50"
+        ng-required="$ctrl.reqNombres" ng-disabled="$ctrl.disabled || $ctrl.isReadOnly" ng-minlength="1">
+      </mpf-input>
+      <ul class="g-error" style="position: absolute;">
+        <li ng-show="$ctrl.form.nombres{{$ctrl.index}}.$error.required && !$ctrl.form.nombres{{$ctrl.index}}.$pristine">
+          * Este campo es obligatorio</li>
+      </ul>
+    </div>
+    <div class="col-md-4 mb-xs-2" ng-if="$ctrl.cotizacion.isDiferenteDeRuc">
+      <mpf-input label="{label: 'Primer apellido', required: $ctrl.reqApellido1}" name="primerApellido{{$ctrl.index}}"
+        ng-model="$ctrl.cotizacion.modelo.paterno" ng-maxlength="30" m-Empty-Option="{enterData:true}"
+        mpf-validation="onlyLetterNumberGuion" ng-required="$ctrl.reqApellido1" ng-disabled="$ctrl.disabled || $ctrl.isReadOnly">
+      </mpf-input>
+      <ul class="g-error" style="position: absolute;">
+        <li
+          ng-show="$ctrl.form.primerApellido{{$ctrl.index}}.$error.required && !$ctrl.form.primerApellido{{$ctrl.index}}.$pristine">
+          * Este campo es obligatorio</li>
+      </ul>
+    </div>
+    <div class="col-md-4 mb-xs-2" ng-if="$ctrl.cotizacion.isDiferenteDeRuc">
+      <mpf-input label="{label: 'Segundo apellido', required: $ctrl.reqApellido2}" name="segundoApellido{{$ctrl.index}}"
+        ng-model="$ctrl.cotizacion.modelo.materno" ng-maxlength="30" m-Empty-Option="{enterData:true}"
+        mpf-validation="onlyLetterNumberGuion" ng-required="$ctrl.reqApellido2" ng-disabled="$ctrl.disabled || $ctrl.isReadOnly">
+      </mpf-input>
+      <ul class="g-error" style="position: absolute;">
+        <li
+          ng-show="$ctrl.form.segundoApellido{{$ctrl.index}}.$error.required && !$ctrl.form.segundoApellido{{$ctrl.index}}.$pristine">
+          * Este campo es obligatorio</li>
+      </ul>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-4 mb-xs-2 mb-md-0" ng-if="$ctrl.cotizacion.isDiferenteDeRuc">
+      <mpf-datepicker label="{label: 'Fecha de nacimiento',required: $ctrl.reqFecNac}"
+        ng-model="$ctrl.cotizacion.modelo.fechaNacimiento" format="$ctrl.format" name="fecNac{{$ctrl.index}}"
+        ng-required="$ctrl.reqFecNac" maxDate="$ctrl.validadores.maxEndDate" ng-disabled="$ctrl.disabled || $ctrl.isReadOnly"
+        readonly="false">
+      </mpf-datepicker>
+      <ul class="g-error" style="position: absolute;">
+        <li ng-show="$ctrl.form.fecNac{{$ctrl.index}}.$error.required && !$ctrl.form.fecNac{{$ctrl.index}}.$pristine">*
+          Este campo es obligatorio</li>
+      </ul>
+    </div>
+    <div class="col-md-4 mb-xs-2" ng-if="$ctrl.cotizacion.isDiferenteDeRuc">
+      <mpf-select ng-model="$ctrl.cotizacion.modelo.sexo" name="sexo{{$ctrl.index}}"
+        label="{label: 'Sexo',required: $ctrl.reqSexo}" m-data-source="$ctrl.sexo" text-field="Descripcion" value-field="Codigo"
+        m-Empty-Option="{enterData:true}" mpf-validation="required" ng-required="$ctrl.reqSexo" ng-disabled="$ctrl.isReadOnly">
+      </mpf-select>
+      <ul class="g-error" style="position: absolute;">
+        <li ng-show="$ctrl.form.sexo{{$ctrl.index}}.$error.required && !$ctrl.form.sexo{{$ctrl.index}}.$pristine">* Este
+          campo es obligatorio</li>
+      </ul>
+    </div>
+    <div class="col-md-4 mb-xs-2" ng-if="$ctrl.cotizacion.isDiferenteDeRuc">
+      <mpf-select ng-model="$ctrl.cotizacion.modelo.estadoCivil" name="estadoCivil{{$ctrl.index}}"
+        label="{label: 'Estado Civil',required: $ctrl.reqEstadoCivil}" m-data-source="$ctrl.estadoCivil" text-field="NombreEstadoCivil"
+        value-field="CodigoEstadoCivil" m-Empty-Option="{enterData:true}" mpf-validation="required" ng-required="$ctrl.reqEstadoCivil" ng-disabled="$ctrl.isReadOnly">
+      </mpf-select>
+      <ul class="g-error" style="position: absolute;">
+        <li
+          ng-show="$ctrl.form.estadoCivil{{$ctrl.index}}.$error.required && !$ctrl.form.estadoCivil{{$ctrl.index}}.$pristine">
+          * Este campo es obligatorio</li>
+      </ul>
+    </div>
+    <div class="col-md-4 mb-xs-2" ng-if="$ctrl.cotizacion.isDiferenteDeRuc">
+      <mpf-select ng-model="$ctrl.cotizacion.modelo.profesion" name="profesion{{$ctrl.index}}"
+        label="{label: 'Profesión',required: false}" m-data-source="$ctrl.profesion" text-field="nomProfesionBE"
+        value-field="codProfesionBE" m-Empty-Option="{enterData:true}" mpf-validation="required" ng-required="false" ng-disabled="$ctrl.isReadOnly">
+      </mpf-select>
+      <ul class="g-error" style="position: absolute;">
+        <li
+          ng-show="$ctrl.form.profesion{{$ctrl.index}}.$error.required && !$ctrl.form.profesion{{$ctrl.index}}.$pristine">
+          * Este campo es obligatorio</li>
+      </ul>
+    </div>
+    <div class="col-md-4"
+      ng-if="$ctrl.cabecera === $ctrl.constantsCps.TABS.BENEFICI && $ctrl.ramo === $ctrl.constantsCps.RAMOS.NI">
+      <mpf-datepicker label="{label: 'Fecha de defunción',required: $ctrl.reqFechaDefuncion}"
+        ng-model="$ctrl.cotizacion.modelo.fechaDefuncion" format="$ctrl.format" name="fechaDefuncion{{$ctrl.index}}"
+        ng-required="$ctrl.reqFechaDefuncion" maxDate="$ctrl.validadores.maxEndDate" ng-disabled="disabled || $ctrl.isReadOnly" readonly="false">
+      </mpf-datepicker>
+      <ul class="g-error" style="position: absolute;">
+        <li
+          ng-show="$ctrl.form.fechaDefuncion{{$ctrl.index}}.$error.required && !$ctrl.form.fechaDefuncion{{$ctrl.index}}.$pristine">
+          * Este campo es obligatorio</li>
+      </ul>
+    </div>
+    <div class="col-md-4 mb-xs-2"
+      ng-if="$ctrl.cabecera === $ctrl.constantsCps.TABS.BENEFICI && $ctrl.ramo === $ctrl.constantsCps.RAMOS.NI">
+      <mpf-select ng-model="$ctrl.cotizacion.modelo.parentesco" name="parentesco{{$ctrl.index}}"
+        label="{label: 'Parentesco',required: $ctrl.reqParentesco}" m-data-source="$ctrl.parentesco" text-field="Descripcion"
+        value-field="Codigo" m-Empty-Option="{enterData:true}" mpf-validation="required" ng-disabled="$ctrl.isReadOnly"
+        ng-required="$ctrl.reqParentesco">
+      </mpf-select>
+      <ul class="g-error" style="position: absolute;">
+        <li
+          ng-show="$ctrl.form.parentesco{{$ctrl.index}}.$error.required && !$ctrl.form.parentesco{{$ctrl.index}}.$pristine">
+          * Este campo es obligatorio</li>
+      </ul>
+    </div>
+    <div class="col-md-4 mb-xs-2" ng-if="$ctrl.cotizacion.isDiferenteDeRuc">
+      <mpf-select ng-model="$ctrl.cotizacion.modelo.ocupacion" name="ocupacion{{$ctrl.index}}"
+        label="{label: 'Ocupación',required: $ctrl.reqOcupacion}" m-data-source="$ctrl.ocupacion" text-field="Descripcion"
+        value-field="Codigo" m-Empty-Option="{enterData:true}" mpf-validation="required" ng-required="$ctrl.reqOcupacion" ng-disabled="$ctrl.isReadOnly">
+      </mpf-select>
+      <ul class="g-error" style="position: absolute;">
+        <li
+          ng-show="$ctrl.form.ocupacion{{$ctrl.index}}.$error.required && !$ctrl.form.ocupacion{{$ctrl.index}}.$pristine">
+          * Este campo es obligatorio</li>
+      </ul>
+    </div>
+    <div class="col-md-4 mb-xs-2" ng-if="$ctrl.cotizacion.isDiferenteDeRuc">
+      <mpf-select ng-model="$ctrl.cotizacion.modelo.nacionalidad" name="nacionalidad{{$ctrl.index}}"
+        label="{label: 'Nacionalidad',required: $ctrl.reqNacionalidad}" m-data-source="$ctrl.pais" text-field="Descripcion"
+        value-field="Codigo" m-Empty-Option="{enterData:true}" mpf-validation="required" ng-required="$ctrl.reqNacionalidad" ng-disabled="$ctrl.isReadOnly">
+      </mpf-select>
+      <ul class="g-error" style="position: absolute;">
+        <li
+          ng-show="$ctrl.form.nacionalidad{{$ctrl.index}}.$error.required && !$ctrl.form.nacionalidad{{$ctrl.index}}.$pristine">
+          * Este campo es obligatorio</li>
+      </ul>
+    </div>
+  </div>
+  <div class="row mb-xs-2 mt-xs-3">
+    <div class="col-md-12">
+      <h2 class="gCGray1"><b style="font-size: medium;">Datos de contacto del {{$ctrl.cabecera}}</b></h2>
+    </div>
+  </div>
+  <div class="row mb-xs-2">
+    <div class="col-md-4 mb-xs-2">
+      <mpf-input label="{label: 'Teléfono casa', required: $ctrl.reqCel1}" name="celular1{{$ctrl.index}}"
+        ng-model="$ctrl.cotizacion.modelo.celular1" m-Empty-Option="{enterData:true}" mpf-validation="onlyNumber"
+        ng-required="$ctrl.reqCel1" ng-maxlength="10" ng-disabled="$ctrl.isReadOnly">
+      </mpf-input>
+      <ul class="g-error" style="position: absolute;">
+        <li
+          ng-show="$ctrl.form.celular1{{$ctrl.index}}.$error.required && !$ctrl.form.celular1{{$ctrl.index}}.$pristine">
+          * Este campo es obligatorio</li>
+      </ul>
+    </div>
+    <div class="col-md-4 mb-xs-2">
+      <mpf-input label="{label: 'Teléfono móvil', required: $ctrl.reqCel2}" name="celular2{{$ctrl.index}}"
+        ng-model="$ctrl.cotizacion.modelo.celular2" m-Empty-Option="{enterData:true}" mpf-validation="onlyNumber"
+        ng-required="$ctrl.reqCel2" ng-maxlength="10" ng-disabled="$ctrl.isReadOnly">
+      </mpf-input>
+      <ul class="g-error" style="position: absolute;">
+        <li
+          ng-show="$ctrl.form.celular2{{$ctrl.index}}.$error.required && !$ctrl.form.celular2{{$ctrl.index}}.$pristine">
+          * Este campo es obligatorio</li>
+      </ul>
+    </div>
+    <div class="col-md-4 mb-xs-2">
+      <mpf-input label="{label: 'Email', required: $ctrl.reqEmail}" name="correoElectronico{{$ctrl.index}}"
+        ng-model="$ctrl.cotizacion.modelo.correoElectronico" mpf-validation="email" ng-maxlength="50" ng-minlength="2"
+        ng-required="$ctrl.reqEmail" ng-disabled="$ctrl.isReadOnly">
+      </mpf-input>
+      <ul class="g-error" style="position: absolute;">
+        <li
+          ng-show="!$ctrl.form.correoElectronico{{$ctrl.index}}.$valid && !$ctrl.form.correoElectronico{{$ctrl.index}}.$pristine">
+          * El campo email tiene caracteres no admisibles</li>
+        <li
+          ng-show="$ctrl.form.correoElectronico{{$ctrl.index}}.$error.required && !$ctrl.form.correoElectronico{{$ctrl.index}}.$pristine">
+          * Este campo es obligatorio</li>
+      </ul>
+    </div>
+  </div>
+  <div class="row mb-xs-2 mt-xs-3">
+    <div class="col-md-12">
+      <h2 class="gCGray1"><b style="font-size: medium;">Dirección del {{$ctrl.cabecera}}</b></h2>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-4 mb-xs-2">
+      <mpf-select ng-model="$ctrl.cotizacion.modelo.pais" name="pais{{$ctrl.index}}"
+        label="{label: 'País',required: $ctrl.reqPais}" ng-change="$ctrl.getDepartamentos($ctrl.cotizacion.modelo.pais,false)"
+        m-data-source="$ctrl.pais" text-field="Descripcion" value-field="Codigo" m-Empty-Option="{enterData:true}"
+        mpf-validation="required" ng-required="$ctrl.reqPais" ng-disabled="$ctrl.isReadOnly">
+      </mpf-select>
+      <ul class="g-error" style="position: absolute;">
+        <li ng-show="$ctrl.form.pais{{$ctrl.index}}.$error.required && !$ctrl.form.pais{{$ctrl.index}}.$pristine">* Este
+          campo es obligatorio</li>
+      </ul>
+    </div>
+    </div>
+    <div class="row">
+    <div class="col-md-4 mb-xs-2">
+      <mpf-select ng-model="$ctrl.cotizacion.modelo.departamento" name="departamento{{$ctrl.index}}"
+        ng-change="$ctrl.getProvincia($ctrl.cotizacion.modelo.departamento,false)"
+        label="{label: 'Departamento',required: $ctrl.reqDepartamento}" m-data-source="$ctrl.departamento" text-field="Descripcion"
+        value-field="Codigo" m-Empty-Option="{enterData:true}" mpf-validation="required" ng-required="$ctrl.reqDepartamento" ng-disabled="$ctrl.isReadOnly">
+      </mpf-select>
+      <ul class="g-error" style="position: absolute;">
+        <li
+          ng-show="$ctrl.form.departamento{{$ctrl.index}}.$error.required && !$ctrl.form.departamento{{$ctrl.index}}.$pristine">
+          * Este campo es obligatorio</li>
+      </ul>
+    </div>
+    <div class="col-md-4 mb-xs-2">
+      <mpf-select ng-model="$ctrl.cotizacion.modelo.provincia" name="provincia{{$ctrl.index}}"
+        ng-change="$ctrl.getDistrito($ctrl.cotizacion.modelo.provincia,false)"
+        label="{label: 'Provincia',required: $ctrl.reqProvincia}" m-data-source="$ctrl.provincia" text-field="Descripcion"
+        value-field="Codigo" m-Empty-Option="{enterData:true}" mpf-validation="required" ng-required="$ctrl.reqProvincia" ng-disabled="$ctrl.isReadOnly">
+      </mpf-select>
+      <ul class="g-error" style="position: absolute;">
+        <li
+          ng-show="$ctrl.form.provincia{{$ctrl.index}}.$error.required && !$ctrl.form.provincia{{$ctrl.index}}.$pristine">
+          * Este campo es obligatorio</li>
+      </ul>
+    </div>
+    <div class="col-md-4 mb-xs-2">
+      <mpf-select ng-model="$ctrl.cotizacion.modelo.distrito" name="distrito{{$ctrl.index}}"
+        label="{label: 'Distrito',required: $ctrl.reqDistrito}" m-data-source="$ctrl.distrito" text-field="Descripcion"
+        value-field="Codigo" m-Empty-Option="{enterData:true}" mpf-validation="required" ng-required="$ctrl.reqDistrito" ng-disabled="$ctrl.isReadOnly">
+      </mpf-select>
+      <ul class="g-error" style="position: absolute;">
+        <li
+          ng-show="$ctrl.form.distrito{{$ctrl.index}}.$error.required && !$ctrl.form.distrito{{$ctrl.index}}.$pristine">
+          * Este campo es obligatorio</li>
+      </ul>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-1 mb-xs-2">
+      <mpf-select ng-model="$ctrl.cotizacion.modelo.domicilio" name="domicilio{{$ctrl.index}}"
+        label="{label: 'Vía',required: $ctrl.reqVia}" m-data-source="$ctrl.domicilio" text-field="Descripcion"
+        value-field="Codigo" m-Empty-Option="{text:'-Tipo-'}" mpf-validation="required" ng-required="$ctrl.reqVia" ng-disabled="$ctrl.isReadOnly">
+      </mpf-select>
+      <ul class="g-error" style="position: absolute;">
+        <li
+          ng-show="$ctrl.form.domicilio{{$ctrl.index}}.$error.required && !$ctrl.form.domicilio{{$ctrl.index}}.$pristine">
+          * Este campo es obligatorio</li>
+      </ul>
+    </div>
+    <div class="col-md-3 mb-xs-2">
+      <mpf-input label="{label: 'Nombre Vía', required: $ctrl.reqNombreVia}" name="descripcionDomicilio{{$ctrl.index}}"
+        ng-model="$ctrl.cotizacion.modelo.descripcionDomicilio" ng-required="$ctrl.reqNombreVia" ng-maxlength="50" ng-disabled="$ctrl.isReadOnly">
+      </mpf-input>
+      <ul class="g-error" style="position: absolute;">
+        <li
+          ng-show="$ctrl.form.descripcionDomicilio{{$ctrl.index}}.$error.required && !$ctrl.form.descripcionDomicilio{{$ctrl.index}}.$pristine">
+          * Este campo es obligatorio</li>
+      </ul>
+    </div>
+    <div class="col-md-1 mb-xs-2">
+      <mpf-select ng-model="$ctrl.cotizacion.modelo.numeracion" name="numeracion{{$ctrl.index}}"
+        label="{label: 'Número',required: $ctrl.reqNumeracion}" m-data-source="$ctrl.numeracion" text-field="Descripcion"
+        value-field="Codigo" m-Empty-Option="{text:'-Tipo-'}" mpf-validation="required" ng-required="$ctrl.reqNumeracion" ng-disabled="$ctrl.isReadOnly">
+      </mpf-select>
+      <ul class="g-error" style="position: absolute;">
+        <li
+          ng-show="$ctrl.form.numeracion{{$ctrl.index}}.$error.required && !$ctrl.form.numeracion{{$ctrl.index}}.$pristine">
+          * Este campo es obligatorio</li>
+      </ul>
+    </div>
+    <div class="col-md-3 mb-xs-2">
+      <mpf-input label="{label: 'Enumeración',required: $ctrl.reqEnumeracion}" name="descripcionNumero{{$ctrl.index}}"
+        ng-model="$ctrl.cotizacion.modelo.descripcionNumero" ng-required="$ctrl.reqEnumeracion" ng-disabled="$ctrl.isReadOnly">
+      </mpf-input>
+      <ul class="g-error" style="position: absolute;">
+        <li
+          ng-show="$ctrl.form.descripcionNumero{{$ctrl.index}}.$error.required && !$ctrl.form.descripcionNumero{{$ctrl.index}}.$pristine">
+          * Este campo es obligatorio</li>
+      </ul>
+    </div>
+    <div class="col-md-1 mb-xs-2">
+      <mpf-select ng-model="$ctrl.cotizacion.modelo.interior" name="interior{{$ctrl.index}}"
+        label="{label: 'Interior',required: false}" m-data-source="$ctrl.interior" text-field="Descripcion"
+        value-field="Codigo" m-Empty-Option="{text:'-Tipo-'}" mpf-validation="required" ng-required="false" ng-disabled="$ctrl.isReadOnly">
+      </mpf-select>
+      <ul class="g-error" style="position: absolute;">
+        <li
+          ng-show="$ctrl.form.interior{{$ctrl.index}}.$error.required && !$ctrl.form.interior{{$ctrl.index}}.$pristine">
+          * Este campo es obligatorio</li>
+      </ul>
+    </div>
+    <div class="col-md-3 mb-xs-2">
+      <mpf-input label="{label: 'Enumeración interior'}" name="descripcionInterior{{$ctrl.index}}"
+        ng-model="$ctrl.cotizacion.modelo.descripcionInterior" ng-required="false" ng-disabled="$ctrl.isReadOnly">
+      </mpf-input>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-1 mb-xs-2">
+      <mpf-select ng-model="$ctrl.cotizacion.modelo.zona" name="zona{{$ctrl.index}}"
+        label="{label: 'Zona',required: false}" m-data-source="$ctrl.zona" text-field="Descripcion" value-field="Codigo"
+        m-Empty-Option="{text:'-Tipo-'}" mpf-validation="required" ng-required="false" ng-disabled="$ctrl.isReadOnly">
+      </mpf-select>
+      <ul class="g-error" style="position: absolute;">
+        <li ng-show="$ctrl.form.zona{{$ctrl.index}}.$error.required && !$ctrl.form.zona{{$ctrl.index}}.$pristine">* Este
+          campo es obligatorio</li>
+      </ul>
+    </div>
+    <div class="col-md-3 mb-xs-2">
+      <mpf-input label="{label: 'Nombre de la Zona'}" name="descripcionZona{{$ctrl.index}}"
+        ng-model="$ctrl.cotizacion.modelo.descripcionZona" ng-required="false" ng-maxlength="30" ng-disabled="$ctrl.isReadOnly">
+      </mpf-input>
+    </div>
+    <div class="col-md-4 mb-xs-2">
+      <mpf-input label="{label: 'Referencia', required: false}" name="referencia{{$ctrl.index}}"
+        ng-model="$ctrl.cotizacion.modelo.referencia" ng-maxlength="100" m-Empty-Option="{enterData:true}" ng-required="false" ng-disabled="$ctrl.isReadOnly">
+      </mpf-input>
+      <ul class="g-error" style="position: absolute;">
+        <li
+          ng-show="$ctrl.form.referencia{{$ctrl.index}}.$error.required && !$ctrl.form.referencia{{$ctrl.index}}.$pristine">
+          * Este campo es obligatorio</li>
+      </ul>
+    </div>
+  </div>
+</div>

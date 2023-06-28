@@ -1,0 +1,65 @@
+<section class="">
+    <button type="button" class="close g-close-modal" ng-click="closeModal();" prevent-default>
+        <span class="ico-mapfre_231_cancelaroff"></span>
+    </button>
+    <div class="container">
+        <form name="frmLogCoberturas" class="clearfix">
+            <div class="row">
+                <div class="col-md-12 g-text-center-xs mb-xs-2">
+                    <h2 class="gH3"><b>Log de Cambios de Porcentajes de Cobertura: {{nameAttentionType}}</b></h2>
+                </div>
+            </div>
+            <div class="row" ng-show="noDataLog === false">
+                <div class="col-md-12 mt-xs-2">
+                    <div class="clearfix g-tbl-wrapper">
+                        <div class="mb-xs-1">
+                            <ul class="g-row-fz12 g-tbl-row gBgcGray5 pt-xs-1">
+                                <li class="g-col g-col-xs col-15-dktp tbl-item"></li>
+                                <li class="g-col g-col-xs col-15-dktp tbl-item item-title">Porcentaje Coberturado</li>
+                                <li class="g-col g-col-xs col-15-dktp tbl-item item-title">Usuario Registro</li>
+                                <li class="g-col g-col-xs col-15-dktp tbl-item item-title">Fecha Registro</li>
+                                <li class="g-col g-col-xs col-15-dktp tbl-item item-title">Usuario Ult. Actualización</li>
+                                <li class="g-col g-col-xs col-15-dktp tbl-item item-title">Fecha Ult. Actualización</li>
+                            </ul>
+                        </div>
+                        <div class="mb-xs-1 modal-body__static-scroll">
+                            <ul class="g-row-fz12 g-tbl-row pt-xs-1" ng-repeat="item in dataLogCoverage">
+                                <li class="g-col g-col-xs col-15-dktp tbl-item"></li>
+                                <li class="g-col g-col-xs col-15-dktp tbl-item g-text-uppercase">
+                                    {{item.percentCover}}</li>
+                                <li class="g-col g-col-xs col-15-dktp tbl-item g-text-uppercase">
+                                    {{item.userRegCover}}</li>
+                                <li class="g-col g-col-xs col-15-dktp tbl-item g-text-uppercase">
+                                    {{item.dateRegCover}}</li>
+                                <li class="g-col g-col-xs col-15-dktp tbl-item g-text-uppercase">
+                                    {{item.userUltUpdate}}</li>
+                                <li class="g-col g-col-xs col-15-dktp tbl-item g-text-uppercase">
+                                    {{item.dateUltUpdate}}</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- <div class="clearfix">
+                    <div class="col-md-12">
+                        <ul uib-pagination class="g-pagination" ng-model="vm.mPagination" max-size="10"
+                            total-items="vm.totalItems" items-per-page="vm.pageSize"
+                            ng-change="vm.pageChanged(vm.mPagination)" boundary-link-numbers="true"></ul>
+                    </div>
+                </div> -->
+            </div>
+            <div class="row" ng-show="noDataLog === true">
+                <div class="col-md-12 text-center g-box-noresult">
+                    <div class="row">
+                        <div class="col-md-12 g-box-noresult-ico gCRed1">
+                            <span class="ico-mapfre_301_warning"></span>
+                        </div>
+                        <div class="col-md-12 g-box-noresult-text">
+                            No existen cambios para este Tipo de Atención
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</section>

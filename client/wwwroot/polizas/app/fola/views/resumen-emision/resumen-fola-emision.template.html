@@ -1,0 +1,179 @@
+<section class="g-page page-automovil-cotizar g-ui-view" id="resumenEmisionFola">
+  <div class="g-title test">
+    <div class="container">
+      <div class="row">
+        <div class="col-sm-9 mb-xs-2 no-mb-sm">
+          <h1>Cotización Nro. {{vm.cotizacion.numeroDocumento}}</h1>
+        </div>
+        <div class="col-sm-3 g-text-right-xs no-tablet">
+          <a href="" class="g-link-back" ui-sref="emisionPolizaFola"
+            ><span class="ico-mapfre_78_chevronleft arrow-left"></span>Volver</a
+          >
+        </div>
+      </div>
+      <hr />
+      <div ng-if="!vm.fileUploadIsOk">
+        <div class="clearfix g-box g-overflow-hidden-xs mb-xs-2 ng-scope">
+          <div class="row pt-xs-1 gBgcGray5">
+            <ul class="clearfix g-list-sm">
+              <li class="col-sm-12">
+                <ul class="row">
+                  <li class="col-sm-3 clearfix cnt-item">
+                    <div class="col-sm-5 col-xs-4 item-label">Contratante:</div>
+                    <div class="col-sm-7 col-xs-8 item-dato g-text-uppercase">{{vm.cotizacion.contratante.nombre}}</div>
+                  </li>
+                  <li class="col-sm-3 clearfix cnt-item">
+                    <div class="col-sm-5 col-xs-4 item-label">Ruc:</div>
+                    <div class="col-sm-7 col-xs-8 item-dato g-text-uppercase">
+                      {{vm.cotizacion.contratante.numeroDocumento}}
+                    </div>
+                  </li>
+                  <li class="col-sm-3 clearfix cnt-item">
+                    <div class="col-sm-5 col-xs-4 item-label">Agente:</div>
+                    <div class="col-sm-7 col-xs-8 item-dato g-text-uppercase">{{vm.cotizacion.agente}}</div>
+                  </li>
+                  <li class="col-sm-3 clearfix cnt-item">
+                    <div class="col-sm-5 col-xs-4 item-label">Fraccionamiento:</div>
+                    <div class="col-sm-7 col-xs-8 item-dato g-text-uppercase">
+                      {{vm.cotizacion.nombreFraccionamiento}}
+                    </div>
+                  </li>
+                </ul>
+                <ul class="row">
+                  <li class="col-sm-3 clearfix cnt-item">
+                    <div class="col-sm-5 col-xs-4 item-label">Fecha Inicial:</div>
+                    <div class="col-sm-7 col-xs-8 item-dato g-text-uppercase">{{vm.cotizacion.fechaInicio}}</div>
+                  </li>
+                  <li class="col-sm-3 clearfix cnt-item">
+                    <div class="col-sm-5 col-xs-4 item-label">Fecha Final:</div>
+                    <div class="col-sm-7 col-xs-8 item-dato g-text-uppercase">{{vm.cotizacion.fechaFin}}</div>
+                  </li>
+                  <li class="col-sm-3 clearfix cnt-item">
+                    <div class="col-sm-5 col-xs-4 item-label">Estado:</div>
+                    <div class="col-sm-7 col-xs-8 item-dato g-text-uppercase">
+                      <label
+                        ng-if="vm.cotizacion.estado === 'COTIZADO'"
+                        class="text-center item-label label-state-fola bg-state-fola-cotizado"
+                        >{{vm.cotizacion.estado}}</label
+                      >
+                      <label
+                        ng-if="vm.cotizacion.estado === 'EXPIRADO'"
+                        class="text-center item-label label-state-fola bg-state-fola-expirado"
+                        >{{vm.cotizacion.estado}}</label
+                      >
+                      <label
+                        ng-if="vm.cotizacion.estado === 'EMITIDO'"
+                        class="text-center item-label label-state-fola bg-state-fola-emitido"
+                        >{{vm.cotizacion.estado}}</label
+                      >
+                    </div>
+                  </li>
+                  <li class="col-sm-3 clearfix cnt-item"></li>
+                </ul>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div class="clearfix g-box g-overflow-hidden-xs mb-xs-2 ng-scope">
+          <div class="row h-myd-ml--0 h-myd-mr--0 g-list-md mb-xs-1">
+            <div class="col-md-12">
+              <table class="table">
+                <thead class="gBgcGray5 align-vertical hgt-80">
+                  <tr>
+                    <th class="text-center item-label align-vertical" scope="col">GRUPO</th>
+                    <th class="text-center item-label align-vertical" scope="col">ACTIVIDAD</th>
+                    <th class="text-center item-label align-vertical" scope="col">ASEGURADOS</th>
+                    <th class="text-center item-label align-vertical" scope="col">SUBVERSIÓN POR PERSONA</th>
+                    <th class="text-center item-label align-vertical" scope="col">PLAN</th>
+                    <th class="text-center item-label align-vertical" scope="col">NIVEL DE RIESGO</th>
+                    <th class="text-center item-label align-vertical" scope="col">PRIMA PERIODO PERSONA</th>
+                    <th class="text-center item-label align-vertical" scope="col">PRIMA PERIODO GRUPAL</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr class="hgt-70" ng-repeat="item in vm.cotizacion.riesgos">
+                    <td class="text-center item-dato align-vertical">{{item.grupo}}</td>
+                    <td class="text-center item-dato align-vertical">{{item.ocupacion}}</td>
+                    <td class="text-center item-dato align-vertical">{{item.numeroAsegurados}}</td>
+                    <td class="text-center item-dato align-vertical">{{vm.currency}} {{item.subvencion}}</td>
+                    <td class="text-center item-dato align-vertical">{{item.nombrePlan}}</td>
+                    <td class="text-center item-dato align-vertical">{{item.nivelRiesgo}}</td>
+                    <td class="text-center item-dato align-vertical">{{vm.currency}} {{item.primaIndividual}}</td>
+                    <td class="text-center item-dato align-vertical">{{vm.currency}} {{item.primaGrupal}}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <div class="gBgcGray5 col-md-12 text-right hgt-50 pt-20">
+            <h4><b>Prima Total {{vm.currency}} {{vm.primaTotal}}</b></h4>
+          </div>
+        </div>
+        <div ng-if="vm.cotizar" class="display-flex content-justify-center">
+          <div class="col-md-3 mb-xs-1">
+            <a ng-click="vm.descargarCotizacion()" href="javascript:void(0);" class="g-btn g-btn-link block"
+              ><span class="glyphicon glyphicon-save"></span> Descargar Cotización</a>
+          </div>
+          <div class="col-md-3 mb-xs-1">
+            <a ng-click="vm.irACotizar()" href="javascript:void(0);" class="g-btn g-btn-white block"
+              ><span class="glyphicon glyphicon-plus"></span> Nueva Cotización</a
+            >
+          </div>
+          <div class="col-md-3 mb-xs-1">
+            <a href="javascript:void(0);" class="g-btn g-btn-verde block" ng-click="vm.changeCotizar()">
+              Emitir Póliza
+            </a>
+          </div>
+        </div>
+        <div ng-if="!vm.cotizar" class="display-flex content-justify-center">
+          <div class="col-md-3">
+            <a ng-click="vm.getPlantillaAsegurados()" href="javascript:void(0);" class="g-btn g-btn-white block"
+              >Descargar Formato</a
+            >
+          </div>
+          <div class="col-md-3 mb-xs-1">
+            <a href="javascript:void(0);" class="g-btn g-btn-verde block">
+              <input
+                style="display: none"
+                class="display-none"
+                onchange="angular.element(this).scope().vm.selectFile(this.files)"
+                ng-model="vm.fileUpload"
+                type="file"
+                id="file-upload"
+              />
+              <label for="file-upload">Cargar Formato</label>
+            </a>
+          </div>
+        </div>
+      </div>
+      <div ng-if="vm.fileUploadIsOk">
+        <mpf-person-component
+          name="nContratante"
+          person-data="vm.contratante"
+          app-code="{{ vm.appCode }}"
+          form-code="{{ vm.formCode }}"
+          outdata="vm.getDataContratante(data)"
+        >
+        </mpf-person-component>
+
+        <div class="display-flex content-justify-center mt-10">
+          <div class="col-md-3 mb-xs-1 file-upload-name">
+            <label><b>{{vm.nameFileUpload}}</b></label>
+          </div>
+          <div>
+            <span class="g-icon">
+              <span ng-click="vm.cleanFileUpload()" class="icon ico-mapfre-363-myd-eliminar cursor"></span>
+            </span>
+          </div>
+        </div>
+        <div class="display-flex content-justify-center">
+          <div class="col-md-3 mb-xs-1">
+            <a href="javascript:void(0);" class="g-btn g-btn-verde block" ng-click="vm.emitirPoliza()">
+              Emitir Póliza
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

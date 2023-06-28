@@ -1,0 +1,246 @@
+<div class="consultaGestion">
+  <div class="container">
+    <!-- Top bar: Filtro e iconos -->
+    <div tbl-oim-topbar class="clearfix g-tbl-topbar g-tbl-topbar-no-top mt-md-2 mb-md-2 mt-xs-1 width-filtro">
+      <div class="g-row-icons__box visible-xs visible-sm">
+        <a ng-click="showFilterTopbar = !showFilterTopbar" uib-popover="Filtro" popover-trigger="'mouseenter'">
+          <span class="g-icon-box g-icon-box-md">
+            <span class="ico-mapfre ico-mapfre_203_filtro ico-filter h-myd--none"></span>
+            <span class="ico-mapfre ico-mapfre-362-myd-filter ico-filter h-myd-ico--mediun h-myd--show h-oim-none"></span>
+          </span>
+        </a>
+        <a ng-show="vm.totalRows >= 1" data-ng-click="exportar()" uib-popover="Exportar" popover-trigger="'mouseenter'"
+            ga-click
+            ga-category="'CG - Comisiones'"
+            ga-action="'MPF - Ganadas - Exportar'"
+            ga-label="'Botón: Exportar'">
+          <span class="g-icon-box g-icon-box-md">
+            <span class="ico-mapfre ico-mapfre_124_download ico-download h-myd--none"></span>
+            <span class="ico-mapfre ico-download ico-mapfre-360-myd-export h-myd-ico--mediun h-myd--show h-oim-none"></span>
+          </span>
+        </a>
+      </div>
+      <div class="g-row-filter__box g-row-icons__box box_left hidden-xs hidden-sm">
+        <a ng-show="vm.totalRows >= 1" data-ng-click="exportar()" uib-popover="Exportar" popover-trigger="'mouseenter'"
+            ga-click
+            ga-category="'CG - Comisiones'"
+            ga-action="'MPF - Ganadas - Exportar'"
+            ga-label="'Botón: Exportar'">
+          <span class="g-icon-box g-icon-box-md">
+            <span class="ico-mapfre ico-mapfre_124_download ico-download h-myd--none"></span>
+            <span class="ico-mapfre ico-download ico-mapfre-360-myd-export h-myd-ico--mediun h-myd--show h-oim-none"></span>
+          </span>
+        </a>
+      </div>
+      <div class="g-row-filter__box box_right height-xs height-sm" ng-class="{'filter__show': showFilterTopbar}">
+        <form class="clearfix">
+          <div class="g-filter-col">
+            <mpf-select-horz
+              ng-model="vm.formComisionGanada.mCompania"
+              name="nCompania"
+              label="{label: 'Compañia', required: false}"
+              m-data-source="vm.lstCompanias"
+              text-field="Description"
+              value-field="Value"
+              m-Empty-Option="{text:'Todas'}"
+              data-ng-change=""
+              mpf-validation="required">
+            </mpf-select-horz>
+          </div>
+          <div class="g-filter-col">
+            <mpf-select-horz
+              ng-model="vm.formComisionGanada.Estado"
+              name="nEstado"
+              label="{label: 'Estados', required: false}"
+              m-data-source="vm.lstEstados"
+              text-field="description"
+              value-field="value"
+              m-Empty-Option="{enterData:false}"
+              mpf-validation="required">
+            </mpf-select>
+          </div>
+          <div class="g-filter-col g-myd-input-fetch">
+            <div class="g-inlineblock">
+              <mpf-select-horz
+                ng-model="vm.formComisionGanada.mConsultaDesdeA"
+                name="nDesdeAnio"
+                label="{label: 'Desde', required: false}"
+                m-data-source="vm.lstAnios"
+                text-field="description"
+                value-field="value"
+                m-Empty-Option="{enterData:false}">
+              </mpf-select-horz>
+            </div>
+            <div class="g-inlineblock">
+              <mpf-select-horz
+                ng-model="vm.formComisionGanada.mConsultaDesdeM"
+                name="nDesdeMes"
+                label="{label: '', required: false}"
+                m-data-source="vm.lstMeses"
+                text-field="description"
+                value-field="value"
+                m-Empty-Option="{enterData:false}">
+              </mpf-select-horz>
+            </div>
+          </div>
+          <div class="g-filter-col g-myd-input-fetch">
+            <div class="g-inlineblock">
+              <mpf-select-horz
+                ng-model="vm.formComisionGanada.mConsultaHastaA"
+                name="nHastaAnio"
+                label="{label: 'Hasta', required: false}"
+                m-data-source="vm.lstAnios"
+                text-field="description"
+                value-field="value"
+                m-Empty-Option="{enterData:false}">
+              </mpf-select-horz>
+            </div>
+            <div class="g-inlineblock">
+              <mpf-select-horz
+                ng-model="vm.formComisionGanada.mConsultaHastaM"
+                name="nHastaMes"
+                label="{label: '', required: false}"
+                m-data-source="vm.lstMeses"
+                text-field="description"
+                value-field="value"
+                m-Empty-Option="{enterData:false}">
+              </mpf-select-horz>
+            </div>
+          </div>
+          <div class="g-filter-col col__buttons hidden-xs hidden-sm">
+            <a class="g-btn g-btn-white block second-design"
+              ga-click
+              ga-category="'CG - Comisiones'"
+              ga-action="'MPF - Ganadas - Aplicar Filtros'"
+              ga-label="'Botón: Aplicar Filtros'"
+              ng-click="vm.buscar()">Aplicar Filtros</a>
+          </div>
+          <div class="col__buttons visible-xs visible-sm mt-xs-2">
+            <a class="g-btn g-btn-white mb-xs-2 mb-md-0"
+              ga-click
+              ga-category="'CG - Comisiones'"
+              ga-action="'MPF - Ganadas - Aplicar Filtros'"
+              ga-label="'Botón: Aplicar Filtros'"
+              ng-click="vm.buscar()">Aplicar Filtros</a>
+            <a ng-click="showFilterTopbar = !showFilterTopbar" class="g-btn g-btn-white">Cerrar</a>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- tabla -->
+    <div class="clearfix" ng-show="vm.totalRows >= 1">
+      <div tbl-oim class="col-xs-12 g-tbl-wrapper pl-xs-0">
+        <div class="tbl-main">
+          <ul class="tbl-header clearfix">
+            <li class="title col-20-dktp">Detalles</li>
+            <li class="title col-14-dktp text-center">Fecha Liquidación</li>
+            <li class="title col-14-dktp text-right">Importe</li>
+            <li class="title col-20-dktp">Detalles pago</li>
+            <li class="title col-16-dktp text-center"></li>
+            <li class="title col-6-dktp text-center"></li>
+            <li class="title col-10-dktp text-center"></li>
+          </ul>
+          <ul class="tbl-body clearfix">
+            <li data-ng-repeat="item in vm.ganadas">
+              <ul height-row class="tbl-row clearfix">
+                <li class="cell col-20-dktp">
+                  <span class="cell-title">{{item.company}}</span>
+                  <span class="c-tag u-bg--yellow-2 mt-xs-1" ng-show="item.state == 'PENDIENTE'">Pendiente</span>
+                  <span class="c-tag u-bg--verde-2 mt-xs-1" ng-show="item.state == 'PAGADO'">Pagado</span>
+                </li>
+                <li class="cell col-14-dktp text-center">
+                  <span class="cell-label"><span class="cell-data">{{item.dateLiquidation}}</span></span>
+                </li>
+                <li class="cell col-14-dktp text-right">
+                  <span class="cell-label">
+                      <span class="cell-data" ng-show="item.coinCode == 'SOL'">SOL</span>
+                      <span class="cell-data" ng-show="item.coinCode == 'DOL'">DOL</span>
+                      <span class="cell-data">{{item.newBalance | number:2}}</span>
+                    </span>
+                </li>
+                <li class="cell col-20-dktp">
+                  <span class="cell-title">{{item.bank}}</span>
+                  <span class="cell-label">Orden de pago:&nbsp;<span class="cell-data">{{item.numberPaidOrder}}</span></span>
+                  <span class="cell-label">Fecha de pago:&nbsp;<span class="cell-data">{{item.paymentDate}}</span></span>
+                  <span class="cell-label">Medio de pago:&nbsp;<span class="cell-data">{{item.paymentType}}</span></span>
+                  <span class="cell-label">Factura:&nbsp;<span class="cell-data">{{item.numberInvoice}}</span></span>
+                </li>
+                <li class="cell col-16-dktp text-center">
+                  <span class="cell-label" ng-show="item.viewPreviousBalance == 'S'">&nbsp;<span class="cell-data"><a class="g-link green normal" ng-click="descargarSaldo(item)">Historial saldo anterior</a></span></span>
+                </li>
+                <li class="cell col-6-dktp text-center">
+                  <span class="cell-label">&nbsp;
+                    <span class="cell-data">
+                      <a uib-popover="Exportar" popover-trigger="'mouseenter'" class="tbl-icon tbl-icon__exportar" ng-click="exportarDetalle(item)"
+                          ga-click
+                          ga-category="'CG - Comisiones'"
+                          ga-action="'MPF - Ganadas - Exportar'"
+                          ga-label="'Botón: Exportar'">
+                        <span class="gnIcon-md ico-mapfre ico-mapfre_124_download ico-download h-myd--none"></span>
+                        <span class="gnIcon-md ico-mapfre ico-mapfre-360-myd-export h-myd-ico--mediun ico-download h-myd--show h-oim-none"></span>
+                      </a>
+                    </span>
+                </li>
+                <li class="cell col-10-dktp text-center">
+                  <span class="cell-label" ng-if="item.state=='PENDIENTE'">&nbsp;
+                    <span class="cell-data">
+                      <a uib-popover="Cargar Factura" popover-trigger="'mouseenter'" class="tbl-icon tbl-icon__cargar" ng-click="vm.showUpload(item)"
+                          ga-click
+                          ga-category="'CG - Comisiones'"
+                          ga-action="'MPF - Ganadas - Cargar Factura'"
+                          ga-label="'Botón: Cargar Factura'">
+                        <span class="gnIcon-md ico-mapfre ico-mapfre_92_emitir ico-download h-myd--none"></span>
+                        <span class="gnIcon-md ico-mapfre ico-mapfre-359-myd-download h-myd-ico--mediun ico-download h-myd--show h-oim-none"></span>
+                      </a>
+                    </span>
+                    <span class="cell-data">
+                      <a uib-popover="Anular" popover-trigger="'mouseenter'" class="tbl-icon tbl-icon__anular" ng-click="vm.override(item)"
+                          ga-click
+                          ga-category="'CG - Comisiones'"
+                          ga-action="'MPF - Ganadas - Anular'"
+                          ga-label="'Botón: Anular'">
+                        <span class="gnIcon-md ico-mapfre ico-mapfre_48_cerrar ico-download h-myd--none"></span>
+                        <span class="gnIcon-md ico-mapfre ico-mapfre-363-myd-eliminar h-myd-ico--mediun ico-download h-myd--show h-oim-none"></span>
+                      </a>
+                    </span>
+                  </span> 
+                </li>
+              </ul>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!--<div class="clearfix" ng-if="!noResult">
+      <div class="col-md-12">
+        <ul uib-pagination class="g-pagination" ng-model="mPagination" max-size="10" total-items="totalItems" ng-change="pageChanged(mPagination)" boundary-link-numbers="true"></ul>
+      </div>
+    </div>-->
+
+    <mx-paginador
+      data-datos="vm.ganadas"
+      data-items-x-page="vm.itemsXPagina"
+      data-msg-vacio="vm.msgVacio"
+      data-on-paginar="vm.pageChanged($event)"
+      data-pagina-actual="vm.currentPage"
+      data-total-items="vm.totalRows"
+    >
+    </mx-paginador>
+  </div>
+</div>
+
+<form id="frmExport" name="frmExport" action="{{vm.exportURL}}" method="post" target="_blank">
+  <input type="hidden" name="json" value='{{vm.downloadFile}}'>
+</form>
+
+<!-- Descarga detalle -->
+<form id="frmExportDetalle" name="frmExport" action="{{vm.exportURLDetalle}}" method="post" target="_blank">
+  <input type="hidden" name="json" value='{{vm.downloadFile2}}'>
+</form>
+
+<!-- Descarga saldo anterior -->
+<form id="frmExportSaldo" name="frmExport" action="{{vm.exportURLSaldo}}" method="post" target="_blank">
+  <input type="hidden" name="json" value='{{vm.downloadFile3}}'>
+</form>

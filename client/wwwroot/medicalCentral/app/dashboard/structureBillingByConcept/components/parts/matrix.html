@@ -1,0 +1,22 @@
+
+<div class="table-flipscroll">
+    <table class="table">
+        <thead>
+            <tr>
+                <th style="padding-right:25px" colspan="2">INGRESOS POR CARTERA (S/ CAPITA)</th>
+                
+                <th ng-repeat="header in $ctrl.nvtSource.header[0].properties">{{$ctrl.applyFormatHeader(header.value)}}</th>
+                <th >TOTAL</th>
+                
+            </tr>
+        </thead>
+        <tbody>
+            <tr ng-repeat="item in $ctrl.nvtSource.data">
+                <td align="left" >{{ item.itemType == 'S' || item.itemType == 'T' ? item.especialityCode: ''}}</td>
+                <td align="left" >{{item.medicalName}}</td>
+                <td ng-repeat="prop in item.properties"> {{prop.value  | currency : ''}}</td>
+                <td>{{item.total | currency : ''}}</td>
+            </tr>
+        </tbody>
+    </table>
+</div>

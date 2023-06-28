@@ -1,0 +1,50 @@
+<div class="container">
+    <div class="row">
+        <div class="clearfix g-table">
+            <div class="col-xs-12 col-md-4 g-cell-middle pl-xs-0 pr-xs-0">
+                <div class="denuncia-edit-title">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <h2>NUEVA DENUNCIA</h2>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xs-12 col-md-2" 
+                ng-class="{
+                    'col-md-2': !$ctrl.nroSiniestro,
+                    'col-md-4': $ctrl.nroSiniestro,
+                }"></div>
+            <div class="col-xs-12 col-md-2">
+                <div class="row">
+                    <div class="col-xs-12 col-md-12 mt-md-2 mb-md-2 mt-xs-1 mb-xs-1">
+                        <a ng-click="$ctrl.cancel()" class="g-btn g-btn-white second-design block">Cancelar</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xs-12 col-md-2">
+                <div class="row">
+                    <div class="col-xs-12 col-md-12 mt-md-2 mb-md-2 mt-xs-1 mb-xs-1">
+                        <a ng-click="$ctrl.cleanForm()" class="g-btn g-btn-white second-design block">Limpiar</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xs-12 col-md-2" ng-show="!$ctrl.nroSiniestro">
+                <div class="row">
+                    <div class="col-xs-12 col-md-12 mt-md-2 mb-md-2 mt-xs-1 mb-xs-1">
+                        <a ng-click="$ctrl.save()" class="g-btn g-btn-verde second-design block">Registrar Denuncia</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<complaint-new 
+    emit-methods="$ctrl.receptMethods($funcs)" 
+    nro-siniestro="$ctrl.nroSiniestro"
+    vip="$ctrl.vip"
+    observed="$ctrl.observed"
+    denuncia-provisional="$ctrl.denunciaProvisional">
+</complaint-new>

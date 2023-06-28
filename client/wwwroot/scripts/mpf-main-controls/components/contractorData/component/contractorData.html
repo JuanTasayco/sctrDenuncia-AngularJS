@@ -1,0 +1,156 @@
+<div ng-form name="{{$ctrl.formName}}">
+	<div class="g-section-inner">
+		<div class="container">
+			<div class="row">
+				<div class="col-md-12">
+					<h2 class="g-sub-title g-myd-subtitle">{{title}}</h2>
+				</div>
+			</div>
+			<!-- Tipo de documento, número de documento -->
+			<div class="row h-myd--flex h-myd--flex-alg-end h-myd--flex-wrap">
+				<div class="col-xs-12 col-sm-4 col-md-4 mb-xs-2">
+					<mpf-select label="{label: 'Tipo de documento', required: true}" name="nTipoDocumento" ng-model="$ctrl.data.mTipoDocumento" m-data-source="$ctrl.documentTypeData" text-field="Descripcion" value-field="Codigo" m-Empty-Option="{enterData:true}" mpf-validation="required" ng-change="inferData(true)"
+					ng-Disabled="$ctrl.enableBlockFileds &&  $ctrl.data.searchedPerson"  focuss-me="true"></mpf-select>
+					<div class="g-error" ng-show="currentForm.nTipoDocumento.$invalid && !currentForm.nTipoDocumento.$pristine">* Seleccione un tipo de documento</div>
+				</div>
+				<div class="col-xs-12 col-sm-4 col-md-4 mb-xs-2">
+					<mpf-input label="{label: !$ctrl.data.mTipoDocumento || $ctrl.data.mTipoDocumento.Codigo == null ? 'Número de documento' : 'Ingrese su ' + $ctrl.data.mTipoDocumento.Codigo, required: true}"
+          name="nNumeroDocumento" ng-model="$ctrl.data.mNumeroDocumento" mpf-validation="{{docNumType}}" mpf-validation-disabled="{{docNumTypeDisabled}}"
+					ng-required="true" ng-blur="inferData()" ng-maxlength="docNumMaxLength" ng-minlength="docNumMinLength" ng-Disabled="$ctrl.enableBlockFileds &&  $ctrl.data.searchedPerson"></mpf-input>
+					<div class="g-error" ng-show="currentForm.nNumeroDocumento.$invalid && !currentForm.nNumeroDocumento.$pristine">* Ingrese un numero de documento</div>
+        </div>
+				<div class="col-xs-12 col-sm-4 col-md-4 mb-xs-2">
+					<a class="g-btn g-btn-white second-design" ng-click="clean()">Limpiar contratante</a>
+				</div>
+			</div>
+			<div class="row" ng-show="$ctrl.data.showScore">
+ 				<div class="col-md-12 mb-xs-1">
+ 					<div class="gBgcGray5 pt-xs-1 pb-xs-1 pl-xs-1">
+						<span class="middle">Score de Autos: <b>{{$ctrl.data.mScore}}</b></span>
+ 					</div>
+ 				</div>
+ 			</div>
+			<!-- Nombre, Apellido Paterno, Apellido Materno -->
+			<div class="row" ng-if="$ctrl.data.showNaturalRucPerson">
+				<div class="col-md-4 mb-xs-2">
+					<mpf-input label="{label: 'Nombre', required: true}" name="nNomContratante"
+					ng-model="$ctrl.data.mNomContratante" ng-required="$ctrl.data.showNaturalRucPerson"
+					 mpf-validation="onlyLetter" ng-Maxlength="65" ng-Disabled="($ctrl.enableBlockFileds &&  $ctrl.data.searchedPerson && ($ctrl.data.value.Nombre) && !currentForm.nNomContratante.$invalid)"></mpf-input>
+					<div class="g-error"  ng-show="currentForm.nNomContratante.$invalid && !currentForm.nNomContratante.$pristine">* Ingrese un nombre</div>
+				</div>
+
+				<div class="col-md-4 mb-xs-2">
+					<mpf-input label="{label: 'Apellido Paterno', required: true}" name="nApePatContratante"
+					ng-model="$ctrl.data.mApePatContratante" ng-required="$ctrl.data.showNaturalRucPerson"
+					mpf-validation="onlyLetter" ng-Maxlength="28" ng-Disabled="($ctrl.enableBlockFileds &&  $ctrl.data.searchedPerson && ($ctrl.data.value.ApellidoPaterno) && !currentForm.nApePatContratante.$invalid)"></mpf-input>
+					<div class="g-error" ng-show="currentForm.nApePatContratante.$invalid && !currentForm.nApePatContratante.$pristine">* Ingrese un apellido paterno</div>
+				</div>
+				<div class="col-md-4 mb-xs-2">
+					<mpf-input label="{label: 'Apellido Materno', required: true}" name="nApeMatContratante"
+					ng-model="$ctrl.data.mApeMatContratante" ng-required="$ctrl.data.showNaturalRucPerson"
+					mpf-validation="onlyLetter" ng-Maxlength="28" ng-Disabled="($ctrl.enableBlockFileds &&  $ctrl.data.searchedPerson && ($ctrl.data.value.ApellidoMaterno) && !currentForm.nApeMatContratante.$invalid)"></mpf-input>
+					<div class="g-error" ng-show="currentForm.nApeMatContratante.$invalid && !currentForm.nApeMatContratante.$pristine">* Ingrese un apellido materno</div>
+				</div>
+			</div>
+			<!-- Razón social, actividad económica -->
+			<div class="row" ng-if="!$ctrl.data.showNaturalRucPerson">
+				<div class="col-md-4 mb-xs-2 no-mb-md">
+					<mpf-input label="{label: 'Razón Social', required: true}" name="nRazonSocial" ng-model="$ctrl.data.mRazonSocial"
+					ng-required="!$ctrl.data.showNaturalRucPerson" ng-maxlength="80" ng-Disabled="($ctrl.enableBlockFileds &&  $ctrl.data.searchedPerson && ($ctrl.data.value.Nombre || $ctrl.newValue.mRazonSocial))"></mpf-input>
+					<div class="g-error" ng-show="currentForm.nRazonSocial.$invalid && !currentForm.nRazonSocial.$pristine">* Ingrese una razón social</div>
+				</div>
+				<div class="col-md-4">
+					<mpf-select label="{label: 'Actividad económica', required: true}" name="nActividadEconomica" ng-model="$ctrl.data.mActividadEconomica" m-data-source="$ctrl.economicActivityData" text-field="Descripcion" value-field="Codigo" m-Empty-Option="{enterData:true}" mpf-validation="required"></mpf-select>
+					<div class="g-error" ng-show="currentForm.nActividadEconomica.$invalid && !currentForm.nActividadEconomica.$pristine">* Seleccione una actividad económica</div>
+				</div>
+			</div>
+			<!-- Fecha de nacimiento, sexo -->
+			<div class="row h-myd--flex h-myd--flex-alg-end h-myd--flex-wrap" ng-if="$ctrl.data.showNaturalRucPerson">
+				<div class="col-xs-12 col-sm-4 col-md-4 mb-xs-2 mb-sm-0">
+					<div class="relive">
+						<label class="g-placeholder animated">Fecha de Nacimiento*</label>
+					</div>
+					<div class="row">
+						<div class="col-xs-4">
+							<mpf-select label="{label: '', required: false}" name="nDay" ng-model="$ctrl.data.mDay"
+							m-data-source="$ctrl.dayData" text-field="description"
+							value-field="id" m-Empty-Option="{text:'Día'}"
+							mpf-validation="required" ng-Disabled="($ctrl.enableBlockFileds &&  $ctrl.data.searchedPerson && $ctrl.data.mDay.id)"></mpf-select>
+							<div class="g-error" ng-show="currentForm.nDay.$invalid && !currentForm.nDay.$pristine"
+							>* Seleccione</div>
+						</div>
+						<div class="col-xs-4">
+							<mpf-select label="{label: '', required: false}" name="nMonth" ng-model="$ctrl.data.mMonth" m-data-source="$ctrl.monthData" text-field="description"
+							value-field="id" m-Empty-Option="{text:'Mes'}" mpf-validation="required" ng-Disabled="($ctrl.enableBlockFileds &&  $ctrl.data.searchedPerson && $ctrl.data.mMonth.id)"></mpf-select>
+							<div class="g-error" ng-show="currentForm.nMonth.$invalid && !currentForm.nMonth.$pristine">* Seleccione</div>
+						</div>
+						<div class="col-xs-4">
+							<mpf-select label="{label: '', required: false}" name="nYear" ng-model="$ctrl.data.mYear" m-data-source="$ctrl.yearData" text-field="description" value-field="id"
+							m-Empty-Option="{text:'Año'}" mpf-validation="required" ng-Disabled="($ctrl.enableBlockFileds &&  $ctrl.data.searchedPerson && $ctrl.data.mYear.id)"></mpf-select>
+							<div class="g-error" ng-show="currentForm.nYear.$invalid && !currentForm.nYear.$pristine">* Seleccione</div>
+						</div>
+					</div>
+				</div>
+				<div class="col-xs-12 col-sm-4 col-md-4 mb-xs-2 mb-sm-0">
+					<div class="row mb-sm-2 mb-xs-1 h-myd-mb--0">
+						<div class="col-md-12">
+							<span class="g-label">Sexo*</span>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-xs-6">
+							<m-radio label="{label: 'Masculino'}" name="nSexo" ng-model="$ctrl.data.mSexo" value="H" ng-required="true"></m-radio>
+						</div>
+						<div class="col-xs-6">
+							<m-radio label="{label: 'Femenino'}" name="nSexo" ng-model="$ctrl.data.mSexo" value="M" ng-required="true"></m-radio>
+						</div>
+						<ul class="col-md-12 g-error">
+              <li ng-show="currentForm.nSexo.$invalid && !currentForm.nSexo.$pristine">* Seleccione un sexo</li>
+            </ul>
+					</div>
+				</div>
+				<!-- Profesión -->
+				<div class="col-md-4 col-xs-12 col-sm-4">
+          <mpf-select label="{label: 'Profesión', required: true}" name="nProfesion" ng-model="$ctrl.data.mProfesion" m-data-source="$ctrl.professionData" text-field="Descripcion"
+          value-field="Codigo" m-Empty-Option="{enterData:true}" mpf-validation="required" ng-required="true"></mpf-select>
+					<div class="g-error" ng-show="currentForm.nProfesion.$invalid && !currentForm.nProfesion.$pristine">* Seleccione una profesión</div>
+				</div>
+			</div>
+			<div class="row"  ng-if="mostrarAbonado">
+				<!-- Abonado -->
+				<div class="col-md-4 mt-md-2 mt-xs-2">
+          <mpf-input label="{label: 'Abonado', required: requireAbonado}" name="nAbonado" ng-model="$ctrl.data.mAbonado" ng-required="requireAbonado"
+            mpf-validation="onlyLetterNumber" ng-Maxlength="4" ng-minlength="4">
+          </mpf-input>
+					<div class="g-error" ng-show="currentForm.nAbonado.$invalid && !currentForm.nAbonado.$pristine">* Seleccione un abonado</div>
+				</div>
+      </div>
+		</div>
+	</div>
+
+	<div class="g-section-inner">
+		<div class="container">
+			<div class="row">
+				<div class="col-md-12">
+					<h2 class="g-sub-title g-myd-subtitle">{{title2}}</h2>
+				</div>
+			</div>
+			<!-- Telefono fijo, Celular, Correo electrónico -->
+			<div class="row">
+				<div class="col-md-4 mb-xs-2 no-mb-md">
+					<mpf-input label="{label: 'Teléfono fijo', required: true}" name="nTelefonoFijo" ng-model="$ctrl.data.mTelefonoFijo" mpf-validation="required,onlyNumber" ng-maxlength="10"></mpf-input>
+					<div class="g-error" ng-show="currentForm.nTelefonoFijo.$invalid && !currentForm.nTelefonoFijo.$pristine">* Ingrese un teléfono fijo</div>
+				</div>
+				<div class="col-md-4 mb-xs-2 no-mb-md">
+					<mpf-input label="{label: 'Teléfono móvil', required: requiredCelular}" name="nTelefonoCelular" ng-required="requiredCelular" ng-model="$ctrl.data.mTelefonoCelular" mpf-validation="onlyNumber" ng-maxlength="10"></mpf-input>
+					<div class="g-error" ng-show="currentForm.nTelefonoCelular.$invalid && !currentForm.nTelefonoCelular.$pristine">* Ingrese un teléfono celular</div>
+				</div>
+				<div class="col-md-4">
+					<mpf-input label="{label: 'Correo electrónico', required: requiredEmail}" name="nCorreoElectronico" ng-model="$ctrl.data.mCorreoElectronico" ng-required="requiredEmail" mpf-validation="required,email" ng-maxlength="100"></mpf-input>
+					<div class="g-error" ng-show="currentForm.nCorreoElectronico.$error.email && !currentForm.nCorreoElectronico.$pristine">* Ingrese un correo electrónico valido.</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+</div>

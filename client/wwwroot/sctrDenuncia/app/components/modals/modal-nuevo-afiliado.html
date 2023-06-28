@@ -1,0 +1,72 @@
+<div class="clearfix">
+    <button type="button" class="close g-close-modal" data-ng-click="$ctrl.close()" prevent-default>
+        <span class="ico-mapfre_231_cancelaroff"></span>
+    </button>
+    <div class="container">
+        <form name="frmModal" class="clearfix">
+            <div class="col-xs-12 mb-xs-2">
+                <h2 class="gH3"><b>Nuevo Afiliado</b></h2>
+            </div>
+            <div class="col-xs-12 mb-xs-2">
+                <div class="row">
+                    <div class="col-md-4 mb-xs-2">
+                        <mpf-input name="nDocumento" ng-required="false" ng-maxlength="8" mpf-validation="onlyNumberNoSpace"
+                            label="{label: 'Número de Documento', required: false}" ng-model="$ctrl.num_documento">
+                        </mpf-input>
+                    </div>
+                    <div class="col-md-4 mt-xs-2 mb-xs-2">
+                        <a ng-click="$ctrl.searchAfiliate()" class="g-btn g-btn-verde second-design block">Buscar</a>
+                    </div>
+                </div>
+            </div>
+            <div ng-show="$ctrl.newAfiliate != null">
+                <div class="col-xs-12 mb-xs-2">
+                    <div class="clearfix">
+                        <ul class="g-row-fz12 g-tbl-row gBgcGray5 pt-xs-1">
+                            <li class="g-col g-col-xs col-20-dktp tbl-item item-title">Número de Documento</li>
+                            <li class="g-col g-col-xs col-20-dktp tbl-item item-title">Nombres y Apellidos</li>
+                            <li class="g-col g-col-xs col-20-dktp tbl-item item-title">Teléfono</li>
+                            <li class="g-col g-col-xs col-20-dktp tbl-item item-title">Correo Electronico</li>
+                        </ul>
+                        <div class="mb-xs-1 gnContentAuto-bg">
+                            <ul class="g-row-fz12 g-tbl-row pt-xs-1 g-border-bottom-xs">
+                                <li class="g-col g-col-xs col-20-dktp tbl-item">{{$ctrl.newAfiliate.num_documento}}</li>
+                                <li class="g-col g-col-xs col-20-dktp tbl-item">{{$ctrl.newAfiliate.nombres}} {{$ctrl.newAfiliate.ape_paterno}}
+                                    {{$ctrl.newAfiliate.ape_materno}}</li>
+                                <li class="g-col g-col-xs col-20-dktp tbl-item">{{$ctrl.newAfiliate.telefono}}</li>
+                                <li class="g-col g-col-xs col-20-dktp tbl-item">{{$ctrl.newAfiliate.email}}</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-xs-12" ng-show="$ctrl.showButtons">
+                    <div class="col-md-4 col-md-offset-2 mt-xs-2">
+                        <button class="g-btn g-btn-white second-design block" ng-click="$ctrl.close()">Cancelar</button>
+                    </div>
+                    <div class=" col-md-4 mt-xs-2">
+                        <a ng-click="$ctrl.cerrar()" class="g-btn g-btn-verde second-design block">Aceptar</a>
+                    </div>
+                </div>
+                <div class="col-xs-12 text-center g-box-noresult mb-xs-2" ng-show="!$ctrl.showButtons">
+                    <div class="row ">
+                        <div class="col-md-12 g-box-noresult-ico gCRed1">
+                            <span class="ico-mapfre_301_warning"></span>
+                        </div>
+                        <div class="col-md-12 g-box-noresult-text">El asegurado que se desea registrar ya se encuentra registrado.</div>
+                    </div>
+                </div>
+            </div>
+            <div ng-show="$ctrl.showNoResult">
+                <div class="col-md-12 text-center g-box-noresult mb-xs-2">
+                    <div class="row ">
+                        <div class="col-md-12 g-box-noresult-ico gCRed1">
+                            <span class="ico-mapfre_302_error"></span>
+                        </div>
+                        <div class="col-md-12 g-box-noresult-text">No se encontró información del asegurado.</div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

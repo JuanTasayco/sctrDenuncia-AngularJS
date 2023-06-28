@@ -1,0 +1,63 @@
+<section class="g-page">
+  <div class="accter">
+    <div class="g-title g-border-bottom mb-xs-2">
+      <div class="container">
+        <div class="row h-myd--flex h-myd--flex-alg-center h-myd--flex-wrap">
+          <div class="col-xs-12 col-sm-8">
+            <h1>{{datosPoliza.nombreCompleto}}</h1>
+          </div>
+          <div class="col-xs-12 col-sm-4 g-text-right-sm hidden-sm hidden-xs mt-md-1">
+            <a ng-click="fnGoToClient()">
+              <span class="g-link gCGray3">
+                <i class="icon ico-mapfre_310_arrowLeft"></i>
+                <b>VOLVER AL LISTADO DE CLIENTES</b>
+              </span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="g-section h-myd-mb--10 h-myd-mt--10">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-5">
+            <h2>
+              Nro de póliza: <strong>{{datosPoliza.numPoliza}}</strong>
+            </h2>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div>
+      <form name="frmClient">
+        <!-- Datos Personales -->
+        <personal-information countries="countries" form="datosPoliza" params-form="paramsForm" not-required-fields="notRequiredFields" disabled-fields="disabledFields"></personal-information>
+
+        <!-- Datos contacto de la empresa -->
+        <company-contact ng-if="isRuc" form="datosPoliza.contactoJuridico" params-form="paramsForm" disabled-fields="disabledFields"></company-contact>
+
+        <!-- Datos Dirección Personal -->
+        <personal-address countries="countries" form="datosPoliza.direccionPersonal" params-form="paramsForm"
+          hide-form="hideFields" not-required-fields="notRequiredFields"></personal-address>
+
+        <!-- Datos Dirección de correspondencia -->
+        <correspondence-address countries="countries" form="datosPoliza.direccionCorrespondencia"
+          params-form="paramsForm"></correspondence-address>
+
+        <div class="g-section g-step-action">
+          <div class="container">
+            <div class="row mb-xs-4 mt-xs-3">
+              <span class="col-md-2 g-comment">Campos obligatorios *</span>
+              <div class="col-md-4 mb-xs-1">
+                <a class="g-btn g-btn-white" ui-sref="clients">CANCELAR</a>
+              </div>
+              <div class="col-md-4 mb-xs-1">
+                <a class="g-btn g-btn-verde" ng-click="update()">GUARDAR CAMBIOS</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</section>

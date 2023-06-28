@@ -1,0 +1,217 @@
+<div class="g-section-inner g-dashboard-section" ng-hide="!mListaRelEstad">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-8 g-span-middle">
+                <span class="col-md-8 mg-bot-15">
+                    <mpf-input label="{label: 'Nombre del Cultivo o Sector estadístico'}" name="nNombreRelacion"
+                        ng-model="mNombreCultivoSector"></mpf-input>
+                </span>
+                <span class="mr-md-1">
+                    <a class="g-btn g-btn-verde block second-design pl-md-2 pr-md-2" ng-click="searchResults()">BUSCAR</a>
+                </span>
+                <span class="mr-md-1">
+                    <a class="g-btn g-btn-white block second-design pl-md-2 pr-md-2" ng-click="limpiarBuscador()">LIMPIAR</a>
+                </span>
+            </div>
+            <div class="col-md-4 g-text-right-md g-span-middle mg-top-20" ng-show="estadoRegistro =='I'">
+                <span class="mr-md-12">
+                    <a class="g-btn g-btn-gris block second-design pl-md-12 pr-md-12" ng-click="mostrarImportar()">IMPORTAR</a>
+                </span>
+            </div>
+        </div>
+        
+        <div class="col-md-12 text-center g-box-noresult"
+        ng-show="listaCultivoSector.length === 0 || listaCultivoSector === undefined">
+        <div class="row">
+            <div class="col-md-12 g-box-noresult-ico gCRed1"><span
+                    class="ico-mapfre_302_error gnIcon-bg"></span>
+            </div>
+            <div class="col-md-12 g-box-noresult-text">No se encontró resultados.<br>Realice una
+                búsqueda nuevamente.</div>
+        </div>
+    </div>
+        <!--Inicio: Resultados-->
+        <div class="clearfix g-box mb-xs-2" ng-repeat="item in listaCultivoSector">
+            <div class=" clearfix g-box-content ">
+                <ul class="row g-list-sm" >
+                    <li class="col-md-11 col-sm-3">
+                        <div class="item-label">
+                            <ul class="clearfix mg-bot-10">
+                                <li class="col-md-6 col-sm-6 clearfix">
+                                    <b>Nombre del Sector Estadístico</b> {{item.sectorEstad}}
+                                </li>
+                                <li class="col-md-6 col-sm-6 clearfix">
+                                    <div class="col-xs-12">
+                                        <b>Ubigeo: </b> {{item.departamento}} - {{item.provincia}} - {{item.distrito}}
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </li> 
+                </ul>
+            </div>
+            <div class="clearfix g-box no-bbl-radius no-bbr-radius g-border-noborder pt-xs-1 pb-xs-1 gBgcGray5">
+                <ul class="row g-list-sm">
+                    <li class="col-md-11 col-sm-3">
+                        <div class="item-label">
+                            <ul class="clearfix">
+                                <li class="col-md-4 col-sm-6 clearfix cnt-item">
+                                    <div class="col-xs-12">
+                                     {{item.nombreGrupoCultivo}} - {{item.nombreCultivo}}
+                                    </div>
+                                </li>
+                                <li class="col-md-4 col-sm-3 clearfix cnt-item">
+                                    <div class="col-xs-12">
+                                        <b>Superficie Asegurada: </b> {{item.superficieAseg | dosDecimalesFixed }} Ha
+                                    </div>
+                                </li>
+                                <li class="col-md-4 cnt-item">
+                                    <div class="col-xs-12">
+                                        <b>Monto asegurado por hectárea: </b> {{item.montoAsegHACul  | dosDecimalesFixed | currency: 'S/.' }}
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </li>
+                    <li class="col-md-11 col-sm-4">
+                        <div class="item-label">
+                            <ul class="clearfix">
+                                <li class="col-md-4 col-sm-3 clearfix cnt-item">
+                                    <div class="col-xs-12">
+                                        <b>Rendimiento promedio </b> {{item.rendPromedio  | dosDecimalesFixed }} Kg/Ha
+                                    </div>
+                                </li>
+                                <li class="col-md-4 cnt-item">
+                                    <div class="col-xs-12">
+                                        <b>Rendimiento Asegurado</b> {{item.rendDisparador | dosDecimalesFixed }} Kg/Ha
+                                    </div>
+                                </li>
+                                <li class="col-md-4 col-sm-6 clearfix cnt-item">
+                                </li>
+                            </ul>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <!--Fin: Resultados-->
+        <!-- Inicio: pagination -->
+        <div class="row">
+            <div class="col-md-12" ng-show="listaCultivoSector.length > 0">
+                <ul uib-pagination class="g-pagination" ng-model="currentPage"
+                    max-size="maxSize"ng-change="changePage(currentPage)"
+                    total-items="totalRecords" items-per-page="sizePerPage"
+                    boundary-link-numbers="true"></ul>
+            </div>
+        </div>
+        <!-- Fin: pagination -->
+
+    </div>
+</div>
+<div class="g-section-inner g-dashboard-section" ng-model="mImportarRelSector" ng-hide="!mImportarRelSector">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-8 col-md-offset-2">
+                <form name="frmFormRelSect">
+                    <div class="clearfix g-box-md mb-md-2 gBgcWhite1">
+                        
+                        <div class="g-col-filter__box">
+                            <div class="col-md-12">
+                                <div class="row">
+                                    <div class="col-md-12 mb-md-1">
+                                        <span class="col-md-8 mg-top-15">
+                                            <label class="g-placeholder animated ng-binding pl-xs-1-5"><b>Importar Relaciones Sector-Cultivo
+                                                </b></label>
+                                        </span>
+                                        <span class="col-md-4 mg-top-15 rg-15">
+                                            <a class="g-btn g-btn-gris block second-design pl-md-2 pr-md-2"
+                                                ng-href="{{ Plantilla_RelSector }}" download="Plantilla_RelSector_Estadistico.xlsx">DESCARGAR FORMATO</a>
+                                        </span>
+                                    </div>
+                                    <div class="col-md-12 mt-md-2 mb-md-2 ">
+                                        <div class="col-md-12" ng-show="fileRelSector.length>0">
+                                            <li class="col-md-12 col-sm-12 mg-bot-10 ">
+                                                <div class="item-label g-box">
+                                                    <ul class="clearfix">
+                                                    </ul>
+                                                    <ul class="clearfix">
+                                                        <li class="col-md-12 pt-xs-1 mg-bot-10">
+                                                            <div class="clearfix g-box no-bbl-radius no-bbr-radius
+                                                             pt-xs-1 pb-xs-1 gBgcGray5 col-md-12 col-sm-12 ng-binding">
+                                                                <input disabled style="font-weight:bold;"
+                                                                    class="col-md-10 g-border-noborder"
+                                                                    ng-model="mNombreArchivo" />
+                                                                <span
+                                                                    class="col-md-1 ico-mapfre_244_descargar gnIcon-xsm gCGray3"
+                                                                    ng-click="descargarFile();"></span>
+                                                                <span
+                                                                    class="col-md-1 ico-mapfre_233_cerrar gnIcon-xsm gCGray3"
+                                                                    ng-click="cancelarCarga();"></span>
+                                                            </div>
+
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                            </li>
+                                        </div>
+                                        <div class="col-md-12" ng-hide="fileRelSector.length>0">
+                                            <li class="col-md-12 col-sm-12 mg-bot-10 ">
+                                                <div class="item-label g-box">
+                                                    <ul class="clearfix">
+                                                        <li class="col-md-12 pt-xs-1 mg-bot-10">
+                                                            <label class="g-btn-input-file wd-90 font-1-2"
+                                                                style="display: block;">
+                                                                <span
+                                                                    class="lbl-file-verde col-md-12 col-sm-12">Adjuntar
+                                                                    archivo</span>
+                                                                        <input class="clsRelSector" type="file" file-model="fileRelSector"
+                                                                    ng-model="fileRelSector" class="input__file"
+                                                                        ng-required="true" ng-click="clicFileImport();"
+                                                                    accept=".xls, .xlsx" />
+                                                            </label>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                            </li>
+                                        </div>
+                                    </div>
+                                    <div ng-show="mShowLog">
+                                        <div class="col-md-12 mb-md-1 lbl-error-rojo" >
+                                            {{mMensajeLog}}
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12 g-text-right-md g-span-middle">
+
+                                        <div class="col-md-6 mb-md-1">
+                                            <span class="col-md-12">                                                
+                                                <a ng-show="mShowLog" class="g-btn g-btn-rojo block second-design"
+                                                    ng-click="descargarLog()">
+                                                    <span  class="col-md-1 ico-mapfre_244_descargar gnIcon-xsm gCWhite3 lft-15" >                                                        
+                                                    </span>DESCARGAR LOG
+                                                </a>
+                                            </span>
+                                        </div>
+                                        
+                                        <div class="col-md-6 mb-md-1 mg-top-5">
+                                            <span class="col-md-6">
+                                                <a class="g-btn g-btn-transparent block second-design pl-md-2 pr-md-2"
+                                                    ng-click="mostrarListado()">CANCELAR</a>
+                                            </span>
+                                            <span class="col-md-6">
+                                                <button ng-disabled="frmFormRelSect.$invalid"
+                                                    ng-click="importarCultivoSector();"
+                                                    class="g-btn g-btn-verde block second-design pl-md-2 pr-md-2">REGISTRAR</button>
+                                            </span>
+                                        </div>
+
+                                        
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

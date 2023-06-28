@@ -1,0 +1,532 @@
+<div  class="g-box gBgcGray5 pt-xs-2 pb-xs-2 pl-xs-2 pr-xs-2 mb-xs-2">
+  <ng-form name="vm.contactForm" ng-show="vm.contact">
+    <div class="mb-xs-4">
+      <div class="row mt-3 mb-xs-2">
+        <div class="col-xs-11">
+          <h2 class="g-sub-title g-myd-subtitle">Datos personales</h2>
+        </div>
+        <div class="col-xs-1 text-right g-cursor-pointer">
+          <span class="close ico-mapfre-384-navclose" ng-click="vm.closeContact()"></span>
+        </div>
+      </div>
+      <div class="row" >
+        <div class="col-md-3 mb-xs-2">
+          <mpf-select 
+            m-data-source="vm.paramsForm.TIP_DOCU_VAL"
+            ng-model="vm.contact.documento"
+            name="contactDocumentTypes"
+            label="{label: 'Tipo de documento', required: true}"
+            ng-required="true"
+            ng-change="vm.documentTypeChange(true)"
+            value-field="codigo"
+            text-field="descripcion"
+            m-Empty-Option="{enterData:true}">
+          </mpf-select>
+          <ul class="g-error">
+            <li ng-show="vm.contactForm.contactDocumentTypes.$invalid && !vm.contactForm.contactDocumentTypes.$pristine">* Seleccione un tipo de documento</li>
+          </ul>
+        </div>
+        <div class="col-md-3 mb-xs-2">
+          <mpf-input
+              label="{label: 'Número de documento', required: true}"
+              ng-model="vm.documentNumber"
+              name="contactDocumentNumber"
+              ng-required="true"
+              ng-minlength="vm.docNumMinLength"
+              ng-maxlength="vm.docNumMaxLength"
+              mpf-validation="{{vm.docNumType}}"
+              mpf-validation-disabled="{{vm.docNumTypeDisabled}}">
+          </mpf-input>
+          <ul class="g-error">
+            <li ng-show="vm.contactForm.contactDocumentNumber.$invalid && !vm.contactForm.contactDocumentNumber.$pristine">* Ingrese un número de documento</li>
+          </ul>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-3 mb-xs-2">
+          <mpf-input
+            label="{label: 'Nombres', required: true}"
+            name="contactName"
+            ng-model="vm.contact.nombre"
+            ng-required="true"
+            ng-maxlength="80">
+          </mpf-input>
+          <ul class="g-error">
+            <li ng-show="vm.contactForm.contactName.$invalid && !vm.contactForm.contactName.$pristine">* Ingrese un nombre</li>
+          </ul>
+        </div>
+        <div class="col-md-3 mb-xs-2">
+          <mpf-input
+            label="{label: 'Apellido paterno', required: true}"
+            name="contactLastName"
+            ng-model="vm.contact.apellidoPaterno"
+            ng-required="true"
+            ng-maxlength="30">
+          </mpf-input>
+          <ul class="g-error">
+            <li ng-show="vm.contactForm.contactLastName.$invalid && !vm.contactForm.contactLastName.$pristine">* Ingrese un apellido paterno</li>
+          </ul>
+        </div>
+        <div class="col-md-3 mb-xs-2">
+          <mpf-input
+            label="{label: 'Apellido materno', required: true}"
+            name="contactLastNameMother"
+            ng-model="vm.contact.apellidoMaterno"
+            ng-required="true"
+            ng-maxlength="30">
+          </mpf-input>
+          <ul class="g-error">
+            <li ng-show="vm.contactForm.contactLastNameMother.$invalid && !vm.contactForm.contactLastNameMother.$pristine">* Ingrese un apellido materno</li>
+          </ul>
+        </div>
+        <div class="col-md-3 mb-xs-2">
+          <mpf-select
+            m-data-source="vm.paramsForm.MCA_SEXO"
+            ng-model="vm.contact.sexo"
+            name="contactGender"
+            label="{label: 'Sexo', required: false}"
+            text-field="descripcion"
+            value-field="codigo"
+            m-Empty-Option="{enterData:true}" >
+          </mpf-select>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-3 mb-xs-2">
+          <mpf-datepicker label="{label: 'Fecha de nacimiento', required: false}" 
+            ng-model="vm.contact.fechaNacimiento" 
+            format="'dd/MM/yyyy'"
+            name="contactDateBirth"
+            set-max-today="true"
+            nomargin="true">
+          </mpf-datepicker>
+        </div>
+        <div class="col-md-3 mb-xs-2">
+          <mpf-select
+            m-data-source="$parent.countries"
+            ng-model="vm.contact.nacionalidad"
+            name="contactNationality"
+            label="{label: 'Nacionalidad'}"
+            text-field="descripcion"
+            value-field="codigo"
+            m-Empty-Option="{enterData:true}">
+          </mpf-select>
+        </div>
+        <div class="col-md-3 mb-xs-2">
+          <mpf-select
+            m-data-source="vm.paramsForm.COD_EST_CIVIL"
+            ng-model="vm.contact.estadoCivil"
+            name="contactCivilStatus"
+            label="{label: 'Estado civil'}"
+            text-field="descripcion"
+            value-field="codigo">
+          </mpf-select>
+        </div>
+        <div class="col-md-3 mb-xs-2">
+          <mpf-input
+            label="{label: 'Número de hijos'}"
+            name="contactNumberChildren"
+            ng-model="vm.contact.numeroHijos"
+            mpf-validation="onlyNumber"
+            ng-maxlength="2"
+            trn-length="2">
+          </mpf-input>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-3 mb-xs-2">
+          <mpf-select
+            m-data-source="vm.paramsForm.PROF_OCUP_VAL"
+            ng-model="vm.contact.tipoProfesion"
+            name="contactProfession"
+            label="{label: 'Profesión'}"
+            text-field="descripcion"
+            value-field="codigo"
+            m-Empty-Option="{enterData:true}">
+          </mpf-select>
+        </div>
+        <div class="col-md-3 mb-xs-2">
+          <mpf-select
+            m-data-source="vm.paramsForm.TIP_CARGO"
+            ng-model="vm.contact.empleador.cargo"
+            name="contactCharge"
+            label="{label: 'Cargo'}"
+            text-field="descripcion"
+            value-field="codigo"
+            m-Empty-Option="{enterData:true}" >
+          </mpf-select>
+        </div>
+        <div class="col-md-3 mb-xs-2">
+          <mpf-input
+            label="{label: 'Tiempo de servicio'}"
+            name="contactServiceTime"
+            ng-model="vm.contact.empleador.tiempoServicio"
+            mpf-validation="onlyNumber"
+            trn-length="2"
+            ng-maxlength="2"
+          ></mpf-input>
+        </div>
+        <div class="col-md-3 mb-xs-2">
+          <mpf-select
+            m-data-source="vm.paramsForm.TIP_RELA_VAL"
+            ng-model="vm.contact.relContratante"
+            name="contactRelationship"
+            label="{label: 'Relación contratante', required: true}"
+            text-field="descripcion"
+            value-field="codigo"
+            m-Empty-Option="{enterData:true}" 
+            mpf-validation="required" 
+            ng-required="true"
+            >
+          </mpf-select>
+          <ul class="g-error">
+            <li ng-show="vm.contactForm.contactRelationship.$invalid && !vm.contactForm.contactRelationship.$pristine">* Seleccione una relación de contratante</li>
+          </ul>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-3 mb-xs-2">
+          <mpf-select
+            m-data-source="vm.paramsForm.INGR_PROM_VAL"
+            ng-model="vm.contact.empleador.ingresoProm"
+            name="contactAverageIncome"
+            label="{label: 'Ingreso promedio'}"
+            text-field="descripcion"
+            value-field="codigo">
+          </mpf-select>
+        </div>
+        <div class="col-md-3 mb-xs-2">
+          <div class="row">
+            <div class="col-xs-12 mt-xs-4">
+              <mpf-checkbox
+                label="Flag PEP"
+                name="contactPep"
+                ng-model="vm.contact.empleador.instPEP"
+              ></mpf-checkbox>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-3 mb-xs-2">
+          <mpf-select
+            m-data-source="vm.paramsForm.TIP_MOVIL"
+            label="{label: 'Tipo de móvil'}"
+            name="contactOperatorType"
+            ng-model="vm.contact.tipoMovil"
+            text-field="descripcion"
+            value-field="codigo">
+          </mpf-select>
+        </div>
+        <div class="col-md-3 mb-xs-2">
+          <mpf-input
+            label="{label: 'Número de celular', required: false}"
+            name="contactNumberPhone"
+            ng-model="vm.contact.movil"
+            mpf-validation="onlyNumber"
+            ng-maxlength="10"
+            trn-length="10">
+          </mpf-input>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-3 mb-xs-2">
+          <mpf-input
+            label="{label: 'Teléfono personal: Código país', required: true}"
+            name="contactCountryCodePhonePersonal"
+            ng-model="vm.contact.telPais"
+            mpf-validation="onlyNumber"
+            ng-required="true"
+            ng-maxlength="3"
+            trn-length="3">
+          </mpf-input>
+          <ul class="g-error">
+              <li ng-show="vm.contactForm.contactCountryCodePhonePersonal.$invalid && !vm.contactForm.contactCountryCodePhonePersonal.$pristine">* Ingrese un código de país</li>
+          </ul>
+        </div>
+        <div class="col-md-3 mb-xs-2">
+          <mpf-input
+            label="{label: 'Teléfono personal: Código área', required: true}"
+            name="contactCodeAreaPhonePersonal"
+            ng-model="vm.contact.telZona"
+            mpf-validation="onlyNumber"
+            ng-required="true"
+            ng-maxlength="5"
+            trn-length="5">
+          </mpf-input>
+          <ul class="g-error">
+              <li ng-show="vm.contactForm.contactCodeAreaPhonePersonal.$invalid && !vm.contactForm.contactCodeAreaPhonePersonal.$pristine">* Ingrese un código de área</li>
+          </ul>
+        </div>
+        <div class="col-md-3 mb-xs-2">
+          <mpf-input
+            label="{label: 'Teléfono personal', required: true}"
+            name="contactPersonalPhone"
+            ng-model="vm.contact.telefonoPersonal"
+            mpf-validation="onlyNumber"
+            ng-required="true"
+            ng-maxlength="10"
+            trn-length="10">
+          </mpf-input>
+          <ul class="g-error">
+            <li ng-show="vm.contactForm.contactPersonalPhone.$invalid && !vm.contactForm.contactPersonalPhone.$pristine">* Ingrese un número de teléfono</li>
+          </ul>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-3 mb-xs-2">
+          <mpf-input
+            label="{label: 'Teléfono oficina: Código país', required: false}"
+            name="contactCountryCodePhoneOffice"
+            ng-model="vm.contact.telPaisOf"
+            mpf-validation="onlyNumber"
+            ng-maxlength="3"
+            trn-length="3">
+          </mpf-input>
+        </div>
+        <div class="col-md-3 mb-xs-2">
+          <mpf-input
+              label="{label: 'Teléfono oficina: Código área', required: false}"
+              name="contactCodeAreaPhoneOffice"
+              ng-model="vm.contact.telZonaOf"
+              mpf-validation="onlyNumber"
+              ng-maxlength="5"
+              trn-length="5">
+          </mpf-input>
+        </div>
+        <div class="col-md-3 mb-xs-2">
+          <mpf-input
+            label="{label: 'Teléfono oficina'}"
+            name="contactPhoneOfi"
+            ng-model="vm.contact.numeroTelOf"
+            mpf-validation="onlyNumber"
+            trn-length="10"
+            ng-maxlength="10">
+          </mpf-input>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-3 mb-xs-2">
+          <mpf-input
+            label="{label: 'Anexo'}"
+            name="contactPhoneAnnex"
+            ng-model="vm.contact.anexo"
+            mpf-validation="onlyNumber"
+            ng-maxlength="6"
+            trn-length="6">
+          </mpf-input>
+        </div>
+        <div class="col-md-3 mb-xs-2">
+          <mpf-input
+            label="{label: 'Fax'}"
+            name="contactFax"
+            ng-model="vm.contact.fax"
+            mpf-validation="onlyNumber"
+            ng-maxlength="10"
+            trn-length="10">
+          </mpf-input>
+        </div>
+      </div>
+    </div>
+    <div class="mb-xs-4">
+      <div class="row mt-3 mb-xs-2">
+        <div class="col-md-12">
+          <h2 class="g-sub-title g-myd-subtitle">Dirección de correspondencia</h2>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-3 mb-xs-2">
+          <mpf-select
+            m-data-source="$parent.countries"
+            ng-model="vm.contact.direccion.pais"
+            name="contactCountry"
+            label="{label: 'País'}"
+            data-ng-change="vm.getDepartament(vm.contact.direccion.pais.codigo)"
+            text-field="descripcion"
+            value-field="codigo"
+            m-Empty-Option="{enterData:true}">
+          </mpf-select>
+        </div>
+        <div class="col-md-3 mb-xs-2">
+          <mpf-select
+            m-data-source="vm.departaments"
+            ng-model="vm.contact.direccion.departamento"
+            m-Empty-Option="{enterData:true}"
+            name="contactDepartament"
+            data-ng-change="vm.getProvinces(vm.contact.direccion.departamento.codigo)"
+            label="{label: 'Departamento'}"
+            text-field="descripcion"
+            value-field="codigo">
+          </mpf-select>
+        </div>
+        <div class="col-md-3 mb-xs-2">
+          <mpf-select
+            m-data-source="vm.provinces"
+            ng-model="vm.contact.direccion.provincia"
+            m-Empty-Option="{enterData:true}"
+            data-ng-change="vm.getDistrict(vm.contact.direccion.provincia.codigo)"
+            name="contactProvince"
+            label="{label: 'Provincia'}"
+            text-field="descripcion"
+            value-field="codigo">
+          </mpf-select>
+        </div>
+        <div class="col-md-3 mb-xs-2">
+          <mpf-select
+            m-data-source="vm.district"
+            ng-model="vm.contact.direccion.distrito"
+            m-Empty-Option="{enterData:true}"
+            name="contactDistrict"
+            label="{label: 'Distrito'}"
+            text-field="descripcion"
+            value-field="codigo">
+          </mpf-select>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-3 mb-xs-2">
+          <mpf-select
+            m-data-source="vm.paramsForm.TIP_DOMICILIO"
+            ng-model="vm.contact.direccion.tipoDomicilio"
+            m-Empty-Option="{enterData:true}"
+            name="dcTipoDomicilio"
+            label="{label: 'Tipo de domiclio'}"
+            text-field="descripcion"
+            value-field="codigo">
+          </mpf-select>
+        </div>
+        <div class="col-md-3 mb-xs-2">
+          <mpf-input
+            label="{label: 'Domicilio'}"
+            name="contactAddress"
+            ng-model="vm.contact.direccion.domicilio"
+            ng-maxlength="30">
+          </mpf-input>
+        </div>
+        <div class="col-md-3 mb-xs-2">
+          <div class="row">
+            <div class="col-xs-5">
+              <mpf-select
+                m-data-source="vm.paramsForm.TIP_NUMERO"
+                ng-model="vm.contact.direccion.tipoNumero"
+                m-Empty-Option="{enterData:true}"
+                name="contactNumberType"
+                label="{label: 'Número'}"
+                text-field="descripcion"
+                value-field="codigo">
+              </mpf-select>
+            </div>
+            <div class="col-xs-7">
+              <mpf-input
+                label="{label: '', required: true}"
+                name="contactNumber"
+                ng-model="vm.contact.direccion.numero"
+                ng-maxlength="5">
+              </mpf-input>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-3 mb-xs-2">
+          <div class="row">
+            <div class="col-xs-5">
+              <mpf-select
+                m-data-source="vm.paramsForm.TIP_INTERIOR"
+                ng-model="vm.contact.direccion.tipoInterior"
+                m-Empty-Option="{enterData:true}"
+                name="contactInteriorType"
+                label="{label: 'Interior'}"
+                text-field="descripcion"
+                value-field="codigo">
+              </mpf-select>
+            </div>
+            <div class="col-xs-7">
+              <mpf-input
+                label="{label: '', required: true}"
+                name="contactInterior"
+                ng-model="vm.contact.direccion.interior"
+                ng-maxlength="5"
+              ></mpf-input>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-3 mb-xs-2">
+          <div class="row">
+            <div class="col-xs-5">
+              <mpf-select
+                m-data-source="vm.paramsForm.TIP_ZONA"
+                ng-model="vm.contact.direccion.tipoZona"
+                m-Empty-Option="{enterData:true}"
+                name="contactZoneType"
+                label="{label: 'Zona'}"
+                text-field="descripcion"
+                value-field="codigo">
+              </mpf-select>
+            </div>
+            <div class="col-xs-7">
+              <mpf-input
+                label="{label: '', required: true}"
+                name="contactZone"
+                ng-model="vm.contact.direccion.zona"
+                ng-maxlength="30">
+              </mpf-input>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-3 mb-xs-2">
+          <mpf-input
+            label="{label: 'Código Postal'}"
+            name="contactCodePostal"
+            ng-model="vm.contact.direccion.codigoPostal.descripcion"
+            mpf-validation="onlyNumber"
+            ng-maxlength="15"
+            trn-length="15">
+          </mpf-input>
+        </div>
+        <div class="col-md-3 mb-xs-2">
+          <mpf-input
+            label="{label: 'Referencia lugar'}"
+            name="contactPlaceReference"
+            ng-model="vm.contact.direccion.referenciaLugar"
+            ng-maxlength="255">
+          </mpf-input>
+        </div>
+        <div class="col-md-3 mb-xs-2">
+          <mpf-input
+            label="{label: 'Email correspondencia', required: true}"
+            name="contactAddressEmail"
+            ng-model="vm.contact.direccion.email"
+            ng-required="true"
+            mpf-validation="email"
+            ng-maxlength="60">
+          </mpf-input>
+          <ul class="g-error">
+            <li ng-show="vm.contactForm.contactAddressEmail.$invalid && !vm.contactForm.contactAddressEmail.$pristine">* Ingrese un email válido</li>
+          </ul>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-3 mb-xs-2">
+          <mpf-select
+            m-data-source="vm.paramsForm.EST_CON_VAL"
+            ng-model="vm.contact.estado"
+            m-Empty-Option="{enterData:true}"
+            name="contatState"
+            label="{label: 'Estado'}"
+            text-field="descripcion"
+            value-field="codigo">
+          </mpf-select>
+        </div>
+      </div>
+      <div class="row mb-xs-2 mt-xs-4">
+        <div class="col-md-4 col-md-offset-2 mb-xs-1">
+          <a class="g-btn g-btn-white block" ng-click="vm.closeContact()">CANCELAR</a>
+        </div>
+        <div class="col-md-4 mb-xs-1">
+          <input class="g-btn g-btn-verde block" value="GUARDAR CAMBIOS" type="submit" ng-click="vm.saveContact()"  />
+        </div>
+      </div>
+    </div>
+  </ng-form>
+</div>

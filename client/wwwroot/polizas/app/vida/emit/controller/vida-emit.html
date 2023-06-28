@@ -1,0 +1,96 @@
+<!-- <section class="g-page page-vida-emitir"> -->
+<section class="g-page page-vida-emit">
+  <!-- <div class="g-section">
+		<div class="container">
+			<div class="row">
+				<div class="clearfix g-table">
+					<div class="col-md-7 g-cell-middle">
+						<page-title info="{title: 'Emisión póliza vida'}"></page-title>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div> -->
+
+  <page-title info="{title: 'Emisión póliza vida'}"></page-title>
+
+  <!-- Steps -->
+  <wizard-stairs
+    ng-show="!loading"
+    stairs="pasosVida"
+    current-Step="currentStep"
+    steping="gotoStep($stepToGo)"
+    ng-show="currentStep<3"
+  ></wizard-stairs>
+
+  <div class="g-sec-information">
+    <div class="sec-item h-myd-pt--30 h-myd-pb--30 h-myd-bg--gray4">
+      <div class="container">
+        <ul class="row cnt-title h-myd-mb--30">
+          <li class="col-xs-6 item-title g-myd-subtitle">Datos de la cotización</li>
+        </ul>
+        <ul class="row h-myd-mb--20">
+          <li class="col-md-4 clearfix cnt-item h-myd-pl--0">
+            <div class="col-sm-5 item-label">
+              <span class="ico-mapfre_82_circle ico-bullet"></span>Nro. de cotización:
+            </div>
+            <div class="col-sm-7 item-dato">{{ firstStep.cotizacion.NumeroCotizacion }}</div>
+          </li>
+          <li class="col-md-4 clearfix cnt-item h-myd-pl--0">
+            <div class="col-sm-5 item-label"><span class="ico-mapfre_82_circle ico-bullet"></span>Contratante:</div>
+            <div class="col-sm-7 item-dato">
+              {{ firstStep.cotizacion.Contratante.Nombre | uppercase }}
+              {{ firstStep.cotizacion.Contratante.ApellidoPaterno | uppercase }}
+              {{ firstStep.cotizacion.Contratante.ApellidoMaterno | uppercase }}
+            </div>
+          </li>
+          <li class="col-md-4 clearfix cnt-item h-myd-pl--0">
+            <div class="col-sm-5 item-label"><span class="ico-mapfre_82_circle ico-bullet"></span>Asegurado:</div>
+            <div class="col-sm-7 item-dato g-text-uppercase">
+              {{ firstStep.cotizacion.Asegurado.Nombre | uppercase }}
+              {{ firstStep.cotizacion.Asegurado.ApellidoPaterno | uppercase }}
+              {{ firstStep.cotizacion.Asegurado.ApellidoMaterno | uppercase }}
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- <div class="g-sec-information" ng-show="currentStep>1 && currentStep<3">
+		<div class="sec-item">
+			<div class="container">
+				<ul class="row cnt-title">
+					<li class="col-xs-6 item-title">Datos de la cotización</li>
+					<li class="col-xs-6 item-edit">
+						<a href="" ng-click="gotoStep(1)"><span class="ico-mapfre_43_editar ico-edit"></span>Editar datos de la cotización</a>
+					</li>
+				</ul>
+				<ul class="row">
+					<li class="col-md-4 clearfix cnt-item">
+						<div class="col-sm-5 item-label">
+							<span class="ico-mapfre_82_circle ico-bullet"></span>Nro. de cotización:
+						</div>
+						<div class="col-sm-7 item-dato">{{firstStep.cotizacion.NumeroCotizacion}}</div>
+					</li>
+
+					<li class="col-md-4 clearfix cnt-item">
+						<div class="col-sm-5 item-label">
+							<span class="ico-mapfre_82_circle ico-bullet"></span>Contratante:
+						</div>
+						<div class="col-sm-7 item-dato">{{firstStep.cotizacion.Contratante.Nombre}}</div>
+					</li>
+
+					<li class="col-md-4 clearfix cnt-item">
+						<div class="col-sm-5 item-label">
+							<span class="ico-mapfre_82_circle ico-bullet"></span>Asegurado:
+						</div>
+						<div class="col-sm-7 item-dato">{{firstStep.cotizacion.Asegurado.Nombre}}</div>
+					</li>
+				</ul>
+			</div>
+		</div>
+	</div> -->
+
+  <div id="form-views" ui-view="" ng-show="!loading"></div>
+</section>

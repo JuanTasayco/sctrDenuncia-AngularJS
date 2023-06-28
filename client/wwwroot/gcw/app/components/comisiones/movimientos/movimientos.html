@@ -1,0 +1,200 @@
+<div class="consultaGestion">
+  <div class="container">
+    <!-- Top bar: Filtro e iconos -->
+    <div tbl-oim-topbar class="clearfix g-tbl-topbar g-tbl-topbar-no-top mt-md-2 mb-md-2 mt-xs-1 width-filtro">
+      <div class="g-row-icons__box visible-xs visible-sm">
+        <a ng-click="showFilterTopbar = !showFilterTopbar" uib-popover="Filtro" popover-trigger="'mouseenter'">
+          <span class="g-icon-box g-icon-box-md">
+            <span class="ico-mapfre ico-mapfre_203_filtro ico-filter h-myd--none"></span>
+            <span
+              class="ico-mapfre ico-mapfre-362-myd-filter ico-filter h-myd-ico--mediun h-myd--show h-oim-none"
+            ></span>
+          </span>
+        </a>
+        <a ng-show="vm.totalRows >= 1" data-ng-click="exportar()" uib-popover="Exportar" popover-trigger="'mouseenter'">
+          <span class="g-icon-box g-icon-box-md">
+            <span class="ico-mapfre ico-mapfre_124_download ico-download h-myd--none"></span>
+            <span
+              class="ico-mapfre ico-mapfre-360-myd-export ico-download h-myd-ico--mediun h-myd--show h-oim-none"
+            ></span>
+          </span>
+        </a>
+      </div>
+      <div class="g-row-filter__box g-row-icons__box box_left hidden-xs hidden-sm">
+        <a ng-show="vm.totalRows >= 1" data-ng-click="exportar()" uib-popover="Exportar" popover-trigger="'mouseenter'">
+          <span class="g-icon-box g-icon-box-md">
+            <span class="ico-mapfre ico-mapfre_124_download ico-download h-myd--none"></span>
+            <span
+              class="ico-mapfre ico-mapfre-360-myd-export ico-download h-myd-ico--mediun h-myd--show h-oim-none"
+            ></span>
+          </span>
+        </a>
+      </div>
+      <div class="g-row-filter__box box_right height-xs height-sm" ng-class="{'filter__show': showFilterTopbar}">
+        <form class="clearfix" name="frmMovimientos">
+          <div class="g-filter-col">
+            <mpf-select-horz
+              ng-model="vm.formMovimientos.mCompania"
+              name="nCompania"
+              m-data-source="vm.lstCompanias"
+              label="{label: 'Compañía', required: false}"
+              text-field="Description"
+              value-field="Value"
+              m-Empty-Option="{enterData:false}"
+              mpf-validation="required"
+            >
+            </mpf-select-horz>
+          </div>
+          <div class="g-filter-col">
+            <mpf-select-horz
+              ng-model="vm.formMovimientos.mTipoMoneda"
+              name="nTipoMoneda"
+              m-data-source="vm.lstTipoMoneda"
+              label="{label: 'Moneda', required: false}"
+              text-field="description"
+              value-field="value"
+              m-Empty-Option="{enterData:false}"
+              mpf-validation="required"
+            >
+            </mpf-select-horz>
+          </div>
+          <div class="g-filter-col">
+            <mpf-datepicker-horz
+              ng-model="vm.mFechaDesde"
+              label="{label: 'Desde:', required: false}"
+              format="vm.format"
+              name="nfechaDesde"
+              ng-required="false"
+              mpf-validate="required"
+              maxDate=""
+            >
+            </mpf-datepicker-horz>
+          </div>
+          <div class="g-filter-col">
+            <mpf-datepicker-horz
+              ng-model="vm.mFechaHasta"
+              label="{label: 'Hasta:', required: false}"
+              format="vm.format"
+              name="nfechaHasta"
+              ng-required="false"
+              mpf-validate="required"
+              maxDate=""
+            >
+            </mpf-datepicker-horz>
+          </div>
+          <div class="g-filter-col col__buttons hidden-xs hidden-sm">
+            <a class="g-btn g-btn-white block second-design "
+              ga-click
+              ga-category="'CG - Comisiones'"
+              ga-action="'MPF - Movimientos - Aplicar Filtros'"
+              ga-label="'Botón: Aplicar Filtros'"
+              ng-click="vm.buscar()">Aplicar Filtros</a>
+          </div>
+          <div class="col__buttons visible-xs mt-xs-2">
+            <a class="g-btn g-btn-white block second-design "
+              ga-click
+              ga-category="'CG - Comisiones'"
+              ga-action="'MPF - Movimientos - Aplicar Filtros'"
+              ga-label="'Botón: Aplicar Filtros'"
+              ng-click="vm.buscar()">
+              Aplicar Filtros
+            </a>
+            <a ng-click="showFilterTopbar = !showFilterTopbar" class="g-btn g-btn-white block second-design ">Cerrar</a>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- Tabla -->
+    <div class="clearfix" ng-show="vm.totalRows >= 1">
+      <div tbl-oim class="col-xs-12 g-tbl-wrapper pl-xs-0">
+        <div class="tbl-main">
+          <ul class="tbl-header clearfix">
+            <li class="title col-15-dktp">Fecha</li>
+            <li class="title col-12-dktp text-right">Comisión Ajuste</li>
+            <li class="title col-12-dktp text-right">Anticipos</li>
+            <li class="title col-12-dktp text-right">S. Anterior</li>
+            <li class="title col-12-dktp text-right">S. Actual</li>
+            <li class="title col-12-dktp text-right">IGV</li>
+            <li class="title col-15-dktp text-right">Total</li>
+            <li class="title col-10-dktp text-center"></li>
+          </ul>
+          <ul class="tbl-body clearfix">
+            <li data-ng-repeat="item in vm.movimientos">
+              <ul height-row class="tbl-row clearfix">
+                <li class="cell col-15-dktp">
+                  <span class="cell-label"
+                    ><span class="cell-data">{{ item.processDate }}</span></span
+                  >
+                </li>
+                <li class="cell col-12-dktp text-right">
+                  <span class="cell-label"
+                    ><span class="cell-data">{{ item.adjustment | number: 2 }}</span></span
+                  >
+                </li>
+                <li class="cell col-12-dktp text-right">
+                  <span class="cell-label"
+                    ><span class="cell-data">{{ item.anticipation | number: 2 }}</span></span
+                  >
+                </li>
+                <li class="cell col-12-dktp text-right">
+                  <span class="cell-label"
+                    ><span class="cell-data">{{ item.previousBalance | number: 2 }}</span></span
+                  >
+                </li>
+                <li class="cell col-12-dktp text-right">
+                  <span class="cell-label"
+                    ><span class="cell-data">{{ item.currentBalance | number: 2 }}</span></span
+                  >
+                </li>
+                <li class="cell col-12-dktp text-right">
+                  <span class="cell-label"
+                    ><span class="cell-data">{{ item.igv | number: 2 }}</span></span
+                  >
+                </li>
+                <li class="cell col-15-dktp text-right">
+                  <span class="cell-label"
+                    ><span class="cell-data">{{ item.total | number: 2 }}</span></span
+                  >
+                </li>
+                <li class="cell col-10-dktp text-center">
+                  <a
+                    class="col-md-12 text-center ng-pristine ng-untouched ng-valid ng-empty text-right"
+                    ng-click="exportarItem(item)"
+                    ga-click
+                    ga-category="'CG - Comisiones'"
+                    ga-action="'MPF - Movimientos - Botón Imprimir en fila de resultados'"
+                    ga-label="'Botón: Imprimir en fila de resultados'"
+                  >
+                    <span class="gnIcon-xsm gCGray3 ico-mapfre_128_printer h-myd--none"></span>
+                    <span
+                      class="gnIcon-xsm gCGray3 ico-mapfre-359-myd-download h-myd-ico--mediun h-myd--show h-oim-none"
+                    ></span>
+                  </a>
+                </li>
+              </ul>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <mx-paginador
+      data-datos="vm.movimientos"
+      data-items-x-page="vm.itemsXPagina"
+      data-msg-vacio="vm.msgVacio"
+      data-on-paginar="vm.pageChanged($event)"
+      data-pagina-actual="vm.currentPage"
+      data-total-items="vm.totalRows"
+    >
+    </mx-paginador>
+  </div>
+</div>
+
+<form id="frmExport" name="frmExport" action="{{ vm.exportURL }}" method="post" target="_blank">
+  <input type="hidden" name="JSON" value="{{ vm.downloadFile }}" />
+</form>
+
+<form id="frmExportItem" name="frmExportItem" action="{{ vm.exportURLItem }}" method="post" target="_blank">
+  <input type="hidden" name="JSON" value="{{ vm.downloadFileItem }}" />
+</form>

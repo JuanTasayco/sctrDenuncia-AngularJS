@@ -1,0 +1,235 @@
+<div class="g-title g-border-bottom">
+    <div class="container">
+        <div class="row">
+			<div class="col-xs-9 col-sm-9 col-md-9 col-lg-9 pr-xs-0 pr-md-1 mt-1 title-box">
+                <h1>{{title}}</h1>
+			</div>
+			<div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 pl-xs-0">
+                <div class="row g-text-right-xs pr-xs-2 relive">
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 u-float-align">
+                        <a class="col-md-12 col-xs-12 g-btn second-design g-btn-verde" ui-sref="massAdmNewMass">
+                            <span class="glyphicon glyphicon-plus"></span> 
+                            Nueva Misa
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="dashboard-body">
+    <div class="g-section-inner g-dashboard-section">
+        <div class="container">
+
+            <div class="row">
+                <div class="col-md-3">
+                    <form action="" name="frmFilterTray">
+                        <div show-filter class="clearfix g-col-filter g-box-md fz14 gBgcGray5-md gBgcWhite1"
+                            ng-class="{'show': isFilterVisible}">
+                            <div class="col-md-12 mb-xs-1-5 gH4 gCGray1">
+                                <h2 class="pb-xs-1 g-border-bottom-xs hidden-xs hidden-sm"><b>Filtros</b></h2>
+                                <div class="row pt-xs-2 pb-xs-2 gBgcGray5 g-border-bottom-xs hidden-md hidden-lg">
+                                    <div id="show-filter"
+                                        class="row pt-xs-2 pb-xs-2 gBgcGray5 g-border-bottom-xs hidden-md hidden-lg"
+                                        ng-click="toggleFilter();">
+                                        <div class="col-xs-10">
+                                            <h2><b>Filtros</b></h2>
+                                        </div>
+                                        <div class="col-xs-2 g-text-right-xs">
+                                            <span class="glyphicon glyphicon-chevron-down"
+                                                ng-if="isFilterVisible"></span>
+                                            <span class="glyphicon glyphicon-chevron-up"
+                                                ng-if="!isFilterVisible"></span>
+                                        </div>
+                                        <div class="clearfix"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="g-col-filter__box">
+                                <div class="col-md-12 g-text-left-md">
+                                    <label><b>Fallecido</b></label>
+                                </div>
+                                <div class="col-md-12 pb-md-2">
+                                    <mpf-input 
+                                        label="{label: 'Nombres, apellidos o documento'}" 
+                                        name="nNomDni"
+                                        ng-model="$ctrl.paramsSearch.nomDni" 
+                                        data-ng-minlength="3"
+                                        data-ng-maxlength="180"
+                                        mpf-validation="onlyLetterNumber">
+                                    </mpf-input>
+                                    <div class="g-error" data-ng-show="frmFilterTray.$error.minlength">
+                                        Ingrese 3 letras o d&iacute;gitos como m&iacute;nimo
+                                    </div>
+                                </div>
+                                <div class="col-md-12 g-text-left-md pb-md-2">
+                                    <label><b>Fecha Misa</b></label>
+                                </div>
+                                <div class="col-md-12 pb-md-2">
+                                    <div class="row">
+                                        <div class="col-md-6 mb-xs-2">
+                                            <mpf-datepicker nomargin="true" 
+                                                name="fechaDesde" 
+                                                format="format"
+                                                readonly="false"
+                                                label="{label: 'Desde:'}"
+                                                ng-model="$ctrl.paramsSearch.fechaDesde"
+                                                ng-change="$ctrl.changeFirstDate($ctrl.paramsSearch.fechaDesde)">
+                                            </mpf-datepicker>
+                                            <div class="g-error" data-ng-show="frmFilterTray.fechaDesde.$invalid && !frmFilterTray.fechaDesde.$pristine">
+                                                Ingrese una fecha v&aacute;lida
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 mb-xs-2">
+                                            <mpf-datepicker nomargin="true" 
+                                                name="fechaHasta" 
+                                                format="format"
+                                                readonly="false"
+                                                label="{label: 'Hasta:'}"
+                                                minDate="$ctrl.paramsSearch.fechaDesde"
+                                                ng-model="$ctrl.paramsSearch.fechaHasta"
+                                            >
+                                            </mpf-datepicker>
+                                            <div class="g-error" data-ng-show="frmFilterTray.fechaHasta.$invalid && !frmFilterTray.fechaHasta.$pristine">
+                                                Ingrese una fecha v&aacute;lida
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-12 pb-md-1">
+                                    <a class="g-btn g-btn-verde block" 
+                                        ng-class="{disabled: !frmFilterTray.$valid}"
+                                        ng-click="$ctrl.search($ctrl.paramsSearch, true);">Filtrar</a>
+                                </div>
+                                <div class="col-md-12 pb-md-1">
+                                    <a class="g-btn g-btn-transparent block" ng-click="$ctrl.clearFilters();">Limpiar</a>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+
+                <div class="col-md-9">
+
+                    <div class="g-menu-main__box mb-xs-2">
+                        <div class="container">
+                            <ul class="g-menu-main hidden-xs hidden-sm" style="position: initial;">
+                                <span ng-repeat="item in $ctrl.statesResults" class="wdMenuConsulta">
+                                    <li class="link col-md-12" ng-class="{'actived': item.actived}">
+                                        <a class="styleMenuconsulta" ng-click="$ctrl.searchByStatus(item.codigo);">
+                                            {{item.valor}}
+                                            <br>
+                                            <span class="badge">{{item.totalRegistros}}</span>
+                                        </a></li>
+                                </span>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!--Inicio: Cabecera Resultados-->
+                    <div class="col-md-12 text-center g-box-noresult"
+                        ng-show="$ctrl.massResults.length === 0 || $ctrl.massResults === undefined">
+                        <div class="row">
+                            <div class="col-md-12 g-box-noresult-ico gCRed1"><span
+                                    class="ico-mapfre_302_error gnIcon-bg"></span>
+                            </div>
+                            <div class="col-md-12 g-box-noresult-text">No se encontró resultados.<br>Realice una
+                                búsqueda nuevamente.</div>
+                        </div>
+                    </div>
+
+                    <!--Inicio: Resultados-->
+                    <div class="clearfix g-box mb-xs-2" ng-repeat="item in $ctrl.massResults">
+                        <div class="clearfix g-box no-bbl-radius no-bbr-radius g-border-noborder pt-xs-1 pb-xs-1">
+                            <ul class="row g-list-sm">
+                                <li class="col-md-4 col-sm-12">
+                                    <div class="item-label">
+                                        <ul class="clearfix">
+                                            <li class="col-xs-12">
+                                                <b>No. {{item.anioIdMisa}}</b>
+                                                <span class="g-box-label lblNvt ml-xs-1" style="text-align:center;" 
+                                                    ng-class="{bgPending: item.estado.codigo == 1, 
+                                                        bgInAtention: item.estado.codigo == 2, 
+                                                        bgAttended: item.estado.codigo == 3, 
+                                                        bgCanceled: item.estado.codigo == 4, 
+                                                    }">
+                                                    {{item.estado.valor}}
+                                                </span>
+                                            </li>
+                                            <li class="col-xs-12 mt-xs-1" style="padding-right: 0px;"
+                                                ng-if="item.tiempoTranscurrido || item.tiempoFaltante">
+                                                <span class="g-box-label lblTimeNvt" 
+                                                    ng-class="{bgTimeLow: item.semaforo == 'V', 
+                                                        bgTimeHigh: item.semaforo == 'R', 
+                                                        bgTimeMedium: item.semaforo == 'A'
+                                                    }">
+                                                    {{ item.tiempoTranscurrido ? 'Hace ' + item.tiempoTranscurrido : (item.tiempoFaltante ? 'Empieza en ' + item.tiempoFaltante : null) }}
+                                                </span>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </li>
+                                <li class="col-md-7 col-sm-11 clearfix cnt-item">
+                                    <div class="col-xs-12">
+                                        <b>{{item.urlMisa}}</b>
+                                        <a id="" ng-click="copyToClipboard(item.urlMisa)">
+                                            <div class="copy"></div>
+                                        </a>
+                                        <!-- <i class="fa fa-clone" aria-hidden="true"></i> -->
+                                    </div>
+                                </li>
+                                <li class="col-md-1 col-sm-1">
+                                    <a href="" ng-click="$ctrl.showDetail(item)">
+                                        <i class="ico-mapfre_311_arrowRight gnIcon-xsm gCGray3"></i>
+                                    </a>
+                                    <!-- <span class="ico-mapfre_311_arrowRight gnIcon-xsm gCGray3"
+                                        ng-click="iniciarDetalle(item);"></span> -->
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="clearfix g-box-content gBgcGray5">
+                            <ul class="row g-list-sm">
+                                <li class="col-md-12 col-sm-12 clearfix cnt-item">
+                                    <div class="col-xs-12">
+                                        <b>Fallecido(s): </b>{{item.fallecidos}}
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="clearfix g-box-content gBgcGray5">
+                            <ul class="row g-list-sm">
+                                <li class="col-md-4 col-sm-6 clearfix cnt-item">
+                                    <div class="col-xs-12">
+                                        <b>Fecha de misa: </b>{{item.fechaMisa | date: 'dd/MM/yyyy'}}
+                                    </div>
+                                </li>
+                                <li class="col-md-4 col-sm-6 clearfix cnt-item">
+                                    <div class="col-xs-12">
+                                        <b>Hora de misa: </b>{{item.horaMisa}}
+                                    </div>
+                                </li>
+                                <li class="col-md-4 col-sm-6 clearfix cnt-item">
+                                    <div class="col-xs-12">
+                                        <b>Fecha de registro: </b>{{item.fechaRegistro | date: 'dd/MM/yyyy'}}
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <!--Fin: Resultados-->
+                    <!-- Inicio: pagination -->
+                    <div class="row">
+                        <div class="col-md-12" ng-show="$ctrl.massResults.length > 0">
+                            <ul uib-pagination class="g-pagination" ng-model="$ctrl.pagination.currentPage"
+                                max-size="$ctrl.pagination.maxSize" total-items="$ctrl.pagination.totalRecords"
+                                ng-change="$ctrl.pageChanged($ctrl.pagination.currentPage)"
+                                items-per-page="$ctrl.pagination.sizePerPage" boundary-link-numbers="true"></ul>
+                        </div>
+                    </div>
+                    <!-- Fin: pagination -->
+                </div>
+            </div>
+        
+        </div>
+    </div>
+</div>

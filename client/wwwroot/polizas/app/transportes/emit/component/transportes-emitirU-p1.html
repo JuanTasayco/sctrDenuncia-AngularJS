@@ -1,0 +1,301 @@
+<div class="first-step" ng-form="fData">
+	<div class="g-section-inner" ng-show="!polizaSelected">
+		<div class="container">
+			<div class="row">
+				<div class="col-md-12">
+					<h2 class="g-sub-title" ng-show="polizasGrupo.length>0">
+						Elige una poliza de grupo
+					</h2>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-12">
+					<div class="clearfix g-box g-overflow-hidden-xs mb-xs-2" ng-repeat="item in filteredPolizasGrupo">
+						<div class="row pt-xs-1 gBgcGray5">
+							<ul class="clearfix g-list">
+								<li class="col-md-3 clearfix cnt-item">
+									<div class="col-sm-5 item-label">
+										Nro. P&oacute;liza:
+									</div>
+									<div class="col-sm-7 item-dato g-text-uppercase">
+										{{item.NumeroPolizaGrupo}}
+									</div>
+								</li>
+								<li class="col-md-3 clearfix cnt-item">
+									<div class="col-sm-5 item-label">
+										Descripci&oacute;n:
+									</div>
+									<div class="col-sm-7 item-dato g-text-uppercase">
+										{{item.NombrePolizaGrupo}}
+									</div>
+								</li>
+								<li class="col-md-3 clearfix cnt-item">
+									<div class="col-sm-5 item-label">
+										Vencimiento póliza grupo:
+									</div>
+									<div class="col-sm-7 item-dato g-text-uppercase">
+										{{item.FechaVencimiento | date: 'dd/MM/yyyy'}}
+									</div>
+								</li>
+								<li class="col-md-3 clearfix cnt-item">
+									<div class="col-sm-5 item-label">
+										Moneda:
+									</div>
+									<div class="col-sm-7 item-dato g-text-uppercase">
+										{{item.SimboloMoneda}}
+									</div>
+								</li>
+							</ul>
+						</div>
+						<div class="row g-box-content">
+							<ul class="clearfix g-list">
+								<li class="col-md-9">
+									<ul class="row">
+										<li class="col-md-4 clearfix cnt-item">
+											<div class="col-sm-5 item-label">
+												Tipo de transporte:
+											</div>
+											<div class="col-sm-7 item-dato g-text-uppercase">
+												{{item.NombreTipoTransporte}}
+											</div>
+										</li>
+										<li class="col-md-4 clearfix cnt-item">
+											<div class="col-sm-5 item-label">
+												Tasa m&iacute;nima:
+											</div>
+											<div class="col-sm-7 item-dato g-text-uppercase">
+												{{item.TasaMinima}}
+											</div>
+										</li>
+										<li class="col-md-4 clearfix cnt-item">
+											<div class="col-sm-5 item-label">
+												Tasa m&aacute;xima:
+											</div>
+											<div class="col-sm-7 item-dato g-text-uppercase">
+												{{item.TasaMaxima}}
+											</div>
+										</li>
+									</ul>
+									<ul class="row">
+										<li class="col-md-4 clearfix cnt-item">
+											<div class="col-sm-5 item-label">
+												Fraccionamiento:
+											</div>
+											<div class="col-sm-7 item-dato g-text-uppercase">
+												{{item.NombreFraccPago}}
+											</div>
+										</li>
+										<li class="col-md-4 clearfix cnt-item">
+											<div class="col-sm-5 item-label">
+												Embalaje:
+											</div>
+											<div class="col-sm-7 item-dato g-text-uppercase">
+												{{item.NombreEmbalaje}}
+											</div>
+										</li>
+										<li class="col-md-4 clearfix cnt-item">
+											<div class="col-sm-5 item-label">
+												Limite de embalaje:
+											</div>
+											<div class="col-sm-7 item-dato g-text-uppercase">
+												{{item.LimiteEmbarque}}
+											</div>
+										</li>
+									</ul>
+									<ul class="row">
+										<li class="col-md-4 clearfix cnt-item">
+											<div class="col-sm-5 item-label">
+												Tipo de Subscripción:
+											</div>
+											<div class="col-sm-7 item-dato g-text-uppercase">
+												{{item.TipoSuscripcion}}
+											</div>
+										</li>
+									</ul>
+								</li>
+								<li class="col-md-3 clearfix">
+									<div class="col-md-12 cnt-item">
+										<a href="" class="g-btn g-btn-verde second-design block" ng-click="onPolizaSelected(item)">Seleccionar</a>
+									</div>
+								</li>
+							</ul>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="g-section-inner" ng-show="polizaSelected">
+		<div class="container">
+			<div class="row">
+				<div class="col-md-12">
+					<h2 class="g-sub-title" ng-show="polizasGrupo.length>0">
+						Elige una poliza de grupo
+					</h2>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-12">
+					<div class="clearfix g-box g-overflow-hidden-xs mb-xs-2">
+						<div class="row pt-xs-1 gBgcGray5">
+							<ul class="clearfix g-list">
+								<li class="col-md-3 clearfix cnt-item">
+									<div class="col-sm-5 item-label">
+										Nro. Cotizaci&oacute;n:
+									</div>
+									<div class="col-sm-7 item-dato g-text-uppercase">
+										{{polizaSelected.NumeroPolizaGrupo}}
+									</div>
+								</li>
+								<li class="col-md-3 clearfix cnt-item">
+									<div class="col-sm-5 item-label">
+										Descripci&oacute;n
+									</div>
+									<div class="col-sm-7 item-dato g-text-uppercase">
+										{{polizaSelected.NombrePolizaGrupo}}
+									</div>
+								</li>
+								<li class="col-md-3 clearfix cnt-item">
+									<div class="col-sm-5 item-label">
+										Vencimiento póliza grupo:
+									</div>
+									<div class="col-sm-7 item-dato g-text-uppercase">
+										{{polizaSelected.FechaVencimiento | date: 'dd/MM/yyyy'}}
+									</div>
+								</li>
+								<li class="col-md-3 clearfix cnt-item">
+									<div class="col-sm-5 item-label">
+										Moneda:
+									</div>
+									<div class="col-sm-7 item-dato g-text-uppercase">
+										{{polizaSelected.SimboloMoneda}}
+									</div>
+								</li>
+							</ul>
+						</div>
+						<div class="row g-box-content">
+							<ul class="clearfix g-list">
+								<li class="col-md-9">
+									<ul class="row">
+										<li class="col-md-4 clearfix cnt-item">
+											<div class="col-sm-5 item-label">
+												Tipo de transporte:
+											</div>
+											<div class="col-sm-7 item-dato g-text-uppercase">
+												{{polizaSelected.NombreTipoTransporte}}
+											</div>
+										</li>
+										<li class="col-md-4 clearfix cnt-item">
+											<div class="col-sm-5 item-label">
+												Tasa m&iacute;nima:
+											</div>
+											<div class="col-sm-7 item-dato g-text-uppercase">
+												{{polizaSelected.TasaMinima}}
+											</div>
+										</li>
+										<li class="col-md-4 clearfix cnt-item">
+											<div class="col-sm-5 item-label">
+												Tasa m&aacute;xima:
+											</div>
+											<div class="col-sm-7 item-dato g-text-uppercase">
+												{{polizaSelected.TasaMaxima}}
+											</div>
+										</li>
+									</ul>
+									<ul class="row">
+										<li class="col-md-4 clearfix cnt-item">
+											<div class="col-sm-5 item-label">
+												Fraccionamiento:
+											</div>
+											<div class="col-sm-7 item-dato g-text-uppercase">
+												{{polizaSelected.NombreFraccPago}}
+											</div>
+										</li>
+										<li class="col-md-4 clearfix cnt-item">
+											<div class="col-sm-5 item-label">
+												Embalaje:
+											</div>
+											<div class="col-sm-7 item-dato g-text-uppercase">
+												{{polizaSelected.NombreEmbalaje}}
+											</div>
+										</li>
+										<li class="col-md-4 clearfix cnt-item">
+											<div class="col-sm-5 item-label">
+												Limite de embalaje:
+											</div>
+											<div class="col-sm-7 item-dato g-text-uppercase">
+												{{polizaSelected.LimiteEmbarque}}
+											</div>
+										</li>
+									</ul>
+									<ul class="row">
+										<li class="col-md-4 clearfix cnt-item">
+											<div class="col-sm-5 item-label">
+												Tipo de Subscripción:
+											</div>
+											<div class="col-sm-7 item-dato g-text-uppercase">
+												{{polizaSelected.TipoSuscripcion}}
+											</div>
+										</li>
+									</ul>
+								</li>
+								<li class="col-md-3 clearfix">
+									<div class="col-md-12 cnt-item">
+										<a href="" class="g-btn g-btn-verde second-design block" ng-click="onPolizaSelected(null)">ELEGIR OTRA P&Oacute;LIZA</a>
+									</div>
+								</li>
+							</ul>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="g-section-inner" ng-show="polizaSelected" ng-form="fData">
+		<div class="container">
+			<div class="row">
+				<div class="col-md-12">
+					<h2 class="g-sub-title">
+						Vigencia de la p&oacute;liza
+					</h2>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-4 mb-xs-2">
+					<div class="input-group g-date-picker">
+						<label class="g-placeholder animated">Inicio Vigencia<span>*</span></label>
+						<input type="text" class="form-control" ng-model="selectDate" ng-change="changeDate()" uib-datepicker-popup="{{format}}" is-open="popupFechaInicioVigencia.opened" datepicker-options="optionsFechaInicioVigencia" ng-required="true" close-text="Close" alt-input-formats="altInputFormats" readonly/>
+						<span class="input-group-btn">
+							<button type="button" class="btn btn-default" ng-click="openFechaInicioVigencia()"><i class="glyphicon glyphicon-calendar"></i></button>
+						</span>
+					</div>
+				</div>
+				<div class="col-md-4" ng-show="selectDate && !dateError">
+					<span class="g-placeholder block pb-xs-2">Fin de vigencia</span>
+					<div class="date-selected">
+						{{selectDateEnd | date: 'dd/MM/yyyy'}}	
+					</div>
+		    </div>
+		    <div class="col-md-8" ng-show="dateError">
+		    	<ul class="gErrorIco secondDesign">
+						<li>
+							<span class="ico-mapfre_37_informacion ico"></span>Elige una fecha no mayor a 5 d&iacute;as calendario a partir de hoy
+						</li>
+					</ul>
+		    </div>
+			</div>
+		</div>
+	</div>
+	<div class="g-section" ng-show="polizaSelected">
+		<div class="container">
+			<div class="row">
+				<div class="col-md-4 mb-xs-1">
+					<span class="gCGray3">*Campos obligatorios</span>
+				</div>
+				<div class="col-md-4">
+					<a type='button' class="g-btn g-btn-verde block" ng-click="nextStep()">Siguiente</a>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

@@ -1,0 +1,20 @@
+<div class="g-section-inner" ng-form name="frmAlarm">
+  <div class="row"><div class="col-md-12"><h2 class="g-sub-title">Alarma de monitoreo</h2></div></div>
+  <div class="row">
+    <div class="col-md-4 mb-xs-2 no-mb-md">
+      <mpf-select label="{label: 'Tipo de alarma', required: false}" name="nTipoAlarma" ng-model="$ctrl.data.mTipoAlarma" m-data-source="$ctrl.data.alarmTypes" text-field="Description"
+        value-field="Value" m-Empty-Option="{text: '-No contrata-'}" ng-change="$ctrl.getComunicationTypes($ctrl.data.mTipoAlarma)" ng-disabled="$ctrl.data.selectedAlarmType">
+      </mpf-select>
+    </div>
+    <div class="col-md-4 mb-xs-2" ng-show="$ctrl.data.mTipoAlarma.Value != null">
+      <mpf-select label="{label: 'Tipo de comunicación', required: false}" name="nTipoComunicacion" ng-model="$ctrl.data.mTipoComunicacion" m-data-source="$ctrl.data.comunicationTypes"
+        text-field="Descripcion" value-field="Codigo" m-Empty-Option="{enterData:true}" ng-change="$ctrl.getPlanTypes($ctrl.data.mTipoComunicacion)">
+      </mpf-select>
+    </div>
+    <div class="col-md-4 mb-xs-2" ng-show="$ctrl.data.mTipoAlarma.Value == 'S'">
+      <mpf-select label="{label: 'Tipo de plan', required: false}" name="nTipoPlan" ng-model="$ctrl.data.mTipoPlan" m-data-source="$ctrl.data.planTypes" text-field="Description"
+        value-field="Value" m-Empty-Option="{text: '-Seleccionar-'}">
+      </mpf-select>
+    </div>
+  </div>
+</div>

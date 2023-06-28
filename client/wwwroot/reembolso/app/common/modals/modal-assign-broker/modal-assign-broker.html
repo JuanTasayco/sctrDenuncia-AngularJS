@@ -1,0 +1,120 @@
+<section class="g-page-popup g-reembolso-popup">
+  <button type="button" class="close g-close-modal" ng-click="$ctrl.cerrar()">
+    <span class=" ico-mapfre_231_cancelaroff"></span>
+  </button>
+
+  <form name="$ctrl.frmBroker">
+    <div class="container g-modal-header g-text-uppercase">
+      <div class="col-xs-12">
+        <div class="row">
+          <div class="col-md-12 mb-xs-1">
+            <h2 class="gH3"><b>Completar los campos</b></h2>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="container g-modal-body pt-xs-2 pb-xs-2">
+      <div class="col-xs-12">
+        <div class="row">
+          <div class="col-xs-12 col-sm-6">
+            <mpf-select
+              label="{label: 'Empresa', required: true}"
+              name="nCompany"
+              ng-model="$ctrl.consultData.company"
+              m-data-source="$ctrl.companiesList"
+              text-field="companyName"
+              value-field="idCompany"
+              m-Empty-Option="{enterData:true}"
+              ng-change="$ctrl.changeCompany()"
+              ng-required="true"
+            >
+            </mpf-select>
+            <div
+              class="g-error"
+              ng-show="$ctrl.frmBroker.nCompany.$error.required && !$ctrl.frmBroker.nCompany.$pristine">
+              * Seleccione la empresa
+            </div>
+          </div>
+          <div class="col-xs-12 col-sm-6">
+            <mpf-select
+              label="{label: 'Producto', required: true}"
+              name="nProductType"
+              ng-model="$ctrl.consultData.productType"
+              m-data-source="$ctrl.productType"
+              text-field="productDescription"
+              value-field="productCode"
+              ng-required="true"
+              m-Empty-Option="{enterData:true}"
+            >
+            </mpf-select>
+            <div
+              class="g-error"
+              ng-show="$ctrl.frmBroker.nProductType.$error.required && !$ctrl.frmBroker.nProductType.$pristine">
+              * Seleccione un producto
+            </div>
+          </div>
+        </div>
+        <div class="row mt-xs-4">
+          <div class="col-xs-12 col-sm-6">
+            <mp-data-seeker
+              behavior="{label:'', placeholder:'Broker', matchField:'description'}"
+              m-data-source="$ctrl.getBrokerList($inputNeed)"
+              ng-model="$ctrl.consultData.broker"
+              name="nBroker"
+              ng-required="true"
+              ng-change="">
+              <div ng-bind-html="$item.description | highlight: $select.search"></div>
+            </mp-data-seeker>
+            <div
+              class="g-error"
+              ng-show="$ctrl.frmBroker.nBroker.$error.required && !$ctrl.frmBroker.nBroker.$pristine">
+              * Busque y seleccione un broker
+            </div>
+          </div>
+          <div class="col-xs-12 col-sm-6">
+            <mp-data-seeker
+              behavior="{label:'', placeholder:'Código Ejecutivo', matchField:'description'}"
+              m-data-source="$ctrl.getEjecutivoList($inputNeed)"
+              ng-model="$ctrl.consultData.ejecutivo"
+              name="nEjecutivo"
+              ng-required="true"
+              ng-change="">
+              <div
+                ng-bind-html="$item.executiveCode + ' - ' + $item.description | highlight: $select.search"></div>
+            </mp-data-seeker>
+            <div
+              class="g-error"
+              ng-show="$ctrl.frmBroker.nEjecutivo.$error.required && !$ctrl.frmBroker.nEjecutivo.$pristine">
+              * Busque y seleccione un ejecutivo
+            </div>
+          </div>
+        </div>
+        <div class="row mt-xs-4">
+          <div class="col-xs-12 col-sm-6">
+            <mpf-select
+              label="{label: 'Estado', required: true}"
+              name="nState"
+              ng-model="$ctrl.consultData.state"
+              m-data-source="$ctrl.states"
+              text-field="documentStatusDescription"
+              value-field="idDocumentStatus"
+              ng-required="true"
+              m-Empty-Option="{enterData:true}"
+            >
+            </mpf-select>
+            <div
+              class="g-error"
+              ng-show="$ctrl.frmBroker.nState.$error.required && !$ctrl.frmBroker.nState.$pristine">
+              * Seleccione un parentesco
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="container g-modal-footer pt-xs-4">
+      <div class="col-md-4 col-md-offset-4 mb-xs-1 no-mb-md">
+        <a href="" class="g-btn g-btn-verde block" ng-click="$ctrl.assignBroker()">Aceptar</a>
+      </div>
+    </div>
+  </form>
+</section>

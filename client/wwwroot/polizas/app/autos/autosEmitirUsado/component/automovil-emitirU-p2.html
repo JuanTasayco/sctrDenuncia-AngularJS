@@ -1,0 +1,182 @@
+<!-- Step 2 -->
+<form name="frmSecondStep">
+	<!-- Producto y Tipo de Uso-->
+	<!-- <div class="g-section g-border-bottom"> -->
+	<div class="g-section-inner">
+		<div class="container">
+			<div class="row"><div class="col-md-12"><h2 class="g-sub-title g-myd-subtitle">Elige el producto a emitir</h2></div></div>
+			<div class="row">
+				<div class="col-xs-12 col-sm-6 col-md-4 mb-xs-2 mb-sm-0">
+					<mpf-select label="{label: 'Producto', required: true}" name="nProducto" ng-model="secondStep.mProducto" m-data-source="secondStep.productData" text-field="NombreProducto" value-field="CodigoProducto" m-Empty-Option="{enterData:true}" mpf-validation="required" ng-change="loadTypeUse(secondStep.mProducto)"></mpf-select>
+					<ul class="g-error">
+						<li ng-show="frmSecondStep.nProducto.$error.required && !frmSecondStep.nProducto.$pristine">* Este campo es obligatorio</li>
+					</ul>
+				</div>
+				<div class="col-xs-12 col-sm-6 col-md-4">
+					<mpf-select label="{label: 'Tipo de uso', required: true}" name="nTipoUso" ng-model="secondStep.mTipoUso" m-data-source="secondStep.typeUseData" text-field="Descripcion" value-field="Codigo" m-Empty-Option="{enterData:true}" mpf-validation="required" ng-change="changeTypeUse()"></mpf-select>
+					<ul class="g-error">
+						<li ng-show="frmSecondStep.nTipoUso.$error.required && !frmSecondStep.nTipoUso.$pristine && secondStep.typeUseData.length > 0">* Este campo es obligatorio</li>
+					</ul>
+					<ul class="gErrorIco firstDesign" ng-if="secondStep.typeUseData.length <= 0">
+						<li><span class="ico-mapfre_37_informacion ico"></span>No hay tipos de uso para este producto. Seleccione otro producto</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- new Valor del auto -->
+	<!-- <div class="g-section g-border-bottom"> -->
+	<div class="g-section-inner">
+		<div class="container">
+
+			<div class="row">
+				<div class="col-md-12">
+					<h2 class="g-sub-title g-myd-subtitle">Valor de emisión</h2>
+				</div>
+			</div>
+			<div class="row g-valor-riesgo" ng-init="toggleValue=true">
+				<div class="col-md-4 col-sm-6">
+					<div class="row">
+            <div class="col-md-12 mb-xs-2">
+            	<div ng-show="toggleValue">
+								<!-- <span class="g-label g-valorauto-label">Valor del auto</span> -->
+								<span class="g-valorauto-fix">{{secondStep.dataCarValue.Valor | currency:currencyType}}</span>
+							</div>
+            	<div ng-show="!toggleValue">
+								<mpf-input class="g-valorauto-input" label="{label: 'Valor del auto', required: true}" ng-model="secondStep.dataCarValue.Valor" name="nValorAuto" ng-required="true" mpf-validation="onlyNumber"></mpf-input>
+								<a class="g-btn g-btn-white second-design mt-xs-3" href="" ng-click="suggestedValueValidate(secondStep.dataCarValue.Valor)">Aceptar</a>
+								<ul class="g-error">
+									<li ng-show="frmSecondStep.secondStep.dataCarValue.Valor.$error.required && !frmSecondStep.secondStep.dataCarValue.Valor.$pristine">* Este campo es obligatorio</li>
+								</ul>
+							</div>
+            </div>
+            <div class="col-md-12">
+            	<a class="g-link gCGreen1" href="" ng-click="toggleValue = !toggleValue" ng-show="toggleValue">Modificar Valor</a>
+            	<span class="g-valorauto-rango">(Entre {{secondStep.dataCarValue.Minimo | currency:currencyType}} - {{secondStep.dataCarValue.Maximo | currency:currencyType}} )</span>
+            </div>
+            <div class="col-md-12">
+            	<span class="g-valorauto-warning" ng-show="suggestedValueError"><span class="ico-mapfre_37_informacion g-valorauto-warning-ico"></span>Valor fuera de rango. El rango para modificar es entre {{secondStep.dataCarValue.Minimo | currency:currencyType}} y {{secondStep.dataCarValue.Maximo | currency:currencyType}}</span>
+            </div>
+          </div>
+				</div>
+			</div>
+
+		</div>
+	</div>
+
+	<!-- Vigencia de la poliza -->
+	<!-- <div class="g-section"> -->
+	<div class="g-section-inner">
+		<div class="container">
+			<!-- VIGENCIA -->
+			<div class="row">
+				<div class="col-md-12">
+					<h2 class="g-sub-title g-myd-subtitle">Vigencia</h2>
+				</div>
+			</div>
+			<div class="row h-myd--flex h-myd--flex-alg-end h-myd--flex-wrap" ng-hide="secondStep.showVigenciaROL">
+				<!-- <div class="col-md-6 g-date-picker"> -->
+				<!-- <div class="col-md-4 mb-xs-2 no-mb-md"> -->
+					<!-- <p class="input-group"> -->
+					<!-- <div class="input-group pt-xs-2"> -->
+					<div class="col-xs-12 col-sm-6 col-md-4 mb-xs-2 mb-sm-0">
+						<div class="input-group g-date-picker">
+							<label class="g-placeholder animated"><span>*</span>Inicio Vigencia:</label>
+							<input type="text" class="form-control" ng-change="changeDate()" uib-datepicker-popup="{{format}}" ng-model="secondStep.mInicioVigencia" is-open="popup1.opened" datepicker-options="dateOptions" ng-required="true" close-text="Close" alt-input-formats="altInputFormats" readonly />
+							<span class="input-group-btn" readonly>
+								<button type="button" class="btn btn-default" ng-click="open1()"><i class="glyphicon glyphicon-calendar"></i></button>
+							</span>
+						</div>
+					</div>
+					<!-- </p> -->
+				<!-- </div> -->
+				<div class="col-xs-12 col-sm-6 col-md-4">
+					<div class="form-label">
+						<span class="g-label">* Fin Vigencia: </span><br>
+						<label>{{secondStep.mFinVigencia | date:formatDate}}</label>
+					</div>
+					<ul class="gErrorIco secondDesign" ng-class="{'pt-md-2': secondStep.vigenciaError.error1 || secondStep.vigenciaError.error2}">
+						<li ng-show="secondStep.vigenciaError.error1">
+							<span class="ico-mapfre_37_informacion ico"></span>Elige una fecha no mayor a 5 días calendario a partir de hoy
+						</li>
+						<li ng-show="secondStep.vigenciaError.error2">
+							<span class="ico-mapfre_37_informacion ico"></span>Selecciona un producto
+						</li>
+					</ul>
+				</div>
+			</div>
+
+			<div class="row" ng-show="secondStep.showVigenciaROL">
+				<div class="col-md-4">
+					<div class="input-group g-date-picker">
+						<label class="g-placeholder animated"><span>*</span>Inicio Vigencia:</label>
+						<input type="text" class="form-control"  uib-datepicker-popup="{{format}}" ng-model="secondStep.mInicioVigencia" is-open="popup1.opened" datepicker-options="dateOptions" ng-required="true" close-text="Close" alt-input-formats="altInputFormats"  readonly="readonly"/>
+						<span class="input-group-btn">
+							<button type="button" class="btn btn-default" ng-click="open1()"><i class="glyphicon glyphicon-calendar"></i></button>
+						</span>
+					</div>
+				</div>
+
+				<div class="col-md-4">
+					<div class="input-group g-date-picker">
+						<label class="g-placeholder animated"><span>*</span>Fin Vigencia:</label>
+						<input type="text" class="form-control" uib-datepicker-popup="{{format}}" ng-model="secondStep.mFinVigencia" is-open="popup2.opened" datepicker-options="dateOptions2" ng-required="true" close-text="Close" alt-input-formats="altInputFormats"  readonly="readonly"/>
+						<span class="input-group-btn">
+							<button type="button" class="btn btn-default" ng-click="open2()"><i class="glyphicon glyphicon-calendar"></i></button>
+						</span>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- Poliza de grupo -->
+	<div class="g-section-inner">
+		<div class="container">
+			<div class="row"><div class="col-md-12"><h2 class="g-sub-title g-myd-subtitle">Póliza de grupo</h2></div></div>
+			<div class="row">
+				<div class="col-md-12">
+					<div class="row">
+						
+						<mpf-group-polize data="secondStep.groupPolizeData"></mpf-group-polize>
+
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- Datos del canal -->
+	<div class="g-section-inner">
+		<div class="container">
+			<div class="row"><div class="col-md-12"><h2 class="g-sub-title g-myd-subtitle">Datos del canal</h2></div></div>
+			<div class="row">
+				<div class="col-xs-12 col-sm-6 col-md-4 mb-xs-2 mb-m-0">
+					<mpf-input label="{label: 'Nro. Solicitud', required: false}" ng-model="secondStep.mNroSolic" name="nNroSolic" mpf-validation="onlyNumber"></mpf-input>
+				</div>
+				<div class="col-xs-12 col-sm-6 col-md-4">
+				<!-- 	<mpf-input label="{label: 'Prima pactada', required: false}" ng-model="secondStep.mPrimaPacta" name="nPrimaPacta"></mpf-input> -->
+					
+					 <m-Numeric-Textbox  ng-model="secondStep.mPrimaPacta" options="" name="nPrimaPactada" label="{label: 'Prima pactada', required: false}" ng-required="false"></m-Numeric-Textbox>
+					 <ul class="g-error">
+							<li ng-show="false">* Ingrese prima</li>
+						</ul>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- Button -->
+	<div class="g-section">
+		<div class="container">
+			<div class="row">
+				<div class="col-xs-12 mb-xs-3">
+					<span class="g-comment">*Campos obligatorios</span>
+				</div>
+				<div class="col-md-4 col-md-offset-4">
+					<a class="g-btn g-btn-verde block" ng-click="nextStep()">Siguiente</a>
+				</div>
+			</div>
+		</div>
+	</div>
+</form>

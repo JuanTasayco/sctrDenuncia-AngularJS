@@ -1,0 +1,356 @@
+<section class="g-security-dashboard">
+
+  <menu-security></menu-security>
+
+  <div class="g-title">
+    <div class="container">
+      <div class="row">      
+
+        <div class="col-xs-12 mb-xs-2 no-mb-sm">
+          <h1>Movimientos</h1>
+        </div>
+      </div>
+    </div>
+  </div>
+
+	<!-- Inicio Dashboard Body -->
+  <div class="dashboard-body">
+    <div class="container">
+      <div class="row pb-xs-2">
+        <div class="col-rangeDates col-xs-12 col-md-2 pt-xs-1 mb-xs-2 mb-md-0">
+          <div id="movesMenu" class="btn-group g-dropdown" uib-dropdown auto-close="disabled" is-open="status.isopen">
+            <button id="single-button" type="button" class="g-dropdown--btn" uib-dropdown-toggle ng-disabled="disabled">
+              <span ng-show="!showDates">{{frmData.optionSelected.descripcion}}</span>
+              <span ng-show="showDates && (frmData.mFechaDesde == undefined && frmData.mFechaHasta == undefined)">{{frmData.rangeDates.descripcion}}</span>
+              <span ng-show="showDates && (frmData.mFechaDesde != undefined || frmData.mFechaHasta != undefined)">
+                <input
+                  type="text"
+                  class="form-control input-showDate"
+                  uib-datepicker-popup="{{format2}}"
+                  ng-model="frmData.mFechaDesde"
+                  datepicker-options="frmData.dateOptionsDesde"
+                  alt-input-formats="altInputFormats"
+                  placeholder="{{format2}}"
+                  readonly="true"
+                />
+                <span class="input-span">-</span>
+                <input
+                  type="text"
+                  class="form-control input-showDate"
+                  uib-datepicker-popup="{{format2}}"
+                  ng-model="frmData.mFechaHasta"
+                  datepicker-options="frmData.dateOptionsHasta"
+                  alt-input-formats="altInputFormats"
+                  placeholder="{{format2}}"
+                  readonly="true"
+                />
+              </span>              
+              <span class="dropdown--icon ico-mapfre_76_chevrondown"></span>
+            </button>
+            <ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="single-button" ng-class="{'showDates':showDates}">
+              <div class="dropdown-menu-box pr-xs-1-5 mb-xs-1 mb-sm-0" style="display: inline-block">
+                <li role="menuitem" ng-click="fnItemSelected(item);$parent.showDates = false" ng-repeat="item in frmData.rangoFechaData">
+                  <span>{{item.descripcion}}</span>
+                </li>
+                <li class="divider"></li>
+                <li role="menuitem" ng-click="showDates = true">
+                  <span>{{frmData.rangeDates.descripcion}}</span>
+                </li>
+              </div>
+              <div class="dropdown-dates-box" ng-show="showDates">
+                <div class="row pb-xs-1 pb-sm-0 m0">
+                    <div class="col-sm-6 pl-xs-0 pl-xs-0 mb-xs-1 mb-sm-0 cnt-desde">
+                      <div class="g-date-picker">
+                        <label class="g-placeholder animated">Desde<span></span>:</label>
+                        <div class="input-group mt-xs-2"> 
+                          <input
+                            type="text"
+                            class="form-control"
+                            uib-datepicker-popup="{{format}}"
+                            ng-model="frmData.mFechaDesde"
+                            is-open="popupStart.opened"
+                            datepicker-options="frmData.dateOptionsDesde"
+                            ng-required="true"
+                            close-text="Close"
+                            alt-input-formats="altInputFormats"
+                            placeholder="{{format}}"
+                            readonly="true"
+                          />
+                        <span class="input-group-btn">
+                          <button type="button" class="btn btn-default" ng-click="openDateDesde()"><i class="glyphicon glyphicon-calendar"></i></button>
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-sm-6 pl-xs-0 pr-xs-0 cnt-hasta">
+                    <div class="g-date-picker">
+                      <label class="g-placeholder animated">Hasta<span></span>:</label>
+                        <div class="input-group mt-xs-2"> 
+                          <input
+                            type="text"
+                            class="form-control"
+                            uib-datepicker-popup="{{format}}"
+                            ng-model="frmData.mFechaHasta"
+                            is-open="popupEnd.opened"
+                            datepicker-options="frmData.dateOptionsHasta"
+                            ng-required="true"
+                            close-text="Close"
+                            alt-input-formats="altInputFormats"
+                            placeholder="{{format}}"
+                            readonly="true"
+                          />
+                          <span class="input-group-btn">
+                            <button type="button" class="btn btn-default" ng-click="openDateHasta()"><i class="glyphicon glyphicon-calendar"></i></button>
+                          </span>
+                        </div>
+                      </div>  
+                    </div>                  
+                </div>
+              </div>
+            </ul>
+          </div>
+        </div>
+        <div class="col-typeUser col-xs-12 col-sm-6 col-md-4 mb-xs-2 mb-md-0" ng-if="userDisma">
+          <mpf-select
+            label="{label: 'Tipos de usuario:', required: false}"
+            name="nTipoUsuario" 
+            ng-model="frmData.mTipoUsuario"
+            m-data-source="tipoUsuarioData"
+            text-field="descripcion"
+            value-field="codigo"
+            m-Empty-Option="{enterData:false}"
+            ng-required="false"
+            is-horz="true"
+          ></mpf-select>
+        </div>
+        <div class="col-searchUser col-xs-12 col-sm-6 col-md-3 mb-xs-2 mb-md-0">
+          <mpf-input
+          label="{label: '', required: false}" 
+          txt-placeholder="'Nombre o ID del usuario'" 
+          name="nBuscarIDNombre" 
+          ng-model="mBuscarIDNombre" 
+          ng-required="false" 
+          is-horz="true"
+          ></mpf-input>
+        </div>
+        <div class="col-buttons col-xs-12 col-md-3 mb-xs-2 mb-md-0">
+          <div class="row">
+            <div class="col-sm-6 mb-xs-1 mb-sm-0">
+              <a class="g-btn g-btn-verde second-design block" ng-click="getDashboardData(-1)">Buscar</a>
+            </div>
+            <div class="col-sm-6">
+              <a class="g-btn g-btn-white second-design block" ng-click="fnLimpiar()">Restablecer</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="g-dashboard-section gBgcGray5">
+      <div class="container">
+
+        <!--Inicio Panels Filters -->
+        <div panel-slider active-panel="panelActv" class="row summary-panel-box mt-xs-2 mb-xs-2 ">
+          <div class="col-xs-2 slide-arrow slide-arrow__left hidden-md hidden-lg">
+            <span class="ico-mapfre_310_arrowLeft"></span>
+          </div>
+          <div class="col-xs-8 col-20-md slide-content" ng-click="getDashboardData(0)">          
+            <div class="g-box summary-panel panel-mov g-div-middle">
+              <div>
+                <span class="panel-item panel-num">{{totalMovimientos}}</span>
+                <span class="panel-item panel-text">Movimientos</span>
+              </div>
+            </div>
+          </div>
+          <div class="col-xs-8 col-20-md slide-content" ng-click="getDashboardData(1)">
+            <div class="g-box summary-panel panel-hab g-div-middle">
+              <span class="panel-bg"></span>
+              <div>
+                <span class="panel-item panel-num">{{totalHabilitado}}</span>
+                <span class="panel-item panel-text">Habilitados</span>
+              </div>
+            </div>
+          </div>
+          <div class="col-xs-8 col-20-md slide-content" ng-click="getDashboardData(2)">
+            <div class="g-box summary-panel panel-des g-div-middle">
+              <span class="panel-bg"></span>
+              <div>
+                <span class="panel-item panel-num">{{totalDeshabilitado}}</span>
+                <span class="panel-item panel-text">Deshabilitados</span>
+              </div>
+            </div>
+          </div>
+          <div class="col-xs-8 col-20-md slide-content" ng-click="getDashboardData(4)">
+            <div class="g-box summary-panel panel-sin g-div-middle">
+              <span class="panel-bg"></span>
+              <div>
+                <span class="panel-item panel-num">{{totalSinConfirmar}}</span>
+                <span class="panel-item panel-text">Sin confimar</span>
+              </div>
+            </div>
+          </div>
+          <div class="col-xs-8 col-20-md slide-content" ng-click="getDashboardData(5)">
+            <div class="g-box summary-panel panel-cad g-div-middle">
+              <span class="panel-bg"></span>
+              <div>
+                <span class="panel-item panel-num">{{totalCaducado}}</span>
+                <span class="panel-item panel-text">Caducado</span>
+              </div>
+            </div>
+          </div>
+          <div class="col-xs-2 slide-arrow slide-arrow__right hidden-md hidden-lg">
+            <span class="ico-mapfre_311_arrowRight"></span>
+          </div>
+        </div>
+        <!-- Fin Panels Filters -->
+      </div>
+    </div>
+
+    <div class="clearfix top-filter-box" ng-show="dashboardData.length > 0">
+      <div class="container">
+        <div class="clearfix pt-xs-1 pb-xs-1">
+          <ul class="row g-list-sm">
+            <li class="col-xs-12 g-div-middle mt-xs-1 mt-sm-0">
+              <div class="result_opc col-100-xs">
+                <ul class="clearfix g-li-middle g-text-left-xs g-text-right-sm">
+                  <li class="col-xs-12 col-sm-6 col-md-4 pr-xs-0 pl-xs-1-5">
+                      <mpf-select
+                        label="{label: 'Ordenar: ', required: false}"
+                        name="nOrdenarPor" 
+                        ng-model="mOrdenarPor"
+                        m-data-source="ordenarPorData"
+                        text-field="descripcion"
+                        value-field="codigo"
+                        m-Empty-Option="{enterData:true}"
+                        ng-required="false"
+                        ng-change="fnOrdenarPor(mOrdenarPor.codigo)"
+                        is-horz="true"
+                      ></mpf-select>
+                  </li>
+                </ul>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="g-dashboard-section mt-xs-1">
+      <div class="container">
+
+        <!--Inicio: Resultados-->
+        <div class="clearfix g-box mb-xs-2" ng-repeat="item in dashboardData" ng-if="true">
+          <div class="clearfix pt-xs-1 pb-xs-1 gBgcGray5">
+            <ul class="row g-list-sm">
+              <li class="col-md-3 col-sm-4">
+                <ul class="clearfix" ng-show="item.empresa != ''">
+                  <li class="col-xs-12 pr-sm-0 g-text-uppercase">
+                    {{item.empresa}}
+                  </li>
+                </ul>
+                <ul class="clearfix">
+                  <li class="col-xs-12 pr-sm-0 g-text-uppercase">
+                    <b>{{item.persona}}</b>
+                  </li>
+                </ul>
+              </li>
+              <!-- ng-class="{pt-md-1: item.empresa != ''" -->
+              <li class="col-md-2 col-sm-3 mt-xs-1 mt-md-0 pt-md-1">
+                <span class="g-box-label g-text-uppercase ml-xs-1-5 ml-md-0"
+                  ng-class="{
+                    'secuFondoGrisOscuro': item.estado === 'DESHABILITADO',
+                    'secuFondoNaranja': item.estado === 'SIN CONFIRMAR',
+                    'secuFondoRojo': item.estado === 'CADUCADO',
+                    'secuFondoVerde': item.estado === 'HABILITADO'
+                  }"
+                >{{item.estado}}</span>
+              </li>
+              <li class="col-md-7 col-sm-5 mt-xs-1 mt-md-0">
+                <div class="g-span-middle g-text-left-xs g-text-right-sm pl-xs-1-5 pl-md-0">
+                  <span class="pr-md-1-5" ng-show="item.codEstadoToken == 2">
+                    <div class="btn-group" uib-dropdown>
+                      <a class="g-btn g-btn-white block second-design pl-md-2 pr-md-2" uib-dropdown-toggle ng-disabled="disabled">
+                        <span class="g-icon">
+                          <span>Enlace</span>
+                          <span class="icon ico-mapfre_308_arrowDown"></span>
+                        </span>
+                      </a>
+                      <ul class="dropdown-menu text-left gH5 gCGray3" uib-dropdown-menu role="menu" aria-labelledby="single-button">
+                        <li role="menuitem"><a ng-click="fnReenviarEnlace(item)">Reenviar</a></li>
+                        <li role="menuitem"><a ng-click="fnAnularUsuario(item)">Caducar</a></li>
+                      </ul>
+                    </div>
+                  </span>
+                  <span class="pr-md-1-5" ng-show="item.codEstadoToken == 1">
+                    <a class="g-btn g-btn-white block second-design pl-md-2 pr-md-2" ng-click="fnReenviarEnlace(item)">Reenviar enlace</a>
+                  </span>
+                  <span class="pr-sm-1-5"">
+                    <a class="g-btn g-btn-white block second-design pl-md-2 pr-md-2" ng-click="fnVerDetalle(item)">
+                      <span class="g-icon">
+                        <span>Ver detalle</span>
+                        <span class="icon ico-mapfre_311_arrowRight"></span>
+                      </span>
+                    </a>
+                  </span>
+                </div>
+              </li>
+            </ul>
+          </div>
+          <div class="clearfix g-box-content">
+            <ul class="row g-list-sm">
+              <li class="col-md-3 col-sm-6 clearfix cnt-item" ng-if="userDisma">
+                <div class="col-sm-5 col-xs-4 item-label">
+                  Usuario:
+                </div>
+                <div class="col-sm-7 col-xs-8 item-dato g-text-uppercase">
+                  {{item.usuario}}
+                </div>
+              </li>
+              <li class="col-md-3 col-sm-6 clearfix cnt-item" ng-show="{{item.flagRUC}}">
+                <div class="col-sm-5 col-xs-4 item-label">
+                  RUC:
+                </div>
+                <div class="col-sm-7 col-xs-8 item-dato g-text-uppercase">
+                  {{item.ruc}}
+                </div>
+              </li>
+              <li class="col-md-3 col-sm-6 clearfix cnt-item">
+                <div class="col-sm-5 col-xs-4 item-label">
+                  ID:
+                </div>
+                <div class="col-sm-7 col-xs-8 item-dato g-text-uppercase">
+                  {{item.id}}
+                </div>
+              </li>
+              <li class="col-md-3 col-sm-6 clearfix cnt-item">
+                <div class="col-sm-5 col-xs-4 item-label">
+                  Registro:
+                </div>
+                <div class="col-sm-7 col-xs-8 item-dato g-text-uppercase g-cut-text">
+                  {{item.registro}}
+                </div>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <!--Fin: Resultados-->
+
+        <!-- Inicio: pagination -->
+        <!-- <div ng-show="dashboardData.length > 0"> -->
+          <mx-paginador
+            data-datos="dashboardData"
+            data-items-x-page="itemsXPagina"
+            data-msg-vacio="msgVacio"
+            data-on-paginar="pageChanged($event)"
+            data-pagina-actual="currentPage"
+            data-total-items="totalItems"
+          >
+          </mx-paginador>  
+        <!-- </div> -->
+        
+        <!-- Fin: pagination -->
+      </div>
+    </div>
+  </div>
+  <!--Fin Dashboard Body-->
+
+</section>

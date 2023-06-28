@@ -1,0 +1,147 @@
+<p
+  class="item-title mt-xs-1 gH3"
+  ng-if="vm.searchField(vm.contactControls)">
+  Datos de contacto
+</p>
+
+
+<div class="row">
+  <div class="col-md-4 mb-xs-2" ng-if="vm.searchField([vm.fields.CONTACT_NAME])">
+    <mpf-input
+      label="{
+        label: 'Nombre contacto',
+        required: vm.checkRequired(vm.fields.CONTACT_NAME)
+      }"
+      name="contactName"
+      ng-model="vm.form.contactName"
+      ng-required="vm.checkRequired(vm.fields.CONTACT_NAME)"
+      disabled-view-model="true"
+      mpf-generic-validations="{{vm.getValidations(vm.fields.CONTACT_NAME)}}">
+    </mpf-input >
+  </div>
+  <div class="col-md-4 mb-xs-2" ng-if="vm.searchField([vm.fields.PREFIX_PHONE])">
+    <mpf-input
+      label="{
+        label: 'Prefijo teléfono',
+        required: vm.checkRequired(vm.fields.PREFIX_PHONE)
+      }"
+      name="prefijo"
+      ng-model="vm.form.prefijo"
+      disabled-view-model="true"
+      mpf-generic-validations="{{vm.getValidations(vm.fields.PREFIX_PHONE)}}">
+    </mpf-input >
+  </div>
+  <div class="col-md-4 mb-xs-2" ng-if="vm.searchField([vm.fields.HOUSE_PHONE])">
+    <mpf-input
+      ng-keypress="vm.pressPhone($event)"
+      label="{
+        label: 'Teléfono Casa',
+        required: vm.checkRequired(vm.fields.HOUSE_PHONE)
+      }"
+      name="Telefono"
+      ng-model="vm.form.Telefono"
+      disabled-view-model="true"
+      ng-disabled="vm.blockAll"
+      mpf-generic-validations="{{vm.getValidations(vm.fields.HOUSE_PHONE)}}">
+    </mpf-input>
+  </div>
+  <div class="col-md-4 mb-xs-2" ng-if="vm.searchField([vm.fields.OFFICE_PHONE])">
+    <mpf-input
+      label="{
+        label: 'Teléfono oficina',
+        required: vm.checkRequired(vm.fields.OFFICE_PHONE)
+      }"
+      name="TelefonoOficina"
+      ng-model="vm.form.TelefonoOficina"
+      disabled-view-model="true"
+      mpf-generic-validations="{{vm.getValidations(vm.fields.OFFICE_PHONE)}}" ng-keypress="vm.pressPhone($event)">
+    </mpf-input>
+  </div>
+  <div class="col-md-4 mb-xs-2" ng-if="vm.searchField([vm.fields.MOBILE_PHONE])">
+    <mpf-input
+      ng-keypress="vm.pressPhone($event)"
+      label="{
+        label: 'Teléfono móvil',
+        required: vm.checkRequired(vm.fields.MOBILE_PHONE)
+      }"
+      name="Telefono2"
+      ng-model="vm.form.Telefono2"
+      disabled-view-model="true"
+      ng-disabled="vm.blockAll"
+      mpf-generic-validations="{{vm.getValidations(vm.fields.MOBILE_PHONE)}}"
+      >
+    </mpf-input>
+  </div>
+
+
+
+
+
+  <div class="col-md-4 mb-xs-2" ng-if="vm.searchField([vm.fields.EMAIL])">
+    <mpf-input
+      label="{
+        label: 'Correo electrónico',
+        required: vm.checkRequired(vm.fields.EMAIL)
+      }"
+      name="CorreoElectronico"
+      ng-model="vm.form.CorreoElectronico"
+      disabled-view-model="true"
+      ng-disabled="vm.blockAll"
+      mpf-generic-validations="{{vm.getValidations(vm.fields.EMAIL)}}">
+    </mpf-input>
+  </div>
+  <div class="col-md-4 mb-xs-2" ng-if="vm.searchField([vm.fields.PERSONAL_EMAIL]) && !vm.isVidaLey()">
+    <mpf-input
+      label="{
+        label: 'Correo electrónico personal',
+        required: vm.checkRequired(vm.fields.PERSONAL_EMAIL)
+      }"
+      name="emailPersonal"
+      ng-model="vm.form.emailPersonal"
+      disabled-view-model="true"
+      mpf-generic-validations="{{vm.getValidations(vm.fields.PERSONAL_EMAIL)}}">
+    </mpf-input>
+  </div>
+  <div class="col-md-4 mb-xs-2" ng-if="vm.searchField([vm.fields.OFFICE_EMAIL])">
+    <mpf-input
+      label="{
+        label: 'Correo electrónico de oficina',
+        required: vm.checkRequired(vm.fields.OFFICE_EMAIL)
+      }"
+      name="CorreoElectronicoOffice"
+      ng-model="vm.form.CorreoElectronicoOffice"
+      disabled-view-model="true"
+      mpf-generic-validations="{{vm.getValidations(vm.fields.OFFICE_EMAIL)}}">
+    </mpf-input>
+  </div>
+  <div class="col-md-4 mb-xs-2" ng-if="vm.searchField([vm.fields.REPRESENTATIVE])">
+    <mpf-input
+      label="{
+        label: 'Representante',
+        required: vm.checkRequired(vm.fields.REPRESENTATIVE)
+      }"
+      name="Representante"
+      ng-model="vm.form.Representante"
+      disabled-view-model="true"
+      ng-disabled="vm.blockAll"
+      mpf-generic-validations="{{vm.getValidations(vm.fields.REPRESENTATIVE)}}">
+    </mpf-input>
+  </div>
+  <div class="col-md-4 mb-xs-2" ng-if="vm.searchField([vm.fields.REPRESENTATIVE_CHARGE])">
+    <mpf-select
+      label="{
+        label: 'Cargo representante',
+        required: vm.checkRequired(vm.fields.REPRESENTATIVE_CHARGE)
+      }"
+      name="RepresentanteCargo"
+      ng-model="vm.form.RepresentanteCargo"
+      m-data-source="vm.representativeSource"
+      text-field="Descripcion"
+      value-field="Codigo"
+      m-empty-option="{ enterData: true }"
+      disabled-view-model="true"
+      ng-disabled="vm.blockAll"
+      mpf-generic-validations="{{vm.getValidations(vm.fields.REPRESENTATIVE_CHARGE)}}">
+    </mpf-select>
+  </div>
+</div>

@@ -1,0 +1,61 @@
+<!-- STEP 1 -->
+<form id="cotiza-form" action="" name="frmSCTR1">
+	<div class="page-sctr-emitir-step1 g-section-inner h-myd-pt--10">
+			<div class="g-section">
+				<div class="container" >
+					<!-- Datos del contratante -->
+					<div class="row">
+						<div class="col-md-12">
+							<h2 class="g-sub-title g-myd-subtitle">Ingresa los datos del contratante</h2>
+						</div>
+			</div>
+		  </div>
+	
+		  <mpf-person-component ng-if="formData.personData && formData.personData.TipoDocumento && formData.TipoRol && formData.paso1Grabado || !formData.paso1Grabado"
+			name="compContratante" habilitar-validacion-telefonos="true"
+			person-data="formData.personData"
+			app-code="{{ appCode }}"
+			form-code="{{ formCode }}"
+			tipo-rol="formData.TipoRol"
+			block-all="formData.paso1Grabado"
+			outdata="documentsChange(data)">
+		  </mpf-person-component>
+	
+		</div>
+	
+		<div class="g-section">
+		  <div class="container">
+					<div class="row">
+						<div class="col-md-8 mb-xs-2 mt-xs-2" ng-hide="formData.sunat">
+							<mp-data-seeker behavior="{label:'Actividad SUNAT *', placeholder:'Busque o seleccione una actividad ...', matchField:'descripcion'}" m-data-source="searchActividadSunat($inputNeed)" name="nActivSunat" ng-model="formData.mActivSunat" ng-required="true" >
+								<div ng-bind-html="$item.descripcion | highlight: $select.search"></div>
+							</mp-data-seeker>
+							<div class="g-error" ng-show="frmSCTR1.nActivSunat.$error.required && !formData.mActivSunat">* Ingrese y seleccione actividad</div>
+						</div>
+	
+						<div class="col-md-8 mb-xs-2" ng-if="formData.sunat">
+				  <label class="mb-md-2 h-myd-mb--5 g-myd-label"><strong>Actividad SUNAT*</strong></label><br>
+				  <span>{{formData.mActivSunat.codigo}} :: {{formData.mActivSunat.descripcion}}</span>
+				</div>
+			</div>
+	
+				</div>
+		</div>
+	
+			<!-- Button -->
+			<div class="g-section g-step-action">
+				<div class="container">
+					<div class="row mb-md-1">
+							<span class="col-md-4 gCGray3">*Campos obligatorios</span>
+							<div class="col-md-4">
+								<div class="row">
+									<a class="col-md-12 g-btn g-btn-verde" ng-show="!disableSgt" ng-click="showModalConfirmation()">Siguiente</a>
+									<button class="col-md-12 g-btn g-btn-verde" ng-show="disableSgt" ng-click="showModalConfirmation()" ng-disabled="disableSgt">Siguiente</button>
+								</div>
+							</div>
+					</div>
+				</div>
+			</div>
+	</div>
+	</form>
+	

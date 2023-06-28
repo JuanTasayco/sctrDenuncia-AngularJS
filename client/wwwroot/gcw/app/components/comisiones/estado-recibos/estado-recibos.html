@@ -1,0 +1,336 @@
+<div class="consultaGestion">
+  <div class="container">
+    <div
+      show-filter
+      class="clearfix g-col-filter g-box-md gBgcGray5-md gBgcWhite1 g-myd-box"
+      ng-class="{'show': isFilterVisible}"
+    >
+      <div class="col-xs-12">
+        <div class="clearfix gH4 gCGray1 mb-xs-1-5">
+          <h2 class="hidden-xs hidden-sm"><b>Opciones de Búsqueda</b></h2>
+          <div
+            id="show-filter"
+            class="row pt-xs-2 pb-xs-2 gBgcGray5 g-border-bottom-xs hidden-md hidden-lg"
+            ng-click="toggleFilter();"
+          >
+            <div class="col-xs-10">
+              <h2><b>Opciones de Búsqueda</b></h2>
+            </div>
+            <div class="col-xs-2 g-text-right-xs">
+              <!-- ngIf: isFilterVisible --><span
+                class="glyphicon glyphicon-chevron-down ng-scope"
+                ng-if="isFilterVisible"
+              ></span
+              ><!-- end ngIf: isFilterVisible -->
+              <!-- ngIf: !isFilterVisible --><span
+                class="glyphicon glyphicon-chevron-up ng-scope"
+                ng-if="!isFilterVisible"
+              ></span
+              ><!-- end ngIf: !isFilterVisible -->
+            </div>
+            <div class="clearfix"></div>
+          </div>
+        </div>
+        <form class="clearfix" name="frmEdoRecibos">
+          <div class="row mb-xs-2">
+            <div class="col-xs-12 col-md-3">
+              <m-radio
+                label="{label: 'Nro. Póliza'}"
+                name="nTipoBusqueda"
+                ng-model="vm.formEdoRecibo.mTipoBusqueda"
+                value="1"
+                data-ng-required="true"
+              ></m-radio>
+            </div>
+            <div class="col-xs-12 col-md-3">
+              <m-radio
+                label="{label: 'Nro. Recibo'}"
+                name="nTipoBusqueda"
+                ng-model="vm.formEdoRecibo.mTipoBusqueda"
+                value="2"
+                data-ng-required="true"
+              ></m-radio>
+            </div>
+            <div ng-show="vm.formEdoRecibo.mTipoBusqueda == 1" class="col-xs-12 mt-xs-2 mt-md-1 no-padding-xs">
+              <div class="col-xs-12 col-md-3">
+                <mpf-input
+                  label="{label: 'Nro. Póliza', required: false}"
+                  name="nNroPoliza"
+                  ng-model="vm.formEdoRecibo.mNroPoliza"
+                ></mpf-input>
+              </div>
+            </div>
+            <div ng-show="vm.formEdoRecibo.mTipoBusqueda == 2" class="col-xs-12 mt-md-1 no-padding-xs">
+              <div class="col-xs-12 col-md-3">
+                <mpf-input
+                  label="{label: 'Nro. Recibo', required: false}"
+                  name="nNroRecibo"
+                  ng-model="vm.formEdoRecibo.mNroRecibo"
+                ></mpf-input>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-offset-8 col-md-2 mb-xs-1 no-mb-md">
+              <a class="g-btn g-btn-verde second-design block"
+                ga-click
+                ga-category="'CG - Comisiones'"
+                ga-action="'MPF - Estado recibos - Buscar'"
+                ga-label="'Botón: Buscar'"
+                ng-click="vm.buscar()">Buscar</a>
+            </div>
+            <div class="col-md-2">
+              <a class="g-btn g-btn-white second-design block" ng-click="vm.limpiar()">Limpiar</a>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- Top bar: Filtro e iconos -->
+    <div tbl-oim-topbar class="clearfix g-tbl-topbar mt-md-2 mb-md-2 mt-xs-1 width-filtro">
+      <div class="g-row-icons__box visible-xs visible-sm" ng-show="vm.totalRows >= 1">
+        <a ng-click="showFilterTopbar = !showFilterTopbar" uib-popover="Filtro" popover-trigger="'mouseenter'">
+          <span class="g-icon-box g-icon-box-md">
+            <span class="ico-mapfre ico-mapfre_203_filtro ico-filter h-myd--none"></span>
+            <span
+              class="ico-mapfre ico-mapfre-362-myd-filter ico-filter h-myd-ico--mediun h-myd--show h-oim-none"
+            ></span>
+          </span>
+        </a>
+        <a data-ng-click="exportar()" uib-popover="Exportar" popover-trigger="'mouseenter'"
+            ga-click
+            ga-category="'CG - Comisiones'"
+            ga-action="'MPF - Estado recibos - Exportar'"
+            ga-label="'Botón: Exportar'">
+          <span class="g-icon-box g-icon-box-md">
+            <span class="ico-mapfre ico-mapfre_124_download ico-download h-myd--none"></span>
+            <span
+              class="ico-mapfre ico-mapfre-360-myd-export ico-download h-myd-ico--mediun h-myd--show h-oim-none"
+            ></span>
+          </span>
+        </a>
+      </div>
+      <div class="g-row-filter__box g-row-icons__box box_left hidden-xs hidden-sm" ng-show="vm.totalRows >= 1">
+        <a data-ng-click="exportar()" uib-popover="Exportar" popover-trigger="'mouseenter'"
+            ga-click
+            ga-category="'CG - Comisiones'"
+            ga-action="'MPF - Estado recibos - Exportar'"
+            ga-label="'Botón: Exportar'">
+          <span class="g-icon-box g-icon-box-md">
+            <span class="ico-mapfre ico-mapfre_124_download ico-download h-myd--none"></span>
+            <span
+              class="ico-mapfre ico-mapfre-360-myd-export ico-download h-myd-ico--mediun h-myd--show h-oim-none"
+            ></span>
+          </span>
+        </a>
+      </div>
+      <div class="g-row-filter__box box_right height-xs height-sm" ng-class="{'filter__show': showFilterTopbar}">
+        <form class="clearfix">
+          <div class="g-filter-col">
+            <!--<gcw-cbo-companias compania="vm.formEdoRecibo.mCompania"></gcw-cbo-companias>-->
+            <mpf-select-horz
+              ng-model="vm.formFilterEdoRecibo.mCompania"
+              name="nCompania"
+              m-data-source="vm.lstCompanias"
+              label="{label: 'Compañía', required: false}"
+              text-field="Description"
+              value-field="Value"
+              m-Empty-Option="{enterData:false}"
+              mpf-validation="required"
+            >
+            </mpf-select-horz>
+          </div>
+          <div class="g-filter-col g-myd-input-fetch">
+            <div class="g-inlineblock">
+              <mpf-select-horz
+                ng-model="vm.formFilterEdoRecibo.desdeA"
+                name="nDesdeAnio"
+                label="{label: 'Desde', required: false}"
+                m-data-source="vm.lstAnios"
+                text-field="description"
+                value-field="value"
+                m-Empty-Option="{enterData:false}"
+              >
+              </mpf-select-horz>
+            </div>
+            <div class="g-inlineblock">
+              <mpf-select-horz
+                ng-model="vm.formFilterEdoRecibo.desdeM"
+                name="nDesdeMes"
+                label="{label: '', required: false}"
+                m-data-source="vm.lstMeses"
+                text-field="description"
+                value-field="value"
+                m-Empty-Option="{enterData:false}"
+              >
+              </mpf-select-horz>
+            </div>
+          </div>
+          <div class="g-filter-col g-myd-input-fetch">
+            <div class="g-inlineblock">
+              <mpf-select-horz
+                ng-model="vm.formFilterEdoRecibo.hastaA"
+                name="nHastaAnio"
+                label="{label: 'Hasta', required: false}"
+                m-data-source="vm.lstAnios"
+                text-field="description"
+                value-field="value"
+                m-Empty-Option="{enterData:false}"
+              >
+              </mpf-select-horz>
+            </div>
+            <div class="g-inlineblock">
+              <mpf-select-horz
+                ng-model="vm.formFilterEdoRecibo.hastaM"
+                name="nHastaMes"
+                label="{label: '', required: false}"
+                m-data-source="vm.lstMeses"
+                text-field="description"
+                value-field="value"
+                m-Empty-Option="{enterData:false}"
+              >
+              </mpf-select-horz>
+            </div>
+          </div>
+          <div class="g-filter-col col__buttons hidden-xs hidden-sm">
+            <a class="g-btn g-btn-white block second-design " ng-click="vm.buscar()">Aplicar Filtros</a>
+          </div>
+          <div class="col__buttons visible-xs visible-sm mt-xs-2">
+            <a class="g-btn g-btn-white block second-design g-myd-btn-primary" ng-click="vm.buscar()">Aplicar Filtros</a>
+          </div>
+          <div class="col__buttons visible-xs visible-sm mt-xs-2">
+            <a ng-click="showFilterTopbar = !showFilterTopbar" class="g-btn g-btn-white block second-design ">Cerrar</a>
+          </div>
+        </form>
+      </div>
+    </div>
+    <!-- Tabla -->
+    <div class="clearfix" ng-show="vm.totalRows >= 1">
+      <div tbl-oim class="col-xs-12 g-tbl-wrapper pl-xs-0">
+        <div class="tbl-main table__1840" style="width: 1600px">
+          <ul class="tbl-header clearfix">
+            <li class="title col-8-dktp">Póliza</li>
+            <li class="title col-5-dktp">SP / AP / SA</li>
+            <li class="title col-8-dktp">Cliente</li>
+            <li class="title col-6-dktp">Estado</li>
+            <li class="title col-6-dktp">Ramo</li>
+            <li class="title col-7-dktp text-center">Ini. Videncia</li>
+            <li class="title col-7-dktp text-center">Fin. Vigencia</li>
+            <li class="title col-5-dktp text-center">Moneda</li>
+            <li class="title col-5-dktp text-center">P. Neta</li>
+            <li class="title col-5-dktp text-right">Tasa</li>
+            <li class="title col-7-dktp text-right">Importe Comisión</li>
+            <li class="title col-6-dktp text-center">Recibo</li>
+            <li class="title col-5-dktp">Factura</li>
+            <li class="title col-7-dktp text-center">Fec. Factura</li>
+            <li class="title col-6-dktp">Ord. Pago</li>
+            <li class="title col-6-dktp">Medio Pago</li>
+          </ul>
+          <ul class="tbl-body clearfix">
+            <li ng-repeat="item in vm.recibos">
+              <ul height-row class="tbl-row clearfix">
+                <li class="cell col-8-dktp">
+                  <span class="cell-label"
+                    ><span class="cell-data">{{ item.policyNumber }}</span></span
+                  >
+                </li>
+                <li class="cell col-5-dktp g-text-uppercase">
+                  <span class="cell-label"
+                    ><span class="cell-data"
+                      >{{ item.supplement }}/{{ item.application }}/{{ item.applicationSupplement }}</span
+                    ></span
+                  >
+                </li>
+                <li class="cell col-8-dktp g-text-uppercase g-break-word">
+                  <span class="cell-label"
+                    ><span class="cell-data">{{ item.clientNameFull }}</span></span
+                  >
+                </li>
+                <li class="cell col-6-dktp">
+                  <span class="cell-label"
+                    ><span class="cell-data">{{ item.stateDescription }}</span></span
+                  >
+                </li>
+                <li class="cell col-6-dktp text-center">
+                  <span class="cell-label"
+                    ><span class="cell-data">{{ item.descriptionBranch }}</span></span
+                  >
+                </li>
+                <li class="cell col-7-dktp text-center">
+                  <span class="cell-label"
+                    ><span class="cell-data">{{ item.effectDate }}</span></span
+                  >
+                </li>
+                <li class="cell col-7-dktp text-center">
+                  <span class="cell-label"
+                    ><span class="cell-data">{{ item.expirationDate }}</span></span
+                  >
+                </li>
+                <li class="cell col-5-dktp text-center">
+                  <span class="cell-label"
+                    ><span class="cell-data">{{ item.coinCode }}</span></span
+                  >
+                </li>
+                <li class="cell col-5-dktp text-center">
+                  <span class="cell-label"
+                    ><span class="cell-data">{{ item.netPremium }}</span></span
+                  >
+                </li>
+                <li class="cell col-5-dktp text-center">
+                  <span class="cell-label"
+                    ><span class="cell-data">{{ item.rate }}</span></span
+                  >
+                </li>
+                <li class="cell col-7-dktp text-right">
+                  <span class="cell-label"
+                    ><span class="cell-data">{{ item.taxCommission | number: 2 }}</span></span
+                  >
+                </li>
+                <li class="cell col-6-dktp text-right">
+                  <span class="cell-label"
+                    ><span class="cell-data">{{ item.receiptNumber }}</span></span
+                  >
+                </li>
+                <li class="cell col-5-dktp text-right">
+                  <span class="cell-label"
+                    ><span class="cell-data">{{ item.invoiceNumber }}</span></span
+                  >
+                </li>
+                <li class="cell col-7-dktp text-right">
+                  <span class="cell-label"
+                    ><span class="cell-data">{{ item.invoiceDate }}</span></span
+                  >
+                </li>
+                <li class="cell col-6-dktp text-center">
+                  <span class="cell-label"
+                    ><span class="cell-data">{{ item.paymentOrderNumber }}</span></span
+                  >
+                </li>
+                <li class="cell col-6-dktp">
+                  <span class="cell-label"
+                    ><span class="cell-data">{{ item.typePayment }}</span></span
+                  >
+                </li>
+              </ul>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <mx-paginador
+      data-datos="vm.recibos"
+      data-items-x-page="vm.itemsXPagina"
+      data-msg-vacio="vm.msgVacio"
+      data-on-paginar="vm.pageChanged($event)"
+      data-pagina-actual="vm.currentPage"
+      data-total-items="vm.totalRows"
+    >
+    </mx-paginador>
+  </div>
+</div>
+
+<form id="frmExport" name="frmExport" action="{{ vm.exportURL }}" method="post" target="_blank">
+  <input type="hidden" name="json" value="{{ vm.downloadFile }}" />
+</form>

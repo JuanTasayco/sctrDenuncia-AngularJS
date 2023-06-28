@@ -1,0 +1,47 @@
+<div ng-show="showNewItem" class="container pt-xs-4">
+  <form name="frmNuevoContacto">
+    <div class="row g-box pt-xs-3 pb-xs-3 pl-xs-2 pr-xs-2" style="position: relative;">
+      <button type="button" class="mr-xs-2 mt-xs-2 close g-close-modal" data-ng-click="mostrarCrearRegistro()" prevent-default>
+        <span class="ico-mapfre_231_cancelaroff"></span>
+      </button>
+      <div class="col-xs-12">
+        <h4><b>Nuevo Contacto</b></h4>
+      </div>
+      <div class="col-xs-12 mt-xs-2">
+        <div class="row">
+          <div class="col-sm-4">
+            <mpf-input label="{label: 'Nombres', required: true}" 
+              name="nNombres" 
+              ng-model="formData.newItem.nombres" 
+              ng-required="true"></mpf-input>
+            <div class="g-error" ng-show="(frmNuevoContacto.nNombres.$error.required && !frmNuevoContacto.nNombres.$pristine)">* Ingresar Nombres</div>
+          </div>
+          <div class="col-sm-4 mt-xs-2 mt-sm-0">
+            <mpf-input label="{label: 'Apellidos', required: true}" 
+              name="nApellidos" 
+              ng-model="formData.newItem.apellidos" 
+              ng-required="true"></mpf-input>
+            <div class="g-error" ng-show="(frmNuevoContacto.nApellidos.$error.required && !frmNuevoContacto.nApellidos.$pristine)">* Ingresar Apellidos</div>
+          </div>
+          <div class="col-sm-4 mt-xs-2 mt-sm-0">
+            <mpf-input label="{label: 'Correo electrónico', required: true}" 
+              name="nCorreo"
+              mpf-validation="email" 
+              ng-model="formData.newItem.correo" 
+              ng-required="true"></mpf-input>
+            <div class="g-error" ng-show="(frmNuevoContacto.nCorreo.$error.required && !frmNuevoContacto.nCorreo.$pristine)">* Ingresar Correo electrónico</div>
+            <div class="g-error" ng-show="(frmNuevoContacto.nCorreo.$invalid && !frmNuevoContacto.nCorreo.$pristine)">* Ingresar un formato válido de Correo electrónico</div>
+          </div>
+        </div>
+      </div>
+      <div class="col-xs-12 g-title-btn-row mt-xs-2 mt-sm-0">
+        <div class="g-title-btn-col mt-xs-2">
+          <button class="g-btn g-btn-white second-design block" ng-click="mostrarCrearRegistro()">Cancelar</button>
+        </div>
+        <div class="g-title-btn-col mt-xs-2">
+          <button class="g-btn g-btn-verde second-design block" ng-click="crearContacto()" ng-disabled="!frmNuevoContacto.$valid">Registrar</button>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>

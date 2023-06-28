@@ -1,0 +1,641 @@
+<section>
+
+  <!-- Inicio: menu  -->
+  <div class="g-menu-main__box menuPericial">
+    <div class="container">
+      <div class="row">
+        <div class="hidden-xs hidden-sm pr-xs-0" ng-class="{'col-md-4':true, 'col-md-6': false}">
+          <span class="info-usuario" ng-if="true">
+            <span class="ico-mapfre_126_employee info-usuario__ico"></span>
+            <span class="info-usuario__text"><b>SUPERVISOR: {{userName}}</b></span>
+          </span>
+        </div>
+        <div top-menu class="col-xs-12 col-md-6">
+          <ul class="g-menu-main hidden-xs hidden-sm">
+              <span ng-if="item.show" ng-repeat="item in dashboardSupCtrl.menuPericial | limitTo:dashboardSupCtrl.limiteMenus">
+                <li class="link" ng-class="{'actived':item.actived}" ng-if="!item.isSubMenu"><a data-ui-sref="{{item.state}}">{{item.label}}</a></li>
+                <li class="submenu" ng-if="item.isSubMenu" ng-class="{'active': showSubMenu, 'actived':item.actived}" ng-mouseover="showSubMenu = true" ng-mouseleave="showSubMenu = false">
+                  <a>{{item.label}}</a>
+                  <ul class="sbm-main">
+                    <span ng-if="subitem.show" ng-repeat="subitem in item.menu">
+                       <li class="sbm-link" ng-class="{'actived':subitem.actived}"><a data-ui-sref="{{subitem.state}}">{{subitem.label}}</a></li>
+                    </span>
+                  </ul>
+                </li>
+              </span>
+            <span ng-if="dashboardSupCtrl.showMoreFlag">
+                <li class="submenu" ng-class="{'active': showSubMenuMore}" ng-mouseover="showSubMenuMore = true" ng-mouseleave="showSubMenuMore = false">
+                  <a>Más opciones</a>
+                  <ul class="sbm-main">
+                    <span ng-repeat="item in dashboardSupCtrl.menuPericial | limitTo:10:5">
+                      <li class="link" ng-class="{'actived':item.actived}" ng-if="!item.isSubMenu">{{item.label}}</li>
+                      <li class="sbm-link submenu__more" ng-class="{'active': showSub2, 'actived':subitem.actived}" ng-mouseover="showSub2 = true" ng-mouseleave="showSub2 = false">
+                         <a data-ui-sref="{{item.state}}">{{item.label}}</a>
+                        <ul class="sbm-main">
+                          <span ng-repeat="subitem in item.menu">
+                             <li class="sbm-link" ng-class="{'actived':subitem.actived}"><a data-ui-sref="{{subitem.state}}">{{subitem.label}}</a></li>
+                          </span>
+                        </ul>
+                      </li>
+                    </span>
+                  </ul>
+                </li>
+              </span>
+          </ul>
+          <ul id="g-menu-main__responsive" class="g-menu-main g-menu-main__responsive hidden-md hidden-lg" ng-show="isPopupVisible" ng-style="mnStyle">
+              <span ng-repeat="item in dashboardSupCtrl.menuPericial">
+                <li class="link" ng-class="{'actived':item.actived}" ng-if="!item.isSubMenu"><a data-ui-sref="{{item.state}}">{{item.label}}</a></li>
+                <li class="submenu" ng-if="item.isSubMenu" ng-class="{active: showSubMenu, 'actived':item.actived}" ng-click="showSubMenu = !showSubMenu;" >
+                  <a>{{item.label}}</a>
+                  <ul class="sbm-main">
+                    <span ng-repeat="subitem in item.menu">
+                      <li class="sbm-link" ng-class="{'actived':subitem.actived}"><a data-ui-sref="{{subitem.state}}">{{subitem.label}}</a></li>
+                    </span>
+                  </ul>
+                </li>
+              </span>
+          </ul>
+          <span id="g-menu-main_ico" class="ico-mapfre_95_menuderecha g-menu-main_ico visible-xs visible-sm" ng-click="showTopMenu();" ng-if="dashboardSupCtrl.showBtnBox"></span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Fin: menu  -->
+
+  <!--Inicio: Title -->
+  <div class="hidden-md hidden-lg">
+    <page-title info="{title: 'Gestión Pericial - General' }"></page-title>
+  </div>
+  <!--Fin: Title -->
+
+  <div class="g-fixed-box__bottom gBgcWhite1 hidden-md hidden-lg" ng-if="dashboardSupCtrl.showBtnBox">
+    <div class="col-xs-12 pt-xs-1-5 pb-xs-1-5">
+      <a class="g-btn g-btn-verde second-design block" ng-click="fnShowModal()">Nuevo siniestro</a>
+    </div>
+  </div>
+
+  <!-- Inicio Dashboard Top -->
+  <div class="dashboard-top">
+    <!-- Inicio Dashboard Nav -->
+    <div class="container" ng-init="showFilter = false">
+      <div class="g-box g-box__month-navigator">
+        <div class="clearfix">
+          <div class="col-xs-9 col-md-4">
+          </div>
+          <div class="col-xs-3 col-md-4 text-right">
+            <a class="filter-btn g-btn g-btn-white second-design" ng-click="showFilter = !showFilter">
+              <span class="filter-btn--text pl-xs-2 pr-xs-2">Filtros</span>
+              <span class="filter-btn--ico ico-mapfre_203_filtro gnIcon-xsm"></span>
+            </a>
+          </div>
+        </div>
+      </div>
+      <!--Inicio: Filter box-->
+      <div class="g-box g-box__filter-box no-btl-radius no-btr-radius gBgcWhite1 mb-xs-2 pl-xs-1-5 pr-xs-1-5 pt-xs-2 pb-xs-2" ng-show="showFilter">
+        <div class="row mb-xs-2">
+          <div class="col-xs-12"><h2 class="gH4 fwBold">Filtros</h2></div>
+        </div>
+        <div class="row">
+          <div class="col-sm-6 col-md-3 mb-xs-1 mb-sm-0">
+            <mpf-select
+              label="{label: 'Perito', required: false}"
+              name="nPerito"
+              ng-model="dashboardSupCtrl.mPerito"
+              m-data-source="dashboardSupCtrl.peritoData"
+              text-field="fullName" value-field="idThird"
+              m-Empty-Option="{text:'-- TODOS --'}"
+              ng-required="false"
+              ng-change=""
+            >
+            </mpf-select>
+          </div>
+          <div class="col-sm-6 col-md-3 mb-xs-1 mb-sm-0">
+            <mp-data-seeker behavior="{label:'Taller', placeholder:'Ingrese nombre taller', matchField:'thirdName'}"
+                            ng-change="dashboardSupCtrl.getFunctionsTaller(dashboardSupCtrl.mTaller)"
+                            m-data-source="dashboardSupCtrl.searchTaller($inputNeed)"
+                            ng-model="dashboardSupCtrl.mTaller"
+                            name="nTaller" ng-required="false" >
+              <div ng-bind-html="$item.thirdName | highlight: $select.search"></div>
+            </mp-data-seeker>
+          </div>
+          <div class="col-sm-6 col-md-2 mb-xs-1 mb-sm-0">
+            <div class="input-group g-date-picker">
+              <label class="g-placeholder animated ng-binding">Desde:</label>
+              <input  type="text"
+                      class="form-control"
+                      uib-datepicker-popup="{{dashboardSupCtrl.format}}"
+                      data-ng-model="dashboardSupCtrl.mConsultaDesde"
+                      is-open="dashboardSupCtrl.popup1.opened"
+                      datepicker-options="dashboardSupCtrl.dateOptions"
+                      data-ng-required="true"
+                      close-text="Close"/>
+              <span class="input-group-btn">
+                    <button class="btn btn-default"
+                            data-ng-click="dashboardSupCtrl.open1()" prevent-default>
+                      <i class="glyphicon glyphicon-calendar"></i>
+                    </button>
+                  </span>
+            </div>
+          </div>
+          <div class="col-sm-6 col-md-2 mb-xs-1 mb-sm-0">
+            <div class="g-date-picker">
+              <label class="g-placeholder animated">Hasta<span></span>:</label>
+              <input  type="text"
+                class="form-control"
+                uib-datepicker-popup="{{dashboardSupCtrl.format}}"
+                data-ng-model="dashboardSupCtrl.mConsultaHasta"
+                is-open="dashboardSupCtrl.popup2.opened"
+                datepicker-options="dashboardSupCtrl.dateOptions2"
+                data-ng-required="true"
+                close-text="Close" />
+              <span class="input-group-btn">
+                <button class="btn btn-default"
+                data-ng-click="dashboardSupCtrl.open2()" prevent-default>
+                  <i class="glyphicon glyphicon-calendar"></i>
+                </button>
+              </span>
+            </div>
+          </div>
+          <div class="col-xs-12 col-md-2 pt-xs-2">
+            <a class="g-btn g-btn-verde second-design block" ng-click="showFilter = false; dashboardSupCtrl.updateDashboardSup()">Aplicar</a>
+          </div>
+        </div>
+      </div>
+      <!--Fin: Filter box-->
+    </div>
+    <!-- Fin Dashboard Nav -->
+  </div>
+  <!-- Fin Dashboard Top-->
+
+  <div class="dashboard-supervisor-body">
+    <div class="container">
+      <!--Inicio: row 1-->
+      <div class="chart-row row mb-xs-2">
+        <!--Col 1-->
+        <div class="col-sm-6 col-lg-3 mb-xs-2 mb-lg-0" ng-init="isOpenBox1 = false; overall1 = false">
+          <div class="gper-panel g-box" ng-class="{'active': isOpenBox1}">
+            <div class="row panel-title visible-xs" ng-click="isOpenBox1 = !isOpenBox1">
+              <div class="col-xs-12">
+                <span>Ingresados sin presupuestar</span>
+                <span class="ico-chevron ico-mapfre_76_chevrondown visible-xs"></span>
+              </div>
+            </div>
+            <div class="row panel-title hidden-xs">
+              <div class="col-xs-12">
+                <span>Ingresados sin presupuestar</span>
+              </div>
+            </div>
+            <div class="row panel-info">
+              <div class="col-xs-5 col-md-3 col-lg-4 info-number"><span>{{dashboardSupCtrl.grafico1.totalRow}}</span></div>
+              <!--<div class="col-xs-7 col-md-9 col-lg-8 info-extra">-->
+                <!--<span class="extra-icon"></span>-->
+                <!--<span class="extra-text1">{{dashboardSupCtrl.grafico1.otherValue}}%</span>-->
+                <!--<span class="extra-text2"> más desde ayer</span>-->
+              <!--</div>-->
+            </div>
+            <div class="row panel-chart respo-cont">
+              <div class="col-xs-12">
+                <canvas id="sinPresupuestar"></canvas>
+              </div>
+            </div>
+            <div class="row panel-foot">
+              <div class="col-xs-4 g-border-right">
+                <span class="gperCVerde1"><span class="ico-dot ico-mapfre_82_circle"></span><span class="gH4 fwBold">{{dashboardSupCtrl.grafico1.inTimePercent}}%</span></span>
+                <span class="g-block gCGray1 fwMedium">A tiempo</span>
+              </div>
+              <div class="col-xs-4 g-border-right">
+                <span class="gperCAmarillo1"><span class="ico-dot ico-mapfre_82_circle"></span><span class="gH4 fwBold">{{dashboardSupCtrl.grafico1.delayedPercent}}%</span></span>
+                <span class="g-block gCGray1 fwMedium">Retraso</span>
+              </div>
+              <div class="col-xs-4">
+                <span class="gperRojo1"><span class="ico-dot ico-mapfre_82_circle"></span><span class="gH4 fwBold">{{dashboardSupCtrl.grafico1.veryDelayedPercent}}%</span></span>
+                <span class="g-block gCGray1 fwMedium">En alerta</span>
+              </div>
+            </div>
+            <div class="row panel-btn visible-xs visible-sm">
+              <div class="col-xs-12" ng-click="dashboardSupCtrl.verTipoSiniestro(1, '')">
+                <a class="g-btn g-btn-verde second-design block">Ver detalle</a>
+              </div>
+            </div>
+            <div class="panel-overall-trigger hidden-xs hidden-sm" ng-mouseover="overall1 = true" ng-mouseleave="overall1 = false">
+              <div class="panel-overall" ng-class="{'active': overall1}">
+                <div class="overall-bg"></div>
+                <div class="overall-btn g-div-middle">
+                  <div class="" ng-click="dashboardSupCtrl.verTipoSiniestro(1, '')">
+                    <a class="g-btn g-btn-verde second-design block">Ver detalle</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!--Col 2-->
+        <div class="col-sm-6 col-lg-3 mb-xs-2 mb-lg-0" ng-init="isOpenBox2 = false; overall2 = false">
+          <div class="gper-panel g-box" ng-class="{'active': isOpenBox2}">
+            <div class="row panel-title visible-xs" ng-click="isOpenBox2 = !isOpenBox2">
+              <div class="col-xs-12">
+                <span>Presupuestados sin peritar</span>
+                <span class="ico-chevron ico-mapfre_76_chevrondown visible-xs"></span>
+              </div>
+            </div>
+            <div class="row panel-title hidden-xs">
+              <div class="col-xs-12">
+                <span>Presupuestados sin peritar</span>
+              </div>
+            </div>
+            <div class="row panel-info">
+              <div class="col-xs-5 col-md-3 col-lg-4 info-number"><span>{{dashboardSupCtrl.grafico2.totalRow}}</span></div>
+              <!--<div class="col-xs-7 col-md-9 col-lg-8 info-extra">-->
+                <!--<span class="extra-icon ico-mapfre_326_arrow_up gnIcon-md"></span>-->
+                <!--<span class="extra-text1">{{dashboardSupCtrl.grafico2.otherValue}}%</span>-->
+                <!--<span class="extra-text2"> más desde ayer</span>-->
+              <!--</div>-->
+            </div>
+            <div class="row panel-chart respo-cont">
+              <div class="col-xs-12">
+                <canvas id="sinPeritar"></canvas>
+              </div>
+            </div>
+            <div class="row panel-foot">
+              <div class="col-xs-4 g-border-right">
+                <span class="gperCVerde1"><span class="ico-dot ico-mapfre_82_circle"></span><span class="gH4 fwBold">{{dashboardSupCtrl.grafico2.inTimePercent}}%</span></span>
+                <span class="g-block gCGray1 fwMedium">A tiempo</span>
+              </div>
+              <div class="col-xs-4 g-border-right">
+                <span class="gperCAmarillo1"><span class="ico-dot ico-mapfre_82_circle"></span><span class="gH4 fwBold">{{dashboardSupCtrl.grafico2.delayedPercent}}%</span></span>
+                <span class="g-block gCGray1 fwMedium">Retraso</span>
+              </div>
+              <div class="col-xs-4">
+                <span class="gperRojo1"><span class="ico-dot ico-mapfre_82_circle"></span><span class="gH4 fwBold">{{dashboardSupCtrl.grafico2.veryDelayedPercent}}%</span></span>
+                <span class="g-block gCGray1 fwMedium">En alerta</span>
+              </div>
+            </div>
+            <div class="row panel-btn visible-xs visible-sm">
+              <div class="col-xs-12" ng-click="dashboardSupCtrl.verTipoSiniestro(2, '')">
+                <a class="g-btn g-btn-verde second-design block">Ver detalle</a>
+              </div>
+            </div>
+            <div class="panel-overall-trigger hidden-xs hidden-sm" ng-mouseover="overall2 = true" ng-mouseleave="overall2 = false">
+              <div class="panel-overall" ng-class="{'active': overall2}">
+                <div class="overall-bg"></div>
+                <div class="overall-btn g-div-middle">
+                  <div class=""  ng-click="dashboardSupCtrl.verTipoSiniestro(2, '')">
+                    <a class="g-btn g-btn-verde second-design block">Ver detalle</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!--Col 3-->
+        <div class="col-sm-6 col-lg-3 mb-xs-2 mb-lg-0" ng-init="isOpenBox3 = false; overall3 = false">
+          <div class="gper-panel g-box" ng-class="{'active': isOpenBox3}">
+            <div class="row panel-title visible-xs" ng-click="isOpenBox3 = !isOpenBox3">
+              <div class="col-xs-12">
+                <span>Peritados sin  autorizar</span>
+                <span class="ico-chevron ico-mapfre_76_chevrondown visible-xs"></span>
+              </div>
+            </div>
+            <div class="row panel-title hidden-xs">
+              <div class="col-xs-12">
+                <span>Peritados sin  autorizar</span>
+              </div>
+            </div>
+            <div class="row panel-info">
+              <div class="col-xs-5 col-md-3 col-lg-4 info-number"><span>{{dashboardSupCtrl.grafico3.totalRow}}</span></div>
+              <!--<div class="col-xs-7 col-md-9 col-lg-8 info-extra">-->
+                <!--<span class="extra-icon">&nbsp;</span>-->
+                <!--<span class="extra-text1">{{dashboardSupCtrl.grafico3.otherValue}}</span>-->
+                <!--<span class="extra-text2"> son por pérdida total</span>-->
+              <!--</div>-->
+            </div>
+            <div class="row panel-chart respo-cont">
+              <div class="col-xs-12">
+                <canvas id="sinAutorizar"></canvas>
+              </div>
+            </div>
+            <div class="row panel-foot">
+              <div class="col-xs-4 g-border-right">
+                <span class="gperCVerde1"><span class="ico-dot ico-mapfre_82_circle"></span><span class="gH4 fwBold">{{dashboardSupCtrl.grafico3.inTimePercent}}%</span></span>
+                <span class="g-block gCGray1 fwMedium">A tiempo</span>
+              </div>
+              <div class="col-xs-4 g-border-right">
+                <span class="gperCAmarillo1"><span class="ico-dot ico-mapfre_82_circle"></span><span class="gH4 fwBold">{{dashboardSupCtrl.grafico3.delayedPercent}}%</span></span>
+                <span class="g-block gCGray1 fwMedium">Retraso</span>
+              </div>
+              <div class="col-xs-4">
+                <span class="gperRojo1"><span class="ico-dot ico-mapfre_82_circle"></span><span class="gH4 fwBold">{{dashboardSupCtrl.grafico3.veryDelayedPercent}}%</span></span>
+                <span class="g-block gCGray1 fwMedium">En alerta</span>
+              </div>
+            </div>
+            <div class="row panel-btn visible-xs visible-sm">
+              <div class=""  ng-click="dashboardSupCtrl.verTipoSiniestro('3', 1)">
+                <a class="g-btn g-btn-verde second-design block">Ver detalle</a>
+              </div>
+            </div>
+            <div class="panel-overall-trigger hidden-xs hidden-sm" ng-mouseover="overall3 = true" ng-mouseleave="overall3 = false">
+              <div class="panel-overall" ng-class="{'active': overall3}">
+                <div class="overall-bg"></div>
+                <div class="overall-btn g-div-middle">
+                  <div class=""  ng-click="dashboardSupCtrl.verTipoSiniestro('3', 1)">
+                    <a class="g-btn g-btn-verde second-design block">Ver detalle</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!--Col 4-->
+        <div class="col-sm-6 col-lg-3" ng-init="isOpenBox4 = false; overall4 = false">
+          <div class="gper-panel g-box" ng-class="{'active': isOpenBox4}">
+            <div class="row panel-title visible-xs" ng-click="isOpenBox4 = !isOpenBox4">
+              <div class="col-xs-12">
+                <span>Peritados autorizados</span>
+                <span class="ico-chevron ico-mapfre_76_chevrondown visible-xs"></span>
+              </div>
+            </div>
+            <div class="row panel-title hidden-xs">
+              <div class="col-xs-12">
+                <span>Peritados autorizados</span>
+              </div>
+            </div>
+            <div class="row panel-info">
+              <div class="col-xs-5 col-md-3 col-lg-4 info-number"><span>{{dashboardSupCtrl.grafico4.totalRow}}</span></div>
+              <!--<div class="col-xs-7 col-md-9 col-lg-8 info-extra">-->
+                <!--<span class="extra-icon ico-mapfre_326_arrow_up gnIcon-md"></span>-->
+                <!--<span class="extra-text1">{{dashboardSupCtrl.grafico4.otherValue}}%</span>-->
+                <!--<span class="extra-text2"> más desde ayer</span>-->
+              <!--</div>-->
+            </div>
+            <div class="row panel-chart respo-cont">
+              <div class="col-xs-12">
+                <canvas id="peritadosOk"></canvas>
+              </div>
+            </div>
+            <div class="row panel-foot">
+              <div class="col-xs-4 g-border-right">
+                <span class="gperCVerde1"><span class="ico-dot ico-mapfre_82_circle"></span><span class="gH4 fwBold">{{dashboardSupCtrl.grafico4.inTimePercent}}%</span></span>
+                <span class="g-block gCGray1 fwMedium">A tiempo</span>
+              </div>
+              <div class="col-xs-4 g-border-right">
+                <span class="gperCAmarillo1"><span class="ico-dot ico-mapfre_82_circle"></span><span class="gH4 fwBold">{{dashboardSupCtrl.grafico4.delayedPercent}}%</span></span>
+                <span class="g-block gCGray1 fwMedium">Retraso</span>
+              </div>
+              <div class="col-xs-4">
+                <span class="gperRojo1"><span class="ico-dot ico-mapfre_82_circle"></span><span class="gH4 fwBold">{{dashboardSupCtrl.grafico4.veryDelayedPercent}}%</span></span>
+                <span class="g-block gCGray1 fwMedium">En alerta</span>
+              </div>
+            </div>
+            <div class="row panel-btn visible-xs visible-sm">
+              <div class=""  ng-click="dashboardSupCtrl.verTipoSiniestro('3,4,6,7', 6)">
+                <a class="g-btn g-btn-verde second-design block">Ver detalle</a>
+              </div>
+            </div>
+            <div class="panel-overall-trigger hidden-xs hidden-sm" ng-mouseover="overall4 = true" ng-mouseleave="overall4 = false">
+              <div class="panel-overall" ng-class="{'active': overall4}">
+                <div class="overall-bg"></div>
+                <div class="overall-btn g-div-middle">
+                  <div class=""  ng-click="dashboardSupCtrl.verTipoSiniestro('3,4,6,7', 6)">
+                    <a class="g-btn g-btn-verde second-design block">Ver detalle</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!--Fin: row 1-->
+
+      <!--Inicio: row 2-->
+      <div class="chart-row row mb-xs-2">
+        <!--Col 7-->
+        <div class="col-sm-6 col-lg-3 mb-xs-2 mb-lg-0" ng-init="isOpenBox7 = false; overall7 = false">
+          <div class="gper-panel g-box" ng-class="{'active': isOpenBox7}">
+            <div class="row panel-title visible-xs" ng-click="isOpenBox7 = !isOpenBox7">
+              <div class="col-xs-12">
+                <span>Pendientes de reparación</span>
+                <span class="ico-chevron ico-mapfre_76_chevrondown visible-xs"></span>
+              </div>
+            </div>
+            <div class="row panel-title hidden-xs">
+              <div class="col-xs-12">
+                <span>Pendientes de reparación</span>
+              </div>
+            </div>
+            <div class="row panel-info">
+              <div class="col-xs-5 col-md-3 col-lg-4 info-number"><span>{{dashboardSupCtrl.grafico7.totalRow}}</span></div>
+              <!--<div class="col-xs-7 col-md-9 col-lg-8 info-extra">-->
+                <!--<span class="extra-icon ico-mapfre_326_arrow_up gnIcon-md"></span>-->
+                <!--<span class="extra-text1">{{dashboardSupCtrl.grafico7.otherValue}}%</span>-->
+                <!--<span class="extra-text2"> más desde ayer</span>-->
+              <!--</div>-->
+            </div>
+            <div class="row panel-chart respo-cont">
+              <div class="col-xs-12">
+                <canvas id="pendientesDeReparar"></canvas>
+              </div>
+            </div>
+            <div class="row panel-foot">
+              <div class="col-xs-4 g-border-right">
+                <span class="gperCVerde2"><span class="ico-dot ico-mapfre_82_circle"></span><span class="gH4 fwBold">{{dashboardSupCtrl.grafico7.inTimePercent}}%</span></span>
+                <span class="g-block gCGray1 fwMedium">1-7 días</span>
+              </div>
+              <div class="col-xs-4 g-border-right">
+                <span class="gperCAzul"><span class="ico-dot ico-mapfre_82_circle"></span><span class="gH4 fwBold">{{dashboardSupCtrl.grafico7.delayedPercent}}%</span></span>
+                <span class="g-block gCGray1 fwMedium">8-15 días</span>
+              </div>
+              <div class="col-xs-4">
+                <span class="gperRojo2"><span class="ico-dot ico-mapfre_82_circle"></span><span class="gH4 fwBold">{{dashboardSupCtrl.grafico7.veryDelayedPercent}}%</span></span>
+                <span class="g-block gCGray1 fwMedium">16 a más</span>
+              </div>
+            </div>
+            <div class="row panel-btn visible-xs visible-sm">
+              <div class="col-xs-12" ng-click="dashboardSupCtrl.verTipoSiniestro(3, 6)">
+                <a class="g-btn g-btn-verde second-design block">Ver detalle</a>
+              </div>
+            </div>
+            <div class="panel-overall-trigger hidden-xs hidden-sm" ng-mouseover="overall7 = true" ng-mouseleave="overall7 = false">
+              <div class="panel-overall" ng-class="{'active': overall7}">
+                <div class="overall-bg"></div>
+                <div class="overall-btn g-div-middle">
+                  <div class="" ng-click="dashboardSupCtrl.verTipoSiniestro(3, 6)">
+                    <a class="g-btn g-btn-verde second-design block">Ver detalle</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!--Col 5-->
+        <div class="col-sm-6 col-lg-3 mb-xs-2 mb-lg-0" ng-init="isOpenBox5 = false; overall5 = false">
+          <div class="gper-panel g-box" ng-class="{'active': isOpenBox5}">
+            <div class="row panel-title visible-xs" ng-click="isOpenBox5 = !isOpenBox5">
+              <div class="col-xs-12">
+                <span>En reparación</span>
+                <span class="ico-chevron ico-mapfre_76_chevrondown visible-xs"></span>
+              </div>
+            </div>
+            <div class="row panel-title hidden-xs">
+              <div class="col-xs-12">
+                <span>En reparación</span>
+              </div>
+            </div>
+            <div class="row panel-info">
+              <div class="col-xs-5 col-md-3 col-lg-4 info-number"><span>{{dashboardSupCtrl.grafico5.totalRow}}</span></div>
+              <div class="col-xs-7 col-md-9 col-lg-8 info-extra">
+                <span class="extra-icon"></span>
+                <span class="extra-text1">{{dashboardSupCtrl.grafico5.otherValue}}</span>
+                <span class="extra-text2"> necesita repuestos</span>
+              </div>
+            </div>
+            <div class="row panel-chart respo-cont">
+              <div class="col-xs-12">
+                <canvas id="enReparacion"></canvas>
+              </div>
+            </div>
+            <div class="row panel-foot">
+              <div class="col-xs-4 g-border-right">
+                <span class="gperCVerde2"><span class="ico-dot ico-mapfre_82_circle"></span><span class="gH4 fwBold">{{dashboardSupCtrl.grafico5.inTimePercent}}%</span></span>
+                <span class="g-block gCGray1 fwMedium">1-7 días</span>
+              </div>
+              <div class="col-xs-4 g-border-right">
+                <span class="gperCAzul"><span class="ico-dot ico-mapfre_82_circle"></span><span class="gH4 fwBold">{{dashboardSupCtrl.grafico5.delayedPercent}}%</span></span>
+                <span class="g-block gCGray1 fwMedium">8-15 días</span>
+              </div>
+              <div class="col-xs-4">
+                <span class="gperRojo2"><span class="ico-dot ico-mapfre_82_circle"></span><span class="gH4 fwBold">{{dashboardSupCtrl.grafico5.veryDelayedPercent}}%</span></span>
+                <span class="g-block gCGray1 fwMedium">16 a más</span>
+              </div>
+            </div>
+            <div class="row panel-btn visible-xs visible-sm">
+              <div class="col-xs-12" ng-click="dashboardSupCtrl.verTipoSiniestro(4, 6)">
+                <a class="g-btn g-btn-verde second-design block">Ver detalle</a>
+              </div>
+            </div>
+            <div class="panel-overall-trigger hidden-xs hidden-sm" ng-mouseover="overall5 = true" ng-mouseleave="overall5 = false">
+              <div class="panel-overall" ng-class="{'active': overall5}">
+                <div class="overall-bg"></div>
+                <div class="overall-btn g-div-middle">
+                  <div class="" ng-click="dashboardSupCtrl.verTipoSiniestro(4, 6)">
+                    <a class="g-btn g-btn-verde second-design block">Ver detalle</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!--Col 6-->
+        <div class="col-sm-6 col-lg-3 mb-xs-2 mb-lg-0" ng-init="isOpenBox6 = false; overall6 = false">
+          <div class="gper-panel g-box" ng-class="{'active': isOpenBox6}">
+            <div class="row panel-title visible-xs" ng-click="isOpenBox6 = !isOpenBox6">
+              <div class="col-xs-12">
+                <span>Fuera de tiempo de entrega</span>
+                <span class="ico-chevron ico-mapfre_76_chevrondown visible-xs"></span>
+              </div>
+            </div>
+            <div class="row panel-title hidden-xs">
+              <div class="col-xs-12">
+                <span>Fuera de tiempo de entrega</span>
+              </div>
+            </div>
+            <div class="row panel-info">
+              <div class="col-xs-5 col-md-3 col-lg-4 info-number"><span>{{dashboardSupCtrl.grafico6.totalRow}}</span></div>
+              <!--<div class="col-xs-7 col-md-9 col-lg-8 info-extra">-->
+                <!--<span class="extra-icon"></span>-->
+                <!--<span class="extra-text1">{{dashboardSupCtrl.grafico6.otherValue}}</span>-->
+                <!--<span class="extra-text2"> entregados a tiempo</span>-->
+              <!--</div>-->
+            </div>
+            <div class="row panel-chart respo-cont">
+              <div class="col-xs-12">
+                <canvas id="fueraTiempo"></canvas>
+              </div>
+            </div>
+            <div class="row panel-foot">
+              <div class="col-xs-4 g-border-right">
+                <span class="gperCVerde2"><span class="ico-dot ico-mapfre_82_circle"></span><span class="gH7 fwMedium">Antes de la entrega</span></span>
+              </div>
+              <div class="col-xs-4 g-border-right">
+                <span class="gperCAzul"><span class="ico-dot ico-mapfre_82_circle"></span><span class="gH7 fwMedium">Día de la entrega</span></span>
+              </div>
+              <div class="col-xs-4">
+                <span class="gperRojo2"><span class="ico-dot ico-mapfre_82_circle"></span><span class="gH7 fwMedium">Fuera de la fecha</span></span>
+              </div>
+            </div>
+            <div class="row panel-btn visible-xs visible-sm">
+              <div class="col-xs-12" ng-click="dashboardSupCtrl.verTipoSiniestro(6, 6)">
+                <a class="g-btn g-btn-verde second-design block">Ver detalle</a>
+              </div>
+            </div>
+            <div class="panel-overall-trigger hidden-xs hidden-sm" ng-mouseover="overall6 = true" ng-mouseleave="overall6 = false">
+              <div class="panel-overall" ng-class="{'active': overall6}">
+                <div class="overall-bg"></div>
+                <div class="overall-btn g-div-middle">
+                  <div class="" ng-click="dashboardSupCtrl.verTipoSiniestro(6, 6)">
+                    <a class="g-btn g-btn-verde second-design block">Ver detalle</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!--Col 8-->
+        <div class="col-sm-6 col-lg-3 mb-xs-2 mb-lg-0" ng-init="isOpenBox8 = false; overall8 = false">
+          <div class="gper-panel g-box" ng-class="{'active': isOpenBox8}">
+            <div class="row panel-title visible-xs" ng-click="isOpenBox8 = !isOpenBox8">
+              <div class="col-xs-12">
+                <span>Entregados</span>
+                <span class="ico-chevron ico-mapfre_76_chevrondown visible-xs"></span>
+              </div>
+            </div>
+            <div class="row panel-title hidden-xs">
+              <div class="col-xs-12">
+                <span>Entregados</span>
+              </div>
+            </div>
+            <div class="row panel-info">
+              <div class="col-xs-5 col-md-3 col-lg-4 info-number"><span>{{dashboardSupCtrl.grafico8.totalRow}}</span></div>
+              <!--<div class="col-xs-7 col-md-9 col-lg-8 info-extra">-->
+                <!--<span class="extra-icon ico-mapfre_326_arrow_up gnIcon-md"></span>-->
+                <!--<span class="extra-text1">{{dashboardSupCtrl.grafico8.otherValue}}</span>-->
+                <!--<span class="extra-text2"> firmaron acta</span>-->
+              <!--</div>-->
+            </div>
+            <div class="row panel-chart respo-cont">
+              <div class="col-xs-12">
+                <canvas id="entregados" ng-if="true"></canvas>
+                <p class="mt-xs-5 text-center gH5" ng-if="false">No hay información para mostrar</p>
+              </div>
+            </div>
+            <div class="row panel-foot">
+              <div class="col-xs-6 g-border-right">
+                <!--<span class="gperCAzul g-block"><span class="ico-dot ico-mapfre_82_circle"></span><span class="gH4 fwMedium">5124</span></span>-->
+                <!--<span class="g-block">recogidos</span>-->
+              </div>
+              <div class="col-xs-6">
+                <!--<span class="gCGray3"><span class="ico-dot ico-mapfre_82_circle"></span><span class="gH4 fwMedium">2131</span></span>-->
+                <!--<span class="g-block">por recoger</span>-->
+              </div>
+            </div>
+            <div class="row panel-btn visible-xs visible-sm">
+              <div class="col-xs-12" ng-click="dashboardSupCtrl.verTipoSiniestro(7, 6)">
+                <a class="g-btn g-btn-verde second-design block">Ver detalle</a>
+              </div>
+            </div>
+            <div class="panel-overall-trigger hidden-xs hidden-sm" ng-mouseover="overall8 = true" ng-mouseleave="overall8 = false">
+              <div class="panel-overall" ng-class="{'active': overall8}">
+                <div class="overall-bg"></div>
+                <div class="overall-btn g-div-middle">
+                  <div class="" ng-click="dashboardSupCtrl.verTipoSiniestro(7, 6)">
+                    <a class="g-btn g-btn-verde second-design block">Ver detalle</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!--Fin: row 2-->
+    </div>
+  </div>
+</section>

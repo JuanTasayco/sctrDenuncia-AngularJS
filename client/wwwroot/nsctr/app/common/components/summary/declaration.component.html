@@ -1,0 +1,227 @@
+<section
+	class="g-page pageSummaryDeclaration h-myd-bg--gray4"
+	ng-if="$ctrl.data.summary">
+
+	<div class="g-title">
+		<div class="container">
+			<div class="row g-row">
+				<div class="col-md-8 g-col-md middle col-sm-11 col-xs-10">
+					<h1>{{$ctrl.title}}</h1>
+				</div>
+				<div
+					class="col-md-4 g-col-md middle g-text-right-md hidden-sm hidden-xs"
+					ng-if="$ctrl.STATE_PARAMS.client">
+					<a
+						href="javascript:void(0)"
+						ng-click="$ctrl.fnGoClient()">
+						<span class="g-icon gCGray3">
+							<span class="icon ico-mapfre_310_arrowLeft"></span>
+							<span class="g-link"><b>Volver a Perfil Cliente</b></span>
+						</span>
+					</a>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="g-section g-myd-summary">
+		<div class="container">
+
+			<div class="col-md-12 g-box fz14 pt-xs-2 pb-xs-2 g-myd-box">
+
+				<div class="row gH4 h-myd-ml--0 h-myd-mr--0">
+					<div class="col-sm-6 mb-sm-2 mb-xs-1">
+						<h2 class="gCGray1 g-text-uppercase g-myd-title">
+							<b>REPORTE CONSTANCIA</b>
+						</h2>
+					</div>
+					<div class="col-sm-6 mb-xs-2 g-text-right-sm">
+						<b>Nro. {{$ctrl.data.summary.constancyNumber}}</b>
+					</div>
+				</div>
+
+				<div class="row h-myd-ml--0 h-myd-mr--0">
+					<div class="col-md-12 mb-xs-1">
+						<h2 class="gH4 gCGray1 g-border-bottom-xs g-myd-title">
+							<b>Datos de la Empresa</b>
+						</h2>
+					</div>
+				</div>
+				<ul class="row g-list-md mb-xs-1 h-myd-ml--0 h-myd-mr--0 h-myd-border--bottom-1 h-myd-pb--10 h-myd-mb--20">
+					<li class="col-md-4 clearfix cnt-item h-myd-p--0">
+						<div class="col-xs-5 item-label">
+							<span class="ico-mapfre_82_circle ico-bullet"></span>
+							{{$ctrl.data.summary.titleClientType}}
+						</div>
+						<div class="col-xs-7 item-dato g-text-uppercase">
+							{{$ctrl.data.summary.clientName}}
+						</div>
+					</li>
+					<li class="col-md-4 clearfix cnt-item h-myd-p--0">
+						<div class="col-xs-5 item-label">
+							<span class="ico-mapfre_82_circle ico-bullet"></span>Tipo de Documento:
+						</div>
+						<div class="col-xs-7 item-dato g-text-uppercase">
+							{{$ctrl.data.summary.clientDocumentType}}
+						</div>
+					</li>
+					<li class="col-md-4 clearfix cnt-item h-myd-p--0">
+						<div class="col-xs-5 item-label">
+							<span class="ico-mapfre_82_circle ico-bullet"></span>Nro. Documento:
+						</div>
+						<div class="col-xs-7 item-dato g-text-uppercase">
+							{{$ctrl.data.summary.clientDocumentNumber}}
+						</div>
+					</li>
+				</ul>
+
+				<div class="row h-myd-ml--0 h-myd-mr--0">
+					<div class="col-md-12 mb-xs-1">
+						<h2 class="gH4 gCGray1 g-border-bottom-xs g-myd-title"><b>Datos de la póliza</b></h2>
+					</div>
+				</div>
+
+				<ul class="row g-list-md mb-xs-1 h-myd-ml--0 h-myd-mr--0 h-myd-border--bottom-1 h-myd-pb--10 h-myd-mb--20">
+					<li class="col-md-4 clearfix cnt-item h-myd-p--0">
+						<div class="col-xs-5 item-label">
+							<span class="ico-mapfre_82_circle ico-bullet"></span>Colectivo Asegurado:
+						</div>
+						<div class="col-xs-7 item-dato g-text-uppercase">
+							{{$ctrl.data.summary.colectivoAsegurado}}
+						</div>
+					</li>
+					<li class="col-md-4 clearfix cnt-item h-myd-p--0">
+						<div class="col-xs-5 item-label">
+							<span class="ico-mapfre_82_circle ico-bullet"></span>Fin Vigencia:
+						</div>
+						<div class="col-xs-7 item-dato g-text-uppercase">
+							{{$ctrl.data.summary.policyDateFinish}}
+						</div>
+					</li>
+					<li class="col-md-4 clearfix cnt-item h-myd-p--0">
+						<div class="col-xs-5 item-label">
+							<span class="ico-mapfre_82_circle ico-bullet"></span>Tipo de declaracion:
+
+						</div>
+						<div class="col-xs-7 item-dato g-text-uppercase">
+							{{$ctrl.data.summary.declarationType}}
+						</div>
+					</li>
+				</ul>
+
+				<div
+					class="row h-myd-ml--0 h-myd-mr--0"
+					ng-if="$ctrl.data.summary.listPolicy.length > 0">
+					<div class="col-md-12 mb-xs-1">
+						<h2 class="gH4 gCGray1 g-border-bottom-xs g-myd-title">
+							<b>Detalles de Declaración</b>
+						</h2>
+					</div>
+				</div>
+
+				<div
+					class="row h-myd-ml--0 h-myd-mr--0 mb-xs-2 h-myd-border--bottom-1 h-myd-pb--20"
+					ng-repeat="riskPremium in $ctrl.data.summary.listPolicy">
+					<nsctr-risk-premium-table
+						module="$ctrl.MODULE"
+						currency-type="$ctrl.CURRENCY_TYPES.soles.description"
+						risk-premium="riskPremium">
+					</nsctr-risk-premium-table>
+				</div>
+
+				<div class="row h-myd-ml--0 h-myd-mr--0">
+					<div class="col-md-12 mb-xs-1 h-myd-mb--20">
+						<h2 class="gH4 gCGray1 g-border-bottom-xs g-myd-title">
+							<b>Documentos</b>
+						</h2>
+					</div>
+        </div>
+        
+        <div class="row h-myd-ml--0 h-myd-mr--0">
+          <div class="col-xs-12">
+            <ul>
+              <li
+                class="mb-xs-1 h-myd--none"
+                ng-repeat="item in $ctrl.data.summary.listFiles">
+                <div class="clearfix g-border-xs gBgcGray5 pt-xs-1 pb-xs-1 g-row">
+                  <div class="col-sm-5 g-col-sm middle"
+                    ng-class="$ctrl.fnInTechnicalControl(item.number) ? 'col-xs-12 g-col-xs' : 'col-sm-5 g-col-sm'">
+                    <div class="g-box-attachment">
+						 <span class="ico-mapfre_314_archivos box-ico" ></span>{{item.description}}
+                      <b ng-if="$ctrl.fnInTechnicalControl(item.number)" class="gCRed1">
+                        (se generó con un control técnico, por favor coordinar con el área respectiva)
+                      </b>
+                    </div>
+                  </div>
+                  <div ng-if="!$ctrl.fnInTechnicalControl(item.number)"
+                    class="col-sm-4 g-col-sm middle mb-xs-1 no-mb-sm">
+                    <b >Nro. Doc:</b>
+					<span ng-class="{'gCGreen1': item.isEnabled == 'S' || item.isEnabled == ''}">{{item.number}}</span> 
+                  </div>
+				  <!--!$ctrl.fnInTechnicalControl(item.number) && -->
+                  <div ng-if="$ctrl.fnInTechnicalControlSegurity(item) && !$ctrl.fnInTechnicalControl(item.number) "
+                    class="col-sm-3 g-col-sm middle">
+                    <a class="g-btn g-btn-white second-design block" ng-if="item.description != 'Constancia'"
+                      href="{{item.url}}"
+                      target="_blank">
+                      Descargar
+                    </a>
+					<a class="g-btn g-btn-white second-design block" 
+						ng-if="item.description == 'Constancia'"
+						ng-click="$ctrl.fnDescargarConstancia()">
+						Descargar
+					</a>
+                  </div>
+                </div>
+              </li>
+              
+              <li class="mb-xs-1 h-myd--show h-oim-none" ng-repeat="item in $ctrl.data.summary.listFiles">
+                <div class="c-myd-sign h-myd-mb--10">
+                  <div class="c-myd-sign--header">
+                    <div class="c-myd-sign--header-title">
+                      <div class="title">
+                        <div class="text">
+                          <div class="info">
+                            <p >{{ item.description }}</p>
+                            <span ng-if="!$ctrl.fnInTechnicalControl(item.number)" > <b>Nro. Doc:</b> 
+								<span ng-class="{'gCGreen1': item.isEnabled == 'S' || item.isEnabled == ''}">{{ item.number }}</span> </span>
+                            <span ng-if="$ctrl.fnInTechnicalControl(item.number)" class="h-myd-color--red">(se generó con un control técnico, por favor coordinar con el área respectiva)</span>
+                          </div>
+                        </div>
+						<!--!$ctrl.fnInTechnicalControl(item.number) && -->
+                        <div class="document" ng-if="$ctrl.fnInTechnicalControlSegurity(item) && !$ctrl.fnInTechnicalControl(item.number)">
+                          <a class="g-btn g-btn-white second-design block" 
+						  href="{{ item.url }}" target="_blank">
+                            Descargar
+                          </a>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </div>
+
+			</div>
+		</div>
+	</div>
+
+	<!-- Button -->
+	<div class="g-section">
+		<div class="container">
+			<div class="row">
+				<div class="col-md-4 col-md-offset-4 col-sm-6 col-sm-offset-3">
+					<a
+						class="g-btn g-btn-white block"
+						ng-click="$ctrl.fnShowSendEmail()">
+						Enviar documentos
+					</a>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+</section>

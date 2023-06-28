@@ -1,0 +1,35 @@
+<div class="kpi-chart__container">
+  <div class="kpi-chart__title-container">
+    <div class="kpi-chart__title" ng-class="$ctrl.chartData.buttons.length == 2 ? 'kpi-chart__title-buttons': 'kpi-chart__title-only'">
+      <div>{{$ctrl.title}}</div>
+      <div class="kpi-chart__second-title" ng-show="$ctrl.haveSecondTitle">{{$ctrl.secondTitle}}</div>
+    </div>
+    <div class="kpi-chart__options">
+      <div class="kpi-chart__filter" ng-show="$ctrl.chartData.buttons.length == 2">
+        <a class="g-btn second-design" ng-class="$ctrl.activeFilter1 ? 'g-btn-verde' : 'g-btn-white'" ng-click="$ctrl.filter1()">{{$ctrl.chartData.buttons[0].label}}</a>
+        <a class="g-btn second-design" ng-class="$ctrl.activeFilter2 ? 'g-btn-verde' : 'g-btn-white'" ng-click="$ctrl.filter2()">{{$ctrl.chartData.buttons[1].label}}</a>
+      </div>
+      <div class="kpi-chart__menu" uib-dropdown ng-show="!$ctrl.chartData.hasError">
+        <a id="{{$ctrl.chartData.id}}_menu" uib-dropdown-toggle>
+          <i class="material-icons">more_vert</i>
+        </a>
+        <ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="{{$ctrl.chartData.id}}_menu">
+          <li role="menuitem">
+            <a class="kpi-chart__menu-item" ng-click="$ctrl.showTable()">
+              <i class="material-icons">grid_on</i><span>Ver cuadro</span>
+            </a>
+          </li>
+          <li role="menuitem">
+            <a class="kpi-chart__menu-item" ng-click="$ctrl.downloadFile()">
+              <i class="material-icons">get_app</i><span>Descargar PDF</span>
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="kpi-chart__canvas-container">
+    <div class="kpi-chart__canvas" id="{{$ctrl.chartData.id}}" ng-show="!$ctrl.chartData.hasError"></div>
+    <div class="kpi-chart__canvas-error" ng-show="$ctrl.chartData.hasError">No se encontraron resultados para esta búsqueda.</div>
+  </div>
+</div>

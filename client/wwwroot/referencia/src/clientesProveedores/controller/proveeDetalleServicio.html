@@ -1,0 +1,149 @@
+<div class="container">
+  <div class="panel__modular" ng-class="{'right__opened': $ctrl.serviceSelected !== null}">
+    <div class="panel__wrapper u-br-5">
+      <header class="panel__header u-align-v">
+        <span class="panel__title big">Servicios</span>
+        <!--
+        <div class="select-box">
+          <span class="select__lbl text-uppercase">Mostrar:</span>
+          <select name="visibilityFilter"
+                  class="select text-uppercase"
+                  ng-model="$ctrl.visibilityFilter"
+                  ng-change="$ctrl.unselectService()">
+            <option value="all">Todas</option>
+            <option value="audited">Auditadas</option>
+            <option value="unaudited">No auditadas</option>
+          </select>
+          <span class="select__ico--arrow ico-mapfre_76_chevrondown ico-select" aria-hidden="true"></span>
+        </div> -->
+      </header>
+    </div>
+    <div class="panel__row">
+      <div class="panel__wrapper panel__gray u-br-5 scroll" ng-class="{'hidden-xs': $ctrl.serviceSelected !== null}">
+        <ul class="panel__modular__list panel__body">
+          <li class="panel__modular__item panel__card"
+              data-ng-repeat="service in filteredServices = ($ctrl.data.Auditoria.ProductoList | filter: $ctrl.servicesFilter)"
+              ng-class="{'selected': service.idTipoProducto === $ctrl.data.Auditoria.ProductoList[$ctrl.serviceSelected].idTipoProducto, 'hover': hover}"
+              ng-click="$ctrl.selectService($ctrl.data.Auditoria.ProductoList.indexOf(service))"
+              ng-mouseenter="hover = true"
+              ng-mouseleave="hover = false">
+            <div class="card__header">
+              <div class="row">
+                <div ng-class="{'col-md-10': $ctrl.serviceSelected === null, 'col-md-8': $ctrl.serviceSelected !== null}">
+                  <p class="card__title u-pr-40">{{::service.descripcion}}</p>
+                </div>
+                <div class="col-xs-4" ng-class="{'col-sm-2': $ctrl.serviceSelected === null, 'col-sm-4 col-md-3': $ctrl.serviceSelected !== null}">
+                  <span class="card__rating" ng-if="!$ctrl.onAuditMode">
+                    <span class="iconref-estrella u-color-amarillo"></span>
+                    <span class="text">{{ service.valoracion.toFixed(0) }}/10</span>
+                  </span>
+                </div>
+                <span class="c-btn btn--icon">
+                  <span class="ico-mapfre_79_chevroneright"></span>
+                </span>
+                <div class="col-xs-8">
+                  <span class="card__state">
+                    <span ng-if="service.auditado" class="u-color-verde"><span class="ico-mapfre_260_checkmark"></span>Auditado</span>
+                  </span>
+                </div>
+              </div>
+            </div>
+          </li>
+          <li ng-hide="filteredServices.length">
+            <div class="u-p-20">
+              No se encontraron servicios
+            </div>
+          </li>
+        </ul>
+      </div>
+      <div class="panel__wrapper panel__gray u-br-5 scroll" ng-if="$ctrl.serviceSelected !== null">
+        <button class="c-btn btn btn--icon btn--close" ng-click="$ctrl.unselectService()">
+          <span class="ico-mapfre_46_cancelaroff"></span>
+        </button>
+        <header class="panel__header">
+          <span class="panel__title u-bb-gray">{{$ctrl.data.Auditoria.ProductoList[$ctrl.serviceSelected].descripcion}}</span>
+        </header>
+        <div class="panel__body u-pl-20 u-pr-25">
+          <div ng-if="!$ctrl.onAuditMode">
+            <div class="row u-mlr--5">
+              <div class="col-md-3 u-plr-5" ng-repeat="item in $ctrl.data.Auditoria.ProductoList[$ctrl.serviceSelected].CaracteristicaList | filter: {idTipoCaracteristica: 7}">
+                <div class="module__list clearfix">
+                  <dl>
+                    <dt>Cuenta con el servicio</dt>
+                    <dd>{{ item.idValor ? 'Sí' : 'No' }}</dd>
+                  </dl>
+                </div>
+              </div>
+              <div class="col-md-9 u-plr-5"
+                   ng-if="$ctrl.serviceSelectedEnabled || !$ctrl.isServiceDeactivatable($ctrl.serviceSelected)">
+                <div class="module__list clearfix"
+                     ng-if="($ctrl.data.Auditoria.ProductoList[$ctrl.serviceSelected].CaracteristicaList | filter: {idTipoCaracteristica: 1}).length || ($ctrl.data.Auditoria.ProductoList[$ctrl.serviceSelected].CaracteristicaList | filter: $ctrl.filterNoGroups | filter: {idTipoCaracteristica: 3}).length">
+                  <!-- Contador -->
+                  <dl ng-repeat="item in $ctrl.data.Auditoria.ProductoList[$ctrl.serviceSelected].CaracteristicaList | filter: {idTipoCaracteristica: 1}">
+                    <dt>{{ item.descripcion }}</dt>
+                    <dd>{{ item.idValor || '--' }}</dd>
+                  </dl>
+                  <dl ng-repeat="item in $ctrl.data.Auditoria.ProductoList[$ctrl.serviceSelected].CaracteristicaList | filter: $ctrl.filterNoGroups | filter: {idTipoCaracteristica: 3}">
+                    <dt>{{ item.descripcion }}</dt>
+                    <dd>{{ item.idValor || '--' }}</dd>
+                  </dl>
+                </div>
+              </div>
+            </div>
+
+            <div class="module__questions"
+                 ng-repeat="group in $ctrl.data.Auditoria.ProductoList[$ctrl.serviceSelected].CaracteristicaList | filter: $ctrl.filterGroups"
+                 ng-if="$ctrl.serviceSelectedEnabled || !$ctrl.isServiceDeactivatable($ctrl.serviceSelected)">
+              <span class="u-bold u-db u-mt-20">{{ group.descripcion }}</span>
+              <dl>
+                <dt ng-repeat-start="item in group.subCaracteristicas">
+                  {{item.descripcion}}</dt>
+                <dd ng-repeat-end>
+                  <span ng-if="item.idTipoCaracteristica === 3 && item.idValor === 0">No</span>
+                  <span ng-if="item.idTipoCaracteristica === 3 && item.idValor === 1">Sí</span>
+                  <span ng-if="item.idTipoCaracteristica === 4 && item.idValor === 1">Deficiente</span>
+                  <span ng-if="item.idTipoCaracteristica === 4 && item.idValor === 2">Por mejorar</span>
+                  <span ng-if="item.idTipoCaracteristica === 4 && item.idValor === 3">Satisfactorio</span>
+                  <span ng-if="item.idValor === null">--</span>
+                </dd>
+              </dl>
+            </div>
+            <dl class="module__comments u-mt-20"
+                ng-repeat="item in $ctrl.data.Auditoria.ProductoList[$ctrl.serviceSelected].CaracteristicaList | filter: {idTipoCaracteristica: 6}"
+                ng-if="($ctrl.serviceSelectedEnabled  || !$ctrl.isServiceDeactivatable($ctrl.serviceSelected)) && item.valor">
+              <dt>{{ item.descripcion }}</dt>
+              <dd>{{ item.valor }}</dd>
+            </dl>
+          </div>
+          <div ng-if="$ctrl.onAuditMode">
+            <div ng-repeat="item in $ctrl.data.Auditoria.ProductoList[$ctrl.serviceSelected].CaracteristicaList | orderBy: 'orden'">
+              <div ng-if="$ctrl.serviceSelectedEnabled || item.idTipoCaracteristica === 7">
+                <div class="panel__body-section">
+                  <cp-producto-item ng-if="item.idTipoCaracteristica !== 4 && item.idTipoCaracteristica !== 3 || (item.idTipoCaracteristica === 3 && !item.idGrupo)"
+                                    item="item"
+                                    on-product-enable="$ctrl.enableService($ctrl.serviceSelected)"
+                                    on-product-disable="$ctrl.disableService($ctrl.serviceSelected)"
+                                    on-product-change="$ctrl.serviceChanged()">
+                  </cp-producto-item>
+                  <cp-producto-preguntas ng-if="item.idTipoCaracteristica === 4 || (item.idTipoCaracteristica === 3 && item.idGrupo)"
+                                         on-product-change="$ctrl.serviceChanged($ctrl.serviceSelected)"
+                                         items="item">
+                 </cp-producto-preguntas>
+                </div>
+              </div>
+            </div>
+            <p class="text-right">
+              <button class="btn c-btn btn--secundary text-uppercase"
+                      ng-click="$ctrl.saveAudit()"
+                      ng-disabled="$ctrl.auditSaved || $ctrl.auditSaving">
+                <span ng-if="!$ctrl.auditSaved && !$ctrl.auditSaving">Guardar servicio</span>
+                <span ng-if="$ctrl.auditSaved && !$ctrl.auditSaving">Servicio guardado</span>
+                <span ng-if="$ctrl.auditSaving">Guardando servicio…</span>
+              </button>
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,210 @@
+<div class="container">
+    <div class="row mb-md-2 g-title">
+        <div class="col-sm-9 mb-xs-2 no-mb-sm">
+            <h1>Agrupamiento</h1>
+        </div>
+    </div>
+    <!-- <div class="row">
+        <div class="col-md-12">
+            <h4 class="g-sub-title g-myd-subtitle">Agrupamiento</h4>
+        </div>
+    </div> -->
+    <div class="row">
+        <div class="col-md-12">
+            <p class="item-title mt-xs-1 gH3">Tipo de producto</p>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12 ">
+            <div class="clearfix g-box gBgcGray5">
+                <div class="row pt-xs-2 mb-xs-2">
+                    <form name="frmFilters">
+                        <ul class="clearfix g-list-sm">
+                            <li class="col-md-9 col-sm-9 mb-xs-2">
+                                <ul class="row">
+                                    <li class="col-sm-12 clearfix">
+                                        <div class="col-sm-3 col-xs-6">
+                                            <mpf-select ng-model="filters.ramo" name="ramo" ng-change="listCamposanto()"
+                                                label="{label: 'Ramo',required: true}" m-data-source="ramo"
+                                                text-field="Text" value-field="Codigo"
+                                                m-Empty-Option="{enterData:true}" mpf-validation="required"
+                                                ng-required="true">
+                                            </mpf-select>
+                                            <div class="g-error" ng-show="validControlForm('ramo')">
+                                                {{cntsSepelios.SMS_ERROR.REQUERIDO}}
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-3 col-xs-6">
+                                            <mpf-select ng-model="filters.camposanto" name="nCamposanto"
+                                                label="{label: 'Camposanto', required: false}"
+                                                m-data-source="camposanto" text-field="Descripcion" value-field="Codigo"
+                                                m-Empty-Option="{enterData:true}"
+                                                ng-disabled=""></mpf-select>
+                                        </div>
+                                        <div class="col-sm-2 col-xs-6">
+                                            <mpf-input label="{label: 'Código Producto', required: false}"
+                                                name="codigoProducto" ng-model="filters.codigoProducto"
+                                                mpf-validation="onlyLetterNumber">
+                                            </mpf-input>
+                                        </div>
+                                        <div class="col-sm-2 col-xs-6">
+                                            <mpf-input label="{label: 'Producto', required: false}" name="producto"
+                                                ng-model="filters.producto" mpf-validation="onlyLetterNumberGuion">
+                                            </mpf-input>
+                                        </div>
+                                        <div class="col-sm-2 col-xs-6">
+                                            <mpf-select label="{label: 'Categoria'}" name="nCategproa"
+                                                ng-model="filters.categoria" m-data-source="categoria"
+                                                text-field="Descripcion" value-field="Descripcion"
+                                                m-Empty-Option="{enterData:true}"></mpf-select>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li class="col-md-3 col-sm-3 clearfix">
+                                <div class="col-md-12 mb-xs-1">
+                                    <div class="col-md-12 mb-xs-1">
+                                        <a class="g-btn g-btn-verde block second-design"
+                                            ng-click="search()">
+                                            <span class="g-icon">
+                                                <span>Buscar</span>
+                                            </span>
+                                        </a>
+                                    </div>
+                                    <div class="col-md-12 ">
+                                        <a class="g-btn g-btn-white block second-design" ng-click="clearFilters()">
+                                            <span class="g-icon">
+                                                <span>Limpiar</span>
+                                            </span>
+                                        </a>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Tabla -->
+    <div class="row">
+        <div class="col-md-12">
+            <div class="clearfix g-tbl-wrapper">
+                <div class="clearfix table__1024 g-tbl-habilitarPlanes">
+                    <ul height-row class="g-row-fz12 g-tbl-row gBgcGray5 pt-xs-1">
+                        <li class="g-col g-col-xs col-13-dktp tbl-item item-title">RAMO</li>
+                        <li class="g-col g-col-xs col-13-dktp tbl-item item-title">NOMBRE DE CAMPOSANTO</li>
+                        <li class="g-col g-col-xs col-13-dktp tbl-item item-title">TIPO DE CONTRATO</li>
+                        <li class="g-col g-col-xs col-15-dktp tbl-item item-title">MODALIDAD</li>
+                        <li class="g-col g-col-xs col-17-dktp tbl-item item-title">PRODUCTO</li>
+                        <li class="g-col g-col-xs col-13-dktp tbl-item item-title">PRECIO</li>
+                        <li class="g-col g-col-xs col-13-dktp tbl-item item-title">CATEGORÍA</li>
+                    </ul>
+                    <div class="mb-xs-1 gnContentAuto-bg">
+                        <ul height-row class="g-row-fz12 g-tbl-row pt-xs-1 g-border-bottom-xs"
+                            ng-repeat="item in agrupaciones track by $index">
+                            <li class="g-col g-col-xs col-13-dktp tbl-item g-u-cursor--pointer" ng-Click="showDetails(item)">
+                                <span ng-if="item.CodRamo==400"> {{ "Necesidad Inmediata" | uppercase }}</span>
+                                <span ng-if="item.CodRamo==401"> {{ "Necesidad Futura" | uppercase }}</span>
+                            </li>
+                            <li class="g-col g-col-xs col-13-dktp tbl-item g-u-cursor--pointer" ng-Click="showDetails(item)">{{item.NombreCampoSanto}}</li>
+                            <li class="g-col g-col-xs col-13-dktp tbl-item g-u-cursor--pointer" ng-Click="showDetails(item)">{{item.NombreTipoContrato}}</li>
+                            <li class="g-col g-col-xs col-15-dktp tbl-item g-u-cursor--pointer" ng-Click="showDetails(item)">{{item.NombreModalidad}}</li>
+                            <li class="g-col g-col-xs col-17-dktp tbl-item g-u-cursor--pointer" ng-Click="showDetails(item)">{{item.NombreProducto}}</li>
+                            <li ng-if="item.Precio" class="g-col g-col-xs col-13-dktp tbl-item g-u-cursor--pointer" ng-Click="showDetails(item)">{{item.Precio | currency }}</li>
+                            <li ng-if="!item.Precio" class="g-col g-col-xs col-13-dktp tbl-item g-u-cursor--pointer" ng-Click="showDetails(item)"> - </li>
+                            <li class="g-col g-col-xs col-13-dktp tbl-item">
+                                <mpf-select class="rg-select-no-header no-margin" name="nombreCategoria{{$index}}"
+                                    ng-model="item.categoria" m-data-source="categoriaSelect"
+                                    ng-change="updateProductoCategoria(item)" text-field="Descripcion"
+                                    value-field="Codigo"></mpf-select>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row" ng-if="pagination.noSearch">
+        <div class="col-md-12 text-center g-box-noresult">
+            <div class="row">
+                <div class="col-md-12 g-box-noresult-ico gCBlue2">
+                    <span class="ico-mapfre_303_informacion"></span>
+                </div>
+                <div class="col-md-12 g-box-noresult-text">
+                    Realiza una búsqueda para obtener resultados.
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row" ng-if="pagination.noResult">
+        <div class="col-md-12 text-center g-box-noresult">
+            <div class="row">
+                <div class="col-md-12 g-box-noresult-ico gCRed1"><span class="ico-mapfre_302_error"></span></div>
+                <div class="col-md-12 g-box-noresult-text">
+                    No hay resultados para los filtros escogidos.<br>Intenta de nuevo.
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row" ng-if="!pagination.noResult && pagination.totalItems > 10">
+        <div class="col-md-12">
+            <ul uib-pagination class="g-pagination" ng-model="pagination.currentPage" max-size="pagination.maxSize"
+                total-items="pagination.totalItems" ng-change="pageChanged(pagination.currentPage)"
+                boundary-link-numbers="true"></ul>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <p class="item-title mt-xs-1 gH3">Tipo de financiamiento</p>
+        </div>
+    </div>
+    <!-- Tabla -->
+    <div class="row">
+        <div class="col-md-12">
+            <div class="clearfix g-tbl-wrapper">
+                <div class="clearfix table__1024 g-tbl-habilitarPlanes">
+                    <ul height-row class="g-row-fz12 g-tbl-row gBgcGray5 pt-xs-1">
+                        <li class="g-col g-col-xs col-20-dktp tbl-item item-title">TIPOLOGÍA</li>
+                        <li class="g-col g-col-xs col-20-dktp tbl-item item-title">CARACTERISTÍCAS</li>
+                        <li class="g-col g-col-xs col-10-dktp tbl-item item-title">MES MÍNIMO</li>
+                        <li class="g-col g-col-xs col-10-dktp tbl-item item-title">MES MÁXIMO</li>
+                        <li class="g-col g-col-xs col-20-dktp tbl-item item-title">FINANCIAMIENTO</li>
+                        <li class="g-col g-col-xs col-20-dktp tbl-item item-title"></li>
+                    </ul>
+                    <div class="mb-xs-1 gnContentAuto-bg">
+                        <ul height-row class="g-row-fz12 g-tbl-row pt-xs-1 g-border-bottom-xs"
+                            ng-repeat="item in financiamientos track by $index">
+                            <li class="g-col g-col-xs col-20-dktp tbl-item">{{item.CodTipologiaFinanciamiento}}</li>
+                            <li class="g-col g-col-xs col-20-dktp tbl-item">{{item.Caracteristica}}</li>
+                            <li class="g-col g-col-xs col-10-dktp tbl-item">
+                                <mpf-input ng-keyup="editFormula(item)"  class="rg-select-no-header no-margin" name="minimo{{$index}}"
+                                    ng-model="item.MesMinimo" ng-disabled="item.disabledF">
+                                </mpf-input>
+                            </li>
+                            <li class="g-col g-col-xs col-10-dktp tbl-item">
+                                <mpf-input ng-if="item.inputView" ng-keyup="editFormula(item)"  class="rg-select-no-header no-margin" name="maximo{{$index}}"
+                                    ng-model="item.MesMaximo" ng-disabled="item.disabledF">
+                                </mpf-input>
+                            </li>
+                            <li class="g-col g-col-xs col-20-dktp tbl-item">{{item.Financiamiento}}</li>
+                            <li class="g-col g-col-xs col-20-dktp tbl-item">
+                                <span ng-if="item.disabled">
+                                    <a ng-if="item.disabledF" class="ico-verde">
+                                        <span class="ico-click gnIcon-xsm ico-mapfre_228_editar"
+                                            ng-click="item.disabledF =! item.disabledF"></span>
+                                    </a>
+                                    <a ng-if="!item.disabledF" ng-click="saveFinanciamiento(item)" class="ico-verde">
+                                        <span class="glyphicon glyphicon-floppy-disk gnIcon-xsm">
+                                        </span>
+                                    </a>
+                                </span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

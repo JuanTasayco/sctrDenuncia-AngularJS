@@ -1,0 +1,253 @@
+<div class="consultaGestion">
+  <div class="container">
+    <div
+      show-filter
+      class="clearfix g-col-filter g-box-md gBgcGray5-md gBgcWhite1 g-myd-box"
+      ng-class="{'show': isFilterVisible}"
+    >
+      <div class="col-xs-12">
+        <div class="clearfix gH4 gCGray1 mb-xs-1-5">
+          <h2 class="hidden-xs hidden-sm"><b>Opciones de Búsqueda</b></h2>
+          <div
+            id="show-filter"
+            class="row pt-xs-2 pb-xs-2 gBgcGray5 g-border-bottom-xs hidden-md hidden-lg"
+            ng-click="toggleFilter();"
+          >
+            <div class="col-xs-10">
+              <h2><b>Opciones de Búsqueda</b></h2>
+            </div>
+            <div class="col-xs-2 g-text-right-xs">
+              <!-- ngIf: isFilterVisible --><span
+                class="glyphicon glyphicon-chevron-down ng-scope"
+                ng-if="isFilterVisible"
+                style=""
+              ></span
+              ><!-- end ngIf: isFilterVisible -->
+              <!-- ngIf: !isFilterVisible --><span
+                class="glyphicon glyphicon-chevron-up ng-scope"
+                ng-if="!isFilterVisible"
+                style=""
+              ></span
+              ><!-- end ngIf: !isFilterVisible -->
+            </div>
+            <div class="clearfix"></div>
+          </div>
+        </div>
+        <form class="clearfix" name="vm.formBeneficios.frmBeneficio">
+          <div class="row mb-xs-2">
+            <div class="col-md-12 col-xs-12 mt-xs-2 mt-md-0">
+              <div class="row">
+                <div class="col-md-3 pl-xs-1 pr-xs-0">
+                  <m-radio
+                    label="{label: 'No. de Documento'}"
+                    name="nCondicion"
+                    ng-model="vm.optRadio2"
+                    value="1"
+                    data-ng-required="true"
+                    ng-click="vm.resetFiltro()"
+                  ></m-radio>
+                  <div
+                    class="g-error"
+                    data-ng-show="vm.formBeneficios.frmBeneficio.nCondicion.$error.required && !vm.formBeneficios.frmBeneficio.nCondicion.$pristine"
+                  >
+                    * Seleccione una opción
+                  </div>
+                </div>
+                <div class="col-md-2 pl-xs-1 pr-xs-0">
+                  <m-radio
+                    label="{label: 'Póliza'}"
+                    name="nCondicion"
+                    ng-model="vm.optRadio2"
+                    value="2"
+                    data-ng-required="true"
+                    ng-click="vm.resetFiltro()"
+                  ></m-radio>
+                </div>
+              </div>
+
+              <div class="row" ng-show="vm.optRadio2 == '1'">
+                <div class="col-md-4 mt-md-1 h-myd-mt--20">
+                  <gcw-cbo-tipo-doc-entidad data="vm.formBeneficios.mTipoDoc"></gcw-cbo-tipo-doc-entidad>
+                </div>
+                <div class="col-md-4 mt-md-1 h-myd-mt--20" ng-show="vm.onlyNumber">
+                  <mpf-input
+                    label="{label: 'Nro. de documento:', required: true}"
+                    focuss-me="true"
+                    name="nNumeroDocumento"
+                    ng-model="vm.formBeneficios.mNumeroDocumento"
+                    mpf-validation="onlyNumber"
+                    ng-maxlength="vm.docNumMaxLength"
+                    ng-minlength="vm.docNumMinLength"
+                  >
+                  </mpf-input>
+                  <div
+                    class="g-error"
+                    ng-show="vm.formBeneficios.frmBeneficio.nNumeroDocumento.$invalid && !vm.formBeneficios.frmBeneficio.nNumeroDocumento.$pristine"
+                  >
+                    * Ingrese un número de documento
+                  </div>
+                </div>
+                <div class="col-md-4 mt-md-1 h-myd-mt--20" ng-hide="vm.onlyNumber">
+                  <mpf-input
+                    label="{label: 'Nro. de documento:', required: true}"
+                    focuss-me="true"
+                    name="nNumeroDocumento"
+                    ng-model="vm.formBeneficios.mNumeroDocumento"
+                    ng-maxlength="vm.docNumMaxLength"
+                    ng-minlength="vm.docNumMinLength"
+                  ></mpf-input>
+                  <div
+                    class="g-error"
+                    ng-show="vm.formBeneficios.frmBeneficio.nNumeroDocumento.$invalid && !vm.formBeneficios.frmBeneficio.nNumeroDocumento.$pristine"
+                  >
+                    * Ingrese un número de documento
+                  </div>
+                </div>
+              </div>
+
+              <div class="row" ng-show="vm.optRadio2 == '2'">
+                <div class="col-md-4 mt-md-1 h-myd-mt--20">
+                  <mpf-input
+                    label="{label: 'Nro. Póliza', required: true}"
+                    name="nNumPoliza"
+                    mpf-validation="onlyNumber"
+                    minLength="12"
+                    maxLength="15"
+                    ng-model="vm.formBeneficios.mNumPoliza"
+                  ></mpf-input>
+                  <div
+                    class="g-error"
+                    ng-show="vm.formBeneficios.frmBeneficio.nNumPoliza.$invalid && !formBeneficios.frmBeneficio.nNumPoliza.$pristine"
+                  >
+                    * Ingrese un número de documento
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-offset-8 col-md-2 mb-xs-1 no-mb-md">
+              <a class="g-btn g-btn-verde second-design block" ng-click="vm.buscar()">Buscar</a>
+            </div>
+            <div class="col-md-2">
+              <a class="g-btn g-btn-white second-design block" ng-click="vm.clean()">Limpiar</a>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <div
+      tbl-oim-topbar
+      class="clearfix g-tbl-topbar mt-md-2 mb-xs-2 mt-xs-1 g-border-top g-border-bottom width-filtro"
+      ng-show="vm.totalRows >= 1"
+    >
+      <div class="g-row-icons__box visible-xs visible-sm box_left">
+        <a ng-click="showFilterTopbar = !showFilterTopbar" uib-popover="Filtro" popover-trigger="'mouseenter'">
+          <span class="g-icon-box g-icon-box-md">
+            <span class="ico-mapfre ico-mapfre_203_filtro ico-filter h-myd--none"></span>
+            <span
+              class="ico-mapfre ico-mapfre-362-myd-filter ico-filter h-myd--show h-oim-none h-myd-ico--mediun"
+            ></span>
+          </span>
+        </a>
+        <a 
+        ga-click
+        ga-category="'CG - Beneficios'"
+        ga-action="'MPF - Listado Beneficios - Exportar'"
+        ga-label="'Botón: Exportar'" 
+        data-ng-click="exportar()" uib-popover="Exportar" popover-trigger="'mouseenter'">
+          <span class="g-icon-box g-icon-box-md">
+            <span class="ico-mapfre ico-mapfre_124_download ico-download h-myd--none"></span>
+            <span
+              class="ico-mapfre ico-mapfre-360-myd-export ico-download h-myd--show h-oim-none h-myd-ico--mediun"
+            ></span>
+          </span>
+        </a>
+      </div>
+      <div class="g-row-filter__box g-row-icons__box box_left hidden-xs hidden-sm" ng-show="vm.totalRows >= 1">
+        <a 
+        ga-click
+        ga-category="'CG - Beneficios'"
+        ga-action="'MPF - Listado Beneficios - Exportar'"
+        ga-label="'Botón: Exportar'" 
+        data-ng-click="exportar()" uib-popover="Exportar" popover-trigger="'mouseenter'">
+          <span class="ico-mapfre ico-mapfre_124_download ico-download h-myd--none"></span>
+          <span
+            class="ico-mapfre ico-mapfre-360-myd-export ico-download h-myd--show h-oim-none h-myd-ico--mediun"
+          ></span>
+        </a>
+      </div>
+    </div>
+
+    <!--<div class="clearfix" ng-show="vm.beneficiosList.beneficios">-->
+    <div class="clearfix mt-xs-2" ng-show="vm.totalRows >= 1">
+      <div class="col-xs-12">
+        <h2 class="cnt-title g-text-uppercase">
+          <b>Segmento comercial: {{ vm.commercialSegment }}</b>
+        </h2>
+      </div>
+      <div class="clearfix">
+        <ul class="row g-list second-design">
+          <li class="col-md-10 col-xs-8 clearfix mt-xs-1">
+            <div class="col-xs-12 item-label g-text-uppercase">Beneficios</div>
+          </li>
+          <li class="col-md-2 col-xs-4 clearfix mt-xs-1 g-text-right-xs">
+            <div class="col-xs-12 item-label g-text-uppercase">Disponible</div>
+          </li>
+        </ul>
+      </div>
+      <div class="clearfix g-box gBgcGray5 mt-xs-1 g-myd-box--result" ng-repeat="beneficio in vm.beneficios">
+        <ul class="row g-list second-design">
+          <li class="col-md-10 col-xs-8 clearfix cnt-item mt-xs-1">
+            <div class="col-xs-12 item-dato g-text-uppercase">{{ beneficio.description }}</div>
+          </li>
+          <li class="col-md-2 col-xs-4 clearfix cnt-item mt-xs-1 g-text-right-xs">
+            <div class="col-xs-12 item-dato g-text-uppercase">{{ beneficio.available }}</div>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <div
+      class="col-md-12 text-center g-box-noresult ng-scope h-myd-mt--20"
+      ng-show="vm.firstSearchB || vm.totalRows < 1"
+      ng-hide="!vm.firstSearchB && vm.totalRows == 0"
+    >
+      <div class="row">
+        <div class="col-md-12 g-box-noresult-ico gCRed1 gCBlue2">
+          <span class="ico-mapfre_303_informacion"></span>
+        </div>
+        <div class="col-md-12 g-box-noresult-text">
+          Realiza una búsqueda para obtener resultados.
+        </div>
+      </div>
+    </div>
+
+    <!--<div class="clearfix" ng-show="vm.firstSearchB && vm.noResultB">-->
+    <div class="col-md-12 text-center g-box-noresult h-myd-mt--20" ng-show="!vm.firstSearchB && vm.totalRows == 0">
+      <div class="row">
+        <div class="col-md-12 g-box-noresult-ico gCRed1 gCRed1">
+          <span class="ico-mapfre_302_error"></span>
+        </div>
+        <div class="col-md-12 g-box-noresult-text">No hay resultados para mostrar.<br />Intente nuevamente.</div>
+      </div>
+    </div>
+
+    <!-- Inicio: Paginacion -->
+    <mx-paginador
+      data-datos="vm.beneficios"
+      data-items-x-page="vm.itemsXPagina"
+      data-msg-vacio="vm.msgVacio"
+      data-on-paginar="vm.pageChangedRenovaciones($event)"
+      data-pagina-actual="currentPage"
+      data-total-items="vm.renovacionesLength"
+    >
+    </mx-paginador>
+    <!-- Fin: Paginacion -->
+  </div>
+</div>
+
+<form id="frmExport" name="frmExport" action="{{ vm.exportURL }}" method="post" target="_blank">
+  <input type="hidden" name="json" value="{{ vm.downloadFile }}" />
+</form>

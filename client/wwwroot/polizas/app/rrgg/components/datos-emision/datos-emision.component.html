@@ -1,0 +1,299 @@
+<div class="row">
+  <div class="col-md-12">
+    <h2 class="g-sub-title g-myd-subtitle">Datos para la emisión</h2>
+  </div>
+</div>
+<div class="row">
+  <div class="col-sm-6 col-md-3 mb-xs-2">
+    <mpf-input label="{label: 'RUC',required: true}" name="ruc" ng-model="$ctrl.emision.modelo.Ruc"
+      ng-disabled="inputDisabled == true" ng-required="true" ng-minlength="11" ng-maxlength="11"
+      mpf-validation="onlyNumber"></mpf-input>
+    <div class="g-error" ng-show="$ctrl.validControlForm('ruc')">
+      {{$ctrl.constantsRrgg.SMS_ERROR.REQUERIDO}}
+    </div>
+  </div>
+  <div class="col-sm-6 col-md-3 mb-xs-2">
+    <mpf-input label="{label: 'Código de agente',required: true}" name="CodigoAgente"
+      ng-model="$ctrl.emision.modelo.tramite.CodigoAgente" ng-disabled="inputDisabled == true" ng-required="true"
+      mpf-validation="onlyNumber">
+    </mpf-input>
+    <div class="g-error" ng-show="$ctrl.validControlForm('CodigoAgente')">
+      {{$ctrl.constantsRrgg.SMS_ERROR.REQUERIDO}}
+    </div>
+  </div>
+  <div ng-if="$ctrl.tramite.Grupo === $ctrl.constantsRrgg.GRUPO.TRAB_ESPECIFICOS" class="col-sm-6 col-md-3 mb-xs-2">
+    <mpf-select ng-model="$ctrl.emision.modelo.FormaPago" name="FormaPago"
+      label="{label: 'Forma de pago', required: true}" m-data-source="$ctrl.formaPago" text-field="Descripcion"
+      value-field="Codigo" m-Empty-Option="{enterData:true}" mpf-validation="required" ng-required="true">
+    </mpf-select>
+    </mpf-select>
+    <div class="g-error" ng-show="$ctrl.validControlForm('FormaPago')">
+      {{$ctrl.constantsRrgg.SMS_ERROR.REQUERIDO}}
+    </div>
+  </div>
+  <div ng-if="$ctrl.tramite.Grupo === $ctrl.constantsRrgg.GRUPO.TRAB_ESPECIFICOS" class="col-sm-6 col-md-3 mb-xs-2">
+    <mpf-input label="{label: 'Número de cotización',required: true}" name="NroTramite"
+      ng-model="$ctrl.emision.modelo.tramite.NroTramite" ng-disabled="true" ng-required="true">
+    </mpf-input>
+    <div class="g-error" ng-show="$ctrl.validControlForm('NroTramite')">
+      {{$ctrl.constantsRrgg.SMS_ERROR.REQUERIDO}}
+    </div>
+  </div>
+</div>
+<div class="row mb-xs-3 mb-md-5">
+  <div ng-if="$ctrl.tramite.Grupo === $ctrl.constantsRrgg.GRUPO.TRAB_ESPECIFICOS" class="col-sm-6 col-md-3 mb-xs-2">
+    <mpf-input label="{label: 'País'}" name="Pais" ng-model="$ctrl.emision.modelo.Pais" ng-disabled="true"
+      ng-required="true">
+    </mpf-input>
+  </div>
+  <div ng-if="$ctrl.tramite.Grupo === $ctrl.constantsRrgg.GRUPO.TRAB_ESPECIFICOS" class="col-sm-6 col-md-3 mb-xs-2">
+    <mpf-select ng-model="$ctrl.emision.modelo.Estado" name="Estado" label="{label: 'Estado', required: true}"
+      m-data-source="$ctrl.departamentos" text-field="Descripcion" value-field="Codigo"
+      m-Empty-Option="{enterData:true}" mpf-validation="required" ng-required="true">
+    </mpf-select>
+    <div class="g-error" ng-show="$ctrl.validControlForm('Estado')">
+      {{$ctrl.constantsRrgg.SMS_ERROR.REQUERIDO}}
+    </div>
+  </div>
+  <div ng-if="$ctrl.validInputPlatComer()" class="col-sm-6 col-md-3 mb-xs-2">
+    <mpf-input label="{label: 'ID - Plataforma comercial',required: false}" name="IdPlataforma"
+      ng-model="$ctrl.emision.modelo.IdPlataforma" ng-disabled="inputDisabled == true" ng-required="false"
+      mpf-validation="onlyNumber">
+    </mpf-input>
+  </div>
+  <div ng-if="$ctrl.validInputPlatDesh()" class="col-sm-6 col-md-3 mb-xs-2">
+    <mpf-input label="{label: 'ID - Plataforma comercial Desh',required: false}" name="IdPlataforma"
+      ng-model="$ctrl.emision.modelo.IdPlataformaDesh" ng-disabled="inputDisabled == true" ng-required="false"
+      mpf-validation="onlyNumber">
+    </mpf-input>
+  </div>
+</div>
+
+<div
+  ng-if="$ctrl.tramite.Grupo === $ctrl.validbyProducto($ctrl.constantsRrgg.GRUPO.TREC,$ctrl.constantsRrgg.GRUPO.CAR,$ctrl.constantsRrgg.GRUPO.CARLITE,$ctrl.constantsRrgg.GRUPO.TRANSPORTE)"
+  class="row">
+  <div class="col-md-12">
+    <h2 class="g-sub-title g-myd-subtitle">Datos del endosatario</h2>
+  </div>
+</div>
+
+<div ng-if="$ctrl.tramite.Grupo === $ctrl.validbyProducto($ctrl.constantsRrgg.GRUPO.TREC)" class="row">
+  <div class="col-sm-6 col-md-3 mb-xs-2 mb-md-0">
+    <p class="fwMedium">¿Agregar endosatarios?</p>
+    <m-radio class="mr-xs-3" label="{label: 'Si'}" name="agregaEndosatario"
+      ng-model="$ctrl.emision.modelo.AdicionarEndosatario" value="{{$ctrl.constantsRrgg.RADIO.SI}}"></m-radio>
+    <m-radio label="{label: 'No'}" name="agregaEndosatario" ng-model="$ctrl.emision.modelo.AdicionarEndosatario"
+      value="{{$ctrl.constantsRrgg.RADIO.NO}}" ng-click="$ctrl.noEndosatario()"></m-radio>
+  </div>
+
+  <div class="col-sm-6 col-md-3 mb-xs-2 mb-md-0"
+    ng-if="$ctrl.emision.modelo.AdicionarEndosatario === $ctrl.constantsRrgg.RADIO.SI ">
+    <mpf-select ng-model="$ctrl.emision.modelo.NumEndosatario" name="NumEndosatario"
+      label="{label: 'Número de endosatarios', required: true}" m-data-source="$ctrl.endosatario"
+      text-field="Descripcion" value-field="Valor" m-Empty-Option="{enterData:true}"
+      ng-change="$ctrl.addEndosatario($ctrl.emision.modelo.NumEndosatario)" mpf-validation="required"
+      ng-required="true">
+    </mpf-select>
+    <div class="g-error" ng-show="$ctrl.validControlForm('NumEndosatario')">
+      {{$ctrl.constantsRrgg.SMS_ERROR.REQUERIDO}}
+    </div>
+  </div>
+</div><br>
+
+<div
+  ng-if="$ctrl.tramite.Grupo === $ctrl.validbyProducto($ctrl.constantsRrgg.GRUPO.TREC,$ctrl.constantsRrgg.GRUPO.CAR,$ctrl.constantsRrgg.GRUPO.CARLITE,$ctrl.constantsRrgg.GRUPO.TRANSPORTE)"
+  class="row mb-xs-3 mb-md-5">
+  <ul ng-repeat="endosa in $ctrl.emision.modelo.endosatarios track by $index  ">
+    <li class="g-box g-box--list">
+      <div class="row mb-xs-3 mb-md-3">
+        <div class="col-md-2 g-box--check-number">
+          <div class="g-box--list-number">
+            <p class="pr-xs-1 pr-md-0">Nro. Endosatario</p>
+            <p>{{$index + 1}}</p>
+          </div>
+        </div>
+        <div class="col-sm-6 col-md-3 mb-xs-2 mb-sm-0">
+          <mpf-select ng-model="endosa.TipDocumento" name="TipDocumento{{$index}}"
+            label="{label: 'Tipo de documento', required: false}" m-data-source="$ctrl.tipoDocumentoTrec"
+            text-field="Valor" value-field="Valor" m-Empty-Option="{enterData:true}" 
+            ng-required="false" ng-change="$ctrl.cambioTipoDocumento(endosa)">
+          </mpf-select>
+          <div class="g-error" ng-show="$ctrl.validControlForm('TipDocumento{{$index}}')">
+            {{$ctrl.constantsRrgg.SMS_ERROR.REQUERIDO}}
+          </div>
+        </div>
+        <div class="col-sm-6 col-md-3 mb-xs-2 mb-sm-0">
+          <mpf-input label="{label: 'Nro. Documento',required: false}" name="NroDocumento{{$index}}"
+            ng-model="endosa.NroDocumento" ng-disabled="inputDisabled == true" ng-required="false"
+            mpf-validation="onlyNumber" ng-minlength="endosa.minNumeroDoc" ng-maxlength="endosa.maxNumeroDoc">
+          </mpf-input>
+          <div class="g-error" ng-show="$ctrl.validControlForm('NroDocumento{{$index}}')">
+            {{$ctrl.constantsRrgg.SMS_ERROR.REQUERIDO}}
+          </div>
+        </div>
+        <div class="col-sm-6 col-md-3 mb-xs-2 mb-sm-0">
+          <mpf-input label="{label: 'Valor Endosado'}" name="ValorEndoso" ng-model="endosa.ValorEndoso"
+            ng-disabled="inputDisabled == true" ng-required="false" mpf-validation="onlyDecimal" m-input-currency>
+          </mpf-input>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-2 g-box--check-number">
+        </div>
+        <div
+          ng-if="$ctrl.tramite.Grupo === $ctrl.validbyProducto($ctrl.constantsRrgg.GRUPO.CAR,$ctrl.constantsRrgg.GRUPO.CARLITE)"
+          class="col-sm-6 col-md-3 mb-xs-2 mb-sm-0">
+          <mpf-select ng-model="$ctrl.emision.modelo.TipoProyecto" name="nTipoDocumento"
+            label="{label: 'Tipo de proyecto', required: true}" m-data-source="$ctrl.tipoProyecto"
+            text-field="Descripcion" value-field="Codigo" m-Empty-Option="{enterData:true}" ng-required="true">
+          </mpf-select>
+          <div class="g-error" ng-show="$ctrl.validControlForm('nTipoDocumento')">
+            {{$ctrl.constantsRrgg.SMS_ERROR.REQUERIDO}}
+          </div>
+        </div>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="row">
+  <div ng-if="$ctrl.tramite.Grupo === $ctrl.constantsRrgg.GRUPO.TREC" class="col-sm-6 col-md-3 mb-xs-2">
+    <mpf-select ng-model="$ctrl.emision.modelo.TipoEquipo" name="TipoEquipo"
+      label="{label: 'Tipo de equipo', required: true}" m-data-source="$ctrl.tipoEquipos" text-field="Descripcion"
+      value-field="Codigo" m-Empty-Option="{enterData:true}" mpf-validation="required" ng-required="true">
+    </mpf-select>
+    <div class="g-error" ng-show="$ctrl.validControlForm('TipoEquipo')">
+      {{$ctrl.constantsRrgg.SMS_ERROR.REQUERIDO}}
+    </div>
+  </div>
+</div>
+<div class="row">
+  <div class="col-md-12">
+    <h2 class="g-sub-title g-myd-subtitle">Confirmar vigencia de póliza</h2>
+  </div>
+</div>
+<div class="row mb-xs-3 mb-md-5">
+
+  <div class="row col-md-12"
+    ng-if="$ctrl.tramite.Grupo === $ctrl.validbyProducto($ctrl.constantsRrgg.GRUPO.TRANSPORTE)">
+    <div class="col-sm-6 col-md-3 mb-xs-2">
+      <mpf-select ng-model="$ctrl.emision.modelo.tipoTransporte" name="tipoTransporte"
+        label="{label: 'Tipo de transporte', required: false}" m-data-source="$ctrl.tipoTransporte"
+        text-field="Descripcion" value-field="Codigo" m-Empty-Option="{enterData:true}"
+        ng-required="false">
+      </mpf-select>
+      <div class="g-error" ng-show="$ctrl.validControlForm('tipoTransporte')">
+        {{$ctrl.constantsRrgg.SMS_ERROR.REQUERIDO}}
+      </div>
+    </div>
+    <div class="col-sm-6 col-md-3 mb-xs-2">
+      <mpf-select ng-model="$ctrl.emision.modelo.materiaAsegurada" name="materiaAsegurada"
+        label="{label: 'Materia asegurada', required: true}" m-data-source="$ctrl.materiaAsegurada"
+        text-field="Descripcion" value-field="Codigo" m-Empty-Option="{enterData:true}" mpf-validation="required"
+        ng-required="true">
+      </mpf-select>
+      <div class="g-error" ng-show="$ctrl.validControlForm('materiaAsegurada')">
+        {{$ctrl.constantsRrgg.SMS_ERROR.REQUERIDO}}
+      </div>
+    </div>
+    <div class="col-sm-6 col-md-3 mb-xs-2">
+      <mpf-select ng-model="$ctrl.emision.modelo.embalaje" name="embalaje"
+        label="{label: 'Embalaje utilizado', required: true}" m-data-source="$ctrl.embalaje" text-field="Descripcion"
+        value-field="Codigo" m-Empty-Option="{enterData:true}" mpf-validation="required" ng-required="true">
+      </mpf-select>
+      <div class="g-error" ng-show="$ctrl.validControlForm('embalaje')">
+        {{$ctrl.constantsRrgg.SMS_ERROR.REQUERIDO}}
+      </div>
+    </div>
+    <div class="col-sm-6 col-md-3 mb-xs-2">
+      <mpf-select ng-model="$ctrl.emision.modelo.valuacionMer" name="valuacionMer"
+        label="{label: 'Valuación de Mercancía', required: true}" m-data-source="$ctrl.valuacionMer"
+        text-field="Descripcion" value-field="Codigo" m-Empty-Option="{enterData:true}" mpf-validation="required"
+        ng-required="true">
+      </mpf-select>
+      <div class="g-error" ng-show="$ctrl.validControlForm('valuacionMer')">
+        {{$ctrl.constantsRrgg.SMS_ERROR.REQUERIDO}}
+      </div>
+    </div>
+    <div class="col-sm-6 col-md-3 mb-xs-2">
+      <mpf-select ng-model="$ctrl.emision.modelo.TipSucripcion" name="TipSucripcion"
+        label="{label: 'Tipo de Suscripción', required: true}" m-data-source="$ctrl.TipSucripcion"
+        text-field="Descripcion" value-field="Codigo" m-Empty-Option="{enterData:true}" mpf-validation="required"
+        ng-required="true">
+      </mpf-select>
+      <div class="g-error" ng-show="$ctrl.validControlForm('TipSucripcion')">
+        {{$ctrl.constantsRrgg.SMS_ERROR.REQUERIDO}}
+      </div>
+    </div>
+    <div class="col-sm-6 col-md-3 mb-xs-2">
+      <mpf-input label="{label: 'Nro. Guia / Fact / Proforma',required: false}" name="guia"
+        ng-model="$ctrl.emision.modelo.tramite.guia" ng-disabled="false" ng-required="true">
+      </mpf-input>
+      <div class="g-error" ng-show="$ctrl.validControlForm('guia')">
+        {{$ctrl.constantsRrgg.SMS_ERROR.REQUERIDO}}
+      </div>
+    </div>
+  </div>
+  <div class="row col-md-12">
+    <div class="col-sm-6 col-md-3 mb-xs-2">
+      <mpf-datepicker label="{label: 'Desde',required: true}" ng-model="$ctrl.emision.modelo.FechaDesde"
+        format="$ctrl.format" name="mFechaInicio" ng-required="true" ng-change="$ctrl.changeSucriptor()"
+        ng-disabled="false" readonly="false" mpf-validation="required">
+      </mpf-datepicker>
+      <div class="g-error" ng-show="$ctrl.validControlForm('mFechaInicio')">
+        {{$ctrl.constantsRrgg.SMS_ERROR.REQUERIDO}}
+      </div>
+    </div>
+    <div class="col-sm-6 col-md-3 mb-xs-2">
+      <mpf-datepicker label="{label: 'Hasta',required: true}" ng-model="$ctrl.emision.modelo.FechaHasta"
+        format="$ctrl.format" name="mFechaFinal" ng-required="true" minDate="$ctrl.validadores.minStartDate"
+        ng-disabled="$ctrl.disabledhasta" readonly="false"
+        mpf-validate-date="{ minDate: $ctrl.validadores.minStartDateFormat }" mpf-validation="required"
+        ng-change="$ctrl.validateDateHasta()">
+      </mpf-datepicker>
+      <div class="g-error" ng-show="$ctrl.validControlForm('mFechaFinal')">
+        {{$ctrl.constantsRrgg.SMS_ERROR.REQUERIDO}}
+      </div>
+    </div>
+  </div>
+
+</div>
+<div class="row" ng-if="$ctrl.tramite.Grupo != $ctrl.constantsRrgg.GRUPO.TRAB_ESPECIFICOS">
+  <div class="col-md-12">
+    <h2 class="g-sub-title g-myd-subtitle">Datos de pago</h2>
+  </div>
+</div>
+<div class="row mb-xs-3 mb-md-5" ng-if="$ctrl.tramite.Grupo != $ctrl.constantsRrgg.GRUPO.TRAB_ESPECIFICOS">
+  <div class="col-sm-6 col-md-3 mb-xs-2">
+    <mpf-select ng-model="$ctrl.emision.modelo.FormaPago" name="FormaPago"
+      label="{label: 'Forma de pago', required: true}" m-data-source="$ctrl.formaPago" text-field="Descripcion"
+      value-field="Codigo" m-Empty-Option="{enterData:true}" mpf-validation="required" ng-required="true">
+    </mpf-select>
+    <div class="g-error" ng-show="$ctrl.validControlForm('FormaPago')">
+      {{$ctrl.constantsRrgg.SMS_ERROR.REQUERIDO}}
+    </div>
+  </div>
+  <div class="col-sm-6 col-md-3 mb-xs-2">
+    <mpf-input label="{label: 'Número de cotización',required: true}" name="NumeroTramite"
+      ng-model="$ctrl.emision.modelo.tramite.NroTramite" ng-disabled="true" ng-required="true">
+    </mpf-input>
+    <div class="g-error" ng-show="$ctrl.validControlForm('NumeroTramite')">
+      {{$ctrl.constantsRrgg.SMS_ERROR.REQUERIDO}}
+    </div>
+  </div>
+  <div class="col-sm-6 col-md-3 mb-xs-2">
+    <mpf-input label="{label: 'País'}" name="Pais" ng-model="$ctrl.emision.modelo.Pais" ng-disabled="true"
+      ng-required="true">
+    </mpf-input>
+  </div>
+  <div class="col-sm-6 col-md-3 mb-xs-2">
+    <mpf-select ng-model="$ctrl.emision.modelo.Estado" name="Estado" label="{label: 'Estado', required: true}"
+      m-data-source="$ctrl.departamentos" text-field="Descripcion" value-field="Codigo"
+      m-Empty-Option="{enterData:true}" mpf-validation="required" ng-required="true">
+    </mpf-select>
+    <div class="g-error" ng-show="$ctrl.validControlForm('Estado')">
+      {{$ctrl.constantsRrgg.SMS_ERROR.REQUERIDO}}
+    </div>
+  </div>
+</div>
+<carga-masiva emision="$ctrl.emision.modelo" tramite="$ctrl.tramite" form="$ctrl.form">
+</carga-masiva>

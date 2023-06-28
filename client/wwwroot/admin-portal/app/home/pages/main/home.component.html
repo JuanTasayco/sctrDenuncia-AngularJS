@@ -1,0 +1,29 @@
+<div class="g-page page-ginfo-home">
+  <div class="g-title">
+    <div class="container">
+      <div class="row g-row">
+        <div class="col-md-8 g-col-md middle">
+          <h1>¿Qué deseas publicar?</h1>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="container">
+    <div class="row mb-md-4 mt-xs-2 mt-md-0">
+      <div class="col-md-6" data-ng-repeat="item in $ctrl.menu">
+        <!-- <div class="box-detail mb-xs-2" data-ui-sref="carouselTray({ codeApp: item.code })"> -->
+        <div class="box-detail mb-xs-2" ng-click="$ctrl.goTo(item.code)">
+          <img class="box-detail--img" data-ng-src="{{::item.img}}" alt="{{::item.lbl}}">
+          <div class="box-detail--text">
+            <p>{{::item.lbl}}</p>
+            <!-- <ul class="box-detail--nav" data-ng-if="item.code !== $ctrl.codigoAppMydream"> -->
+            <ul class="box-detail--nav" data-ng-if="$ctrl.showSubMenu(item.code)">
+              <li><a data-ui-sref="carouselTray({ codeApp: item.code })">Carruseles</a></li>
+              <li><a data-ui-sref="fileTray">Formularios</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

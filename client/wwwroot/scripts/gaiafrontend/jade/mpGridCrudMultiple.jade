@@ -1,0 +1,24 @@
+div
+    div(mp-grid="{{id}}", mp-grid-pager="{{pagerId}}", mp-grid-model="model", mp-grid-data="data", mp-grid-options="options", mp-grid-context="$parent", mp-grid-disabled="MpGridCrudMultiple.editionMode")
+    .btn-group-form
+        a.M10px.pull-left(ng-show="options.crud.create", ng-disabled="disabled || MpGridCrudMultiple.editionMode", ng-click="!disabled && MpGridCrudMultiple.create()")
+            img(src="gaiafrontend/img/icons/nuevoDoc.png")
+            label.textSm {{'mpGridCrud.create' | translate}}
+        a.M10px.pull-left(ng-show="options.crud.read", ng-disabled="disabled || !MpGridCrudMultiple.isAnyRowSelected() || MpGridCrudMultiple.editionMode", ng-click="!(disabled || !MpGridCrudMultiple.isAnyRowSelected() || MpGridCrudMultiple.editionMode) && MpGridCrudMultiple.read()")
+            img(src="gaiafrontend/img/icons/detalle.png")
+            label.textSm {{'mpGridCrud.read' | translate}}
+        a.M10px.pull-left(ng-show="options.crud.update", ng-disabled="disabled || !MpGridCrudMultiple.isAnyRowSelected() || MpGridCrudMultiple.editionMode", ng-click="!(disabled || !MpGridCrudMultiple.isAnyRowSelected() || MpGridCrudMultiple.editionMode) && MpGridCrudMultiple.update()")
+            img(src="gaiafrontend/img/icons/editar.png")
+            label.textSm {{'mpGridCrud.update' | translate}}
+        a.M10px.pull-left(ng-show="options.crud.copy", ng-disabled="disabled || !MpGridCrudMultiple.isAnyRowSelected() || MpGridCrudMultiple.editionMode", ng-click="!(disabled || !MpGridCrudMultiple.isAnyRowSelected() || MpGridCrudMultiple.editionMode) && MpGridCrudMultiple.copy()")
+            img(src="gaiafrontend/img/icons/copiarDoc.png")
+            label.textSm {{'mpGridCrud.copy' | translate}}
+        a.M10px.pull-left(ng-show="options.crud.delete", ng-disabled="disabled || !MpGridCrudMultiple.isAnyRowSelected() || MpGridCrudMultiple.editionMode", ng-click="!(disabled || !MpGridCrudMultiple.isAnyRowSelected() || MpGridCrudMultiple.editionMode) && MpGridCrudMultiple.delete()")
+            img(src="gaiafrontend/img/icons/cancelar24.png")
+            label.textSm {{'mpGridCrud.delete' | translate}}
+        a.M10px.pull-right(ng-show="options.crud.create || options.crud.update || options.crud.copy", ng-disabled="disabled || !MpGridCrudMultiple.editionMode", ng-click="!(disabled || !MpGridCrudMultiple.editionMode) && MpGridCrudMultiple.cancel()")
+            img(src="gaiafrontend/img/icons/exit.png")
+            label.textSm {{'mpGridCrud.cancel' | translate}}
+        a.M10px.pull-right(ng-show="options.crud.create || options.crud.update || options.crud.copy", ng-disabled="disabled || !MpGridCrudMultiple.editionMode", ng-click="!(disabled || !MpGridCrudMultiple.editionMode) && MpGridCrudMultiple.confirm()")
+            img(src="gaiafrontend/img/icons/guardar24.png")
+            label.textSm {{'mpGridCrud.confirm' | translate}}

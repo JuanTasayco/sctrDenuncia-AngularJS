@@ -1,0 +1,192 @@
+<form name="frmRechazo" class="clearfix">
+  <div class="g-section g-border-top-xs">
+    <div class="container">
+      <div class="row mt-xs-2">
+        <div class="col-md-12">
+          <h4><b>Rechazo de Carta de Garantía</b></h4>
+        </div>
+      </div>
+      <div class="row mt-xs-4">
+        <div class="col-md-6 mb-xs-2">
+          <b>Información del condicionado</b>
+          <div class="g-box u-bg--gris-9 pb-xs-1 pt-xs-1 pr-xs-1 pl-xs-1 mt-xs-1" 
+            style="max-height: 600px;overflow-y: scroll;">
+            <ng-quill-editor 
+              ng-model="dataCondicionado" 
+              theme="bubble"
+              placeholder="''"
+              read-only="true"
+              modules="{toolbar: false}"></ng-quill-editor>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="mb-xs-2">
+            <mpf-textarea 
+              label="{label:'Observaciones', required: true}" 
+              ng-model="cartaGarantia.remark" name="nObsExterna" 
+              ng-required="true" 
+              ng-Maxlength="4000"></mpf-textarea>
+              <div class="g-error" ng-show="frmRechazo.nObsExterna.$error.required && !frmRechazo.nObsExterna.$pristine">* Ingrese observación</div>
+          </div>
+          <div class="mb-xs-2">
+            <mpf-select-placeholder
+              ng-model="rechazo.mMotivo"
+              name="nMotivo"
+              label="{label: 'Motivo de rechazo', required: true}"
+              m-data-source="motivosRechazo"
+              text-field="description"
+              value-field="id"
+              m-Empty-Option="{enterData:true}"
+              ng-change="obtenerPrevisualizacionPorMotivoRechazo(rechazo.mMotivo.id)"
+              mpf-validation="required"></mpf-select-placeholder>
+            <div class="g-error" ng-show="frmRechazo.nMotivo.$error.required && !frmRechazo.nMotivo.$pristine">* Seleccione un motivo</div>
+          </div>
+          <div class="mb-xs-2">
+            <b>Previsualización *</b>
+            <div class="mt-xs-1 editor-editable">
+              <ng-quill-editor 
+                ng-model="rechazo.preview"
+                placeholder="''"
+                on-editor-created="onEditorCreated(editor)">
+                <ng-quill-toolbar>
+                  <div class="u-bg--gris-9">
+                    <span class="ql-formats">
+                      <button type="button" class="ql-undo" ng-click="undoEditor()">
+                        <svg viewBox="0 0 18 18">
+                          <polygon class="ql-fill ql-stroke" points="6 10 4 12 2 10 6 10"></polygon>
+                          <path class="ql-stroke" d="M8.09,13.91A4.6,4.6,0,0,0,9,14,5,5,0,1,0,4,9"></path>
+                        </svg>
+                      </button>
+                      <button type="button" class="ql-redo" ng-click="redoEditor()">
+                        <svg viewbox="0 0 18 18">
+                          <polygon class="ql-fill ql-stroke" points="12 10 14 12 16 10 12 10"/>
+                          <path class="ql-stroke" d="M9.91,13.91A4.6,4.6,0,0,1,9,14a5,5,0,1,1,5-5"/>
+                        </svg>
+                      </button>
+                    </span>
+                    <span class="ql-formats">
+                      <button type="button" class="ql-clean"></button>
+                    </span>
+                  </div>
+                </ng-quill-toolbar>
+              </ng-quill-editor>
+            </div>
+          </div>
+          <div class="mb-xs-2" ng-if="rechazo.mMotivo.id ===1 || rechazo.mMotivo.id === 2 || rechazo.mMotivo.id === 5 || rechazo.mMotivo.id === 6">
+            <mpf-data-seeker-placeholder
+              behavior="{label:'Diagnóstico Adicional 1', placeholder:'', matchField:'codeName'}"
+              m-data-source="getListDiagnostic($inputNeed)"
+              ng-model="rechazo.mCodDiagnostico1"
+              name="nCodDiagnostico1">
+              <div ng-bind-html="$item.codeName | highlight: $select.search"></div>
+            </mpf-data-seeker-placeholder>
+          </div>
+          <div class="mb-xs-2" ng-if="rechazo.mMotivo.id ===1 || rechazo.mMotivo.id === 2 || rechazo.mMotivo.id === 5 || rechazo.mMotivo.id === 6">
+            <mpf-data-seeker-placeholder
+              behavior="{label:'Diagnóstico Adicional 2', placeholder:'', matchField:'codeName'}"
+              m-data-source="getListDiagnostic($inputNeed)"
+              ng-model="rechazo.mCodDiagnostico2"
+              name="nCodDiagnostico2">
+              <div ng-bind-html="$item.codeName | highlight: $select.search"></div>
+            </mpf-data-seeker-placeholder>
+          </div>
+          <div class="mb-xs-2" ng-if="rechazo.mMotivo.id ===1 || rechazo.mMotivo.id === 2 || rechazo.mMotivo.id === 5 || rechazo.mMotivo.id === 6">
+            <mpf-data-seeker-placeholder
+              behavior="{label:'Diagnóstico Adicional 3', placeholder:'', matchField:'codeName'}"
+              m-data-source="getListDiagnostic($inputNeed)"
+              ng-model="rechazo.mCodDiagnostico3"
+              name="nCodDiagnostico3">
+              <div ng-bind-html="$item.codeName | highlight: $select.search"></div>
+            </mpf-data-seeker-placeholder>
+          </div>
+          <div class="mb-xs-2" ng-if="rechazo.mMotivo.id===7">
+            <mpf-textarea label="{label:'Artículo', required: false}" ng-model="rechazo.mArticle" name="nArticle" ng-Maxlength="400"></mpf-textarea>
+            <div class="g-error" ng-show="frmRechazo.nArticle.$error.required && !frmRechazo.nArticle.$pristine">* Ingrese descripción del artículo para el rechazo</div>
+          </div>
+          <div class="mb-xs-2" ng-if="rechazo.mMotivo.id === 8">
+            <mpf-input label="{label: 'Medicamento 1', required: false}" name="nMedicamento1" ng-model="rechazo.mMedicamento1"></mpf-input>
+            <div  class="g-error" ng-show="frmRechazo.nMedicamento1.$error.required && !frmRechazo.nMedicamento1.$pristine">* Ingresar medicamento</div>
+          </div>
+          <div class="mb-xs-2" ng-if="rechazo.mMotivo.id === 8">
+            <mpf-input label="{label: 'Medicamento 2', required: false}" name="nMedicamento2" ng-model="rechazo.mMedicamento2" ng-required="false"></mpf-input>
+          </div>
+          <div class="mb-xs-2" ng-if="rechazo.mMotivo.id === 8">
+            <mpf-input label="{label: 'Medicamento 3', required: false}" name="nMedicamento3" ng-model="rechazo.mMedicamento3" ng-required="false"></mpf-input>
+          </div>
+          <div class="mb-xs-2" ng-if="rechazo.mMotivo.id === 10 && cartaGarantia.codeCompany === seguros">
+            <mpf-input label="{label: 'Exámen médico 1', required: false}" name="nExMedico1" ng-model="rechazo.mExMedico1"></mpf-input>
+            <!--<div class="g-error" ng-show="frmRechazo.nExMedico1.$error.required && !frmRechazo.nExMedico1.$pristine">* Ingresar exámen</div>-->
+          </div>
+          <div class="col-xs-12 mb-xs-2" ng-if="rechazo.mMotivo.id === 10 && cartaGarantia.codeCompany === seguros">
+            <mpf-input label="{label: 'Exámen médico  2', required: false}" name="nExMedico2" ng-model="rechazo.mExMedico2" ng-required="false"></mpf-input>
+          </div>
+          <div class="col-xs-12 mb-xs-2" ng-if="rechazo.mMotivo.id === 10 && cartaGarantia.codeCompany === seguros">
+            <mpf-input label="{label: 'Exámen médico  3', required: false}" name="nExMedico3" ng-model="rechazo.mExMedico3" ng-required="false"></mpf-input>
+          </div>
+
+          <div class="col-xs-12 mb-xs-2" ng-if="showSeccUpdateComplaintStatus">
+            <label class="g-placeholder animated ng-binding pl-xs-1-5">
+              ¿Desea actualizar el estado de la denuncia? *
+            </label>
+            <m-radio name="nActualizaEstadoDenuncia" 
+              label="{label: 'Si'}" 
+              class="mt-xs-4 mr-xs-2 mb-xs-2" 
+              value="S"
+              ng-model="rechazo.mActualizaEstadoDenuncia" 
+              data-ng-required="true"
+              ng-disabled="rechazo.nActualizaEstadoDenunciaDisable"
+              ng-click="rechazo.mActualizaEstadoDenuncia === 'N' ? (rechazo.mMotivoRechazoDenuncia = rechazo.mObsRechazoDenuncia = '') : null"></m-radio>
+            <m-radio name="nActualizaEstadoDenuncia" 
+              label="{label: 'No'}" 
+              class="mb-xs-2" 
+              value="N" 
+              ng-model="rechazo.mActualizaEstadoDenuncia" 
+              data-ng-required="true"
+              ng-disabled="rechazo.nActualizaEstadoDenunciaDisable"
+              ng-click="rechazo.mActualizaEstadoDenuncia === 'N' ? (rechazo.mMotivoRechazoDenuncia = rechazo.mObsRechazoDenuncia = '') : null"></m-radio>
+
+            <div class="g-error" ng-show="frmRechazo.nActualizaEstadoDenuncia.$error.required && frmRechazo.nActualizaEstadoDenuncia.$invalid">* Seleccione una opción</div>
+
+            <div ng-if="rechazo.mActualizaEstadoDenuncia === 'S'">
+              <div class="mb-xs-2">
+                <mpf-select-placeholder
+                  name="nMotivoRechazoDenuncia"
+                  label="{label: 'Motivo de rechazo denuncia', required: true}"
+                  value-field="id"
+                  text-field="description"
+                  m-data-source="motivosRechazoDenuncia"
+                  m-Empty-Option="{enterData:true}"
+                  mpf-validation="required"
+                  ng-model="rechazo.mMotivoRechazoDenuncia">
+                </mpf-select-placeholder>
+                <div class="g-error" ng-show="frmRechazo.nMotivoRechazoDenuncia.$error.required && !frmRechazo.nMotivoRechazoDenuncia.$pristine">* Seleccione un motivo</div>
+              </div>
+              <div class="mb-xs-2">
+                <mpf-textarea 
+                  name="nObsExterna"
+                  label="{label:'Observaciones'}" 
+                  ng-model="rechazo.mObsRechazoDenuncia" 
+                  ng-Maxlength="4000">
+                </mpf-textarea>
+              </div>
+            </div>
+        </div>
+      </div>
+      <div class="col-xs-12 g-title-btn-row mt-xs-2 mt-sm-0 mb-xs-2">
+        <div class="g-title-btn-col mt-xs-2">
+          <button class="g-btn g-btn-white second-design block" ng-click="cancelarRechazo()">Cancelar</button>
+        </div>
+        <div class="g-title-btn-col mt-xs-2">
+          <!--<button class="g-btn g-btn-verde second-design block" ng-click="ejecutarRechazo()">Rechazar</button>-->
+
+            <a class="g-btn g-btn-verde second-design block" 
+              ng-class="{disabled: !frmRechazo.$valid}"
+              ng-click="ejecutarRechazo()">
+              Rechazar
+            </a>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</form>

@@ -1,0 +1,262 @@
+<div class="row">
+  <div class="col-md-12">
+    <h2 class="g-sub-title g-myd-subtitle">Datos de la Póliza</h2>
+  </div>
+</div>
+<div class="row">
+  <div class="col-sm-6 col-md-3 mb-xs-2">
+    <mpf-input label="{label: 'Corredor',required: true}" name="corredor" mpf-validation="onlyLetterNumCaracteres" ng-maxlength="100"
+      ng-model="$ctrl.producto.modelo.NombreCorredor" ng-disabled="inputDisabled == true" ng-required="true">
+    </mpf-input>
+    <div class="g-error" ng-show="$ctrl.validControlForm('corredor')">
+      {{$ctrl.constantsRrgg.SMS_ERROR.REQUERIDO}}
+    </div>
+  </div>
+  <div class="col-sm-6 col-md-3 mb-xs-2">
+    <mpf-input label="{label: 'Nombre del asegurado',required: true}" name="nombreAsegurado" ng-maxlength="100"
+      mpf-validation="onlyLetterNumCaracteres" ng-model="$ctrl.producto.modelo.NombreContratante"
+      ng-disabled="inputDisabled == true" ng-required="true">
+    </mpf-input>
+    <div class="g-error" ng-show="$ctrl.validControlForm('nombreAsegurado')">
+      {{$ctrl.constantsRrgg.SMS_ERROR.REQUERIDO}}
+    </div>
+  </div>
+ 
+</div>
+<div class="row">
+  <div class="col-sm-6 col-md-3 mb-xs-2">
+    <mpf-select ng-model="$ctrl.producto.modelo.Giro" name="giroNegocio"
+      ng-change="$ctrl.validateEquipoOrLocal($ctrl.producto.modelo.Giro);$ctrl.limpiarsumaasegurada()"
+      label="{label: 'Giro del negocio', required: true}" m-data-source="$ctrl.giroNegocio" ng-required="true"
+      text-field="Descripcion" value-field="Codigo" m-Empty-Option="{enterData:true}">
+    </mpf-select>
+    <div class="g-error" ng-show="$ctrl.validControlForm('giroNegocio')">
+      {{$ctrl.constantsRrgg.SMS_ERROR.REQUERIDO}}
+    </div>
+  </div>
+  <!-- INFO: Harcode to hide field 'TipoAseguramiento' -->
+  <div class="col-sm-6 col-md-3 mb-xs-2 g-hide">
+    <mpf-select ng-change="$ctrl.tipAseguramiento($ctrl.producto.modelo.TipoAseguramiento)"
+      ng-model="$ctrl.producto.modelo.TipoAseguramiento" name="TipoAseguramiento"
+      label="{label: 'Tipo de aseguramiento', required: true}" m-data-source="$ctrl.tipoAseguramiento"
+      ng-required="true" text-field="Descripcion" value-field="Codigo" m-Empty-Option="{enterData:true}">
+    </mpf-select>
+    <div class="g-error" ng-show="$ctrl.validControlForm('giroNegocio')">
+      {{$ctrl.constantsRrgg.SMS_ERROR.REQUERIDO}}
+    </div>
+  </div>
+  <!-- -->
+  <div ng-click="$ctrl.OpenParametros()" class="col-sm-6 col-md-3 mb-xs-2">
+    <a href="" class="page-rrgg__link fwMedium"> <span class="ico-mapfre_222_informacion page-rrgg__link-icon"></span>
+      Ver parámetros <span class="ico-mapfre_79_chevroneright page-rrgg__link-icon"
+        ng-click="vm.showModalConfirmation()"></span></a>
+  </div>
+</div>
+<div class="row mb-xs-2">
+  <div class="col-sm-6 col-md-3 mb-xs-2">
+    <p class="fwMedium">¿Asegurará un adicional o tercero?</p>
+    <m-radio class="mr-xs-3" label="{label: 'Si'}" name="aseguraTercero"
+      ng-model="$ctrl.producto.modelo.AseguraAdicional" value="{{$ctrl.constantsRrgg.RADIO.SI}}"
+      data-ng-required="true"></m-radio>
+    <m-radio label="{label: 'No'}" name="aseguraTercero" ng-model="$ctrl.producto.modelo.AseguraAdicional"
+      value="{{$ctrl.constantsRrgg.RADIO.NO}}" ng-click="$ctrl.producto.modelo.NombreAseguraAdicional = ''"
+      data-ng-required="true"></m-radio>
+  </div>
+  <div ng-if="$ctrl.producto.modelo.AseguraAdicional === $ctrl.constantsRrgg.RADIO.SI"
+    class="col-sm-6 col-md-3 mb-xs-2">
+    <mpf-input label="{label: 'Nombre del Tercero'}" name="NombreAseguraAdicional" ng-maxlength="100"
+      mpf-validation="onlyLetterNumCaracteres" ng-model="$ctrl.producto.modelo.NombreAseguraAdicional"
+      ng-required="true">
+    </mpf-input>
+  </div>
+</div>
+<div class="row">
+  <div class="col-sm-6 col-md-3 mb-xs-2">
+    <mpf-select ng-model="$ctrl.producto.modelo.Moneda" name="moneda" label="{label: 'Moneda',required: true}"
+      m-data-source="$ctrl.monedas" text-field="Descripcion" value-field="Codigo" 
+      ng-change="$ctrl.listCoberturas($ctrl.producto.modelo.Moneda);$ctrl.limpiarsumaasegurada()" m-Empty-Option="{enterData:true}"
+      mpf-validation="required" ng-required="true">
+    </mpf-select>
+    <div class="g-error" ng-show="$ctrl.validControlForm('moneda')">
+      {{$ctrl.constantsRrgg.SMS_ERROR.REQUERIDO}}
+    </div>
+  </div>
+  <div ng-if="$ctrl.producto.modelo.IsVehiculoOrLocal === $ctrl.constantsRrgg.DATOS.LOCALES"
+    class="col-sm-6 col-md-3 mb-xs-2">
+    <mpf-input label="{label: 'Nro. de locales',required: true}" name="nroLocales"
+      ng-model="$ctrl.producto.modelo.CantidadElementos" ng-required="true" mpf-validation="onlyNumber"
+      ng-blur="$ctrl.addDatos($ctrl.producto.modelo.CantidadElementos,$ctrl.constantsRrgg.DATOS.LOCALES); $ctrl.cleanUit();$ctrl.limpiarsumaasegurada()">
+    </mpf-input>
+    <div class="g-error" ng-show="$ctrl.validControlForm('nroLocales')">
+      {{$ctrl.constantsRrgg.SMS_ERROR.REQUERIDO}}
+    </div>
+    <div class="g-error" ng-show="$ctrl.producto.modelo.CantidadElementos == 0 && $ctrl.producto.modelo.CantidadElementos != ''">
+      {{'Este campo tiene que ser mayor que 0'}}
+    </div>
+  </div>
+  <div ng-if="$ctrl.producto.modelo.IsVehiculoOrLocal === $ctrl.constantsRrgg.DATOS.VEHICULOS"
+    class="col-sm-6 col-md-3 mb-xs-2">
+    <mpf-input label="{label: 'Nro. de Vehiculos',required: true}" name="nroVehiculos"
+      ng-model="$ctrl.producto.modelo.CantidadElementos" ng-required="true" mpf-validation="onlyNumber"
+      ng-blur="$ctrl.addDatos($ctrl.producto.modelo.CantidadElementos,$ctrl.constantsRrgg.DATOS.VEHICULOS); $ctrl.cleanUit()">
+    </mpf-input>
+    <span ng-if="$ctrl.producto.modelo.CodTipoAseguramiento === $ctrl.constantsRrgg.TIP_ASEGURAMIENTO.GLOBAL"
+      class="text-help">
+      Para calculo de primas: {{$ctrl.producto.modelo.NumeroUnidades}} unidades
+    </span>
+    <div class="g-error" ng-show="$ctrl.validControlForm('nroVehiculos')">
+      {{$ctrl.constantsRrgg.SMS_ERROR.REQUERIDO}}
+    </div>
+  </div>
+  <div class="col-sm-6 col-md-3 mb-xs-2">
+    <mpf-input ng-blur="$ctrl.validateDescuentos(); $ctrl.validateDescuentosUnidades();$ctrl.limpiarsumaasegurada()" label="{label: 'Agregar Descuentos % Director'}"
+      name="descuentoDirector" ng-model="$ctrl.producto.modelo.DescuentoDirector" ng-disabled="false"
+      ng-required="false" mpf-validation="onlyDecimalDescuento">
+    </mpf-input>
+  </div>
+</div>
+<div class="row" ng-if="$ctrl.viewPanelAMT()">
+  <div class="col-sm-6 col-md-3 mb-xs-2">
+    <mpf-select ng-change="$ctrl.calcularPrimas()" ng-model="$ctrl.producto.modelo.SumaAseguradaAMT"
+      name="sumaAseguradaAMT" label="{label: 'Suma Asegurada AMT', required: true}"
+      m-data-source="$ctrl.sumaAseguradaAMT" ng-required="true" text-field="Dato" value-field="Dato"
+      m-Empty-Option="{enterData:true}">
+    </mpf-select>
+    <div class="g-error" ng-show="$ctrl.validControlForm('sumaAseguradaAMT')">
+      {{$ctrl.constantsRrgg.SMS_ERROR.REQUERIDO}}
+    </div>
+  </div>
+</div>
+<div ng-if="$ctrl.producto.modelo.IsVehiculoOrLocal === $ctrl.constantsRrgg.DATOS.LOCALES" class="row">
+  <div class="col-md-12">
+    <h2 class="g-sub-title g-myd-subtitle">Datos del local</h2>
+  </div>
+</div>
+<div ng-if="$ctrl.producto.modelo.IsVehiculoOrLocal === $ctrl.constantsRrgg.DATOS.LOCALES" class="row mb-xs-3 mb-md-5">
+  <locales data="$ctrl.producto.modelo" validate="false" form="$ctrl.form"></locales>
+</div>
+<div ng-if="$ctrl.producto.modelo.IsVehiculoOrLocal === $ctrl.constantsRrgg.DATOS.VEHICULOS" class="row">
+  <div class="col-md-12">
+    <h2 class="g-sub-title g-myd-subtitle">Datos del vehículo</h2>
+  </div>
+</div>
+<div ng-if="$ctrl.producto.modelo.IsVehiculoOrLocal === $ctrl.constantsRrgg.DATOS.VEHICULOS"
+  class="row mb-xs-3 mb-md-5">
+  <vehiculos data="$ctrl.producto.modelo" validate="false" clases="$ctrl.clases" form="$ctrl.form"></vehiculos>
+</div>
+<div class="row">
+  <div class="col-sm-6 mb-xs-1 mb-sm-0">
+    <h2 class="g-sub-title g-myd-subtitle">Suma asegurada</h2>
+  </div>
+  <div ng-if="$ctrl.cotizacion.tipoCambio" class="col-sm-6 mb-xs-1 mb-sm-0">
+    <p class="g-text-right-sm fwLight mb-xs-0"><span class="fwBold">Tipo de cambio</span> S/
+      {{$ctrl.cotizacion.tipoCambio }}</p>
+  </div>
+</div>
+<div class="g-box gBgcGray5 pt-xs-2 pb-xs-2 pl-xs-2 pr-xs-2 mb-xs-2">
+  <div class="row">
+    <div class="clearfix">
+      <div class="col-sm-3 col-md-2 mb-xs-1 mb-md-6">
+        <p class="text-sm mb-xs-0"><b>Total UIT</b></p>
+      </div>
+      <div class="col-xs-8 col-md-2">
+        <mpf-input label="{label: '', required: false}" name="CantUit" ng-model="$ctrl.producto.modelo.CantidadUit"
+          mpf-validation="onlyDecimalDescuento" ng-required="true">
+        </mpf-input>
+        <div class="g-error" ng-show="$ctrl.validControlForm('CantUit')">
+          {{$ctrl.constantsRrgg.SMS_ERROR.REQUERIDO}}
+        </div>
+      </div>
+      <div class="col-xs-4 col-md-2 table-btn-buscar">
+        <a class="g-btn g-btn-white second-design mt-xs-3 h-myd-mt--10" ng-click="$ctrl.calcularPrimas();$ctrl.validateUit()">Calcular</a>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-3 col-md-2 mb-xs-1 mb-md-2">
+      <p class="text-sm mb-xs-0"><b>Tasa</b></p>
+    </div>
+    <div class="col-sm-9 col-md-3 mb-xs-1 mb-md-2">
+      <p class="text-sm mb-xs-0">{{$ctrl.producto.modelo.tasa}}</p>
+      <span class="text-help" ng-if="$ctrl.producto.modelo.DescuentoDirector > 0">*Descuento aplicado</span>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-3 col-md-2 mb-xs-1 mb-md-2">
+      <p class="text-sm mb-xs-0"><b>Valor de UIT</b></p>
+    </div>
+    <div class="col-sm-9 col-md-3 mb-xs-1 mb-md-2">
+      <p class="text-sm mb-xs-0"> {{$ctrl.producto.modelo.ValorUit | currency: 'S./'}}</p>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-3 col-md-2 mb-xs-1 mb-md-2">
+      <p class="text-sm mb-xs-0" style="padding-top: 10px;"><b>Suma asegurada</b></p>
+    </div>
+    <div class="col-sm-9 col-md-3 mb-xs-1 mb-md-2">
+      <p class="text-sm mb-xs-0" style="margin-bottom: 10px;">{{$ctrl.producto.modelo.SumaAseguradaSoles | currency: 'S/.'}}</p>
+      <p class="text-sm mb-xs-0">{{$ctrl.producto.modelo.SumaAseguradaDolares | currency: '$ '}}</p>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-3 col-md-2 mb-xs-1 mb-md-2">
+      <p class="text-md mb-xs-0"><b>Prima Neta</b></p>
+    </div>
+    <div class="col-sm-9 col-md-3 mb-xs-1 mb-md-2">
+      <p class="text-md mb-xs-0">{{$ctrl.producto.modelo.PrimaNeta | currency:
+        $ctrl.currencyType($ctrl.producto.modelo.Moneda.Codigo)}}</p>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-3 col-md-2 mb-xs-1 mb-md-2">
+      <p class="text-md mb-xs-0"><b>Prima Total</b></p>
+    </div>
+    <div class="col-sm-9 col-md-3 mb-xs-1 mb-md-2">
+      <p class="text-md mb-xs-0">{{$ctrl.producto.modelo.PrimaTotal | currency:
+        $ctrl.currencyType($ctrl.producto.modelo.Moneda.Codigo)}}</p>
+    </div>
+  </div>
+</div>
+<div ng-if="$ctrl.viewPanelAMT()" class="row">
+  <div class="col-xs-12 mb-xs-1 mb-sm-0">
+    <h2 class="g-sub-title g-myd-subtitle">AMT + Transporte</h2>
+  </div>
+</div>
+
+<div ng-if="$ctrl.viewPanelAMT()"
+  class="g-box gBgcGray5 pt-xs-2 pb-xs-2 pl-xs-2 pr-xs-2 mb-xs-2">
+  <div class="row">
+    <div class="col-sm-3 col-md-2 mb-xs-1 mb-md-2">
+      <p class="text-sm mb-xs-0"><b>Moneda</b></p>
+    </div>
+    <div class="col-sm-9 col-md-3 mb-xs-1 mb-md-2">
+      <p class="text-sm mb-xs-0">{{$ctrl.producto.modelo.Moneda.Descripcion}}</p>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-3 col-md-2 mb-xs-1 mb-md-2">
+      <p class="text-sm mb-xs-0"><b>Nro. de Vehiculos</b></p>
+    </div>
+    <div class="col-sm-9 col-md-3 mb-xs-1 mb-md-2">
+      <p class="text-sm mb-xs-0">{{$ctrl.producto.modelo.NroVehiculosAmt}}</p>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-3 col-md-2 mb-xs-1 mb-md-2">
+      <p class="text-md mb-xs-0"><b>Prima Neta</b></p>
+    </div>
+    <div class="col-sm-9 col-md-3 mb-xs-1 mb-md-2">
+      <p class="text-md mb-xs-0">{{$ctrl.producto.modelo.PrimaNetaAmt | currency:
+        $ctrl.currencyType($ctrl.producto.modelo.Moneda.Codigo)}}</p>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-3 col-md-2 mb-xs-1 mb-md-2">
+      <p class="text-md mb-xs-0"><b>Prima Total</b></p>
+    </div>
+    <div class="col-sm-9 col-md-3 mb-xs-1 mb-md-2">
+      <p class="text-md mb-xs-0">{{$ctrl.producto.modelo.PrimaTotalAmt | currency:
+        $ctrl.currencyType($ctrl.producto.modelo.Moneda.Codigo)}}</p>
+    </div>
+  </div>
+</div>

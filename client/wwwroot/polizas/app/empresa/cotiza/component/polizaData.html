@@ -1,0 +1,264 @@
+<!-- STEP 1 -->
+<div class="page-empresa-cotizar-step1">
+  <div ng-form="frmFirstStep">
+    <!-- Producto -->
+    <div class="g-section-inner">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-12">
+            <h2 class="g-sub-title g-myd-subtitle">Producto</h2>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-4 mb-xs-2">
+              <mpf-select
+                label="{label: 'Selecciona un producto', required: true}"
+                name="nSelecProd"
+                ng-model="data.mSelecProd"
+                m-data-source = "tipoProductoData"
+                value-Field = "CodigoProducto"
+                text-Field = "NombreProducto"
+                m-Empty-Option="{enterData:true}"
+                ng-change="getBusinessTurnList()"
+                mpf-Validation="required"
+              ></mpf-select>
+              <ul class="g-error">
+                <li ng-show="
+                frmFirstStep.nSelecProd.$error.required &&
+                !frmFirstStep.nSelecProd.$pristine"
+                >* Este campo es obligatorio</li>
+              </ul>
+          </div>
+        </div>
+      </div>
+    </div>    <!-- Datos de la Empresa -->
+    <div class="g-section-inner">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-12">
+            <h2 class="g-sub-title g-myd-subtitle">Datos de la Empresa</h2>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-4 mb-xs-2">
+            <mpf-select
+              label="{label: 'Tipo de Empresa', required: true}"
+              name="nTipoEmpresa"
+              ng-model="data.mTipoEmpresa"
+              m-data-source="tipoEmpresaData"
+              value-Field="strCodigo"
+              text-Field="Nombre"
+              m-Empty-Option="{enterData:true}"
+              ng-change="getBusinessTurnList()"
+              mpf-Validation="required"
+            ></mpf-select>
+            <ul class="g-error">
+              <li ng-show="frmFirstStep.nTipoEmpresa.$error.required && !frmFirstStep.nTipoEmpresa.$pristine">* Este campo es obligatorio</li>
+            </ul>
+          </div>
+          <div class="col-md-4 mb-xs-2" ng-if="data.mSelecProd.CodigoRamo != null && data.mTipoEmpresa.strCodigo != null">
+
+            <mpf-select
+              label="{label: 'Giro de Negocio', required: true}"
+              name="nGiroNegocio"
+              ng-model="data.mGiroNegocio"
+              m-data-source="data.giroNegocioData"
+              value-Field="strCodigo"
+              text-Field="Nombre"
+              m-Empty-Option="{enterData:true}"
+              ng-change = "validateIsRisky()"
+              mpf-Validation="required"
+              ></mpf-select>
+            <ul class="g-error">
+              <li ng-show="frmFirstStep.nGiroNegocio.$error.required && !frmFirstStep.nGiroNegocio.$pristine">* Este campo es obligatorio</li>
+              <!-- <li ng-show="data.riesgo">Riesgo sujeto a evaluación de suscripción.</li> -->
+            </ul>
+          </div>
+          <div class="col-md-4 mb-xs-2 mt-md-3 h-myd-mt--10">
+            <ul class="gErrorIco secondDesign">
+              <li ng-show="data.riesgo"><span class="ico-mapfre_37_informacion ico"></span>Riesgo requiere inspección</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Datos de la Póliza -->
+    <div class="g-section-inner">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-12">
+            <h2 class="g-sub-title g-myd-subtitle">Datos del Contratante</h2>
+          </div>
+        </div>
+      </div>
+      <mpf-person-component
+        person-data="data.personData"
+        name="contratante"
+        codigo-compania="companyCode"
+        app-code="{{ appCode }}"
+        form-code="{{ formCodeCN }}"
+        outdata="getMapfreDolar(data)">
+      </mpf-person-component>
+      <div class="container">
+        <div class="row">
+          <div class="col-md-4 mb-xs-2" ng-show="data.mSelecProd.CodigoRamo == 274">
+            <mpf-select
+              label="{label: 'Moneda', required: true}"
+              name="nMoneda"
+              ng-model="data.mMoneda"
+              m-data-source="monedaData"
+              value-Field="codigo"
+              text-Field="descripcion"
+              m-Empty-Option="{enterData:true}"
+              mpf-Validation="required"
+              ng-maxlengt ="13"
+            ></mpf-select>
+            <ul class="g-error">
+              <li ng-show="frmFirstStep.nMoneda.$error.required && !frmFirstStep.nMoneda.$pristine">* Este campo es obligatorio</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- MAPFRE dólares -->
+
+      <div class="g-section-inner" ng-show="data.saldoMapfreDolares">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-12">
+            <h2 class="g-sub-title g-myd-subtitle">MAPFRE dólares</h2>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-12">
+            Tienes <strong>{{ getMD() | number:2 }}</strong> MAPFRE dólares
+          </div>
+        </div>
+          <div class="row pt-xs-1" ng-if="getMD() > 0">
+          <div class="col-md-3 pb-xs-1">
+            ¿Quieres ingresar MAPFRE dólares?
+          </div>
+          <div class="col-md-1 pb-xs-1">
+            <m-radio
+              label="{label: 'Si'}"
+              name="nOpcionMapfreDolares"
+              ng-model="data.mOpcionMapfreDolares"
+              value="Si"
+            ></m-radio>
+          </div>
+          <div class="col-md-1 pb-xs-1">
+            <m-radio
+              label="{label: 'No'}"
+              name="nOpcionMapfreDolares"
+              ng-model="data.mOpcionMapfreDolares"
+              value="No"
+              ng-click="clearMapfreDolares()"
+            ></m-radio>
+          </div>
+        </div>
+        <div class="row collapse" uib-collapse="data.mOpcionMapfreDolares == 'Si' ? false : true">
+          <div class="col-md-4 pt-xs-1">
+            <span class="g-placeholder block mb-xs-2">¿Cuántos Mapfre dólares quieres usar?</span>
+            <m-Numeric-Textbox
+              warp-control="true"
+              name="nAplicarMDolares"
+              ng-model="data.mAplicadosMDolares"
+              class="g-input-design-mdolar"
+              m-range="{min:data.mAplicarMD ? 0.01: 0, max: data.saldoMapfreDolares}"
+            ></m-Numeric-Textbox>
+            <ul class="g-error">
+              <li ng-show="frmFirstStep.nAplicarMDolares.$invalid && !frmFirstStep.nAplicarMDolares.$pristine">* Este campo es obligatorio</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="g-section-inner">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-12">
+            <h2 class="g-sub-title g-myd-subtitle">Póliza de grupo</h2>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-xs-8 col-md-4">
+            <mpf-input
+              label="{label: 'Código de póliza de grupo', required: false}"
+              name="nCodPolizaGrupo"
+              ng-model="data.mCodPolizaGrupo"
+              mpf-validation="onlyNumber"
+              ng-maxlength="13"
+            ></mpf-input>
+          </div>
+          <div class="col-xs-4 col-md-2 table-btn-buscar">
+            <a
+              class="g-btn g-btn-white second-design block mt-xs-2 h-myd-mt--10"
+              ng-click="searchGroupPolicy()"
+            >Buscar</a>
+          </div>
+          <div class="col-xs-12 col-md-6">
+            <div class="g-polizagrupo-error g-myd-polizagrupo-error" ng-show="data.codeGroup == 0">
+              <span class="ico-mapfre_37_informacion g-polizagrupo-error-ico g-myd-polizagrupo-error-ico"></span><span>Ingrese un código antes de buscar.</span>
+            </div>
+            <div class="g-polizagrupo-error g-myd-polizagrupo-error" ng-show="data.codeGroup == -1">
+              <span class="ico-mapfre_37_informacion g-polizagrupo-error-ico g-myd-polizagrupo-error-ico"></span><span>El código que ingresaste no existe</span>
+            </div>
+          </div>
+          <div class="col-xs-12 mt-xs-2 g-polizagrupo-resultado g-myd-polizagrupo-resultado" ng-show="data.codeGroup == 1">
+            <span class="ng-binding">{{data.groupPolicy}}</span>
+            <span class="ico-mapfre_48_cerrar ico-cerrar" ng-click="cleanGroup()"></span>
+          </div>
+        </div>
+        <div class="row" ng-show="false">
+          <div class="col-md-4 mb-xs-2">
+            <mpf-select
+              name="nPolizaGrupo"
+              ng-model="data.mPolizaGrupo"
+              label="{label: gLblPolizaGrupo.label, required: false}"
+            ></mpf-select>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Otros -->
+    <div class="g-section-inner">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-12">
+            <h2 class="g-sub-title g-myd-subtitle">Otros</h2>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-4 mb-xs-2">
+            <m-Numeric-Textbox
+              label="{label: 'Descuento comercial (%)'}"
+              options="'SHORT'"
+              name="nDsctComercial"
+              ng-model="data.mDsctComercial"
+              m-range="'0,30'"
+              ></m-Numeric-Textbox>
+          </div>
+          <div class="col-md-8 pt-md-2">
+            <ul class="gErrorIco secondDesign">
+              <li><span class="ico-mapfre_37_informacion ico"></span>Descuento comercial no debe superar el valor de 30</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="g-section g-step-action">
+      <div class="container">
+        <div class="row mb-md-1">
+          <span class="col-md-4 gCGray3">*Campos obligatorios</span>
+          <div class="col-md-4">
+            <div class="row">
+              <a class="col-md-12 g-btn g-btn-verde" ui-sref="companyquot.steps({step:2})">SIGUIENTE</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>

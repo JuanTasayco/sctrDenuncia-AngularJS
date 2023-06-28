@@ -1,0 +1,271 @@
+  <div class="consultaGestion" ng-form="">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-6g-text-right-sm hidden-sm hidden-xs">
+          <a ui-sref="consulta.33({ currentData: $ctrl.currentData })" ui-sref-opts="{ reload: false, inherit: false }">
+            <span class="g-icon gCGray3">
+              <span class="icon ico-mapfre_310_arrowLeft"></span>
+              <span class="g-link"><b>Volver</b></span>
+            </span>
+          </a>
+        </div>
+      </div>
+      <div class="row mb-xs-2">
+        <div class="col-md-6 mb-xs-1">
+          <div class="row">
+            <div class="col-xs-12 pt-xs-1-5">
+              <h2 class="gH2">Solicitud {{ $ctrl.detail.requestid }}</h2>
+            </div>
+            <div class="col-xs-12">
+              <span class="c-tag mb-xs-1" ng-class="{'gris35': $ctrl.detail.requeststatuscode === 1}">{{ $ctrl.detail.requeststatus }}</span>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6" ng-if="$ctrl.detail.requeststatuscode === 1">
+          <div class="row">
+            <div class="col-md-4 mt-md-2 col-md-offset-8">
+              <a class="block g-btn g-btn-verde mb-xs-1">SOLICITAR</a>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6" ng-if="$ctrl.detail.requeststatuscode === 2">
+          <div class="row">
+            <div class="col-md-4 mt-md-2">
+              <a class="block g-btn g-btn-white mb-xs-1">ANULAR</a>
+            </div>
+            <div class="col-md-4 mt-md-2">
+              <a class="block g-btn g-btn-white mb-xs-1">ACTUALIZAR</a>
+            </div>
+            <div class="col-md-4 mt-md-2">
+              <a class="block g-btn g-btn-verde mb-xs-1">ACTIVAR</a>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6" ng-if="$ctrl.detail.requeststatuscode === 3">
+          <div class="row">
+            <div class="col-md-4 mt-md-2 col-md-offset-4">
+              <a class="block g-btn g-btn-white mb-xs-1">RECHAZAR</a>
+            </div>
+            <div class="col-md-4 mt-md-2">
+              <a class="block g-btn g-btn-verde mb-xs-1">ACTIVAR</a>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6" ng-if="$ctrl.detail.requeststatuscode === 4">
+          <div class="row">
+            <div class="col-md-4 mt-md-2">
+              <a class="block g-btn g-btn-white mb-xs-1">ANULAR</a>
+            </div>
+            <div class="col-md-4 mt-md-2">
+              <a class="block g-btn g-btn-white mb-xs-1">ACTUALIZAR</a>
+            </div>
+            <div class="col-md-4 mt-md-2">
+              <a class="block g-btn g-btn-verde mb-xs-1">TERMINAR</a>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6" ng-if="$ctrl.detail.requeststatuscode === 5">
+          <div class="row">
+            <div class="col-md-6 mt-md-2">
+              <a class="block g-btn g-btn-white mb-xs-1">SOLICITAR CAMBIO DE FECHAS</a>
+            </div>
+            <div class="col-md-4 mt-md-2">
+              <a class="block g-btn g-btn-verde mb-xs-1">TERMINAR</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="g-sec-information">
+      <div class="sec-item">
+        <div class="container">
+          <ul class="row">
+            <li class="col-md-4 clearfix cnt-item">
+              <div class="col-sm-5 item-label">
+                <span class="ico-mapfre_82_circle ico-bullet"></span>Nro. Siniestro:&nbsp;
+              </div>
+              <div class="col-sm-7 item-dato g-text-uppercase ng-binding">{{ $ctrl.detail.sinisterid }}</div>
+            </li>
+            <li class="col-md-4 clearfix cnt-item">
+              <div class="col-sm-5 item-label">
+                <span class="ico-mapfre_82_circle ico-bullet"></span>Nro. Póliza:&nbsp;
+              </div>
+              <div class="col-sm-7 item-dato g-text-uppercase ng-binding">{{ $ctrl.detail.policyid }}</div>
+            </li>
+            <li class="col-md-4 clearfix cnt-item">
+              <div class="col-sm-5 item-label">
+                <span class="ico-mapfre_82_circle ico-bullet"></span>Agente:&nbsp;
+              </div>
+              <div class="col-sm-7 item-dato g-text-uppercase ng-binding">{{ $ctrl.detail.agent }}</div>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- INFORMACION DE CONTRATANTE -->
+    <div class="g-section mt-xs-2">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-6">
+            <h2 class="g-sub-title">Información de contratante / asegurado</h2>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-4 mb-xs-2">
+            <mpf-select
+              ng-model="$ctrl.tipoCliente"
+              name="nTipoCliente"
+              label="{label: 'Tipo cliente:', required: false}"
+              m-data-source="$ctrl.lstTipoCliente"
+              text-field="description"
+              value-field="value"></mpf-select>
+          </div>
+          <div class="col-md-4 mb-xs-2">
+            <mpf-input label="{label: 'Nombre', required: true}" name="nNombre" ng-model="$ctrl.detail.client" ng-disabled="true"></mpf-input>
+          </div>
+          <div class="col-md-4 mb-xs-2">
+            <mpf-input label="{label: 'Teléfono', required: true}" name="nTelefono" ng-model="$ctrl.detail.contactphonenumber" ng-disabled="true"></mpf-input>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-4 mb-xs-2">
+            <mpf-input label="{label: 'Tipo de Expediente', required: true}" name="nTipoExped" ng-model="$ctrl.ppd" ng-disabled="true"></mpf-input>
+          </div>
+          <div class="col-md-4 mb-xs-2">
+            <mpf-input label="{label: 'Email', required: true}" name="nEmail" ng-model="$ctrl.detail.contactemail" ng-disabled="true"></mpf-input>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- INFORMACION DE CONTRATANTE -->
+    <div class="g-section-inner">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-6">
+            <h2 class="g-sub-title">Validez de la solicitud de auto de reemplazo</h2>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-4 mb-xs-2">
+            <mpf-input label="{label: 'Cobertura', required: true}" name="nCobertura" ng-model="$ctrl.coverage" ng-disabled="true"></mpf-input>
+            <a class="g-link green" data-ng-click="showVerPoliza(true)">Ver póliza</a>
+          </div>
+          <div class="col-md-4 mb-xs-2">
+            <mpf-input label="{label: 'Estado Siniestro', required: true}" name="nEstadoSiniestro" ng-model="$ctrl.detail.sinisterstatus" ng-disabled="true"></mpf-input>
+          </div>
+          <div class="col-md-4 mb-xs-2">
+            <mpf-input label="{label: 'Taller', required: true}" name="nTaller" ng-model="$ctrl.factoryName" ng-disabled="true"></mpf-input>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-4 mb-xs-2">
+            <mpf-input label="{label: 'Taller Afiliado', required: true}" name="nTallerAfiliado" ng-model="$ctrl.yes" ng-disabled="true"></mpf-input>
+            <a class="g-link green" data-ng-click="$ctrl.showAsignarTaller(true)">Asignar taller</a>
+          </div>
+          <div class="col-md-4 mb-xs-2">
+            <mpf-input label="{label: 'Estado Solicitud', required: true}" name="nEstadoSolicitud" ng-model="$ctrl.detail.requeststatus" ng-disabled="true"></mpf-input>
+          </div>
+          <div class="col-md-4 mb-xs-2">
+            <mpf-input label="{label: 'Fecha de Estado', required: true}" name="nFechaEstado" ng-model="$ctrl.detail.requestdate" ng-disabled="true"></mpf-input>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-4 mb-xs-2">
+            <mpf-input label="{label: 'Ultima actualización', required: true}" name="nUltActual" ng-model="$ctrl.detail.requestdate" ng-disabled="true"></mpf-input>
+          </div>
+          <div class="col-md-4 mb-xs-2">
+            <mpf-input label="{label: 'Fecha Estimada de Salida', required: true}" name="nFechEmitSalida" ng-model="$ctrl.detail.endservicedate" ng-disabled="true"></mpf-input>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- DATOS DEL VEHICULO -->
+    <div class="g-section-inner">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-6">
+            <h2 class="g-sub-title">Datos del vehículo</h2>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-4 mb-xs-2">
+            <mpf-input label="{label: 'Placa', required: true}" name="nPlaca" ng-model="$ctrl.detail.licenseplate" ng-disabled="true"></mpf-input>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ASIGNACION DE PROVEEDOR -->
+    <div class="g-section-inner">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-6">
+            <h2 class="g-sub-title">Asignación de proveedor</h2>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-8 mb-xs-2">
+              <mpf-select
+                ng-model="$ctrl.proveedor"
+                name="nProveedor"
+                m-data-source="$ctrl.lstProveedores"
+                label="{label: 'Proveedor', required: true}"
+                text-field="providername"
+                value-field="providerid"
+                m-Empty-Option="{enterData:true}"></mpf-select>
+          </div>
+          <div class="col-md-2 mt-xs-3">
+            <a class="g-link green" data-ng-click="$ctrl.showVerAsignacion(true)">Ver asignación</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ESTIMADO DEL SERVICIO -->
+    <div class="g-section-inner">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-6">
+            <h2 class="g-sub-title">Estimado del servicio</h2>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-4 mb-xs-2">
+            <mpf-datepicker
+              ng-model="$ctrl.mFechaDesde"
+              label="{label: 'Desde:', required: false}"
+              format="$ctrl.format"
+              name="nFechaDesde"
+              ng-required="false"
+              mpf-validate="required"
+              ng-change="$ctrl.setDifference()">
+            </mpf-datepicker>
+          </div>
+          <div class="col-md-4 mb-xs-2">
+            <mpf-datepicker
+              ng-model="$ctrl.mFechaHasta"
+              label="{label: 'Hasta:', required: false}"
+              format="$ctrl.format"
+              name="nFechaHasta"
+              ng-required="false"
+              mpf-validate="required"
+              ng-change="$ctrl.setDifference()"
+              mindate="$ctrl.mFechaDesde"
+              maxdate="$ctrl.maxDate">
+            </mpf-datepicker>
+          </div>
+          <div class="col-md-2 mt-xs-2">
+            <span class="bc-gris-requerido">
+              <ng-pluralize count="$ctrl.difference" when="{'one': '1 día', 'other': '{} días'}"></ng-pluralize>
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>

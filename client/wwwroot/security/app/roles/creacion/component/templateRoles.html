@@ -1,0 +1,66 @@
+<div class="g-section">
+    <div class="container">
+        <div class="row" ng-show="$parent.subRolesRole.length == 0">
+            <div class="col-xs-12 g-box pt-xs-4 pb-xs-4">
+                <div class="row mb-xs-2">
+                    <div class="hidden-xs col-sm-2"></div>
+                    <div class="col-xs-12 col-sm-8">
+                    <div class="col-sm-8 col-md-8">
+                        <mp-data-seeker behavior="{label:'Asigna un rol al que estás creando', placeholder:'Código o nombre de rol', matchField:'descripcion'}"
+                            m-data-source="$parent.getSubRolesSearchAutocomplete($inputNeed)" ng-model="$parent.mCodigoRole"
+                            ng-required="true" ng-change="$parent.selectSubRoleAutocomplete($parent.mCodigoRole)">
+                            <div ng-bind-html="$item.descripcion | highlight: $select.search"></div>
+                        </mp-data-seeker>
+                    </div>
+                    <div class="col-sm-12 col-md-4 text-center pt-xs-2">
+                        <a class="g-btn g-btn-white block second-design" ng-click="$parent.addSubRole()">+ Agregar</a>
+                    </div>
+                    </div>
+                    <div class="hidden-xs col-sm-2"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row mb-xs-2" ng-show="$parent.subRolesRole.length > 0">
+            <div class="col-sm-8 col-md-3 col-md-offset-7">
+                <mp-data-seeker behavior="{label:'', placeholder:'Código o nombre de rol', matchField:'descripcion'}" m-data-source="$parent.getSubRolesSearchAutocomplete($inputNeed)"
+                    ng-model="$parent.mCodigoRole" ng-required="true" ng-change="$parent.selectSubRoleAutocomplete($parent.mCodigoRole)">
+                    <div ng-bind-html="$item.descripcion | highlight: $select.search"></div>
+                </mp-data-seeker>
+            </div>
+            <div class="col-sm-4 col-md-2 text-center pt-xs-2 pr-md-0">
+                <a class="g-btn g-btn-white block second-design" ng-click="$parent.addSubRole()">+ Agregar</a>
+            </div>
+        </div>
+
+        <div class="row" ng-if="$parent.subRolesRole.length > 0">
+            <div class="col-md-12 g-list-md g-box gBgcGray5 pt-xs-1 pb-xs-1 mb-xs-1" ng-repeat="item in $parent.subRolesRole">
+                <div class="row g-row-fz12">
+                    <div class="col-sm-2 col-md-2 g-col-md middle">
+                        <ul class="row gH5">
+                            <li class="col-md-12 clearfix no-border-left">
+                                <div class="col-xs-12 pl-xs-0 pr-xs-0 item-dato g-text-uppercase text-left">{{item.codRol}}</div>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="col-sm-6 col-md-5 g-col-md middle">
+                        <ul class="row gH5">
+                            <li class="col-md-12 clearfix add-border-left">
+                                <div class="col-xs-12 pl-xs-0 pr-xs-0 item-dato g-text-uppercase">{{item.nomLargo}}</div>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="col-xs-9 col-sm-3 col-md-3 g-col-sm middle add-border-left g-text-left-md">
+                        <mpf-checkbox-toggle ng-model="item.codEstado" label="" ng-true-value="$parent.ENABLE_STATE" ng-false-value="$parent.DISABLED_STATE"
+                            ng-change="$parent.changeStateSubRole(item, $event);">
+                        </mpf-checkbox-toggle>
+                        <span class="" ng-class="{'g-security-asignado': item.codEstado === $parent.ENABLE_STATE, 'g-security-sinasignar': item.codEstado === $parent.DISABLED_STATE}"></span>
+                    </div>
+                    <div class="col-xs-3 col-sm-1 col-md-2 g-col-sm middle no-border-left clearfix g-text-right-xs g-text-center-sm" ng-click="$parent.deleteSubRole(item)">
+                        <span class="ico-mapfre_307_tacho g-link no-underline gnIcon-sm gCGray3"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

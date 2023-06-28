@@ -1,0 +1,137 @@
+<div class="g-title" style="border-bottom-style: solid; border-width: 1px; border-color: #d5d5d5;">
+  <div class="container">
+    <div class="row">
+      <div class="col-xs-9 col-sm-9 col-md-9 col-lg-9 pr-xs-0 pr-md-1 mt-1 title-box">
+        <h1>Farmacias Aliadas</h1>
+      </div>
+      <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 pl-xs-0">
+        <div class="row g-text-right-xs pr-xs-2 relive">
+          <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 u-float-align">
+            <a class="col-md-12 col-xs-12 g-btn second-design g-btn-verde" ng-click="new()">NUEVA FARMACIA</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="dashboard-body">
+  <div class="g-section-inner g-dashboard-section">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-4">
+        </div>
+        <div class="col-md-8 pb-xs-2">
+          <div class="container">
+            <div class="row">
+
+              <form name="frmFilterSearchAlliedPharmacies">
+                <div class="col-md-8 mb-xs-1">
+                  <mpf-input
+                    tabindex="1"
+                    data-ng-model="frm.filter"
+                    ng-minlength="2"
+                    ng-maxlength="50"
+                    mpf-validation="onlyLetterNumberGuion"
+                    label="{label: '', required: false}"
+                    name="nFilterPharmacy"
+                    txt-placeholder="'Nombre de la farmacia aliada'"
+                    is-horz="true">
+                  </mpf-input>
+                </div>
+                <div class="col-md-4">
+                  <div class="row">
+                    <div class="col-md-6 mb-xs-1">
+                      <a class="g-btn second-design g-btn-green-border block" tabindex="2" ng-click="search(frm.filter)">Buscar</a>
+                    </div>
+                    <div class="col-md-6">
+                      <a class="g-btn second-design g-btn-transparent block" tabindex="3" ng-click="clearFilter()">Limpiar</a>
+                    </div>
+                  </div>
+                </div>
+              </form>
+              
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-12">
+
+          <div class="col-md-12 text-center g-box-noresult ng-scope" ng-if="noResultInfoPharmaciesAllied">
+            <div class="row"><div class="col-md-12 g-box-noresult-ico gCBlue2"><span class="ico-mapfre_303_informacion"></span></div>
+              <div class="col-md-12 g-box-noresult-text">Realiza una búsqueda para obtener resultados.</div></div>
+          </div>
+          <div class="col-md-12 text-center g-box-noresult ng-scope" ng-if="noResultInfoPharmaciesAllied">
+            <div class="row">
+              <div class="col-md-12 g-box-noresult-ico gCRed1"><span class="ico-mapfre_302_error"></span></div>
+              <div class="col-md-12 g-box-noresult-text">No hay resultados para los filtros escogidos.<br>Intenta de nuevo.</div>
+            </div>
+          </div>
+
+          <div class="clearfix mb-xs-2">
+            <!--PONER EL NG REPEAT-->
+            <div class="row" ng-repeat="pharmacy in pharmacies">
+
+              <div class="col-md-12 g-list-md g-box gBgcGray5 pt-xs-1 mb-xs-1 ng-scope">
+                <div class="row">
+                  <div class="col-md-9">
+                    <div class="row">
+                      <ul class="row g-list-sm" >
+                        <li class="col-md-12 col-sm-12 col-xs-12  clearfix mb-xs-1 mt-xs-1">
+                          <div class="col-sm-12 col-xs-6 item-label">{{ pharmacy.description }}</div>
+                        </li>
+                      </ul>
+                    </div>
+                    <div class="row">
+                      <ul class="row g-list-sm" >
+                        <li class="col-md-12 col-sm-12 col-xs-12  clearfix mb-xs-1 mt-xs-1">
+                          <div class="col-sm-12 col-xs-6 item-dato">Aplica para: {{ pharmacy.deliveryIndicator.description }}</div>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                  <div class="col-md-3">
+                    <div class="row">
+                      <ul class="row g-list-sm" >
+                        <li class="col-md-12 col-sm-12 col-xs-12 clearfix mb-xs-12 mt-xs-12 gH4">
+                          <div class="col-sm-7 col-xs-7 col-md-offset-3">
+
+                            <div class="g-toggle l-height-0" ng-class="{'g-toggle__withOutLabel': !{{ pharmacy.status.description }} }">
+                              <span class="g-toggle__label" style="margin-right: 60px;">{{ pharmacy.status.description }}</span>
+                              <input type="checkbox" id="chk-{{ pharmacy.id }}"
+                                ng-checked="{{pharmacy.status.enabled}}"
+                                ng-change="changeChecked(pharmacy)"
+                                class="cbx hidden" ng-model="pharmacy.status.enabled"
+                                ng-click="_click($event)" ng-disabled="isDisabled()"/>
+                              <label for="chk-{{ pharmacy.id }}" class="lbl" style="margin-left: 80px;"></label>
+                            </div>
+                          </div>
+                          <div class="col-sm-2 col-xs-2">
+                            <a href="" class="pull-right" ng-click="detail(pharmacy)" title="Detalle">
+                              <i class="glyphicon glyphicon-chevron-right nvt-btn-crud"></i>
+                            </a>
+                          </div>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-md-12">
+              <ul uib-pagination class="g-pagination" ng-model="pagination.currentPage" max-size="pagination.maxSize" total-items="pagination.totalRecords" ng-change="pageChanged()" items-per-page="pagination.sizePerPage" boundary-link-numbers="true"></ul>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+

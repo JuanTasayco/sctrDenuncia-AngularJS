@@ -1,0 +1,389 @@
+<!-- PASO 4 -->
+<div class="g-section-inner">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12">
+        <h2 class="g-sub-title">Datos del vehículo</h2>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-3 mb-xs-2">
+        <div class="g-input-design">
+          <label class="g-placeholder"
+                 ng-class="{animated: newRequest.rNUM_PLACA.$focused || newRequest.rNUM_PLACA.$viewValue}">
+            Nro. de placa*
+          </label>
+          <input type="text"
+                 name="rNUM_PLACA"
+                 ng-model="request.NUM_PLCA"
+                 ng-focus="newRequest.rNUM_PLACA.$focused = true"
+                 ng-blur="newRequest.rNUM_PLACA.$focused = false"
+                 ng-minlength="6"
+                 ng-maxlength="10"
+                 required>
+        </div>
+        <ul class="g-error">
+          <li ng-show="newRequest.rNUM_PLACA.$error.required && newRequest.rNUM_PLACA.$dirty">Este campo es obligatorio</li>
+          <li ng-show="newRequest.rNUM_PLACA.$error.maxlength || (newRequest.rNUM_PLACA.$error.minlength && newRequest.rNUM_PLACA.$touched)">La longitud de este campo debe entre 6 y 10 caracteres</li>
+        </ul>
+      </div>
+      <div class="col-md-3 mb-xs-2">
+        <div class="g-select-desing">
+          <label class="g-placeholder animated">Tipo combustible</label>
+          <select ng-model="request.TIP_MTOR"
+                  name="rTIP_MTOR">
+            <option value="" disabled>-- SELECCIONA --</option>
+            <option ng-repeat="option in params.engineTypes" ng-value="option.CODIGO">{{option.NOMBRE}}</option>
+          </select>
+          <span class="ico-mapfre_308_arrowDown ico-select"></span>
+        </div>
+      </div>
+      <div class="col-md-3 mb-xs-2">
+        <mpf-input label="{label: 'Nro. de motor', required: false}"
+                   name="rNRO_MTOR"
+                   ng-model="request.NRO_MTOR"
+                   ng-maxlength="20"></mpf-input>
+      </div>
+      <div class="col-md-3 mb-xs-2">
+        <div class="g-input-design">
+          <label class="g-placeholder"
+                 ng-class="{animated: newRequest.rANIO_FBRCCION.$focused || newRequest.rANIO_FBRCCION.$viewValue}">
+            Año*
+          </label>
+          <input type="text"
+                 name="rANIO_FBRCCION"
+                 ng-model="request.ANIO_FBRCCION"
+                 ng-focus="newRequest.rANIO_FBRCCION.$focused = true"
+                 ng-blur="newRequest.rANIO_FBRCCION.$focused = false"
+                 ng-pattern="/^\d+$/"
+                 ng-minlength="4"
+                 ng-maxlength="4"
+                 required>
+        </div>
+        <ul class="g-error">
+          <li ng-show="newRequest.rANIO_FBRCCION.$error.required && newRequest.rANIO_FBRCCION.$dirty">Este campo es obligatorio</li>
+          <li ng-show="newRequest.rANIO_FBRCCION.$error.pattern">Este campo solo admite valores numéricos</li>
+          <li ng-show="newRequest.rANIO_FBRCCION.$error.maxlength || (newRequest.rANIO_FBRCCION.$error.minlength && !newRequest.rANIO_FBRCCION.$error.pattern && newRequest.rANIO_FBRCCION.$touched)">La longitud de este campo debe ser de 4 números</li>
+        </ul>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-3 mb-xs-2">
+        <div class="g-select-desing">
+          <label class="g-placeholder animated">Marca*</label>
+          <select ng-model="request.COD_MARCA"
+                  name="rCOD_MARCA"
+                  ng-change="getCarModels(request.COD_MARCA)"
+                  required>
+            <option value="" disabled>-- SELECCIONA --</option>
+            <option ng-repeat="option in params.carBrands" ng-value="option.Codigo">{{option.Descripcion}}</option>
+          </select>
+          <span class="ico-mapfre_308_arrowDown ico-select"></span>
+        </div>
+        <ul class="g-error">
+          <li ng-show="newRequest.rCOD_MARCA.$error.required && newRequest.rCOD_MARCA.$dirty">Este campo es obligatorio</li>
+        </ul>
+      </div>
+      <div class="col-md-3 mb-xs-2">
+        <div class="g-select-desing">
+          <label class="g-placeholder animated">Modelo*</label>
+          <select ng-model="request.COD_MDLO"
+                  name="rCOD_MDLO"
+                  ng-change="getCarSubmodels(request.COD_MARCA, request.COD_MDLO)"
+                  required>
+            <option value="" disabled>-- SELECCIONA --</option>
+            <option ng-repeat="option in params.carModels" ng-value="option.Codigo">{{option.Descripcion}}</option>
+          </select>
+          <span class="ico-mapfre_308_arrowDown ico-select"></span>
+        </div>
+        <ul class="g-error">
+          <li ng-show="newRequest.rCOD_MDLO.$error.required && newRequest.rCOD_MDLO.$dirty">Este campo es obligatorio</li>
+        </ul>
+      </div>
+      <!--
+      <div class="col-md-3 mb-xs-2">
+        <div class="g-select-desing">
+          <label class="g-placeholder animated">Submodelo</label>
+          <select ng-model="request.COD_SB_MDLO"
+                  name="rCOD_SB_MDLO"
+                  ng-change="getCarTypes(request.COD_MARCA, request.COD_MDLO, request.COD_SB_MDLO)">
+            <option value="" disabled>-- SELECCIONA --</option>
+            <option ng-repeat="option in params.carSubmodels" ng-value="option.Codigo">{{option.Descripcion}}</option>
+          </select>
+          <span class="ico-mapfre_308_arrowDown ico-select"></span>
+        </div>
+        <ul class="g-error">
+          <li ng-show="newRequest.rCOD_SB_MDLO.$error.required && newRequest.rCOD_SB_MDLO.$dirty">Este campo es obligatorio</li>
+        </ul>
+      </div>
+      <div class="col-md-3 mb-xs-2">
+        <mpf-input label="{label: 'Tipo', required: false}"
+                   name="rTIP_VEH"
+                   ng-model="TIP_VEH_des"
+                   ng-disabled="true"></mpf-input>
+      </div>-->
+      <div class="col-md-3 mb-xs-2">
+        <div class="g-select-desing">
+          <label class="g-placeholder animated">Tipo</label>
+          <select ng-model="request.TIP_VEH"
+                  name="rTIP_VEH"
+                  ng-change="getCarSubmodel(request.COD_MARCA, request.COD_MDLO, request.TIP_VEH)">
+            <option value="" disabled>-- SELECCIONA --</option>
+            <option ng-repeat="option in params.carTypes" ng-value="option.CodigoTipo">{{option.NombreTipo}}</option>
+          </select>
+          <span class="ico-mapfre_308_arrowDown ico-select"></span>
+        </div>
+        <ul class="g-error">
+          <li ng-show="newRequest.rTIP_VEH.$error.required && newRequest.rTIP_VEH.$dirty">Este campo es obligatorio</li>
+        </ul>
+      </div>
+      <div class="col-md-3 mb-xs-2">
+        <mpf-input label="{label: 'Submodelo', required: false}"
+                   name="rCOD_SB_MDLO"
+                   ng-model="COD_SB_MDLO_des"
+                   ng-disabled="true"></mpf-input>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-3 mb-xs-2">
+        <mpf-input label="{label: 'Nro. Chasis', required: false}"
+                   name="rNRO_CHSIS"
+                   ng-model="request.NRO_CHSIS"
+                   ng-maxlength="21"></mpf-input>
+      </div>
+      <div class="col-md-3 mb-xs-2">
+        <div class="g-select-desing">
+          <label class="g-placeholder animated">Transmisión</label>
+          <select ng-model="request.TPO_TRASM"
+                  name="rTPO_TRASM">
+            <option value="" disabled>-- SELECCIONA --</option>
+            <option ng-repeat="option in params.transmissionTypes" ng-value="option.CODIGO">{{option.NOMBRE}}</option>
+          </select>
+          <span class="ico-mapfre_308_arrowDown ico-select"></span>
+        </div>
+      </div>
+      <div class="col-md-3 mb-xs-2">
+        <mpf-input label="{label: 'Nro. de serie', required: false}"
+                   name="rNRO_SRIE_VIN"
+                   ng-model="request.NRO_SRIE_VIN"
+                   ng-maxlength="20"></mpf-input>
+      </div>
+      <div class="col-md-3 mb-xs-2">
+        <div class="g-select-desing">
+          <label class="g-placeholder animated">Color</label>
+          <select ng-model="request.COD_CLOR"
+                  name="rCOD_CLOR">
+            <option value="" disabled>-- SELECCIONA --</option>
+            <option ng-repeat="option in params.colors" ng-value="option.CODIGO">{{option.NOMBRE}}</option>
+          </select>
+          <span class="ico-mapfre_308_arrowDown ico-select"></span>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-3 mb-xs-2">
+        <div class="g-select-desing">
+          <label class="g-placeholder animated">Tracción</label>
+          <select ng-model="request.TIP_TRCCON"
+                  name="rTIP_TRCCON">
+            <option value="" disabled>-- SELECCIONA --</option>
+            <option ng-repeat="option in params.wheelDriveTypes" ng-value="option.CODIGO">{{option.NOMBRE}}</option>
+          </select>
+          <span class="ico-mapfre_308_arrowDown ico-select"></span>
+        </div>
+      </div>
+      <div class="col-md-3 mb-xs-2">
+        <div class="g-input-design">
+          <label class="g-placeholder"
+                 ng-class="{animated: newRequest.rPSO_VEH.$focused || newRequest.rPSO_VEH.$viewValue}">
+            Peso (kg)
+          </label>
+          <input type="text"
+                 name="rPSO_VEH"
+                 ng-model="request.PSO_VEH"
+                 ng-focus="newRequest.rPSO_VEH.$focused = true"
+                 ng-blur="newRequest.rPSO_VEH.$focused = false"
+                 ng-pattern="/^\d+$/">
+        </div>
+        <ul class="g-error">
+          <li ng-show="newRequest.rPSO_VEH.$error.pattern">Este campo solo admite valores numéricos</li>
+        </ul>
+      </div>
+      <div class="col-md-3 mb-xs-2">
+        <div class="g-input-design">
+          <label class="g-placeholder"
+                 ng-class="{animated: newRequest.rNRO_CLNDRDDAS.$focused || newRequest.rNRO_CLNDRDDAS.$viewValue}">
+            Cilindrada (cc)
+          </label>
+          <input type="text"
+                 name="rNRO_CLNDRDDAS"
+                 ng-model="request.NRO_CLNDRDDAS"
+                 ng-focus="newRequest.rNRO_CLNDRDDAS.$focused = true"
+                 ng-blur="newRequest.rNRO_CLNDRDDAS.$focused = false"
+                 ng-pattern="/^\d+$/">
+        </div>
+        <ul class="g-error">
+          <li ng-show="newRequest.rNRO_CLNDRDDAS.$error.pattern">Este campo solo admite valores numéricos</li>
+        </ul>
+      </div>
+      <div class="col-md-3 mb-xs-2">
+        <div class="g-input-design">
+          <label class="g-placeholder"
+                 ng-class="{animated: newRequest.rNRO_PRTAS.$focused || newRequest.rNRO_PRTAS.$viewValue}">
+            Nro. de puertas
+          </label>
+          <input type="text"
+                 name="rNRO_PRTAS"
+                 ng-model="request.NRO_PRTAS"
+                 ng-focus="newRequest.rNRO_PRTAS.$focused = true"
+                 ng-blur="newRequest.rNRO_PRTAS.$focused = false"
+                 ng-pattern="/^\d+$/">
+        </div>
+        <ul class="g-error">
+          <li ng-show="newRequest.rNRO_PRTAS.$error.pattern">Este campo solo admite valores numéricos</li>
+        </ul>
+    </div>
+    </div>
+    <div class="row">
+      <div class="col-md-3 mb-xs-2">
+        <div class="g-input-design">
+          <label class="g-placeholder"
+                 ng-class="{animated: newRequest.rKLMTRJE_VEHI.$focused || newRequest.rKLMTRJE_VEHI.$viewValue}">
+            Kilometraje (Km)
+          </label>
+          <input type="text"
+                 name="rKLMTRJE_VEHI"
+                 ng-model="request.KLMTRJE_VEHI"
+                 ng-focus="newRequest.rKLMTRJE_VEHI.$focused = true"
+                 ng-blur="newRequest.rKLMTRJE_VEHI.$focused = false"
+                 ng-pattern="/^\d+$/">
+        </div>
+        <ul class="g-error">
+          <li ng-show="newRequest.rKLMTRJE_VEHI.$error.pattern">Este campo solo admite valores numéricos</li>
+        </ul>
+      </div>
+      <div class="col-md-3 mb-xs-2">
+        <div class="g-select-desing">
+          <label class="g-placeholder animated">Tipo de Timón</label>
+          <select ng-model="request.TIP_TMON"
+                  name="rTIP_TMON">
+            <option value="" disabled>-- SELECCIONA --</option>
+            <option ng-repeat="option in params.steeringWheelTypes" ng-value="option.CODIGO">{{option.NOMBRE}}</option>
+          </select>
+          <span class="ico-mapfre_308_arrowDown ico-select"></span>
+        </div>
+      </div>
+      <div class="col-md-3 mb-xs-2">
+        <div class="g-select-desing">
+          <label class="g-placeholder animated">Moneda valor comercial*</label>
+          <select ng-model="request.MON_VLR_CMRCIAL"
+                  name="rMON_VLR_CMRCIAL"
+                  required>
+            <option value="" disabled>-- SELECCIONA --</option>
+            <option ng-repeat="option in params.currencies" ng-value="option.CODIGO">{{option.NOMBRE}}</option>
+          </select>
+          <span class="ico-mapfre_308_arrowDown ico-select"></span>
+        </div>
+        <ul class="g-error">
+          <li ng-show="newRequest.rMON_VLR_CMRCIAL.$error.required && newRequest.rMON_VLR_CMRCIAL.$dirty">Este campo es obligatorio</li>
+        </ul>
+      </div>
+      <div class="col-md-3 mb-xs-2">
+        <div class="g-input-design">
+          <label class="g-placeholder"
+                 ng-class="{animated: newRequest.rVLR_CMRCIAL.$focused || newRequest.rVLR_CMRCIAL.$viewValue}">
+            Valor comercial*
+          </label>
+          <input type="text"
+                 name="rVLR_CMRCIAL"
+                 ng-model="request.VLR_CMRCIAL"
+                 ng-focus="newRequest.rVLR_CMRCIAL.$focused = true"
+                 ng-blur="newRequest.rVLR_CMRCIAL.$focused = false"
+                 ng-pattern="/^(\d+(?:[\.]\d{2})?)$/"
+                 ng-maxlength="8"
+                 required>
+        </div>
+        <ul class="g-error">
+          <li ng-show="newRequest.rVLR_CMRCIAL.$error.pattern">Este campo solo admite valores en formato monetario</li>
+          <li ng-show="newRequest.rVLR_CMRCIAL.$error.required && newRequest.rVLR_CMRCIAL.$dirty">Este campo es obligatorio</li>
+          <li ng-show="newRequest.rVLR_CMRCIAL.$error.maxlength || (newRequest.rVLR_CMRCIAL.$error.minlength && newRequest.rVLR_CMRCIAL.$touched)">La longitud de este campo no debe superar los 8 caracteres</li>
+        </ul>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-3 mb-xs-2">
+        <div class="g-select-desing">
+          <label class="g-placeholder animated">Moneda valor de restos*</label>
+          <select ng-model="request.MON_VLR_RSTO"
+                  name="rMON_VLR_RSTO"
+                  required>
+            <option value="" disabled>-- SELECCIONA --</option>
+            <option ng-repeat="option in params.currencies" ng-value="option.CODIGO">{{option.NOMBRE}}</option>
+          </select>
+          <span class="ico-mapfre_308_arrowDown ico-select"></span>
+        </div>
+        <ul class="g-error">
+          <li ng-show="newRequest.rMON_VLR_RSTO.$error.required && newRequest.rMON_VLR_RSTO.$dirty">Este campo es obligatorio</li>
+        </ul>
+      </div>
+      <div class="col-md-3 mb-xs-2">
+        <div class="g-input-design">
+          <label class="g-placeholder"
+                 ng-class="{animated: newRequest.rVLR_RSTO.$focused || newRequest.rVLR_RSTO.$viewValue}">
+            Valor de restos*
+          </label>
+          <input type="text"
+                 name="rVLR_RSTO"
+                 ng-model="request.VLR_RSTO"
+                 ng-focus="newRequest.rVLR_RSTO.$focused = true"
+                 ng-blur="newRequest.rVLR_RSTO.$focused = false"
+                 ng-pattern="/^(\d+(?:[\.]\d{2})?)$/"
+                 ng-maxlength="8"
+                 required>
+        </div>
+        <ul class="g-error">
+          <li ng-show="newRequest.rVLR_RSTO.$error.pattern">Este campo solo admite valores en formato monetario</li>
+          <li ng-show="newRequest.rVLR_RSTO.$error.required && newRequest.rVLR_RSTO.$dirty">Este campo es obligatorio</li>
+          <li ng-show="newRequest.rVLR_RSTO.$error.maxlength || (newRequest.rVLR_RSTO.$error.minlength && newRequest.rVLR_RSTO.$touched)">La longitud de este campo no debe superar los 8 caracteres</li>
+        </ul>
+      </div>
+      <div class="col-md-3 mb-xs-2">
+        <div class="g-select-desing">
+          <label class="g-placeholder animated">Moneda de la suma asegurada*</label>
+          <select ng-model="request.MON_SMA_ASGRDA"
+                  name="rMON_SMA_ASGRDA"
+                  required>
+            <option value="" disabled>-- SELECCIONA --</option>
+            <option ng-repeat="option in params.currencies" ng-value="option.CODIGO">{{option.NOMBRE}}</option>
+          </select>
+          <span class="ico-mapfre_308_arrowDown ico-select"></span>
+        </div>
+        <ul class="g-error">
+          <li ng-show="newRequest.rMON_SMA_ASGRDA.$error.required && newRequest.rMON_SMA_ASGRDA.$dirty">Este campo es obligatorio</li>
+        </ul>
+      </div>
+      <div class="col-md-3 mb-xs-2">
+        <div class="g-input-design">
+          <label class="g-placeholder"
+                 ng-class="{animated: newRequest.rSMA_ASGRDA.$focused || newRequest.rSMA_ASGRDA.$viewValue}">
+            Suma asegurada*
+          </label>
+          <input type="text"
+                 name="rSMA_ASGRDA"
+                 ng-model="request.SMA_ASGRDA"
+                 ng-focus="newRequest.rSMA_ASGRDA.$focused = true"
+                 ng-blur="newRequest.rSMA_ASGRDA.$focused = false"
+                 ng-pattern="/^(\d+(?:[\.]\d{2})?)$/"
+                 ng-maxlength="8"
+                 required>
+        </div>
+        <ul class="g-error">
+          <li ng-show="newRequest.rSMA_ASGRDA.$error.pattern">Este campo solo admite valores en formato monetario</li>
+          <li ng-show="newRequest.rSMA_ASGRDA.$error.required && newRequest.rSMA_ASGRDA.$dirty">Este campo es obligatorio</li>
+          <li ng-show="newRequest.rSMA_ASGRDA.$error.maxlength || (newRequest.rSMA_ASGRDA.$error.minlength && newRequest.rSMA_ASGRDA.$touched)">La longitud de este campo no debe superar los 8 caracteres</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>

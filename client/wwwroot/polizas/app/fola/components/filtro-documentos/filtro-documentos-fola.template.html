@@ -1,0 +1,90 @@
+<form action="" name="frmDocuments">
+  <div show-filter class="clearfix g-col-filter g-box-md fz14 gBgcGray5-md gBgcWhite1 g-myd-box g-myd-box--filter"
+    ng-class="{'show': isFilterVisible}">
+    <div class="col-md-12 mb-xs-3 gH4 gCGray1">
+      <h2 class="pb-xs-1 g-border-bottom-xs hidden-xs hidden-sm"><b>Filtro</b></h2>
+      <div id="show-filter" class="row pt-xs-2 pb-xs-2 gBgcGray5 g-border-bottom-xs hidden-md hidden-lg"
+        ng-click="toggleFilter();">
+        <div class="col-xs-10">
+          <h2><b>Opciones de búsqueda</b></h2>
+        </div>
+        <div class="col-xs-2 g-text-right-xs">
+          <span class="glyphicon glyphicon-chevron-down" ng-if="isFilterVisible"></span>
+          <span class="glyphicon glyphicon-chevron-up" ng-if="!isFilterVisible"></span>
+        </div>
+        <div class="clearfix"></div>
+      </div>
+    </div>
+    <div class="g-col-filter__box">
+      <div class="col-md-12 mb-xs-2">
+        <mpf-input label="{label: 'Nro. Solicitud', required: false}" name="nNroDocumentoFilter"
+          ng-model="vm.filtros.numeroDocumento" mpf-validation="{{ $ctrl.data.mNroDocumentoFilter.FIELD_TYPE }}"
+          mpf-validation-disabled="{{ $ctrl.data.mNroDocumentoFilter.FIELD_TYPE_DISABLED }}"
+          ng-maxlength="$ctrl.data.mNroDocumentoFilter.MAX_LENGTH"
+        >
+        </mpf-input>
+        <ul class="g-error">
+          <li
+            ng-show="frmDocuments.nNroDocumentoFilter.$viewValue && (frmDocuments.nNroDocumentoFilter.$error.onlyNumber || frmDocuments.nNroDocumentoFilter.$error.maxlength) && !frmDocuments.nNroDocumentoFilter.$pristine">
+            * Nro solicitud incorrecto
+          </li>
+        </ul>
+      </div>
+      <div class="col-md-12 mb-xs-2" ng-if="vm.isConsultaDocumento">
+        <mpf-input label="{label: 'Nro. de póliza', required: false}" name="nNroPolizaFilter"
+          ng-model="vm.filtros.numeroPoliza" mpf-validation="{{ $ctrl.data.nNroPolizaFilter.FIELD_TYPE }}"
+          mpf-validation-disabled="{{ $ctrl.data.nNroPolizaFilter.FIELD_TYPE_DISABLED }}"
+          ng-maxlength="$ctrl.data.nNroPolizaFilter.MAX_LENGTH"
+        >
+        </mpf-input>
+        <ul class="g-error">
+          <li
+            ng-show="frmDocuments.nNroPolizaFilter.$viewValue && (frmDocuments.nNroPolizaFilter.$error.onlyNumber || frmDocuments.nNroPolizaFilter.$error.maxlength) && !frmDocuments.nNroPolizaFilter.$pristine">
+            * Nro de póliza incorrecto
+          </li>
+        </ul>
+      </div>
+      <div class="col-md-6 mb-xs-2">
+        <mpf-datepicker label="{label: 'Desde:', required: true}" ng-model="vm.filtros.fechaInicial"
+          format="vm.format" name="nFechaInicial" ng-required="true" nomargin="true">
+      </div>
+      <div class="col-md-6 mb-xs-2">
+        <mpf-datepicker label="{label: 'Hasta:', required: true}" ng-model="vm.filtros.fechaFinal"
+          format="vm.format" name="nFechaFinal" ng-required="true" nomargin="true">
+      </div>
+      <div class="col-md-12 mb-xs-2">
+        <mpf-input label="{label: 'Contratante', required: false}" name="vm.filtros.contratante"
+          ng-model="vm.filtros.contratante"></mpf-input>
+      </div>
+
+      <div class="col-md-12 mb-xs-2 mb-30 mt-30">
+        <label><b>Estado:</b></label>
+
+        <div class="form-check">  
+          <mpf-checkbox ng-model="vm.emitido" ng-change="vm.statusDocuments()"></mpf-checkbox> 
+          <label class="form-check-label">Emitido</label> 
+        </div> 
+
+        <div class="form-check">  
+          <mpf-checkbox ng-model="vm.cotizado" ng-change="vm.statusDocuments()"></mpf-checkbox> 
+          <label class="form-check-label">Cotizado</label> 
+        </div> 
+
+        <div class="form-check" ng-if="vm.isConsultaDocumento">  
+          <mpf-checkbox ng-model="vm.expirado" ng-change="vm.statusDocuments()"></mpf-checkbox> 
+          <label class="form-check-label">Expirado</label> 
+        </div> 
+        
+      </div>
+
+      <div class="col-md-12 mb-xs-1">
+        <a href="javascript:void(0);" class="g-btn g-btn-verde block"
+          ng-click="vm.buscarDocumentos(); toggleFilter();">Filtrar</a>
+      </div>
+      <div class="col-md-12">
+        <a href="javascript:void(0);" class="g-btn g-btn-white block"
+          ng-click="vm.limpiarFiltros(); toggleFilter();">Limpiar</a>
+      </div>
+    </div>
+  </div>
+</form>

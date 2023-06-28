@@ -1,0 +1,314 @@
+<section class="g-page h-myd-bg--gray4">
+    <div class="g-title">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-8 col-sm-8 mb-xs-2 no-mb-sm">
+            <h1>Cotización póliza empresa</h1>
+          </div>
+          <div class="col-md-4 col-sm-4 mb-xs-1 no-mb-sm">
+            <a class="g-btn g-btn-white second-design block" ui-sref="companyquot.steps({step: 1})">Cotizar nueva póliza empresa</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="g-section g-myd-summary">
+      <div class="container">
+        <div class="col-md-12 g-box fz14 pt-xs-2 pb-xs-2 g-myd-box">
+          <div class="row h-myd-ml--0 h-myd-mr--0 gH4">
+            <div class="col-sm-6 mb-sm-2 mb-xs-1">
+              <h2 class="gCGray1 g-text-uppercase g-myd-title"><b>Cotización Póliza Empresa</b></h2>
+              <span class="error-convention" ng-show="data.DescripcionRequiereVB != ''">{{data.DescripcionRequiereVB}}</span>
+            </div>
+            <div class="col-sm-6 mb-xs-2 g-text-right-sm">
+              <b>Nro. Cotización: {{numDoc}}</b>
+            </div>
+            <div class="col-sm-12" ng-class="{'mb-sm-2' : data.DescripcionRequiereVB != '', '' : !data.DescripcionRequiereVB}">
+              <span class="gH6 gCRed1" ng-show="data.DescripcionRequiereVB != ''" ng-bind-html="data.DescripcionRequiereVB"></span>
+            </div>
+            <div class="col-sm-12" ng-class="{'mb-sm-2' : viewMsgGiro, '' : !viewMsgGiro}">
+              <span class="gH6 gCRed1" ng-show="viewMsgGiro">RIESGO REQUIERE INSPECCIÓN</span>
+            </div>
+          </div>
+
+          <div class="row gBgcGray5 pt-xs-1 h-myd-ml--0 h-myd-mr--0">
+            <div class="col-md-12 mb-xs-1">
+                <h2 class="gH4 gCGray1 g-border-bottom-xs g-myd-title"><b>Prima</b></h2>
+            </div>
+          </div>
+          <ul class="row g-list second-design gBgcGray5">
+            <li class="col-md-4 clearfix cnt-item">
+              <div class="col-xs-5 item-label">
+                <span class="ico-mapfre_82_circle ico-bullet"></span>Prima Neta:
+              </div>
+              <div class="col-xs-7 item-dato">
+                <span ng-show="data.Moneda.Codigo == 2">$ </span>
+                <span ng-show="data.Moneda.Codigo == 1">S/ </span>
+                {{data.ConceptosDesglose.PrimaNeta | number: 2}}
+              </div>
+            </li>
+          </ul>
+          <ul class="row g-list second-design gBgcGray5">
+            <li class="col-md-4 clearfix cnt-item">
+              <div class="col-xs-5 item-label">
+                <span class="ico-mapfre_82_circle ico-bullet"></span>Prima comercial:
+              </div>
+              <div class="col-xs-7 item-dato">
+                <span ng-show="data.Moneda.Codigo == 2">$ </span>
+                <span ng-show="data.Moneda.Codigo == 1">S/ </span>
+                {{data.ConceptosDesglose.PrimaComercial | number: 2}}
+              </div>
+            </li>
+          </ul>
+          <ul class="row g-list second-design gBgcGray5">
+            <li class="col-md-4 clearfix cnt-item">
+              <div class="col-xs-5 item-label">
+                <span class="ico-mapfre_82_circle ico-bullet"></span>IGV:
+              </div>
+              <div class="col-xs-7 item-dato">
+                <span ng-show="data.Moneda.Codigo == 2">$ </span>
+                <span ng-show="data.Moneda.Codigo == 1">S/ </span>
+                {{data.ConceptosDesglose.Igv | number: 2}}
+              </div>
+            </li>
+          </ul>
+          <ul class="row g-list second-design gBgcGray5">
+            <li class="col-md-4 clearfix cnt-item">
+              <div class="col-xs-5 item-label">
+                <span class="ico-mapfre_82_circle ico-bullet"></span>Prima total:
+              </div>
+              <div class="col-xs-7 item-dato">
+                <span ng-show="data.Moneda.Codigo == 2">$ </span>
+                <span ng-show="data.Moneda.Codigo == 1">S/ </span>
+                {{data.ConceptosDesglose.PrimaTotal | number: 2}}
+              </div>
+            </li>
+          </ul>
+
+          <div class="row mt-xs-2 h-myd-ml--0 h-myd-mr--0">
+            <div class="col-md-12 mb-xs-1">
+              <h2 class="gH4 gCGray1 g-border-bottom-xs g-myd-title"><b>Datos de la empresa</b></h2>
+            </div>
+          </div>
+          <ul class="row h-myd-ml--0 h-myd-mr--0 g-list second-design h-myd-border--bottom-1 h-myd-pb--10 h-myd-mb--20">
+            <li class="col-md-4 clearfix cnt-item h-myd-p--0">
+              <div class="col-sm-5 item-label">
+                <span class="ico-mapfre_82_circle ico-bullet"></span>Tipo de empresa:
+              </div>
+              <div class="col-sm-7 item-dato">
+                {{data.TipoEmpresa.Descripcion}}
+              </div>
+            </li>
+            <li class="col-md-4 clearfix cnt-item h-myd-p--0">
+              <div class="col-sm-5 item-label">
+                <span class="ico-mapfre_82_circle ico-bullet"></span>Giro de Negocio:
+              </div>
+              <div class="col-sm-7 item-dato">
+                {{data.GiroNegocio.Descripcion}}
+              </div>
+            </li>
+            <li class="col-md-4 clearfix cnt-item h-myd-p--0">
+              <div class="col-sm-5 item-label">
+                <span class="ico-mapfre_82_circle ico-bullet"></span>Moneda:
+              </div>
+              <div class="col-sm-7 item-dato">
+                {{data.Moneda.Descripcion}}
+              </div>
+            </li>
+          </ul>
+
+          <div class="row mt-xs-2 h-myd-ml--0 h-myd-mr--0">
+            <div class="col-md-12 mb-xs-1">
+              <h2 class="gH4 gCGray1 g-border-bottom-xs g-myd-title"><b>Datos del contratante</b></h2>
+            </div>
+          </div>
+          <ul class="row g-list second-design h-myd-ml--0 h-myd-mr--0 h-myd-border--bottom-1 h-myd-pb--10 h-myd-mb--20" ng-show="!isRuc()">
+            <li class="col-md-4 clearfix cnt-item h-myd-p--0">
+              <div class="col-sm-5 item-label">
+                <span class="ico-mapfre_82_circle ico-bullet"></span>Nombre:
+              </div>
+              <div class="col-sm-7 item-dato">
+                {{data.Contratante.Nombre | uppercase}}
+              </div>
+            </li>
+            <li class="col-md-4 clearfix cnt-item h-myd-p--0">
+              <div class="col-sm-5 item-label">
+                <span class="ico-mapfre_82_circle ico-bullet"></span>Apellido paterno:
+              </div>
+              <div class="col-sm-7 item-dato">
+                {{data.Contratante.ApellidoPaterno | uppercase}}
+              </div>
+            </li>
+            <li class="col-md-4 clearfix cnt-item h-myd-p--0">
+              <div class="col-sm-5 item-label">
+                <span class="ico-mapfre_82_circle ico-bullet"></span>Apellido materno:
+              </div>
+              <div class="col-sm-7 item-dato">
+                {{data.Contratante.ApellidoMaterno | uppercase}}
+              </div>
+            </li>
+          </ul>
+
+          <ul class="row g-list second-design h-myd-ml--0 h-myd-mr--0 h-myd-border--bottom-1 h-myd-pb--10 h-myd-mb--20" ng-show="isRuc()">
+            <li class="col-md-4 clearfix cnt-item h-myd-p--0">
+              <div class="col-sm-5 item-label">
+                <span class="ico-mapfre_82_circle ico-bullet"></span>Razón Social:
+              </div>
+              <div class="col-sm-7 item-dato">
+                {{data.Contratante.Nombre | uppercase}}
+              </div>
+            </li>
+          </ul>
+
+          <div class="row mt-xs-2 h-myd-ml--0 h-myd-mr--0">
+            <div class="col-md-12 mb-xs-1">
+              <h2 class="gH4 gCGray1 g-border-bottom-xs g-myd-title"><b>MAPFRE dólares</b></h2>
+            </div>
+          </div>
+          <ul class="row g-list second-design h-myd-ml--0 h-myd-mr--0 h-myd-border--bottom-1 h-myd-pb--10 h-myd-mb--20" ng-show="!isRuc()">
+            <li class="col-md-4 clearfix cnt-item h-myd-p--0">
+              <div class="col-sm-5 item-label">
+                <span class="ico-mapfre_82_circle ico-bullet"></span>Aplicados:
+              </div>
+              <div class="col-sm-7 item-dato">
+                $ {{data.ImporteMapfreDolar | number: 2}}
+              </div>
+            </li>
+          </ul>
+
+          <div class="row mt-xs-2 h-myd-ml--0 h-myd-mr--0">
+            <div class="col-md-12 mb-xs-1">
+              <h2 class="gH4 gCGray1 g-border-bottom-xs g-myd-title"><b>Otros</b></h2>
+            </div>
+          </div>
+          <ul class="row g-list second-design h-myd-ml--0 h-myd-mr--0 h-myd-border--bottom-1 h-myd-pb--10 h-myd-mb--20" ng-show="!isRuc()">
+            <li class="col-md-4 clearfix cnt-item h-myd-p--0">
+              <div class="col-sm-5 item-label">
+                <span class="ico-mapfre_82_circle ico-bullet"></span>Desc. Comercial:
+              </div>
+              <div class="col-sm-7 item-dato">
+                {{data.DescuentoComercial | number: 2}} %
+              </div>
+            </li>
+          </ul>
+
+          <div class="row mt-xs-2 h-myd-ml--0 h-myd-mr--0">
+            <div class="col-md-12 mb-xs-1">
+              <h2 class="gH4 gCGray1 g-border-bottom-xs g-myd-title"><b>Datos del riesgo</b></h2>
+            </div>
+          </div>
+          <!-- Tabla -->
+          <div class="col-md-12">
+              <div class="row topping  table-riesgo g-box h-myd-m--1">
+                  <div class="table-riesgo-title gBgcGray5">
+                      <div class="container">
+                          <div class="col-md-1 title-col">Riesgo</div>
+                          <div class="col-md-3 title-col">Datos del riesgo</div>
+                          <div class="col-md-4 title-col">Alarma de monitoreo</div>
+                          <div class="col-md-4 title-col">Convenios</div>
+                      </div>
+                  </div>
+
+                  <div class="table-riesgo-main">
+                      <div class="table-riesgo-row" ng-repeat="item in data.Riesgos">
+                          <div class="table-riesgo-row-content">
+                              <div class="container">
+
+                                  <div class="col-md-1 col-xs-12 data-col">
+                                      <div class="media-tablet"><span class="cell-label "><strong>Riesgo</strong></span></div>
+                                      <div class="media-tablet"><span class="cell-data g-text-uppercase">{{$index+1}}</span></div>
+                                  </div>
+                                  <div class="col-md-3 col-xs-12 data-col g-border-right">
+                                      <div class="media-tablet"><span class="cell-label"><strong>Datos del riesgo</strong></span></div>
+                                      <div class="media-tablet">
+                                          <span class="cell-data">
+                                              <span class="g-text-uppercase">
+                                              {{item.Ubigeo.Departamento.Descripcion}}, {{item.Ubigeo.Provincia.Descripcion}}.
+                                              {{item.Ubigeo.Distrito.Descripcion}}</span>
+                                          <span>
+                                          <span>Tipo de local:&nbsp;</span><span class="g-text-uppercase">{{item.Tipolocal.Descripcion}}</span>
+                                          </span>
+                                          <span>Categoria:&nbsp;</span><span class="g-text-uppercase">{{item.Categoria.Descripcion}}</span>
+                                          </span>
+                                      </div>
+                                  </div>
+                                  <div class="col-md-4 col-xs-12 data-col">
+                                    <div class="media-tablet"><span class="cell-label"><strong>Alarma de monitoreo</strong></span></div>
+                                    <div class="media-tablet">
+                                      <span class="cell-data">
+                                        <span>Alarma de monitoreo:
+                                          <span class="g-text-uppercase" ng-if="item.AlarmaMonitoreo.McaAlarmaMonitoreo === 'S'">Sí</span>
+                                          <span class="g-text-uppercase" ng-if="item.AlarmaMonitoreo.McaAlarmaMonitoreo !== 'S'">No</span>
+                                        </span>
+                                        <span>Comunicación:
+                                          <span class="g-text-uppercase" ng-if="item.AlarmaMonitoreo.TipoComunicacion.Codigo != 0">{{item.AlarmaMonitoreo.TipoComunicacion.Descripcion}}</span>
+                                          <span class="g-text-uppercase" ng-if="item.AlarmaMonitoreo.TipoComunicacion.Codigo == 0">No</span>
+                                        </span>
+                                        <span>Kit smart:
+                                          <span class="g-text-uppercase" ng-if="item.AlarmaMonitoreo.mcaKitSmart === 'S'">Sí</span>
+                                          <span class="g-text-uppercase" ng-if="item.AlarmaMonitoreo.mcaKitSmart !== 'S'">No</span>
+                                        </span>
+                                        <span>Video web:
+                                          <span class="g-text-uppercase" ng-if="item.AlarmaMonitoreo.mcaVideoWeb === 'S'">Sí</span>
+                                          <span class="g-text-uppercase" ng-if="item.AlarmaMonitoreo.mcaVideoWeb !== 'S'">No</span>
+                                        </span>
+                                        <span>Llavero médico/imagen plus:
+                                          <span class="g-text-uppercase" ng-if="item.AlarmaMonitoreo.mcaLlaveroMedico === 'S'">Sí</span>
+                                          <span class="g-text-uppercase" ng-if="item.AlarmaMonitoreo.mcaLlaveroMedico !== 'S'">No</span>
+                                        </span>
+                                      </span>
+                                    </div>
+                                  </div>
+                                  <div class="col-md-4 col-xs-12 data-col g-border-left">
+                                      <div class="media-tablet"><span class="cell-label"><strong>Convenios</strong></span></div>
+                                      <div class="media-tablet"><span class="cell-data block-tb" ng-repeat="convention in getConventions(item)">
+                                          <span>{{convention.Titulo}}</span>
+                                          </span>
+                                      </div>
+                                  </div>
+
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          </div>
+          <!-- FIn tabla -->
+        </div>
+         <!-- Firma -->
+        <div ng-if="isMyDream && isMobile" class="row">
+          <signature-panel
+            label="cotización"
+            params-signature="{{ paramsSignature }}"
+            params-pdf="{{ paramsPdf }}"
+            document-number="{{ numDoc }}"
+            onEnd="onSignature($event)">
+          </signature-panel>
+        </div>
+        <div class="row">
+          <div class="col-sm-4 text-right mt-xs-1">
+            <a
+            class="g-btn g-btn-white block"
+            data-toggle="modal"
+            ng-click = "sendEmailResumen()"
+            data-target="{{$parent.modalEmail}}"
+            >Enviar por correo</a></div>
+          <div class="col-sm-4 text-left mt-xs-1">
+            <a
+            class="g-btn g-btn-white block"
+            ng-click="downloadResumen()"
+            >Descargar</a>
+          </div>
+
+          <div class="col-sm-4 mt-xs-1" ng-show="data.DescripcionRequiereVB == '' && !viewMsgGiro">
+            <a class="g-btn g-btn-verde block" ng-click="emitirPoliza()">
+              emitir póliza
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+</section>
+<form id="frmDownloadPDF" name="frmDownloadPDF" action="{{pdfURL}}" method="post" target="_blank">
+    <input type="hidden" name="json" value='{{pdfData}}'>
+</form>

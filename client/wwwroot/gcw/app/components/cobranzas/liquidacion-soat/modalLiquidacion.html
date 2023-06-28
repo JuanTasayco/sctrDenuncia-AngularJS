@@ -1,0 +1,57 @@
+<div class="clearfix">
+	<button type="button" class="close g-close-modal" ng-click="close()">
+		<span class="ico-mapfre_46_cancelaroff"></span>
+	</button>
+	<div class="container">
+		<form name="frmLiquid">
+			<div class="container">
+	      <div class="row">
+	        <div class="col-md-12 g-text-center-xs mb-xs-2">
+	          <h2 class="gH3"><b>GENERAR LIQUIDACIÓN</b></h2>
+	        </div>
+	      </div>
+	    </div>
+	    <div class="container">
+	    	<div class="row" ng-if="!message">
+					<div class="col-md-10 mb-xs-2 col-md-offset-1">
+						<p class="text-center mb-xs-0">¿Está seguro que quiere generar la liquidación?</p>
+					</div>
+					<div class="col-md-10 mb-xs-2 col-md-offset-1 g-error" ng-if="error">
+						<p class="text-center mb-xs-0">Debe seleccionar alguna liquidación</p>
+					</div>
+					<!-- <div class="col-md-12 text-center"> -->
+					<div class="col-md-5 col-md-offset-1 mt-md-2">
+						<button 
+						ga-click
+						ga-category="'CG - Cobranzas'"
+						ga-action="'MPF - Liquidación SOAT - Botón Generar'"
+						ga-label="'Botón: Generar'"
+						ng-click="generar()" class="g-btn g-btn-verde block">Generar</button>
+					</div>
+					<div class="col-md-5 mt-xs-1 mt-md-2">
+						<button ng-click="close()" class="g-btn g-btn-transparent block">Cancelar</button>
+					</div>
+				</div>			
+				<div class="clearfix" ng-if="message">
+					<div class="swal2-icon swal2-success swal2-animate-success-icon" style="display: block;"><div class="swal2-success-circular-line-left" style="background-color: rgb(255, 255, 255); background-position: initial initial; background-repeat: initial initial;"></div><span class="swal2-success-line-tip swal2-animate-success-line-tip"></span> <span class="swal2-success-line-long swal2-animate-success-line-long"></span><div class="swal2-success-ring"></div> <div class="swal2-success-fix" style="background-color: rgb(255, 255, 255); background-position: initial initial; background-repeat: initial initial;"></div><div class="swal2-success-circular-line-right" style="background-color: rgb(255, 255, 255); background-position: initial initial; background-repeat: initial initial;"></div></div>
+					<div class="col-md-12 mb-md-1 text-center"> <h2 class="g-txt-center g-title-modal">PRELIQUIDACIÓN GENERADA</h2> </div>
+					<div class="row mb-xs-3">
+						<p class="text-center mb-xs-0">Se ha generado la preliquidación <br>¿Desea visualizar en pantalla?</p>
+					</div>
+					<div class="row mb-xs-3">
+						<div class="col-md-4">
+							<a class="g-btn g-btn-verde block" ng-click="exportarLiq()">Ver pdf</a>
+						</div>
+						<div class="col-md-4 col-md-offset-2">
+							<a class="g-btn g-btn-transparent block" ng-click="close()">Cerrar</a>
+						</div>
+					</div>
+				</div>
+	    </div>
+		</form>
+	</div>
+</div>
+
+<form id="frmLiquidSoat" name="frmLiquidSoat" action="{{exportURL}}" target="_blank" method="post" >
+  <input type="hidden" name="json" id="frmLiquidSoat.json" value='{{downloadFile}}'>
+</form>

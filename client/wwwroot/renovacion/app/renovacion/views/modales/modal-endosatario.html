@@ -1,0 +1,50 @@
+<section class="g-page page-modal modal-parametros" style="padding: 24px">
+    <button type="button" class="close g-close-modal" ng-click="closeModal()">
+        <span class="ico-mapfre_46_cancelaroff"></span>
+    </button>
+    <div class="container-fluid">
+        <div class="row title">
+            <div class="col-xs-12 mb-xs-2">
+                <h2>Registro de Endosatario</h2>
+            </div>
+        </div>
+        <form name="frmNuevoParametro" class="formulario">
+            <div class="row">
+                <div class="col-md-12 mb-xs-2">
+                    <mpf-select ng-model="formParametro.mRiesgo" name="nRiesgo"
+                        label="{label: 'Número riesgo', required: true}" m-data-source="riesgos_generados"
+                        text-field="descripcion" value-field="codigo" m-Empty-Option="{enterData:true}"
+                        ng-change="cambioRiesgo(formParametro.mRiesgo)" ng-required="true">
+                    </mpf-select>
+                </div>
+                <div class="col-md-12 mb-xs-2">
+                    <mpf-select ng-model="formParametro.mtipoDocumento" name="nTipoDocumento"
+                        label="{label: 'Tipo de documento', required: false}" m-data-source="tipos_documentos1"
+                        text-field="descripcion" value-field="codigo" m-Empty-Option="{enterData:true}"
+                        ng-change="cambioTipoDocumento(formParametro.mtipoDocumento)" ng-required="false">
+                    </mpf-select>
+                </div>
+                <div class="col-md-12 mb-xs-2">
+                    <mpf-input id="documentoValor" ng-change="escribirValor(formParametro.mNumeroDocumento)"
+                        ng-model="formParametro.mNumeroDocumento" name="nNumeroDocumento"
+                        label="{label: 'Número de documento', required: true}">
+                    </mpf-input>
+                </div>
+                <div class="col-md-12 mb-xs-2">
+                    <mpf-input ng-disabled="true" ng-model="formParametro.mNombreEndosatario" name="nNombreEndosatario"
+                        label="{label: 'Nombre de endosatario', required: true}">
+                    </mpf-input>
+                </div>
+            </div>
+            <div class="row action">
+                <div class="col-md-6">
+                    <a class="g-btn g-btn-white block" ng-click="closeModal()">Cancelar</a>
+                </div>
+                <div class="col-md-6">
+                    <a class="g-btn g-btn-verde block" ng-class="{disabled: !formParametro.clienteValido}"
+                        ng-click="guardarEndosatario()">Agregar</a>
+                </div>
+            </div>
+        </form>
+    </div>
+</section>

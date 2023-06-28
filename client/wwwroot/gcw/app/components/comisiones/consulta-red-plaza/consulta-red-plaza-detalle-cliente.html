@@ -1,0 +1,85 @@
+<div class="consultaGestion">
+  <div class="container">
+
+    <div class="row mb-xs-2">
+      <div class="col-xs-12 fwBold">
+        <a ng-click="vm.volver()"><span class="ico-mapfre_310_arrowLeft"></span> Volver</a>
+      </div>
+    </div>
+
+    <div class="row mb-xs-2 g-block-vertical g-div-bottom" ng-init="showFilter = false">
+      <div class="col-xs-12 col-sm-6 col-md-5 mb-xs-1 mb-sm-0 gH2 g-lheight-1 text-left">
+        <p class="gH5 mb-xs-0-5">Red: 28 de Julio<span class="gH5 g-inlineblock ml-xs-3">Agente: {{vm.infoClient.agentName}}</span></p>
+        Cliente: {{vm.infoClient.name}}<br>
+        <span class="gH5">Dirección: {{vm.infoClient.address}}</span>
+      </div>
+      <div class="col-xs-12 col-sm-3 col-md-4 mb-xs-1 mb-sm-0">
+        <span class="gH5">Correo electronico: {{vm.infoClient.email}}</span>
+      </div>
+      <div class="col-xs-12 col-sm-3 col-md-3 g-text-left-xs g-text-right-sm">
+        <span class="gH5">Fecha de consulta: {{vm.infoClient.date | date:'dd/MM/yyyy'}}<br><span ng-show="vm.infoClient.phoneNumber">Celular: {{vm.infoClient.phoneNumber}}</span>
+        </span>
+      </div>
+    </div>
+
+    <hr>
+
+    <!-- Tabla -->
+    <div class="row mb-xs-2" ng-if="vm.totalRows > 0">
+      <div class="col-xs-12">
+        <div tbl-oim class="g-tbl-wrapper g-new-tbl-wrapper">
+          <div class="tbl-main">
+            <ul class="tbl-header clearfix gBgcGray5">
+              <li class="title col-4-dktp text-center">#</li>
+              <li class="title col-14-dktp">Poliza</li>
+              <li class="title col-8-dktp text-center">Ramos</li>
+              <li class="title col-10-dktp text-center">Fecha de inicio</li>
+              <li class="title col-10-dktp text-center">Fecha de Venc.</li>
+              <li class="title col-10-dktp text-center">Prima anual $</li>
+              <li class="title col-10-dktp text-center">Recibos vencidos</li>
+              <li class="title col-14-dktp text-center">Importe recibos vencidos</li>
+              <li class="title col-10-dktp text-center">Morosidad</li>
+              <li class="title col-10-dktp text-center">Forma de pago</li>
+            </ul>
+            <ul class="tbl-body clearfix">
+              <li data-ng-repeat="poliza in vm.polizas">
+                <ul height-row class="tbl-row clearfix g-u-cursor--pointer">
+                  <li class="cell col-4-dktp text-center">
+                    {{poliza.id}}
+                  </li>
+                  <li class="cell col-14-dktp">
+                    {{poliza.nroPoliza}}
+                  </li>
+                  <li class="cell col-8-dktp text-center">
+                    {{poliza.ramos}}
+                  </li>
+                  <li class="cell col-10-dktp text-center">
+                    {{poliza.fechaInicio}}
+                  </li>
+                  <li class="cell col-10-dktp text-center">
+                    {{poliza.fechaVencimiento}}
+                  </li>
+                  <li class="cell col-10-dktp text-center">
+                    {{poliza.primaAnual | number:2}}
+                  </li>
+                  <li class="cell col-10-dktp text-center">
+                    {{poliza.recibosVencidos}}
+                  </li>
+                  <li class="cell col-14-dktp text-center">
+                    {{poliza.importe | number:2}}
+                  </li>
+                  <li class="cell col-10-dktp text-center">
+                    {{poliza.morosidad | number:2}}
+                  </li>
+                  <li class="cell col-10-dktp text-center">
+                    {{poliza.formaPago}}
+                  </li>
+                </ul>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

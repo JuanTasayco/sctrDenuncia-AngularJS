@@ -1,0 +1,54 @@
+<ul class="lista-group u-data-to-load u-br-5">
+  <li class="lista__item lista__item--card"
+      data-ng-repeat="el in $ctrl.data.pageData track by $index">
+    <div class="lista__header">
+      <div class="lista-header__col u-squash-align-v">
+        <div class="c-txt-w-icon no-icon--xs">
+          <span class="lista-title__ico ico-mapfre_13_miperfil hidden-xs c-txt-w-icon__ico"></span>
+          <span>
+            <p class="lista-title__txt">{{el.asegurado.name}}</p>
+          </span>
+        </div>
+      </div>
+      <div class="lista-header__col lista-header__col-link-more lista-header__col-link-more-search-cli u-align-v">
+        <a class="panel__link-more u-arrow-right" data-ng-click="$ctrl.openClientProveedoresDetailModal(el)">Ver detalle</a>
+      </div>
+    </div>
+    <div class="lista-body__wp">
+      <ul class="lista__body row">
+        <li class="lista-body__item col-xs-12 col-sm-6 col-md-3 col-lg-2">{{el.asegurado.tipodocumento}}: {{el.asegurado.dni}}</li>
+        <li class="lista-body__item col-xs-12 col-sm-6 col-md-3 col-lg-4">Fecha de nacimiento: {{el.asegurado.fnac | date:'dd/MM/yyyy'}}</li>
+        <li class="lista-body__item col-xs-12 col-sm-6 col-md-3 col-lg-3">Género: {{el.asegurado.gen}}</li>
+        <li class="lista-body__item col-xs-12 col-sm-6 col-md-3 col-lg-3">Parentesco: {{el.asegurado.parentesco}}</li>
+        <li class="lista-body__item col-xs-12 col-sm-6 col-md-3 col-lg-6">Compañía: {{el.asegurado.company}}</li>
+        <li class="lista-body__item col-xs-12 col-sm-6 col-md-3 col-lg-3">Producto: {{el.asegurado.producto}}</li>
+        <li class="lista-body__item col-xs-12 col-sm-6 col-md-3 col-lg-3">Estado: {{el.asegurado.estado}}</li>
+      </ul>
+    </div>
+  </li>
+</ul>
+<h2 class="u-txt-center panel__title"
+    data-ng-if="$ctrl.isEmptySearchResult()">
+      No se encontraron resultados para tu búsqueda
+</h2>
+
+<div  class="paginator u-data-to-load"
+      data-ng-if="$ctrl.totalItems > 0">
+  <div class="paginator__box">
+    <div>
+      <a  data-ng-class="['u-arrow-left']"
+          data-ng-click="$ctrl.prevPage()"
+          data-ng-hide="!$ctrl.canBack()">
+            Anterior
+      </a>
+    </div>
+    <div class="paginator__msg">Pagina {{$ctrl.currentPage}} de {{$ctrl.totalPaginas}} / Total: {{$ctrl.totalItems}}</div>
+    <div>
+      <a  data-ng-class="['u-arrow-right']"
+          data-ng-click="$ctrl.nextPage()"
+          data-ng-hide="!$ctrl.canNext()">
+            Siguiente
+      </a>
+    </div>
+  </div>
+</div>

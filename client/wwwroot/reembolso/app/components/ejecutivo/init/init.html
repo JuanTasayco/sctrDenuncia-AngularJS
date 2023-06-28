@@ -1,0 +1,206 @@
+<div class="container page-ejecutivo-reembolso">
+  <div class="row mb-xs-2">
+    <div class="container">
+      <form name="$ctrl.frmExecutive">
+        <div class="clearfix gBgcGray5 pt-xs-3 pb-xs-3 pl-xs-2 pr-xs-2 content-filter">
+          <div class="row mb-xs-2">
+            <div class="col-xs-12 col-sm-3">
+              <mpf-select
+                label="{label: 'Empresa', required: true}"
+                name="nCompany"
+                ng-model="$ctrl.consultData.company"
+                m-data-source="$ctrl.companiesList"
+                text-field="companyName"
+                value-field="idCompany"
+                m-Empty-Option="{enterData:true}"
+                ng-required="true"
+                ng-change="$ctrl.onChangeCompany()"
+              >
+              </mpf-select>
+              <div
+                class="g-error"
+                ng-show="$ctrl.frmExecutive.nCompany.$error.required && !$ctrl.frmExecutive.nCompany.$pristine">
+                * Seleccione la empresa
+              </div>
+            </div>
+            <div class="col-xs-12 col-sm-3">
+              <mpf-select
+                label="{label: 'Producto', required: true}"
+                name="nProductType"
+                ng-model="$ctrl.consultData.productType"
+                m-data-source="$ctrl.productType"
+                text-field="productDescription"
+                value-field="productCode"
+                ng-required="true"
+                m-Empty-Option="{enterData:true}"
+              >
+              </mpf-select>
+              <div
+                class="g-error"
+                ng-show="$ctrl.frmExecutive.nProductType.$error.required && !$ctrl.frmExecutive.nProductType.$pristine">
+                * Seleccione un producto
+              </div>
+            </div>
+            <div class="col-xs-12 col-sm-3">
+              <mp-data-seeker
+                behavior="{label:'', placeholder:'Código Ejecutivo', matchField:'userName'}"
+                m-data-source="$ctrl.onSelectExecutive($inputNeed)"
+                ng-model="$ctrl.consultData.executive"
+                name="nExecutive"
+                ng-required="false"
+              >
+                <div
+                  ng-bind-html="$item.userCode + ' - ' + $item.userName | highlight: $select.search">
+                </div>
+              </mp-data-seeker>
+              <div
+                class="g-error"
+                ng-show="$ctrl.frmExecutive.nExecutive.$error.required && !$ctrl.frmExecutive.nExecutive.$pristine">
+                * Busque y seleccione un ejecutivo
+              </div>
+            </div>
+            <div class="col-xs-12 col-sm-3">
+              <mp-data-seeker
+                behavior="{label:'', placeholder:'Médico Responsable', matchField:'userName'}"
+                m-data-source="$ctrl.onSelectMedic($inputNeed)"
+                ng-model="$ctrl.consultData.medic"
+                name="nMedic"
+                ng-required="false"
+              >
+                <div ng-bind-html="$item.userCode + ' - ' + $item.userName | highlight: $select.search">
+                </div>
+              </mp-data-seeker>
+              <div
+                class="g-error"
+                ng-show="$ctrl.frmExecutive.nMedic.$error.required && !$ctrl.frmExecutive.nMedic.$pristine">
+                * Busque y seleccione un médico
+              </div>
+            </div>
+          </div>
+          <div class="row mt-xs-4">
+            <div class="col-xs-12 no-padding-xs">
+              <div class="col-xs-12 col-sm-4 col-md-2 col-sm-offset-2 col-md-offset-4 mb-xs-1 no-mb-sm">
+                <a
+                  href="javascript:void(0)"
+                  class="g-btn g-btn-white block"
+                  title="Limpiar"
+                  ng-click="$ctrl.onCleanFilters()"
+                >
+                  Limpiar
+                </a>
+              </div>
+              <div class="col-xs-12 col-sm-4 col-md-2">
+                <a
+                  href="javascript:void(0)"
+                  class="g-btn g-btn-verde block"
+                  title="Buscar"
+                  ng-click="$ctrl.onSearchFilter()"
+                >
+                  Buscar
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+  <div class="row mb-xs-4" ng-if="$ctrl.executiveList.length > 0">
+    <div class="col-xs-12">
+      <div class="clearfix">
+        <div tbl-oim class="col-xs-12 g-tbl-wrapper pl-xs-0 tbl-broker-reembolsos">
+          <div class="tbl-main">
+            <ul height-row class="tbl-header clearfix">
+              <li class="title col-10-dktp text-center g-text-uppercase"></li>
+              <li class="title col-20-dktp text-center g-text-uppercase">Estado</li>
+              <li class="title col-20-dktp text-center g-text-uppercase">Producto</li>
+              <li class="title col-15-dktp text-center g-text-uppercase">Liquidación power</li>
+              <li class="title col-15-dktp text-center g-text-uppercase">Código ejecutivo</li>
+              <li class="title col-10-dktp text-center g-text-uppercase">Código Médico</li>
+              <li class="title col-10-dktp"></li>
+            </ul>
+            <ul class="tbl-body clearfix">
+              <li ng-repeat="executive in $ctrl.executiveList">
+                <ul height-row class="tbl-row clearfix g-u-cursor--pointer">
+                  <li class="cell text-center g-text-uppercase col-10-dktp">
+                    <div class="g-content-outer">
+                      <div class="g-content-inner">
+                        <mpf-checkbox
+                          class="fw-normal"
+                          name="nCheck"
+                          ng-model="executive.mCheck"
+                          label=""
+                          ng-change="$ctrl.onCheck()">
+                        </mpf-checkbox>
+                      </div>
+                    </div>
+                  </li>
+                  <li class="cell text-center g-text-uppercase col-20-dktp">
+                    <span class="cell-label g-cut-text" style="line-height: 28px">
+                      <span class="cell-data">{{ executive.documentStatusDescription}}</span>
+                    </span>
+                  </li>
+                  <li class="cell text-center g-text-uppercase col-20-dktp">
+                    <span class="cell-label g-cut-text" style="line-height: 28px">
+                      <span class="cell-data">{{ executive.productDescription }}</span>
+                    </span>
+                  </li>
+                  <li class="cell text-center g-text-uppercase col-15-dktp">
+                    <span class="cell-label g-cut-text" style="line-height: 28px">
+                      <span class="cell-data">{{ executive.liquidationPower }}</span>
+                    </span>
+                  </li>
+                  <li class="cell text-center g-text-uppercase col-15-dktp">
+                    <span class="cell-label g-cut-text" style="line-height: 28px">
+                      <span class="cell-data">{{ executive.executiveCode }}</span>
+                    </span>
+                  </li>
+                  <li class="cell text-center g-text-uppercase col-10-dktp">
+                    <span class="cell-label g-cut-text" style="line-height: 28px">
+                      <span class="cell-data">
+                        {{ executive.doctorDescription || executive.doctorCode}}
+                      </span>
+                    </span>
+                  </li>
+                  <li class="cell text-center g-text-uppercase col-10-dktp">
+                    <div class="g-content-outer">
+                      <div class="g-content-inner">
+                        <span
+                          class="gnIcon-sm gCGreen1 ico-mapfre_228_editar"
+                          ng-click="$ctrl.onEdit(executive)">
+                        </span>
+                      </div>
+                    </div>
+                  </li>
+                </ul>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row" ng-if="$ctrl.pagination.totalRecords > $ctrl.pagination.maxSize && $ctrl.executiveList.length > 0">
+    <div class="col-md-12">
+      <ul
+        uib-pagination
+        class="g-pagination"
+        ng-model="$ctrl.pagination.currentPage"
+        max-size="$ctrl.pagination.maxSize"
+        total-items="$ctrl.pagination.totalRecords"
+        ng-change="$ctrl.onChangePage()"
+        boundary-link-numbers="true">
+      </ul>
+    </div>
+  </div>
+  <div class="row mb-xs-4 mt-xs-4" ng-if="$ctrl.executiveList.length > 0">
+    <div class="col-md-4 col-md-offset-4">
+      <a
+        class="g-btn g-btn-verde block"
+        ng-class="{'disabled': !$ctrl.isEnableReassignBtn}"
+        ng-click="$ctrl.onReassign()">
+        Reasignar
+      </a>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,146 @@
+<contratante contratante="$ctrl.resumen"></contratante>
+<div class="g-list-md g-box gBgcGray5 pt-xs-2 pb-xs-2 pl-xs-2 pr-xs-2 mb-xs-2">
+  <ul class="row">
+    <li class="col-sm-12 clearfix mb-xs-1">
+      <div class="item-label">Datos del contrato u obra</div>
+    </li>
+  </ul>
+  <ul class="row">
+    <li class="col-sm-4 clearfix mb-xs-2 page-rrgg__table-list-item">
+      <div class="col-xs-4 item-label"><span class="ico-mapfre_82_circle ico-bullet"></span>Fecha cotizacion</div>
+      <div class="col-xs-8 item-dato" rrgg-resumen-fechacotizacion>{{$ctrl.resumen.FechaCotizacion | date:"dd/MM/yyyy"}}</div>
+    </li>
+    </ul>
+</div>
+<div class="row mt-xs-3">
+  <div class="col-md-12">
+    <h2 class="g-sub-title g-myd-subtitle gCBlack1 fwBold">{{$ctrl.resumen.IsVehiculoOrLocal ===
+      $ctrl.constantsRrgg.DATOS.VEHICULOS ? 'Datos del
+      vehículo' : 'Ubicación del riesgo' }}</h2>
+  </div>
+</div>
+<div class="row">
+  <form name="frmProductosResumen">
+    <locales data="$ctrl.resumen" validate="true" form="frmProductosResumen"></locales>
+    <vehiculos data="$ctrl.resumen" validate="true" clases="" form="frmProductosResumen"></vehiculos>
+  </form>
+</div>
+<div class="row mt-xs-1">
+  <div class="col-md-12">
+    <h2 class="g-sub-title g-myd-subtitle gCBlack1 fwBold">Coberturas básicas</h2>
+  </div>
+</div>
+<div class="g-box gBgcGray5 pt-xs-2 pb-xs-2 pl-xs-2 pr-xs-2 mb-xs-2">
+  <div class="row">
+    <div class="col-xs-12">
+      <p><b>Sumas Aseguradas según detalle</b></p>
+    </div>
+    <div class="col-xs-12 mb-xs-2">
+      <div ng-if="$ctrl.unidadLocal()" class="row gBgcWhite1 no-margin-xs pt-xs-2 pb-xs-2 pl-xs-2 pr-xs-2 ">
+        <div class="page-rrgg__table" ng-if="$ctrl.resumen.IsVehiculoOrLocal === $ctrl.constantsRrgg.DATOS.VEHICULOS">
+          <div class="row no-margin-xs g-center-flex">
+            <div class="col-xs-4 fwBold text-sm">Vehículo - Clase</div>
+            <div class="col-xs-4 fwBold text-sm">N° Unidades</div>
+            <div class="col-xs-4 fwBold text-sm">UIT</div>
+            <div class="col-xs-4 fwBold g-text-right-md text-sm">Suma Asegurada (por unidad)</div>
+          </div>
+          <div class="row no-margin-xs pt-xs-1 pb-xs-1">
+            <div class="col-xs-12">
+              <div ng-repeat="vehiculo in $ctrl.resumen.listaCoberturasBasicas track by $index"
+                class="row  g-center-flex">
+                <div class="col-xs-4 mb-xs-1 text-xs">{{vehiculo.CodigoClase.Descripcion}}</div>
+                <div class="col-xs-4 mb-xs-1 text-xs">{{vehiculo.NroUnidades}}</div>
+                <div class="col-xs-4 mb-xs-1 text-xs">{{vehiculo.Uit}}</div>
+                <div class="col-xs-4 mb-xs-1 text-xs g-text-right-md ">
+                  <span ng-if="$ctrl.unidadLocal()"> {{vehiculo.SumaAsegurada | currency:
+                    $ctrl.currencyType($ctrl.resumen.Moneda.Codigo) }}</span>
+                  <span ng-if="!$ctrl.unidadLocal()">{{vehiculo.SumaAsegurada}}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="page-rrgg__table" ng-if="$ctrl.resumen.IsVehiculoOrLocal === $ctrl.constantsRrgg.DATOS.LOCALES">
+          <div class="row no-margin-xs">
+            <div class="col-xs-4 fwBold text-sm">Ubicación del riesgo</div>
+            <div class="col-xs-4 fwBold text-sm">UIT</div>
+            <div class="col-xs-4 fwBold g-text-right-md text-sm">Suma Asegurada (por local)
+            </div>
+          </div>
+          <div class="row no-margin-xs pt-xs-1 pb-xs-1">
+            <div class="col-xs-12">
+              <div ng-repeat="local in $ctrl.resumen.listaUbicaciones track by $index" class="row">
+                <div class="col-xs-4 mb-xs-1 text-xs">{{local.Direccion}}</div>
+                <div class="col-xs-4 mb-xs-1 text-xs">{{local.Uit}}</div>
+                <div class="col-xs-4 mb-xs-1 text-xs g-text-right-md">
+                  <span ng-if="$ctrl.unidadLocal()">{{local.SumaAsegurada | currency:
+                    $ctrl.currencyType($ctrl.resumen.Moneda.Codigo)}}</span>
+                  <span ng-if="!$ctrl.unidadLocal()">{{local.SumaAsegurada}}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div ng-if="!$ctrl.unidadLocal()" class="row gBgcWhite1 no-margin-xs pt-xs-2 pb-xs-2 pl-xs-2 pr-xs-2 ">
+        <div class="page-rrgg__table">
+          <div class="row no-margin-xs">
+            <div class="col-xs-4 fwBold text-sm">Cobertura básicas</div>
+            <div class="col-xs-4 fwBold text-sm">Suma Asegurada</div>
+            <div class="col-xs-4 fwBold g-text-right-md text-sm">Equivalente a
+            </div>
+          </div>
+          <div class="row no-margin-xs pt-xs-1 pb-xs-1">
+            <div class="col-xs-12">
+              <div class="row">
+                <div class="col-xs-4 mb-xs-1 text-xs">Responsabilidad Civil Extracontractual</div>
+                <div class="col-xs-4 mb-xs-1 text-xs">{{$ctrl.sumaAseguradaDolaresSoles() | currency:
+                  $ctrl.currencyType($ctrl.resumen.Moneda.Codigo) }}</div>
+                <div class="col-xs-4 mb-xs-1 text-xs g-text-right-md">{{$ctrl.resumen.CantidadUit}} UIT</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-xs-12">
+          <p> <b> Todas las sumas aseguradas son en Límite único combinado y en LAA. </b></p>
+        </div>
+        
+      </div>
+    </div>
+    <div class="col-xs-12 mb-xs-1">
+      <ul class="row g-list-md page-rrgg__table-list">
+        <li class="col-sm-6 clearfix mb-xs-2 page-rrgg__table-list-item">
+          <div class="col-xs-4 item-label"><span class="ico-mapfre_82_circle ico-bullet"></span>UIT:</div>
+          <div class="col-xs-8 item-dato ng-binding" rrgg-resumen-valoruit>{{$ctrl.resumen.ValorUit | currency: 'S/.'  }}</div>
+        </li>
+        <li class="col-sm-6 clearfix mb-xs-2 page-rrgg__table-list-item">
+          <div class="col-xs-4 item-label"><span class="ico-mapfre_82_circle ico-bullet"></span>T.C.:</div>
+          <div class="col-xs-8 item-dato ng-binding" rrgg-resumen-tipocambio>{{$ctrl.resumen.TipoCambio | currency: 'S/.' }}</div>
+        </li>
+      </ul>
+      <ul class="row g-list-md page-rrgg__table-list">
+        <li class="col-sm-6 clearfix mb-xs-2 page-rrgg__table-list-item">
+          <div class="col-xs-4 item-label"><span class="ico-mapfre_82_circle ico-bullet"></span>Prima Comercial Anual:</div>
+          <div class="col-xs-8 item-dato ng-binding" rrgg-resumen-primacomercialanual>{{$ctrl.resumen.PrimaComercialAnual | currency: $ctrl.currencyType($ctrl.resumen.Moneda.Codigo)}} </div>
+        </li>
+        <li class="col-sm-6 clearfix mb-xs-2 page-rrgg__table-list-item">
+          <div class="col-xs-4 item-label"><span class="ico-mapfre_82_circle ico-bullet"></span>Prima Comercial Anual + IGV:</div>
+          <div class="col-xs-8 item-dato ng-binding" rrgg-resumen-tipocambio>{{$ctrl.resumen.PrimaComercialAnualIGV | currency: $ctrl.currencyType($ctrl.resumen.Moneda.Codigo)}} </div>
+        </li>
+      </ul>
+      <ul class="row g-list-md page-rrgg__table-list">
+        <li class="col-sm-12 clearfix mb-xs-2 page-rrgg__table-list-item">
+          <div class="col-xs-2 item-label"><span class="ico-mapfre_82_circle ico-bullet"></span>Deducibles (por todo y cada evento):</div>
+          <div class="col-xs-10 item-dato ng-binding" rrgg-resumen-deducible>{{$ctrl.resumen.Deducible1}}.<br>
+            {{$ctrl.resumen.Deducible2}}
+            {{$ctrl.resumen.Deducible3}}</div>
+        </li>
+      </ul>
+    </div>
+    
+    <div class="col-xs-12" ng-if="$ctrl.unidadLocal()">
+      <p class="mb-xs-0"><b>La Suma Asegurada por local es el límite único y combinado y en el agregado anual.</b>
+      </p>
+    </div>
+  </div>
+</div>

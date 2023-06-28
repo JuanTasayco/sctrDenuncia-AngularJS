@@ -1,0 +1,481 @@
+<form>
+<section class="g-page page-auto-cotizaguardado h-myd-bg--gray4" ng-init="$parent.hidePolizas=true">
+  <!-- Titulo -->
+  <div class="g-title">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-8 mb-xs-2 no-mb-md">
+          <h1>
+            Cotización guardada de autos
+          </h1>
+        </div>
+        <div class="col-md-4">
+          <a class="g-btn g-btn-white second-design block" ui-sref="autosQuote.steps({step: 1})">
+            Cotizar nueva póliza de autos
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="g-section g-myd-summary">
+    <div class="container">
+      <div class="col-md-12 g-box fz14 pt-xs-2 g-myd-box">
+        <div class="row h-myd-ml--0 h-myd-mr--0 gH4">
+          <div class="col-sm-12 mb-sm-2 mb-xs-1">
+            <h2 class="gCGray1 g-text-uppercase g-myd-title"><b>Cotización Póliza de Autos</b></h2>
+          </div>
+        </div>
+
+        <div class="row h-myd-ml--0 h-myd-mr--0">
+          <div class="col-md-12 mb-xs-1">
+            <h2 class="gH4 gCGray1 g-border-bottom-xs g-myd-title"><b>Datos del auto</b></h2>
+          </div>
+        </div>
+        <ul class="row h-myd-ml--0 h-myd-mr--0 g-list-md mb-xs-1">
+          <li class="col-md-4 h-myd-p--0 clearfix cnt-item">
+            <div class="col-xs-5 item-label"><span class="ico-mapfre_82_circle ico-bullet"></span>Auto:</div>
+            <div class="col-xs-7 item-dato g-text-uppercase">
+              {{ cotizacionGuardada.Vehiculo.NombreMarca }} {{ cotizacionGuardada.Vehiculo.NombreModelo }}
+              {{ cotizacionGuardada.Vehiculo.Version }}
+              {{ cotizacionGuardada.Vehiculo.AnioFabricacion }}
+              <span ng-if="cotizacionGuardada.Vehiculo.MCANUEVO==labelGral[0].id">, NUEVO</span>
+              <span ng-if="cotizacionGuardada.Vehiculo.MCANUEVO==labelGral[1].id">, USADO</span>
+            </div>
+          </li>
+          <li class="col-md-4 h-myd-p--0 clearfix cnt-item">
+            <div class="col-xs-5 item-label"><span class="ico-mapfre_82_circle ico-bullet"></span>Valor del auto:</div>
+            <div class="col-xs-7 item-dato">
+              {{ cotizacionGuardada.Vehiculo.ValorComercial | currency: '$' }}
+            </div>
+          </li>
+          <li class="col-md-4 h-myd-p--0 clearfix cnt-item">
+            <div class="col-xs-5 item-label"><span class="ico-mapfre_82_circle ico-bullet"></span>MAPFRE dólares:</div>
+            <div class="col-xs-7 item-dato">
+              {{
+                cotizacionGuardada.Contratante.ImporteMapfreDolar > 0
+                  ? (cotizacionGuardada.Contratante.ImporteMapfreDolar | currency: '$')
+                  : '-'
+              }}
+            </div>
+          </li>
+        </ul>
+        <ul class="row h-myd-ml--0 h-myd-mr--0 g-list mb-xs-1 h-myd-border--bottom-1 h-myd-pb--10 h-myd-mb--20">
+          <li class="col-md-4 h-myd-p--0 clearfix cnt-item">
+            <div class="col-xs-5 item-label"><span class="ico-mapfre_82_circle ico-bullet"></span>Circulación:</div>
+            <div class="col-xs-7 item-dato">
+              {{ cotizacionGuardada.Contratante.Ubigeo.NombreDepartamento }},
+              {{ cotizacionGuardada.Contratante.Ubigeo.NombreProvincia }},
+              {{ cotizacionGuardada.Contratante.Ubigeo.NombreDistrito }}
+            </div>
+          </li>
+          <li class="col-md-4 h-myd-p--0 clearfix cnt-item">
+            <div class="col-xs-5 item-label"><span class="ico-mapfre_82_circle ico-bullet"></span>Tipo de uso:</div>
+            <div class="col-xs-7 item-dato">
+              {{ cotizacionGuardada.Vehiculo.NombreUso }}
+            </div>
+          </li>
+          <li class="col-md-4 h-myd-p--0 clearfix cnt-item">
+            <div class="col-xs-5 item-label"><span class="ico-mapfre_82_circle ico-bullet"></span>Póliza de grupo:</div>
+            <div class="col-xs-7 item-dato">
+              {{ cotizacionGuardada.PolizaGrupoDescripcion }}
+            </div>
+          </li>
+        </ul>
+
+        <div class="row h-myd-ml--0 h-myd-mr--0">
+          <div class="col-md-12 mb-xs-1">
+            <h2 class="gH4 gCGray1 g-border-bottom-xs g-myd-title"><b>Datos del contratante</b></h2>
+          </div>
+        </div>
+        <ul class="row h-myd-ml--0 h-myd-mr--0 g-list-md mb-xs-1 h-myd-border--bottom-1 h-myd-pb--10 h-myd-mb--20">
+          <li class="col-md-4 h-myd-p--0 clearfix cnt-item">
+            <div class="col-xs-5 item-label">
+              <span class="ico-mapfre_82_circle ico-bullet"></span
+              >{{
+                checkRucPerson(
+                  cotizacionGuardada.Contratante.TipoDocumento,
+                  cotizacionGuardada.Contratante.CodigoDocumento
+                )
+                  ? 'Nombre'
+                  : 'Contratante'
+              }}:
+            </div>
+            <div class="col-xs-7 item-dato">
+              {{ cotizacionGuardada.Contratante.Nombre | uppercase }}
+            </div>
+          </li>
+          <li
+            class="col-md-4 h-myd-p--0 clearfix cnt-item"
+            ng-show="checkRucPerson(cotizacionGuardada.Contratante.TipoDocumento, cotizacionGuardada.Contratante.CodigoDocumento) "
+          >
+            <div class="col-xs-5 item-label"><span class="ico-mapfre_82_circle ico-bullet"></span>Apellidos:</div>
+            <div class="col-xs-7 item-dato">
+              {{ cotizacionGuardada.Contratante.ApellidoPaterno | uppercase }}
+              {{ cotizacionGuardada.Contratante.ApellidoMaterno | uppercase }}
+            </div>
+          </li>
+          <li
+            class="col-md-4 h-myd-p--0 clearfix cnt-item"
+            ng-show="checkRucPerson(cotizacionGuardada.Contratante.TipoDocumento, cotizacionGuardada.Contratante.CodigoDocumento) "
+          >
+            <div class="col-xs-5 item-label">
+              <span class="ico-mapfre_82_circle ico-bullet"></span>Fecha de nacimiento:
+            </div>
+            <div class="col-xs-7 item-dato">
+              {{ cotizacionGuardada.Contratante.FechaNacimiento }}
+            </div>
+          </li>
+          <li class="col-md-4 h-myd-p--0 clearfix cnt-item">
+            <div class="col-xs-5 item-label">
+              <span class="ico-mapfre_82_circle ico-bullet"></span>Tipo de documento:
+            </div>
+            <div class="col-xs-7 item-dato">
+              {{ cotizacionGuardada.Contratante.TipoDocumento }}
+            </div>
+          </li>
+          <li class="col-md-4 h-myd-p--0 clearfix cnt-item">
+            <div class="col-xs-5 item-label">
+              <span class="ico-mapfre_82_circle ico-bullet"></span>Número de documento:
+            </div>
+            <div class="col-xs-7 item-dato">
+              {{ cotizacionGuardada.Contratante.CodigoDocumento }}
+            </div>
+          </li>
+          <li
+            class="col-md-4 h-myd-p--0 clearfix cnt-item"
+            ng-show="checkRucPerson(cotizacionGuardada.Contratante.TipoDocumento, cotizacionGuardada.Contratante.CodigoDocumento)"
+          >
+            <div class="col-xs-5 item-label"><span class="ico-mapfre_82_circle ico-bullet"></span>Score de Autos:</div>
+            <div class="col-xs-7 item-dato">
+              {{ cotizacionGuardada.Contratante.Score }}
+            </div>
+          </li>
+          <li class="col-md-4 h-myd-p--0 clearfix cnt-item" ng-if="cotizacionGuardada.Contratante.EstadoCivil.Codigo">
+            <div class="col-xs-5 item-label">
+              <span class="ico-mapfre_82_circle ico-bullet"></span>Estado Civil:
+            </div>
+            <div class="col-xs-7 item-dato">
+              {{ cotizacionGuardada.Contratante.EstadoCivil.Descripcion }}
+            </div>
+          </li>
+          <li class="col-md-4 h-myd-p--0 clearfix cnt-item" ng-if="cotizacionGuardada.Contratante.FechaExpedicion">
+            <div class="col-xs-5 item-label">
+              <span class="ico-mapfre_82_circle ico-bullet"></span>Fecha Expedición Brevete:
+            </div>
+            <div class="col-xs-7 item-dato">
+              {{ cotizacionGuardada.Contratante.FechaExpedicion }}
+            </div>
+          </li>
+          <li class="col-md-4 h-myd-p--0 clearfix cnt-item" ng-if="cotizacionGuardada.Vehiculo.ScoreMorosidad">
+            <div class="col-xs-5 item-label">
+              <span class="ico-mapfre_82_circle ico-bullet"></span>Score (Morosidad):
+            </div>
+            <div class="col-xs-7 item-dato">
+              {{ cotizacionGuardada.Vehiculo.ScoreMorosidad }}
+            </div>
+          </li>
+        </ul>
+
+        <div
+          class="row h-myd-ml--0 h-myd-mr--0"
+          ng-if="cotizacionGuardada.Vehiculo.TipoTransmision.Codigo && cotizacionGuardada.Vehiculo.AnioFabricacion"
+        >
+          <div class="col-md-12 mb-xs-1">
+            <h2 class="gH4 gCGray1 g-border-bottom-xs g-myd-title"><b>Datos adicionales del auto</b></h2>
+          </div>
+        </div>
+        <ul
+          class="row h-myd-ml--0 h-myd-mr--0 g-list-md mb-xs-1"
+          ng-if="cotizacionGuardada.Vehiculo.TipoTransmision.Codigo && cotizacionGuardada.Vehiculo.AnioFabricacion"
+        >
+          <li class="col-md-4 h-myd-p--0 clearfix cnt-item">
+            <div class="col-xs-5 item-label"><span class="ico-mapfre_82_circle ico-bullet"></span>Transmisión:</div>
+            <div class="col-xs-7 item-dato g-text-uppercase">
+              {{ cotizacionGuardada.Vehiculo.TipoTransmision.Descripcion }}
+            </div>
+          </li>
+          <li class="col-md-4 h-myd-p--0 clearfix cnt-item">
+            <div class="col-xs-5 item-label"><span class="ico-mapfre_82_circle ico-bullet"></span>Año fabricación:</div>
+            <div class="col-xs-7 item-dato">
+              {{ cotizacionGuardada.Vehiculo.AnioFabricacion }}
+            </div>
+          </li>
+        </ul>
+
+        <div class="row h-myd-ml--0 h-myd-mr--0">
+          <div class="col-md-12 mb-xs-1">
+            <h2 class="gH4 gCGray1 g-border-bottom-xs g-myd-title"><b>Cotizaciones</b></h2>
+          </div>
+        </div>
+
+        <!-- Producto Principal y relacionados si viene de cotización -->
+        <div class="row h-myd-ml--0 h-myd-mr--0">
+          <div
+            class="col-md-12 mb-xs-2 auto-cotizaguardado-productos-data clearfix"
+            ng-class-odd="'row-gray3'"
+            ng-class-even="'row-gray2'"
+            ng-show="prgSeleccionados3.length"
+            ng-repeat="prgSeleccionado in prgSeleccionados3"
+          >
+            <div class="row">
+              <div class="col-md-3 col-producto">
+                <div class="gCGreen1">{{ prgSeleccionado.NombreProducto }}</div>
+                <div class="producto-documento">
+                  <span class="producto-documento-label">Nro. Cotización: </span
+                  ><span class="producto-documento-numero"
+                    ><b>{{ prgSeleccionado.NumeroDocumento }}</b></span
+                  >
+                </div>
+                  <div ng-if="formData.numReferido!=null">
+                    <mpf-input label="{label: 'Nro de referido', required: true}" name="nNumReferido" ng-model="formData.numReferido" ng-blur="changeNumeroReferido();" mpf-validation="onlyNumber" ng-disabled="numReferidoIsValid" ng-required="true"></mpf-input>
+              </div>
+                </div>
+              <div class="col-md-3 col-prima g-tablet-no-border">
+                <div class="col-prima-neta">
+                  <b>
+                    <span class="auto-label">Prima Neta</span>
+                    <span class="auto-data">{{ prgSeleccionado.PrimaNeta | currency: '$' }}</span>
+                  </b>
+                </div>
+                <div class="col-prima-descuento" ng-hide="prgSeleccionado.DsctoPorComision | isEmpty">
+                  <span class="auto-label">Descuento</span>
+                  <span class="auto-data">{{ prgSeleccionado.DsctoPorComision | makePositive }}%</span>
+                </div>
+                <div class="col-prima-comision" ng-hide="prgSeleccionado.TotalDscto === 0">
+                  <span class="auto-label">Tu comisión</span>
+                  <span class="auto-data">{{ prgSeleccionado.TuComision }}%</span>
+                </div>
+              </div>
+              <!-- Vista OYM: todos los botones - Varias Cotizaciones -->
+              <div class="col-md-6 col-btns g-text-right-md h-myd--none">
+                <a
+                  class="g-btn g-btn-white second-design"
+                  ng-click="sendEmail(prgSeleccionado.NumeroDocumento, prgSeleccionado.PrimaNeta)"
+                >
+                  Enviar por correo
+                </a>
+                <a
+                  class="g-btn g-btn-white second-design"
+                  ng-click="reporteCotizacion(prgSeleccionado.NumeroDocumento)"
+                  target="_blank"
+                >
+                  Descargar
+                </a>
+                <a
+                  class="g-btn g-btn-verde second-design"
+                  ng-click="irAInspeccion(cotizacionGuardada)"
+                  ng-show="calificaInspeccion(cotizacionGuardada) && puedeRedirigirInspeccion()"
+                >
+                  Crear Inspección
+                </a>
+                <a
+                  class="g-btn g-btn-verde second-design"
+                  ng-click="irAEmitir(cotizacionGuardada.NumeroDocumento, { tipo : cotizacionGuardada.Contratante.TipoDocumento, numero: cotizacionGuardada.Contratante.CodigoDocumento })"
+                  ng-show="!calificaInspeccion(cotizacionGuardada) && cotizacionGuardada.Vehiculo.MCANUEVO==labelGral[1].id"
+                >
+                  Emitir póliza
+                </a>
+                <a
+                  class="g-btn g-btn-verde second-design"
+                  ng-click="irAEmitir(prgSeleccionado.NumeroDocumento, { tipo : cotizacionGuardada.Contratante.TipoDocumento, numero: cotizacionGuardada.Contratante.CodigoDocumento })"
+                  ng-show="!calificaInspeccion(cotizacionGuardada) && cotizacionGuardada.Vehiculo.MCANUEVO==labelGral[0].id"
+                >
+                  Emitir póliza
+                </a>
+              </div>
+            </div>
+
+            <!-- Vista MyDream: Añade Firma y no muestra Descargar - Varias Cotizaciones -->
+            <div ng-if="isMyDream" class="row h-myd-mt--10 h-myd--show h-oim-none">
+              <signature-panel
+                ng-show="isMobile"
+                label="cotización"
+                params-signature="{{
+                  getParamsSignature(prgSeleccionado.NumeroDocumento, prgSeleccionado.CodigoProducto)
+                }}"
+                params-pdf="{{ getParamsPdf(prgSeleccionado.NumeroDocumento) }}"
+                document-number="{{ prgSeleccionado.NumeroDocumento }}"
+                onEnd="onSignature($event)"
+              >
+              </signature-panel>
+            </div>
+            <div class="col-xs-12 col-sm-10 col-sm-offset-1 h-myd-mt--20 h-myd-mb--20 h-myd--show h-oim-none">
+              <div class="col-xs-12 col-md-4 h-myd-mb--10">
+                <a
+                  class="g-btn g-btn-white second-design block"
+                  ng-click="sendEmail(prgSeleccionado.NumeroDocumento, prgSeleccionado.PrimaNeta)"
+                >
+                  Enviar por correo
+                </a>
+              </div>
+              <div class="col-xs-12 col-md-4" ng-show="!isMobile">
+                <a
+                  class="g-btn g-btn-white second-design block"
+                  ng-click="reporteCotizacion(prgSeleccionado.NumeroDocumento)"
+                >
+                  Descargar
+                </a>
+              </div>
+              <div class="col-xs-12 col-md-4 h-myd-mb--10">
+                <a
+                class="g-btn g-btn-verde second-design"
+                ng-click="irAInspeccion(cotizacionGuardada)"
+                ng-show="calificaInspeccion(cotizacionGuardada) && puedeRedirigirInspeccion()"
+              >
+                Crear Inspección
+              </a>
+              </div>
+              <div class="col-xs-12 col-md-4">
+                <a
+                  class="g-btn g-btn-verde second-design block"
+                  ng-click="irAEmitir(prgSeleccionado.NumeroDocumento,{ tipo : cotizacionGuardada.Contratante.TipoDocumento, numero: cotizacionGuardada.Contratante.CodigoDocumento })"
+                  ng-show="!calificaInspeccion(cotizacionGuardada) && cotizacionGuardada.Vehiculo.MCANUEVO==labelGral[1].id"
+                >
+                  Emitir póliza
+                </a>
+                <a
+                  class="g-btn g-btn-verde second-design block"
+                  ng-click="irAEmitir(cotizacionGuardada.NumeroDocumento,{ tipo : cotizacionGuardada.Contratante.TipoDocumento, numero: cotizacionGuardada.Contratante.CodigoDocumento })"
+                  ng-show="!calificaInspeccion(cotizacionGuardada) && cotizacionGuardada.Vehiculo.MCANUEVO==labelGral[0].id"
+                >
+                  Emitir póliza
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Viene de Documentos - UNA cotizacion -->
+        <div class="row h-myd-ml--0 h-myd-mr--0">
+          <div
+            class="col-md-12 mb-xs-2 auto-cotizaguardado-productos-data clearfix row-gray1"
+            ng-hide="prgSeleccionados3.length > 1"
+          >
+            <div class="row">
+              <div class="col-md-3 col-producto">
+                <div class="gCGreen1 myd-name-product">{{ cotizacionGuardada.NombreProducto }}</div>
+                <div class="producto-documento">
+                  <span class="producto-documento-label">Nro. Cotización: </span>
+                  <span class="producto-documento-numero">
+                    <b>{{ cotizacionGuardada.NumeroDocumento }}</b>
+                  </span>
+                </div>
+                  <div ng-if="formData.numReferido!=null">
+                    <mpf-input label="{label: 'Nro de referido', required: true}" name="nNumReferido" ng-model="formData.numReferido" ng-disabled="numReferidoIsValid"  mpf-validation="onlyNumber" ng-required="true"></mpf-input>
+              </div>
+                </div>
+              <div class="col-md-3 col-prima">
+                <div class="col-prima-neta">
+                  <b>
+                    <span class="auto-label">Prima Neta</span>
+                    <span class="auto-data">{{ cotizacionGuardada.PrimaNeta | currency: '$' }}</span>
+                  </b>
+                </div>
+                <div class="col-prima-descuento" ng-hide="cotizacionGuardada.DsctoPorComision | isEmpty">
+                  <span class="auto-label">Descuento</span>
+                  <span class="auto-data">{{ cotizacionGuardada.DsctoPorComision | makePositive }}%</span>
+                </div>
+                <div class="col-prima-comision" ng-hide="cotizacionGuardada.TotalDscto === 0">
+                  <span class="auto-label">Tu comisión</span>
+                  <span class="auto-data">{{ cotizacionGuardada.TuComision }}%</span>
+                </div>
+              </div>
+              <!-- Vista OIM -->
+              <div class="col-md-6 col-btns g-text-right-md h-myd--none">
+                <a
+                  class="g-btn g-btn-white second-design ml-xs-1"
+                  ng-click="sendEmail(cotizacionGuardada.NumeroDocumento, cotizacionGuardada.PrimaNeta)"
+                >
+                  Enviar por correo
+                </a>
+                <a
+                  class="g-btn g-btn-white second-design ml-xs-1"
+                  ng-click="reporteCotizacion(cotizacionGuardada.NumeroDocumento)"
+                >
+                  Descargar
+                </a>
+                <a
+                  class="g-btn g-btn-verde second-design ml-xs-1"
+                  ng-click="irAInspeccion(cotizacionGuardada)"
+                  ng-show="calificaInspeccion(cotizacionGuardada) && puedeRedirigirInspeccion()"
+                >
+                  Crear Inspección
+                </a>
+                <a
+                  class="g-btn g-btn-verde second-design ml-xs-1"
+                  ng-click="irAEmitir(cotizacionGuardada.NumeroDocumento,{ tipo : cotizacionGuardada.Contratante.TipoDocumento, numero: cotizacionGuardada.Contratante.CodigoDocumento })"
+                  ng-show="!calificaInspeccion(cotizacionGuardada) && cotizacionGuardada.Vehiculo.MCANUEVO==labelGral[1].id"
+                >
+                  Emitir póliza
+                </a>
+                <a
+                  class="g-btn g-btn-verde second-design ml-xs-1"
+                  ng-click="irAEmitir(cotizacionGuardada.NumeroDocumento,{ tipo : cotizacionGuardada.Contratante.TipoDocumento, numero: cotizacionGuardada.Contratante.CodigoDocumento })"
+                  ng-show="!calificaInspeccion(cotizacionGuardada) && cotizacionGuardada.Vehiculo.MCANUEVO==labelGral[0].id"
+                >
+                  Emitir póliza
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Vista MyDream - UNA Cotizacion -->
+        <div ng-if="isMyDream" ng-hide="prgSeleccionados3.length > 1">
+          <signature-panel
+            ng-show="isMobile"
+            label="cotización"
+            params-signature="{{ paramsSignature }}"
+            params-pdf="{{ paramsPdf }}"
+            document-number="{{ cotizacionGuardada.NumeroDocumento }}"
+            onEnd="onSignature($event)"
+          >
+          </signature-panel>
+          <div class="col-xs-12 col-sm-10 col-sm-offset-1 h-myd-mt--30 g-box--center-btn">
+            <div class="col-xs-12 col-sm-4 h-myd-mb--20">
+              <a
+                class="g-btn g-btn-white second-design block"
+                ng-click="sendEmail(cotizacionGuardada.NumeroDocumento, cotizacionGuardada.PrimaNeta)"
+              >
+                Enviar por correo
+              </a>
+            </div>
+            <div class="col-xs-12 col-sm-4 h-myd-mb--20" ng-show="!isMobile">
+              <a
+                class="g-btn g-btn-white second-design block"
+                ng-click="reporteCotizacion(cotizacionGuardada.NumeroDocumento)"
+              >
+                Descargar
+              </a>
+            </div>
+            <div class="col-xs-12 col-sm-4 h-myd-mb--20">
+              <a
+                class="g-btn g-btn-verde second-design ml-xs-1"
+                ng-click="irAInspeccion(cotizacionGuardada)"
+                ng-show="calificaInspeccion(cotizacionGuardada) && puedeRedirigirInspeccion()"
+              >
+                Crear Inspección
+              </a>
+              <a
+                class="g-btn g-btn-verde second-design block"
+                ng-click="irAEmitir(cotizacionGuardada.NumeroDocumento,{ tipo : cotizacionGuardada.Contratante.TipoDocumento, numero: cotizacionGuardada.Contratante.CodigoDocumento })"
+                ng-show="!calificaInspeccion(cotizacionGuardada) && cotizacionGuardada.Vehiculo.MCANUEVO==labelGral[1].id"
+              >
+                Emitir póliza
+              </a>
+              <a
+                class="g-btn g-btn-verde second-design block"
+                ng-click="irAEmitir(cotizacionGuardada.NumeroDocumento,{ tipo : cotizacionGuardada.Contratante.TipoDocumento, numero: cotizacionGuardada.Contratante.CodigoDocumento })"
+                ng-show="!calificaInspeccion(cotizacionGuardada) && cotizacionGuardada.Vehiculo.MCANUEVO==labelGral[0].id"
+              >
+                Emitir póliza
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+  

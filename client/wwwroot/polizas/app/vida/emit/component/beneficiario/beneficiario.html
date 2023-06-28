@@ -1,0 +1,313 @@
+<div class="g-component-beneficiary">
+
+    <div class="container" ng-if="$ctrl.currentStep == 1">
+      <div class="row">
+        <div class="col-md-4 col-md-offset-4 g-box bg-gray pt-xs-2 pb-xs-2">
+          <div class="row">
+            <div class="col-md-12 mb-xs-1 g-text-center-xs">
+              <span>No hay ningún beneficiario registrado</span>
+            </div>
+            <div class="col-md-10 col-md-offset-1">
+              <a class="g-btn g-btn-white block" ng-click="$ctrl.newBeneficiary()">
+                <span class="text-ico"><span class="ico-mapfre_45_agregarusuario ico-plus"></span>Agregar Benefeciario</span>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+    <div class="container g-box bg-gray pt-xs-2 pb-xs-2" ng-if="$ctrl.currentStep == 2" ng-form="$ctrl.formulario" isolate-form>
+      <a href="" class="btn-close g-text-center-xs" ng-click="$ctrl.closeBeneficiary()">
+        <span class="ico ico-mapfre_46_cancelaroff"></span>
+      </a>
+      <div class="row">
+        <div class="col-md-12">
+          <h2 class="g-sub-title g-text-center-xs">NUEVO BENEFICIARIO</h2>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-12">
+          <h2 class="g-sub-title">Datos personales del beneficiario</h2>
+          <!-- aqui colocar el boton limpiar beneficiario -->
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-4 mb-xs-2">
+          <mpf-select label="{label: 'Tipo de beneficiario', required: true}" name="nTipoBeneficiario" ng-change="$ctrl.onBeneficiario($ctrl.current.contractor.mTipoBeneficiario)" ng-model="$ctrl.current.contractor.mTipoBeneficiario" text-field="Descripcion" value-field="Codigo" m-data-source="$ctrl.tipoBeneficiarios" m-Empty-Option="{enterData:true}" mpf-validation="required" ng-required="true" ng-disabled="false"></mpf-select>
+          <ul class="g-error">
+            <li ng-show="$ctrl.formulario.nTipoBeneficiario.$invalid && !$ctrl.formulario.nTipoBeneficiario.$pristine">* Seleccione un tipo de beneficiario</li>
+          </ul>
+        </div>
+        <div class="col-md-4 mb-xs-2">
+          <mpf-input label="{label: 'Distribución de indemnización', required: true}" name="nDistribucion" ng-model="$ctrl.current.contractor.mDistribucion" mpf-validation="percent" ng-required="true" ng-disabled="disabledFields"></mpf-input>
+          <ul class="g-error">
+            <li ng-show="$ctrl.formulario.nDistribucion.$invalid && !$ctrl.formulario.nDistribucion.$pristine">* Ingrese una distribución</li>
+          </ul>
+        </div>
+
+        <div class="col-md-4 mb-xs-2" ng-if="showNaturalRucPerson">
+          <mpf-select label="{label: 'Nacionalidad', required: true}" name="nNacionalidad" ng-model="$ctrl.current.contractor.mNacionalidad" text-field="Descripcion" value-field="Codigo" m-data-source="$ctrl.paises" m-Empty-Option="{enterData:true}" ng-required="true" ng-disabled="disabledFields"></mpf-select>
+          <ul class="g-error">
+            <li ng-show="$ctrl.formulario.nNacionalidad.$invalid && !$ctrl.formulario.nNacionalidad.$pristine">* Seleccione una nacionalidad</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-4 mb-xs-2">
+          <mpf-select label="{label: 'Tipo de documento', required: true}" name="nTipoDocumento" ng-model="$ctrl.current.contractor.mTipoDocumento" m-data-source="$ctrl.tipoDocumentos" text-field="TipoDocumento" value-field="TipoDocumento" m-Empty-Option="{enterData:true}" mpf-validation="required" ng-required="true" ng-change="$ctrl.searchContractor(true)" ng-disabled="disabledFields" focuss-me="true"></mpf-select>
+          <ul class="g-error">
+            <li ng-show="$ctrl.formulario.nTipoDocumento.$invalid && !$ctrl.formulario.nTipoDocumento.$pristine">* Seleccione un tipo de documento</li>
+          </ul>
+        </div>
+        <div class="col-md-4 mb-xs-2">
+          <mpf-input label="{label: !$ctrl.current.contractor.mTipoDocumento || $ctrl.current.contractor.mTipoDocumento.TipoDocumento == null ? 'Número de documento' : 'Ingrese su ' + $ctrl.current.contractor.mTipoDocumento.TipoDocumento, required: true}"
+          name="nNumeroDocumento" ng-model="$ctrl.current.contractor.mNumeroDocumento" mpf-validation="onlyNumber" ng-required="true" ng-maxlength="docNumMaxLength" ng-blur="$ctrl.searchContractor(false)" ng-disabled="disabledFields"></mpf-input>
+          <ul class="g-error">
+            <li ng-show="$ctrl.formulario.nNumeroDocumento.$invalid && !$ctrl.formulario.nNumeroDocumento.$pristine">* Ingrese un numero de documento</li>
+          </ul>
+        </div>
+        <div class="col-md-4 mb-xs-2">
+          <mpf-select label="{label: 'Parentesco', required: true}" name="nParentesco" ng-model="$ctrl.current.contractor.mParentesco" text-field="Descripcion" value-field="Codigo" m-data-source="$ctrl.parentescos" m-Empty-Option="{enterData:true}" ng-required="true" ng-disabled="false"></mpf-select>
+          <ul class="g-error">
+            <li ng-show="$ctrl.formulario.nParentesco.$invalid && !$ctrl.formulario.nParentesco.$pristine">* Seleccione un parentesco</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-4 mb-xs-2">
+          <mpf-input label="{label: 'Nombre', required: true}" name="nNomContratante" ng-model="$ctrl.current.contractor.mNomContratante" ng-Maxlength="65" mpf-validation="onlyLetter" ng-required="true" ng-disabled="disabledFields"></mpf-input>
+          <ul class="g-error">
+            <li ng-show="$ctrl.formulario.nNomContratante.$invalid && !$ctrl.formulario.nNomContratante.$pristine">* Ingrese un nombre</li>
+          </ul>
+        </div>
+        <div class="col-md-4 mb-xs-2" ng-if="showNaturalRucPerson">
+          <mpf-input label="{label: 'Apellido Paterno', required: true}" name="nApePatContratante" ng-model="$ctrl.current.contractor.mApePatContratante" ng-Maxlength="28" mpf-validation="onlyLetter" ng-required="true" ng-disabled="disabledFields"></mpf-input>
+          <ul class="g-error">
+            <li ng-show="$ctrl.formulario.nApePatContratante.$invalid && !$ctrl.formulario.nApePatContratante.$pristine">* Ingrese un apellido paterno</li>
+          </ul>
+        </div>
+        <div class="col-md-4 mb-xs-2" ng-if="showNaturalRucPerson">
+          <mpf-input label="{label: 'Apellido Materno', required: true}" name="nApeMatContratante" ng-model="$ctrl.current.contractor.mApeMatContratante" ng-Maxlength="28" mpf-validation="onlyLetter" ng-required="true" ng-Disabled="disabledFields"></mpf-input>
+          <ul class="g-error">
+            <li ng-show="$ctrl.formulario.nApeMatContratante.$invalid && !$ctrl.formulario.nApeMatContratante.$pristine">* Ingrese un apellido materno</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="row" ng-if="showNaturalRucPerson">
+        <div class="col-md-4 mb-xs-2">
+          <mpf-select label="{label: 'Estado civil', required: false}" name="nEstadoCivil" ng-model="$ctrl.current.contractor.mEstadoCivil" text-field="NombreEstadoCivil" value-field="CodigoEstadoCivil" m-data-source="$ctrl.estadosCivil" m-Empty-Option="{enterData:true}" ng-required="false" ng-disabled="disabledFields"></mpf-select>
+        </div>
+        <div class="col-md-4 mb-xs-2">
+          <span class="g-label mb-md-2 h-myd-mb--5">Sexo<span>*</span></span>
+          <div class="row">
+            <div class="col-md-6">
+              <m-radio label="{label: 'Masculino'}" name="nSexo" ng-model="$ctrl.current.contractor.mSexo" value="1" ng-required="true" ng-disabled="disabledFields"></m-radio>
+            </div>
+            <div class="col-md-6">
+              <m-radio label="{label: 'Femenino'}" name="nSexo" ng-model="$ctrl.current.contractor.mSexo" value="0" ng-required="true" ng-disabled="disabledFields"></m-radio>
+            </div>
+            <ul class="col-md-12 g-error">
+              <li ng-show="$ctrl.formulario.nSexo.$invalid && !$ctrl.formulario.nSexo.$pristine">* Seleccione un sexo</li>
+            </ul>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="row">
+            <div class="col-md-8 mb-xs-2">
+              <div class="input-group g-date-picker">
+                <label class="g-placeholder animated">Fecha de nacimiento<span>*</span>:</label>
+                <input type="text" class="form-control" ng-change="changeFechaNacimiento($ctrl.current.contractor.mFechaNacimiento)" uib-datepicker-popup="{{$ctrl.formatDate}}" name="nFechaNacimiento" ng-model="$ctrl.current.contractor.mFechaNacimiento" is-open="$ctrl.popupFechaNacimiento.opened" datepicker-options="$ctrl.optionsFechaNacimiento" close-text="Close" alt-input-formats="$ctrl.altInputFormats" ui-mask="{{$ctrl.mask}}" ng-pattern="$ctrl.pattern" model-view-value="true" ng-required="true" ng-disabled="disabledFields" />
+                <span class="input-group-btn">
+                  <button type="button" class="btn btn-default" ng-click="$ctrl.openFechaNacimiento()" ng-disabled="disabledFields"><i class="glyphicon glyphicon-calendar"></i></button>
+                </span>
+              </div>
+              <ul class="g-error">
+                <li ng-show="$ctrl.formulario.nFechaNacimiento.$invalid && !$ctrl.formulario.nFechaNacimiento.$pristine">* Ingrese una fecha de nacimiento</li>
+              </ul>
+            </div>
+            <div class="col-md-4 mb-xs-2">
+              <label class="g-placeholder block mb-xs-2 h-myd-mb--5">Edad actuarial</label>
+              <p>{{$ctrl.current.contractor.mEdadActual}}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-4 mb-xs-2">
+          <mpf-input label="{label: 'Correo electrónico', required: false}" name="nCorreoElectronico" ng-model="$ctrl.current.contractor.mCorreoElectronico" ng-model-options="{ allowInvalid: true}" mpf-validation="email" ng-maxlength="100" ng-required="false" ng-disabled="disabledFields"></mpf-input>
+        </div>
+        <div class="col-md-4 mb-xs-2" ng-if="showNaturalRucPerson">
+          <mpf-select label="{label: 'Profesión', required: false}" name="nProfesion" ng-model="$ctrl.current.contractor.mProfesion" m-data-source="$ctrl.ocupaciones" text-field="Descripcion" value-field="Codigo" m-Empty-Option="{enterData:true}" ng-required="false" ng-disabled="disabledFields"></mpf-select>
+        </div>
+        <div class="col-md-4 mb-xs-2" ng-if="showNaturalRucPerson">
+          <mpf-select label="{label: 'Ocupación', required: false}" name="nOcupacion" ng-model="$ctrl.current.contractor.mOcupacion" m-data-source="$ctrl.ocupaciones" text-field="Descripcion" value-field="Codigo" m-Empty-Option="{enterData:true}" ng-required="false" ng-disabled="disabledFields"></mpf-select>
+        </div>
+      </div>
+      <div class="row" ng-if="$ctrl.current.contractor.mTipoDocumento.TipoDocumento == 'RUC'">
+        <div class="col-md-4 mb-xs-2">
+          <mpf-select label="{label: 'Actividad económica', required: false}" name="nActividadEconomica" ng-model="$ctrl.current.contractor.mActividadEconomica" m-data-source="$ctrl.actividadesEconomicas" text-field="Descripcion" value-field="Codigo" m-Empty-Option="{enterData:true}" ng-required="false" ng-disabled="disabledFields"></mpf-select>
+          <ul class="g-error">
+            <li ng-show="$ctrl.formulario.nActividadEconomica.$invalid && !$ctrl.formulario.nActividadEconomica.$pristine">* Selecciona una actividad ecnómica</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-12">
+          <h2 class="g-sub-title">Contacto del beneficiario</h2>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-4 mb-xs-2">
+          <mpf-input label="{label: 'Teléfono fijo', required: false}" name="nTelefonoFijo" ng-model="$ctrl.current.contractor.mTelefonoFijo" ng-maxlength="10" mpf-validation="onlyNumber" ng-required="false" ng-disabled="disabledFields"></mpf-input>
+          <ul class="g-error">
+            <li ng-show="$ctrl.formulario.nTelefonoFijo.$invalid && !$ctrl.formulario.nTelefonoFijo.$pristine">* Ingrese un teléfono fijo</li>
+          </ul>
+        </div>
+        <div class="col-md-4 mb-xs-2">
+          <mpf-input label="{label: 'Teléfono oficina', required: false}" name="nTelefonoOficina" ng-model="$ctrl.current.contractor.mTelefonoOficina" ng-maxlength="10" mpf-validation="onlyNumber" ng-required="false" ng-disabled="disabledFields"></mpf-input>
+          <ul class="g-error">
+            <li ng-show="$ctrl.formulario.nTelefonoOficina.$invalid && !$ctrl.formulario.nTelefonoOficina.$pristine">* Ingrese un teléfono de oficina</li>
+          </ul>
+        </div>
+        <div class="col-md-4 mb-xs-2">
+          <mpf-input label="{label: 'Teléfono móvil', required: false}" name="nTelefonoCelular" ng-model="$ctrl.current.contractor.mTelefonoCelular" ng-maxlength="10" mpf-validation="onlyNumber" ng-required="false" ng-disabled="disabledFields"></mpf-input>
+          <ul class="g-error">
+            <li ng-show="$ctrl.formulario.nTelefonoCelular.$invalid && !$ctrl.formulario.nTelefonoCelular.$pristine">* Ingrese un teléfono celular</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-12">
+          <h2 class="g-sub-title">Dirección del beneficiario</h2>
+        </div>
+      </div>
+
+      <mpf-contractor-address
+      data="$ctrl.current.contractorAddress"
+      is-Valid="$ctrl.addressValid"
+      setter-Ubigeo="$ctrl.setterUbigeo"
+      clean-Ubigeo="$ctrl.cleanUbigeo"
+      disabled-fields-beneficiary="disabledFields"
+      block-Departament="disabledFields"
+      block-Provincia="disabledFields"
+      block-Distrito="disabledFields"
+      show-title="false"
+      all-fields-required="false">
+    </mpf-contractor-address>
+
+      <div class="row pt-xs-2" ng-if="$ctrl.current.contractor.mTipoBeneficiario.Codigo == '6'">
+        <div class="col-md-4 mb-xs-2 no-mb-md">
+          <mpf-select label="{label: 'País natal', required: false}" name="nPaisNatal" ng-model="$ctrl.current.contractor.mPaisNatal" text-field="Descripcion" value-field="Codigo" m-data-source="$ctrl.paises" m-Empty-Option="{enterData:true}" ng-required="false" ng-disabled="disabledFields"></mpf-select>
+          <ul class="g-error">
+            <li ng-show="$ctrl.formulario.nPaisNatal.$invalid && !$ctrl.formulario.nPaisNatal.$pristine">* Seleccione un país natal</li>
+          </ul>
+        </div>
+        <div class="col-md-4">
+          <mpf-select label="{label: 'País residencia', required: false}" name="nPaisResidencia" ng-model="$ctrl.current.contractor.mPaisResidencia" text-field="Descripcion" value-field="Codigo" m-data-source="$ctrl.paises" m-Empty-Option="{enterData:true}" ng-required="false" ng-disabled="disabledFields"></mpf-select>
+          <ul class="g-error">
+            <li ng-show="$ctrl.formulario.nPaisResidencia.$invalid && !$ctrl.formulario.nPaisResidencia.$pristine">* Seleccione un país residencia</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="row pt-xs-2 h-myd-mt--20">
+        <div class="col-md-3 col-md-offset-3 mb-xs-1 no-mb-md">
+          <a class="g-btn g-btn-verde block" ng-click="$ctrl.closeBeneficiary()">REGRESAR</a>
+        </div>
+        <div class="col-md-3">
+          <a class="g-btn g-btn-verde block" ng-click="$ctrl.saveBeneficiary()">ACEPTAR</a>
+        </div>
+      </div>
+
+
+    </div>
+
+    <div class="container" ng-if="$ctrl.currentStep == 3">
+
+      <div class="row g-row g-list g-box bg-gray pt-xs-1" ng-repeat="item in $ctrl.data.beneficiaries">
+        <div class="col-md-10 g-col-md middle">
+          <ul class="row">
+            <li class="col-md-4 clearfix cnt-item">
+              <div class="col-xs-5 item-label">
+                Tipo de documento:
+              </div>
+              <div class="col-xs-7 item-dato g-text-uppercase">
+                {{item.contractor.mTipoDocumento.TipoDocumento}}
+              </div>
+            </li>
+            <li class="col-md-4 clearfix cnt-item">
+              <div class="col-xs-5 item-label">
+                Nro. Documento:
+              </div>
+              <div class="col-xs-7 item-dato g-text-uppercase">
+                {{item.contractor.mNumeroDocumento}}
+              </div>
+            </li>
+            <li class="col-md-4 clearfix cnt-item">
+              <div class="col-xs-5 item-label">
+                Nombre beneficiario:
+              </div>
+              <div class="col-xs-7 item-dato g-text-uppercase">
+                {{item.contractor.mNomContratante}} {{item.contractor.mApePatContratante}} {{item.contractor.mApeMatContratante}}
+              </div>
+            </li>
+          </ul>
+          <ul class="row">
+            <li class="col-md-4 clearfix cnt-item">
+              <div class="col-xs-5 item-label">
+                Tipo de beneficiario:
+              </div>
+              <div class="col-xs-7 item-dato g-text-uppercase">
+                {{item.contractor.mTipoBeneficiario.Descripcion}}
+              </div>
+            </li>
+            <li class="col-md-4 clearfix cnt-item">
+              <div class="col-xs-5 item-label">
+                Distribución de indemnización:
+              </div>
+              <div class="col-xs-7 item-dato g-text-uppercase">
+                {{item.contractor.mDistribucion}}%
+              </div>
+            </li>
+            <li class="col-md-4 clearfix cnt-item">
+              <div class="col-xs-5 item-label">
+                Parentesco:
+              </div>
+              <div class="col-xs-7 item-dato g-text-uppercase">
+                {{item.contractor.mParentesco.Descripcion}}
+              </div>
+            </li>
+          </ul>
+        </div>
+        <div class="col-md-2 g-col-md middle">
+          <div class="row">
+            <div class="col-xs-6 cnt-item add-border-left item-ico g-text-center-xs">
+              <a href="" ng-click="$ctrl.editBeneficiary(item)"><span class="ico-mapfre_43_editar ico-edit"></span></a>
+            </div>
+            <div class="col-xs-6 cnt-item item-ico g-text-center-xs">
+              <a href="" ng-click="$ctrl.deleteBeneficiary($index)"><span class="ico-mapfre_29_eliminar ico-delete"></span></a>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-4 col-md-offset-8">
+          <a class="g-btn g-btn-white block" ng-click="$ctrl.newBeneficiary()">
+            <span class="text-ico"><span class="ico-mapfre_45_agregarusuario ico-plus"></span>Agregar Benefeciario</span>
+          </a>
+        </div>
+      </div>
+
+    </div>
+
+</div>

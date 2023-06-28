@@ -1,0 +1,186 @@
+<div class="g-title">
+    <div class="container">
+        <div class="row">
+          <div class="col-xs-12 col-sm-12 col-md-3 mb-xs-2">
+          <h1>Despachos de {{ $ctrl.origin===1 ? 'Delivery' : ($ctrl.origin===2 ? 'Te Cuidamos' : ($ctrl.origin===3 ? 'Centros M&eacute;dicos' : 'Cl&iacute;nica Digital')) }}</h1>
+          </div>
+          <div class="col-xs-12 col-sm-12 col-md-9 mb-xs-2 no-mb-sm">
+            <div class="float-right">
+                <span style="display: inline-block;" class="count-container">
+                    <div>
+                      Despachos de: 
+                    </div>
+                </span>
+                <span class="g-box-label lblNvt count-container" 
+                  ng-class="{'bgGreen': $ctrl.origin==1, 'count-container-no-select': $ctrl.origin!==1}" 
+                  ng-model="$ctrl.origin" 
+                  ng-click="$ctrl.setOrigin(1)"
+                  ng-if="$ctrl.showTabDelivery">
+                  <div>
+                      DELIVERY&nbsp;&nbsp;
+                      <span ng-class="{lblNvtCount: $ctrl.origin==1}" ng-if="$ctrl.totalRecordsDelivery!==undefined">
+                          {{$ctrl.totalRecordsDelivery}}
+                      </span>
+                  </div>
+                </span>
+                <span class="g-box-label lblNvt count-container" 
+                  ng-class="{'bgGreen': $ctrl.origin==2, 'count-container-no-select': $ctrl.origin!==2}" 
+                  ng-model="$ctrl.origin" 
+                  ng-click="$ctrl.setOrigin(2)"
+                  ng-if="$ctrl.showTabTC">
+                    <div>
+                        TE CUIDAMOS&nbsp;&nbsp;
+                        <span ng-class="{lblNvtCount: $ctrl.origin==2}" ng-if="$ctrl.totalRecordsTeCuidamos!==undefined">
+                            {{$ctrl.totalRecordsTeCuidamos}}
+                        </span>
+                    </div>
+                </span>
+                <span class="g-box-label lblNvt count-container" 
+                  ng-class="{'bgGreen': $ctrl.origin==3, 'count-container-no-select': $ctrl.origin!==3}" 
+                  ng-model="$ctrl.origin" 
+                  ng-click="$ctrl.setOrigin(3)"
+                  ng-if="$ctrl.showTabCM">
+                  <div>
+                    CENTROS M&Eacute;DICOS&nbsp;&nbsp;
+                    <span ng-class="{lblNvtCount: $ctrl.origin==3}" ng-if="$ctrl.totalRecordsMedicalCenter!==undefined">
+                      {{$ctrl.totalRecordsMedicalCenter}}
+                    </span>
+                  </div>
+                </span>
+                <span class="g-box-label lblNvt count-container" 
+                        ng-class="{'bgGreen': $ctrl.origin==4, 'count-container-no-select': $ctrl.origin!==4}" 
+                        ng-model="$ctrl.origin" 
+                        ng-click="$ctrl.setOrigin(4)"
+                        ng-if="$ctrl.showTabCL">
+                        <div>
+                            CL&Iacute;NICA DIGITAL&nbsp;&nbsp;
+                            <span ng-class="{lblNvtCount: $ctrl.origin==4}" ng-if="$ctrl.totalRecordsDigitalClinic!==undefined">
+                                {{$ctrl.totalRecordsDigitalClinic}}
+                            </span>
+                        </div>
+                    </span>
+            </div>
+          </div>
+        </div>
+    </div>
+</div>
+
+<div class="dashboard-body">
+    <div class="g-section-inner g-dashboard-section">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-3">
+                    <filter-order 
+                      on-search="$ctrl.search($arg)" 
+                      movement-type="'dispatch'" 
+                      origin-type="$ctrl.origin"
+                      on-clean="$ctrl.clearFilter()" 
+                      reset="$ctrl.resetFilter"
+                    ></filter-order>
+                </div>
+                <div class="col-md-9">
+                    <div class="clearfix g-box mb-xs-2" ng-repeat="order in $ctrl.orders">
+                        <div class="headReg clearfix g-box-content gBgcGray5">
+                            <div class="col-dm-12">
+                                <b>Despacho No. {{order.orderId}}</b>
+                                <span class="g-box-label lblNvt" ng-class="{bgPending: order.move.id == 1, bgInAtention: order.move.id == 2, bgDelivered: order.move.id == 3, bgCanceled: order.move.id == 4}">
+                                  {{order.move.description}}
+                                </span>
+                                <span class="g-box-label lblTimeNvt"
+                                  ng-if="order.timeElapsed" 
+                                  ng-class="{bgTimeLow: order.traficLightLabel == 'V', bgTimeHigh: order.traficLightLabel == 'R', bgTimeMedium: order.traficLightLabel == 'A'}">
+                                  {{ order.timeElapsed ? 'Hace ' + order.timeElapsed : null }}
+                                </span>
+                                <span ng-if="$ctrl.origin==4" class="g-box-label lblNvt bgTimeLow">
+                                  {{order.hasSitedsCL ? "CON SITEDS" : "SIN SITEDS"}}
+                                </span>
+                                <a href="" class="pull-right" ng-click="$ctrl.verDetalle(order)">
+                                    <i class="glyphicon glyphicon-chevron-right"></i>
+                                </a>
+                                <span ng-if="$ctrl.origin==2" class="lblNvtDateTC pull-right">
+                                    <b>{{ $ctrl.getDateWithFormat(order.schedulingDate) }}</b>
+                                </span>
+                                <b ng-if="$ctrl.origin==2" class="pull-right ">Fecha de entrega</b>
+                            </div>
+                        </div>
+                        <div class="clearfix g-box-content">
+                            <ul class="row g-list-sm">
+                                <li class="col-md-4 clearfix cnt-item">
+                                    <div class="col-sm-4 col-xs-6 item-label">
+                                    Asegurado
+                                    </div>
+                                <div class="col-sm-8 col-xs-6 item-dato">{{order.insured.fullName}}</div>
+                                </li>
+                                <li class="col-md-4 clearfix cnt-item">
+                                    <div class="col-sm-4 col-xs-6 item-label">
+                                    Documento
+                                    </div>
+                                <div class="col-sm-8 col-xs-6 item-dato">{{order.insured.documentNumber}}</div>
+                                </li>
+                                <li class="col-md-4 clearfix cnt-item">
+                                    <div class="col-sm-4 col-xs-6 col-xs-6 item-label">
+                                    Cliente
+                                    </div>
+                                <div class="col-sm-8 col-xs-6 item-dato">{{$ctrl.origin==4 && !order.hasSitedsCL ? 'NO APLICA' : order.client.name}}</div>
+                                </li>
+                            </ul>
+                            <ul class="row g-list-sm">
+                              <li class="col-md-4 clearfix cnt-item">
+                                <div class="col-sm-4 col-xs-6 item-label">
+                                  Departamento
+                                </div>
+                                <div class="col-sm-8 col-xs-6 item-dato">
+                                  {{order.insured.address.department.description}}
+                                </div>
+                              </li>
+                              <li class="col-md-4 clearfix cnt-item">
+                                <div class="col-sm-4 col-xs-6 item-label">
+                                  Provincia
+                                </div>
+                                <div class="col-sm-8 col-xs-6 item-dato">
+                                  {{order.insured.address.province.description}}
+                                </div>
+                              </li>
+                              <li class="col-md-4 clearfix cnt-item">
+                                <div class="col-sm-4 col-xs-6 item-label">
+                                  Distrito
+                                </div>
+                                <div class="col-sm-8 col-xs-6 item-dato">
+                                  {{order.insured.address.district.description }}
+                                </div>
+                              </li>
+                            </ul>
+                            <ul class="row g-list-sm">
+                                <li class="col-md-4 clearfix cnt-item">
+                                    <div class="col-sm-4 col-xs-6 item-label">
+                                    Lugar de atención
+                                    </div>
+                                <div class="col-sm-8 col-xs-6 item-dato">{{$ctrl.origin==4 && !order.hasSitedsCL ? 'NO APLICA' : order.attention.clinic.name}}</div>
+                                </li>
+                                <li class="col-md-4 clearfix cnt-item">
+                                    <div class="col-sm-4 col-xs-6 col-xs-6 item-label">
+                                    BO despacho
+                                    </div>
+                                <div class="col-sm-8 col-xs-6 item-dato">{{order.boDispatch.description}}</div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="row" ng-if="!$ctrl.noResult">
+                        <div class="col-md-12">
+                          <ul uib-pagination class="g-pagination" ng-model="$ctrl.pagination.currentPage" max-size="$ctrl.pagination.maxSize" total-items="$ctrl.pagination.totalRecords" ng-change="$ctrl.pageChanged()" items-per-page="$ctrl.pagination.sizePerPage" boundary-link-numbers="true"></ul>
+                        </div>
+                    </div>
+
+                    <div class="col-md-12 text-center g-box-noresult ng-scope" ng-if="$ctrl.noResult">
+                        <div class="row">
+                          <div class="col-md-12 g-box-noresult-ico gCRed1"><span class="ico-mapfre_302_error"></span></div>
+                          <div class="col-md-12 g-box-noresult-text">No hay resultados para los filtros escogidos.<br>Intenta de nuevo.</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

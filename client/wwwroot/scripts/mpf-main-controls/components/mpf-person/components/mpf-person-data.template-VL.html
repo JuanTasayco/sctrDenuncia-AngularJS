@@ -1,0 +1,95 @@
+<div class="row">
+  <div class="col-md-4 mb-xs-2" ng-if="vm.searchField([vm.fields.TIP_DOCUM])">
+    <mpf-select label="{
+        label: 'Tipo de documento',
+        required: vm.checkRequired(vm.fields.TIP_DOCUM)
+      }"
+      name="documentType"
+      ng-model="vm.form.documentType"
+      m-data-source="vm.documentTypeSource"
+      text-field="Codigo"
+      value-field="Codigo"
+      m-empty-option="{ enterData: true }"
+      ng-change="vm.documentTypeChange()"
+      ng-required="vm.checkRequired(vm.fields.TIP_DOCUM)"
+      ng-disabled="vm.checkDisabled('TipoDocumento')"
+      focuss-me="true">
+    </mpf-select>
+    <ul class="g-error">
+      <li ng-show="personForm.documentType.$error.required && !personForm.documentType.$pristine">El campo Tipo de Documento es requerido</li>
+    </ul>
+  </div>
+  <div class="col-md-4 mb-xs-2" ng-if="vm.searchField([vm.fields.COD_DOCUM])">
+    <mpf-input
+      label="{
+        label: 'Número de documento',
+        required: vm.checkRequired(vm.fields.COD_DOCUM)
+      }"
+      name="documentNumber"
+      ng-model="vm.form.documentNumber"
+      ng-required="vm.checkRequired(vm.fields.COD_DOCUM)"
+      ng-blur="vm.getContractorData(vm.form.documentType.Codigo, vm.form.documentNumber)"
+      ng-disabled="vm.checkDisabled('TipoDocumento')"
+      ng-minlength="vm.docNumMinLength"
+      ng-maxlength="vm.docNumMaxLength"
+      mpf-validation="{{vm.docNumType}}"
+      mpf-validation-disabled="{{vm.docNumTypeDisabled}}"
+      disabled-view-model="true">
+    </mpf-input>
+    <ul class="g-error">
+      <li ng-show="personForm.documentNumber.$invalid && !personForm.documentNumber.$pristine">El campo Número de Documento es requerido</li>
+    </ul>
+  </div>
+
+  <div class="col-md-3 mt-xs-2">
+    <a
+      ng-if="vm.searchField([vm.fields.BTN_CLEAN]) && vm.isVisibleCleanButton && !vm.blockAll && !vm.noButton"
+      class="g-btn block g-btn-white second-design"
+      ng-click="vm.cleanForm()">
+      Limpiar {{vm.textClean || 'contratante'}}
+    </a>
+  </div>
+</div>
+
+<p class="item-title mt-xs-1 gH3" ng-if="vm.searchField([vm.fields.TIP_DOCUM])"></p>
+<div class="row">
+  <div class="col-md-4 mb-xs-2" ng-if="vm.searchField([vm.fields.FULL_NAME])">
+    <mpf-input
+      label="{
+        label: 'Nombre Completo',
+        required: vm.checkRequired(vm.fields.FULL_NAME)
+      }"
+      name="FullName"
+      ng-model="vm.form.FullName"
+      ng-disabled="vm.checkDisabled('FullName')"
+      disabled-view-model="true"
+      mpf-generic-validations="{{vm.getValidations(vm.fields.FULL_NAME)}}">
+    </mpf-input>
+  </div>
+  <div class="col-md-4 mb-xs-2" ng-if="vm.searchField([vm.fields.PHONE])">
+    <mpf-input
+      label="{
+        label: 'Teléfono',
+        required: vm.checkRequired(vm.fields.PHONE)
+      }"
+      name="Phone"
+      ng-model="vm.form.Phone"
+      ng-disabled="vm.checkDisabled('Phone')"
+      disabled-view-model="true"
+      mpf-generic-validations="{{vm.getValidations(vm.fields.PHONE)}}">
+    </mpf-input>
+  </div>
+  <div class="col-md-4 mb-xs-2" ng-if="vm.searchField([vm.fields.PERSONAL_EMAIL])">
+    <mpf-input
+      label="{
+        label: 'Correo electrónico',
+        required: vm.checkRequired(vm.fields.PERSONAL_EMAIL)
+      }"
+      name="Email"
+      ng-model="vm.form.Email"
+      ng-disabled="vm.checkDisabled('Email')"
+      disabled-view-model="true"
+      mpf-generic-validations="{{vm.getValidations(vm.fields.PERSONAL_EMAIL)}}">
+    </mpf-input>
+  </div>
+</div>

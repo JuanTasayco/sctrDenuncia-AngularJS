@@ -1,0 +1,84 @@
+<div class="first-step">
+	
+	<form action="" name="frmFirstStep">
+
+		<!-- Vigencia de la poliza -->
+		<div class="g-section-inner">
+			<div class="container">
+				<!-- VIGENCIA -->
+				<div class="row">
+					<div class="col-md-12">
+						<h2 class="g-sub-title">Datos de la póliza</h2>
+					</div>
+				</div>
+				<div class="row">
+					<!-- <div class="col-md-12">
+						<span class="g-label">Producto: MAPFRE Hogar Hipotecario</span>
+					</div> -->
+					<div class="col-md-12 g-datastep mb-xs-3">
+						<span class="g-datastep-info-label">Producto: </span>
+						<span class="g-datastep-info-dato">{{mainStep.quotationData.Hogar.NombreModalidad}}</span>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-md-4 mb-xs-2 no-mb-md">
+						<!-- <div class="input-group pt-xs-2"> -->
+						<div class="input-group g-date-picker">
+							<label class="g-placeholder animated">Inicio Vigencia<span>*</span>:</label>
+							<input type="text" class="form-control" ng-change="changeDate()" uib-datepicker-popup="{{format}}" ng-model="firstStep.mInicioVigencia" is-open="popup1.opened" datepicker-options="dateOptions" ng-required="true" close-text="Close" alt-input-formats="altInputFormats" readonly/>
+							<span class="input-group-btn">
+								<button type="button" class="btn btn-default" ng-click="open1()"><i class="glyphicon glyphicon-calendar"></i></button>
+							</span>
+						</div>
+					</div>
+					<div class="col-md-4" >
+						<div class="form-label" ng-show="firstStep.showVigencia">
+							<span class="g-label">Fin Vigencia*: </span><br>
+							<label>{{firstStep.mFinVigencia | date:constants.formatDate}}</label>
+						</div>
+						<div class="g-polizagrupo-error" ng-show="firstStep.vigenciaError.error1">
+							<span><span class="ico-mapfre_37_informacion g-polizagrupo-error-ico"></span>Seleccione una fecha valida</span>
+						</div>
+						<!-- <div class="g-polizagrupo-error" ng-show="firstStep.vigenciaError.error2">
+							<span><span class="ico-mapfre_37_informacion g-polizagrupo-error-ico"></span>Selecciona un producto</span>
+						</div> -->
+					</div>
+				</div>
+
+			</div>
+		</div>
+
+
+		<!-- Poliza de grupo -->
+		<div class="g-section-inner">
+			<div class="container">
+				<div class="row"><div class="col-md-12"><h2 class="g-sub-title">Póliza de grupo</h2></div></div>
+				<div class="row">
+					<div class="col-md-12">
+						<div class="row">
+							
+							<mpf-group-polize data="firstStep.groupPolizeData"></mpf-group-polize>
+
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- Button -->
+		<div class="g-section">
+			<div class="container">
+				<div class="row">
+					<div class="col-md-4 mb-xs-1">
+						<span class="gCGray3">*Campos obligatorios</span>
+					</div>
+					<div class="col-md-4">
+						<a class="g-btn g-btn-verde block" ng-click="nextStep()">Siguiente</a>
+					</div>
+				</div>
+			</div>
+		</div>
+
+	</form>
+
+</div>

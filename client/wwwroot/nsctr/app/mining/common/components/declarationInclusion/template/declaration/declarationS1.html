@@ -1,0 +1,231 @@
+<div class="firstStep">
+
+	<form action="" name="frmFirstStep">
+
+		<div class="g-section-inner">
+			<div class="container">
+				<mining-type-register
+					title="'Excel de trabajadores'"
+					show-button-tabs= "false"
+					data="dataS1.typeRegister">
+				</mining-type-register>
+			</div>
+		</div>
+
+		<div class="g-section">
+			<div class="container">
+				<div class="row">
+					<div class="col-md-4 col-sm-6 col-md-offset-4 col-sm-offset-3">
+						<a
+							href="javascript:void(0)"
+							class="g-btn g-btn-verde block"
+							ng-click="fnProcess()">
+							Procesar
+						</a>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="g-section-inner">
+
+			<div class="container">
+
+				<div class="row">
+					<div class="col-md-12">
+						<h2 class="g-sub-title c-red">Lista de trabajadores</h2>
+					</div>
+				</div>
+
+				<div
+					class="row"
+					ng-show="!dataS1.dataList.allList.length">
+					<div class="col-md-12">
+						<div class="clearfix g-box fz14 gBgcGray5 pt-xs-2 pb-xs-2 g-text-center-xs">
+							<span>Sube un excel de trabajadores para cargar lista</span>
+						</div>
+					</div>
+				</div>
+
+				<mining-check-filter
+					ng-show="dataS1.dataList.allList.length > 0"
+					data="dataS1.checkFilter"
+					check-filter="fnCheckFilter(currentCheck)">
+				</mining-check-filter>
+
+				<div class="row">
+					<nsctr-no-result-filter
+						type="filter"
+						no-result-info="dataS1.noResult.filter.noResultInfo"
+						no-result="dataS1.noResult.filter.noResult" >
+					</nsctr-no-result-filter>
+				</div>
+
+				<div
+					class="row"
+					ng-if="dataS1.dataList.list.length > 0">
+					<div class="col-md-12">
+						<div class="clearfix g-tbl-wrapper">
+
+							<div class="clearfix table__970">
+								<ul height-row class="g-row-fz12 g-tbl-row gBgcGray5 pt-xs-1">
+									<li class="g-col g-col-xs col-5-dktp tbl-item item-title g-text-center-xs">
+										<label class="g-checkbox" ng-class="{active : dataS1.mCheckAll}">
+											<span class="ico-checkbox"></span>
+											<input
+												type="checkbox"
+												name="nCheckAll"
+												ng-model="dataS1.mCheckAll"
+												ng-click="fnCheckAll(dataS1.mCheckAll)">
+											<span class="checkbox-label"></span>
+										</label>
+									</li>
+									<li class="g-col g-col-xs col-10-dktp tbl-item item-title">
+										ESTADO
+									</li>
+									<li class="g-col g-col-xs col-18-dktp tbl-item item-title">
+										NOMBRE COMPLETO
+									</li>
+									<li class="g-col g-col-xs col-7-dktp tbl-item item-title">
+										TIPO<br>DOC
+									</li>
+									<li class="g-col g-col-xs col-10-dktp tbl-item item-title">
+										NRO.<br>DOC
+									</li>
+									<li class="g-col g-col-xs col-12-dktp tbl-item item-title g-text-right-xs">
+										SALARIO
+									</li>
+									<li class="g-col g-col-xs col-16-dktp tbl-item item-title">
+										RIESGO SALUD
+									</li>
+									<li class="g-col g-col-xs col-16-dktp tbl-item item-title">
+										RIESGO PENSIÓN
+									</li>
+									<li class="g-col g-col-xs col-6-dktp tbl-item item-title g-text-center-xs">
+										VER
+									</li>
+								</ul>
+								<div class="gnContentAuto-bg">
+									<ul
+										height-row
+										class="g-row-fz12 g-tbl-row pt-xs-1 g-border-bottom-xs"
+										ng-repeat="item in dataS1.dataList.list">
+											<li class="g-col g-col-xs col-5-dktp tbl-item g-text-center-xs">
+												<label class="g-checkbox" ng-class="{active : item.mCheck}">
+													<span class="ico-checkbox"></span>
+													<input
+														type="checkbox"
+														name="nCheck{{$index}}"
+														ng-model="item.mCheck"
+														ng-click="fnCheck(item)"
+														ng-disabled="item.disabled">
+													<span class="checkbox-label"></span>
+												</label>
+											</li>
+											<li class="g-col g-col-xs col-10-dktp tbl-item">
+												{{item.ableText | uppercase}}
+											</li>
+											<li class="g-col g-col-xs col-18-dktp tbl-item">
+												{{item.fullName | uppercase}}
+											</li>
+											<li class="g-col g-col-xs col-7-dktp tbl-item">
+												{{item.documentType | uppercase}}
+											</li>
+											<li class="g-col g-col-xs col-10-dktp tbl-item">
+												{{item.documentNumber | uppercase}}
+											</li>
+											<li class="g-col g-col-xs col-12-dktp tbl-item g-text-right-xs">
+												{{item.salary | currency: data.CURRENCY_TYPES.soles.description}}
+											</li>
+											<li class="g-col g-col-xs col-16-dktp tbl-item">
+												{{item.healthRisk}}
+											</li>
+											<li class="g-col g-col-xs col-16-dktp tbl-item">
+												{{item.pensionRisk}}
+											</li>
+											<li class="g-col g-col-xs col-6-dktp tbl-item g-text-center-xs">
+												<a
+													href="javascript:void(0)"
+													ng-click="fnShowModalWorkerData(item)">
+													<span class="ico-mapfre_298_buscar gH2"></span>
+												</a>
+											</li>
+									</ul>
+								</div>
+								<ul height-row class="g-row-fz12 g-tbl-row gBgcGray5 pt-xs-1">
+									<li class="g-col g-col-xs col-50-dktp tbl-item item-title g-text-right-xs">
+										TOTAL PLANILLA X RIESGO
+									</li>
+									<li class="g-col g-col-xs col-12-dktp tbl-item item-title g-text-right-xs">
+										{{dataS1.totalSalary | currency: data.CURRENCY_TYPES.soles.description}}
+									</li>
+								</ul>
+							</div>
+
+						</div>
+					</div>
+				</div>
+
+			</div>
+
+		</div>
+
+
+		<div class="g-section-inner" ng-if="data.SHOW_RISKS_LIST == false">
+			<div class="container">
+				<div class="row">
+					<div class="col-md-12">
+						<h2 class="g-sub-title c-red">Información de Declaración</h2>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-md-6 mb-xs-2">
+						<mpf-textarea
+							label="{label: 'Datos de Obra o Centro de Trabajo', required: false}"
+							name="nDatosObra"
+							ng-model="dataS1.mDatosObra"
+							ng-required="false">
+						</mpf-textarea>
+						<ul class="g-error">
+							<li ng-show="frmFirstStep.nDatosObra.$invalid && !frmFirstStep.nDatosObra.$pristine">* Ingrese centro de trabajo</li>
+						</ul>
+						<div class="gH7 mt-xs-1">Completa los datos de obra o centro de trabajo</div>
+					</div>
+					<div class="col-md-6 mb-xs-2">
+						<mpf-select
+							label="{label: 'Locación', required: false}"
+							name="nLocacion"
+							ng-model="dataS1.mLocacion"
+							m-data-source="dataS1.locationData"
+							text-field="locationName"
+							value-field="locationId"
+							m-Empty-Option="{enterData:true}"
+							ng-required="false">
+						</mpf-select>
+						<ul class="g-error">
+							<li ng-show="frmFirstStep.nLocacion.$invalid && !frmFirstStep.nLocacion.$pristine">* Seleccione una locación</li>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+
+
+		<div class="g-section">
+			<div class="container">
+				<div class="row">
+						<div class="col-md-4 col-sm-6 col-md-offset-4 col-sm-offset-3">
+							<a
+								href="javascript:void(0)"
+								class="g-btn g-btn-verde block"
+								ng-click="fnActionButton()">
+								{{(!data.SHOW_RISKS_LIST) ? 'Generar' : 'Siguiente'}}
+							</a>
+						</div>
+				</div>
+			</div>
+		</div>
+
+	</form>
+
+</div>

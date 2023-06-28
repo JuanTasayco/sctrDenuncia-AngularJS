@@ -1,0 +1,75 @@
+<style>
+    .g-btnAproveSiniester {
+        background-color: #749806;
+        border-color: #749806;
+        color: #FFFFFF;
+        padding-top: 2px;
+        padding-bottom: 2px;
+        display: block;
+        width: 100%;
+        font-size: 12px;
+        font-family: "Roboto", sans-serif;
+        text-align: center;
+        text-transform: uppercase;
+        border-style: solid;
+        border-width: 2px;
+    }
+</style>
+<section class="">
+    <button type="button" class="close g-close-modal" ng-click="closeModal();" prevent-default>
+        <span class="ico-mapfre_231_cancelaroff"></span>
+    </button>
+    <div class="container">
+        <form name="frmPreAproveSiniestro" class="clearfix">
+            <div class="row">
+                <div class="col-md-12 g-text-center-xs mb-xs-2">
+                    <h2 class="gH3"><b>Control de Aperturas Registradas</b></h2>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12 mt-xs-2">
+                    <div class="clearfix g-tbl-wrapper">
+                        <div class="mb-xs-1">
+                            <ul class="g-row-fz12 g-tbl-row gBgcGray5 pt-xs-1">
+                                <li class="g-col g-col-xs col-11-dktp tbl-item item-title">Nro. Siniestro</li>
+                                <li class="g-col g-col-xs col-11-dktp tbl-item item-title">Fecha Siniestro</li>
+                                <li class="g-col g-col-xs col-20-dktp tbl-item item-title">Causa</li>
+                                <li class="g-col g-col-xs col-20-dktp tbl-item item-title">Tipo Exp.</li>
+                                <li class="g-col g-col-xs col-11-dktp tbl-item item-title">Imp. Reservado</li>
+                                <li class="g-col g-col-xs col-11-dktp tbl-item item-title">Imp. Facturado</li>
+                                <li class="g-col g-col-xs col-16-dktp tbl-item item-title text-center">Acciones</li>
+                            </ul>
+                        </div>
+                        <div class="mb-xs-1 modal-body__static-scroll">
+                            <ul class="g-row-fz12 g-tbl-row pt-xs-1 g-border-bottom-xs" ng-repeat="item in _items">
+                                <li class="g-col g-col-xs col-11-dktp tbl-item g-text-uppercase">
+                                    {{item.sinisterNumberRef}}</li>
+                                <li class="g-col g-col-xs col-11-dktp tbl-item g-text-uppercase">
+                                    {{item.sinisterDate | limitTo:letterDateLimit}}</li>
+                                <li class="g-col g-col-xs col-20-dktp tbl-item g-text-uppercase">{{item.cause}}</li>
+                                <li class="g-col g-col-xs col-20-dktp tbl-item g-text-uppercase">{{item.typeRecord}}
+                                </li>
+                                <li class="g-col g-col-xs col-11-dktp tbl-item g-text-uppercase text-right">
+                                    {{item.reservedAmount}}</li>
+                                <li class="g-col g-col-xs col-11-dktp tbl-item g-text-uppercase text-right">
+                                    {{item.invoicedAmount}}</li>
+                                <li class="g-col g-col-xs col-16-dktp tbl-item gCGray3 text-center">
+                                    <div class="col-xs-12 g-col-xs middle cnt-item">
+                                        <a href="" ng-click="select(item)" class="g-btnAproveSiniester">Vincular</a>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+        <div class="row">
+            <div class="col-md-4"></div>
+            <div class="col-md-4">
+                <a href="" class="g-btn g-btn-transparent block" ng-click="cancel()">No Vincular, Continuar</a>
+            </div>
+            <div class="col-md-4"></div>
+        </div>
+    </div>
+</section>

@@ -1,0 +1,127 @@
+<section class="">
+    <button type="button" class="close g-close-modal" ng-click="closeModal()">
+        <span class="ico-mapfre_231_cancelaroff"></span>
+    </button>
+    <form action="" name="frmAffiliatePolicyEdit">
+        <div class="row">
+            <div class="col-md-12 g-text-center-xs mb-xs-2">
+                <h2 class="gH3"><b>Información de Afiliado</b></h2>
+            </div>
+        </div>
+        <div class="container">
+            <div class="col-md-12">
+                <div class="row">
+                    <div class="col-xs-12 mt-xs-2 mb-xs-2">
+                        <div class="container g-border-xs pt-xs-2 pb-xs-2 modal-body__static-scroll">
+                            <div class="row">
+                                <div class="col-sm-6 mb-xs-2">
+                                    <mpf-input label="{label: 'Primer nombre', required: true}" name="nAffilPriNombre"
+                                        ng-model="mAffilPriNombre" mpf-validation="onlyLetter" ng-minlength="2"
+                                        ng-maxlength="50" ng-required="true">
+                                    </mpf-input>
+                                    <div class="g-error"
+                                        data-ng-show="frmAffiliatePolicyEdit.nAffilPriNombre.$error.required && !frmAffiliatePolicyEdit.nAffilPriNombre.$pristine">
+                                        * Ingrese primer nombre
+                                    </div>
+                                </div>
+                                <div class="col-sm-6 mb-xs-2">
+                                    <mpf-input label="{label: 'Segundo nombre', required: false}" name="nAffilSegNombre"
+                                        ng-model="mAffilSegNombre" mpf-validation="onlyLetter" ng-minlength="2"
+                                        ng-maxlength="50" ng-required="false">
+                                    </mpf-input>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-6 mb-xs-2">
+                                    <mpf-input label="{label: 'Apellido paterno', required: true}" name="nAffilApePat"
+                                        ng-model="mAffilApePat" mpf-validation="onlyLetter" ng-minlength="2"
+                                        ng-maxlength="50" ng-required="true">
+                                    </mpf-input>
+                                    <div class="g-error"
+                                        data-ng-show="frmAffiliatePolicyEdit.nAffilApePat.$error.required && !frmAffiliatePolicyEdit.nAffilApePat.$pristine">
+                                        * Ingrese apellido paterno
+                                    </div>
+                                </div>
+                                <div class="col-sm-6 mb-xs-2">
+                                    <mpf-input label="{label: 'Apellido materno', required: true}" name="nAffilApeMat"
+                                        ng-model="mAffilApeMat" mpf-validation="onlyLetter" ng-minlength="2"
+                                        ng-maxlength="50" ng-required="true">
+                                    </mpf-input>
+                                    <div class="g-error"
+                                        data-ng-show="frmAffiliatePolicyEdit.nAffilApeMat.$error.required && !frmAffiliatePolicyEdit.nAffilApeMat.$pristine">
+                                        * Ingrese apellido materno
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-6 mb-xs-2">
+                                    <mpf-select ng-model="mAffilTipoDoc" name="nAffilTipoDoc"
+                                        label="{label: 'Tipo de documento', required: false}"
+                                        m-data-source="dsAffilTipoDoc" text-field="description"
+                                        value-field="idDocumentType" m-Empty-Option="{enterData:true}"
+                                        ng-required="true" ng-change="changeLengthDoc(mAffilTipoDoc.idDocumentType);"
+                                        mpf-validation="required"></mpf-select>
+                                    <div class="g-error"
+                                        data-ng-show="frmAffiliatePolicyEdit.nAffilTipoDoc.$error.required && !frmAffiliatePolicyEdit.nAffilTipoDoc.$pristine">
+                                        * Seleccione un tipo de documento
+                                    </div>
+                                </div>
+                                <div class="col-sm-6 mb-xs-2">
+                                    <mpf-input label="{label: 'Número de documento', required: false}"
+                                        name="nAffilNroDoc" ng-model="mAffilNroDoc" mpf-validation="onlyNumber"
+                                        ng-required="true" ng-maxlength="docNumMaxLength"
+                                        ng-minlength="docNumMinLength"></mpf-input>
+                                    <div class="g-error"
+                                        data-ng-show="frmAffiliatePolicyEdit.nAffilNroDoc.$error.required && !frmAffiliatePolicyEdit.nAffilNroDoc.$pristine">
+                                        * Ingrese número de documento
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-6 mb-xs-2">
+                                    <mpf-select ng-model="mAffilSexo" name="nAffilSexo"
+                                        label="{label: 'Sexo', required: false}" m-data-source="dsAffilSexo"
+                                        text-field="value" value-field="key" m-Empty-Option="{enterData:true}"
+                                        ng-required="true" mpf-validation="required"></mpf-select>
+                                    <div class="g-error"
+                                        data-ng-show="frmAffiliatePolicyEdit.nAffilSexo.$error.required && !frmAffiliatePolicyEdit.nAffilSexo.$pristine">
+                                        * Seleccione un sexo
+                                    </div>
+                                </div>
+                                <div class="col-sm-6 mb-xs-2">
+                                    <div class="input-group g-date-picker">
+                                        <label class="g-placeholder animated">Fecha de nacimiento</label>
+                                        <input type="text" class="form-control" uib-datepicker-popup="{{format}}"
+                                            name="nAffilFechaNac" data-ng-model="mAffilFechaNac"
+                                            is-open="popupCalendar.opened" datepicker-options="dateOptions"
+                                            data-ng-required="true" close-text="Close" readonly="true" />
+                                        <span class="input-group-btn">
+                                            <button type="button" class="btn btn-default" ng-click="openAffilCalendar()">
+                                                <i class="glyphicon glyphicon-calendar"></i>
+                                            </button>
+                                        </span>
+                                    </div>
+                                    <div class="g-error"
+                                        data-ng-show="frmAffiliatePolicyEdit.nAffilFechaNac.$error.required && !frmAffiliatePolicyEdit.nAffilFechaNac.$pristine">
+                                        * Seleccione una fecha
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-12 mt-xs-2 mb-xs-2">
+                        <div class="col-md-4 col-md-offset-1 mb-xs-1 no-mb-md">
+                            <a class="g-btn g-btn-transparent block" ng-click="closeModal()">Cancelar</a>
+                        </div>
+                        <div class="col-md-4 col-md-offset-1 mb-xs-1 no-mb-md">
+                            <a href="" class="g-btn g-btn-verde block"
+                                ng-click="updateAffiliatePolicy()">Actualizar</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</section>

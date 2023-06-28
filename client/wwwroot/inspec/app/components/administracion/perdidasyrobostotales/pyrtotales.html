@@ -1,0 +1,111 @@
+<section class="g-page page-inspeccion-autos page-inspeccion-autos__programaciones g-ui-view">
+  <div fixed-section class="g-title" ng-class="{'fixed-section': boolChangeClass}">
+    <div class="container">
+      <div class="row">
+        <div class="col-xs-10 col-sm-5 col-md-9 no-mb-sm">
+          <h1>Perdidas totales y/o Robos totales</h1>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="g-section-inner">
+    <div class="container">
+      <div class="row mb-xs-3">
+        <div class="col-xs-12 g-div-bottom">
+          <div class="col-xs-12 col-sm-8 col-md-9 no-mb-sm no-padding-xs">
+            <div class="col-xs-12 col-sm-4 no-padding-xs">
+              <mp-data-seeker
+                behavior="{label:''
+							, placeholder:'Busqueda por placa'
+							, matchField:'idName'}"
+                m-data-source="$ctrl.fnAutoCompleteLicense($inputNeed)"
+                ng-model="$ctrl.mSearchLicenseTxt"
+                ng-change="$ctrl.loadItems()"
+                is-horz="true"
+              >
+                <div ng-bind-html="$item.idName | highlight: $select.search"></div>
+              </mp-data-seeker>
+            </div>
+          </div>
+          <div class="col-xs-12 col-sm-4 col-md-3 mt-xs-1 mt-md-0 no-padding-xs">
+            <a href class="g-btn g-btn-verde block" ng-click="$ctrl.loadData()">Carga Masiva</a>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-xs-12">
+          <div
+            class="clearfix g-box g-overflow-hidden-xs mb-xs-2 tag-programaciones"
+            ng-repeat="item in $ctrl.dataTotalLost"
+          >
+            <!-- header -->
+            <div class="row pt-xs-1 gBgcGray5">
+              <ul class="clearfix g-list-sm">
+                <li class="col-xs-6 col-md-4 clearfix cnt-item">
+                  <div class="col-sm-12 col-md-4 item-label">Marca:</div>
+                  <div class="col-sm-12 col-md-8 item-dato g-text-uppercase">{{ item.brand }}</div>
+                </li>
+                <li class="col-xs-6 col-md-4 clearfix cnt-item">
+                  <div class="col-sm-12 col-md-4 item-label">Modelo:</div>
+                  <div class="col-sm-12 col-md-8 item-dato g-text-uppercase">{{ item.model }}</div>
+                </li>
+              </ul>
+            </div>
+            <!-- content -->
+            <div class="row g-box-content">
+              <ul height-row class="clearfix g-list second-design">
+                <li class="col-xs-12 col-md-4 clearfix cnt-item">
+                  <div class="col-xs-6 col-sm-4 item-label">Placa:</div>
+                  <div class="col-xs-6 col-sm-8 item-dato">{{ item.licensePlate }}</div>
+                </li>
+                <li class="col-xs-12 col-md-4 clearfix cnt-item">
+                  <div class="col-xs-6 col-sm-4 item-label">Modelo:</div>
+                  <div class="col-xs-6 col-sm-8 item-dato">{{ item.model }}</div>
+                </li>
+                <li class="col-xs-12 col-md-4 clearfix cnt-item">
+                  <div class="col-xs-6 col-sm-4 item-label">Año de Idem:</div>
+                  <div class="col-xs-6 col-sm-8 item-dato">{{ item.idem }}</div>
+                </li>
+                <li class="col-xs-12 col-md-4 clearfix cnt-item">
+                  <div class="col-xs-6 col-sm-4 item-label">Vin:</div>
+                  <div class="col-xs-6 col-sm-8 item-dato">{{ item.vin }}</div>
+                </li>
+                <li class="col-xs-12 col-md-4 clearfix cnt-item">
+                  <div class="col-xs-6 col-sm-4 item-label">Año de fabricación:</div>
+                  <div class="col-xs-6 col-sm-8 item-dato">{{ item.productionYear }}</div>
+                </li>
+                <li class="col-xs-12 col-md-4 clearfix cnt-item">
+                  <div class="col-xs-6 col-sm-4 item-label">Causa:</div>
+                  <div class="col-xs-6 col-sm-8 item-dato">{{ item.cause }}</div>
+                </li>
+                <li class="col-xs-12 col-md-4 clearfix cnt-item">
+                  <div class="col-xs-6 col-sm-4 item-label">Motor:</div>
+                  <div class="col-xs-6 col-sm-8 item-dato">{{ item.motor }}</div>
+                </li>
+                <li class="col-xs-12 col-md-4 clearfix cnt-item">
+                  <div class="col-xs-6 col-sm-4 item-label">Tipo de pérdida:</div>
+                  <div class="col-xs-6 col-sm-8 item-dato">{{ item.lostType }}</div>
+                </li>
+                <li class="col-xs-12 col-md-4 clearfix cnt-item">
+                  <div class="col-xs-6 col-sm-4 item-label">Compañia:</div>
+                  <div class="col-xs-6 col-sm-8 item-dato">{{ item.company }}</div>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Inicio: pagination -->
+      <div class="row" ng-if="$ctrl.totalItems > 0">
+        <mx-paginador
+          data-datos="$ctrl.dataTotalLost"
+          data-items-x-page="$ctrl.itemsXPagina"
+          data-on-paginar="$ctrl.pageChanged($event)"
+          data-pagina-actual="$ctrl.currentPage"
+          data-total-items="$ctrl.totalItems"
+        ></mx-paginador>
+      </div>
+      <!-- Fin: pagination -->
+    </div>
+  </div>
+</section>

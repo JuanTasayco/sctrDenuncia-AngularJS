@@ -1,0 +1,268 @@
+<div class="second-step">
+    <!-- PRODUCTO A EMITIR -->
+    <div class="g-section-inner" id="anchor-1">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-12">
+            <h2 class="g-sub-title g-myd-subtitle">Producto a emitir</h2>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-4 mb-xs-2">
+            <mpf-select label="{label: 'Producto', required: true}" name="nProducto" ng-model="$ctrl.formData.mProducto" m-data-source="$ctrl.products" text-field="NombreProducto" value-field="CodigoProducto" m-Empty-Option="{text:'Elige producto'}" mpf-validation="required" ng-change="$ctrl.getFuctionsProducto($ctrl.formData.mProducto)"></mpf-select>
+             <div class="g-error" ng-show="$ctrl.formData.nProducto.$invalid && !$ctrl.formData.nProducto.$pristine">* Ingrese un producto</div>
+            <ul class="gErrorIco firstDesign">
+              <li ng-show="$ctrl.noProducts"><span class="ico-mapfre_37_informacion ico"></span>No hay productos para cotizar con el agente actual.</li>
+            </ul>
+          </div>
+          <div class="col-md-4 mb-xs-2">
+            <mpf-select label="{label: 'Tipo de uso', required: true}" name="nTipoUso" ng-model="$ctrl.formData.mTipoUso" m-data-source="$ctrl.riskUsages" text-field="Descripcion" value-field="Codigo" m-Empty-Option="{text:'Elige tipo de uso'}" mpf-validation="required" ng-change="$ctrl.calculatePremium()"></mpf-select>
+            <div class="g-error" ng-show="$ctrl.formData.nTipoUso.$invalid && !$ctrl.formData.nTipoUso.$pristine">* Ingrese un tipo de uso</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="g-section mt-xs-2" ng-if="$ctrl.formData.mProducto.McaVigencia === 'S'">
+      <div class="container">
+        <div class="row"><div class="col-md-12"><h2 class="g-sub-title g-myd-subtitle mb-1">Vigencia de la póliza</h2></div></div>
+        <div class="row">
+          <div class="col-md-12 mb-1">
+            <div class="row">
+              <div class="col-md-6 mb-xs-2 no-mb-md">
+                <mpf-datepicker
+                  class="input-no-margin"
+                  label="{label: 'Inicio de vigencia', required: true}"
+                  ng-model="$ctrl.formData.inicioVigencia"
+                  format="'dd/MM/yyyy'"
+                  name="nInicioVigenciaPoliza"
+                  data-ng-change="$ctrl.validateVigencia()"
+                  data-maxdate="$ctrl.limitDate"
+                  data-maxdate-as-init="true"
+                  data-set-model-by-this-data="$ctrl.formData.inicioVigencia"
+                  readonly="false"
+                  ng-required="true">
+                </mpf-datepicker>
+                <div class="g-error" ng-show="frmProductData.nInicioVigenciaPoliza.$error.required && !frmProductData.nInicioVigenciaPoliza.$pristine">
+                  * Ingrese una fecha valida
+                </div>
+              </div>
+              <div class="col-md-6 mb-xs-2 no-mb-md">
+                <mpf-datepicker
+                  class="input-no-margin"
+                  label="{label: 'Fin de vigencia', required: true}"
+                  ng-model="$ctrl.formData.finVigencia"
+                  format="'dd/MM/yyyy'"
+                  name="nFinVigenciaPoliza"
+                  data-ng-change="$ctrl.validateVigencia()"
+                  data-maxdate="$ctrl.limitDate"
+                  data-maxdate-as-init="true"
+                  data-set-model-by-this-data="$ctrl.formData.finVigencia"
+                  readonly="true"
+                  ng-disabled="true"
+                  ng-required="true">
+                </mpf-datepicker>
+                <div class="g-error" ng-show="frmProductData.nFinVigenciaPoliza.$error.required && !frmProductData.nFinVigenciaPoliza.$pristine">
+                  * Ingrese una fecha valida
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  
+    <!-- VALOR DEL AUTO-->
+    <div class="g-section-inner" id="anchor-2">
+      <div class="container">
+
+        <div class="row">
+          <div class="col-md-12">
+            <h2 class="g-sub-title g-myd-subtitle">Valor del auto</h2>
+          </div>
+        </div>
+        <div class="row g-valor-riesgo" ng-init="$ctrl.toggleValue=true">
+          <div class="col-md-6 col-sm-6">
+            <div class="row">
+              <div class="col-md-12 mb-xs-2">
+                <div ng-show="$ctrl.toggleValue">
+                  <!-- <span class="g-label g-valorauto-label">Valor del auto</span> -->
+                  <span class="g-valorauto-fix">{{ $ctrl.formData.vehicleValue | currency: '$' }}</span>
+                </div>
+                <div ng-show="!$ctrl.toggleValue">
+                  <mpf-input class="g-valorauto-input" label="{label: 'Valor del auto', required: true}" ng-model="$ctrl.formData.vehicleValue" name="nValorAuto" ng-required="true" mpf-validation="onlyNumber"></mpf-input>
+                  <a class="g-btn g-btn-transparent g-btn-mini g-valorauto-modificar" href ng-click="$ctrl.suggestedValueValidate($ctrl.formData.vehicleValue)">Aceptar</a>
+                  <ul class="g-error">
+                    <li ng-show="$ctrl.formData.nValorAuto.$error.required && !$ctrl.formData.nValorAuto.$pristine">* Este campo es obligatorio</li>
+                  </ul>
+                </div>
+              </div>
+              <div class="col-md-12">
+                <a class="g-link first-design green" href ng-click="$ctrl.toggleValue = !$ctrl.toggleValue" ng-show="$ctrl.toggleValue">Modificar Valor</a>
+                <span class="g-valorauto-rango">(Entre {{ $ctrl.vehicleValueMin | currency: '$'}} - {{ $ctrl.vehicleValueMax | currency: '$'}} )</span>
+              </div>
+              <div class="col-md-12">
+                <span class="g-valorauto-warning" ng-show="$ctrl.suggestedValueError"><span class="ico-mapfre_37_informacion g-valorauto-warning-ico"></span>Valor fuera de rango. El rango para modificar es entre {{$ctrl.vehicleValueMin | currency:'$'}} y {{$ctrl.vehicleValueMax | currency:'$'}}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+    </div>
+    <!-- LUGAR DE CIRCULACIÓN-->
+    <!-- POLIZA GRUPO -->
+    <div class="g-section-inner" id="anchor-3">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-12">
+            <h2 class="g-sub-title g-myd-subtitle">Póliza Grupo (opcional)</h2>
+          </div>
+        </div>
+        <div class="row">
+          <inspec-group-polize data="$ctrl.formData.mPolizaGrupo"></inspec-group-polize>
+        </div>
+      </div>
+    </div>
+    <!-- FINANCIAMIENTO -->
+    <div class="g-section-inner" id="anchor-4">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-12">
+            <h2 class="g-sub-title g-myd-subtitle">Financiamiento</h2>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-4 mb-xs-2">
+            <mpf-select label="{label: 'Tipo de financiamiento', required: true}" name="nTipoFinanciamiento" ng-model="$ctrl.formData.financeType" m-data-source="$ctrl.financingTypes" text-field="Descripcion" value-field="Codigo" m-Empty-Option="{enterData:true}" mpf-validation="required"></mpf-select>
+            <div class="g-error" ng-show="$ctrl.formData.nTipoFinanciamiento.$invalid && !$ctrl.formData.nTipoFinanciamiento.$pristine">* Ingrese un tipo de financiamiento</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- ENDOSATARIO -->
+    <div class="g-section-inner" id="anchor-5">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-12">
+            <h2 class="g-sub-title g-myd-subtitle">Endosatario (opcional)</h2>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-12 mb-xs-2">
+            <span class="g-label mb-xs-2">Selecciona como deseas buscar a el endosatario</span>
+            <div class="row">
+              <div class="col-md-3">
+                <m-radio label="{label: 'No usar endosatario'}" name="nEndosatario" ng-model="$ctrl.formData.endosatario" value="0" ng-required="true"></m-radio>
+              </div>
+              <div class="col-md-3">
+                <m-radio label="{label: 'Buscar endosatario por RUC'}" name="nEndosatario" ng-model="$ctrl.formData.endosatario" value="1" ng-required="true"></m-radio>
+              </div>
+              <div class="col-md-4">
+                <m-radio label="{label: 'Buscar endosatario por nombre'}" name="nEndosatario" ng-model="$ctrl.formData.endosatario" value="2" ng-required="true"></m-radio>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row" ng-if="$ctrl.formData.endosatario == 1 && !$ctrl.formData.rucEndosatarioObjeto">
+          <div class="col-md-4 mb-xs-2">
+            <mpf-input label="{label: 'RUC del endosatario', required: true}" name="nRucEndosatario" ng-model="$ctrl.formData.rucEndosatario" ng-maxlength="11"></mpf-input>
+          </div>
+          <div class="col-md-2 mt-xs-2 h-myd-mt--0">
+            <a class="g-btn g-btn-green-border block" ng-click="$ctrl.searchRucEndoser()">Buscar</a>
+          </div>
+        </div>
+        <div class="row" ng-if="$ctrl.formData.endosatario == 1 && $ctrl.formData.rucEndosatarioObjeto">
+          <div class="col-md-4 mb-xs-2">
+            <span class="g-placeholder block mb-xs-1">RUC del endosatario*:</span>
+            <span class="">{{ $ctrl.formData.rucEndosatarioObjeto.Codigo }} - {{ $ctrl.formData.rucEndosatarioObjeto.Descripcion }}</span>
+          </div>
+          <div class="col-md-2 mt-xs-2 h-myd-mt--0">
+            <a class="g-btn g-btn-transparent block" ng-click="$ctrl.formData.rucEndosatarioObjeto = $ctrl.formData.rucEndosatario = null">Cambiar</a>
+          </div>
+        </div>
+        <div class="row" ng-if="$ctrl.formData.endosatario == 2">
+          <div class="col-md-4 mb-md-2">
+            <mpf-select label="{label: 'Nombre del endosatario:', required: true}" name="nNombreEndosatario" ng-model="$ctrl.formData.nombreEndosatario" m-data-source="$ctrl.endorserTypes"></mpf-select>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- CALCULAR PRIMA -->
+    <div class="g-section-inner" id="anchor-6">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-12">
+            <h2 class="g-sub-title g-myd-subtitle">Calcular Prima</h2>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-12 g-box g-calcular-prima">
+            <div class="row pb-xs-0-5 pt-xs-0-5 g-list-md">
+              <div class="col-md-6 col-md-offset-3 clearfix">
+                <div class="col-xs-7 item-label">
+                  <span class="ico-mapfre_82_circle ico-bullet"></span> Prima neta:
+                </div>
+                <div class="col-xs-5 item-dato g-text-uppercase text-right">{{ $ctrl.formData.comercialPremium || 0 | currency: '$'}}</div>
+              </div>
+            </div>
+            <div class="row pb-xs-0-5 pt-xs-0-5 g-list-md" ng-if="$ctrl.formData.contractorData.saldoMapfreDolares > 0">
+              <div class="col-md-6 col-md-offset-3 clearfix">
+                <div class="col-xs-7 item-label">
+                  <span class="ico-mapfre_82_circle ico-bullet"></span> MAPFRE DÓLARES
+                  <span class="pl-xs-2" ng-hide="enSoles">
+                    <b>({{($ctrl.formData.contractorData.saldoMapfreDolares || 0 | currency: '$')}} disponibles)</b>
+                  </span>
+                </div>
+                <div class="col-xs-5 item-dato g-text-uppercase text-right valor">
+                  <m-Numeric-Textbox ng-model="$ctrl.formData.mMapfreDolar" ng-keyup="$ctrl.validateMapfreDollars()" name="nMapfreDolar" label="{label: '', required: false}" ng-required="false" options="formData.scale"></m-Numeric-Textbox>
+                  <span class="g-valorauto-warning g-error pl-xs-0 pr-xs-0" ng-if="$ctrl.formData.mMapfreDolar < 0 || $ctrl.formData.mMapfreDolar > $ctrl.formData.contractorData.saldoMapfreDolares">
+                    <span class="ico-mapfre_37_informacion g-valorauto-warning-ico"></span>Valor fuera de rango
+                  </span>
+                </div>
+              </div>
+            </div>
+            <div class="row pb-xs-0-5 pt-xs-0-5 g-list-md">
+              <div class="col-md-6 col-md-offset-3 clearfix">
+                <div class="col-xs-7 item-label">
+                  <span class="ico-mapfre_82_circle ico-bullet"></span> Descuento comisión:
+                </div>
+                <div class="col-xs-5 item-dato">
+                  <div class="col-xs-6">
+                    <mpf-select-horz label="{label: '', required: false}" name="nDescuentoComision" ng-model="$ctrl.formData.mDescuentoComision" m-data-source="$ctrl.discountCommissionData" text-field="DsctoEspecialPorcentaje" value-field="AgenteComision" m-Empty-Option="{text:'%'}" mpf-validation="required" ng-change="$ctrl.calculateDiscountCommission()" ng-required="false"></mpf-select-horz>
+                  </div>
+                  <div class="col-xs-6 no-padding-sm g-text-uppercase text-right">{{ $ctrl.formData.discountCommission || 0 | currency: '-$'}}</div>
+                </div>
+              </div>
+            </div>
+            <div class="row pb-xs-0-5 pt-xs-0-5 g-list-md">
+              <div class="col-md-6 col-md-offset-3 clearfix">
+                <div class="col-xs-7 item-label">
+                  <span class="ico-mapfre_82_circle ico-bullet"></span> IGV:
+                </div>
+                <div class="col-xs-5 item-dato g-text-uppercase text-right">{{ $ctrl.formData.igv || 0 | currency: '$'}}</div>
+              </div>
+            </div>
+            <div class="row pb-xs-0-5 pt-xs-0-5 g-list-md" data-ng-show="!$ctrl.formData.mapfreDollarTotal">
+              <div class="col-md-6 col-md-offset-3 clearfix">
+                <div class="col-xs-7 item-label">
+                  <span class="ico-mapfre_82_circle ico-bullet"></span> Total
+                </div>
+                <div class="col-xs-5 item-dato g-text-uppercase text-right">{{ $ctrl.formData.total || 0 | currency: '$'}}</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="g-section">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-4 col-md-offset-4">
+            <a class="g-btn g-btn-verde block" ng-click="$ctrl.goToNextStep()">SIGUIENTE</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>

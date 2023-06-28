@@ -1,0 +1,110 @@
+<div class="clearfix">
+  <button type="button" class="close g-close-modal" ng-click="$ctrl.close()" prevent-default>
+    <span class="ico-mapfre_46_cancelaroff"></span>
+  </button>
+
+  <div class="container" ng-hide="$ctrl.isLevantarObservacion">
+    <div class="row mb-md-2">
+      <div class="col-md-12 g-text-center-xs mb-xs-2">
+        <h2 class="gH3"><b>{{$ctrl.data.lista.description}}</b></h2>
+        <h2 class="gH3"><b>Total: {{$ctrl.montoTotal | currency: 'S/.'}}</b></h2>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-xs-12">
+        <div class="modal-body__scroll">
+          <form class="clearfix" name="frmPresupuesto">
+            <div class="clearfix" data-ng-repeat="item in $ctrl.data.lista.details">
+              <div class="clearfix mb-xs-3">
+                <div class="col-sm-7 clearfix cgw-budget__txt">
+                  <b>{{item.descriptionDetail}}:</b>
+                </div>
+                <div class="col-sm-5 cgw-budget__input-wp">
+                  <span class="cgw-budget__currency">S/.</span>
+                  <m-Numeric-Textbox 
+                    ng-model="$ctrl.formData.mPresupuesto[item.codeDetail]"
+                    ng-change="update($ctrl.formData.mPresupuesto)"
+                    name="asd" 
+                    class="cgw-budget__input"
+                    label="{label: '', required: false}"
+                    ng-required="false"></m-Numeric-Textbox>
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+    <div class="mt-xs-2 mb-xs-2">
+      <hr>
+    </div>
+    <div class="g-text-center-xs">
+      <div class="col-md-6">
+        <a  class="g-btn g-btn-transparent pr-md-4 pl-md-4 mt-md-2 block"
+            data-ng-click="$ctrl.close()">Cancelar</a>
+      </div>
+      <div class="col-md-6">
+        <a  class="g-btn g-btn-verde pr-md-4 pl-md-4 mt-xs-2 mb-xs-2 block"
+            data-ng-click="$ctrl.grabar($ctrl.data.lista); grabar($ctrl.data.lista);">
+            Guardar
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <div class="container" ng-if="$ctrl.isLevantarObservacion">
+    <div class="row mb-md-2">
+      <div class="col-md-10 col-md-offset-1">
+        <h2 class="text-center g-title-modal c-black">{{$ctrl.dataBkp.description}}</h2>
+        <h2 class="text-center g-title-modal c-black">
+          Total: {{$ctrl.dataBkp.requestedAmount | currency: 'S/.'}}
+        </h2>
+      </div>
+    </div>
+    <div class="mt-xs-2 mb-xs-2">
+      <hr>
+    </div>
+    <div class="row">
+      <div class="col-xs-12">
+        <div class="modal-body__scroll">
+          <form class="clearfix" name="frmPresupuesto">
+            <div class="clearfix" data-ng-repeat="item in $ctrl.dataBkp.details">
+              <div class="clearfix mb-xs-3">
+                <div class="col-sm-7 clearfix cgw-budget__txt">
+                  <b>{{item.descriptionDetail}}:</b>
+                </div>
+                <div class="col-sm-5 cgw-budget__input-wp">
+                  <span class="cgw-budget__currency">S/.</span>
+                  <m-Numeric-Textbox 
+                    ng-model="item.requestedAmount"
+                    ng-change="updateRequestedAmount($ctrl.dataBkp.details)"
+                    name="asd" 
+                    
+                    class="cgw-budget__input"
+                    label="{label: '', required: false}"
+
+                    ng-required="false"></m-Numeric-Textbox>
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+    <div class="mt-xs-2 mb-xs-2">
+      <hr>
+    </div>
+    <div class="g-text-center-xs">
+      <div class="col-md-6">
+        <a  class="g-btn g-btn-white second-design block"
+            data-ng-click="$ctrl.close()">Cancelar</a>
+      </div>
+      <div class="col-md-6">
+        <a  class="g-btn g-btn-verde second-design block"
+            data-ng-click="grabar($ctrl.data.lista);$ctrl.grabar($ctrl.data.lista);">
+            Guardar
+        </a>
+      </div>
+    </div>
+  </div>
+</div>

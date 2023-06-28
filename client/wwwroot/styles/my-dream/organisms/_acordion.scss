@@ -1,0 +1,86 @@
+.app-my-dream {
+  .g-myd-acordion {
+    background-color: $cWhite1;
+    border: 0;
+    border-radius: 5px;
+    box-shadow: 0 1px 6px 0 rgba(27, 27, 27, 0.11);
+
+    &--header {
+      align-items: center;
+      border-bottom: 1px solid $myd-gray3;
+      display: flex;
+      justify-content: space-between;
+      padding: 15px;
+
+      .title {
+        line-height: 1;
+        margin: 0;
+      }
+
+      i {
+        color: $myd-green;
+        font-size: 18px;
+        font-weight: $myd-fw-bold;
+        transition: transform 0.2s ease;
+      }
+    }
+
+    &--body {
+      max-height: 0;
+      padding: 0 15px;
+      transition: max-height 0.3s cubic-bezier(0, 1, 0, 1) 0.1s;
+
+      &-wrapper {
+        opacity: 0;
+        transition: opacity 0.2s ease 0s;
+      }
+    }
+
+    &--footer {
+      padding: 15px;
+      background-color: $myd-gray3;
+
+      span {
+        font-weight: $myd-font-book;
+      }
+    }
+
+    &.active {
+      .g-myd-acordion--header {
+        i {
+          transform: rotate(180deg);
+        }
+      }
+
+      .g-myd-acordion--body {
+        max-height: 2000px;
+        padding: 30px 15px;
+        transition: max-height 0.6s ease-in 0s;
+
+        &-wrapper {
+          opacity: 1;
+          transition: opacity 0.3s ease 0.2s;
+        }
+      }
+    }
+  }
+
+  @media (min-width: $break-medium) {
+    .g-myd-acordion {
+      &--body {
+        padding: 0;
+        max-height: 2000px;
+
+        &-wrapper {
+          opacity: 1;
+        }
+      }
+
+      &.active {
+        .g-myd-acordion--body {
+          padding: 0;
+        }
+      }
+    }
+  }
+}

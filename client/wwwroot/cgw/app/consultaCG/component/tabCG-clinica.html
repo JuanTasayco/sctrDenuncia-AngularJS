@@ -1,0 +1,161 @@
+<div class="row pt-xs-2 pb-xs-2">
+  <div class="clearfix mb-xs-3 g-section-inner">
+    <div class="clearfix">
+      <h2 class="col-xs-12 g-sub-title red">Datos de la Carta de Garantía</h2>
+    </div>
+    <ul class="clearfix g-list-md mb-xs-1">
+      <li class="col-md-4 clearfix cnt-item">
+        <div class="col-xs-5 item-label">
+          <span class="ico-mapfre_82_circle ico-bullet"></span>Nro. Carta:
+        </div>
+        <div class="col-xs-7 item-dato g-text-uppercase">
+          {{yearLetter}}-{{letterNumber}}
+        </div>
+      </li>
+      <li class="col-md-4 clearfix cnt-item">
+        <div class="col-xs-5 item-label">
+          <span class="ico-mapfre_82_circle ico-bullet"></span>Versión Carta:
+        </div>
+        <div class="col-xs-7 item-dato g-text-uppercase">
+          {{letterVersion}}
+        </div>
+      </li>
+      <li class="col-md-4 clearfix cnt-item">
+        <div class="col-xs-5 item-label">
+          <span class="ico-mapfre_82_circle ico-bullet"></span>Estado:
+        </div>
+        <div class="col-xs-7 item-dato g-text-uppercase">
+          {{cartaGarantia.statusLetter}}
+        </div>
+      </li>
+    </ul>
+    <ul class="clearfix g-list-md mb-xs-1">
+      <li class="col-md-4 clearfix cnt-item">
+        <div class="col-xs-5 item-label">
+          <span class="ico-mapfre_82_circle ico-bullet"></span>Imp. Presupuesto:
+        </div>
+        <div class="col-xs-7 item-dato g-text-uppercase">
+          {{cartaGarantia.requestedAmount}}
+      </li>
+      <li class="col-md-4 clearfix cnt-item">
+        <div class="col-xs-5 item-label">
+          <span class="ico-mapfre_82_circle ico-bullet"></span>Imp. Aprobado:
+        </div>
+        <div class="col-xs-7 item-dato g-text-uppercase">
+          {{cartaGarantia.approvedAmount}} {{cartaGarantia.currency}}
+      </li>
+    </ul>
+  </div>
+  <div class="clearfix mb-xs-3 g-section-inner" ng-if="cartaGarantia.remark!=''">
+    <div class="clearfix">
+      <h2 class="col-xs-12 g-sub-title red">Observación de la Carta</h2>
+    </div>
+    <ul class="clearfix g-list pt-xs-1">
+      <li class="col-md-4 clearfix cnt-item">
+        <div class="clearfix mb-xs-1">
+          <div class="col-sm-12">
+            {{cartaGarantia.remark}}
+          </div>
+        </div>
+      </li>
+    </ul>
+  </div>
+  <div class="clearfix mb-xs-3 g-section-inner">
+    <div class="clearfix">
+      <h2 class="col-xs-12 g-sub-title red">Diagnóstico Principal</h2>
+    </div>
+    <ul class="clearfix g-list-md mb-xs-1">
+      <li class="col-md-4 clearfix cnt-item">
+        <div class="col-xs-5 item-label">
+          <span class="ico-mapfre_82_circle ico-bullet"></span>Código Diagnóstico:
+        </div>
+        <div class="col-xs-7 item-dato g-text-uppercase">
+          {{cartaGarantia.diagnosticCode}} {{cartaGarantia.diagnostic}}
+        </div>
+      </li>
+      <li class="col-md-4 clearfix cnt-item">
+        <div class="col-xs-5 item-label">
+          <span class="ico-mapfre_82_circle ico-bullet"></span>Médico Tratante:
+        </div>
+        <div class="col-xs-7 item-dato g-text-uppercase">
+          <span ng-if="cartaGarantia.doctorCode !=='0' ">{{cartaGarantia.doctorCode}}</span>  {{cartaGarantia.doctorFullName}}
+        </div>
+      </li>
+      <li class="col-md-4 clearfix cnt-item">
+        <div class="col-xs-12 item-label">
+          <span class="ico-mapfre_82_circle ico-bullet"></span>Observaciones del médico:
+        </div>
+        <div class="col-xs-12 item-dato g-text-uppercase">
+          {{cartaGarantia.doctorRemark}}
+        </div>
+      </li>
+    </ul>
+  </div>
+
+  <div class="clearfix mb-xs-3 g-section-inner">
+    <div class="clearfix">
+      <h2 class="col-xs-12 g-sub-title red">Beneficio/Alternativa Copago</h2>
+    </div>
+    <ul class="clearfix g-list-md mb-xs-1">
+      <li class="col-md-4 clearfix cnt-item">
+        <div class="col-xs-5 item-label">
+          <span class="ico-mapfre_82_circle ico-bullet"></span>Tipo de Atención:
+        </div>
+        <div class="col-sm-7 tem-dato g-text-uppercase" ng-if="typeAttention=='A'">
+          AMBULATORIO
+        </div>
+        <div class="col-sm-7 tem-dato g-text-uppercase" ng-if="typeAttention=='H'">
+          PROCEDIMIENTO
+        </div>
+        <div class="col-sm-7 tem-dato g-text-uppercase" ng-if="typeAttention=='P'">
+          HOSPITALARIO
+        </div>
+      </li>
+      <li class="col-md-4 clearfix cnt-item">
+        <div class="col-xs-5 item-label">
+          <span class="ico-mapfre_82_circle ico-bullet"></span>Días de Hospitalización:
+        </div>
+        <div class="col-xs-7 item-dato g-text-uppercase">
+          {{cartaGarantia.daysOfHospitalization}}
+        </div>
+      </li>
+      <li class="col-md-4 clearfix cnt-item">
+        <div class="col-xs-5 item-label">
+          <span class="ico-mapfre_82_circle ico-bullet"></span>Código Beneficio:
+        </div>
+        <div class="col-xs-7 item-dato g-text-uppercase">
+          {{cartaGarantia.benefitCode}} {{cartaGarantia.benefit}}
+        </div>
+      </li>
+    </ul>
+    <ul class="clearfix g-list-md mb-xs-1">
+      <li class="col-md-4 clearfix cnt-item">
+        <div class="clearfix mb-xs-1">
+          <div class="col-sm-5">
+            <span class="ico-mapfre_82_circle ico-bullet"></span>
+            <strong>Copago Plan:</strong>
+          </div>
+          <div class="col-sm-7">
+            {{cartaGarantia.fixedCopayment}}
+          </div>
+        </div>
+      </li>
+    </ul>
+  </div>
+</div>
+<div class="row mt-xs-3">
+  <div class="col-xs-12">
+    <div class="container">
+      <div class="col-xs-12">
+        <div class="g-inline-btn-row text-center">
+          <div class="g-inline-btn-col mb-xs-1" ng-show="showLevantarObservacion()">
+            <a  class="g-btn g-btn-transparent block" ng-click="levantarObservacion()">Levantar Observación</a>
+          </div>
+          <div class="g-inline-btn-col mb-xs-1" ng-show="showCrearAmpliacion()">
+            <a  class="g-btn g-btn-verde block" data-ng-click="crearAmpliacion()">Crear ampliación</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,334 @@
+<section class="g-page g-page-documents g-ui-view">
+	<div class="consulta-cotizaciones" ng-init="showColSearch = false; showPages = false">
+		  <div class="g-section" ng-hide="true">
+		    <div class="container">
+		      <div class="row">
+		        <div class="col-md-5">
+		         <span ng-show="!userRoot"><h2>Agente: {{formData.claims.codigoAgente}} - {{formData.claims.nombreAgente}}</h2></span>
+
+		          <mp-data-seeker ng-show="userRoot" behavior="{label:'Para cotizar una póliza debes elegir un agente', placeholder:'Busque o seleccione un agente ...', matchField:'codigoNombre'}" m-data-source="'proxyAgente.buscarAgente'" ng-model="mAgente" ng-change="saveAgent(mAgente)">
+		              <div ng-bind-html="$item.codigoNombre | highlight: $select.search"></div>
+		          </mp-data-seeker>
+		        </div>
+		      </div>
+		    </div>
+		  </div>
+		  	<div class="g-title">
+				<div class="container">
+					<div class="row">
+						<div class="col-md-4 mb-xs-2 no-mb-md">
+							<span class="ico-mapfre_84_circleleft ico-title"></span><h1>Documentos SCTR</h1>
+						</div>
+						<div class="col-md-8">
+							<div class="row">
+								<div class="col-md-4 mb-xs-1">
+									<a class="g-btn g-btn-transparent block" ng-click="seleccionarTipo(1)">Emitir periodo corto</a>
+								</div>
+								<div class="col-md-4 mb-xs-1">
+									<a class="g-btn g-btn-transparent block" ng-click="seleccionarTipo(2)">Emitir periodo regular</a>
+								</div>
+								<div class="col-md-2 mb-xs-1" ng-if="!noResult">
+									<a class="g-btn g-btn-transparent block" ng-click="downloadExcel()"><span class="ico-mapfre_124_download"></span>EXCEL</a>
+								</div>
+								<div class="col-md-2 mb-xs-1" ng-if="!noResult">
+									<a class="g-btn g-btn-transparent block" ng-click="downloadPDF()"><span class="ico-mapfre_124_download"></span>PDF</a>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="g-section g-section-inner">
+				<div class="container">
+					<div class="row">
+						<!-- Consulta de documentos -->
+						<div class="col-md-3 mb-xs-2" ng-show="!showColSearch">
+							<form action="" name="frmDocuments">
+							<div show-filter class="clearfix g-col-filter g-myd-box g-myd-box--filter" ng-class="{'show': isFilterVisible}">
+								<div class="col-md-12 mb-xs-3 gH4 gCGray1">
+									<h2 class="pb-xs-1 g-border-bottom-xs hidden-xs hidden-sm"><b>Filtro</b></h2>
+									<div id="show-filter" class="row pt-xs-2 pb-xs-2 hidden-md hidden-lg" ng-click="toggleFilter();">
+										<div class="col-xs-10"><h2 class="cnt-title">Filtro</h2></div>
+										<div class="col-xs-2">
+											<span class="glyphicon glyphicon-chevron-down" ng-if="isFilterVisible"></span>
+											<span class="glyphicon glyphicon-chevron-up" ng-if="!isFilterVisible"></span>
+										</div>
+										<div class="clearfix"></div>
+									</div>
+								</div>
+
+								<div class="g-col-filter__box">
+									<!-- Tipo de Producto -->
+									<div class="col-md-12 mb-xs-2">
+										<mpf-select label="{label: 'Tipo de producto', required: false}" name="nTipoProducto" ng-model="mTipoProducto" m-data-source="tipoProductoData" ng-change="changeProducto()"  text-field="Descripcion" value-field="Codigo" m-Empty-Option="{enterData:false}" ></mpf-select>
+
+										<ul class="g-error">
+											<li ng-show="nTipoProducto.$error.required && !nTipoProducto.$pristine">* Este campo es obligatorio</li>
+										</ul>
+									</div>
+
+									<!-- Frecuencia de Declaracion -->
+									<div class="col-md-12 mb-xs-2">
+										<mpf-select label="{label: 'Frecuencia de Declaración', required: false}" name="nFrecDeclaracion" ng-model="mFrecDeclaracion" m-data-source="frecDeclaracionData" text-field="Descripcion" value-field="Codigo" m-Empty-Option="{enterData:false}" ng-change="updateFormaPago()"></mpf-select>
+										<ul class="g-error">
+											<li ng-show="nFrecDeclaracion.$error.required && !nFrecDeclaracion.$pristine">* Este campo es obligatorio</li>
+										</ul>
+									</div>
+
+									<!-- Estado -->
+									<div class="col-md-12 mb-xs-2">
+										<mpf-select
+										label="{label: 'Estado', required: false}"
+										name="nEstado"
+										ng-model="mEstado"
+										m-data-source="estadoData"
+										text-field="Descripcion"
+										value-field="Codigo"
+										m-Empty-Option="{enterData: false}"
+										ng-change="updateCodigoEstado()"></mpf-select>
+										<ul class="g-error">
+											<li ng-show="nEstado.$error.required && !nEstado.$pristine">* Este campo es obligatorio</li>
+										</ul>
+									</div>
+
+									<!-- Tipo de Documento y Numero -->
+									<div class="col-md-12">
+										<div class="row">
+											<div class="col-md-12 mb-xs-2">
+												<mpf-select ng-model="mTipoDocumento" name="nTipoDocumento" label="{label: gLblTipoDocumento.label, required: gLblTipoDocumento.required}" m-data-source="tipoDocumentos" text-field="Descripcion" value-field="Codigo" m-Empty-Option="{enterData:true}" ng-change="updateTipoDocumento()" mpf-validation="required"></mpf-select>
+												<ul class="g-error">
+													<li ng-show="nTipoDoc.$error.required && !nTipoDoc.$pristine">* Este campo es obligatorio</li>
+												</ul>
+											</div>
+											<div class="col-md-12 mb-xs-2">
+												<mpf-input label="{label: 'Nro. Documento', required: false}" name="nNumDoc" ng-model="mNumDoc" ng-required="true" ng-change="updateNroDocumento()"></mpf-input>
+											</div>
+										</div>
+									</div>
+
+									<!-- Numero de documento SCTR -->
+									<div class="col-md-12 mb-xs-2">
+										<mpf-input label="{label: 'Nro. Documento SCTR', required: false}" name="nNumDocSCTR" ng-model="mNumDocSCTR" ng-required="true" ng-change="updateNroDocumentoSCTR()"></mpf-input>
+									</div>
+
+									<div class="col-md-12 mb-xs-2" ng-if="isNotAgent">
+										<mp-data-seeker behavior="{label:'Agente', placeholder:'Busque un agente', matchField:'codigoNombre'}" m-data-source="'proxyAgente.buscarAgente'" ng-model="mFiltroAgente" ng-change="updateCodigoAgente(mFiltroAgente)">
+			              	<div ng-bind-html="$item.codigoNombre | highlight: $select.search"></div>
+			         		 	</mp-data-seeker>
+									</div>
+
+									<!-- Rango de fechas -->
+									<div class="col-md-12 mb-xs-2">
+										<div class="row">
+											<div class="col-md-12">
+												<span class="g-placeholder block">Mostrar rango de fecha</span>
+											</div>
+											<div class="col-md-6 ">
+												<div class="input-group g-date-picker no-label">
+														<input type="text" class="form-control" uib-datepicker-popup="{{format}}" ng-model="mConsultaDesde" is-open="popup1.opened" datepicker-options="dateOptions" ng-required="true" close-text="Close" alt-input-formats="altInputFormats" placeholder="Desde"/>
+														<span class="input-group-btn">
+															<button type="button" class="btn btn-default" ng-click="open1()"><i class="glyphicon glyphicon-calendar"></i></button>
+														</span>
+												</div>
+											</div>
+											<div class="col-md-6">
+												<div class="input-group g-date-picker no-label">
+														<input type="text" class="form-control" uib-datepicker-popup="{{format}}" ng-model="mConsultaHasta" is-open="popup2.opened" datepicker-options="dateOptions2" ng-required="true" close-text="Close" alt-input-formats="altInputFormats" placeholder="Hasta" />
+														<span class="input-group-btn">
+															<button type="button" class="btn btn-default" ng-click="open2()"><i class="glyphicon glyphicon-calendar"></i></button>
+														</span>
+												</div>
+											</div>
+										</div>
+									</div>
+									
+									<!-- CC POL-771 -->
+									<div class="col-md-12 mb-xs-2">
+										<mpf-select label="{label: 'Origen', required: false}" name="nOrigen" ng-model="mOrigen" m-data-source="origenData" m-Empty-Option="{enterData:false}"></mpf-select>
+										<ul class="g-error">
+											<li ng-show="nOrigen.$error.required && !nOrigen.$pristine">* Este campo es obligatorio</li>
+										</ul>
+									</div>
+
+									<!-- Buscar -->
+
+									<div class="col-md-12 mb-xs-1">
+										<a class="col-md-12 g-btn g-btn-verde block" ng-click="filtrar(1); toggleFilter();">Filtrar</a>
+									</div>
+									<div class="col-md-12">
+										<a class="col-md-12 g-btn g-btn-transparent block" ng-click="limpiar()">Limpiar</a>
+									</div>
+								</div>
+							</div>
+							</form>
+						</div>
+
+						<!-- INICIO: Resultado de consulta de documentos -->
+						<div class="resultado-col col-md-9">
+							<!-- Mensaje de error si no hay resultados -->
+							<div class="col-md-12 text-center g-box-noresult" ng-show="false">
+								<div class="row">
+									<div class="col-md-12 g-box-noresult-ico"><span class="ico-mapfre_119_wrong ico-wrong"></span></div>
+									<div class="col-md-12 g-box-noresult-text">No hay resultados para los filtros escogidos.<br>Intente nuevamente.</div>
+								</div>
+							</div>
+
+							<!-- Inicio: Resultados -->
+							<div class="clearfix g-box" ng-repeat="reporte in reportes" ng-if="!noResult">
+								<!-- box header -->
+								<div class="row pt-xs-1 gBgcGray5">
+									<ul class="clearfix g-list">
+										<li class="col-md-8">
+											<ul class="row">
+												<li class="col-sm-6 clearfix cnt-item">
+													<div class="col-sm-5 item-label">
+														Nro. Doc. SCTR:
+													</div>
+													<div class="col-sm-7 item-dato g-text-uppercase">
+														{{reporte.NumeroSolicitud}}
+													</div>
+												</li>
+												<li class="col-sm-6 clearfix cnt-item">
+													<div class="col-sm-5 item-label">
+														Fecha Registro:
+													</div>
+													<div class="col-sm-7 item-dato g-text-uppercase">
+														{{reporte.FechaReg}}
+													</div>
+												</li>
+											</ul>
+											<ul class="row">
+												<li class="col-sm-6 clearfix cnt-item">
+													<div class="col-sm-5 item-label">
+														Estado:
+													</div>
+													<div class="col-sm-7 item-dato g-text-uppercase">
+														{{reporte.DescripcionEstado}}
+													</div>
+												</li>
+											</ul>
+										</li>
+										<li class="col-md-4 clearfix">
+											<div class="col-md-6 cnt-item">
+												<a href="" class="g-btn g-btn-white block add-ico" ng-click="buscarCoti(reporte.NumeroSolicitud)">Ver más</a>
+											</div>
+											<div class="col-md-6 cnt-item no-border-left" ng-if="reporte.NumeroPoliza || reporte.NumeroPolizaSalud">
+												<a href="" class="g-btn g-btn-white block add-ico" ng-click="sendEmail(reporte.NumeroSolicitud)">Enviar</a>
+											</div>
+										</li>
+									</ul>
+								</div>
+								<!-- box-body -->
+								<div class="row g-box-content">
+									<ul class="clearfix g-list">
+										<li class="col-md-4 clearfix cnt-item">
+											<div class="col-sm-5 item-label">
+												Usuario:
+											</div>
+											<div class="col-sm-7 item-dato g-text-uppercase">
+												{{reporte.CodigoUsuReg}}
+											</div>
+										</li>
+										<li class="col-md-4 clearfix cnt-item">
+											<div class="col-sm-5 item-label">
+												Oficina Usuario:
+											</div>
+											<div class="col-sm-7 item-dato g-text-uppercase" ng-if="reporte.DescOficinaUsr">
+												{{reporte.DescOficinaUsr}}
+											</div>
+											<div class="col-sm-7 item-dato g-text-uppercase" ng-if="!reporte.DescOficinaUsr">
+												{{reporte.DescripcionOficina}}
+											</div>
+										</li>
+										<li class="col-md-4 clearfix cnt-item">
+											<div class="col-sm-5 item-label">
+												Contratante:
+											</div>
+											<div class="col-sm-7 item-dato g-text-uppercase">
+												{{reporte.RazonSocial}}
+											</div>
+										</li>
+									</ul>
+									<ul class="clearfix g-list">
+										<li class="col-md-6 clearfix cnt-item" ng-if="reporte.NumeroPoliza && pagado(reporte)">
+											<div class="col-sm-5 item-label">
+												Póliza Pensión:
+											</div>
+											<div class="col-sm-7 item-dato g-text-uppercase">
+												{{reporte.NumeroPoliza}}
+											</div>
+										</li>
+										<li class="col-md-6 clearfix cnt-item" ng-if="reporte.NumeroPolizaSalud && pagado(reporte)">
+											<div class="col-sm-5 item-label">
+												Póliza  Salud:
+											</div>
+											<div class="col-sm-7 item-dato g-text-uppercase">
+												{{reporte.NumeroPolizaSalud}}
+											</div>
+										</li>
+									</ul>
+									<ul class="clearfix g-list">
+										<li class="col-md-6 clearfix cnt-item" ng-if="reporte.NumeroRecibo">
+											<div class="col-sm-5 item-label">
+												Recibo Pensión:
+											</div>
+											<div class="col-sm-7 item-dato g-text-uppercase">
+												{{reporte.NumeroRecibo}}
+											</div>
+										</li>
+										<li class="col-md-6 clearfix cnt-item" ng-if="reporte.NumeroReciboSalud">
+											<div class="col-sm-5 item-label">
+												Recibo Salud:
+											</div>
+											<div class="col-sm-7 item-dato g-text-uppercase">
+												{{reporte.NumeroReciboSalud}}
+											</div>
+										</li>
+									</ul>
+								</div>
+							</div>
+							<!-- Fin: Resultados -->
+
+							<!-- Inicio: Paginacion -->
+		          <div class="col-md-12 text-center g-box-noresult" ng-if="!noResult && !reportes">
+		            <div class="row">
+		              <div class="col-md-12 g-box-noresult-ico gCBlue2">
+		                <span class="ico-mapfre_303_informacion"></span>
+		              </div>
+		              <div class="col-md-12 g-box-noresult-text">
+		                Realiza una búsqueda para obtener resultados.
+		              </div>
+		            </div>
+		          </div>
+
+
+							<div class="row" ng-if="!noResult && reportes">
+								<div class="col-md-12">
+									<ul uib-pagination class="g-pagination" ng-model="mPagination" max-size="10" total-items="totalItems" ng-change="pageChanged(mPagination)" boundary-link-numbers="true"></ul>
+								</div>
+							</div>
+
+							<div class="col-md-12 text-center g-box-noresult" ng-if="noResult">
+								<div class="row">
+									<div class="col-md-12 g-box-noresult-ico"><span class="ico-mapfre_119_wrong ico-wrong"></span></div>
+									<div class="col-md-12 g-box-noresult-text">No hay resultados para los filtros escogidos.<br>Intente nuevamente.</div>
+								</div>
+							</div>
+
+						</div>
+							<!-- Fin: Paginacion -->
+
+						<!-- FIN: Resultado de consulta de documentos -->
+					</div>
+				</div>
+			</div>
+
+		<form id="frmDownloadExcel" name="frmDownloadExcel" action="{{excelURL}}" method="post" target="_blank">
+			<input type="hidden" name="json" value='{{excelData}}'>
+		</form>
+
+		<form id="frmDownloadPDF" name="frmDownloadPDF" action="{{pdfURL}}" method="post" target="_blank">
+			<input type="hidden" name="json" value='{{pdfData}}'>
+		</form>
+	</div>
+</section>

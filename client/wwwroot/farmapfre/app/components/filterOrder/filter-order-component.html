@@ -1,0 +1,117 @@
+<form name="frmSearchRequestClient">
+    <div show-filter class="clearfix g-col-filter g-box-md fz14 gBgcGray5-md gBgcWhite1"
+        ng-class="{'show': isFilterVisible}">
+        <div class="col-md-12 mb-xs-1-5 gH4 gCGray1">
+            <h2 class="pb-xs-1 g-border-bottom-xs hidden-xs hidden-sm">
+                <b>Filtro</b>
+            </h2>
+            <div id="show-filter" class="row pt-xs-2 pb-xs-2 gBgcGray5 g-border-bottom-xs hidden-md hidden-lg" 
+                ng-click="toggleFilter()">
+                <div class="col-xs-10">
+                    <h2 class="cnt-title"><b>Filtro</b></h2>
+                </div>
+                <div class="col-xs-2 g-text-right-xs">
+                    <span class="glyphicon glyphicon-chevron-down" ng-if="isFilterVisible"></span>
+                    <span class="glyphicon glyphicon-chevron-up" ng-if="!isFilterVisible"></span>
+                </div>
+                <div class="clearfix"></div>
+            </div>
+        </div>
+
+        <div class="g-col-filter__box">
+            <div class="col-md-12 mb-xs-3">
+                <mpf-input
+                    data-ng-model="$ctrl.frm.filterCode"
+                    label="{label: 'Busca No. de '+ ($ctrl.movementType ? 'despacho' : 'pedido') + ' ó DNI/CEX', required: false}"
+                    name="nfilterCode"
+                    style="padding-top: 30px !important;"
+                    mpf-validation="onlyNumberNoSpace">
+              </mpf-input>
+            </div>
+            <div class="col-md-12 mb-xs-3">
+                <mpf-select
+                    data-m-data-source="$ctrl.statues"
+                    data-ng-model="$ctrl.frm.state"
+                    data-text-field="description"
+                    data-value-field="id"
+                    label="{label: 'Estado', required: false}"
+                    m-Empty-Option = "{enterData : true}"
+                    name="nsate">
+                </mpf-select>
+            </div>
+
+            <div class="col-md-12 mb-xs-3" ng-if="$ctrl.originType==2">
+                <mpf-select
+                    data-m-data-source="$ctrl.programs"
+                    data-ng-model="$ctrl.frm.program"
+                    data-text-field="description"
+                    data-value-field="id"
+                    label="{label: 'Programa', required: false}"
+                    m-Empty-Option = "{enterData : true}"
+                    name="nsate">
+                </mpf-select>
+            </div>
+            <div class="col-md-6 col-xs-6 mb-xs-3">
+                <mpf-datepicker name="nDate"
+                    label="{label: 'Fecha Inicio', required: false}"
+                    format="'dd/MM/yyyy'"
+                    data-format="$ctrl.dateFormat"
+                    data-set-max-today="true"
+                    data-parsear-to-date="true"
+                    data-readonly="false"
+                    data-ng-required="false"
+                    data-ng-model="$ctrl.frm.firstDate">
+                </mpf-datepicker>
+            </div>
+            <div class="col-md-6 col-xs-6 mb-xs-3">
+                <mpf-datepicker name="nDate"
+                    label="{label: 'Fecha Fin', required: false}"
+                    format="'dd/MM/yyyy'"
+                    minDate="$ctrl.frm.firstDate"
+                    data-format="$ctrl.dateFormat"
+                    data-set-max-today="true"
+                    data-parsear-to-date="true"
+                    data-readonly="false"
+                    data-ng-required="false"
+                    data-ng-model="$ctrl.frm.endDate">
+                </mpf-datepicker>
+            </div>
+            <div class="col-md-12 mb-xs-3">
+                <div class="row">
+                    <div class="col-md-12 mb-xs-2"><label class="g-placeholder block">Provincia</label></div>
+                    <div class="col-xs-7">
+                        <m-radio label="{label: 'Lima y Callao'}" name="limacallao-1"  ng-model="$ctrl.frm.provinceIndicator"  value="1"
+                        ng-change="$ctrl.valCheck($index)"
+                        ng-required="true"></m-radio>
+                    </div>
+                    <div class="col-xs-5">
+                        <m-radio label="{label: 'Otras provincias'}" name="otras-2"  ng-model="$ctrl.frm.provinceIndicator"  value="2"
+                        ng-change="$ctrl.valCheck($index)"
+                        ng-required="true"></m-radio>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-12 mb-xs-3" ng-show="$ctrl.districtIsVisible">
+                <mpf-select
+                    data-m-data-source="$ctrl.districts"
+                    data-ng-model="$ctrl.frm.district"
+                    data-text-field="description"
+                    data-value-field="id"
+                    label="{label: 'Distrito', required: false}"
+                    m-Empty-Option = "{enterData : true}"
+                    name="nDistric">
+                </mpf-select>
+            </div>
+            <div class="col-md-6 mb-xs-1">
+                <a class="g-btn g-btn-transparent block" data-ng-click="$ctrl.clean()">Limpiar</a>
+            </div>
+            <div class="col-md-6 mb-xs-1">
+                <a class="g-btn g-btn-verde block" 
+                    ng-class="{disabled: $ctrl.frm.disabled}"
+                    data-ng-click="$ctrl.search2(true)">
+                    Filtrar
+                </a>
+            </div>
+        </div>
+    </div>
+</form>

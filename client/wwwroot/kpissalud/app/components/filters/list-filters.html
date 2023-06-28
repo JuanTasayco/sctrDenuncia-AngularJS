@@ -1,0 +1,19 @@
+<div class="container kpi-filtros__container">
+  <div class="row">
+    <div class="col-xs-12">
+      <div class="clearfix g-box gBgcGray5 kpi-filtros__list-container">
+        <div class="col-sm-9" >
+          <h2 class="kpi-filtros__list-title" style="display: inline-block;"><b>Filtros aplicados</b></h2>
+          <div class="kpi-filtros__list-item" ng-class="item.required ? 'required' : 'optional tag-pointer'" ng-show="item.show && !item.hidden" ng-repeat="item in $ctrl.tags">
+            <span class="kpi-filtros__list-item-label" ng-show="item.showLabel">{{item.label}}:</span><span>{{item.description}}</span><span style="margin-left: 5px;" ng-show="!item.required" ng-click="$ctrl.removeFilter(item)">X</span>
+          </div>
+          <div class="kpi-filtros__list-item required tag-pointer" ng-show="$ctrl.showMoreFilter" ng-click="$ctrl.setVisibilitySecondaryFilters(false)">+ {{$ctrl.totalOptional}}</div>
+          <div class="kpi-filtros__list-item hide-filters tag-pointer" ng-show="!$ctrl.showMoreFilter && $ctrl.showHideFilter" ng-click="$ctrl.setVisibilitySecondaryFilters(true)">Ocultar filtros</div>
+        </div>
+        <div class="col-sm-3 kpi-filtros__buttons">
+          <a class="g-btn second-design g-btn-verde block" ng-click="$ctrl.showFilters()">VER FILTROS</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

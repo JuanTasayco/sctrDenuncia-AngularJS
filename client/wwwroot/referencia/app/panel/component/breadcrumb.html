@@ -1,0 +1,49 @@
+<div class="bread__wrapper visible-md visible-lg">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item">
+      <a>Inicio</a>
+    </li>
+
+    <li class="breadcrumb-item">
+      <a ui-sref="referencia.panel">Sistema de Referencia y Contrarreferencia</a>
+    </li>
+
+    <li data-ng-class="['breadcrumb-item', {active: $ctrl.panel && !$ctrl.showcp}]">
+      <a href="">{{$ctrl.panel}}</a>
+    </li>
+
+    <li class="breadcrumb-item" data-ng-if="$ctrl.showcp">
+      <div class="btn-group" is-open="$ctrl.isLvl0Open" uib-dropdown>
+        <a data-ng-disabled="disabled" uib-dropdown-toggle="">{{$ctrl.lvl0}}<span class="caret"></span></a>
+        <ul class="dropdown-menu ddmenup" role="menu" uib-dropdown-menu>
+          <li class="ddmenui" role="menuitem">
+            <a data-ng-click="$ctrl.openClientes()">Clientes</a>
+          </li>
+
+          <li role="menuitem">
+            <a data-ng-click="$ctrl.openProveedores()">Provedores</a>
+          </li>
+        </ul>
+      </div>
+    </li>
+
+    <li data-ng-class="['breadcrumb-item', {active: !$ctrl.lvl1}]" data-ng-if="$ctrl.showUbigeo">
+      <div class="btn-group" is-open="$ctrl.isDptoOpen" uib-dropdown>
+        <a uib-dropdown-toggle>Per&uacute;<span class="caret"></span></a>
+
+        <ul class="dropdown-menu ddmenup scrollable" role="menu" uib-dropdown-menu>
+          <li role="menuitem" data-ng-repeat="item in $ctrl.lstDptos">
+            <a data-ng-click="$ctrl.open(1,item.id)">{{::item.nombre}}</a>
+          </li>
+        </ul>
+      </div>
+    </li>
+
+    <li data-ng-if="$ctrl.showLvl1" data-ng-class="['breadcrumb-item', {active: !$ctrl.lvl2}]" data-ng-bind="$ctrl.lvl1">
+    </li>
+
+    <li data-ng-if="$ctrl.showLvl2" data-ng-class="['breadcrumb-item', {active: true}]" data-ng-bind="$ctrl.lvl2">
+    </li>
+
+  </ol>
+</div>

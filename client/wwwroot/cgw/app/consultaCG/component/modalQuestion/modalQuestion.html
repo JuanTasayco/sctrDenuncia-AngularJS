@@ -1,0 +1,214 @@
+<div class="clearfix">
+  <button type="button" class="close g-close-modal" data-ng-click="$ctrl.close()" prevent-default>
+    <span class="ico-mapfre_231_cancelaroff"></span>
+  </button>
+  <div class="container">
+    <form name="frmModal" class="clearfix" data-ng-if="!$ctrl.data.showMsgThx">
+      <div class="col-md-12 g-text-center-xs mb-xs-2">
+        <div  class="col-md-12 mb-md-1"
+              data-ng-if="$ctrl.data.title">
+          <h2 class="gH3"><b>{{$ctrl.data.title}}</b></h2>
+        </div>
+
+         <div class="col-xs-12 mb-xs-2" ng-show="$ctrl.data.mostrarObservaciones">
+          <div>
+            <mpf-textarea label="{label:'Observaciones', required: true}" ng-model="$ctrl.data.cartaGarantia.remark" name="nObsExterna" ng-required="true" ng-Maxlength="4000"></mpf-textarea>
+            <div class="g-error text-left" data-ng-show="frmModal.nObsExterna.$error.required && !frmModal.nObsExterna.$pristine">* Ingrese observación</div>
+          </div>
+        </div>
+
+        <div class="col-xs-12 mb-xs-2 text-center" data-ng-if="$ctrl.data.subtitle" data-ng-bind-html="$ctrl.data.subtitle"></div>
+
+        <div class="col-xs-12 mb-xs-2" data-ng-if="$ctrl.data.showCboMtvRchzo">
+          <div>
+            <mpf-select
+              ng-model="$ctrl.data.cartaGarantia.mMotivoAnulacion"
+              name="nMotivoAnulacion"
+              label="{label: 'Seleccionar motivo de anulación', required: false}"
+              m-data-source="$ctrl.data.motivosAnulacion"
+              text-field="description"
+              value-field="id"
+              m-Empty-Option="{enterData:true}"
+              mpf-validation="required"></mpf-select>
+            <div  class="g-error" data-ng-show="frmModal.nMotivoAnulacion.$error.required && !frmModal.nMotivoAnulacion.$pristine">* Seleccione un motivo</div>
+          </div>
+        </div>
+
+        <div class="col-xs-12 mb-xs-2" data-ng-if="$ctrl.data.showSeccMtvFnlzcnDenuncia">
+          <div>
+            <mpf-select
+              ng-model="$ctrl.data.cartaGarantia.reasonFinalizedComplaint"
+              name="nMotivoFinalizacionDenuncia"
+              label="{label: 'Seleccionar motivo de finalizaci&oacute;n de la denuncia', required: true}"
+              m-data-source="$ctrl.data.reasonsFinalizedComplaint"
+              text-field="description"
+              value-field="id"
+              m-Empty-Option="{enterData:true}"
+              mpf-validation="required"></mpf-select>
+            <div  class="g-error" data-ng-show="frmModal.nMotivoFinalizacionDenuncia.$error.required && !frmModal.nMotivoFinalizacionDenuncia.$pristine">* Seleccione un motivo de finalizaci&oacute;n para la denuncia</div>
+          </div>
+        </div>
+
+        <div class="col-xs-12 mb-xs-2" ng-show="$ctrl.data.showSeccMtvFnlzcnDenuncia">
+          <div>
+            <mpf-textarea label="{label:'Observaciones', required: false}" 
+              ng-model="$ctrl.data.cartaGarantia.remarkComplaint" 
+              name="nObsExterna" 
+              ng-Maxlength="4000"></mpf-textarea>
+          </div>
+        </div>
+
+        <div class="col-xs-12 mb-xs-2" data-ng-if="$ctrl.data.showCbo">
+          <div>
+            <mpf-select
+              ng-model="$ctrl.data.mMotivo"
+              name="nMotivo"
+              label="{label: 'Seleccionar motivo de rechazo', required: false}"
+              m-data-source="$ctrl.data.motivos"
+              text-field="description"
+              value-field="id"
+              m-Empty-Option="{enterData:false}"
+              mpf-validation="required"></mpf-select>
+            <div class="g-error text-left" data-ng-show="frmModal.nMotivo.$error.required && !frmModal.nMotivo.$pristine">* Seleccione un motivo</div>
+          </div>
+        </div>
+
+        <div class="col-xs-12 mb-xs-2" ng-if="$ctrl.data.mMotivo.id ===1 || $ctrl.data.mMotivo.id === 2 || $ctrl.data.mMotivo.id === 5 || $ctrl.data.mMotivo.id === 6">
+          <div data-ng-if="$ctrl.data.showCbo">
+            <mp-data-seeker
+              behavior="{label:'Diagnóstico Adicional 1', placeholder:'Ingresa código o nombre del diagnóstico', matchField:'codeName'}"
+              m-data-source="$ctrl.getListDiagnostic($inputNeed)"
+              ng-model="$ctrl.data.mCodDiagnostico1"
+              name="nCodDiagnostico1"
+              ng-required="true"
+              ng-change="">
+              <div ng-bind-html="$item.codeName | highlight: $select.search"></div>
+            </mp-data-seeker>
+          </div>
+        </div>
+
+        <div class="col-xs-12 mb-xs-2" ng-if="$ctrl.data.mMotivo.id ===1 || $ctrl.data.mMotivo.id === 2 || $ctrl.data.mMotivo.id === 5 || $ctrl.data.mMotivo.id === 6">
+          <div data-ng-if="$ctrl.data.showCbo">
+            <mp-data-seeker
+              behavior="{label:'Diagnóstico Adicional 2', placeholder:'Ingresa código o nombre del diagnóstico', matchField:'codeName'}"
+              m-data-source="$ctrl.getListDiagnostic($inputNeed)"
+              ng-model="$ctrl.data.mCodDiagnostico2"
+              name="nCodDiagnostico2"
+              ng-required="true"
+              ng-change="">
+              <div ng-bind-html="$item.codeName | highlight: $select.search"></div>
+            </mp-data-seeker>
+          </div>
+        </div>
+
+        <div class="col-xs-12 mb-xs-2" ng-if="$ctrl.data.mMotivo.id ===1 || $ctrl.data.mMotivo.id === 2 || $ctrl.data.mMotivo.id === 5 || $ctrl.data.mMotivo.id === 6">
+          <div data-ng-if="$ctrl.data.showCbo">
+            <mp-data-seeker
+              behavior="{label:'Diagnóstico Adicional 3', placeholder:'Ingresa código o nombre del diagnóstico', matchField:'codeName'}"
+              m-data-source="$ctrl.getListDiagnostic($inputNeed)"
+              ng-model="$ctrl.data.mCodDiagnostico3"
+              name="nCodDiagnostico3"
+              ng-required="true"
+              ng-change="">
+              <div ng-bind-html="$item.codeName | highlight: $select.search"></div>
+            </mp-data-seeker>
+          </div>
+        </div>
+
+        <div class="col-xs-12 mb-xs-2" ng-if="$ctrl.data.mMotivo.id ===4">
+          <div data-ng-if="$ctrl.data.showCbo">
+           <mpf-input label="{label: 'Motivo', required: true}" name="nMotivoText" ng-model="$ctrl.data.mMotivoText" ng-required="true"></mpf-input>
+              <div  class="g-error" ng-show="(frmModal.nMotivoText.$error.required && !frmModal.nMotivoText.$pristine) || $ctrl.data.errorFormReject">* Ingresar motivo</div>
+          </div>
+        </div>
+
+        <div class="col-xs-12 mb-xs-2" ng-if="$ctrl.data.mMotivo.id===4">
+          <div class="textarea-all-height" data-ng-if="$ctrl.data.showCbo">
+            <mpf-textarea label="{label:'Detalle', required: true}" ng-model="$ctrl.data.mMotivoDetalle" name="nMotivoDetalle" ng-required="true" ng-Maxlength="400"></mpf-textarea>
+            <div class="g-error" ng-show="(frmModal.nMotivoDetalle.$error.required && !frmModal.nMotivoDetalle.$pristine) || $ctrl.data.errorFormReject">* Ingrese detalles del motivo de rechazo
+            </div>
+          </div>
+        </div>
+
+        <div class="col-xs-12 mb-xs-2" ng-if="$ctrl.data.mMotivo.id===7">
+          <div class="textarea-all-height" data-ng-if="$ctrl.data.showCbo">
+            <mpf-textarea label="{label:'Artículo', required: true}" ng-model="$ctrl.data.mArticle" name="nArticle" ng-required="true" ng-Maxlength="400"></mpf-textarea>
+            <div class="g-error" ng-show="(frmModal.nArticle.$error.required && !frmModal.nArticle.$pristine) || $ctrl.data.errorFormReject">* Ingrese descripción del artículo para el rechazo
+            </div>
+          </div>
+        </div>
+
+        <div class="col-xs-12 mb-xs-2" ng-if="$ctrl.data.mMotivo.id === 8">
+          <div data-ng-if="$ctrl.data.showCbo">
+              <mpf-input label="{label: 'Medicamento 1', required: true}" name="nMedicamento1" ng-model="$ctrl.data.mMedicamento1" ng-required="true"></mpf-input>
+              <div  class="g-error" ng-show="(frmModal.nMedicamento1.$error.required && !frmModal.nMedicamento1.$pristine) || $ctrl.data.errorFormReject">* Ingresar medicamento</div>
+          </div>
+        </div>
+
+        <div class="col-xs-12 mb-xs-2" ng-if="$ctrl.data.mMotivo.id === 8">
+          <div data-ng-if="$ctrl.data.showCbo">
+             <mpf-input label="{label: 'Medicamento 2', required: false}" name="nMedicamento2" ng-model="$ctrl.data.mMedicamento2" ng-required="false"></mpf-input>
+          </div>
+        </div>
+
+        <div class="col-xs-12 mb-xs-2" ng-if="$ctrl.data.mMotivo.id === 8">
+          <div data-ng-if="$ctrl.data.showCbo">
+            <mpf-input label="{label: 'Medicamento 3', required: false}" name="nMedicamento3" ng-model="$ctrl.data.mMedicamento3" ng-required="false"></mpf-input>
+          </div>
+        </div>
+
+        <div class="col-xs-12 mb-xs-2">
+          <div class="textarea-all-height"  data-ng-if="$ctrl.data.mMotivo.id === 8 && $ctrl.data.tipoSeguro === $ctrl.seguros">
+            <mpf-textarea label="{label:'Detalle', required: true}" ng-model="$ctrl.data.mMotivoDetalle" name="nMotivoDetalle" ng-required="true" ng-Maxlength="400"></mpf-textarea>
+            <div class="g-error" ng-show="(frmModal.nMotivoDetalle.$error.required && !frmModal.nMotivoDetalle.$pristine) || $ctrl.data.errorFormReject">* Ingrese detalles del motivo de rechazo
+            </div>
+          </div>
+        </div>
+
+        <div  class="col-md-12 textarea-all-height" data-ng-if="$ctrl.data.mMotivo.id === 9 || ($ctrl.data.mMotivo.id === 3 && $ctrl.data.tipoSeguro === $ctrl.seguros)">
+          <div  class="col-md-12" data-ng-if="$ctrl.data.showCbo">
+            <mpf-textarea label="{label:'Detalle', required: true}" ng-model="$ctrl.data.mMotivoExclusion" name="nMotivoExclusion" ng-required="true" ng-Maxlength="400"></mpf-textarea>
+            <div class="g-error" ng-show="(frmModal.nMotivoExclusion.$error.required && !frmModal.nMotivoExclusion.$pristine) || $ctrl.data.errorFormReject">* Ingrese detalles de la exclusión
+            </div>
+          </div>
+        </div>
+
+        <div class="col-xs-12 mb-xs-2" ng-if="$ctrl.data.mMotivo.id === 10 && $ctrl.data.tipoSeguro === $ctrl.seguros">
+          <div  class="col-md-12" data-ng-if="$ctrl.data.showCbo">
+              <mpf-input label="{label: 'Exámen médico 1', required: true}" name="nExMedico1" ng-model="$ctrl.data.mExMedico1" ng-required="true"></mpf-input>
+              <div  class="g-error" ng-show="(frmModal.nExMedico1.$error.required && !frmModal.nExMedico1.$pristine) || $ctrl.data.errorFormReject">* Ingresar exámen</div>
+          </div>
+        </div>
+
+        <div class="col-xs-12 mb-xs-2" ng-if="$ctrl.data.mMotivo.id === 10 && $ctrl.data.tipoSeguro === $ctrl.seguros">
+          <div  class="col-md-12" data-ng-if="$ctrl.data.showCbo">
+             <mpf-input label="{label: 'Exámen médico  2', required: false}" name="nExMedico2" ng-model="$ctrl.data.mExMedico2" ng-required="false"></mpf-input>
+          </div>
+        </div>
+
+        <div class="col-xs-12 mb-xs-2" ng-if="$ctrl.data.mMotivo.id === 10 && $ctrl.data.tipoSeguro === $ctrl.seguros">
+          <div  class="col-md-12" data-ng-if="$ctrl.data.showCbo">
+            <mpf-input label="{label: 'Exámen médico  3', required: false}" name="nExMedico3" ng-model="$ctrl.data.mExMedico3" ng-required="false"></mpf-input>
+          </div>
+        </div>
+
+        <div class="col-xs-12 u-ph-0 text-center">
+          <div  class="col-xs-12 col-md-4 u-float-center" data-ng-repeat="item in $ctrl.data.btns track by $index">
+            <button type="button" class="g-btn col-xs-12 mt-xs-1" data-ng-class="item.clases" data-ng-click="item.accion()" prevent-default>{{item.lbl}}</button>
+          </div>
+        </div>
+
+      </div>
+    </form>
+
+    <div  class="clearfix g-text-center-xs" data-ng-if="$ctrl.data.showMsgThx">
+      <span class="ico-mapfre_145_informacion u-txt-70 mb-xs-2 u-color--verde-1 u-inline"></span>
+      <div class="clearfix">
+        <div  class="col-xs-12 g-text-center-xs g-title-modal g-sub-title c-black" data-ng-if="$ctrl.data.txtThx" data-ng-bind-html="$ctrl.data.txtThx"></div>
+      </div>
+      <div class="clearfix mt-xs-2" data-ng-if="$ctrl.data.showBtnThx">
+        <div class="col-xs-12 col-md-6 col-md-offset-3"><a class="g-btn g-btn-verde block" data-ng-click="$ctrl.close()">{{$ctrl.data.txtBtnThx}}</a></div>
+      </div>
+    </div>
+  </div>
+</div>

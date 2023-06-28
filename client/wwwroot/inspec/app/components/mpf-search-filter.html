@@ -1,0 +1,194 @@
+﻿<div
+  show-filter
+  class="clearfix g-col-filter g-box-md fz14 gBgcGray5-md gBgcWhite1 g-myd-box"
+  ng-class="{'show': isFilterVisible}"
+>
+  <div class="col-md-12 mb-xs-3 gH4 gCGray1">
+    <h2 class="pb-xs-1 g-border-bottom-xs hidden-xs hidden-sm">Filtro</h2>
+    <div
+      id="show-filter"
+      class="row pt-xs-2 pb-xs-2 gBgcGray5 g-border-bottom-xs hidden-md hidden-lg"
+      ng-click="toggleFilter()"
+    >
+      <div class="col-xs-10">
+        <h2 class="cnt-title"><b>Filtro</b></h2>
+      </div>
+      <div class="col-xs-2 g-text-right-xs">
+        <span class="glyphicon glyphicon-chevron-down" ng-if="isFilterVisible"></span>
+        <span class="glyphicon glyphicon-chevron-up" ng-if="!isFilterVisible"></span>
+      </div>
+      <div class="clearfix"></div>
+    </div>
+  </div>
+  <div class="g-col-filter__box">
+    <div ng-include="currentOptions.template"></div>
+    <div class="col-md-12 mb-xs-1">
+      <a href="" class="g-btn g-btn-verde block" ng-click="fullFilter()">Filtrar</a>
+      <!-- <a href="" class="g-btn g-btn-verde block" ng-click="filter()">Filtrar</a>  -->
+    </div>
+    <div class="col-md-12">
+      <a href="" class="g-btn g-btn-transparent block" ng-click="clearFilter()">Limpiar</a>
+    </div>
+  </div>
+</div>
+
+<!-- template for requests -->
+<script type="text/ng-template" id="requests.html">
+  <div class="col-md-12 mb-xs-2">
+    <!-- <m-numeric-textbox label="{label: 'Nro. Solicitud', required: false}" name="nNumSolicitud" ng-model="$parent.filters.number" precision="29" options="'INT'"></m-numeric-textbox>  -->
+    <mpf-input label="{label: 'Nro. Solicitud', required: false}" name="nNumSolicitud" ng-model="$parent.filters.number" mpf-validation="number" ng-maxLength="29"></mpf-input>
+  </div>
+  <div class="col-md-12 mb-xs-2">
+    <mpf-select label="{label: 'Estado', required: false}" name="nEstado" ng-model="$parent.filters.status" m-data-source="statuses"
+    m-Empty-Option="{text:'TODOS'}" text-Field="name" value-Field="name"></mpf-select>
+  </div>
+  <div class="col-md-12 mb-xs-2">
+    <mpf-input label="{label: 'Placa', required: false}" ng-maxlength="6" name="nPlaca" ng-model="$parent.filters.placa" mpf-validation="placas"></mpf-input>
+  </div>
+  <div class="col-md-6 mb-xs-2">
+    <mpf-datepicker label="{label: 'Desde', required: false}" format="'dd/MM/yyyy'" data-mpf-validate="required" ng-model="$parent.filters.fechaDesde" name="fechaDesde">
+    </mpf-datepicker>
+  </div>
+  <div class="col-md-6 mb-xs-2">
+    <mpf-datepicker label="{label: 'Hasta', required: false}" format="'dd/MM/yyyy'" data-mpf-validate="required" ng-model="$parent.filters.fechaHasta" name="fechaHasta">
+    </mpf-datepicker>
+  </div>
+  <div class="clearfix"></div>
+  <div class="col-md-12 mt-xs-2 mb-xs-2" ng-init="showMoreFilters = false">
+    <a class="more-filters-link" ng-class="{active: showMoreFilters}" ng-click="showMoreFilters = !showMoreFilters">Ver más filtros</a>
+  </div>
+  <div class="more-filters clearfix" ng-class="{active: showMoreFilters}">
+    <div class="col-md-12 mb-xs-2">
+      <mpf-select label="{label: 'Proveedor', required: false}" name="mProveedor" ng-change="onChangeProvider($parent.filters.provider)" ng-model="$parent.filters.provider"
+      ng-disabled="user.isInspector || user.isCoordinador" m-data-source="$parent.providers" m-Empty-Option="{text:'TODOS'}" text-Field="name" value-Field="name"></mpf-select>
+    </div>
+    <div class="col-md-12 mb-xs-2">
+      <mpf-input label="{label: 'Documento del Proveedor', required: false}" ng-disabled="true" ng-model="$parent.filters.providerDocumentType"></mpf-input>
+    </div>
+    <div class="col-md-12 mb-xs-2">
+      <mp-data-seeker ng-if="$parent.user.isAPermittedObject('MODAGE')" behavior="{label:'Agente', matchField:'nombre', placeholder: 'Ingresa nombre o código de agente'}" m-data-source="queryAgents($inputNeed)" ng-model="$parent.filters.agente">
+        <div ng-bind-html="$item.nombre | highlight: $select.search"></div>
+      </mp-data-seeker>
+      <mpf-input ng-if="!$parent.user.isAPermittedObject('MODAGE')" label="{label: 'Agente', required: false}" ng-disabled="true" ng-model="$parent.filters.agentName"></mpf-input>
+    </div>
+    <div class="col-md-12 mb-xs-2">
+      <mpf-input label="{label: 'Contacto', required: false}" ng-maxlength="50" ng-model="$parent.filters.contacto"></mpf-input>
+    </div>
+  </div>
+</script>
+
+<!-- template for quotations -->
+<script type="text/ng-template" id="quotations.html">
+  <div class="col-md-12 mb-xs-2">
+    <mpf-input label="{label: 'Nro. Cotización', required: false}" ng-maxlength="9" name="nNumSolicitud" ng-model="$parent.filters.numberQuotation" mpf-validation="number"></mpf-input>
+  </div>
+  <div class="col-md-12 mb-xs-2">
+    <mpf-select label="{label: 'Filtrar por producto', required: false}" name="nProducto" ng-model="$parent.filters.product" m-data-source="products"
+    m-Empty-Option="{text:'TODOS'}" text-Field="name" value-Field="name"></mpf-select>
+  </div>
+  <div class="col-md-12 mb-xs-2">
+    <mpf-input label="{label: 'Nombre de contratante', required: false}" name="nNombreContratante" ng-model="$parent.filters.contractor"></mpf-input>
+  </div>
+  <div class="col-md-6 mb-xs-2">
+    <mpf-datepicker label="{label: 'Desde', required: false}" format="'dd/MM/yyyy'" data-minDate="$parent.filters.quotationMinDate" data-mpf-validate="required" ng-model="$parent.filters.fechaDesde" name="fechaDesde">
+    </mpf-datepicker>
+  </div>
+  <div class="col-md-6 mb-xs-2">
+    <mpf-datepicker label="{label: 'Hasta', required: false}" format="'dd/MM/yyyy'" data-maxDate="" data-mpf-validate="required" ng-model="$parent.filters.fechaHasta"name="fechaHasta">
+    </mpf-datepicker>
+  </div>
+  <div class="clearfix"></div>
+</script>
+
+<!-- template for scheludes -->
+<script type="text/ng-template" id="scheludes.html">
+  <div class="col-md-12 mb-xs-2">
+    <mpf-input label="{label: 'Nro. Solicitud', required: false}" name="nNumSolicitud" ng-model="$parent.filters.number" mpf-validation="number" ng-maxLength="29"></mpf-input>
+  </div>
+  <div class="col-md-12 mb-xs-2">
+    <mpf-select label="{label: 'Estado', required: false}" name="nEstado" ng-model="$parent.filters.status" m-data-source="statuses"
+    m-Empty-Option="{text:'TODOS'}" text-Field="name" value-Field="name"></mpf-select>
+  </div>
+  <div class="col-md-12 mb-xs-2">
+    <mpf-input label="{label: 'Placa', required: false}" ng-maxlength="6" name="nPlaca" ng-model="$parent.filters.placa" mpf-validation="placas"></mpf-input>
+  </div>
+  <div class="col-md-6 mb-xs-2">
+    <mpf-datepicker label="{label: 'Desde', required: false}" format="'dd/MM/yyyy'" data-mpf-validate="required" ng-model="$parent.filters.fechaDesde" name="fechaDesde">
+    </mpf-datepicker>
+  </div>
+  <div class="col-md-6 mb-xs-2">
+    <mpf-datepicker label="{label: 'Hasta', required: false}" format="'dd/MM/yyyy'" data-mpf-validate="required" ng-model="$parent.filters.fechaHasta" name="fechaHasta">
+    </mpf-datepicker>
+  </div>
+  <div class="clearfix"></div>
+  <div class="col-md-12 mt-xs-2 mb-xs-2" ng-init="showMoreFilters = false">
+    <a class="more-filters-link" ng-class="{active: showMoreFilters}" ng-click="showMoreFilters = !showMoreFilters">Ver más filtros</a>
+  </div>
+  <div class="more-filters clearfix" ng-class="{active: showMoreFilters}">
+    <div class="col-md-12 mb-xs-2">
+      <mpf-select label="{label: 'Proveedor', required: false}" name="mProveedor" ng-change="onChangeProvider($parent.filters.provider)" ng-model="$parent.filters.provider"
+      ng-disabled="user.isInspector || user.isCoordinador" m-data-source="$parent.providers" m-Empty-Option="{text:'TODOS'}" text-Field="name" value-Field="name"></mpf-select>
+    </div>
+    <div class="col-md-12 mb-xs-2">
+      <mpf-input label="{label: 'Documento del Proveedor', required: false}" ng-disabled="true" ng-model="$parent.filters.providerDocumentType"></mpf-input>
+    </div>
+    <div class="col-md-12 mb-xs-2">
+      <mpf-select label="{label: 'Inspector', required: false}" name="mProveedor" ng-model="$parent.filters.inspector" m-data-source="$parent.inspectors" ng-disabled="$parent.inspectors.length === 0" m-Empty-Option="{text:'TODOS'}" text-Field="nombre" value-Field="id">
+      </mpf-select>
+      <!-- <mp-data-seeker behavior="{label:'Inspector', matchField:'nombre', placeholder: 'Ingresa nombre o código del inspector'}" m-data-source="$parent.inspectors" ng-model="$parent.filters.inspector">
+        <div ng-bind-html="$item.nombre | highlight: $select.search"></div>
+      </mp-data-seeker> -->
+    </div>
+    <div class="col-md-12 mb-xs-2">
+      <mp-data-seeker ng-if="$scope.user.isAPermittedObject('MODAGE')" behavior="{label:'Agente', matchField:'nombre', placeholder: 'Ingresa nombre o código de agente'}" m-data-source="queryAgents($inputNeed)" ng-model="$parent.filters.agente">
+        <div ng-bind-html="$item.nombre | highlight: $select.search"></div>
+      </mp-data-seeker>
+      <mpf-input ng-if="!$scope.user.isAPermittedObject('MODAGE')" label="{label: 'Agente', required: false}" ng-disabled="true" ng-model="$parent.filters.agentName"></mpf-input>
+    </div>
+    <div class="col-md-12 mb-xs-2">
+      <mpf-input label="{label: 'Contacto', required: false}" ng-maxlength="50" ng-model="$parent.filters.contacto"></mpf-input>
+    </div>
+    <!-- Reemplazar por un AUTOCOMPLETAR -->
+    <!-- <div class="col-md-12 mb-xs-2">
+      <mpf-input label="{label: 'Lugar de circulación', required: false}" name="nLugarCirculacion" ng-model="$parent.filters.circulacion" ng-maxlength="50"></mpf-input>
+    </div> -->
+  </div>
+</script>
+
+<!-- template for coordinators -->
+<script type="text/ng-template" id="coordinators.html">
+  <div class="col-md-12 mb-xs-2">
+    <mpf-select label="{label: 'Proveedor', required: false}" name="nProveedor" ng-model="$parent.filters.mProveedor" m-data-source="$parent.providers" m-Empty-Option="{text:'TODOS'}" text-Field="name" value-Field="name"></mpf-select>
+  </div>
+  <div class="col-md-12 mb-xs-2">
+    <mpf-select label="{label: 'Tipo', required: false}" name="nTipo" ng-model="$parent.filters.mTipo" m-data-source="$parent.documentTypeData" m-Empty-Option="{enterData:true}" text-Field="Descripcion" value-Field="Codigo"></mpf-select>
+  </div>
+  <div class="col-md-12 mb-xs-2">
+    <mpf-input label="{label: 'Nro. documento', required: true}" name="nNroDocumento" ng-model="$parent.filters.mNroDocumento"></mpf-input>
+  </div>
+  <div class="col-md-12 mb-xs-2">
+    <mpf-input label="{label: 'Nombres', required: false}" name="nNombre" ng-model="$parent.filters.mNombre"></mpf-input>
+  </div>
+  <div class="col-md-12 mb-xs-2">
+    <mpf-input label="{label: 'Apellido', required: false}" name="nApellido" ng-model="$parent.filters.mApellido"></mpf-input>
+  </div>
+</script>
+
+<!-- template for coordinators -->
+<script type="text/ng-template" id="inspectors.html">
+  <div class="col-md-12 mb-xs-2">
+    <mpf-select label="{label: 'Proveedor', required: false}" name="nProveedor" ng-model="$parent.filters.mProveedor" m-data-source="$parent.providers" m-Empty-Option="{text:'TODOS'}" text-Field="name" value-Field="name"></mpf-select>
+  </div>
+  <div class="col-md-12 mb-xs-2">
+    <mpf-select label="{label: 'Tipo', required: false}" name="nTipo" ng-model="mTipo"></mpf-select>
+  </div>
+  <div class="col-md-12 mb-xs-2">
+    <mpf-input label="{label: 'Nro. documento', required: true}" name="nNroDocumento" ng-model="mNroDocumento"></mpf-input>
+  </div>
+  <div class="col-md-12 mb-xs-2">
+    <mpf-input label="{label: 'Nombres', required: false}" name="nNombre" ng-model="mNombre"></mpf-input>
+  </div>
+  <div class="col-md-12 mb-xs-2">
+    <mpf-input label="{label: 'Apellido', required: false}" name="nApellido" ng-model="mApellido"></mpf-input>
+  </div>
+</script>

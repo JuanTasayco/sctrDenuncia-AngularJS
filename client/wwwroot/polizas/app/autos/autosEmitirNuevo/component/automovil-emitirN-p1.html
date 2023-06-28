@@ -1,0 +1,111 @@
+<!-- Step 1 -->
+    <form name="frmPoliData" action="">
+					<div class="g-section-inner">
+						<div class="container">
+							<!-- VIGENCIA -->
+							<div class="row">
+								<div class="col-md-12">
+									<h2 class="g-sub-title g-myd-subtitle">Vigencia</h2>
+								</div>
+							</div>
+							<div class="row h-myd--flex h-myd--flex-alg-end h-myd--flex-wrap">
+									<br/>
+									<div class="col-xs-12 col-sm-4 col-md-4 mb-xs-2 no-mb-md">
+										<div class="input-group g-date-picker">
+											<label class="g-placeholder animated"><span>*</span>Inicio Vigencia:</label>
+											<input type="text" class="form-control" ng-change="changeDate()" uib-datepicker-popup="{{format}}" ng-model="formData.dt" is-open="popup1.opened" datepicker-options="dateOptions" ng-required="true" close-text="Close" alt-input-formats="altInputFormats"  readonly="readonly"/>
+											<span class="input-group-btn">
+												<button type="button" class="btn btn-default" ng-click="open1()"><i class="glyphicon glyphicon-calendar"></i></button>
+											</span>
+										</div>
+									</div>
+
+									<div class="col-xs-12 col-sm-4 col-md-4" >
+										<div class="form-label">
+											<span class="g-label"> Fin Vigencia: </span><br>
+											<label>  {{formData.finVigencia | date : format}}</label>
+
+										</div>
+										<div class="g-polizagrupo-error" ng-show="!showVigencia && !showVigenciaROL()">
+											<span><span class="ico-mapfre_37_informacion g-polizagrupo-error-ico"></span>Elige una fecha no mayor a 30 días calendarios a partir de hoy</span>
+
+										</div>
+									</div>									
+								<!-- </div> -->
+							</div>
+						</div>
+					</div>
+					<!-- Datos del riesgo -->
+					<div class="g-section-inner">
+						<div class="container">
+								<div class="row">
+									<div class="col-md-12">
+										<h2 class=" g-myd-subtitle h-myd-mb--10">Datos del riesgo</h2>
+									</div>
+								</div>
+								<div class="row h-myd--flex h-myd--flex-alg-end h-myd--flex-wrap">
+									<div class="col-xs-12 col-sm-4 col-md-4 mb-xs-2">
+										<div ng-show="!formData.enTramite">
+											<mpf-input label="{label: 'Número de placa', required: true}" name="nPlaca" ng-model="formData.mPlaca"  ng-required="true" ng-disabled="formData.enTramite" ng-Minlength="6" ng-Maxlength="7" trn-Length="7"  ng-pattern="'(^[a-zA-Z0-9]+$)'" ></mpf-input>
+										</div>
+										<label class="g-placeholder block" ng-show="chkPlacaET.val">{{$ctr.gLblPlaca.label}}</label>
+
+
+										<label  ng-show="formData.enTramite" class="g-label ng-binding animated" ng-class="{animated: focused || !isEmpty()}">Número de placa<span ng-show="labelData.required" ng-show="formData.enTramite">*</span></label>
+										<div class="g-label-data h-myd-mt--10 h-myd-mb--0" ng-show="formData.enTramite">E/T</div>
+
+										<div class="g-error" ng-show="frmPoliData.nPlaca.$error.required && !frmPoliData.nPlaca.$pristine && !isTramit()">* Ingrese una placa</div>
+										<!-- <mpf-checkbox info="chkPlacaET"></mpf-checkbox> -->
+									</div>
+									<div class="col-xs-12 col-sm-4 col-md-4 mb-xs-2">
+										<mpf-input label="{label: 'Número de chasis', required: true}" name="nNumeroChasis" ng-model="formData.mNumeroChasis"  ng-required="true" ng-Minlength="8" ng-Maxlength="18" trn-Length="18"   ng-pattern="'(^[^ioOI]+$)'" ></mpf-input>
+										<div class="g-error" ng-show="frmPoliData.nNumeroChasis.$invalid && !frmPoliData.nNumeroChasis.$pristine">* Ingrese un número de chasis válido. Longitud de 8-18 caracteres</div>
+									</div>
+									<div class="col-xs-12 col-sm-4 col-md-4 mb-xs-2">
+										<mpf-input label="{label: 'Número de motor', required: true}" name="nNumeroMotor" ng-model="formData.mNumeroMotor"  ng-required="true" ng-Minlength="8" ng-Maxlength="20" trn-Length="20" ng-pattern="'(^[^ioOI]+$)'" ></mpf-input>
+										<div class="g-error" ng-show="frmPoliData.nNumeroMotor.$invalid && !frmPoliData.nNumeroMotor.$pristine">* Ingrese un número de motor válido. Longitud de 8-18 caracteres</div>
+									</div>
+								</div>
+								<div class="row">
+									<div class="col-md-4 mb-xs-2">
+										<mpf-Checkbox ng-model="formData.enTramite" label="Placa en trámite" ng-click="showEt()"  ></mpf-Checkbox>
+
+									</div>
+								</div>
+								<div class="row">
+									<div class="col-md-4">
+										<mpf-select ng-model="formData.mColor" name="nColor" label="{label: 'Color del vehículo', required: true}" m-data-source="colors" text-field="descripcion" value-field="codigo" m-Empty-Option="{enterData:true}" mpf-validation="required" ng-required="true"></mpf-select>
+										<div class="g-error" ng-show="frmPoliData.nColor.$error.required && !frmPoliData.nColor.$pristine">* Seleccione un color</div>
+									</div>
+
+								</div>
+						</div>
+					</div>
+					<div class="g-section-inner">
+						<div class="container">
+								<div class="row">
+									<div class="col-md-12">
+										<h2 class="g-sub-title g-myd-subtitle">Póliza de grupo</h2>
+									</div>
+								</div>
+								<div class="row">
+									<mpf-Group-Polize data="formData.grupoPoliza">
+
+									</mpf-Group-Polize>
+								</div>
+						</div>
+					</div>
+					<!-- button -->
+					<div class="g-section">
+						<div class="container">
+							<div class="row">
+								<div class="col-xs-12 mb-xs-3">
+									<span class="gCGray3">*Campos obligatorios</span>
+								</div>
+								<div class="col-md-4 col-md-offset-4">
+									<a class="g-btn g-btn-verde block" ng-click="next()">Siguiente</a>
+								</div>
+							</div>
+						</div>
+					</div>
+		</form>

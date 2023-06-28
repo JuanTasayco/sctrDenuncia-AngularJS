@@ -1,0 +1,71 @@
+<section>
+	<button type="button" class="close g-close-modal" ng-click="$ctrl.dismiss()">
+		<span class="ico-mapfre_231_cancelaroff"></span>
+	</button>
+	<form name="frmRegister">
+		<div class="container">
+			<div class="row">
+				<div class="col-md-12 g-text-center-xs mb-xs-2">
+					<h3 class="gH3"><b>Crear camposanto</b></h3>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-12 g-text-center-xs mb-xs-2">
+					<h3 class="gH3">Seleccione el camposanto a duplicar:</h3>
+				</div>
+			</div>
+		</div>
+		<div class="container">
+			<div class="col-md-6 col-md-offset-3">
+				<div class="row">
+					<div class="col-md-12 mb-xs-2">
+						<mpf-select 
+						data-m-data-source="$ctrl.cemeteries"
+						data-ng-model="$ctrl.form.cemetery"
+						data-text-field="nombre"
+						data-value-field="idCamposanto"
+						ng-required="true"
+						m-Empty-Option = "{enterData : false}"
+						label="{label: 'Camposanto', required: true}"
+						name="nCemetery"
+						>
+						</mpf-select>
+						<div class="g-error" data-ng-show="frmRegister.nCemetery.$invalid && !frmRegister.nCemetery.$pristine">
+                            	Seleccione un Camposanto
+                        </div>
+					</div>
+					<div class="col-md-12 mb-xs-2">
+						<mpf-input 
+							data-ng-model="$ctrl.form.cemeteryName"
+							ng-required="true" 
+							ng-maxlength="100"
+							label="{label: 'Nombre', required: true}" 
+							name="nName"
+							data-ng-change="$ctrl.validateName()"
+							capitalize
+							>
+						</mpf-input>
+						<ul class="g-error">
+							<li ng-show="frmRegister.nName.$invalid && !frmRegister.nName.$pristine">
+								Ingrese un nombre
+							</li>
+							<li ng-show="$ctrl.showNameError">
+								El nombre ingresado ya existe
+							</li>
+						</ul>
+					</div>
+				</div>
+				<div class="row mt-xs-2">
+					<div class="col-md-12">
+						<a href="" 
+						   class="g-btn g-btn-verde block"
+						   ng-class="{disabled: frmRegister.$invalid}" 
+						   ng-click="$ctrl.saveCemetery()">
+						   Crear
+						</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</form>
+</section>

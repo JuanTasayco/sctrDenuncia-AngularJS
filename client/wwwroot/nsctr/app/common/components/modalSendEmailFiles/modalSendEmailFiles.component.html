@@ -1,0 +1,97 @@
+<div class="g-modal-send-email clearfix modalSendEmailFiles">
+
+	<button
+		type="button"
+		class="close g-close-modal"
+		ng-click="$ctrl.fnCloseModal()">
+		<span class="ico-mapfre_231_cancelaroff"></span>
+	</button>
+
+	<div class="container">
+
+		<form name="frmSendEmailFiles">
+
+			<div class="clearfix pl-sm-8 pr-sm-8 pl-xs-2 pr-xs-2">
+
+				<div class="row">
+					<div class="col-md-12 mb-xs-2 g-text-center-xs">
+						<h2 class="gH3"><b>Enviar documentos</b></h2>
+					</div>
+					<div class="col-md-12 mb-xs-2">
+						<mpf-input
+							label="{label: 'Para', required: true}"
+							name="nPara"
+							ng-model="$ctrl.data.mPara"
+							ng-required="true"
+							mpf-validation="moreOneEmail"
+							disabled-view-model="true"
+							focuss-me="true">
+						</mpf-input>
+						<ul class="g-error">
+							<li ng-show="frmSendEmailFiles.nPara.$invalid && !frmSendEmailFiles.nPara.$pristine">* Este campo es obligatorio</li>
+						</ul>
+						<div class="g-comment g-text-center-xs pt-xs-0-5">(Para ingresar más de un correo separar con coma "," y sin espacios)</div>
+					</div>
+					<div class="col-md-12 mb-xs-2">
+						<mpf-input
+							label="{label: 'Asunto', required: true}"
+							name="nAsunto"
+							ng-model="$ctrl.data.mAsunto"
+							ng-required="true">
+						</mpf-input>
+						<ul class="g-error">
+							<li ng-show="frmSendEmailFiles.nAsunto.$invalid && !frmSendEmailFiles.nAsunto.$pristine">* Este campo es obligatorio</li>
+						</ul>
+					</div>
+					<div class="col-md-12 mb-xs-2">
+						<mpf-textarea
+							label="{label: 'COMENTARIOS(OPCIONAL)', required:false}"
+							name="nComentario"
+							ng-model="$ctrl.data.mComentario"
+							ng-required="false">
+						</mpf-textarea>
+					</div>
+					<div
+						class="col-md-12"
+						ng-if="$ctrl.data.paramsSendEmail.fileList.length">
+						<div class="g-placeholder block mb-xs-1">
+							Adjuntos:
+						</div>
+					</div>
+					<div class="col-md-12 contentFileList">
+						<ul
+							ng-repeat="item in $ctrl.data.paramsSendEmail.fileList"
+							ng-if="item.fileList.length">
+							<li class="mb-xs-0-5">
+								<b>{{item.proofNumber}}</b>
+							</li>
+							<li
+								class="g-border-xs gBgcGray5 mb-xs-1 pl-xs-1"
+								ng-repeat="file in item.fileList">
+								<div class="g-box-attachment">
+									<span class="ico-mapfre_314_archivos box-ico"></span>
+									{{file.description}}
+									<a
+										href="javascript:void(0)"
+										class="box-close"
+										ng-click="$ctrl.fnDeleteFile(item, $parent.$index, $index)">
+										<span class="ico-mapfre_231_cancelaroff"></span>
+									</a>
+								</div>
+							</li>
+						</ul>
+					</div>
+					<div class="col-md-12 pt-xs-2">
+						<button
+							type="submit"
+							class="g-btn g-btn-verde block"
+							ng-click="$ctrl.fnSendEmailFiles()">
+							Enviar
+						</button>
+					</div>
+				</div>
+			</div>
+
+		</form>
+	</div>
+</div>

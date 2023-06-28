@@ -1,0 +1,342 @@
+<section class="g-page pageSearchProvisionalCoverage g-ui-view">
+
+	<div class="g-title">
+		<div class="container">
+			<div class="row g-row">
+				<div class="col-md-9 g-col-md middle col-sm-11 col-xs-10">
+					<h1>Bandeja de Coberturas Provisionales</h1>
+				</div>
+				<div class="col-md-3 g-col-md middle col-sm-4 col-xs-12 mt-xs-2 no-mt-md">
+					<a
+						class="g-btn g-btn-white second-design block"
+						ng-click="$ctrl.fnGoProvisionalCoverage()">
+						Nueva Cobertura Provisional
+					</a>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="g-section-inner">
+		<form
+			action=""
+			name="frmSearchProvisionalCoverage">
+			<div class="container">
+
+				<div
+					show-filter
+					class="clearfix g-col-filter g-box-md gBgcGray5-md gBgcWhite1 g-myd-box"
+					ng-class="{'show': isFilterVisible}"
+					ng-if="$ctrl.seguritySearch"
+					>
+					<div class="col-md-12">
+
+						<div class="clearfix gH4 gCGray1 mb-xs-1-5">
+							<h2 class="hidden-xs hidden-sm"><b>Buscar cobertura</b></h2>
+							<div
+								id="show-filter"
+								class="row pt-xs-2 pb-xs-2 gBgcGray5 g-border-bottom-xs hidden-md hidden-lg"
+								ng-click="toggleFilter();">
+								<div class="col-xs-10"><h2><b>Buscar cobertura</b></h2></div>
+								<div class="col-xs-2 g-text-right-xs">
+									<span
+										class="glyphicon glyphicon-chevron-down"
+										ng-if="isFilterVisible">
+									</span>
+									<span
+										class="glyphicon glyphicon-chevron-up"
+										ng-if="!isFilterVisible">
+									</span>
+								</div>
+								<div class="clearfix"></div>
+							</div>
+						</div>
+
+						<div class="row">
+							<div class="col-md-2 mb-xs-2">
+								<mpf-select
+									label="{label: 'Tipo de Doc.', required: false}"
+									name="nTipoDoc"
+									ng-model="$ctrl.data.mTipoDoc"
+									m-data-source="$ctrl.data.documentTypeData"
+									text-field="typeDescription"
+									value-field="typeId"
+									m-Empty-Option="{enterData:true}"
+									ng-required="false"
+									ng-change="$ctrl.fnChangeDocumentType($ctrl.data.mTipoDoc)">
+								</mpf-select>
+								<ul class="g-error">
+									<li ng-show="frmSearchProvisionalCoverage.nTipoDoc.$invalid && !frmSearchProvisionalCoverage.nTipoDoc.$pristine">* Este campo es obligatorio</li>
+								</ul>
+							</div>
+							<div class="col-md-2 mb-xs-2">
+								<mpf-input
+									label="{label: 'Nro. Documento', required: false}"
+									name="nNroDocumento"
+									ng-model="$ctrl.data.mNroDocumento.model"
+									mpf-validation="{{$ctrl.data.mNroDocumento.FIELD_TYPE}}"
+									mpf-validation-disabled="{{$ctrl.data.mNroDocumento.FIELD_TYPE_DISABLED}}"
+									ng-maxlength="$ctrl.data.mNroDocumento.MAX_LENGTH"
+									ng-required="$ctrl.data.mTipoDoc.typeId !== null" >
+								</mpf-input>
+								<ul class="g-error">
+									<li ng-show="frmSearchProvisionalCoverage.nNroDocumento.$viewValue && (frmSearchProvisionalCoverage.nNroDocumento.$error.onlyNumber || frmSearchProvisionalCoverage.nNroDocumento.$error.maxlength) && !frmSearchProvisionalCoverage.nNroDocumento.$pristine">* Nro de documento incorrecto</li>
+									<li ng-show="frmSearchProvisionalCoverage.nNroDocumento.$invalid && frmSearchProvisionalCoverage.nNroDocumento.$error.required && !frmSearchProvisionalCoverage.nNroDocumento.$pristine">* Ingrese un nro de documento</li>
+								</ul>
+							</div>
+							<div class="col-md-4 mb-xs-2">
+								<mpf-input
+									label="{label: 'Nombre / Razón Social', required: false}"
+									name="nClientName"
+									ng-model="$ctrl.data.mClientName"
+									ng-required="false">
+								</mpf-input>
+								<ul class="g-error">
+									<li ng-show="frmSearchProvisionalCoverage.nClientName.$invalid && !frmSearchProvisionalCoverage.nClientName.$pristine">* Este campo es obligatorio</li>
+								</ul>
+							</div>
+							<div class="col-md-2 mb-xs-2">
+								<div class="input-group g-date-picker">
+									<label class="g-placeholder animated">
+										Inicio Cobertura<span></span>:
+									</label>
+									<input
+										type="text"
+										class="form-control"
+										name="nInicioCobertura"
+										ng-model="$ctrl.data.mInicioCobertura.model"
+										model-view-value="true"
+										is-open="$ctrl.data.mInicioCobertura.open"
+										datepicker-options="$ctrl.data.mInicioCobertura.options"
+										close-text="Close"
+										uib-datepicker-popup="{{$ctrl.data.mInicioCobertura.FORMAT_DATE}}"
+										alt-input-formats="$ctrl.data.mInicioCobertura.ALT_INPUT_FORMATS"
+										ui-mask="{{$ctrl.data.mInicioCobertura.FORMAT_MASK}}"
+										ng-pattern="$ctrl.data.mInicioCobertura.FORMAT_PATTERN"
+										ng-required="$ctrl.data.mFinCobertura.model"
+										ng-disabled="false"
+										ng-change="$ctrl.fnChangeCalendar()"/>
+									<span class="input-group-btn">
+										<button
+											type="button"
+											class="btn btn-default"
+											ng-click="$ctrl.data.mInicioCobertura.setOpen(true)">
+											<i class="glyphicon glyphicon-calendar"></i>
+										</button>
+									</span>
+								</div>
+								<ul class="g-error">
+									<li ng-show="frmSearchProvisionalCoverage.nInicioCobertura.$error.pattern && !frmSearchProvisionalCoverage.nInicioCobertura.$pristine">* Formato fecha incorrecto</li>
+									<li ng-show="frmSearchProvisionalCoverage.nInicioCobertura.$invalid && frmSearchProvisionalCoverage.nInicioCobertura.$error.required && !frmSearchProvisionalCoverage.nInicioCobertura.$pristine">* Este campo es obligatorio</li>
+								</ul>
+							</div>
+							<div class="col-md-2 mb-xs-2">
+								<div class="input-group g-date-picker">
+									<label class="g-placeholder animated">
+										Fin Cobertura<span></span>:
+									</label>
+									<input
+										type="text"
+										class="form-control"
+										name="nFinCobertura"
+										ng-model="$ctrl.data.mFinCobertura.model"
+										model-view-value="true"
+										is-open="$ctrl.data.mFinCobertura.open"
+										datepicker-options="$ctrl.data.mFinCobertura.options"
+										close-text="Close"
+										uib-datepicker-popup="{{$ctrl.data.mFinCobertura.FORMAT_DATE}}"
+										alt-input-formats="$ctrl.data.mFinCobertura.ALT_INPUT_FORMATS"
+										ui-mask="{{$ctrl.data.mFinCobertura.FORMAT_MASK}}"
+										ng-pattern="$ctrl.data.mFinCobertura.FORMAT_PATTERN"
+										ng-required="$ctrl.data.mInicioCobertura.model"
+										ng-disabled="false"
+										ng-change="$ctrl.fnChangeCalendar()"/>
+									<span class="input-group-btn">
+										<button
+											type="button"
+											class="btn btn-default"
+											ng-click="$ctrl.data.mFinCobertura.setOpen(true)">
+											<i class="glyphicon glyphicon-calendar"></i>
+										</button>
+									</span>
+								</div>
+								<ul class="g-error">
+									<li ng-show="frmSearchProvisionalCoverage.nFinCobertura.$error.pattern && !frmSearchProvisionalCoverage.nFinCobertura.$pristine">* Formato fecha incorrecto</li>
+									<li ng-show="frmSearchProvisionalCoverage.nFinCobertura.$invalid && frmSearchProvisionalCoverage.nFinCobertura.$error.required && !frmSearchProvisionalCoverage.nFinCobertura.$pristine">* Este campo es obligatorio</li>
+								</ul>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-md-offset-8 col-md-2 mb-xs-1 no-mb-md">
+								<a
+									href="javascript:void(0)"
+									class="g-btn g-btn-verde second-design block"
+									ng-click="$ctrl.fnSearchProvisionalCoverage(); toggleFilter()">
+									Buscar
+								</a>
+							</div>
+							<div class="col-md-2">
+								<a
+									href="javascript:void(0)"
+									class="g-btn g-btn-white second-design block"
+									ng-click="$ctrl.fnClearSearchProvisionalCoverage(); toggleFilter()">
+									Limpiar
+								</a>
+							</div>
+						</div>
+
+					</div>
+				</div>
+
+			</div>
+		</form>
+
+		<div class="sec-list pt-xs-3">
+			<div class="container">
+
+				<nsctr-no-result-filter
+					type="search"
+					no-result-info="$ctrl.data.noResultFilter.noResultInfo"
+					no-result="$ctrl.data.noResultFilter.noResult">
+				</nsctr-no-result-filter>
+
+				<div
+					class="row"
+					ng-if="$ctrl.data.dataList.list.length > 0">
+					<div class="col-md-12 mb-xs-2 g-text-right-xs">
+						<span class="gH4 gCGray3">Cantidad de Coberturas Provisionales: {{$ctrl.data.dataList.totalRows | formatZeroBefore}}</span>
+					</div>
+				</div>
+
+				<div
+					class="clearfix g-list-md g-box gBgcGray5 pt-xs-1 g-row-fz12 mb-xs-1"
+					ng-repeat="item in $ctrl.data.dataList.list">
+					<div class="col-md-10 g-col-md middle">
+						<ul class="row">
+							<li class="col-md-4 clearfix cnt-item">
+								<div class="col-xs-5 item-label">
+									ID Cobertura:
+								</div>
+								<div class="col-xs-7 item-dato g-text-uppercase">
+									{{item.provitionalCoverageNumber}}
+								</div>
+							</li>
+							<li class="col-md-4 clearfix cnt-item">
+								<div class="col-xs-5 item-label">
+									Inicio cobertura:
+								</div>
+								<div class="col-xs-7 item-dato g-text-uppercase">
+									{{item.startDate}}
+								</div>
+							</li>
+							<li class="col-md-4 clearfix cnt-item">
+								<div class="col-xs-5 item-label">
+									Fin cobertura:
+								</div>
+								<div class="col-xs-7 item-dato g-text-uppercase">
+									{{item.endDate}}
+								</div>
+							</li>
+						</ul>
+						<ul class="row">
+							<li class="col-md-4 clearfix cnt-item">
+								<div class="col-xs-5 item-label">
+									Emisión:
+								</div>
+								<div class="col-xs-7 item-dato g-text-uppercase">
+									{{item.emissionDate}}
+								</div>
+							</li>
+							<li class="col-md-4 clearfix cnt-item">
+								<div class="col-xs-5 item-label">
+									Usuario:
+								</div>
+								<div class="col-xs-7 item-dato g-text-uppercase">
+									{{item.emissionUser}}
+								</div>
+							</li>
+							<li class="col-md-4 clearfix cnt-item">
+								<div class="col-xs-5 item-label">
+									Estado:
+								</div>
+								<div class="col-xs-7 item-dato g-text-uppercase">
+									<span
+										class="g-box-label"
+										ng-class="(item.status === 'S') ? 'gBgcGreen1': 'gBgcRed1'">
+										{{item.statusDescription}}
+									</span>
+								</div>
+							</li>
+						</ul>
+					</div>
+					<div
+						class="col-md-2 g-col-md middle gCGray3 g-text-center-xs">
+						<div class="row g-row">
+							<div class="col-xs-4 g-col-xs middle cnt-item add-border-left" ng-if="$ctrl.segurityPayroll">
+								<a									
+									href="javascript:void(0)"
+									ng-click="$ctrl.fnDownloadExcel(item)">
+									<span class="gnIcon-md ico-mapfre_139_excel h-myd--none"></span>
+									<span class="gnIcon-md ico-mapfre-368-myd-xls h-myd--show h-oim-none h-myd-color--green"></span>
+								</a>
+							</div>
+							<div class="col-xs-4 g-col-xs middle cnt-item" ng-if="$ctrl.segurityConstancy">
+								<a
+									href="javascript:void(0)"
+									ng-click="$ctrl.fnDownloadPDF(item.provitionalCoverageId)">
+									<span class="gnIcon-md ico-mapfre_158_pdf h-myd--none"></span>
+									<span class="gnIcon-md ico-mapfre-349-myd-pdf h-myd--show h-oim-none h-myd-color--green"></span>
+								</a>
+							</div>
+							<div
+								class="col-xs-4 g-col-xs middle cnt-item" ng-if="$ctrl.segurityConstancyDelete">
+								<a
+									ng-if="item.status === 'S'"
+									href="javascript:void(0)"
+									ng-click="$ctrl.fnAnnulProvisionalCoverage(item)">
+									<span class="gnIcon-md ico-mapfre_307_tacho h-myd--none"></span>
+									<span class="gnIcon-md ico-mapfre-363-myd-eliminar h-myd--show h-oim-none h-myd-color--green"></span>
+								</a>
+							</div>
+						</div>
+					</div>
+				</div>
+
+
+				<div
+					class="row"
+					ng-if="$ctrl.data.dataList.showPagination">
+					<div class="col-md-8 col-md-offset-2">
+						<ul
+							uib-pagination
+							class="g-pagination"
+							ng-model="$ctrl.data.mPagination.currentPage"
+							max-size="$ctrl.data.mPagination.maxSize"
+							total-items="$ctrl.data.mPagination.totalItems"
+							boundary-link-numbers="true"
+							ng-change="$ctrl.fnChangePage()" >
+						</ul>
+					</div>
+				</div>
+
+
+			</div>
+		</div>
+
+	</div>
+
+
+
+	<form
+		id="iFrmDownloadExcel"
+		name="nFrmDownloadExcel"
+		action="{{$ctrl.data.downloadExcelURL}}"
+		method="post"
+		target="_blank">
+		<input
+			type="hidden"
+			name="json"
+			value='{{$ctrl.data.downloadExcelParams}}'>
+	</form>
+
+</section>

@@ -1,0 +1,85 @@
+<mfloader loader="$ctrl.loader"></mfloader>
+<div class="container">
+  <mfbreadcrumb panel= "$ctrl.panel"
+                lvl0="$ctrl.lvl0"
+                lvl1=""
+                lvl2=""
+                show-lvl1= ""
+                show-lvl2= ""
+                open-map=""
+                loader="$ctrl.loader"
+                lst-dptos=""></mfbreadcrumb>
+
+  <div class="row register-pacient-step">
+    <div class="col-xs-12 col-md-5">
+      <div class="cleaner">
+        <h1 class="title-r u-title-divider--up" data-ng-bind="::$ctrl.title"></h1>
+      </div>
+    </div>
+    <div class="col-xs-12 col-md-7">
+      <mfstep step="$ctrl.currentStep"></mfstep>
+    </div>
+  </div>
+  <div class="u-bar-volver">
+    <div class="container">
+      <div class="row u-align-v">
+        <div class="col-xs-12 col-md-3">
+          <a ui-sref="referencia.panel.registro.destino" class="u-arrow-left">Volver</a>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="cleaner">
+    <mfprogress-summary datast="$ctrl.getDataST"></mfprogress-summary>
+    <div class="containerBusqueda">
+      <div class="row">
+        <div class="col-xs-12 col-md-3 cli-busqueda__col" data-ng-include="$ctrl.busquedaForm">
+        </div>
+        <div class="col-xs-12 col-md-9 cli-busqueda__col js-search-content">
+          <h2 class="register-block-inner__title">Proveedor destino de la referencia</h2>
+          <p data-ng-show="!$ctrl.clsLoadSearch">
+            <b>
+              {{$ctrl.totalItems}} {{$ctrl.txtTotalItems()}} en la red de salud
+            </b>
+          </p>
+          <div  class="cleaner"
+                data-ng-class="$ctrl.clsLoadSearch"
+                data-ng-include="$ctrl.busquedaContent">
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div  class="msgSeleccion reg-selec-dest"
+        data-ng-show="$ctrl.isItemSelected">
+    <div class="container cleaner msgSeleccion__content">
+      <div class="msgSeleccion__box--left col-xs-12 col-sm-7 col-md-8 col-lg-9">
+        <div class="msg-box--one col-xs-12 col-sm-6 col-md-4">
+          <div class="canti__box">
+            {{$ctrl.contItemsSelected}}
+          </div>
+          <div class="msgSeleccion__txt-canti">
+            {{$ctrl.txtSeleccionados()}}
+          </div>
+        </div>
+        <div class="msgSeleccion__caption col-xs-12 col-sm-6 col-md-8">
+          Si deseas, agrega más destinos como alternativa
+        </div>
+      </div>
+      <div class="msgSeleccion__box--right col-xs-12 col-sm-5 col-md-4 col-lg-3">
+        <a  class="c-btn btn btn--secundary"
+            data-ng-click="$ctrl.nextStep()">
+              REGISTRAR REFERENCIA
+        </a>
+      </div>
+    </div>
+  </div>
+  <div data-ng-class="{'filtro-bar__wp--up': $ctrl.isItemSelected}">
+    <mf-btn-filter  are-there-filters="$ctrl.areThereFilters"
+                    apply-filter="$ctrl.applyFilter()"
+                    reset-filter="$ctrl.resetFilter()"
+                    scroll-to="js-search-content"
+                    btn-options="$ctrl.btnOptions"
+    ></mf-btn-filter>
+  </div>
+</div>

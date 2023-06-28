@@ -1,0 +1,78 @@
+<section class="g-page g-page-documents">
+	<div>
+		<div class="g-title">
+			<div class="container">
+				<div class="row">
+					<div class="col-sm-9 mb-xs-2 no-mb-md">
+						<h1>Asignación de Clínicas y CIE10 por Rol</h1>
+					</div>
+				</div>
+			</div>
+		</div>
+    
+    <div class="g-section g-border-top-xs">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-6">
+            <div class="g-title-btn-col mb-xs-1 mb-md-0 mt-xs-2">
+              <b style="padding-top: 9px;padding-right: 15px;padding-bottom: 9px;;display: inline-block;">Rol</b>
+              <a class="g-btn second-design" ng-class="role == 1 ? 'g-btn-verde' : 'g-btn-white'" ng-click="setRole(1)">Ejecutivo Mapfre</a>
+              <a class="g-btn second-design" ng-class="role == 2 ? 'g-btn-verde' : 'g-btn-white'" ng-click="setRole(2)">Coordinador de Clínica</a>
+            </div>
+          </div>
+          <div class="col-md-6 g-title-btn-row">
+            <div style="display: inline-block;width: 59%;">
+              <mpf-input 
+                label="{label: labelBuscador, required: false}" name="nFiltro" 
+                ng-model="filter">
+              </mpf-input>
+            </div>
+            <div class="g-title-btn-col mb-xs-1 mb-md-0 mt-xs-2">
+              <a class="g-btn g-btn-green-border second-design" ng-click="filtrar()">Buscar</a>
+            </div>
+            <div class="g-title-btn-col mb-xs-1 mb-md-0 mt-xs-2">
+              <a class="g-btn g-btn-white second-design" ng-click="limpiar()">Limpiar</a>
+            </div>
+          </div>
+        </div>
+        <div class="row" ng-show="finishSearch">
+          <div class="clearfix">
+            <div class="col-md-12">
+              <div class="clearfix g-tbl-wrapper pt-xs-4">
+                <div class="clearfix">
+                  <div class="g-row-fz12 g-tbl-row u-bg--gris-9 g-box pt-xs-1 pb-xs-1 mb-xs-2" 
+                    style="display: inline-flex;width: 100%;"
+                    data-ng-repeat="item in results">
+                    <ul style="width: 100%;">
+                      <li class="g-col g-col-xs col-md-4 col-sm-6 col-xs-12 item-title">{{item.nom_persona1}} {{item.ape_paterno}} {{item.ape_materno}}</li>
+                      <li class="g-col g-col-xs col-md-4 col-sm-6 col-xs-12 item-title">{{item.cant_clinicas}} clinicas asignadas</li>
+                      <li ng-show="role == 1" class="g-col g-col-xs col-md-4 col-sm-6 col-xs-12 item-title">{{item.cant_diagnosticos}} diagnósticos asignados</li>
+                    </ul>
+                    <a ng-click="verDetalle(item)" style="padding: 0 15px;">
+                      <span class="gnIcon-xsm ico-mapfre_311_arrowRight"></span>
+                    </a>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-12 text-center g-box-noresult" ng-show="noResult">
+                <div class="row">
+                  <div class="col-md-12 g-box-noresult-ico gCRed1"><span class="ico-mapfre_302_error"></span></div>
+                  <div class="col-md-12 g-box-noresult-text">No hay resultados para la búsqueda realizada.<br>Intente nuevamente.</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="clearfix">
+            <div class="col-md-12" ng-show="results.length != 0">
+              <ul uib-pagination class="g-pagination" ng-model="mPagination" max-size="10" 
+                total-items="totalItems" items-per-page="pageSize" 
+                ng-change="pageChanged(mPagination)" boundary-link-numbers="true">
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+	</div>
+</section>

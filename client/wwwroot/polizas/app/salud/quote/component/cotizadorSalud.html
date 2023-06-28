@@ -1,0 +1,357 @@
+<section ng-form="formVida" class="g-page">
+
+	<page-title info="{title: gLblTitle}"></page-title>
+
+	<div class="g-section-inner">
+		<div class="container">
+			<div class="row">
+				<div class="col-md-12">
+					<h2 class="g-sub-title g-myd-subtitle">Producto</h2>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-3 mb-xs-2">
+					<mpf-select label="{label: 'Producto', required: true}" name="nProducto" ng-model="data.producto" ng-change="onProductChange()" m-data-source="productos"
+						text-field="NombreProducto" value-field="NombreProducto" m-Empty-Option="{enterData:true}" ng-required="true" add-messages>
+					</mpf-select>
+					<ul class="g-error">
+						<li ng-show="formVida.nProducto.$invalid && !formVida.nProducto.$pristine">* Este campo es obligatorio</li>
+					</ul>
+				</div>
+				<div class="col-md-4 mb-xs-2">
+					<mp-data-seeker
+					  behavior="{label:'Agente', required: true, placeholder:'Busque o seleccione un agente ...', matchField:'codigoNombre'}"
+					  m-data-source="findAgent"
+					  ng-model="mAgente"
+					  ng-disabled="!esAdmin"
+					>
+					  <div
+						ng-bind-html="$item.codigoNombre | highlight: $select.search"
+					  ></div>
+					</mp-data-seeker>
+				  </div>
+				<div class="col-md-3 mt-md-4 mt-xs-2 h-myd-mt--20" ng-show="showPrimaList">
+					<a class="gCGreen1" ng-click="fnSeeDetail()" href="javascript:void(0)">
+						<span class="g-icon">
+							<span class="icon ico-mapfre_158_pdf h-myd--none"></span>
+              <span class="icon ico-mapfre-349-myd-pdf h-myd--show h-oim-none h-myd-color--green"></span>
+							<span class="g-link"><b>Descargar detalle</b></span>
+						</span>
+					</a>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="g-section" ng-show="!showPrimaList">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12">
+          <div class="g-box gBgcGray5 pt-xs-1 pb-xs-1 pl-xs-1">
+            <span class="ico-mapfre_222_informacion gCBlue2 gnIcon-xsm g-cell-middle h-myd-color--green"></span>
+            <span class="g-cell-middle pl-xs-1">Selecciona un producto para ver la lista de primas por rango de edad</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+	<div class="g-section" ng-show="showPrimaList">
+  	<div class="container">
+  		<div class="row">
+  			<div class="col-md-6">
+	  			<div class="row">
+		  			<div class="col-md-12">
+							<div class="gBgcGray5 text-center pt-xs-1 pb-xs-1 mb-xs-0-1">
+								<h3><b>LISTA DE PRIMAS POR RANGO DE EDAD</b></h3>
+							</div>
+						</div>
+		  			<div class="col-md-12">
+							<div class="clearfix g-tbl-wrapper">
+								<div class="clearfix">
+									<ul class="g-row-fz12 g-tbl-row gBgcGray5 pt-xs-1">
+										<li class="g-col g-col-xs col-50-dktp tbl-item item-title text-center">RANGO DE EDAD</li>
+										<li class="g-col g-col-xs col-49-dktp tbl-item item-title text-center">PRIMA</li>
+									</ul>
+									<div class="mb-xs-1 gnContentAuto-bg">
+										<ul class="g-row-fz12 g-tbl-row pt-xs-1 g-border-bottom-xs" ng-repeat="prima in primaListFirstTable track by $index">
+											<li class="g-col g-col-xs col-50-dktp tbl-item text-center">{{prima.Descripcion}}</li>
+											<li class="g-col g-col-xs col-49-dktp tbl-item text-center">{{prima.SimboloMoneda}} {{prima.SimboloMoneda != '' ? (prima.Valor | currency : "") : '-'}}</li>
+										</ul>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="col-md-6">
+	  			<div class="row">
+		  			<div class="col-md-12">
+							<div class="gBgcGray5 text-center pt-xs-1 pb-xs-1 mb-xs-0-1">
+								<h3><b>LISTA DE PRIMAS POR RANGO DE EDAD</b></h3>
+							</div>
+						</div>
+		  			<div class="col-md-12">
+							<div class="clearfix g-tbl-wrapper">
+								<div class="clearfix">
+									<ul class="g-row-fz12 g-tbl-row gBgcGray5 pt-xs-1">
+										<li class="g-col g-col-xs col-50-dktp tbl-item item-title text-center">RANGO DE EDAD</li>
+										<li class="g-col g-col-xs col-49-dktp tbl-item item-title text-center">PRIMA</li>
+									</ul>
+									<div class="mb-xs-1 gnContentAuto-bg">
+										<ul class="g-row-fz12 g-tbl-row pt-xs-1 g-border-bottom-xs" ng-repeat="prima in primaListSecondTable track by $index">
+											<li class="g-col g-col-xs col-50-dktp tbl-item text-center">{{prima.Descripcion}}</li>
+											<li class="g-col g-col-xs col-49-dktp tbl-item text-center">{{prima.SimboloMoneda}} {{prima.SimboloMoneda != '' ? (prima.Valor | currency : "") : '-'}}</li>
+										</ul>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+  		</div>
+  	</div>
+  </div>
+
+	<div class="g-section-inner">
+		<div class="container">
+			<div class="row">
+				<div class="col-md-12">
+					<h2 class="g-sub-title g-myd-subtitle">Personas a asegurar</h2>
+				</div>
+			</div>
+			<div class="row" ng-show="!showInsuredForm && !insuredsList.length > 0 && showPrimaList">
+				<div class="col-md-12">
+					<div class="g-box fz14 gBgcGray5 pt-xs-2 pb-xs-2">
+						<div class="clearfix">
+							<div class="col-md-4 col-md-offset-4">
+								<a class="g-btn g-btn-white second-design block" ng-click="onShowInsuredForm()" href="javascript:void(0)">
+									<span class="g-icon">
+										<span class="icon icon-plus ico-mapfre_56_visitasalmedico"></span>
+										<span>Agregar asegurado</span>
+									</span>
+								</a>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="row" ng-show="!showPrimaList">
+				<div class="container">
+					<div class="row">
+						<div class="col-md-12">
+							<div class="g-box gBgcGray5 pt-xs-1 pb-xs-1 pl-xs-1">
+								<span class="ico-mapfre_222_informacion gCBlue2 gnIcon-xsm g-cell-middle h-myd-color--green"></span>
+								<span class="g-cell-middle pl-xs-1">Selecciona un producto para poder agregar un asegurado</span>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="clearfix" ng-show="showInsuredResumen">
+				<div class="g-list-md g-box gBgcGray5 pt-xs-1 g-row-fz12 mb-xs-1 h-myd-pt--20 h-myd-pb--20" ng-repeat="insured in insuredsList track by $index">
+					<div class="col-md-11 g-col-md middle">
+						<ul class="row h-myd-mb--10">
+							<li class="col-md-4 clearfix cnt-item">
+								<div class="col-xs-5 item-label">
+									Tipo:
+								</div>
+								<div class="col-xs-7 item-dato g-text-uppercase">
+									{{insured.TipoAsegurado.Descripcion}}
+								</div>
+							</li>
+
+							<li class="col-md-4 clearfix cnt-item">
+								<div class="col-xs-5 item-label">
+									Apellido paterno:
+								</div>
+								<div class="col-xs-7 item-dato g-text-uppercase">
+                  {{insured.ApellidoPaterno}}
+								</div>
+              </li>
+              <li class="col-md-4 clearfix cnt-item">
+                <div class="col-xs-5 item-label">
+                  Apellido materno:
+                </div>
+                <div class="col-xs-7 item-dato g-text-uppercase">
+                  {{insured.ApellidoMaterno}}
+                </div>
+              </li>
+						</ul>
+						<ul class="row h-myd-mb--10">
+              <li class="col-md-4 clearfix cnt-item">
+                <div class="col-xs-5 item-label">
+                  Nombres:
+                </div>
+                <div class="col-xs-7 item-dato g-text-uppercase">
+                  {{insured.Nombre}}
+                </div>
+              </li>
+							<li class="col-md-4 clearfix cnt-item">
+								<div class="col-xs-5 item-label">
+									Fecha de nacimiento:
+								</div>
+								<div class="col-xs-7 item-dato g-text-uppercase">
+									{{insured.FechaNacimiento}}
+								</div>
+							</li>
+							<li class="col-md-4 clearfix cnt-item">
+								<div class="col-xs-5 item-label">
+									Sexo:
+								</div>
+								<div class="col-xs-7 item-dato g-text-uppercase">
+									{{insured.Sexo.Descripcion}}
+								</div>
+							</li>
+						</ul>
+						<ul class="row">
+							<li class="col-md-4 clearfix cnt-item h-myd-mb--0">
+								<div class="col-xs-5 item-label">
+									Tipo de documento:
+								</div>
+								<div class="col-xs-7 item-dato g-text-uppercase">
+									{{insured.TipoDocumento.Codigo}}
+								</div>
+							</li>
+							<li class="col-md-4 clearfix cnt-item h-myd-mb--0">
+								<div class="col-xs-5 item-label">
+									Número de documento:
+								</div>
+								<div class="col-xs-7 item-dato g-text-uppercase">
+									{{insured.NumeroDocumento}}
+								</div>
+							</li>
+						</ul>
+					</div>
+					<div class="col-md-1 g-col-md middle gCGray3 g-text-center-xs">
+            <a href="" ng-click="onDeleteRowInsuredResumen($index)" href="javascript:void(0)">
+              <span class="gnIcon-md ico-mapfre_307_tacho h-myd--none"></span>
+              <span class="gnIcon-md ico-mapfre-363-myd-eliminar h-myd-color--green h-myd--show h-oim-none"></span>
+            </a>
+					</div>
+        </div>
+
+					<div class="clearfix" ng-show="!showInsuredForm && insuredsList.length > 0">
+					<div class="col-md-3 col-md-offset-9 no-padding-xs">
+						<a class="g-btn g-btn-verde second-design block" ng-click="onShowInsuredForm()" href="javascript:void(0)">agregar asegurado</a>
+					</div>
+				</div>
+			</div>
+
+			<div class="row" ng-form="data.formInsured" ng-if="showInsuredForm">
+				<div class="col-md-12">
+					<div class="clearfix g-box g-visible fz14 gBgcGray5 pt-xs-2 pb-xs-2">
+						<div class="col-sm-12 mb-xs-2">
+							<h2 class="hidden-xs hidden-sm text-center">
+								<b>AGREGANDO ASEGURADO</b>
+							</h2>
+            </div>
+
+            <mpf-person-component
+              name="compAsegurado"
+              app-code="{{ appCode }}"
+              form-code="{{ formCode }}"
+              editable="true"
+			  valid-blacklist-numdoc="true"
+			  outdata="processData(data)">
+            </mpf-person-component>
+
+						<div class="clearfix">
+							<div class="col-md-3 col-md-offset-3 mt-xs-1">
+								<a class="g-btn g-btn-white second-design block" ng-click="onHiddenInsuredForm()" href="javascript:void(0)">CANCELAR</a>
+							</div>
+							<div class="col-md-3 mt-xs-1">
+								<a class="g-btn g-btn-verde second-design block" ng-class="{'disabled': disabledForm}" ng-click="onAddInsuredData()" href="javascript:void(0)">AGREGAR ASEGURADO</a>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="g-section-inner">
+		<div class="container">
+			<div class="row">
+				<div class="col-md-12">
+					<h2 class="g-sub-title g-myd-subtitle">Financiamiento</h2>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-3 mb-xs-2">
+					<mpf-select label="{label: 'Financiamiento', required: true}" name="nFinanc" ng-model="data.financiamiento" mpf-validation="required" value-field="Codigo"
+						text-field="Descripcion" m-Empty-Option="{enterData:true}" ng-required="true" m-data-source="tiposFinanciamiento">
+					</mpf-select>
+					<ul class="g-error">
+						<li ng-show="formVida.nFinanc.$invalid && !formVida.nFinanc.$pristine">* Este campo es obligatorio</li>
+					</ul>
+				</div>
+				<div class="col-md-3 mb-xs-2">
+					<mpf-select
+						label="{label: 'Moneda', required: true}"
+						name="nMon"
+						ng-model="data.moneda"
+						value-field="Codigo"
+						text-field="Descripcion"
+						m-Empty-Option="{enterData:true}"
+						m-data-source="tiposMoneda"
+						mpf-validation="required"
+						ng-required="true"
+						ng-disabled="true">
+					</mpf-select>
+					<ul class="g-error">
+						<li ng-show="formVida.nMon.$invalid && !formVida.nMon.$pristine">* Este campo es obligatorio</li>
+					</ul>
+				</div>
+				<div class="col-md-3 mb-xs-2">
+					<mpf-datepicker label="{label: 'Fecha inicial', required: true}" ng-model="data.fechaActual" format="format" name="nFechaActual"
+						ng-change="onFechaActualChanged()" ng-required="true" ng-disabled="true" nomargin="true">
+					</mpf-datepicker>
+					<ul class="g-error">
+						<li ng-show="formVida.nFechaActual.$invalid && !formVida.nFechaActual.$pristine">* Este campo es obligatorio</li>
+					</ul>
+				</div>
+				<div class="col-md-3 mb-xs-2">
+					<mpf-datepicker label="{label: 'Fecha final', required: true}" ng-model="data.fechaVencimiento" format="format" name="nFechaUnAno"
+						ng-change="onFechaVencimientoChanged()" ng-required="true" ng-disabled="true" nomargin="true">
+					</mpf-datepicker>
+					<ul class="g-error">
+						<li ng-show="formVida.nFechaVencimiento.$invalid && !formVida.nFechaVencimiento.$pristine">* Este campo es obligatorio</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="g-section" ng-show="formVida.viewDcto">
+		<div class="container">
+			<div class="row">
+				<div class="col-md-4">
+          <mpf-Checkbox
+          ng-model="formVida.DctoIntegralidad"
+          label="Aplicar % del ratio de integralidad"
+          ng-show="insuredsList.length > 0"
+          ng-click="obtenerDctontegralidad()"
+          ></mpf-Checkbox><br />
+          <span ng-show="formVida.DctoIntegralidad">Descuento de integralidad {{formVida.PorDctoIntgPlaza}}% </span>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="g-section">
+		<div class="container">
+			<div class="row">
+				<div class="col-md-4 col-md-offset-4">
+          <a class="g-btn g-btn-verde second-design block"  ng-class="{'disabled': disabledForm}"
+          ga-click ga-category="'Emisa - Salud'" ga-action="'MPF - Cotización'" ga-label="'Botón: Cotizar'"
+          ng-click="validationFormQuote()" href="javascript:void(0)">cotizar</a>
+				</div>
+			</div>
+		</div>
+	</div>
+
+</section>
+<form id="frmAttachFileQuote" name="frmAttachFileQuote" action="{{attachFileQuoteURL}}" method="get" target="_blank" >
+</form>

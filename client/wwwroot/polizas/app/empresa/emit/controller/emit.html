@@ -1,0 +1,292 @@
+<section class="g-page page-empresa-cotizar">
+
+	<page-title info="{title: 'Emisión póliza empresa'}"></page-title>
+
+	<wizard-stairs
+		stairs="{steps: [
+			{description:'Datos de la póliza'},
+			{description:'Datos del Riesgo'},
+			{description:'Datos del contratante'},
+			{description:'Datos de la emisión'}
+			],
+			stateName:'.steps',
+			stateParameter: 'step'}"
+		current-Step="currentStep"
+		steping="fnSteps($stepToGo)">
+	</wizard-Stairs>
+
+	<div class="g-sec-information-md mb-xs-3 g-sec-information">
+		<div class="sec-item h-myd-pt--30 h-myd-pb--30 h-myd-bg--gray4">
+			<div class="container">
+				<ul class="row cnt-title h-myd-mb--30">
+					<li class="col-xs-12 item-title g-myd-subtitle">Nro. de cotización {{emit.step.NumeroDocumento}}</li> </ul>
+				<ul class="row cnt-title h-myd-mb--30">
+					<li class="col-xs-12 item-title g-myd-subtitle">Datos de la cotización</li>
+				</ul>
+				<ul class="row">
+					<li class="col-md-4 clearfix cnt-item h-myd-pl--0">
+						<div class="col-xs-6 item-label">
+							<span class="ico-mapfre_82_circle ico-bullet"></span>Tipo de Empresa:
+						</div>
+						<div class="col-xs-6 item-dato g-text-uppercase">
+							{{emit.step.TipoEmpresa.Descripcion}}
+						</div>
+					</li>
+					<li class="col-md-4 clearfix cnt-item h-myd-pl--0">
+						<div class="col-xs-6 item-label">
+							<span class="ico-mapfre_82_circle ico-bullet"></span>Giro de Negocio:
+						</div>
+						<div class="col-xs-6 item-dato g-text-uppercase">
+							{{emit.step.GiroNegocio.Descripcion}}
+						</div>
+					</li>
+				</ul>
+				<ul class="row">
+					<li class="col-md-4 clearfix cnt-item h-myd-pl--0">
+						<div class="col-xs-6 item-label">
+							<span class="ico-mapfre_82_circle ico-bullet"></span>Moneda:
+						</div>
+						<div class="col-xs-6 item-dato g-text-uppercase">
+							{{emit.step.Moneda.Descripcion}}
+						</div>
+					</li>
+				</ul>
+				<ul class="row h-myd-mb--20">
+					<li class="col-md-4 clearfix cnt-item h-myd-pl--0">
+						<div class="col-xs-6 item-label">
+							<span class="ico-mapfre_82_circle ico-bullet"></span>Mapfre dólares:
+						</div>
+						<div class="col-xs-6 item-dato g-text-uppercase">
+							{{(emit.step.ImporteMapfreDolar || 0) | currency: '$'}}
+						</div>
+					</li>
+				</ul>
+				<ul class="row cnt-title h-myd-mb--30">
+					<li class="col-xs-12 item-title g-myd-subtitle mt-xs-1">Datos del riesgo</li>
+				</ul>
+				<ul class="row">
+					<li class="col-md-4 clearfix cnt-item h-myd-pl--0">
+						<div class="col-xs-6 item-label">
+							<span class="ico-mapfre_82_circle ico-bullet"></span>Prima Neta
+						</div>
+						<div class="col-xs-6 item-dato g-text-uppercase">
+							{{emit.step.ConceptosDesglose.PrimaNeta | currency: emit.CURRENCY}}
+						</div>
+					</li>
+					<li class="col-md-4 clearfix cnt-item h-myd-pl--0">
+						<div class="col-xs-6 item-label">
+							<span class="ico-mapfre_82_circle ico-bullet"></span>Prima Comercial
+						</div>
+						<div class="col-xs-6 item-dato g-text-uppercase">
+							{{emit.step.ConceptosDesglose.PrimaComercial | currency: emit.CURRENCY}}
+						</div>
+					</li>
+					<li class="col-md-4 clearfix cnt-item h-myd-pl--0">
+						<div class="col-xs-6 item-label">
+							<span class="ico-mapfre_82_circle ico-bullet"></span>Prima Total
+						</div>
+						<div class="col-xs-6 item-dato g-text-uppercase">
+							{{emit.step.ConceptosDesglose.PrimaTotal | currency: emit.CURRENCY}}
+						</div>
+					</li>
+				</ul>
+			</div>
+		</div>
+
+		<!-- STEP2 -->
+		<div class="sec-item h-myd-pt--30 h-myd-pb--30 h-myd-bg--gray4" ng-show="currentStep>1">
+			<div class="container">
+				<ul class="row cnt-title h-myd-mb--30">
+					<li class="col-xs-6 item-title g-myd-subtitle">Datos de la póliza</li>
+					<li class="col-md-6 item-edit">
+						<a class="h-myd--none" ui-sref="empresaEmit.steps({step: 1})">
+							<span class="g-icon gCGray3">
+								<span class="icon ico-mapfre_228_editar"></span>
+								<span class="g-link g-text-none">Editar datos de la póliza</span>
+							</span>
+            </a>
+            <a class="h-myd--show h-oim-none" href="" ui-sref="empresaEmit.steps({step: 1})">
+              <i class="ico-mapfre_345_myd-edit ico-edit"></i>
+              <span>Editar</span>
+            </a>
+					</li>
+				</ul>
+				<ul class="row">
+					<li class="col-md-4 clearfix cnt-item h-myd-pl--0">
+						<div class="col-xs-6 item-label">
+							<span class="ico-mapfre_82_circle ico-bullet"></span>Periodo de vigencia:
+						</div>
+						<div class="col-xs-6 item-dato g-text-uppercase">
+							{{emit.step.FechaVigenciaInicio}} - {{emit.step.FechaVigenciaFin | date:emit.FORMAT_DATE}}
+						</div>
+					</li>
+				</ul>
+			</div>
+		</div>
+
+		<!-- STEP 3 -->
+
+		<!-- STEP 4 -->
+		<div class="sec-item h-myd-pt--30 h-myd-pb--30 h-myd-bg--gray4" ng-show="currentStep>3">
+			<div class="container">
+				<ul class="row cnt-title h-myd-mb--30">
+					<li class="col-xs-6 item-title g-myd-subtitle">Datos del contratante</li>
+					<li class="col-md-6 item-edit">
+						<a class="h-myd--none" ui-sref="empresaEmit.steps({step: 3})">
+							<span class="g-icon gCGray3">
+								<span class="icon ico-mapfre_228_editar"></span>
+								<span class="g-link g-text-none">Editar datos del contratante</span>
+							</span>
+            </a>
+            <a class="h-myd--show h-oim-none" href="" ui-sref="empresaEmit.steps({step: 3})">
+              <i class="ico-mapfre_345_myd-edit ico-edit"></i>
+              <span>Editar</span>
+            </a>
+					</li>
+				</ul>
+				<ul class="row g-list-md">
+					<li class="col-md-4 clearfix cnt-item h-myd-pl--0">
+						<div class="col-xs-6 item-label">
+							<span class="ico-mapfre_82_circle ico-bullet"></span>Tipo de documento:
+						</div>
+						<div class="col-xs-6 item-dato g-text-uppercase">{{emit.step.Contratante.TipoDocumento.Codigo}}</div>
+					</li>
+					<li class="col-md-4 clearfix cnt-item h-myd-pl--0">
+						<div class="col-xs-6 item-label">
+							<span class="ico-mapfre_82_circle ico-bullet"></span>Nro. Documento:
+						</div>
+						<div class="col-xs-6 item-dato g-text-uppercase">{{emit.step.Contratante.NumeroDocumento}}</div>
+					</li>
+				</ul>
+				<ul class="row g-list-md" ng-show="!isRuc()">
+					<li class="col-md-4 clearfix cnt-item h-myd-pl--0">
+						<div class="col-xs-6 item-label">
+							<span class="ico-mapfre_82_circle ico-bullet"></span>Nombre:
+						</div>
+						<div class="col-xs-6 item-dato g-text-uppercase">{{emit.step.Contratante.Nombre}}</div>
+					</li>
+					<li class="col-md-4 clearfix cnt-item h-myd-pl--0">
+						<div class="col-xs-6 item-label">
+							<span class="ico-mapfre_82_circle ico-bullet"></span>Apellido paterno:
+						</div>
+						<div class="col-xs-6 item-dato g-text-uppercase">{{emit.step.Contratante.ApellidoPaterno}}</div>
+					</li>
+					<li class="col-md-4 clearfix cnt-item h-myd-pl--0">
+						<div class="col-xs-6 item-label">
+							<span class="ico-mapfre_82_circle ico-bullet"></span>Apellido materno:
+						</div>
+						<div class="col-xs-6 item-dato g-text-uppercase">{{emit.step.Contratante.ApellidoMaterno}}</div>
+					</li>
+				</ul>
+
+				<ul class="row g-list-md" ng-show="isRuc()">
+					<li class="col-md-4 clearfix cnt-item h-myd-pl--0">
+						<div class="col-xs-6 item-label">
+							<span class="ico-mapfre_82_circle ico-bullet"></span>Razón Social:
+						</div>
+						<div class="col-xs-6 item-dato g-text-uppercase">{{emit.step.Contratante.Nombre}}</div>
+					</li>
+				</ul>
+
+				<ul class="row g-list-md">
+					<li class="col-md-4 clearfix cnt-item h-myd-pl--0">
+						<div class="col-xs-6 item-label">
+							<span class="ico-mapfre_82_circle ico-bullet"></span>Fecha Nacimiento:
+						</div>
+						<div class="col-xs-6 item-dato g-text-uppercase">{{emit.step.Contratante.FechaNacimiento}}</div>
+					</li>
+					<li class="col-md-4 clearfix cnt-item h-myd-pl--0">
+						<div class="col-xs-6 item-label">
+							<span class="ico-mapfre_82_circle ico-bullet"></span>Sexo:
+						</div>
+						<div class="col-xs-6 item-dato g-text-uppercase">{{emit.step.Contratante.Sexo}}</div>
+					</li>
+					<li class="col-md-4 clearfix cnt-item h-myd-pl--0">
+						<div class="col-xs-6 item-label">
+							<span class="ico-mapfre_82_circle ico-bullet"></span>Profesión:
+						</div>
+						<div class="col-xs-6 item-dato g-text-uppercase">{{emit.step.Contratante.Profesion.Descripcion}}</div>
+					</li>
+				</ul>
+				<ul class="row g-list-md">
+					<li class="col-md-4 clearfix cnt-item h-myd-pl--0">
+						<div class="col-xs-6 item-label">
+							<span class="ico-mapfre_82_circle ico-bullet"></span>Teléfono fijo:
+						</div>
+						<div class="col-xs-6 item-dato g-text-uppercase">{{emit.step.Contratante.Telefono}}</div>
+					</li>
+					<li class="col-md-4 clearfix cnt-item h-myd-pl--0">
+						<div class="col-xs-6 item-label">
+							<span class="ico-mapfre_82_circle ico-bullet"></span>Teléfono móvil:
+						</div>
+						<div class="col-xs-6 item-dato g-text-uppercase">{{emit.step.Contratante.TelefonoMovil}}</div>
+					</li>
+					<li class="col-md-4 clearfix cnt-item h-myd-pl--0">
+						<div class="col-xs-6 item-label">
+							<span class="ico-mapfre_82_circle ico-bullet"></span>Correo electrónico:
+						</div>
+						<div class="col-xs-6 item-dato g-text-uppercase g-cut-text" uib-popover="estaesunaprueba@micorreo.com" popover-trigger="'mouseenter'">{{emit.step.Contratante.CorreoElectronico}}</div>
+					</li>
+				</ul>
+				<ul class="row g-list-md">
+					<li class="col-md-4 clearfix cnt-item h-myd-pl--0">
+						<div class="col-xs-6 item-label">
+							<span class="ico-mapfre_82_circle ico-bullet"></span>Departamento:
+						</div>
+						<div class="col-xs-6 item-dato g-text-uppercase">{{emit.step.Contratante.Ubigeo.Departamento.Descripcion}}</div>
+					</li>
+					<li class="col-md-4 clearfix cnt-item h-myd-pl--0">
+						<div class="col-xs-6 item-label">
+							<span class="ico-mapfre_82_circle ico-bullet"></span>Provincia:
+						</div>
+						<div class="col-xs-6 item-dato g-text-uppercase">{{emit.step.Contratante.Ubigeo.Provincia.Descripcion}}</div>
+					</li>
+					<li class="col-md-4 clearfix cnt-item h-myd-pl--0">
+						<div class="col-xs-6 item-label">
+							<span class="ico-mapfre_82_circle ico-bullet"></span>Distrito:
+						</div>
+						<div class="col-xs-6 item-dato g-text-uppercase">{{emit.step.Contratante.Ubigeo.Distrito.Descripcion}}</div>
+					</li>
+				</ul>
+				<ul class="row g-list-md">
+					<li class="col-md-4 clearfix cnt-item h-myd-pl--0">
+						<div class="col-xs-6 item-label">
+							<span class="ico-mapfre_82_circle ico-bullet"></span>Vía:
+						</div>
+						<div class="col-xs-6 item-dato g-text-uppercase">{{emit.step.Contratante.Ubigeo.NombreVia}}</div>
+					</li>
+					<li class="col-md-4 clearfix cnt-item h-myd-pl--0">
+						<div class="col-xs-6 item-label">
+							<span class="ico-mapfre_82_circle ico-bullet"></span>Enumeración:
+						</div>
+						<div class="col-xs-6 item-dato g-text-uppercase">{{emit.step.Contratante.Ubigeo.TextoNumero}}</div>
+					</li>
+					<li class="col-md-4 clearfix cnt-item h-myd-pl--0">
+						<div class="col-xs-6 item-label">
+							<span class="ico-mapfre_82_circle ico-bullet"></span>Enumeración interior:
+						</div>
+						<div class="col-xs-6 item-dato g-text-uppercase">{{emit.step.Contratante.Ubigeo.TextoInterior}}</div>
+					</li>
+				</ul>
+				<ul class="row g-list-md">
+					<li class="col-md-4 clearfix cnt-item h-myd-pl--0">
+						<div class="col-xs-6 item-label">
+							<span class="ico-mapfre_82_circle ico-bullet"></span>Zona:
+						</div>
+						<div class="col-xs-6 item-dato g-text-uppercase">{{emit.step.Contratante.Ubigeo.TextoZona}}</div>
+					</li>
+					<li class="col-md-4 clearfix cnt-item h-myd-pl--0">
+						<div class="col-xs-6 item-label">
+							<span class="ico-mapfre_82_circle ico-bullet"></span>Referencia:
+						</div>
+						<div class="col-xs-6 item-dato g-text-uppercase">{{emit.step.Contratante.Ubigeo.Referencia}}</div>
+					</li>
+				</ul>
+			</div>
+		</div>
+
+	</div>
+
+	<div id="form-views" ui-view="" ng-cloak></div>
+
+</section>

@@ -1,0 +1,298 @@
+<!-- PASO 2 -->
+<div class="g-section-inner">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12">
+        <h2 class="g-sub-title">Datos del contratante</h2>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-4 mb-xs-2">
+        <div class="g-select-desing">
+          <label class="g-placeholder animated">Tipo de documento*</label>
+          <select ng-model="request.TIP_DCMNTO"
+                  name="rTIP_DCMNTO"
+                  ng-change="setDocPattern(request.TIP_DCMNTO)"
+                  required>
+            <option value="" disabled>-- SELECCIONA --</option>
+            <option ng-repeat="option in params.idTypes"
+                    ng-value="option.CODIGO">{{option.NOMBRE}}</option>
+          </select>
+          <span class="ico-mapfre_308_arrowDown ico-select"></span>
+        </div>
+        <ul class="g-error">
+          <li ng-show="newRequest.rTIP_DCMNTO.$error.required && newRequest.rTIP_DCMNTO.$dirty">Este campo es obligatorio</li>
+        </ul>
+      </div>
+      <div class="col-md-4 mb-xs-2">
+        <div class="g-input-design">
+          <label class="g-placeholder"
+                 ng-class="{animated: newRequest.rNRO_DCMNTO.$focused || newRequest.rNRO_DCMNTO.$viewValue}">
+            Nro. de documento*
+          </label>
+          <input type="text"
+                 name="rNRO_DCMNTO"
+                 ng-model="request.NRO_DCMNTO"
+                 ng-focus="newRequest.rNRO_DCMNTO.$focused = true"
+                 ng-blur="newRequest.rNRO_DCMNTO.$focused = false"
+                 ng-pattern="docPattern"
+                 required>
+        </div>
+        <ul class="g-error">
+          <li ng-show="newRequest.rNRO_DCMNTO.$error.required && newRequest.rNRO_DCMNTO.$dirty">Este campo es obligatorio</li>
+          <li ng-show="newRequest.rNRO_DCMNTO.$error.pattern && newRequest.rNRO_DCMNTO.$touched">Este campo no tiene el formato correcto</li>
+        </ul>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12">
+        <h3 class="gH3 mt-xs-1 mb-xs-1-5">Datos principales</h3>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-4 mb-xs-2">
+        <div class="g-input-design">
+          <label class="g-placeholder"
+                 ng-class="{animated: newRequest.rNMBRES.$focused || newRequest.rNMBRES.$viewValue}">
+            Nombres*
+          </label>
+          <input type="text"
+                 name="rNMBRES"
+                 ng-model="request.NMBRES"
+                 ng-focus="newRequest.rNMBRES.$focused = true"
+                 ng-blur="newRequest.rNMBRES.$focused = false"
+                 required>
+        </div>
+        <ul class="g-error">
+          <li ng-show="newRequest.rNMBRES.$error.required && newRequest.rNMBRES.$dirty">Este campo es obligatorio</li>
+        </ul>
+      </div>
+      <div class="col-md-4 mb-xs-2">
+        <div class="g-input-design">
+          <label class="g-placeholder"
+                 ng-class="{animated: newRequest.rAPLLDO_PTRNO.$focused || newRequest.rAPLLDO_PTRNO.$viewValue}">
+            Apellido paterno*
+          </label>
+          <input type="text"
+                 name="rAPLLDO_PTRNO"
+                 ng-model="request.APLLDO_PTRNO"
+                 ng-focus="newRequest.rAPLLDO_PTRNO.$focused = true"
+                 ng-blur="newRequest.rAPLLDO_PTRNO.$focused = false"
+                 required>
+        </div>
+        <ul class="g-error">
+          <li ng-show="newRequest.rAPLLDO_PTRNO.$error.required && newRequest.rAPLLDO_PTRNO.$dirty">Este campo es obligatorio</li>
+        </ul>
+      </div>
+      <div class="col-md-4 mb-xs-2">
+        <div class="g-input-design">
+          <label class="g-placeholder"
+                 ng-class="{animated: newRequest.rAPLLDO_MTRNO.$focused || newRequest.rAPLLDO_MTRNO.$viewValue}">
+            Apellido materno*
+          </label>
+          <input type="text"
+                 name="rAPLLDO_MTRNO"
+                 ng-model="request.APLLDO_MTRNO"
+                 ng-focus="newRequest.rAPLLDO_MTRNO.$focused = true"
+                 ng-blur="newRequest.rAPLLDO_MTRNO.$focused = false"
+                 required>
+        </div>
+        <ul class="g-error">
+          <li ng-show="newRequest.rAPLLDO_MTRNO.$error.required && newRequest.rAPLLDO_MTRNO.$dirty">Este campo es obligatorio</li>
+        </ul>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-4 mb-xs-2">
+        <div class="input-group g-date-picker">
+          <label class="g-placeholder ng-binding animated">Fecha de nacimiento</label>
+          <input type="text"
+                 class="form-control"
+                 name="rFEC_NACIMIENTO"
+                 uib-datepicker-popup="{{dateFormat}}"
+                 ng-model="request.FEC_NACIMIENTO"
+                 is-open="rFEC_NACIMIENTO_opened"
+                 datepicker-options="rFEC_NACIMIENTO_options"
+                 alt-input-formats="['d!/M!/yyyy']">
+          <span class="input-group-btn">
+            <button type="button" class="btn btn-default" ng-click="rFEC_NACIMIENTO_opened = true"><i class="glyphicon glyphicon-calendar"></i></button>
+          </span>
+        </div>
+      </div>
+      <div class="col-md-4 mb-xs-2">
+        <div class="g-select-desing">
+          <label class="g-placeholder animated">Estado civil</label>
+          <select ng-model="request.ESTDO_CVIL"
+                  name="rESTDO_CVIL">
+            <option value="" disabled>-- SELECCIONA --</option>
+            <option ng-repeat="option in params.maritalStatus" ng-value="option.CODIGO">{{option.NOMBRE}}</option>
+          </select>
+          <span class="ico-mapfre_308_arrowDown ico-select"></span>
+        </div>
+        <ul class="g-error">
+          <li ng-show="false">Este campo es obligatorio</li>
+        </ul>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12">
+        <h3 class="gH3 mt-xs-1 mb-xs-1-5">Caracteristicas personales</h3>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-4 mb-xs-2">
+        <div class="row">
+          <div class="col-md-12"><span class="g-label text-left">Sexo</span></div>
+          <div class="col-md-6 col-sm-3 col-xs-3 mt-xs-1">
+            <m-radio
+              data-ng-model="request.SXO"
+              label="{label: 'Masculino'}"
+              name="rSXO"
+              value="M">
+            </m-radio>
+          </div>
+          <div class="col-md-6 col-sm-3 col-xs-3 mt-xs-1">
+            <m-radio
+              data-ng-model="request.SXO"
+              label="{label: 'Femenino'}"
+              name="rSXO"
+              value="F">
+            </m-radio>
+          </div>
+        </div>
+
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12">
+        <h3 class="gH3 mt-xs-1 mb-xs-1-5">Datos de contacto</h3>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-4 mb-xs-2">
+        <div class="g-input-design">
+          <label class="g-placeholder"
+                 ng-class="{animated: newRequest.rTLF_FJO.$focused || newRequest.rTLF_FJO.$viewValue}">
+            Teléfono fijo
+          </label>
+          <input type="text"
+                 name="rTLF_FJO"
+                 ng-model="request.TLF_FJO"
+                 ng-focus="newRequest.rTLF_FJO.$focused = true"
+                 ng-blur="newRequest.rTLF_FJO.$focused = false"
+                 ng-minlength="9"
+                 ng-maxlength="9">
+        </div>
+        <ul class="g-error">
+          <li ng-show="newRequest.rTLF_FJO.$error.maxlength || (newRequest.rTLF_FJO.$error.minlength && newRequest.rTLF_FJO.$touched)">La longitud de este campo debe ser de 9 caracteres</li>
+        </ul>
+      </div>
+      <div class="col-md-4 mb-xs-2">
+        <div class="g-input-design">
+          <label class="g-placeholder"
+                 ng-class="{animated: newRequest.rTLF_MVIL.$focused || newRequest.rTLF_MVIL.$viewValue}">
+            Teléfono móvil
+          </label>
+          <input type="text"
+                 name="rTLF_MVIL"
+                 ng-model="request.TLF_MVIL"
+                 ng-focus="newRequest.rTLF_MVIL.$focused = true"
+                 ng-blur="newRequest.rTLF_MVIL.$focused = false"
+                 ng-minlength="9"
+                 ng-maxlength="9">
+        </div>
+        <ul class="g-error">
+          <li ng-show="newRequest.rTLF_MVIL.$error.maxlength || (newRequest.rTLF_MVIL.$error.minlength && newRequest.rTLF_MVIL.$touched)">La longitud de este campo debe ser de 9 caracteres</li>
+        </ul>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-4 mb-xs-2">
+        <div class="g-input-design">
+          <label class="g-placeholder"
+                 ng-class="{animated: newRequest.rEMAIL_PRSNAL.$focused || newRequest.rEMAIL_PRSNAL.$viewValue}">
+            Email personal
+          </label>
+          <input type="email"
+                 name="rEMAIL_PRSNAL"
+                 ng-model="request.EMAIL_PRSNAL"
+                 ng-focus="newRequest.rEMAIL_PRSNAL.$focused = true"
+                 ng-blur="newRequest.rEMAIL_PRSNAL.$focused = false">
+        </div>
+        <ul class="g-error">
+          <li ng-show="newRequest.rEMAIL_PRSNAL.$error.email && newRequest.rEMAIL_PRSNAL.$touched">El email introducido no tiene el formato correcto</li>
+        </ul>
+      </div>
+      <div class="col-md-4 mb-xs-2">
+        <div class="g-input-design">
+          <label class="g-placeholder"
+                  ng-class="{animated: newRequest.rEMAIL_OFCNA.$focused || newRequest.rEMAIL_OFCNA.$viewValue}">
+            Email oficina
+          </label>
+          <input type="email"
+                  name="rEMAIL_OFCNA"
+                  ng-model="request.EMAIL_OFCNA"
+                  ng-focus="newRequest.rEMAIL_OFCNA.$focused = true"
+                  ng-blur="newRequest.rEMAIL_OFCNA.$focused = false">
+        </div>
+        <ul class="g-error">
+          <li ng-show="newRequest.rEMAIL_OFCNA.$error.email && newRequest.rEMAIL_OFCNA.$touched">El email introducido no tiene el formato correcto</li>
+        </ul>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12">
+        <h3 class="gH3 mt-xs-1 mb-xs-1-5">Dirección</h3>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-4 mb-xs-2">
+        <div class="g-select-desing">
+          <label class="g-placeholder animated">Departamento</label>
+          <select ng-model="request.COD_DPRTMNTO_2"
+                  name="rCOD_DPRTMNTO"
+                  ng-change="getProvincias(request.COD_DPRTMNTO_2, 2)">
+            <option value="" disabled>-- SELECCIONA --</option>
+            <option ng-repeat="option in params.departamentos" ng-value="option.Codigo">{{option.Descripcion}}</option>
+          </select>
+          <span class="ico-mapfre_308_arrowDown ico-select"></span>
+        </div>
+      </div>
+      <div class="col-md-4 mb-xs-2">
+        <div class="g-select-desing">
+          <label class="g-placeholder animated">Provincia</label>
+          <select ng-model="request.COD_PRVNCIA_2"
+                  name="rCOD_PRVNCIA"
+                  ng-change="getDistritos(request.COD_PRVNCIA_2, 2)">
+            <option value="" disabled>-- SELECCIONA --</option>
+            <option ng-repeat="option in params.provincias_2" ng-value="option.Codigo">{{option.Descripcion}}</option>
+          </select>
+          <span class="ico-mapfre_308_arrowDown ico-select"></span>
+        </div>
+      </div>
+      <div class="col-md-4 mb-xs-2">
+        <div class="g-select-desing">
+          <label class="g-placeholder animated">Distrito</label>
+          <select ng-model="request.COD_DSTRTO_2"
+                  name="rCOD_DSTRTO">
+            <option value="" disabled>-- SELECCIONA --</option>
+            <option ng-repeat="option in params.distritos_2" ng-value="option.Codigo">{{option.Descripcion}}</option>
+          </select>
+          <span class="ico-mapfre_308_arrowDown ico-select"></span>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-4 mb-xs-2">
+        <mpf-input label="{label: 'Dirección', required: false}"
+                   name="rDRCCON"
+                   ng-model="request.DRCCON"></mpf-input>
+      </div>
+      <div class="col-md-4 mb-xs-2">
+        <mpf-input label="{label: 'Referencia', required: false}"
+                   name="rRFERNCIA"
+                   ng-model="request.RFERNCIA"></mpf-input>
+      </div>
+    </div>
+  </div>
+</div>

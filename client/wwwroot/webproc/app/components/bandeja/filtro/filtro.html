@@ -1,0 +1,105 @@
+<form action="" name="frmAsistencias">
+  <div show-filter class="clearfix g-col-filter g-box-md fz14 gBgcGray5-md gBgcWhite1 u-zi-xs--9999" ng-class="{'show': isFilterVisible}">
+    <div class="col-md-12 mb-xs-3 gH4 gCGray1">
+      <h2 class="pb-xs-1 g-border-bottom-xs hidden-xs hidden-sm"><b>Filtro</b></h2>
+      <div id="show-filter" class="row pt-xs-2 pb-xs-2 gBgcGray5 g-border-bottom-xs hidden-md hidden-lg" ng-click="toggleFilter()">
+        <div class="col-xs-10">
+          <h2 class="cnt-title"><b>Filtro</b></h2>
+        </div>
+        <div class="col-xs-2 g-text-right-xs">
+          <span class="glyphicon glyphicon-chevron-down" ng-if="isFilterVisible"></span>
+          <span class="glyphicon glyphicon-chevron-up" ng-if="!isFilterVisible"></span>
+        </div>
+        <div class="clearfix"></div>
+      </div>
+    </div>
+    <div class="col-md-12 pb-md-1 mb-xs-1">
+      <mpf-input
+        data-name="nNroAsistencia"
+        data-ng-model="$ctrl.frm.assistanceNumber"
+        data-ng-required="false"
+        label="{label: 'NÚMERO DE ASISTENCIA', required: false}"
+        name="nNroAsistencia"
+        mpf-validation="onlyNumberNoSpace">
+      </mpf-input>
+    </div>
+    <div class="col-md-12 pb-md-1 mb-xs-1">
+      <mpf-input
+        data-ng-model="$ctrl.frm.sinesterNumber"
+        data-ng-required="false"
+        label="{label: 'NÚMERO DE SINIESTRO', required: false}"
+        data-name="nNroSiniestro"
+        mpf-validation="onlyNumberNoSpace">
+      </mpf-input>
+    </div>
+    <div class="col-md-12 pb-md-1 mb-xs-1">
+      <mpf-input
+        data-ng-model="$ctrl.frm.licensePlate"
+        data-ng-required="false"
+        label="{label: 'NÚMERO DE PLACA', required: false}"
+        data-name="nNroPlaca">
+      </mpf-input>
+    </div>
+    <div class="col-md-12 pb-md-1 mb-xs-1">
+      <mpf-select
+        data-m-data-source="$ctrl.lstEstado"
+        data-ng-model="$ctrl.frm.state"
+        data-text-field="nombreValor"
+        data-value-field="codigoValor"
+        label="{label: 'ESTADO', required: false}"
+        name="nEstado"
+      >
+      </mpf-select>
+    </div>
+    <div class="col-md-12 pb-md-1 mb-xs-1" data-ng-if="$ctrl.isAdminOrSuperv">
+      <mpf-select
+        data-m-Empty-Option="{enterData: true, text: '--TODOS--'}"
+        data-m-data-source="$ctrl.lstUsuarios"
+        data-ng-model="$ctrl.frm.user"
+        data-text-field="usercode"
+        data-value-field="usercode"
+        label="{label: 'Usuarios', required: false}"
+        name="nUsuario"
+      >
+      </mpf-select>
+    </div>
+    <div class="col-md-12 pb-md-2 mb-xs-1">
+      <div class="row">
+        <div class="col-md-6 mb-xs-2">
+          <mpf-datepicker
+            data-format="$ctrl.dateFormat"
+            data-ng-model="$ctrl.objMock1"
+            data-ng-required="false"
+            data-parsear-to-date="true"
+            data-readonly="false"
+            data-set-max-today="true"
+            data-set-model-by-this-data="$ctrl.frm.fromDate"
+            label="{label: 'Desde:', required: false}"
+            name="nFechaDesde"
+          >
+          </mpf-datepicker>
+        </div>
+        <div class="col-md-6 mb-xs-2">
+          <mpf-datepicker
+            data-format="$ctrl.dateFormat"
+            data-ng-model="$ctrl.frm.objMock2"
+            data-ng-required="false"
+            data-parsear-to-date="true"
+            data-readonly="false"
+            data-set-max-today="true"
+            data-set-model-by-this-data="$ctrl.frm.toDate"
+            label="{label: 'Hasta:', required: false}"
+            name="nFechaHasta"
+          >
+          </mpf-datepicker>
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-6 col-md-12 pb-md-1 mb-xs-2">
+      <a class="g-btn g-btn-verde block" data-ng-click="$ctrl.handleFiltrarFrm(); toggleFilter()">Filtrar</a>
+    </div>
+    <div class="col-sm-6 col-md-12">
+      <a class="g-btn g-btn-transparent block" data-ng-click="$ctrl.limpiarFrm()">Limpiar</a>
+    </div>
+  </div>
+</form>

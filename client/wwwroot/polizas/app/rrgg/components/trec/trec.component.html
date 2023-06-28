@@ -1,0 +1,201 @@
+<div class="row">
+  <div class="col-md-12">
+    <h2 class="g-sub-title g-myd-subtitle">Datos del riesgo</h2>
+  </div>
+</div>
+<div class="row">
+  <div class="col-sm-6 col-md-3 mb-xs-2">
+    <mpf-input label="{label: 'Nombre del cliente',required: true}" name="nombreContratante" ng-maxlength="100"
+      ng-model="$ctrl.producto.modelo.NombreContratante" m-Empty-Option="{enterData:true}"
+      mpf-validation="onlyLetterNumCaracteres" ng-required="true">
+    </mpf-input>
+    <div class="g-error" ng-show="$ctrl.validControlForm('nombreContratante')">
+      {{$ctrl.constantsRrgg.SMS_ERROR.REQUERIDO}}
+    </div>
+  </div>
+  <div class="col-sm-6 col-md-3 mb-xs-2">
+    <mpf-input label="{label: 'Corredor',required: true}" name="corredor" ng-maxlength="100"
+      ng-model="$ctrl.producto.modelo.NombreCorredor" mpf-validation="onlyLetterNumCaracteres" ng-required="true">
+    </mpf-input>
+    <div class="g-error" ng-show="$ctrl.validControlForm('corredor')">
+      {{$ctrl.constantsRrgg.SMS_ERROR.REQUERIDO}}
+    </div>
+  </div>
+  <div class="col-sm-6 col-md-3 mb-xs-2">
+    <mpf-select ng-model="$ctrl.producto.modelo.Moneda" name="moneda" label="{label: 'Moneda',required: true}"
+      m-data-source="$ctrl.monedas" text-field="Descripcion" value-field="Codigo" m-Empty-Option="{enterData:true}"
+      mpf-validation="required" ng-required="true">
+    </mpf-select>
+    <div class="g-error" ng-show="$ctrl.validControlForm('moneda')">
+      {{$ctrl.constantsRrgg.SMS_ERROR.REQUERIDO}}
+    </div>
+  </div>
+</div>
+<div class="row mb-xs-3 mb-md-5">
+  <div class="col-sm-6 col-md-3 mb-xs-2">
+    <mpf-select ng-change="$ctrl.validateTipTrabajo()" ng-model="$ctrl.producto.modelo.TipoTrabajo"
+      name="trabajoContratar" label="{label: 'Tipo de trabajo',required: true}" m-data-source="$ctrl.tipoTrabajo"
+      text-field="Descripcion" value-field="Codigo" m-Empty-Option="{enterData:true}" mpf-validation="required"
+      ng-required="true">
+    </mpf-select>
+    <div class="g-error" ng-show="$ctrl.validControlForm('trabajoContratar')">
+      {{$ctrl.constantsRrgg.SMS_ERROR.REQUERIDO}}
+    </div>
+  </div>
+  <div class="col-sm-6 col-md-3">
+    <mpf-input label="{label: 'Trabajo a realizar',required: true}" name="detalleTrabajoObra" ng-maxlength="150"
+      ng-model="$ctrl.producto.modelo.ObraRealizar" ng-required="true" mpf-validation="onlyLetterNumCaracteres">
+    </mpf-input>
+    <div class="g-error" ng-show="$ctrl.validControlForm('detalleTrabajoObra')">
+      {{$ctrl.constantsRrgg.SMS_ERROR.REQUERIDO}}
+    </div>
+  </div>
+  <div ng-click="$ctrl.OpenParametros()" class="col-sm-6 col-md-3 mb-xs-2">
+    <a href="" class="page-rrgg__link fwMedium"> <span class="ico-mapfre_222_informacion page-rrgg__link-icon"></span>
+      Ver parámetros <span class="ico-mapfre_79_chevroneright page-rrgg__link-icon"></span></a>
+  </div>
+  <div class="col-sm-6 col-md-3 mb-xs-2">
+    <mpf-input label="{label: 'Ubicación',required: true}" mpf-validation="onlyLetterNumCaracteres" name="ubicacion" ng-maxlength="200"
+      ng-model="$ctrl.producto.modelo.Ubicacion" ng-required="true" ng-minlength="11"></mpf-input>
+    <div class="g-error" ng-show="$ctrl.validControlForm('ubicacion')">
+      {{$ctrl.constantsRrgg.SMS_ERROR.REQUERIDO}}
+    </div>
+  </div>
+</div>
+<div class="row">
+  <div class="col-sm-3 col-md-3 mb-xs-2">
+    <p class="fwMedium">¿Agregará un endosatario?</p>
+    <m-radio class="mr-xs-3" label="{label: 'Si'}" name="agregaEndosatario"
+      ng-model="$ctrl.producto.modelo.EndosaDeshonestidad" value="{{$ctrl.constantsRrgg.RADIO.SI}}"></m-radio>
+    <m-radio label="{label: 'No'}" name="agregaEndosatario" ng-model="$ctrl.producto.modelo.EndosaDeshonestidad"
+      value="{{$ctrl.constantsRrgg.RADIO.NO}}" ng-click="$ctrl.producto.modelo.NombreEndosaDeshonestidad = ''">
+    </m-radio>
+  </div>
+  <div class="col-sm-3 col-md-3 mb-xs-2"
+    ng-if="$ctrl.producto.modelo.EndosaDeshonestidad == $ctrl.constantsRrgg.RADIO.SI">
+    <mpf-input label="{label: 'Endosado a:'}" name="endosado" mpf-validation="onlyLetterNumCaracteres" ng-maxlength="100"
+      ng-model="$ctrl.producto.modelo.NombreEndosaDeshonestidad"></mpf-input>
+  </div>
+</div>
+<div class="row mb-xs-3 mb-md-5">
+  <div class="col-md-3">
+    <mpf-select label="{label: 'Nro. de equipos', required: true}" name="equipos"
+      ng-model="$ctrl.producto.modelo.CantidadElementos" m-data-source="$ctrl.dataSourceNumeroEquipos"
+      text-field="Descripcion" value-field="Valor" m-Empty-Option="{enterData:true}"
+      ng-change="$ctrl.addFileEquipos($ctrl.producto.modelo.CantidadElementos)" mpf-validation="required"
+      ng-required="true">
+    </mpf-select>
+    <div class="g-error" ng-show="$ctrl.validControlForm('equipos')">
+      {{$ctrl.constantsRrgg.SMS_ERROR.REQUERIDO}}
+    </div>
+    <div class="g-error" ng-if="$ctrl.invalidMoneda">
+      {{$ctrl.constantsRrgg.SMS_ERROR.MONEDA}}
+    </div>
+  </div>
+</div>
+<div ng-if="$ctrl.producto.modelo.listaEquipos.length > 0" class="row">
+  <div class="col-md-6">
+    <h2 class="g-sub-title g-myd-subtitle pb-xs-0">Datos de equipos</h2>
+  </div>
+</div>
+<equipos cotizacion="$ctrl.producto" validate="false" form='$ctrl.form'></equipos>
+<div ng-if="$ctrl.producto.modelo.CantidadElementos.Valor == $ctrl.constantsRrgg.NRO_EQUIPO" class="row">
+  <div class="col-sm-6 col-md-7 mb-xs-2">
+    <mpf-select ng-model="$ctrl.producto.modelo.UnEquipo" name="unEquipo" m-data-source="$ctrl.unEquipo"
+      text-field="Descripcion" value-field="Codigo" m-Empty-Option="{enterData:false}"
+      label="{label: 'Para cotizar un solo equipo es necesario escoger una de las siguientes opciones'}">
+    </mpf-select>
+  </div>
+</div>
+<div class="row">
+  <div class="col-md-6">
+    <h2 class="g-sub-title g-myd-subtitle pb-xs-0">Suma asegurada</h2>
+  </div>
+</div>
+<div class="g-box gBgcGray5 pt-xs-2 pb-xs-2 pl-xs-2 pr-xs-2 mb-xs-2">
+  <div class="row">
+    <div class="col-sm-6 col-md-3 mb-xs-2 g-input--icon">
+      <m-numeric-textbox label="{label: 'Valor total de equipos',required: true}" name="valTotalEquipos"
+        ng-model="$ctrl.producto.modelo.ValorEquipos" ng-disabled="true" ng-required="true">
+      </m-numeric-textbox>
+      <div class="g-error" ng-show="$ctrl.validControlForm('valTotalEquipos')">
+        {{$ctrl.constantsRrgg.SMS_ERROR.REQUERIDO}}
+      </div>
+    </div>
+    <div class="col-sm-6 col-md-3 mb-xs-2 g-input--icon">
+      <mpf-input label="{label: 'Suma asegurada RC',required: true}" name="sumaAsegurada"
+        ng-model="$ctrl.producto.modelo.SumaAsegurada" ng-disabled="!($ctrl.producto.modelo.Moneda.Codigo)"
+        mpf-validation="onlyDecimal" m-input-currency ng-blur="$ctrl.validaMonto()" ng-required="true">
+      </mpf-input>
+      <div class="g-error" ng-show="$ctrl.validControlForm('sumaAsegurada')">
+        {{$ctrl.constantsRrgg.SMS_ERROR.REQUERIDO}}
+      </div>
+    </div>
+    <div class="col-sm-6 col-md-3 mb-xs-2">
+      <mpf-input label="{label: 'Tipo de Equipos - Trabajo',required: false}" name="tipoEquipo"
+        ng-model="$ctrl.producto.modelo.TipoTrabajo.Descripcion" ng-disabled="true" ng-required="false">
+      </mpf-input>
+      <div class="g-error" ng-show="$ctrl.validControlForm('tipoEquipo')">
+        {{$ctrl.constantsRrgg.SMS_ERROR.REQUERIDO}}
+      </div>
+    </div>
+    <div class="col-sm-6 col-md-3 mb-xs-2">
+      <mpf-select ng-model="$ctrl.producto.modelo.TrabajaGoldfields" name="goldFields"
+        m-data-source="$ctrl.constantsRrgg.CONTRATA_TRANS" text-field="Descripcion" value-field="Codigo"
+        m-Empty-Option="{enterData:true}" label="{label: '¿Trabaja con GoldFields?'}">
+      </mpf-select>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-6 col-md-3 mb-xs-2 g-input--icon">
+      <mpf-input ng-blur="$ctrl.validateDescuentos()" label="{label: 'Agregar Descuentos % Director'}"
+        name="descuentoDirector" ng-model="$ctrl.producto.modelo.DescuentoDirector" ng-disabled="false"
+        ng-required="false" mpf-validation="onlyDecimalDescuento">
+      </mpf-input>
+    </div>
+    <div class="col-sm-6 col-md-3 mb-xs-2">
+      <mpf-select ng-model="$ctrl.producto.modelo.Vigencia" m-data-source="$ctrl.vigencia" text-field="Descripcion"
+        value-field="Codigo" m-Empty-Option="{enterData:true}" name="vigencia"
+        label="{label: 'Vigencia',required: true}" ng-required="true">
+      </mpf-select>
+      <div class="g-error" ng-show="$ctrl.validControlForm('vigencia')">
+        {{$ctrl.constantsRrgg.SMS_ERROR.REQUERIDO}}
+      </div>
+    </div>
+    <div class="col-sm-6 col-md-3 mb-xs-2">
+      <p class="fwMedium">¿Asegurará un adicional o tercero?</p>
+      <m-radio class="mr-xs-3" label="{label: 'Si'}" name="aseguraTercero"
+        ng-model="$ctrl.producto.modelo.AseguraAdicional" value="{{$ctrl.constantsRrgg.RADIO.SI}}"
+        data-ng-required="true" ng-click="$ctrl.producto.modelo.NombreAseguraAdicional = $ctrl.producto.modelo.NombreEndosaDeshonestidad"></m-radio>
+      <m-radio label="{label: 'No'}" name="aseguraTercero" ng-model="$ctrl.producto.modelo.AseguraAdicional"
+        value="{{$ctrl.constantsRrgg.RADIO.NO}}" data-ng-required="true"
+        ng-click="$ctrl.producto.modelo.NombreAseguraAdicional = ''"></m-radio>
+    </div>
+    <div ng-if="$ctrl.producto.modelo.AseguraAdicional === $ctrl.constantsRrgg.RADIO.SI"
+      class="col-sm-6 col-md-3 mb-xs-2">
+      <mpf-input label="{label: 'Nombre del Tercero'}" mpf-validation="onlyLetterNumCaracteres"
+        name="nombreAseguraTercero" ng-model="$ctrl.producto.modelo.NombreAseguraAdicional" ng-required="false">
+      </mpf-input>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-6 col-md-3 mb-xs-2">
+      <mpf-select ng-model="$ctrl.producto.modelo.ContrataRc" m-data-source="$ctrl.constantsRrgg.CONTRATA_TRANS"
+        text-field="Descripcion" value-field="Codigo" m-Empty-Option="{enterData:true}" name="ContrataRc"
+        ng-disabled="true" label="{label: 'Contrata RC'}">
+      </mpf-select>
+    </div>
+    <div class="col-sm-6 col-md-3 mb-xs-2">
+      <mpf-select ng-model="$ctrl.producto.modelo.ContrataNac" m-data-source="$ctrl.constantsRrgg.CONTRATA_TRANS"
+        text-field="Descripcion" value-field="Codigo" m-Empty-Option="{enterData:true}" name="ContrataNac"
+        ng-disabled="true" label="{label: 'Contrata Tranporte Nac.'}">
+      </mpf-select>
+    </div>
+    <div class="col-sm-6 col-md-3 mb-xs-2">
+      <mpf-select ng-model="$ctrl.producto.modelo.ContrataMed" m-data-source="$ctrl.constantsRrgg.CONTRATA_TRANS"
+        text-field="Descripcion" value-field="Codigo" m-Empty-Option="{enterData:true}" name="ContrataMed"
+        ng-disabled="true" label="{label: 'Contrata Traslado x prop. Med'}">
+      </mpf-select>
+    </div>
+  </div>
+</div>

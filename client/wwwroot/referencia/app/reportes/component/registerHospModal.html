@@ -1,0 +1,155 @@
+<div class="clearfix modal-container modal-register modal__wrapper">
+  <div class="modal-client-detail__header modal-box-content">
+    <button type="button" class="close g-close-modal" data-ng-click="$ctrl.close()">
+      <span class="ico-mapfre_46_cancelaroff"></span>
+    </button>
+    <h2 class="modal-title modal-spec-title">Registrar seguimiento de referencia</h2>
+  </div>
+
+  <div class="entity u-mb-20">
+    <span class="lista-title__ico ico-mapfre_34_salud hidden-xs hidden-sm"></span>
+    <p class="lista-title__txt register-destination__clinic ng-binding">{{$ctrl.entity.nombreProveedor}}</p>
+  </div>
+
+  <form name="registerForm"
+        novalidate
+        ng-submit="$ctrl.onSubmit(registerForm.$valid)">
+    <h3 class="u-mb-20">Fechas del procedimiento</h3>
+    <div class="row">
+      <div class="col-xs-4 u-mb-30">
+        <span class="select__lbl">Fecha de ingreso</span>
+
+        <mpf-datepicker
+          data-format="$ctrl.dateFormat"
+          data-ng-model="$ctrl.registro.fechaIngreso"
+          data-ng-required="true"
+          name="nFechaDesde"
+          class="u-pt-0">
+        </mpf-datepicker>
+
+      </div>
+      <div class="col-xs-4 u-mb-30"
+           ng-if="$ctrl.registro.fechaIngreso">
+        <span class="select__lbl">Fecha de egreso</span>
+
+        <mpf-datepicker
+          data-format="$ctrl.dateFormat"
+          data-ng-model="$ctrl.registro.fechaFin"
+          data-minDate="$ctrl.registro.fechaIngreso"
+          data-ng-required="true"
+          name="nFechaHasta"
+          class="u-pt-0">
+        </mpf-datepicker>
+
+      </div>
+    </div>
+
+    <h3 class="u-mb-20">Diagnósticos y tratamientos</h3>
+    <div class="row">
+      <div class="col-xs-12 u-mb-30">
+        <span class="select__lbl">Diagnóstico del paciente al momento del ingreso</span>
+        <mp-data-seeker
+          behavior="{matchField: 'descripcion'}"
+          m-data-source="$ctrl.searchCIE10($inputNeed)"
+          name="nDiagnosticoIngreso"
+          ng-model="$ctrl.registro.diagnosticoIngreso"
+          required>
+          <div ng-bind-html="$item.descripcion | highlight: $select.search"></div>
+        </mp-data-seeker>
+
+      </div>
+
+      <div class="col-xs-7 u-mb-30">
+        <span class="select__lbl">Diagnóstico del paciente al momento del egreso</span>
+        <mp-data-seeker
+          behavior="{matchField: 'descripcion'}"
+          m-data-source="$ctrl.searchCIE10($inputNeed)"
+          name="nDiagnosticoEgreso"
+          ng-model="$ctrl.registro.diagnosticoEgreso"
+          required>
+          <div ng-bind-html="$item.descripcion | highlight: $select.search"></div>
+        </mp-data-seeker>
+
+      </div>
+
+      <div class="col-xs-5 u-mb-30">
+        <div class="select-box">
+          <span class="select__lbl">Condición del paciente</span>
+
+          <select name="condicionPaciente"
+                  class="select"
+                  data-ng-change="$ctrl.changeCondicionPaciente()"
+                  data-ng-model="$ctrl.registro.condicionPaciente"
+                  data-ng-options="item.Descripcion for item in $ctrl.selectValues.condicion"
+                  required>
+          </select>
+          <span class="select__ico--arrow ico-mapfre_76_chevrondown ico-select" aria-hidden="true"></span>
+        </div>
+
+      </div>
+
+      <div class="col-xs-12 u-mb-30"
+           ng-if="$ctrl.registro.condicionPaciente.Codigo === '007'">
+        <span class="select__lbl">Describa la condición del paciente</span>
+
+        <input  class="c-input-txt with-label"
+                type="text"
+                ng-model="$ctrl.registro.descripcionOtro">
+
+      </div>
+
+      <div class="col-xs-12 u-mb-30">
+        <span class="select__lbl">Procedimientos realizados</span>
+        <div class="u-pt-20">
+          <textarea class="register-preview__text-area"
+                    maxlength="500"
+                    ng-model="$ctrl.registro.procedimiento"></textarea>
+        </div>
+
+      </div>
+
+      <div class="col-xs-7 u-mb-30">
+        <span class="select__lbl">Nombre de Médico responsable</span>
+
+        <input  class="c-input-txt with-label"
+                type="text"
+                ng-model="$ctrl.registro.nombreResponsable"
+                required>
+
+      </div>
+
+      <div class="col-xs-5 u-mb-30">
+        <span class="select__lbl">Colegiatura</span>
+
+        <input  class="c-input-txt with-label"
+                type="text"
+                ng-model="$ctrl.registro.colegiaturaResponsable"
+                required>
+
+      </div>
+
+      <div class="col-xs-7 u-mb-30">
+        <span class="select__lbl">Especialidad del Médico Responsable</span>
+
+        <input  class="c-input-txt with-label"
+                type="text"
+                ng-model="$ctrl.registro.especialidadResponsable"
+                required>
+
+      </div>
+    </div>
+
+    <div class="modal-footer">
+      <div class="row">
+        <button class="c-btn btn btn--default btn--190"
+                data-ng-click="$ctrl.close()"
+                type="button">
+          Cancelar
+        </button>
+        <button class="c-btn btn btn--secundary btn--190" ng-disabled="registerForm.$invalid">Guardar</button>
+      </div>
+    </div>
+
+  </form>
+
+</div>

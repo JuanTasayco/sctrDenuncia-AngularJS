@@ -1,0 +1,205 @@
+<section class="g-page page-automovil-cotizar g-ui-view bandeja">
+  <div class="container">
+    <div class="g-title g-border-bottom">
+      <div class="row h-myd--flex h-myd--flex-alg-center h-myd--flex-wrap">
+        <div class="col-xs-12 col-sm-8">
+          <h1 class="ng-binding">Bandeja</h1>
+        </div>
+        <div class="col-xs-12 col-sm-4 g-text-right-sm hidden-sm hidden-xs">
+          <a href="#/eps-empresa/home">
+            <span class="g-link gCGray3">
+              <i class="icon ico-mapfre_310_arrowLeft"></i>
+              <b>Volver a EPS Empresa</b>
+            </span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+  <section class="filter">
+    <div class="g-title g-border-bottom filter-title">
+      <div class="container-fluid">
+          <div class="row h-myd--flex h-myd--flex-alg-center h-myd--flex-wrap">
+            <div class="col-xs-12 titles">
+              <h2>Filtros</h2>
+            </div>
+          </div>
+      </div>
+    </div>
+    <form name="frmBandeja">
+      <div class="row inputs">
+        <div class="col-xs-8">
+          <div class="row">
+            <div class="col-xs-2">
+              <mpf-datepicker 
+                label="{label: 'Desde:', required: false}" 
+                ng-model="vm.bandeja.fechaDesde"
+                format="'dd/MM/yyyy'" 
+                name="nFechaDesde" 
+                ng-required="false"
+                ng-disabled="disabled" 
+                readonly="false">
+              </mpf-datepicker>
+              <div class="g-error" ng-show="vm.validControlForm('nFechaDesde')">
+                * Este campo es obligatorio
+              </div>
+            </div>
+            <div class="col-xs-2">
+              <mpf-datepicker 
+                label="{label: 'Hasta:', required: false}" 
+                ng-model="vm.bandeja.fechaHasta"
+                format="'dd/MM/yyyy'" 
+                name="nFechaHasta" 
+                ng-required="false"
+                ng-disabled="disabled" 
+                readonly="false">
+              </mpf-datepicker>
+              <div class="g-error" ng-show="vm.validControlForm('nFechaHasta')">
+                * Este campo es obligatorio
+              </div>
+            </div>
+            <div class="col-xs-3">
+              <mpf-input 
+                  ng-model="vm.bandeja.ruc"
+                  name="nRuc" 
+                  label="{label: 'RUC', required: false}"
+                  ng-disabled="false"
+                  disabled-view-model="true">
+              </mpf-input>
+            </div>
+            <div class="col-xs-3">
+              <mpf-input 
+                  ng-model="vm.bandeja.empresa"
+                  name="nEmpresa" 
+                  label="{label: 'Razón social', required: false}"
+                  ng-disabled="false"
+                  disabled-view-model="true">
+              </mpf-input>
+            </div>
+            <div class="col-xs-2">
+              <mpf-select 
+                  ng-model="vm.bandeja.mEstado"
+                  name="nEstado"
+                  label="{label: 'Estado', required: false}"
+                  m-data-source="vm.estadosSolicitud" 
+                  text-field="descripcion" 
+                  value-field="valorNumerico"
+                  m-Empty-Option="{enterData:true}" 
+                  ng-change="vm.cambioEstado(vm.bandeja.mEstado)"
+                  mpf-validation="required"
+                  disabled-view-model="true">
+              </mpf-select>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row actions">
+        <div class="col-xs-4">
+          <div class="row">
+            <div class="col-xs-6">
+              <a class="g-btn g-btn-verde block" ng-click="vm.limpiarFiltro()">Limpiar</a>
+            </div>
+            <div class="col-xs-6">
+              <a class="g-btn g-btn-verde block" ng-click="vm.changePage(1)">Buscar</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+  </section>
+  <div class="row grid-bandeja">
+    <div class="col-md-12">
+      <div class="row grid-title">
+          <div class="col-xs-1 column">
+              <span>Nro</span>
+          </div>
+          <div class="col-xs-1 column">
+              <span>Fecha de Solicitud</span>
+          </div>
+          <div class="col-xs-1 column">
+              <span>Nro de Solicitud</span>
+          </div>
+          <div class="col-xs-2 column">
+              <span>Razón Social</span>
+          </div>
+          <div class="col-xs-1 column">
+              <span>RUC</span>
+          </div>
+          <div class="col-xs-1 column">
+              <span>EPS/CIA actual</span>
+          </div>
+          <div class="col-xs-1 column">
+              <span>Nombre de EPS o CIA</span>
+          </div>
+          <div class="col-xs-1 column">
+              <span>Nro de trabajadores</span>
+          </div>
+          <div class="col-xs-1 column">
+              <span>Prima por persona</span>
+          </div>
+          <div class="col-xs-1 column">
+              <span>Estado solicitud</span>
+          </div>
+          <div class="col-xs-1 column">
+              <span>PDF</span>
+          </div>
+      </div>
+      <div class="row grid-body">
+          <div class="col-md-12">
+              <div class="row grid-body-row" ng-repeat="item in vm.listadoSolicitudes track by $index" >
+                  <div class="col-md-12 line"></div>
+                  <div class="col-xs-1 column">
+                    <span>{{($index +1) + (vm.showNumberRows*(vm.paginaActual - 1))}}</span>
+                  </div>
+                  <div class="col-xs-1 column">
+                      <span>{{item.fechaSolicitud}}</span>
+                  </div>
+                  <div class="col-xs-1 column">
+                      <span>{{vm.setFormatNroSolicitud(item.idSolicitud)}}</span>
+                  </div>
+                  <div class="col-xs-2 column">
+                      <span>{{item.razonSocial}}</span>
+                  </div>
+                  <div class="col-xs-1 column">
+                      <span>{{item.ruc}}</span>
+                  </div>
+                  <div class="col-xs-1 column">
+                      <span>{{item.epsCia}}</span>
+                  </div>
+                  <div class="col-xs-1 column">
+                      <span>{{item.nombreEpsCia}}</span>
+                  </div>
+                  <div class="col-xs-1 column">
+                      <span>{{item.cantidadTrabajadores}}</span>
+                  </div>
+                  <div class="col-xs-1 column">
+                      <span>{{item.primaPorPersona | number:2}}</span>
+                  </div>
+                  <div class="col-xs-1 column">
+                      <span>{{item.estadoCotizacion}}</span>
+                  </div>
+                  <div class="col-xs-1 column">
+                    <a ng-class="{'disabled': item.estadoCotizacion != 'Generado'}" class="g-btn g-btn-verde block btnPdf" ng-click="vm.getPdfSolicitud(item.idSolicitud)">PDF</a>
+                  </div>
+              </div>
+          </div>
+      </div>
+      <div class="row grid-footer">
+      </div>
+    </div>
+  </div>
+  <!-- PAGINATION -->
+  <div class="row grid-pagination" ng-if="vm.totalSolicitudes > vm.showNumberRows">
+    <div class="col-md-6 col-md-offset-3">
+      <ul
+        uib-pagination
+        class="g-pagination"
+        ng-model="vm.paginaActual"
+        max-size="10"
+        total-items="vm.totalSolicitudes"
+        ng-change="vm.changePage(vm.paginaActual)"
+        boundary-link-numbers="true"
+      ></ul>
+    </div>
+  </div>
+</section>

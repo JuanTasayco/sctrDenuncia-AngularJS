@@ -1,0 +1,191 @@
+<section class="g-page g-home-inner-polizas">
+
+    <div class="g-title g-border-bottom">
+        <div class="container">
+        <div class="row">
+            <div class="col-sm-8">
+            <h1 class="ng-binding">{{planCtrl.planDetail.NombreProducto}}</h1>
+            </div>
+            <div class="col-sm-4 g-text-right-xs no-tablet">
+            <a href="" class="g-link-back" ui-sref="productoClinicaDigital"><span class="ico-mapfre_78_chevronleft arrow-left"></span>Volver a Mis Productos</a>
+            </div>
+        </div>
+        </div>
+    </div>
+
+    <div class="g-content-editarPlan pt-xs-8 pb-xs-2">
+        <div class="clearfix mb-xs-9">
+            <div class="container">
+                <div class="col-xs-12 col-sm-6 col-md-6 col-sm-offset-2 col-md-offset-3">
+                    <div class="clearfix g-box g-overflow-hidden-xs">
+                        <div class="col-xs-12 pt-xs-1 pb-xs-1 gBgcGray5">
+                            <h3 class="text-left g-text-uppercase gH4 gCBlack1 no-margin-xs">No. Contrato :{{planCtrl.planDetail.NumeroContrato}} - No. Subcontrato :{{planCtrl.planDetail.NumeroSubContrato}}</h3>
+                        </div>
+                        <div class="col-xs-12 g-box-content pb-xs-1 pl-xs-0 pr-xs-0">
+                            <div class="clearfix g-list-md gBgcWhite1 g-row-fz12">                                
+                                <div ng-class="{'col-md-12 pt-xs-1 pb-xs-1 g-col-md middle gCGray3 g-text-center-xs': planCtrl.planDetail.ArchivoCondicionado === 'N', 'col-md-6 pt-xs-1 pb-xs-1 g-col-md middle gCGray3 g-text-center-xs g-border-md-right': planCtrl.planDetail.ArchivoCondicionado === 'S'}" >
+                                    <div class="row">
+                                        <div class="col-xs-12 text-center no-padding-xs">
+                                            <span class="gnIcon-lg ico-mapfre_158_pdf"></span><br>
+                                          Cotización.pdf
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 pt-xs-1 pb-xs-1 g-col-md pl-xs-2 pr-xs-2 middle gCGray3 g-text-center-xs" ng-if="planCtrl.planDetail.ArchivoCondicionado === 'S'" >
+                                  <a class="g-btn g-btn-verde block second-design" ng-click="planCtrl.downloadPlan()">DESCARGAR PDF</a>
+                              </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Inicio Acordiones -->
+        <div class="clearfix editarPlan-body">
+            <div class="container">
+              <form name="frmPlanDetail">
+                <div class="row mb-xs-4">
+                    <div class="col-xs-12">
+                        <uib-accordion close-others="planCtrl.oneAtATime">
+                            <div uib-accordion-group class="panel-default acordion">
+                                <uib-accordion-heading>
+                                <div ng-click="planCtrl.toggleAccordion('open1')">
+                                    Editar plan<i class="pull-right i-acordion" ng-class="{'ico-mapfre_309_arrowUp': planCtrl.status.acordion.open1, 'ico-mapfre_308_arrowDown': !planCtrl.status.acordion.open1}"></i>
+                                </div>
+                                </uib-accordion-heading>
+                                <div class="col-xs-12 panel1">
+                                    <div class="row">
+                                        <div class="clearfix g-div-bottom">
+                                          <div class="col-xs-12 col-sm-12 col-md-4 mb-xs-2 mb-md-0 pl-md-5 pr-md-5">
+                                                <label class="g-btn g-btn-verde second-design block g-btn-input-file">
+                                                    <span class="g-icon">
+                                                        <span class="icon icon-plus ico-mapfre_124_download"></span>
+                                                        <span>Subir documento</span>
+                                                    </span>
+                                                    <input type="file" data-show-preview="false" name="nSubirDocumento"  accept=".pdf" file-model="planCtrl.fmSubirDocumento" ng-model="planCtrl.mSubirDocumento" ng-required="false" custom-on-click="fnValidateRisks" class="ng-pristine ng-empty ng-valid ng-valid-required ng-touched">
+                                                </label>
+                                              <ul class="g-error">
+                                                <li ng-hide="planCtrl.fmSubirDocumento[0].name && !planCtrl.loadFile">* Seleccione un archivo</li>
+                                              </ul>
+                                          </div>
+                                          <div class="col-xs-12 col-sm-6 col-md-4 col-md-offset-1">
+                                             <mpf-input
+                                                  label="{label: 'Nombre Comercial del Plan'}"
+                                                  name="nombreComercial"
+                                                  ng-model="planCtrl.planDetail.NombrePlanComercial">
+                                              </mpf-input>
+                                          </div>
+                                          <div class="col-xs-12 col-sm-6 col-md-4 col-md-offset-1 pl-md-5 pr-md-5">
+                                                <a class="g-btn g-btn-verde block second-design mb-xs-1" ng-click="planCtrl.uploadFile()">Guardar cambios</a>
+                                          </div>
+                                          <div class="col-xs-12 col-sm-12 mb-xs-2 mb-md-0 pl-md-5 pr-md-5" ng-show="planCtrl.fmSubirDocumento[0].name">
+                                            <span class="doc-item g-span-middle">
+                                              <span class="doc-item__icon">
+                                                <span class="ico-mapfre_315_pdf gnIcon-md"></span>
+                                              </span>
+                                              <span class="doc-item__name">
+                                                <span class="g-block g-cut-text gH5" ng-click="planCtrl.downloadFile()" uib-popover="{{item.fileName}}" popover-trigger="'mouseenter'">{{planCtrl.fmSubirDocumento[0].name}}</span>
+                                              </span>
+                                              <span class="doc-item__close">
+                                                <span class="ico-mapfre_302_error gnIcon-xsm" ng-click="planCtrl.deleteFile()"></span>
+                                              </span>
+                                            </span>
+                                          </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div uib-accordion-group class="panel-default acordion" >
+                                <uib-accordion-heading>
+                                    <div ng-click="planCtrl.toggleAccordion('open2')">
+                                    Editar fraccionamiento<i class="pull-right i-acordion" ng-class="{'ico-mapfre_309_arrowUp': planCtrl.status.acordion.open2, 'ico-mapfre_308_arrowDown': !planCtrl.status.acordion.open2}"></i>
+                                    </div>
+                                </uib-accordion-heading>
+                                <div class="col-xs-12 panel2 g-content-habilitarPlanes">
+                                    <div class="row mb-xs-2">
+                                        <div class="col-xs-12 col-sm-6 mb-xs-2 mb-sm-0">
+                                            <div class="row">
+                                                <div class="col-xs-12 col-sm-6 mb-xs-2 mb-sm-0">
+                                                    <mpf-select
+                                                        label="{label: '', required: false}"
+                                                        name="nHabilitar"
+                                                        ng-model="planCtrl.mHabilitar"
+                                                        m-data-source="planCtrl.HabilitarData"
+                                                        text-field="Descripcion"
+                                                        value-field="Codigo"
+                                                        m-Empty-Option="{enterData:false}"
+                                                        ng-required="false"
+                                                        ng-change=""
+                                                        is-horz="true"
+                                                    ></mpf-select>
+                                                </div>
+                                                <div class="col-xs-12 col-sm-4" ng-if="planCtrl.isProductChecked">
+                                                    <a class="g-btn g-btn-verde second-design block" ng-click="planCtrl.fnShowAlert1()">Aplicar</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- Tabla -->
+                                    <div class="row">
+                                      <div class="col-md-2"></div>
+                                      <div class="col-md-7">
+                                          <div class="clearfix g-tbl-wrapper">
+                                              <div class="clearfix table__900 g-tbl-habilitarPlanes">
+                                                  <ul height-row class="g-row-fz12 g-tbl-row gBgcGray5 pt-xs-1">
+                                                      <li class="g-col g-col-xs col-7-dktp tbl-item text-center">
+                                                        <mpf-checkbox value="-1" ng-model="planCtrl.selectedAll" ng-click="planCtrl.checkAll(planCtrl.selectedAll)"></mpf-checkbox>
+                                                      </li>
+                                                      <li class="g-col g-col-xs col-20-dktp tbl-item item-title">ESTADO</li>
+                                                      <li class="g-col g-col-xs col-20-dktp tbl-item item-title">CODIGO</li>
+                                                      <li class="g-col g-col-xs col-23-dktp tbl-item item-title">DESCRIPCION</li>
+                                                      <li class="g-col g-col-xs col-30-dktp tbl-item item-title">NOMBRE COMERCIAL</li>
+                                                  </ul>
+                                                  <div class="mb-xs-1 gnContentAuto-bg">
+                                                      <ul height-row class="g-row-fz12 g-tbl-row pt-xs-1 g-border-bottom-xs" ng-repeat="producto in planCtrl.tipoFraccionamientoArray" >
+                                                            <li class="g-col g-col-xs col-7-dktp tbl-item text-center"  >                                                            
+                                                            <mpf-checkbox ng-model="producto.mEstado" value="$index" ng-change="planCtrl.updateListArray($index, producto.NombreProductoTron, producto)"></mpf-checkbox>
+                                                            </li>
+                                                            <li class="g-col g-col-xs col-20-dktp tbl-item tbl-item-estado" ><span ng-class="{'indicator': producto.CodigoEstadoFinanciamiento === 'A', 'indicatorGray': producto.CodigoEstadoFinanciamiento === 'I'}" ></span><p ng-show="producto.CodigoEstadoFinanciamiento === 'A'">Habilitado</p><p ng-show="producto.CodigoEstadoFinanciamiento === 'I'">Inhabilitado</p></li>
+                                                            <li class="g-col g-col-xs col-20-dktp tbl-item" >{{producto.CodigoFinanciamiento}}</li>
+                                                            <li class="g-col g-col-xs col-23-dktp tbl-item">{{producto.NombreFinanciamientoTron}}</li>
+                                                            <li class="g-col g-col-xs col-30-dktp tbl-item" >
+                                                                <mpf-input-horz
+                                                                    label="{required: false}"
+                                                                    name="nombreComercial"
+                                                                    ng-model="producto.NombreFinanciamientoComercial">
+                                                                </mpf-input-horz>
+                                                            </li>
+                                                      </ul>
+                                                  </div>
+                                              </div>
+                                          </div>
+                                      </div>
+                                      <div class="col-md-2"></div>
+                                    </div>
+                                    <!-- Paginador -->
+                                    <div class="col-md-12 text-center g-box-noresult" ng-if="!planCtrl.tipoFraccionamientoArray.length > 0">
+                                        <div class="row">
+                                        <div class="col-md-12 g-box-noresult-ico gCRed1"><span class="ico-mapfre_302_error"></span></div>
+                                        <div class="col-md-12 g-box-noresult-text">No hay resultados para los filtros escogidos.<br>Intente nuevamente.</div>
+                                        </div>
+                                    </div>
+                                    <div class="row" ng-if="planCtrl.tipoFraccionamientoArray.length > 0">
+                                        <div class="col-md-12">
+                                            <ul uib-pagination class="g-pagination" ng-model="planCtrl.mPagination" max-size="10" total-items="planCtrl.totalItems" items-per-page="planCtrl.pageSize" boundary-link-numbers="true" ng-change="planCtrl.pageChanged(planCtrl.mPagination)"></ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </uib-accordion>
+                    </div>
+                </div>
+              </form>
+            </div>
+        </div>
+    </div>
+
+</section>
+
+<form id="frmAttachFilePlan" name="frmAttachFilePlan" action="{{planCtrl.attachFilePlanURL}}" method="post" target="_blank" >
+</form>

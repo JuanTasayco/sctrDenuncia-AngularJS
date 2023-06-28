@@ -1,0 +1,249 @@
+<section class="g-page g-ui-view page-sepelios">
+    <div class="g-title">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-9 mb-xs-2 no-mb-sm">
+                    <h1>Correo Excepcional</h1>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="g-section-inner">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-3 mb-xs-2">
+                    <div show-filter
+                        class="clearfix g-col-filter g-box-md fz14 gBgcGray5-md gBgcWhite1 g-myd-box g-myd-box--filter"
+                        ng-class="{'show' : isFilterVisible}">
+                        <div class="col-md-12 mb-xs-3 gH4 gCGray1">
+                            <h2 class="pb-xs-1 g-border-bottom-xs hidden-xs hidden-sm"><b>Opciones de Búsqueda</b>
+                            </h2>
+                            <div id="show-filter"
+                                class="row pt-xs-2 pb-xs-2 gBgcGray5 g-border-bottom-xs hidden-md hidden-lg"
+                                ng-click="toggleFilter();">
+                                <div class="col-xs-10">
+                                    <h2><b>Filtro</b></h2>
+                                </div>
+                                <div class="col-xs-2 g-text-right-xs">
+                                    <span class="glyphicon glyphicon-chevron-down" ng-if="isFilterVisible"></span>
+                                    <span class="glyphicon glyphicon-chevron-up" ng-if="!isFilterVisible"></span>
+                                </div>
+                                <div class="clearfix"></div>
+                            </div>
+                        </div>
+                        <form name="frmFilters">
+                            <div class="g-col-filter__box">
+                                <div class="col-md-12 mb-xs-2">
+                                    <mpf-datepicker label="{label: 'Fecha de creación',required: false}"
+                                        ng-model="fechaCreacion" format="format" name="fechaCreacion"
+                                        ng-required="false" readonly="false">
+                                    </mpf-datepicker>
+                                </div>
+                                <div class="col-md-12 mb-xs-2">
+                                    <mpf-select ng-model="filters.ramo" name="ramo" ng-change="listCamposanto()"
+                                        label="{label: 'Ramo',required: false}" m-data-source="ramo" text-field="Text"
+                                        value-field="Codigo" m-Empty-Option="{enterData:true}" mpf-validation="required"
+                                        ng-required="false">
+                                    </mpf-select>
+                                </div>
+                                <div class="col-md-12 mb-xs-2">
+                                    <mpf-select ng-model="filters.camposanto" name="nCamposanto"
+                                        label="{label: 'Camposanto', required: false}" m-data-source="camposanto"
+                                        text-field="Descripcion" value-field="Codigo"
+                                        m-Empty-Option="{text:'Elige Camposanto'}" mpf-validation="required"
+                                        ng-disabled=""></mpf-select>
+                                </div>
+                                <div class="col-md-12 mb-xs-2">
+                                     <mpf-input label="{label: 'Correo electrónico', required: false}" name="email"
+                                            ng-model="filters.email" ng-required="false"
+                                            ng-maxlength="50">
+                                        </mpf-input>
+                                </div>
+                                <div class="col-md-12 mb-xs-1">
+                                    <a class="g-btn g-btn-verde block" ng-click="searchData(1);">Buscar</a>
+                                </div>
+                                <div class="col-md-12">
+                                    <a class="g-btn block" ng-click="clearFilters();">Limpiar</a>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <div class="col-md-9">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <h2 class="g-sub-title g-myd-subtitle">Listado</h2>
+                        </div>
+                    </div>
+                    <div class="row mb-xs-2">
+                        <div class="col-md-3">
+                            <div class="cs-content-help pointer" ng-click="addItemOrClean(true)">
+                                <i class="gH3 ico-mapfre_56_visitasalmedico ico-edit h-myd--none"></i>
+                                <span>AGREGAR AGRUPAMIENTO</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12 ">
+                            <form name="frmAdd" id="frmAdd">
+                                <div ng-if="addNewItem" class="clearfix g-box gBgcGray5">
+                                    <div class="row pt-xs-2 mb-xs-2">
+                                        <ul class="clearfix g-list-sm">
+                                            <li class="col-md-9 col-sm-9 mb-xs-2">
+                                                <ul class="row">
+                                                    <li class="col-sm-12 clearfix ">
+                                                        <div class="col-sm-3 col-xs-6">
+                                                            <mpf-datepicker
+                                                                label="{label: 'Fecha de creación',required: false}"
+                                                                ng-model="fechaCreacionAdd" format="format"
+                                                                name="fechaCreacion" ng-required="false"
+                                                                ng-disabled="true" readonly="false">
+                                                            </mpf-datepicker>
+                                                        </div>
+                                                        <div class="col-sm-3 col-xs-6">
+                                                            <mpf-select ng-model="modelo.ramo" name="ramoAdd"
+                                                                ng-change="camposantoFn(modelo.ramo.Codigo)"
+                                                                label="{label: 'Ramo',required: true}"
+                                                                m-data-source="ramo" text-field="Text"
+                                                                value-field="Codigo" m-Empty-Option="{enterData:true}"
+                                                                mpf-validation="required" ng-required="true">
+                                                            </mpf-select>
+                                                            <div class="g-error" ng-show="validControlForm('ramoAdd')">
+                                                                {{cntsSepelios.SMS_ERROR.REQUERIDO}}
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-sm-3 col-xs-6">
+                                                            <mpf-select ng-model="modelo.camposanto"
+                                                                name="nCamposantoAdd"
+                                                                label="{label: 'Camposanto', required: true}"
+                                                                m-data-source="formCorreo.camposantoFrmAdd"
+                                                                text-field="Descripcion" value-field="Codigo"
+                                                                m-Empty-Option="{text:'Elige Camposanto'}"
+                                                                mpf-validation="required" ng-required="true">
+                                                            </mpf-select>
+                                                            <div class="g-error"
+                                                                ng-show="validControlForm('nCamposantoAdd')">
+                                                                {{cntsSepelios.SMS_ERROR.REQUERIDO}}
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-sm-3 col-xs-6">
+                                                            <mpf-input
+                                                                label="{label: 'Correo electrónico', required: true}"
+                                                                name="emailAdd" ng-model="modelo.email"
+                                                                data-mpf-validation="email" ng-maxlength="50"
+                                                                ng-minlength="2" ng-required="true">
+                                                            </mpf-input>
+                                                            <div class="g-error"
+                                                                ng-show="frmAdd.emailAdd.$invalid && !frmAdd.emailAdd.$pristine">
+                                                                {{cntsSepelios.SMS_ERROR.EMAIL}}
+                                                            </div>
+                                                            <div class="g-error" ng-show="validControlForm('emailAdd')">
+                                                                {{cntsSepelios.SMS_ERROR.REQUERIDO}}
+                                                            </div>
+                                                        </div>
+                                                    </li>
+                                                </ul>
+                                            </li>
+                                            <li class="col-md-3 col-sm-3 clearfix">
+                                                <div class="col-md-12 mb-xs-1">
+                                                    <div class="col-md-12 mb-xs-1">
+                                                        <a class="g-btn g-btn-verde block second-design"
+                                                            ng-click="save(isEdit)">
+                                                            <span class="g-icon">
+                                                                <span>{{isEdit ? 'Actualizar' : 'Agregar'}}</span>
+                                                            </span>
+                                                        </a>
+                                                    </div>
+                                                    <div class="col-md-12 ">
+                                                        <a class="g-btn g-btn-white block second-design"
+                                                            ng-click="addItemOrClean(false)">
+                                                            <span class="g-icon">
+                                                                <span>Cancelar</span>
+                                                            </span>
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </form>
+                            <div class="row" ng-if="noData.noSearch">
+                                <div class="col-md-12 text-center g-box-noresult">
+                                    <div class="row">
+                                        <div class="col-md-12 g-box-noresult-ico gCBlue2">
+                                            <span class="ico-mapfre_303_informacion"></span>
+                                        </div>
+                                        <div class="col-md-12 g-box-noresult-text">
+                                            Realiza una búsqueda para obtener resultados.
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row" ng-if="noData.noResult">
+                                <div class="col-md-12 text-center g-box-noresult">
+                                    <div class="row">
+                                        <div class="col-md-12 g-box-noresult-ico gCRed1"><span
+                                                class="ico-mapfre_302_error"></span></div>
+                                        <div class="col-md-12 g-box-noresult-text">
+                                            No hay resultados para los filtros escogidos.<br>Intenta de nuevo.
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div ng-repeat="item in exepcionales" class="clearfix g-box gBgcGray5">
+                                <div class="row pt-xs-2 mb-xs-2">
+                                    <ul class="clearfix g-list-sm">
+                                        <li class="col-md-9 col-sm-9">
+                                            <ul class="row">
+                                                <li class="col-sm-12 clearfix ">
+                                                    <div class="col-sm-3 col-xs-6">
+                                                        <span class="item-label">Fecha de creación</span> <br>
+                                                        <p>{{item.FechaCreacion | date:"dd/MM/yyyy"}}</p>
+                                                    </div>
+                                                    <div class="col-sm-3 col-xs-6">
+                                                        <span class="item-label">Camposanto</span> <br>
+                                                        <p>{{item.NombreCampoSanto}}</p>
+                                                    </div>
+                                                    <div class="col-sm-3 col-xs-6">
+                                                        <span class="item-label">Ramo</span> <br>
+                                                        <p ng-if="item.CodRamo==400"> {{ "Necesidad Inmediata" | uppercase }}</p>
+                                                        <p ng-if="item.CodRamo==401"> {{ "Necesidad Futura" | uppercase }}</p>
+                                                    </div>
+                                                    <div class="col-sm-3 col-xs-6">
+                                                        <span class="item-label">Correo</span> <br>
+                                                        <p class="u-break-word">{{item.Correo}}</p>
+                                                    </div>
+
+                                                </li>
+                                            </ul>
+                                        </li>
+                                        <li class="col-md-3 col-sm-3 clearfix">
+                                            <div class="col-md-12 mb-xs-1">
+                                                <a ng-click="openEdit(item)" class=" col-sm-6 gH5 mb-xs-0 delete">
+                                                    <span class="icon--md ico-mapfre_345_myd-edit ico-edit ml-xs-1">
+                                                    </span>Editar
+                                                </a>
+                                                <a ng-click="delete(item)" class=" col-sm-6 gH5  mb-xs-0 delete">
+                                                    <span class="icon--md ico-mapfre-363-myd-eliminar ml-xs-1">
+                                                    </span>Eliminar
+                                                </a>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row" ng-if="pagination.totalItems > 10">
+                        <div class="col-md-12">
+                            <ul uib-pagination class="g-pagination" ng-model="filters.paginaActual"
+                                max-size="filters.cantidadFilasPorPagina" total-items="pagination.totalItems"
+                                ng-change="pageChanged(filters)" boundary-link-numbers="true"></ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

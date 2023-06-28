@@ -1,0 +1,179 @@
+<section class="g-page-popup g-reembolso-popup">
+  <button type="button" class="close g-close-modal" ng-click="$ctrl.cerrar()">
+    <span class=" ico-mapfre_231_cancelaroff"></span>
+  </button>
+  <form name="$ctrl.frmModal">
+    <div class="container g-modal-header g-text-uppercase">
+      <div class="col-xs-12">
+        <div class="row">
+          <div class="col-md-12 mb-xs-1">
+            <h2 class="gH3"><b>Registrar nuevo proveedor</b></h2>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="container g-modal-body pt-xs-2 pb-xs-2">
+      <div class="col-xs-12">
+        <div class="row">
+          <div class="col-xs-12 col-sm-6">
+            <mpf-input
+              label="{label: 'RUC', required: true}"
+              name="nRuc"
+              ng-model="$ctrl.frmCompany.ruc"
+              ng-required="true"
+              ng-disabled="true">
+            </mpf-input>
+            <div
+              class="g-error"
+              ng-show="$ctrl.frmModal.nRuc.$error.required && !$ctrl.frmModal.nRuc.$pristine">
+              * Campo requerido
+            </div>
+          </div>
+          <div class="col-xs-12 col-sm-6">
+            <mpf-input
+              label="{label: 'Razón social', required: true}"
+              name="nRazonSocial"
+              ng-model="$ctrl.frmCompany.razonSocial"
+              ng-required="true">
+            </mpf-input>
+            <div
+              class="g-error"
+              ng-show="$ctrl.frmModal.nRazonSocial.$error.required && !$ctrl.frmModal.nRazonSocial.$pristine">
+              * Campo requerido
+            </div>
+          </div>
+        </div>
+        <div class="row mt-xs-2">
+          <div class="col-xs-12 col-sm-6">
+            <mpf-input
+              label="{label: 'Apellido paterno', required: false}"
+              name="nLastName"
+              ng-model="$ctrl.frmCompany.lastName"
+              ng-required="false">
+            </mpf-input>
+            <div
+              class="g-error"
+              ng-show="$ctrl.frmModal.nLastName.$error.required && !$ctrl.frmModal.nLastName.$pristine">
+              * Campo requerido
+            </div>
+          </div>
+          <div class="col-xs-12 col-sm-6">
+            <mpf-input
+              label="{label: 'Apellido materno', required: false}"
+              name="nMotherLastName"
+              ng-model="$ctrl.frmCompany.motherLastName"
+              ng-required="false">
+            </mpf-input>
+            <div
+              class="g-error"
+              ng-show="$ctrl.frmModal.nMotherLastName.$error.required && !$ctrl.frmModal.nMotherLastName.$pristine">
+              * Campo requerido
+            </div>
+          </div>
+        </div>
+        <div class="row mt-xs-2">
+          <div class="col-xs-12 col-sm-6">
+            <mpf-input
+              label="{label: 'Primer nombre', required: false}"
+              name="nFirstName"
+              ng-model="$ctrl.frmCompany.firstName"
+              ng-required="false">
+            </mpf-input>
+            <div
+              class="g-error"
+              ng-show="$ctrl.frmModal.nFirstName.$error.required && !$ctrl.frmModal.nFirstName.$pristine">
+              * Campo requerido
+            </div>
+          </div>
+          <div class="col-xs-12 col-sm-6">
+            <mpf-input
+              label="{label: 'Segundo nombre', required: false}"
+              name="nSegundoNombre"
+              ng-model="$ctrl.frmCompany.secondName">
+            </mpf-input>
+            <div
+              class="g-error"
+              ng-show="$ctrl.frmModal.nSegundoNombre.$error.required && !$ctrl.frmModal.nSegundoNombre.$pristine">
+              * Campo requerido
+            </div>
+          </div>
+        </div>
+        <div class="row mt-xs-2">
+          <div class="col-xs-12 col-sm-6">
+            <mpf-select
+              label="{label: 'Departamento ', required: false}"
+              name="nDepartment"
+              ng-model="$ctrl.frmCompany.department"
+              m-data-source="$ctrl.departmentList"
+              text-field="departmentName"
+              value-field="departmentCode"
+              ng-required="false"
+              m-Empty-Option="{enterData:true}"
+              ng-change="$ctrl.changeDepartment()">
+            </mpf-select>
+            <div
+              class="g-error"
+              ng-show="$ctrl.frmModal.nDepartment.$error.required && !$ctrl.frmModal.nDepartment.$pristine">
+              * Seleccione un departamento
+            </div>
+          </div>
+          <div class="col-xs-12 col-sm-6">
+            <mpf-select
+              label="{label: 'Provincia ', required: false}"
+              name="nProvince"
+              ng-model="$ctrl.frmCompany.province"
+              m-data-source="$ctrl.provinceList"
+              text-field="provinceName"
+              value-field="idProvince"
+              ng-required="false"
+              m-Empty-Option="{enterData:true}"
+              ng-change="$ctrl.changeProvince()">
+            </mpf-select>
+            <div
+              class="g-error"
+              ng-show="$ctrl.frmModal.nProvince.$error.required && !$ctrl.frmModal.nProvince.$pristine">
+              * Seleccione una provincia
+            </div>
+          </div>
+        </div>
+        <div class="row mt-xs-2">
+          <div class="col-xs-12 col-sm-6">
+            <mpf-select
+              label="{label: 'Distrito ', required: false}"
+              name="nDistrict"
+              ng-model="$ctrl.frmCompany.district"
+              m-data-source="$ctrl.districtList"
+              text-field="districtName"
+              value-field="idDistrict"
+              ng-required="false"
+              m-Empty-Option="{enterData:true}">
+            </mpf-select>
+            <div
+              class="g-error"
+              ng-show="$ctrl.frmModal.nDistrict.$error.required && !$ctrl.frmModal.nDistrict.$pristine">
+              * Seleccione un distrito
+            </div>
+          </div>
+          <div class="col-xs-12 col-sm-6">
+            <mpf-input
+              label="{label: 'Dirección', required: false}"
+              name="nAdress"
+              ng-model="$ctrl.frmCompany.adress"
+              ng-required="false">
+            </mpf-input>
+            <div
+              class="g-error"
+              ng-show="$ctrl.frmModal.nAdress.$error.required && !$ctrl.frmModal.nAdress.$pristine">
+              * Campo requerido
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="container g-modal-footer pt-xs-2">
+      <div class="col-md-4 col-md-offset-4 mb-xs-1 no-mb-md">
+        <a href="" class="g-btn g-btn-verde block" ng-click="$ctrl.saveCompany()">Aceptar</a>
+      </div>
+    </div>
+  </form>
+</section>

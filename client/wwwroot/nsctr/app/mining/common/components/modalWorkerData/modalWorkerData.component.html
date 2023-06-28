@@ -1,0 +1,143 @@
+<section class="gNsctr gNsctrModal modalWorkerData">
+
+	<button
+		type="button"
+		class="close g-close-modal"
+		ng-click="$ctrl.fnCloseModal()">
+		<span class="ico-mapfre_231_cancelaroff"></span>
+	</button>
+
+	<div class="container">
+		<div class="row">
+			<div class="col-md-12 g-text-center-xs g-text-uppercase mb-xs-2">
+				<h2 class="gH3"><b>Datos del trabajador</b></h2>
+			</div>
+		</div>
+	</div>
+
+	<div class="g-sec-information mb-xs-2">
+		<div class="sec-item">
+			<div class="container">
+				<div class="col-md-12">
+					<ul class="row">
+						<li class="col-md-12 clearfix cnt-item">
+							<div class="col-sm-3 col-ms-3 col-xs-5 item-label">
+								{{$ctrl.mainData.documentType}}:
+							</div>
+							<div class="col-sm-9 col-ms-9 col-xs-7 item-dato">
+								{{$ctrl.mainData.documentNumber}}
+							</div>
+						</li>
+						<li class="col-md-12 clearfix cnt-item no-border-left">
+							<div class="col-sm-3 col-ms-3 col-xs-5 item-label">
+								Nombre:
+							</div>
+							<div class="col-sm-9 col-ms-9 col-xs-7 item-dato">
+								{{$ctrl.mainData.fullName}}
+							</div>
+						</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="container">
+		<div class="row mb-xs-2" ng-repeat="item in $ctrl.data.dataLists">
+
+			<div class="col-md-12 clearfix">
+
+				<div class="clearfix g-tbl-wrapper">
+					<div
+						class="clearfix"
+						ng-class="$ctrl.fnGetClassTable(item)">
+
+						<h2 class="mb-xs-0-5">
+							<b>{{(item.type == 'C') ? 'DATOS DE CONSTANCIAS' : 'DATOS DE EVALUACIONES'}}</b>
+						</h2>
+
+						<nsctr-no-result-filter
+							type="search"
+							no-result-info="item.noResult.noResultInfo"
+							no-result="item.noResult.noResult"
+							no-result-text="'No existen resultados para este trabajador'">
+						</nsctr-no-result-filter>
+
+						<ul
+							ng-if="item.dataList.list.length > 0"
+							height-row
+							class="g-row-fz12 g-tbl-row gBgcGray5 pt-xs-1 clearfix">
+							<li
+								class="g-col g-col-xs tbl-item item-label g-text-uppercase"
+								ng-class="(item.type == 'C') ? 'col-25-dktp' : 'col-33-dktp'">
+								{{(item.type == 'C') ? 'CONST.' : 'EVALUACIÓN'}}
+							</li>
+							<li
+								ng-if="item.type == 'C'"
+								class="g-col g-col-xs col-25-dktp tbl-item item-label g-text-uppercase">
+								{{(item.type == 'C') ? 'PÓLIZA PENSIÓN' : ''}}
+							</li>
+							<li
+								class="g-col g-col-xs tbl-item item-label g-text-uppercase"
+								ng-class="(item.type == 'C') ? 'col-25-dktp' : 'col-33-dktp'">
+								{{(item.type == 'C') ? 'PÓLIZA SALUD' : 'FECHA EVALUACIÓN'}}
+							</li>
+							<li
+								class="g-col g-col-xs tbl-item item-label g-text-uppercase"
+								ng-class="(item.type == 'C') ? 'col-25-dktp' : 'col-33-dktp'">
+								{{(item.type == 'C') ? 'VIGENCIA' : 'CONDICIÓN'}}
+							</li>
+						</ul>
+
+						<div
+							ng-if="item.dataList.list.length > 0"
+							class="gnContentAuto-md">
+							<ul
+								class="g-row-fz12 g-tbl-row pt-xs-1 g-border-bottom-xs"
+								ng-repeat="itemList in item.dataList.list">
+								<li
+									class="g-col g-col-xs tbl-item item-dato"
+									ng-class="(item.type == 'C') ? 'col-25-dktp' : 'col-33-dktp'">
+									{{(item.type == 'C') ? itemList.constancyNumber : itemList.fileId}}
+								</li>
+								<li
+									ng-if="item.type == 'C'"
+									class="g-col g-col-xs col-25-dktp tbl-item item-dato">
+									{{(item.type == 'C') ? itemList.pensionPolicyNumber : ''}}
+								</li>
+								<li
+									class="g-col g-col-xs tbl-item item-dato"
+									ng-class="(item.type == 'C') ? 'col-25-dktp' : 'col-33-dktp'">
+									{{(item.type == 'C') ? itemList.healthPolicyNumber : itemList.testDate}}
+								</li>
+								<li
+									class="g-col g-col-xs tbl-item item-dato"
+									ng-class="(item.type == 'C') ? 'col-25-dktp' : 'col-33-dktp'">
+									{{(item.type == 'C') ? itemList.dateStart + ' - ' + itemList.dateEnd : itemList.apto}}
+								</li>
+							</ul>
+						</div>
+
+					</div>
+				</div>
+
+			</div>
+			<div
+				class="col-md-10 col-md-offset-1"
+				ng-if="item.dataList.showPagination">
+				<ul
+					uib-pagination
+					class="g-pagination"
+					ng-model="item.mPagination.currentPage"
+					max-size="item.mPagination.maxSize"
+					total-items="item.mPagination.totalItems"
+					ng-change="$ctrl.fnChangePage(item, $index)"
+					boundary-link-numbers="true">
+				</ul>
+			</div>
+
+
+		</div>
+	</div>
+
+</section>

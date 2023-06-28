@@ -1,0 +1,310 @@
+<!-- Step 1 -->
+<form id="cotiza-form" action="" name="frmPoliData">
+  <div class="sec-auto g-section-inner h-myd-pt--10">
+    <div class="container">
+      <div class="row">
+        <!-- Localidad del Auto -->
+        <div class="col-md-12 mb-1">
+          <h2 class="g-sub-title g-myd-subtitle">Elige el auto a cotizar</h2>
+        </div>
+
+        <!-- Tipo de vehículo -->
+        <div class="col-md-4 mb-xs-2">
+          <mpf-select
+            ng-model="formData.mTipoVehiculo"
+            name="nTipoVehiculo"
+            label="{label: gLblTipoVehiculo.label, required: true}"
+            m-data-source="tipoVehiculo"
+            text-field="NombreTipo"
+            value-field="CodigoTipo"
+            m-Empty-Option="{enterData:true}"
+            mpf-validation="required"
+            ng-change="loadMarca()"
+            ng-required="true"
+          ></mpf-select>
+
+          <div
+            class="g-error"
+            ng-show="frmCarData.nTipoVehiculo.$error.required && !frmCarData.nTipoVehiculo.$pristine"
+          >
+            * Seleccione tipo de vehículo
+          </div>
+        </div>
+
+        <!-- Marca / Modelo -->
+        <div class="col-md-4 mb-xs-2">
+          <div class="poliza-search">
+            <mp-data-seeker
+              behavior="{
+                          label:'Marca y Modelo *',
+                          placeholder:'Ingrese marca/modelo',
+                          matchField:'marcaModelo'
+                        }"
+              m-data-source="searchMarcaModelo($inputNeed)"
+              ng-model="formData.ModeloMarca"
+              ng-change="getFunctionsModeloMarca(formData.ModeloMarca)"
+              name="nModeloMarca"
+              ng-required="true"
+            >
+              <div ng-bind-html="$item.marcaModelo | highlight: $select.search"></div>
+            </mp-data-seeker>
+            <div
+              class="g-error"
+              ng-show="frmPoliData.nModeloMarca.$error.required && !frmPoliData.nModeloMarca.$pristine"
+            >
+              * Ingrese marca/modelo
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-2 mb-xs-2">
+          <mpf-input
+            class="g-valorauto-input"
+            label="{
+                    label: 'Versión',
+                    required: false
+                  }"
+            name="nVersion"
+            ng-model="formData.mVersion"
+            ng-required="false"
+            ng-Maxlength="30"
+          ></mpf-input>
+        </div>
+        <!-- Año de Fabricación -->
+        <div class="col-md-2 mb-xs-2">
+          <mpf-select
+            ng-model="formData.mYearFabric"
+            name="nYearFabric"
+            label="{
+                    label: gLblYearFabric.label,
+                    required: true
+                  }"
+            m-data-source="formData.yearsFabric"
+            text-field="Descripcion"
+            value-field="Codigo"
+            m-Empty-Option="{text:'Elige año de fabricación'}"
+            mpf-validation="required"
+            ng-change="getFuctionsYearFabric(formData.mYearFabric);"
+          ></mpf-select>
+          <div class="g-error" ng-show="frmPoliData.nYearFabric.$error.required && !frmPoliData.nYearFabric.$pristine">
+            * Seleccione un año
+          </div>
+
+          <ul class="gErrorIco firstDesign">
+            <li ng-show="sinAnio">
+              <span class="ico-mapfre_37_informacion ico"></span>No hay año configurado para este auto
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="row h-myd-mt--30">
+        <div class="col-md-4 mb-xs-2" ng-hide="formData.selectUsado">
+          <div class="row">
+            <div class="col-md-12 mb-xs-2">
+              <label class="g-placeholder block">Estado del auto *</label>
+            </div>
+            <div class="col-xs-6">
+              <m-radio
+                label="{label: 'Nuevo'}"
+                name="nCondicion"
+                ng-model="formData.optRadio"
+                value="1"
+                data-ng-required="true"
+                ng-click="resetProducto(1)"
+              ></m-radio>
+
+              <div
+                class="g-error"
+                ng-show="frmPoliData.nCondicion.$error.required && !frmPoliData.nCondicion.$pristine"
+              >
+                * Seleccione condición
+              </div>
+            </div>
+            <div class="col-md-6">
+              <m-radio
+                label="{label: 'Usado'}"
+                name="nCondicion"
+                ng-model="formData.optRadio"
+                value="2"
+                data-ng-required="true"
+                ng-click="resetProducto(2)"
+              ></m-radio>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-4 mb-xs-2" ng-show="formData.optRadio==2 && formData.selectUsado">
+          <div class="row">
+            <div class="col-md-12 mb-xs-2">
+              <label class="g-placeholder block">Estado del auto *</label>
+            </div>
+            <div class="col-md-12">Usado</div>
+          </div>
+        </div>
+
+        <div class="col-md-4">
+          <div class="row">
+            <div class="col-md-12 mb-xs-2">
+              <label class="g-placeholder block">Observación:</label>
+            </div>
+            <div class="col-md-12 no-underline">{{ formData.observaciones }}</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- <div class="row g-riesgoVariacion"> -->
+      <div class="row h-myd-mt--10" ng-hide="formData.yearSelected">
+        <div class="col-md-12 mb-xs-2">
+          <label class="g-placeholder block">¿No encuentras el auto que necesitas?</label>
+        </div>
+        <div class="col-md-6">
+          <ul class="row">
+            <li class="col-md-6">
+              <a class="g-link first-design gCGreen1" ng-click="irAVariacionRiesgo()"
+                ><b>Solicitar variación de auto</b></a
+              >
+            </li>
+            <li class="col-md-6">
+              <a class="g-link first-design gCGreen1" ui-sref="creacionRiesgo"><b>Solicitar creación de auto</b></a>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="pt-xs-2 ng-scope" ng-show="sinSubmodelo">
+          <div class="container">
+            <div class="row">
+              <div class="col-md-12">
+                <div class="g-box gBgcGray5 pt-xs-1 pb-xs-1 pl-xs-1">
+                  <span class="ico-mapfre_222_informacion gCBlue2 gnIcon-xsm g-cell-middle"></span>
+                  <span class="g-cell-middle pl-xs-1">El vehiculo ingresado no esta configurado para cotizar</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Valor del Auto -->
+  <div class="sec-valor-auto g-section-inner">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12">
+          <h2 class="g-sub-title g-myd-subtitle">Valor del auto</h2>
+        </div>
+      </div>
+      <div class="row g-valor-riesgo" ng-init="toggleValue=true">
+        <div class="col-md-4 col-sm-6 mb-xs-3 no-mb-sm">
+          <div class="row">
+            <div class="col-md-12 mb-xs-2">
+              <div ng-show="toggleValue">
+                <span class="g-valorauto-fix">{{ formData.valorVehiculo | currency: '$' }}</span>
+              </div>
+              <div ng-show="!toggleValue">
+                <mpf-input
+                  class="g-valorauto-input"
+                  label="{label: valorVehiculo.label, required: true}"
+                  name="nValorVehiculo"
+                  ng-model="formData.valorVehiculo"
+                  mpf-validation="onlyNumber"
+                  ng-required="true"
+                ></mpf-input>
+                <a
+                  class="g-btn g-btn-white second-design mt-xs-3"
+                  ng-show="(formData.valorVehiculo>=formData.valorVehiculoMin && formData.valorVehiculo<=formData.valorVehiculoMax)"
+                  ng-click="toggleValue = !toggleValue"
+                >
+                  Aceptar
+                </a>
+                <div
+                  class="g-error"
+                  ng-show="frmPoliData.nValorVehiculo.$error.required && !frmPoliData.nValorVehiculo.$pristine"
+                >
+                  * Ingrese un monto
+                </div>
+              </div>
+            </div>
+            <div class="col-md-12">
+              <a
+                href=""
+                class="g-link first-design gCGreen1"
+                ng-click="toggleValue = !toggleValue"
+                ng-show="toggleValue"
+              >
+                <b>Modificar Valor</b>
+              </a>
+              <span class="g-valorauto-rango"
+                >(Entre {{ formData.valorVehiculoMin | currency: '$' }} -
+                {{ formData.valorVehiculoMax | currency: '$' }} )</span
+              >
+            </div>
+            <div class="col-md-12">
+              <span
+                class="g-valorauto-warning"
+                ng-if="formData.valorVehiculo<formData.valorVehiculoMin || formData.valorVehiculo>formData.valorVehiculoMax"
+              >
+                <span class="ico-mapfre_37_informacion g-valorauto-warning-ico"></span>
+                Valor fuera de rango. El rango para modificar es entre {{ formData.valorVehiculoMin }} y
+                {{ formData.valorVehiculoMax }}
+              </span>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4 col-sm-6" ng-show="formData.yearSelected">
+          <div class="row g-riesgoVariacion">
+            <div class="col-md-12 mb-xs-2">
+              <label class="g-placeholder block">¿No encuentras el auto que necesitas?</label>
+            </div>
+            <div class="col-md-12">
+              <a class="g-link first-design gCGreen1" ng-click="irAVariacionRiesgo()"
+                ><b>Solicitar variación de auto</b></a
+              >
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Localidad del Auto -->
+  <div class="sec-circulara-auto g-section-inner h-myd-pb--20">
+    <div class="container">
+      <div class="row mt-3">
+        <div class="col-md-12">
+          <h2 class="g-sub-title g-myd-subtitle">Elige donde circulará el riesgo</h2>
+        </div>
+      </div>
+      <mpf-ubigeo
+        data="data"
+        ng-model="formData.Ubigeo"
+        is-Valid="ubigeoValid"
+        setter="setter"
+        all-Fields-Required="true"
+        required="true"
+        clean="clean"
+      ></mpf-ubigeo>
+    </div>
+  </div>
+
+  <div class="g-section h-myd-pt--0">
+    <div class="container">
+      <div class="row">
+        <div class="col-xs-12 mb-xs-3">
+          <span class="g-comment">*Campos obligatorios</span>
+        </div>
+        
+        <div class="col-md-4 col-md-offset-4" ng-show="!disableSgt">
+          <a class="g-btn g-btn-verde block" ng-click="guardarPaso1(formData.optRadio)" >Siguiente</a>
+        </div>
+        <div class="col-md-4 col-md-offset-4" ng-show="disableSgt">
+          <button class="g-btn g-btn-verde block" ng-click="guardarPaso1(formData.optRadio)" ng-disabled="disableSgt" >Siguiente</a>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</form>

@@ -1,0 +1,598 @@
+<section class="g-page page-autos-used-emit-summary">
+
+	<div class="g-title summary">
+		<div class="container">
+			<div class="row">
+				<div class="col-md-8 mb-xs-2 no-mb-md">
+					<h2>
+						<span class="ico-mapfre_118_ok ico"></span>Póliza emitida
+					</h2>
+				</div>
+				<div class="col-md-4">
+					<a class="g-btn g-btn-white block" ui-sref="autosQuote.steps({step: 1})">Cotizar nueva póliza de autos</a>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="g-section">
+		<div class="container">
+
+			<!-- Box -->
+			<div class="col-md-12 g-summary-box-radius">
+
+				<div class="row">
+					<div class="col-sm-9 mb-sm-2 mb-xs-1">
+						<h2 class="g-summary-sub-title">Póliza de Autos</h2>
+					</div>
+					<div class="col-sm-3 mb-xs-2 g-text-right-sm">
+						<span class="g-summary-label">Nro. Póliza: </span>
+						<span class="g-summary-data">{{fiveStep.dataPDF.NumeroPoliza}}</span>
+					</div>
+				</div>
+
+				<div class="row">
+					<div class="col-md-12">
+						<div class="clearfix g-summary-box">
+							<ul class="row g-list">
+								<li class="col-md-6 clearfix cnt-item">
+									<div class="col-xs-5 item-label">
+										<span class="ico-mapfre_82_circle ico-bullet"></span>El auto asegurado es:
+									</div>
+									<div class="col-xs-7 item-dato g-text-uppercase">
+										{{fiveStep.dataSummary.polizaAutos.autoAsegurado}}, USADO
+									</div>
+								</li>
+								<li class="col-md-6 clearfix cnt-item">
+									<div class="col-xs-5 item-label">
+										<span class="ico-mapfre_82_circle ico-bullet"></span>Prima neta:
+									</div>
+									<div class="col-xs-7 item-dato g-text-uppercase">
+										{{fiveStep.dataSummary.polizaAutos.primaNeta | currency:currencyType}}
+									</div>
+								</li>
+							</ul>
+							<ul class="row g-list">
+								<li class="col-md-6 clearfix cnt-item">
+									<div class="col-xs-5 item-label">
+										<span class="ico-mapfre_82_circle ico-bullet"></span>Circulación:
+									</div>
+									<div class="col-xs-7 item-dato g-text-uppercase">
+										{{fiveStep.dataSummary.polizaAutos.circulacion}}
+									</div>
+								</li>
+								<li class="col-md-6 clearfix cnt-item">
+									<div class="col-xs-5 item-label">
+										<span class="ico-mapfre_82_circle ico-bullet"></span>Valor del auto:
+									</div>
+									<div class="col-xs-7 item-dato g-text-uppercase">
+										{{fiveStep.dataSummary.polizaAutos.valorAuto | currency:currencyType}}
+									</div>
+                </li>
+              </ul>
+              <ul class="row g-list" ng-show="(fiveStep.dataSummary.dscto.dsctoComercial || 0)>0">
+								<li class="col-md-6 clearfix cnt-item">
+									<div class="col-xs-5 item-label">
+										&nbsp;
+									</div>
+									<div class="col-xs-7 item-dato g-text-uppercase">
+										&nbsp;
+									</div>
+								</li>
+								<li class="col-md-6 clearfix cnt-item">
+									<div class="col-xs-5 item-label">
+										<span class="ico-mapfre_82_circle ico-bullet"></span>Descuento comercial:
+									</div>
+									<div class="col-xs-7 item-dato g-text-uppercase">
+										{{fiveStep.dataSummary.dscto.discountComercial || 0 | currency:'$'}}
+									</div>
+                </li>
+							</ul>
+							<ul class="row g-list">
+								<li class="col-md-6 clearfix cnt-item">
+									<div class="col-xs-5 item-label">
+										<span class="ico-mapfre_82_circle ico-bullet"></span>Producto:
+									</div>
+									<div class="col-xs-7 item-dato g-text-uppercase">
+										{{fiveStep.dataSummary.polizaAutos.producto}}
+									</div>
+								</li>
+								<li class="col-md-6 clearfix cnt-item">
+									<div class="col-xs-5 item-label">
+										<span class="ico-mapfre_82_circle ico-bullet"></span>Tipo de uso:
+									</div>
+									<div class="col-xs-7 item-dato g-text-uppercase">
+										{{fiveStep.dataSummary.polizaAutos.tipoUso}}
+									</div>
+								</li>
+							</ul>
+						</div>
+					</div>
+				</div>
+
+        <div class="row mt-xs-2" ng-if="secondStep.isEmblem">
+					<div class="col-md-12">
+						<h2 class="g-summary-sub-title third-design c-red g-myd-title">Datos adicionales del auto</h2>
+					</div>
+				</div>
+        <ul class="row g-list second-design">
+					<li class="col-md-4 clearfix cnt-item" ng-if="secondStep.isEmblem && thirdStep.vehicleDetailsContractor.VehicleTransmission.Codigo">
+						<div class="col-xs-5 item-label">
+							<span class="ico-mapfre_82_circle ico-bullet"></span>Transmisión:
+						</div>
+						<div class="col-xs-7 item-dato">
+							{{thirdStep.vehicleDetailsContractor.VehicleTransmission.Descripcion}}
+						</div>
+					</li>
+				</ul>
+
+				<div class="row mt-xs-2">
+					<div class="col-md-12">
+						<h2 class="g-summary-sub-title third-design c-red">Datos de la póliza</h2>
+					</div>
+				</div>
+				<ul class="row g-list second-design">
+					<li class="col-md-4 clearfix cnt-item">
+						<div class="col-sm-5 item-label">
+							<span class="ico-mapfre_82_circle ico-bullet"></span>Fecha de inicio:
+						</div>
+						<div class="col-sm-7 item-dato g-text-uppercase">
+							{{fiveStep.dataSummary.datosPoliza.fechaInicio | date:formatDate}}
+						</div>
+					</li>
+					<li class="col-md-4 clearfix cnt-item">
+						<div class="col-sm-5 item-label">
+							<span class="ico-mapfre_82_circle ico-bullet"></span>Fecha de termino:
+						</div>
+						<div class="col-sm-7 item-dato g-text-uppercase">
+							{{fiveStep.dataSummary.datosPoliza.fechaTermino | date:formatDate}}
+						</div>
+					</li>
+				</ul>
+				<ul class="row g-list second-design">
+					<li class="col-md-4 clearfix cnt-item">
+						<div class="col-sm-5 item-label">
+							<span class="ico-mapfre_82_circle ico-bullet"></span>Póliza de grupo:
+						</div>
+						<div class="col-sm-7 item-dato g-text-uppercase">
+							{{fiveStep.dataSummary.datosPoliza.polizaGrupo}}
+						</div>
+					</li>
+				</ul>
+				<ul class="row g-list second-design">
+					<li class="col-md-4 clearfix cnt-item">
+						<div class="col-sm-5 item-label">
+							<span class="ico-mapfre_82_circle ico-bullet"></span>Nro. de placa:
+						</div>
+						<div class="col-sm-7 item-dato g-text-uppercase">
+							{{fiveStep.dataSummary.datosPoliza.numeroPlaca}}
+						</div>
+					</li>
+					<li class="col-md-4 clearfix cnt-item">
+						<div class="col-sm-5 item-label">
+							<span class="ico-mapfre_82_circle ico-bullet"></span>Nro. de chasis:
+						</div>
+						<div class="col-sm-7 item-dato g-text-uppercase">
+							{{fiveStep.dataSummary.datosPoliza.numeroChasis}}
+						</div>
+					</li>
+					<li class="col-md-4 clearfix cnt-item">
+						<div class="col-sm-5 item-label">
+							<span class="ico-mapfre_82_circle ico-bullet"></span>Nro. de motor:
+						</div>
+						<div class="col-sm-7 item-dato g-text-uppercase">
+							{{fiveStep.dataSummary.datosPoliza.numeroMotor}}
+						</div>
+					</li>
+				</ul>
+				<ul class="row g-list second-design">
+					<li class="col-md-4 clearfix cnt-item">
+						<div class="col-sm-5 item-label">
+							<span class="ico-mapfre_82_circle ico-bullet"></span>Color vehículo:
+						</div>
+						<div class="col-sm-7 item-dato g-text-uppercase">
+							{{fiveStep.dataSummary.datosPoliza.colorVehiculo}}
+						</div>
+					</li>
+				</ul>
+
+				<div class="row mt-xs-2">
+					<div class="col-md-12">
+						<h2 class="g-summary-sub-title third-design c-red">Datos del contratante</h2>
+					</div>
+				</div>
+				<ul class="row g-list second-design">
+					<li class="col-md-4 clearfix cnt-item">
+						<div class="col-sm-5 item-label">
+							<span class="ico-mapfre_82_circle ico-bullet"></span>Tipo de documento:
+						</div>
+						<div class="col-sm-7 item-dato g-text-uppercase">
+							{{fiveStep.dataSummary.datosContratante.tipoDocumento}}
+						</div>
+					</li>
+					<li class="col-md-4 clearfix cnt-item">
+						<div class="col-sm-5 item-label">
+							<span class="ico-mapfre_82_circle ico-bullet"></span>Nro. de documento:
+						</div>
+						<div class="col-sm-7 item-dato g-text-uppercase">
+							{{fiveStep.dataSummary.datosContratante.numeroDocumento}}
+						</div>
+					</li>
+				</ul>
+				<ul class="row g-list second-design">
+					<li class="col-md-4 clearfix cnt-item">
+						<div class="col-sm-5 item-label">
+							<span class="ico-mapfre_82_circle ico-bullet"></span>Nombre:
+						</div>
+						<div class="col-sm-7 item-dato g-text-uppercase">
+							{{fiveStep.dataSummary.datosContratante.nombre}}
+						</div>
+					</li>
+					<li class="col-md-4 clearfix cnt-item">
+						<div class="col-sm-5 item-label">
+							<span class="ico-mapfre_82_circle ico-bullet"></span>Apellido paterno:
+						</div>
+						<div class="col-sm-7 item-dato g-text-uppercase">
+							{{fiveStep.dataSummary.datosContratante.apellidoPaterno}}
+						</div>
+					</li>
+					<li class="col-md-4 clearfix cnt-item">
+						<div class="col-sm-5 item-label">
+							<span class="ico-mapfre_82_circle ico-bullet"></span>Apellido materno:
+						</div>
+						<div class="col-sm-7 item-dato g-text-uppercase">
+							{{fiveStep.dataSummary.datosContratante.apellidoMaterno}}
+						</div>
+					</li>
+				</ul>
+				<ul class="row g-list second-design">
+					<li class="col-md-4 clearfix cnt-item">
+						<div class="col-sm-5 item-label">
+							<span class="ico-mapfre_82_circle ico-bullet"></span>Fecha de nacimiento:
+						</div>
+						<div class="col-sm-7 item-dato g-text-uppercase">
+							{{fiveStep.dataSummary.datosContratante.fechaNacimiento}}
+						</div>
+					</li>
+					<li class="col-md-4 clearfix cnt-item">
+						<div class="col-sm-5 item-label">
+							<span class="ico-mapfre_82_circle ico-bullet"></span>Sexo:
+						</div>
+						<div class="col-sm-7 item-dato g-text-uppercase">
+							{{fiveStep.dataSummary.datosContratante.genero}}
+						</div>
+					</li>
+					<li class="col-md-4 clearfix cnt-item">
+						<div class="col-sm-5 item-label">
+							<span class="ico-mapfre_82_circle ico-bullet"></span>Profesión:
+						</div>
+						<div class="col-sm-7 item-dato g-text-uppercase">
+							{{fiveStep.dataSummary.datosContratante.profesion}}
+						</div>
+					</li>
+				</ul>
+				<ul class="row g-list second-design">
+					<li class="col-md-4 clearfix cnt-item">
+						<div class="col-sm-5 item-label">
+							<span class="ico-mapfre_82_circle ico-bullet"></span>Teléfono fijo:
+						</div>
+						<div class="col-sm-7 item-dato g-text-uppercase">
+							{{fiveStep.dataSummary.datosContratante.telefonoFijo}}
+						</div>
+					</li>
+					<li class="col-md-4 clearfix cnt-item">
+						<div class="col-sm-5 item-label">
+							<span class="ico-mapfre_82_circle ico-bullet"></span>Teléfono móvil:
+						</div>
+						<div class="col-sm-7 item-dato g-text-uppercase">
+							{{fiveStep.dataSummary.datosContratante.telefonoMovil}}
+						</div>
+					</li>
+					<li class="col-md-4 clearfix cnt-item">
+						<div class="col-sm-5 item-label">
+							<span class="ico-mapfre_82_circle ico-bullet"></span>Correo electrónico:
+						</div>
+						<div class="col-sm-7 item-dato g-text-uppercase">
+							{{fiveStep.dataSummary.datosContratante.correoElectronico}}
+						</div>
+					</li>
+				</ul>
+				<ul class="row g-list second-design">
+					<li class="col-md-4 clearfix cnt-item">
+						<div class="col-sm-5 item-label">
+							<span class="ico-mapfre_82_circle ico-bullet"></span>Departamento:
+						</div>
+						<div class="col-sm-7 item-dato g-text-uppercase">
+							{{fiveStep.dataSummary.datosContratante.departamento}}
+						</div>
+					</li>
+					<li class="col-md-4 clearfix cnt-item">
+						<div class="col-sm-5 item-label">
+							<span class="ico-mapfre_82_circle ico-bullet"></span>Provincia:
+						</div>
+						<div class="col-sm-7 item-dato g-text-uppercase">
+							{{fiveStep.dataSummary.datosContratante.provincia}}
+						</div>
+					</li>
+					<li class="col-md-4 clearfix cnt-item">
+						<div class="col-sm-5 item-label">
+							<span class="ico-mapfre_82_circle ico-bullet"></span>Distrito:
+						</div>
+						<div class="col-sm-7 item-dato g-text-uppercase">
+							{{fiveStep.dataSummary.datosContratante.distrito}}
+						</div>
+					</li>
+				</ul>
+				<ul class="row g-list second-design">
+					<li class="col-md-4 clearfix cnt-item">
+						<div class="col-sm-5 item-label">
+							<span class="ico-mapfre_82_circle ico-bullet"></span>Vía:
+						</div>
+						<div class="col-sm-7 item-dato g-text-uppercase">
+							{{fiveStep.dataSummary.datosContratante.via}}
+						</div>
+					</li>
+					<li class="col-md-4 clearfix cnt-item">
+						<div class="col-sm-5 item-label">
+							<span class="ico-mapfre_82_circle ico-bullet"></span>Enumeración:
+						</div>
+						<div class="col-sm-7 item-dato g-text-uppercase">
+							{{fiveStep.dataSummary.datosContratante.enumeracion}}
+						</div>
+					</li>
+					<li class="col-md-4 clearfix cnt-item">
+						<div class="col-sm-5 item-label">
+							<span class="ico-mapfre_82_circle ico-bullet"></span>Interior:
+						</div>
+						<div class="col-sm-7 item-dato g-text-uppercase">
+							{{fiveStep.dataSummary.datosContratante.interior}}
+						</div>
+					</li>
+				</ul>
+				<ul class="row g-list second-design">
+					<li class="col-md-4 clearfix cnt-item">
+						<div class="col-sm-5 item-label">
+							<span class="ico-mapfre_82_circle ico-bullet"></span>Zona:
+						</div>
+						<div class="col-sm-7 item-dato g-text-uppercase">
+							{{fiveStep.dataSummary.datosContratante.zona}}
+						</div>
+					</li>
+					<li class="col-md-4 clearfix cnt-item">
+						<div class="col-sm-5 item-label">
+							<span class="ico-mapfre_82_circle ico-bullet"></span>Referencia:
+						</div>
+						<div class="col-sm-7 item-dato g-text-uppercase">
+							{{fiveStep.dataSummary.datosContratante.referencia}}
+						</div>
+					</li>
+				</ul>
+				<ul class="row g-list second-design">
+					<li class="col-md-4 clearfix cnt-item">
+						<div class="col-sm-5 item-label">
+							<span class="ico-mapfre_82_circle ico-bullet"></span>Tipo financiamiento:
+						</div>
+						<div class="col-sm-7 item-dato g-text-uppercase">
+							{{fiveStep.dataSummary.datosContratante.tipoFinanciamiento}}
+						</div>
+					</li>
+					<li class="col-md-4 clearfix cnt-item">
+						<div class="col-sm-5 item-label">
+							<span class="ico-mapfre_82_circle ico-bullet"></span>MAPFRE dólares:
+						</div>
+						<div class="col-sm-7 item-dato g-text-uppercase">
+							{{fiveStep.dataSummary.datosContratante.mapfreDolares}}
+						</div>
+					</li>
+				</ul>
+				<ul class="row g-list second-design">
+					<li class="col-md-4 clearfix cnt-item">
+						<div class="col-sm-5 item-label">
+							<span class="ico-mapfre_82_circle ico-bullet"></span>Endosatario:
+						</div>
+						<div class="col-sm-7 item-dato g-text-uppercase">
+							{{fiveStep.dataSummary.datosContratante.endosatario}}
+						</div>
+					</li>
+					<li class="col-md-4 clearfix cnt-item">
+						<div class="col-sm-5 item-label">
+							<span class="ico-mapfre_82_circle ico-bullet"></span>Suma a endosar:
+						</div>
+						<div class="col-sm-7 item-dato g-text-uppercase">
+							{{fiveStep.dataSummary.datosContratante.sumaEndosar}}
+						</div>
+					</li>
+				</ul>
+				<ul class="row g-list second-design">
+					<li class="col-md-4 clearfix cnt-item">
+						<div class="col-xs-5 item-label">
+							<span class="ico-mapfre_82_circle ico-bullet"></span>Uso:
+						</div>
+						<div class="col-xs-7 item-dato g-text-uppercase">
+							{{thirdStep.vehicleDetailsContractor.mUseVehicle.Nombre}}
+						</div>
+					</li>
+					<li class="col-md-4 clearfix cnt-item">
+						<div class="col-xs-5 item-label">
+							<span class="ico-mapfre_82_circle ico-bullet"></span>Siniestros <br>(2 años):
+						</div>
+						<div class="col-xs-7 item-dato g-text-uppercase">
+							{{thirdStep.vehicleDetailsContractor.mAccidentesVehicle.Nombre}}
+						</div>
+					</li>
+				</ul>
+				<ul class="row g-list second-design">
+					<li class="col-md-4 clearfix cnt-item">
+						<div class="col-xs-5 item-label">
+							<span class="ico-mapfre_82_circle ico-bullet"></span>Licencia:
+						</div>
+						<div class="col-xs-7 item-dato g-text-uppercase">
+							{{thirdStep.vehicleDetailsContractor.mAntiguedadLicencia.Nombre}}
+						</div>
+					</li>
+					<li class="col-md-4 clearfix cnt-item">
+						<div class="col-xs-5 item-label">
+							<span class="ico-mapfre_82_circle ico-bullet"></span>1 Conductor:
+						</div>
+						<div class="col-xs-7 item-dato g-text-uppercase">
+							{{thirdStep.vehicleDetailsContractor.mUnicoConductor === 'S' ? 'Si' : 'No' }}
+						</div>
+					</li>
+					<li class="col-md-4 clearfix cnt-item">
+						<div class="col-xs-5 item-label">
+							<span class="ico-mapfre_82_circle ico-bullet"></span>Garaje:
+						</div>
+						<div class="col-xs-7 item-dato g-text-uppercase">
+							{{thirdStep.vehicleDetailsContractor.mGaraje === 'S' ? 'Si' : 'No' }}
+						</div>
+					</li>
+				</ul>
+        <ul class="row g-list second-design">
+          <li
+            class="col-md-4 clearfix cnt-item"
+            ng-if="secondStep.isEmblem && thirdStep.dataContractor.mEstadoCivil.Codigo && thirdStep.dataContractor.mEstadoCivil.Descripcion"
+          >
+            <div class="col-xs-5 item-label">
+              <span class="ico-mapfre_82_circle ico-bullet"></span>Estado Civil:
+            </div>
+            <div class="col-xs-7 item-dato g-text-uppercase">{{thirdStep.dataContractor.mEstadoCivil.Descripcion}}</div>
+          </li>
+          <li
+            class="col-md-4 clearfix cnt-item"
+            ng-if="thirdStep.dataContractor.expirationDay.Codigo && thirdStep.dataContractor.expirationMonth.Codigo && thirdStep.dataContractor.expirationYear.Codigo"
+          >
+            <div class="col-xs-5 item-label">
+              <span class="ico-mapfre_82_circle ico-bullet"></span>Fecha Expedición Brevete:
+            </div>
+            <div class="col-xs-7 item-dato g-text-uppercase">
+              {{ thirdStep.dataContractor.expirationDay.Descripcion + '/' +
+                thirdStep.dataContractor.expirationMonth.Descripcion + '/' +
+                thirdStep.dataContractor.expirationYear.Descripcion }}
+            </div>
+          </li>
+          <li class="col-md-4 clearfix cnt-item" ng-if="thirdStep.dataContractor.scoreMorosidad">
+            <div class="col-xs-5 item-label">
+              <span class="ico-mapfre_82_circle ico-bullet"></span>Score (Morosidad):
+            </div>
+            <div class="col-xs-7 item-dato g-text-uppercase">{{thirdStep.dataContractor.scoreMorosidad}}</div>
+          </li>
+        </ul>
+			</div>
+
+		</div>
+	</div>
+
+	<!-- Button -->
+  <div class="g-section"ng-hide="isMyDream && isMobile">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-4 col-md-offset-4">
+          <a class="g-btn g-btn-transparent block" ng-click="downloadPDF()"><span class="ico-mapfre_124_download ico-download"></span>Descargar</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div ng-if="isMyDream && isMobile" class="row mt-xs-2">
+    <!-- Firma -->
+    <signature-panel
+      label="cotización"
+      params-signature="{{ paramsSignature }}"
+      params-pdf="{{ paramsPdfCoti }}"
+      document-number="{{ fiveStep.dataPDF.NumeroCotizacion}}"
+      onEnd="onSignature($event)">
+    </signature-panel>
+    <!-- Firma -->
+    <signature-panel
+      label="inspección"
+      params-signature="{{ paramsSignatureIsnpec }}"
+      params-pdf="{{ paramsPdfInsp }}"
+      base-url= "{{ baseURLInspec }}"
+      document-number="{{ firstStep.dataInspection.NumeroInspeccion}}"
+      onEnd="onSignature($event)">
+    </signature-panel>
+
+      <!-- Firma -->
+      <signature-panel
+        label="emisión"
+        params-signature="{{ paramsSignatureEmi }}"
+        params-pdf="{{ paramsPdfEmi }}"
+        document-number="{{ fiveStep.dataPDF.NumeroPoliza }}"
+        onEnd="onSignature($event)">
+      </signature-panel>
+
+  </div>
+
+  <div class="row h-myd--show h-oim-none h-myd-ml--0 h-myd-mr--0">
+    <div class="col-md-12 g-summary-box-radius g-myd-box h-myd-mt--20 g-myd-box--pay">
+      <div class="info">
+        <p>Pago de la Póliza</p>
+        <span>¿Deseas realizar el pago de la póliza en estos momentos?</span>
+      </div>
+      <a class="g-btn g-btn-white second-design" ng-click="goToPaymentGateway()">
+        PAGAR
+      </a>
+    </div>
+  </div>
+
+</section>
+
+<section class="g-page page-vida-emitted-summary" ng-if="fiveStep.isRucContratante"><!--INICIO BUILD SOFT-->
+	<div class="g-section">
+		<div class="container">
+			<div class="col-md-12 g-summary-box-radius">
+				
+				<div ng-repeat="accionistas in fiveStep.accionistas">
+					<div class="row mt-xs-2">
+						<div class="col-md-12">
+							<h2 class="g-summary-sub-title third-design c-red">
+								Accionistas / Socios / Asociados {{$index + 1}}
+							</h2>
+						</div>
+					</div>
+		
+					<ul class="row g-list second-design">
+						<li class="col-md-6 clearfix cnt-item">
+							<div class="col-xs-5 item-label">
+							<span class="ico-mapfre_82_circle ico-bullet"></span>Nombre:
+							</div>
+							<div class="col-xs-7 item-dato">
+							{{ accionistas.Nombre + " " + accionistas.ApellidoPaterno + " " + accionistas.ApellidoMaterno }}
+							</div>
+						</li>
+					
+						<li class="col-md-6 clearfix cnt-item">
+							<div class="col-xs-5 item-label">
+							<span class="ico-mapfre_82_circle ico-bullet"></span>Relación:
+							</div>
+							<div class="col-xs-7 item-dato">
+							{{ accionistas.Relacion }}
+							</div>
+						</li>
+					</ul>
+
+					<ul class="row g-list second-design">
+						<li class="col-md-6 clearfix cnt-item">
+							<div class="col-xs-5 item-label">
+							<span class="ico-mapfre_82_circle ico-bullet"></span>Nro documento:
+							</div>
+							<div class="col-xs-7 item-dato">
+							{{ accionistas.documentNumber }}
+							</div>
+						</li>
+					
+						<li class="col-md-6 clearfix cnt-item">
+							<div class="col-xs-5 item-label">
+							<span class="ico-mapfre_82_circle ico-bullet"></span>% participación:
+							</div>
+							<div class="col-xs-7 item-dato">
+								{{ accionistas.PorParticipacion }}
+							</div>
+						</li>
+					</ul>
+				</div>
+
+			</div>
+		</div>
+	</div>
+</section><!--FIN BUILD SOFT-->

@@ -1,0 +1,71 @@
+
+<section class="g-page page-medical-central-bandeja">
+        <div class="container">
+          <div class="row">
+              &nbsp;
+              &nbsp;
+          </div>
+          <div class="row">
+            <div class="col-md-9">
+              <h2 class="g-sub-title">{{$ctrl.reportSettings.title}}</span></h2>
+            </div>
+            <div
+              class="col-md-3 pb-md-1 text-right"
+              data-ng-if="$ctrl.dataPanel"
+              
+              target="_blank">
+              <button
+                class="g-btn g-btn-transparent pr-md-2 pl-md-2 ml-md-1"
+                data-ng-click="$ctrl.descargarReporte()"
+                type="submit">
+                <span class="ico-mapfre_124_download g-btn-ico"></span>Descargue
+              </button>
+            </div>
+          </div>
+        </div>
+        <div class="consulta-cotizaciones">
+          <div class="g-section">
+            <div class="container">
+              <div class="row">
+                <div class="col-md-3">
+                  <report-filter
+                    on-search="$ctrl.handlerSearch($event)"
+                    on-clean="$ctrl.handlerClean()"
+                    report-settings = "$ctrl.reportSettings"
+                  >
+                  </report-filter>
+                  
+                </div>
+                <div data-ng-show="$ctrl.dataPanel" class="col-md-9" ng-include="$ctrl.reportSettings.container.url">
+                  
+                </div>
+                <div class="col-md-9">
+                    <!-- Mensaje de realiza una busqueda -->
+                    <div class="col-md-12 text-center g-box-noresult" data-ng-if="$ctrl.dataPanel == undefined">
+                      <div class="row">
+                        <div class="col-md-12 g-box-noresult-ico c-blue">
+                          <span class="ico-mapfre_145_informacion"></span>
+                        </div>
+                        <div class="col-md-12 g-box-noresult-text">
+                          Realiza una búsqueda para obtener resultados.
+                        </div>
+                      </div>
+                    </div>
+
+                    
+                    <!-- Mensaje de error si no hay resultados -->
+                    <div class="col-md-12 text-center g-box-noresult" ng-if="$ctrl.dataPanel.matrix.length==0">
+                      <div class="row">
+                        <div class="col-md-12 g-box-noresult-ico"><span class="ico-mapfre_119_wrong ico-wrong"></span></div>
+                        <div class="col-md-12 g-box-noresult-text">No hay resultados para los filtros escogidos.<br>Intenta de nuevo.</div>
+                      </div>
+                    </div>
+                    
+                </div>
+                
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+      

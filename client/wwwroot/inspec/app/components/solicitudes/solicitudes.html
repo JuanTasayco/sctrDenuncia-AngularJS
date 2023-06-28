@@ -1,0 +1,230 @@
+<title-section title="Solicitudes"></title-section>
+<div class="g-section-inner" ng-class="{'fixed-margin': boolChangeClass}">
+  <div class="container">
+    <div class="row">
+      <!-- Filtro -->
+      <div class="col-md-3 mb-md-2">
+        <form action="" name="frmDocuments">
+          <mpf-search-filter></mpf-search-filter>
+        </form>
+      </div>
+      <!-- Resultados -->
+      <div class="col-md-9 mb-xs-2">
+        <!-- Si hay data vacía en el request -->
+        <div class="row">
+          <inspec-empty-data
+            data-length="$ctrl.requests.length"
+            first-query-completed="$ctrl.firstQueryCompleted"
+          ></inspec-empty-data>
+        </div>
+        <!-- Inicio: Resultados -->
+        <inspec-order-by total-items="$ctrl.requests.length" pagination="$ctrl.pagination"></inspec-order-by>
+
+        <div
+          class="clearfix g-box g-overflow-hidden-xs mb-xs-2 tag-solicitudes"
+          ng-repeat="request in $ctrl.requests"
+          ng-if="!($ctrl.requests.length === 0 && $ctrl.firstQueryCompleted)"
+        >
+          <!-- header -->
+          <div class="pt-xs-1 gBgcGray5">
+            <ul class="clearfix g-list-sm">
+              <li class="col-xs-12 col-sm-3 clearfix cnt-item h-myd-mt--10">
+                <div class="row">
+                  <div class="col-xs-2" ng-if="request.hasCheck && $ctrl.user.isAPermittedObject('ANUSOL')">
+                    <label class="g-checkbox" ng-class="{active: request.checked}">
+                      <span class="ico-checkbox"></span>
+                      <input type="checkbox" ng-model="request.checked" ng-change="$ctrl.onClickCheckbox(request)" />
+                      <span class="checkbox-label"></span>
+                    </label>
+                  </div>
+                  <div
+                    ng-class="{'col-xs-10': request.hasCheck && $ctrl.user.isAPermittedObject('ANUSOL'), 'col-xs-12': !(request.hasCheck && $ctrl.user.isAPermittedObject('ANUSOL'))}"
+                  >
+                    <div class="col-sm-12 no-padding-xs item-label gH4 h-myd--fz13">Nro. {{ request.numero }}</div>
+                    <div class="col-sm-12 no-padding-xs h-myd-mb--5">
+                      <span class="g-text-uppercase"
+                        >REGISTRO:
+                        {{
+                          request.requestTypeCode === '1'
+                            ? 'Individual'
+                            : request.requestTypeCode === '2'
+                            ? 'Flota'
+                            : 'ESPECIAL'
+                        }}</span
+                      >
+                    </div>
+                    <div class="col-sm-12 no-padding-xs clearfix">
+                      <inspec-request-label
+                        request-id="request.idEstado"
+                        request-text="request.estado"
+                      ></inspec-request-label>
+
+                      <div ng-if="request.idInspecPresencial" class="pt-md-0-5">
+                        <inspec-request-label 
+                          request-id="request.idInspecPresencial"
+                          request-text="request.inspecPresencial"
+                        ></inspec-request-label>
+                      </div>
+                      
+                    </div>
+                  </div>
+                </div>
+              </li>
+              <li class="col-xs-12 col-sm-4 clearfix cnt-item h-myd-mt--10 h-myd-mb--20">
+                <div class="row">
+                  <div class="col-xs-4 col-md-3 item-label">Agente:</div>
+                  <div class="col-xs-8 col-md-9 item-dato g-text-uppercase">{{ request.agente || '-' }}</div>
+                </div>
+                <div
+                  class="row mt-xs-1"
+                  ng-if="request.confirmationEmail"
+                  uib-tooltip="{{ request.confirmationEmail || '-' }}"
+                  tooltip-placement="top"
+                >
+                  <div class="col-xs-4 col-md-3 item-label">Email:</div>
+                  <div class="col-xs-8 col-md-9 item-dato g-text-uppercase g-cut-text">
+                    {{ request.confirmationEmail || '-' }}
+                  </div>
+                </div>
+              </li>
+              <li class="col-xs-12 col-sm-5 clearfix gCGray3 g-text-left-xs h-myd-mt--10 h-myd-mb--20">
+                <div class="g-inline-btn-row text-right pr-md-1-5 g-myd-btn-icon">
+                  <div class="g-inline-btn-col mb-xs-1 middle myd-icon">
+                    <a
+                      class="h-myd--none"
+                      ng-if="request.isAnotherInsurer === '1'"
+                    >
+                      <span uib-tooltip="Otra Aseguradora" tooltip-placement="left" class="ico-mapfre_37_informacion gnIcon-md"></span>
+                    </a>
+                    <a
+                      class="h-myd--none"
+                      ng-click="$ctrl.onClickRehabilitate(request.nroSolicitudRehabilitada)"
+                      ng-if="request.nroSolicitudRehabilitada"
+                    >
+                      <span class="ico-mapfre_37_informacion ico gnIcon-md"></span>
+                    </a>
+                    <a
+                      class="h-myd--none"
+                      ng-click="$ctrl.goToAlerts(request.numero, request.numeroRiesgo, request.sourceId)"
+                    >
+                      <span uib-tooltip="Alertas" tooltip-placement="left" class="ico-mapfre_157_chat gnIcon-md"></span>
+                    </a>
+                    <a
+                      class="h-myd--show h-oim-none"
+                      ng-click="$ctrl.goToAlerts(request.numero, request.numeroRiesgo, request.sourceId)"
+                    >
+                      <span
+                        uib-tooltip="Alertas"
+                        tooltip-placement="left"
+                        class="ico-mapfre-364-myd-messege gnIcon-md h-myd-ico--mediun h-myd-color--green"
+                      ></span>
+                    </a>
+                  </div>
+                  <div
+                    class="g-inline-btn-col mb-xs-1 middle myd-icon"
+                    ng-if="request.idEstado === '3' || request.idEstado ==='7'"
+                  >
+                    <a 
+                      ga-click
+                      ga-category="'INSPECCION AUTOS'"
+                      ga-action="'INSPEC AUTOS - Botón PDF'"
+                      ga-label="'Botón: PDF'"
+                      class="h-myd--none" ng-click="$ctrl.downloadPDF(request)" target="_blank">
+                      <span class="ico-mapfre_158_pdf gnIcon-md"></span>
+                    </a>
+                    <a 
+                      ga-click
+                      ga-category="'INSPECCION AUTOS'"
+                      ga-action="'INSPEC AUTOS - Botón PDF'"
+                      ga-label="'Botón: PDF'"
+                      class="h-myd--show h-oim-none" ng-click="$ctrl.downloadPDF(request)" target="_blank">
+                      <span class="ico-mapfre-349-myd-pdf gnIcon-md h-myd-ico--mediun h-myd-color--green"></span>
+                    </a>
+                  </div>
+                  <inspec-action-button
+                    id-status="request.idEstado"
+                    id-last-status="request.idEstadoPrevio"
+                    id-risk="request.numeroRiesgo"
+                    id-request="request.numero"
+                    id-inspection="request.inspectionId"
+                    source-id="request.sourceId"
+                    can-not-emit="request.canNotEmit"
+                  ></inspec-action-button>
+                </div>
+              </li>
+            </ul>
+          </div>
+          <!-- content -->
+          <div class="clearfix g-box-content h-myd-mt--10">
+            <ul height-row class="clearfix g-list second-design">
+              <li class="col-xs-12 col-md-3 cnt-item" ng-if="request.proveedor !== ''">
+                <div class="row">
+                  <div class="col-xs-4 item-label">Proveedor:</div>
+                  <div class="col-xs-8 item-dato g-text-uppercase">{{ request.proveedor || '-' }}</div>
+                </div>
+              </li>
+              <li class="col-xs-12 col-md-3 cnt-item">
+                <div class="row">
+                  <div class="col-xs-4 item-label">Contacto:</div>
+                  <div class="col-xs-8 item-dato g-text-uppercase">{{ request.contacto || '-' }}</div>
+                </div>
+              </li>
+              <li class="col-xs-12 col-md-3 cnt-item">
+                <div class="row">
+                  <div class="col-xs-4 item-label">Teléfonos:</div>
+                  <div class="col-xs-8 item-dato g-text-uppercase">{{ request.telefonos || '-' }}</div>
+                </div>
+              </li>
+              <li class="col-xs-12 col-md-3 cnt-item">
+                <div class="row">
+                  <div class="col-xs-4 item-label">Fecha:</div>
+                  <div class="col-xs-8 item-dato g-text-uppercase">{{ request.fecha | date: 'dd-MM-y' }}</div>
+                </div>
+              </li>
+              <li class="col-xs-12 col-md-3 cnt-item">
+                <div class="row">
+                  <div class="col-xs-4 item-label">Marca:</div>
+                  <div class="col-xs-8 item-dato g-text-uppercase">{{ request.marca || '-' }}</div>
+                </div>
+              </li>
+              <li class="col-xs-12 col-md-3 cnt-item">
+                <div class="row">
+                  <div class="col-xs-4 item-label">Modelo:</div>
+                  <div class="col-xs-8 item-dato g-text-uppercase">{{ request.modelo || '-' }}</div>
+                </div>
+              </li>
+              <li class="col-xs-12 col-md-3 cnt-item">
+                <div class="row">
+                  <div class="col-xs-4 item-label">Placa:</div>
+                  <div class="col-xs-8 item-dato g-text-uppercase">{{ request.placa || '-' }}</div>
+                </div>
+              </li>
+              <li class="col-xs-12 col-md-3 cnt-item">
+                <div class="row">
+                  <div class="col-xs-4 item-label">Usuario:</div>
+                  <div class="col-xs-8 item-dato g-text-uppercase">{{ request.usuario }}</div>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <!-- Fin: Resultados -->
+        <!-- Paginación -->
+        <div class="row" ng-if="$ctrl.pagination.totalRecords > $ctrl.pagination.maxSize">
+          <div class="col-md-12">
+            <ul
+              uib-pagination
+              class="g-pagination"
+              ng-model="$ctrl.pagination.currentPage"
+              max-size="$ctrl.pagination.maxSize"
+              total-items="$ctrl.pagination.totalRecords"
+              ng-change="$ctrl.pageChanged()"
+              boundary-link-numbers="true"
+            ></ul>
+          </div>
+        </div>
+        <!-- Fin Paginación -->
+      </div>
+    </div>
+  </div>
+</div>

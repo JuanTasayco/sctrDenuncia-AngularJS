@@ -1,0 +1,108 @@
+<section class="g-page g-home-inner-polizas">
+
+    <div class="g-title g-border-bottom">
+        <div class="container">
+        <div class="row">
+            <div class="col-sm-8">
+            <h1 class="ng-binding">Mantenedor de Productos</h1>
+            </div>
+            <div class="col-sm-4 g-text-right-xs no-tablet">
+            <a href="" class="g-link-back" ui-sref="homePolizasSalud"><span class="ico-mapfre_78_chevronleft arrow-left"></span>Volver a home salud</a>
+            </div>
+        </div>
+        </div>
+    </div>
+
+    <div class="g-content-habilitarPlanes pt-xs-2 pb-xs-2">
+        <div class="container">
+            <div class="row mb-xs-2">
+                <div class="col-xs-12 col-sm-6 mb-xs-2 mb-sm-0">
+                    <div class="row">
+                        <div class="col-xs-12 col-sm-6 mb-xs-2 mb-sm-0">
+                            <mpf-select
+                                label="{label: '', required: false}"
+                                name="nHabilitar"
+                                ng-model="habCtrl.mHabilitar"
+                                m-data-source="habCtrl.HabilitarData"
+                                text-field="Descripcion"
+                                value-field="Codigo"
+                                m-Empty-Option="{enterData:false}"
+                                ng-required="false"
+                                ng-change=""
+                                is-horz="true"
+                            ></mpf-select>
+                        </div>
+                        <div class="col-xs-12 col-sm-4" ng-if="habCtrl.isProductChecked">
+                            <a class="g-btn g-btn-verde second-design block" ng-click="habCtrl.fnShowAlert1()">Aplicar</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xs-12 col-sm-6">
+                    <div class="row">
+                        <div class="col-xs-12 col-sm-6 col-sm-offset-2 mb-xs-2 mb-sm-0">
+                            <mpf-input label="{label: 'Nombre plan', required: false}" name="nBuscarProducto" ng-model="habCtrl.mBuscarProducto" ng-required="false" is-horz="true"></mpf-input>
+                        </div>
+                        <div class="col-xs-12 col-sm-4" ng-click="habCtrl.buscarProducto()">
+                            <a class="g-btn g-btn-green-border second-design block">Buscar</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Tabla -->
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="clearfix g-tbl-wrapper">
+                        <div class="clearfix table__1024 g-tbl-habilitarPlanes">
+                            <ul height-row class="g-row-fz12 g-tbl-row gBgcGray5 pt-xs-1">
+                                <li class="g-col g-col-xs col-7-dktp tbl-item text-center">
+                                  <mpf-checkbox value="-1" ng-model="habCtrl.selectedAll" ng-click="habCtrl.checkAll(habCtrl.selectedAll)"></mpf-checkbox>
+                                </li>
+                                <li class="g-col g-col-xs col-9-dktp tbl-item item-title">ESTADO</li>
+                                <li class="g-col g-col-xs col-9-dktp tbl-item item-title">COD. DE<br> MODALIDAD</li>
+                                <li class="g-col g-col-xs col-9-dktp tbl-item item-title">NOMBRE DE MODALIDAD</li>
+                                <li class="g-col g-col-xs col-9-dktp tbl-item item-title">NÚM. DE<br> CONTRATO</li>
+                                <li class="g-col g-col-xs col-9-dktp tbl-item item-title">NÚM. DE<br> SUBCONTRATO</li>
+                                <li class="g-col g-col-xs col-10-dktp tbl-item item-title">NOMBRE DE PRODUCTO</li>
+                                <li class="g-col g-col-xs col-10-dktp tbl-item item-title">NOMBRE DE SUBPRODUCTO</li>
+                                <li class="g-col g-col-xs col-10-dktp tbl-item item-title">NOMBRE DE PLAN</li>
+                                <li class="g-col g-col-xs col-10-dktp tbl-item item-title">NOMBRE COMERCIAL</li>                                
+                                <li class="g-col g-col-xs col-6-dktp tbl-item item-title"></li>
+                            </ul>
+                            <div class="mb-xs-1 gnContentAuto-bg">
+                                <ul height-row class="g-row-fz12 g-tbl-row pt-xs-1 g-border-bottom-xs" ng-repeat="producto in habCtrl.listaProductos">
+                                    <li class="g-col g-col-xs col-7-dktp tbl-item text-center">
+                                      <!--<mpf-checkbox class="fw-normal" name="nCheck" ng-model="habCtrl.mCheck" label="" ng-click="habCtrl.productChecked(habCtrl.mCheck)"></mpf-checkbox>-->
+                                      <mpf-checkbox ng-model="producto.mEstado" value="$index" ng-change="habCtrl.updateListArray($index, producto.NombreProductoTron, producto)"></mpf-checkbox>
+                                    </li>
+                                    <li class="g-col g-col-xs col-9-dktp tbl-item tbl-item-estado"><span ng-class="{'indicator': producto.CodigoEstadoPlan === 'A', 'indicatorGray': producto.CodigoEstadoPlan === 'I'}" ></span><p ng-show="producto.CodigoEstadoPlan === 'A'">Habilitado</p><p ng-show="producto.CodigoEstadoPlan === 'I'">Inhabilitado</p></li>
+                                    <li class="g-col g-col-xs col-9-dktp tbl-item">{{producto.CodigoModalidad}}</li>
+                                    <li class="g-col g-col-xs col-9-dktp tbl-item">{{producto.NombreModalidad}}</li>
+                                    <li class="g-col g-col-xs col-9-dktp tbl-item">{{producto.NumeroContrato}}</li>
+                                    <li class="g-col g-col-xs col-9-dktp tbl-item">{{producto.NumeroSubContrato}}</li>
+                                    <li class="g-col g-col-xs col-10-dktp tbl-item">{{producto.NombreProducto}}</li>
+                                    <li class="g-col g-col-xs col-10-dktp tbl-item">{{producto.NombreSubProducto}}</li>
+                                    <li class="g-col g-col-xs col-10-dktp tbl-item">{{producto.NombrePlan}}</li>
+                                    <li class="g-col g-col-xs col-10-dktp tbl-item">{{producto.NombrePlanComercial}}</li>
+                                    <li class="g-col g-col-xs col-6-dktp tbl-item text-center"><span class="ico-verde ico-click gnIcon-xsm ico-mapfre_228_editar" ng-click="habCtrl.fnShowModal(producto)"></span></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Paginador -->
+            <div class="col-md-12 text-center g-box-noresult" ng-if="!habCtrl.listaProductos.length > 0">
+                <div class="row">
+                <div class="col-md-12 g-box-noresult-ico gCRed1"><span class="ico-mapfre_302_error"></span></div>
+                <div class="col-md-12 g-box-noresult-text">No hay resultados para los filtros escogidos.<br>Intente nuevamente.</div>
+                </div>
+            </div>
+            <div class="row" ng-if="habCtrl.listaProductos.length > 0">
+                <div class="col-md-12">
+                    <ul uib-pagination class="g-pagination" ng-model="habCtrl.mPagination" max-size="10" total-items="habCtrl.totalItems" items-per-page="habCtrl.pageSize" boundary-link-numbers="true" ng-change="habCtrl.pageChanged(habCtrl.mPagination)"></ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</section>

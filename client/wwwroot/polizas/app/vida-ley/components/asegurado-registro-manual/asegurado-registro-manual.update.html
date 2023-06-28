@@ -1,0 +1,166 @@
+
+<div class="row">
+  <div class="col-xs-12">
+    <h2 class="mb-xs-2 gH4">Seleccione la cantidad</h2>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-md-4 mb-xs-2">
+    <mpf-select label="{label: 'Número de asegurados', required: true}" name="mNumeroTrabajadores"
+      ng-model="vm.mNumeroTrabajadores" m-data-source="vm.dataSourceNumeroTrabajadores"
+      text-field="Descripcion" value-field="Valor" m-Empty-Option="{enterData:true}" mpf-validation="required"
+      ng-change="vm.changeTrabajadores(vm.mNumeroTrabajadores)" ng-required="true"
+      ng-disabled="disabled">
+    </mpf-select>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-md-12">
+    <div class="g-box gBgcGray5 pt-xs-1 pb-xs-1 pl-xs-1">
+      <span class="ico-mapfre_222_informacion gCBlue2 gnIcon-xsm g-cell-middle"></span>
+      <span class="g-cell-middle pl-xs-1">El sueldo no debe considerar bonos, movilidad o costos adicionales. Sí debe contemplar la asignación familiar.</span>
+    </div>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-md-12">
+    <div class="g-box gBgcGray5 pt-xs-1 pb-xs-1 pl-xs-1">
+      <span class="ico-mapfre_222_informacion gCBlue2 gnIcon-xsm g-cell-middle"></span>
+      <span class="g-cell-middle pl-xs-1">El monto tope de remuneración por cada mes declarado es de S/ {{vm.riesgo.montoTopado || vm.cotizacion.montoTopado}}.</span>
+    </div>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-md-12">
+    <div class="g-box gBgcGray5 pt-xs-1 pb-xs-1 pl-xs-1">
+      <span class="ico-mapfre_222_informacion gCBlue2 gnIcon-xsm g-cell-middle"></span>
+      <span class="g-cell-middle pl-xs-1">El detalle de planilla a ingresar corresponde a la primera declaración,
+        del {{ vm.cotizacion.duracion.fechaInicial || vm.cotizacion.duracion.modelo.fechaInicial }} al {{ vm.cotizacion.infoAplicacion.FechaFinal || vm.cotizacion.duracion.modelo.mFechaFinal}}. Considera {{ vm.cotizacion.infoAplicacion.DescripcionTiempo || vm.cotizacion.duracion.modelo.mFrecuenciaDuracion.Descripcion | lowercase }} de renumeración.</span>
+    </div>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-md-12 mt-xs-2">
+    <div class="g-box g-box--ofw-initial g-list">
+      <div class="clearfix">
+        <div class="col-xs-12">
+          <h2 class="mt-xs-2 mb-xs-2 gH4">Datos de los asegurados - {{vm.riesgo.modelo.mNumeroTrabajadores.Valor}} completados
+          </h2>
+        </div>
+      </div>
+      <div class="clearfix" ng-repeat="asegurado in vm.asegurados track by $index">
+        <div class="col-md-12 g-border-top-xs">
+          <span class="fz14 pt-xs-2 pb-xs-2 g-block"><b>Asegurado {{$index+1}}</b></span>
+        </div>
+        <div class="col-md-12">
+          <div class="row">
+            <div class="col-md-4 mb-xs-2">
+              <mpf-select ng-model="asegurado.modelo.mTipoDocumento"
+                name="{{vm.getNameControl('TipoDocumento', $index)}}"
+                label="{label: 'Tipo de documento', required: vm.checkRequired('TIP_DOCUM')}"
+                m-data-source="vm.tiposDocumento" text-field="Descripcion" value-field="Codigo"
+                m-Empty-Option="{enterData:true}" ng-disabled="disabled"
+                ng-change="vm.cambioTipoDocumento(asegurado, asegurado.modelo.mTipoDocumento)"
+                mpf-generic-validations="{{vm.getValidations('TIP_DOCUM')}}" disabled-view-model="true"></mpf-select>
+            </div>
+            <div class="col-md-4 mb-xs-2">
+              <mpf-input label="{label: 'Número de Documento', required: vm.checkRequired('COD_DOCUM')}"
+                name="{{vm.getNameControl('NumeroDocumento', $index)}}" ng-model="asegurado.numeroDocumento"
+                mpf-validation="{{asegurado.validadores.typeNumeroDoc}}"
+                mpf-validation-disabled="{{asegurado.validadores.typeNumeroDocDisabled}}"
+                ng-minlength="asegurado.validadores.minNumeroDoc" ng-maxlength="asegurado.validadores.maxNumeroDoc"
+                ng-blur="vm.buscarAsegurado(asegurado)" ng-disabled="vm.desactivarControl(asegurado)"
+                mpf-generic-validations="{{vm.getValidations('COD_DOCUM')}}" disabled-view-model="true"></mpf-input>
+            </div>
+            <div class="col-md-4 mb-xs-2">
+              <mpf-input label="{label: 'Nombres', required: vm.checkRequired('NAME_PERSON')}"
+                name="{{vm.getNameControl('NombreAsegurado', $index)}}" ng-model="asegurado.nombres"
+                mpf-generic-validations="{{vm.getValidations('NAME_PERSON')}}" disabled-view-model="true"
+                ng-disabled="vm.desactivarControl(asegurado) || vm.disabledDatos(asegurado)">
+              </mpf-input>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-4 mb-xs-2">
+              <mpf-input label="{label: 'Apellido Paterno',required: vm.checkRequired('LASTNAME')}"
+                name="{{vm.getNameControl('ApellidoPaterno', $index)}}" ng-model="asegurado.apellidoPaterno"
+                mpf-generic-validations="{{vm.getValidations('LASTNAME')}}" disabled-view-model="true"
+                ng-disabled="vm.desactivarControl(asegurado) || vm.disabledDatos(asegurado)">
+              </mpf-input>
+            </div>
+            <div class="col-md-4 mb-xs-2">
+              <mpf-input label="{label: 'Apellido Materno', required: vm.checkRequired('SECOND_LASTNAME')}"
+                name="{{vm.getNameControl('ApellidoMaterno', $index)}}" ng-model="asegurado.apellidoMaterno"
+                mpf-generic-validations="{{vm.getValidations('SECOND_LASTNAME')}}" disabled-view-model="true"
+                ng-disabled="vm.desactivarControl(asegurado) || vm.disabledDatos(asegurado)">
+              </mpf-input>
+            </div>
+            <div class="col-md-4 mb-xs-2">
+              <mpf-input label="{label: 'Nombres completos', required: vm.checkRequired('NAMES_PERSON')}"
+                name="{{vm.getNameControl('NombreCompleto', $index)}}" ng-model="asegurado.nombresCompleto"
+                mpf-generic-validations="{{vm.getValidations('NAMES_PERSON')}}" disabled-view-model="true"
+                ng-disabled="vm.desactivarControl(asegurado) || vm.disabledNombreCompleto(asegurado)">
+              </mpf-input>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-4 mb-xs-2">
+              <mpf-datepicker class="input-no-margin"
+                label="{label: 'Fecha de nacimiento (dd/mm/yyyy)', required: vm.checkRequired('BIRTHDATE')}"
+                ng-model="asegurado.modelo.mFechaNacimiento" format="'dd/MM/yyyy'"
+                name="{{vm.getNameControl('FechaNacimiento', $index)}}" data-ng-change="dateValidate()"
+                data-set-model-by-this-data="asegurado.modelo.mFechaNacimiento" readonly="false"
+                data-parsear-to-date="true" ng-disabled="vm.desactivarControl(asegurado)">
+              </mpf-datepicker>
+            </div>
+            <div class="col-md-4 mb-xs-2">
+              <mpf-input label="{label: 'Ocupación', required: vm.checkRequired('PROFESSION')}"
+                name="{{vm.getNameControl('Ocupacion', $index)}}" ng-model="asegurado.ocupacion"
+                mpf-generic-validations="{{vm.getValidations('PROFESSION')}}" disabled-view-model="true"
+                ng-disabled="vm.desactivarControl(asegurado)"></mpf-input>
+            </div>
+            <div class="col-md-4 mb-xs-2">
+              <mpf-input label="{label: 'Sueldo', required: vm.checkRequired('SALARY')}"
+                name="{{vm.getNameControl('Sueldo', $index)}}" ng-model="asegurado.sueldo"
+                mpf-generic-validations="{{vm.getValidations('SALARY')}}" disabled-view-model="true"
+                ng-disabled="vm.desactivarControl(asegurado)" ng-blur="vm.calcularTotalPlanilla()">
+              </mpf-input>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-4 mb-xs-2">
+            <mpf-select ng-model="asegurado.TipoRiesgo" name="{{vm.getNameControl('TipoRiesgo', $index)}}"
+                                label="{label: 'Tipo de riesgo', required: true}"
+                                m-data-source="vm.tiposRiego" text-field="name"
+              disabled-view-model="true"
+              ng-disabled="vm.desactivarControl(asegurado)"
+                                value-field="name" m-Empty-Option="{enterData:true}" ng-required="true">
+                            </mpf-select>
+                                <ul class="g-error">
+                                    <li
+                                        ng-show="frmTypeLoad.nTipoRiesgo{{$index}}.$invalid && !frmTypeLoad.nTipoRiesgo{{$index}}.$pristine">
+                                        * Seleccione un tipo de riego</li>
+                              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="row" ng-if="!disabled">
+  <div class="col-md-4 col-md-offset-4">
+    <a class="g-btn g-btn-verde block" ng-class="{'disabled': !vm.activeBotonObtenerCobertura()}"
+      ng-click="vm.obtenerCobertura()">Obtener Coberturas</a>
+  </div>
+</div>
+<mpf-cobertura-vida-ley ng-model="vm.riesgo" name="'manual'" 
+  ng-disabled="disabled" update="true">
+</mpf-cobertura-vida-ley>
+

@@ -1,0 +1,109 @@
+<div class="g-modal-send-email clearfix">
+  <button type="button" class="close g-close-modal" ng-click="$ctrl.close()">
+    <span class="ico-mapfre_231_cancelaroff"></span>
+  </button>
+  <div class="container">
+    <form ng-submit="$ctrl.sendEmail()" name="frmSendMail">
+      <div class="row" ng-if="!$ctrl.message">
+        <div class="col-md-12 g-text-center-xs mb-xs-2">
+          <h2 class="gH3">
+            <b>¿A qué correo electrónico quieres enviar la {{ $ctrl.modalSendEmail.title }}?</b>
+          </h2>
+        </div>
+        <div class="col-md-10 mb-md-1 col-md-offset-1 h-myd-mb--20">
+          <mpf-input
+            label="{label: 'Para', required: true}"
+            name="nPara"
+            ng-model="$ctrl.mPara"
+            ng-required="true"
+            mpf-validation="moreOneEmail"
+            disabled-View-Model="true"
+          ></mpf-input>
+
+          <!-- <div class="g-input-design">
+						<label class="g-placeholder" ng-class="{animated: focused || !isEmpty()}">Para<span ng-show="labelData.required">*</span></label>
+						<input type="text"
+							   ng-pattern="{{$ctrl.emailRegex}}"
+							    name="nPara" ng-model="$ctrl.mPara" ng-required="true"
+							   >
+					</div> -->
+          <div class="g-comment g-text-center-xs pt-xs-0-5">(Para ingresar más de un correo separar con coma "," y sin espacios)</div>
+          <ul class="g-error">
+            <li ng-show="frmSendMail.nPara.$error.required && !frmSendMail.nPara.$pristine">
+              * Este campo es obligatorio
+            </li>
+            <li ng-show="frmSendMail.nPara.$error.moreOneEmail && !frmSendMail.nPara.$pristine">* Correo inválido</li>
+          </ul>
+        </div>
+        <div class="col-md-10 mb-md-1 col-md-offset-1 h-myd-mb--20">
+          <mpf-input
+            label="{label: 'Asunto', required: true}"
+            name="nAsunto"
+            ng-model="$ctrl.mAsunto"
+            ng-required="true"
+            ng-disabled="$ctrl.disabledAsunto"
+          ></mpf-input>
+          <ul class="g-error">
+            <li ng-show="frmSendMail.nAsunto.$error.required && !frmSendMail.nAsunto.$pristine">
+              * Este campo es obligatorio
+            </li>
+          </ul>
+        </div>
+        <div class="col-md-10 mb-md-1 col-md-offset-1 h-myd-mb--20">
+          <mpf-textarea
+            label="{label: 'COMENTARIOS(OPCIONAL)', required:false}"
+            name="nComentario"
+            ng-model="$ctrl.mComentario"
+          ></mpf-textarea>
+          <ul class="g-error">
+            <li ng-show="$ctrl.messageError && $ctrl.showMessageError">{{ $ctrl.messageError }}</li>
+          </ul>
+        </div>
+        <div
+          class="col-md-10 mb-md-1 col-md-offset-1 h-myd-mb--20"
+          ng-if="$ctrl.data.emisionVidaLey">
+          <div class="g-placeholder block mb-xs-1">
+            Adjuntos:
+          </div>
+        </div>
+        <div class="col-md-10 mb-md-1 col-md-offset-1 h-myd-mb--20 contentFileList">
+          <ul>
+            <li
+              class="g-border-xs gBgcGray5 mb-xs-1 pl-xs-1"
+              ng-repeat="documento in $ctrl.data.archivos track by $index"
+              ng-if="$ctrl.data.emisionVidaLey">
+              <div class="g-box-attachment">
+                <span class="ico-mapfre_314_archivos box-ico"></span>
+                {{documento.name}}
+                <a
+                  href="javascript:void(0)"
+                  class="box-close"
+                  ng-click="deleteFile(documento, $parent.$index, $index)">
+                  <span class="ico-mapfre_231_cancelaroff"></span>
+                </a>
+              </div>
+            </li>
+          </ul>
+        </div>
+        <!-- <div class="col-md-12 text-center"> -->
+        <div class="col-md-4 col-md-offset-4 mt-xs-2">
+          <button type="submit" class="g-btn g-btn-verde block" ng-class="{disabled: !validationForm()}">Enviar</button>
+        </div>
+      </div>
+      <div class="clearfix" ng-if="$ctrl.message">
+        <div class="row">
+          <div class="col-md-12 mb-xs-3">
+            <p class="text-center mb-xs-0">
+              {{ $ctrl.messageService }}
+            </p>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-4 col-md-offset-4">
+            <a class="g-btn g-btn-verde block" ng-click="$ctrl.close()">Cerrar</a>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>

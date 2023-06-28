@@ -1,0 +1,122 @@
+<section class="g-page g-home-inner-polizas">
+
+    <div class="g-title g-border-bottom">
+        <div class="container">
+        <div class="row">
+            <div class="col-sm-8">
+            <h1 class="ng-binding">Mantenedor de Preguntas</h1>
+            </div>
+            <div class="col-sm-4 g-text-right-xs no-tablet">
+            <a href="" class="g-link-back" ui-sref="homePolizasSalud"><span class="ico-mapfre_78_chevronleft arrow-left"></span>Volver a home salud</a>
+            </div>
+        </div>
+        </div>
+    </div>
+    <div class="g-title">
+        <div class="container">
+        <div class="row">
+            <div top-menu class="col-xs-12" style="display: flex;">
+                <ul class="g-menu-main hidden-xs hidden-sm" ng-click="changetab(1)">
+                    <span style="max-width: 100%; width: 100%;">
+                        <li class="link" ng-class="{'actived': tab1}" >
+                            <a>Mantenedor Actual</a>
+                        </li>
+                    </span> 
+                </ul>
+                <ul class="g-menu-main hidden-xs hidden-sm" ng-click="changetab(2)" >                    
+                    <span style="max-width: 100%; width: 100%;">
+                        <li class="link" ng-class="{'actived': tab2}">
+                            <a>Historial de Pregunta</a>
+                        </li>
+                    </span>                    
+                </ul>
+            </div>
+        </div>
+        </div>
+    </div>
+
+    <div class="g-content-habilitarPlanes pt-xs-2 pb-xs-2">
+        <div class="container" ng-if="tab1">
+            <div class="row">
+                <div class="col-xs-12 g-box pt-xs-2 pb-xs-4">
+                    <div class="col-xs-12 pl-xs-5 pr-sm-3">
+                        <b class="col-xs-3 col-sm-1"> ORDEN</b>
+                        <b class="col-xs-6 col-sm-10"> PREGUNTA</b>
+                        <b class="col-xs-3 col-sm-1"> FECHA VIGENCIA</b>
+                    </div>
+                    <div class="mt-xs-2 mt-sm-4 g-drag-drop">
+                        <div class="col-xs-12 pl-sm-3 pr-sm-3">
+                            <div ui-tree="treeOptions" id="tree-root" ng-if="DataPreguntas.length > 0" >
+                                <ol ui-tree-nodes ng-model="DataPreguntas" id="tree-root">
+                                    <li ng-repeat="node in DataPreguntas" ui-tree-node ng-include="preguntaTemplate">
+                                        
+                                    </li>
+                                  </ol>
+                              </div>
+                             
+                        </div>
+                    </div>
+                </div>
+             </div>
+        </div>
+        <div class="container" ng-if="tab2">
+            <div class="row mb-xs-2 mb-sm-4">
+                <div class="col-xs-12 col-sm-12">
+                    <div class="row">
+                        <div class="col-xs-12 col-sm-8 mb-xs-2 mb-sm-0">
+                            <div class="row">
+                                <div class="col-xs-12 col-sm-6">
+                                    <mpf-select
+                                        label="{label: 'Estados', required: false}"
+                                        name="nHabilitar"
+                                        ng-model="firstStep.mHabilitar"
+                                        m-data-source="EstadoData"
+                                        text-field="Descripcion"
+                                        value-field="Codigo"
+                                        m-Empty-Option="{enterData:false}"
+                                        ng-required="false"
+                                        ng-change=""
+                                        is-horz="true">
+                                    </mpf-select>
+                                </div>
+                            </div>                        
+                        </div>
+                        <div class="col-xs-12 col-sm-2  mb-xs-2 mb-sm-0"  ng-click="filtar()">
+                            <a class="g-btn g-btn-verde second-design block" ng-click="filtrar()">Filtrar</a>
+                            
+                        </div>
+                        <div class="col-xs-12 col-sm-2" ng-click="openModalAnadir()">
+                            <a class="g-btn g-btn-verde second-design block">Agregar</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+             <div class="row">
+                <div class="col-xs-12 g-box pt-xs-2 pb-xs-4">
+                    <div class="col-xs-12 pl-xs-5 pr-sm-3">
+                        <b class="col-xs-2 col-sm-1"> ORDEN</b>
+                        <b class="col-xs-2 col-sm-4"> PREGUNTA</b>
+                        <b class="col-xs-2 col-sm-1"> FECHA CREACION</b>
+                        <b class="col-xs-2 col-sm-1"> FECHA VIGENCIA</b>
+                        <b class="col-xs-2 col-sm-1"> USUARIO</b>
+                        <b class="col-xs-2 col-sm-2"> ESTADO</b>
+                        <b class="col-xs-2 col-sm-2"> </b>
+                    </div>
+                    <div class="mt-xs-2 mt-sm-4 g-drag-drop">
+                        <div class="col-xs-12 pl-sm-3 pr-sm-3">
+                            <div ui-tree="treeOptions" id="tree-root" ng-if="DataPreguntas.length > 0" >
+                                <ol ui-tree-nodes ng-model="DataPreguntas" id="tree-root">
+                                    <li ng-repeat="node in DataPreguntas" ui-tree-node ng-include="preguntaTemplate">
+                                        
+                                    </li>
+                                  </ol>
+                              </div>
+                             
+                        </div>
+                    </div>
+                </div>
+             </div>
+        </div>
+    </div>
+
+</section>

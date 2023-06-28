@@ -1,0 +1,117 @@
+<section class="">
+	<button type="button" class="close g-close-modal" ng-click="closeModal()">
+		<span class="ico-mapfre_231_cancelaroff"></span>
+	</button>
+
+	<form name="frmAuditor">
+		<div class="container">
+			<div class="row">
+				<div class="col-md-12 g-text-center-xs mb-xs-2">
+					<h2 class="gH3"><b>{{data.title}}</b></h2>
+				</div>
+			</div>
+		</div>
+
+		<div class="container">
+			<div class="col-md-12">
+		  	<div class="row">
+		  		<div class="col-md-12">
+						<span class="g-placeholder block mb-xs-1">Tipo de Persona</span>
+					</div>
+		  	</div>
+		  	<div class="row">
+		  		<div class="col-md-2 col-xs-12 pl-xs-1 pr-xs-0">
+            <m-radio label="{label: 'Juridica'}" name="nTipoBusqueda" ng-model="formData.mTipoBusqueda" value="JURIDICA" data-ng-required="true" ng-click="cleanFields(data.auditor)"></m-radio>
+          </div>
+          <div class="col-md-2 col-xs-12 pl-xs-1 pr-xs-0">
+            <m-radio label="{label: 'Natural'}" name="nTipoBusqueda" ng-model="formData.mTipoBusqueda" value="NATURAL" data-ng-required="true" ng-click="cleanFields(data.auditor)"></m-radio>
+          </div>
+          <ul class="g-error">
+						<li ng-show="frmAuditor.nTipoBusqueda.$error.required && !frmNewAudit.nTipoBusqueda.$pristine">* Seleccione un tipo de persona</li>
+					</ul>
+		  	</div>
+		  	<div ng-show="formData.mTipoBusqueda == 'JURIDICA'" class="col-xs-12 no-padding-xs">
+			  	<div class="row mt-xs-2">
+						<div class="col-md-4 mb-xs-2">
+							<mpf-input label="{label: 'Razón Social/Nombres', required: true}" name="nRazSocialNombre" ng-model="formData.mRazSocialNombre" mpf-validation="required" ng-required="true" ng-minlength="2" ng-maxlength="30"></mpf-input>
+							<ul class="g-error">
+								<li ng-show="frmAuditor.nRazSocialNombre.$error.required && !frmAuditor.nRazSocialNombre.$pristine">* Ingrese un nombre/razón social</li>
+							</ul>
+						</div>
+						<div class="col-md-4 mb-xs-2">
+							<mpf-select ng-model="formData.mTipoDocumento" name="nTipoDocumento" label="{label: 'Tipo de documento', required: true}" m-data-source="tipoDocumentos" text-field="name" value-field="code" m-Empty-Option="{enterData:true}" mpf-validation="required" ng-required="true" ng-change="showNaturalPerson(formData.mTipoDocumento); setTipoPersona()"></mpf-select>
+							<ul class="g-error">
+								<li ng-show="frmAuditor.nTipoDocumento.$error.required && !frmAuditor.nTipoDocumento.$pristine">* Seleccione tipo de documento</li>
+							</ul>
+						</div>
+						<div class="col-md-4 mb-xs-2">
+							<mpf-input label="{label: 'Nro. Documento', required: true}" name="nNroDoc" ng-model="formData.mNroDoc" mpf-validation="onlyNumber" ng-required="true" ng-minlength="formData.docNumMinLength" ng-maxlength="formData.docNumMaxLength"></mpf-input>
+							<ul class="g-error">
+								<li ng-show="frmAuditor.nNroDoc.$invalid && !frmAuditor.nNroDoc.$pristine">* Ingrese un número de documento</li>
+							</ul>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-4 mb-xs-2">
+							<mpf-input label="{label: 'Correo Electrónico', required: true}" name="nEmail" ng-model="formData.mEmail" ng-required="true"></mpf-input>
+							<ul class="g-error">
+								<li ng-show="frmAuditor.nEmail.$invalid && !frmAuditor.nEmail.$pristine">* Ingrese un email</li>
+							</ul>
+						</div>
+					</div>
+				</div>
+				<div ng-show="formData.mTipoBusqueda == 'NATURAL'" class="col-xs-12 no-padding-xs">
+			  	<div class="row mt-xs-2">
+						<div class="col-md-4 mb-xs-2">
+							<mpf-input label="{label: 'Nombres', required: true}" name="nNombre" ng-model="formData.mNombre" mpf-validation="required" ng-required="true" ng-minlength="2" ng-maxlength="30"></mpf-input>
+							<ul class="g-error">
+								<li ng-show="frmAuditor.nNombre.$invalid && !frmAuditor.nNombre.$pristine">* Ingrese un nombre</li>
+							</ul>
+						</div>
+						<div class="col-md-4 mb-xs-2">
+							<mpf-input label="{label: 'Apellido Paterno', required: true}" name="nApelPaterno" ng-model="formData.mApelPaterno" mpf-validation="required" ng-required="true" ng-minlength="2" ng-maxlength="30"></mpf-input>
+							<ul class="g-error">
+								<li ng-show="frmAuditor.nApelPaterno.$invalid && !frmAuditor.nApelPaterno.$pristine">* Ingrese un apellido</li>
+							</ul>
+						</div>
+						<div class="col-md-4 mb-xs-2">
+							<mpf-input label="{label: 'Apellido Materno', required: true}" name="nApelMaterno" ng-model="formData.mApelMaterno" mpf-validation="required" ng-required="true" ng-minlength="2" ng-maxlength="30"></mpf-input>
+							<ul class="g-error">
+								<li ng-show="frmAuditor.nApelMaterno.$invalid && !frmAuditor.nApelMaterno.$pristine">* Ingrese un apellido</li>
+							</ul>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-4 mb-xs-2">
+							<mpf-select ng-model="formData.mTipoDocumento" name="nTipoDocumento" label="{label: 'Tipo de documento', required: true}" m-data-source="tipoDocumentos" text-field="name" value-field="code" m-Empty-Option="{enterData:true}" mpf-validation="required" ng-required="true" ng-change="showNaturalPerson(formData.mTipoDocumento); setTipoPersona()"></mpf-select>
+							<ul class="g-error">
+								<li ng-show="frmAuditor.nTipoDocumento.$error.required && !frmAuditor.nTipoDocumento.$pristine">* Seleccione tipo de documento</li>
+							</ul>
+						</div>
+						<div class="col-md-4 mb-xs-2">
+							<mpf-input label="{label: 'Nro. Documento', required: true}" name="nNroDoc" ng-model="formData.mNroDoc" mpf-validation="onlyNumber" ng-required="true" ng-minlength="formData.docNumMinLength" ng-maxlength="formData.docNumMaxLength"></mpf-input>
+							<ul class="g-error">
+								<li ng-show="frmAuditor.nNroDoc.$invalid && !frmAuditor.nNroDoc.$pristine">* Ingrese un número de documento</li>
+							</ul>
+						</div>
+						<div class="col-md-4 mb-xs-2">
+							<mpf-input label="{label: 'Correo Electrónico', required: true}" name="nEmail" ng-model="formData.mEmail" ng-required="true"></mpf-input>
+							<ul class="g-error">
+								<li ng-show="frmAuditor.nEmail.$invalid && !frmAuditor.nEmail.$pristine">* Ingrese un email</li>
+							</ul>
+						</div>
+					</div>
+				</div>
+
+				<div class="row">
+					<div class="col-md-4 col-md-offset-2 mb-xs-1 no-mb-md">
+						<a href="" class="g-btn g-btn-transparent block" ng-click="closeModal()">Cancelar</a>
+					</div>
+					<div class="col-md-4">
+						<a href="" class="g-btn g-btn-verde block" ng-click="crearAuditor2(formData)">{{data.boton}}</a>
+					</div>
+				</div>
+			</div>
+	  </div>
+	</form>
+</section>

@@ -1,0 +1,186 @@
+/*#############################
+# general NSCTR
+#############################*/
+.gNsctrModal{
+	padding-bottom: 0;
+	overflow: visible;
+}
+
+.gNsctr,
+.gNsctrModal{
+	/*#############################
+	# gnSecToggle
+	#############################*/
+	.gnSecToggle{
+		.panel-group{
+			margin-bottom: 0;
+			.panel{
+				background-color: transparent;
+				box-shadow: none;
+				margin-top: 0;
+				margin-bottom: 10px;
+				overflow: inherit;
+				@extend .g-box;
+			}
+		}
+		.panel-heading{
+			padding: 0;
+		}
+		.panel-title>a{
+			&:hover,
+			&:focus{
+				cursor: default;
+			}
+		}
+		.text-muted{
+			color: $cGray2;
+		}
+		.panel-body{
+			padding: 0;
+		}
+		.panel-group .panel-heading+.panel-collapse .panel-body{
+			border: 0;
+		}
+		.icoToggle{
+			@include inlineblock();
+			width: 35px;
+			height: 35px;
+			background-color: $cGray4;
+			@include prefix(border-radius, 50%);
+			font-size: $fz20;
+			color: $cGray3;
+			text-align: center;
+			line-height: 35px;
+			@include prefix(transition, all .25s all);
+		}
+		.panel-open{
+			.icoToggle{
+				&:before{
+					content: '\ea1f';
+				}
+			}
+		}
+		.g-btn{
+			font-size: $fz12;
+		}
+		.checkPolicy{
+			@extend %checkAbsoluteTop;
+			left: 15px;
+		}
+		.tooltipEllipses{
+			.cntList{
+				width: 100%;
+				max-height: 35px;
+				overflow: hidden;
+				overflow-y: auto;
+			}
+		}
+	}
+	/*#############################
+	# gnSecResultsFixed
+	#############################*/
+	.gnSecResultsFixed{
+		width: 100%;
+		@include prefix(box-shadow, 0 -1px 6px $cGray4);
+		position: fixed;
+		left: 0;
+		bottom: -100px;
+		z-index: -1;
+		opacity: 0;
+		visibility: hidden;
+		-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
+		filter: alpha(opacity=0);
+		@include prefix(transition, all 0.25s linear);
+		&.show{
+			opacity: 1;
+			visibility: visible;
+			-ms-filter: none;
+			filter: none;
+			bottom: 0;
+			z-index: 1010;
+		}
+		.panel-group{
+			.panel{
+				border: 0;
+				margin-bottom: 0;
+				@include prefix(border-radius, 0px);
+			}
+		}
+		.panel-open{
+			.secHeader{
+				background-color: $cGray3;
+			}
+			.icoToggle{
+				&:before{
+					content: '\ea20';
+				}
+			}
+		}
+		.secHeader{
+			background-color: $cGreen1;
+			color: $cWhite1;
+			padding-top: 15px;
+			padding-bottom: 5px;
+			@include prefix(transition, all 0.25s linear);
+		}
+		.g-btn{
+			font-size: $fz14;
+		}
+	}
+	/*#############################
+	# gnSecResultsFixed
+	#############################*/
+	.gnBtnDropdown{
+		.dropdown-menu{
+			font-size: $fz14;
+			&>li{
+				&>a{
+					color: $cGray2;
+					&:hover,
+					&:focus{
+						color: $cGray2;
+						background-color: $cGray5;
+					}
+				}
+			}
+		}
+	}
+	/*#############################
+	# gnChecksList
+	#############################*/
+	.gnChecksList{
+		li{
+			@include inlineblock();
+			width: 50%;
+			text-align: left;
+			padding-left: 0;
+			margin-left: 0;
+			@media (min-width: $break-medium){
+				width: auto;
+				margin-bottom: 5px;
+				padding-right: 20px;
+				&:first-child {
+					padding-left: 0;
+				}
+			}
+		}
+	}
+}
+
+
+
+/*#############################
+# responsive
+#############################*/
+//max-width
+@media (max-width: $break-small){
+	.gNsctr{
+		.gnSecResultsFixed{
+			&.responsive{
+				top: 0;
+				right: 0;
+				overflow: auto;
+			}
+		}
+	}
+}

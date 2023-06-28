@@ -1,0 +1,111 @@
+<section class="g-page page-sctr-emitir">
+  <!-- <div class="g-section">
+		<div class="container">
+			<div class="row">
+				<div class="col-md-6 pl-md-0">
+					<page-title info="data"></page-title>
+				</div>
+				<div class="col-md-6 document-number text-right mt-xs-2">
+					<div class="cont-text">
+						<span class="title" ng-show="formData.NroSolicitud">Nro. documento SCTR: {{formData.NroSolicitud}}</span>
+						<span class="component">Agente: {{agentName}}</span> <span class="component">Oficina: {{officeName || 'DESCONOCIDO'}}</span>
+					</div>
+					<div class="cont-ico g-u-cursor--pointer">
+						<span class="ico-mapfre_157_chat"></span>
+						<span class="chat-number ng-binding"></span>
+					</div>
+				</div>
+			</div>
+		</div>
+  </div> -->
+  <div class="g-ui-view">
+    <div class="">
+      <div class="g-title">
+        <div class="container">
+          <div class="row">
+            <div class="col-md-6 col-sm-4 mb-xs-2 no-mb-sm">
+              <h1>{{ data.title }}</h1>
+            </div>
+            <div class="col-md-6 document-number text-right h-myd--flex h-myd--flex-jtf-end h-myd--flex-alg-center">
+              <div class="cont-text">
+                <!-- <span class="title" ng-show="formData.NroSolicitud">Nro. documento SCTR: {{formData.NroSolicitud}}</span> -->
+                <span class="title h-myd--fz14">Nro. documento SCTR: {{ formData.NroSolicitud }}</span>
+                <span ng-hide="isAgente()">
+                  <span class="component" ng-hide="userType == '3' || userType == '1'">Agente: {{ agentName }}</span>
+                  <span class="component" ng-show="userSubType == '0' && userType != '1'"
+                    >Oficina: {{ officeName || 'DESCONOCIDO' }}</span
+                  >
+                </span>
+
+                <span ng-show="isAgente()">
+                  <span class="component">Región: {{ regionName || 'DESCONOCIDO' }}</span>
+                  <span class="component">Oficina: {{ officeName || 'DESCONOCIDO' }}</span>
+                </span>
+              </div>
+              <div class="cont-ico g-u-cursor--pointer ml-xs-1" ng-show="isRegular">
+                <span class="ico-mapfre_157_chat"></span>
+                <span class="chat-number ng-binding">
+                  <span class="chat-number__val">{{ chatNumber }}</span>
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Sección Agente -->
+    <div class="g-section h-myd-mb--10 h-myd-mt--10">
+      <div class="container">
+        <div class="row" ng-show="currentStep==1">
+          <div class="col-md-5">
+            <span ng-show="!userRoot"
+              ><h2>Agente: {{ formData.claims.codigoAgente }} - {{ formData.claims.nombreAgente }}</h2></span
+            >
+            <mp-data-seeker
+              ng-show="userRoot"
+              behavior="{label:'Para cotizar una póliza debes elegir un agente', placeholder:'Busque o seleccione un agente ...', matchField:'codigoNombre'}"
+              m-data-source="'proxyAgente.buscarAgente'"
+              ng-model="formData.mAgente"
+              ng-change="saveAgent(formData.mAgente)"
+            >
+              <div ng-bind-html="$item.codigoNombre | highlight: $select.search"></div>
+            </mp-data-seeker>
+            <li ng-if="disableSgt" style="color:red">{{formData.msjReferidoValidate}}</li>
+          </div>
+        </div>
+        <div class="row" ng-show="currentStep!=1">
+          <div class="col-md-5">
+            <span
+              ><h2>Agente: {{ formData.mAgente.codigoNombre }}</h2></span
+            >
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="pt-xs-2" ng-show="formData.agenteBloqueado">
+      <div class="container">
+        <div class="clearfix">
+          <div class="col-md-12">
+            <div class="g-box clearfix g-box-header pb-xs-1 pl-md-2">
+              <!-- <span class="ico-mapfre_222_informacion ico-medium ico-verde"></span><span class="txt-bloqueo">Tu usuario ha sido bloqueado</span> -->
+              <span class="ico-mapfre_222_informacion ico-medium ico-verde"></span
+              ><span class="txt-bloqueo"
+                >El código de agente {{ formData.mAgente.codigoAgente }} ha sido bloqueado para emisión SCTR por
+                presentar 3 pólizas pendientes de pago (primer recibo pendiente vencido mayor a 45 días).
+                <br />Coordinar con su gestor comercial</span
+              >
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Steps -->
+  <!-- <div class="g-steps mb-md-3" ng-show="currentStep<3"> -->
+  <wizard-stairs
+    stairs="{steps: [{description:'Datos de la empresa'},{description:'Datos de la póliza'}, {description: 'Datos del riesgo'}, {description: 'Datos de los asegurados'}, {description: 'Pago y/o confirmación'}], stateName:'.steps', stateParameter: 'step'}"
+    current-Step="currentStep"
+    steping="nav.go($stepToGo)"
+  ></wizard-stairs>
+  <div id="form-views" ui-view=""></div>
+</section>

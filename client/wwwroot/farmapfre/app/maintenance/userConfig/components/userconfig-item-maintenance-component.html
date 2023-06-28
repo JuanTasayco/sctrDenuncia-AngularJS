@@ -1,0 +1,55 @@
+<form name="frmUserConfigItemMaintenance" action="">
+    <div class="col-md-12 g-list-md g-boxRb pt-xs-2 mb-xs-2 ng-scope">
+        <div class="row">
+            <div class="col-md-8" style="font-size:18px">
+                Asignar a {{$ctrl.user.fullName}}
+            </div>
+            <div class="col-md-4">
+                <ul class="row g-list-sm" >
+                    <li class="col-md-12 col-sm-12 col-xs-12 clearfix mb-xs-12 mt-xs-12 gH4">
+                      <div class="col-sm-7 col-xs-7 col-md-offset-3">
+                        <div class="g-toggle l-height-0" ng-class="{'g-toggle__withOutLabel': !{{ $ctrl.frm.status.description }} }">
+                          <span class="g-toggle__label" style="margin-right: 60px;">{{ $ctrl.frm.status.description }}</span>
+
+                          <input type="checkbox" 
+                            id="chk-{{ $ctrl.user.id }}"
+                            class="cbx hidden" 
+                            ng-model="$ctrl.frm.status.enabled"
+                            ng-disabled="isDisabled()"
+                            ng-checked="{{$ctrl.frm.status.enabled}}"
+                            ng-change="$ctrl.changeChecked()"
+                            ng-click="_click($event)" />
+
+                          <label for="chk-{{ $ctrl.user.id }}" class="lbl" style="margin-left: 80px;"></label>
+                        </div>
+                      </div>
+                    </li>
+                  </ul>
+            </div>
+        </div>
+        <div class="row g-list-sm clearfix" >
+            <div class="col-md-4 clearfix mb-xs-2 mt-xs-2">
+                <mpf-select
+                    data-m-data-source="$ctrl.bodispatchs"
+                    data-ng-model="$ctrl.frm.boDispatch"
+                    data-text-field="description"
+                    data-value-field="id"
+                    label="{label: 'BO Despacho ', required: true}"
+                    m-Empty-Option = "{enterData : true}"
+                    name="nboDispatch"
+                    ng-required="true">
+                </mpf-select>
+            </div>
+            <div class="col-md-12 clearfix mb-xs-2 mt-xs-2" style="text-align: right;">
+                <a class="g-btn second-design g-btn-transparent" 
+                    ng-click="$ctrl.cancel()">
+                    CANCELAR
+                </a>  
+                <a class="g-btn second-design g-btn-verde" 
+                    ng-class="{disabled: !frmUserConfigItemMaintenance.$valid}" 
+                    ng-click="$ctrl.save()"
+                >GUARDAR</a>
+            </div>
+        </div>
+    </div>
+</form>

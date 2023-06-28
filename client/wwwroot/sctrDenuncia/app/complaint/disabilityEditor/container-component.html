@@ -1,0 +1,123 @@
+<div class="g-complaint mt-xs-1">
+    <div class="container">
+        <div class="row">
+            <div class="clearfix g-table">
+                <div class="col-md-6 col-lg-12 g-text-right-sm hidden-sm hidden-xs mt-xs-1">
+                    <a ui-sref="complaint.disabilitySearch">
+                        <span class="g-icon gCGray3">
+                            <span class="icon ico-mapfre_310_arrowLeft"></span>
+                            <span class="g-link"><b>Volver a la búsqueda</b></span>
+                        </span>
+                    </a>
+                </div>
+                <div class="col-xs-12 col-md-6 g-cell-middle pl-xs-0 pr-xs-0">
+                    <div class="denuncia-edit-title">
+                        <div class="container">
+                            <div class="row">
+                                <div class="col-xs-12 g-complaint-title">
+                                    <h2 class="compl-title">
+                                        Solicitud No. {{$ctrl.dataView.solicitudId}}
+                                    </h2>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-xs-12 col-md-6">
+                    <div class="row">
+                        <div class="col-xs-12 col-md-offset-4 col-md-4 mt-md-2 mb-md-2 mt-xs-1 mb-xs-1">
+                            <a class="g-btn g-btn-white second-design block" ng-class="$ctrl.dataView.codigoEstado != '4' ? 'disabled' : ''"
+                            ng-disabled="$ctrl.dataView.codigoEstado != '4'"
+                                ng-click="$ctrl.rehabAttention()">Rehabilitar</a>
+                        </div>
+
+                        <div class="col-xs-12 col-md-4 mt-md-2 mb-md-2 mt-xs-1 mb-xs-1">
+                            <a class="g-btn g-btn-verde second-design block" ng-class="$ctrl.dataView.codigoEstado != '3' ? 'disabled' : ''"
+                            ng-disabled="$ctrl.dataView.codigoEstado != '3'"
+                                ng-click="$ctrl.finishComplaint()">Finalizar</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="g-section g-section-tabs relive row u-pt-xs-0 u-pb-0">
+        <div class="container">
+            <div class="tabs-box-list main-tabs pb-xs-2 wp-tabs-detalle__wp relive u-bg--white">
+                <uib-tabset justified="true" active="$ctrl.activeTab">
+                    <uib-tab classes="tabs-box-list__tab" index="0">
+                        <uib-tab-heading>Solicitud</uib-tab-heading>
+
+                        <complaint-disability-editor-detail ng-show="$ctrl.activeTab == 0" viewdata="$ctrl.dataView" emit-fn-complaint="$ctrl.recepFnComplaint($fn)" role="$ctrl.role"></complaint-disability-editor-detail>
+                    </uib-tab>
+                    <uib-tab classes="tabs-box-list__tab" index="1">
+                        <uib-tab-heading>Citas Médicas</uib-tab-heading>
+
+                        <complaint-disability-editor-medical-appointment ng-show="$ctrl.activeTab == 1" viewdata="$ctrl.dataView" emit-fn-medical-appointment="$ctrl.recepFnMedicalAppointment($event)" role="$ctrl.role"></complaint-disability-editor-medical-appointment>
+                    </uib-tab>
+                    <uib-tab classes="tabs-box-list__tab" index="2">
+                        <uib-tab-heading>Auditoría Médica</uib-tab-heading>
+
+                        <complaint-disability-editor-medical-audit ng-show="$ctrl.activeTab == 2" viewdata="$ctrl.dataView" emit-fn-medical-audit="$ctrl.recepFnMedicalAudit($event)" role="$ctrl.role"></complaint-disability-editor-medical-audit>
+                    </uib-tab>
+                    <uib-tab classes="tabs-box-list__tab" index="3">
+                        <uib-tab-heading>Historial</uib-tab-heading>
+
+                        <complaint-disability-history ng-show="$ctrl.activeTab==3" viewdata="$ctrl.dataView"></complaint-disability-history>
+                    </uib-tab>
+                </uib-tabset>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal-complaint modal-change-state"></div>
+</div>
+
+<!-- popup finalizar denuncia -->
+<script type="text/ng-template" id="EndComplaint.html">
+    <form name="formState">
+        <div class="modal-header">
+            <h3 class="modal-title complaint-title" id="modal-title">{{$ctrl.config.title}}</h3>
+        </div>
+
+        <div class=" modal-body container">
+            <div class="row">
+                <div class="col-xs-12 mb-xs-2">
+                    <mpf-Select
+                        text-field="descripcion"
+                        value-field="codigo"
+                        label="{label: 'Dictamen', required: false}"
+                        m-data-source="$ctrl.lookups.finalizarDenuncia"
+                        ng-model="$ctrl.dictamen" 
+                        name="mDictamen" 
+                        ng-required="true"
+                        m-Empty-Option="{enterData:true}">
+                    </mpf-Select>
+
+                    <div class="g-error" ng-show="formState.mDictamen.$error.required && !formState.mDictamen.$pristine" >* Seleccione un dictamen</div>
+                </div>
+                <div class="col-xs-12">
+                    <mpf-input
+                        label="{label: 'Descripción', required: false}"
+                        name="nDescripcion"
+                        ng-model="$ctrl.descripcion"
+                        ng-required="false">
+                    </mpf-input>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal-footer">
+            <div class="col-md-12">
+                <div class="col-md-6">
+                    <a class="g-btn g-btn-verde second-design block" type="button" ng-click="$ctrl.ok()">OK</a>
+                </div>
+                <div class="col-md-6">
+                    <a class="g-btn g-btn-white second-design block" type="button" ng-click="$ctrl.cancel()">Cancelar</a>
+                </div>
+            </div>
+        </div>
+    </form>
+</script>

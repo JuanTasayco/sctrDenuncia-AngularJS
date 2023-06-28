@@ -1,0 +1,230 @@
+<section class="suscripcion-paso1" ng-form="formData">
+    <div class="container">    
+        <div class="row mb-xs-2">
+            <div class="clearfix">
+                <uib-accordion close-others="oneAtATime" class="g-acordion-new">
+                    <div uib-accordion-group class="panel-default acordion g-new-box-shadow g-visible"  is-open="status.open1">
+                        <uib-accordion-heading>
+                            <div class="g-acordion-heading-red g-myd-subtitle" ng-click="toggleOpen()">
+                                Datos del contratante<i class="pull-right i-acordion" ng-class="{'ico-mapfre_309_arrowUp': status.open1, 'ico-mapfre_308_arrowDown': !status.open1}"></i>
+                            </div>
+                        </uib-accordion-heading>
+                        <div class="col-xs-12 panel1">
+                            <mpf-person-component ng-if="firstStep.ContratantePerson && firstStep.ContratantePerson.TipoDocumento"
+                              name="datosContratante"
+                              person-data="firstStep.ContratantePerson"
+                              app-code="{{ appCode }}"
+                              form-code="{{ formCodeCN }}"
+                              no-button="noButton"
+                              block-all="blockAll"
+                              outdata=getData(data)>
+                              
+                            </mpf-person-component>
+                        </div>
+                    </div>
+                    <div uib-accordion-group class="panel-default acordion g-new-box-shadow"  is-open="status.open2">
+                        <uib-accordion-heading>
+                            <div class="g-acordion-heading-red g-myd-subtitle" ng-click="toggleOpen()">
+                                Datos del asegurado titular<i class="pull-right i-acordion" ng-class="{'ico-mapfre_309_arrowUp': status.open2, 'ico-mapfre_308_arrowDown': !status.open2}"></i>
+                            </div>
+                        </uib-accordion-heading>
+                        <div class="col-xs-12 panel2">
+                            <div
+                              class="row mb-xs-2"
+                              ng-if="firstStep.Titular.NumeroDocumento == firstStep.Contratante.NumeroDocumento && firstStep.Contratante.TipoDocumento.Codigo == firstStep.Titular.TipoDocumento.Codigo">
+                              <div class="col-sm-12 mb-xs-1 mb-sm-0">
+                                  <mpf-checkbox ng-disabled="blockAll" ng-model="valcheck.val" label="Es el mismo que el contratante"></mpf-checkbox>
+                              </div>
+                            </div>
+
+                            <mpf-person-component ng-if="firstStep.TitularPerson && firstStep.TitularPerson.TipoDocumento"
+                              name="datosTitular"
+                              person-data="firstStep.TitularPerson"
+                              app-code="{{ appCode }}"
+                              block-all="blockAll"
+                              form-code="{{ formCodeTI }}">
+                            </mpf-person-component>
+                        </div>
+                    </div>
+                    <div uib-accordion-group class="panel-default acordion g-new-box-shadow" ng-if="firstStep.Asegurados.length > 1"  is-open="status.open3">
+                        <uib-accordion-heading>
+                            <div class="g-acordion-heading-red"   ng-click="toggleOpen()">
+                                Datos de los asegurados dependientes<i class="pull-right i-acordion" ng-class="{'ico-mapfre_309_arrowUp': status.open3, 'ico-mapfre_308_arrowDown': !status.open3}"></i>
+                            </div>
+                        </uib-accordion-heading>
+                        <div class="col-xs-12 panel3">
+                            <div class="row mb-xs-2" ng-repeat="(key, asegurado) in firstStep.Asegurados" ng-if="asegurado.TipoAsegurado.Codigo != 'TI' ">
+                                <div class="col-xs-12">
+                                    <div class="row mb-xs-2">
+                                        <div class="col-xs-12">
+                                            <h3 class="gH4 fwBold g-text-uppercase">Parentesco con el titular ({{ asegurado.TipoAsegurado.Descripcion }})</h3>
+                                        </div>
+                                    </div>
+                                    <div class="row mb-xs-2">
+                                        <div class="col-xs-12 col-sm-4 mb-xs-1 mb-sm-0">
+                                            <mpf-select
+                                              ng-disabled="true"
+                                              label="{label: 'Tipo de documento ', required: true}"
+                                              name="nTipoDocumentoAsegurado{{key}}"
+                                              ng-model="asegurado.TipoDocumento"
+                                              m-data-source="tiposDeDocumentos"
+                                              m-Empty-Option="{enterData:true}"
+                                              ng-required="true"
+                                              add-messages>
+                                            </mpf-select>
+                                            <ul class="g-error">
+                                                <li ng-show="formData.nTipoDocumentoAsegurado{{key}}.$invalid && !formData.nTipoDocumentoAsegurado{{key}}.$pristine">* Este campo es obligatorio</li>
+                                            </ul>
+                                        </div>
+                                        <div class="col-xs-12 col-sm-4">
+                                            <mpf-input
+                                                ng-disabled="true"
+                                                label="{label: 'Número de Documento ', required: true}"
+                                                name="nNroDocumentoAsegurado{{key}}"
+                                                ng-model="asegurado.NumeroDocumento"
+                                                mpf-validation="required, onlyNumber">
+                                            </mpf-input>
+                                            <ul class="g-error">
+                                               <li ng-show="formData.nNroDocumentoAsegurado{{key}}.$invalid && !formData.nNroDocumentoAsegurado{{key}}.$pristine">* Este campo es obligatorio</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <div class="row mb-xs-2">
+                                        <div class="col-xs-12">
+                                            <h3 class="gH3">Datos principales</h3>
+                                        </div>
+                                    </div>
+                                    <div class="row mb-xs-2">
+                                        <div class="col-xs-12 col-sm-4 mb-xs-1 mb-sm-0">
+                                            <mpf-input
+                                                label="{label: 'Nombres ', required: true}"
+                                                name="nNameAsegurado{{key}}"
+                                                ng-model="asegurado.Nombre"
+                                                mpf-validation="required, onlyLetter">
+                                            </mpf-input>
+                                            <ul class="g-error">
+                                              <li ng-show="formData.nNameAsegurado{{key}}.$invalid && !formData.nNameAsegurado{{key}}.$pristine">* Este campo es obligatorio</li>
+                                            </ul>
+                                        </div>
+                                        <div class="col-xs-12 col-sm-4 mb-xs-1 mb-sm-0">
+                                            <mpf-input
+                                                label="{label: 'Apellido Paterno ', required: true}"
+                                                name="nApellidoPaternoAsegurado{{key}}"
+                                                ng-model="asegurado.ApellidoPaterno"
+                                                mpf-validation="required, onlyLetter">
+                                            </mpf-input>
+                                            <ul class="g-error">
+                                              <li ng-show="formData.nApellidoPaternoAsegurado{{key}}.$invalid && !formData.nApellidoPaternoAsegurado{{key}}.$pristine">* Este campo es obligatorio</li>
+                                            </ul>
+                                        </div>
+                                        <div class="col-xs-12 col-sm-4">
+                                            <mpf-input
+                                                label="{label: 'Apellido Materno ', required: true}"
+                                                name="nApellidoMaternoAsegurado{{key}}"
+                                                ng-model="asegurado.ApellidoMaterno"
+                                                mpf-validation="required, onlyLetter">
+                                            </mpf-input>
+                                            <ul class="g-error">
+                                              <li ng-show="formData.nApellidoMaternoAsegurado{{key}}.$invalid && !formData.nApellidoMaternoAsegurado{{key}}.$pristine">* Este campo es obligatorio</li>
+                                            </ul>
+                                        </div>
+
+                                    </div>
+                                    <div class="row mb-xs-2">
+                                        <div class="col-xs-12 col-sm-4">
+                                            <div class="row">
+                                                <div class="col-xs-10">
+                                                    <div class="input-group g-date-picker">
+                                                        <label class="g-placeholder animated">Fecha de Nacimiento<span>*</span></label>
+                                                        <input
+                                                          type="text"
+                                                          class="form-control"
+                                                          name="nFechaNacimientoAsegurado{{key}}"
+                                                          uib-datepicker-popup="{{format}}"
+                                                          ng-model="asegurado.FechaNacimiento"
+                                                          ng-change="cambiarFecNacAsegurado(key)"
+                                                          is-open="popup5DatePicker.opened"
+                                                          datepicker-options="dateOptions"
+                                                          ng-required="true"
+                                                          close-text="Close"
+                                                          alt-input-formats="altInputFormats"
+                                                          readonly="readonly"/>
+                                                        <span class="input-group-btn">
+                                                          <button type="button" class="btn btn-default" ng-click="openTimePicker5()"><i class="glyphicon glyphicon-calendar"></i></button>
+                                                        </span>
+                                                    </div>
+                                                    <ul class="g-error">
+                                                      <li ng-show="formData.nFechaNacimientoAsegurado{{key}}.$invalid && !formData.nFechaNacimientoAsegurado{{key}}.$pristine">* Este campo es obligatorio</li>
+                                                    </ul>
+                                                </div>
+                                                <div class="col-xs-2">
+                                                    <mpf-input
+                                                        label="{label: 'Edad ', required: true}"
+                                                        name="nEdadAsegurado{{key}}"
+                                                        ng-model="asegurado.Edad"
+                                                        ng-disabled="true"
+                                                        mpf-validation="required">
+                                                    </mpf-input>
+                                                    <ul class="g-error">
+                                                      <li ng-show="formData.nEdadAsegurado{{key}}.$invalid && !formData.nEdadAsegurado{{key}}.$pristine">* Este campo es obligatorio</li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-xs-12 col-sm-4 mb-xs-1 mb-sm-0">
+                                            <mpf-select
+                                              label="{label: 'Nacionalidad ', required: true}"
+                                              name="nNacionalidadAsegurado{{key}}"
+                                              ng-model="asegurado.Pais"
+                                              ng-required="true"
+                                              m-data-source="paises"
+                                              m-Empty-Option="{enterData:true}"
+                                              add-messages>
+                                            </mpf-select>
+                                            <ul class="g-error">
+                                                <li ng-show="formData.nNacionalidadAsegurado{{key}}.$invalid && !formData.nNacionalidadAsegurado{{key}}.$pristine">* Este campo es obligatorio</li>
+                                             </ul>
+                                        </div>
+                                    </div>
+                                    <div class="row mb-xs-2">
+                                        <div class="col-xs-12">
+                                            <h3 class="gH3">Caracteríticas personales</h3>
+                                        </div>
+                                    </div>
+                                    <div class="row mb-xs-2">
+                                        <div class="col-xs-12 col-sm-4 mb-xs-1 mb-sm-0">
+                                            <div class="row">
+                                              <div class="col-md-12"><span class="g-label text-left">Sexo*</span></div>
+                                              <div class="col-md-6 col-sm-3 col-xs-3 mt-xs-1">
+                                                <m-radio
+                                                  data-ng-model="asegurado.Sexo.Codigo"
+                                                  label="{label: 'Masculino'}"
+                                                  name="nSexoAsegurado{{key}}"
+                                                  value="1">
+                                                </m-radio>
+                                              </div>
+                                              <div class="col-md-6 col-sm-3 col-xs-3 mt-xs-1">
+                                                <m-radio
+                                                  data-ng-model="asegurado.Sexo.Codigo"
+                                                  label="{label: 'Femenino'}"
+                                                  name="nSexoAsegurado{{key}}"
+                                                  value="0">
+                                                </m-radio>
+                                              </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </uib-accordion>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-4 col-md-offset-4">
+                <a class="g-btn g-btn-verde block" ng-click="guardar()" href="javascript:void(0)">Siguiente</a>
+            </div>
+        </div>
+    </div>
+</section>

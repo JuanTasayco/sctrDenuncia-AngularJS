@@ -1,0 +1,86 @@
+<section class="g-page pageAddEvaluation mining">
+
+	<div class="g-title">
+		<div class="container">
+			<div class="row g-row">
+				<div class="col-md-8 g-col-md middle col-sm-11 col-xs-10">
+					<h1>Agregar evaluación</h1>
+				</div>
+				<div class="col-md-4 g-col-md middle g-text-right-md hidden-sm hidden-xs">
+					<a
+						href="javascript:void(0)"
+						ng-click="fnGoEvaluation()">
+						<span class="g-icon gCGray3">
+							<span class="icon ico-mapfre_310_arrowLeft"></span>
+							<span class="g-link"><b>Volver al listado</b></span>
+						</span>
+					</a>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="g-section">
+  	<div class="container">
+  		<form name="frmAddEvaluation">
+	  		<div class="row">
+	  			<div class="col-md-4 mb-xs-2">
+	          <mpf-select
+							label="{label: 'Médico', required: true}"
+							name="nMedico"
+							ng-model="data.mMedico"
+							m-data-source="data.doctorData"
+							text-field="value"
+							value-field="code"
+							m-Empty-Option="{enterData:true}"
+							ng-required="true">
+						</mpf-select>
+						<ul class="g-error">
+							<li ng-show="frmAddEvaluation.nMedico.$invalid && !frmAddEvaluation.nMedico.$pristine">* Seleccione un médico</li>
+						</ul>
+	        </div>
+	        <div class="col-md-4 mb-xs-2">
+	          <mpf-select
+		          label="{label: 'Clínica', required: true}"
+		          name="nClinicia"
+		          ng-model="data.mClinicia"
+		          m-data-source="data.clinicData"
+		          text-field="value"
+		          value-field="code"
+		          m-Empty-Option="{enterData:true}"
+		          ng-required="true">
+		        </mpf-select>
+		        <ul class="g-error">
+		          <li ng-show="frmAddEvaluation.nClinicia.$invalid && !frmAddEvaluation.nClinicia.$pristine">* Seleccione una clinica</li>
+		        </ul>
+	        </div>
+	  		</div>
+  		</form>
+  	</div>
+  </div>
+
+  <div class="g-section-inner">
+  	<div class="container">
+			<mining-type-register
+				type-register="'evaluations'"
+				title="'Carga de evaluaciones'"
+				data="">
+			</mining-type-register>
+  	</div>
+  </div>
+
+  <div class="g-section">
+		<div class="container">
+			<div class="row mb-md-1">
+				<div class="col-md-4 col-sm-6 col-md-offset-4 col-sm-offset-3">
+					<a
+						href="javascript:void(0)"
+						class="g-btn g-btn-verde block"
+						ng-click="fnProcess()">
+						Procesar
+					</a>
+				</div>
+			</div>
+		</div>
+	</div>
+
+</section>

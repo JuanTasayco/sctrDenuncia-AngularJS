@@ -1,0 +1,169 @@
+<div class="g-section-inner" ng-if="!($ctrl.disabled && !$ctrl.data.length)">
+  <div class="row">
+    <div class="col-md-12">
+      <h2 class="g-sub-title g-myd-subtitle">{{ $ctrl.title }}</h2>
+    </div>
+    <!-- Inicio: Box Audio 1 -->
+    <div class="clearfix">
+      <div
+        class="col-xs-12 g-box3 g-box-add-item-1 box-add-occupant-1 g-myd-box"
+        ng-if="$ctrl.data.length === 0 && !$ctrl.showForm"
+      >
+        <a
+          ng-if="!$ctrl.disabled"
+          class="col-sm-6 col-sm-offset-3 col-md-4 col-md-offset-4 col-xs-12 g-btn g-btn-white"
+          ng-class="{disabled: !$ctrl.sourceList}"
+          ng-click="$ctrl.createAccessory()"
+          ><span class="glyphicon glyphicon-plus"></span>Agregar accesorios</a
+        >
+      </div>
+    </div>
+    <!-- Fin: Box Audio 1 -->
+
+    <!-- Inicio: Box Audio 3 -->
+    <div class="container-add-occupant" ng-if="$ctrl.data.length > 0 && !$ctrl.showForm">
+      <div class="col-md-12 g-box3 g-box-add-item-2 box-add-occupant-2 g-myd-box h-myd-ph--20">
+        <div class="row row-add-item" ng-repeat="item in $ctrl.data">
+          <div class="col-md-4 col-sm-4 g-border-right h-myd-border--none">
+            <ul>
+              <li class="g-dot text-left">
+                <span class="g-label3" ng-if="!$ctrl.stereo">
+                  Accesorios:&nbsp;<span class="g-label3-data">{{ item.mAccessory.description }}</span>
+                </span>
+                <span class="g-label3" ng-if="$ctrl.stereo">
+                  Accesorios:&nbsp;<span class="g-label3-data">{{ item.mAccessory.accesoryName }}</span>
+                </span>
+              </li>
+            </ul>
+          </div>
+          <div class="col-md-4 col-sm-4 col-add-item-age g-border-right h-myd-border--none">
+            <ul>
+              <li class="g-dot text-left">
+                <span class="g-label3"
+                  >Descripción:&nbsp;<span class="g-label3-data">{{ item.mDescription }}</span></span
+                >
+              </li>
+            </ul>
+          </div>
+          <div class="col-md-2 col-sm-2 g-border-right h-myd-border--none">
+            <ul>
+              <li class="g-dot text-left">
+                <span class="g-label3"
+                  >Valor:&nbsp;<span class="g-label3-data">{{ item.mValue }}</span></span
+                >
+              </li>
+            </ul>
+          </div>
+          <div
+            ng-if="!$ctrl.disabled"
+            class="col-md-1 col-add-item col-add-item-btns g-border-right h-myd-border--none"
+          >
+            <a class="ico-mapfre_43_editar ico-mapfre h-myd--none" ng-click="$ctrl.editAccessory($index)"></a>
+            <a
+              class="ico-mapfre_345_myd-edit ico-mapfre h-myd--show h-oim-none h-myd-color--green"
+              ng-click="$ctrl.editAccessory($index)"
+            ></a>
+          </div>
+          <div ng-if="!$ctrl.disabled" class="col-md-1 col-add-item col-add-item-btns">
+            <a class="ico-mapfre_29_eliminar ico-mapfre h-myd--none" ng-click="$ctrl.removeAccessory($index)"></a>
+            <a
+              class="ico-mapfre-363-myd-eliminar ico-mapfre h-myd--show h-oim-none h-myd-color--green"
+              ng-click="$ctrl.removeAccessory($index)"
+            ></a>
+          </div>
+        </div>
+      </div>
+      <a
+        ng-if="!$ctrl.disabled"
+        class="col-md-3 col-md-offset-9 col-xs-6 col-xs-offset-6 mt-xs-2 mt-md-2 g-btn g-btn-white ng-scope"
+        ng-if="$ctrl.data.length !== $ctrl.maxLength"
+        ng-click="$ctrl.createAccessory()"
+        ><span class="glyphicon glyphicon-plus h-myd-pr--5"></span><span>Agregar accesorio</span></a
+      >
+    </div>
+    <!-- Fin: Box Audio 3 -->
+
+    <!-- Inicio: Box Audio 2 -->
+    <div
+      class="col-md-12 col-sm-12 g-box3 g-box-add-item-3 box-add-occupant-3 g-myd-box h-myd-ph--20"
+      ng-if="$ctrl.showForm"
+    >
+      <div class="row">
+        <div class="col-md-12">
+          <h3 class="">{{ $ctrl.newAccessory ? 'Nuevo accesorio' : 'Editando accesorio' }}</h3>
+        </div>
+      </div>
+      <form class="row mb-xs-2 mb-md-2 mt-xs-2" name="$ctrl.formData">
+        <div class="col-md-4">
+          <mpf-select
+            label="{label: 'Accesorio', required: false}"
+            name="nAccessory"
+            ng-model="$ctrl.formData.mAccessory"
+            m-data-source="$ctrl.sourceList"
+            text-field="description"
+            value-field="parameterId"
+            m-Empty-Option="{enterData:true}"
+            mpf-validation="required"
+            ng-if="!$ctrl.stereo"
+          ></mpf-select>
+          <mpf-select
+            label="{label: 'Accesorio', required: false}"
+            name="nAccessory"
+            ng-model="$ctrl.formData.mAccessory"
+            m-data-source="$ctrl.sourceList"
+            text-field="accesoryName"
+            value-field="accesoryId"
+            m-Empty-Option="{enterData:true}"
+            mpf-validation="required"
+            ng-if="$ctrl.stereo"
+            ng-change="$ctrl.setDefaultValue()"
+          ></mpf-select>
+          <div class="g-error" ng-show="$ctrl.formData.nAccessory.$invalid && !$ctrl.formData.nAccessory.$pristine">
+            * Seleccione un accesorio
+          </div>
+          <div class="g-error" ng-show="$ctrl.duplicated">* Este accesorio ha sido seleccionado anteriormente</div>
+        </div>
+        <div class="col-md-4">
+          <mpf-input
+            label="{label: 'Descripción', required: false}"
+            name="nDescription"
+            ng-model="$ctrl.formData.mDescription"
+            mpf-validation="required"
+          ></mpf-input>
+          <div class="g-error" ng-show="$ctrl.formData.nDescription.$invalid && !$ctrl.formData.nDescription.$pristine">
+            * Ingrese una descripción
+          </div>
+        </div>
+        <div class="col-md-4">
+          <mpf-input
+            label="{label: 'Valor', required: false}"
+            name="nValue"
+            ng-model="$ctrl.formData.mValue"
+            mpf-validation="required,number"
+          ></mpf-input>
+          <div class="g-error" ng-show="$ctrl.formData.nValue.$invalid && !$ctrl.formData.nValue.$pristine">
+            * Ingrese un valor correcto
+          </div>
+          <div
+            class="g-valorauto-warning g-error pl-xs-0 pr-xs-0"
+            ng-if="($ctrl.formData.mValue < $ctrl.formData.mAccessory.minPrice || $ctrl.formData.mValue > $ctrl.formData.mAccessory.maxPrice) && $ctrl.stereo && $ctrl.formData.mAccessory"
+          >
+            <span class="ico-mapfre_37_informacion g-valorauto-warning-ico"></span> Valor mínimo
+            {{ $ctrl.formData.mAccessory.minPrice || 0 }} - Valor máximo {{ $ctrl.formData.mAccessory.maxPrice || 0 }}
+          </div>
+        </div>
+      </form>
+      <div class="row">
+        <div class="col-sm-6 col-md-3 col-xs-12 col-md-offset-3 mb-xs-1">
+          <a class="col-md-12 col-xs-12 g-btn g-btn-white" ng-click="$ctrl.closeForm()">Cancelar</a>
+        </div>
+        <div class="col-md-3 col-sm-6 col-xs-12 col-sm-offset-0 mb-xs-1">
+          <a href="" class="col-md-12 col-xs-12 g-btn g-btn-verde" ng-click="$ctrl.saveAccessory()"
+            ><span> {{ $ctrl.newAccessory ? 'Agregar' : 'Guardar' }}</span></a
+          >
+        </div>
+      </div>
+    </div>
+    <!-- Fin: Box Audio 2 -->
+  </div>
+</div>

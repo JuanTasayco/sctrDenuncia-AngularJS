@@ -1,0 +1,22 @@
+<div class="g-autocomplete-desing" ng-class="{'isHorizontal': isHorz}" style="width: calc(100% - 20px);display: inline-flex;">
+  <label class="g-placeholder" ng-show="behavior.label" ng-class="{animated: !isEmpty()}">{{behavior.showTitle!==false ? behavior.label: ''}}<span ng-show="behavior.required  && behavior.label">*</span></label>
+  <ui-select 
+    class="g-ui-select" 
+    ng-model="ngModel" 
+    ng-change="changeModel(ngModel)" 
+    ng-class="{'loading': loading}" 
+    theme="select2" 
+    title="{{behavior.label}}" 
+    ng-disabled="getDisabled()">
+    <ui-select-match style="text-transform: initial !important;"
+      placeholder="{{behavior.placeholder}}">{{$select.selected[behavior.matchField]}}
+    </ui-select-match>
+    <ui-select-choices 
+      repeat="$item in data track by $index" 
+      refresh="search($select.search)" 
+      refresh-delay="0">
+      <div template-Seek></div>
+    </ui-select-choices>
+  </ui-select>
+</div>
+<a ng-show="!isEmpty()" ng-click="cleanData()" style="width: 20px;cursor: pointer;height: 35px;font-size: 21px;font-weight: 700;color: #888383;">X</a>

@@ -1,0 +1,244 @@
+<div class="second-step" ng-form="fData">
+	<div class="g-section-inner">
+  	<!-- Datos del riesgo -->
+  	<div class="container">
+  		<!-- Título -->
+			<div class="row">
+				<div class="col-md-12">
+			  	<h2 class="g-sub-title">Datos del riesgo</h2>
+			  </div>
+			</div>
+			<div class="row">
+				<div class="col-md-4 mb-xs-2">
+					<mpf-input label="{label: 'Tipo de transporte', required: true}" name="cTipoTransporte" ng-model="$parent.firstStep.poliza.NombreTipoTransporte" ng-required="true" 
+						ng-disabled="true" mpf-validation="required,onlyLetter" disabled="true" add-messages></mpf-input>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-8 mb-xs-2">
+					<mpf-select ng-model="data.materiaAsegurada" label="{label: 'Materia Asegurada', required: false}" m-data-source="materiasAseguradas" text-field="Descripcion" value-field="Codigo" m-Empty-Option="{enterData:true}" name="cMateriaAsegurada"></mpf-select>
+				</div>
+				<div class="col-md-2 mb-xs-2">
+					<mpf-input label="{label: 'Tasa mercadería', required: false}" ng-model="data.tasaMercaderia" mpf-validation="tasaMercaderia" ng-valuemin="$parent.firstStep.poliza.TasaMinima" ng-valuemax="$parent.firstStep.poliza.TasaMaxima" add-messages name="cTasaMercaderia"></mpf-input>
+				</div>
+				<div class="col-md-2 pt-xs-2">
+					M&iacute;nima: {{$parent.firstStep.poliza.TasaMinima}} - M&aacute;xima: {{$parent.firstStep.poliza.TasaMaxima}}
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-8 mb-xs-2">
+					<mpf-input label="{label: 'Descripci&oacute;n materia asegurada (80 caracteres máximo)', required: true}" ng-maxlength="80" ng-model="data.descripcionMateriaAsegurada" ng-required="true" mpf-validation="required" add-messages name="cDescripcionMateriaAsegurada"></mpf-input>
+				</div>
+			</div>
+  	</div>
+	</div>
+	<div class="g-section-inner">  	
+		<!-- Lugar origen -->
+		<div class="container">
+			<!-- Título -->
+			<div class="row">
+				<div class="col-md-12">
+			  	<h2 class="g-sub-title">Lugar origen</h2>
+			  </div>
+			</div>
+			<div class="row">
+				<div class="col-md-4 mb-xs-2">
+					<mpf-select ng-model="data.pais" label="{label: 'Pa&iacute;s de origen', required: true}" m-data-source="paises" name="cPais" text-field="Descripcion" value-field="Codigo" m-Empty-Option="{enterData:true}" mpf-validation="required" add-messages></mpf-select>
+				</div>
+				<div class="col-md-4 mb-xs-2">
+					<mpf-input label="{label: 'Otro', required: false}" ng-model="data.nombreOrigen" name="cNombreDestino" mpf-validation="onlyLetter" ng-maxlength="28" add-messages></mpf-input>
+				</div>
+				<div class="col-md-4 mb-xs-2">
+					<mpf-input label="{label: 'Embalaje', required: true}" ng-model="$parent.firstStep.poliza.NombreEmbalaje" ng-required="true" name="cEmbalaje" ng-disabled="true" mpf-validation="required, onlyLetter" add-messages></mpf-input>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-4 mb-xs-2">
+					<mpf-input label="{label: 'Compañia de transporte', required: true}" ng-model="data.companniaTransporte" ng-maxlength="15" ng-required="true" name="cCompanniaTransporte" mpf-validation="required" add-messages></mpf-input>
+				</div>
+				<div class="col-md-4 mb-xs-2">
+					<mpf-input label="{label: 'Nombre nave', required: true}"ng-model="data.nombreNave" ng-required="true" ng-maxlength="20" name="cNombreAve" mpf-validation="required" add-messages></mpf-input>
+				</div>
+				<div class="col-md-4 mb-xs-2">
+					<mpf-input label="{label: 'Factura/Guía', required: true}" ng-model="data.facturaGuia" ng-required="true" ng-maxlength="20" name="cFacturaGuia" mpf-validation="required, onlyLetterNumber" add-messages></mpf-input>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-4 mb-xs-2">
+					<mpf-input label="{label: 'Nombre del proveedor', required: true}" ng-model="data.nombreProveedor" ng-maxlength="20" ng-required="true" name="cNombreProveedor" mpf-validation="required, onlyLetterNumber" add-messages></mpf-input>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="g-section-inner">	
+		<!-- Lugar destino -->
+		<div class="container">
+			<!-- Título -->
+			<div class="row">
+				<div class="col-md-12">
+			  	<h2 class="g-sub-title">Lugar destino</h2>
+			  </div>
+			</div>
+			<div class="row">
+				<div class="col-md-4 mb-xs-2">
+					<mpf-select ng-model="data.paisDestino" label="{label: 'Pa&iacute;s destino', required: true}" name="cPaisDestino" m-data-source="paises" text-field="Descripcion" value-field="Codigo" ng-disabled="true" m-Empty-Option="{enterData:true}" mpf-validation="required" add-messages></mpf-select>
+				</div>
+				<div class="col-md-4 mb-xs-2">
+					<mpf-input label="{label: 'Otro', required: true}" ng-model="data.nombreDestino" ng-required="true" name="cNombreDestino" mpf-validation="required, onlyLetter" ng-maxlength="28" add-messages></mpf-input>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-4 mb-xs-2">
+					<mpf-select ng-model="data.departamento" label="{label: 'Departamento', required: true}" m-data-source="departamentos" ng-change="onDepartamentosChange()" text-field="Descripcion" value-field="Codigo" m-Empty-Option="{enterData:true}" mpf-validation="required" name="cDepartamento" add-messages></mpf-select>
+				</div>
+				<div class="col-md-4 mb-xs-2">
+					<mpf-select ng-model="data.provincia" label="{label: 'Provincia', required: true}" m-data-source="provincias" ng-change="onProvinciasChange()" text-field="Descripcion" value-field="Codigo" m-Empty-Option="{enterData:true}" name="cProvincia" mpf-validation="required" add-messages></mpf-select>
+				</div>
+				<div class="col-md-4 mb-xs-2">
+					<mpf-select ng-model="data.distrito" label="{label: 'Distrito', required: true}" m-data-source="distritos" text-field="Descripcion" value-field="Codigo" m-Empty-Option="{enterData:true}" name="cDistrito" mpf-validation="required" add-messages></mpf-select>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-4 mb-xs-2">
+					<mpf-select ng-model="data.almacen" label="{label: 'Almac&eacute;n', required: true}" m-data-source="almacenes" text-field="Descripcion" value-field="Codigo" m-Empty-Option="{enterData:true}" name="cAlmacen" mpf-validation="required" add-messages></mpf-select>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<!-- Button -->
+	<div class="g-section">
+		<div class="container">
+			<div class="row">
+				<div class="col-md-4 mb-xs-1">
+					<span class="gCGray3">*Campos obligatorios</span>
+				</div>
+				<div class="col-md-4">
+					<a type='button' class="g-btn g-btn-verde block" ng-click="nextStep()">Siguiente</a>
+				</div>
+			</div>
+		</div>
+	</div>
+
+</div>
+
+
+
+<!-- Antigua estructura -->
+<!-- <div class="paso2" ng-form="fData">
+	<div class="container">
+		<div class="row">
+			<div class="col-md-12">
+				<div class="title">
+					Datos del riesgo
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-4 mb-xs-2">
+				<mpf-input label="{label: 'Tipo de transporte', required: true}" name="cTipoTransporte" ng-model="$parent.firstStep.poliza.NombreTipoTransporte" ng-required="true" 
+				ng-disabled="true" mpf-validation="required,onlyLetter" disabled="true" add-messages></mpf-input>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-8 mb-xs-2">
+				<mpf-select ng-model="data.materiaAsegurada" label="{label: 'Materia Asegurada', required: false}" m-data-source="materiasAseguradas" text-field="Descripcion" value-field="Codigo" m-Empty-Option="{enterData:true}" name="cMateriaAsegurada"></mpf-select>
+			</div>
+			<div class="col-md-2 mb-xs-2">
+				<mpf-input label="{label: 'Tasa mercadería', required: false}" ng-model="data.tasaMercaderia" mpf-validation="tasaMercaderia" ng-valuemin="$parent.firstStep.poliza.TasaMinima" ng-valuemax="$parent.firstStep.poliza.TasaMaxima" add-messages name="cTasaMercaderia"></mpf-input>
+			</div>
+			<div class="col-md-2 pt-md-4">
+				M&iacute;nima: {{$parent.firstStep.poliza.TasaMinima}} - M&aacute;xima: {{$parent.firstStep.poliza.TasaMaxima}}
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-8 mb-xs-2">
+				<mpf-input label="{label: 'Descripci&oacute;n materia asegurada (80 caracteres máximo)', required: true}" ng-maxlength="80" ng-model="data.descripcionMateriaAsegurada" ng-required="true" mpf-validation="required" add-messages name="cDescripcionMateriaAsegurada"></mpf-input>
+			</div>
+		</div>
+	</div>
+	<hr/>
+	<div class="container">
+		<div class="row">
+			<div class="col-md-12">
+				<div class="title">
+					Lugar origen
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-4 mb-xs-2">
+				<mpf-select ng-model="data.pais" label="{label: 'Pa&iacute;s de origen', required: true}" m-data-source="paises" name="cPais" text-field="Descripcion" value-field="Codigo" m-Empty-Option="{enterData:true}" mpf-validation="required" add-messages></mpf-select>
+			</div>
+			<div class="col-md-4 mb-xs-2">
+				<mpf-input label="{label: 'Otro', required: false}" ng-model="data.nombreOrigen" name="cNombreDestino" mpf-validation="onlyLetter" ng-maxlength="28" add-messages></mpf-input>
+			</div>
+			<div class="col-md-4 mb-xs-2">
+				<mpf-input label="{label: 'Embalaje', required: true}" ng-model="$parent.firstStep.poliza.NombreEmbalaje" ng-required="true" name="cEmbalaje" ng-disabled="true" mpf-validation="required, onlyLetter" add-messages></mpf-input>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-4 mb-xs-2">
+				<mpf-input label="{label: 'Compañia de transporte', required: true}" ng-model="data.companniaTransporte" ng-maxlength="15" ng-required="true" name="cCompanniaTransporte" mpf-validation="required" add-messages></mpf-input>
+			</div>
+			<div class="col-md-4 mb-xs-2">
+				<mpf-input label="{label: 'Nombre nave', required: true}"ng-model="data.nombreNave" ng-required="true" ng-maxlength="20" name="cNombreAve" mpf-validation="required" add-messages></mpf-input>
+			</div>
+			<div class="col-md-4 mb-xs-2">
+				<mpf-input label="{label: 'Factura/Guía', required: true}" ng-model="data.facturaGuia" ng-required="true" ng-maxlength="20" name="cFacturaGuia" mpf-validation="required, onlyLetterNumber" add-messages></mpf-input>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-4 mb-xs-2">
+				<mpf-input label="{label: 'Nombre del proveedor', required: true}" ng-model="data.nombreProveedor" ng-maxlength="20" ng-required="true" name="cNombreProveedor" mpf-validation="required, onlyLetterNumber" add-messages></mpf-input>
+			</div>
+		</div>
+	</div>
+	<hr/>
+	<div class="container">
+		<div class="row">
+			<div class="col-md-12">
+				<div class="title">
+					Lugar destino
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-4 mb-xs-2">
+				<mpf-select ng-model="data.paisDestino" label="{label: 'Pa&iacute;s destino', required: true}" name="cPaisDestino" m-data-source="paises" text-field="Descripcion" value-field="Codigo" ng-disabled="true" m-Empty-Option="{enterData:true}" mpf-validation="required" add-messages></mpf-select>
+			</div>
+			<div class="col-md-4 mb-xs-2">
+				<mpf-input label="{label: 'Otro', required: true}" ng-model="data.nombreDestino" ng-required="true" name="cNombreDestino" mpf-validation="required, onlyLetter" ng-maxlength="28" add-messages></mpf-input>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-4 mb-xs-2">
+				<mpf-select ng-model="data.departamento" label="{label: 'Departamento', required: true}" m-data-source="departamentos" ng-change="onDepartamentosChange()" text-field="Descripcion" value-field="Codigo" m-Empty-Option="{enterData:true}" mpf-validation="required" name="cDepartamento" add-messages></mpf-select>
+			</div>
+			<div class="col-md-4 mb-xs-2">
+				<mpf-select ng-model="data.provincia" label="{label: 'Provincia', required: true}" m-data-source="provincias" ng-change="onProvinciasChange()" text-field="Descripcion" value-field="Codigo" m-Empty-Option="{enterData:true}" name="cProvincia" mpf-validation="required" add-messages></mpf-select>
+			</div>
+			<div class="col-md-4 mb-xs-2">
+				<mpf-select ng-model="data.distrito" label="{label: 'Distrito', required: true}" m-data-source="distritos" text-field="Descripcion" value-field="Codigo" m-Empty-Option="{enterData:true}" name="cDistrito" mpf-validation="required" add-messages></mpf-select>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-4 mb-xs-2">
+				<mpf-select ng-model="data.almacen" label="{label: 'Almac&eacute;n', required: true}" m-data-source="almacenes" text-field="Descripcion" value-field="Codigo" m-Empty-Option="{enterData:true}" name="cAlmacen" mpf-validation="required" add-messages></mpf-select>
+			</div>
+		</div>
+	</div>	
+
+	<div class="g-section">
+		<div class="container">
+			<div class="row">
+				<div class="col-md-4 mb-xs-1">
+					<span class="gCGray3">*Campos obligatorios</span>
+				</div>
+				<div class="col-md-4">
+					<a type='button' class="g-btn g-btn-verde block" ng-click="nextStep()">Siguiente</a>
+				</div>
+			</div>
+		</div>
+	</div>
+</div> -->

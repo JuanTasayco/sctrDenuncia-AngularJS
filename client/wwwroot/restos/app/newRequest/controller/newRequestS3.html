@@ -1,0 +1,95 @@
+<!-- PASO 3 -->
+<div class="g-section-inner">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12">
+        <h2 class="g-sub-title">Datos del taller</h2>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-3 mb-xs-2">
+        <mp-data-seeker behavior="{label:'Código o nombre del taller', placeholder:'Busque un taller por nombre ...', matchField:'NOMBRE'}"
+                        m-data-source="searchMechanic($inputNeed)"
+                        name="rTALLER"
+                        ng-model="request.TALLER">
+          <div ng-bind-html="$item.NOMBRE | highlight: $select.search"></div>
+        </mp-data-seeker>
+      </div>
+      <div class="col-md-3 mb-xs-2">
+        <mpf-input label="{label: 'Nombre del taller', required: false}"
+                   name="rNOMBRE_OTRO"
+                   ng-if="request.TALLER.CODIGO === 9999"
+                   ng-model="request.TALLER.NOMBRE_OTRO"></mpf-input>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-3 mb-xs-2">
+        <mpf-input label="{label: 'Nombre del contacto', required: false}"
+                   name="rNOM_CNTCTO"
+                   ng-model="request.NOM_CNTCTO"></mpf-input>
+      </div>
+      <div class="col-md-3 mb-xs-2">
+        <div class="g-input-design">
+          <label class="g-placeholder"
+                 ng-class="{animated: newRequest.rTELF_CNTCTO.$focused || newRequest.rTELF_CNTCTO.$viewValue}">
+            Teléfono de contacto
+          </label>
+          <input type="text"
+                 name="rTELF_CNTCTO"
+                 ng-model="request.TELF_CNTCTO"
+                 ng-focus="newRequest.rTELF_CNTCTO.$focused = true"
+                 ng-blur="newRequest.rTELF_CNTCTO.$focused = false"
+                 ng-minlength="9"
+                 ng-maxlength="9">
+        </div>
+        <ul class="g-error">
+          <li ng-show="newRequest.rTELF_CNTCTO.$error.maxlength || (newRequest.rTELF_CNTCTO.$error.minlength && newRequest.rTELF_CNTCTO.$touched)">La longitud de este campo debe ser de 9 caracteres</li>
+        </ul>
+      </div>
+      <div class="col-md-3 mb-xs-2">
+        <div class="g-select-desing">
+          <label class="g-placeholder animated">Departamento</label>
+          <select ng-model="request.COD_DPRTMNTO_1"
+                  name="rCOD_DPRTMNTO"
+                  ng-change="getProvincias(request.COD_DPRTMNTO_1, 1)">
+            <option value="" disabled>-- SELECCIONA --</option>
+            <option ng-repeat="option in params.departamentos"
+                    ng-value="option.Codigo">{{option.Descripcion}}</option>
+          </select>
+          <span class="ico-mapfre_308_arrowDown ico-select"></span>
+        </div>
+      </div>
+      <div class="col-md-3 mb-xs-2">
+        <div class="g-select-desing">
+          <label class="g-placeholder animated">Provincia</label>
+          <select ng-model="request.COD_PRVNCIA_1"
+                  name="rCOD_PRVNCIA"
+                  ng-change="getDistritos(request.COD_PRVNCIA_1, 1)">
+            <option value="" disabled>-- SELECCIONA --</option>
+            <option ng-repeat="option in params.provincias_1"
+                    ng-value="option.Codigo">{{option.Descripcion}}</option>
+          </select>
+          <span class="ico-mapfre_308_arrowDown ico-select"></span>
+        </div>
+      </div>
+      <div class="col-md-3 mb-xs-2">
+        <div class="g-select-desing">
+          <label class="g-placeholder animated">Distrito</label>
+          <select ng-model="request.COD_DSTRTO_1"
+                  name="COD_DSTRTO">
+            <option value="" disabled>-- SELECCIONA --</option>
+            <option ng-repeat="option in params.distritos_1"
+                    ng-value="option.Codigo">{{option.Descripcion}}</option>
+          </select>
+          <span class="ico-mapfre_308_arrowDown ico-select"></span>
+        </div>
+      </div>
+      <div class="col-md-3 mb-xs-2">
+        <mpf-input label="{label: 'Dirección del taller', required: false}"
+                   name="rDIRECC_CNTCTO"
+                   ng-model="request.DIRECC_CNTCTO"></mpf-input>
+      </div>
+    </div>
+  </div>
+</div>

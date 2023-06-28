@@ -1,0 +1,251 @@
+<div class="third-step">
+  <div
+    ng-if="thirdStep.showSurveyDPS && !thirdStep.esRentaSegura"
+    class="g-section sectionSurvey mt-xs-3">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-10 col-md-offset-1">
+          <div class="contentSurvey clearfix g-box fz14" ng-form="frmSurvey">
+            <ul class="clearfix gBgcGray5 gH4 pt-xs-1-5 pb-xs-1-5 mb-xs-0-1">
+              <li class="col-sm-8">
+                <b>Declaración Personal de Salud</b>
+              </li>
+            </ul>
+
+            <div ng-repeat="item in thirdStep.questionsDPS" ng-show="thirdStep.showQuestionary">
+              <div class="row">
+                <div class="col-md-12 pt-xs-1">
+                  <question-item question="item" question-type="parent" on-change="fnShowContentYesNo(item)">
+                  </question-item>
+                </div>
+              </div>
+
+              <!-- CONTENT_CHILD -->
+              <div class="row">
+                <div
+                  class="col-md-4"
+                  ng-if="item.showChild.yes || item.showChild.no"
+                  ng-repeat="child in item.HIJOS | filter: item.showChild.yes ? {ACTIVAR: 'S'} : {ACTIVAR: 'N'}"
+                >
+                  <question-item question="child" question-type="child" on-change="fnShowContentYesNo(child)">
+                  </question-item>
+                </div>
+              </div>
+              <!-- CONTENT_GRANDCHILD -->
+              <div class="row">
+                <div ng-repeat="child in item.HIJOS | filter: child.showChild.yes || child.showChild.no">
+                  <div
+                    class="col-md-4"
+                    ng-if="child.showChild.yes || child.showChild.no"
+                    ng-repeat="grandchild in child.HIJOS | filter: child.showChild.yes ? {ACTIVAR: 'S'} : {ACTIVAR: 'N'}"
+                  >
+                    <question-item question="grandchild" question-type="grandchild"> </question-item>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div
+              class="clearfix g-border-top-xs pt-xs-1 pb-xs-1"
+              ng-repeat="question in thirdStep.questionsDPS"
+              ng-hide="thirdStep.showQuestionary"
+            >
+              <div class="col-xs-12">
+                <div class="row">
+                  <div ng-class="(question.TIPO == '9') ? 'col-xs-12' : 'col-xs-10'">
+                    <div ng-if="question.parentQuestion">
+                      <div>
+                        <b>{{ question.parentQuestion }}</b>
+                      </div>
+                      <span>{{ question.DSCRPCN }}</span>
+                    </div>
+                    <span ng-if="!question.parentQuestion">
+                      <span>{{ question.index + 1 + '. ' + question.DSCRPCN }}</span>
+                    </span>
+                  </div>
+                  <div
+                    ng-class="(question.TIPO == '9') ? 'col-xs-12' : ['col-xs-2', 'g-text-right-xs']"
+                    ng-switch="question.TIPO"
+                  >
+                    <span ng-switch-when="1">
+                      <span ng-if="question.value === 'S'">SÍ</span>
+                      <span ng-if="question.value === 'N'">NO</span>
+                    </span>
+                    <span ng-switch-when="7" ng-if="question.value.CODIGO">{{ question.value.NOMBRE }}</span>
+                    <span ng-switch-default>{{ question.value }}</span>
+                  </div>
+                </div>
+              </div>
+              <div
+                ng-if="question.showChild.yes || question.showChild.no"
+                ng-repeat="child in question.HIJOS | filter: question.showChild.yes ? { ACTIVAR: 'S'} : { ACTIVAR: 'N'}"
+              >
+                <div class="col-xs-12">
+                  <span>{{ child.DSCRPCN }}</span>
+                  <span ng-switch="child.TIPO">
+                    <span ng-switch-when="1">
+                      <span ng-if="child.value === 'S'">SÍ</span>
+                      <span ng-if="child.value === 'N'">NO</span>
+                    </span>
+                    <span ng-switch-when="7" ng-if="child.value.CODIGO">{{ child.value.NOMBRE }}</span>
+                    <span ng-switch-when="4">{{ child.value | date: 'dd-MM-y' }}</span>
+                    <span ng-switch-default>{{ child.value }}</span>
+                  </span>
+                </div>
+                <div
+                  ng-if="child.showChild.yes || child.showChild.no"
+                  ng-repeat="grandchild in child.HIJOS | filter: child.showChild.yes ? {ACTIVAR: 'S'} : {ACTIVAR: 'N'}"
+                >
+                  <div class="col-xs-12 pt-xs-1 pb-xs-1">
+                    <b>{{ grandchild.DSCRPCN }}</b>
+                    <span ng-switch="grandchild.TIPO">
+                      <span ng-switch-when="1">
+                        <span ng-if="grandchild.value === 'S'">SÍ</span>
+                        <span ng-if="grandchild.value === 'N'">NO</span>
+                      </span>
+                      <span ng-switch-when="7" ng-if="grandchild.value.CODIGO">{{ grandchild.value.NOMBRE }}</span>
+                      <span ng-switch-when="4">{{ grandchild.value | date: 'dd-MM-y' }}</span>
+                      <span ng-switch-default>{{ grandchild.value }}</span>
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <span class="col-xs-12">* Campos obligatorios</span>
+            <ul class="clearfix" ng-show="thirdStep.showQuestionary">
+              <li class="col-md-4 col-md-offset-4 col-sm-6 col-sm-offset-3 pt-xs-1 pb-xs-1">
+                <button
+                  type="button"
+                  class="g-btn g-btn-verde block"
+                  ng-click="fnSaveDPS()"
+                  ng-disabled="frmSurvey.$invalid"
+                >
+                  GRABAR DPS
+                </button>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="g-section-inner">
+    <div class="container">
+
+      <div
+        class="row"
+        ng-if="thirdStep.showSurveyDPS && !thirdStep.esRentaSegura">
+        <div class="col-md-12">
+          <h2 class="g-sub-title red g-myd-subtitle">Resultados de la evaluación</h2>
+        </div>
+      </div>
+
+      <div
+        class="row"
+        ng-if="thirdStep.showSurveyDPS && !thirdStep.esRentaSegura">
+        <div class="col-md-12" ng-if="thirdStep.showQuestionary">
+          <div class="clearfix g-box fz14 gBgcGray5 g-list-sm pt-xs-2 pb-xs-1 text-center">
+            <p>Grabar DPS para ver resultado</p>
+          </div>
+        </div>
+        <div class="col-md-12" ng-if="!thirdStep.showQuestionary">
+          <ul class="clearfix g-box fz14 gBgcGray5 g-list-sm pt-xs-2 pb-xs-1">
+            <li class="col-md-3 clearfix cnt-item">
+              <div class="col-xs-12 item-label gH4">
+                <b>Resultado DPS</b>
+                <br />
+                <span class="g-box-label gBgcGreen1 g-text-uppercase">
+                  {{ thirdStep.resultDPS.Result_DPS.Mensaje }}
+                </span>
+              </div>
+            </li>
+          </ul>
+
+          <div class="clearfix g-box gBgcGray5 g-list-md pt-xs-2">
+            <ul class="clearfix g-row">
+              <li class="col-md-3 g-col-md middle clearfix cnt-item">
+                <ul class="row g-list-sm">
+                  <li class="col-md-12 clearfix cnt-item">
+                    <div class="col-xs-12 item-label gH4">
+                      <b>Resultado Talla / Peso</b>
+                    </div>
+                  </li>
+                </ul>
+              </li>
+              <li class="col-md-9 g-col-md middle clearfix cnt-item">
+                <ul class="row g-list-sm">
+                  <li class="col-md-4 col-sm-4 clearfix cnt-item">
+                    <div class="col-sm-5 col-xs-4 item-label">
+                      <b>Sobretasa:</b>
+                    </div>
+                    <div class="col-sm-7 col-xs-8 item-dato g-text-uppercase">
+                      {{ thirdStep.resultDPS.Resultados_IMC.SobreTasa }}
+                    </div>
+                  </li>
+                </ul>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div
+        class="row"
+        ng-if="!thirdStep.showQuestionary">
+        <div class="col-md-12">
+          <ul
+            class="clearfix g-box fz14 gBgcGray5 pt-xs-2 pb-xs-1"
+            ng-form="thirdStep.frmRequiredDocuments">
+            <li class="col-xs-12 clearfix mb-xs-2">
+              <div class="col-xs-12 gH4">
+                <b>Documentos Requeridos</b>
+              </div>
+            </li>
+            <li
+              class="col-xs-12 clearfix"
+              ng-repeat="doc in thirdStep.requiredDocs">
+              <div class="col-xs-12 mb-xs-1">
+                <mpf-checkbox
+                  name="nRequiredDoc{{ $index }}"
+                  ng-model="doc.mRequiredDoc"
+                  label="{{ doc.descripcion }}"
+                  ng-required="(doc.mca_obligatorio === 'S') ? true : false"
+                >
+                </mpf-checkbox>
+                <span
+                  class="gCRed2 gH7"
+                  ng-show="doc.mca_obligatorio == 'S'">
+                  (Obligatorio)
+                </span>
+                <ul class="g-error">
+                  <li
+                    ng-show="thirdStep.frmRequiredDocuments.nRequiredDoc{{ $index }}.$invalid &&
+                    !thirdStep.frmRequiredDocuments.nRequiredDoc{{ $index }}.$pristine"
+                  >
+                    * Documento obligatorio
+                  </li>
+                </ul>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="g-section">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-3 col-md-offset-3 col-sm-4 col-sm-offset-2 mb-xs-1 no-mb-md">
+          <a class="g-btn g-btn-white block" ng-click="fnAbandonProcess()">Abandonar proceso</a>
+        </div>
+        <div class="col-md-3 col-sm-4">
+          <button class="g-btn g-btn-verde block"
+          ga-click ga-category="'Emisa - Vida'" ga-action="'MPF - Emisión'" ga-label="'Botón: Emitir'"
+          ng-click="fnEmitPolicy()">Emitir póliza</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

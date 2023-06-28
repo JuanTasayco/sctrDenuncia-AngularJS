@@ -1,0 +1,237 @@
+<div class="referred">
+  <div class="container">
+    <div class="row">
+      <!-- Consulta de documentos -->
+      <div class="col-md-3 mb-xs-2">
+        <form action="" name="frmReferred">
+          <div
+            show-filter
+            class="clearfix g-col-filter g-box-md fz14 gBgcGray5-md gBgcWhite1 g-myd-box g-myd-box--filter"
+            ng-class="{'show': isFilterVisible}"
+          >
+            <div class="col-md-12 mb-xs-3 gH4 gCGray1">
+              <h2 class="pb-xs-1 g-border-bottom-xs hidden-xs hidden-sm">Opciones de Búsqueda</h2>
+              <div
+                id="show-filter"
+                class="row pt-xs-2 pb-xs-2 gBgcGray5 g-border-bottom-xs hidden-md hidden-lg"
+                ng-click="toggleFilter();"
+              >
+                <div class="col-xs-10">Opciones de Búsqueda</div>
+                <div class="col-xs-2 g-text-right-xs">
+                  <span class="glyphicon glyphicon-chevron-down" ng-if="isFilterVisible"></span>
+                  <span class="glyphicon glyphicon-chevron-up" ng-if="!isFilterVisible"></span>
+                </div>
+                <div class="clearfix"></div>
+              </div>
+            </div>
+            <div class="g-col-filter__box">
+              <div class="col-md-12 mb-xs-2">
+                <mpf-input
+                  label="{label: 'Número de Cotización', required: false}"
+                  name="nNumeroCotizacionFilter"
+                  ng-model="mNumeroCotizacionFilter"
+                ></mpf-input>
+              </div>
+              <div class="col-md-12 mb-xs-2">
+                <mpf-input
+                  label="{label: 'Nombre del Contratante', required: false}"
+                  name="nNombreContratanteFilter"
+                  ng-model="mNombreContratanteFilter"
+                ></mpf-input>
+              </div>
+              <div class="col-md-12 mb-xs-2">
+                <mpf-input
+                  label="{label: 'Nombre del Referido', required: false}"
+                  name="nNombreReferidoFilter"
+                  ng-model="mNombreReferidoFilter"
+                ></mpf-input>
+              </div>
+              <div class="col-md-6 mb-xs-2">
+                <div class="input-group g-date-picker">
+                  <label class="g-placeholder animated">Desde<span></span>:</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    ng-change="changeDate()"
+                    uib-datepicker-popup="{{ format }}"
+                    ng-model="mDesdeFilter"
+                    is-open="popupDesdeFilter.opened"
+                    datepicker-options="dateOptions"
+                    ng-required="true"
+                    close-text="Close"
+                    alt-input-formats="altInputFormats"
+                    readonly
+                  />
+                  <span class="input-group-btn">
+                    <button type="button" class="btn btn-default" ng-click="openDesdeFilter()">
+                      <i class="glyphicon glyphicon-calendar"></i>
+                    </button>
+                  </span>
+                </div>
+              </div>
+              <div class="col-md-6 mb-xs-2">
+                <div class="input-group g-date-picker">
+                  <label class="g-placeholder animated">Hasta<span></span>:</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    ng-change="changeDate()"
+                    uib-datepicker-popup="{{ format }}"
+                    ng-model="mHastaFilter"
+                    is-open="popupHastaFilter.opened"
+                    datepicker-options="dateOptions"
+                    ng-required="true"
+                    close-text="Close"
+                    alt-input-formats="altInputFormats"
+                    readonly
+                  />
+                  <span class="input-group-btn">
+                    <button type="button" class="btn btn-default" ng-click="openHastaFilter()">
+                      <i class="glyphicon glyphicon-calendar"></i>
+                    </button>
+                  </span>
+                </div>
+              </div>
+              <div class="col-md-12 mb-xs-1">
+                <a href="" class="g-btn g-btn-verde block" ng-click="filter('1')">Filtrar</a>
+              </div>
+              <div class="col-md-12">
+                <a href="" class="g-btn g-btn-white block" ng-click="clearFilter()">Limpiar</a>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+
+      <!-- INICIO: Resultado de consulta de documentos -->
+      <div class="col-md-9">
+        <!-- Mensaje de error si no hay resultados -->
+        <div class="col-md-12 text-center g-box-noresult" ng-if="noResult">
+          <div class="row">
+            <div class="col-md-12 g-box-noresult-ico gCRed1 h-myd-mt--20">
+              <span class="ico-mapfre_302_error"></span>
+            </div>
+            <div class="col-md-12 g-box-noresult-text">
+              No hay resultados para los filtros escogidos.<br />Intente nuevamente.
+            </div>
+          </div>
+        </div>
+
+        <!-- <div class="row">
+					<div class="col-md-12 g-text-right-md mb-xs-1">
+						<strong>Efectividad de Cotización del Agente: 2%</strong>
+					</div>
+				</div> -->
+
+        <!-- Inicio: Resultados -->
+        <div class="clearfix g-box g-overflow-hidden-xs mb-xs-2" ng-repeat="item in items" ng-if="!noResult">
+          <!-- header -->
+          <div class="row pt-xs-1 gBgcGray5">
+            <ul class="clearfix g-list-sm">
+              <li class="col-sm-4 clearfix cnt-item">
+                <div class="col-sm-5 item-label">
+                  Nro. Cotización:
+                </div>
+                <div class="col-sm-7 item-dato g-text-uppercase">
+                  {{ item.NumeroCotizacion }}
+                </div>
+              </li>
+              <li class="col-sm-4 clearfix cnt-item">
+                <div class="col-sm-5 item-label">
+                  Nombre referido:
+                </div>
+                <div class="col-sm-7 item-dato g-text-uppercase">
+                  {{ item.Nombre }} {{ item.ApellidoPaterno }} {{ item.ApellidoMaterno }}
+                </div>
+              </li>
+              <li class="col-sm-4 clearfix cnt-item">
+                <div class="col-sm-5 item-label">
+                  Contratante:
+                </div>
+                <div class="col-sm-7 item-dato g-text-uppercase">
+                  {{ item.Agente.Nombre }}
+                </div>
+              </li>
+            </ul>
+            <ul class="clearfix g-list-sm">
+              <li class="col-sm-4 clearfix cnt-item">
+                <div class="col-sm-5 item-label">
+                  Parentesco:
+                </div>
+                <div class="col-sm-7 item-dato g-text-uppercase">
+                  {{ item.Parentesco }}
+                </div>
+              </li>
+            </ul>
+          </div>
+          <!-- content -->
+          <div class="row g-box-content">
+            <ul class="clearfix g-list-sm">
+              <li class="col-md-4 clearfix cnt-item">
+                <div class="col-sm-5 item-label">
+                  Teléfono 1:
+                </div>
+                <div class="col-sm-7 item-dato g-text-uppercase">
+                  {{ item.TelefonoCasa }}
+                </div>
+              </li>
+              <li class="col-md-4 clearfix cnt-item">
+                <div class="col-sm-5 item-label">
+                  Teléfono 2:
+                </div>
+                <div class="col-sm-7 item-dato g-text-uppercase">
+                  {{ item.TelefonoOficina }}
+                </div>
+              </li>
+              <li class="col-md-4 clearfix cnt-item">
+                <div class="col-sm-5 item-label">
+                  Celular:
+                </div>
+                <div class="col-sm-7 item-dato g-text-uppercase">
+                  {{ item.TelefonoMovil }}
+                </div>
+              </li>
+            </ul>
+            <ul class="clearfix g-list-sm">
+              <li class="col-md-4 clearfix cnt-item">
+                <div class="col-sm-5 item-label">
+                  Correo electrónico:
+                </div>
+                <div class="col-sm-7 item-dato g-text-uppercase">
+                  {{ item.Correo }}
+                </div>
+              </li>
+              <!-- No va este dato -->
+              <!-- <li class="col-md-4 clearfix cnt-item">
+								<div class="col-sm-5 item-label">
+									Observaciones:
+								</div>
+								<div class="col-sm-7 item-dato g-text-uppercase">
+									-FALTA DATO
+								</div>
+							</li> -->
+            </ul>
+          </div>
+        </div>
+        <!-- Fin: Resultados -->
+
+        <!-- Inicio: Paginacion -->
+        <div class="row" ng-if="!noResult && totalItems > 10">
+          <div class="col-md-12">
+            <ul
+              uib-pagination
+              class="g-pagination"
+              ng-model="mPagination"
+              max-size="10"
+              total-items="totalItems"
+              ng-change="pageChanged(mPagination)"
+              boundary-link-numbers="true"
+            ></ul>
+          </div>
+        </div>
+        <!-- Fin: Paginacion -->
+      </div>
+      <!-- FIN: Resultado de consulta de documentos -->
+    </div>
+  </div>
+</div>

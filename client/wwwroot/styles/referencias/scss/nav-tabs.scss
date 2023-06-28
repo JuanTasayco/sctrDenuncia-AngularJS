@@ -1,0 +1,145 @@
+.menu-tabs__wrapper {
+  border-bottom: 2px solid $gris13;
+  box-shadow: 0 1px $navtab-boxshadow;
+  margin-bottom: 15px;
+  position: relative;
+  white-space: nowrap;
+
+  @include breakpoint(sm) {
+    height: auto;
+    margin-bottom: 30px;
+    margin-left: -15px;
+    white-space: normal;
+  }
+}
+
+.nav-tabs {
+  border-bottom: none;
+
+  @media(max-width: 767px) {
+    margin-left: -15px;
+    margin-right: -15px;
+    overflow-x: auto;
+  }
+
+  @include breakpoint(sm) {
+    display: table;
+    width: 100%;
+  }
+
+  & > li {
+    display: inline-block;
+    float: none;
+    height: 50px;
+    margin-bottom: auto;
+    position: relative;
+    text-align: center;
+
+    @include breakpoint(sm) {
+      display: table-cell;
+      height: auto;
+      padding: 15px 10px;
+
+      &:not(:last-child) {
+        &::before {
+          color: $gris20;
+          content: '|';
+          position: absolute;
+          right: -2px;
+          top: 50%;
+          transform: translateY(-50%);
+        }
+      }
+    }
+
+    @include breakpoint(md) {
+      padding: 15px 20px;
+    }
+
+    & > a {
+      background-color: transparent;
+      border: none;
+      color: inherit;
+      display: inline-block;
+      font-size: inherit;
+      padding: 15px 20px;
+      text-decoration: none;
+      transition: 0.35s;
+
+      @include breakpoint(sm) {
+        font-size: 13px;
+        padding: 5px;
+      }
+
+      @include breakpoint(md) {
+        font-size: 14px;
+        padding: 5px 10px;
+      }
+
+      &:hover,
+      &:focus {
+        background-color: transparent;
+        border: none;
+        color: $rojo2;
+        font-weight: 400;
+        text-decoration: none;
+      }
+
+      &::before {
+        background-color: $rojo2;
+      }
+
+      &::after {
+        border-top-color: $rojo2;
+      }
+    }
+
+    &.active {
+      & > a {
+        &,
+        &:hover,
+        &:focus {
+          background-color: transparent;
+          border: none;
+          color: $rojo2;
+          font-weight: 400;
+          text-decoration: none;
+        }
+
+        &::before {
+          background-color: $rojo2;
+          bottom: -17px;
+          content: '';
+          height: 2px;
+          left: 0;
+          position: absolute;
+          right: 0;
+          transition: 0.35s;
+        }
+
+        &::after {
+          border: 7px solid transparent;
+          border-top-color: $rojo2;
+          bottom: -29px;
+          content: '';
+          left: 0;
+          margin: auto;
+          position: absolute;
+          right: 0;
+          transition: 0.35s;
+          width: 0;
+        }
+
+        @media(max-width: 767px) {
+          &::before {
+            bottom: -1px;
+          }
+
+          &::after {
+            content: none;
+          }
+        }
+      }
+    }
+  }
+}

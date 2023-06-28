@@ -1,0 +1,99 @@
+<div class="g-section-tabs mt-xs-3">
+  <div class="container u-ph-0 g-overflow-hidden-xs" data-ng-class="{'u-msk-block': $ctrl.optImgsTabs.statusBlock.blockByAnulado}">
+    <uib-tabset justified="false">
+      <uib-tab
+        class="col-xs-6 col-sm-4 u-ph-0 wp-tabModal__item"
+        index="0"
+      >
+        <uib-tab-heading>
+          <span data-ng-class="{'gCRed2': $ctrl.opt.isRequired.doc && !$ctrl.opt.isPhotoValid.doc}">
+            Documentos
+            <span data-ng-if="$ctrl.opt.isRequired.doc">*</span>
+          </span>
+        </uib-tab-heading>
+        <div class="content-tab u-bg--gris-9">
+          <div class="g-viewer-photo u-height--auto u-zi-xs--10">
+            <div class="container array-foto-box" data-ng-class="{'u-msk-block': $ctrl.optImgsTabs.statusBlock.blockByAnulado}">
+              <mx-image-uploader
+                data-can-delete="!$ctrl.optImgsTabs.statusBlock.blockByAnulado"
+                data-label="'Agregar SOAT'"
+                data-max-photos="'1'"
+                data-nombre-img="'SOAT'"
+                data-on-remove="$ctrl.handleEliminarFotoSoat($event)"
+                data-on-upload="$ctrl.handleSubirFotoSoat($event)"
+                data-photos="$ctrl.docSoat"
+                data-service-photo-modal="$ctrl.handleViewImageModal($event)"
+              >
+              </mx-image-uploader>
+              <mx-image-uploader
+                data-can-delete="!$ctrl.optImgsTabs.statusBlock.blockByAnulado"
+                data-label="'Agregar Tarjeta de Propiedad'"
+                data-max-photos="'1'"
+                data-nombre-img="'Tarjeta de Propiedad'"
+                data-on-remove="$ctrl.handleEliminarFotoTarjeta($event)"
+                data-on-upload="$ctrl.handleSubirFotoTarjeta($event)"
+                data-photos="$ctrl.docTarjeta"
+                data-service-photo-modal="$ctrl.handleViewImageModal($event)"
+              >
+              </mx-image-uploader>
+              <mx-image-uploader
+                data-can-delete="!$ctrl.optImgsTabs.statusBlock.blockByAnulado"
+                data-label="'Agregar Licencia'"
+                data-max-photos="'1'"
+                data-nombre-img="'Licencia'"
+                data-on-remove="$ctrl.handleEliminarFotoLicencia($event)"
+                data-on-upload="$ctrl.handleSubirFotoLicencia($event)"
+                data-photos="$ctrl.docLicencia"
+                data-service-photo-modal="$ctrl.handleViewImageModal($event)"
+              >
+              </mx-image-uploader>
+              <mx-image-uploader data-ng-if="$ctrl.opt.isOdometro"
+                data-can-delete="!$ctrl.optImgsTabs.statusBlock.blockByAnulado" data-label="'Agregar Odometro'"
+                data-max-photos="'1'" data-nombre-img="'Odometro'"
+                data-on-remove="$ctrl.handleEliminarFotoOdometro($event)"
+                data-on-upload="$ctrl.handleSubirFotoOdometro($event)" data-photos="$ctrl.docOdometro"
+                data-service-photo-modal="$ctrl.handleViewImageModal($event)">
+              </mx-image-uploader>
+            </div>
+          </div>
+        </div>
+      </uib-tab>
+      <uib-tab
+        class="col-xs-6 col-sm-4 u-ph-0 wp-tabModal__item"
+        index="1"
+      >
+        <uib-tab-heading>
+          <span data-ng-class="{'gCRed2': $ctrl.opt.isRequired.siniestro && !$ctrl.opt.isPhotoValid.siniestro}">
+            Siniestro
+            <span data-ng-if="$ctrl.opt.isRequired.siniestro">*</span>
+          </span>
+        </uib-tab-heading>
+        <div class="content-tab u-bg--gris-9">
+          <div class="g-viewer-photo u-height--auto u-zi-xs--10">
+            <div class="container array-foto-box">
+              <mx-image-uploader
+                data-can-delete="!$ctrl.optImgsTabs.statusBlock.blockByAnulado"
+                data-nombre-img="'Siniestro'"
+                data-on-remove="$ctrl.handleEliminarFotoSiniestro($event)"
+                data-on-upload="$ctrl.handleSubirFotosSiniestro($event)"
+                data-photos="$ctrl.arrFotosSiniestros"
+                data-service-photo-modal="$ctrl.handleViewImageModal($event)"
+              >
+              </mx-image-uploader>
+            </div>
+          </div>
+        </div>
+      </uib-tab>
+    </uib-tabset>
+    <div
+      class="gCRed2 gH5 mt-xs-1"
+      data-ng-show="$ctrl.opt.isRequired.doc && !$ctrl.opt.isPhotoValid.doc">
+      Las {{$ctrl.requeTotalImagenes}} fotos de DOCUMENTOS son obligatorias*
+    </div>
+    <div
+      class="gCRed2 gH5 mt-xs-1"
+      data-ng-show="$ctrl.opt.isRequired.siniestro && !$ctrl.opt.isPhotoValid.siniestro">
+      Es OBLIGATORIO subir al menos 1 foto del siniestro*
+    </div>
+  </div>
+</div>

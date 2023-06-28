@@ -1,0 +1,28 @@
+<div class="col-xs-12">
+  <ul>
+    <li ng-repeat="local in $ctrl.data.listaUbicaciones track by $index" class="g-box g-box--list-icon">
+      <span ng-if="!$ctrl.validate" ng-click="$ctrl.deleteDatos($index)"
+        class="ico-mapfre_231_cancelaroff g-box--list-close"></span>
+      <div class="row">
+        <div class="col-sm-2 col-md-1 g-box--list-number">
+          <p class="pr-xs-1 pr-md-0">Nro. Local</p>
+          <p>{{$index + 1}}</p>
+        </div>
+        <div class="col-sm-7 col-md-8 mb-xs-2 mb-sm-0">
+          <mpf-input label="{label: 'Ubicación del riesgo', required: true}" name="direccion{{$index}}" ng-model="local.Direccion" ng-maxlength="200"
+            ng-disabled="$ctrl.validate" mpf-validation="onlyLetterNumCaracteres" ng-required="true">
+          </mpf-input>
+          <div class="g-error" ng-show="$ctrl.validControlForm('direccion{{$index}}')">
+            {{$ctrl.constantsRrgg.SMS_ERROR.REQUERIDO}}
+          </div>
+        </div>
+        <div ng-if="$ctrl.data.TipoAseguramiento.Codigo == $ctrl.constantsRrgg.TIPO_ASEGURAMIENTO.X_UNIDAD"
+          class="col-sm-3 col-md-2 mb-xs-2 mb-sm-0">
+          <mpf-input ng-keyup="$ctrl.calcularPrimas()" label="{label: 'UIT'}" name="Uit{{$index}}" ng-model="local.Uit"
+            ng-disabled="$ctrl.validate" mpf-validation="onlyNumber">
+          </mpf-input>
+        </div>
+      </div>
+    </li>
+  </ul>
+</div>

@@ -1,0 +1,97 @@
+<section class="g-page g-page-documents">
+	<div>
+		<div class="g-title">
+			<div class="container">
+				<div class="row">
+					<div class="col-sm-9 mb-xs-2 no-mb-md">
+						<h1>{{detail.dscrpcn}}</h1>
+          </div>
+          <div class="col-sm-3" ng-show="!showEditItem">
+						<button ng-show="!showNewItem" class="g-btn g-btn-verde second-design block" ng-click="mostrarEdicionCondicionado(true)">Editar Condicionado</button>
+					</div>
+				</div>
+			</div>
+		</div>
+    
+    <div class="g-section g-border-top-xs">
+      <div class="container" ng-show="!showEditItem">
+        <div class="row">
+          <div class="col-md-12">
+            <div class="g-row-fz12 g-tbl-row u-bg--gris-9  g-box mt-xs-2" style="width: 100%;">
+              <div class="pt-xs-1 pb-xs-1" style="display: inline-flex;width: 100%;">
+                <ul height-row style="width: 100%;">
+                  <li class="g-col g-col-xs col-xs-12 item-title">Datos generales</li>
+                </ul>
+                <a ng-click="mostrarDetalle()" style="padding: 0 15px;">
+                  <span class="gnIcon-xsm" ng-class="showDetail ? 'ico-mapfre_309_arrowUp' : 'ico-mapfre_308_arrowDown'"></span>
+                </a>
+              </div>
+              <div class="pt-xs-1 g-border-top-xs" ng-show="showDetail">
+                <ul>
+                  <li class="g-col g-col-xs col-md-4 col-sm-6 col-xs-12 row mb-xs-1">
+                    <span class="col-xs-4"><b>Nombre</b></span>
+                    <span class="col-xs-8">{{detail.dscrpcn}}</span>
+                  </li>
+                  <li class="g-col g-col-xs col-md-4 col-sm-6 col-xs-12 row mb-xs-1">
+                    <span class="col-xs-4"><b>Compañia</b></span>
+                    <span class="col-xs-8">{{detail.cmpnia}}</span>
+                  </li>
+                  <li class="g-col g-col-xs col-md-4 col-sm-6 col-xs-12 row mb-xs-1">
+                    <span class="col-xs-4"><b>Producto</b></span>
+                    <span class="col-xs-8">{{detail.dprdcto}}</span>
+                  </li>
+                  <li class="g-col g-col-xs col-md-4 col-sm-6 col-xs-12 row mb-xs-1" ng-if="detail.dRamo != ''">
+                    <span class="col-xs-4"><b>Ramo</b></span>
+                    <span class="col-xs-8">{{detail.dRamo}}</span>
+                  </li>
+                  <li class="g-col g-col-xs col-md-4 col-sm-6 col-xs-12 row mb-xs-1" ng-if="detail.dContrato != ''">
+                    <span class="col-xs-4"><b>Contrato</b></span>
+                    <span class="col-xs-8">{{detail.dContrato}}</span>
+                  </li>
+                  <li class="g-col g-col-xs col-md-4 col-sm-6 col-xs-12 row mb-xs-1" ng-if="detail.dModalidad != ''">
+                    <span class="col-xs-4"><b>Modalidad</b></span>
+                    <span class="col-xs-8">{{detail.dModalidad}}</span>
+                  </li>
+                  <li class="g-col g-col-xs col-md-4 col-sm-6 col-xs-12 row mb-xs-1" ng-if="detail.dProdSalud != ''">
+                    <span class="col-xs-4"><b>Producto Salud</b></span>
+                    <span class="col-xs-8">{{detail.dProdSalud}}</span>
+                  </li>
+                  <li class="g-col g-col-xs col-md-4 col-sm-6 col-xs-12 row mb-xs-1" ng-if="detail.dSubProdSalud != ''">
+                    <span class="col-xs-4"><b>Sub Producto Salud</b></span>
+                    <span class="col-xs-8">{{detail.dSubProdSalud}}</span>
+                  </li>
+                  <li class="g-col g-col-xs col-md-4 col-sm-6 col-xs-12 row mb-xs-1" ng-show="detail.rsaynmbrs != ''">
+                    <span class="col-xs-4"><b>Cliente</b></span>
+                    <span class="col-xs-8">{{detail.rsaynmbrs}}</span>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-12">
+            <div class="g-row-fz12 g-tbl-row u-bg--gris-9 g-box mt-xs-2" 
+              style="width: 100%;">
+              <div class="pt-xs-1 pb-xs-1" style="display: inline-flex;width: 100%;">
+                <ul>
+                  <li class="g-col g-col-xs col-xs-12 item-title">Información sobre el condicionado</li>
+                </ul>
+              </div>
+              <div class="pt-xs-2 pb-xs-2 pl-xs-2 pr-xs-2 g-border-top-xs" style="max-height: 600px;overflow-y: scroll;">
+                <ng-quill-editor 
+                  ng-model="detail.cntndo" 
+                  theme="bubble"
+                  placeholder="placeholder" 
+                  read-only="true"
+                  styles="{backgroundColor: '#ffffff'}" 
+                  modules="{toolbar: false}"></ng-quill-editor>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div data-ng-include="edicionCondicionado"></div>
+    </div>
+	</div>
+</section>

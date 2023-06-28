@@ -1,0 +1,201 @@
+<section class="g-page page-accidentes-emit">
+  <page-title info="{title: 'Emisión póliza accidentes'}"></page-title>
+  <!-- Sección Agente -->
+<!--   <div class="g-section">
+    <div class="container">
+      <div class="row" ng-show="currentStep==1">
+        <div class="col-md-5">
+           <span ng-show="!userRoot"><h2>Agente: {{formData.claims.codigoAgente}} - {{formData.claims.nombreAgente}}</h2></span>
+
+          <mp-data-seeker ng-show="userRoot" behavior="{label:'Para cotizar una póliza debes elegir un agente', placeholder:'Busque o seleccione un agente ...', matchField:'codigoNombre'}" m-data-source="'proxyAgente.buscarAgente'" ng-model="mAgente" ng-change="saveAgent(mAgente)">
+              <div ng-bind-html="$item.codigoNombre | highlight: $select.search"></div>
+          </mp-data-seeker>
+        </div>
+      </div>
+
+      <div class="row" ng-show="currentStep!=1">
+        <div class="col-md-5">
+          <span ><h2>Agente: {{mAgente.codigoAgente}} - {{mAgente.codigoNombre}}</h2></span>
+        </div>
+      </div>
+    </div>
+  </div> -->
+  <!-- Fin Sección Agente -->
+  <!-- Steps -->
+  <wizard-stairs stairs="{steps: [{description:'Datos del contratante'},{description:'Cargar asegurados'}], stateName:'.steps', stateParameter: 'step'}" current-Step="currentStep" steping="nav.go($stepToGo)"></wizard-stairs>
+  
+  <div class="g-sec-information-md mb-xs-3">
+    <div class="sec-item">
+      <div class="container">
+        <ul class="row cnt-title">
+          <li class="col-xs-6 item-title">Datos de la cotización</li>
+        </ul>
+        <ul class="row">
+          <li class="col-md-4 clearfix cnt-item">
+            <div class="col-xs-5 item-label">
+              <span class="ico-mapfre_82_circle ico-bullet"></span>Inicio vigencia:
+            </div>
+            <div class="col-xs-7 item-dato g-text-uppercase">{{formData.inicioVigencia}}</div>
+          </li>
+          <li class="col-md-4 clearfix cnt-item">
+            <div class="col-xs-5 item-label">
+              <span class="ico-mapfre_82_circle ico-bullet"></span>Fin vigencia:
+            </div>
+            <div class="col-xs-7 item-dato g-text-uppercase">{{formData.finVigencia}}</div>
+          </li>
+          <li class="col-md-4 clearfix cnt-item">
+            <div class="col-xs-5 item-label">
+              <span class="ico-mapfre_82_circle ico-bullet"></span>No. de cotización:
+            </div> 
+            <div class="col-xs-7 item-dato g-text-uppercase">{{formData.quotationNumber}}</div>
+          </li>
+        </ul>
+        <ul class="row">
+          <li class="col-md-4 clearfix cnt-item">
+            <div class="col-xs-5 item-label">
+              <span class="ico-mapfre_82_circle ico-bullet"></span>Prima neta total:
+            </div>
+            <div class="col-xs-7 item-dato g-text-uppercase">{{formData.PrimaNeta | number : 2}}</div>
+          </li>
+          <li class="col-md-4 clearfix cnt-item">
+            <div class="col-xs-5 item-label">
+              <span class="ico-mapfre_82_circle ico-bullet"></span>Prima total (incluye IGV):
+            </div>
+            <div class="col-xs-7 item-dato g-text-uppercase">{{formData.PrimaTotal | number : 2}}</div>
+          </li>
+        </ul>
+        <div class="row mb-xs-2">
+          <div class="col-md-12">
+            <div class="clearfix g-box g-overflow-hidden-xs">
+              <ul class="clearfix g-list-sm gBgcGray5 pt-xs-1 mb-xs-0-1">
+                <li class="col-md-6 col-sm-6 clearfix cnt-item gH4">
+                  <div class="row">
+                    <div class="col-md-12 col-ms-5 item-label">Riesgos agregados</div>
+                  </div>
+                </li>
+                <li class="col-md-2 col-sm-2 clearfix cnt-item g-text-right-sm visible-xs">
+                  <div class="row">
+                    <div class="col-ms-5 item-label">Prima neta x asegurado</div>
+                    <div class="col-ms-7 item-dato g-text-uppercase">{{formData.PrimaNetaIndividual | number : 2}}</div>
+                  </div>
+                </li>
+                <li class="col-md-2 col-sm-2 clearfix cnt-item g-text-right-sm visible-xs">
+                  <div class="row">
+                    <div class="col-ms-5 item-label">Prima neta total:</div>
+                    <div class="col-ms-7 item-dato g-text-uppercase">{{formData.PrimaNeta | number : 2}}</div>
+                  </div>
+                </li>
+                <li class="col-md-2 col-sm-2 clearfix cnt-item g-text-right-sm visible-xs">
+                  <div class="row">
+                    <div class="col-ms-5 item-label">Prima total (incluye IGV):</div>
+                    <div class="col-ms-7 item-dato g-text-uppercase">{{formData.PrimaTotal | number : 2}}</div>
+                  </div>
+                </li>
+              </ul>
+              <ul class="clearfix g-list gBgcGray5 pt-xs-1 hidden-xs">
+                <li class="col-md-1 col-sm-1 clearfix cnt-item">
+                  <b>Riesgo Nro.</b>
+                </li>
+                <li class="col-md-3 col-sm-3 clearfix cnt-item">
+                  <b>Actividad</b>
+                </li>
+                <li class="col-md-2 col-sm-2 clearfix cnt-item">
+                  <b>Nro. de asegurados</b>
+                </li>
+                <li class="col-md-2 col-sm-2 clearfix cnt-item g-text-right-sm">
+                  <b>Prima net x asegurado</b>
+                </li>
+                <li class="col-md-2 col-sm-2 clearfix cnt-item g-text-right-sm">
+                  <b>Prima neta total</b>
+                </li>
+                <li class="col-md-2 col-sm-2 clearfix cnt-item g-text-right-sm">
+                  <b>Prima total (incluye IGV)</b>
+                </li>
+              </ul> 
+              <div class="col-md-12 cnt-content g-list-sm pt-xs-1 gnContentAuto-md gBgcWhite1">
+                <div class="clearfix" ng-class="{'g-border-bottom-xs mb-xs-1' : !$last}" ng-repeat="riesgo in formData.riesgos">
+                  <ul class="row hidden-xs">
+                    <li class="col-sm-1 cnt-item item-dato g-text-uppercase">
+                      {{riesgo.nroRiesgo}}
+                    </li>
+                    <li class="col-sm-3 cnt-item item-dato g-text-uppercase">
+                      {{riesgo.actividad}}
+                    </li>
+                    <li class="col-sm-2 cnt-item item-dato g-text-uppercase">
+                      {{riesgo.numeroAseg}}
+                    </li>
+                    <li class="col-sm-2 cnt-item item-dato g-text-uppercase g-text-right-xs">
+                      {{riesgo.primaNetaAseg}}
+                    </li>
+                    <li class="col-sm-2 cnt-item item-dato g-text-uppercase g-text-right-xs">
+                      {{riesgo.primaNetaTotal}}
+                    </li>
+                    <li class="col-sm-2 cnt-item item-dato g-text-uppercase g-text-right-xs">
+                      {{riesgo.primaTotal}}
+                    </li>
+                  </ul>
+                  <ul class="row visible-xs">
+                    <li class="cnt-item clearfix">
+                      <div class="col-ms-5 item-label">Riesgo Nro.:</div>
+                      <div class="col-ms-7 item-dato g-text-uppercase">{{riesgo.nroRiesgo}}</div>
+                    </li>
+                    <li class="cnt-item clearfix">
+                      <div class="col-ms-5 item-label">Actividad:</div>
+                      <div class="col-ms-7 item-dato g-text-uppercase">{{riesgo.actividad}}</div>
+                    </li>
+                    <li class="cnt-item clearfix">
+                      <div class="col-ms-5 item-label">Nro. de asegurados:</div>
+                      <div class="col-ms-7 item-dato g-text-uppercase">{{riesgo.numeroAseg}}</div>
+                    </li>
+                    <li class="cnt-item clearfix">
+                      <div class="col-ms-5 item-label">Prima net x asegurado:</div>
+                      <div class="col-ms-7 item-dato g-text-uppercase">{{riesgo.primaNetaAseg}}</div>
+                    </li>
+                    <li class="cnt-item clearfix">
+                      <div class="col-ms-5 item-label">Prima neta total:</div>
+                      <div class="col-ms-7 item-dato g-text-uppercase">{{riesgo.primaNetaTotal}}</div>
+                    </li>
+                    <li class="cnt-item clearfix">
+                      <div class="col-ms-5 item-label">Prima total (incluye IGV):</div>
+                      <div class="col-ms-7 item-dato g-text-uppercase">{{riesgo.primaTotal}}</div>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+              <div class="col-md-12 hidden-xs">
+                <ul class="row gH5 g-list-sm gBgcGray5 pt-xs-1">
+                  <li class="col-sm-offset-4 col-md-2 col-sm-2 clearfix cnt-item">
+                    <div class="row">
+                      <div class="col-sm-12 col-ms-12 item-label">Total del período</div>
+                    </div>
+                  </li>
+                  <li class="col-md-2 col-sm-2 clearfix cnt-item g-text-right-sm">
+                    <div class="row">
+                      <div class="col-md-12 item-dato g-text-uppercase"><b>{{formData.PrimaNetaIndividual | number : 2}}</b></div>
+                    </div>
+                  </li>
+                  <li class="col-md-2 col-sm-2 clearfix cnt-item g-text-right-sm">
+                    <div class="row">
+                      <div class="col-md-12 item-dato g-text-uppercase"><b>{{formData.PrimaNeta | number : 2}}</b></div>
+                    </div>
+                  </li>
+                  <li class="col-md-2 col-sm-2 clearfix cnt-item g-text-right-sm">
+                    <div class="row">
+                      <div class="col-md-12 item-dato g-text-uppercase"><b>{{formData.PrimaTotal | number : 2}}</b></div>
+                    </div>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <form>
+    <!-- STEPS -->
+    <div id="form-views" ui-view=""></div>
+  </form>
+</section>
+
+

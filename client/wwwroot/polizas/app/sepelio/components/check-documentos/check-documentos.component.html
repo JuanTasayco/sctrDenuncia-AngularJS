@@ -1,0 +1,107 @@
+<form name="frmRepositorioDocumentos">
+  <div class="row">
+    <div class="col-md-12 mb-xs-2 mt-xs-3">
+      <h2 class="g-sub-title g-myd-subtitle">Repositorio de documentos</h2>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-xs-12">
+      <mpf-input label="{label: 'Filtrar por tipo de documento:', required: false}" class="mb-xs-2" name="tipoDocumentoFilter" ng-maxlength="50" ng-model="$ctrl.modelo.filtro" ng-keyup="$ctrl.filterDocumentos()">
+      </mpf-input>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-12">
+      <div class="g-box gBgcWhite1 pt-xs-2 pb-xs-2 pl-xs-2 pr-xs-2 mb-xs-2" style="padding-top: 10px;">
+          <div class="row mb-xs-1 item-doc-repository" ng-repeat="item in $ctrl.listRepositorioFilter track by $index">
+
+            <div class="col-sm-2 hidden-xs">
+              <p class="gCRed1 fwMedium gH6 mt-xs-2 mb-xs-0" ng-if="item.EsObligatorio=='1'">Obligatorio</p>
+              <p class="fwMedium gH6 mt-xs-2 mb-xs-0" ng-if="item.EsObligatorio=='0'">Opcional</p>
+            </div>
+            <div class="col-sm-4 col-xs-10">
+              <div class="fwMedium gH6 hidden-xs mb-xs-2 mt-xs-2 mb-xs-0">{{item.NombreDocumento}}</div>
+              <div class="fwMedium gH6 visible-xs mt-xs-2 mb-xs-0">{{item.NombreDocumento}}<div class="gCRed1" style="display: inline;" ng-if="item.EsObligatorio=='1'"> *</div></div>
+            </div>
+            <div class="col-xs-2 visible-xs mt-xs-2 pointer" ng-show="!item.file[0].name && !item.Titulo" ng-if="!$ctrl.isReadOnly">
+
+
+              <label class="second-design block g-btn-input-file">
+                <div class="font-size-icon glyphicon glyphicon-upload gCGreen1"></div>
+                <input  ng-if="item.EsObligatorio=='1'" type="file" data-show-preview="false" id="file-upload{{index}}"
+                  name="file-upload{{index}}" file-model="item.file" ng-model="item.file" accept=".jpg,.jpeg,.png,.pdf"
+                  ng-required="!item.file[0].name && !item.Titulo" onclick="angular.element(this)[0].value=null;"
+                  onchange="angular.element(this).scope().cargarDocumento(angular.element(this).scope().item, angular.element(this)[0])">
+
+                  <input  ng-if="item.EsObligatorio=='0'" type="file" data-show-preview="false" id="file-upload{{index}}"
+                  name="file-upload{{index}}" file-model="item.file" ng-model="item.file" accept=".jpg,.jpeg,.png,.pdf"
+                  ng-required="false" onclick="angular.element(this)[0].value=null;"
+                  onchange="angular.element(this).scope().cargarDocumento(angular.element(this).scope().item, angular.element(this)[0])">  
+              </label>
+
+              
+            </div>
+            <div class="col-xs-2 visible-xs mt-xs-2 pointer" ng-if="!$ctrl.isReadOnly && (item.file[0].name || item.Titulo)" ng-click="$ctrl.deleteDocument(item)">
+              <div class="font-size-icon glyphicon glyphicon-trash gCRed1"></div>
+            </div>
+
+            <div class="col-sm-4 col-xs-10">
+              <div class="gH6 mb-xs-2 mt-md-2">Documento:
+                <a ng-if="item.file[0].name || item.Titulo" ng-click="$ctrl.leeDocuments(item)"> <span
+                    class="gCGreen7 gH5 fwMedium link "> {{item.file[0].name ? item.file[0].name :
+                    item.Titulo }} </span> </a>
+                <span class="gH5 fwMedium ml-xs-1" ng-if="!item.file[0].name && !item.Titulo">No hay
+                  documento</span>
+                </div>
+            </div>
+            <div class="col-sm-2 hidden-xs" ng-show="!item.file[0].name && !item.Titulo" ng-if="!$ctrl.isReadOnly">
+              <div class="mt-xs-2">
+                <div class="col-md-offset-1 text-right-md ">
+                  <label class="second-design block g-btn-input-file">
+                    <a href="" class="gCGreen7 gH5 fwMedium mb-xs-0 ">Subir documento
+                      <span class="icon--md ico-mapfre_244_descargar ml-xs-1"></span>
+                    </a>
+                    <input  ng-if="item.EsObligatorio=='1'" type="file" data-show-preview="false" id="file-upload{{index}}"
+                      name="file-upload{{index}}" file-model="item.file" ng-model="item.file" accept=".jpg,.jpeg,.png,.pdf"
+                      ng-required="!item.file[0].name && !item.Titulo" onclick="angular.element(this)[0].value=null;"
+                      onchange="angular.element(this).scope().cargarDocumento(angular.element(this).scope().item, angular.element(this)[0])">
+
+                      <input  ng-if="item.EsObligatorio=='0'" type="file" data-show-preview="false" id="file-upload{{index}}"
+                      name="file-upload{{index}}" file-model="item.file" ng-model="item.file" accept=".jpg,.jpeg,.png,.pdf"
+                      ng-required="false" onclick="angular.element(this)[0].value=null;"
+                      onchange="angular.element(this).scope().cargarDocumento(angular.element(this).scope().item, angular.element(this)[0])">  
+                  </label>
+                  <ul class="g-error g-text-left-xs">
+                    <li ng-show="replacePayroll.errorAttachFile">*
+                      Este campo es obligatorio</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-2 g-text-right-md mt-xs-2 mb-xs-2 mr-xs-10 hidden-xs"
+              ng-if="!$ctrl.isReadOnly && (item.file[0].name || item.Titulo)">
+              <a href="" class=" col-sm-12 gH5 fwMedium mb-xs-0 delete"
+                ng-click="$ctrl.deleteDocument(item)">Eliminar
+                <span class="icon--md ico-mapfre-363-myd-eliminar ml-xs-1"></span>
+              </a>
+            </div>
+            
+          </div>
+
+
+          <div class="row" ng-if="$ctrl.listRepositorio.length === 0">
+            <div class="col-md-12 text-center g-box-noresult">
+                <div class="row">
+                    <div class="col-md-12 g-box-noresult-ico gCBlue2">
+                        <span class="ico-mapfre_303_informacion"></span>
+                    </div>
+                    <div class="col-md-12 g-box-noresult-text">
+                        No existen documentos configurados para el tipo de contrato actual.
+                    </div>
+                </div>
+            </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>

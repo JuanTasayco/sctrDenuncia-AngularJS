@@ -1,0 +1,66 @@
+<section class="g-page page-modal page-modal__nueva-inspeccion">
+
+  <button type="button" class="close g-close-modal" ng-click="$ctrl.closeModal()">
+		<span class="ico-mapfre_46_cancelaroff"></span>
+	</button>
+
+  <form name="frmNuevaInspeccionForm">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="">
+          <h3 class="g-title-modal" id="modal-title">FILTRAR POR:</h3>
+        </div>
+        <div class="modal-body mt-xs-2" id="automas">
+          <div class="row" ng-if="!$ctrl.ignoreDates">
+            <div class="col-md-4 mb-xs-2 col-md-offset-2">
+              <!--<div class="input-group g-date-picker">
+                <label class="g-placeholder animated">Desde<span></span>:</label>
+                <input type="text" class="form-control" ng-change="changeDate()" uib-datepicker-popup="{{format}}" ng-model="$ctrl.objectData.fromDate" is-open="popupDesdeFilter.opened" datepicker-options="dateOptions" ng-required="true" close-text="Close" alt-input-formats="altInputFormats"
+                  readonly/>
+                <span class="input-group-btn">
+                  <button type="button" class="btn btn-default" ng-click="openDesdeFilter()"><i class="glyphicon glyphicon-calendar"></i></button>
+                </span>
+              </div>-->
+              <mpf-datepicker data-format="'dd/MM/yyyy'" data-ng-model="$ctrl.objectData.fromDate" data-ng-required="false" label="{label: 'Desde:', required: false}">
+              </mpf-datepicker>
+            </div>
+            <div class="col-md-4 mb-xs-2">
+              <!--<div class="input-group g-date-picker">
+                <label class="g-placeholder animated">Hasta<span></span>:</label>
+                <input type="text" class="form-control" ng-change="changeDate()" uib-datepicker-popup="{{format}}" ng-model="$ctrl.objectData.toDate" is-open="popupHastaFilter.opened" datepicker-options="dateOptions" ng-required="true" close-text="Close" alt-input-formats="altInputFormats"
+                  readonly/>
+                <span class="input-group-btn">
+                  <button type="button" class="btn btn-default" ng-click="openHastaFilter()"><i class="glyphicon glyphicon-calendar"></i></button>
+                </span>
+              </div>-->
+              <mpf-datepicker data-format="'dd/MM/yyyy'" data-ng-model="$ctrl.objectData.toDate" data-ng-required="false" label="{label: 'Hasta:', required: false}">
+              </mpf-datepicker>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-8 mb-xs-2 col-md-offset-2">
+              <mpf-select label="{label: 'Servicio solicitado', required: true}" m-Empty-Option="{enterData: true}" name="nOrigenAuto" text-field="description" value-field="code" ng-model="$ctrl.objectData.requestType" m-data-source="$ctrl.typesRequest"></mpf-select>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-8 mb-xs-2 col-md-offset-2">
+              <mpf-input label="{label: 'DNI/C.E. del solicitante', required: true}" name="nOrigenAuto" ng-model="$ctrl.objectData.documenterNumber"></mpf-input>
+            </div>
+            <div class="col-md-8 mb-xs-2 col-md-offset-2">
+              <mpf-input label="{label: 'Nombre del operador SI24', required: false}" name="nOrigenAuto" ng-model="$ctrl.objectData.operatorName"></mpf-input>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-8 col-md-offset-2 mt-xs-2">
+              <a class="g-btn g-btn-verde add-ico block" ng-click="$ctrl.apply()">Aplicar filtros</a>
+            </div>
+            <div class="col-md-4 col-md-offset-4 mt-xs-2 text-center">
+              <a class="block" ng-click="$ctrl.clear()">BORRAR FILTROS</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>  
+  </form>
+
+</section>

@@ -1,0 +1,295 @@
+<section class="gNsctr modalUpdateIndividualCensus">
+
+  <button 
+    type="button" 
+    class="close g-close-modal" 
+    ng-click="$ctrl.fnCloseModal()">
+    <span class="ico-mapfre_231_cancelaroff"></span>
+  </button>
+
+  <form name="frmUpdateIndividualCensus">
+
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12 g-text-center-xs mb-xs-2">
+          <h2 class="gH3"><b>Actualizar datos generales</b></h2>
+        </div>
+      </div>
+    </div>
+
+    <div class="container">
+      <div class="clearfix">
+        <!--Row 1-->
+        <div class="col-md-4 mb-xs-2">
+          <mpf-select 
+            label="{label: 'Médico', required: true}" 
+            name="nMedico" 
+            ng-model="$ctrl.data.mMedico" 
+            m-data-source="$ctrl.data.doctorData" 
+            text-field="value" 
+            value-field="code" 
+            m-Empty-Option="{enterData:true}" 
+            ng-required="true">
+          </mpf-select>
+          <ul class="g-error">
+            <li ng-show="frmUpdateIndividualCensus.nMedico.$invalid && !frmUpdateIndividualCensus.nMedico.$pristine">* Seleccione un médico</li>
+          </ul>
+        </div>
+        <div class="col-md-4 mb-xs-2">
+          <mpf-select 
+            label="{label: 'Clínica', required: true}" 
+            name="nClinicia" 
+            ng-model="$ctrl.data.mClinica" 
+            m-data-source="$ctrl.data.clinicData" 
+            text-field="value" 
+            value-field="code" 
+            m-Empty-Option="{enterData:true}" 
+            ng-required="true">
+          </mpf-select>
+          <ul class="g-error">
+            <li ng-show="frmUpdateIndividualCensus.nClinicia.$invalid && !frmUpdateIndividualCensus.nClinicia.$pristine">* Seleccione una clinica</li>
+          </ul>
+        </div>
+        <div class="col-md-4 mb-xs-2">
+          <mpf-input 
+            label="{label: 'Nro. solicitud', required: false}" 
+            name="nNroSolicitud" 
+            ng-model="$ctrl.data.mNroSolicitud" 
+            ng-required="false">
+          </mpf-input>
+          <ul class="g-error">
+            <li ng-show="frmUpdateIndividualCensus.nNroSolicitud.$invalid && !frmUpdateIndividualCensus.nNroSolicitud.$pristine">* Ingrese un nro solicitud</li>
+          </ul>
+        </div>
+      </div>
+      <!--Row 2-->
+      <div class="clearfix">
+        <div class="col-md-4 mb-xs-2">
+          <mpf-select 
+            label="{label: 'Tipo documento', required: true}" 
+            name="nTipoDoc" 
+            ng-model="$ctrl.data.mTipoDoc"
+            m-data-source="$ctrl.data.documentTypeData" 
+            text-field="typeDescription" 
+            value-field="typeId" 
+            m-Empty-Option="{enterData:true}" 
+            ng-required="true" 
+            ng-change="$ctrl.fnChangeDocumentType($ctrl.data.mTipoDoc)">
+          </mpf-select>
+          <ul class="g-error">
+            <li ng-show="frmUpdateIndividualCensus.nTipoDoc.$invalid && !frmUpdateIndividualCensus.nTipoDoc.$pristine">* Seleccione un tipo de documento</li>
+          </ul>
+        </div>
+        <div class="col-md-4 mb-xs-2">
+          <mpf-input 
+            label="{label: 'Nro. documento', required: true}" 
+            name="nNroDocumento" 
+            ng-model="$ctrl.data.mNroDocumento.model" 
+            mpf-validation="{{$ctrl.data.mNroDocumento.FIELD_TYPE}}" 
+            mpf-validation-disabled="{{$ctrl.data.mNroDocumento.FIELD_TYPE_DISABLED}}" 
+            ng-maxlength="$ctrl.data.mNroDocumento.MAX_LENGTH"
+            ng-required="true">
+          </mpf-input>
+          <ul class="g-error">
+            <li ng-show="frmUpdateIndividualCensus.nNroDocumento.$viewValue && (frmUpdateIndividualCensus.nNroDocumento.$error.onlyNumber || frmUpdateIndividualCensus.nNroDocumento.$error.maxlength) && !frmUpdateIndividualCensus.nNroDocumento.$pristine">* Nro de documento incorrecto</li>
+            <li ng-show="frmUpdateIndividualCensus.nNroDocumento.$error.required && !frmUpdateIndividualCensus.nNroDocumento.$pristine">* Ingrese un nro documento</li>
+          </ul>
+        </div>
+        <div class="col-md-4 mb-xs-2">
+          <mpf-input 
+            label="{label: 'Nombre', required: false}" 
+            name="nNombre" 
+            ng-model="$ctrl.data.mNombre" 
+            ng-required="true">
+          </mpf-input>
+          <ul class="g-error">
+            <li ng-show="frmUpdateIndividualCensus.nNombre.$invalid && !frmUpdateIndividualCensus.nNombre.$pristine">* Ingrese un nombre</li>
+          </ul>
+        </div>
+      </div>
+      <!--Row 3-->
+      <div class="clearfix">
+        <div class="col-md-4 mb-xs-2">
+          <div class="input-group g-date-picker">
+            <label class="g-placeholder animated">Fecha nacimiento<span></span>:</label>
+            <input 
+              type="text" 
+              class="form-control" 
+              name="nFechaNacimiento" 
+              ng-model="$ctrl.data.mFechaNacimiento.model" 
+              model-view-value="true" 
+              datepicker-options="$ctrl.data.mFechaNacimiento.options" 
+              is-open="$ctrl.data.mFechaNacimiento.open" 
+              close-text="Close" 
+              uib-datepicker-popup="{{$ctrl.data.mFechaNacimiento.FORMAT_DATE}}" 
+              alt-input-formats="$ctrl.data.mFechaNacimiento.ALT_INPUT_FORMATS" 
+              ui-mask="{{$ctrl.data.mFechaNacimiento.FORMAT_MASK}}" 
+              ng-pattern="$ctrl.data.mFechaNacimiento.FORMAT_PATTERN" 
+              ng-required="false" 
+              ng-disabled="false" 
+              mpf-validate-date="$ctrl.data.mFechaNacimiento.validate"/>
+            <span class="input-group-btn">
+              <button 
+                type="button" 
+                class="btn btn-default" 
+                ng-click="$ctrl.data.mFechaNacimiento.setOpen(true)">
+                <i class="glyphicon glyphicon-calendar"></i>
+              </button>
+            </span>
+          </div>
+          <ul class="g-error">
+            <li ng-show="(frmUpdateIndividualCensus.nFechaNacimiento.$error.pattern || frmUpdateIndividualCensus.nFechaNacimiento.$error.maxDate) && !frmUpdateIndividualCensus.nFechaNacimiento.$pristine">* Fecha de nacimiento incorrecta</li>
+            <li ng-show="frmUpdateIndividualCensus.nFechaNacimiento.$invalid && frmUpdateIndividualCensus.nFechaNacimiento.$error.required && !frmUpdateIndividualCensus.nFechaNacimiento.$pristine">* Ingrese una fecha de nacimiento</li>
+          </ul>
+        </div>
+        <div class="col-md-4 mb-xs-2">
+          <mpf-select 
+            label="{label: 'Aptitud', required: true}" 
+            name="nAptitud" 
+            ng-model="$ctrl.data.mAptitud"
+            m-data-source="$ctrl.data.aptitudeData" 
+            text-field="value" 
+            value-field="code" 
+            m-Empty-Option="{enterData:true}" 
+            ng-required="true">
+          </mpf-select>
+          <ul class="g-error">
+            <li ng-show="frmUpdateIndividualCensus.nAptitud.$invalid && !frmUpdateIndividualCensus.nAptitud.$pristine">* Seleccione una aptitud</li>
+          </ul>
+        </div>
+        <div class="col-md-4 mb-xs-2">
+          <mpf-select 
+            label="{label: 'Contrata', required: false}" 
+            name="nContrata" 
+            ng-model="$ctrl.data.mContrata"
+            m-data-source="$ctrl.data.contractData" 
+            text-field="value" 
+            value-field="code" 
+            m-Empty-Option="{enterData:true}" 
+            ng-required="false" 
+            ng-change="$ctrl.fnChangeContract($ctrl.data.mContrata)">
+          </mpf-select>
+          <ul class="g-error">
+            <li ng-show="frmUpdateIndividualCensus.nContrata.$invalid && !frmUpdateIndividualCensus.nContrata.$pristine">* Seleccione un contrata</li>
+          </ul>
+        </div>
+      </div>
+      <!--Row 4-->
+      <div class="clearfix">
+        <div class="col-md-4 mb-xs-2">
+          <mpf-select 
+            label="{label: 'Locación', required: false}" 
+            name="nLocacion" 
+            ng-model="$ctrl.data.mLocacion"
+            m-data-source="$ctrl.data.locationData" 
+            text-field="locationName" 
+            value-field="locationId" 
+            m-Empty-Option="{enterData:true}" 
+            ng-required="false">
+          </mpf-select>
+          <ul class="g-error">
+            <li ng-show="frmUpdateIndividualCensus.nLocacion.$invalid && !frmUpdateIndividualCensus.nLocacion.$pristine">* Seleccione una locación</li>
+          </ul>
+        </div>
+        <div class="col-md-4 mb-xs-2">
+          <mpf-input 
+            label="{label: 'Sustento', required: false}" 
+            name="nSustento" 
+            ng-model="$ctrl.data.mSustento">
+          </mpf-input>
+          <ul class="g-error">
+            <li ng-show="frmUpdateIndividualCensus.nSustento.$invalid && !frmUpdateIndividualCensus.nSustento.$pristine">* Ingrese un sustento</li>
+          </ul>
+        </div>
+        <div class="col-md-4 mb-xs-2">
+          <mpf-select 
+            label="{label: 'Tipo de examen', required: true}" 
+            name="nTipoExamen" 
+            ng-model="$ctrl.data.mTipoExamen"
+            m-data-source="$ctrl.data.examTypeData" 
+            text-field="value" 
+            value-field="code" 
+            m-Empty-Option="{enterData:true}" 
+            ng-required="true">
+          </mpf-select>
+          <ul class="g-error">
+            <li ng-show="frmUpdateIndividualCensus.nTipoExamen.$invalid && !frmUpdateIndividualCensus.nTipoExamen.$pristine">* Seleccione un tipo examen</li>
+          </ul>
+        </div>
+      </div>
+      <!--Row 5-->
+      <div class="clearfix">
+        <div class="col-md-4 mb-xs-2">
+          <div class="input-group g-date-picker">
+            <label class="g-placeholder animated">Fecha examen<span></span>:</label>
+            <input 
+              type="text" 
+              class="form-control" 
+              name="nFechaExamen" 
+              ng-model="$ctrl.data.mFechaExamen.model" 
+              model-view-value="true" 
+              datepicker-options="$ctrl.data.mFechaExamen.options" 
+              is-open="$ctrl.data.mFechaExamen.open" 
+              close-text="Close" 
+              uib-datepicker-popup="{{$ctrl.data.mFechaExamen.FORMAT_DATE}}" 
+              alt-input-formats="$ctrl.data.mFechaExamen.ALT_INPUT_FORMATS" 
+              ui-mask="{{$ctrl.data.mFechaExamen.FORMAT_MASK}}" 
+              ng-pattern="$ctrl.data.mFechaExamen.FORMAT_PATTERN" 
+              ng-required="false" 
+              ng-disabled="false"/>
+            <span class="input-group-btn">
+              <button 
+                type="button" 
+                class="btn btn-default" 
+                ng-click="$ctrl.data.mFechaExamen.setOpen(true)">
+                <i class="glyphicon glyphicon-calendar"></i>
+              </button>
+            </span>
+          </div>
+          <ul class="g-error">
+            <li ng-show="frmUpdateIndividualCensus.nFechaExamen.$error.pattern && !frmUpdateIndividualCensus.nFechaExamen.$pristine">* Fecha examen incorrecta</li>
+            <li ng-show="frmUpdateIndividualCensus.nFechaExamen.$invalid && frmUpdateIndividualCensus.nFechaExamen.$error.required && !frmUpdateIndividualCensus.nFechaExamen.$pristine">* Ingrese una fecha examen</li>
+          </ul>
+        </div>
+        <div class="col-md-4 mb-xs-2">
+          <mpf-input 
+            label="{label: 'Dictamen CM', required: false}" 
+            name="nDictamenCM" 
+            ng-model="$ctrl.data.mDictamenCM">
+          </mpf-input>
+          <ul class="g-error">
+            <li ng-show="frmUpdateIndividualCensus.nDictamenCM.$invalid && !frmUpdateIndividualCensus.nDictamenCM.$pristine">* Ingrese un dictamen</li>
+          </ul>
+        </div>
+        <div class="col-md-4 mb-xs-2">
+          <mpf-input 
+            label="{label: 'Menoscabo (%)', required: false}" 
+            name="nMenoscabo" 
+            ng-model="$ctrl.data.mMenoscabo">
+          </mpf-input>
+          <ul class="g-error">
+            <li ng-show="frmUpdateIndividualCensus.nMenoscabo.$invalid && !frmUpdateIndividualCensus.nMenoscabo.$pristine">* Ingrese un menoscabo</li>
+          </ul>
+        </div>
+      </div>
+      <div class="clearfix">
+        <div class="col-md-4 col-md-offset-2 mb-xs-1 no-mb-md">
+          <a 
+            href="javascript:void(0)" 
+            class="g-btn g-btn-transparent block" 
+            ng-click="$ctrl.fnCloseModal()">
+            Cancelar
+          </a>
+        </div>
+        <div class="col-md-4">
+          <a 
+            href="javascript:void(0)" 
+            class="g-btn g-btn-verde block" 
+            ng-click="$ctrl.fnUpdateIndividualCensus();">
+            Actualizar
+          </a>
+        </div>
+      </div>
+    </div>
+  </form>
+</section>

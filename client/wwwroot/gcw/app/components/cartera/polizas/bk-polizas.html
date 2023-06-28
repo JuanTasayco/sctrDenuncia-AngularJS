@@ -1,0 +1,268 @@
+<!-- <gcw-header
+  data="{type: 1}" title="vm.formDataCartera.CarteraPoliza" export="vm.paramsPoliza"
+></gcw-header> -->
+
+<div class="consultaGestion">
+  <div class="container">
+    <div show-filter class="clearfix g-col-filter g-box-md gBgcGray5-md gBgcWhite1" ng-class="{'show': isFilterVisible}">
+      <div class="col-xs-12">
+        <div class="clearfix gH4 gCGray1 mb-xs-1-5">
+          <h2 class="hidden-xs hidden-sm"><b>Búsqueda</b></h2>
+          <div id="show-filter" class="row pt-xs-2 pb-xs-2 gBgcGray5 g-border-bottom-xs hidden-md hidden-lg" ng-click="toggleFilter();">
+            <div class="col-xs-10"><h2><b>Búsqueda</b></h2></div>
+            <div class="col-xs-2 g-text-right-xs">
+              <!-- ngIf: isFilterVisible --><span class="glyphicon glyphicon-chevron-down ng-scope" ng-if="isFilterVisible" style=""></span><!-- end ngIf: isFilterVisible -->
+              <!-- ngIf: !isFilterVisible --><span class="glyphicon glyphicon-chevron-up ng-scope" ng-if="!isFilterVisible" style=""></span><!-- end ngIf: !isFilterVisible -->
+            </div>
+            <div class="clearfix"></div>
+          </div>
+        </div>
+        <form class="clearfix" name="vm.formDataCartera.frmCarteraPoliza">
+          <div class="row mb-xs-2">
+            <div class="col-md-5 col-xs-12 g-border-right">
+              <div class="row">
+                <div class="col-md-6 pr-xs-0">
+                   <m-radio label="{label: 'Por fecha de vencimiento'}" name="nTipoFecha" ng-model="vm.formDataCartera.mTipoFecha" value="1" data-ng-required="true"></m-radio>
+                    <div class="g-error"
+                     data-ng-show="vm.formDataCartera.frmCarteraPoliza.nTipoFecha.$error.required && !vm.formDataCartera.frmCarteraPoliza.nTipoFecha.$pristine">* Seleccione una opción
+                     </div>
+                </div>
+                <div class="col-md-6 pr-xs-0">
+                   <m-radio label="{label: 'Por fecha de vigencia'}" name="nTipoFecha" ng-model="vm.formDataCartera.mTipoFecha" value="2" data-ng-required="true"></m-radio>
+                </div>
+              </div>
+              <div class="clearfix">&nbsp;</div>
+              <div class="clearfix">&nbsp;</div>
+              <div class="row">
+                <div class="col-md-6">
+                  <div class="g-inlineblock">
+                    <mpf-select-horz 
+                      ng-model="vm.formDataCartera.mConsultaDesdeA" 
+                      name="nDesdeAnio" 
+                      label="{label: 'Desde', required: false}"
+                      m-data-source="vm.lstAnios"
+                      text-field="description"
+                      value-field="value"
+                      m-Empty-Option="{enterData:false}">
+                    </mpf-select-horz>
+                  </div>
+                  <div class="g-inlineblock">  
+                    <mpf-select-horz 
+                      ng-model="vm.formDataCartera.mConsultaDesdeM" 
+                      name="nDesdeMes" 
+                      label="{label: '', required: false}"
+                      m-data-source="vm.lstMeses"
+                      text-field="description"
+                      value-field="value"
+                      m-Empty-Option="{enterData:false}">
+                    </mpf-select-horz> 
+                  </div>
+                </div>
+
+                <div class="col-md-6 mt-xs-2 mt-md-0">
+                  <div class="g-inlineblock">
+                    <mpf-select-horz 
+                      ng-model="vm.formDataCartera.mConsultaHastaA" 
+                      name="nHastaAnio" 
+                      label="{label: 'Hasta', required: false}"
+                      m-data-source="vm.lstAnios"
+                      text-field="description"
+                      value-field="value"
+                      m-Empty-Option="{enterData:false}">
+                    </mpf-select-horz>
+                  </div>
+                  <div class="g-inlineblock">  
+                    <mpf-select-horz 
+                      ng-model="vm.formDataCartera.mConsultaHastaM" 
+                      name="nHastaMes" 
+                      label="{label: '', required: false}"
+                      m-data-source="vm.lstMeses"
+                      text-field="description"
+                      value-field="value"
+                      m-Empty-Option="{enterData:false}">
+                    </mpf-select-horz> 
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-7 col-xs-12 mt-xs-2 mt-md-0">
+              <div class="row">
+                <div class="col-md-5 pl-xs-1 pr-xs-0">
+                  <m-radio label="{label: vm.gLblContratanteAsegurado}" name="nOpcionTipoBusqueda" ng-model="vm.formDataCartera.mOpcionTipoBusqueda" value="1" data-ng-required="true"></m-radio>
+                  <div class="g-error"
+                     data-ng-show="vm.formDataCartera.frmCarteraPoliza.nOpcionTipoBusqueda.$error.required && !vm.formDataCartera.frmCarteraPoliza.nOpcionTipoBusqueda.$pristine">* Seleccione una opción
+                  </div>
+                 </div>
+                <div class="col-md-3 pl-xs-1 pr-xs-0">
+                  <m-radio label="{label: vm.gLblPoliza}" name="nOpcionTipoBusqueda" ng-model="vm.formDataCartera.mOpcionTipoBusqueda" value="2" data-ng-required="true"></m-radio>
+                </div>
+                <div class="col-md-3 pl-xs-1 pr-xs-0">
+                  <m-radio label="{label: vm.gLblPlaca}" name="nOpcionTipoBusqueda" ng-model="vm.formDataCartera.mOpcionTipoBusqueda" value="3" data-ng-required="true"></m-radio>
+                </div>
+              </div>
+              <div class="row" ng-show="vm.formDataCartera.mOpcionTipoBusqueda == '1'">
+                <!-- Buscar Cliente -->
+                <gcw-cliente data="vm.formDataCartera.Cliente"></gcw-cliente>
+              </div>
+              <div class="row" ng-show="vm.formDataCartera.mOpcionTipoBusqueda  == '2'">
+                <div class="col-md-6">
+                  <mpf-input label="{label: 'Nro. Póliza', required: true}" name="nNumPoliza" ng-model="vm.formDataCartera.mNumPoliza" data-ng-required="true" mpf-validation="onlyNumber" minLength="12" maxLength="15"></mpf-input>
+                   <div class="g-error"
+                     data-ng-show="vm.formDataCartera.frmCarteraPoliza.nNumPoliza.$error.required && !vm.formDataCartera.frmCarteraPoliza.nNumPoliza.$pristine">* Ingrese número de póliza
+                  </div>
+                </div>
+              </div>
+              <div class="row" ng-show="vm.formDataCartera.mOpcionTipoBusqueda  == '3'">
+                <div class="col-md-6">
+                  <mpf-input label="{label: 'Nro. Placa', required: true}" name="nNumPlaca" ng-model="vm.formDataCartera.mNumPlaca" data-ng-required="true" ng-pattern="'(^[a-zA-Z0-9]+$)'"  ng-Minlength="5" ng-Maxlength="6" trn-Length="6" mpf-validation="onlyLetterNumber"></mpf-input>
+                   <div class="g-error"
+                     data-ng-show="vm.formDataCartera.frmCarteraPoliza.nNumPlaca.$error.required && !vm.formDataCartera.frmCarteraPoliza.nNumPlaca.$pristine">* Ingrese placa
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-offset-8 col-md-2 mb-xs-1 no-mb-md"><a class="g-btn g-btn-verde second-design block" ng-click="vm.buscarPolizas()">Buscar</a></div>
+            <div class="col-md-2"><a class="g-btn g-btn-white second-design block" data-ng-click="vm.limpiar()">Limpiar</a></div>
+          </div>
+        </form>
+      </div>
+    </div>
+
+
+    <!-- Top bar: Filtro e iconos -->
+    <div tbl-oim-topbar class="clearfix g-tbl-topbar mt-md-2 mb-md-2 mt-xs-1 g-border-top g-border-bottom width-filtro">
+      <div class="g-row-icons__box visible-xs visible-sm">
+        <a ng-click="showFilterTopbar = !showFilterTopbar" uib-popover="Filtro" popover-trigger="'mouseenter'"><span class="ico-mapfre ico-mapfre_203_filtro ico-filter"></span></a>
+        <a data-ng-click="exportar()" uib-popover="Exportar" popover-trigger="'mouseenter'"><span class="ico-mapfre ico-mapfre_124_download ico-download"></span></a>
+      </div>
+      <div class="g-row-filter__box g-row-icons__box box_left hidden-xs hidden-sm" ng-show="vm.totalItems >= 1">
+        <a data-ng-click="exportar()" uib-popover="Exportar" popover-trigger="'mouseenter'"><span class="ico-mapfre ico-mapfre_124_download ico-download"></span></a>
+      </div>
+      <div class="g-row-filter__box box_right height-xs height-sm" ng-class="{'filter__show': showFilterTopbar}">
+        <form class="clearfix">
+          <div class="g-filter-col"><gcw-cbo-estados estado="vm.formDataCartera.Estado"></gcw-cbo-estados></div>
+          <div class="g-filter-col">
+            <mpf-select-horz 
+              ng-model="vm.formDataCartera.Sector" 
+              name="nSector" 
+              label="{label: 'Sector', required: false}" 
+              m-data-source="vm.lstSectores" 
+              text-field="description" 
+              value-field="code" 
+              m-Empty-Option="{text:'todos'}"  
+              mpf-validation="required">
+            </mpf-select>
+          </div>
+          <div class="g-filter-col">
+            <mpf-select-horz 
+              ng-model="vm.formDataCartera.Ramo" 
+              name="nRamo" 
+              label="{label: 'Ramo', required: false}" 
+              m-data-source="vm.lstRamos" 
+              text-field="ramoDescription" 
+              value-field="identifierId" 
+              m-Empty-Option="{text:'todos'}"  
+              mpf-validation="required">
+            </mpf-select>
+          </div>
+          <div class="g-filter-col col__buttons hidden-xs hidden-sm">
+            <a class="g-btn g-btn-white block second-design " ng-click="vm.buscarPolizas()">Aplicar Filtros</a>
+          </div>
+          <div class="col__buttons visible-xs mt-xs-2">
+            <a class="g-btn g-btn-white block second-design " ng-click="vm.buscarPolizas()">Aplicar Filtros</a>
+          </div>
+          <div class="col__buttons visible-xs mt-xs-2">
+            <a ng-click="showFilterTopbar = !showFilterTopbar" class="g-btn g-btn-white block second-design ">Cerrar</a>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <div class="col-md-12 text-center g-box-noresult" ng-show="vm.totalItems < 1 && vm.totalItems">
+      <div class="row">
+        <div class="col-md-12 g-box-noresult-ico gCBlue2">
+          <span class="ico-mapfre_303_informacion"></span>
+        </div>
+        <div class="col-md-12 g-box-noresult-text">
+          Realiza una búsqueda para obtener resultados.
+        </div>
+      </div>
+    </div>
+
+    <!-- Tabla -->
+    <div class="clearfix" ng-show="vm.totalItems >= 1">
+      <div tbl-oim class="col-xs-12 g-tbl-wrapper pl-xs-0">
+        <div class="tbl-main">
+          <ul class="tbl-header clearfix gBgcGray5">
+            <li class="title col-12-dktp">Póliza</li>
+            <li class="title col-11-dktp">Producto</li>
+            <li class="title col-9-dktp">Vencimiento</li>
+            <li class="title col-20-dktp">Cliente</li>
+            <li class="title col-10-dktp">Segmento Comercial</li>
+            <li class="title col-8-dktp text-right">MP$</li>
+            <li class="title col-10-dktp text-right">Prima Neta</li>
+            <li class="title col-10-dktp">Moneda</li>
+            <li class="title col-6-dktp">Pagos Pend.</li>
+            <li class="title col-4-dktp">Sini.</li>
+          </ul>
+          <ul class="tbl-body clearfix">
+            <li data-ng-repeat="poliza in vm.polizas" ng-click="vm.irDetallePoliza(poliza);">
+              <ul height-row class="tbl-row clearfix g-u-cursor--pointer">
+                <li class="cell col-12-dktp">
+                  <span class="cell-title">{{poliza.policyNumber}}</span>
+                  <span class="c-tag mb-xs-1"
+                      data-ng-class="{'u-bg--rojo-primario': poliza.stateCode === 'EXPIRADA', 'u-bg--gris-3': poliza.stateCode === 'CADUCADA', 'u-bg--yellow-2': poliza.stateCode === 'ANULADA','u-bg--verde-2': poliza.stateCode === 'VIGENTE'}">{{poliza.stateCode}}
+                  </span>
+                </li>
+                <li class="cell col-11-dktp">
+                  <span class="cell-label g-cut-text" uib-popover="{{poliza.productName}}" popover-trigger="'mouseenter'"><span class="cell-data g-text-uppercase">{{poliza.productName}}</span></span>
+                </li>
+                <li class="cell col-9-dktp">
+                  <span class="cell-label"><span class="cell-data">{{poliza.dateEndExpiration}}</span></span>
+                </li>
+                <li class="cell col-20-dktp">
+                  <span class="cell-label"><span class="cell-data g-text-uppercase">{{poliza.clientName}}</span></span>
+                </li>
+                <li class="cell col-10-dktp">
+                  <span class="cell-label"><span class="cell-data">{{poliza.businessSegment}}</span></span>
+                </li>
+                <li class="cell col-8-dktp text-right">
+                  <span class="cell-label"><span class="cell-data">{{poliza.mapfreDollar | number:2}}</span></span>
+                </li>
+                <li class="cell col-10-dktp text-right">
+                  <span class="cell-label"><span class="cell-data">{{poliza.netPremium | number:2}}</span></span>
+                </li>
+                <li class="cell col-10-dktp">
+                  <span class="cell-label" ng-if="poliza.coinCode==1"><span class="cell-data g-text-uppercase">SOLES</span></span>
+
+                  <span class="cell-label" ng-if="poliza.coinCode==2"><span class="cell-data g-text-uppercase">DÓLARES</span></span>
+                </li>
+                <li class="cell col-6-dktp">
+                  <span class="cell-label"><span class="cell-data g-text-uppercase">{{poliza.withPendingPayment}}</span></span>
+                </li>
+                <li class="cell col-4-dktp">
+                  <span class="cell-label"><span class="cell-data g-text-uppercase">{{poliza.withAmountClaimed}}</span></span>
+                </li>
+              </ul>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <mx-paginador
+      data-datos="vm.polizas"
+      data-items-x-page="vm.itemsXPagina"
+      data-msg-vacio="vm.msgVacio"
+      data-on-paginar="vm.pageChanged($event)"
+      data-pagina-actual="vm.currentPage"
+      data-total-items="vm.totalItems"
+    >
+    </mx-paginador>
+  </div>
+</div>
+<form id="frmExport" name="frmExport" action="{{vm.exportURL}}" method="post">
+  <input type="hidden" name="json" value='{{vm.downloadFile}}'>
+</form>

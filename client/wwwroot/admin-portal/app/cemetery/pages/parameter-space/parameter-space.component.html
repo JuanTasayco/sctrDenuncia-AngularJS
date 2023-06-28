@@ -1,0 +1,56 @@
+<div class="g-page">
+  <div class="g-title pb-0">
+    <navbar-cemetery data-active="false" data-show-button="true" data-is-disabled="frmRegister.$invalid" data-on-update="$ctrl.updateParameters()" >
+    </navbar-cemetery>
+  </div>
+  <div class="g-menu-main__box c-menu-main__box">
+    <tab-cemetery data-tabs="$ctrl.tabs"></tab-cemetery>
+  </div>
+  <div class="g-section">
+    <form name="frmRegister">
+      <div class="g-section-inner">
+        <div class="container">
+          <div class="row">
+            <div class="mb-xs-1 col-md-6 mb-md-1" data-ng-repeat="space in $ctrl.form.spaces">
+              <div class="c-bg-gray">
+                <div class="c-space__container">
+                  <div class="c-space__content h-144">
+                    <div class="c-space__image-content">
+                        <div class="c-space__image" >
+                          <img ng-src="{{space.valor2}}" alt="">
+                        </div>
+                    </div>
+                    <div class="c-space__title"> 
+                      <span class="c-space__name no-margin-xs no-margin-md"> {{space.valor1 | capitalize}} </span>
+                      <span class="g-icon gCGray3 no-margin-xs no-margin-md">
+                        <span class="ico-mapfre_228_editar ico-edit"></span>
+                        <span class="g-link"><a data-ui-sref="parameterSubspace({spaceId: space.idParametro})">Editar</a>
+                          </li>
+                        </span>
+                      </span>
+                    </div>
+                  </div>
+                </div>
+                <div class="pl-xs-1 pr-xs-1 pb-xs-1 pl-md-3 pr-md-3 pb-md-3">
+                  <div class="c-section__information">
+										<h3 class="c-section__title">Descripción</h3>
+									</div>
+                  <textarea class="c-textarea__text h-150"  name="nDescripcion{{$index}}" ng-required="true" maxlength="150"  ng-max-length="150"  ng-model="space.valor3" ></textarea>
+                  <div class="c-message__container">
+                    <ul class="g-error no-margin-xs no-margin-md">
+                      <li ng-show="frmRegister.nDescripcion{{$index}}.$invalid && !frmRegister.nDescripcion{{$index}}.$pristine">
+                          Ingrese Descripción
+                      </li>
+                   </ul>
+                    <div class="g-text-right-xs g-text-right-md">
+                      <span class="c-message__character">Máximo 150 caracteres</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+    </form>
+  </div>
+</div>

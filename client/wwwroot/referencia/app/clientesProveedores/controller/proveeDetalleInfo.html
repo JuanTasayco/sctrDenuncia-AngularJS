@@ -1,0 +1,533 @@
+<mfloader loader="$ctrl.loader"></mfloader>
+<div class="container">
+  <form class="row" name="basicInfo" novalidate>
+    <div class="col-xs-12 col-sm-6">
+      <div class="panel__wrapper u-br-5">
+        <header class="panel__header u-align-v">
+          <span class="panel__title">Datos generales</span>
+        </header>
+        <ul class="lista-group u-bg--grey u-br-5 u-pb-10">
+          <li class="lista__item">
+            <div class="lista__header">
+              <div class="col-xs-12 col-md-6 lista-header__col">
+                <p class="lista-title__txt">Nombre</p>
+              </div>
+              <div class="col-xs-12 col-md-6 lista-header__col">
+                {{::$ctrl.datosgenerales.Proveedor || '--'}}
+              </div>
+            </div>
+          </li>
+          <li class="lista__item">
+            <div class="lista__header">
+              <div class="col-xs-12 col-md-6 lista-header__col">
+                <p class="lista-title__txt">
+                  Categoría
+                  <span class="ico-mapfre_284_circlequestion"
+                        uib-tooltip="Clasificación que caracteriza a los establecimientos de salud, en base a niveles de complejidad y a características funcionales comunes"
+                        tooltip-placement="bottom"></span>
+                </p>
+              </div>
+              <div class="col-xs-12 col-md-6 lista-header__col">
+                <div class="select-box">
+                  <select class="select"
+                          name="categoria"
+                          ng-model="$ctrl.datosgenerales.Categoria"
+                          ng-options="option.descripcionPosibleValor for option in $ctrl.categories track by option.numeroValor"
+                          ng-disabled="!$ctrl.onAuditMode"
+                          ng-change="$ctrl.onCategoryChange(); $ctrl.infoChanged()"
+                          required>
+                  </select>
+                  <span class="select__ico--arrow ico-mapfre_76_chevrondown ico-select" aria-hidden="true"></span>
+                </div>
+              </div>
+            </div>
+          </li>
+          <li class="lista__item" ng-if="$ctrl.showResolution">
+            <div class="lista__header">
+              <div class="col-xs-12 col-md-6 lista-header__col">
+                <p class="lista-title__txt">
+                  Resolución
+                </p>
+              </div>
+              <div class="col-xs-12 col-md-6 lista-header__col">
+                <input ng-model="$ctrl.datosgenerales.Resolucion"
+                       name="resolucion"
+                       class="c-input-txt"
+                       ng-change="$ctrl.infoChanged()"
+                       ng-disabled="!$ctrl.onAuditMode"
+                       required>
+                <p class="g-error"
+                   ng-show="(basicInfo.resolucion.$invalid && basicInfo.resolucion.$dirty) || (basicInfo.resolucion.$invalid && $ctrl.showingErrors)">
+                  * Este campo es obligatorio
+                </p>
+              </div>
+            </div>
+          </li>
+          <li class="lista__item">
+            <div class="lista__header">
+              <div class="col-xs-12 col-md-6 lista-header__col">
+                <p class="lista-title__txt">Tipo de institución</p>
+              </div>
+              <div class="col-xs-12 col-md-6 lista-header__col">
+                {{::$ctrl.datosgenerales.TipoInstitucion || '--'}}
+              </div>
+            </div>
+          </li>
+          <li class="lista__item">
+            <div class="lista__header">
+              <div class="col-xs-12 col-md-6 lista-header__col">
+                <p class="lista-title__txt">Tipo de establecimiento</p>
+              </div>
+              <div class="col-xs-12 col-md-6 lista-header__col">
+                {{::$ctrl.datosgenerales.TipoEstablecimiento || '--'}}
+              </div>
+            </div>
+          </li>
+          <li class="lista__item">
+            <div class="lista__header">
+              <div class="col-xs-12 col-md-6 lista-header__col">
+                <p class="lista-title__txt">Clasificación</p>
+              </div>
+              <div class="col-xs-12 col-md-6 lista-header__col">
+                {{::$ctrl.datosgenerales.Clasificacion || '--'}}
+              </div>
+            </div>
+          </li>
+          <li class="lista__item">
+            <div class="lista__header">
+              <div class="col-xs-12 col-md-6 lista-header__col">
+                <p class="lista-title__txt">Nombre del Director médico</p>
+              </div>
+              <div class="col-xs-12 col-md-6 lista-header__col">
+                <input ng-model="$ctrl.datosgenerales.Director"
+                       name="director"
+                       class="c-input-txt"
+                       ng-change="$ctrl.infoChanged()"
+                       ng-disabled="!$ctrl.onAuditMode"
+                       required>
+                <p class="g-error"
+                   ng-show="(basicInfo.director.$invalid && basicInfo.director.$dirty) || (basicInfo.director.$invalid && $ctrl.showingErrors)">
+                  * Este campo es obligatorio
+                </p>
+              </div>
+            </div>
+          </li>
+          <li class="lista__item">
+            <div class="lista__header">
+              <div class="col-xs-12 col-md-6 lista-header__col">
+                <p class="lista-title__txt">Dirección fiscal</p>
+              </div>
+              <div class="col-xs-12 col-md-6 lista-header__col">
+                <input ng-model="$ctrl.datosgenerales.DireccionFiscal"
+                       name="direccionFiscal"
+                       class="c-input-txt"
+                       ng-change="$ctrl.infoChanged()"
+                       ng-disabled="!$ctrl.onAuditMode"
+                       required>
+                <p class="g-error"
+                   ng-show="(basicInfo.direccionFiscal.$invalid && basicInfo.direccionFiscal.$dirty) || (basicInfo.direccionFiscal.$invalid && $ctrl.showingErrors)">
+                  * Este campo es obligatorio
+                </p>
+              </div>
+            </div>
+          </li>
+          <li class="lista__item">
+            <div class="lista__header">
+              <div class="col-xs-12 col-md-6 lista-header__col">
+                <p class="lista-title__txt">Dirección comercial</p>
+              </div>
+              <div class="col-xs-12 col-md-6 lista-header__col">
+                <input ng-model="$ctrl.datosgenerales.DireccionComercial"
+                       name="direccionComercial"
+                       class="c-input-txt"
+                       ng-change="$ctrl.infoChanged()"
+                       ng-disabled="!$ctrl.onAuditMode"
+                       required>
+                <p class="g-error"
+                   ng-show="(basicInfo.direccionComercial.$invalid && basicInfo.direccionComercial.$dirty) || (basicInfo.direccionComercial.$invalid && $ctrl.showingErrors)">
+                  * Este campo es obligatorio
+                </p>
+              </div>
+            </div>
+          </li>
+          <li class="lista__item">
+            <div class="lista__header">
+              <div class="col-xs-12 col-md-6 lista-header__col">
+                <p class="lista-title__txt">Razón social</p>
+              </div>
+              <div class="col-xs-12 col-md-6 lista-header__col">
+                {{::$ctrl.datosgenerales.RazonSocial || '--'}}
+              </div>
+            </div>
+          </li>
+          <li class="lista__item">
+            <div class="lista__header">
+              <div class="col-xs-12 col-md-6 lista-header__col">
+                <p class="lista-title__txt">Nombre del represante legal</p>
+              </div>
+              <div class="col-xs-12 col-md-6 lista-header__col">
+                {{::$ctrl.datosgenerales.Representante || '--'}}
+              </div>
+            </div>
+          </li>
+          <li class="lista__item">
+            <div class="lista__header">
+              <div class="col-xs-12 col-md-6 lista-header__col">
+                <p class="lista-title__txt">Aforo</p>
+              </div>
+              <div class="col-xs-12 col-md-6 lista-header__col">
+                <input ng-model="$ctrl.datosgenerales.Aforo"
+                       name="aforo"
+                       class="c-input-txt"
+                       type="text"
+                       ng-change="$ctrl.infoChanged()"
+                       ng-keyup="$ctrl.testAforo()"
+                       ng-disabled="!$ctrl.onAuditMode"
+                       required>
+                <p class="g-error"
+                   ng-show="(basicInfo.aforo.$invalid && basicInfo.aforo.$dirty) || (basicInfo.aforo.$invalid && $ctrl.showingErrors)">
+                  * Este campo es obligatorio
+                </p>
+              </div>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div class="col-xs-12 col-sm-6">
+      <div class="panel__wrapper u-br-5">
+        <header class="panel__header u-align-v">
+          <span class="panel__title">Datos de contacto</span>
+        </header>
+        <ul class="lista-group lista-group--provee-info u-bg--grey u-br-5 u-pb-10">
+          <li class="lista__item">
+            <div class="lista__header">
+              <div class="col-xs-12 col-md-6 lista-header__col">
+                <p class="lista-title__txt">Dirección sede principal</p>
+              </div>
+              <div class="col-xs-12 col-md-6 lista-header__col">
+                <textarea class="c-input-txt"
+                          name="sedePrincipal"
+                          spellcheck="false"
+                          ng-disabled="!$ctrl.onAuditMode"
+                          ng-model="$ctrl.contacto.SedePrincipal"
+                          ng-change="$ctrl.infoChanged()"
+                          msd-elastic
+                          required></textarea>
+                <p class="g-error"
+                   ng-show="(basicInfo.sedePrincipal.$invalid && basicInfo.sedePrincipal.$dirty) || (basicInfo.sedePrincipal.$invalid && $ctrl.showingErrors)">
+                  * Este campo es obligatorio
+                </p>
+              </div>
+            </div>
+          </li>
+          <li class="lista__item">
+            <div class="lista__header">
+              <div class="col-xs-12 col-md-6 lista-header__col">
+                <p class="lista-title__txt">Teléfono</p>
+              </div>
+              <div class="col-xs-12 col-md-6 lista-header__col">
+                <input ng-model="$ctrl.contacto.Telefono"
+                       name="telefono"
+                       class="c-input-txt"
+                       ng-change="$ctrl.infoChanged()"
+                       ng-disabled="!$ctrl.onAuditMode"
+                       required>
+                <p class="g-error"
+                   ng-show="(basicInfo.telefono.$invalid && basicInfo.telefono.$dirty) || (basicInfo.telefono.$invalid && $ctrl.showingErrors)">
+                  * Este campo es obligatorio
+                </p>
+              </div>
+            </div>
+          </li>
+          <li class="lista__item">
+            <div class="lista__header">
+              <div class="col-xs-12 col-md-6 lista-header__col">
+                <p class="lista-title__txt">Correo electrónico</p>
+              </div>
+              <div class="col-xs-12 col-md-6 lista-header__col">
+                <input ng-model="$ctrl.contacto.Correo"
+                       name="correo"
+                       class="c-input-txt"
+                       type="email"
+                       ng-change="$ctrl.infoChanged()"
+                       ng-disabled="!$ctrl.onAuditMode"
+                       required>
+                <p class="g-error"
+                   ng-show="(basicInfo.correo.$invalid && basicInfo.correo.$dirty) || (basicInfo.correo.$invalid && $ctrl.showingErrors)">
+                  * Este campo es obligatorio
+                </p>
+              </div>
+            </div>
+          </li>
+          <li class="lista__item">
+            <div class="lista__header">
+              <div class="col-xs-12 col-md-6 lista-header__col">
+                <p class="lista-title__txt">Horario de atención</p>
+              </div>
+              <div class="col-xs-12 col-md-6 lista-header__col">
+                <input ng-model="$ctrl.contacto.HorarioAtencion"
+                       name="horarioAtencion"
+                       class="c-input-txt"
+                       ng-change="$ctrl.infoChanged()"
+                       ng-disabled="!$ctrl.onAuditMode"
+                       required>
+                <p class="g-error"
+                   ng-show="(basicInfo.horarioAtencion.$invalid && basicInfo.horarioAtencion.$dirty) || (basicInfo.horarioAtencion.$invalid && $ctrl.showingErrors)">
+                  * Este campo es obligatorio
+                </p>
+              </div>
+            </div>
+          </li>
+        </ul>
+      </div>
+      <div class="panel__wrapper u-br-5">
+        <header class="panel__header u-align-v">
+          <span class="panel__title">Datos del responsable de la referencia</span>
+        </header>
+        <ul class="lista-group u-bg--grey u-br-5">
+          <li class="lista__item">
+            <div class="lista__header">
+              <div class="col-xs-12 col-md-6 lista-header__col">
+                <p class="lista-title__txt">Nombre del responsable</p>
+              </div>
+              <div class="col-xs-12 col-md-6 lista-header__col">
+                <input ng-model="$ctrl.responsable.Responsable"
+                       name="responsableNombre"
+                       class="c-input-txt"
+                       ng-change="$ctrl.infoChanged()"
+                       ng-disabled="!$ctrl.onAuditMode"
+                       required>
+                <p class="g-error"
+                   ng-show="(basicInfo.responsableNombre.$invalid && basicInfo.responsableNombre.$dirty) || (basicInfo.responsableNombre.$invalid && $ctrl.showingErrors)">
+                  * Este campo es obligatorio
+                </p>
+              </div>
+            </div>
+          </li>
+          <li class="lista__item">
+            <div class="lista__header">
+              <div class="col-xs-12 col-md-6 lista-header__col">
+                <p class="lista-title__txt">Teléfono del responsable</p>
+              </div>
+              <div class="col-xs-12 col-md-6 lista-header__col">
+                <input ng-model="$ctrl.responsable.Telefono"
+                       name="responsableTelefono"
+                       class="c-input-txt"
+                       ng-change="$ctrl.infoChanged()"
+                       ng-disabled="!$ctrl.onAuditMode"
+                       required>
+                <p class="g-error"
+                   ng-show="(basicInfo.responsableTelefono.$invalid && basicInfo.responsableTelefono.$dirty) || (basicInfo.responsableTelefono.$invalid && $ctrl.showingErrors)">
+                  * Este campo es obligatorio
+                </p>
+              </div>
+            </div>
+          </li>
+          <li class="lista__item">
+            <div class="lista__header">
+              <div class="col-xs-12 col-md-6 lista-header__col">
+                <p class="lista-title__txt">Correo electrónico del responsable</p>
+              </div>
+              <div class="col-xs-12 col-md-6 lista-header__col">
+                <input ng-model="$ctrl.responsable.Correo"
+                       name="responsableCorreo"
+                       class="c-input-txt"
+                       type="email"
+                       ng-change="$ctrl.infoChanged()"
+                       ng-disabled="!$ctrl.onAuditMode"
+                       required>
+                <p class="g-error"
+                   ng-show="(basicInfo.responsableCorreo.$invalid && basicInfo.responsableCorreo.$dirty) || (basicInfo.responsableCorreo.$invalid && $ctrl.showingErrors)">
+                  * Este campo es obligatorio
+                </p>
+              </div>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </form>
+  <form class="row" name="basicInfo" novalidate>
+    <div class="col-xs-12 col-sm-12">
+      <div class="panel__wrapper u-br-5">
+        <header class="panel__header u-align-v">
+          <span class="panel__title">Registro fotográfico</span>
+        </header>
+        <div style="background: #f1f5f7; border-radius: 5px; padding: 20px 0px;">
+          <div class="row" ng-if="$ctrl.onAuditMode" style="margin: 10px 0px 20px;">
+            <div class="col-xs-12 col-md-4">
+              <div class="select-box">
+                <select class="select"
+                        name="type"
+                        ng-model="$ctrl.typeFile"
+                        ng-options="option.descFile for option in $ctrl.typesFile track by option.valFile"
+                        required>
+                  <option value="" disabled selected>Tipo de archivo</option>
+                </select>
+                <span class="select__ico--arrow ico-mapfre_76_chevrondown ico-select" aria-hidden="true"></span>
+              </div>
+              <p ng-if="!$ctrl.typeFile" style="color: red;font-size: 11px;}">
+                {{$ctrl.messageAlert}}
+              </p>
+            </div>
+            <div class="col-xs-12 col-md-3" ng-if="$ctrl.typeFile">
+              <button type="button"
+                      style="font-size: small;"
+                      class="c-btn btn btn--secundary u-txt--uppercase">
+                <span class="iconref-plus"></span>
+                <input
+                  accept="application/pdf,image/*"
+                  style="display: none;"
+                  id="contained-button-file"
+                  type="file"
+                  onchange="angular.element(this).scope().saveFile(this)"
+                >
+                <label for="contained-button-file">ADJUNTAR DOCUMENTO</label>
+              </button>
+            </div>
+            <div class="col-xs-12 col-md-3" ng-if="!$ctrl.typeFile">
+              <button type="button"
+                      style="font-size: small;"
+                      class="c-btn btn btn--secundary u-txt--uppercase"
+                      ng-click="$ctrl.validateAlert();"
+              >
+                <span class="iconref-plus"></span>
+                <label for="contained-button-file">ADJUNTAR DOCUMENTO</label>
+              </button>
+            </div>
+          </div>
+          <div style="margin: 20px 0px;">
+            <div class="row" style="margin: 0px 18px;">
+              <p style="font-weight: 500; ">Fotos de exteriores</p>
+            </div>
+            <div class="row" style="border: 2px solid lightgray; border-radius: 10px; margin: 0px 18px; border-style: dashed; padding: 10px 10px;">
+              <div class="col-xs-12 col-md-4" ng-repeat="item in $ctrl.exteriores">
+                <div style="background-color: white; border: 2px solid lightgray; border-radius: 10px; margin: 5px 0px; padding: 10px 15px 10px 50px;">
+                  <div style="display: flex; align-items: center; justify-content: space-between;">
+                    <p style="margin: 0px; font-weight: 500;">{{item.nomArchivo}}</p>
+                    <div>
+                      <a class="c-btn btn--icon btn--download"
+                         style="margin: 0px 5px; padding: 0px;"
+                         ng-if="!$ctrl.onAuditMode"
+                         ng-attr-title="Descargar Reporte"
+                         data-ng-click="$ctrl.downloadFile(item,'Fotos de exteriores')">
+                        <span class="hidden-sm hidden-md hidden-lg">Descargar</span>
+                        <span class="ico-mapfre_124_download"></span>
+                      </a>
+                      <a class="c-btn btn--icon btn--download"
+                         style="margin: 0px 5px; padding: 0px;"
+                         ng-if="$ctrl.onAuditMode"
+                         ng-attr-title="Descargar Reporte"
+                         data-ng-click="$ctrl.downloadFile(item,'Fotos de exteriores')">
+                        <span class="hidden-sm hidden-md hidden-lg">Descargar</span>
+                        <span class="ico-mapfre_124_download"></span>
+                      </a>
+                      <a class="c-btn btn--icon btn--download"
+                         style="margin: 0px 5px; padding: 0px;"
+                         ng-if="$ctrl.onAuditMode"
+                         ng-attr-title="Eliminar Reporte"
+                         data-ng-click="$ctrl.deleteFileAudit(item)">
+                        <span class="hidden-sm hidden-md hidden-lg">Eliminar</span>
+                        <span class="ico-mapfre_46_cancelaroff"></span>
+                      </a>
+                    </div>
+                  </div>
+                  <div style="">
+                    <p style="margin: 0px; font-size: 11px; color: gray;">{{item.nomArchivo}}</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div style="margin: 20px 0px;">
+            <div class="row" style="margin: 0px 18px;">
+              <p style="font-weight: 500; ">Fotos de interiores</p>
+            </div>
+            <div class="row" style="border: 2px solid lightgray; border-radius: 10px; margin: 0px 18px; border-style: dashed; padding: 10px 10px;">
+              <div class="col-xs-12 col-md-4" ng-repeat="item in $ctrl.interiores">
+                <div style="background-color: white; border: 2px solid lightgray; border-radius: 10px; margin: 5px 0px; padding: 10px 15px 10px 50px;">
+                  <div style="display: flex; align-items: center; justify-content: space-between;">
+                    <p style="margin: 0px; font-weight: 500;">{{item.nomArchivo}}</p>
+                    <div>
+                      <a class="c-btn btn--icon btn--download"
+                         style="margin: 0px 5px; padding: 0px;"
+                         ng-if="!$ctrl.onAuditMode"
+                         ng-attr-title="Descargar Reporte"
+                         data-ng-click="$ctrl.downloadFile(item,'Fotos de interiores')">
+                        <span class="hidden-sm hidden-md hidden-lg">Descargar</span>
+                        <span class="ico-mapfre_124_download"></span>
+                      </a>
+                      <a class="c-btn btn--icon btn--download"
+                         style="margin: 0px 5px; padding: 0px;"
+                         ng-if="$ctrl.onAuditMode"
+                         ng-attr-title="Descargar Reporte"
+                         data-ng-click="$ctrl.downloadFile(item,'Fotos de interiores')">
+                        <span class="hidden-sm hidden-md hidden-lg">Descargar</span>
+                        <span class="ico-mapfre_124_download"></span>
+                      </a>
+                      <a class="c-btn btn--icon btn--download"
+                         style="margin: 0px 5px; padding: 0px;"
+                         ng-if="$ctrl.onAuditMode"
+                         ng-attr-title="Eliminar Reporte"
+                         data-ng-click="$ctrl.deleteFileAudit(item)">
+                        <span class="hidden-sm hidden-md hidden-lg">Eliminar</span>
+                        <span class="ico-mapfre_46_cancelaroff"></span>
+                      </a>
+                    </div>
+                  </div>
+                  <div style="">
+                    <p style="margin: 0px; font-size: 11px; color: gray;">{{item.nomArchivo}}</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div style="margin: 20px 0px;">
+            <div class="row" style="margin: 0px 18px;">
+              <p style="font-weight: 500; ">Otros</p>
+            </div>
+            <div class="row" style="border: 2px solid lightgray; border-radius: 10px; margin: 0px 18px; border-style: dashed; padding: 10px 10px;">
+              <div class="col-xs-12 col-md-4" ng-repeat="item in $ctrl.otros">
+                <div style="background-color: white; border: 2px solid lightgray; border-radius: 10px; margin: 5px 0px; padding: 10px 15px 10px 50px;">
+                  <div style="display: flex; align-items: center; justify-content: space-between;">
+                    <p style="margin: 0px; font-weight: 500;">{{item.nomArchivo}}</p>
+                    <div>
+                      <a class="c-btn btn--icon btn--download"
+                         style="margin: 0px 5px; padding: 0px;"
+                         ng-if="!$ctrl.onAuditMode"
+                         ng-attr-title="Descargar Reporte"
+                         data-ng-click="$ctrl.downloadFile(item,'Otros')">
+                        <span class="hidden-sm hidden-md hidden-lg">Descargar</span>
+                        <span class="ico-mapfre_124_download"></span>
+                      </a>
+                      <a class="c-btn btn--icon btn--download"
+                         style="margin: 0px 5px; padding: 0px;"
+                         ng-if="$ctrl.onAuditMode"
+                         ng-attr-title="Descargar Reporte"
+                         data-ng-click="$ctrl.downloadFile(item,'Otros')">
+                        <span class="hidden-sm hidden-md hidden-lg">Descargar</span>
+                        <span class="ico-mapfre_124_download"></span>
+                      </a>
+                      <a class="c-btn btn--icon btn--download"
+                         style="margin: 0px 5px; padding: 0px;"
+                         ng-if="$ctrl.onAuditMode"
+                         ng-attr-title="Eliminar Reporte"
+                         data-ng-click="$ctrl.deleteFileAudit(item)">
+                        <span class="hidden-sm hidden-md hidden-lg">Eliminar</span>
+                        <span class="ico-mapfre_46_cancelaroff"></span>
+                      </a>
+                    </div>
+                  </div>
+                  <div style="">
+                    <p style="margin: 0px; font-size: 11px; color: gray;">{{item.nomArchivo}}</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>

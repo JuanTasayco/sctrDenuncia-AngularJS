@@ -1,0 +1,265 @@
+<!-- Step 3 -->
+<form action="" name="frmProductData">
+<div class="container">
+  <div class="row">
+    <div class="col-md-12">
+      <h2 class="g-sub-title pt-sm-2">Datos del Contratante</h2>
+    </div>
+  </div>
+</div>
+<mpf-person-component
+  habilitar-validacion-telefonos="true"
+  person-data="thirdStep.dataContractor.personData"
+  name="contractor"
+  codigo-compania="companyCode"
+  app-code="{{ appCode }}"
+  form-code="{{ formCodeCN }}"
+  hidden-fields="hiddenFields"
+  outdata="documentsChange(data)"
+  habilitar-validacion-listanegra-datos-contacto="true"
+>
+</mpf-person-component>
+
+<div class="container" ng-if="secondStep.isEmblem">
+  <div class="row">
+    <div class="col-md-4 mt-xs-2 mb-xs-2">
+      <div class="relive">
+        <label class="g-placeholder animated">Fecha de Expedición Brevete <span>*</span></label>
+      </div>
+      <div class="row">
+        <div class="col-xs-3">
+          <mpf-select
+            label="{
+              label: '',
+              required: true
+            }"
+            name="day"
+            ng-model="thirdStep.dataContractor.expirationDay"
+            text-field="Descripcion"
+            value-field="Codigo"
+            ng-required="true"
+            m-data-source="daySource"
+            m-empty-option="{ text: 'Día' }"
+            ng-disabled="">
+          </mpf-select>
+        </div>
+        <div class="col-xs-4">
+          <mpf-select
+            label="{
+              label: '',
+              required: true
+            }"
+            name="month"
+            ng-model="thirdStep.dataContractor.expirationMonth"
+            text-field="Descripcion"
+            value-field="Codigo"
+            ng-required="true"
+            m-data-source="monthSource"
+            m-empty-option="{ text: 'Mes' }"
+            ng-disabled="">
+          </mpf-select>
+        </div>
+        <div class="col-xs-3">
+          <mpf-select
+            label="{
+              label: '',
+              required: true
+            }"
+            name="year"
+            ng-model="thirdStep.dataContractor.expirationYear"
+            text-field="Descripcion"
+            value-field="Codigo"
+            ng-required="true"
+            m-data-source="yearSource"
+            m-empty-option="{ text: 'Año' }"
+            ng-disabled="">
+          </mpf-select>
+        </div>
+      </div>
+      <div
+        class="g-error"
+        ng-if="
+          frmProductData.day.$error.required && (!frmProductData.day.$pristine || frmProductData.$submitted) ||
+          frmProductData.month.$error.required && (!frmProductData.month.$pristine || frmProductData.$submitted) ||
+          frmProductData.year.$error.required && (!frmProductData.year.$pristine || frmProductData.$submitted)
+        "
+      >
+        * El campo Fecha de Expedición Brevete es requerido
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="mt-xs-4">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12 mb-xs-2">
+        <mpf-Checkbox
+          ng-model="thirdStep.correspondenciaFlag"
+          label="Utilizar como dirección de correspondencia">
+        </mpf-Checkbox>
+      </div>
+      <div class="col-md-12 mb-xs-2">
+        <mpf-Checkbox
+          ng-model="thirdStep.aseguradoFlag"
+          label="Los datos del asegurado son los mismos que los del contratante." >
+        </mpf-Checkbox>
+      </div>
+       <div class="col-md-12 mb-xs-2" ng-if="firstStep.isRucContratante">
+        <mpf-Checkbox
+          style="color:red ;"
+		  ng-model="thirdStep.accionistasSocios"
+		  label="¿La empresa contratante cuenta con accionista/socio/asociado con participación mayor a 25%?">
+        </mpf-Checkbox>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="container" ng-if="secondStep.isEmblem">
+  <div class="row">
+    <div class="col-md-4 mt-xs-2 mb-xs-2">
+      <mpf-input
+        label="{label: 'Score (Morosidad) ', required: true}"
+        name="nScore"
+        ng-model="thirdStep.dataContractor.scoreMorosidad"
+        disabled-view-model="true"
+        ng-disabled="true"
+      >
+      </mpf-input>
+    </div>
+  </div>
+</div>
+
+<div ng-if="!thirdStep.aseguradoFlag">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12">
+        <h2 class="g-sub-title pt-sm-2">Datos del Asegurado</h2>
+      </div>
+    </div>
+  </div>
+  <mpf-person-component
+    habilitar-validacion-telefonos="true"
+    person-data="thirdStep.dataContractor2"
+    name="insured"
+    codigo-compania="companyCode"
+    app-code="{{ appCode }}"
+    form-code="{{ formCodeAS }}"
+    hidden-fields="hiddenFields"
+    habilitar-validacion-listanegra-datos-contacto="true"
+  >
+  </mpf-person-component>
+</div>
+
+<div class="container">
+  <div class="row">
+    <div class="col-md-12 mt-xs-2 mb-xs-2" ng-show="!thirdStep.aseguradoFlag">
+      <mpf-Checkbox
+        ng-model="thirdStep.correspondenciaFlag2"
+        label="Utilizar como dirección de correspondencia">
+      </mpf-Checkbox>
+    </div>
+  </div>
+</div>
+
+
+<div ng-if="thirdStep.accionistasSocios && firstStep.isRucContratante">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-5">
+        <h2 class="g-sub-title">Datos de los Accionistas/socios/asociado</h2>
+      </div>
+      <div class="col-md-7">
+        <a class="item-title mt-xs-1 gH3" href="" ng-click="addAccionista();">
+            <span class="ico-mapfre_45_agregarusuario"></span>
+             Agregar otro accionistas/socios/asociado
+        </a>
+      </div>
+    </div>
+</div>
+  <div ng-repeat="socio in thirdStep.accionistas">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-4 mb-xs-2 no-mb-md">
+          <div class="row">
+            <div class="col-xs-10">
+              <h2 class="g-sub-title gH3">Accionista {{ $index + 1 }} </h2>
+          </div>
+          <div ng-if="$index!=0" class="col-xs-2" >
+            <a class="item-title mt-xs-1 gH3" href="" ng-click="removeAccionista($index);">
+              <span class="ico-mapfre_48_cerrar ico-delete"></span>
+            </a>
+          </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <mpf-person-component
+    text-clean="socio"
+    person-data="socio"
+    name="socio-{{$index}}"
+    codigo-compania="companyCode"
+    app-code="{{ appCode }}"
+    form-code="{{formCodeAccionista}}"
+    editable="true"
+    habilitar-validacion-telefonos="true">
+  </mpf-person-component>
+  </div>
+</div>
+
+<mpf-contractor-vehicle-details
+  data="thirdStep.vehicleDetailsContractor"
+  is-Valid="vehicleDetailsValid">
+</mpf-contractor-vehicle-details>
+
+<div class="g-section-inner" ng-if="secondStep.isEmblem">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12">
+        <h2 class="g-sub-title g-myd-subtitle mb-1">Datos adicionales del auto</h2>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12 mb-1">
+        <div class="row">
+          <div class="col-xs-3">
+            <mpf-select
+              label="{
+                label: 'Transmisión del vehículo ',
+                required: true
+              }"
+              name="nVehicleTransmission"
+              ng-model="thirdStep.vehicleDetailsContractor.VehicleTransmission"
+              text-field="Descripcion"
+              value-field="Codigo"
+              ng-required="true"
+              m-data-source="transmissionTypeList"
+              m-empty-option="{ text: 'Seleccione' }"
+              mpf-validation="required"
+            >
+            </mpf-select>
+            <div class="g-error" ng-show="frmProductData.nVehicleTransmission.$invalid && !frmProductData.nVehicleTransmission.$pristine">
+              * Ingrese una transmisión
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Button -->
+<div class="g-section">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-4 mb-xs-1">
+        <span class="gCGray3">*Campos obligatorios</span>
+      </div>
+      <div class="col-md-4">
+        <a class="g-btn g-btn-verde block" ng-click="nextStep()">Siguiente</a>
+      </div>
+    </div>
+  </div>
+</div>
+</form>

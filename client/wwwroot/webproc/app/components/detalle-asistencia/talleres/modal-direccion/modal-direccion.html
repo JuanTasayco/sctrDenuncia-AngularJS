@@ -1,0 +1,95 @@
+<div class="clearfix" data-ng-form="$ctrl.frmDireccion">
+  <button type="button" class="close g-close-modal" data-ng-click="$ctrl.close()">
+    <span class="ico-mapfre_46_cancelaroff"></span>
+  </button>
+  <div class="container">
+    <div class="row mb-xs-3">
+      <div class="col-md-12">
+        <h2 class="text-center g-title-modal mb-xs-1">
+            {{$ctrl.areThereDirecciones ? 'Elige una sucursal' : '¿Estás seguro de elegir este taller?'}}
+        </h2>
+      </div>
+    </div>
+    <div data-ng-if="!$ctrl.areThereDirecciones">
+      <div class="clearfix mb-xs-3">
+        <div class="col-md-12 mb-xs-1">
+          <span class="search-result-label asistencia-label"><b>{{$ctrl.datos.nombreTaller}}</b></span>
+        </div>
+        <div class="col-xs-12 col-sm-4 search-result g-border-right mb-xs-1 mb-sm-0">
+          <span class="search-result-label"><b>DEDUCIBLE:</b></span>
+          <div class="row">
+            <div class="col-md-12">
+              <span class="search-result-label">Monto superior a:</span>
+              <span class="search-result-data">{{$ctrl.datos.montoSuperior}}</span>
+            </div>
+            <div class="col-md-12">
+              <span class="search-result-data">!{{$ctrl.datos.montoIndemnizable}}% del monto indemnizable</span>
+            </div>
+          </div>
+        </div>
+        <div class="col-xs-12 col-sm-4 search-result mb-xs-1 mb-sm-0">
+          <div class="row">
+            <div class="col-md-12">
+              <span class="search-result-label"><b>TIPO DE TALLER:</b></span>
+              <span class="search-result-data">{{$ctrl.datos.nombreTipoTaller}}</span>
+            </div>
+            <div class="col-md-12">
+              <span class="search-result-label">
+                <span class="ico-mapfre_25_ubicacion search-result-ico u-txt-size--18"></span>&nbsp;
+              </span>
+              <span class="search-result-data">{{$ctrl.datos.direccionTaller}}<span>
+            </div>
+            <div class="col-md-12" data-ng-show="$ctrl.datos.telefonoTaller">
+              <span class="search-result-label">
+                <span class="ico-mapfre_16_llamar search-result-ico u-txt-size--18"></span>&nbsp;
+              </span>
+              <span class="search-result-data">{{$ctrl.datos.telefonoTaller}}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row g-text-center-xs mb-xs-4" data-ng-if="$ctrl.areThereDirecciones">
+      <div class="col-sm-4 u-float-align">
+        <wp-cbo-direccion-taller
+          data-label="{label: 'Dirección del taller', required: true}"
+          data-ng-model="$ctrl.cboDireccion"
+          data-option-default="{enterData: true}"
+          data-taller="$ctrl.datos"
+          data-set-model-by-this-key="$ctrl.taller.direccionTallerVehiculo"
+          name="nDireccionTaller"
+        >
+        </wp-cbo-direccion-taller>
+        <div
+          class="g-error g-text-left-xs"
+          data-ng-show="$ctrl.frmDireccion.nDireccionTaller.$invalid && !$ctrl.frmDireccion.nDireccionTaller.$pristine"
+        >
+          Este campo es obligatorio
+        </div>
+      </div>
+    </div>
+    <div class="row g-text-center-xs">
+      <div
+        class="col-xs-12 col-md-4 u-float-align"
+        data-ng-if="!$ctrl.areThereDirecciones"
+      >
+        <button
+          class="g-btn col-xs-12 mt-xs-1 g-btn-transparent"
+          data-ng-click="$ctrl.cerrar()"
+          type="button"
+        >
+          Cancelar
+        </button>
+      </div>
+      <div class="col-xs-12 col-md-4 u-float-align">
+        <button
+          class="col-xs-12 mt-xs-1 g-btn g-btn-verde"
+          data-ng-click="$ctrl.realizarCb()"
+          type="button"
+        >
+        {{$ctrl.areThereDirecciones ? 'Continuar' : 'Sí'}}
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

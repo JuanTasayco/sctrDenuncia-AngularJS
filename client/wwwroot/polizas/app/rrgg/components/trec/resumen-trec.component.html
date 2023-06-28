@@ -1,0 +1,129 @@
+<contratante contratante="$ctrl.resumen"></contratante>
+<div class="row">
+  <div class="col-sm-6 mb-xs-1 mb-sm-2">
+    <h2 class="page-rrgg__table-title fwBold">Datos de equipos</h2>
+  </div>
+</div>
+<form name="frmProductosResumen">
+  <equipos cotizacion="$ctrl.resumen" validate="true" form="frmProductosResumen"></equipos>
+</form>
+<div class="row">
+  <div class="col-sm-6 mb-xs-1 mb-sm-2">
+    <h2 class="page-rrgg__table-title fwBold">Sumas aseguradas</h2>
+  </div>
+</div>
+<div class="g-list-md g-box gBgcGray5 pt-xs-2 pb-xs-2 pl-xs-2 pr-xs-2">
+  <ul class="row page-rrgg__table-list">
+    <li class="col-sm-4 clearfix mb-xs-2 page-rrgg__table-list-item">
+      <div class="col-xs-4 item-label"><span class="ico-mapfre_82_circle ico-bullet"></span>Cobertura Básica TREC</div>
+      <div class="col-xs-8 item-dato ng-binding">
+        {{$ctrl.resumen.ValorEquipos | currency: $ctrl.currencyType($ctrl.resumen.Moneda.Codigo) }}
+      </div>
+    </li>
+    <li class="col-sm-4 clearfix mb-xs-2 page-rrgg__table-list-item">
+      <div class="col-xs-4 item-label"><span class="ico-mapfre_82_circle ico-bullet"></span>HMCCDMVT (en agregado
+        vigencia)</div>
+      <div class="col-xs-8 item-dato ng-binding"> {{$ctrl.resumen.ValorEquipos | currency:
+        $ctrl.currencyType($ctrl.resumen.Moneda.Codigo) }}</div>
+    </li>
+    <li class="col-sm-4 clearfix mb-xs-2 page-rrgg__table-list-item">
+      <div class="col-xs-4 col-sm-7 item-label"><span class="ico-mapfre_82_circle ico-bullet"></span>Gastos adicionales
+        por horas extra, trabajo nocturno, trabajo en feriados
+      </div>
+      <div class="col-xs-8 col-sm-5 item-dato ng-binding">{{$ctrl.resumen.GastosAdicionales | currency:
+        $ctrl.currencyType($ctrl.resumen.Moneda.Codigo) }}</div>
+    </li>
+    <li class="col-sm-4 clearfix mb-xs-2 page-rrgg__table-list-item">
+      <div class="col-xs-4 item-label"><span class="ico-mapfre_82_circle ico-bullet"></span>Flete aéreo</div>
+      <div class="col-xs-8 item-dato ng-binding">{{$ctrl.resumen.FleteAereo | currency:
+        $ctrl.currencyType($ctrl.resumen.Moneda.Codigo) }}</div>
+    </li>
+    <li ng-if="$ctrl.resumen.ContrataMed === $ctrl.contrata.Codigo" class="col-sm-4 clearfix mb-xs-2 page-rrgg__table-list-item">
+      <div class="col-xs-4 item-label"><span class="ico-mapfre_82_circle ico-bullet"></span>Traslado por sus propios
+        medios</div>
+      <div class="col-xs-8 item-dato ng-binding">Valor de Reposición por equipo</div>
+    </li>
+    <li ng-if="$ctrl.resumen.ContrataNac === $ctrl.contrata.Codigo" class="col-sm-4 clearfix mb-xs-2 page-rrgg__table-list-item">
+      <div class="col-xs-4 item-label"><span class="ico-mapfre_82_circle ico-bullet"></span>Transporte Nacional</div>
+      <div class="col-xs-8 item-dato ng-binding">Valor de Reposición por equipo</div>
+    </li>
+  </ul>
+  <ul class="row page-rrgg__table-list">
+    <li class="col-sm-4 clearfix mb-xs-2 page-rrgg__table-list-item">
+      <div class="col-xs-4 item-label"><span class="ico-mapfre_82_circle ico-bullet"></span>Prima Neta</div>
+      <div class="col-xs-8 item-dato ng-binding">{{$ctrl.resumen.TasaNeta | number : 2}} %</div>
+    </li>
+    <li class="col-sm-4 clearfix mb-xs-2 page-rrgg__table-list-item">
+      <div class="col-xs-4 item-label"><span class="ico-mapfre_82_circle ico-bullet"></span>Prima Comercial por el Período  </div>
+      <div class="col-xs-8 item-dato ng-binding">{{$ctrl.resumen.PrimaComercial | currency:
+        $ctrl.currencyType($ctrl.resumen.Moneda.Codigo) }}</div>
+    </li>
+    <li class="col-sm-4 clearfix mb-xs-2 page-rrgg__table-list-item">
+      <div class="col-xs-4 item-label"><span class="ico-mapfre_82_circle ico-bullet"></span>Prima Comercial + IGV por el Período  </div>
+      <div class="col-xs-8 item-dato ng-binding">{{$ctrl.resumen.PrimaComercialIgv | currency:
+        $ctrl.currencyType($ctrl.resumen.Moneda.Codigo) }}</div>
+    </li>
+    <li class="col-sm-4 clearfix mb-xs-2 page-rrgg__table-list-item" ng-if="$ctrl.resumen.PrimaNetaPeriodo">
+      <div class="col-xs-4 item-label"><span class="ico-mapfre_82_circle ico-bullet"></span>Prima Neta por el periodo  </div>
+      <div class="col-xs-8 item-dato ng-binding">{{$ctrl.resumen.PrimaNetaPeriodo | currency: 'S/.' }}</div>
+    </li>
+    <li class="col-sm-4 clearfix mb-xs-2 page-rrgg__table-list-item" ng-if="$ctrl.resumen.PrimaNetaPeriodoIgv">
+      <div class="col-xs-4 item-label"><span class="ico-mapfre_82_circle ico-bullet"></span>Prima Total por el periodo  </div>
+      <div class="col-xs-8 item-dato ng-binding">{{$ctrl.resumen.PrimaNetaPeriodoIgv | currency: 'S/.'   }}</div>
+    </li>
+  </ul>
+  <ul ng-if="$ctrl.resumen.ContrataRc === $ctrl.contrata.Codigo" class="row page-rrgg__table-list">
+    <li class="col-sm-8 clearfix mb-xs-2 page-rrgg__table-list-item">
+      <div class="col-xs-4 col-sm-6 item-label"><span class="ico-mapfre_82_circle ico-bullet"></span>Responsabilidad
+        Civil Extracontractual (en agregado vigencia)
+      </div>
+      <div class="col-xs-8 col-sm-6 item-dato ng-binding">{{$ctrl.resumen.ResponsabilidadCivil | currency:
+        $ctrl.currencyType($ctrl.resumen.Moneda.Codigo) }}</div>
+    </li>
+  </ul>
+</div>
+
+<div class="row">
+  <div class="col-sm-6 mb-xs-1 mb-sm-2">
+    <h2 class="page-rrgg__table-title fwBold">Deducibles</h2>
+  </div>
+</div>
+<div class="g-list-md g-box gBgcGray5 pt-xs-2 pb-xs-2 pl-xs-2 pr-xs-2">
+  <ul class="row page-rrgg__table-list">
+    <li class="col-sm-4 clearfix mb-xs-2 page-rrgg__table-list-item">
+      <div class="col-xs-4 item-label"><span class="ico-mapfre_82_circle ico-bullet"></span>Cobertura Básica TREC</div>
+      <div class="col-xs-8 item-dato ng-binding">{{$ctrl.resumen.DeducibleCoberturaBasica}}</div>
+    </li>
+    <li class="col-sm-4 clearfix mb-xs-2 page-rrgg__table-list-item">
+      <div class="col-xs-4 item-label"><span class="ico-mapfre_82_circle ico-bullet"></span>HMCCDMVT</div>
+      <div class="col-xs-8 item-dato ng-binding">{{$ctrl.resumen.DeducibleCoberturaBasica}}</div>
+    </li>
+    <li class="col-sm-4 clearfix mb-xs-2 page-rrgg__table-list-item">
+      <div class="col-xs-4 col-sm-7 item-label"><span class="ico-mapfre_82_circle ico-bullet"></span>Gastos adicionales
+        por horas extra, trabajo nocturno, trabajo en feriados
+      </div>
+      <div class="col-xs-8 col-sm-5 item-dato ng-binding">{{$ctrl.resumen.DeducibleGastosAdministrativos}}</div>
+    </li>
+    <li class="col-sm-4 clearfix mb-xs-2 page-rrgg__table-list-item">
+      <div class="col-xs-4 item-label"><span class="ico-mapfre_82_circle ico-bullet"></span>Flete aéreo</div>
+      <div class="col-xs-8 item-dato ng-binding">{{$ctrl.resumen.DeducibleGastosAdministrativos}}</div>
+    </li>
+    <li ng-if="$ctrl.resumen.ContrataMed === $ctrl.contrata.Codigo" class="col-sm-4 clearfix mb-xs-2 page-rrgg__table-list-item">
+      <div class="col-xs-4 item-label"><span class="ico-mapfre_82_circle ico-bullet"></span>Traslado por sus propios
+        medios</div>
+      <div class="col-xs-8 item-dato ng-binding">{{$ctrl.resumen.DeducibleCoberturaBasica}}</div>
+    </li>
+    <li ng-if="$ctrl.resumen.ContrataNac === $ctrl.contrata.Codigo" class="col-sm-4 clearfix mb-xs-2 page-rrgg__table-list-item">
+      <div class="col-xs-4 item-label"><span class="ico-mapfre_82_circle ico-bullet"></span>Transporte Nacional</div>
+      <div class="col-xs-8 item-dato ng-binding">{{$ctrl.resumen.DeducibleCoberturaBasica}}</div>
+    </li>
+  </ul>
+  <ul ng-if="$ctrl.resumen.ContrataRc === $ctrl.contrata.Codigo" class="row page-rrgg__table-list">
+    <li class="col-sm-8 clearfix mb-xs-2 page-rrgg__table-list-item">
+      <div class="col-xs-4 col-sm-6 item-label"><span class="ico-mapfre_82_circle ico-bullet"></span>Responsabilidad
+        Civil Extracontractual (en agregado vigencia)
+      </div>
+      <div class="col-xs-8 col-sm-6 item-dato ng-binding">{{$ctrl.resumen.DeducibleResponsabilidadCivil}}</div>
+    </li>
+  </ul>
+</div>

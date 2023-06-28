@@ -1,0 +1,171 @@
+<section class="g-page g-page-documents">
+  <div class="Mantenimientos">
+    <div class="g-title">
+      <div class="container">
+        <div class="row">
+          <div class="col-xs-12 mb-xs-2 no-mb-md">
+            <span class="ico-mapfre_84_circleleft ico-title"></span>
+            <h1>Mantenimientos</h1>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- TAB -->
+    <div class="g-section g-section-tabs g-overflow-hidden-xs tabs-responsive" ng-class="{'showTabs': showTabs}">
+      <div class="container">
+        <span class="tabs__more glyphicon glyphicon-chevron-down hidden-sm hidden-md hidden-lg" ng-click="showTabs = !showTabs"></span>
+        <uib-tabset justified="true">
+          <uib-tab index="0">
+            <uib-tab-heading><span>AUDITORES</span></uib-tab-heading>
+            <div class="row">
+              <div class="col-md-3 col-sm-4 col-md-offset-6">
+                <a class="g-btn g-btn-green-border second-design block {{disabledButton}} mt-xs-2" ng-click="inactivarAuditor()">Inactivar auditor</a>
+              </div>
+              <div class="col-md-3 col-sm-4 mb-xs-1 no-mb-sm mt-xs-2">
+                <a class="g-btn g-btn-verde second-design block" ng-click="fnShowModalAuditarNuevo(0, item)">Auditor nuevo</a>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-12 mt-xs-2">
+                <div class="clearfix g-tbl-wrapper">
+                  <div class="clearfix table__1024">
+                    <ul height-row class="g-row-fz12 g-tbl-row gBgcGray5 pt-xs-1">
+                      <li class="g-col g-col-xs col-4-dktp tbl-item"></li>
+                      <li class="g-col g-col-xs col-18-dktp tbl-item item-title">NOMBRE</li>
+                      <li class="g-col g-col-xs col-16-dktp tbl-item item-title">DOCUMENTO</li>
+                      <li class="g-col g-col-xs col-14-dktp tbl-item item-title text-center">TIPO DE PERSONA</li>
+                      <li class="g-col g-col-xs col-18-dktp tbl-item item-title">CORREO ELECTRÓNICO</li>
+                      <li class="g-col g-col-xs col-12-dktp tbl-item item-title">INGRESO</li>
+                      <li class="g-col g-col-xs col-10-dktp tbl-item item-title text-center">ESTADO</li>
+                      <li class="g-col g-col-xs col-8-dktp tbl-item item-title text-center">ACCIONES</li>
+                    </ul>
+                    <div class="mb-xs-1">
+                      <ul height-row class="g-row-fz12 g-tbl-row pt-xs-1 g-border-bottom-xs" ng-repeat="item in auditores">
+                        <li class="g-col g-col-xs col-4-dktp tbl-item text-center"><mpf-checkbox class="fw-normal" name="nCheck" ng-model="item.mCheck" label="" ng-change="showInactivarAuditor(item.mCheck)"></mpf-checkbox></li>
+                        <li class="g-col g-col-xs col-18-dktp tbl-item g-text-uppercase">{{item.fullName}}</li>
+                        <li class="g-col g-col-xs col-16-dktp tbl-item g-text-uppercase">{{item.typeDocumentCode}} {{item.documentNumber}}</li>
+                        <li class="g-col g-col-xs col-14-dktp tbl-item text-center">{{item.typePerson == 'J' ? "JURIDICA" : "NATURAL"}}</li>
+                        <li class="g-col g-col-xs col-18-dktp tbl-item g-text-uppercase"><div class="g-cut-text" uib-popover="{{item.mail}}" popover-trigger="'mouseenter'">{{item.mail}}</div></li>
+                        <li class="g-col g-col-xs col-12-dktp tbl-item g-text-uppercase">{{item.dateCreate}}</li>
+                        <li class="g-col g-col-xs col-10-dktp tbl-item text-center g-text-uppercase"><span class="mb-xs-1" data-ng-class="{' c-tag u-bg--verde-2': item.state== 'VIGENTE', 'c-tag u-bg--transparente': item.state== 'ANULADO'}">{{item.state}}</span></li>
+                        <li class="g-col g-col-xs col-8-dktp tbl-item gCGray3 text-center">
+                          <div class="col-xs-12 g-col-xs middle cnt-item">
+                            <a href="" ng-click="fnShowModalAuditarNuevo(1, item)"><span class="gnIcon-md ico-mapfre_228_editar"></span></a>
+                          </div>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </uib-tab>
+          <uib-tab index="1">
+            <uib-tab-heading><span>DIAGNÓSTICOS PRIORITARIOS</span></uib-tab-heading>
+            <div class="row">
+              <div class="col-md-3 col-sm-4 col-md-offset-9 mt-xs-2">
+                <a class="g-btn g-btn-verde second-design block" ng-click="fnShowModalAddDiagnostico()">AGREGAR DIAGNÓSTICO</a>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-12 mt-xs-2">
+                <div class="clearfix g-tbl-wrapper">
+                  <div class="clearfix table__1024">
+                    <ul  class="g-row-fz12 g-tbl-row gBgcGray5 pt-xs-1">
+                      <li class="g-col g-col-xs col-46-dktp tbl-item item-title">DIAGNÓSTICO</li>
+                      <li class="g-col g-col-xs col-19-dktp tbl-item item-title">USUARIO</li>
+                      <li class="g-col g-col-xs col-18-dktp tbl-item item-title text-center">FECHA</li>
+                      <li class="g-col g-col-xs col-17-dktp tbl-item item-title text-center">ACCIONES</li>
+                    </ul>
+                    <div class="mb-xs-1">
+                      <ul  class="g-row-fz12 g-tbl-row pt-xs-1 g-border-bottom-xs" ng-repeat="item in diagnostics">
+                        <li class="g-col g-col-xs col-46-dktp tbl-item">{{item.code}} {{item.diagnostic}}</li>
+                        <li class="g-col g-col-xs col-19-dktp tbl-item">{{item.user}}</li>
+                        <li class="g-col g-col-xs col-18-dktp tbl-item text-center">{{item.dateCreate}}</li>
+                        <li class="g-col g-col-xs col-17-dktp tbl-item gCGray3 text-center">
+                          <div class="col-xs-12 g-col-xs middle cnt-item">
+                            <a href="" ng-click="$ctrl.deleteDiagnostic(item.code)"><span class="gnIcon-md ico-mapfre_307_tacho"></span></a>
+                          </div>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </uib-tab>
+          <uib-tab index="2">
+            <uib-tab-heading><span>CLIENTES PRIORITARIOS</span></uib-tab-heading>
+            <div class="row">
+              <div class="col-md-3 col-sm-4 col-md-offset-9 mt-xs-2">
+                <a class="g-btn g-btn-verde second-design block" ng-click="fnShowModalBuscarCliente()">AGREGAR CLIENTE</a>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-12 mt-xs-2">
+                <div class="clearfix g-tbl-wrapper">
+                  <div class="clearfix table__1024">
+                    <ul  class="g-row-fz12 g-tbl-row gBgcGray5 pt-xs-1">
+                      <li class="g-col g-col-xs col-46-dktp tbl-item item-title">CLIENTE</li>
+                      <li class="g-col g-col-xs col-19-dktp tbl-item item-title">USUARIO</li>
+                      <li class="g-col g-col-xs col-18-dktp tbl-item item-title text-center">FECHA</li>
+                      <li class="g-col g-col-xs col-17-dktp tbl-item item-title text-center">ACCIONES</li>
+                    </ul>
+                    <div class="mb-xs-1">
+                      <ul  class="g-row-fz12 g-tbl-row pt-xs-1 g-border-bottom-xs" ng-repeat="item in clients">
+                        <li class="g-col g-col-xs col-46-dktp tbl-item">{{item.client}}</li>
+                        <li class="g-col g-col-xs col-19-dktp tbl-item">{{item.user}}</li>
+                        <li class="g-col g-col-xs col-18-dktp tbl-item text-center">{{item.dateCreate}}</li>
+                        <li class="g-col g-col-xs col-17-dktp tbl-item gCGray3 text-center">
+                          <div class="col-xs-12 g-col-xs middle cnt-item">
+                            <a href="" ng-click="$ctrl.deleteClient(item.code)"><span class="gnIcon-md ico-mapfre_307_tacho"></span></a>
+                          </div>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </uib-tab>
+          <uib-tab index="3">
+            <uib-tab-heading><span>COBERTURAS MINSA</span></uib-tab-heading>
+            <div class="row">
+              <div class="col-md-12 mt-xs-2">
+                <div class="clearfix g-tbl-wrapper">
+                  <div class="clearfix table__1024">
+                    <ul class="g-row-fz12 g-tbl-row gBgcGray5 pt-xs-1">
+                      <li class="g-col g-col-xs col-25-dktp tbl-item item-title">TIPO ATENCIÓN</li>
+                      <li class="g-col g-col-xs col-19-dktp tbl-item item-title">PORCENTAJE COBERTURA</li>
+                      <li class="g-col g-col-xs col-18-dktp tbl-item item-title text-center">INICIO VIGENCIA</li>
+                      <li class="g-col g-col-xs col-17-dktp tbl-item item-title text-center">EDITAR</li>
+                      <li class="g-col g-col-xs col-17-dktp tbl-item item-title text-center">LOG-CAMBIOS</li>
+                    </ul>
+                    <div class="mb-xs-1">
+                      <ul class="g-row-fz12 g-tbl-row pt-xs-1 g-border-bottom-xs"
+                        ng-repeat="item in coverageMinsa">
+                        <li class="g-col g-col-xs col-25-dktp tbl-item g-text-uppercase">{{item.attentionType}}</li>
+                        <li class="g-col g-col-xs col-19-dktp tbl-item g-text-uppercase">{{item.percentCover}}</li>
+                        <li class="g-col g-col-xs col-18-dktp tbl-item g-text-uppercase">{{item.dateRegCover}}</li>
+                        <li class="g-col g-col-xs col-17-dktp tbl-item gCGray3 text-center">
+                          <div class="col-xs-12 g-col-xs middle cnt-item">
+                            <a href="" ng-click="functShowModalEditCoverage(item)"><span class="gnIcon-md ico-mapfre_228_editar"></span></a>
+                          </div>
+                        </li>
+                        <li class="g-col g-col-xs col-17-dktp tbl-item gCGray3 text-center">
+                          <div class="col-xs-12 g-col-xs middle cnt-item"> 
+                            <a ng-click="funcShowModalLogCoverage(item)"><span class="gnIcon-md ico-mapfre_303_informacion"></span></a>
+                          </div>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </uib-tab>
+        </uib-tabset>
+      </div>
+    </div>
+  </div>
+</section>

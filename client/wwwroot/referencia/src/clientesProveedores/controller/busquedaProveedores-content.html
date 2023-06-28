@@ -1,0 +1,46 @@
+<ul class="lista-group u-data-to-load u-br-5">
+  <li data-ng-repeat="item in $ctrl.pageData"
+      class="lista__item lista__item--card lista__item--prov">
+    <div class="lista__header">
+      <div class="lista-header__col u-align-v">
+        <span class="lista-title__ico ico-mapfre_34_salud hidden-xs hidden-sm"></span>
+        <p class="lista-title__txt">{{item.nombre}}</p>
+      </div>
+    </div>
+    <div class="lista__content">
+      <p class="panel__caption panel__caption--ubi">
+        {{item.departamento}}
+        <span data-ng-show="item.provincia">, </span>
+        {{item.provincia}}</p>
+      <ul class="lista__body lista__body">
+        <li class="lista-body__item lista-body__item--prov" data-ng-if="item.categoria">{{item.categoria}}</li>
+        <li class="lista-body__item lista-body__item--prov" data-ng-if="item.entidad">{{item.entidad}}</li>
+        <li class="lista-body__item lista-body__item--prov" data-ng-if="item.convenioStr">{{item.convenioStr}}</li>
+      </ul>
+    </div>
+    <a data-ng-click="$ctrl.verDetalleProveedor(item.id)" class="panel__link-more panel__link-more--search-provee u-arrow-right">Ver detalle</a>
+  </li>
+</ul>
+<h2 class="u-txt-center panel__title"
+    data-ng-if="$ctrl.isEmptySearchResult()">No se encontraron resultados para tu búsqueda</h2>
+
+<div  class="paginator u-data-to-load"
+      data-ng-if="$ctrl.totalItems > 0">
+  <div class="paginator__box">
+    <div>
+      <a  class="u-arrow-left"
+          data-ng-click="$ctrl.prevPage()"
+          data-ng-hide="!$ctrl.canBack()">
+            Anterior
+      </a>
+    </div>
+    <div class="paginator__msg">Pagina {{$ctrl.currentPage}} de {{$ctrl.totalPaginas}} / Total: {{$ctrl.totalItems}}</div>
+    <div>
+      <a  class="u-arrow-right"
+          data-ng-click="$ctrl.nextPage()"
+          data-ng-hide="!$ctrl.canNext()">
+            Siguiente
+      </a>
+    </div>
+  </div>
+</div>

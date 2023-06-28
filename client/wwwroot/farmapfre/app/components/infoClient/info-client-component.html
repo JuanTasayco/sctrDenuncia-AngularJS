@@ -1,0 +1,270 @@
+<uib-accordion close-others="oneAtATime">
+    <div uib-accordion-group class="g-acordeon panel-heading remove_padding" is-open="$ctrl.open">
+        <div uib-accordion-heading>
+            <b>Información del cliente</b>
+            <i class="pull-right glyphicon" 
+                ng-class="{'glyphicon-chevron-down': $ctrl.open, 'glyphicon-chevron-right': !$ctrl.open}">
+            </i>
+            <a href="" 
+                class="pull-right" 
+                style="font-size: 20px; padding-right: 15px; margin-top: -5px;" 
+                title="Editar"
+                ng-model="$ctrl.data.edit"
+                ng-if="!$ctrl.data.edit && !$ctrl.config.readonly"
+                ng-click="$ctrl.editClick($event)">
+                <!-- <i class="ico-mapfre_228_editar g-link no-underline gnIcon-sm gCGray3"></i> -->
+                <i class="pull-right glyphicon glyphicon-edit"></i>
+            </a>
+        </div>
+        <div class="g-sec-information">
+            <form name="frmClient">
+            <div class="container">
+                <ul class="row client g-list-sm">
+                    <li class="col-md-4 clearfix cnt-item">
+                        <div class="col-sm-4 col-xs-6 item-label">Asegurado</div>
+                        <div class="col-sm-8 col-xs-6 item-dato">{{$ctrl.data.insured.fullName}}</div>
+                    </li>
+                    <li class="col-md-4 clearfix cnt-item">
+                        <div class="col-sm-4 col-xs-6 item-label">{{$ctrl.data.insured.documentType.description}}</div>
+                        <div class="col-sm-8 col-xs-6 item-dato">{{$ctrl.data.insured.documentNumber}}</div>
+                    </li>
+                    <li class="col-md-4 clearfix cnt-item">
+                        <div class="col-sm-4 col-xs-6 col-xs-6 item-label">Copago</div>
+                        <div class="col-sm-8 col-xs-6 item-dato">{{$ctrl.data.attention.porcCopago ? $ctrl.data.attention.porcCopago + '%' : 'SIN COBERTURA'}}</div>
+                    </li>
+                </ul>
+                <ul class="row g-list-sm">
+                    <li class="col-md-4 clearfix cnt-item">
+                        <div class="col-sm-4 col-xs-6 item-label">Cliente</div>
+                        <div class="col-sm-8 col-xs-6 item-dato">{{$ctrl.data.client.name ? $ctrl.data.client.name : ($ctrl.data.orderOrigin==4 ? 'NO APLICA' : null)}}</div>
+                    </li>
+                    <li class="col-md-4 clearfix cnt-item">
+                            <div class="col-sm-4 col-xs-6 item-label">Lugar de Atenci&oacute;n</div>
+                        <div class="col-sm-8 col-xs-6 item-dato">{{$ctrl.data.attention.clinic.name ? $ctrl.data.attention.clinic.name : ($ctrl.data.orderOrigin==4 ? 'NO APLICA' : null)}}</div>
+                    </li>
+                    <li class="col-md-4 clearfix cnt-item">
+                        <div class="col-sm-4 col-xs-6 item-label">Fecha y Hora</div>
+                        <div class="col-sm-8 col-xs-6 item-dato">{{$ctrl.data.attention.dateAttentionString ? $ctrl.data.attention.dateAttentionString : ($ctrl.data.orderOrigin==4 ? 'NO APLICA' : null)}}</div>
+                    </li>
+                </ul>
+                <hr class="separador"/>
+                <ul class="row g-list-sm">
+                    <li class="col-md-4 clearfix cnt-item">
+                            <div class="col-sm-4 col-xs-6 item-label" ng-if="!$ctrl.data.edit">Email</div>
+                            <div class="col-sm-8 col-xs-6 item-dato" ng-if="!$ctrl.data.edit">{{$ctrl.data.insured.email}}</div>
+
+                            <div class="col-sm-12 col-xs-6" ng-if="$ctrl.data.edit">
+                                <mpf-input name="nEmail"
+                                    label="{label: 'Email ', required: true}"
+                                    ng-required="true"
+                                    data-ng-model="$ctrl.frm.email">
+                                </mpf-input>
+                            </div>
+                    </li>
+                    <li class="col-md-4 clearfix cnt-item">
+                        <div class="col-sm-4 col-xs-6 item-label" ng-if="!$ctrl.data.edit">Tel&eacute;fono</div>
+                        <div class="col-sm-8 col-xs-6 item-dato" ng-if="!$ctrl.data.edit">{{$ctrl.data.insured.phoneNumber}}</div>
+                        <div class="col-sm-12 col-xs-6" ng-if="$ctrl.data.edit">
+                            <mpf-input name="nPhoneNumber"
+                                label="{label: 'Tel&eacute;fono ', required: true}"
+                                ng-required="true"
+                            ng-Maxlength="9"
+                                data-ng-model="$ctrl.frm.phoneNumber">
+                            </mpf-input>
+                        </div>
+                    </li>
+                    <li class="col-md-4 clearfix cnt-item">
+                        <div class="col-sm-4 col-xs-6 item-label" ng-if="!$ctrl.data.edit">Segundo Tel&eacute;fono</div>
+                        <div class="col-sm-8 col-xs-6 item-dato" ng-if="!$ctrl.data.edit">{{$ctrl.data.insured.phoneNumber2}}</div>
+                        <div class="col-sm-12 col-xs-6" ng-if="$ctrl.data.edit">
+                            <mpf-input name="nPhoneNumber2"
+                                label="{label: 'Segundo Tel&eacute;fono', required: false}"
+                                ng-Maxlength="9"
+                                data-ng-model="$ctrl.frm.phoneNumber2">
+                            </mpf-input>
+                        </div>
+                    </li>
+                </ul>
+                <ul class="row g-list-sm">
+                  <li class="col-md-4 clearfix cnt-item">
+                        <div class="col-sm-4 col-xs-6 col-xs-6 item-label" ng-if="!$ctrl.data.edit">Departamento</div>
+                        <div class="col-sm-8 col-xs-6 item-dato nvt-paragraph-break" ng-if="!$ctrl.data.edit">{{$ctrl.data.insured.address.department.description}}</div>
+
+                        <div class="col-sm-12 col-xs-6" ng-if="$ctrl.data.edit">
+                            <mpf-select name="nDepartment"
+                                label="{label: 'Departamento ', required: true}"
+                                m-Empty-Option = "{enterData : true}"
+                                data-m-data-source="$ctrl.departments"
+                                data-ng-model="$ctrl.frm.address.department"
+                                data-text-field="description"
+                                data-value-field="id"
+                                ng-required="true"
+                                ng-change="$ctrl.changeDepartment($ctrl.frm.address.department.id)">
+                            </mpf-select>
+                            <div class="g-error" data-ng-show="frmClient.nDepartment.$invalid && !frmClient.nDepartment.$pristine">
+                            * Seleccione un departamento
+                            </div>
+                        </div>
+                  </li>
+                  <li class="col-md-4 clearfix cnt-item">
+                        <div class="col-sm-4 col-xs-6 item-label" ng-if="!$ctrl.data.edit">Provincia</div>
+                        <div class="col-sm-8 col-xs-6 item-dato nvt-paragraph-break" ng-if="!$ctrl.data.edit">{{$ctrl.data.insured.address.province.description}}</div>
+
+                        <div class="col-sm-12 col-xs-6" ng-if="$ctrl.data.edit">
+                            <mpf-select name="nProvince"
+                                label="{label: 'Provincia ', required: true}"
+                                m-Empty-Option = "{enterData : true}"
+                                data-m-data-source="$ctrl.provinces"
+                                data-ng-model="$ctrl.frm.address.province"
+                                data-text-field="description"
+                                data-value-field="id"
+                                ng-required="true"
+                                ng-change="$ctrl.changeProvince($ctrl.frm.address.province.id)">
+                            </mpf-select>
+                            <div class="g-error" data-ng-show="frmClient.nProvince.$invalid && !frmClient.nProvince.$pristine">
+                            * Seleccione una provincia
+                            </div>
+                        </div>
+
+                  </li>
+                  <li class="col-md-4 clearfix cnt-item">
+                        <div class="col-sm-4 col-xs-6 item-label" ng-if="!$ctrl.data.edit">Distrito</div>
+                        <div class="col-sm-8 col-xs-6 item-dato" ng-if="!$ctrl.data.edit">{{$ctrl.data.insured.address.district.description}}</div>
+
+                        <div class="col-sm-12 col-xs-6" ng-if="$ctrl.data.edit">
+                            <mpf-select name="nDistrict"
+                                label="{label: 'Distrito ', required: true}"
+                                m-Empty-Option = "{enterData : true}"
+                                data-m-data-source="$ctrl.districts"
+                                data-ng-model="$ctrl.frm.address.district"
+                                data-text-field="description"
+                                data-value-field="id"
+                                ng-required="true">
+                            </mpf-select>
+                            <div class="g-error" data-ng-show="frmClient.nDistrict.$invalid && !frmClient.nDistrict.$pristine">
+                            * Seleccione un Distrito
+                            </div>
+                        </div>
+                  </li>
+                </ul>
+                <ul class="row g-list-sm">
+                    <li class="col-md-4 clearfix cnt-item">
+                            <div class="col-sm-4 col-xs-6 item-label" ng-if="!$ctrl.data.edit">Direcci&oacute;n de entrega</div>
+                            <div class="col-sm-8 col-xs-6 item-dato nvt-paragraph-break" ng-if="!$ctrl.data.edit">{{$ctrl.data.insured.address.description}}</div>
+                            
+                            <div class="col-sm-12 col-xs-6" ng-if="$ctrl.data.edit">
+                                <mpf-input name="nAddressDescription"
+                                    label="{label: 'Direcci&oacute;n ', required: true}"
+                                    ng-required="true"
+                                    data-ng-model="$ctrl.frm.address.description">
+                                </mpf-input>
+                            </div>
+                    </li>
+                  <li class="col-md-4 clearfix cnt-item">
+                        <div class="col-sm-4 col-xs-6 col-xs-6 item-label" ng-if="!$ctrl.data.edit">Referencia</div>
+                        <div class="col-sm-8 col-xs-6 item-dato nvt-paragraph-break" ng-if="!$ctrl.data.edit">{{$ctrl.data.insured.address.reference}}</div>
+
+                        <div class="col-sm-12 col-xs-6" ng-if="$ctrl.data.edit">
+                            <mpf-input name="nAddressReference"
+                                label="{label: 'Referencia', required: false}"
+                                data-ng-model="$ctrl.frm.address.reference">
+                            </mpf-input>
+                        </div>
+                  </li>
+                </ul>
+                <hr ng-if="$ctrl.data.orderOrigin==2" class="separador"/>
+                <ul ng-if="$ctrl.data.orderOrigin==2" class="row g-list-sm">
+                    <li class="col-md-4 clearfix cnt-item">
+                        <div class="col-sm-4 col-xs-6 item-label">Auditor</div>
+                        <div class="col-sm-8 col-xs-6 item-dato">{{$ctrl.data.teCuidamos.auditor.fullName}}</div>
+                    </li>
+                    <li class="col-md-4 clearfix cnt-item">
+                        <div class="col-sm-4 col-xs-6 item-label">Estado</div>
+                        <div class="col-sm-8 col-xs-6 item-dato">{{$ctrl.data.teCuidamos.status.description}}</div>
+                    </li>
+                    <li class="col-md-4 clearfix cnt-item">
+                            <div class="col-sm-4 col-xs-6 item-label">Observaci&oacute;n</div>
+                        <div class="col-sm-8 col-xs-6 item-dato">{{$ctrl.data.teCuidamos.observation}}</div>
+                    </li>
+                </ul>
+                <ul ng-if="$ctrl.data.orderOrigin==2" class="row g-list-sm">
+                    <li class="col-md-4 clearfix cnt-item">
+                      <div class="col-sm-4 col-xs-6 col-xs-6 item-label">Sede</div>
+                      <div class="col-sm-8 col-xs-6 item-dato nvt-paragraph-break">{{$ctrl.data.teCuidamos.branchOffice.description}}</div>
+                    </li>
+                  </ul>
+                    <hr ng-if="$ctrl.data.orderOrigin==3" class="separador"/>
+                    <ul ng-if="$ctrl.data.orderOrigin==3" class="row">
+                        <li class="col-md-4 clearfix cnt-item">
+                            <div class="col-sm-4 col-xs-6 item-label">M&eacute;dico</div>
+                            <div class="col-sm-8 col-xs-6 item-dato">{{$ctrl.data.consultation.doctor.fullName}}</div>
+                        </li>
+                        <li class="col-md-8 clearfix cnt-item" style="padding-left: 8px;">
+                            <div class="col-sm-2 col-xs-6 item-label">Diagn&oacute;sticos</div>
+                            <div class="col-sm-10 col-xs-6 item-dato">
+                                <div ng-repeat="diagnostic in $ctrl.data.consultation.diagnostics">
+                                    <label ng-if="!diagnostic.showPopover">
+                                        -  {{ diagnostic.description }} <br>
+                                    </label>
+                                    <button type="button"
+                                        class="g-text-uppercase"
+                                        style="border: 0; 
+                                        background-color: inherit; 
+                                        outline:none !important; 
+                                        outline-width: 0 !important; 
+                                        box-shadow: none; 
+                                        -moz-box-shadow: none; 
+                                        -webkit-box-shadow: none; 
+                                        padding: 0; 
+                                        text-align: left; 
+                                        color: #4c4c4c;"
+                                        uib-popover-template="dynamicPopover.templateUrl"
+                                        popover-placement="auto"
+                                        popover-trigger="'focus'"
+                                        ng-if="diagnostic.showPopover">
+                                            - {{$ctrl.truncText(diagnostic.description)}}
+                                    </button>
+
+                                    <script type="text/ng-template" id="diagnosticTooltipPlantilla.html" ng-if="diagnostic.showPopover">
+                                        <div style="max-width: 500px; max-height: 250px; overflow-x: hidden; overflow-y: auto;">
+                                            <p>
+                                                {{ diagnostic.description }}
+                                            </p>
+                                        </div>
+                                    </script>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+
+                    <!--INICIO: SECCION DE AUDITORIA-->
+                    <hr ng-if="$ctrl.audit.comments" class="separador"/>
+                    <ul ng-if="$ctrl.audit.comments" class="row">
+                        <li class="col-md-4 clearfix cnt-item">
+                            <div class="col-sm-4 col-xs-6 item-label">Observaciones de auditor&iacute;a</div>
+                            <div class="col-sm-8 col-xs-6 item-dato">{{$ctrl.audit.comments}}</div>
+                        </li>
+                    </ul>
+                    <!--FIN: SECCION DE AUDITORIA-->
+
+                    <div class="row g-text-right-xs pr-xs-2 relive" ng-if="$ctrl.data.edit">
+                        <div class="col-sm-8"></div>
+                        <div class="col-xs-12 col-sm-12 col-md-2 col-lg-2 u-float-align mb-xs-1">
+                            <a  class="col-md-12 col-xs-12 g-btn g-btn-transparent second-design"
+                                ng-click="$ctrl.cancel()">
+                                CANCELAR
+                            </a>
+                        </div>
+                        <div class="col-xs-12 col-sm-12 col-md-2 col-lg-2 u-float-align">
+                            <a class="col-md-12 col-xs-12 g-btn second-design g-btn-verde"
+                                ng-class="{disabled: frmClient.$invalid}"
+                                ng-click="$ctrl.save()">
+                                GUARDAR
+                            </a>
+                        </div>
+                    </div>
+            </div>
+            </form>
+        </div>
+    </div>
+</uib-accordion>

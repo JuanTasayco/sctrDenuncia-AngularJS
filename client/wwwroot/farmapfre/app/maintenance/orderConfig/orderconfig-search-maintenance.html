@@ -1,0 +1,162 @@
+<div class="g-title">
+  <div class="container">
+    <div class="row">
+      <div class="col-xs-9 col-sm-9 col-md-9 col-lg-9 pr-xs-0 pr-md-1 mt-1 title-box">
+        <h1>{{title}}</h1>
+      </div>
+      <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 pl-xs-0">
+        <div class="row g-text-right-xs pr-xs-2 relive">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 u-float-align">
+                <a class="col-md-12 col-xs-12 g-btn second-design g-btn-verde" ng-click="newOrder.action=1">NUEVO</a>
+            </div>
+        </div>
+    </div>
+    </div>
+  </div>
+</div>
+<div class="dashboard-body">
+  <div class="g-section-inner g-dashboard-section">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12 pb-xs-4">
+          <div class="container">
+            <div class="row">
+              <form name="frmFilterSearchAttentionBranch">
+
+                <div class="col-md-4 mb-xs-12">
+                  <mpf-select
+                    data-m-data-source="branchOffices"
+                    data-ng-model="arg.branchOffice"
+                    data-text-field="description"
+                    data-value-field="id"
+                    label="{label: 'Sucursal ', required: true}"
+                    m-Empty-Option = "{enterData : true}"
+                    name="nbranchOffice">
+                  </mpf-select>
+                </div>
+
+                <div class="col-md-4 mb-xs-12">
+                  <mpf-select
+                    data-m-data-source="attentionTypes"
+                    data-ng-model="arg.attentionType"
+                    data-text-field="description"
+                    data-value-field="id"
+                    label="{label: 'Tipo de Atención ', required: true}"
+                    m-Empty-Option = "{enterData : true}"
+                    name="nattentionType">
+                  </mpf-select>
+                </div>
+                <div class="col-md-1">
+                </div>
+                
+                <div class="col-md-3">
+                  <div class="row">
+                    <div class="col-md-6 mb-xs-1">
+                      <a class="g-btn second-design g-btn-green-border block" ng-click="search()">Buscar</a>
+                    </div>
+                    <div class="col-md-6">
+                      <a class="g-btn second-design g-btn-transparent block" ng-click="clearFilter()">Limpiar</a>
+                    </div>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-12">
+          <div class="col-md-12 text-center g-box-noresult ng-scope" ng-if="noResultInfo">
+            <div class="row">
+              <div class="col-md-12 g-box-noresult-ico gCBlue2"><span class="ico-mapfre_303_informacion"></span></div>
+              <div class="col-md-12 g-box-noresult-text">Realiza una búsqueda para obtener resultados.</div>
+            </div>
+          </div><!-- end ngIf: noResultInfo --><!-- ngIf: noResult --><!-- ngRepeat: item in items --><!-- ngIf: !noResult && totalItems > 10 --><!-- ngIf: noResultInfo --><!-- ngIf: noResult -->
+          <div class="col-md-12 text-center g-box-noresult ng-scope" ng-if="noResult">
+            <div class="row">
+              <div class="col-md-12 g-box-noresult-ico gCRed1"><span class="ico-mapfre_302_error"></span></div>
+              <div class="col-md-12 g-box-noresult-text">No hay resultados para los filtros escogidos.<br>Intenta de
+                nuevo.</div>
+            </div>
+          </div><!-- end ngIf: noResult --><!-- ngRepeat: item in items --><!-- ngIf: !noResult && totalItems > 10 -->
+
+          <div class="clearfix mb-xs-2">
+
+            <div class="row">
+              <order-config-item-maintenance 
+                type="newOrder.action"
+                branchs="branchOffices"
+                attentiontypes="attentionTypes"
+                ng-if="newOrder.action===1"
+                on-refresh="search()">
+              </order-config-item-maintenance>
+            </div>
+            
+            <div class="row" ng-repeat="order in ordersConfig">
+              <div class="col-md-12 g-list-md g-box gBgcGray5 pt-xs-1 mb-xs-1 ng-scope" ng-if="!order.action || order.action===0">
+								<div class="row">
+									<ul class="row g-list-sm" >
+										<li class="col-md-4 col-sm-12 col-xs-12  clearfix mb-xs-1 mt-xs-1">
+                      <div class="col-sm-3 col-xs-6 item-label">Sucursal</div>
+											<div class="col-sm-9 col-xs-6 item-dato">{{order.branchOffice.description}}</div>
+										</li>
+										<li class="col-md-4 col-sm-5 col-xs-5 clearfix mb-xs-1 mt-xs-1">
+											<div class="col-sm-3 col-xs-6 item-label">Tipo Atenci&oacute;n</div>
+											<div class="col-sm-9 col-xs-6 item-dato">{{order.attentionType.description}}</div>
+										</li>
+										<li class="col-md-3 col-sm-5 col-xs-5 clearfix mb-xs-1 mt-xs-1">
+											<div class="col-sm-3 col-xs-6 item-label">Almacén</div>
+											<div class="col-sm-9 col-xs-6 item-dato">{{order.warehouse.description}}</div>
+										</li> 
+										<li class="col-md-1 col-sm-2 col-xs-2 clearfix mb-xs-1 mt-xs-1 gH4">
+											<div class="col-sm-12 col-xs-12">
+												<a href="" class="pull-right" ng-click="edit(order)" title="Editar">
+													<i class="ico-mapfre_228_editar g-link no-underline gnIcon-sm gCGray3"></i>
+												</a>   
+											</div>
+										</li>
+									</ul>
+								</div>
+
+                <div class="row">
+									<ul class="row g-list-sm" >
+										<li class="col-md-4 col-sm-12 col-xs-12  clearfix mb-xs-1 mt-xs-1">
+                      <div class="col-sm-3 col-xs-6 item-label">Require Autorizaci&oacute;n SITEDS</div>
+											<div class="col-sm-9 col-xs-6 item-dato">{{order.requiresAutSited ? 'SI' : 'NO'}}</div>
+										</li>
+										<li class="col-md-4 col-sm-5 col-xs-5 clearfix mb-xs-1 mt-xs-1">
+											<div class="col-sm-3 col-xs-6 item-label">Crea Pedido</div>
+											<div class="col-sm-9 col-xs-6 item-dato">{{order.orderCreationIndicator ? 'SI' : 'NO'}}</div>
+										</li>
+										<li class="col-md-3 col-sm-5 col-xs-5 clearfix mb-xs-1 mt-xs-1">
+										</li> 
+										<li class="col-md-1 col-sm-2 col-xs-2 clearfix mb-xs-1 mt-xs-1 gH4">
+										</li>
+									</ul>
+								</div>
+							</div>
+
+              <order-config-item-maintenance 
+                type="order.action" 
+                order="order"
+                branchs="branchOffices"
+                attentiontypes="attentionTypes"
+                ng-if="order.action===2" 
+                on-refresh="search()">
+              </order-config-item-maintenance>
+            </div>
+          </div>
+
+          <!-- <div class="row">
+            <div class="col-md-12">
+              <ul uib-pagination class="g-pagination" ng-model="pagination.currentPage" max-size="pagination.maxSize"
+                total-items="pagination.totalRecords" ng-change="pageChanged()" items-per-page="pagination.sizePerPage"
+                boundary-link-numbers="true"></ul>
+            </div>
+          </div> -->
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

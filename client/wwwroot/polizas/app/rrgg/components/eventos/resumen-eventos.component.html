@@ -1,0 +1,119 @@
+<contratante contratante="$ctrl.resumen"></contratante>
+<div class="g-list-md g-box gBgcGray5 pt-xs-2 pb-xs-2 pl-xs-2 pr-xs-2 mb-xs-2">
+  <li class="clearfix mb-xs-2">
+    <div class="item-label">Datos del Evento</div>
+  </li>
+  <ul class="col-md-12 clearfix mb-xs-3" style="padding-left: 0px;">
+    <li class="col-md-4 clearfix" style="padding-left: 0px;">
+      <div class="col-xs-4 item-label"><span class="ico-mapfre_82_circle ico-bullet"></span>Ramo</div>
+      <div class="col-xs-8 item-dato">{{$ctrl.resumen.Ramo.Descripcion}}</div>
+    </li>
+    <li class="col-md-4 clearfix ">
+      <div class="col-xs-4 item-label"><span class="ico-mapfre_82_circle ico-bullet"></span>Ubicacion
+      </div>
+      <div class="col-xs-8 item-dato" style="word-break: break-all;" >{{$ctrl.resumen.Ubicacion}}</div>
+    </li>
+    <li ng-if="$ctrl.contratante.Grupo === $ctrl.constantsRrgg.GRUPO.HIDROCARBURO"
+      class="col-md-4 clearfix">
+      <div class="col-xs-4 item-label"><span class="ico-mapfre_82_circle ico-bullet"></span>Evento
+      </div>
+      <div class="col-xs-8 item-dato" style="word-break: break-all;" >{{$ctrl.resumen.Evento}}</div>
+    </li>
+  </ul>
+  <ul class="col-md-12 clearfix mb-xs-2" style="padding-left: 0px;">
+    <li class="col-md-4 clearfix" style="padding-left: 0px;">
+      <div class="col-xs-4 item-label"><span class="ico-mapfre_82_circle ico-bullet"></span>Aforo
+      </div>
+      <div class="col-xs-8 item-dato ">{{$ctrl.resumen.Aforo}} &nbsp; personas </div>
+    </li>
+  </ul>
+  <ul class="col-md-12 clearfix mb-xs-2" style="padding-left: 0px;">
+    <li class="col-md-12 clearfix" style="padding-left: 0px;">
+      <div class="col-xs-1 item-label"><span class="ico-mapfre_82_circle ico-bullet"></span> Seguridad
+       </div>
+       <div class="col-xs-11 item-dato" style="padding-left: 40px;">{{$ctrl.resumen.Seguridad | uppercase}}</div>
+     </li>
+  </ul>
+</div>
+
+
+<div class="g-list-md g-box gBgcGray5 pt-xs-2 pb-xs-2 pl-xs-2 pr-xs-2 mb-xs-2">
+  <ul class="row page-rrgg__table-list">
+    <li class="col-sm-12 clearfix mb-xs-1">
+      <div class="item-label">Duración </div>
+    </li>
+    <li class="col-sm-4 clearfix mb-xs-2 page-rrgg__table-list-item">
+      <div class="col-xs-4 item-label"><span class="ico-mapfre_82_circle ico-bullet"></span>Desde</div>
+      <div class="col-xs-8 item-dato" rrgg-resumen-fechaeventodesde >{{$ctrl.resumen.FechaEventoDesde | date:"dd/MM/yyyy"}}</div>
+    </li>
+    <li class="col-sm-4 clearfix mb-xs-2 page-rrgg__table-list-item">
+      <div class="col-xs-4 item-label"><span class="ico-mapfre_82_circle ico-bullet"></span>Hasta</div>
+      <div class="col-xs-8 item-dato " rrgg-resumen-fechaeventohasta>{{$ctrl.resumen.FechaEventoHasta | date:"dd/MM/yyyy"}}</div>
+    </li>
+    <li class="col-sm-4 clearfix mb-xs-2 page-rrgg__table-list-item">
+      <div class="col-xs-4 item-label"><span class="ico-mapfre_82_circle ico-bullet"></span>Validez Hasta:</div>
+      <div class="col-xs-8 item-dato " rrgg-resumen-fechaeventosvalidezhasta>{{$ctrl.resumen.FechaFinVig | date:"dd/MM/yyyy"}}</div>
+    </li>
+  </ul>
+</div>
+
+<div class="g-list-md g-box gBgcGray5 pt-xs-2 pb-xs-2 pl-xs-2 pr-xs-2 mb-xs-2">
+  <li class="clearfix mb-xs-2">
+    <div class="item-label">Sumas aseguradas </div>
+  </li>
+  <div class="row  mb-xs-2">
+    <div class="col-xs-12 mb-xs-1">
+      <div class="row gBgcWhite1 no-margin-xs pt-xs-2 pb-xs-2 pl-xs-2 pr-xs-2">
+        <div class="col-xs-12 show-md no-padding-sm">
+          <div class="row mb-xs-2">
+            <div class="col-sm-5">
+              <p class="text-sm mb-xs-0"><b>Coberturas básicas</b></p>
+            </div>
+            <div class="col-sm-7">
+              <p class="text-sm mb-xs-0"><b>Suma Asegurada</b></p>
+            </div>
+          </div>
+        </div>
+        <div class="col-xs-12 pl-sm-0 pr-sm-0">
+          <div class="row mb-xs-1 mb-md-2 pb-xs-1 pb-sm-0 row-border">
+            <div class="col-sm-5 mb-xs-1 mb-sm-0">
+              <p class="text-sm mb-xs-1">Responsabilidad Civil Extracontractual </p>
+              <p class="text-sm mb-xs-1"> Límite por persona &nbsp; <b rrgg-resumen-coberturasbasicas> {{$ctrl.resumen.CoberturasBasicas | currency:
+                $ctrl.currencyType($ctrl.resumen.Moneda.Codigo)}} </b></p>
+            </div>
+            <div class="col-sm-7 mb-xs-1 mb-sm-0">
+              <p class="text-sm mb-xs-1" rrgg-resumen-sumaasegurada><b> {{$ctrl.resumen.SumaAsegurada || 0 | currency:
+                $ctrl.currencyType($ctrl.resumen.Moneda.Codigo)}} </b></p>
+            </div>
+          </div>
+          <div class="row mb-xs-1 mb-md-2 pb-xs-1 pb-sm-0 row-border">
+            <div class="col-sm-12 mb-xs-1 mb-sm-0">
+              <p class="text-sm mb-xs-1"><b> Todas las sumas aseguradas son en LAV</b></p>
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <ul class="col-md-12 clearfix mb-xs-2" style="padding-left: 0px;">
+    <li class="col-md-4 clearfix">
+      <div class="col-xs-4 item-label"><span class="ico-mapfre_82_circle ico-bullet"></span>Deducible (por reclamante)
+      </div>
+      <div class="col-xs-8 item-dato" rrgg-resumen-deducible> 10% del monto indemnizable, mínimo &nbsp {{$ctrl.resumen.DeducibleReclamante | currency:
+        $ctrl.currencyType($ctrl.resumen.Moneda.Codigo)}}  &nbsp por reclamante</div>
+    </li>
+    <li class="col-md-4 clearfix" style="padding-left: 0px;">
+      <div class="col-xs-4 item-label"><span class="ico-mapfre_82_circle ico-bullet"></span>Prima Comercial Vigencia</div>
+      <div class="col-xs-8 item-dato" rrgg-resumen-primacomercialvigencia >{{$ctrl.resumen.PrimaComercial | currency:
+        $ctrl.currencyType($ctrl.resumen.Moneda.Codigo)}}</div>
+    </li>
+    <li class="col-md-4 clearfix">
+      <div class="col-xs-4 item-label"><span class="ico-mapfre_82_circle ico-bullet"></span>Prima Comercial Vigencia + IGV</div>
+      <div class="col-xs-8 item-dato" rgg-resumen-primacomercialvigenciaigv >{{$ctrl.resumen.PrimaComercialIgv | currency:
+        $ctrl.currencyType($ctrl.resumen.Moneda.Codigo)}}</div>
+    </li>
+  </ul>
+</div>
+

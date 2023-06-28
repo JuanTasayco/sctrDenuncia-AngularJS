@@ -1,0 +1,119 @@
+<div class="third-step">
+
+	<form action="" name="frmThirdStep">
+
+		<!-- Financiamiento -->
+		<div class="g-section-inner">
+			<div class="container">
+					<div class="row">
+						<div class="col-md-12">
+							<h2 class="g-sub-title">Financiamiento</h2>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-4">
+							<mpf-select label="{label: 'Tipo de financiamiento', required: true}" name="nTipoFinanciamiento" ng-model="thirdStep.mTipoFinanciamiento" m-data-source="thirdStep.financingData" text-field="Descripcion" value-field="Codigo" m-Empty-Option="{enterData:true}" mpf-validation="required"></mpf-select>
+							<ul class="g-error">
+								<li ng-show="frmThirdStep.nTipoFinanciamiento.$error.required && !frmThirdStep.nTipoFinanciamiento.$pristine">* Este campo es obligatorio</li>
+							</ul>
+						</div>
+					</div>
+			</div>
+		</div>
+
+
+		<!-- Endosatario -->
+		<div class="g-section-inner">
+			<div class="container">
+				<div class="row">
+					<div class="col-md-12">
+						<h2 class="g-sub-title">Endosatario <span>(opcional)</span></h2>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-md-4">
+						<div class="row">
+							<div class="col-md-12">
+								<mpf-select label="{label: 'Seleccionar endosatario de la lista', required: false}" name="nEndosatario" ng-model="thirdStep.mEndosatario" m-data-source="thirdStep.endorseeData" text-field="Descripcion" value-field="Codigo" m-Empty-Option="{enterData:true}"></mpf-select>
+							</div>
+						</div>
+					</div>
+					<div class="col-md-5 mt-xs-1 no-mt-md" ng-if="thirdStep.mEndosatario.Codigo != null">
+						<div class="row">
+							<div class="col-md-5 text-right">
+								<span class="g-label">Suma endosada</span><br>
+								<span>{{mainStep.quotationData.Endosatario.SumaEndosatario | currency:constants.currencyType}}</span>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+
+		<!-- Datos del riesgo -->
+		<div class="g-section-inner">
+			<div class="container">
+				<div class="row"><div class="col-md-12"><h2 class="g-sub-title">Datos del riesgo</h2></div></div>
+
+				<div class="row">
+					<div class="col-md-4 mb-xs-2">
+						<mpf-input label="{label: 'Dirección', required: true}" ng-model="thirdStep.mDireccion" name="nDireccion" ng-required="true"></mpf-input>
+						<ul class="g-error">
+							<li ng-show="frmThirdStep.nDireccion.$error.required && !frmThirdStep.nDireccion.$pristine">* Este campo es obligatorio</li>
+						</ul>
+					</div>
+				</div>
+
+				<div class="row">
+					<div class="col-md-4 mb-xs-2 no-mb-md">
+						<mpf-select label="{label: 'Tipo', required: true}" name="nTipo" ng-model="thirdStep.mTipo" m-data-source="thirdStep.typeData" text-field="Descripcion" value-field="Codigo" m-Empty-Option="{enterData:true}" mpf-validation="required"></mpf-select>
+						<ul class="g-error">
+							<li ng-show="frmThirdStep.nTipo.$error.required && !frmThirdStep.nTipo.$pristine">* Este campo es obligatorio</li>
+						</ul>
+					</div>
+					<div class="col-md-2 mb-xs-2 no-mb-md">
+						<mpf-input label="{label: 'Pisos', required: true}" ng-model="thirdStep.mPisos" name="nPisos" ng-required="true" mpf-validation="onlyNumber" ng-maxlength="2"></mpf-input>
+						<ul class="g-error">
+							<li ng-show="frmThirdStep.nPisos.$error.required && !frmThirdStep.nPisos.$pristine">* Este campo es obligatorio</li>
+							<li ng-show="frmThirdStep.nPisos.$error.onlyNumber && !frmThirdStep.nPisos.$pristine">* Valor no valido</li>
+						</ul>
+					</div>
+					<div class="col-md-2 mb-xs-2 no-mb-md">
+						<mpf-input label="{label: 'Sótano', required: true}" ng-model="thirdStep.mSotano" name="nSotano" ng-required="true" mpf-validation="onlyNumber" ng-maxlength="2"></mpf-input>
+						<ul class="g-error">
+							<li ng-show="frmThirdStep.nSotano.$error.required && !frmThirdStep.nSotano.$pristine">* Este campo es obligatorio</li>
+							<li ng-show="frmThirdStep.nSotano.$error.onlyNumber && !frmThirdStep.nSotano.$pristine">* Valor no valido</li>
+						</ul>
+					</div>
+					<div class="col-md-4">
+						<mpf-select label="{label: 'Material', required: true}" name="nMaterial" ng-model="thirdStep.mMaterial" m-data-source="thirdStep.materialData" text-field="Descripcion" value-field="Codigo" m-Empty-Option="{enterData:true}" mpf-validation="required"></mpf-select>
+						<ul class="g-error">
+							<li ng-show="frmThirdStep.nMaterial.$error.required && !frmThirdStep.nMaterial.$pristine">* Este campo es obligatorio</li>
+						</ul>
+					</div>
+				</div>
+
+			</div>
+		</div>
+
+
+		<!-- Button -->
+	  <div class="g-section">
+	    <div class="container">
+	      <div class="row">
+	        <div class="col-md-4 mb-xs-1">
+	          <span class="gCGray3">*Campos obligatorios</span>
+	        </div>
+	        <div class="col-md-4">
+            <a class="g-btn g-btn-verde block"
+            ga-click ga-category="'Emisa - Hogar'" ga-action="'MPF - Emisión'" ga-label="'Botón: Emitir'"
+            ng-click="saveEmission()">Emitir Póliza</a>
+	        </div>
+	      </div>
+	    </div>
+	  </div>
+
+	</form>
+
+</div>

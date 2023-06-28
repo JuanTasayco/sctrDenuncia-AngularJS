@@ -1,0 +1,394 @@
+<section>
+  <div class="">
+    <div class="g-title">
+      <div class="container">
+        <div class="row">
+          <div class="col-sm-8">
+            <h1>Nuevo registro</h1>
+          </div>
+          <div class="col-md-4 g-text-right-sm hidden-sm hidden-xs">
+            <a href="" ng-click="nuevoRegistroCtrl.backToHome()">
+              <span class="g-icon gCGray3">
+                <span class="icon ico-mapfre_310_arrowLeft"></span>
+                <span class="g-link"><b>Volver</b></span>
+              </span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <form id="vehicleForm" action="" name="frmTypeVehicle">
+    <div class="g-section-inner">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-12">
+            <h2 class="gH4"><b>Datos generales</b></h2>
+            <p><b>Al ingresar un número de caso existente los datos del vehículo se autocompletarán.</b></p>
+          </div>
+          <div class="col-md-3 mb-xs-2 no-mb-md">
+            <mpf-select
+              label="{label: 'Vehículo', required: true}"
+              name="nVehiculo"
+              ng-model="nuevoRegistroCtrl.mVehiculo"
+              m-data-source="nuevoRegistroCtrl.vehiculoData"
+              text-field="description"
+              value-field="idParameterDetail"
+              m-Empty-Option="{enterData:false}"
+              ng-required="true"
+            >
+            </mpf-select>
+            <ul class="g-error">
+              <li ng-show="frmTypeVehicle.nVehiculo.$invalid && !frmTypeVehicle.nVehiculo.$pristine">* Este campo es obligatorio</li>
+            </ul>
+          </div>
+          <div class="col-md-3 mb-xs-2 no-mb-md">
+            <mpf-input
+              label="{label: 'Número de Caso', required: true}"
+              name="nCaso"
+              ng-model="nuevoRegistroCtrl.mCaso"
+              ng-required="!frmTypeVehicle.nPlaca"
+              ng-maxlength="30"
+              mpf-validation="onlyNumber"
+            >
+            </mpf-input>
+            <ul class="g-error">
+              <li ng-show="frmTypeVehicle.nCaso.$invalid && !frmTypeVehicle.nCaso.$pristine">Debe ingresar nro. de caso o placa</li>
+            </ul>
+          </div>
+          <div class="col-md-3 mb-xs-2 no-mb-md">
+            <mpf-input
+              label="{label: 'Placa', required: true}"
+              name="nPlaca" ng-model="nuevoRegistroCtrl.mPlaca"
+              ng-required="!frmTypeVehicle.nCaso"
+            >
+            </mpf-input>
+            <!--<ul class="g-error"data-ng-show="onlyOne">-->
+              <!--<li ng-show="frmTypeVehicle.nPlaca.$invalid && !frmTypeVehicle.nPlaca.$pristine">Debe ingresar nro. de caso o placao</li>-->
+            <!--</ul>-->
+          </div>
+          <div class="col-md-2 pt-md-2-7 mb-xs-1 no-mb-md">
+            <a href="" class="g-btn g-btn-verde second-design block" ng-click="nuevoRegistroCtrl.buscarVehiculo()">Buscar</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+
+  <form id="newRegistroForm" action="" name="frmNewRegistro">
+
+    <div class="g-section-inner">
+      <div class="container">
+        <div class="row mb-xs-1">
+          <div class="col-md-12">
+            <h2 class="gH4"><b>Detalles del vehículo</b></h2>
+          </div>
+        </div>
+
+        <div class="row mb-xs-1">
+          <div class="col-md-12">
+            <div class="clearfix">
+              <div class="g-box gBgcGray5" ng-hide="nuevoRegistroCtrl.isData">
+                <div class="text-center pt-xs-1 pb-xs-1"><b>Ingresa los datos del vehículo para continuar el registro</b></div>
+              </div>
+              <div class="g-box gBgcGray5 pt-xs-1 pb-xs-1 pl-xs-1-5" ng-show="nuevoRegistroCtrl.isData">
+                <span class="ico-mapfre_222_informacion gCBlue2 gnIcon-xsm g-cell-middle"></span>
+                <span class="g-cell-middle pl-xs-1">Se recuperaron los datos del vehículo del sistema</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="row mb-xs-1" ng-show="nuevoRegistroCtrl.showOptions && nuevoRegistroCtrl.arraySiniester.length===0">
+          <div class="col-md-4 mb-xs-2 no-mb-md">
+            <mpf-input
+              label="{label: 'Nro. de siniestro', required: false}"
+              name="nNroSiniestro"
+              ng-model="nuevoRegistroCtrl.mNroSiniestro"
+              ng-required="false"
+              ng-disabled="true"
+            >
+            </mpf-input>
+          </div>
+
+          <div class="col-md-4 mb-xs-2 no-mb-md">
+            <mpf-input
+              label="{label: 'Nro. de expediente', required: false}"
+              name="nNroExpediente"
+              ng-model="nuevoRegistroCtrl.mNroExpediente"
+              ng-required="false"
+              ng-disabled="true"
+            >
+            </mpf-input>
+          </div>
+        </div>
+
+        <div class="row mb-xs-2" ng-show="nuevoRegistroCtrl.isData">
+          <div class="col-md-10">
+            <div class="btn-group g-dropdown siniestro-dropdown" uib-dropdown is-open="status.isopen">
+              <span class="g-label gH5">Siniestros</span>
+              <button type="button" class="g-dropdown--btn" uib-dropdown-toggle ng-disabled="disabled">
+                <span ng-show="nuevoRegistroCtrl.arraySiniester.length>1">- Seleccionar siniestro -</span> <br>
+                <span ng-show="nuevoRegistroCtrl.textItem">- Número de siniestro {{nuevoRegistroCtrl.textItem}} -</span>
+                <span class="dropdown--icon ico-mapfre_76_chevrondown"></span>
+              </button>
+              <ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="single-button">
+                <li id="{{ $index }}" class="pl-xs-1 pr-xs-1 pt-xs-0-5 pb-xs-0-5 mt-xs-1 mb-xs-1 gH5 g-text-uppercase fwNormal g-u-cursor--pointer" role="menuitem" ng-repeat="item in nuevoRegistroCtrl.arraySiniester" ng-click="nuevoRegistroCtrl.selectedItem(item)">
+                  <div class="row">
+                    <div class="col-xs-12">
+                      <b>Vehículo:</b> {{item.plateNumber}} - {{item.brand}} - {{item.model}} - {{item.causeOfDamage}} - {{item.fileType}} - {{item.fileNumber}}
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-xs-12">
+                      <b>Siniestro:</b> {{item.sinisterNumber}}
+                    </div>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <div class="row mb-xs-2" ng-show="nuevoRegistroCtrl.showOptions">
+
+          <div class="col-md-4 mb-xs-2 no-mb-md">
+            <mpf-input
+              label="{label: 'Motor', required: true}"
+              name="nMotor"
+              ng-model="nuevoRegistroCtrl.vehicleData.mMotor"
+              ng-required="true"
+              ng-maxlength="20"
+              ng-disabled="nuevoRegistroCtrl.vehiculo.engineNumber.trim()"
+            >
+            </mpf-input>
+            <ul class="g-error">
+              <li ng-show="frmNewRegistro.nMotor.$invalid && !frmNewRegistro.nMotor.$pristine">* Este campo es obligatorio</li>
+            </ul>
+          </div>
+          <div class="col-md-4 mb-xs-2 no-mb-md">
+            <mpf-input
+              label="{label: 'Serie', required: true}"
+              name="nSerie"
+              ng-model="nuevoRegistroCtrl.vehicleData.mSerie"
+              ng-required="true"
+              ng-maxlength="20"
+              ng-disabled="nuevoRegistroCtrl.vehiculo.serialNumber.trim()"
+            >
+            </mpf-input>
+            <ul class="g-error">
+              <li ng-show="frmNewRegistro.nSerie.$invalid && !frmNewRegistro.nSerie.$pristine">* Este campo es obligatorio</li>
+            </ul>
+          </div>
+
+          <div class="col-md-4 mb-xs-2 no-mb-md">
+            <mpf-select
+              ng-model="nuevoRegistroCtrl.vehicleData.mTipoVehiculo"
+              name="nTipoVehiculo"
+              label="{label: 'Tipo de vehículo', required: true}"
+              m-data-source="nuevoRegistroCtrl.tipoVehiculo"
+              text-field="NombreTipo"
+              value-field="CodigoTipo"
+              m-Empty-Option="{enterData:true}"
+              mpf-validation="required"
+              ng-change="nuevoRegistroCtrl.resetMarca()"
+              ng-required="true"
+            >
+            </mpf-select>
+            <ul class="g-error">
+              <li ng-show="frmNewRegistro.nTipoVehiculo.$invalid && !frmNewRegistro.nTipoVehiculo.$pristine">* Este campo es obligatorio</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="row" ng-show="nuevoRegistroCtrl.showOptions">
+          <div class="col-md-4 mb-xs-2 no-mb-md">
+            <mp-data-seeker
+              behavior="{label:'Marca/Modelo *', placeholder:'Ingrese marca/modelo', matchField:'marcaModelo'}"
+              ng-change="nuevoRegistroCtrl.getFunctionsModeloMarca(nuevoRegistroCtrl.vehicleData.mMarcaModelo)"
+              m-data-source="nuevoRegistroCtrl.searchMarcaModelo($inputNeed)"
+              ng-model="nuevoRegistroCtrl.vehicleData.mMarcaModelo"
+              name="nMarcaModelo" ng-required="true" >
+              <div ng-bind-html="$item.marcaModelo | highlight: $select.search"></div>
+            </mp-data-seeker>
+
+            <ul class="g-error">
+              <li ng-show="frmNewRegistro.nMarcaModelo.$invalid && !frmNewRegistro.nMarcaModelo.$pristine">* Este campo es obligatorio</li>
+            </ul>
+          </div>
+          <div class="col-md-4 mb-xs-2 no-mb-md">
+            <mpf-select
+              label="{label: 'Año', required: true}"
+              name="nVehiculoAhno"
+              ng-model="nuevoRegistroCtrl.vehicleData.mVehiculoAnho"
+              m-data-source="nuevoRegistroCtrl.vehiculoAnhoData"
+              text-field="Descripcion"
+              value-field="Codigo"
+              m-Empty-Option="{enterData:true}"
+              ng-required="true"
+              ng-change=""
+              ng-disabled="false"
+            >
+            </mpf-select>
+            <ul class="g-error">
+              <li ng-show="frmNewRegistro.nVehiculoAhno.$invalid && !frmNewRegistro.nVehiculoAhno.$pristine">* Este campo es obligatorio</li>
+            </ul>
+          </div>
+          <div class="col-md-4 mb-xs-2 no-mb-md">
+            <mpf-input
+              label="{label: 'Kilometraje actual', required: true}"
+              name="nKilomActual"
+              ng-model="nuevoRegistroCtrl.vehicleData.mKilomActual"
+              ng-required="true"
+              mpf-validation="onlyNumber"
+            >
+            </mpf-input>
+            <ul class="g-error">
+              <li ng-show="frmNewRegistro.nKilomActual.$invalid && !frmNewRegistro.nKilomActual.$pristine">* Este campo es obligatorio</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div ng-show="nuevoRegistroCtrl.showOptions" class="g-section-inner">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-12">
+            <h2 class="gH4 mb-xs-1"><b>Contacto</b></h2>
+          </div>
+        </div>
+
+        <div class="row mb-xs-2">
+          <div class="col-md-12">
+            <h3 class="gH4">Datos principales</h3>
+          </div>
+        </div>
+
+        <div class="row mb-xs-2">
+          <div class="col-md-4 mb-xs-2 no-mb-md">
+            <mpf-input
+              label="{label: 'Nombres', required: true}"
+              name="nNombre"
+              ng-model="nuevoRegistroCtrl.mNombre"
+              ng-required="true"
+              mpf-validation="onlyLetter"
+              ng-Maxlength="65"
+            >
+            </mpf-input>
+            <ul class="g-error">
+              <li ng-show="frmNewRegistro.nNombre.$invalid && !frmNewRegistro.nNombre.$pristine">* Este campo es obligatorio</li>
+            </ul>
+          </div>
+          <div class="col-md-4 mb-xs-2 no-mb-md">
+            <mpf-input
+              label="{label: 'Apellido paterno', required: true}"
+              name="nApellidoPaterno"
+              ng-model="nuevoRegistroCtrl.mApellidoPaterno"
+              ng-required="true"
+              mpf-validation="onlyLetter"
+              ng-Maxlength="65"
+            >
+            </mpf-input>
+            <ul class="g-error">
+              <li ng-show="frmNewRegistro.nApellidoPaterno.$invalid && !frmNewRegistro.nApellidoPaterno.$pristine">* Este campo es obligatorio</li>
+            </ul>
+          </div>
+          <div class="col-md-4 mb-xs-2 no-mb-md">
+            <mpf-input
+              label="{label: 'Apellido materno', required: true}"
+              name="nApellidoMaterno"
+              ng-model="nuevoRegistroCtrl.mApellidoMaterno"
+              ng-required="true"
+              mpf-validation="onlyLetter"
+              ng-Maxlength="65"
+            >
+            </mpf-input>
+            <ul class="g-error">
+              <li ng-show="frmNewRegistro.nApellidoMaterno.$invalid && !frmNewRegistro.nApellidoMaterno.$pristine">* Este campo es obligatorio</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="row mb-xs-2">
+          <div class="col-md-12">
+            <h3 class="gH4">Datos de contacto</h3>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-md-4 mb-xs-2 no-mb-md">
+            <mpf-input
+              label="{label: 'Teléfono', required: true}"
+              name="nTelefono"
+              ng-model="nuevoRegistroCtrl.mTelefono"
+              ng-required="true"
+              mpf-validation="onlyNumber"
+              ng-maxlength="10"
+            >
+            </mpf-input>
+            <ul class="g-error">
+              <li ng-show="frmNewRegistro.nTelefono.$invalid && !frmNewRegistro.nTelefono.$pristine">* Este campo es obligatorio</li>
+            </ul>
+          </div>
+          <div class="col-md-4 mb-xs-2 no-mb-md">
+            <mpf-input
+              label="{label: 'Email', required: true}"
+              name="nEmail"
+              ng-model="nuevoRegistroCtrl.mEmail"
+              ng-required="true"
+              mpf-validation="email"
+              ng-Maxlength="100"
+            >
+            </mpf-input>
+            <ul class="g-error">
+              <li ng-show="frmNewRegistro.nEmail.$invalid && !frmNewRegistro.nEmail.$pristine">* Este campo es obligatorio</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div ng-show="nuevoRegistroCtrl.showOptions" class="g-section-inner">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-12">
+            <h2 class="gH4"><b>Descripción del daño</b></h2>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-md-8">
+            <mpf-textarea label="{label:'', required: false}" ng-model="nuevoRegistroCtrl.mDescDanho" name="nDescDanho" ng-required="false" ng-Maxlength="800"></mpf-textarea>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div ng-show="nuevoRegistroCtrl.showOptions" class="g-section-inner">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-12">
+            <h2 class="gH4"><b>Agregar comentario</b></h2>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-md-8">
+            <mpf-textarea label="{label:'', required: false}" ng-model="nuevoRegistroCtrl.mComentario" name="nComentario" ng-required="false" ng-Maxlength="800"></mpf-textarea>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div ng-show="nuevoRegistroCtrl.showOptions" class="g-section mb-xs-4">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-4 col-md-offset-4 col-sm-6 col-sm-offset-3" ng-click="nuevoRegistroCtrl.nuevoRegistro()">
+          <a class="g-btn g-btn-verde block">Registrar</a>
+        </div>
+      </div>
+    </div>
+  </div>
+  </form>
+</section>

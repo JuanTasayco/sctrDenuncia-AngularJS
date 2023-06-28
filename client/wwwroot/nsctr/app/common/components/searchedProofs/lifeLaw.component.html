@@ -1,0 +1,286 @@
+<div class="container searchedProofs lifeLaw">
+
+  <nsctr-no-result-filter type="search" no-result-info="$ctrl.noResultFilter.noResultInfo"
+    no-result="$ctrl.noResultFilter.noResult">
+  </nsctr-no-result-filter>
+
+  <div class="row mb-xs-1 g-row" ng-if="$ctrl.data.dataList.list.length > 0 && $ctrl.segurityMailMass">
+    <div class="col-md-8 col-sm-6 g-col-sm middle mb-xs-1 no-mb-sm">
+      <h2 class="gH4 gCGray1"><b>Lista de Constancias:</b></h2>
+      <b ng-if="$ctrl.segurityDelete">Sólo puede anular constancias que no esten asociadas a recibos.</b>
+    </div>
+    <div class="col-md-4 col-sm-6 g-col-sm middle">
+      <a href="javascript:void(0)" class="g-btn g-btn-verde block second-design" ng-click="$ctrl.fnShowSendEmail('M')"
+        ng-if="$ctrl.segurityMailMass">
+        Enviar email masivo
+      </a>
+    </div>
+  </div>
+
+
+  <div class="clearfix g-list-md g-box gBgcGray5 pt-xs-1 mb-xs-1 g-row-fz12"
+    ng-repeat="itemProofs in $ctrl.data.dataList.list">
+    <div class="col-md-3 g-col-md top cnt-item g-text-uppercase">
+      <div class="pl-xs-2 g-relative">
+        <div class="checkItem"
+          ng-if="itemProofs.state == 1  && $ctrl.segurityMailMass && itemProofs.technicalControlHealth.code != '8010' && itemProofs.technicalControlPension.code != '8010'">
+          <label class="g-checkbox" ng-class="{active : itemProofs.mCheck}">
+            <span class="ico-checkbox"></span>
+            <input type="checkbox" name="nCheck{{$index}}" ng-model="itemProofs.mCheck">
+            <span class="checkbox-label"></span>
+          </label>
+        </div>
+        <a href="javascript:void(0)" class="gH4 mb-xs-1"
+          ng-if="$ctrl.validateConstancia(itemProofs) && itemProofs.technicalControlPension.code != '8010' && itemProofs.technicalControlHealth.code != '8010'"
+          ng-class="(itemProofs.urlConstancy && !itemProofs.hideConstancyNumber)
+            ? ['g-link', (itemProofs.state === '1') ? 'gCGreen1' : '']
+            : ['g-cursor-auto']"
+          ng-click="$ctrl.fnDownloadConstancia(itemProofs.constancyIdentity)">
+          <b>{{itemProofs.constancyNumber}}</b>
+        </a>
+        <b class="gH4 mb-xs-1 g-cursor-auto"
+          ng-if="!$ctrl.validateConstancia(itemProofs) || (itemProofs.technicalControlPension.code == '8010' || itemProofs.technicalControlHealth.code == '8010')">
+          {{ itemProofs.constancyNumber }}
+        </b>
+        <br>
+        <div style="display: flex; align-items: center;">
+          <span class="g-box-label" ng-class="$ctrl.getClassMovementType(itemProofs)">
+            {{ itemProofs.movementType }}
+          </span>
+
+          <a href="javascript:void(0)">
+            <span ng-if="itemProofs.state == '0'"
+              ng-click="$ctrl.fnSeeReason(itemProofs.constancyNumber,itemProofs.reasonCanceledConstancy,itemProofs.dateCanceledConstancy,itemProofs.userCanceledConstancy,itemProofs.systemNameConstancy,'C');"
+              class="gnIcon-md ico-mapfre_316_exclamacion" style="margin-left: 3px;">
+            </span>
+          </a>
+        </div>
+
+      </div>
+    </div>
+    <div class="col-md-6 g-col-md middle">
+      <ul class="row">
+        <li class="col-md-6">
+          <ul class="row">
+            <li class="col-md-12 clearfix cnt-item add-border-left">
+              <div class="col-xs-5 item-label">
+                Fecha emisión:
+              </div>
+              <div class="col-xs-7 item-dato g-text-uppercase">
+                {{itemProofs.dateUp}}
+              </div>
+            </li>
+            <li class="col-md-12 clearfix cnt-item">
+              <div class="col-xs-5 item-label">
+                Vida Ley:
+              </div>
+              <div class="col-xs-7 item-dato g-text-uppercase">
+                {{(itemProofs.pensionPolicyNumber > 0) ? itemProofs.pensionPolicyNumber : ''}}
+              </div>
+            </li>
+            <li class="col-md-12 clearfix cnt-item">
+              <div class="col-xs-5 item-label">
+                Sistema:
+              </div>
+              <div class="col-xs-7 item-dato g-text-uppercase">
+                {{itemProofs.systemDescription}}
+              </div>
+            </li>
+            <li class="col-md-12 clearfix cnt-item">
+              <div class="col-xs-5 item-label">
+                Usuario Emisor:
+              </div>
+              <div class="col-xs-7 item-dato g-text-uppercase">
+                {{itemProofs.userId}}
+              </div>
+            </li>
+          </ul>
+        </li>
+        <li class="col-md-6">
+          <ul class="row">
+            <li class="col-md-12 clearfix cnt-item add-border-left">
+              <div class="col-xs-5 item-label">
+                Vigencia:
+              </div>
+              <div class="col-xs-7 item-dato g-text-uppercase">
+                {{itemProofs.dateStart}} - {{itemProofs.dateEnd}}
+              </div>
+            </li>
+            <li class="col-md-12 clearfix cnt-item" ng-if="$ctrl.fnShowFields('S', itemProofs)">
+              <div class="col-xs-5 item-label">
+                Estado:
+              </div>
+              <div class="col-xs-7 item-dato g-text-uppercase">
+                {{(itemProofs.state == 1) ? 'Vigente' : 'Anulado'}}
+              </div>
+            </li>
+            <li class="col-md-12 clearfix cnt-item" ng-if="$ctrl.fnShowFields('R', itemProofs)">
+              <div class="col-xs-5 item-label">
+                Recibo:
+              </div>
+              <div class="col-xs-7 item-dato">
+                <div ng-if="!$ctrl.fnInTechnicalControl(itemProofs.pensionReceiptNumber)" style="display: flex;align-items:center;">
+                  <div >
+                    <a href="javascript:void(0)" class="g-text-uppercase g-link"
+                      ng-if="$ctrl.validateSegurity(itemProofs, 1)"
+                      ng-class="{'gCGreen1': itemProofs.enableUrlPensionReceipt == 'S'}"
+                      ng-click="$ctrl.fnOpenUrl($event, itemProofs.urlPensionReceipt)">
+                      {{itemProofs.pensionReceiptNumber}}
+                    </a>
+                  </div>
+                  <span class="g-text-uppercase g-cursor-auto"
+                    ng-class="{'gCGreen1': itemProofs.enableUrlPensionReceipt == 'S'}"
+                    ng-if="!$ctrl.validateSegurity(itemProofs, 1)">{{ itemProofs.pensionReceiptNumber }}</span>
+                  <a href="javascript:void(0)">
+                    <span ng-if="itemProofs.canceledReceiptPension == 'S' && itemProofs.pensionReceiptNumber"
+                      ng-click="$ctrl.fnSeeReason(itemProofs.pensionReceiptNumber,itemProofs.reasonCanceledReceiptPension,itemProofs.dateCanceledReceiptPension,itemProofs.userCanceledReceiptPension,itemProofs.systemNamePension,'R');"
+                      class="gnIcon-md ico-mapfre_316_exclamacion" style="margin-left: 3px;">
+                    </span>
+                  </a>
+                </div>
+                <div ng-if="itemProofs.pensionReceiptNumber && itemProofs.canceledReceiptPension !='S'">
+                  {{ itemProofs.statePensionReceipt === 'CT' ? '(Pagado)' : '(Pendiente)' }}
+                </div>
+                <b ng-if="$ctrl.fnInTechnicalControl(itemProofs.pensionReceiptNumber)" class="gCRed1">
+                  Se generó con un control técnico
+                </b>
+              </div>
+            </li>
+            <li class="col-md-12 clearfix cnt-item">
+              <div class="col-xs-5 item-label">
+                Certificado:
+              </div>
+              <div class="col-xs-7 item-dato g-text-uppercase">
+                <a ng-if="$ctrl.seguritycertificate && (itemProofs.technicalControlPension.code != '8010' && itemProofs.technicalControlHealth.code != '8010')"
+                  href="javascript:void(0)"
+                  ng-class="(itemProofs.urlCertificate) ? ['g-link', 'gCGreen1'] : ['g-cursor-auto']"
+                  ng-click="$ctrl.fnOpenUrl($event, itemProofs.urlCertificate)">
+                  {{itemProofs.certificateNumber}}
+                </a>
+                <span
+                  ng-if="!$ctrl.seguritycertificate || (itemProofs.technicalControlPension.code == '8010' || itemProofs.technicalControlHealth.code == '8010')"
+                  ng-class="(itemProofs.urlCertificate) ? ['gCGreen1'] : ['g-cursor-auto']">
+                  {{itemProofs.certificateNumber}}</span>
+              </div>
+            </li>
+            <li class="col-md-12 clearfix cnt-item">
+              <div class="col-xs-5 item-label">
+                Carta:
+              </div>
+              <div class="col-xs-7 item-dato g-text-uppercase">
+                <a ng-if="$ctrl.segurityCargo && (itemProofs.technicalControlPension.code != '8010' && itemProofs.technicalControlHealth.code != '8010')"
+                  href="javascript:void(0)"
+                  ng-class="(itemProofs.urlLetter) ? ['g-link', 'gCGreen1'] : ['g-cursor-auto']"
+                  ng-click="$ctrl.fnOpenUrl($event, itemProofs.urlLetter)">
+                  {{itemProofs.letterNumber}}
+                </a>
+                <span
+                  ng-if="!$ctrl.seguritycertificate || (itemProofs.technicalControlPension.code == '8010' || itemProofs.technicalControlHealth.code == '8010')"
+                  ng-class="(itemProofs.urlCertificate) ? ['gCGreen1'] : ['g-cursor-auto']">
+                  {{itemProofs.letterNumber}}</span>
+              </div>
+            </li>
+            <li class="col-md-12 clearfix cnt-item">
+              <div class="col-xs-5 item-label">
+                Cargo:
+              </div>
+              <div class="col-xs-7 item-dato g-text-uppercase">
+                <a ng-if="$ctrl.segurityCard && (itemProofs.technicalControlPension.code != '8010' && itemProofs.technicalControlHealth.code != '8010')"
+                  href="javascript:void(0)"
+                  ng-class="(itemProofs.urlCargo) ? ['g-link', 'gCGreen1'] : ['g-cursor-auto']"
+                  ng-click="$ctrl.fnOpenUrl($event, itemProofs.urlCargo)">
+                  {{itemProofs.cargoNumber}}
+                </a>
+                <span
+                  ng-if="!$ctrl.seguritycertificate || (itemProofs.technicalControlPension.code == '8010' || itemProofs.technicalControlHealth.code == '8010')"
+                  ng-class="(itemProofs.urlCertificate) ? ['gCGreen1'] : ['g-cursor-auto']">
+                  {{itemProofs.cargoNumber}}</span>
+              </div>
+            </li>
+            <li class="col-md-12 clearfix cnt-item">
+              <div class="col-xs-5 item-label">
+                Descargar:
+              </div>
+              <div class="col-xs-7 item-dato g-text-uppercase">
+                <a href="javascript:void(0)" class="g-link gCGreen1" ng-click="$ctrl.downloadPayroll(itemProofs)"
+                  ng-if="$ctrl.segurityPayroll">
+                  Planilla
+                </a>
+              </div>
+            </li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+    <div class="col-md-3 g-col-md middle gCGray3 g-text-left-xs">
+      <div class="row g-row g-list-md">
+        <div class="col-xs-3 g-col-xs middle cnt-item add-border-left g-text-center-xs"
+          ng-class="{'add-border-right': !$ctrl.segurityDelete}">
+          <a href="javascript:void(0)" ng-click="$ctrl.fnShowSendEmail('I', itemProofs)"
+            ng-if="$ctrl.segurityMail && (itemProofs.technicalControlPension.code != '8010' && itemProofs.technicalControlHealth.code != '8010')">
+            <span class="gnIcon-md ico-mapfre_123_envelop"></span>
+          </a>
+        </div>
+        <div class="col-xs-3 g-col-xs middle cnt-item g-text-center-xs "
+          ng-class="($ctrl.fnShowFields('B', itemProofs)) ? '' : 'add-border-right'"
+          ng-if="$ctrl.segurityDelete  && (itemProofs.technicalControlPension.code != '8010' && itemProofs.technicalControlHealth.code != '8010')">
+          <a href="javascript:void(0)" ng-click="$ctrl.fnChangeState(itemProofs,true)">
+            <span class="gnIcon-lg icoState"
+              ng-class="($ctrl.CHANGE_STATE.RE == itemProofs.option) ? 'ico-mapfre_312_inhabilitado' : 'ico-mapfre_313_habilitado'">
+            </span>
+          </a>
+        </div>
+        <div class="col-xs-6 g-col-xs middle cnt-item"
+          ng-if="$ctrl.fnShowFields('B', itemProofs)  && (itemProofs.technicalControlPension.code != '8010' && itemProofs.technicalControlHealth.code != '8010')"
+          ng-class="{'col-xs-offset-3 no-border-left':  !$ctrl.segurityDelete}">
+          <a href="javascript:void(0)" class="g-btn g-btn-white block" ng-click="$ctrl.fnSeeMore(itemProofs)">
+            Ver Más
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row" ng-if="$ctrl.data.dataList.showPagination">
+    <div class="col-md-8 col-md-offset-2">
+      <ul uib-pagination class="g-pagination" ng-model="$ctrl.data.mPagination.currentPage"
+        max-size="$ctrl.data.mPagination.maxSize" total-items="$ctrl.data.mPagination.totalItems"
+        ng-change="$ctrl.fnChangePage()" boundary-link-numbers="true">
+      </ul>
+    </div>
+  </div>
+
+</div>
+
+
+
+<script type="text/ng-template" id="tplMotivo.html">
+  <div class="container">
+    <div class="pl-ms-4 pl-xs-2 pr-ms-4 pr-xs-2">
+      <p> 
+        <b> NÚMERO DE {{itemReason.type}} </b> : {{itemReason.number}}
+      </p>
+    </div>
+    <div class="pl-ms-4 pl-xs-2 pr-ms-4 pr-xs-2">
+      <p> 
+        <b> FECHA </b> : {{itemReason.dateCanceled}}
+      </p>
+    </div>
+    <div class="pl-ms-4 pl-xs-2 pr-ms-4 pr-xs-2">
+      <p>
+        <b> USUARIO </b> :  {{itemReason.userCanceledReceipt}}
+      </p>
+    </div>
+    <div class="pl-ms-4 pl-xs-2 pr-ms-4 pr-xs-2">
+      <p>
+        <b> SISTEMA </b> : {{itemReason.systemName}} 
+      </p>
+    </div>
+    <div class="pl-ms-4 pl-xs-2 pr-ms-4 pr-xs-2">
+      <b> MOTIVO </b>
+      <p style="word-break: break-all;">
+        {{itemReason.reasonCanceled | uppercase}}
+      </p>
+    </div>
+  </div>
+</script>

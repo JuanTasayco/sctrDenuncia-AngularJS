@@ -1,0 +1,162 @@
+<div class="g-page page-ginfo-home" data-ng-form="$ctrl.form">
+  <div class="g-title">
+    <div class="container">
+      <div class="row g-row">
+        <div class="col-md-8 g-col-md middle">
+          <h1>{{::$ctrl.formTitle}}</h1>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="container">
+    <div class="row mb-xs-2">
+      <div class="col-mf-12">
+        <div class="box-form">
+          <div class="row">
+            <div class="col-md-6 mb-xs-2">
+              <mpf-input
+                class="g-input-design--transform-initial"
+                label="{label: 'Nombre de la campaña:', required: true}"
+                name="nNombreCampania"
+                data-ng-model="$ctrl.frm.campaignName"
+                data-ng-required="true"
+                data-ng-maxlength="80">
+              </mpf-input>
+              <ul class="g-error">
+                <li ng-show="$ctrl.form.nNombreCampania.$error.required && !$ctrl.form.nNombreCampania.$pristine">* Este campo es obligatorio</li>
+              </ul>
+            </div>
+            <div class="col-md-6 mb-xs-2">
+              <mpf-input
+                class="g-input-design--transform-initial"
+                label="{label: 'Link de dirección:', required: true}"
+                name="nLinkDireccion"
+                data-ng-required="true"
+                data-ng-change="$ctrl.onUrlChange()"
+                data-ng-model="$ctrl.frm.addressLink">
+              </mpf-input>
+              <ul class="g-error">
+                <li ng-show="$ctrl.form.nLinkDireccion.$error.required && !$ctrl.form.nLinkDireccion.$pristine">* Este campo es obligatorio</li>
+                <li ng-show="$ctrl.form.nLinkDireccion.$invalid && !$ctrl.form.nLinkDireccion.$pristine">* URL invalida</li>
+              </ul>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-12 mb-xs-2">
+              <mpf-input
+                class="g-input-design--transform-initial"
+                label="{label: 'Descripción del banner:', required: true}"
+                name="nDescripcionBanner"
+                data-ng-model="$ctrl.frm.bannerDescription"
+                data-ng-required="true"
+                data-ng-maxlength="280">
+              </mpf-input>
+              <ul class="g-error">
+                <li ng-show="$ctrl.form.nDescripcionBanner.$error.required && !$ctrl.form.nDescripcionBanner.$pristine">* Este campo es obligatorio</li>
+              </ul>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-12 mb-xs-2">
+              <div class="info-text">
+                <span class="llamada">¿Desea realizar la publicación en una fecha específica?</span>
+                <span class="bajada">Seleccione la fecha y hora en el cual desea que el banner sea publicado en el portal de clientes de Autoservicio, y este se publicará automáticamente.</span>
+              </div>
+            </div>
+          </div>
+          <div class="row mb-xs-2">
+            <div class="col-md-3 mb-xs-2">
+              <mpf-datepicker
+                class="input-no-margin"
+                label="{label: 'Fecha de inicio:', required: true}"
+                name="fechaInicio"
+                format="'dd/MM/yyyy'"
+                data-ng-model="$ctrl.frm.startDate"
+                data-ng-change="$ctrl.onStartDateChanged()"
+                data-ng-required="true"
+                minDate="::$ctrl.frm.startDate">
+              </mpf-datepicker>
+            </div>
+            <div class="col-md-3 mb-xs-2">
+              <mpf-datepicker
+                class="input-no-margin"
+                label="{label: 'Fecha fin:', required: true}"
+                name="fechaFin"
+                format="'dd/MM/yyyy'"
+                data-ng-model="$ctrl.frm.endDate"
+                data-ng-required="true"
+                minDate="$ctrl.frm.startDate"
+                maxDate="$ctrl.maxDate">
+              </mpf-datepicker>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-12">
+              <div class="tab-simple">
+                <div class="tab-simple--header">
+                  <span>¿D&oacute;nde desea mostrar el banner?</span>
+                </div>
+
+                <div class="tab-simple--content">
+
+                  <div data-ng-repeat="option in $ctrl.options">
+                    <div class="tab-simple--item" data-ng-if="$first">
+                      <mpf-checkbox name="allOptions" data-ng-model="$ctrl.mCheckAll" data-ng-change="$ctrl.onCheckAll()" label="Quitar de todos los carruseles"></mpf-checkbox>
+                    </div>
+                    <p><i data-ng-class="option.icon"></i><span>{{ option.nombre }}</span></p>
+                    <div class="tab-simple--item" data-ng-repeat="carrusel in option.carruseles">
+                      <mpf-checkbox
+                        class="{{ !carrusel.activo ? 'input-disabled' : '' }}"
+                        ng-disabled="!carrusel.activo"
+                        name="$ctrl.frm.carouselList"
+                        data-ng-change="$ctrl.onCheck()"
+                        data-ng-model="$ctrl.frm.carouselList[carrusel.idCarrusel]"
+                        label="{{ carrusel.titulo }}"
+                        uib-tooltip="{{ !carrusel.activo ? $ctrl.tooltipLimit : '' }}"
+                        tooltip-placement="right">
+                      </mpf-checkbox>
+                    </div>
+                  </div>
+
+                </div>
+
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-mf-12">
+
+        <ap-banner-upload
+          data-fotos-banners="$ctrl.frm.fotosBanners"
+          data-on-upload-desktop-hd="$ctrl.uploadDesktopHD($event)"
+          data-on-upload-desktop="$ctrl.uploadDesktop($event)"
+          data-on-upload-tablet="$ctrl.uploadTablet($event)"
+          data-on-upload-responsive="$ctrl.uploadResponsive($event)">
+        </ap-banner-upload>
+
+        <div class="row mt-xs-6 mb-xs-3">
+          <div class="col-md-6 mb-xs-1">
+            <a
+              class="g-btn g-btn-white second-design block"
+              data-ng-click="$ctrl.cancelar()">
+              REGRESAR
+            </a>
+          </div>
+          <div class="col-md-6 mb-xs-1">
+            <a
+              class="g-btn g-btn-green-border second-design block"
+              data-ng-class="{'disabled': $ctrl.form.$invalid || $ctrl.form.nLinkDireccion.$invalid || $ctrl.frm.fotosBanners.length != 4}"
+              data-ng-click="$ctrl.grabar()">
+              {{::$ctrl.btnText}}
+            </a>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>

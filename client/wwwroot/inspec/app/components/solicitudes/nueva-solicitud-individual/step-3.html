@@ -1,0 +1,242 @@
+<!-- FINANCIAMIENTO -->
+<div class="g-section-inner" id="anchor-1">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12">
+        <h2 class="g-sub-title g-myd-subtitle">Financiamiento</h2>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-4 mb-xs-2">
+        <mpf-select
+          label="{label: 'Tipo de financiamiento', required: true}"
+          name="nTipoFinanciamiento"
+          ng-model="$ctrl.formData.financeType"
+          m-data-source="$ctrl.financingTypes"
+          text-field="Descripcion"
+          value-field="Codigo"
+          m-Empty-Option="{enterData:true}"
+          mpf-validation="required"
+        ></mpf-select>
+        <div
+          class="g-error"
+          ng-show="$ctrl.formData.nTipoFinanciamiento.$invalid && !$ctrl.formData.nTipoFinanciamiento.$pristine"
+        >
+          * Ingrese un tipo de financiamiento
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- ENDOSATARIO -->
+<div class="g-section-inner">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12">
+        <h2 class="g-sub-title g-myd-subtitle">Endosatario (opcional)</h2>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12 mb-xs-2">
+        <span class="g-label mb-xs-2">Selecciona como deseas buscar a el endosatario</span>
+        <div class="row">
+          <div class="col-md-3">
+            <m-radio
+              label="{label: 'No usar endosatario'}"
+              name="nEndosatario"
+              ng-model="$ctrl.formData.endosatario"
+              value="0"
+              ng-required="true"
+            ></m-radio>
+          </div>
+          <div class="col-md-3">
+            <m-radio
+              label="{label: 'Buscar endosatario por RUC'}"
+              name="nEndosatario"
+              ng-model="$ctrl.formData.endosatario"
+              value="1"
+              ng-required="true"
+            ></m-radio>
+          </div>
+          <div class="col-md-4">
+            <m-radio
+              label="{label: 'Buscar endosatario por nombre'}"
+              name="nEndosatario"
+              ng-model="$ctrl.formData.endosatario"
+              value="2"
+              ng-required="true"
+            ></m-radio>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row" ng-if="$ctrl.formData.endosatario == 1 && !$ctrl.formData.rucEndosatarioObjeto">
+      <div class="col-md-4 mb-xs-2">
+        <mpf-input
+          label="{label: 'RUC del endosatario', required: true}"
+          name="nRucEndosatario"
+          ng-model="$ctrl.formData.rucEndosatario"
+          ng-maxlength="11"
+        ></mpf-input>
+      </div>
+      <div class="col-md-2 mt-xs-2 h-myd-mt--0">
+        <a class="g-btn g-btn-green-border block" ng-click="$ctrl.searchRucEndoser()">Buscar</a>
+      </div>
+    </div>
+    <div class="row" ng-if="$ctrl.formData.endosatario == 1 && $ctrl.formData.rucEndosatarioObjeto">
+      <div class="col-md-4 mb-xs-2">
+        <span class="g-placeholder block mb-xs-1">RUC del endosatario*:</span>
+        <span class=""
+          >{{ $ctrl.formData.rucEndosatarioObjeto.Codigo }} -
+          {{ $ctrl.formData.rucEndosatarioObjeto.Descripcion }}</span
+        >
+      </div>
+      <div class="col-md-2 mt-xs-2">
+        <a
+          class="g-btn g-btn-transparent block"
+          ng-click="$ctrl.formData.rucEndosatarioObjeto = $ctrl.formData.rucEndosatario = null"
+          >Cambiar</a
+        >
+      </div>
+    </div>
+    <div class="row" ng-if="$ctrl.formData.endosatario == 2">
+      <div class="col-md-4 mb-md-2">
+        <mpf-select
+          label="{label: 'Nombre del endosatario:', required: true}"
+          name="nNombreEndosatario"
+          ng-model="$ctrl.formData.nombreEndosatario"
+          m-data-source="$ctrl.endorserTypes"
+        ></mpf-select>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- CALCULAR PRIMA -->
+<div class="g-section-inner">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12">
+        <h2 class="g-sub-title g-myd-subtitle">Calcular Prima</h2>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12 g-box g-calcular-prima">
+        <div class="row pb-xs-0-5 pt-xs-0-5 g-list-md">
+          <div class="col-md-6 col-md-offset-3 clearfix">
+            <div class="col-xs-7 item-label"><span class="ico-mapfre_82_circle ico-bullet"></span> Prima neta:</div>
+            <div class="col-xs-5 item-dato g-text-uppercase text-right">
+              {{ $ctrl.formData.comercialPremium || 0 | currency: '$' }}
+            </div>
+          </div>
+        </div>
+        <div class="row pb-xs-0-5 pt-xs-0-5 g-list-md" ng-if="$ctrl.formData.contractorData.saldoMapfreDolares > 0">
+          <div class="col-md-6 col-md-offset-3 clearfix">
+            <div class="col-xs-7 item-label">
+              <span class="ico-mapfre_82_circle ico-bullet"></span> MAPFRE DÓLARES
+              <span class="pl-xs-2" ng-hide="enSoles">
+                <b>({{ $ctrl.formData.contractorData.saldoMapfreDolares || 0 | currency: '$' }} disponibles)</b>
+              </span>
+            </div>
+            <div class="col-xs-5 item-dato g-text-uppercase text-right valor">
+              <m-Numeric-Textbox
+                ng-model="$ctrl.formData.mMapfreDolar"
+                ng-keyup="$ctrl.validateMapfreDollars()"
+                name="nMapfreDolar"
+                label="{label: '', required: false}"
+                ng-required="false"
+                options="formData.scale"
+              ></m-Numeric-Textbox>
+              <span
+                class="g-valorauto-warning g-error pl-xs-0 pr-xs-0"
+                ng-if="$ctrl.formData.mMapfreDolar < 0 || $ctrl.formData.mMapfreDolar > $ctrl.formData.contractorData.saldoMapfreDolares"
+              >
+                <span class="ico-mapfre_37_informacion g-valorauto-warning-ico"></span>Valor fuera de rango
+              </span>
+            </div>
+          </div>
+        </div>
+        <div class="row pb-xs-0-5 pt-xs-0-5 g-list-md">
+          <div class="col-md-6 col-md-offset-3 clearfix">
+            <div class="col-xs-7 item-label">
+              <span class="ico-mapfre_82_circle ico-bullet"></span> Descuento comisión:
+            </div>
+            <div class="col-xs-5 item-dato">
+              <div class="col-xs-6">
+                <mpf-select-horz
+                  label="{label: '', required: false}"
+                  name="nDescuentoComision"
+                  ng-model="$ctrl.formData.mDescuentoComision"
+                  m-data-source="$ctrl.discountCommissionData"
+                  text-field="DsctoEspecialPorcentaje"
+                  value-field="AgenteComision"
+                  m-Empty-Option="{text:'%'}"
+                  mpf-validation="required"
+                  ng-change="$ctrl.calculateDiscountCommission()"
+                  ng-required="false"
+                ></mpf-select-horz>
+              </div>
+              <div class="col-xs-6 no-padding-sm g-text-uppercase text-right">
+                {{ $ctrl.formData.discountCommission || 0 | currency: '-$' }}
+              </div>
+            </div>
+          </div>
+        </div>
+         <!-- INICIO BUILDSOFT -->
+         <div class="row pb-xs-0-5 pt-xs-0-5 g-list-md">
+          <div class="col-md-6 col-md-offset-3 clearfix">
+            <div class="col-xs-7 item-label">
+              <span class="ico-mapfre_82_circle ico-bullet"></span> Descuento comercial:
+            </div>
+            <div class="col-xs-5 item-dato">
+              <div class="col-xs-6"> 
+                <mpf-select-horz
+                  label="{label: '', required: false}"
+                  name="nDescuentoComercial"
+                  ng-model="$ctrl.mDescuentoComercial"
+                  m-data-source="$ctrl.descuentoComercialData"
+                  text-field="DsctoComercialPorcentaje"
+                  value-field="AgenteComercial"
+                  m-Empty-Option="{text:'%'}"
+                  ng-change="$ctrl.calculateDescuentoComercial($ctrl.mDescuentoComercial)"
+                  mpf-validation="required"
+                  ng-required="false"
+                >
+              </mpf-select-horz>
+
+              </div>
+              <div class="col-xs-6 no-padding-sm g-text-uppercase text-right">
+                {{ $ctrl.formData.discountComercial || 0 | currency: '-$' }}
+              </div>
+            </div>
+          </div>
+        </div>         
+        <!--FIN BUILDSOFT-->
+        <div class="row pb-xs-0-5 pt-xs-0-5 g-list-md">
+          <div class="col-md-6 col-md-offset-3 clearfix">
+            <div class="col-xs-7 item-label"><span class="ico-mapfre_82_circle ico-bullet"></span> IGV:</div>
+            <div class="col-xs-5 item-dato g-text-uppercase text-right">
+              {{ $ctrl.formData.igv || 0 | currency: '$' }}
+            </div>
+          </div>
+        </div>
+        <div class="row pb-xs-0-5 pt-xs-0-5 g-list-md" data-ng-show="!$ctrl.formData.mapfreDollarTotal">
+          <div class="col-md-6 col-md-offset-3 clearfix">
+            <div class="col-xs-7 item-label"><span class="ico-mapfre_82_circle ico-bullet"></span> Total</div>
+            <div class="col-xs-5 item-dato g-text-uppercase text-right">
+              {{ $ctrl.formData.total || 0 | currency: '$' }}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="g-section">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-4 col-md-offset-4">
+        <a class="g-btn g-btn-verde block" ng-click="$ctrl.goToNextStep()">SIGUIENTE</a>
+      </div>
+    </div>
+  </div>
+</div>

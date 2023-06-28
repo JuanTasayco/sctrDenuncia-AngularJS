@@ -1,0 +1,146 @@
+<div class="container kpi-filtros__container">
+  <div class="row">
+    <div class="col-xs-12">
+      <div class="clearfix g-box gBgcGray5 kpi-filtros__form">
+        <h2 class="pb-xs-1 kpi-filtros__form-title">
+          <b>Aplica los filtros para visualizar el dashboard</b>
+        </h2>
+        <div class="kpi-filtros__indicadores row">
+          <div class="col-sm-1 col-xs-12 kpi-filtros__label">Indicadores</div>
+          <div class="col-sm-11 col-xs-12">
+            <mpf-checkbox class="fw-normal col-sm-3 col-xs-12 kpi-filtros__checkbox" name="nCheckTodos" ng-model="$ctrl.todosIndicadores" label="Todos los indicadores" ng-change="$ctrl.selectAllIndicator()"></mpf-checkbox>
+            <mpf-checkbox class="fw-normal col-sm-3 col-xs-12 kpi-filtros__checkbox" name="nCheckIndicadores" ng-repeat="item in $ctrl.masters.indicadores" ng-show="item.show" ng-model="item.selected" label="{{item.dscrpcn}}" ng-change="$ctrl.selectIndicator()"></mpf-checkbox>
+          </div>
+        </div>
+        <div class="kpi-filtros__generales row">
+          <div class="col-sm-1 col-xs-12 kpi-filtros__label kpi-filtros__label-combos">Generales</div>
+          <div class="col-sm-11 col-xs-12">
+            <div class="row">
+              <div class="col-sm-3 kpi-filtros__combo">
+                <mpf-select-placeholder label="{label: 'Tipo de fecha', required: true}" m-Empty-Option="{enterData: true}" name="nTipoFecha" text-field="dscrpcn" value-field="cdgo" ng-model="$ctrl.filters.ad_tpfcha" m-data-source="$ctrl.masters.typesDate"></mpf-select-placeholder>
+              </div>
+              <div class="col-sm-3 kpi-filtros__combo">
+                <mpf-daterangepicker format="'dd/MM/yyyy'" label="{start: {label: 'Fecha inicial:', required: true}, end: {label: 'Fecha final:', required: true} }" ng-model="$ctrl.filters.range_date" max-date="{start: $ctrl.maxDate, end: $ctrl.maxDate}" range-date="$ctrl.rangeSearchDate"></mpf-daterangepicker>
+              </div>
+              <div class="col-sm-3 kpi-filtros__combo" ng-show="$ctrl.isSiniestro">
+                <mpf-select-placeholder label="{label: 'Forma de reclamo', required: $ctrl.isSiniestro}" m-Empty-Option="{enterData: true, text: 'Todos'}" name="nFormaReclamo" text-field="dscrpcn" value-field="cdgo" ng-model="$ctrl.filters.ac_frclmo" m-data-source="$ctrl.masters.claimsForm"></mpf-select-placeholder>
+              </div>
+              <div class="kpi-filtros__combo-asist-medica" ng-show="$ctrl.isAsistenciaMedica">
+                <div class="col-sm-3 kpi-filtros__combo">
+                  <mpf-select-placeholder label="{label: 'Ramo', required: false}" m-Empty-Option="{enterData: true, text: 'Todos'}" name="nRamo" text-field="dscrpcn" value-field="cdgo" ng-model="$ctrl.filters.ac_crmo" m-data-source="$ctrl.masters.ramos" ng-change="$ctrl.selectedRamo()"></mpf-select-placeholder>
+                </div>
+                <div ng-show="$ctrl.filters.ac_crmo.cdgo == 116">
+                  <div class="col-sm-3 kpi-filtros__combo">
+                    <mpf-select-placeholder label="{label: 'Contrato', required: false}" m-Empty-Option="{enterData: true}" name="nContrato" text-field="dscrpcn" value-field="cdgo" ng-model="$ctrl.filters.ac_ndcntrto" m-data-source="$ctrl.masters.contratos" ng-change="$ctrl.selectContrato()"></mpf-select-placeholder>
+                  </div>
+                  <div class="col-sm-3 kpi-filtros__combo">
+                    <mpf-select-placeholder label="{label: 'Sub-contrato', required: false}" m-Empty-Option="{enterData: true}" name="nSubcontrato" text-field="dscrpcn" value-field="cdgo" ng-model="$ctrl.filters.ac_ndsbcntrto" m-data-source="$ctrl.masters.subcontratos"></mpf-select-placeholder>
+                  </div>
+                </div>
+                <div ng-show="$ctrl.filters.ac_crmo.cdgo == 114 || $ctrl.filters.ac_crmo.cdgo == 115">
+                  <div class="col-sm-3 kpi-filtros__combo">
+                    <mpf-select-placeholder label="{label: 'Producto', required: false}" m-Empty-Option="{enterData: true}" name="nProducto" text-field="dscrpcn" value-field="cdgo" ng-model="$ctrl.filters.ac_cdprdcto" m-data-source="$ctrl.masters.productos" ng-change="$ctrl.selectProducto()"></mpf-select-placeholder>
+                  </div>
+                  <div class="col-sm-3 kpi-filtros__combo">
+                    <mpf-select-placeholder label="{label: 'Sub-producto', required: false}" m-Empty-Option="{enterData: true}" name="nSubproducto" text-field="dscrpcn" value-field="cdgo" ng-model="$ctrl.filters.ac_cdsbprdcto" m-data-source="$ctrl.masters.subproductos"></mpf-select-placeholder>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="kpi-fltros__secundarios" ng-show="$ctrl.isShowOptionalFilters">
+          <div class="kpi-filtros__ubigeo row">
+            <div class="col-sm-1 col-xs-12 kpi-filtros__label kpi-filtros__label-combos">Ubigeo</div>
+            <div class="col-sm-11 col-xs-12">
+              <div class="row">
+                <div class="col-sm-3 kpi-filtros__combo">
+                  <mpf-select-placeholder label="{label: 'Departamento', required: false}" m-Empty-Option="{enterData: true}" name="nDepartamento" text-field="dscrpcn" value-field="cdgo" ng-model="$ctrl.filters.ac_cdprtmnto" m-data-source="$ctrl.masters.departamentos" ng-change="$ctrl.selectDepartamento()"></mpf-select-placeholder>
+                </div>
+                <div class="col-sm-3 kpi-filtros__combo">
+                  <mpf-select-placeholder label="{label: 'Provincia', required: false}" m-Empty-Option="{enterData: true}" name="nProvincia" text-field="dscrpcn" value-field="cdgo" ng-model="$ctrl.filters.an_cprvnca" m-data-source="$ctrl.masters.provincias" ng-change="$ctrl.selectProvincia()"></mpf-select-placeholder>
+                </div>
+                <div class="col-sm-3 kpi-filtros__combo">
+                  <mpf-select-placeholder label="{label: 'Distrito', required: false}" m-Empty-Option="{enterData: true}" name="nDistrito" text-field="dscrpcn" value-field="cdgo" ng-model="$ctrl.filters.an_cdstrto" m-data-source="$ctrl.masters.distritos"></mpf-select-placeholder>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="kpi-filtros__clinica row">
+            <div class="col-sm-1 col-xs-12 kpi-filtros__label kpi-filtros__label-combos">Clínica</div>
+            <div class="col-sm-11 col-xs-12">
+              <div class="row">
+                <div class="col-sm-6 kpi-filtros__combo">
+                  <mpf-data-seeker-placeholder behavior="{label: 'Clínica', placeholder:'', matchField:'dscrpcn', required: false}" name="nClinica" ng-model="$ctrl.filters.ac_cclnca" m-data-source="$ctrl.searchClinica($inputNeed)" ng-change="$ctrl.selectClinica()">
+                    <div ng-bind-html="$item.dscrpcn | highlight: $select.search"></div>
+                  </mpf-data-seeker-placeholder>
+                </div>
+                <div class="col-sm-6 kpi-filtros__combo">
+                  <mpf-data-seeker-placeholder behavior="{label: 'Sede', placeholder:'', matchField:'dscrpcn', required: false}" name="nClinicaSede" ng-model="$ctrl.filters.ac_csde" m-data-source="$ctrl.searchSede($inputNeed)">
+                    <div ng-bind-html="$item.dscrpcn | highlight: $select.search"></div>
+                  </mpf-data-seeker-placeholder>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="kpi-filtros__atencion row">
+            <div class="col-sm-1 col-xs-12 kpi-filtros__label kpi-filtros__label-combos">Atención</div>
+            <div class="col-sm-11 col-xs-12">
+              <div class="row">
+                <div class="col-sm-6 kpi-filtros__combo">
+                  <mpf-select-placeholder label="{label: 'Cobertura', required: false}" m-Empty-Option="{enterData: true}" name="nCobertura" text-field="dscrpcn" value-field="cdgo" ng-model="$ctrl.filters.ac_ccbrtra" m-data-source="$ctrl.masters.coberturas"></mpf-select-placeholder>
+                </div>
+                <div class="col-sm-6 kpi-filtros__combo">
+                  <mpf-select-placeholder label="{label: 'Diagnóstico', required: false}" m-Empty-Option="{enterData: true}" name="nDiagnostico" text-field="dscrpcn" value-field="cdgo" ng-model="$ctrl.filters.ac_cdgnstco" m-data-source="$ctrl.masters.diagnosticos"></mpf-select-placeholder>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="kpi-filtros__operaciones row">
+            <div class="col-sm-1 col-xs-12 kpi-filtros__label kpi-filtros__label-combos">Operaciones</div>
+            <div class="col-sm-11 col-xs-12">
+              <div class="row">
+                <div class="col-sm-6 kpi-filtros__combo">
+                  <mpf-select-placeholder label="{label: 'Ejecutivo', required: false}" m-Empty-Option="{enterData: true}" name="nEjecutivo" text-field="dscrpcn" value-field="cdgo" ng-model="$ctrl.filters.ac_cejctvo" m-data-source="$ctrl.masters.ejecutivos"></mpf-select-placeholder>
+                </div>
+                <div class="col-sm-6 kpi-filtros__combo" ng-show="!$ctrl.isSoat && !$ctrl.isAccidentesPersonales && $ctrl.isSiniestro">
+                  <mpf-select-placeholder label="{label: 'Auditor Médico', required: false}" m-Empty-Option="{enterData: true}" name="nAuditorMedico" text-field="dscrpcn" value-field="cdgo" ng-model="$ctrl.filters.ac_cadtrmdco" m-data-source="$ctrl.masters.auditores"></mpf-select-placeholder>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="kpi-filtros__cliente row">
+            <div class="col-sm-1 col-xs-12 kpi-filtros__label kpi-filtros__label-combos">Cliente</div>
+            <div class="col-sm-11 col-xs-12">
+              <div class="row">
+                <div class="col-sm-6 kpi-filtros__combo" ng-show="$ctrl.isEps">
+                  <mpf-data-seeker-placeholder behavior="{label: 'Grupo económico', placeholder:'', matchField:'dscrpcn', required: false}" name="nGrupoEconomico" ng-model="$ctrl.filters.an_cgecnmco" m-data-source="$ctrl.searchGrupoEconomico($inputNeed)">
+                    <div ng-bind-html="$item.dscrpcn | highlight: $select.search"></div>
+                  </mpf-data-seeker-placeholder>
+                </div>
+                <div class="col-sm-6 kpi-filtros__combo">
+                  <mpf-data-seeker-placeholder behavior="{label: 'Contratante', placeholder:'', matchField:'dscrpcn', required: false}" name="nContratante" ng-model="$ctrl.filters.an_ccntrtnte" m-data-source="$ctrl.searchContratante($inputNeed)">
+                    <div ng-bind-html="$item.dscrpcn | highlight: $select.search"></div>
+                  </mpf-data-seeker-placeholder>
+                </div>
+                <div class="col-sm-6 kpi-filtros__combo">
+                  <mpf-data-seeker-placeholder behavior="{label: 'Intermediario (broker)', placeholder:'', matchField:'dscrpcn', required: false}" name="nIntermediario" ng-model="$ctrl.filters.an_cintrmdro" m-data-source="$ctrl.searchIntermediario($inputNeed)">
+                    <div ng-bind-html="$item.dscrpcn | highlight: $select.search"></div>
+                  </mpf-data-seeker-placeholder>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row kpi-filtros__footer">
+          <div class="col-sm-3 kpi-filtros__footer-link">
+            <a class="g-link gCGreen1" ng-click="$ctrl.showOptionalFilters()">{{$ctrl.textShowFilter}}</a>
+          </div>
+          <div class="col-sm-3 col-sm-offset-6">
+            <a class="g-btn g-btn-verde block" ng-click="$ctrl.applyFilters()" ng-class="{disabled: !$ctrl.isValidateForm()}">APLICAR FILTROS</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,272 @@
+<ng-form name="officeAddressForm">
+    <div class="g-section-inner h-myd-pb--20">
+        <div class="container">
+          <div class="row mt-3 mb-xs-2">
+            <div class="col-md-12">
+              <h2 class="g-sub-title g-myd-subtitle">Dirección de oficina</h2>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-12 mb-1">
+              <div class="row">
+                <div class="col-md-3 mb-xs-2">
+                  <mpf-select
+                    m-data-source="vm.countries"
+                    ng-model="vm.form.pais"
+                    label="{label: 'País', required: true}"
+                    name="doCountry"
+                    m-Empty-Option="{enterData:true}" 
+                    data-ng-change="vm.getDepartament(vm.form.pais.codigo,true)"
+                    mpf-validation="required"
+                    text-field="descripcion"
+                    value-field="codigo">
+                  </mpf-select>
+                  <ul class="g-error">
+                    <li ng-show="officeAddressForm.doCountry.$invalid && !officeAddressForm.doCountry.$pristine">* Seleccione un país</li>
+                  </ul>
+                </div>
+                <div class="col-md-3 mb-xs-2">
+                  <mpf-select
+                    label="{label: 'Departamento', required: true}"
+                    name="doDepartament"
+                    ng-model="vm.form.departamento"
+                    ng-disabled = "!vm.form.pais.codigo"
+                    m-Empty-Option="{enterData:true}" 
+                    mpf-validation="required"
+                    m-data-source="vm.departaments"
+                    data-ng-change="vm.getProvinces(vm.form.departamento.codigo,true)"
+                    text-field="descripcion"
+                    value-field="codigo">
+                  </mpf-select>
+                  <ul class="g-error">
+                    <li ng-show="officeAddressForm.doDepartament.$invalid && !officeAddressForm.doDepartament.$pristine">* Seleccione un departamento</li>
+                  </ul>
+                </div>
+                <div class="col-md-3 mb-xs-2">
+                  <mpf-select
+                    label="{label: 'Provincia', required: true}"
+                    name="doProvince"
+                    ng-model="vm.form.provincia"
+                    data-ng-change="vm.getDistrict(vm.form.provincia.codigo,true)"
+                    ng-disabled = "!vm.form.departamento.codigo"
+                    m-Empty-Option="{enterData:true}" 
+                    mpf-validation="required"
+                    m-data-source="vm.provinces"
+                    text-field="descripcion"
+                    value-field="codigo">
+                  </mpf-select>
+                  <ul class="g-error">
+                    <li ng-show="officeAddressForm.doProvince.$invalid && !officeAddressForm.doProvince.$pristine">* Seleccione una provincia</li>
+                  </ul>
+                </div>
+                <div class="col-md-3 mb-xs-2">
+                  <mpf-select
+                    label="{label: 'Distrito', required: true}"
+                    name="doDistrict"
+                    ng-model="vm.form.distrito"
+                    ng-disabled = "!vm.form.provincia.codigo"
+                    m-Empty-Option="{enterData:true}" 
+                    mpf-validation="required"
+                    m-data-source="vm.district"
+                    text-field="descripcion"
+                    value-field="codigo">
+                  </mpf-select>
+                  <ul class="g-error">
+                    <li ng-show="officeAddressForm.doDistrict.$invalid && !officeAddressForm.doDistrict.$pristine">* Seleccione un distrito</li>
+                  </ul>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-3 mb-xs-2">
+                  <mpf-select
+                    m-data-source="vm.paramsForm.TIP_DOMICILIO"
+                    ng-model="vm.form.tipoDomicilio"
+                    name="doAddressType"
+                    mpf-validation="required"
+                    label="{label: 'Tipo domicilio', required: true}"
+                    text-field="descripcion"
+                    value-field="codigo">
+                  </mpf-select>
+                  <ul class="g-error">
+                    <li ng-show="officeAddressForm.doAddressType.$invalid && !officeAddressForm.doAddressType.$pristine">* Seleccione un tipo de domicilio</li>
+                  </ul>
+                </div>
+                <div class="col-md-3 mb-xs-2">
+                  <mpf-input
+                    label="{label: 'Domicilio', required: true}"
+                    name="doAddress"
+                    ng-model="vm.form.domicilio"
+                    ng-maxlength="30"
+                    ng-required="true"
+                  ></mpf-input>
+                  <ul class="g-error">
+                    <li ng-show="officeAddressForm.doAddress.$invalid && !officeAddressForm.doAddress.$pristine">* Ingrese un domicilio</li>
+                  </ul>
+                </div>
+                <div class="col-md-3 mb-xs-2">
+                  <div class="row">
+                    <div class="col-xs-5">
+                      <mpf-select
+                        label="{label: 'Número', required: true}"
+                        name="doNumberType"
+                        ng-model="vm.form.tipoNumero"
+                        m-Empty-Option="{enterData:true}" 
+                        mpf-validation="required"
+                        m-data-source="vm.paramsForm.TIP_NUMERO"
+                        text-field="descripcion"
+                        value-field="codigo">
+                      </mpf-select>
+                      <ul class="g-error">
+                        <li ng-show="officeAddressForm.doNumberType.$invalid && !officeAddressForm.doNumberType.$pristine">* Seleccione un número</li>
+                      </ul>
+                    </div>
+                    <div class="col-xs-7">
+                      <mpf-input
+                        label="{label: '', required: true}"
+                        name="doNumber"
+                        ng-model="vm.form.numero"
+                        ng-maxlength="5"
+                        ng-required="true">
+                      </mpf-input>
+                      <ul class="g-error">
+                        <li ng-show="officeAddressForm.doNumber.$invalid && !officeAddressForm.doNumber.$pristine">* Ingrese un número</li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-3 mb-xs-2">
+                  <div class="row">
+                    <div class="col-xs-5">
+                      <mpf-select
+                        label="{label: 'Interior', required: true}"
+                        name="doInteriorType"
+                        ng-model="vm.form.tipoInterior"
+                        m-Empty-Option="{enterData:true}" 
+                        mpf-validation="required"
+                        m-data-source="vm.paramsForm.TIP_INTERIOR"
+                        text-field="descripcion"
+                        value-field="codigo">
+                      </mpf-select>
+                      <ul class="g-error">
+                        <li ng-show="officeAddressForm.doInteriorType.$invalid && !officeAddressForm.doInteriorType.$pristine">* Seleccione un interior</li>
+                      </ul>
+                    </div>
+                    <div class="col-xs-7">
+                      <mpf-input
+                        label="{label: '', required: true}"
+                        name="doInterior"
+                        ng-model="vm.form.interior"
+                        ng-maxlength="5"
+                        ng-required="true"
+                      ></mpf-input>
+                      <ul class="g-error">
+                        <li ng-show="officeAddressForm.doInterior.$invalid && !officeAddressForm.doInterior.$pristine">* Ingrese un interior</li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-3 mb-xs-2">
+                  <div class="row">
+                    <div class="col-xs-5">
+                      <mpf-select
+                        label="{label: 'Zona', required: false}"
+                        name="doZoneType"
+                        ng-model="vm.form.tipoZona"
+                        m-Empty-Option="{enterData:true}" 
+                        m-data-source="vm.paramsForm.TIP_ZONA"
+                        text-field="descripcion"
+                        value-field="codigo">
+                      </mpf-select>
+                    </div>
+                    <div class="col-xs-7">
+                      <mpf-input
+                        label="{label: '', required: true}"
+                        name="doZone"
+                        ng-model="vm.form.zona"  
+                        ng-maxlength="30">
+                      </mpf-input>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-3 mb-xs-2">
+                  <mpf-input
+                    label="{label: 'Código postal', required: false}"
+                    name="doPostalCode"
+                    ng-model="vm.form.codigoPostal.descripcion"
+                    mpf-validation="onlyNumber"
+                    ng-maxlength="15"
+                    trn-length="15">
+                  </mpf-input>
+                </div>
+                <div class="col-md-3 mb-xs-2">
+                  <mpf-input
+                    label="{label: 'Referencia lugar', required: false}"
+                    name="doPlaceReference"
+                    ng-model="vm.form.referenciaLugarOf"
+                    ng-maxlength="250">
+                  </mpf-input>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-3 mb-xs-2">
+                  <mpf-input
+                    label="{label: 'Teléfono oficina: Código país', required: false}"
+                    name="doCountryCodePhoneOfi"
+                    ng-maxlength="3"
+                    trn-length="3"
+                    ng-model="vm.form.telPaisOf"
+                    mpf-validation="onlyNumber">
+                  </mpf-input>
+                </div>
+                <div class="col-md-3 mb-xs-2">
+                  <mpf-input
+                    label="{label: 'Teléfono oficina: Código área', required: false}"
+                    name="doCodeAreaPhoneOfi"
+                    ng-model="vm.form.telZonaOf"
+                    ng-maxlength="5"
+                    trn-length="5"
+                    mpf-validation="onlyNumber">
+                  </mpf-input>
+                </div>
+                <div class="col-md-3 mb-xs-2">
+                  <mpf-input
+                    label="{label: 'Teléfono oficina', required: false}"
+                    name="doPhoneOfi"
+                    ng-model="vm.form.telefonoOf"
+                    ng-maxlength="10"
+                    trn-length="10"
+                    mpf-validation="onlyNumber">
+                  </mpf-input>
+                </div>
+                <div class="col-md-3 mb-xs-2">
+                  <mpf-input
+                    label="{label: 'Anexo', required: false}"
+                    name="doPhoneAnnex"
+                    ng-model="vm.form.anexo"
+                    mpf-validation="onlyNumber"
+                    ng-maxlength="8"
+                    trn-length="8">
+                  </mpf-input>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-3 mb-xs-2">
+                  <mpf-input
+                    label="{label: 'Email oficina', required: false}"
+                    name="doEmail"
+                    mpf-validation="email"
+                    ng-model="vm.form.emailOficina"
+                    ng-maxlength="60">
+                  </mpf-input>
+                  <ul class="g-error">
+                    <li ng-show="officeAddressForm.doEmail.$invalid && !officeAddressForm.doEmail.$pristine">* Ingrese un email válido</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+</ng-form>

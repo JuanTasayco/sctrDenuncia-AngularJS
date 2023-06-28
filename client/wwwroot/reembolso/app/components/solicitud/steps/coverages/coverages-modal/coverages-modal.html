@@ -1,0 +1,53 @@
+<section class="g-page-popup g-reembolso-popup">
+  <button type="button" class="close g-close-modal" ng-click="$ctrl.cerrar()">
+    <span class=" ico-mapfre_231_cancelaroff"></span>
+  </button>
+  <form name="frm">
+    <div class="container g-modal-header g-text-uppercase">
+      <div class="col-xs-12">
+        <div class="row">
+          <div class="col-md-12 mb-xs-1">
+            <h2 class="gH3"><b>Selecciona una cobertura</b></h2>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="container g-modal-body pt-xs-2 pb-xs-2">
+      <div class="col-xs-12">
+        <div class="container g-modal-body pt-xs-2 pb-xs-2">
+          <div class="col-xs-12">
+            <div class="row">
+              <div class="col-xs-12 g-box box-search-afiliado">
+                <div class="row">
+                  <div class="col-xs-12">
+                    <div
+                      class="clearfix g-box mb-xs-1 g-u-cursor--pointer content-procedimiento"
+                      ng-repeat="coverage in $ctrl.coverageList"
+                      ng-class="{
+                        'active': coverage.code === $ctrl.coverage.code || coverage.code === $ctrl.coverageSelected.code
+                      }"
+                      ng-click="$ctrl.selectCoverage(coverage)">
+                        <div class="col-xs-3">{{coverage.code}}</div>
+                        <div class="col-xs-9">{{coverage.longDescription}}</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="container g-modal-footer pt-xs-2">
+      <div class="col-md-4 col-md-offset-4 mb-xs-1 no-mb-md">
+        <a
+          href="javascript:void(0)"
+          class="g-btn g-btn-verde block"
+          ng-class="{'disabled': $ctrl.coverage === undefined}"
+          ng-click="$ctrl.sendCoverage()">
+          Aceptar
+        </a>
+      </div>
+    </div>
+  </form>
+</section>

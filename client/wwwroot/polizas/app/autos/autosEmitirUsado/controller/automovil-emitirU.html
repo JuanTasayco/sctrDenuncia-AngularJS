@@ -1,0 +1,502 @@
+<section class="g-page page-automovil-emitir">
+
+	<page-title info="{title: 'Emisión póliza auto usado'}" ng-show="currentStep < 6"></page-title>
+
+	<!-- USADO -->
+	<div class="emitir-usado">
+
+			<wizard-stairs	stairs="{steps: [{description:'Seleccionar inspección'},
+														{description:'Datos de la póliza'},
+														{description:'Datos del contratante'},
+														{description:'Datos de financiamiento'},
+														{description:'Emitir póliza'}],
+														stateName:'.steps', stateParameter: 'step'}"
+											current-Step="currentStep"
+											steping="nav.go($stepToGo)"
+											ng-show="currentStep < 6">
+			</wizard-stairs>
+
+			<div class="g-sec-information">
+				<!-- newSectionInformation -->
+				<div class="sec-item" ng-show="currentStep > 1 && currentStep < 6">
+					<div class="container">
+						<ul class="row cnt-title">
+							<li class="col-xs-6 item-title g-myd-subtitle">Datos del auto</li>
+							<li class="col-xs-6 item-edit g-text-right-sm">
+								<a class="h-myd--none" href="" ui-sref=".steps({step: 1})">
+									<span class="g-icon gCGray3">
+										<span class="icon ico-mapfre_228_editar"></span>
+										<span class="g-link">Seleccionar otro auto</span>
+									</span>
+								</a>
+								<a class="h-myd--show h-oim-none" href="" ui-sref=".steps({step: 1})">
+									<i class="ico-mapfre_345_myd-edit ico-edit"></i>
+									<span>Editar</span>
+								</a>
+							</li>
+						</ul>
+						<ul class="row">
+							<li class="col-md-4 clearfix cnt-item h-myd-p--0">
+								<div class="col-sm-5 item-label">
+									<span class="ico-mapfre_82_circle ico-bullet"></span>Auto:
+								</div>
+								<div class="col-sm-7 item-dato g-text-uppercase">{{firstStep.dataInspection.NomMarca}} {{firstStep.dataInspection.NomModelo}} {{firstStep.dataInspection.Veh_ano}}</div>
+							</li>
+							<li class="col-md-4 clearfix cnt-item h-myd-p--0">
+								<div class="col-sm-5 item-label"><span class="ico-mapfre_82_circle ico-bullet"></span>Valor del auto:</div>
+								<div class="col-sm-7 item-dato g-text-uppercase">{{firstStep.dataInspection.Veh_valor | currency:currencyType}}</div>
+							</li>
+							<li class="col-md-4 clearfix cnt-item h-myd-p--0">
+								<div class="col-sm-5 item-label">
+									<span class="ico-mapfre_82_circle ico-bullet"></span>Circulación:
+								</div>
+								<div class="col-sm-7 item-dato g-text-uppercase">{{firstStep.dataContractor.Ubigeo.NombreDepartamento}}, {{firstStep.dataContractor.Ubigeo.NombreProvincia}}, {{firstStep.dataContractor.Ubigeo.NombreDistrito}}</div>
+							</li>
+						</ul>
+						<ul class="row">
+							<li class="col-md-4 clearfix cnt-item h-myd-p--0">
+								<div class="col-sm-5 item-label">
+									<span class="ico-mapfre_82_circle ico-bullet"></span>Nro. placa:
+								</div>
+								<div class="col-sm-7 item-dato g-text-uppercase">{{firstStep.dataInspection.NumeroPlaca}}</div>
+							</li>
+							<li class="col-md-4 clearfix cnt-item h-myd-p--0">
+								<div class="col-sm-5 item-label">
+									<span class="ico-mapfre_82_circle ico-bullet"></span>Nro. chasis:
+								</div>
+								<div class="col-sm-7 item-dato g-text-uppercase">{{firstStep.dataInspection.NumeroChasis}}</div>
+							</li>
+							<li class="col-md-4 clearfix cnt-item h-myd-p--0">
+								<div class="col-sm-5 item-label">
+									<span class="ico-mapfre_82_circle ico-bullet"></span>Nro. motor:
+								</div>
+								<div class="col-sm-7 item-dato g-text-uppercase">{{firstStep.dataInspection.Veh_nro_motor}}</div>
+							</li>
+						</ul>
+						<ul class="row">
+							<li class="col-md-4 clearfix cnt-item h-myd-p--0">
+								<div class="col-sm-5 item-label">
+									<span class="ico-mapfre_82_circle ico-bullet"></span>Color:
+								</div>
+								<div class="col-sm-7 item-dato g-text-uppercase">{{secondStep.dataColor.Descripcion}}</div>
+							</li>
+							<li class="col-md-4 clearfix cnt-item h-myd-p--0">
+								<div class="col-sm-5 item-label">
+									<span class="ico-mapfre_82_circle ico-bullet"></span>Nro. de inspección:
+								</div>
+								<div class="col-sm-7 item-dato g-text-uppercase">{{firstStep.dataInspection.NumeroInspeccion}}</div>
+							</li>
+							<li class="col-md-4 clearfix cnt-item" ng-show="currentStep>2">
+								<div class="col-sm-5 item-label">
+									<span class="ico-mapfre_82_circle ico-bullet"></span>Nro. Solicitud
+								</div>
+								<div class="col-sm-7 item-dato g-text-uppercase">{{firstStep.dataInspection.Nro_solicitud}}</div>
+							</li>
+						</ul>
+            <ul
+              class="row cnt-title"
+              ng-if="secondStep.isEmblem && currentStep > 3"
+            >
+              <li class="col-xs-6 item-title g-myd-subtitle">Datos adicionales del auto</li>
+            </ul>
+            <ul class="row" ng-if="secondStep.isEmblem && currentStep > 3">
+              <li class="col-md-4 clearfix cnt-item h-myd-p--0">
+                <div class="col-sm-5 item-label">
+                  <span class="ico-mapfre_82_circle ico-bullet"></span>Transmisión:
+                </div>
+                <div class="col-sm-7 item-dato">{{ thirdStep.vehicleDetailsContractor.VehicleTransmission.Descripcion }}</div>
+              </li>
+            </ul>
+					</div>
+				</div>
+
+				<!-- newSectionInformation -->
+				<!-- Datos de poliza -->
+				<div class="sec-item" ng-show="currentStep > 2 && currentStep < 6">
+					<div class="container">
+						<ul class="row cnt-title">
+							<li class="col-xs-6 item-title g-myd-subtitle">Datos de la póliza</li>
+							<li class="col-xs-6 item-edit g-text-right-sm">
+								<a class="h-myd--none" href="" ui-sref=".steps({step: 2})">
+									<span class="g-icon gCGray3">
+										<span class="icon ico-mapfre_228_editar"></span>
+										<span class="g-link">Editar datos de la póliza</span>
+									</span>
+								</a>
+								<a class="h-myd--show h-oim-none" href="" ui-sref=".steps({step: 2})">
+									<i class="ico-mapfre_345_myd-edit ico-edit"></i>
+									<span>Editar</span>
+								</a>
+							</li>
+						</ul>
+						<ul class="row">
+							<li class="col-md-4 clearfix cnt-item h-myd-p--0">
+								<div class="col-sm-5 item-label">
+									<span class="ico-mapfre_82_circle ico-bullet"></span>Producto:
+								</div>
+								<div class="col-sm-7 item-dato g-text-uppercase">{{secondStep.mProducto.NombreProducto}}</div>
+							</li>
+							<li class="col-md-4 clearfix cnt-item h-myd-p--0">
+								<div class="col-sm-5 item-label">
+									<span class="ico-mapfre_82_circle ico-bullet"></span>Suma asegurada:
+								</div>
+								<div class="col-sm-7 item-dato g-text-uppercase">{{secondStep.dataCarValue.Valor | currency:currencyType}}</div>
+							</li>
+						</ul>
+						<ul class="row">
+							<li class="col-md-4 clearfix cnt-item h-myd-p--0">
+								<div class="col-sm-5 item-label">
+									<span class="ico-mapfre_82_circle ico-bullet"></span>Fecha de inicio:
+								</div>
+								<div class="col-sm-7 item-dato g-text-uppercase">{{secondStep.mInicioVigencia | date:formatDate}}</div>
+							</li>
+							<li class="col-md-4 clearfix cnt-item h-myd-p--0">
+								<div class="col-sm-5 item-label">
+									<span class="ico-mapfre_82_circle ico-bullet"></span>Fecha de termino:
+								</div>
+								<div class="col-sm-7 item-dato g-text-uppercase">{{secondStep.mFinVigencia | date:formatDate}}</div>
+							</li>
+							<li class="col-md-4 clearfix cnt-item h-myd-p--0">
+								<div class="col-sm-5 item-label">
+									<span class="ico-mapfre_82_circle ico-bullet"></span>Póliza de grupo:
+								</div>
+								<div class="col-sm-7 item-dato g-text-uppercase">{{secondStep.dataGroupPolize ? secondStep.dataGroupPolize.groupPolizeDescription : ''}}</div>
+							</li>
+						</ul>
+					</div>
+				</div>
+
+				<!-- newSectionInformation -->
+				<!-- Datos del contratante -->
+				<div class="sec-item" ng-show="currentStep > 3 && currentStep < 6">
+					<div class="container">
+						<ul class="row cnt-title">
+							<li class="col-xs-6 item-title g-myd-subtitle">Datos del Contratante</li>
+							<li class="col-xs-6 item-edit g-text-right-sm">
+								<a class="h-myd--none" href="" ui-sref=".steps({step: 3})">
+									<span class="g-icon gCGray3">
+										<span class="icon ico-mapfre_228_editar"></span>
+										<span class="g-link">Editar datos del Contratante</span>
+									</span>
+								</a>
+								<a class="h-myd--show h-oim-none" href="" ui-sref=".steps({step: 3})">
+									<i class="ico-mapfre_345_myd-edit ico-edit"></i>
+									<span>Editar</span>
+								</a>
+							</li>
+						</ul>
+						<ul class="row">
+							<li class="col-md-4 clearfix cnt-item h-myd-p--0">
+								<div class="col-sm-5 item-label">
+									<span class="ico-mapfre_82_circle ico-bullet"></span>Documento:
+								</div>
+								<div class="col-sm-7 item-dato g-text-uppercase">{{thirdStep.dataContractor.mTipoDocumento.Codigo}} - {{thirdStep.dataContractor.mNumeroDocumento}}</div>
+							</li>
+							<li class="col-md-4 clearfix cnt-item h-myd-p--0">
+								<div class="col-sm-5 item-label">
+									<span class="ico-mapfre_82_circle ico-bullet"></span> {{(thirdStep.dataContractor.showNaturalRucPerson) ? 'Nombre:' : 'Raz. Social:'}}
+								</div>
+								<div class="col-sm-7 item-dato g-text-uppercase">
+									{{(thirdStep.dataContractor.showNaturalRucPerson) ? thirdStep.dataContractor.mNomContratante + ' ' + thirdStep.dataContractor.mApePatContratante + ' ' + thirdStep.dataContractor.mApeMatContratante : thirdStep.dataContractor.mRazonSocial}}</div>
+							</li>
+						</ul>
+						<ul class="row" ng-show="thirdStep.dataContractor.showNaturalRucPerson">
+							<li class="col-md-4 clearfix cnt-item h-myd-p--0">
+								<div class="col-sm-5 item-label">
+									<span class="ico-mapfre_82_circle ico-bullet"></span>Fecha de nacimiento:
+								</div>
+
+								<div class="col-sm-7 item-dato g-text-uppercase">
+									{{thirdStep.dataContractor.mDay.description + '/' + thirdStep.dataContractor.mMonth.description + '/' + thirdStep.dataContractor.mYear.description}}</div>
+							</li>
+							<li class="col-md-4 clearfix cnt-item h-myd-p--0">
+								<div class="col-sm-5 item-label">
+									<span class="ico-mapfre_82_circle ico-bullet"></span>Sexo:
+								</div>
+								<div class="col-sm-7 item-dato g-text-uppercase">{{(thirdStep.dataContractor.mSexo == 'H') ? 'Masculino' : 'Femenino'}}</div>
+							</li>
+							<li class="col-md-4 clearfix cnt-item h-myd-p--0">
+								<div class="col-sm-5 item-label">
+									<span class="ico-mapfre_82_circle ico-bullet"></span>Profesión:
+								</div>
+								<div class="col-sm-7 item-dato g-text-uppercase">{{thirdStep.dataContractor.mProfesion.Descripcion}}</div>
+							</li>
+						</ul>
+						<ul class="row">
+							<li class="col-md-4 clearfix cnt-item h-myd-p--0">
+								<div class="col-sm-5 item-label">
+									<span class="ico-mapfre_82_circle ico-bullet"></span>Teléfono fijo:
+								</div>
+								<div class="col-sm-7 item-dato g-text-uppercase">{{thirdStep.dataContractor.mTelefonoFijo}}</div>
+							</li>
+							<li class="col-md-4 clearfix cnt-item h-myd-p--0">
+								<div class="col-sm-5 item-label">
+									<span class="ico-mapfre_82_circle ico-bullet"></span>Teléfono móvil:
+								</div>
+								<div class="col-sm-7 item-dato g-text-uppercase">{{thirdStep.dataContractor.mTelefonoCelular}}</div>
+							</li>
+							<li class="col-md-4 clearfix cnt-item h-myd-p--0">
+								<div class="col-sm-5 item-label">
+									<span class="ico-mapfre_82_circle ico-bullet"></span>Correo electrónico:
+								</div>
+								<div class="col-sm-7 item-dato g-text-uppercase">{{thirdStep.dataContractor.mCorreoElectronico}}</div>
+							</li>
+						</ul>
+						<ul class="row">
+							<li class="col-md-4 clearfix cnt-item h-myd-p--0">
+								<div class="col-sm-5 item-label">
+									<span class="ico-mapfre_82_circle ico-bullet"></span>Departamento:
+								</div>
+								<div class="col-sm-7 item-dato g-text-uppercase">{{thirdStep.dataContractorAddress.ubigeoData.mDepartamento.Descripcion}}</div>
+							</li>
+							<li class="col-md-4 clearfix cnt-item h-myd-p--0">
+								<div class="col-sm-5 item-label">
+									<span class="ico-mapfre_82_circle ico-bullet"></span>Provincia:
+								</div>
+								<div class="col-sm-7 item-dato g-text-uppercase">{{thirdStep.dataContractorAddress.ubigeoData.mProvincia.Descripcion}}</div>
+							</li>
+							<li class="col-md-4 clearfix cnt-item h-myd-p--0">
+								<div class="col-sm-5 item-label">
+									<span class="ico-mapfre_82_circle ico-bullet"></span>Distrito:
+								</div>
+								<div class="col-sm-7 item-dato g-text-uppercase">{{thirdStep.dataContractorAddress.ubigeoData.mDistrito.Descripcion}}</div>
+							</li>
+						</ul>
+						<ul class="row">
+							<li class="col-md-4 clearfix cnt-item h-myd-p--0">
+								<div class="col-sm-5 item-label">
+									<span class="ico-mapfre_82_circle ico-bullet"></span>Vía:
+								</div>
+								<div class="col-sm-7 item-dato g-text-uppercase">{{thirdStep.dataContractorAddress.mTipoVia.Codigo !== null ? thirdStep.dataContractorAddress.mTipoVia.Descripcion : ''}} {{thirdStep.dataContractorAddress.mNombreVia}}</div>
+							</li>
+							<li class="col-md-4 clearfix cnt-item h-myd-p--0">
+								<div class="col-sm-5 item-label">
+									<span class="ico-mapfre_82_circle ico-bullet"></span>Enumeración:
+								</div>
+								<div class="col-sm-7 item-dato g-text-uppercase">{{thirdStep.dataContractorAddress.mTipoNumero.Codigo !== null ?  thirdStep.dataContractorAddress.mTipoNumero.Descripcion : ''}} {{thirdStep.dataContractorAddress.mNumeroDireccion}}</div>
+							</li>
+							<li class="col-md-4 clearfix cnt-item h-myd-p--0">
+								<div class="col-sm-5 item-label">
+									<span class="ico-mapfre_82_circle ico-bullet"></span>Enumeración interior:
+								</div>
+								<div class="col-sm-7 item-dato g-text-uppercase">{{thirdStep.dataContractorAddress.mTipoInterior.Codigo !== null ? thirdStep.dataContractorAddress.mTipoInterior.Descripcion : ''}} {{thirdStep.dataContractorAddress.mNumeroInterior}}</div>
+							</li>
+						</ul>
+						<ul class="row">
+							<li class="col-md-4 clearfix cnt-item h-myd-p--0">
+								<div class="col-sm-5 item-label">
+									<span class="ico-mapfre_82_circle ico-bullet"></span>Zona:
+								</div>
+								<div class="col-sm-7 item-dato g-text-uppercase">{{thirdStep.dataContractorAddress.mTipoZona.Codigo !== null ? thirdStep.dataContractorAddress.mTipoZona.Descripcion : ''}} {{thirdStep.dataContractorAddress.mNombreZona}}</div>
+							</li>
+							<li class="col-md-4 clearfix cnt-item h-myd-p--0">
+								<div class="col-sm-5 item-label">
+									<span class="ico-mapfre_82_circle ico-bullet"></span>Referencia:
+								</div>
+								<div class="col-sm-7 item-dato g-text-uppercase">{{thirdStep.dataContractorAddress.mDirReferencias}}</div>
+							</li>
+							<li class="col-md-4 clearfix cnt-item h-myd-p--0">
+								<div class="col-sm-5 item-label">
+									<span class="ico-mapfre_82_circle ico-bullet"></span>MAPFRE dólares:
+								</div>
+								<div class="col-sm-7 item-dato g-text-uppercase">
+								{{thirdStep.dataContractor.saldoMapfreDolares | currency:currencyType}}</div>
+							</li>
+						</ul>
+            <ul class="row">
+              <li
+                class="col-md-4 clearfix cnt-item h-myd-p--0"
+                ng-if="secondStep.isEmblem && currentStep > 3 && thirdStep.dataContractor.mEstadoCivil.Codigo && thirdStep.dataContractor.mEstadoCivil.Descripcion"
+              >
+                <div class="col-sm-5 item-label">
+                  <span class="ico-mapfre_82_circle ico-bullet"></span>Estado Civil:
+                </div>
+                <div class="col-sm-7 item-dato g-text-uppercase">{{thirdStep.dataContractor.mEstadoCivil.Descripcion}}</div>
+              </li>
+              <li
+                class="col-md-4 clearfix cnt-item h-myd-p--0"
+                ng-if="thirdStep.dataContractor.expirationDay.Codigo && thirdStep.dataContractor.expirationMonth.Codigo && thirdStep.dataContractor.expirationYear.Codigo"
+              >
+                <div class="col-sm-5 item-label">
+                  <span class="ico-mapfre_82_circle ico-bullet"></span>Fecha Expedición Brevete:
+                </div>
+                <div class="col-sm-7 item-dato g-text-uppercase">
+                  {{ thirdStep.dataContractor.expirationDay.Descripcion + '/' +
+                    thirdStep.dataContractor.expirationMonth.Descripcion + '/' +
+                    thirdStep.dataContractor.expirationYear.Descripcion }}
+                </div>
+              </li>
+              <li class="col-md-4 clearfix cnt-item h-myd-p--0" ng-if="thirdStep.dataContractor.scoreMorosidad">
+                <div class="col-sm-5 item-label">
+                  <span class="ico-mapfre_82_circle ico-bullet"></span>Score (Morosidad):
+                </div>
+                <div class="col-sm-7 item-dato g-text-uppercase">{{thirdStep.dataContractor.scoreMorosidad}}</div>
+              </li>
+            </ul>
+					</div>
+				</div>
+
+				<div class="sec-item" ng-show="currentStep > 3 && currentStep < 6 && !thirdStep.aseguradoFlag">
+					<div class="container">
+						<ul class="row cnt-title">
+							<li class="col-xs-6 item-title">Datos del Asegurado</li>
+							<li class="col-xs-6 item-edit">
+								<a class="h-myd--none" href="" ui-sref=".steps({step: 3})"><span class="ico-mapfre_43_editar ico-edit"></span>Editar datos del asegurado</a>
+								<a class="h-myd--show h-oim-none" href="" ui-sref=".steps({step: 3})">
+									<i class="ico-mapfre_345_myd-edit ico-edit"></i>
+									<span>Editar datos del asegurado</span>
+								</a>
+							</li>
+						</ul>
+						<ul class="row">
+							<li class="col-md-4 clearfix cnt-item h-myd-p--0">
+								<div class="col-sm-5 item-label">
+									<span class="ico-mapfre_82_circle ico-bullet"></span>Documento:
+								</div>
+								<div class="col-sm-7 item-dato g-text-uppercase">{{thirdStep.dataContractor2.mTipoDocumento.Codigo}} - {{thirdStep.dataContractor2.mNumeroDocumento}}</div>
+							</li>
+							<li class="col-md-4 clearfix cnt-item h-myd-p--0">
+								<div class="col-sm-5 item-label">
+									<span class="ico-mapfre_82_circle ico-bullet"></span> {{(thirdStep.dataContractor2.showNaturalRucPerson) ? 'Nombre:' : 'Raz. Social:'}}
+								</div>
+								<div class="col-sm-7 item-dato g-text-uppercase">
+									{{(thirdStep.dataContractor2.showNaturalRucPerson) ? thirdStep.dataContractor2.mNomContratante + ' ' + thirdStep.dataContractor2.mApePatContratante + ' ' + thirdStep.dataContractor2.mApeMatContratante : thirdStep.dataContractor2.mRazonSocial}}</div>
+							</li>
+						</ul>
+						<ul class="row" ng-show="thirdStep.dataContractor2.showNaturalRucPerson">
+							<li class="col-md-4 clearfix cnt-item h-myd-p--0">
+								<div class="col-sm-5 item-label">
+									<span class="ico-mapfre_82_circle ico-bullet"></span>Fecha de nacimiento:
+								</div>
+								<!-- <div class="col-sm-7 item-dato g-text-uppercase">{{thirdStep.dataContractor.mDay.description}}/{{thirdStep.dataContractor.mMonth.description}}/{{thirdStep.dataContractor.mYear.description}}</div> -->
+								<div class="col-sm-7 item-dato g-text-uppercase">
+									{{thirdStep.dataContractor2.mDay.description + '/' + thirdStep.dataContractor2.mMonth.description + '/' + thirdStep.dataContractor2.mYear.description}}</div>
+							</li>
+							<li class="col-md-4 clearfix cnt-item h-myd-p--0">
+								<div class="col-sm-5 item-label">
+									<span class="ico-mapfre_82_circle ico-bullet"></span>Sexo:
+								</div>
+								<!-- <div class="col-sm-7 item-dato g-text-uppercase">{{thirdStep.dataContractor.mSexo == 'H' ? 'Masculino' : 'Femenino'}}</div> -->
+								<div class="col-sm-7 item-dato g-text-uppercase">{{(thirdStep.dataContractor2.mSexo == 'H') ? 'Masculino' : 'Femenino'}}</div>
+							</li>
+							<li class="col-md-4 clearfix cnt-item h-myd-p--0">
+								<div class="col-sm-5 item-label">
+									<span class="ico-mapfre_82_circle ico-bullet"></span>Profesión:
+								</div>
+								<div class="col-sm-7 item-dato g-text-uppercase">{{thirdStep.dataContractor2.mProfesion.Descripcion}}</div>
+							</li>
+						</ul>
+						<ul class="row">
+							<li class="col-md-4 clearfix cnt-item h-myd-p--0">
+								<div class="col-sm-5 item-label">
+									<span class="ico-mapfre_82_circle ico-bullet"></span>Teléfono fijo:
+								</div>
+								<div class="col-sm-7 item-dato g-text-uppercase">{{thirdStep.dataContractor2.mTelefonoFijo}}</div>
+							</li>
+							<li class="col-md-4 clearfix cnt-item h-myd-p--0">
+								<div class="col-sm-5 item-label">
+									<span class="ico-mapfre_82_circle ico-bullet"></span>Teléfono móvil:
+								</div>
+								<div class="col-sm-7 item-dato g-text-uppercase">{{thirdStep.dataContractor2.mTelefonoCelular}}</div>
+							</li>
+							<li class="col-md-4 clearfix cnt-item h-myd-p--0">
+								<div class="col-sm-5 item-label">
+									<span class="ico-mapfre_82_circle ico-bullet"></span>Correo electrónico:
+								</div>
+								<div class="col-sm-7 item-dato g-text-uppercase">{{thirdStep.dataContractor2.mCorreoElectronico}}</div>
+							</li>
+						</ul>
+						<ul class="row">
+							<li class="col-md-4 clearfix cnt-item h-myd-p--0">
+								<div class="col-sm-5 item-label">
+									<span class="ico-mapfre_82_circle ico-bullet"></span>Departamento:
+								</div>
+								<div class="col-sm-7 item-dato g-text-uppercase">{{thirdStep.dataContractorAddress2.ubigeoData.mDepartamento.Descripcion}}</div>
+							</li>
+							<li class="col-md-4 clearfix cnt-item h-myd-p--0">
+								<div class="col-sm-5 item-label">
+									<span class="ico-mapfre_82_circle ico-bullet"></span>Provincia:
+								</div>
+								<div class="col-sm-7 item-dato g-text-uppercase">{{thirdStep.dataContractorAddress2.ubigeoData.mProvincia.Descripcion}}</div>
+							</li>
+							<li class="col-md-4 clearfix cnt-item h-myd-p--0">
+								<div class="col-sm-5 item-label">
+									<span class="ico-mapfre_82_circle ico-bullet"></span>Distrito:
+								</div>
+								<div class="col-sm-7 item-dato g-text-uppercase">{{thirdStep.dataContractorAddress2.ubigeoData.mDistrito.Descripcion}}</div>
+							</li>
+						</ul>
+						<ul class="row">
+							<li class="col-md-4 clearfix cnt-item h-myd-p--0">
+								<div class="col-sm-5 item-label">
+									<span class="ico-mapfre_82_circle ico-bullet"></span>Vía:
+								</div>
+								<div class="col-sm-7 item-dato g-text-uppercase">{{thirdStep.dataContractorAddress2.mTipoVia.Codigo !== null ? thirdStep.dataContractorAddress2.mTipoVia.Descripcion : ''}} {{thirdStep.dataContractorAddress2.mNombreVia}}</div>
+							</li>
+							<li class="col-md-4 clearfix cnt-item h-myd-p--0">
+								<div class="col-sm-5 item-label">
+									<span class="ico-mapfre_82_circle ico-bullet"></span>Enumeración:
+								</div>
+								<div class="col-sm-7 item-dato g-text-uppercase">{{thirdStep.dataContractorAddress2.mTipoNumero.Codigo !== null ?  thirdStep.dataContractorAddress2.mTipoNumero.Descripcion : ''}} {{thirdStep.dataContractorAddress2.mNumeroDireccion}}</div>
+							</li>
+							<li class="col-md-4 clearfix cnt-item h-myd-p--0">
+								<div class="col-sm-5 item-label">
+									<span class="ico-mapfre_82_circle ico-bullet"></span>Enumeración interior:
+								</div>
+								<div class="col-sm-7 item-dato g-text-uppercase">{{thirdStep.dataContractorAddress2.mTipoInterior.Codigo !== null ? thirdStep.dataContractorAddress2.mTipoInterior.Descripcion : ''}} {{thirdStep.dataContractorAddress2.mNumeroInterior}}</div>
+							</li>
+						</ul>
+						<ul class="row">
+							<li class="col-md-4 clearfix cnt-item h-myd-p--0">
+								<div class="col-sm-5 item-label">
+									<span class="ico-mapfre_82_circle ico-bullet"></span>Zona:
+								</div>
+								<div class="col-sm-7 item-dato g-text-uppercase">{{thirdStep.dataContractorAddress2.mTipoZona.Codigo !== null ? thirdStep.dataContractorAddress2.mTipoZona.Descripcion : ''}} {{thirdStep.dataContractorAddress2.mNombreZona}}</div>
+							</li>
+							<li class="col-md-4 clearfix cnt-item h-myd-p--0">
+								<div class="col-sm-5 item-label">
+									<span class="ico-mapfre_82_circle ico-bullet"></span>Referencia:
+								</div>
+								<div class="col-sm-7 item-dato g-text-uppercase">{{thirdStep.dataContractorAddress2.mDirReferencias}}</div>
+							</li>
+							<li class="col-md-4 clearfix cnt-item h-myd-p--0">
+								<div class="col-sm-5 item-label">
+									<span class="ico-mapfre_82_circle ico-bullet"></span>MAPFRE dólares:
+								</div>
+								<div class="col-sm-7 item-dato g-text-uppercase">
+								{{thirdStep.dataContractor2.saldoMapfreDolares | currency:currencyType}}</div>
+							</li>
+						</ul>
+					</div>
+				</div>
+
+				<div class="sec-item" ng-show="currentStep > 4 && currentStep < 6">
+					<div class="container">
+						<ul class="row cnt-title">
+							<li class="col-sm-6 item-title">Datos de Financiamiento</li>
+						</ul>
+						<ul class="row">
+							<li class="col-md-4 clearfix cnt-item">
+								<div class="col-sm-5 item-label">
+									<span class="ico-mapfre_82_circle ico-bullet"></span>Financiamiento:
+								</div>
+								<div class="col-sm-7 item-dato">{{fourthStep.mTipoFinanciamiento.Descripcion | uppercase}}</div>
+							</li>
+							<li class="col-md-4 clearfix cnt-item">
+								<div class="col-sm-5 item-label"><span class="ico-mapfre_82_circle ico-bullet"></span>Endosatario:</div>
+                <div class="col-sm-7 item-dato" ng-show="!fourthStep.mEndosatario || !fourthStep.mEndosatario.Codigo">NO USAR ENDOSATARIO</div>
+                <div class="col-sm-7 item-dato" ng-show="fourthStep.mEndosatario">{{fourthStep.mEndosatario.Codigo | uppercase}} {{fourthStep.mEndosatario.Descripcion | uppercase}}</div>
+							</li>
+						</ul>
+					</div>
+        </div>
+
+			</div>
+
+			<!-- STEPS -->
+			<div id="form-views" ui-view=""></div>
+
+		<!-- </form>	 -->
+	</div>
+	<!-- FIN USADO -->
+</section>

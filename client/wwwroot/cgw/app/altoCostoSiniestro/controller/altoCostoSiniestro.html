@@ -1,0 +1,303 @@
+<section class="g-page g-page-documents">
+  <div class="consulta-cotizaciones">
+    <div class="g-title">
+      <div class="container">
+        <div class="row">
+          <div class="col-sm-9 mb-xs-2 no-mb-md">
+            <span class="ico-mapfre_84_circleleft ico-title"></span><h1>Reporte de Altos Costos Siniestros CG</h1>
+          </div>
+          <div class="col-sm-3">
+            <button class="g-btn g-btn-verde second-design block" data-ng-click="vm.downloadReport()" prevent-default>Descargar reporte</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="g-section g-section-tabs g-overflow-hidden-xs tabs-responsive">
+      <div class="container">
+        <!-- Filtros -->
+        <div class="row">
+          <div class="col-xs-12 mb-xs-2 mt-xs-2" data-ng-show="!vm.showColSearch">
+            <form action="" name="formData.frmDocuments">
+              <div show-filter class="clearfix g-col-filter fz14 gBgcWhite1" ng-class="{'show': isFilterVisible}">
+                <div class="col-md-12 mb-ms-0 mb-xs-3 gH4 gCGray1">
+                  <div id="show-filter" class="row pt-xs-2 pb-xs-2 gBgcGray5 g-border-bottom-xs hidden-md hidden-lg" ng-click="toggleFilter();">
+                    <div class="col-xs-10"><h2><b>Filtro</b></h2></div>
+                    <div class="col-xs-2 g-text-right-xs">
+                      <span class="glyphicon glyphicon-chevron-down" ng-if="isFilterVisible"></span>
+                      <span class="glyphicon glyphicon-chevron-up" ng-if="!isFilterVisible"></span>
+                    </div>
+                    <div class="clearfix"></div>
+                  </div>
+                </div>
+                <div class="g-col-filter__box">
+                  <div class="clearfix">
+                    <div class="col-md-12">
+                      <div class="row">
+                        <div class="col-md-3 mb-xs-2">
+                          <mpf-select 
+                            data-ng-model="formData.mEmpresa"
+                            name="nEmpresa"
+                            label="{label: 'Empresa', required: false}"
+                            m-data-source="vm.empresas"
+                            text-field="description"
+                            value-field="code"
+                            ng-change="vm.loadProducts(formData.mEmpresa.id)"
+                            m-Empty-Option="{enterData:false}"
+                            mpf-validation="required"></mpf-select>
+                        </div>
+                        <div class="col-md-3 mb-xs-2">
+                          <mpf-select
+                            data-ng-model="formData.mProducto"
+                            name="nProducto"
+                            label="{label: 'Producto', required: false}"
+                            m-data-source="vm.productos"
+                            text-field="productDescription"
+                            value-field="productCode"
+                            m-Empty-Option="{enterData:true}"
+                            mpf-validation="required"></mpf-select>
+                        </div>
+                        <div class="col-md-3 mb-xs-2">
+                          <div class="input-group g-date-picker">
+                            <label class="g-placeholder animated ng-binding">Desde:</label>
+                            <input  type="text"
+                                    class="form-control"
+                                    uib-datepicker-popup="{{vm.format}}"
+                                    data-ng-model="formData.mConsultaDesde"
+                                    is-open="vm.popup1.opened"
+                                    datepicker-options="vm.dateOptions"
+                                    data-ng-required="true"
+                                    close-text="Close"
+                                    ng-change="vm.validateDesde(formData.mConsultaDesde)"/>
+                            <span class="input-group-btn">
+                              <button class="btn btn-default"
+                                      data-ng-click="vm.open1()" prevent-default>
+                                <i class="glyphicon glyphicon-calendar"></i>
+                              </button>
+                            </span>
+                          </div>
+                          <div class="g-error" data-ng-show="showDesdeError">* El campo "Rango Desde" es obligatorio</div>
+                        </div>
+                        <div class="col-md-3 mb-xs-2">
+                          <div class="input-group g-date-picker">
+                            <label class="g-placeholder animated ng-binding">Hasta:<span ng-show="false" class="ng-hide">*</span></label>
+                            <input  type="text"
+                                    class="form-control"
+                                    uib-datepicker-popup="{{vm.format}}"
+                                    data-ng-model="formData.mConsultaHasta"
+                                    is-open="vm.popup2.opened"
+                                    datepicker-options="vm.dateOptions2"
+                                    data-ng-required="true"
+                                    close-text="Close" 
+                                    ng-change="vm.validateHasta(formData.mConsultaHasta)"/>
+                            <span class="input-group-btn">
+                              <button class="btn btn-default"
+                                      data-ng-click="vm.open2()" prevent-default>
+                                <i class="glyphicon glyphicon-calendar"></i>
+                              </button>
+                            </span>
+                          </div>
+                          <div class="g-error" data-ng-show="showHastaError">* El campo "Rango Hasta" es obligatorio</div>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="col-md-3 mb-xs-2">
+                          <mpf-select 
+                            data-ng-model="formData.mEstadoCarta" 
+                            name="nEstadoCarta" 
+                            label="{label: 'Estado de Carta', required: false}" 
+                            m-data-source="vm.estadoCartas" 
+                            text-field="description" 
+                            value-field="code" 
+                            m-Empty-Option="{enterData:true}"></mpf-select>
+                        </div>
+                        <div class="col-md-3 mb-xs-2">
+                          <mpf-input  label="{label: 'Nro. de Carta', required: false}" name="nNroCarta" data-ng-model="formData.mNroCarta" mpf-validation="onlyNumber" data-ng-required="false"></mpf-input>
+                        </div>
+                        <div class="col-md-3 mb-xs-2">
+                          <m-Numeric-Textbox label="{label: 'Importe Solicitado Desde:', required: false}" name="nImporteDesde" ng-model="formData.mMontoCartaDesde" data-ng-required="false"></m-Numeric-Textbox>
+                        </div>
+                        <div class="col-md-3 mb-xs-2">
+                          <m-Numeric-Textbox label="{label: 'Hasta:', required: false}" name="nImporteHasta" ng-model="formData.mMontoCartaHasta" data-ng-required="false"></m-Numeric-Textbox>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="col-md-3 mb-xs-2">
+                          <mpf-input  label="{label: 'Nombres', required: false}" name="nNombre" mpf-validation="onlyLetter" data-ng-model="formData.mNombre" data-ng-required="false"></mpf-input>
+                        </div>
+                        <div class="col-md-3 mb-xs-2">
+                          <mpf-input label="{label: 'Apellido Paterno', required: false}" name="nApePaterno" data-ng-model="formData.mApePaterno" mpf-validation="onlyLetter" data-ng-required="false"></mpf-input>
+                        </div>
+                        <div class="col-md-3 mb-xs-2">
+                          <mpf-input label="{label: 'Apellido Materno', required: false}" name="nApeMaterno" mpf-validation="onlyLetter" data-ng-model="formData.mApeMaterno" data-ng-required="false"></mpf-input>
+                        </div>
+                        <div class="col-md-3 mb-xs-2">
+                          <mpf-input label="{label: 'Nro. Afiliado', required: false}" name="nNroAfiliado" data-ng-model="formData.mNroAfiliado" data-ng-required="false" mpf-validation="onlyNumber"></mpf-input>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="col-md-3 mb-xs-2">
+                          <mp-data-seeker
+                            behavior="{label:'Clínica', placeholder:'Ingrese nombre de la clínica', matchField:'description'}"
+                            m-data-source="vm.getListClinicas($inputNeed)"
+                            ng-model="formData.mClinica"
+                            name="nClinica">
+                            <div ng-bind-html="$item.description | highlight: $select.search"></div>
+                          </mp-data-seeker>
+                          <div class="g-error" data-ng-show="showClinicaError">* 0 Resultados para los términos ingresados</div>
+                        </div>
+                        <div class="col-md-3 mb-xs-2">
+                          <mpf-select data-ng-model="formData.mEjecutivo" name="nEjecutivo" label="{label: 'Ejecutivo', required: false}" m-data-source="vm.ejecutivos" text-field="name" value-field="name" m-Empty-Option="{enterData:false}"></mpf-select>
+                        </div>
+                        <div class="col-md-3 mb-xs-2">
+                          <mpf-select data-ng-model="formData.mOrdenar" name="nOrdenar" label="{label: 'Ordenar por', required: false}" m-data-source="vm.orden" text-field="description" value-field="code" m-Empty-Option="{enterData:false}"></mpf-select>
+                        </div>
+                        <div class="col-md-3 mb-xs-2">
+                          <mpf-select data-ng-model="formData.mForma" name="nForma" label="{label: 'Forma', required: false}" m-data-source="vm.formas" text-field="description" value-field="code" m-Empty-Option="{enterData:false}"></mpf-select>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="clearfix">
+                    <div class="col-md-3 col-md-offset-3 mb-xs-1">
+                      <button class="g-btn g-btn-white block" data-ng-click="vm.limpiar()" ng-disabled="vm.activeButton" prevent-default>Limpiar</button>
+                    </div>
+                    <div class="col-md-3">
+                      <button class="g-btn g-btn-verde block" data-ng-click="vm.filtrar()" ng-disabled="vm.invalidFilters() || vm.activeButton" prevent-default>Filtrar</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+
+        <!-- Resultados -->
+        <div class="row" ng-show="!vm.noResult">
+          <div class="clearfix">
+            <div class="col-md-12">
+              <div class="clearfix g-tbl-wrapper pt-xs-4 g-border-top-xs">
+                <div class="clearfix table__1920">
+                  <ul class="g-row-fz12 g-tbl-row gBgcGray5 pt-xs-1">
+                    <li class="g-col g-col-xs col-5-dktp tbl-item item-title">#Póliza / #Contrato</li>
+                    <li class="g-col g-col-xs col-6-dktp tbl-item item-title">Inicio Vigencia Renovación</li>
+                    <li class="g-col g-col-xs col-6-dktp tbl-item item-title">Fin Vigencia Renovación</li>
+                    <li class="g-col g-col-xs col-4-dktp tbl-item item-title">Nro. CG</li>
+                    <li class="g-col g-col-xs col-4-dktp tbl-item item-title">Año CG</li>
+                    <li class="g-col g-col-xs col-4-dktp tbl-item item-title">Producto</li>
+                    <li class="g-col g-col-xs col-4-dktp tbl-item item-title">Estado</li>
+                    <li class="g-col g-col-xs col-5-dktp tbl-item item-title">Monto Imp. Sol.</li>
+                    <li class="g-col g-col-xs col-5-dktp tbl-item item-title">Monto Aprobado</li>
+                    <li class="g-col g-col-xs col-5-dktp tbl-item item-title">Fecha Ingreso</li>
+                    <li class="g-col g-col-xs col-8-dktp tbl-item item-title">Contratante</li>
+                    <li class="g-col g-col-xs col-8-dktp tbl-item item-title">Clínica - Sucursal</li>
+                    <li class="g-col g-col-xs col-8-dktp tbl-item item-title">Paciente</li>
+                    <li class="g-col g-col-xs col-5-dktp tbl-item item-title">Cobertura</li>
+                    <li class="g-col g-col-xs col-8-dktp tbl-item item-title">Diagnóstico</li>
+                    <li class="g-col g-col-xs col-6-dktp tbl-item item-title">Beneficio Máximo Anual</li>
+                    <li class="g-col g-col-xs col-6-dktp tbl-item item-title">Beneficio Máximo de Cobertura</li>
+                  </ul>
+                  <div class="mb-xs-1">
+                    <ul height-row class="g-row-fz12 g-tbl-row pt-xs-1 g-border-bottom-xs" data-ng-repeat="reporte in vm.resultados">
+                      <li class="g-col g-col-xs col-5-dktp tbl-item">
+                        <span class="cgw_report-label">
+                          {{reporte.nroContrato}}
+                        </span>
+                      </li>
+                      <li class="g-col g-col-xs col-6-dktp tbl-item">
+                        <span class="cgw_report-label">
+                          {{reporte.iniVigenciaRenov}}
+                        </span>
+                      </li>
+                      <li class="g-col g-col-xs col-6-dktp tbl-item">
+                        <span class="cgw_report-label">
+                          {{reporte.finVIgenciaRenov}}
+                        </span>
+                      </li>
+                      <li class="g-col g-col-xs col-4-dktp tbl-item">
+                        <span class="cgw_report-label">
+                          {{reporte.nroCarta}}
+                        </span>
+                      </li>
+                      <li class="g-col g-col-xs col-4-dktp tbl-item">
+                        <span class="cgw_report-label">
+                          {{reporte.anioCarta}}
+                        </span>
+                      </li>
+                      <li class="g-col g-col-xs col-4-dktp tbl-item">
+                        <span class="cgw_report-label">
+                          {{reporte.producto}}
+                        </span>
+                      </li>
+                      <li class="g-col g-col-xs col-4-dktp tbl-item">
+                        <span class="cgw_report-label">
+                          {{reporte.estado}}
+                        </span>
+                      </li>
+                      <li class="g-col g-col-xs col-5-dktp tbl-item">
+                        <span class="cgw_report-label">
+                          {{reporte.moneda}} {{reporte.impSolicitado}}
+                        </span>
+                      </li>
+                      <li class="g-col g-col-xs col-5-dktp tbl-item">
+                        <span class="cgw_report-label">
+                          {{reporte.moneda}} {{reporte.montoAprobado}}
+                        </span>
+                      </li>
+                      <li class="g-col g-col-xs col-5-dktp tbl-item">
+                        <span class="cgw_report-label">
+                          {{reporte.fecIngreso}}
+                        </span>
+                      </li>
+                      <li class="g-col g-col-xs col-8-dktp tbl-item">
+                        {{reporte.contratante}}
+                      </li>
+                      <li class="g-col g-col-xs col-8-dktp tbl-item">
+                        <span class="cgw_report-label">
+                          {{reporte.clinica}} - {{reporte.sucursal}}
+                        </span>
+                      </li>
+                      <li class="g-col g-col-xs col-8-dktp tbl-item">
+                        <span class="cgw_report-label">
+                          {{reporte.paciente}}
+                        </span>
+                      </li>
+                      <li class="g-col g-col-xs col-5-dktp tbl-item">
+                        <span class="cgw_report-label">
+                          {{reporte.cobertura}}
+                        </span>
+                      </li>
+                      <li class="g-col g-col-xs col-8-dktp tbl-item">
+                        <span class="cgw_report-label">
+                          {{reporte.diagnostico}}
+                        </span>
+                      </li>
+                      <li class="g-col g-col-xs col-6-dktp tbl-item">
+                        <span class="cgw_report-label">
+                          {{reporte.moneda}} {{reporte.beneficioAnual}}
+                        </span>
+                      </li>
+                      <li class="g-col g-col-xs col-6-dktp tbl-item">
+                        <span class="cgw_report-label">
+                          {{reporte.moneda}} {{reporte.beneficioCobertura}}
+                        </span>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="clearfix">
+            <div class="col-md-12" ng-if="!vm.noResult">
+              <ul uib-pagination class="g-pagination" ng-model="vm.mPagination" max-size="10" total-items="vm.totalItems" items-per-page="vm.pageSize" ng-change="vm.pageChanged(vm.mPagination)" boundary-link-numbers="true"></ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <form id="frmDownloadAll" name="vm.frmDownloadAll" action="{{vm.allURL}}" method="post" target="_blank">
+      <input type="hidden" name="json" value='{{vm.allData}}'>
+    </form>
+  </div>
+</section>

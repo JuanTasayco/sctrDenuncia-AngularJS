@@ -1,0 +1,474 @@
+<section class="g-page page-auto-cotizaguardado h-myd-bg--gray4">
+	<div class="g-title summary">
+		<div class="container">
+			<div class="row">
+				<div class="col-md-8 mb-xs-2 no-mb-md h-myd-pt--5">
+					<h2>
+						<span class="ico-mapfre_118_ok ico"></span>Póliza emitida de SOAT
+					</h2>
+				</div>
+				<div class="col-md-4">
+					<a class="g-btn g-btn-white block" ng-click="emitirAgain()">Emitir nueva póliza de soat</a>
+				</div>
+      </div>
+		</div>
+	</div>
+
+	<div class="g-section g-myd-summary">
+		<div class="container">
+        <div class="clearfix g-box" ng-show="isAgenteDigital()">
+          <div class="col-xs-12 mb-xs-1 mt-xs-1">
+            <h2 class="gH4">Recibo bancario</h2>
+          </div>
+          <div class="col-xs-12">
+            <ul class="row h-myd-ml--0 h-myd-mr--0 g-list-md mb-xs-1">
+              <li class="col-md-4 clearfix cnt-item">
+                <div class="col-sm-5 item-label">
+                  <span class="ico-mapfre_82_circle ico-bullet"></span>Nro. de referencia:&nbsp;
+                </div>
+                <div class="col-sm-7 item-dato">{{NumeroReferenciaBancaria}}</div>
+              </li>
+            </ul>
+          </div>
+
+          <div class="col-md-12 gBgcGray5 pt-xs-1 pb-xs-1">
+            <span class="ico-mapfre_222_informacion gCBlue2 gnIcon-xsm g-cell-middle"></span>
+            <span class="g-cell-middle pl-xs-1">Esta orden expira en 24 horas</span>
+          </div>
+        </div>
+
+				<!-- Box -->
+				<div class="col-xs-12 g-box auto-cotizaguardado-form pt-xs-2 g-myd-box">
+						<!-- Titulo -->
+					<div class="row h-myd-ml--0 h-myd-mr--0 gH4">
+						<div class="col-sm-9 mb-sm-2 mb-xs-1">
+							<h2 class="gCGray1 g-text-uppercase g-myd-title"><b>Póliza SOAT</b></h2>
+						</div>
+						<div class="col-sm-3 mb-xs-2 g-text-right-sm" ng-hide="isAgenteDigital()">
+							<span class="g-summary-label">Nro. Póliza: </span>
+							<span class="g-summary-data">{{cotizacionGuardada.NumeroPoliza}}</span>
+						</div>
+					</div>
+
+					<div class="row h-myd-ml--0 h-myd-mr--0">
+						<div class="col-md-12">
+							<div class="clearfix g-summary-box">
+								<div class="row">
+									<div class="col-md-12">
+										<h2 class="g-summary-sub-title second-design g-myd-title"><b>Prima</b></h2>
+									</div>
+								</div>
+
+								<ul class="row g-list-md mb-xs-1">
+									<li class="col-md-4 clearfix cnt-item h-myd-p--0">
+										<div class="col-xs-6 item-label">
+											<span class="ico-mapfre_82_circle ico-bullet"></span>Prima neta:
+										</div>
+										<div class="col-xs-6 item-dato text-right">
+											{{cotizacionGuardada.PrimaNeta}}
+										</div>
+									</li>
+									<li class="col-md-4 clearfix cnt-item h-myd-p--0">
+										<div class="col-xs-6 item-label">
+											<span class="ico-mapfre_82_circle ico-bullet"></span>IGV:
+										</div>
+										<div class="col-xs-6 item-dato text-right">
+											{{cotizacionGuardada.IGV}}%
+										</div>
+									</li>
+
+								</ul>
+								<ul class="row g-list-md mb-xs-1">
+									<li class="col-md-4 clearfix cnt-item h-myd-p--0">
+										<div class="col-xs-6 item-label">
+											<span class="ico-mapfre_82_circle ico-bullet"></span>Mapre dólares aplicados:
+										</div>
+										<div class="col-xs-6 item-dato text-right">
+											{{cotizacionGuardada.Contratante.ImporteAplicarMapfreDolar | currency:'$'}}
+										</div>
+									</li>
+								</ul>
+								<ul class="row g-list mb-xs-1 h-myd-border--bottom-1 h-myd-pb--10 h-myd-mb--20">
+									<li class="col-md-4 clearfix cnt-item h-myd-p--0">
+										<div class="col-xs-6 item-label">
+											<span class="ico-mapfre_82_circle ico-bullet"></span> <strong>Total:</strong>
+										</div>
+										<div class="col-xs-6 item-dato text-right">
+											{{cotizacionGuardada.MontoPrima}}
+										</div>
+									</li>
+								</ul>
+							</div>
+						</div>
+					</div>
+
+						<!-- Datos del vehículo -->
+						<div class="row h-myd-ml--0 h-myd-mr--0">
+							<div class="col-md-12 mb-xs-1">
+								<h2 class="gH4 gCGray1 g-border-bottom-xs g-myd-title c-red"><b>Datos del vehículo</b></h2>
+							</div>
+						</div>
+						<ul class="row h-myd-ml--0 h-myd-mr--0 g-list-md mb-xs-1">
+							<li class="col-md-4 clearfix cnt-item h-myd-p--0">
+								<div class="col-sm-5 item-label">
+									<span class="ico-mapfre_82_circle ico-bullet"></span>Auto:&nbsp;
+								</div>
+								<div class="col-sm-7 item-dato">{{cotizacionGuardada.Vehiculo.NombreMarca}} {{cotizacionGuardada.Vehiculo.NombreModelo}} {{cotizacionGuardada.Vehiculo.NombreSubModelo}}</div>
+							</li>
+						</ul>
+						<ul class="row h-myd-ml--0 h-myd-mr--0 g-list-md mb-xs-1">
+							<li class="col-md-4 clearfix cnt-item h-myd-p--0">
+								<div class="col-sm-5 item-label">
+									<span class="ico-mapfre_82_circle ico-bullet"></span>Nro. Placa:&nbsp;
+								</div>
+								<div class="col-sm-7 item-dato">{{cotizacionGuardada.Vehiculo.NumeroPlaca}}</div>
+							</li>
+							<li class="col-md-4 clearfix cnt-item h-myd-p--0">
+								<div class="col-sm-5 item-label">
+									<span class="ico-mapfre_82_circle ico-bullet"></span>Nro. Chasis:&nbsp;
+								</div>
+								<div class="col-sm-7 item-dato g-text-uppercase">{{cotizacionGuardada.Vehiculo.NumeroChasis}}</div>
+							</li>
+							<li class="col-md-4 clearfix cnt-item h-myd-p--0">
+								<div class="col-sm-5 item-label">
+									<span class="ico-mapfre_82_circle ico-bullet"></span>Nro. Motor:&nbsp;
+								</div>
+									<div class="col-sm-7 item-dato g-text-uppercase">{{cotizacionGuardada.Vehiculo.NumeroMotor}}</div>
+							</li>
+						</ul>
+						<ul class="row h-myd-ml--0 h-myd-mr--0 g-list-md mb-xs-1">
+							<li class="col-md-4 clearfix cnt-item h-myd-p--0">
+								<div class="col-sm-5 item-label">
+									<span class="ico-mapfre_82_circle ico-bullet"></span>Tipo de vehículo:&nbsp;
+								</div>
+								<div class="col-sm-7 item-dato g-text-uppercase">{{cotizacionGuardada.Vehiculo.NombreTipoVehiculo}}</div>
+							</li>
+							<li class="col-md-4 clearfix cnt-item h-myd-p--0">
+								<div class="col-sm-5 item-label">
+									<span class="ico-mapfre_82_circle ico-bullet"></span>Año fabricación:&nbsp;
+								</div>
+								<div class="col-sm-7 item-dato g-text-uppercase">{{cotizacionGuardada.Vehiculo.AnioFabricacion}}</div>
+							</li>
+							<li class="col-md-4 clearfix cnt-item h-myd-p--0">
+								<div class="col-sm-5 item-label">
+									<span class="ico-mapfre_82_circle ico-bullet"></span>Marca y Modelo:&nbsp;
+								</div>
+								<div class="col-sm-7 item-dato g-text-uppercase">{{cotizacionGuardada.Vehiculo.NombreMarca}} {{cotizacionGuardada.Vehiculo.NombreModelo}}</div>
+							</li>
+						</ul>
+						<ul class="row h-myd-ml--0 h-myd-mr--0 g-list mb-xs-1 h-myd-border--bottom-1 h-myd-pb--10 h-myd-mb--20">
+							<li class="col-md-4 clearfix cnt-item h-myd-p--0">
+								<div class="col-sm-5 item-label">
+									<span class="ico-mapfre_82_circle ico-bullet"></span>Submodelo:&nbsp;
+								</div>
+								<div class="col-sm-7 item-dato g-text-uppercase">{{cotizacionGuardada.Vehiculo.NombreSubModelo}}</div>
+							</li>
+							<li class="col-md-4 clearfix cnt-item h-myd-p--0">
+								<div class="col-sm-5 item-label">
+									<span class="ico-mapfre_82_circle ico-bullet"></span>Cantidad de Asientos:&nbsp;
+								</div>
+								<div class="col-sm-7 item-dato g-text-uppercase">{{cotizacionGuardada.Vehiculo.NumeroOcupantes}}</div>
+							</li>
+							<li class="col-md-4 clearfix cnt-item h-myd-p--0">
+								<div class="col-sm-5 item-label" ng-if="formData.mModeloPrint!=''">
+									<span class="ico-mapfre_82_circle ico-bullet"></span>Modelo de impresión:&nbsp;
+								</div>
+								<div class="col-sm-7 item-dato g-text-uppercase">{{cotizacionGuardada.Vehiculo.NombreModeloImpresion | uppercase}}</div>
+							</li>
+						</ul>
+
+						<div class="row h-myd-ml--0 h-myd-mr--0">
+							<div class="col-md-12 mb-xs-1">
+								<h2 class="gH4 gCGray1 g-border-bottom-xs g-myd-title c-red"><b>Datos de la póliza</b></h2>
+							</div>
+						</div>
+						<ul class="row h-myd-ml--0 h-myd-mr--0 g-list-md mb-xs-1">
+							<li class="col-md-4 clearfix cnt-item h-myd-p--0">
+								<div class="col-sm-5 item-label">
+									<span class="ico-mapfre_82_circle ico-bullet"></span>Producto:&nbsp;
+								</div>
+								<div class="col-sm-7 item-dato g-text-uppercase">{{cotizacionGuardada.NombreProducto}}</div>
+							</li>
+							<li class="col-md-4 clearfix cnt-item h-myd-p--0">
+								<div class="col-sm-5 item-label">
+									<span class="ico-mapfre_82_circle ico-bullet"></span>Tipo de uso:&nbsp;
+								</div>
+								<div class="col-sm-7 item-dato g-text-uppercase">{{cotizacionGuardada.Vehiculo.NombreUso}}</div>
+							</li>
+							<li class="col-md-4 clearfix cnt-item h-myd-p--0">
+								<div class="col-sm-5 item-label">
+									<span class="ico-mapfre_82_circle ico-bullet"></span>Descuento comercial:&nbsp;
+								</div>
+								<div class="col-sm-7 item-dato g-text-uppercase"></div>
+							</li>
+						</ul>
+						<ul class="row h-myd-ml--0 h-myd-mr--0 g-list-md mb-xs-1 h-myd-border--bottom-1 h-myd-pb--10 h-myd-mb--20">
+							<li class="col-md-4 clearfix cnt-item h-myd-p--0">
+								<div class="col-sm-5 item-label">
+									<span class="ico-mapfre_82_circle ico-bullet"></span>Inicio de vigencia:&nbsp;
+								</div>
+								<div class="col-sm-7 item-dato g-text-uppercase">{{cotizacionGuardada.FechaInicio}}</div>
+							</li>
+							<li class="col-md-4 clearfix cnt-item h-myd-p--0">
+								<div class="col-sm-5 item-label">
+									<span class="ico-mapfre_82_circle ico-bullet"></span>Fin de vigencia:&nbsp;
+								</div>
+								<div class="col-sm-7 item-dato g-text-uppercase">{{cotizacionGuardada.FechaFinal}}</div>
+							</li>
+						</ul>
+
+            <!-- delivery -->
+            <span data-ng-if="cotizacionGuardada.CodigoProducto === 23">
+              <ul class="row h-myd-ml--0 h-myd-mr--0 g-list-md mb-xs-1">
+                <li class="col-md-4 clearfix cnt-item h-myd-p--0">
+                  <div class="col-sm-5 item-label">
+                    <span class="ico-mapfre_82_circle ico-bullet"></span>Fecha de llamada:&nbsp;
+                  </div>
+                  <div class="col-sm-7 item-dato g-text-uppercase">{{cotizacionGuardada.SoatDelivery.FechaLlamada}}</div>
+                </li>
+                <li class="col-md-4 clearfix cnt-item h-myd-p--0">
+                  <div class="col-sm-5 item-label">
+                    <span class="ico-mapfre_82_circle ico-bullet"></span>Fecha de envío:&nbsp;
+                  </div>
+                  <div class="col-sm-7 item-dato g-text-uppercase">{{cotizacionGuardada.SoatDelivery.FechaEnvio}}</div>
+                </li>
+                <li class="col-md-4 clearfix cnt-item h-myd-p--0">
+                  <div class="col-sm-5 item-label">
+                    <span class="ico-mapfre_82_circle ico-bullet"></span>Tipo de servicio:&nbsp;
+                  </div>
+                  <div class="col-sm-7 item-dato g-text-uppercase">{{cotizacionGuardada.SoatDelivery.DesTipoServicio}}</div>
+                </li>
+              </ul>
+              <ul class="row h-myd-ml--0 h-myd-mr--0 g-list-md mb-xs-1">
+                <li class="col-md-4 clearfix cnt-item h-myd-p--0">
+                  <div class="col-sm-5 item-label">
+                    <span class="ico-mapfre_82_circle ico-bullet"></span>Departamento:&nbsp;
+                  </div>
+                  <div class="col-sm-7 item-dato g-text-uppercase">{{cotizacionGuardada.SoatDelivery.NomDepartamento}}</div>
+                </li>
+                <li class="col-md-4 clearfix cnt-item h-myd-p--0">
+                  <div class="col-sm-5 item-label">
+                    <span class="ico-mapfre_82_circle ico-bullet"></span>Provincia:&nbsp;
+                  </div>
+                  <div class="col-sm-7 item-dato g-text-uppercase">{{cotizacionGuardada.SoatDelivery.NomProvincia}}</div>
+                </li>
+                <li class="col-md-4 clearfix cnt-item h-myd-p--0">
+                  <div class="col-sm-5 item-label">
+                    <span class="ico-mapfre_82_circle ico-bullet"></span>Distrito:&nbsp;
+                  </div>
+                  <div class="col-sm-7 item-dato g-text-uppercase">{{cotizacionGuardada.SoatDelivery.NomDistrito}}</div>
+                </li>
+                <li class="col-md-4 clearfix cnt-item h-myd-p--0">
+                  <div class="col-sm-5 item-label">
+                    <span class="ico-mapfre_82_circle ico-bullet"></span>Vía:&nbsp;
+                  </div>
+                  <div class="col-sm-7 item-dato g-text-uppercase">{{cotizacionGuardada.SoatDelivery.DesVia}}</div>
+                </li>
+              </ul>
+              <ul class="row h-myd-ml--0 h-myd-mr--0 g-list-md mb-xs-1">
+                <li class="col-md-4 clearfix cnt-item h-myd-p--0">
+                  <div class="col-sm-5 item-label">
+                    <span class="ico-mapfre_82_circle ico-bullet"></span>Número:&nbsp;
+                  </div>
+                  <div class="col-sm-7 item-dato g-text-uppercase">{{cotizacionGuardada.SoatDelivery.DesNumero}}</div>
+                </li>
+                <li class="col-md-4 clearfix cnt-item h-myd-p--0">
+                  <div class="col-sm-5 item-label">
+                    <span class="ico-mapfre_82_circle ico-bullet"></span>Interior:&nbsp;
+                  </div>
+                  <div class="col-sm-7 item-dato g-text-uppercase">{{cotizacionGuardada.SoatDelivery.DesInterior}}</div>
+                </li>
+                <li class="col-md-4 clearfix cnt-item h-myd-p--0">
+                  <div class="col-sm-5 item-label">
+                    <span class="ico-mapfre_82_circle ico-bullet"></span>Zona:&nbsp;
+                  </div>
+                  <div class="col-sm-7 item-dato g-text-uppercase">{{cotizacionGuardada.SoatDelivery.DesZona}}</div>
+                </li>
+              </ul>
+              <ul class="row h-myd-ml--0 h-myd-mr--0 g-list-md mb-xs-1">
+                <li class="col-md-4 clearfix cnt-item h-myd-p--0">
+                  <div class="col-sm-5 item-label">
+                    <span class="ico-mapfre_82_circle ico-bullet"></span>Referencia:&nbsp;
+                  </div>
+                  <div class="col-sm-7 item-dato g-text-uppercase">{{cotizacionGuardada.SoatDelivery.Referencia}}</div>
+                </li>
+                <li class="col-md-4 clearfix cnt-item h-myd-p--0">
+                  <div class="col-sm-5 item-label">
+                    <span class="ico-mapfre_82_circle ico-bullet"></span>Turno:&nbsp;
+                  </div>
+                  <div class="col-sm-7 item-dato g-text-uppercase">{{cotizacionGuardada.SoatDelivery.DesTurno}}</div>
+                </li>
+                <li class="col-md-4 clearfix cnt-item h-myd-p--0">
+                  <div class="col-sm-5 item-label">
+                    <span class="ico-mapfre_82_circle ico-bullet"></span>Rango de delivery:&nbsp;
+                  </div>
+                  <div class="col-sm-7 item-dato g-text-uppercase">{{cotizacionGuardada.SoatDelivery.DesRangoDelivery}}</div>
+                </li>
+              </ul>
+              <ul class="row h-myd-ml--0 h-myd-mr--0 g-list-md mb-xs-1 h-myd-border--bottom-1 h-myd-pb--10 h-myd-mb--20">
+                <li class="col-md-4 clearfix cnt-item h-myd-p--0">
+                  <div class="col-sm-5 item-label">
+                    <span class="ico-mapfre_82_circle ico-bullet"></span>Forma de pago:&nbsp;
+                  </div>
+                  <div class="col-sm-7 item-dato g-text-uppercase">{{cotizacionGuardada.SoatDelivery.DesFormaPago}}</div>
+                </li>
+                <li
+                  class="col-md-4 clearfix cnt-item h-myd-p--0"
+                  data-ng-if="cotizacionGuardada.SoatDelivery.CodFormaPago === '0005'"
+                >
+                  <div class="col-sm-5 item-label">
+                    <span class="ico-mapfre_82_circle ico-bullet"></span>
+                    Código de Autorización Scotia Puntos:&nbsp;
+                  </div>
+                  <div class="col-sm-7 item-dato g-text-uppercase">{{cotizacionGuardada.SoatDelivery.CodScotiabank}}</div>
+                </li>
+                <li class="col-md-4 clearfix cnt-item h-myd-p--0">
+                  <div class="col-sm-5 item-label">
+                    <span class="ico-mapfre_82_circle ico-bullet"></span>Tipo de llamada / solicitud:&nbsp;
+                  </div>
+                  <div class="col-sm-7 item-dato g-text-uppercase">{{cotizacionGuardada.SoatDelivery.DesTipoLlamada}}</div>
+                </li>
+                <li class="col-md-4 clearfix cnt-item h-myd-p--0">
+                  <div class="col-sm-5 item-label">
+                    <span class="ico-mapfre_82_circle ico-bullet"></span>Tipo de póliza:&nbsp;
+                  </div>
+                  <div class="col-sm-7 item-dato g-text-uppercase">{{cotizacionGuardada.SoatDelivery.DesTipoPoliza}}</div>
+                </li>
+              </ul>
+            </span>
+
+						<!-- Datos del contratante -->
+
+						<div class="row h-myd-ml--0 h-myd-mr--0">
+							<div class="col-md-12 mb-xs-1">
+								<h2 class="gH4 gCGray1 g-border-bottom-xs g-myd-title c-red"><b>Datos del contratante</b></h2>
+							</div>
+						</div>
+						<ul class="row h-myd-ml--0 h-myd-mr--0 g-list-md mb-xs-1">
+							<li class="col-md-4 clearfix cnt-item h-myd-p--0">
+								<div class="col-sm-5 item-label">
+									<span class="ico-mapfre_82_circle ico-bullet"></span>Tipo de documento:&nbsp;
+								</div>
+								<div class="col-sm-7 item-dato g-text-uppercase">{{cotizacionGuardada.Contratante.TipoDocumento}}</div>
+							</li>
+							<li class="col-md-4 clearfix cnt-item h-myd-p--0">
+								<div class="col-sm-5 item-label">
+									<span class="ico-mapfre_82_circle ico-bullet"></span>No. Documento:&nbsp;
+								</div>
+								<div class="col-sm-7 item-dato g-text-uppercase">{{cotizacionGuardada.Contratante.CodigoDocumento}}</div>
+							</li>
+						</ul>
+						<ul class="row h-myd-ml--0 h-myd-mr--0 g-list-md mb-xs-1" ng-hide="formData.vShowNaturalRucPerson">
+							<li class="col-md-4 clearfix cnt-item h-myd-p--0">
+								<div class="col-sm-5 item-label">
+									<span class="ico-mapfre_82_circle ico-bullet"></span>Razón Social:&nbsp;
+								</div>
+								<div class="col-sm-7 item-dato g-text-uppercase">{{cotizacionGuardada.Contratante.Nombre}}</div>
+							</li>
+						</ul>
+						<ul class="row h-myd-ml--0 h-myd-mr--0 g-list-md mb-xs-1" ng-show="formData.vShowNaturalRucPerson">
+							<li class="col-md-4 clearfix cnt-item h-myd-p--0">
+								<div class="col-sm-5 item-label">
+									<span class="ico-mapfre_82_circle ico-bullet"></span>Nombre:&nbsp;
+								</div>
+								<div class="col-sm-7 item-dato g-text-uppercase">{{cotizacionGuardada.Contratante.Nombre}}</div>
+							</li>
+							<li class="col-md-4 clearfix cnt-item h-myd-p--0">
+								<div class="col-sm-5 item-label">
+									<span class="ico-mapfre_82_circle ico-bullet"></span>Apellido Paterno:&nbsp;
+								</div>
+								<div class="col-sm-7 item-dato g-text-uppercase">{{cotizacionGuardada.Contratante.ApellidoPaterno}}</div>
+							</li>
+							<li class="col-md-4 clearfix cnt-item h-myd-p--0">
+								<div class="col-sm-5 item-label">
+									<span class="ico-mapfre_82_circle ico-bullet"></span>Apellido Materno:&nbsp;
+								</div>
+								<div class="col-sm-7 item-dato g-text-uppercase">{{cotizacionGuardada.Contratante.ApellidoMaterno}}</div>
+							</li>
+						</ul>
+						<ul class="row h-myd-ml--0 h-myd-mr--0 g-list-md mb-xs-1" ng-show="formData.vShowNaturalRucPerson">
+							<li class="col-md-4 clearfix cnt-item h-myd-p--0">
+								<div class="col-sm-5 item-label">
+									<span class="ico-mapfre_82_circle ico-bullet"></span>Fecha de Nacimiento:&nbsp;
+								</div>
+								<div class="col-sm-7 item-dato g-text-uppercase">{{cotizacionGuardada.Contratante.FechaNacimiento}}</div>
+							</li>
+							<li class="col-md-4 clearfix cnt-item h-myd-p--0">
+								<div class="col-sm-5 item-label">
+									<span class="ico-mapfre_82_circle ico-bullet"></span>Genero:&nbsp;
+								</div>
+								<div class="col-sm-7 item-dato g-text-uppercase">
+									<span class="g-datastep-info-dato" ng-if="cotizacionGuardada.Contratante.Sexo=='H'">Masculino</span>
+									<span class="g-datastep-info-dato" ng-if="cotizacionGuardada.Contratante.Sexo=='F'">Femenino</span>
+								</div>
+							</li>
+							<li class="col-md-4 clearfix cnt-item h-myd-p--0">
+								<div class="col-sm-5 item-label">
+									<span class="ico-mapfre_82_circle ico-bullet"></span>Profesión:&nbsp;
+								</div>
+								<div class="col-sm-7 item-dato g-text-uppercase">{{cotizacionGuardada.Contratante.Profesion.Descripcion}}</div>
+							</li>
+						</ul>
+						<ul class="row h-myd-ml--0 h-myd-mr--0 g-list-md mb-xs-1">
+							<li class="col-md-4 clearfix cnt-item h-myd-p--0">
+								<div class="col-sm-5 item-label">
+									<span class="ico-mapfre_82_circle ico-bullet"></span>Teléfono fijo:&nbsp;
+								</div>
+								<div class="col-sm-7 item-dato g-text-uppercase">{{cotizacionGuardada.Contratante.Telefono}}</div>
+							</li>
+							<li class="col-md-4 clearfix cnt-item h-myd-p--0">
+								<div class="col-sm-5 item-label">
+									<span class="ico-mapfre_82_circle ico-bullet"></span>Teléfono móvil:&nbsp;
+								</div>
+								<div class="col-sm-7 item-dato g-text-uppercase">{{cotizacionGuardada.Contratante.Telefono2}}</div>
+							</li>
+							<li class="col-md-4 clearfix cnt-item h-myd-p--0">
+								<div class="col-sm-5 item-label">
+									<span class="ico-mapfre_82_circle ico-bullet"></span>Correo electrónico:&nbsp;
+								</div>
+								<div class="col-sm-7 item-dato g-text-uppercase">{{cotizacionGuardada.Contratante.CorreoElectronico}}</div>
+							</li>
+						</ul>
+						<ul class="row h-myd-ml--0 h-myd-mr--0 g-list-md mb-xs-1">
+							<li class="col-md-4 clearfix cnt-item h-myd-p--0">
+								<div class="col-sm-5 item-label">
+									<span class="ico-mapfre_82_circle ico-bullet"></span>Departamento:&nbsp;
+								</div>
+								<div class="col-sm-7 item-dato g-text-uppercase">{{cotizacionGuardada.Contratante.Ubigeo.NombreDepartamento}}</div>
+							</li>
+							<li class="col-md-4 clearfix cnt-item h-myd-p--0">
+								<div class="col-sm-5 item-label">
+									<span class="ico-mapfre_82_circle ico-bullet"></span>Provincia:&nbsp;
+								</div>
+								<div class="col-sm-7 item-dato g-text-uppercase">{{cotizacionGuardada.Contratante.Ubigeo.NombreProvincia}}</div>
+							</li>
+							<li class="col-md-4 clearfix cnt-item h-myd-p--0">
+								<div class="col-sm-5 item-label">
+									<span class="ico-mapfre_82_circle ico-bullet"></span>Distrito:&nbsp;
+								</div>
+								<div class="col-sm-7 item-dato g-text-uppercase">{{cotizacionGuardada.Contratante.Ubigeo.NombreDistrito}}</div>
+							</li>
+						</ul>
+
+						<div class="col-md-12 col-btns text-center mt-md-2 h-myd-mt--30" ng-hide="isAgenteDigital()">
+              <div class="row">
+                <div class="col-md-4 col-md-offset-2 h-myd-mb--20"><a class="g-btn g-btn-white block" ng-click="sendEmail()">Enviar por correo</a></div>
+                <div class="col-md-4 h-myd-mb--20"><a class="g-btn g-btn-verde second-design block" ng-click="reporteCotizacion()" target="_blank">Descargar</a></div>
+              </div>
+						</div>
+        </div>
+
+        <div class="row h-myd--show h-oim-none h-myd-ml--0 h-myd-mr--0">
+            <div class="col-md-12 g-summary-box-radius g-myd-box h-myd-mt--20 g-myd-box--pay">
+              <div class="info">
+                <p>Pago de la Póliza</p>
+                <span>¿Deseas realizar el pago de la póliza en estos momentos?</span>
+              </div>
+              <a class="g-btn g-btn-white second-design" ng-click="goToPaymentGateway()">
+                PAGAR
+              </a>
+            </div>
+          </div>
+			</div>
+		</div>
+</section>

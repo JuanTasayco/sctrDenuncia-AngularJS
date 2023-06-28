@@ -1,0 +1,97 @@
+<div class="panel__body-item">
+  <span class="u-bold">{{ $ctrl.items.descripcion }}</span>
+  <div class="table-container">
+    <table class="table">
+      <thead>
+        <tr>
+          <th class="hidden-xs"></th>
+          <th>
+            <span ng-if="$ctrl.items.idTipoCaracteristica === 4">Deficiente</span>
+            <span ng-if="$ctrl.items.idTipoCaracteristica === 3">No</span>
+          </th>
+          <th>
+            <span ng-if="$ctrl.items.idTipoCaracteristica === 4">Por mejorar</span>
+            <span ng-if="$ctrl.items.idTipoCaracteristica === 3">Si</span>
+          </th>
+          <th ng-if="$ctrl.items.idTipoCaracteristica === 4">
+            <span>Satisfactorio</span>
+          </th>
+          <!--
+          <th ng-if="$ctrl.items.idTipoCaracteristica === 4">
+            <span>No aplica</span>
+          </th>
+          -->
+        </tr>
+      </thead>
+      <tbody>
+        <tr ng-repeat-start="item in $ctrl.items.subCaracteristicas">
+          <th colspan="4"><span class="label__mobile">{{ item.descripcion }}</th>
+        </tr>
+        <tr class="table-row" ng-repeat-end>
+          <th class="label__default">
+            {{item.descripcion}}
+            &nbsp;
+            <span class="icon ico-mapfre_284_circlequestion"
+                  uib-tooltip="{{item.ayuda}}"
+                  tooltip-placement="right"
+                  ng-if="item.ayuda"></span>
+          </th>
+          <td>
+            <span>
+              <label class="rdo__lbl">
+                <input  type="radio"
+                        class="rdo__input"
+                        ng-model="item.idValor"
+                        ng-change="$ctrl.onChange()"
+                        data-ng-disabled="$ctrl.auditSaving"
+                        value="{{($ctrl.items.idTipoCaracteristica === 4) ? 1 : 0}}">
+                <span class="rdo__ico"></span>
+              </label>
+            </span>
+          </td>
+          <td>
+            <span>
+              <label class="rdo__lbl">
+                <input  type="radio"
+                        class="rdo__input"
+                        ng-model="item.idValor"
+                        ng-change="$ctrl.onChange()"
+                        data-ng-disabled="$ctrl.auditSaving"
+                        value="{{($ctrl.items.idTipoCaracteristica === 4) ? 2 : 1}}">
+                <span class="rdo__ico"></span>
+              </label>
+            </span>
+          </td>
+          <td ng-if="$ctrl.items.idTipoCaracteristica === 4">
+            <span>
+              <label class="rdo__lbl">
+                <input  type="radio"
+                        class="rdo__input"
+                        ng-model="item.idValor"
+                        ng-change="$ctrl.onChange()"
+                        data-ng-disabled="$ctrl.auditSaving"
+                        value="3">
+                <span class="rdo__ico"></span>
+              </label>
+            </span>
+          </td>
+          <!--
+          <td ng-if="$ctrl.items.idTipoCaracteristica === 4">
+            <span>
+              <label class="rdo__lbl">
+                <input  type="radio"
+                        class="rdo__input"
+                        ng-model="item.idValor"
+                        ng-change="$ctrl.onChange()"
+                        data-ng-disabled="$ctrl.auditSaving"
+                        value="3">
+                <span class="rdo__ico"></span>
+              </label>
+            </span>
+          </td>
+          -->
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

@@ -1,0 +1,35 @@
+<div
+  class="col-md-12 g-box3 g-box-add-item-1 box-add-damage-1 clearfix"
+  data-ng-if="$ctrl.showBoxInicialAgregar">
+  <p class="text-center">No hay ningún daño del vehículo registrado.</p>
+  <a
+    class="col-xs-8 col-xs-offset-2 col-sm-6 col-sm-offset-3 col-md-4 col-md-offset-4 g-btn g-btn-white mt-xs-1"
+    data-ng-click="$ctrl.showFrmAddDanho()">
+    <span class="glyphicon glyphicon-plus"></span>Agregar daño
+  </a>
+</div>
+<div
+  class="container-add-danho"
+  data-ng-repeat="item in $ctrl.danhos track by $index">
+  <wp-danho
+    data-danho="item"
+    data-idx="$index"
+    data-on-delete="$ctrl.handleEliminarDanho($index)"
+    data-on-editar="$ctrl.handleEditarDanho($event)"
+  >
+  </wp-danho>
+</div>
+<div data-ng-show="$ctrl.showBtnAddDanho">
+  <a
+    class="col-xs-8 col-xs-offset-2 col-md-3 col-md-offset-9 mt-xs-2 mt-md-2 g-btn g-btn-white"
+    data-ng-click="$ctrl.showFrmAddDanho()">
+    <span class="glyphicon glyphicon-plus"></span>Agregar daño
+  </a>
+</div>
+<wp-agregar-editar-danho
+  data-danhos="$ctrl.danhos"
+  data-es-frm-agregar="true"
+  data-ng-if="$ctrl.showAddFrm"
+  data-on-agregar="$ctrl.handleAgregarDanho($event)"
+>
+</wp-agregar-editar-danho>

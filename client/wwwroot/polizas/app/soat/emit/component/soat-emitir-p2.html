@@ -1,0 +1,442 @@
+	<!-- newSecInformation -->
+	<div class="g-sec-information">
+		<div class="sec-item h-myd-bg--gray4">
+			<div class="container">
+				<ul class="row cnt-title">
+					<li class="col-xs-6 item-title g-myd-subtitle">Datos del vehículo</li>
+					<li class="col-xs-6 item-edit">
+						<a class="h-myd--none" href="" ui-sref="soatEmit.steps({step: 1})">
+              <span class="ico-mapfre_43_editar ico-edit"></span>Editar datos del vehiculo
+            </a>
+						<a class="h-myd--show h-oim-none" href="h-myd--show h-oim-none" ui-sref="soatEmit.steps({step: 1})">
+              <i class="ico-mapfre_345_myd-edit ico-edit"></i><span>Editar</span>
+            </a>
+					</li>
+				</ul>
+				<ul class="row h-myd-mt--30">
+					<li class="col-md-4 clearfix cnt-item h-myd-pl--0">
+						<div class="col-sm-5 item-label">
+							<span class="ico-mapfre_82_circle ico-bullet"></span>Nro. Placa:&nbsp;
+						</div>
+						<div class="col-sm-7 item-dato g-text-uppercase">{{formData.mPlaca}}</div>
+					</li>
+
+					<li class="col-md-4 clearfix cnt-item h-myd-pl--0">
+						<div class="col-sm-5 item-label">
+							<span class="ico-mapfre_82_circle ico-bullet"></span>Nro. Chasis:&nbsp;
+						</div>
+						<div class="col-sm-7 item-dato g-text-uppercase">{{formData.mNumeroChasis}}</div>
+					</li>
+
+					<li class="col-md-4 clearfix cnt-item h-myd-pl--0">
+						<div class="col-sm-5 item-label">
+							<span class="ico-mapfre_82_circle ico-bullet"></span>Nro. Motor:&nbsp;
+						</div>
+						<div class="col-sm-7 item-dato g-text-uppercase">{{formData.mNumeroMotor}}</div>
+					</li>
+				</ul>
+				<ul class="row">
+					<li class="col-md-4 clearfix cnt-item h-myd-pl--0">
+						<div class="col-sm-5 item-label">
+							<span class="ico-mapfre_82_circle ico-bullet"></span>Tipo de vehículo:&nbsp;
+						</div>
+						<div class="col-sm-7 item-dato g-text-uppercase">{{formData.mTipoVehiculo.Descripcion}}</div>
+					</li>
+
+					<li class="col-md-4 clearfix cnt-item h-myd-pl--0">
+						<div class="col-sm-5 item-label">
+							<span class="ico-mapfre_82_circle ico-bullet"></span>Año fabricación:&nbsp;
+						</div>
+						<div class="col-sm-7 item-dato g-text-uppercase">{{formData.mYearFabric}}</div>
+					</li>
+
+					<li class="col-md-4 clearfix cnt-item h-myd-pl--0">
+						<div class="col-sm-5 item-label">
+							<span class="ico-mapfre_82_circle ico-bullet"></span>Marca y Modelo:&nbsp;
+						</div>
+						<div class="col-sm-7 item-dato g-text-uppercase">{{formData.ModeloMarca.marcaModelo}} {{formData.mYearFabric}}</div>
+					</li>
+				</ul>
+				<ul class="row">
+				<!-- 	<li class="col-md-4 clearfix cnt-item">
+						<div class="col-sm-5 item-label">
+							<span class="ico-mapfre_82_circle ico-bullet"></span>Submodelo:&nbsp;
+						</div>
+						<div class="col-sm-7 item-dato g-text-uppercase">{{formData.mSubModelo.Descripcion}}</div>
+					</li> -->
+
+					<li class="col-md-4 clearfix cnt-item h-myd-pl--0">
+						<div class="col-sm-5 item-label">
+							<span class="ico-mapfre_82_circle ico-bullet"></span>Cantidad de Asientos:&nbsp;
+						</div>
+						<div class="col-sm-7 item-dato g-text-uppercase">{{formData.mNumAsientos}}</div>
+					</li>
+
+					<li class="col-md-4 clearfix cnt-item h-myd-pl--0">
+						<div class="col-sm-5 item-label" ng-if="formData.mModeloPrint!=''">
+							<span class="ico-mapfre_82_circle ico-bullet"></span>Modelo de impresión:&nbsp;
+						</div>
+						<div class="col-sm-7 item-dato g-text-uppercase">{{formData.mModeloPrint}}</div>
+					</li>
+				</ul>
+			</div>
+		</div>
+	</div>
+
+<form action="" name="frmPoliData">
+
+	<div class="g-section-inner">
+		<div class="container">
+			<div class="row">
+				<div class="col-md-12">
+					<h2 class="g-sub-title g-myd-subtitle">Producto</h2>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-4 mb-xs-2">
+					<mpf-select ng-model="formData.mProductoSoat" name="nProductoSoat" label="{label: gLblProductoSoat.label, required: true}" m-data-source="productos" text-field="NombreProducto" value-field="CodigoProducto" m-Empty-Option="{enterData:true}" mpf-validation="required" ng-change="selectedProduct(formData.mProductoSoat.CodigoProducto); loadTypeUse(); checkValue(formData.mProductoSoat.CodigoModalidad); showOptionPolizaManual(formData.mProductoSoat.CodigoProducto)" ng-required="true"  focuss-me="true"></mpf-select>
+          <div class="" ng-show="productDescription">{{productDescription}}</div>
+					<div class="g-error" ng-show="frmPoliData.nProductoSoat.$error.required && !frmPoliData.nProductoSoat.$pristine">* Seleccione producto</div>
+				</div>
+				<!-- Tipo de uso -->
+				<div class="col-md-4 mb-xs-2">
+					<mpf-select ng-model="formData.mUsoRiesgo" name="nUsoRiesgo" label="{label: gLblUsoRiesgo.label, required: true}" m-data-source="usoRiesgos" text-field="Descripcion" value-field="Codigo" m-Empty-Option="{enterData:true}" mpf-validation="required" ng-required="true" ></mpf-select>
+
+					<div class="g-error" ng-show="frmPoliData.nUsoRiesgo.$error.required && !frmPoliData.nUsoRiesgo.$pristine">* Seleccione tipo de uso</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="g-section-inner" ng-hide="formData.polizaEspecial">
+		<div class="container">
+			<div class="row">
+				<div class="col-md-12">
+					<h2 class="g-sub-title g-myd-subtitle">Póliza de grupo</h2>
+				</div>
+			</div>
+			<div class="row">
+				<mpf-group-polize class="g-polizagrupo" data="formData.groupPolizeData" enable-V2="true"></mpf-group-polize>
+			</div>
+		</div>
+	</div>
+
+		<div class="g-section-inner" ng-if="formData.polizaEspecial">
+		<div class="container">
+			<div class="row">
+				<div class="col-md-12">
+					<h2 class="g-sub-title g-myd-subtitle">Póliza de grupo</h2>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-4 mb-xs-2">
+          <mpf-select ng-model="formData.mPolizaGrupo" name="nPolizaGrupo" label="{label: gLblPolizaGrupo.label, required: false}" m-data-source="formData.cmbPolizaEspecial" text-field="Descripcion" value-field="Codigo" m-Empty-Option="{enterData:true}" mpf-validation="required" ng-change="selectedPolizaEspecial(formData.mPolizaGrupo.Codigo);"></mpf-select>
+          <div
+            class="g-error"
+            data-ng-show="frmPoliData.nPolizaGrupo.$invalid && !frmPoliData.nPolizaGrupo.$pristine">
+            Este campo es obligatorio
+          </div>
+        </div>
+			</div>
+		</div>
+  </div>
+
+	<div class="g-section-inner">
+		<div class="container">
+			<div class="row">
+				<div class="col-md-12">
+					<h2 class="g-sub-title g-myd-subtitle">Vigencia de la póliza</h2>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-4 mb-xs-2">
+					<div class="input-group g-date-picker">
+						<label class="g-placeholder animated">Fecha de inicio<span>*</span></label>
+						<input type="text" class="form-control" uib-datepicker-popup="{{format}}" ng-model="formData.mConsultaDesde" is-open="popup1.opened" datepicker-options="dateOptionsSOAT" ng-required="true" close-text="Close" alt-input-formats="altInputFormats" placeholder="{{hoy}}" readonly="readonly" name="nConsultaDesde"/>
+						<span class="input-group-btn">
+							<button type="button" class="btn btn-default" ng-click="open1()"><i class="glyphicon glyphicon-calendar"></i></button>
+						</span>
+          </div>
+          <div
+            class="g-error"
+            data-ng-show="frmPoliData.nConsultaDesde.$invalid && !frmPoliData.nConsultaDesde.$pristine">
+            Este campo es obligatorio
+          </div>
+				</div>
+				<div class="col-md-4 mb-xs-2">
+					<div class="form-label" ng-show="!dateError">
+						<span class="g-label">Fin de vigencia: </span>
+						<label class="mt-xs-1">  {{formData.mConsultaHasta | date: 'dd/MM/yyyy'}}</label>
+					</div>
+				</div>
+				<div class="col-md-4 mb-xs-2" ng-show="dateError">
+					<div class="col-md-12 mb-2 m-mb-1 g-vigencia-error">
+						<span>
+							<span class="ico-mapfre_37_informacion g-vigencia-error-ico"></span>
+							Debe elegir una fecha a partir de la actual
+						</span>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+	<!-- <div class="g-section-inner" ng-show="showPolizaManual"> -->
+	<div class="g-section-inner" ng-show="showPolizaManual">
+		<div class="container">
+			<div class="row">
+				<div class="col-md-12">
+					<h2 class="g-sub-title g-myd-subtitle">Póliza manual</h2>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-4 mb-xs-2">
+					<mpf-input label="gLblPolizaManual" ng-model="formData.mPolizaM" name="nPolizaM" id="nPolizaM" mpf-validation="onlyNumber" ng-blur="getCertificado(formData.mPolizaM)" ng-pattern="regexPolManual" ng-required="false" ignore-Trunc="true" ></mpf-input>
+					<div class="g-error" ng-show="frmPoliData.nPolizaM.$error.required && !frmPoliData.nPolizaM.$pristine">* Ingrese póliza manual</div>
+				</div>
+				<div class="col-md-4 mb-xs-2" ng-show="formData.hayPolizaManual">
+					<label class="mb-md-2"><strong>Certificado de la Poliza Manual</strong></label><br>
+					<span ng-show="showPolizaManual">{{formData.certificado.NumeroCertificado}}</span>
+					<span class="ico-mapfre_48_cerrar ico-cerrar" ng-click="closePolizaManual()"></span>
+				</div>
+			</div>
+		</div>
+	</div>
+  <!-- Datos delivery -->
+  <div class="g-section-inner" data-ng-show="isDeliveryVisible">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12">
+          <h2 class="g-sub-title g-myd-subtitle">Datos delivery</h2>
+        </div>
+
+        <div class="col-md-2 mb-xs-2">
+          <div class="input-group g-date-picker">
+						<label class="g-placeholder animated">Fecha de llamada<span>*</span></label>
+						<input type="text" class="form-control" uib-datepicker-popup="{{format}}" ng-model="formData.delivery.fechaLlamada" is-open="popup3.opened" datepicker-options="dateOptionsSOATDesde" ng-required="true" name="nFechaLlamada" close-text="Close" alt-input-formats="altInputFormats" placeholder="{{hoy}}" readonly="readonly"/>
+						<span class="input-group-btn">
+							<button type="button" class="btn btn-default" ng-click="open3()"><i class="glyphicon glyphicon-calendar"></i></button>
+						</span>
+          </div>
+          <div
+            class="g-error"
+            data-ng-show="frmPoliData.nFechaLlamada.$invalid && !frmPoliData.nFechaLlamada.$pristine">
+            Este campo es obligatorio
+          </div>
+        </div>
+        <div class="col-md-2 mb-xs-2" title="{{formData.delivery.fechaLlamada ? '' : 'Selecciona Fecha de llamada'}}">
+          <div class="input-group g-date-picker">
+						<label class="g-placeholder animated">Fecha de envío <span>*</span></label>
+            <input type="text" class="form-control" name="nFechaEnvio" uib-datepicker-popup="{{format}}" ng-disabled="!formData.delivery.fechaLlamada" ng-model="formData.delivery.fechaEnvio" ng-required="true" is-open="popup4.opened" datepicker-options="dateOptionsSOATHasta" close-text="Close" alt-input-formats="altInputFormats" readonly="readonly"/>
+						<span class="input-group-btn">
+							<button type="button" class="btn btn-default" ng-click="open4()"><i class="glyphicon glyphicon-calendar"></i></button>
+						</span>
+          </div>
+          <div
+            class="g-error"
+            data-ng-show="frmPoliData.nFechaEnvio.$invalid && !frmPoliData.nFechaEnvio.$pristine">
+            Este campo es obligatorio
+          </div>
+          <div
+            class="g-error"
+            data-ng-show="!formData.delivery.fechaLlamada && isFechaEnvioClicked">
+            Selecciona Fecha de llamada
+          </div>
+        </div>
+        <div class="col-md-4 mb-xs-2">
+          <mpf-select
+            ng-model="formData.delivery.tipoServicio"
+            name="nTipoServicio"
+            label="{label: 'Tipo de servicio', required: true}"
+            m-data-source="cbo.tipoServicio"
+            text-field="DesItem"
+            value-field="CodItem"
+            m-Empty-Option="{enterData:true}"
+            ng-required="true"
+          >
+          </mpf-select>
+          <div
+            class="g-error"
+            data-ng-show="frmPoliData.nTipoServicio.$invalid && !frmPoliData.nTipoServicio.$pristine">
+            Este campo es obligatorio
+          </div>
+        </div>
+      </div>
+      <div class="row soat__contractAddress">
+        <mpf-contractor-address
+          data="formData.delivery.address"
+          is-Valid="addressValid"
+          setter-ubigeo="setterUbigeo"
+          clean-ubigeo="cleanUbigeo"
+          block-departament="blockDepaAndProv"
+          block-provincia="blockDepaAndProv"
+          max-length-numero="configFrm.maxLengthNumero"
+        >
+        </mpf-contractor-address>
+      </div>
+      <div class="row">
+        <div class="col-md-4 mb-xs-2">
+          <mpf-select
+            ng-model="formData.delivery.turno"
+            name="nTurno"
+            label="{label: 'Turno', required: true}"
+            m-data-source="cbo.turno"
+            text-field="DesItem"
+            value-field="CodItem"
+            m-Empty-Option="{enterData:true}"
+            ng-required="true"
+          >
+          </mpf-select>
+          <div
+            class="g-error"
+            data-ng-show="frmPoliData.nTurno.$invalid && !frmPoliData.nTurno.$pristine">
+            Este campo es obligatorio
+          </div>
+        </div>
+        <div class="col-md-4 mb-xs-2">
+          <mpf-select
+            ng-model="formData.delivery.rangoDelivery"
+            name="nRangoDelivery"
+            label="{label: 'Rango de delivery', required: true}"
+            m-data-source="cbo.rangoDelivery"
+            text-field="DesItem"
+            value-field="CodItem"
+            m-Empty-Option="{enterData:true}"
+            ng-required="true"
+          >
+          </mpf-select>
+          <div
+            class="g-error"
+            data-ng-show="frmPoliData.nRangoDelivery.$invalid && !frmPoliData.nRangoDelivery.$pristine">
+            Este campo es obligatorio
+          </div>
+        </div>
+        <div class="col-md-4 mb-xs-2">
+          <mpf-select
+            ng-model="formData.delivery.formaPago"
+            name="nFormaPago"
+            label="{label: 'Forma de pago', required: true}"
+            ng-change="onChangeFormaPago(formData.delivery.formaPago)"
+            m-data-source="cbo.formaPago"
+            text-field="DesItem"
+            value-field="CodItem"
+            m-Empty-Option="{enterData:true}"
+            ng-required="true"
+          >
+          </mpf-select>
+          <div
+            class="g-error"
+            data-ng-show="frmPoliData.nFormaPago.$invalid && !frmPoliData.nFormaPago.$pristine">
+            Este campo es obligatorio
+          </div>
+        </div>
+        <div class="col-md-4 mb-xs-2" data-ng-if="formData.delivery.formaPago.CodItem === '0005'">
+          <mpf-input
+            label="{label: 'Código de Autorización Scotia Puntos', required: true}"
+            mpf-validation="onlyLetterNumber"
+            name="scotiaPuntos"
+            ng-Maxlength="20"
+            ng-model="formData.codScotiabank"
+            ng-required="true"
+            trn-Length="20"
+          >
+          </mpf-input>
+          <div
+            class="g-error"
+            ng-show="frmPoliData.scotiaPuntos.$invalid && !frmPoliData.scotiaPuntos.$pristine">
+            * Este campo es obligatorio
+          </div>
+        </div>
+        <div class="col-md-4 mb-xs-2">
+          <mpf-select
+            ng-model="formData.delivery.tipoLlamada"
+            name="nTipoLlamada"
+            label="{label: 'Tipo de llamada / solicitud', required: true}"
+            m-data-source="cbo.tipoLlamada"
+            text-field="DesItem"
+            value-field="CodItem"
+            m-Empty-Option="{enterData:true}"
+            ng-required="true"
+          >
+          </mpf-select>
+          <div
+            class="g-error"
+            data-ng-show="frmPoliData.nTipoLlamada.$invalid && !frmPoliData.nTipoLlamada.$pristine">
+            Este campo es obligatorio
+          </div>
+        </div>
+        <div class="col-md-4 mb-xs-2">
+          <mpf-select
+            ng-model="formData.delivery.tipoPoliza"
+            name="nTipoPoliza"
+            label="{label: 'Tipo de póliza', required: true}"
+            m-data-source="cbo.tipoPoliza"
+            text-field="DesItem"
+            value-field="CodItem"
+            m-Empty-Option="{enterData:true}"
+            ng-required="true"
+          >
+          </mpf-select>
+          <div
+            class="g-error"
+            data-ng-show="frmPoliData.nTipoPoliza.$invalid && !frmPoliData.nTipoPoliza.$pristine">
+            Este campo es obligatorio
+          </div>
+        </div>
+        <div class="col-md-4 mb-xs-2">
+          <mpf-select
+            ng-model="formData.delivery.anho"
+            name="nAnho"
+            label="{label: 'Año', required: true}"
+            m-data-source="cbo.anhos"
+            text-field="DesItem"
+            value-field="CodItem"
+            m-Empty-Option="{enterData:true}"
+            ng-required="true"
+          >
+          </mpf-select>
+          <div class="g-error" ng-show="">* Seleccione año</div>
+          <div
+            class="g-error"
+            data-ng-show="frmPoliData.nAnho.$invalid && !frmPoliData.nAnho.$pristine">
+            Este campo es obligatorio
+          </div>
+        </div>
+        <div class="col-md-4 mb-xs-2">
+          <mpf-select
+            ng-model="formData.delivery.mes"
+            name="nMes"
+            label="{label: 'Mes', required: true}"
+            m-data-source="cbo.mes"
+            text-field="DesItem"
+            value-field="CodItem"
+            m-Empty-Option="{enterData:true}"
+            ng-required="true"
+          >
+          </mpf-select>
+          <div
+            class="g-error"
+            data-ng-show="frmPoliData.nMes.$invalid && !frmPoliData.nMes.$pristine">
+            Este campo es obligatorio
+          </div>
+          <div class="g-error" ng-show="">* Seleccione mes</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>
+
+<!-- Button -->
+<div class="g-section">
+	<div class="container">
+		<div class="row">
+			<div class="col-md-4 mb-xs-1">
+				<span class="g-comment">*Campos obligatorios</span>
+			</div>
+			<div class="col-md-4">
+				<a class="g-btn g-btn-verde block" ng-click="nextStep()">Siguiente</a>
+			</div>
+		</div>
+	</div>
+</div>

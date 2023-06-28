@@ -1,0 +1,98 @@
+<section class="gNsctr gNsctrModal modalOnboarding">
+	
+	<button 
+    type="button" 
+    class="close g-close-modal" 
+    ng-click="$ctrl.fnCloseModal()">
+		<span class="ico-mapfre_231_cancelaroff"></span>
+	</button>
+
+	<div class="container g-text-center-xs">
+
+    <div 
+      class="pt-xs-2 pb-xs-2 pl-xs-2 pr-xs-2 pl-ms-5 pr-ms-5 pl-sm-8 pr-sm-8" 
+      ng-show="$ctrl.SHOW_MENU">
+      <div class="row">
+        <div class="col-md-10 col-md-offset-1 mb-xs-2">
+          <h2 class="gH3 mb-xs-1"><b>Declaración, Inclusión y Constancia Manual</b></h2>
+          <p>Aquí te enseñamos el proceso que debes seguir para hacer una declaración, inclusión y constancia manual para tu cliente.</p>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-5 col-md-offset-1 mb-xs-2 no-mb-md">
+          <div class="g-box gBgcGray5 pt-xs-2 pb-xs-2 pl-xs-2 pr-xs-2">
+            <h2 class="gH4 mb-xs-1"><b>¿Cómo realizar una Declaración o Inclusión?</b></h2>
+            <a 
+              href="javascript:void(0)" 
+              class="g-btn g-btn-verde block second-design" 
+              ng-click="$ctrl.fnClickSlider('DI')">
+              Empezar
+            </a>
+          </div>
+        </div>
+        <div class="col-md-5">
+          <div class="g-box gBgcGray5 pt-xs-2 pb-xs-2 pl-xs-2 pr-xs-2">
+            <h2 class="gH4 mb-xs-1"><b>¿Cómo realizar una Constancia Manual?</b></h2>
+            <a 
+              href="javascript:void(0)" 
+              class="g-btn g-btn-verde block second-design" 
+              ng-click="$ctrl.fnClickSlider('MP')">
+              Empezar
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div 
+      ng-show="$ctrl.SHOW_MENU == false">
+      <div 
+        uib-carousel 
+        onboarding-controls 
+        active="$ctrl.active" 
+        interval="$ctrl.myInterval" 
+        no-wrap="$ctrl.noWrapSlider">
+        <div 
+          uib-slide 
+          ng-repeat="slide in $ctrl.slider" 
+          index="$index">
+          <div class="g-image-responsive cntImage">
+            <img ng-src="{{slide.image}}">  
+          </div>
+          
+          <div class="g-box fz14 gBgcGray5 pt-xs-2 pb-xs-2 pl-xs-8 pr-xs-8">
+            <div class="row">
+              <div class="col-md-12">
+                <h2 class="gH3 mb-xs-1"><b>{{slide.title}}</b></h2>
+                <p>{{slide.description}}</p>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-3">
+                <a 
+                  href="javascript:void(0)" 
+                  class="g-btn g-btn-white block second-design" 
+                  ng-if="($index > 0)" 
+                  ng-click="$ctrl.fnGoPrev()">
+                  Anterior
+                </a>
+              </div>
+              <div class="col-md-3 pull-right">
+                <a 
+                  href="javascript:void(0)" 
+                  class="g-btn g-btn-verde block second-design" 
+                  ng-click="$ctrl.fnGoNextFinish($last)">
+                  {{($last) ?  'De acuerdo' : 'Siguiente'}}
+                </a>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+	</div>
+
+
+</section>

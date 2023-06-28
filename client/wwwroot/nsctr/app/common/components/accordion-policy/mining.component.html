@@ -1,0 +1,247 @@
+<uib-accordion-heading>
+  <div
+    class="row g-list-md pt-xs-1 g-row-fz12 gBgcGray5 g-acordeon--nsctr h-myd-pt--20 h-myd-pb--10"
+    ng-click="$ctrl.fnOpenToggle($ctrl.policy)"
+  >
+    <div class="col-sm-9 col-xs-12 g-col-xs middle">
+      <div class="clearfix" ng-class="{'pl-xs-3' : $ctrl.showCheckPolicy}">
+        <div class="checkPolicy" ng-if="$ctrl.showCheckPolicy">
+          <mpf-checkbox ng-model="$ctrl.policy.mCheckPolicy" label="" ng-click="$ctrl.fnCheckPolicy($event)">
+          </mpf-checkbox>
+        </div>
+        <ul class="row">
+          <li class="col-md-4 clearfix cnt-item">
+            <div class="col-xs-5 item-label">
+              <span class="ico-mapfre_82_circle ico-bullet"></span>
+              Colectivo Asegurado:
+            </div>
+            <div class="col-xs-7 item-dato g-text-uppercase">
+              {{ $ctrl.policy.insuredCollective }}
+            </div>
+          </li>
+          <li class="col-md-4 clearfix cnt-item">
+            <div class="col-xs-5 item-label">
+              <span class="ico-mapfre_82_circle ico-bullet"></span>
+              Fin Vigencia:
+            </div>
+            <div class="col-xs-7 item-dato g-text-uppercase">
+              {{ $ctrl.policy.policyDateEnd }}
+            </div>
+          </li>
+          <li class="col-md-4 clearfix cnt-item">
+            <div class="col-xs-5 item-label">
+              <span class="ico-mapfre_82_circle ico-bullet"></span>
+              Tipo de declaración:
+            </div>
+            <div class="col-xs-7 item-dato g-text-uppercase">
+              {{ $ctrl.policy.declarationType }}
+            </div>
+          </li>
+        </ul>
+        <ul class="row">
+          <li class="col-md-4 clearfix cnt-item">
+            <div class="col-xs-5 item-label">
+              <span class="ico-mapfre_82_circle ico-bullet"></span>
+              Póliza Salud:
+              <div ng-if="$ctrl.policy.flgEsProvisionalSalud == 'S'" class="gCRed1 pt-xs-0-5" style="display: flex;">
+                <span> (provisional)  </span>
+                <a href="javascript:void(0)" class="icon ico-mapfre_284_circlequestion gCBlue2 h-myd--none" style="margin-top: 2px; margin-left: 2px;" ng-click="$ctrl.fnShowOnboarding($event,$ctrl.policy.healthPolicyNumber)"
+                ></a>
+              </div>
+            </div>
+            <div class="col-xs-7 item-dato g-text-uppercase">
+              {{ $ctrl.policy.healthPolicyNumber }}
+            </div>
+            <div class="clearfix"></div>
+            <ul class="col-md-12 pt-xs-0-5 gH8">
+              <li ng-repeat="risk in $ctrl.policy.healthRiskList | limitTo: 2:0">
+                {{ risk }}
+              </li>
+              <li ng-if="$ctrl.policy.healthRiskList.length > 2">
+                <span
+                  popover-class="tooltipEllipses"
+                  uib-popover-template="'popoverHealthRisks.html'"
+                  popover-is-open="$ctrl.policy.openTooltipHealthRisks"
+                  ng-click="$ctrl.fnOpenTooltipEllipses($event, $ctrl.policy.openTooltipHealthRisks)"
+                >
+                  <span class="ico-mapfre_167_otros"></span>
+                </span>
+                <script type="text/ng-template" id="popoverHealthRisks.html">
+                  <div class="mb-xs-0-5">
+                  	<b>Riesgos:</b>
+                  </div>
+                  <ul class="cntList">
+                  	<li ng-repeat="risk in $ctrl.policy.healthRiskList">
+                  		{{ risk }}
+                  	</li>
+                  </ul>
+                </script>
+              </li>
+            </ul>
+          </li>
+          <li class="col-md-4 clearfix cnt-item">
+            <div class="col-xs-5 item-label">
+              <span class="ico-mapfre_82_circle ico-bullet"></span>
+              Póliza Pensión:
+              <div ng-if="$ctrl.policy.flgEsProvisionalPension == 'S'" class="gCRed1 pt-xs-0-5">
+                <span> (provisional)  </span>
+                <a href="javascript:void(0)" class="icon ico-mapfre_284_circlequestion gCBlue2 h-myd--none" style="margin-top: 2px; margin-left: 2px;" ng-click="$ctrl.fnShowOnboarding($event,$ctrl.policy.pensionPolicyNumber)"
+                ></a>
+              </div>
+            </div>
+            <div class="col-xs-7 item-dato g-text-uppercase">
+              {{ $ctrl.policy.pensionPolicyNumber }}
+            </div>
+            <div class="clearfix"></div>
+            <ul class="col-md-12 pt-xs-0-5 gH8">
+              <li ng-repeat="risk in $ctrl.policy.pensionRiskList | limitTo: 2:0">
+                {{ risk }}
+              </li>
+              <li ng-if="$ctrl.policy.pensionRiskList.length > 2">
+                <span
+                  popover-class="tooltipEllipses"
+                  uib-popover-template="'popoverPensionRisks.html'"
+                  popover-placement="right"
+                  popover-is-open="$ctrl.policy.openTooltipPensionRisks"
+                  ng-click="$ctrl.fnOpenTooltipEllipses($event, $ctrl.policy.openTooltipPensionRisks)"
+                >
+                  <span class="ico-mapfre_167_otros"></span>
+                </span>
+                <script type="text/ng-template" id="popoverPensionRisks.html">
+                  <div class="mb-xs-0-5">
+                  	<b>Riesgos:</b>
+                  </div>
+                  <ul class="cntList">
+                  	<li ng-repeat="risk in $ctrl.policy.pensionRiskList">
+                  		{{ risk }}
+                  	</li>
+                  </ul>
+                </script>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div class="col-md-2 col-sm-2 col-xs-9 g-col-xs middle no-pl-sm no-pr-sm cnt-item no-border-left">
+      <a href="javascript:void(0)" class="g-btn g-btn-white second-design block"
+      ng-click="$ctrl.fnShowHistory($event)"
+      ng-if="$ctrl.segurityHistory">
+        VER HISTORIAL
+      </a>
+    </div>
+    <div class="col-md-1 col-sm-1 col-xs-3 g-col-xs middle g-text-center-xs cnt-item no-border-left">
+      <a href="javascript:void(0)" class="ico-mapfre_308_arrowDown icoToggle"></a>
+    </div>
+  </div>
+</uib-accordion-heading>
+<div class="row g-box-content">
+  <div class="col-md-12 mb-xs-2" ng-repeat="itemApplication in $ctrl.applications">
+    <div class="h-myd-bg--gray4 h-myd-p--20">
+      <div class="row g-row g-list-sm no-border-left">
+        <div class="col-md-9 col-sm-6 g-col-sm middle cnt-item">
+          <div class="g-col-sm bottom pr-sm-1">
+            <h2 class="gH4 gCGray1 g-text-uppercase"><b>Vigencia</b></h2>
+          </div>
+          <div class="g-col-sm bottom">
+            {{ 'Desde: ' + itemApplication.policyDateStart + ' - ' + 'Hasta: ' + itemApplication.policyDateEnd }}
+          </div>
+        </div>
+        <div ng-if="$ctrl.showCreateApplication(itemApplication)" class="col-md-3 col-sm-6 g-col-sm middle cnt-item">
+          <a
+            href="javascript:void(0)"
+            class="g-btn g-btn-white block second-design"
+            ng-click="$ctrl.fnCreateApplication($event, $ctrl.policy, itemApplication)"
+          >
+            CREAR APLICACIÓN
+          </a>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-12">
+          <div class="clearfix gBgcGray5 cnt-description pt-xs-1 g-row-fz12">
+            <div class="col-md-12 g-list-sm">
+              <ul class="row g-row-fz12" ng-repeat="subItemApplication in itemApplication.applications">
+                <li class="col-md-2 col-sm-2 col-xs-6 clearfix cnt-item g-col-xs middle h-myd-pl--0">
+                  <span ng-if="$ctrl.showCheckApplication(subItemApplication)">
+                    <mpf-checkbox
+                      ng-model="subItemApplication.mCheckApplication"
+                      label=""
+                      ng-click="$ctrl.fnCheckApplication(subItemApplication, itemApplication.applications, $event)"
+                    >
+                    </mpf-checkbox>
+                  </span>
+                  <span>
+                    <b ng-if="subItemApplication.applicationType == 'P'">
+                      {{'PENSIÓN'}}
+                      <span
+                        class="gCRed1"
+                        ng-if="$ctrl.policy.flgEsProvisionalPension == 'S' ||  $ctrl.policy.flgEsProvisionalSalud == 'S' || subItemApplication.flgEsProvisional == 'S'"
+                        ng-attr-title="{{subItemApplication.descriptionTechnicalControl}}"
+                        >
+                        (provisional)
+                        <a ng-if="subItemApplication.applicationType  == 'P'" href="javascript:void(0)" class="icon ico-mapfre_284_circlequestion gCBlue2 h-myd--none" style="padding-left: 2px;" ng-click="$ctrl.fnShowOnboarding($event,$ctrl.policy.pensionPolicyNumber)"></a>
+                      </span>
+                    </b>
+
+                    <b ng-if="subItemApplication.applicationType !== 'P'">
+                      {{'SALUD'}}
+                      <span
+                        class="gCRed1"
+                        ng-if="$ctrl.policy.flgEsProvisionalPension == 'S' ||  $ctrl.policy.flgEsProvisionalSalud == 'S' || subItemApplication.flgEsProvisional == 'S'"
+                        ng-attr-title="{{subItemApplication.descriptionTechnicalControl}}"
+                        >
+                        (provisional)
+                        <a ng-if="subItemApplication.applicationType !== 'P'" href="javascript:void(0)" class="icon ico-mapfre_284_circlequestion gCBlue2 h-myd--none" style="padding-left: 2px;" ng-click="$ctrl.fnShowOnboarding($event,$ctrl.policy.healthPolicyNumber)"></a>
+                      </span>
+                    </b>
+                  </span>
+                </li>
+                <li class="col-md-2 col-sm-2 col-xs-6 clearfix cnt-item g-text-center-sm g-col-xs middle">
+                  {{ 'Aplicación: ' + subItemApplication.aplicationNumber }}
+                </li>
+                <li class="col-md-2 col-sm-2 col-xs-8 clearfix cnt-item g-text-center-sm g-col-xs middle">
+                  <span class="g-box-label {{ subItemApplication.state | classApplicationState}}">
+                    {{ subItemApplication.state | uppercase }}
+                  </span>
+                  <span ng-click="$ctrl.fnOpenToggle($ctrl.itemPolicy)" ng-if="$ctrl.isInProcess(subItemApplication.state)"><br/>  <u>Recargar</u></span>
+                </li>
+                <li
+                  ng-if="subItemApplication.receiptNumber"
+                  class="col-md-2 col-sm-2 col-xs-6 clearfix cnt-item g-text-center-sm g-col-xs middle"
+                >
+                  Recibo:
+                  <a
+                    ng-if="($ctrl.policy.flgEsProvisionalPension == 'N' || $ctrl.policy.flgEsProvisionalSalud == 'N') && subItemApplication.flgEsProvisional == 'N'"
+                    href="{{ subItemApplication.urlReportReceipt }}"
+                    target="_blank"
+                    class="g-link gCGreen1"
+                  >
+                    {{ subItemApplication.receiptNumber }}
+                  </a>
+                  <span
+                    ng-if="$ctrl.policy.flgEsProvisionalPension !== 'N' || $ctrl.policy.flgEsProvisionalSalud !== 'N' || subItemApplication.flgEsProvisional !== 'N'"
+                  >
+                    {{ subItemApplication.receiptNumber }}
+                  </span>
+                </li>
+                <li
+                  ng-if="subItemApplication.receiptState"
+                  class="col-md-2 col-sm-2 col-xs-6 clearfix cnt-item g-text-center-sm g-col-xs middle"
+                >
+                  {{ subItemApplication.receiptState | uppercase }}
+                </li>
+                <li
+                  ng-if="subItemApplication.expiration"
+                  class="col-md-2 col-sm-2 col-xs-6 clearfix cnt-item g-text-center-sm g-col-xs middle"
+                >
+                  Vence: {{ subItemApplication.expiration }}
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

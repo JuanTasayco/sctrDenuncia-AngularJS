@@ -1,0 +1,267 @@
+<div class="g-title g-border-bottom">
+    <div class="container">
+        <div class="row">
+			<div class="col-xs-9 col-sm-9 col-md-9 col-lg-9 pr-xs-0 pr-md-1 mt-1 title-box">
+                <a class="g-btn col-xs" style="border: none; padding-left: 12px;" ui-sref="massAdmTray">
+                    <!-- gCRed1 -->
+                    <span class="glyphicon glyphicon-remove"></span>
+                </a>
+                <h1>{{title}}</h1>
+			</div>
+        </div>
+    </div>
+</div>
+<div class="dashboard-body">
+    <div class="g-section-inner g-dashboard-section">
+      <div class="container">
+        <div class="row">
+          
+            <form name="frmMaintenanceMass" action="" >
+                <!-- g-boxRb -->
+                <div class="col-md-12 g-list-md  pt-xs-2 mb-xs-2 ng-scope">
+                    <div class="row mb-xs-4">
+                        <div class="col-md-12"  style="font-size:18px">
+                            <b>Datos generales</b>
+                        </div>
+                    </div>
+
+                    <!-- g-list-sm clearfix -->
+                    <div class="row">
+                        <div class="col-md-12 pb-md-2">
+                            <div class="row">
+                                <div class="col-md-3 mb-xs-12">
+                                    <div class="input-group g-date-picker">
+                                        <label class="g-placeholder animated">Fecha inicio transmisi&oacute;n <span>*</span></label>
+                                        <input
+                                            type="text"
+                                            name="nDate"
+                                            class="form-control"
+                                            is-open="popupDateTransmision.opened"
+                                            close-text="Close"
+                                            datepicker-options="dateOptionsDateTransmision"
+                                            alt-input-formats="altInputFormats"
+                                            model-view-value="true"
+                                            ui-mask="{{mask}}"
+                                            uib-datepicker-popup="{{format}}"
+                                            ng-model="$ctrl.misa.fechaIniTransmision"
+                                            ng-pattern="pattern"
+                                            ng-required="true"
+                                            ng-change="$ctrl.validateDateTimeTransmision($ctrl.misa.fechaIniTransmision, $ctrl.misa.horaIniTransmision) ? $ctrl.misa.fechaIniTransmision : $ctrl.misa.fechaIniTransmision = ''"
+                                        />
+                                        <span class="input-group-btn">
+                                        <button type="button" class="btn btn-default" ng-click="openDate(1)">
+                                            <i class="glyphicon glyphicon-calendar"></i>
+                                        </button>
+                                        </span>
+                                    </div>
+                                    <div class="g-error" data-ng-show="frmMaintenanceMass.nDate.$invalid && !frmMaintenanceMass.nDate.$pristine">
+                                        * Ingrese una fecha v&aacute;lida
+                                    </div>
+                                    <!-- <div class="g-error" data-ng-show="frmMaintenanceMass.nDate.$error.minDate">
+                                        * Ingrese una fecha v&aacute;lida
+                                    </div> -->
+                                </div>
+                                <div class="col-md-3 mb-xs-12">
+                                    <div class="g-input-design">
+                                        <label class="g-placeholder ng-binding" ng-class="{animated: true}">
+                                            Hora inicio transmisi&oacute;n<span>*</span>
+                                        </label>
+                                        <input 
+                                            type="text"
+                                            name="nHour"
+                                            placeholder="__:__"
+                                            ng-model="$ctrl.misa.horaIniTransmision"
+                                            ng-focus="ngFocus()"
+                                            ng-required="true"
+                                            ng-minlength="5"
+                                            ng-maxlength = "5"
+                                            ui-mask="99:99"
+                                            ng-change="$ctrl.validateDateTimeTransmision($ctrl.misa.fechaIniTransmision, $ctrl.misa.horaIniTransmision) ? $ctrl.misa.horaIniTransmision : $ctrl.misa.horaIniTransmision = ''" 
+                                        />
+                                    </div>
+                                    <div class="g-error" data-ng-show="frmMaintenanceMass.nHour.$invalid && !frmMaintenanceMass.nHour.$pristine">
+                                        * Ingrese una hora v&aacute;lida
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-4 mb-xs-2 mt-xs-2 ">
+                            <mpf-input
+                                name="nUrl"
+                                class="quitUpperCase"
+                                label="{label: 'ID del video en YouTube ', required: true}"
+                                ng-model="$ctrl.misa.video.url"
+                                ng-required="true"
+                                ng-maxlength="60"
+                                ng-pattern="patternUrl"
+                            >
+                            </mpf-input>
+                            <div class="g-error" data-ng-show="frmMaintenanceMass.nUrl.$invalid && !frmMaintenanceMass.nUrl.$pristine">
+                                * Ingrese una descripci&oacute;n
+                            </div>
+                        </div>
+                        <div class="col-md-2 mb-xs-2 mt-xs-2">
+                            <div class="input-group g-date-picker">
+                                <label class="g-placeholder animated">Fecha de acceso <span>*</span></label>
+                                <input
+                                    type="text"
+                                    name="nAccessDate"
+                                    class="form-control"
+                                    is-open="popupAccessDate.opened"
+                                    close-text="Close"
+                                    datepicker-options="dateOptionsAccessDate"
+                                    alt-input-formats="altInputFormats"
+                                    model-view-value="true"
+                                    ui-mask="{{mask}}"
+                                    uib-datepicker-popup="{{format}}"
+                                    ng-model="$ctrl.misa.fechaAcceso"
+                                    ng-pattern="pattern"
+                                    ng-required="true"
+                                    ng-change="$ctrl.validateDateTimeAccess($ctrl.misa.fechaAcceso, $ctrl.misa.horaAcceso) ? $ctrl.misa.fechaAcceso : $ctrl.misa.fechaAcceso = ''"
+                                />
+                                <span class="input-group-btn">
+                                <button type="button" class="btn btn-default" ng-click="openDate(2)">
+                                    <i class="glyphicon glyphicon-calendar"></i>
+                                </button>
+                                </span>
+                            </div>
+                            <div class="g-error" data-ng-show="frmMaintenanceMass.nAccessDate.$invalid && !frmMaintenanceMass.nAccessDate.$pristine">
+                                * Ingrese una fecha v&aacute;lida
+                            </div>
+                        </div>
+                        <div class="col-md-2 mb-xs-2 mt-xs-2">
+                            <div class="g-input-design">
+                                <label class="g-placeholder ng-binding" ng-class="{animated: true}">
+                                    Hora de acceso <span>*</span>
+                                </label>
+                                <input 
+                                    type="text"
+                                    name="nAccessTime"
+                                    placeholder="__:__"
+                                    ui-mask="99:99"
+                                    ng-model="$ctrl.misa.horaAcceso"
+                                    ng-focus="ngFocus()"
+                                    ng-required="true"
+                                    ng-minlength="5"
+                                    ng-maxlength = "5"
+                                    ng-change="$ctrl.validateDateTimeAccess($ctrl.misa.fechaAcceso, $ctrl.misa.horaAcceso) ? $ctrl.misa.horaAcceso : $ctrl.misa.horaAcceso = ''"
+                                />
+                            </div>
+                            <div class="g-error" data-ng-show="frmMaintenanceMass.nAccessTime.$invalid && !frmMaintenanceMass.nAccessTime.$pristine">
+                                * Ingrese una hora v&aacute;lida
+                            </div>
+                        </div>
+                        <div class="col-md-2 mb-xs-2 mt-xs-2">
+                            <div class="input-group g-date-picker">
+                                <label class="g-placeholder animated">Fecha fin acceso <span>*</span></label>
+                                <input
+                                    type="text"
+                                    name="nEndAccessDate"
+                                    class="form-control"
+                                    is-open="popupEndAccessDate.opened"
+                                    close-text="Close"
+                                    datepicker-options="dateOptionsEndAccessDate"
+                                    alt-input-formats="altInputFormats"
+                                    model-view-value="true"
+                                    ui-mask="{{mask}}"
+                                    uib-datepicker-popup="{{format}}"
+                                    ng-model="$ctrl.misa.fechaFinAcceso"
+                                    ng-pattern="pattern"
+                                    ng-required="true"
+                                    ng-change="$ctrl.validateDateTimeEndAccess($ctrl.misa.fechaFinAcceso, $ctrl.misa.horaFinAcceso) ? $ctrl.misa.fechaFinAcceso : $ctrl.misa.fechaFinAcceso = ''"
+                                />
+                                <span class="input-group-btn">
+                                <button type="button" class="btn btn-default" ng-click="openDate(3)">
+                                    <i class="glyphicon glyphicon-calendar"></i>
+                                </button>
+                                </span>
+                            </div>
+                            <div class="g-error" data-ng-show="frmMaintenanceMass.nEndAccessDate.$invalid && !frmMaintenanceMass.nEndAccessDate.$pristine">
+                                * Ingrese una fecha v&aacute;lida
+                            </div>
+                        </div>
+                        <div class="col-md-2 mb-xs-2 mt-xs-2">
+                            <div class="g-input-design">
+                                <label class="g-placeholder ng-binding" ng-class="{animated: true}">
+                                    Hora fin de acceso <span>*</span>
+                                </label>
+                                <input 
+                                    type="text"
+                                    name="nEndAccessTime"
+                                    ng-model="$ctrl.misa.horaFinAcceso"
+                                    ng-blur="ngBlur()" 
+                                    ng-focus="ngFocus()"
+                                    ng-required="true"
+                                    ng-minlength="5"
+                                    ng-maxlength = "5"
+                                    ui-mask="99:99"
+                                    placeholder="__:__"
+                                    ng-change="$ctrl.validateDateTimeEndAccess($ctrl.misa.fechaFinAcceso, $ctrl.misa.horaFinAcceso) ? $ctrl.misa.horaFinAcceso : $ctrl.misa.horaFinAcceso = ''"
+                                />
+                            </div>
+                            <div class="g-error" data-ng-show="frmMaintenanceMass.nEndAccessTime.$invalid && !frmMaintenanceMass.nEndAccessTime.$pristine">
+                                * Ingrese una hora v&aacute;lida
+                            </div>
+                        </div>
+                    </div>
+
+                    <br>
+                    <br>
+
+                    <div class="row">
+                        <div class="col-md-11 mb-xs-2" style="font-size:18px">
+                            <b>Lista de fallecidos</b>
+                        </div>
+                    </div>
+
+                    <div ng-repeat="item in $ctrl.fallecidos">
+                        <summary-deceased-component ng-if="!item.edit" 
+                            data="item" 
+                            on-delete="$ctrl.deleteItem($arg)">
+                        </summary-deceased-component>
+
+                        <add-deceased-component ng-if="item.edit" 
+                            mode="2"
+                            data="item">
+                        </add-deceased-component>
+                    </div>
+
+                    <add-deceased-component ng-if="$ctrl.showAddDeceased" 
+                        mode="1"
+                        data="$ctrl.newDeceased" 
+                        on-cancel="$ctrl.addDeceased()" 
+                        on-push="$ctrl.push()">
+                    </add-deceased-component>
+
+                    <div class="row" ng-if="!$ctrl.showAddDeceased">
+                        <div class="col-md-4 pt-xs-2 mb-xs-2">
+                            <a class="g-btn btn-verde-trn second-design pl-md-2 pr-md-2" ng-click="$ctrl.addDeceased()">
+                                <span class="glyphicon glyphicon-plus"></span> 
+                                AGREGAR FALLECIDO
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="row" ng-if="!$ctrl.showAddDeceased">
+                        <div class="col-md-12 clearfix mb-xs-2 mt-xs-2" style="text-align: right;">
+                            <a class="g-btn second-design g-btn-transparent mr-xs-1 pl-md-2 pr-md-2" 
+                                ng-click="$ctrl.cancel()">
+                                CANCELAR
+                            </a>
+                            <a class="g-btn second-design g-btn-verde"
+                                ng-class="{disabled: !frmMaintenanceMass.$valid}"
+                                ng-click="$ctrl.save()">
+                                REGISTRAR MISA
+                            </a>
+                        </div>
+                    </div>
+
+                </div>
+            </form>
+        </div>
+      </div>
+    </div>
+  </div>

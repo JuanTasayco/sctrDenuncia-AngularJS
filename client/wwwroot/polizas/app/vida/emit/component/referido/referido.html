@@ -1,0 +1,180 @@
+<div class="g-component-referred">
+  <div
+    class="container g-box bg-gray pt-xs-2 pb-xs-2"
+    ng-if="$ctrl.currentStep == 1"
+    ng-form="$ctrl.formulario"
+    isolate-form
+  >
+    <a href="" class="btn-close g-text-center-xs" ng-click="$ctrl.cancelarReferido()">
+      <span class="ico ico-mapfre_46_cancelaroff"></span>
+    </a>
+    <div class="row">
+      <div class="col-md-12">
+        <h2 class="g-sub-title g-text-center-xs">AGREGAR REFERIDO</h2>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-4 mb-xs-2">
+        <mpf-input
+          label="{label: 'Nombre Completo', required: true}"
+          name="nNombre"
+          ng-model="$ctrl.current.nombre"
+          mpf-validation="onlyLetterNumber"
+          ng-required="true"
+        >
+        </mpf-input>
+        <ul class="g-error">
+          <li ng-show="$ctrl.formulario.nNombre.$invalid && !$ctrl.formulario.nNombre.$pristine">
+            * Ingrese un nombre
+          </li>
+        </ul>
+      </div>
+      <div class="col-md-4 mb-xs-2">
+        <mpf-input
+          label="{label: 'Parentesco', required: false}"
+          name="nParentesco"
+          ng-model="$ctrl.current.parentesco"
+          mpf-validation="onlyLetterNumber"
+          add-messages
+        >
+        </mpf-input>
+      </div>
+      <div class="col-md-4 mb-xs-2">
+        <mpf-input
+          label="{label: 'Correo', required: false}"
+          name="nParentesco"
+          ng-model="$ctrl.current.correo"
+          mpf-validation="email"
+          add-messages
+        >
+        </mpf-input>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-4 mb-xs-2">
+        <mpf-input
+          label="{label: 'Teléfono 1', required: false}"
+          name="nTelefono1"
+          ng-model="$ctrl.current.telefono1"
+          mpf-validation="onlyNumber"
+          ng-maxlength="10"
+          ng-required="false"
+        ></mpf-input>
+        <ul class="g-error">
+          <li ng-show="$ctrl.formulario.nTelefono1.$invalid && !$ctrl.formulario.nTelefono1.$pristine">
+            * Ingrese un teléfono
+          </li>
+        </ul>
+      </div>
+      <div class="col-md-4 mb-xs-2">
+        <mpf-input
+          label="{label: 'Teléfono 2', required: false}"
+          name="nTelefono2"
+          ng-model="$ctrl.current.telefono2"
+          mpf-validation="onlyNumber"
+          ng-maxlength="10"
+          ng-required="false"
+        ></mpf-input>
+      </div>
+      <div class="col-md-4 mb-xs-2">
+        <mpf-input
+          label="{label: 'Celular', required: false}"
+          name="nCelular"
+          ng-model="$ctrl.current.celular"
+          mpf-validation="onlyNumber"
+          ng-maxlength="10"
+          ng-required="false"
+        ></mpf-input>
+      </div>
+    </div>
+
+    <div class="row h-myd-mt--20">
+      <div class="col-md-3 col-md-offset-3 mb-xs-1 no-mb-md">
+        <a class="g-btn g-btn-verde block" ng-click="$ctrl.cancelarReferido()">REGRESAR</a>
+      </div>
+      <div class="col-md-3">
+        <a class="g-btn g-btn-verde block" ng-click="$ctrl.guardarReferido()">ACEPTAR</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="container" ng-if="$ctrl.currentStep == 2">
+    <div class="row g-row g-list g-box bg-gray pt-xs-1" ng-repeat="item in $ctrl.data">
+      <div class="col-md-10 g-col-md middle">
+        <ul class="row">
+          <li class="col-md-4 clearfix cnt-item">
+            <div class="col-xs-5 item-label">
+              Nombre:
+            </div>
+            <div class="col-xs-7 item-dato g-text-uppercase">
+              {{ item.nombre }}
+            </div>
+          </li>
+          <li class="col-md-4 clearfix cnt-item">
+            <div class="col-xs-5 item-label">
+              Parentesco:
+            </div>
+            <div class="col-xs-7 item-dato g-text-uppercase">
+              {{ item.parentesco }}
+            </div>
+          </li>
+          <li class="col-md-4 clearfix cnt-item">
+            <div class="col-xs-5 item-label">
+              Telefono1:
+            </div>
+            <div class="col-xs-7 item-dato g-text-uppercase">
+              {{ item.telefono1 }}
+            </div>
+          </li>
+        </ul>
+        <ul class="row">
+          <li class="col-md-4 clearfix cnt-item">
+            <div class="col-xs-5 item-label">
+              Telefono2:
+            </div>
+            <div class="col-xs-7 item-dato g-text-uppercase">
+              {{ item.telefono2 }}
+            </div>
+          </li>
+          <li class="col-md-4 clearfix cnt-item">
+            <div class="col-xs-5 item-label">
+              Celular:
+            </div>
+            <div class="col-xs-7 item-dato g-text-uppercase">
+              {{ item.celular }}
+            </div>
+          </li>
+          <li class="col-md-4 clearfix cnt-item">
+            <div class="col-xs-5 item-label">
+              Correo:
+            </div>
+            <div class="col-xs-7 item-dato g-text-uppercase">
+              {{ item.correo }}
+            </div>
+          </li>
+        </ul>
+      </div>
+      <div class="col-md-2 g-col-md middle">
+        <div class="row">
+          <div class="col-xs-6 cnt-item add-border-left item-ico g-text-center-xs">
+            <a href="" ng-click="$ctrl.editarReferido(item)"><span class="ico-mapfre_43_editar ico-edit"></span></a>
+          </div>
+          <div class="col-xs-6 cnt-item item-ico g-text-center-xs">
+            <a href="" ng-click="$ctrl.borrarReferido($index)"
+              ><span class="ico-mapfre_29_eliminar ico-delete"></span
+            ></a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-4 col-md-offset-8">
+        <a class="g-btn g-btn-white block" ng-click="$ctrl.nuevoReferido()">
+          <span class="text-ico"><span class="ico-mapfre_45_agregarusuario ico-plus"></span>Agregar Referido</span>
+        </a>
+      </div>
+    </div>
+  </div>
+</div>

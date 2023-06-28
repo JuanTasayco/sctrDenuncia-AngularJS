@@ -1,0 +1,216 @@
+<section class="g-page g-page-documents">
+  <div class="consulta-cotizaciones">
+    <div class="g-title mb-xs-2 u-bs-gris">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-12 no-mb-md">
+            <span class="ico-mapfre_84_circleleft ico-title"></span>
+            <h1>Cartas de Garantía - Nro. {{letterNumber}}</h1>
+            <div class="mt-xs-1 mb-xs-1">
+              <!-- <strong>Fecha de Solicitud: </strong> {{formData.mFechaSolicitud}} &nbsp; -->
+              <strong>Versión: </strong> {{letterVersion}} &nbsp;
+              <strong>A.E.: </strong> {{externalAuditNumber}}
+              <br>
+              <strong>Compañía: </strong> {{formData.mModalidadPoliza}}
+            </div>
+            <span class="mb-xs-1">{{formData.state}}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="g-section">
+      <form class="container"  name="frmConsultaAuditor">
+        <div class="row" ng-show="flagClinic==0 || auditado">
+          <div class="col-md-6 mb-xs-2 pt-xs-2">
+            <mpf-select
+              label="{label: 'Auditor Externo:', required: false}"
+              name="nAuditorExterno"
+              ng-model="formData.mAuditorExterno"
+              text-field="fullName"
+              value-field="code"
+              m-Empty-Option="{enterData:false}" 
+              ng-disabled="auditado"
+              m-data-source="auditores">
+            </mpf-select>
+          </div>
+        </div>
+        <div class="row" ng-show="flagClinic==1">
+          <div class="col-md-6 mb-xs-2 pt-xs-2">
+            <mpf-input
+              label="{label: 'Auditor Externo', required: false}"
+              name="nAuditorExterno"
+              ng-model="formData.mAuditorExterno"
+              ng-required="true" ng-disabled="true"
+              readonly="true">
+            </mpf-input>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-6 mb-xs-2">
+            <mpf-input
+              label="{label: 'Modalidad de Poliza', required: false}"
+              name="nModalidadPoliza"
+              ng-model="formData.mModalidadPoliza"
+              ng-required="true" ng-disabled="true"
+              readonly="true">
+            </mpf-input>
+          </div>
+          <div class="col-md-6 mb-xs-2">
+             <mpf-input
+              label="{label: 'Fecha de Solicitud', required: false}"
+              name="nFechaSolicitud"
+              ng-model="formData.mFechaSolicitud"
+              ng-required="true" ng-disabled="true"
+              readonly="true">
+            </mpf-input>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-6 mb-xs-2">
+            <mpf-input
+              label="{label: 'Paciente', required: false}"
+              name="nPaciente"
+              ng-model="formData.mPaciente"
+              ng-required="true"
+              ng-disabled="true"
+              readonly="true">
+            </mpf-input>
+          </div>
+          <div class="col-md-6 mb-xs-2">
+            <mpf-input
+              label="{label: 'Edad', required: false}"
+              name="nEdad"
+              ng-model="formData.mEdad"
+              mpf-validation="onlyNumber"
+              ng-required="true"
+              readonly="true"
+              ng-disabled="true"
+              ng-Maxlength="3">
+            </mpf-input>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-3 mb-xs-2">
+            <mpf-input
+              label="{label: 'FIP', required: false}"
+              name="nFip"
+              ng-model="formData.mFip"
+              ng-required="true" ng-disabled="true"
+              readonly="true">
+            </mpf-input>
+          </div>
+          <div class="col-md-3 mb-xs-2">
+            <mpf-input
+              label="{label: 'Continuidad', required: false}"
+              name="nContinuidad"
+              ng-model="formData.mContinuidad"
+              ng-required="true"
+              ng-disabled="auditado">
+            </mpf-input>
+          </div>
+          <div class="col-md-6 mb-xs-2">
+            <mpf-input
+              label="{label: 'Exclusiones', required: false}"
+              name="nExclusiones"
+              ng-model="formData.mExclusiones"
+              ng-required="false" 
+              ng-disabled="auditado">
+            </mpf-input>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-6 mb-xs-2">
+            <mpf-input
+              label="{label: 'Diagnóstico', required: false}"
+              name="nDiagnostico"
+              ng-model="formData.mDiagnostico"
+              readonly="true"
+              ng-disabled="true"
+              ng-required="false">
+            </mpf-input>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-6 mb-xs-2">
+            <div class="textarea-all-height">
+              <mpf-textarea
+                label="{label:'Tratamiento y Procedimientos', required: false}"
+                ng-model="formData.mTratamientoProcedimiento"
+                name="nTratamientoProcedimiento"
+                ng-required="false" 
+                ng-disabled="auditado"
+                ng-Maxlength="400"></mpf-textarea>
+            </div>
+          </div>
+          <div class="col-md-6 mb-xs-2">
+            <div class="textarea-all-height">
+              <mpf-textarea
+                label="{label:'Clínicas o Centros Médicos', required: false}"
+                ng-model="formData.mClincasCentros"
+                name="nClincasCentros"
+                ng-required="false" 
+                ng-disabled="auditado"
+                ng-Maxlength="400"></mpf-textarea>
+            </div>
+          </div>
+        </div>
+        <div class="row mb-xs-2">
+          <div class="col-md-6 mb-xs-2">
+            <div class="textarea-all-height">
+              <mpf-textarea
+                label="{label:'Requerimiento', required: false}"
+                ng-model="formData.mRequerimiento"
+                name="nRequerimiento"
+                ng-required="false"
+                ng-disabled="true" 
+                readonly="true" 
+                ng-disabled="auditado"
+                ng-Maxlength="400"></mpf-textarea>
+            </div>
+          </div>
+          <div class="col-md-6 mb-xs-2">
+            <div class="textarea-all-height">
+              <mpf-textarea
+                label="{label:'Información Adicional útil para la auditoría externa', required: false}"
+                ng-model="formData.mInfoAdicional"
+                name="nInfoAdicional"
+                ng-required="false" 
+                ng-disabled="auditado"
+                ng-Maxlength="400"></mpf-textarea>
+            </div>
+          </div>
+        </div>
+        <div class="row mb-xs-2">
+          <div class="col-md-12">
+            <h2 class="gH4 gCGray1 mb-xs-1-5"><b>Archivos adjuntos</b></h2>
+          </div>
+          <div class="col-md-12 mb-xs-2">
+            <div class="cgw-attach__wp" ng-repeat="item in filesAuditoria">
+              <label class="cgw-attach__box g-text-center-xs">
+                <div class="cgw-attach__box-body" uib-tooltip="{{item.fileName}}" data-ng-click="downloadAdjunto(item.fileNameLarge)">
+                  <span class="ico-mapfre_170_archivos cgw-attach__icon u-color--gris-8"></span>
+                  <p class="u-txt-weight mb-xs-0 mt-xs-1 g-cut-text">{{item.fileName}}</p>
+                </div>
+              </label>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="clearfix mt-xs-2">
+            <div class="col-md-3 col-md-offset-3 mb-xs-1" ng-hide="externalAuditNumber!=0 || rolConsulta()">
+              <button  class="g-btn g-btn-green-border block"
+                  data-ng-click="crearAuditoria()" ng-disabled="disabledButton" prevent-default>Enviar</button>
+            </div>
+            <div class="col-md-3 mb-xs-1">
+              <a  class="g-btn g-btn-verde block"
+                  data-ng-click="generarInforme()">Generar Informe</a>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+  <form id="frmFileuditoriaExt1" name="frmFileuditoriaExt1" action="{{fileAuditoriaExtURL}}" method="post" target="_blank">
+    <input type="hidden" name="json" value='{{downloadAtachFile}}'>
+  </form>
+</section>

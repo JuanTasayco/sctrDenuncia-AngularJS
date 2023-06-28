@@ -1,0 +1,53 @@
+<form name="frmSearchAffiliate" action="">
+    <div show-filter class="clearfix g-col-filter g-box-md fz14 gBgcGray5-md gBgcWhite1">
+        <div class="col-md-12 mb-xs-1-5 gH4 gCGray1">
+            <h2 class="pb-xs-1 g-border-bottom-xs hidden-xs hidden-sm">
+                <b>Filtro</b>
+            </h2>
+            <div id="show-filter" class="row pt-xs-2 pb-xs-2 gBgcGray5 g-border-bottom-xs hidden-md hidden-lg" ng-click="toggleFilter()">
+                <div class="col-xs-10">
+                <h2 class="cnt-title"><b>Filtro</b></h2>
+                </div>
+                <div class="col-xs-2 g-text-right-xs">
+                <span class="glyphicon glyphicon-chevron-down" ng-if="isFilterVisible"></span>
+                <span class="glyphicon glyphicon-chevron-up" ng-if="!isFilterVisible"></span>
+                </div>
+                <div class="clearfix"></div>
+            </div>
+        </div>
+        <div class="g-col-filter__box">
+            <div class="col-md-12 mb-xs-1">
+                <mpf-select
+                    data-m-data-source="$ctrl.documentTypes"
+                    data-ng-model="$ctrl.frm.documentType"
+                    data-text-field="description"
+                    data-value-field="id"
+                    label="{label: 'Tipo Documento', required: true}"
+                    m-Empty-Option = "{enterData : false}"
+                    name="nDocumentType">
+                </mpf-select>
+            </div>
+            <div class="col-md-12 mb-xs-3">
+                <mpf-input
+                    data-ng-model="$ctrl.frm.filterCode"
+                    mpf-validation="onlyNumber"
+                    ng-minlength="5"
+                    ng-maxlength="10"
+                    label="{label: 'Número de documento', required: true}"
+                    name="nfilterCode"
+                    ng-required="true">
+                </mpf-input>
+            </div>
+            <div class="col-md-12 mb-xs-1">
+                <a class="g-btn g-btn-verde block"
+                    ng-class="{disabled: !frmSearchAffiliate.$valid}"
+                    data-ng-click="$ctrl.search()">Buscar</a>
+            </div>
+            <!--ng-class="{disabled: !frmSearchAffiliate.$valid}"-->
+            <div class="col-md-12 mb-xs-1">
+                <a class="g-btn g-btn-transparent block"
+                    data-ng-click="$ctrl.clean()">Limpiar</a>
+            </div>
+        </div>
+    </div>
+</form>

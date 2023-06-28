@@ -1,0 +1,90 @@
+<section class="g-page page-modal page-modal__nueva-inspeccion">
+
+    <button type="button" class="close g-close-modal" ng-click="$ctrl.closeModal()">
+      <span class="ico-mapfre_231_cancelaroff"></span>
+    </button>
+    <!-- <pre>{{ $ctrl.selectedContact | json }}</pre> -->
+    <form name="$ctrl.frmContact">
+      <div class="clearfix">
+        <div class="col-md-12">
+          <div class="col-md-12 g-text-center-xs mb-xs-2">
+            <h2 class="gH3"><b>EDITAR CONTACTO / VEHÍCULO</b></h2>
+          </div>
+
+          <div class="modal-body" id="automas">
+            <div class="row">
+              <div class="col-md-12 mb-xs-1 clearfix">
+                <h2 class="g-border-bottom-xs pb-xs-1"><b>Datos del contacto</b></h2>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-4 mb-xs-2">
+                <mpf-input label="{label: 'Nombre', required: true}" name="nNombre" ng-model="$ctrl.selectedContact.contactName" mpf-validation="onlyLetter,required" ng-maxLength="100"></mpf-input>
+                <div class="g-error" ng-show="$ctrl.frmContact.nNombre.$invalid && !$ctrl.frmContact.nNombre.$pristine">* Ingrese un nombre</div>
+              </div>
+              <div class="col-md-4 mb-xs-2">
+                <mpf-input label="{label: 'Apellidos', required: true}" name="nApellido" ng-model="$ctrl.selectedContact.contactLastName" mpf-validation="onlyLetter,required" ng-maxLength="100"></mpf-input>
+                <div class="g-error" ng-show="$ctrl.frmContact.nApellido.$invalid && !$ctrl.frmContact.nApellido.$pristine">* Ingrese apellidos</div>
+              </div>
+              <div class="col-md-4 mb-xs-2">
+                <mpf-input label="{label: 'Teléfono', required: true}" name="nTelefono" ng-model="$ctrl.selectedContact.contactPhone" mpf-validation="number,required" ng-maxLength="9" ng-minLength="7"></mpf-input>
+                <div class="g-error" ng-show="$ctrl.frmContact.nTelefono.$invalid && !$ctrl.frmContact.nTelefono.$pristine">* Ingrese un teléfono</div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-4 mb-xs-2">
+                <mpf-input label="{label: 'Celular', required: true}" name="nTelefono2" ng-model="$ctrl.selectedContact.contactCelphone" mpf-validation="number,required" ng-maxLength="9" ng-minLength="7"></mpf-input>
+                <div class="g-error" ng-show="$ctrl.frmContact.nTelefono2.$invalid && !$ctrl.frmContact.nTelefono2.$pristine">* Ingrese un teléfono</div>
+              </div>
+              <div class="col-md-4 mb-xs-2">
+                <mpf-input label="{label: 'Email', required: true}" name="nEmail" ng-model="$ctrl.selectedContact.contactEmail" mpf-validation="email,required" ng-maxLength="100"></mpf-input>
+                <div class="g-error" ng-show="$ctrl.frmContact.nEmail.$invalid && !$ctrl.frmContact.nEmail.$pristine">* Ingrese un email</div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-12 mb-xs-1 clearfix">
+                <h2 class="g-border-bottom-xs pb-xs-1"><b>Datos del vehículo</b></h2>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-4 mb-xs-2">
+                <mpf-input label="{label: 'Marca', required: true}" name="nMarca" ng-model="$ctrl.selectedContact.vehicleBrand" mpf-validation="required" ng-maxLength="30" ng-disabled="$ctrl.onlyEditContact"></mpf-input>
+                <div class="g-error" ng-show="$ctrl.frmContact.nMarca.$invalid && !$ctrl.frmContact.nMarca.$pristine">* Ingrese una marca</div>
+              </div>
+              <div class="col-md-4 mb-xs-2">
+                <mpf-input label="{label: 'Modelo', required: true}" name="nModelo" ng-model="$ctrl.selectedContact.vehicleModel" mpf-validation="required" ng-maxLength="30" ng-disabled="$ctrl.onlyEditContact"></mpf-input>
+                <div class="g-error" ng-show="$ctrl.frmContact.nModelo.$invalid && !$ctrl.frmContact.nModelo.$pristine">* Ingrese un modelo</div>
+              </div>
+              <div class="col-md-4 mb-xs-2">
+                <mpf-input label="{label: 'Placa', required: true}" name="nPlaca" ng-model="$ctrl.selectedContact.vehicleLicensePlate" mpf-validation="placas" ng-maxLength="6" ng-disabled="$ctrl.onlyEditContact"></mpf-input>
+                <div class="g-error" ng-show="$ctrl.frmContact.nPlaca.$invalid && !$ctrl.frmContact.nPlaca.$pristine">* Ingrese una placa</div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-4 mb-xs-2">
+                <mpf-input label="{label: 'Año', required: true}" name="nAnio" ng-model="$ctrl.selectedContact.vehicleYear" mpf-validation="number,required" ng-maxLength="4" ng-disabled="$ctrl.onlyEditContact"></mpf-input>
+                <div class="g-error" ng-show="$ctrl.frmContact.nAnio.$invalid && !$ctrl.frmContact.nAnio.$pristine">* Ingrese una año</div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-12 mb-xs-1 clearfix">
+                <h2 class="g-border-bottom-xs pb-xs-1"><b>Lugares</b></h2>
+              </div>
+            </div>
+            <div class="row">
+              <inspec-ubigeo data="$ctrl.selectedContact.ubigeoData"></inspec-ubigeo>
+            </div>
+            <div class="row">
+              <div class="col-md-4 col-md-offset-2 mt-md-2">
+                <a class="g-btn g-btn-transparent add-ico block" ng-click="$ctrl.closeModal()">Cancelar&nbsp;</a>
+              </div>
+              <div class="col-md-4 mt-xs-1 mt-md-2">
+                <a class="g-btn g-btn-verde add-ico block" ng-click="$ctrl.saveData($ctrl.selectedContact)">Actualizar&nbsp;</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+
+  </section>

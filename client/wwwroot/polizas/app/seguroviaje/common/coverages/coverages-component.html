@@ -1,0 +1,69 @@
+<div class="container-fluid">
+   <!-- Este código comentado permite convertir las polizas en tabs en responsive -->
+   <!-- En caso de descomentar este codigo, comentar el "g-section-tabs" de abajo, y tomar en cuenta los estilos que tambien estan comentados en 'client\wwwroot\styles\polizas\_seguro-viajes.scss' -->
+
+   <!--  -->
+   <!-- <div cgw-tabs-fixed class="g-section-tabs g-overflow-hidden-xs cotizador tabs-responsive" ng-class="{'showTabs': showTabs, 'cgw-tabs-fixed': boolChangeClassTabs, 'wt1200': changeTabWidth}"> -->
+   <!-- <span class="tabs__more glyphicon glyphicon-chevron-down hidden-sm hidden-md hidden-lg" ng-click="showTabs = !showTabs"></span> -->
+   <!--  -->
+
+   <div class="g-section-tabs g-overflow-hidden-xs cotizador" set-height>
+      <uib-tabset justified="true" active="1">
+         <uib-tab index="0">
+            <div class="content-tab">
+               <div class="pt-xs-2 pr-sm-1 pr-md-0">
+                  <div class="mb-xs-0 mb-sm-0 mb-md-0 g-box no-bbr-radius no-bbl-radius">
+                     <div class="col-coti-head">
+                        <div class="gBgcGray5 text-center gH3 pt-xs-1 pr-xs-1 pb-xs-1 pl-xs-1">
+                           <h3 class="mb-md-0">COBERTURA</h3>
+                        </div>
+                     </div>
+                     <ul class="pt-xs-0-5 pr-xs-1 pb-xs-1 pl-xs-1">
+                        <li
+                           class="pt-xs-1 pb-xs-1"
+                           ng-class="$last ? '' : 'g-border-bottom-xs ' "
+                           ng-repeat="covertura in vm.coverturas | limitTo: vm.coverturaLimit">
+                           {{covertura.name}}
+                        </li>
+                     </ul>
+                  </div>
+               </div>
+            </div>
+         </uib-tab>
+         <uib-tab index="1">
+            <uib-tab-heading><span ng-click="tabsFalse()">RECOMENDADO</span></uib-tab-heading>
+            <div class="content-tab">
+               <div class="pt-xs-2 pl-xs-0 pl-sm-1 pl-md-0">
+                  <div class="mb-xs-0 mb-sm-0 mb-md-0 g-box no-bbr-radius no-bbl-radius">
+                     <div class="col-coti-head">
+                        <div class="gBgcGreen1 text-center gH3 pt-xs-1 pr-xs-1 pb-xs-1 pl-xs-1">
+                           <h3 class="mb-md-0 gCWhite1">{{ vm.namePlan }}</h3>
+                        </div>
+                        <div class="row text-center emitir-totales">
+                           <h1 class="pt-xs-1 gH1 total-mount">{{ vm.prima | currency : '$' }}</h1>
+                           <div ng-show="vm.submit" class="col-sm-6 col-sm-offset-3 col-xs-8 col-xs-offset-2 mt-md-1 mb-md-1-5">
+                              <button type="button" class="g-btn g-btn-rojo block" ng-click="vm.submit(vm.data || '')">CONTRATAR</button>
+                           </div>
+                        </div>
+                     </div>
+                     <ul class="pt-xs-0-5 pr-xs-1 pb-xs-1 pl-xs-1 text-center">
+                        <li
+                           class="pt-xs-1 pb-xs-1"
+                           ng-class="$last ? '' : 'g-border-bottom-xs ' "
+                           ng-repeat="covertura in vm.coverturas | limitTo: vm.coverturaLimit">
+                           Hasta  {{covertura.maximumLimit | currency: '$'}}
+                        </li>
+                     </ul>
+                  </div>
+               </div>
+            </div>
+         </uib-tab>
+      </uib-tabset>
+
+      <div class="col-md-12 col-coti-ampliar">
+         <div ng-click="vm.showMoreCoverages()" class="gCGreen1 footer-cotizador no-btl-radius no-btr-radius no-bbl-radius no-bbr-radius text-center g-box gBgcGray5 pt-xs-1 pb-xs-1">
+            <strong class="gH3">{{ vm.coverturaLimit == 7 ? 'AMPLIAR COBERTURA' : 'OCULTAR COBERTURAS'}}</strong><span class="plus-icon gBgcGreen1 gCWhite1">{{ vm.coverturaLimit == 7 ? '+' : '-' }}</span>
+         </div>
+      </div>
+   </div>
+   </div>

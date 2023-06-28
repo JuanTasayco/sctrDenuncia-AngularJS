@@ -1,0 +1,237 @@
+<div class="page-empresa-cotizar-step3 body-pasos">
+  <div class="row mb-xs-3">
+    <div class="col-xs-12">
+      <uib-accordion close-others="planCtrl.oneAtATime" ng-hide="$ctrl.currentFlow.salud || $ctrl.currentFlow.sctr">
+        <div uib-accordion-group class="panel-default acordion">
+          <uib-accordion-heading>
+          <div ng-click="planCtrl.Acordion1()">
+              Datos de la solicitud<i class="pull-right i-acordion" ng-class="{'ico-mapfre_309_arrowUp': planCtrl.status.open1, 'ico-mapfre_308_arrowDown': !planCtrl.status.open1}"></i>
+          </div>
+          </uib-accordion-heading>
+          <div class="col-xs-12 panel1">
+            <div class="row mb-xs-1 cont-btn-editar">
+              <div class="col-xs-12 text-right">
+                <span class="gnIcon-sm gCGreen1 ico-mapfre_228_editar" ng-click="$ctrl.goToStepOne()"></span>
+              </div>
+            </div>
+            <div class="row mb-xs-1 mb-sm-3">
+              <div class="col-xs-12 col-sm-3 mt-xs-1 mt-sm-0">
+                <div class="col-xs-12 col-sm-8 item-label pl-xs-0 pr-xs-0">
+                  <b ng-if="$ctrl.currentFlow.personalAccidents">Fecha de accidente:</b>
+                  <b ng-if="$ctrl.currentFlow.medicalAssistance">Fecha de tratamiento:</b>
+                </div>
+                <div class="col-xs-12 col-sm-4 item-dato g-text-uppercase  pl-xs-0 pr-xs-0">
+                  {{
+                    $ctrl.formatDateToSlash(
+                      $ctrl.solicitud.additionalData.treatmentDate ||
+                      $ctrl.solicitud.additionalData.sinisterDate
+                    )
+                  }}
+                </div>
+              </div>
+              <div class="col-xs-12 col-sm-3 mt-xs-1 mt-sm-0">
+                <div class="col-xs-12 col-sm-5 item-label pl-xs-0 pr-xs-0">
+                  <b>Producto:</b>
+                </div>
+                <div class="col-xs-12 col-sm-7 item-dato g-text-uppercase  pl-xs-0 pr-xs-0">
+                  {{$ctrl.solicitud.product.name}}
+                </div>
+              </div>
+              <div class="col-xs-12 col-sm-3">
+                <div class="col-xs-12 col-sm-4 item-label pl-xs-0 pr-xs-0">
+                  <b>Afiliado:</b>
+                </div>
+                <div class="col-xs-12 col-sm-8 item-dato g-text-uppercase g-cut-text pl-xs-0 pr-xs-0">
+                  {{$ctrl.solicitud.afiliate.fullName}}
+                </div>
+              </div>
+            </div>
+            <div class="row mb-xs-1 mb-sm-3">
+              <div class="col-xs-12 col-sm-3 mt-xs-1 mt-sm-0">
+                <div class="col-xs-12 col-sm-4 item-label pl-xs-0 pr-xs-0">
+                  <b>Cliente:</b>
+                </div>
+                <div class="col-xs-12 col-sm-8 item-dato g-text-uppercase  pl-xs-0 pr-xs-0">
+                  {{$ctrl.solicitud.solicitudData.client.name}}
+                </div>
+              </div>
+              <div class="col-xs-12 col-sm-3 mt-xs-1 mt-sm-0">
+                <div class="col-xs-12 col-sm-5 item-label pl-xs-0 pr-xs-0">
+                  <b>Plan:</b>
+                </div>
+                <div class="col-xs-12 col-sm-7 item-dato g-text-uppercase  pl-xs-0 pr-xs-0">
+                  {{$ctrl.solicitud.solicitudData.plan.name}}
+                </div>
+              </div>
+              <div class="col-xs-12 col-sm-3 mt-xs-1 mt-sm-0">
+                <div class="col-xs-12 col-sm-5 item-label pl-xs-0 pr-xs-0">
+                  <b>Parentesco:</b>
+                </div>
+                <div class="col-xs-12 col-sm-7 item-dato g-text-uppercase  pl-xs-0 pr-xs-0">
+                  {{$ctrl.solicitud.solicitudData.relationship.description}}
+                </div>
+              </div>
+              <div class="col-xs-12 col-sm-3 mt-xs-1 mt-sm-0">
+                <div class="col-xs-12 col-sm-6 item-label pl-xs-0 pr-xs-0">
+                  <b>Número Contrato:</b>
+                </div>
+                <div class="col-xs-12 col-sm-6 item-dato g-text-uppercase  pl-xs-0 pr-xs-0">
+                  {{$ctrl.solicitud.solicitudData.contractNumber}}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </uib-accordion>
+      <uib-accordion close-others="planCtrl.oneAtATime" ng-if="$ctrl.currentFlow.salud || $ctrl.currentFlow.sctr">
+        <div uib-accordion-group class="panel-default acordion no-hidden" is-open="true">
+          <uib-accordion-heading>
+            <div ng-click="planCtrl.Acordion1()">
+              Datos de la solicitud
+              <i
+                class="pull-right i-acordion"
+                ng-class="{'ico-mapfre_309_arrowUp': planCtrl.status.open1, 'ico-mapfre_308_arrowDown': !planCtrl.status.open1}">
+              </i>
+            </div>
+          </uib-accordion-heading>
+          <div class="col-xs-12 panel1">
+            <div class="row mb-xs-1 cont-btn-editar">
+              <div class="col-xs-12 text-right">
+                <span class="gnIcon-sm gCGreen1 ico-mapfre_228_editar" ng-click="$ctrl.goToStepOne()"></span>
+              </div>
+            </div>
+            <div class="row mb-xs-1 mb-sm-3">
+              <div class="col-xs-12 col-sm-3 mt-xs-1 mt-sm-0">
+                <div class="col-xs-12 col-sm-8 item-label pl-xs-0 pr-xs-0">
+                  <b>Fecha inicio tratamiento:</b>
+                </div>
+                <div class="col-xs-12 col-sm-4 item-dato g-text-uppercase  pl-xs-0 pr-xs-0">
+                  {{$ctrl.formatDateToSlash($ctrl.solicitud.treatment.date)}}
+                </div>
+              </div>
+              <div class="col-xs-12 col-sm-3 mt-xs-1 mt-sm-0">
+                <div class="col-xs-12 col-sm-5 item-label pl-xs-0 pr-xs-0">
+                  <b>Producto:</b>
+                </div>
+                <div class="col-xs-12 col-sm-7 item-dato g-text-uppercase  pl-xs-0 pr-xs-0">
+                  {{$ctrl.solicitud.product.name}}
+                </div>
+              </div>
+              <div class="col-xs-12 col-sm-3 mt-xs-1 mt-sm-0">
+                <div class="col-xs-12 col-sm-5 item-label pl-xs-0 pr-xs-0">
+                  <b>Beneficio:</b>
+                </div>
+                <div class="col-xs-12 col-sm-7 item-dato g-text-uppercase  pl-xs-0 pr-xs-0">
+                  {{$ctrl.solicitud.solicitudData.benefit.longDescription}}
+                </div>
+              </div>
+            </div>
+            <div class="row mb-xs-1 mb-sm-3"Parentesco>
+              <div class="col-xs-12 col-sm-3">
+                <div class="col-xs-12 col-sm-4 item-label pl-xs-0 pr-xs-0">
+                  <b>Afiliado:</b>
+                </div>
+                <div class="col-xs-12 col-sm-8 item-dato g-text-uppercase g-cut-text pl-xs-0 pr-xs-0">
+                  {{$ctrl.solicitud.afiliate.fullName}}
+                </div>
+              </div>
+              <div class="col-xs-12 col-sm-3 mt-xs-1 mt-sm-0">
+                <div class="col-xs-12 col-sm-4 item-label pl-xs-0 pr-xs-0">
+                  <b>Cliente:</b>
+                </div>
+                <div class="col-xs-12 col-sm-8 item-dato g-text-uppercase  pl-xs-0 pr-xs-0">
+                  {{$ctrl.solicitud.solicitudData.client.name}}
+                </div>
+              </div>
+              <div class="col-xs-12 col-sm-3 mt-xs-1 mt-sm-0">
+                <div class="col-xs-12 col-sm-5 item-label pl-xs-0 pr-xs-0">
+                  <b>Plan:</b>
+                </div>
+                <div class="col-xs-12 col-sm-7 item-dato g-text-uppercase  pl-xs-0 pr-xs-0">
+                  {{$ctrl.solicitud.solicitudData.plan.name}}
+                </div>
+              </div>
+              <div class="col-xs-12 col-sm-3 mt-xs-1 mt-sm-0">
+                <div class="col-xs-12 col-sm-5 item-label pl-xs-0 pr-xs-0">
+                  <b>Parentesco:</b>
+                </div>
+                <div class="col-xs-12 col-sm-7 item-dato g-text-uppercase  pl-xs-0 pr-xs-0">
+                  {{$ctrl.solicitud.solicitudData.relationship.description}}
+                </div>
+              </div>
+            </div>
+            <div class="row mb-xs-1 mb-sm-3">
+              <div class="col-xs-12 col-sm-3">
+                <div class="col-xs-12 col-sm-4 item-label pl-xs-0 pr-xs-0">
+                  <b>Afiliado Vinculación:</b>
+                </div>
+                <div class="col-xs-12 col-sm-8 item-dato g-text-uppercase g-cut-text pl-xs-0 pr-xs-0">
+                  {{$ctrl.solicitud.afiliate.fullName}}
+                </div>
+              </div>
+              <div class="col-xs-12 col-sm-3 mt-xs-1 mt-sm-0">
+                <div class="col-xs-12 col-sm-6 item-label pl-xs-0 pr-xs-0">
+                  <b>Número Contrato:</b>
+                </div>
+                <div class="col-xs-12 col-sm-6 item-dato g-text-uppercase  pl-xs-0 pr-xs-0">
+                  {{$ctrl.solicitud.solicitudData.contractNumber}}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </uib-accordion>
+    </div>
+  </div>
+
+  <div class="row mb-xs-3">
+    <div class="col-xs-12">
+      <div class="row mb-xs-1">
+        <div class="col-xs-12">
+          <h2 class="g-sub-title red">Comprobantes de pago</h2>
+        </div>
+      </div>
+      <re-coverage-grid
+        table-list="$ctrl.comprobantesList"
+        edit="$ctrl.editComprobanteStepThree"
+        total-list="$ctrl.getSumTotalList"
+        grid-comprobantes="true">
+      </re-coverage-grid>
+    </div>
+  </div>
+
+  <div class="row mb-xs-3">
+    <div class="col-xs-12">
+      <h2 class="g-sub-title">Otros adjuntos</h2>
+    </div>
+    <div
+      class="col-xs-10">
+      <re-attachments-alert
+        string-html="$ctrl.htmlTemplate">
+      </re-attachments-alert>
+    </div>
+  </div>
+  <div class="row mb-xs-3">
+    <div class="col-xs-12">
+      <re-attachments-file
+        additional-data="$ctrl.solicitud.additionalData"
+        id-company="$ctrl.solicitud.company.id"
+        product-code="$ctrl.solicitud.product.code"
+        list-file="$ctrl.listFile"
+        code-upload-file="$ctrl.codeUploadFile"
+        id-affiliate="$ctrl.solicitud.afiliate.idAffiliate"
+        benefit-code="$ctrl.solicitud.solicitudData.benefit.benefitCode || $ctrl.solicitud.solicitudData.benefit.code"
+        document-liquidation-number="$ctrl.solicitud.documentLiquidation"
+        read-only="$ctrl.solicitud.documentLiquidation && $ctrl.solicitud.documentLiquidation.documentControlNumber">
+      </re-attachments-file>
+    </div>
+  </div>
+
+  <div ng-show="true">
+    <div class="row mb-xs-4">
+      <div class="col-md-4 col-md-offset-4">
+        <a class="g-btn g-btn-verde block" ng-click="$ctrl.solicitude()">Solicitar Reembolso</a>
+      </div>
+    </div>
+  </div>
+</div>

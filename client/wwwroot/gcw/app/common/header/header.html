@@ -1,0 +1,80 @@
+<div class="mb-xs-2">
+  <div class="container">
+    <div class="row h-myd--flex h-myd--flex-wrap h-myd--flex-alg-center">
+      <div class="" data-ng-class="$header.data.type === 3 ? 'col-sm-12' : 'col-xs-8'">
+        <h2 class="g-sub-title g-myd-subtitle pt-xs-1-5">{{$header.title}}</h2>
+      </div>
+      <div class="col-xs-12 col-sm-3 col-md-3"
+            data-ng-if="$header.data.type === 1"
+            data-ng-click="exportar()">
+        <a class="g-btn g-btn-verde mb-xs-1">
+          <span class="ico-mapfre_124_download ico-download"></span>
+          <span class="hidden-xs">Exportar</span>
+        </a>
+      </div>
+      <div class="col-xs-12" data-ng-if="$header.data.type === 3">
+        <div class="row">
+          <div 
+            ga-click
+						ga-category="'CG - Cobranzas'"
+						ga-action="'MPF - Liquidación SOAT - Botón Generar Liquidación'"
+						ga-label="'Botón: Generar Liquidación'"
+            class="col-xs-12 col-sm-4 col-md-3 mb-xs-1" data-ng-click="generarLiquidacion()" ng-show="showBtn == 1">
+            <a class="g-btn g-btn-green-border second-design block g-myd-btn-secundary">Generar liquidación</a>
+          </div>
+          <div class="col-xs-12 col-sm-4 col-md-3 mb-xs-1" data-ng-click="verHistorial()">
+            <a class="g-btn g-btn-white second-design block">Ver historial</a>
+          </div>
+        </div>
+      </div>
+      <div class="col-xs-4 col-sm-4 text-right mt-xs-2 h-myd-mt--0"
+            data-ng-if="$header.data.type === 4" ng-click="back()">
+        <a>
+          <span class="g-icon gCGray3">
+            <span class="g-link">
+              <i class="icon ico-mapfre_310_arrowLeft"></i>
+              <b>Volver</b>
+            </span>
+          </span>
+        </a>
+      </div>
+      <div class="col-xs-4 col-sm-4 text-right mt-xs-2 h-myd-mt--0"
+            data-ng-if="$header.data.type === 5" ng-click="back()">
+        <a>
+          <span class="g-icon gCGray3">
+            <span class="g-link">
+              <i class="icon ico-mapfre_310_arrowLeft"></i>
+              <b><span>Volver </span><span class="hidden-xs">a liquidaciones</span></b>
+            </span>
+          </span>
+        </a>
+      </div>
+      <div class="col-xs-4 col-sm-4 text-right mt-xs-2 h-myd-mt--0"
+            data-ng-if="$header.data.type === 2" ng-click="back()">
+        <a>
+          <span class="g-icon gCGray3">
+            <span class="g-link">
+              <i class="icon ico-mapfre_310_arrowLeft"></i>
+              <b><span>Volver </span><span class="hidden-xs">a búsqueda</span></b>
+            </span>
+          </span>
+        </a>
+      </div>
+      <div class="col-xs-4 col-sm-4 text-right mt-xs-2 h-myd-mt--0"
+            data-ng-if="$header.data.type === 99" ng-click="back()">
+        <a>
+          <span class="g-icon gCGray3">
+            <span class="g-link">
+              <i class="icon ico-mapfre_310_arrowLeft"></i>
+              <b><span>Volver </span><span class="hidden-xs">a búsqueda</span></b>
+            </span>
+          </span>
+        </a>
+      </div>
+
+    </div>
+  </div>
+</div>
+<form id="fmExport" name="fmExport" action="{{exportURL}}" method="post">
+  <input type="hidden" name="json" value='{{$header.export}}'>
+</form>

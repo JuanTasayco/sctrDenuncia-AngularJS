@@ -1,0 +1,250 @@
+<p class="item-title mt-xs-1 gH3" ng-if="vm.searchField(vm.addressControls)">
+  Datos de dirección
+</p>
+<div class="row">
+  <div class="col-md-4 mb-xs-2" ng-if="vm.searchField([vm.fields.RESIDENCE_COUNTRY])">
+    <mpf-select
+      label="{
+        label: 'País de residencia',
+        required: vm.checkRequired(vm.fields.RESIDENCE_COUNTRY)
+      }"
+      name="residenceCountry"
+      ng-model="vm.form.residenceCountry"
+      m-data-source="vm.countriesSource"
+      m-empty-option="{ enterData: true }"
+      text-field="Descripcion"
+      value-field="Codigo"
+      ng-disabled="vm.checkDisabled('residenceCountry')"
+      disabled-view-model="true"
+      mpf-generic-validations="{{vm.getValidations(vm.fields.RESIDENCE_COUNTRY)}}">
+    </mpf-select>
+  </div>
+  <div class="col-md-4 mb-xs-2" ng-if="vm.searchField([vm.fields.NATIVE_COUNTRY])">
+    <mpf-select
+      label="{
+        label: 'País natal',
+        required: vm.checkRequired(vm.fields.NATIVE_COUNTRY)
+      }"
+      name="nativeCountry"
+      ng-model="vm.form.nativeCountry"
+      m-data-source="vm.countriesSource"
+      m-empty-option="{ enterData: true }"
+      text-field="Descripcion" value-field="Codigo"
+      disabled-view-model="true"
+      mpf-generic-validations="{{vm.getValidations(vm.fields.NATIVE_COUNTRY)}}">
+    </mpf-select>
+  </div>
+</div>
+
+<div class="row g-ubigeo-box">
+  <div class="col-md-4 mb-xs-2" ng-if="vm.searchField([vm.fields.DEPARTMENT])">
+    <mpf-select
+      label="{
+        label: 'Departamento',
+        required: vm.checkRequired(vm.fields.DEPARTMENT)
+      }"
+      name="Department"
+      ng-model="vm.form.Department"
+      m-data-source="vm.departmentSource"
+      text-field="Descripcion"
+      value-field="Codigo"
+      m-empty-option="{ enterData: true }"
+      ng-change="vm.getProvincesSource(vm.form.Department.Codigo)"
+      disabled-view-model="true"
+      ng-disabled="vm.blockAll || vm.blockDeparment"
+      mpf-generic-validations="{{vm.getValidations(vm.fields.DEPARTMENT)}}">
+    </mpf-select>
+  </div>
+
+  <div class="col-md-4 mb-xs-2" ng-if="vm.searchField([vm.fields.PROVINCE])">
+    <mpf-select
+      label="{
+        label: 'Provincia',
+        required: vm.checkRequired(vm.fields.PROVINCE)
+      }"
+      name="Province"
+      ng-model="vm.form.Province"
+      m-data-source="vm.provinceSource"
+      text-field="Descripcion"
+      value-field="Codigo"
+      m-empty-option="{ enterData: true }"
+      ng-change="vm.getDistrictSource(vm.form.Province.Codigo)"
+      ng-disabled="!vm.form.Department.Codigo || vm.blockAll"
+      disabled-view-model="true"
+      mpf-generic-validations="{{vm.getValidations(vm.fields.PROVINCE)}}">
+    </mpf-select>
+  </div>
+  <div class="col-md-4 mb-xs-2" ng-if="vm.searchField([vm.fields.DISTRICT])">
+    <mpf-select
+      label="{
+        label: 'Distrito',
+        required: vm.checkRequired(vm.fields.DISTRICT)
+      }"
+      name="District"
+      ng-model="vm.form.District"
+      m-data-source="vm.districtSource"
+      text-field="Descripcion"
+      value-field="Codigo"
+      m-empty-option="{ enterData: true }"
+      ng-disabled="!vm.form.Province.Codigo || vm.blockAll"
+      disabled-view-model="true"
+      mpf-generic-validations="{{vm.getValidations(vm.fields.DISTRICT)}}">
+    </mpf-select>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-md-1 mb-xs-2" ng-if="vm.searchField([vm.fields.VIA])">
+    <mpf-select
+      label="{
+        label: 'Vía',
+        required: vm.checkRequired(vm.fields.VIA)
+      }"
+      name="Via"
+      ng-model="vm.form.Via"
+      m-data-source="vm.viaSource"
+      text-field="Descripcion"
+      value-field="Codigo"
+      m-Empty-Option="{text: '-Tipo-'}"
+      m-Empty-Option="{ enterData: true }"
+      disabled-view-model="true"
+      ng-disabled="vm.blockAll"
+      mpf-generic-validations="{{vm.getValidations(vm.fields.VIA)}}">
+    </mpf-select>
+  </div>
+  <div class="col-md-3 mb-xs-2" ng-if="vm.searchField([vm.fields.VIA_NAME])">
+    <mpf-input
+      label="{
+        label: 'Nombre Vía',
+        required: vm.checkRequired(vm.fields.VIA_NAME)
+      }"
+      name="NombreVia"
+      ng-model="vm.form.NombreVia"
+      disabled-view-model="true"
+      ng-disabled="vm.blockAll"
+      mpf-generic-validations="{{vm.getValidations(vm.fields.VIA_NAME)}}">
+    </mpf-input>
+  </div>
+
+  <div class="col-md-1 mb-xs-2" ng-if="vm.searchField([vm.fields.ENUM_TYPE])">
+    <mpf-select
+      label="{
+        label: 'Número',
+        required: vm.checkRequired(vm.fields.ENUM_TYPE)
+      }"
+      name="NumberType"
+      ng-model="vm.form.NumberType"
+      m-data-source="vm.numberTypeSource"
+      text-field="Descripcion"
+      value-field="Codigo"
+      m-Empty-Option="{text: '-Tipo-'}"
+      m-empty-option="{ enterData: true }"
+      disabled-view-model="true"
+      ng-disabled="vm.blockAll"
+      mpf-generic-validations="{{vm.getValidations(vm.fields.ENUM_TYPE)}}">
+    </mpf-select>
+  </div>
+  <div class="col-md-3 mb-xs-2" ng-if="vm.searchField([vm.fields.ENUM_NAME])">
+    <mpf-input
+      label="{
+        label: 'Enumeración',
+        required: vm.checkRequired(vm.fields.ENUM_NAME)
+      }"
+      name="TextoNumero"
+      ng-model="vm.form.TextoNumero"
+      disabled-view-model="true"
+      ng-disabled="vm.blockAll"
+      mpf-generic-validations="{{vm.getValidations(vm.fields.ENUM_NAME)}}">
+    </mpf-input>
+  </div>
+  <div class="col-md-1 mb-xs-2" ng-if="vm.searchField([vm.fields.ENUM_INSIDE_TYPE])">
+    <mpf-select
+      label="{
+        label: 'Interior',
+        required: vm.checkRequired(vm.fields.ENUM_INSIDE_TYPE)
+      }"
+      name="Inside"
+      ng-model="vm.form.Inside"
+      m-data-source="vm.indoorTypeSource"
+      text-field="Descripcion"
+      value-field="Codigo"
+      m-Empty-Option="{text: '-Tipo-'}"
+      m-empty-option="{ enterData: true }"
+      disabled-view-model="true"
+      ng-disabled="vm.blockAll"
+      mpf-generic-validations="{{vm.getValidations(vm.fields.ENUM_INSIDE_TYPE)}}">
+    </mpf-select>
+  </div>
+  <div class="col-md-3 mb-xs-2" ng-if="vm.searchField([vm.fields.ENUM_INSIDE_NAME])">
+    <mpf-input
+      label="{
+        label: 'Enumeración interior',
+        required: vm.checkRequired(vm.fields.ENUM_INSIDE_NAME)
+      }"
+      name="TextoInterior"
+      ng-model="vm.form.TextoInterior"
+      disabled-view-model="true"
+      ng-disabled="vm.blockAll"
+      mpf-generic-validations="{{vm.getValidations(vm.fields.ENUM_INSIDE_NAME)}}">
+    </mpf-input>
+  </div>
+  <div class="col-md-1 mb-xs-2 no-mb-md" ng-if="vm.searchField([vm.fields.ZONE_TYPE])">
+    <mpf-select
+      label="{
+        label: 'Zona',
+        required: vm.checkRequired(vm.fields.ZONE_TYPE)
+      }"
+      name="Zone"
+      ng-model="vm.form.Zone"
+      m-data-source="vm.typeZoneSource"
+      text-field="Descripcion"
+      value-field="Codigo"
+      m-Empty-Option="{text: '-Tipo-'}"
+      m-empty-option="{ enterData: true }"
+      disabled-view-model="true"
+      ng-disabled="vm.blockAll"
+      mpf-generic-validations="{{vm.getValidations(vm.fields.ZONE_TYPE)}}">
+    </mpf-select>
+  </div>
+  <div class="col-md-3 mb-xs-2 no-mb-md" ng-if="vm.searchField([vm.fields.ZONE_NAME])">
+    <mpf-input
+      label="{
+        label: 'Nombre de la Zona',
+        required: vm.checkRequired(vm.fields.ZONE_NAME)
+      }"
+      name="TextoZona"
+      ng-model="vm.form.TextoZona"
+      disabled-view-model="true"
+      ng-disabled="vm.blockAll"
+      mpf-generic-validations="{{vm.getValidations(vm.fields.ZONE_NAME)}}">
+    </mpf-input>
+  </div>
+
+  <div class="col-md-4" ng-if="vm.searchField([vm.fields.REFERENCE])">
+    <mpf-input
+      label="{
+        label: 'Referencia',
+        required: vm.checkRequired(vm.fields.REFERENCE)
+      }"
+      name="Referencia"
+      ng-model="vm.form.Referencia"
+      disabled-view-model="true"
+      ng-disabled="vm.blockAll"
+      mpf-generic-validations="{{vm.getValidations(vm.fields.REFERENCE)}}">
+    </mpf-input>
+  </div>
+
+  <div class="col-md-4" ng-if="vm.searchField([vm.fields.FULL_ADDRESS])">
+    <mpf-input
+      label="{
+        label: 'Dirección',
+        required: vm.checkRequired(vm.fields.FULL_ADDRESS)
+      }"
+      name="Direccion"
+      ng-disabled="vm.blockAll"
+      ng-model="vm.form.Direccion"
+      disabled-view-model="true"
+      mpf-generic-validations="{{vm.getValidations(vm.fields.FULL_ADDRESS)}}">
+    </mpf-input>
+  </div>
+</div>

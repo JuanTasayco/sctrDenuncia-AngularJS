@@ -1,0 +1,129 @@
+<ng-form name="companyContactForm">
+    <div class="g-section-inner h-myd-pb--20">
+        <div class="container">
+            <div class="row mt-3 mb-xs-2">
+                <div class="col-md-12">
+                    <h2 class="g-sub-title g-myd-subtitle">Contacto con la empresa</h2>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12 mb-1">
+                    <div class="row">
+                        <div class="col-md-3 mb-xs-2">
+                            <mpf-input
+                                label="{label: 'Persona a contactar', required: !vm.disabledFieldsForm(vm.fields.CC_PERSON)}"
+                                name="companyContactPerson"
+                                ng-model="vm.form.nombre"
+                                ng-required="true"
+                                ng-disabled="vm.disabledFieldsForm(vm.fields.CC_PERSON)"
+                                trn-length="60"
+                                ng-maxlength="60"
+                            >
+                            </mpf-input>
+                            <ul class="g-error">
+                                <li ng-show="companyContactForm.companyContactPerson.$invalid && !companyContactForm.companyContactPerson.$pristine">* Ingrese un contacto</li>
+                            </ul>
+                        </div>
+                        <div class="col-md-3 mb-xs-2">
+                            <mpf-select
+                              m-data-source="vm.paramsForm.TIP_CARGO"
+                              ng-model="vm.form.cargo"
+                              name="companyContacttCharge"
+                              label="{label: 'Cargo'}"
+                              ng-disabled="vm.disabledFieldsForm(vm.fields.CC_CHARGE)"
+                              text-field="descripcion"
+                              value-field="codigo"
+                              m-Empty-Option="{enterData:true}" >
+                            </mpf-select>
+                        </div>
+                        <div class="col-md-3 mb-xs-2">
+                            <mpf-select
+                                label="{label: 'Tipo de móvil', required: false}"
+                                name="companyContacttMobileType"
+                                m-Empty-Option="{enterData:true}" 
+                                m-data-source="vm.paramsForm.TIP_MOVIL"
+                                ng-disabled="vm.disabledFieldsForm(vm.fields.CC_MOVIL_TYPE)"
+                                ng-model="vm.form.tipoMovil"
+                                text-field="descripcion"
+                                value-field="codigo">
+                            </mpf-select>
+                        </div>
+                        <div class="col-md-3 mb-xs-2">
+                            <mpf-input
+                                label="{label: 'Número de celular', required: false}"
+                                name="companyContactMovil"
+                                ng-model="vm.form.movil"
+                                ng-disabled="vm.disabledFieldsForm(vm.fields.CC_MOVIL)"
+                                mpf-validation="onlyNumber"
+                                ng-maxlength="12"
+                                trn-length="12">
+                            </mpf-input>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-3 mb-xs-2">
+                            <mpf-input
+                                label="{label: 'Teléfono contacto: Código país', required: !vm.disabledFieldsForm(vm.fields.CC_CODE_PHONE)}"
+                                name="companyContactCodePhone"
+                                ng-model="vm.form.telPais"
+                                ng-disabled="vm.disabledFieldsForm(vm.fields.CC_CODE_PHONE)"
+                                mpf-validation="onlyNumber"
+                                ng-maxlength="3"
+                                trn-length="3"
+                                ng-required="true">
+                            </mpf-input>
+                            <ul class="g-error">
+                                <li ng-show="companyContactForm.companyContactCodePhone.$invalid && !companyContactForm.companyContactCodePhone.$pristine">* Ingrese un código de país</li>
+                            </ul>
+                        </div>
+                        <div class="col-md-3 mb-xs-2">
+                            <mpf-input
+                                label="{label: 'Teléfono contacto: Código área', required: !vm.disabledFieldsForm(vm.fields.CC_AREA_PHONE)}"
+                                name="companyContactAreaPhone"
+                                ng-model="vm.form.telZona"
+                                ng-disabled="vm.disabledFieldsForm(vm.fields.CC_AREA_PHONE)"
+                                ng-maxlength="5"
+                                mpf-validation="onlyNumber"
+                                ng-required="true">
+                            </mpf-input>
+                            <ul class="g-error">
+                                <li ng-show="companyContactForm.companyContactAreaPhone.$invalid && !companyContactForm.companyContactAreaPhone.$pristine">* Ingrese un código de área</li>
+                            </ul>
+                        </div>
+                        <div class="col-md-3 mb-xs-2">
+                            <mpf-input
+                                label="{label: 'Teléfono contacto', required: !vm.disabledFieldsForm(vm.fields.CC_PHONE)}"
+                                name="companyContactPhone"
+                                ng-model="vm.form.telefonoPersonal"
+                                ng-disabled="vm.disabledFieldsForm(vm.fields.CC_PHONE)"
+                                mpf-validation="onlyNumber"
+                                ng-maxlength="10"
+                                trn-length="10"
+                                ng-required="true">
+                            </mpf-input>
+                            <ul class="g-error">
+                                <li ng-show="companyContactForm.companyContactPhone.$invalid && !companyContactForm.companyContactPhone.$pristine">* Ingrese un número de teléfono</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-3 mb-xs-2">
+                            <mpf-input
+                                label="{label: 'Email contacto', required: !vm.disabledFieldsForm(vm.fields.CC_EMAIL)}"
+                                name="companyContactEmail"
+                                ng-model="vm.form.email"
+                                mpf-validation="email"
+                                ng-disabled="vm.disabledFieldsForm(vm.fields.CC_EMAIL)"
+                                ng-maxlength="60"
+                                ng-required="true">
+                            </mpf-input>
+                            <ul class="g-error">
+                                <li ng-show="companyContactForm.companyContactEmail.$invalid && !companyContactForm.companyContactEmail.$pristine">* Ingrese un email válido</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</ng-form>

@@ -1,0 +1,359 @@
+<div class="g-page">
+  <div>
+    <page-title info="{title: 'Emisión póliza hogar'}" class="ng-isolate-scope"></page-title>
+    <wizard-stairs
+      stairs="{steps: [{description:'Datos de la póliza'},{description:'Datos del contratante'},{description:'Emitir póliza'}], stateName:'.steps', stateParameter: 'step'}"
+      current-Step="1"
+      steping="_steping($stepToGo)"
+    ></wizard-stairs>
+  </div>
+
+  <div class="first-step">
+    <div class="g-sec-information">
+      <div class="sec-item h-myd-pt--30 h-myd-pb--30 h-myd-bg--gray4">
+        <div class="container">
+          <!-- Producto -->
+          <ul class="row cnt-title h-myd-mb--20">
+            <li class="col-xs-12 item-title g-myd-subtitle gH4 mb-xs-1">
+              Nro. Cotización {{ dataGeneral.NumeroDocumento }}
+            </li>
+          </ul>
+          <!-- Datos de la cotización -->
+          <ul class="row cnt-title h-myd-mb--20">
+            <li class="col-xs-12 item-title g-myd-subtitle g-border-bottom-xs gH4 h-myd-border--bottom-0">
+              Datos de la cotización
+            </li>
+          </ul>
+          <ul class="row h-myd-mb--20 mb-xs-1">
+            <li class="col-md-4 clearfix cnt-item h-myd-pl--0">
+              <div class="col-xs-6 item-label">
+                <span class="ico-mapfre_82_circle ico-bullet"></span>Ubicación del inmueble:
+              </div>
+              <div class="col-xs-6 item-dato g-text-uppercase">
+                {{
+                  dataGeneral.Contratante.Ubigeo.NombreDepartamento +
+                    ', ' +
+                    dataGeneral.Contratante.Ubigeo.NombreProvincia +
+                    ', ' +
+                    dataGeneral.Contratante.Ubigeo.NombreDistrito
+                }}
+              </div>
+            </li>
+            <li class="col-md-4 clearfix cnt-item h-myd-pl--0">
+              <div class="col-xs-6 item-label">
+                <span class="ico-mapfre_82_circle ico-bullet"></span>Año de construcción:
+              </div>
+              <div class="col-xs-6 item-dato g-text-uppercase">{{ dataHogar.AnioInmueble }}</div>
+            </li>
+            <li class="col-md-4 clearfix cnt-item h-myd-pl--0">
+              <div class="col-xs-6 item-label"><span class="ico-mapfre_82_circle ico-bullet"></span>Categoría:</div>
+              <div class="col-xs-6 item-dato g-text-uppercase">{{ dataHogar.NombreCategoria }}</div>
+            </li>
+          </ul>
+          <ul class="row h-myd-mb--20 mb-xs-1" ng-if="dataHogar.CodigoModalidad == 31">
+            <li class="col-md-4 clearfix cnt-item h-myd-pl--0">
+              <div class="col-xs-6 item-label">
+                <span class="ico-mapfre_82_circle ico-bullet"></span>Cobertura de aseguramiento:
+              </div>
+              <div class="col-xs-6 item-dato g-text-uppercase">
+                {{
+                  'Edificación' +
+                    (dataHogar.ValoresDeclarados.ValorContenido > 0 ? ', Contenido' : '') +
+                    (dataHogar.ValoresDeclarados.ValorObjetosValiosos > 0 ? ', Obj Valiosos' : '')
+                }}
+              </div>
+            </li>
+            <li class="col-md-4 clearfix cnt-item h-myd-pl--0">
+              <div class="col-xs-6 item-label">
+                <span class="ico-mapfre_82_circle ico-bullet"></span>Valor total del inmueble:
+              </div>
+              <div class="col-xs-6 item-dato g-text-uppercase">
+                {{
+                  dataHogar.ValoresDeclarados.ValorContenido +
+                    dataHogar.ValoresDeclarados.ValorEdificacion +
+                    dataHogar.ValoresDeclarados.ValorObjetosValiosos +
+                    dataHogar.ValoresDeclarados.ImporteContenidoRobo +
+                    dataHogar.ValoresDeclarados.ImporteObjetosValiososRobo
+                    | currency: (dataGeneral.CodigoMoneda == '1' ? 'S/ ' : '$ ')
+                }}
+              </div>
+            </li>
+            <li class="col-md-4 clearfix cnt-item">
+              <div class="col-sm-5 item-label">
+                <span class="ico-mapfre_82_circle ico-bullet"></span>Dcto. Integralidad
+              </div>
+              <div class="col-sm-7 item-dato">{{ dataGeneral.PorDctoIntgPlaza }} %</div>
+            </li>
+          </ul>
+          <!-- Datos de la Alarma -->
+          <ul class="row cnt-title h-myd-mb--20">
+            <li class="col-xs-12 item-title g-myd-subtitle g-border-bottom-xs gH4 h-myd-border--bottom-0">
+              Datos de la alarma
+            </li>
+          </ul>
+          <ul class="row">
+            <li class="col-md-4 clearfix cnt-item h-myd-pl--0">
+              <div class="col-xs-6 item-label">
+                <span class="ico-mapfre_82_circle ico-bullet"></span>Servicio de alarma y monitoreo:
+              </div>
+              <div class="col-xs-6 item-dato g-text-uppercase">
+                {{ dataHogar.FlagAlarmaMonitoreo == 'S' ? 'Si' : 'No' }}
+              </div>
+            </li>
+            <li class="col-md-4 clearfix cnt-item h-myd-pl--0">
+              <div class="col-xs-6 item-label">
+                <span class="ico-mapfre_82_circle ico-bullet"></span>Marca Kit Smart:
+              </div>
+              <div class="col-xs-6 item-dato g-text-uppercase">{{ dataHogar.McaKitSmart == 'S' ? 'Si' : 'No' }}</div>
+            </li>
+            <li class="col-md-4 clearfix cnt-item h-myd-pl--0">
+              <div class="col-xs-6 item-label">
+                <span class="ico-mapfre_82_circle ico-bullet"></span>Tipo de comunicación:
+              </div>
+              <div class="col-xs-6 item-dato g-text-uppercase">
+                {{ dataHogar.FlagTipoComunicacion ? dataHogar.NombreTipoComunicacion : 'No' }}
+              </div>
+            </li>
+          </ul>
+          <ul class="row h-myd-mb--20 mb-xs-1">
+            <li class="col-md-4 clearfix cnt-item h-myd-pl--0">
+              <div class="col-xs-6 item-label">
+                <span class="ico-mapfre_82_circle ico-bullet"></span>Marca Video Web:
+              </div>
+              <div class="col-xs-6 item-dato g-text-uppercase">{{ dataHogar.FlagVideoWeb == 'S' ? 'Si' : 'No' }}</div>
+            </li>
+            <li class="col-md-4 clearfix cnt-item h-myd-pl--0">
+              <div class="col-xs-6 item-label">
+                <span class="ico-mapfre_82_circle ico-bullet"></span>LLavero médico/Imagen plus:
+              </div>
+              <div class="col-xs-6 item-dato g-text-uppercase">
+                {{ dataHogar.FlagPulsadorMedico == 'S' ? 'Si' : 'No' }}
+              </div>
+            </li>
+          </ul>
+          <!-- Datos de la prima -->
+          <ul class="row cnt-title h-myd-mb--20">
+            <li class="col-xs-12 item-title g-myd-subtitle g-border-bottom-xs gH4 h-myd-border--bottom-0">
+              Datos de la prima
+            </li>
+          </ul>
+          <ul class="row">
+            <li class="col-md-4 clearfix cnt-item h-myd-pl--0">
+              <div class="col-xs-6 item-label"><span class="ico-mapfre_82_circle ico-bullet"></span>Prima neta:</div>
+              <div class="col-xs-6 item-dato g-text-uppercase">
+                {{
+                  dataHogar.ImporteNeta + dataHogar.ImporteRecargo
+                    | currency: (dataGeneral.CodigoMoneda == '1' ? 'S/ ' : '$ ')
+                }}
+              </div>
+            </li>
+            <li class="col-md-4 clearfix cnt-item h-myd-pl--0">
+              <div class="col-xs-6 item-label">
+                <span class="ico-mapfre_82_circle ico-bullet"></span>Derecho emisión:
+              </div>
+              <div class="col-xs-6 item-dato g-text-uppercase">
+                {{ dataHogar.ImporteNeta * 0.03 | currency: (dataGeneral.CodigoMoneda == '1' ? 'S/ ' : '$ ') }}
+              </div>
+            </li>
+            <li class="col-md-4 clearfix cnt-item h-myd-pl--0">
+              <div class="col-xs-6 item-label"><span class="ico-mapfre_82_circle ico-bullet"></span>IGV:</div>
+              <div class="col-xs-6 item-dato g-text-uppercase">
+                {{ dataHogar.ImporteImpuesto | currency: (dataGeneral.CodigoMoneda == '1' ? 'S/ ' : '$ ') }}
+              </div>
+            </li>
+          </ul>
+          <ul class="row h-myd-mb--20 mb-xs-1">
+            <li class="col-md-4 clearfix cnt-item h-myd-pl--0">
+              <div class="col-xs-6 item-label"><span class="ico-mapfre_82_circle ico-bullet"></span><b>Total:</b></div>
+              <div class="col-xs-6 item-dato g-text-uppercase">
+                <b>{{ dataHogar.ImporteTotal | currency: (dataGeneral.CodigoMoneda == '1' ? 'S/ ' : '$ ') }}</b>
+              </div>
+            </li>
+          </ul>
+          <!-- Datos de la Póliza Grupo -->
+          <ul class="row cnt-title h-myd-mb--20">
+            <li class="col-xs-12 item-title g-myd-subtitle g-border-bottom-xs gH4 h-myd-border--bottom-0">
+              Póliza Grupo
+            </li>
+          </ul>
+          <ul class="row" ng-show="dataGeneral.PolizaGrupo.length > 0">
+            <li class="col-md-4 clearfix cnt-item h-myd-pl--0">
+              <div class="col-xs-6 item-label"><span class="ico-mapfre_82_circle ico-bullet"></span>Póliza Grupo:</div>
+              <div class="col-xs-6 item-dato g-text-uppercase">{{ dataGeneral.PolizaGrupo }}</div>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <form action="" name="frmFirstStep">
+        <div class="g-section mt-xs-2">
+          <div class="container">
+            <div class="row">
+              <div class="col-md-12">
+                <h2 class="g-sub-title red g-myd-subtitle">Datos de la póliza</h2>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-4 mb-xs-2">
+                <div class="row">
+                  <div class="col-md-12 mb-xs-2 h-myd-mb--5">
+                    <label class="g-placeholder block">Producto:</label>
+                  </div>
+                  <div class="col-md-12 ng-binding">{{ dataHogar.NombreModalidad }}</div>
+                </div>
+              </div>
+              <div class="col-md-4 mb-xs-2">
+                <div class="input-group g-date-picker">
+                  <label class="g-placeholder animated">Inicio de Vigencia<span></span>:</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    name="nFechaInicioVigencia"
+                    ng-model="firstStep.mFechaInicioVigencia.model"
+                    uib-datepicker-popup="{{ firstStep.FORMAT_DATE }}"
+                    is-open="firstStep.mFechaInicioVigencia.open"
+                    datepicker-options="firstStep.mFechaInicioVigencia.options"
+                    close-text="Close"
+                    alt-input-formats="firstStep.ALT_INPUT_FORMATS"
+                    ui-mask="{{ firstStep.FORMAT_MASK }}"
+                    ng-pattern="firstStep.FORMAT_PATTERN"
+                    model-view-value="true"
+                    ng-required="true"
+                    ng-disabled="false"
+                    ng-change="fnChangeDate()"
+                  />
+                  <span class="input-group-btn">
+                    <button
+                      type="button"
+                      class="btn btn-default"
+                      ng-click="fnOpenCalendar(firstStep.mFechaInicioVigencia)"
+                    >
+                      <i class="glyphicon glyphicon-calendar"></i>
+                    </button>
+                  </span>
+                </div>
+                <ul class="g-error">
+                  <li
+                    ng-show="frmFirstStep.nFechaInicioVigencia.$invalid && !frmFirstStep.nFechaInicioVigencia.$pristine"
+                  >
+                    * Este campo es obligatorio
+                  </li>
+                  <li
+                    ng-show="frmFirstStep.nFechaInicioVigencia.$viewValue && frmFirstStep.nFechaInicioVigencia.$invalid"
+                  >
+                    * Fecha erronea
+                  </li>
+                  <li ng-show="dateInvalid">* Fecha inválida, sólo puedes seleccionar desde hoy en adelante</li>
+                </ul>
+              </div>
+              <div class="col-md-4 mb-xs-2">
+                <div class="row">
+                  <div class="col-md-12 mb-xs-2 h-myd-mb--5">
+                    <label class="g-placeholder block">Fin de vigencia:</label>
+                  </div>
+                  <div class="col-md-12 ng-binding" ng-show="!dateInvalid">{{ firstStep.mFechaFinVigencia }}</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="g-section-inner">
+          <div class="container">
+            <div class="row">
+              <div class="col-md-12">
+                <h2 class="g-sub-title red g-myd-subtitle">Datos del riesgo</h2>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-4 mb-xs-2">
+                <mpf-select
+                  label="{label: 'Tipo', required: true}"
+                  name="nTipoInmueble"
+                  ng-model="mTipoInmueble"
+                  m-data-source="tipoInmuebleData"
+                  text-field="Descripcion"
+                  value-field="Codigo"
+                  m-Empty-Option="{enterData:true}"
+                  ng-required="true"
+                >
+                </mpf-select>
+                <div
+                  class="g-error"
+                  ng-show="frmFirstStep.nTipoInmueble.$invalid && !frmFirstStep.nTipoInmueble.$pristine"
+                >
+                  * Seleccione un inspector
+                </div>
+              </div>
+              <div class="col-md-4 mb-xs-2">
+                <div class="row">
+                  <div class="col-md-12 mb-xs-2 h-myd-mb--5">
+                    <label class="g-placeholder block">Nro. de pisos:</label>
+                  </div>
+                  <div class="col-md-12 ng-binding">{{ dataHogar.NumeroPisoPredio }}</div>
+                </div>
+              </div>
+              <div class="col-md-4 mb-xs-2">
+                <div class="row">
+                  <div class="col-md-12 mb-xs-2 h-myd-mb--5">
+                    <label class="g-placeholder block">Nro. de sótanos:</label>
+                  </div>
+                  <div class="col-md-12 ng-binding">{{ dataHogar.NumeroSotanoPredio }}</div>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-4 mb-xs-2">
+                <mpf-select
+                  label="{label: 'Material', required: true}"
+                  name="nMaterialRiesgo"
+                  ng-model="mMaterialRiesgo"
+                  m-data-source="materialRiesgoData"
+                  text-field="Descripcion"
+                  value-field="Codigo"
+                  m-Empty-Option="{enterData:true}"
+                  ng-required="true"
+                >
+                </mpf-select>
+                <div
+                  class="g-error"
+                  ng-show="frmFirstStep.nMaterialRiesgo.$invalid && !frmFirstStep.nMaterialRiesgo.$pristine"
+                >
+                  * Seleccione un inspector
+                </div>
+              </div>
+              <div class="col-md-8 mb-xs-2">
+                <mpf-input
+                  label="{label: 'Dirección', required: true}"
+                  name="nDireccionRiesgo"
+                  ng-model="mDireccionRiesgo"
+                  ng-required="true"
+                ></mpf-input>
+                <div
+                  class="g-error"
+                  ng-show="frmFirstStep.nDireccionRiesgo.$invalid && !frmFirstStep.nDireccionRiesgo.$pristine"
+                >
+                  * Ingrese unas observaciones
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Button -->
+        <div class="g-section">
+          <div class="container">
+            <div class="row">
+              <div class="col-md-4 mb-xs-1">
+                <span class="g-comment">*Campos obligatorios</span>
+              </div>
+              <div class="col-md-4">
+                <a class="g-btn g-btn-verde block" ng-click="nextStep()">Siguiente</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,175 @@
+<section class="g-page">
+  <div class="accter">
+
+    <div class="g-title g-border-bottom mb-xs-2">
+      <div class="container">
+        <div class="row h-myd--flex h-myd--flex-alg-center h-myd--flex-wrap">
+          <div class="col-xs-12 col-sm-8">
+            <h1>Listado de clientes</h1>
+          </div>
+          <div class="col-xs-12 col-sm-4 g-text-right-sm hidden-sm hidden-xs mt-md-1">
+            <a ui-sref="home">
+              <span class="g-link gCGray3">
+                <i class="icon ico-mapfre_310_arrowLeft"></i>
+                <b>VOLVER AL INICIO</b>
+              </span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="container">
+      <div class="row">
+        <div class="col-xs-12 mb-md-5">
+          <mpf-card-filter
+            ng-form
+            name="searchForm"
+            type="'SEARCHER'"
+            is-open="isOpen"
+            title="'Buscador asegurado'"
+            on-filter="onFilter()"
+            on-clear="onClear()"
+          >
+            <div class="row">
+              <div class="col-md-3 mb-xs-2">
+                <mpf-select
+                  ng-model="searchForm.tipoDocumento"
+                  name="typeDocument"
+                  m-Empty-Option="{enterData:true}"
+                  label="{label: 'Tipo de documento', required: true}"
+                  ng-change="documentTypeChange()"
+                  m-data-source="paramsForm.TIP_DOCU_VAL"
+                  text-field="descripcion"
+                  value-field="codigo"  ng-required="true">
+                </mpf-select>
+                <ul class="g-error">
+                  <li ng-show="searchForm.typeDocument.$invalid && !searchForm.typeDocument.$pristine">El Tipo de documento es requerido</li>
+                </ul>
+              </div>
+              <div class="col-md-3 mb-xs-2">
+                <mpf-input
+                  ng-model="searchForm.numDocumento"
+                  label="{label: 'Nro. de documento', required: false}"
+                  name="numberDocument"
+                  ng-minlength="docNumMinLength"
+                  ng-maxlength="docNumMaxLength"
+                  mpf-validation="{{docNumType}}"
+                  mpf-validation-disabled="{{docNumTypeDisabled}}"
+                ></mpf-input>
+                <ul class="g-error">
+                  <li ng-show="searchForm.numDocumento.$invalid && !searchForm.numDocumento.$pristine">El campo Número de Documento es requerido</li>
+                </ul>
+              </div>
+              <div class="col-md-3 mb-xs-2">
+                <mpf-input
+                  ng-model="searchForm.nomCliente"
+                  label="{label: 'Nombre y Apellido / Razón social', required: false}"
+                  name="nameClient"
+                  maxlength="80"
+                ></mpf-input>
+              </div>
+            </div>
+          </mpf-card-filter>
+        </div>
+      </div>
+
+      <div class="row g-text-center-xs g-box-noresult" ng-show="!firstSearch">
+        <div class="col-md-12 g-box-noresult-ico gCBlue2">
+          <span class="ico-mapfre_303_informacion"></span>
+        </div>
+        <div class="col-md-12 g-box-noresult-text">
+          Realiza una búsqueda para obtener resultados.
+        </div>
+      </div>
+      <div class="row" ng-if="clients.length">
+        <div class="col-xs-12">
+          <uib-accordion class="g-acordeon">
+            <div uib-accordion-group ng-repeat="client in clients" ng-click="getPolizas(client);" class="g-acordeon--item" is-open="status.open">
+              <uib-accordion-heading>
+                <div class="row" >
+                  <div class="col-xs-12 col-md-10">
+                    <div class="row">
+                      <div class="col-md-2 mb-xs-1 mb-md-0">
+                        <div class="box-text g-border-right-md">
+                          <p class="title"><b>Tipo de documento</b></p>
+                          <p class="info">{{client.documento.descripcion}}</p>
+                        </div>
+                      </div>
+                      <div class="col-md-2 mb-xs-1 mb-md-0">
+                        <div class="box-text g-border-right-md">
+                          <p class="title"><b>Nro. de documento</b></p>
+                          <p class="info">{{client.documento.numero}}</p>
+                        </div>
+                      </div>
+                      <div class="col-md-3 mb-xs-1 mb-md-0">
+                        <div class="box-text g-border-right-md">
+                          <p class="title"><b>Cliente</b></p>
+                          <p class="info">{{client.nombreCompleto}}</p>
+                        </div>
+                      </div>
+                      <div class="col-md-3 mb-xs-1 mb-md-0">
+                        <div class="box-text">
+                          <p class="title"><b>HDDC (Cartera Huérfana)</b></p>
+                          <p class="info" ng-if="client.mcaHDDC=='S'">SI</p>
+                          <p class="info" ng-if="client.mcaHDDC!='S'">NO</p>
+                        </div>
+                      </div>
+                      <div class="col-md-2 mt-xs-1"  ng-click="$event.stopPropagation();">
+                        <a class="g-link gCGreen1 h-myd--fz14" ng-click="fnGoToClientEdit(client.documento,client.empresa)">Modificar datos</a>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-xs-12 col-md-2 mt-xs-2 mt-md-0">
+                    <a href="javascript:void(0)" class="g-btn g-btn-verde second-design block">
+                      {{ status.open ? 'Ocultar pólizas' : 'Ver pólizas' }}
+                    </a>
+                  </div>
+                </div>
+              </uib-accordion-heading>
+              <div class="g-sec-information tbl-wrapper" ng-click="$event.stopPropagation();">
+                <div class="row">
+                  <div class="col-xs-12">
+                      <div class="tbl-main">
+                        <ul height-row class="tbl-header clearfix">
+                          <li class="title col-13-dktp">Suplemento</li>
+                          <li class="title col-15-dktp">Nro. de póliza</li>
+                          <li class="title col-48-dktp">Compañía</li>
+                          <li class="title col-20-dktp"></li>
+                        </ul>
+                        <ul class="tbl-body clearfix">
+                          <li ng-repeat="poliza in polizas">
+                            <ul height-row class="tbl-row clearfix g-u-cursor--pointer">
+                              <li class="cell col-13-dktp">
+                                <span class="cell-label"><span class="cell-data">{{poliza.numSuplemento}}</span></span>
+                              </li>
+                              <li class="cell col-15-dktp">
+                                <span class="cell-label"><span class="cell-data">{{poliza.numPoliza}}</span></span>
+                              </li>
+                              <li class="cell col-48-dktp">
+                                <span class="cell-label"><span class="cell-data">{{poliza.empresa.descripcion}}</span></span>
+                              </li>
+                              <li class="cell col-20-dktp text-right">
+                                <span class="cell-label"><span class="cell-data">
+                                  <a class="g-link gCGreen1 h-myd--fz14" ng-click="fnGoToPoliza(client.documento,poliza)">MODIFICAR PÓLIZA</a>
+                                </span></span>
+                              </li>
+                            </ul>
+                          </li>
+                        </ul>
+                      </div>
+                      <mx-paginador ng-if="status.open" data-datos="polizas" data-items-x-page="itemsXPaginaPolizas" data-msg-vacio="msgVacio" data-on-paginar="pageChangedPoliza($event)"
+                        data-pagina-actual="currentPagePolizas" data-total-items="totalItemsPolizas">
+                      </mx-paginador>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </uib-accordion>
+        </div>
+      </div>
+      <mx-paginador ng-show="firstSearch" data-datos="clients" data-items-x-page="itemsXPagina" data-msg-vacio="msgVacio" data-on-paginar="pageChanged($event)"
+        data-pagina-actual="currentPage" data-total-items="totalItems">
+      </mx-paginador>
+    </div>
+  </div>
+</section>

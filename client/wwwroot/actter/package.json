@@ -1,0 +1,48 @@
+{
+  "name": "actter",
+  "version": "1.0.0",
+  "description": "Modulo ACTTER de OIM",
+  "main": "package.js",
+  "scripts": {
+    "lint:js": "eslint --fix .",
+    "prettier:js": "prettier --config ./.prettierrc.js --write './**/*.js'"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://ErickMultiplica@bitbucket.org/mxperu/actter.git"
+  },
+  "keywords": [
+    "ACTTER",
+    "OIM",
+    "Multiplica",
+    "Mapfre"
+  ],
+  "author": "@erick",
+  "license": "MIT",
+  "devDependencies": {
+    "@commitlint/cli": "^8.3.5",
+    "@commitlint/config-conventional": "^8.3.4",
+    "eslint": "^4.17.0",
+    "eslint-config-angular": "^0.5.0",
+    "eslint-config-prettier": "^2.3.0",
+    "eslint-plugin-angular": "^3.2.0",
+    "eslint-plugin-prettier": "^2.6.0",
+    "husky": "^3.1.0",
+    "lint-staged": "^8.2.1",
+    "npm-run-all": "^4.0.2",
+    "prettier": "^1.5.3"
+  },
+  "husky": {
+    "hooks": {
+      "commit-msg": "commitlint -e $HUSKY_GIT_PARAMS",
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "*.js": [
+      "npm run prettier:js",
+      "npm run lint:js",
+      "git add"
+    ]
+  }
+}

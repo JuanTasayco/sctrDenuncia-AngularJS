@@ -1,0 +1,152 @@
+<section class="gNsctr gNsctrModal modalCreateApplication">
+
+	<button
+		type="button"
+		class="close g-close-modal"
+		ng-click="$ctrl.fnCloseModal()">
+		<span class="ico-mapfre_231_cancelaroff"></span>
+	</button>
+
+	<form name="frmModalCreateApplication">
+
+		<div class="container">
+			<div class="row">
+				<div class="col-md-12 text-center mb-xs-2">
+					<h2 class="gH3"><b>Nueva Aplicación</b></h2>
+				</div>
+			</div>
+		</div>
+
+		<div class="g-sec-information no-border-left mb-xs-4">
+			<div class="sec-item">
+				<div class="container">
+					<div class="col-md-12">
+						<ul class="row">
+							<li class="col-md-12 clearfix cnt-item g-row">
+								<div class="item-label g-col-sm bottom pr-sm-1">
+									VIGENCIA:
+								</div>
+								<div class="item-dato g-col-sm">
+									{{'Desde: ' + $ctrl.mainData.itemApplication.policyDateStart + ' - ' + 'Hasta: ' + $ctrl.mainData.itemApplication.policyDateEnd}}
+								</div>
+							</li>
+						</ul>
+						<ul class="row">
+							<li
+								class="col-sm-6 clearfix cnt-item"
+								ng-repeat="item in $ctrl.mainData.itemApplication.applications">
+								<div class="col-sm-6 col-ms-4 col-xs-5 item-label">
+									<span class="ico-mapfre_82_circle ico-bullet"></span>
+									{{($ctrl.IS_MODULE.lifeLaw) ? 'Vida Ley:' : (item.applicationType == 'P') ? 'Póliza pensión:' : 'Póliza salud:'}}
+								</div>
+								<div class="col-sm-6 col-ms-8 col-xs-7 item-dato">
+									{{item.policyNumber}}
+								</div>
+							</li>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="container">
+			<div class="col-md-12">
+				<div class="row">
+					<div class="col-sm-6 mb-xs-2 no-mb-sm">
+						<div class="input-group g-date-picker">
+							<label class="g-placeholder animated">
+								Fecha inicio<span>*</span>:
+							</label>
+							<input
+								type="text"
+								class="form-control"
+								name="nFechaInicio"
+								ng-model="$ctrl.data.mFechaInicio.model"
+								uib-datepicker-popup="{{$ctrl.data.mFechaInicio.FORMAT_DATE}}"
+								is-open="$ctrl.data.mFechaInicio.open"
+								datepicker-options="$ctrl.data.mFechaInicio.options"
+								close-text="Close"
+								alt-input-formats="$ctrl.data.mFechaInicio.ALT_INPUT_FORMATS"
+								ui-mask="{{$ctrl.data.mFechaInicio.FORMAT_MASK}}"
+								ng-pattern="$ctrl.data.mFechaInicio.FORMAT_PATTERN"
+								model-view-value="true"
+								ng-required="true"
+								ng-disabled="false"
+								ng-change="$ctrl.fnChangeCalendar()"
+								readonly/>
+							<span class="input-group-btn">
+								<button
+									type="button"
+									class="btn btn-default"
+									ng-click="$ctrl.data.mFechaInicio.setOpen(true)">
+									<i class="glyphicon glyphicon-calendar"></i>
+								</button>
+							</span>
+						</div>
+						<ul class="g-error">
+							<li ng-show="frmModalCreateApplication.nFechaInicio.$error.pattern && !frmModalCreateApplication.nFechaInicio.$pristine">* Fecha incorrecto</li>
+							<li ng-show="frmModalCreateApplication.nFechaInicio.$invalid && !frmModalCreateApplication.nFechaInicio.$pristine">* Este campo es obligatorio</li>
+						</ul>
+					</div>
+					<div class="col-sm-6">
+						<div class="input-group g-date-picker">
+							<label class="g-placeholder animated">
+								Fecha fin<span>*</span>:
+							</label>
+							<input
+								type="text"
+								class="form-control"
+								name="nFechaFin"
+								ng-model="$ctrl.data.mFechaFin.model"
+								uib-datepicker-popup="{{$ctrl.data.mFechaFin.FORMAT_DATE}}"
+								is-open="$ctrl.data.mFechaFin.open"
+								datepicker-options="$ctrl.data.mFechaFin.options"
+								close-text="Close"
+								alt-input-formats="$ctrl.data.mFechaFin.ALT_INPUT_FORMATS"
+								ui-mask="{{$ctrl.data.mFechaFin.FORMAT_MASK}}"
+								ng-pattern="$ctrl.data.mFechaFin.FORMAT_PATTERN"
+								model-view-value="true"
+								ng-required="true"
+								ng-disabled="false"
+								ng-change="$ctrl.fnChangeCalendar()"
+								readonly/>
+							<span class="input-group-btn">
+								<button
+									type="button"
+									class="btn btn-default"
+									ng-click="$ctrl.data.mFechaFin.setOpen(true)">
+									<i class="glyphicon glyphicon-calendar"></i>
+								</button>
+							</span>
+						</div>
+						<ul class="g-error">
+							<li ng-show="frmModalCreateApplication.nFechaFin.$error.pattern && !frmModalCreateApplication.nFechaFin.$pristine">* Fecha incorrecto</li>
+							<li ng-show="frmModalCreateApplication.nFechaFin.$invalid && !frmModalCreateApplication.nFechaFin.$pristine">* Este campo es obligatorio</li>
+						</ul>
+					</div>
+				</div>
+
+				<div class="row pt-xs-4">
+					<div class="col-sm-6 mb-xs-1 no-mb-sm">
+						<a
+							href="javascript:void(0)"
+							class="g-btn g-btn-transparent block"
+							ng-click="$ctrl.fnCloseModal()">
+							Cancelar
+						</a>
+					</div>
+					<div class="col-sm-6">
+						<a
+							href="javascript:void(0)"
+							class="g-btn g-btn-verde block"
+							ng-click="$ctrl.fnCreateApplication()">
+							Crear
+						</a>
+					</div>
+				</div>
+			</div>
+		</div>
+
+	</form>
+
+</section>

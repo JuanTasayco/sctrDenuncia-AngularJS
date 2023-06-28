@@ -1,0 +1,80 @@
+<form name="frmProductos" class="mt-xs-2 mt-md-0">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12">
+        <h2 class="g-sub-title g-myd-subtitle">Producto</h2>
+        <p class="fwLight">A continuación seleccione el producto a cotizar</p>
+      </div>
+    </div>
+    <div class="row mb-xs-3 mb-md-5">
+      <div class="col-sm-6 col-md-3 mb-xs-2">
+        <mpf-select ng-change="changeProducto(cotizacion.producto)" ng-model="cotizacion.producto" name="nProductos"
+          label="{label: 'Producto',required: false}" m-data-source="productos" text-field="Descripcion"
+          value-field="CodigoRiesgoGeneral" m-Empty-Option="{enterData:true}">
+        </mpf-select>
+      </div>
+      <div ng-if="cotizacion.producto.Grupo === constantsRrgg.GRUPO.HIDROCARBURO" class="col-sm-6 col-md-3 mb-xs-2">
+        <mpf-select ng-model="cotizacion.producto.Cobertura" name="cobertura"
+          label="{label: 'Escoger cobertura',required: false}" m-data-source="coberturas" text-field="Descripcion"
+          value-field="Codigo">
+        </mpf-select>
+      </div>
+      <div class="col-sm-6 col-md-3">
+        <mpf-input label="{label: 'Fecha de cotización', required: true}" name="nFechaCotizacion"
+          ng-model="cotizacion.fechaCotizacion" ng-required="true" mpf-validation="required" add-messages
+          ng-disabled="true"></mpf-input>
+      </div>
+    </div>
+    <div class="g-section" ng-if="!cotizacion.producto.Grupo">
+      <div class="container">
+        <div class="page-rrgg__not-selection text-center mt-xs-9">
+          <i class="ico-mapfre_143_warning icon"></i>
+          <p class="text">No haz seleccionado ningun producto</p>
+        </div>
+      </div>
+    </div>
+    <trabajos-especificos form='frmProductos' cotizacion="cotizacion"
+      ng-if="cotizacion.producto.Grupo.trim() === constantsRrgg.GRUPO.TRAB_ESPECIFICOS">
+    </trabajos-especificos>
+    <trec form='frmProductos' cotizacion="cotizacion"
+      ng-if="cotizacion.producto.Grupo.trim() === constantsRrgg.GRUPO.TREC"></trec>
+    <hidrocarburo form='frmProductos' cotizacion="cotizacion"
+      ng-if="cotizacion.producto.Grupo.trim() === constantsRrgg.GRUPO.HIDROCARBURO">
+    </hidrocarburo>
+    <rrgg-car form='frmProductos' cotizacion="cotizacion"
+      ng-if="cotizacion.producto.Grupo.trim() === constantsRrgg.GRUPO.CAR">
+    </rrgg-car>
+    <rrgg-car form='frmProductos' cotizacion="cotizacion"
+      ng-if="cotizacion.producto.Grupo.trim() === constantsRrgg.GRUPO.CARLITE">
+    </rrgg-car>
+    <rrgg-vig-limpieza form='frmProductos' cotizacion="cotizacion"
+      ng-if="cotizacion.producto.Grupo.trim() ===  constantsRrgg.GRUPO.VIGLIMP">
+    </rrgg-vig-limpieza>
+
+    <transportes form='frmProductos' cotizacion="cotizacion"
+      ng-if="cotizacion.producto.Grupo.trim() ===  constantsRrgg.GRUPO.TRANSPORTE">
+    </transportes>
+
+    <eventos form='frmProductos' cotizacion="cotizacion"
+      ng-if="cotizacion.producto.Grupo.trim() ===  constantsRrgg.GRUPO.EVENTOS">
+    </eventos>
+
+    <demoliciones form='frmProductos' cotizacion="cotizacion"
+      ng-if="cotizacion.producto.Grupo.trim() ===  constantsRrgg.GRUPO.DEMOLICIONES">
+    </demoliciones>
+
+  </div>
+  <div class="g-section h-myd-pt--0" ng-if="cotizacion.producto.Grupo.trim()">
+    <div class="container">
+      <div class="row row-footer">
+        <div class="col-sm-3 mb-xs-2 mb-md-0">
+          <span class="g-comment">*Campos obligatorios</span>
+        </div>
+        <div class="col-sm-4 col-sm-offset-1">
+          <input class="g-btn g-btn-verde block" type="submit" ng-disabled="disabledButton()" value="Siguiente"
+            ng-click="GoStepResumen()" rrgg-step1-btn-continue>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>

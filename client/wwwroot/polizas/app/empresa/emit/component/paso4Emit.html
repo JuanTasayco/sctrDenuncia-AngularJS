@@ -1,0 +1,253 @@
+<section class="fourthStep">
+
+	<form action="" name="frmFourthStep">
+		<div class="g-section-inner">
+			<div class="container">
+				<div class="row">
+					<div class="col-md-12">
+						<h2 class="g-sub-title red g-myd-subtitle">Financiamiento</h2>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-md-4 mb-xs-2">
+						<mpf-select
+							label="{label: 'Tipo de financiamiento', required: true}"
+							name="nTipoFinanc"
+							ng-model="emit.step.TipoFinanciamiento"
+							m-data-source="emitS4.financingTypeData"
+							text-field="Descripcion"
+							value-field="Codigo"
+							m-Empty-Option="{enterData:true}"
+							ng-required="true">
+						</mpf-select>
+						<ul class="g-error">
+	            <li ng-show="frmFourthStep.nTipoFinanc.$invalid && !frmFourthStep.nTipoFinanc.$pristine">* Seleccione un tipo de financiamiento</li>
+	          </ul>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="g-section-inner">
+			<div class="container">
+				<div class="row">
+					<div class="col-md-12">
+						<h2 class="g-sub-title red g-myd-subtitle">Endosatario<span>(opcional)</span></h2>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-md-12 mb-xs-2">
+						<div class="row mb-sm-2 mb-xs-1">
+							<div class="col-md-12">
+								<span class="g-placeholder block mb-xs-2">Selecciona como deseas buscar a el endosatario:</span>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-sm-4 mb-xs-1 mb-md-0">
+								<m-radio
+									label="{label: 'No usar endosatario'}"
+									name="nBusquedaEndosatario"
+									ng-model="emitS4.mBusquedaEndosatario"
+									value="1"
+									ng-required="true"
+									ng-click="fnClearOptionEndorsee()">
+								</m-radio>
+							</div>
+							<div class="col-sm-4 mb-xs-1 mb-md-0">
+								<m-radio
+									label="{label: 'Buscar endosatario por RUC'}"
+									name="nBusquedaEndosatario"
+									ng-model="emitS4.mBusquedaEndosatario"
+									value="2"
+									ng-required="true"
+									ng-click="fnClearOptionEndorsee()">
+								</m-radio>
+							</div>
+							<div class="col-sm-4 mb-xs-1 mb-md-0">
+								<m-radio
+									label="{label: 'Buscar endosatario por nombre'}"
+									name="nBusquedaEndosatario"
+									ng-model="emitS4.mBusquedaEndosatario"
+									value="3"
+									ng-required="true"
+									ng-click="fnClearOptionEndorsee()">
+								</m-radio>
+							</div>
+							<ul class="col-md-12 g-error">
+	              <li ng-show="frmFourthStep.nBusquedaEndosatario.$invalid && !frmFourthStep.nBusquedaEndosatario.$pristine">* Seleccione una opción</li>
+	            </ul>
+						</div>
+					</div>
+				</div>
+				<div class="row" ng-if="emitS4.mBusquedaEndosatario == '2'">
+					<div class="col-md-4 mb-xs-2">
+						<div ng-show="!emitS4.showLabelEndorsee">
+							<mpf-input
+								label="{label: 'RUC del endosatario', required: true}"
+								name="nRucEndosatario"
+								ng-model="emit.step.Endosatario.Codigo"
+								ng-maxlength="11"
+								ng-required="true">
+							</mpf-input>
+							<ul class="g-error">
+	              <li ng-show="frmFourthStep.nRucEndosatario.$invalid && !frmFourthStep.nRucEndosatario.$pristine">* Ingrese un RUC de endosatario</li>
+	            </ul>
+						</div>
+						<div ng-show="emitS4.showLabelEndorsee">
+							<label class="g-placeholder block mb-xs-2">RUC del endosatario<span>*</span></label>
+            	<span>{{emit.step.Endosatario.Codigo + ' - ' + emit.step.Endosatario.Descripcion}}</span>
+						</div>
+					</div>
+					<div class="col-md-2 pt-xs-2 mb-xs-2">
+						<a class="g-btn g-btn-white block second-design" ng-click="fnSearchEndorsee()">
+							{{(emitS4.showLabelEndorsee) ? 'Cambiar' : 'Buscar'}}
+						</a>
+					</div>
+					<div class="col-md-6 g-col-md bottom" ng-if="emitS4.showLabelEndorsee">
+						<ul class="row">
+							<li class="col-md-4 mb-xs-2">
+								<div ng-show="!emitS4.showInputSumEndorse">
+									<span class="g-placeholder block mb-xs-2">Suma endosada</span>
+									<span>{{emitS4.mSumaEndosar | currency:emit.CURRENCY}}</span>
+								</div>
+								<div ng-show="emitS4.showInputSumEndorse">
+									<mpf-input
+										label="{label: 'Suma a endosar', required: true}"
+										name="nSumaEndosar"
+										ng-model="emitS4.mSumaEndosar"
+										ng-required="true">
+									</mpf-input>
+									<ul class="g-error">
+		                <li ng-show="emitS4.sumEndorseError">* Debes ingresar una suma menor o igual a {{emit.step.SumaAseguradaTotal}}</li>
+		              </ul>
+								</div>
+							</li>
+							<li class="col-md-5 pt-xs-2 mb-xs-2">
+								<a class="g-btn g-btn-white block second-design" href="" ng-click="fnModifyValue()">
+									{{(emitS4.showInputSumEndorse) ? 'Aceptar' : 'Modificar valor'}}
+								</a>
+								<div class="gCGray3 g-text-center-xs">(Igual o menor a {{emit.step.SumaAseguradaTotal | currency:emit.CURRENCY}})</div>
+							</li>
+						</ul>
+	        </div>
+				</div>
+				<div class="row" ng-if="emitS4.mBusquedaEndosatario == '3'">
+					<div class="col-md-4 mb-xs-2">
+						<mpf-select
+							label="{label: 'Nombre del endosatario', required: true}"
+							name="nNombreEndosatario"
+							ng-model="emit.step.Endosatario"
+							m-data-source="emitS4.endorseeData"
+							text-field="Descripcion"
+							value-field="Codigo"
+							m-Empty-Option="{enterData:true}"
+							ng-required="true"
+							ng-change="fnChangeEndorsee()">
+						</mpf-select>
+						<ul class="g-error">
+              <li ng-show="frmFourthStep.nNombreEndosatario.$invalid && !frmFourthStep.nNombreEndosatario.$pristine">* Ingrese un endosatario</li>
+            </ul>
+					</div>
+					<div class="col-md-6 g-col-md bottom" ng-if="emitS4.showLabelEndorsee">
+						<ul class="row">
+							<li class="col-md-4 mb-xs-2">
+								<div ng-show="!emitS4.showInputSumEndorse">
+									<span class="g-placeholder block mb-xs-2">Suma endosada</span>
+									<span>{{emitS4.mSumaEndosar | currency:emit.CURRENCY}}</span>
+								</div>
+								<div ng-show="emitS4.showInputSumEndorse">
+									<mpf-input
+										label="{label: 'Suma a endosar', required: true}"
+										name="nSumaEndosar"
+										ng-model="emitS4.mSumaEndosar"
+										ng-required="true">
+									</mpf-input>
+									<ul class="g-error">
+		                <li ng-show="emitS4.sumEndorseError">* Debes ingresar una suma menor o igual a {{emit.step.SumaAseguradaTotal}}</li>
+		              </ul>
+								</div>
+							</li>
+							<li class="col-md-5 pt-xs-2 mb-xs-2">
+								<a class="g-btn g-btn-white block second-design" href="" ng-click="fnModifyValue()">
+									{{(emitS4.showInputSumEndorse) ? 'Aceptar' : 'Modificar valor'}}
+								</a>
+								<div class="gCGray3 g-text-center-xs">(Igual o menor a {{emit.step.SumaAseguradaTotal | currency:emit.CURRENCY}})</div>
+							</li>
+						</ul>
+	        </div>
+				</div>
+			</div>
+		</div>
+
+
+		<div class="g-section">
+		  <div class="container">
+		    <div class="row">
+		      <div class="col-md-12">
+		        <h2 class="g-sub-title mb-1 g-myd-subtitle">Prima</h2>
+		      </div>
+		    </div>
+
+		    <!-- Calcular prima -->
+		    <div class="col-md-12 g-box g-calcular-prima">
+		      <div class="row pb-xs-0-5 pt-xs-0-5 g-list-md">
+		        <div class="col-md-4 col-xs-6 col-md-offset-3">
+		          <span class="ico-mapfre_82_circle ico-bullet"></span> Prima comercial:
+		        </div>
+		        <div class="col-md-2 col-xs-6 text-right">{{emit.step.ConceptosDesglose.PrimaComercial | currency: emit.CURRENCY}}</div>
+		      </div>
+		      <div class="row pb-xs-0-5 pt-xs-0-5 g-list-md" >
+		        <div class="col-md-4 col-xs-6 col-md-offset-3">
+		          <span class="ico-mapfre_82_circle ico-bullet"></span> MAPFRE DÓLARES
+		          <span class="pl-xs-2">
+		            <b>({{(emit.step.ImporteMapfreDolar || 0) | currency: '$'}} disponibles)</b>
+		          </span>
+		        </div>
+		        <!-- <div class="col-md-2 col-xs-6 text-right valor">
+		          <m-Numeric-Textbox
+		          ng-model="formData.mMapfreDolar"
+		          name="nMapfreDolar"
+		          label="{label: '', required: false}"
+		          ng-required="false"
+		          data-ng-keyup="addMapfreDollar(formData.mMapfreDolar)"
+		          options="formData.scale"
+		          ></m-Numeric-Textbox>
+		          <span class="g-valorauto-warning g-error pl-xs-0 pr-xs-0" data-ng-if="montoValido">
+		              <span class="ico-mapfre_37_informacion g-valorauto-warning-ico"></span>Valor fuera de rango
+		          </span>
+		        </div> -->
+		      </div>
+		      <div class="row pb-xs-0-5 pt-xs-0-5 g-list-md">
+		        <div class="col-md-4 col-xs-6 col-md-offset-3">
+		          <span class="ico-mapfre_82_circle ico-bullet"></span> IGV:
+		        </div>
+		        <div class="col-md-2 col-xs-6 text-right">{{emit.step.ConceptosDesglose.Igv | currency: emit.CURRENCY}}</div>
+		      </div>
+		      <div class="row pb-xs-0-5 pt-xs-0-5 g-list-md">
+		        <div class="col-md-4 col-xs-6 col-md-offset-3 gH4 gCGray1">
+		          <span class="ico-mapfre_82_circle ico-bullet"></span> Total
+		        </div>
+		        <div class="col-md-2 col-xs-6 text-right gH4 gCGray1">{{emit.step.ConceptosDesglose.PrimaTotal | currency: emit.CURRENCY}}</div>
+		      </div>
+		    </div>
+		  </div>
+		</div>
+
+		<!-- Button -->
+		<div class="g-section">
+			<div class="container">
+				<div class="row">
+					<div class="col-md-4 mb-xs-1">
+						<span class="g-comment">*Campos obligatorios</span>
+					</div>
+					<div class="col-md-4">
+            <a class="g-btn g-btn-verde block"
+            ga-click ga-category="'Emisa - Empresa'" ga-action="'MPF - Emisión'" ga-label="'Botón: Emitir'"
+            ng-click="fnEmit()">Emitir Póliza</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</form>
+
+</section>

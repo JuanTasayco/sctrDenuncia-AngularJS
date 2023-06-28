@@ -1,0 +1,222 @@
+<div ng-model="mListaUsuarios" ng-hide="!mListaUsuarios">
+
+    <div class="g-section-inner g-dashboard-section">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-8 g-span-middle">
+                    <span class="col-md-8 mg-bot-15">
+                        <mpf-input label="{label: 'Código de usuario o departamento'}" name="nNombreUsuarioBuscar"
+                            ng-model="mNombreUsuarioBuscar"></mpf-input>
+                    </span>
+                    <span class="mr-md-1">
+                        <a class="g-btn btn-verde-trn block second-design pl-md-2 pr-md-2"
+                            ng-click="searchResults()">BUSCAR</a>
+                    </span>
+                    <span class="mr-md-1">
+                        <a class="g-btn g-btn-white block second-design pl-md-2 pr-md-2"
+                            ng-click="limpiarBuscador()">LIMPIAR</a>
+                    </span>
+                </div>
+
+                <div class="col-md-4 g-text-right-md g-span-middle mg-top-20">
+                    <span class="mr-md-12">
+                        <a class="g-btn g-btn-verde block second-design pl-md-12 pr-md-12" ng-if="estadoRegistro  == 'I'"
+                            ng-click="mostrarOperacion()">ASIGNAR USUARIOS</a>
+                    </span>
+                </div>
+            </div>
+            <div class="col-md-12 text-center g-box-noresult"
+            ng-show="listaUsuarios.length === 0 || listaUsuarios === undefined">
+            <div class="row">
+                <div class="col-md-12 g-box-noresult-ico gCRed1"><span
+                        class="ico-mapfre_302_error gnIcon-bg"></span>
+                </div>
+                <div class="col-md-12 g-box-noresult-text">No se encontró resultados.<br>Realice una
+                    búsqueda nuevamente.</div>
+            </div>
+        </div>
+            <!--Inicio: Resultados-->
+            <ul class="row g-list-sm" ng-repeat="item in listaUsuarios">
+                <div class="clearfix g-box mg-bot-10">
+                    <div class="clearfix g-box no-bbl-radius no-bbr-radius g-border-noborder pt-xs-1 pb-xs-1 gBgcGray5">
+                        <li class="col-md-12 col-sm-12 ">
+                            <div class="item-label">
+                                
+                                <ul class="clearfix">
+                                </ul>
+                                <ul class="clearfix">
+                                    <li class="col-md-6 pt-xs-1">
+                                        <b></b> Cód {{item.nombreUsuario | uppercase}} - {{item.nombres  | uppercase}} {{item.apellidoPaterno | uppercase}} {{item.apellidoMaterno | uppercase}}
+                                    </li>
+                                    <li class="col-md-5 pt-xs-1">
+                                        <b>Departamento: </b>{{ item.nombreDepartamento }}
+                                    </li>
+                                    <li class="col-md-1 pt-xs-1"  ng-if="estadoRegistro  == 'I'">
+                                        <span class="ico-mapfre_228_editar gnIcon-xsm gCGray3" uib-tooltip="Editar" ng-click="mostrarEditarUsuario(item,$index);"></span>
+                                        <span class="ico-mapfre_181_eliminar gnIcon-xsm gCGray3" uib-tooltip="Eliminar"
+                                            ng-click="eliminarUsuario(item.nombreUsuario,item.codigoDepartamento);"></span>
+                                    </li>
+                                    
+                                    <li class="col-md-1 pt-xs-1"  ng-if="estadoRegistro  == 'A'">
+                                        <span class="ico-mapfre_228_editar gnIcon-xsm gCGray3" uib-tooltip="Editar"></span>
+                                        <span class="ico-mapfre_181_eliminar gnIcon-xsm gCGray3" uib-tooltip="Eliminar"></span>
+                                    </li>
+                                </ul>
+                            </div>
+                        </li>
+                    </div>
+                </div>
+                <li>
+                    <div class="g-section-inner g-dashboard-section"
+                        ng-show="flagMostrarEditarUsuario && indexListaUsuario == $index">
+                        <div class="container">
+                            <div class="row">
+                                <div class="col-md-8 col-md-offset-2">
+                                    <form name="frmFormEditUsuario">
+                                        <div class="clearfix g-box-md mb-md-2 gBgcWhite1">
+                                            <div class="g-col-filter__box">
+                                                <div class="col-md-12">
+                                                    <div class="row">
+                                                        <div class="col-md-12 mb-md-1 mg-top-15">
+                                                            <span class="col-md-11 ">
+                                                                <label
+                                                                    class="g-placeholder animated ng-binding pl-xs-1-5"><b>Editar
+                                                                        Usuarios</b></label>
+                                                            </span>
+                                                        </div>
+                                                        <div class="col-md-12 mt-md-2 mb-md-2 ">
+                                                            <div class="col-md-6">
+                                                                <mpf-input label="{label: 'Código de Usuario'}"
+                                                                    name="nNombreUsuarioEdit"
+                                                                    ng-model="mNombreUsuarioEdit[$index]" ng-maxlength="50"
+                                                                    ng-required="true">
+                                                                </mpf-input>
+                                                                <div class="g-error"
+                                                                    data-ng-show="frmFormEditUsuario.nNombreUsuarioEdit.$error.required && !frmFormEditUsuario.nNombreUsuarioEdit.$pristine">
+                                                                    * Ingresar código de usuario
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-md-6">
+                                                                <mpf-select-placeholder
+                                                                    label="{label: 'Departamento', required: false}"
+                                                                    m-Empty-Option="{enterData: true}"
+                                                                    name="nDepartamentoUsuarioEdit"
+                                                                    mpf-validation="required" text-field="descripcion"
+                                                                    value-field="codigo"
+                                                                    ng-model="$ctrl.mDepartamentoUsuarioEdit[$index]"
+                                                                    m-data-source="listaDepartamentos">
+                                                                </mpf-select-placeholder>
+                                                                <div class="g-error"
+                                                                    data-ng-show="frmFormEditUsuario.nDepartamentoUsuarioEdit.$error.required && !frmFormEditUsuario.nDepartamentoUsuarioEdit.$pristine">
+                                                                    * Elija departamento
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-12 g-text-right-md g-span-middle mg-bot-10">
+                                                            <span class="mr-md-2">
+                                                                <a class="g-btn g-btn-transparent block second-design pl-md-2 pr-md-2"
+                                                                    ng-click="mostrarEditarUsuario(item,$index)">CANCELAR</a>
+                                                            </span>
+                                                            <span class="mr-md-2">
+                                                                <button ng-disabled="frmFormEditUsuario.$invalid"
+                                                                    ng-click="editarUsuario(item.codUnico,mNombreUsuarioEdit[$index],$ctrl.mDepartamentoUsuarioEdit[$index]);"
+                                                                    class="g-btn g-btn-verde block second-design pl-md-2 pr-md-2">GUARDAR</button>
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+
+            <!--Fin: Resultados-->
+            <!-- Inicio: pagination -->
+            <div class="row">
+                <div class="col-md-12" ng-show="listaUsuarios.length > 0">                  
+           
+                    <ul uib-pagination class="g-pagination" ng-model="currentPage"
+                        max-size="maxSize" ng-change="changePage(currentPage)"
+                        total-items="totalRecords" items-per-page="sizePerPage"
+                        boundary-link-numbers="true"></ul>
+                </div>
+            </div>
+            <!-- Fin: pagination -->
+
+        </div>
+    </div>
+</div>
+<div class="g-section-inner g-dashboard-section" ng-model="mAsignacionUsuarios" ng-hide="!mAsignacionUsuarios">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-8 col-md-offset-2">
+                <form name="frmFormUsuario">
+                    <div class="clearfix g-box-md mb-md-2 gBgcWhite1">
+                        <div class="g-col-filter__box">
+                            <div class="col-md-12">
+                                <div class="row">
+                                    <div class="col-md-12 mb-md-1">
+                                        <span class="col-md-12 mg-top-15">
+                                            <label class="g-placeholder animated ng-binding pl-xs-1-5"><b>Asignación
+                                                    de Usuarios</b></label>
+                                        </span>
+                                    </div>
+                                    <div class="col-md-12 mt-md-2 mb-md-2 ">
+                                        <div class="col-md-5">
+                                            <mpf-input label="{label: 'Código de usuario'}" name="nNombreUsuario"
+                                                ng-model="mNombreUsuario" ng-maxlength="50" ng-required="true">
+                                            </mpf-input>
+                                            <div class="g-error"
+                                                data-ng-show="frmFormUsuario.nNombreUsuario.$error.required && !frmFormUsuario.nNombreUsuario.$pristine">
+                                                * Ingresar código de usuario
+                                            </div>
+                                        </div>
+                                        <div class="col-md-5">
+                                            <mpf-select-placeholder label="{label: 'Departamento', required: false}"
+                                                m-Empty-Option="{enterData: true}" name="nDepartamentoUsuario"
+                                                mpf-validation="required" text-field="descripcion" value-field="codigo"
+                                                ng-model="mDepartamentoUsuario" m-data-source="listaDepartamentos"
+                                               
+                                                ng-change="selectDepartamento();">
+                                            </mpf-select-placeholder>
+                                            <div class="g-error"
+                                                data-ng-show="frmFormUsuario.nDepartamentoUsuario.$error.required && !frmFormUsuario.nDepartamentoUsuario.$pristine">
+                                                * Elija departamento
+                                            </div>
+                                        </div>
+                                        <!--
+                                                <div class="col-md-1 mg-top-35">
+                                                <span class="ico-mapfre_307_tacho gnIcon-xsm gCGray3"
+                                                    ng-click="eliminarFilaUsuario($index);">
+                                            </div>
+                                            <div class="col-md-1 mg-top-35">
+                                                <span class="ico-mapfre_230_agregarusuario gnIcon-xsm gCGray3"
+                                                    ng-click="agregarFilaUsuario();"></div>
+    
+                                             -->
+                                    </div>
+                                    <div class="col-md-12 g-text-right-md g-span-middle mg-bot-10">
+                                        <span class="mr-md-2">
+                                            <a class="g-btn g-btn-transparent block second-design pl-md-2 pr-md-2"
+                                                ng-click="mostrarListado()">CANCELAR</a>
+                                        </span>
+                                        <span class="mr-md-2">
+                                            <button ng-disabled="frmFormUsuario.$invalid"
+                                                ng-click="registrarUsuario(mNombreUsuario,mDepartamentoUsuario);"
+                                                class="g-btn g-btn-verde block second-design pl-md-2 pr-md-2">REGISTRAR</button>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

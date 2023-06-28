@@ -1,0 +1,91 @@
+<div action="" data-ng-form="$ctrl.frmTaller">
+  <div show-filter class="clearfix g-col-filter g-box-md fz14 gBgcGray5-md gBgcWhite1 wp-talleres__frm" ng-class="{'show': isFilterVisible}">
+    <div class="col-md-12 mb-xs-3 gH4 gCGray1">
+      <h2 class="pb-xs-1 g-border-bottom-xs hidden-xs hidden-sm"><b>Filtro</b></h2>
+      <div
+        id="show-filter"
+        class="row pt-xs-2 pb-xs-2 gBgcGray5 g-border-bottom-xs hidden-md hidden-lg"
+        data-ng-click="toggleFilter()"
+      >
+        <div class="col-xs-10">
+          <h2 class="cnt-title"><b>Filtro</b></h2>
+        </div>
+        <div class="col-xs-2 g-text-right-xs">
+          <span class="glyphicon glyphicon-chevron-down" ng-if="isFilterVisible"></span>
+          <span class="glyphicon glyphicon-chevron-up" ng-if="!isFilterVisible"></span>
+        </div>
+        <div class="clearfix"></div>
+      </div>
+    </div>
+    <div class="col-md-12 pb-md-1 mb-xs-1">
+      <wp-cbo-departamento
+        data-label="{label: 'Departamento', required: true}"
+        data-ng-model="$ctrl.frmSearch.cbo.depa"
+        data-set-model-by-this-key="$ctrl.frmSearch.depa"
+        name="nDepartament"
+      >
+      </wp-cbo-departamento>
+      <div
+        class="g-error"
+        data-ng-show="$ctrl.frmTaller.nDepartament.$invalid && !$ctrl.frmTaller.nDepartament.$pristine">
+        Ingrese un nombre válido
+      </div>
+    </div>
+    <div class="col-md-12 pb-md-1 mb-xs-1">
+      <wp-cbo-provincia
+        data-depa="$ctrl.frmSearch.cbo.depa"
+        data-label="{label: 'Provincia', required: true}"
+        data-ng-model="$ctrl.frmSearch.cbo.prov"
+        data-set-model-by-this-key="$ctrl.frmSearch.prov"
+        name="nProvincia"
+      >
+      </wp-cbo-provincia>
+      <div
+        class="g-error"
+        data-ng-show="$ctrl.frmTaller.nProvincia.$invalid && !$ctrl.frmTaller.nProvincia.$pristine">
+        Ingrese un nombre válido
+      </div>
+    </div>
+    <div class="col-md-12 pb-md-1 mb-xs-1">
+      <wp-cbo-distrito
+        data-depa="$ctrl.frmSearch.cbo.depa"
+        data-label="{label: 'Distrito', required: false}"
+        data-ng-model="$ctrl.frmSearch.cbo.dist"
+        data-prov="$ctrl.frmSearch.cbo.prov"
+        data-set-model-by-this-key="$ctrl.frmSearch.dist"
+        name="nDistrito"
+      >
+      </wp-cbo-distrito>
+      <div
+        class="g-error"
+        data-ng-show="$ctrl.frmTaller.nDistrito.$invalid && !$ctrl.frmTaller.nDistrito.$pristine">
+        Ingrese un nombre válido
+      </div>
+    </div>
+    <div class="col-md-12 pb-md-1 mb-xs-1">
+      <mpf-select
+        data-m-data-source="$ctrl.lstTipoTaller"
+        data-ng-model="$ctrl.frmSearch.cboTaller"
+        data-text-field="nombreValor"
+        data-value-field="codigoValor"
+        label="{label: 'Taller', required: false}"
+        name="nTallerTipo"
+      >
+      </mpf-select>
+    </div>
+    <div class="col-md-12 pb-md-1 mb-xs-1">
+      <mpf-input
+        data-ng-model="$ctrl.frmSearch.nameTaller"
+        label="{label: 'Nombre de taller', required: false}"
+        name="nNameTaller"
+      >
+      </mpf-input>
+    </div>
+    <div class="col-sm-6 col-md-12 pb-md-1 mb-xs-2">
+      <a class="g-btn g-btn-verde block" data-ng-click="$ctrl.handleFiltrarFrm(); toggleFilter()">Filtrar</a>
+    </div>
+    <div class="col-sm-6 col-md-12">
+      <a class="g-btn g-btn-transparent block" data-ng-click="$ctrl.limpiarFrm(); toggleFilter()">Limpiar</a>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,132 @@
+<mfloader loader="$ctrl.loader"></mfloader>
+<div class="container">
+  <mfbreadcrumb panel="$ctrl.panel"
+              lvl0="$ctrl.lvl0"
+              lvl1="$ctrl.lvl1"
+              lvl2="$ctrl.lvl2"
+              show-lvl1= "$ctrl.showLvl1"
+              show-lvl2= "$ctrl.showLvl2"
+              open-map="$ctrl.openMap(lvl,pl)"
+              lst-dptos="$ctrl.lstDptos"
+              loader="$ctrl.loader"
+              showcp="$ctrl.showCP"></mfbreadcrumb>
+
+  <h1 class="title-r u-title-divider--up">
+    Clientes
+  </h1>
+
+  <div class="containerMapa">
+    <div class="cleaner">
+      <div class="col-xs-12 col-md-6">
+        <mapa-mapfre  lugar="$ctrl.mapId"
+                      loadclass="$ctrl.loadCls"
+                      mapsvg="$ctrl.mapSvg"
+                      open="$ctrl.openMap(a,b,c)"
+                      controller-name="MapaClienteController"></mapa-mapfre>
+      </div>
+
+      <div class="col-xs-12 col-md-6">
+        <div class="cleaner">
+          <span class="title-r u-ph-0">
+            <span class="ico-mapfre_84_circleleft frm-search__title-ico--arrow hidden-xs hidden-sm"></span>
+            <span class="u-color-verde u-weight-normal">{{$ctrl.afiliados}}</span> afiliados en
+            <span class="u-weight-normal">{{$ctrl.namePlace}}</span>
+          </span>
+        </div>
+
+        <div class="cleaner">
+          <div class="form-inline">
+
+            <div data-ng-form="BusquedaClienteForm" class="frm-search__box u-bg--grey">
+              <div>
+                <label class="lbl-title c-txt-w-icon no-icon--xs-sm u-mb-20" for="afeliado_nom">
+                  <span class="ico-mapfre_13_miperfil hidden-xs hidden-sm c-txt-w-icon__ico"></span> Buscar clientes por nombre en {{$ctrl.namePlace}}
+                </label>
+              </div>
+              <div>
+                <div class="cleaner map-cli-frm__box">
+                  <div class="input__box col-xs-12 col-sm-6 u-no-ph15-xs u-mr-30">
+                    <mfinput  data-id="afiliado_nom"
+                              data-valor="$ctrl.nombre"
+                              data-minlong="3"
+                              data-maxlong = "130"
+                              data-tipo="caracter"
+                              data-placeholder="Nombres"
+                              data-requerido = "false"
+                              data-mf-form="BusquedaClienteForm"
+                              data-call-enter="$ctrl.buscar()"></mfinput>
+                  </div>
+                  <div class="input__box col-xs-12 col-sm-6 u-no-ph15-xs">
+                    <mfinput  data-id="afiliado_ape"
+                              data-valor="$ctrl.apellidos"
+                              data-maxlong = "130"
+                              data-minlong="3"
+                              data-tipo="caracter"
+                              data-placeholder="Apellidos"
+                              data-requerido = "false"
+                              data-mf-form="BusquedaClienteForm"
+                              data-call-enter="$ctrl.buscar()"></mfinput>
+                  </div>
+                  <div data-ng-if="$ctrl.validacionNombre()"
+                    class="col-xs-12 col-sm-12 u-ph-0 u-mb-30 u-color-primary">
+                    Ingrese nombres y apellidos
+                  </div>
+                </div>
+                <div class="u-mb-30">
+                    <mfinput  data-id="dni"
+                              data-valor="$ctrl.dni"
+                              data-tipo="alfanumerico"
+                              data-placeholder="DNI / C.E."
+                              data-requerido = "false"
+                              data-minlong = "8"
+                              data-maxlong = "11"
+                              data-mf-form="BusquedaClienteForm"
+                              data-call-enter="$ctrl.buscar()"></mfinput>
+                </div>
+                <div class="u-txt-right">
+                  <button class="c-btn btn btn--secundary frm-search__btn"
+                          type="button"
+                          data-ng-click="$ctrl.buscar()"
+                          data-ng-disabled="$ctrl.isDisabled()">
+                    <span class="u-inline-b">
+                      <span class="frm-search__txt-box">
+                        <span class="ico-mapfre_30_buscar frm-search__btn-ico"></span>
+                        <span>BUSCAR</span>
+                      </span>
+                    </span>
+                  </button>
+                </div>
+              </div>
+            </div>
+            <ul data-ng-class="['mapa-search__result', 'panel__wrapper', $ctrl.loadCls]">
+              <li class="panel__item" data-ng-repeat="grupo in $ctrl.grupos track by $index" data-ng-init="rowIndex = $index">
+                <header class="panel__header u-bg--grey u-br-5">
+                  <span class="panel__title">{{grupo.nombre}}</span>
+                  <span class="panel__caption">{{grupo.afiliados}} afiliados</span>
+                </header>
+                <ul class="lista-group">
+                  <li class="lista__item lista__item--bullet" data-ng-repeat="unidad in grupo.unidades track by $index" data-ng-init="$ctrl.listShow[rowIndex][colIndex = $index] = false">
+                    <div class="lista__header" >
+                      <div class="lista-header__col lista-header__col--collapse">
+                        <a data-ng-click="$ctrl.toggle(rowIndex, colIndex)"
+                          data-ng-class="[{panel__dropdown:$ctrl.listShow[rowIndex][colIndex]} ,{panel__dropup:!$ctrl.listShow[rowIndex][colIndex]}]">{{unidad.nombre}}</a>
+                      </div>
+                      <div class="lista-header__col">
+                        <a data-ng-click="$ctrl.filtrarPorEntidad(grupo, unidad)" class="panel__link-more u-arrow-right">{{$ctrl.tipoEntidad(unidad)}}</a>
+                      </div>
+                    </div>
+                    <ul class="lista__collapse animate-show" data-ng-show="$ctrl.listShow[rowIndex][colIndex]"  >
+                      <li class="lista-collapse__item">Titulares: {{unidad.titulares}}</li>
+                      <li class="lista-collapse__item">D.Habientes: {{unidad.habientes}}</li>
+                      <li class="lista-collapse__item">Total: {{unidad.titulares + unidad.habientes}}</li>
+                    </ul>
+                  </li>
+                </ul>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

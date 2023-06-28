@@ -1,0 +1,41 @@
+<section class="g-page page-modal modal-parametros" style="padding: 24px">
+    <button type="button" class="close g-close-modal" ng-click="closeModal()">
+        <span class="ico-mapfre_46_cancelaroff"></span>
+    </button>
+    <div class="container-fluid">
+        <div class="row title">
+            <div class="col-xs-12 mb-xs-2">
+                <h2>El correo se enviará a:</h2>
+            </div>
+        </div>
+        <form name="frmNuevoEnvio" class="formulario">
+            <div class="row">
+                <div class="col-md-12 mb-xs-2">
+                    <mpf-input ng-model="formEnvioCorreo.correo" name="nNumeroDocumento"
+                        label="{label: 'Correo', required: false}">
+                    </mpf-input>
+                </div>
+                <div class="col-md-12 mb-xs-2">
+                    <a ng-click="agregarCorreo()" class="correoButton">Agregar</a>
+                </div>
+                <div class="col-md-12 correoCaja">
+                    <ul>
+                        <li class="filaStyle" ng-repeat="correo in formEnvioCorreo.correos track by $index">
+                            {{correo}}
+                            <a ng-click="eliminarcorreo($index)">
+                                <i class="font-icon-size glyphicon glyphicon-remove"></i></a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="row action">
+                <div class="col-md-6">
+                    <a class="g-btn g-btn-white block" ng-click="closeModal()">Cancelar</a>
+                </div>
+                <div class="col-md-6">
+                    <a class="g-btn g-btn-verde block" ng-class="{disabled: (formEnvioCorreo.correos.length == 0)}" ng-disabled="(formEnvioCorreo.correos.length == 0)" ng-click="enviarCorreo()">Enviar</a>
+                </div>
+            </div>
+        </form>
+    </div>
+</section>

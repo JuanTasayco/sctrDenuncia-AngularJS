@@ -1,0 +1,95 @@
+<div class="g-page page-ginfo-home">
+    <div class="g-title">
+      <div class="container">
+        <div class="row g-row">
+          <div class="col-md-8 g-col-md middle">
+            <h1>Lista de Carruseles</h1>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="container">
+      <div class="row" data-ng-if="!$ctrl.isMydream">
+        <div class="col-md-12 mt-xs-3 mt-md-0">
+          <ap-tab class="mt-100" data-on-click="$ctrl.onTab($event)" items="$ctrl.tabs"></ap-tab>
+        </div>
+      </div>
+      <div>
+        <div class="row">
+          <div class="col-md-12">
+            <hr>
+            <div class="sub-menu">
+              <h3 class="g-text-capitalize">
+                {{$ctrl.currentProduct}} <span>- {{$ctrl.total}} {{$ctrl.carouselLabel}}</span>
+              </h3>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-3 mt-xs-1">
+            <a
+              class="g-btn g-btn-blanco second-design block"
+              data-ng-if="!$ctrl.isMydream"
+              data-ui-sref="bannerRecords({ codeApp: $ctrl.codeApp })"
+            >
+              <span>Listado de Banners</span><i class="ap-ico-mapfre-388-historial h-fw--bold"></i>
+            </a>
+          </div>
+          <div class="col-md-3 col-md-offset-6 mt-xs-2">
+            <div class="list-nro">
+              <ul>
+                <li
+                  data-ng-class="{'active': iPerPage === $ctrl.itemsPerPage}"
+                  data-ng-click="$ctrl.filterByItemsPerPage(iPerPage)"
+                  data-ng-repeat="iPerPage in $ctrl.itemsPerPageList"
+                >
+                  {{iPerPage}}
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row mt-xs-2">
+        <div class="col-md-12 mb-xs-2" data-ng-repeat="item in $ctrl.list">
+          <div class="box-info" data-ng-class="{'disable': !item.activo}">
+            <ap-carousel data-ng-class="{'h-filter--black-white': !item.activo}" items="item.listaBanners"></ap-carousel>
+            <div class="box-info--text">
+              <h4 class="title">{{item.titulo}}</h4>
+              <span class="nro-banner">{{item.descCantBanners}}</span>
+              <p class="dsc mt-xs-2">
+                {{item.descripcion}}
+              </p>
+              <div class="action">
+                <div class="sec-notification">
+                  <i class="ico-mapfre-350-myd-user"></i>
+                  <span>Última modificación: <b>{{item.ultimaModificacion}}</b></span>
+                </div>
+                <div class="sec-btn">
+                  <a class="g-btn g-btn-white second-design block" data-ng-if="false">Desactivar</a>
+                  <!-- HACK: to use right click, it needs ui-sref -->
+                  <a
+                    class="g-btn g-btn-verde second-design block"
+                    data-ui-sref="carouselModification({ codeApp: $ctrl.codeApp, idCarousel: item.idCarrusel })"
+                  >
+                    {{item.lblMainBtn}}
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+<mx-paginador
+  class="ap-paginador"
+  data-datos="$ctrl.list"
+  data-items-x-page="10"
+  data-on-paginar="$ctrl.paginate($event)"
+  data-pagina-actual="$ctrl.currentPage"
+  data-total-items="$ctrl.total"
+>
+</mx-paginador>

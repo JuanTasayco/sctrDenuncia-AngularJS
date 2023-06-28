@@ -1,0 +1,101 @@
+<div class="clearfix">
+  <button type="button" class="mt-xs-2 close g-close-modal" data-ng-click="$ctrl.close()" prevent-default>
+    <span class="ico-mapfre_231_cancelaroff"></span>
+  </button>
+
+  <div class="container g-section-tabs tab-modal">
+    <div class="row">
+      <div class="col-md-12">
+        <h2 class="gH3"><b>Datos Scan</b></h2>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-12">
+        <div class="mb-xs-1 mb-md-0 mt-xs-4">
+          <b>Listado de clínicas</b>
+        </div>
+      </div>
+    </div>
+
+    <div class="clearfix">
+      <div class="mt-xs-2">
+        <div class="clearfix g-box mt-xs-1" ng-show="results.length != 0">
+          <div class="clearfix">
+            <ul class="g-row-fz12 g-tbl-row pt-xs-1 pb-xs-1 g-border-bottom-xs">
+              <li class="g-col g-col-xs col-xs-6">Evaluaciones Realizadas: {{totalEvaluados}}/{{totalItems}}</li>
+              <li class="g-col g-col-xs col-xs-6 text-right">
+                <div class="mr-xs-2" style="display: inline-block;">
+                  <span><b>Scan:</b></span>
+                </div>
+                <div class="mr-xs-2" style="display: inline-block;">
+                  <m-radio label="{label: 'SI'}" name="nConcurrenciaTotal" value="S"
+                    ng-model="selectAllItems" ng-click="selectAll('S')"></m-radio>
+                </div>
+                <div class="mr-xs-2" style="display: inline-block;">
+                  <m-radio label="{label: 'NO'}" name="nConcurrenciaTotal" value="N"
+                    ng-model="selectAllItems" ng-click="selectAll('N')"></m-radio>
+                </div>
+                <div style="display: inline-block; width: 60%;"></div>
+              </li>
+            </ul>
+            <ul class="g-row-fz12 g-tbl-row pt-xs-1 pb-xs-1 gBgcGray5"
+              ng-class="$index != results.length - 1 ? 'g-border-bottom-xs' : ''"
+              data-ng-repeat="item in results">
+              <li class="g-col g-col-xs col-xs-6" style="margin: 15px 0;"><span>{{item.razonSocial}}</span></li>
+              <li class="g-col g-col-xs col-xs-6 text-right">
+                <div class="mr-xs-2" style="display: inline-block;">
+                  <span><b>Scan:</b></span>
+                </div>
+                <div class="mr-xs-2" style="display: inline-block;">
+                  <m-radio label="{label: 'SI'}" name="nConcurrencia" value="S"
+                    ng-model="item.checkItem" ng-click="selectItem()"></m-radio>
+                </div>
+                <div class="mr-xs-2" style="display: inline-block;">
+                  <m-radio label="{label: 'NO'}" name="nConcurrencia" value="N"
+                    ng-model="item.checkItem" ng-click="selectItem()"></m-radio>
+                </div>
+                <div style="display: inline-block; width: 60%;">
+                  <mpf-input
+                    style="padding-top: 0 !important;"
+                    name="nComentario"
+                    ng-model="item.comentario">
+                  </mpf-input>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="col-md-12 text-center g-box-noresult" ng-show="noResult">
+          <div class="row">
+            <div class="col-md-12 g-box-noresult-ico gCRed1">
+              <span class="ico-mapfre_302_error"></span>
+            </div>
+            <div class="col-md-12 g-box-noresult-text">No hay resultados para la búsqueda
+              realizada.<br>Intente nuevamente.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-12" ng-show="results.length != 0">
+      <ul uib-pagination class="g-pagination" ng-model="mPagination" max-size="5"
+        total-items="totalItems" items-per-page="pageSize" ng-change="pageChanged(mPagination)"
+        boundary-link-numbers="true">
+      </ul>
+    </div>
+
+    <div class="col-xs-12 g-title-btn-row">
+      <div class="g-title-btn-col mt-xs-2">
+        <button class="g-btn g-btn-white second-design block"
+          ng-click="$ctrl.close()">Cancelar</button>
+      </div>
+      <div class="g-title-btn-col mt-xs-2">
+        <button class="g-btn g-btn-verde second-design block"
+          ng-disabled="disabledDatosScan"
+          ng-click="guardarDatosScan()">Guardar</button>
+      </div>
+    </div>
+  </div>
+</div>

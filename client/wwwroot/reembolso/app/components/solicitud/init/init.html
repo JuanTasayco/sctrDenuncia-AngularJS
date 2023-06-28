@@ -1,0 +1,47 @@
+<div class="container">
+  <div class="row">
+    <div class="col-md-12 gH4">
+      <h2><b>Ingresa los datos solicitados para iniciar con el proceso</b></h2>
+    </div>
+  </div>
+  <form name="formSolicitudInit">
+    <div class="row mt-xs-4">
+      <div class="col-md-4">
+        <mpf-select
+          label="{label: '', required: true}"
+          name="nCompany"
+          ng-model="$ctrl.solicitudInit.company"
+          m-data-source="$ctrl.companiesList"
+          text-field="companyName"
+          value-field="idCompany"
+          m-Empty-Option="{enterData:true}"
+          ng-change="$ctrl.changeCompany($ctrl.solicitudInit.company.idCompany)"
+        >
+        </mpf-select>
+      </div>
+      <div class="col-md-4">
+        <mpf-select
+          label="{label: '', required: true}"
+          name="nProductType"
+          ng-model="$ctrl.solicitudInit.productType"
+          m-data-source="$ctrl.productType"
+          text-field="productDescription"
+          value-field="productCode"
+          m-Empty-Option="{enterData:true}"
+        >
+        </mpf-select>
+      </div>
+    </div>
+    <div class="row mt-xs-6">
+      <div class="col-md-2">
+        <a
+          class="g-btn g-btn-verde block"
+          ng-class="{'disabled': !($ctrl.solicitudInit.company.idCompany &&  $ctrl.solicitudInit.productType.productCode)}"
+          ui-sref="solicitud.initSteps.steps({step: 1})"
+          ng-click="$ctrl.continueToStepone()">
+          Continuar
+        </a>
+      </div>
+    </div>
+  </form>
+</div>

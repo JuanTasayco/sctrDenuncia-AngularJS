@@ -1,0 +1,68 @@
+<!-- Calcular prima -->
+<div class="container">
+  <div class="col-md-12 g-box g-calcular-prima">
+    <div class="row pb-xs-0-5 pt-xs-0-5 g-list-md">
+      <div class="col-md-6 col-md-offset-3 clearfix">
+        <div class="col-xs-7 item-label">
+          <span class="ico-mapfre_82_circle ico-bullet"></span> Prima neta:
+        </div>
+        <div class="col-xs-5 item-dato g-text-uppercase text-right">{{ $ctrl.comercialPremium || 0 | currency: '$'}}</div>
+      </div>
+    </div>
+    <div class="row pb-xs-0-5 pt-xs-0-5 g-list-md">
+      <div class="col-md-6 col-md-offset-3 clearfix">
+        <div class="col-xs-7 item-label">
+          <span class="ico-mapfre_82_circle ico-bullet"></span> MAPFRE DÓLARES
+          <span class="pl-xs-2" ng-hide="enSoles">
+            <b>({{($ctrl.mapfreDollars || 0 | currency: '$')}} disponibles)</b>
+          </span>
+        </div>
+        <div class="col-xs-5 item-dato g-text-uppercase text-right valor">
+          <m-Numeric-Textbox ng-model="$ctrl.mMapfreDolar" name="nMapfreDolar" label="{label: '', required: false}" ng-required="false" data-ng-keyup="addMapfreDollar(formData.mMapfreDolar)" options="formData.scale"></m-Numeric-Textbox>
+          <span class="g-valorauto-warning g-error pl-xs-0 pr-xs-0" data-ng-if="$ctrl.mMapfreDolar < 0 || $ctrl.mMapfreDolar > $ctrl.mapfreDollars">
+            <span class="ico-mapfre_37_informacion g-valorauto-warning-ico"></span>Valor fuera de rango
+          </span>
+        </div>
+      </div>
+    </div>
+    <div class="row pb-xs-0-5 pt-xs-0-5 g-list-md">
+      <div class="col-md-6 col-md-offset-3 clearfix">
+        <div class="col-xs-7 item-label">
+          <span class="ico-mapfre_82_circle ico-bullet"></span> Descuento comisión:
+        </div>
+        <div class="col-xs-5 item-dato">
+          <div class="row">
+            <div class="col-xs-6">
+              <mpf-select-horz label="{label: '', required: false}" name="nDescuentoComision" ng-model="$ctrl.formData.mDescuentoComision" m-data-source="$ctrl.discountCommissionData" text-field="DsctoEspecialPorcentaje" value-field="AgenteComision" m-Empty-Option="{text:'%'}" mpf-validation="required" ng-change="$ctrl.calculateDiscountCommission()" ng-required="false"></mpf-select-horz>
+            </div>
+            <div class="col-xs-6 g-text-uppercase text-right">{{ $ctrl.discountCommission || 0 | currency: '-$'}}</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row pb-xs-0-5 pt-xs-0-5 g-list-md">
+      <div class="col-md-6 col-md-offset-3 clearfix">
+        <div class="col-xs-7 item-label">
+          <span class="ico-mapfre_82_circle ico-bullet"></span> IGV:
+        </div>
+        <div class="col-xs-5 item-dato g-text-uppercase text-right">{{ $ctrl.igv || 0 | currency: '$'}}</div>
+      </div>
+    </div>
+    <div class="row pb-xs-0-5 pt-xs-0-5 g-list-md" data-ng-hide="formData.mapfreDollarTotal">
+      <div class="col-md-6 col-md-offset-3 clearfix">
+        <div class="col-xs-7 item-label">
+          <span class="ico-mapfre_82_circle ico-bullet"></span> Total
+        </div>
+        <div class="col-xs-5 item-dato g-text-uppercase text-right">{{ $ctrl.total || 0 | currency: '$'}}</div>
+      </div>
+    </div>
+    <div class="row pb-xs-0-5 pt-xs-0-5 g-list-md" data-ng-show="formData.mapfreDollarTotal">
+      <div class="col-md-6 col-md-offset-3 clearfix">
+        <div class="col-xs-7 item-label">
+          <span class="ico-mapfre_82_circle ico-bullet"></span> Total con MAPFRE Dólares
+        </div>
+        <div class="col-xs-5 item-dato g-text-uppercase text-right">{{ $ctrl.total || 0 | currency: '$'}}</div>
+      </div>
+    </div>
+  </div>
+</div>

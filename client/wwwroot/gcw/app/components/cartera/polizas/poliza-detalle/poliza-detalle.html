@@ -1,0 +1,238 @@
+<gcw-header
+  data="{type: 2}" title="vm.formDataCartera.polizaDetail.clientName"
+>
+</gcw-header>
+
+<div class="container">
+<!-- Inicio Resultados -->
+<div class="clearfix mb-xs-3" ng-show="vm.muestraPagos == 'SI' && vm.pagos.length >= 1">
+  <div class="col-xs-12">
+    <div class="row mb-xs-2 ">
+      <div class="col-sm-6 mb-xs-1 mb-sm-0"><h2 class="mt-xs-1 sub-title-tb">Pagos pendientes</h2></div>
+      <div class="col-sm-3" ng-if="vm.showPolizaElectronica() && vm.showCheckAndButton">
+        <a class="g-btn g-btn-white second-design block" ng-click="vm.modalEnvioMail()">
+          <span>Enviar documentos</span>
+        </a>
+      </div>
+    </div>
+  </div>
+  <div tbl-oim class="col-xs-12 g-tbl-wrapper pl-xs-0" ng-show="!vm.noResultPagos">
+    <div class="tbl-main">
+      <ul class="tbl-header clearfix" ng-style="vm.isWindowsUserAgent() && {'padding-right': '15px'}">
+        <li class="title col-4-dktp" ng-if="vm.showCheckAndButton">
+          <mpf-checkbox label="" name="nCheckAll" ng-model="vm.mCheckAll" ng-checked="mCheckAllValue" ng-click="vm.selectAll(vm.mCheckAll);"></mpf-checkbox>
+        </li>
+        <li class="title col-12-dktp">Póliza</li>
+        <li class="title col-14-dktp">Producto</li>
+        <li class="title col-9-dktp">Tipo Doc.</li>
+        <li class="title col-10-dktp">Nro. Documento</li>
+        <li class="title col-6-dktp">Dí­as venc.</li>
+        <li class="title col-10-dktp">Vencimiento</li>
+        <li class="title col-10-dktp text-right">Importe</li>
+        <li class="title col-7-dktp">Moneda</li>
+        <li class="title col-9-dktp">Medio cobro</li>
+        <li class="title col-9-dktp">Compañía</li>
+        <!--<li class="title col-4-dktp">&nbsp;</li>-->
+      </ul>
+      <ul class="tbl-body clearfix">
+        <li ng-repeat="pago in vm.pagos">
+          <ul class="tbl-row clearfix">
+            <li class="cell col-4-dktp" ng-if="vm.showCheckAndButton && vm.pagos.length>0">
+              <mpf-checkbox label=""  ng-if="pago" name="nSelectPago" ng-model="pago.selected" ng-click="vm.selectPago($index, pago.selected)" >{{pago.selected}}</mpf-checkbox>
+            </li>
+            <li class="cell col-12-dktp">
+              <span class="cell-title">{{pago.policyNumber}}</span>
+              <span class="g-box-label g-text-uppercase" data-ng-class="pago.situationType === 'PEND' ?  'c-yellow' : 'u-bg--verde-2'" >{{pago.situationType}}</span>
+            </li>
+            <li class="cell col-14-dktp">
+              <span class="cell-label"><span class="cell-data g-text-uppercase">{{pago.ramo.description}}</span></span>
+            </li>
+            <li class="cell col-9-dktp">
+              <span class="cell-label"><span class="cell-data g-text-uppercase">{{pago.documentType}}</span></span>
+            </li>
+            <li class="cell col-10-dktp">
+              <span class="cell-label"><span class="cell-data">{{pago.documentNumber}}</span></span>
+            </li>
+            <li class="cell col-6-dktp">
+              <span class="cell-label"><span class="cell-data">{{pago.numberDayExpiration}}</span></span>
+            </li>
+            <li class="cell col-10-dktp">
+              <span class="cell-label"><span class="cell-data">{{pago.dateEffect}}</span></span>
+            </li>
+            <li class="cell col-10-dktp text-right">
+              <span class="cell-label"><span class="cell-data">{{pago.amount | number:2}}</span></span>
+            </li>
+            <li class="cell col-7-dktp">
+              <span class="cell-label"><span class="cell-data g-text-uppercase">{{pago.coinDescription}}</span></span>
+            </li>
+            <li class="cell col-9-dktp">
+              <span class="cell-label"><span class="cell-data g-text-uppercase">{{pago.collectionMethod.description}}</span></span>
+            </li>
+            <li class="cell col-9-dktp">
+              <span class="cell-label"><span class="cell-data g-text-uppercase">{{pago.ramo.companyName}}</span></span>
+            </li>
+            <!--<li class="cell col-4-dktp">-->
+              <!--<a class="ml-xs-1" ng-click="vm.modalSendEmailPendingPayments(pago)"><span class="ico-mapfre_123_envelop gnIcon-xsm gCGray3"></span>-->
+              <!--</a>-->
+            <!--</li>-->
+          </ul>
+        </li>
+      </ul>
+    </div>
+    <!-- Inicio: Paginacion -->
+    <mx-paginador
+      data-datos="vm.pagos"
+      data-items-x-page="vm.itemsXPagina"
+      data-msg-vacio="vm.msgVacio"
+      data-on-paginar="vm.pageChangedPagos($event)"
+      data-pagina-actual="vm.mPaginationPagos"
+      data-total-items="vm.totalItemsPagos"
+    >
+    </mx-paginador>
+    <!-- Fin: Paginacion -->
+  </div>
+</div>
+
+<div class="clearfix mb-xs-3" ng-show="vm.muestraSiniestros == 'SI'">
+  <div tbl-oim class="col-xs-12 g-tbl-wrapper pl-xs-0">
+    <h2 class="mb-xs-2 mt-xs-1 sub-title-tb">Siniestro Vigencia Previa</h2>
+    <div ng-show="!vm.noResultSiniestro">
+     <div class="tbl-main">
+      <ul class="tbl-header clearfix">
+        <li class="title col-12-dktp">Siniestro</li>
+        <li class="title col-20-dktp">Contratante</li>
+        <li class="title col-20-dktp">Asegurado</li>
+        <li class="title col-10-dktp">Póliza</li>
+        <li class="title col-14-dktp">Producto</li>
+        <li class="title col-10-dktp">Fecha ocurrencia</li>
+        <li class="title col-10-dktp">Fecha denuncia</li>
+      </ul>
+      <ul class="tbl-body clearfix">
+        <li ng-repeat="siniestro in vm.siniestros">
+          <ul class="tbl-row clearfix" ng-click="vm.showDetailSiniestro(siniestro)">
+            <li class="cell col-12-dktp">
+              <span class="cell-title">{{siniestro.accidentNumber}}</span>
+              <span class="g-box-label g-text-uppercase" data-ng-class="{'u-bg--rojo-2': siniestro.state === 'RECHAZADO', 'c-green': siniestro.state === 'AUTORIZADO', 'u-bg--yellow-2': siniestro.state === 'EN EVALUACION'}">{{siniestro.state}}</span>
+            </li>
+            <li class="cell col-20-dktp">
+              <span class="cell-label"><span class="cell-data g-text-uppercase">{{siniestro.contractingName}}</span></span>
+            </li>
+            <li class="cell col-20-dktp">
+              <span class="cell-label"><span class="cell-data g-text-uppercase">{{siniestro.insuredName}}</span></span>
+            </li>
+            <li class="cell col-10-dktp">
+              <span class="cell-label"><span class="cell-data g-text-uppercase">{{siniestro.policyNumber}}</span></span>
+            </li>
+            <li class="cell col-14-dktp">
+              <span class="cell-label"><span class="cell-data g-text-uppercase">{{siniestro.ramo.description}}</span></span>
+            </li>
+            <li class="cell col-10-dktp">
+              <span class="cell-label"><span class="cell-data">{{siniestro.dateTermination}}</span></span>
+            </li>
+            <li class="cell col-10-dktp">
+              <span class="cell-label"><span class="cell-data">{{siniestro.dateIncurral}}</span></span>
+            </li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+    <!-- Inicio: Paginacion -->
+    <mx-paginador
+    data-datos="vm.siniestros"
+    data-items-x-page="vm.itemsXPagina"
+    data-msg-vacio="vm.msgVacio"
+    data-on-paginar="vm.pageChangedSiniestro($event)"
+    data-pagina-actual="vm.mPaginationSiniestro"
+    data-total-items="vm.totalItemsSiniestro"
+    >
+    </mx-paginador>
+    <!-- Fin: Paginacion -->
+    </div>
+
+  </div>
+</div>
+<div class="clearfix mb-xs-3" ng-if="!vm.noResultPolizas">
+  <div class="col-xs-12">
+    <div class="row mb-xs-2 ">
+      <div class="col-sm-6 mb-xs-1 mb-sm-0"><h2 class="mt-xs-1 sub-title-tb">Impresión de Póliza</h2></div>
+      <div class="col-sm-3" ng-if="vm.showPolizaElectronica() && vm.showCheckAndButton">
+        <a class="g-btn g-btn-white second-design block" ng-click="vm.modalCartera()">
+          <span>Enviar pólizas electrónicas</span>
+        </a>
+      </div>
+    </div>
+  </div>
+  <div class="col-xs-12 g-tbl-wrapper pl-xs-0">
+    <div class="tbl-main table__1024">
+      <ul class="tbl-header clearfix">
+        <li class="title col-5-dktp" ng-if="vm.showPolizaElectronica() && vm.showCheckAndButton">
+          <mpf-checkbox label="" name="nCheckAllPE" ng-model="vm.mCheckAllPE" ng-checked="mCheckAllValuePE" ng-click="vm.selectAllPE(vm.mCheckAllPE);"></mpf-checkbox>
+        </li>
+        <li class="title col-6-dktp">Spto.</li>
+        <li class="title col-6-dktp">Apli.</li>
+        <li class="title col-10-dktp">Spto Apli.</li>
+        <li class="title col-12-dktp">Tipo</li>
+        <li class="title col-23-dktp">Motivo</li>
+        <li class="title col-10-dktp">Efecto</li>
+        <li class="title col-11-dktp">Vencimiento</li>
+        <li class="title col-10-dktp">Estado</li>
+        <li class="title col-7-dktp">&nbsp;</li>
+      </ul>
+      <ul class="tbl-body clearfix">
+        <li ng-repeat="poliza in vm.polizas">
+          <ul class="tbl-row clearfix">
+            <li class="cell col-5-dktp" ng-if="vm.showPolizaElectronica() && vm.showCheckAndButton">
+              <mpf-checkbox label="" name="nSelectPolizaPE" ng-model="poliza.selected" ng-click="vm.selectPolizaPE($index, poliza.selected)" >{{poliza.selected}}</mpf-checkbox>
+            </li>
+            <li class="cell col-6-dktp">
+              <span class="cell-label"><span class="cell-data g-text-uppercase">{{poliza.supplement}}</span></span>
+            </li>
+            <li class="cell col-6-dktp">
+              <span class="cell-label"><span class="cell-data g-text-uppercase">{{poliza.application}}</span></span>
+            </li>
+            <li class="cell col-10-dktp">
+              <span class="cell-label"><span class="cell-data">{{poliza.applicationSupplement}}</span></span>
+            </li>
+            <li class="cell col-12-dktp">
+              <span class="cell-label"><span class="cell-data g-text-uppercase">{{poliza.supplementType}}</span></span>
+            </li>
+            <li class="cell col-23-dktp">
+              <span class="cell-label"><span class="cell-data g-text-uppercase">{{poliza.reasonSupplement}}</span></span>
+            </li>
+            <li class="cell col-10-dktp">
+              <span class="cell-label"><span class="cell-data">{{poliza.expirationStartDate}}</span></span>
+            </li>
+            <li class="cell col-11-dktp">
+              <span class="cell-label"><span class="cell-data">{{poliza.expirationEndDate}}</span></span>
+            </li>
+            <li class="cell col-10-dktp">
+              <span class="cell-label"><span class="cell-data g-text-uppercase">{{poliza.state}}</span></span>
+            </li>
+            <li class="cell col-7-dktp">
+              <a ng-model="poliza.download" ng-if="poliza.viewDownload == 'S'" ng-click="downloadImpresion(poliza)">
+                <span class="ico-mapfre_124_download gnIcon-xsm gCGray3 h-myd--none"></span>
+                <span
+                class="ico-mapfre ico-mapfre-359-myd-download ico-download h-myd-ico--mediun h-myd--show h-oim-none"
+              ></span>
+              </a>
+              <a class="ml-xs-1" ng-if="poliza.viewDownload == 'S'" ng-click="vm.modalEnvioMailImpPoliza(poliza)">
+                <span class="ico-mapfre_123_envelop gnIcon-xsm gCGray3 h-myd--none"></span>
+                <span class="ico-mapfre-361-myd-mail ico-md h-myd-ico--mediun h-myd--show h-oim-none"></span>
+              </a>
+            </li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+  </div>
+  <mx-paginador
+    data-datos="vm.polizas"
+    data-items-x-page="vm.itemsXPagina"
+    data-msg-vacio="vm.msgVacio"
+    data-on-paginar="vm.pageChangedPolizas($event)"
+    data-pagina-actual="currentPage"
+    data-total-items="vm.polizasLength"
+  >
+  </mx-paginador>
+</div>
+</div>

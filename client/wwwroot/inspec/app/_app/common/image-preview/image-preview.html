@@ -1,0 +1,67 @@
+<div class="g-photo-box g-myd-photo-box" ng-if="!$ctrl.isMyDream || !$ctrl.isMobile">
+  <div class="g-photo-close" ng-show="$ctrl.imageLoaded && !$ctrl.disabled">
+    <span ng-click="$ctrl.removePreview()" class="ico-mapfre-347-myd-error"></span>
+  </div>
+  <label class="g-photo-inner-box" ng-if="!$ctrl.imageLoaded">
+    <input
+      ng-if="!$ctrl.disabled"
+      type="file"
+      file-model="$ctrl.photoFile"
+      accept=".jpg,.bmp,.png,.jpeg"
+      class="input__file"
+      capture="environment"
+    />
+
+    <div class="g-photo-title">{{ $ctrl.photo.description.toUpperCase() }}</div>
+    <div
+      class="g-photo-img"
+      ng-class="$ctrl.currentClass + ' ' +($ctrl.imageLoaded ? 'loaded' : '')"
+      ng-if="!$ctrl.photo.isImageVehicle"
+    >
+    </div>
+    <div
+      class="g-photo-img"
+      style="background: url({{$ctrl.photo.imageTemplate}}) no-repeat center 70%;"
+      ng-if="$ctrl.photo.isImageVehicle"
+    >
+    </div>
+  </label>
+  <div class="g-photo-inner-box" ng-if="$ctrl.imageLoaded" ng-click="$ctrl.modalPhoto($ctrl.photo, $ctrl.photoBase64)">
+    <div class="g-photo-img" ng-class="$ctrl.currentClass + ' loaded'">
+      <img ng-show="$ctrl.photoBase64" ng-src="{{ $ctrl.photoBase64 }}" ng-if="!$ctrl.photo.image64" />
+      <img ng-show="$ctrl.photo.image64" ng-src="{{ $ctrl.photo.image64 }}" ng-if="$ctrl.photo.image64" />
+    </div>
+  </div>
+  <div class="g-photo-name" ng-show="$ctrl.imageLoaded">{{ $ctrl.photo.description.toUpperCase() }}</div>
+</div>
+
+<div class="g-photo-box g-myd-photo-box" ng-if="$ctrl.isMyDream && $ctrl.isMobile">
+    <div class="g-photo-close" ng-show="$ctrl.imageLoaded && !$ctrl.disabled">
+      <span ng-click="$ctrl.removePreview()" class="ico-mapfre-347-myd-error"></span>
+    </div>
+    <label class="g-photo-inner-box" ng-if="!$ctrl.imageLoaded">
+      <div class="g-photo-title">{{ $ctrl.photo.description }}</div>
+      <div class="g-photo-img" ng-class="$ctrl.currentClass + ' ' +($ctrl.imageLoaded ? 'loaded' : '')" ng-click="$ctrl.modalCamera()">
+      </div>
+    </label>
+    <div class="g-photo-inner-box" ng-if="$ctrl.imageLoaded" ng-click="$ctrl.modalPhoto($ctrl.photo, $ctrl.photoBase64)">
+      <div class="g-photo-img" ng-class="$ctrl.currentClass + ' loaded'">
+        <img ng-show="$ctrl.photoBase64" ng-src="{{ $ctrl.photoBase64 }}" ng-if="!$ctrl.photo.image64" />
+        <img ng-show="$ctrl.photo.image64" ng-src="{{ $ctrl.photo.image64 }}" ng-if="$ctrl.photo.image64" />
+      </div>
+    </div>
+    <div class="g-photo-name" ng-show="$ctrl.imageLoaded">{{ $ctrl.photo.description }}</div>
+  </div>
+
+<script type="text/ng-template" id="tplModal.html">
+  <section class="">
+
+    <button type="button" class="close g-close-modal" ng-click="$ctrl.closeModal()">
+      <span class="ico-mapfre_231_cancelaroff"></span>
+    </button>
+    <div class="g-modal-photo-box">
+      <img ng-src="{{ $ctrl.photoBase64 }}" />
+    </div>
+
+  </section>
+</script>

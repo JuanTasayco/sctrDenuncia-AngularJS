@@ -1,0 +1,753 @@
+<section class="secondStep">
+
+	<div class="g-section">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12">
+          <h2 class="g-sub-title g-myd-subtitle">Datos del Riesgo</h2>
+        </div>
+      </div>
+
+      <div class="clearfix" ng-repeat="item in emit.step.Riesgos">
+      	<div ng-form="emitS2.frmRisk[$index]">
+					<div uib-accordion class="accordion-box empresa" close-Others='false'>
+        	<div uib-accordion-group class="accordion-box-item" >
+            <uib-accordion-heading>
+              <div class="accordion-box-item-title acordion-tablet">
+                <div class="clearfix">
+                  <div class="col-md-12 gBgcGray5 pt-xs-1 pb-xs-1 accordion-header">
+                    <div class="row">
+                      <div class="col-md-8 col-sm-8 col-xs-4 mt-xs-1 h-myd-m--0">
+                        <b class="title">RIESGO {{item.NumeroRiesgo}}</b>
+                      </div>
+                      <div class="col-md-3 col-sm-3 col-xs-5 mt-xs-1 h-myd-m--0">
+                      </div>
+                      <div class="col-md-1 col-sm-1 col-xs-3 text-center edit-flecha-tablet">
+                        <span class="title-ico"></span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </uib-accordion-heading>
+            <div class="row">
+              <div class="col-md-12 gBgcGray5 pt-xs-1 pb-xs-1 mt-xs-0-1">
+                <div class="row">
+                  <div class="col-md-4 col-sm-4 col-xs-12">
+                    <span class=""><b>UBIGEO:</b>
+                    {{item.Ubigeo.Departamento.Descripcion}} -
+                  	{{item.Ubigeo.Provincia.Descripcion}} -
+                  	{{item.Ubigeo.Distrito.Descripcion}}</span>
+                  </div>
+                  <div class="col-md-4 col-sm-4 col-xs-12">
+                    <span class=""><b>TIPO LOCAL:</b> {{item.Tipolocal.Descripcion}}</span>
+                  </div>
+                  <div class="col-md-4 col-sm-4 col-xs-12">
+                    <span class=""><b>CATEGORÍA:</b> {{item.Categoria.Descripcion}}</span>
+                  </div>
+                </div>
+              </div>
+          	</div>
+          	<div class="row">
+          		<div class="col-md-12 mt-xs-1 mb-xs-1 h-myd-mt--30">
+          			<span class="gH4 gCGray1 g-text-uppercase">DATOS GENERALES</span>
+          		</div>
+          	</div>
+          	<div class="row">
+				      <div class="col-md-4 mb-xs-2">
+			          <mpf-input
+			          label="{label: 'Número de pisos', required: true}"
+			          name="nNroPisos"
+			          mpf-validation="onlyNumber"
+			          ng-model="item.NumeroPiso"
+			          ng-required="true"
+			          ></mpf-input>
+			          <ul class="g-error">
+			            <li ng-show="
+			            emitS2.frmRisk[$index].nNroPisos.$error.required &&
+                	!emitS2.frmRisk[$index].nNroPisos.$pristine"
+                	>* Este campo es obligatorio</li>
+			          </ul>
+			        </div>
+				      <div class="col-md-4 mb-xs-2">
+			          <mpf-input
+			          label="{label: 'Número de sótanos', required: true}"
+			          name="nNroSotanos"
+			          ng-model="item.NumeroSotano"
+			          ng-required="true"
+			          mpf-validation="onlyNumber"
+			          ></mpf-input>
+			          <ul class="g-error">
+									<li ng-show="
+			            emitS2.frmRisk[$index].nNroSotanos.$error.required &&
+                	!emitS2.frmRisk[$index].nNroSotanos.$pristine"
+                	>* Este campo es obligatorio</li>
+			          </ul>
+			        </div>
+				      <div class="col-md-4 mb-xs-2">
+				        <mpf-select
+				        label="{label: 'Material de construcción', required: true}"
+				        name="nMatCons"
+				        ng-model="item.MaterialConstruccion"
+				        m-data-source="emitS2.materialData"
+				        value-Field = "Codigo"
+              	text-Field = "Descripcion"
+				        ng-required="true"
+				        m-Empty-Option="{enterData:true}"
+				        ></mpf-select>
+				        <ul class="g-error">
+				        	<li ng-show="
+			            emitS2.frmRisk[$index].nMatCons.$error.required &&
+                	!emitS2.frmRisk[$index].nMatCons.$pristine"
+                	>* Este campo es obligatorio</li>
+				        </ul>
+				      </div>
+						</div>
+						<div class="row">
+							<div class="col-md-8 mb-xs-2">
+								<mpf-input
+								label="{label: 'Dirección', required: true}"
+								name="nDireccion"
+								ng-model="item.DireccionEdificacion"
+								ng-required="true"
+								></mpf-input>
+								<ul class="g-error">
+									<li ng-show="
+									emitS2.frmRisk[$index].nDireccion.$error.required &&
+									!emitS2.frmRisk[$index].nDireccion.$pristine"
+									>* Este campo es obligatorio</li>
+								</ul>
+							</div>
+						</div>
+				    <div class="row">
+				      <div class="col-md-4 mb-xs-2">
+				        <mpf-select
+				        label="{label: 'Uso', required: true}"
+				        name="nUso"
+				        ng-model="item.Uso"
+				        m-data-source="emitS2.usoData"
+				        value-Field = "Codigo"
+              	text-Field = "Descripcion"
+				        m-Empty-Option="{enterData:true}"
+				        ng-required="true"
+				        ></mpf-select>
+				        <ul class="g-error">
+				      		<li ng-show="
+			            emitS2.frmRisk[$index].nUso.$error.required &&
+                	!emitS2.frmRisk[$index].nUso.$pristine"
+                	>* Este campo es obligatorio</li>
+				        </ul>
+				      </div>
+				      <div class="col-md-4 mb-xs-2">
+			          <mpf-input
+			          label="{label: 'Año de construcción', required: true}"
+			          name="nAnioCons"
+			          ng-model="item.AnioConstruccion"
+			          ng-required="true"
+			          mpf-validation="onlyNumber"
+			          ></mpf-input>
+			          <ul class="g-error">
+			          	<li ng-show="
+										emitS2.frmRisk[$index].nAnioCons.$error.required &&
+                		!emitS2.frmRisk[$index].nAnioCons.$pristine"
+                	>* Este campo es obligatorio</li>
+			            <li ng-show="item.errorAnioRange">* El año ingresado no es válido</li>
+			          </ul>
+			        </div>
+			        <div class="col-md-4 mb-xs-2">
+						    <mpf-input
+			          label="{label: 'Código de Abonado', required: item.AlarmaMonitoreo.McaAlarmaMonitoreo === 'S'}"
+			          name="nCodAbonado"
+			          ng-model="item.Abonado.Codigo"
+			          ng-required="{{item.AlarmaMonitoreo.McaAlarmaMonitoreo === 'S'}}"
+			          ng-maxlength="maxLengthAbonado"
+			          mpf-validation="onlyNumberNoSpace"
+			          ></mpf-input>
+						    <ul class="g-error">
+						    	<li ng-show="
+			            emitS2.frmRisk[$index].nCodAbonado.$error.required &&
+                	!emitS2.frmRisk[$index].nCodAbonado.$pristine && item.AlarmaMonitoreo.McaAlarmaMonitoreo === 'S'"
+                	>* Este campo es obligatorio</li>
+									<li ng-show="item.Abonado.Codigo &&
+									item.Abonado.Codigo.length < maxLengthAbonado"
+                	>* Este campo debe tener por lo menos 4 dígitos</li>
+						    </ul>
+						  </div>
+						</div>
+						<div class="row">
+							<div class="col-md-4 mb-xs-2">
+						    <mpf-select
+						    	label="{label: 'Tipo de Construcción', required: true}"
+						    	name="nTipoConstrucc"
+						    	ng-model="item.TipoConstruccion"
+						    	m-data-source="emitS2.tipoConstruccData"
+						    	value-Field = "Codigo"
+						    	text-Field = "Descripcion"
+						    	m-Empty-Option="{enterData:true}"
+						    	ng-required="true">
+						    </mpf-select>
+						    <ul class="g-error">
+						      <li ng-show="
+			            emitS2.frmRisk[$index].nTipoConstrucc.$error.required &&
+                	!emitS2.frmRisk[$index].nTipoConstrucc.$pristine"
+                	>* Este campo es obligatorio</li>
+						    </ul>
+						  </div>
+						</div>
+
+            <form id="empresas-form" action="" name="frmEmpresaExcel" ng-if="item.Convenio6.McaContratado === 'S' || item.Convenio7.McaContratado === 'S'">
+            <!-- <form id="empresas-form" action="" ng-if="item.Convenio6.McaContratado === 'S' || item.Convenio7.McaContratado === 'S'"> -->
+					    <div class="clearfix">
+						    <div class="col-md-12 g-box g-overflow-hidden-xs mb-xs-2">
+						    	<div class="row">
+							    	<div class="col-md-12 pt-xs-1 pb-xs-1 gBgcGray5">
+							    		<span class="gH4">ASEGURADOS</span>
+							    	</div>
+							    	<div class="col-md-12 g-border-bottom-xs" ng-if="item.Convenio6.McaContratado == 'S'">
+								    	<div class="row">
+									    	<div class="col-md-4 pt-xs-1 pb-xs-1">
+									    		<p class="mb-xs-1"><b>CONVENIO VI - ACCIDENTES PERSONALES</b></p>
+	                        <a ng-click="fnDownloadInsuredPayroll(11)">
+														<span class="g-icon gCGreen1">
+															<span class="icon ico-mapfre_139_excel"></span>
+															<span class="g-link"><b>Descargar Plantilla de Asegurados</b></span>
+														</span>
+													</a>
+									    	</div>
+									    	<div class="col-md-4 pt-xs-1 pb-xs-1">
+													<span class="g-placeholder block mb-xs-1">Total de asegurados*</span>
+													<span>{{item.Convenio6.NumeroAsegurados}}</span>
+							          </div>
+							          <div class="col-md-4 pt-xs-1 pb-xs-1">
+									    		<span class="g-placeholder block mb-xs-1">Importar asegurados*</span>
+													<div ng-if="(item.Convenio6.NombreArchivo && item.Convenio6.NombreArchivo != '') ? true : false">
+														<span class="g-icon">
+															<span class="icon ico-mapfre_314_archivos"></span>
+															<span>{{item.Convenio6.NombreArchivo}}</span>
+														</span>
+													</div>
+													<div class="g-icon gCGreen1">
+														<pre>{{item.mFile}}</pre>
+														<span class="icon ico-mapfre_311_arrowRight"></span>
+														<span class="g-link g-btn-input-file">
+															<b>{{(item.Convenio6.NombreArchivo && item.Convenio6.NombreArchivo !== '') ? 'Volver a cargar documento' : 'Cargar planilla de asegurados'}}</b>
+														<input
+															type="file"
+															data-show-preview="false"
+                        			accept=".xls,.xlsx, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/vnd.ms-excel"
+                        			ng-model="item.mFile"
+                        			name="nFile6"
+                        			file-model="item.fmFile"
+                        			onchange="angular.element(this).scope().fnLoadFile(angular.element(this).scope().$index, angular.element(this).scope().item, 'VI')"
+                        			/>
+														</span>
+													</div>
+                					<div ng-show="errorConvenioFile && item.Convenio6.NombreArchivo == ''">
+														<span class="g-error">* Debe cargar una planilla</span>
+													</div>
+									    	</div>
+								    	</div>
+							    	</div>
+							    	<div class="col-md-12" ng-if="item.Convenio7.McaContratado == 'S'">
+								    	<div class="row">
+									    	<div class="col-md-4 pt-xs-1 pb-xs-1">
+									    		<p class="mb-xs-1"><b>CONVENIO VII - ACCIDENTES PERSONALES</b></p>
+													<a ng-click="fnDownloadInsuredPayroll(12)">
+														<span class="g-icon gCGreen1">
+															<span class="icon ico-mapfre_139_excel"></span>
+															<span class="g-link"><b>Descargar Plantilla de Asegurados</b></span>
+														</span>
+													</a>
+									    	</div>
+									    	<div class="col-md-4 pt-xs-1 pb-xs-1">
+													<span class="g-placeholder block mb-xs-1">Total de asegurados*</span>
+													<span>{{item.Convenio7.NumeroEmpleados}}</span>
+							          </div>
+							          <div class="col-md-4 pt-xs-1 pb-xs-1">
+									    		<span class="g-placeholder block mb-xs-1">Importar asegurados*</span>
+									    		<div ng-if="(item.Convenio7.NombreArchivo && item.Convenio7.NombreArchivo != '') ? true : false">
+														<span class="g-icon">
+															<span class="icon ico-mapfre_314_archivos"></span>
+															<span>{{item.Convenio7.NombreArchivo}}</span>
+														</span>
+													</div>
+													<div class="g-icon gCGreen1">
+														<span class="icon ico-mapfre_311_arrowRight"></span>
+														<span class="g-link g-btn-input-file">
+															<b>{{(item.Convenio7.NombreArchivo && item.Convenio7.NombreArchivo !== '') ? 'Volver a cargar documento' : 'Cargar planilla de asegurados'}}</b>
+
+														<input
+															type="file"
+															data-show-preview="false"
+                        			accept=".xls,.xlsx, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/vnd.ms-excel"
+                        			ng-model="item.mFile"
+                        			name="nFile7"
+                        			file-model="item.fmFile"
+                        			onchange="angular.element(this).scope().fnLoadFile(angular.element(this).scope().$index, angular.element(this).scope().item, 'VII')"
+                        			/>
+                        		</span>
+													</div>
+													<div ng-show="errorConvenioFile && item.Convenio7.NombreArchivo == ''">
+														<span class="g-error">* Debe cargar una planilla</span>
+													</div>
+									    	</div>
+								    	</div>
+							    	</div>
+						    	</div>
+						    </div>
+					    </div>
+          	</form>
+						<!-- todo: condicionar con inspeccion si / no -->
+					<div ng-if="emit.step.McaInspeccion == 'S'">
+						<div class="row">
+          		<div class="col-md-12 mt-xs-1 mb-xs-1 h-myd-mt--30">
+          			<span class="gH4 gCGray1 g-text-uppercase">DATOS DE INSPECCIÓN</span>
+          		</div>
+          	</div>
+          	<div class="row">
+				      <div class="col-md-4 mb-xs-2">
+			          <mp-data-seeker
+	                behavior="{label:'Codigo inspector', placeholder:'Ingresa código...', matchField:'NombreInspector'}"
+	                m-data-source="getListInspector($inputNeed)"
+	                name="nInspector"
+	                ng-model="item.mInspector"
+	                ng-required="true"
+	                >
+                	<div ng-bind-html="$item.NombreInspector | highlight: $select.search"></div>
+              	</mp-data-seeker>
+			          <ul class="g-error">
+			          	<li ng-show="
+			            emitS2.frmRisk[$index].nInspector.$error.required &&
+                	!emitS2.frmRisk[$index].nInspector.$pristine"
+                	>* Este campo es obligatorio</li>
+			          </ul>
+			        </div>
+			        <div class="col-md-4 mb-xs-2" ng-init="fnInitCalendar(item)">
+			          <div class="input-group g-date-picker">
+									<label class="g-placeholder animated">Fecha inspección del riesgo<span></span>:</label>
+									<input
+										type="text"
+										class="form-control"
+										name="nFechaInspeccionRiesgo"
+										ng-model="item.mFechaInspeccion"
+										uib-datepicker-popup="{{emit.FORMAT_DATE}}"
+										is-open="item.popupCalendar.opened"
+										datepicker-options="item.dateOptions"
+										ng-required="true"
+										close-text="Close"
+										alt-input-formats="emit.altInputFormats"
+										readonly="true"/>
+									<span class="input-group-btn">
+										<button
+											type="button"
+											class="btn btn-default"
+											ng-click="fnOpenCalendar(item)"><i class="glyphicon glyphicon-calendar"></i>
+										</button>
+									</span>
+								</div>
+			        </div>
+				    </div>
+
+
+				    <div class="col-md-12 gBgcGray5 pt-xs-2 mb-xs-2 h-myd-border--bottom-1 h-myd-border--top-1 h-myd-bg--white h-myd-mt--20 h-myd-mb--30 h-myd-pb--10">
+				    	<div class="row">
+				    		<div class="col-md-4 mb-xs-2 clearfix">
+                  <div class="row">
+                    <div class="col-xs-12 item-label">
+                      <b class="g-myd-item-label">Alarma con monitoreo</b>
+                    </div>
+
+                    <div class="col-xs-12 item-dato g-text-uppercase mt-xs-1">
+                      <div class="row">
+                        <div class="col-xs-6">
+                          <m-radio
+                          label="{label: 'Si'}"
+                          name="nAlarmMonit"
+                          ng-model="item.Inspeccion.McaAlarma"
+                          value="S"
+                          ng-required="true"></m-radio>
+                        </div>
+                        <div class="col-xs-6">
+                          <m-radio
+                          label="{label: 'No'}"
+                          name="nAlarmMonit"
+                          ng-model="item.Inspeccion.McaAlarma"
+                          value="N"
+                          ng-required="true"
+                          ></m-radio>
+                        </div>
+                        <ul class="col-md-12 g-error">
+                          <li ng-show="
+                          emitS2.frmRisk[$index].nAlarmMonit.$invalid &&
+                          !emitS2.frmRisk[$index].nAlarmMonit.$pristine">* Seleccione si hay penalidad</li>
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-4 mb-xs-2 clearfix">
+                  <div class="row">
+                    <div class="col-xs-12 item-label">
+                      <b class="g-myd-item-label">Rociadores</b>
+                    </div>
+                    <div class="col-xs-12 item-dato g-text-uppercase mt-xs-1">
+                      <div class="row">
+                        <div class="col-xs-6">
+                          <m-radio
+                          label="{label: 'Si'}"
+                          name="nRociadores"
+                          ng-model="item.Inspeccion.McaRociclador"
+                          value="S"
+                          ng-required="true"
+                          ></m-radio>
+                        </div>
+                        <div class="col-xs-6">
+                          <m-radio
+                          label="{label: 'No'}"
+                          name="nRociadores"
+                          ng-model="item.Inspeccion.McaRociclador"
+                          value="N"
+                          ng-required="true"
+                          ></m-radio>
+                        </div>
+                        <ul class="col-md-12 g-error">
+                          <li ng-show="
+                          emitS2.frmRisk[$index].nRociadores.$invalid &&
+                          !emitS2.frmRisk[$index].nRociadores.$pristine">* Seleccione si hay penalidad</li>
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-4 mb-xs-2 clearfix">
+                  <div class="row">
+                    <div class="col-xs-12 item-label">
+                      <b class="g-myd-item-label">Gabinete</b>
+                    </div>
+                    <div class="col-xs-12 item-dato g-text-uppercase mt-xs-1">
+                      <div class="row">
+                        <div class="col-xs-6">
+                          <m-radio
+                          label="{label: 'Si'}"
+                          name="nGabinete"
+                          ng-model="item.Inspeccion.McaGabinete"
+                          value="S"
+                          ng-required="true"
+                          ></m-radio>
+                        </div>
+                        <div class="col-xs-6">
+                          <m-radio
+                          label="{label: 'No'}"
+                          name="nGabinete"
+                          ng-model="item.Inspeccion.McaGabinete"
+                          value="N"
+                          ng-required="true"
+                          ></m-radio>
+                        </div>
+                        <ul class="col-md-12 g-error">
+                          <li ng-show="
+                          emitS2.frmRisk[$index].nGabinete.$invalid &&
+                          !emitS2.frmRisk[$index].nGabinete.$pristine">* Seleccione si hay penalidad</li>
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+				    	</div>
+				    	<div class="row">
+				    		<div class="col-md-4 mb-xs-2 clearfix">
+                  <div class="row">
+                    <div class="col-xs-12 item-label">
+                      <b class="g-myd-item-label">Detector de humo</b>
+                    </div>
+                    <div class="col-xs-12 item-dato g-text-uppercase mt-xs-1">
+                      <div class="row">
+                        <div class="col-xs-6">
+                          <m-radio
+                          label="{label: 'Si'}"
+                          name="nDetecHumo"
+                          ng-model="item.Inspeccion.McaDetectoHumo"
+                          value="S"
+                          ng-required="true"
+                          ></m-radio>
+                        </div>
+                        <div class="col-xs-6">
+                          <m-radio
+                          label="{label: 'No'}"
+                          name="nDetecHumo"
+                          ng-model="item.Inspeccion.McaDetectoHumo"
+                          value="N"
+                          ng-required="true"></m-radio>
+                        </div>
+                        <ul class="col-md-12 g-error">
+                          <li ng-show="
+                          emitS2.frmRisk[$index].nDetecHumo.$invalid &&
+                          !emitS2.frmRisk[$index].nDetecHumo.$pristine">* Seleccione si hay penalidad</li>
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-4 mb-xs-2 clearfix">
+                  <div class="row">
+                    <div class="col-xs-12 item-label">
+                      <b class="g-myd-item-label">Vigilancia propia con arma</b>
+                    </div>
+                    <div class="col-xs-12 item-dato g-text-uppercase mt-xs-1">
+                      <div class="row">
+                        <div class="col-xs-6">
+                          <m-radio
+                          label="{label: 'Si'}"
+                          name="nVigPropia"
+                          ng-model="item.Inspeccion.McaVigilanciaPropia"
+                          value="S"
+                          ng-required="true"></m-radio>
+                        </div>
+                        <div class="col-xs-6">
+                          <m-radio
+                          label="{label: 'No'}"
+                          name="nVigPropia"
+                          ng-model="item.Inspeccion.McaVigilanciaPropia"
+                          value="N"
+                          ng-required="true"
+                          ></m-radio>
+                        </div>
+                        <ul class="col-md-12 g-error">
+                          <li ng-show="
+                          emitS2.frmRisk[$index].nVigPropia.$invalid &&
+                          !emitS2.frmRisk[$index].nVigPropia.$pristine">* Seleccione si hay penalidad</li>
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-4 mb-xs-2 clearfix">
+                  <div class="row">
+                    <div class="col-xs-12 item-label">
+                      <b class="g-myd-item-label">Vigilancia privada</b>
+                    </div>
+                    <div class="col-xs-12 item-dato g-text-uppercase mt-xs-1">
+                      <div class="row">
+                        <div class="col-xs-6">
+                          <m-radio
+                          label="{label: 'Si'}"
+                          name="nVigPrivad"
+                          ng-model="item.Inspeccion.McaVigilanciaPrivada"
+                          value="S"
+                          ng-required="true"
+                          ></m-radio>
+                        </div>
+                        <div class="col-xs-6">
+                          <m-radio
+                          label="{label: 'No'}"
+                          name="nVigPrivad"
+                          ng-model="item.Inspeccion.McaVigilanciaPrivada"
+                          value="N"
+                          ng-required="true"
+                          ></m-radio>
+                        </div>
+                        <ul class="col-md-12 g-error">
+                          <li ng-show="
+                          emitS2.frmRisk[$index].nVigPrivad.$invalid &&
+                          !emitS2.frmRisk[$index].nVigPrivad.$pristine">* Seleccione si hay penalidad</li>
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+				    	</div>
+				    	<div class="row">
+				    		<div class="col-md-4 mb-xs-2 clearfix">
+                  <div class="row">
+                    <div class="col-xs-12 item-label">
+                      <b class="g-myd-item-label">Cerco eléctrico</b>
+                    </div>
+                    <div class="col-xs-12 item-dato g-text-uppercase mt-xs-1">
+                      <div class="row">
+                        <div class="col-xs-6">
+                          <m-radio
+                          label="{label: 'Si'}"
+                          name="nCercoElect"
+                          ng-model="item.Inspeccion.McaCercoElectrico"
+                          value="S"
+                          ng-required="true"></m-radio>
+                        </div>
+                        <div class="col-xs-6">
+                          <m-radio
+                          label="{label: 'No'}"
+                          name="nCercoElect"
+                          ng-model="item.Inspeccion.McaCercoElectrico"
+                          value="N"
+                          ng-required="true"
+                          ></m-radio>
+                        </div>
+                        <ul class="col-md-12 g-error">
+                          <li ng-show="
+                          emitS2.frmRisk[$index].nCercoElect.$invalid &&
+                          !emitS2.frmRisk[$index].nCercoElect.$pristine">* Seleccione si hay penalidad</li>
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-4 mb-xs-2 clearfix">
+                  <div class="row">
+                    <div class="col-xs-12 item-label">
+                      <b class="g-myd-item-label">Vigilancia del edificio</b>
+                    </div>
+                    <div class="col-xs-12 item-dato g-text-uppercase mt-xs-1">
+                      <div class="row">
+                        <div class="col-xs-6">
+                          <m-radio
+                          label="{label: 'Si'}"
+                          name="nVigEdific"
+                          ng-model="item.Inspeccion.McaVigilanciaEdificio"
+                          value="S"
+                          ng-required="true"
+                          ></m-radio>
+                        </div>
+                        <div class="col-xs-6">
+                          <m-radio
+                          label="{label: 'No'}"
+                          name="nVigEdific"
+                          ng-model="item.Inspeccion.McaVigilanciaEdificio"
+                          value="N"
+                          ng-required="true"
+                          ></m-radio>
+                        </div>
+                        <ul class="col-md-12 g-error">
+                          <li ng-show="
+                          emitS2.frmRisk[$index].nVigEdific.$invalid &&
+                          !emitS2.frmRisk[$index].nVigEdific.$pristine">* Seleccione si hay penalidad</li>
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-4 mb-xs-2 clearfix">
+                  <div class="row">
+                    <div class="col-xs-12 item-label">
+                      <b class="g-myd-item-label">Vigilancia vecinal</b>
+                    </div>
+                    <div class="col-xs-12 item-dato g-text-uppercase mt-xs-1">
+                      <div class="row">
+                        <div class="col-xs-6">
+                          <m-radio
+                          label="{label: 'Si'}"
+                          name="nVigVecinal"
+                          ng-model="item.Inspeccion.McaVigilanciaVecinal"
+                          value="S"
+                          ng-required="true"
+                          ></m-radio>
+                        </div>
+                        <div class="col-xs-6">
+                          <m-radio
+                          label="{label: 'No'}"
+                          name="nVigVecinal"
+                          ng-model="item.Inspeccion.McaVigilanciaVecinal"
+                          value="N"
+                          ng-required="true"></m-radio>
+                        </div>
+                        <ul class="col-md-12 g-error">
+                          <li ng-show="
+                          emitS2.frmRisk[$index].nVigVecinal.$invalid &&
+                          !emitS2.frmRisk[$index].nVigVecinal.$pristine">* Seleccione si hay penalidad</li>
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+				    	</div>
+				    </div>
+					</div>
+
+
+				    <div class="clearfix mb-xs-2">
+				    	<div class="col-md-4 col-md-offset-4 col-xs-12">
+		            <div class="row">
+		              <!-- <a class="col-md-12 col-xs-12 g-btn g-btn-verde" ng-click="fnSaveRisk(item, $index)">grabar</a> -->
+		              <a class="col-md-12 col-xs-12 g-btn g-btn-verde" ng-click="_saveRisk(item, $index)">grabar</a>
+		            </div>
+		          </div>
+				    </div>
+        	</div>
+      	</div>
+      	</div>
+
+    	</div>
+  	</div>
+	</div>
+  <div class="g-section g-step-action">
+    <div class="container">
+      <div class="row mb-md-1">
+        <span class="col-md-4 gCGray3">*Campos obligatorios</span>
+        <div class="col-md-4">
+          <div class="row">
+            <a class="col-md-12 g-btn g-btn-verde" ng-click="emitS2.fnNextStep(true, {cancel: false, step: 3})">SIGUIENTE</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</section>
+
+<script type="text/ng-template" id="errorFile.html">
+  <div class="container">
+  	<div class="col-md-12 text-center">
+  		<span>Se ha(n) encontrado datos con errores, vuelva a cargar el archivo</span>
+  	</div>
+
+  	<div class="col-md-12 mt-xs-2">
+			<div class="clearfix g-box g-overflow-hidden-xs">
+				<ul class="clearfix g-list gBgcGray5 pt-xs-1 hidden-xs">
+					<li class="col-md-1 col-sm-1 clearfix cnt-item text-center">
+						<b>Fila</b>
+					</li>
+					<li class="col-md-11 col-sm-11 clearfix cnt-item">
+						<b>Error</b>
+					</li>
+				</ul>
+				<div class="col-md-12 cnt-content g-list-sm pt-xs-1 gnContentAuto-md">
+					<div class="clearfix" ng-class="{'g-border-bottom-xs mb-xs-1' : !$last}" ng-repeat="item in errorFile">
+						<ul class="row hidden-xs">
+							<li class="col-sm-1 cnt-item item-dato g-text-uppercase text-center">
+								{{item.Fila}}
+							</li>
+							<li class="col-sm-11 cnt-item item-dato g-text-uppercase">
+								{{item.Error}}
+							</li>
+						</ul>
+						<ul class="row visible-xs">
+							<li class="cnt-item clearfix">
+								<div class="col-ms-5 item-label">Fila:</div>
+								<div class="col-ms-7 item-dato g-text-uppercase">{{item.Fila}}</div>
+							</li>
+							<li class="cnt-item clearfix">
+								<div class="col-ms-5 item-label">Error:</div>
+								<div class="col-ms-7 item-dato g-text-uppercase">{{item.Error}}</div>
+							</li>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="col-md-12 mt-xs-2">
+			<div class="row">
+				<div class="col-md-6 col-md-offset-3">
+					<label class="g-btn g-btn-verde second-design block g-btn-input-file">
+						VOLVER A CARGAR ARCHIVO
+						<input
+							type="file"
+							data-show-preview="false"
+        			accept=".xls,.xlsx, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/vnd.ms-excel"
+        			ng-model="emitS2.mFile"
+        			file-model="emitS2.fmFile"
+        			onchange="angular.element(this).scope().fnChangeLoadFile()"/>
+					</label>
+				</div>
+			</div>
+		</div>
+  </div>
+</script>

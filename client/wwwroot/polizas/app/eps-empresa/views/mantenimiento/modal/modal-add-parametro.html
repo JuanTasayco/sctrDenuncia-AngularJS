@@ -1,0 +1,154 @@
+<section class="g-page page-modal modal-parametros">
+    <button type="button" class="close g-close-modal" ng-click="closeModal()">
+      <span class="ico-mapfre_46_cancelaroff"></span>
+    </button>
+    <div class="container-fluid">
+      <div class="row title">
+        <div class="col-xs-12">
+          <h2>REGISTRO DE PARÁMETRO</h2>
+        </div>
+      </div>
+      <form name="frmNuevoParametro" class="formulario">
+        <div class="row">
+          <div class="col-md-6 mb-xs-2">
+            <mpf-select 
+              ng-model="formParametro.mTipoParametro" 
+              name="nTipoParametro"
+              label="{label: 'Tipo de parámetro', required: true}"
+              m-data-source="vm.grupos" 
+              text-field="descripcion" 
+              value-field="valor"
+              m-Empty-Option="{enterData:true}" 
+              ng-change="cambioTipoParametroNuevo(formParametro.mTipoParametro)"
+              ng-required="true">
+            </mpf-select>
+            <ul class="g-error">
+              <li
+                ng-show="(!formParametro.mTipoParametro.valor)"
+              >
+                * Este campo es obligatorio
+              </li>
+            </ul>
+          </div>
+          <div class="col-md-6 mb-xs-2" ng-show="formParametro.tipoParametro != 'PORCENTAJE_PLAN'">
+              <mpf-input
+                  ng-model="formParametro.descripcion"
+                  name="nDescripcion" 
+                  label="{label: 'Descripción', required: true}"
+                  ng-required="true"
+                  ng-maxlength="200"
+              >
+              </mpf-input>
+              <ul class="g-error">
+                <li
+                  ng-show="formParametro.descripcion== ''"
+                >
+                  * Este campo es obligatorio
+                </li>
+              </ul>
+          </div>
+          <div class="col-md-6 mb-xs-2" ng-show="formParametro.tipoParametro == 'PORCENTAJE_PLAN'">
+            <mpf-select ng-show="formParametro.tipoParametro == 'PORCENTAJE_PLAN'"
+                ng-model="formParametro.mDescripcion" 
+                name="nDescripcion"
+                label="{label: 'Descripción', required: true}"
+                m-data-source="vm.tarifaPlan" 
+                text-field="descripcion" 
+                value-field="valorNumerico"
+                m-Empty-Option="{enterData:true}" 
+                ng-change="cambioTarifaPlan(formParametro.mDescripcion)"
+                ng-required="true">
+            </mpf-select>
+            <ul class="g-error">
+              <li
+                ng-show="frmNuevoParametro.nDescripcion.$error.required"
+              >
+                * Este campo es obligatorio
+              </li>
+            </ul>
+        </div>
+        </div>
+        <div class="row">
+          <div class="col-md-6 mb-xs-2" ng-show="formParametro.tipoParametro != 'PORCENTAJE_PLAN'">
+              <m-numeric-textbox 
+                  label="{label: 'Valor numérico', required: false}" 
+                  name="nValorNumerico" 
+                  ng-model="formParametro.valorNumerico" 
+                  ng-required="false"
+                  m-range="{min: 0, max: 999999}"
+                  options="'INT'"
+                  >
+              </m-numeric-textbox>
+          </div>
+          <div class="col-md-6 mb-xs-2" ng-show="formParametro.tipoParametro == 'PORCENTAJE_PLAN'">
+            <div class="row">
+              <div class="col-md-10">
+                <m-numeric-textbox 
+                    label="{label: 'Valor numérico', required: false}" 
+                    name="nValorNumerico" 
+                    ng-model="formParametro.valorNumerico" 
+                    ng-required="false"
+                    m-range="{min: 0, max: 100}"
+                    options="'SHORT'"
+                    >
+                </m-numeric-textbox>
+              </div>
+              <div class="col-md-2 pl-md-0 pt-md-4">
+                <span>%</span>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6 mb-xs-2">
+              <mpf-input 
+                  ng-model="formParametro.orden"
+                  name="nOrden" 
+                  label="{label: 'Orden', required: false}"
+                  ng-required="false"
+                  ng-disabled="true"
+                  mpf-validation="onlyNumber"
+                  ng-maxlength="20">
+              </mpf-input>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-12 mb-xs-2">
+              <mpf-input 
+                  ng-model="formParametro.valorTexto"
+                  name="nValorTexto" 
+                  label="{label: 'Valor de texto', required: false}"
+                  ng-required="false"
+                  ng-maxlength="200">
+              </mpf-input>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-12 mb-xs-2">
+            <mpf-select
+              ng-model="formParametro.mEstado" 
+              name="nEstado"
+              label="{label: 'Estado', required: true}"
+              m-data-source="vm.estados" 
+              text-field="descripcion" 
+              value-field="valor"
+              m-Empty-Option="{enterData:true}" 
+              ng-change="cambioEstadosNuevo(formParametro.mEstado)"
+              ng-required="true">
+            </mpf-select>
+            <ul class="g-error">
+              <li
+                ng-show="(!formParametro.mEstado.valor)"
+              >
+                * Este campo es obligatorio
+              </li>
+            </ul>
+          </div>
+        </div>
+          <div class="row action">
+            <div class="col-md-8 col-md-offset-2">
+              <a class="g-btn g-btn-verde block" ng-class="{'disabled': !activeBotonGuardar()}"
+                ng-click="guardarParametro()">GUARDAR</a>
+          </div>
+        </div>
+      </form>
+    </div>
+</section>

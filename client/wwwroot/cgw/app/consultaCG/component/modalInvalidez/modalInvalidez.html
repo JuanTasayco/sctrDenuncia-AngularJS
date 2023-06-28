@@ -1,0 +1,77 @@
+<div class="clearfix">
+  <button type="button" class="close g-close-modal" data-ng-click="$ctrl.close()" prevent-default>
+    <span class="ico-mapfre_231_cancelaroff"></span>
+  </button>
+  <div class="container">
+    <form name="frmModal" class="clearfix">
+      <div class="col-md-12 g-text-center-xs mb-xs-2">
+        <div  class="col-md-12 mb-md-1">
+          <h2 class="gH3"><b>¿A qué correo electrónico quieres enviar la Solicitud?</b></h2>
+        </div>
+
+        <div class="col-xs-12 mb-xs-2">
+          <div>
+            <mpf-input label="{label: 'Para', required: true}" name="nDestino" ng-model="$ctrl.data.mDestino" ng-required="true"></mpf-input>
+            <div class="u-color--gris-8"><b>(Para ingresar más de un correo separar con coma "," y sin espacios)</b></div>
+            <div class="g-error" ng-show="(frmModal.nDestino.$error.required && !frmModal.nDestino.$pristine) || $ctrl.data.errorFormReject">* Ingresar destinatario</div>
+          </div>
+        </div>
+
+        <div class="col-xs-12 mb-xs-2">
+          <div>
+            <mpf-input label="{label: 'Asunto', required: true}" name="nAsunto" ng-model="$ctrl.data.mAsunto" ng-required="true"></mpf-input>
+            <div class="g-error" ng-show="(frmModal.nAsunto.$error.required && !frmModal.nAsunto.$pristine) || $ctrl.data.errorFormReject">* Ingresar asunto</div>
+          </div>
+        </div>
+
+        <div class="col-xs-12 mb-xs-2">
+          <div>
+            <mpf-textarea label="{label: 'COMENTARIOS (OPCIONAL)', required: false}" ng-model="$ctrl.data.mComentario" name="nComentario" ng-required="false" ng-Maxlength="400"></mpf-textarea>
+          </div>
+        </div>
+
+        <div class="col-md-8 col-md-offset-2 col-xs-12 mb-xs-2">
+          <label class="btn btn-block g-btn-input-file" style="color: #333;background-color: #f4f4f4;border-color: #ccc;padding: 20px 30px;">
+            <div class="mb-xs-1">Cargar Formato N°1</div>
+            <div class="g-btn g-btn-white second-design block">
+              <span class="g-icon">
+                <span class="icon icon-plus ico-mapfre_56_visitasalmedico"></span>
+                <span>Escoger archivo</span>
+              </span>
+            </div>
+            <input type="file" file-model="$ctrl.data.file" accept=".jpg, .jpeg, .png, .pdf, .doc, .docx, .msg">
+          </label>
+        </div>
+
+        <div class="container g-managment-documents" ng-show="$ctrl.files.length !== 0">
+          <div>
+            <div class="mb-xs-2 col-xs-12"><b>Archivos adjuntos</b></div>
+            <div ng-repeat="doc in $ctrl.files" class="row item">
+              <div class="col-md-12 mb-xs-2 clearfix g-box">
+                <div class="row g-box-content">
+                  <div class="col-md-11">
+                    <span>{{ doc.nombreDocumento }}</span>
+                  </div>
+                  <div class="col-md-1 buttons">
+                    <a title="Borrar archivo" ng-click="$ctrl.deleteDocument($index)">
+                      <i  class="glyphicon glyphicon-trash"></i>
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+      </div>
+
+      </div>
+    </form>
+
+    <div  class="clearfix g-text-center-xs">
+      <div class="clearfix mt-xs-2">
+        <div class="col-xs-12 col-md-6 col-md-offset-3"><a class="g-btn g-btn-verde block" data-ng-click="$ctrl.sendEmail()">Enviar</a></div>
+      </div>
+    </div>
+
+  </div>
+</div>
+  

@@ -1,0 +1,475 @@
+<section class="g-page g-page-documents">
+
+    <div class="g-title">
+      <div class="container">
+        <div class="row">
+          <div class="col-sm-9 mb-xs-2 no-mb-sm">
+            <h1>{{$ctrl.title}}</h1>
+          </div>
+          <div class="col-sm-3 g-text-right-sm hidden-sm hidden-xs mt-md-2">
+            <a href="" ui-sref="homePolizasSalud">
+            <span class="g-link gCGray3">
+              <i class="icon ico-mapfre_310_arrowLeft"></i>
+              <b>Volver</b>
+            </span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="g-section-inner">
+      <div class="container">
+        <div class="row">
+          <!-- Consulta de documentos v2 -->
+          <div class="col-md-3 mb-xs-2">
+            <form action="" name="frmDocuments">
+              <div show-filter class="clearfix g-col-filter g-box-md fz14 gBgcGray5-md gBgcWhite1" ng-class="{'show': isFilterVisible}">
+                <div class="col-md-12 mb-xs-3 gH4 gCGray1">
+                  <h2 class="pb-xs-1 g-border-bottom-xs hidden-xs hidden-sm"><b>Opciones de Búsqueda</b></h2>
+                  <div id="show-filter" class="row pt-xs-2 pb-xs-2 gBgcGray5 g-border-bottom-xs hidden-md hidden-lg" ng-click="toggleFilter();">
+                    <div class="col-xs-10"><h2><b>Opciones de Búsqueda</b></h2></div>
+                    <div class="col-xs-2 g-text-right-xs">
+                      <span class="glyphicon glyphicon-chevron-down" ng-if="isFilterVisible"></span>
+                      <span class="glyphicon glyphicon-chevron-up" ng-if="!isFilterVisible"></span>
+                    </div>
+                    <div class="clearfix"></div>
+                  </div>
+                </div>
+
+                <div class="g-col-filter__box mt-xs-2">
+                  <div class="col-md-12 mb-xs-2"><h2><b>Buscar por:</b></h2></div>
+                  <div class="col-md-12 mb-xs-2" ng-show="isSoat()">
+                    <mpf-input label="{label: 'Número de Póliza', required: false}" name="nNroPoliza" ng-model="documentNumber"></mpf-input>
+                  </div>
+                  <div class="col-md-12 mb-xs-2">
+                    <mpf-select label="{label: 'Pólizas nuevas', required: false}" name="nProductoFilter" ng-model="mProductoFilter" m-data-source="$ctrl.productDataSource" text-field="{{$ctrl.productTextField}}" value-field="NumeroSubContrato" m-Empty-Option="{text:'TODOS'}"></mpf-select>
+                  </div>
+                  <div class="col-md-12 mb-xs-2" ng-show="isSalud()">
+                    <mpf-select label="{label: 'Migraciones internas', required: false}" name="nPolizaFilter" ng-model="mPolizaFilter" m-data-source="$ctrl.polizasDataSource" text-field="{{$ctrl.Descripcion}}" value-field="{{$ctrl.Codigo}}" m-Empty-Option="{text:'TODOS'}"></mpf-select>
+                  </div>
+                  <div class="col-md-12 mb-xs-2" ng-show="isSoat()">
+                    <mpf-select label="{label: 'Estado', required: false}" name="nEstadoFilter" ng-model="mEstadoFilter" m-data-source="$ctrl.estadoDataSource" text-field="{{$ctrl.Description}}" value-field="{{$ctrl.Codigo}}" m-Empty-Option="{text:'TODOS'}"></mpf-select>
+                  </div>
+                  <div class="col-md-12 mb-xs-2" ng-show="isSoat()">
+                    <mpf-select label="{label: 'Estado de pago', required: false}" name="nEstadoPagoFilter" ng-model="mEstadoPagoFilter" m-data-source="$ctrl.estadoPagoDataSource" text-field="{{$ctrl.Description}}" value-field="{{$ctrl.Codigo}}" m-Empty-Option="{text:'TODOS'}"></mpf-select>
+                  </div>
+                  <div class="col-md-6 mb-xs-2">
+                    <div class="input-group g-date-picker">
+                      <label class="g-placeholder animated">Desde<span></span>:</label>
+                      <input type="text" class="form-control" ng-change="changeDate()" uib-datepicker-popup="{{format}}" ng-model="mDesdeFilter" is-open="popupDesdeFilter.opened" datepicker-options="dateOptionsDesdeFilter" ng-required="true" close-text="Close" alt-input-formats="altInputFormats" readonly/>
+                      <span class="input-group-btn">
+                        <button type="button" class="btn btn-default" ng-click="openDesdeFilter()"><i class="glyphicon glyphicon-calendar"></i></button>
+                      </span>
+                    </div>
+                  </div>
+                  <div class="col-md-6 mb-xs-2">
+                    <div class="input-group g-date-picker">
+                      <label class="g-placeholder animated">Hasta<span></span>:</label>
+                      <input type="text" class="form-control" ng-change="changeDate()" uib-datepicker-popup="{{format}}" ng-model="mHastaFilter" is-open="popupHastaFilter.opened" datepicker-options="dateOptionsHastaFilter" ng-required="true" close-text="Close" alt-input-formats="altInputFormats" readonly/>
+                      <span class="input-group-btn">
+                        <button type="button" class="btn btn-default" ng-click="openHastaFilter()"><i class="glyphicon glyphicon-calendar"></i></button>
+                      </span>
+                    </div>
+                  </div>
+                  <div class="col-md-12 mb-xs-2">
+                    <mpf-select label="{label: 'Estado Solicitud', required: false}" name="nEstadoSolicitudFilter" ng-model="mEstadoSolicitudFilter" m-data-source="$ctrl.estadosSolicitudDataSource" text-field="descripcionCotizacion" value-field="descripcionCotizacion" m-Empty-Option="{text:'TODOS'}"></mpf-select>
+                  </div>
+                  <div class="col-md-12 mb-xs-2">
+                    <mpf-select label="{label: 'Motivo Observación', required: false}" name="nMotivoFilter" ng-model="mMotivoFilter" m-data-source="$ctrl.motivosObservacionDataSource" text-field="descripcionMotivo" value-field="codigoMotivo" m-Empty-Option="{text:'TODOS'}"></mpf-select>
+                  </div>
+                  <div class="col-md-12 mb-xs-2">
+                    <mpf-input label="{label: 'Nro. de cotización', required: false}" name="nNroCotizacionFilter" ng-model="mNumeroCotizacion"></mpf-input>
+                  </div>
+                  <div class="col-md-12 mb-xs-2">
+                    <mpf-input label="{label: 'Contratante', required: false}" name="nContratanteFilter" ng-model="mContratanteFilter"></mpf-input>
+                  </div>
+                  <div class="col-md-12 mb-xs-1">
+                    <a href="javascript:void(0)" class="g-btn g-btn-verde block" ng-click="filter('1'); toggleFilter();">Filtrar</a>
+                  </div>
+                  <div class="col-md-12">
+                    <a href="javascript:void(0)" class="g-btn g-btn-white block" ng-click="clearFilter();">Limpiar</a>
+                  </div>
+                </div>
+              </div>
+            </form>
+          </div>
+
+
+          <!-- INICIO: Resultado de consulta de documentos -->
+          <div class="col-md-9">
+
+            <!-- Mensaje de realiza una busqueda -->
+            <div class="col-md-12 text-center g-box-noresult" ng-if="noResultInfo">
+              <div class="row">
+                <div class="col-md-12 g-box-noresult-ico gCBlue2">
+                  <span class="ico-mapfre_303_informacion"></span>
+                </div>
+                <div class="col-md-12 g-box-noresult-text">
+                  Realiza una búsqueda para obtener resultados.
+                </div>
+              </div>
+            </div>
+
+            <!-- Mensaje de error si no hay resultados -->
+            <div class="col-md-12 text-center g-box-noresult" ng-if="noResult">
+              <div class="row">
+                <div class="col-md-12 g-box-noresult-ico gCRed1"><span class="ico-mapfre_302_error"></span></div>
+                <div class="col-md-12 g-box-noresult-text">No hay resultados para los filtros escogidos.<br>Intenta de nuevo.</div>
+              </div>
+            </div>
+
+            <!-- Inicio: Resultados -->
+            <div class="clearfix g-box g-overflow-hidden-xs mb-xs-2 ng-scope" ng-repeat="item in items" ng-if="!noResult">
+              <!-- header -->
+              <!-- Json: {{item}} -->
+              <div class="row pt-xs-1 gBgcGray5 g-border-bottom">
+                <ul class="clearfix g-list-sm mt-xs-1">
+                  <li class="col-md-8 col-sm-9">
+                    <ul class="row" ng-if="item.EstadoPoliza === 'MIGRADO'">
+                      <li class="col-sm-3 clearfix">
+                        <div class="col-sm-12 col-xs-12 item-label pr-xs-0">
+                          Número de Cotización
+                        </div>
+                        <div class="col-sm-12 col-xs-12 item-dato g-text-uppercase mt-xs-1">
+                          {{item.NumeroDocumento}}
+                        </div>
+                      </li>
+                      <li class="col-sm-3 clearfix">
+                        <div class="col-sm-12 col-xs-12 item-label">
+                          Fecha de cotización
+                        </div>
+                        <div class="col-sm-12 col-xs-12 item-dato g-text-uppercase mt-xs-1">
+                          {{item.FechaRegistro}}
+                        </div>
+                      </li>
+                      <li class="col-sm-3 clearfix">
+                        <div class="col-sm-12 col-xs-12 item-label">
+                          Número de póliza original
+                        </div>
+                        <div class="col-sm-12 col-xs-12 item-dato g-text-uppercase mt-xs-1">
+                          {{ item.NumeroPolizaOriginal }}
+                        </div>
+                      </li>
+                      <li class="col-sm-3 clearfix">
+                        <div class="col-sm-12 col-xs-12 item-label">
+                          Número de póliza final
+                        </div>
+                        <div class="col-sm-12 col-xs-12 item-dato g-text-uppercase mt-xs-1">
+                          {{ item.NumeroPoliza }}
+                        </div>
+                      </li>
+                    </ul>
+                    <ul class="row" ng-if="item.EstadoPoliza !== 'MIGRADO'">
+                      <li class="col-sm-4 clearfix">
+                        <div class="col-sm-12 col-xs-12 item-label pr-xs-0">
+                          Número de Cotización
+                        </div>
+                        <div class="col-sm-12 col-xs-12 item-dato g-text-uppercase mt-xs-1">
+                          {{item.NumeroDocumento}}
+                        </div>
+                      </li>
+                      <li class="col-sm-4 clearfix">
+                        <div class="col-sm-12 col-xs-12 item-label">
+                          Producto
+                        </div>
+                        <div class="col-sm-12 col-xs-12 item-dato g-text-uppercase mt-xs-1">
+                          {{item.NombreProducto}}
+                        </div>
+                      </li>
+                      <li class="col-sm-4 clearfix">
+                        <div class="col-sm-12 col-xs-12 item-label">
+                          Fecha de registro
+                        </div>
+                        <div class="col-sm-12 col-xs-12 item-dato g-text-uppercase mt-xs-1">
+                          {{item.FechaRegistro}}
+                        </div>
+                      </li>
+                    </ul>
+                    <!--<ul class="row">
+                      <li class="col-sm-6 clearfix cnt-item">
+                        <div class="col-sm-5 col-xs-4 item-label">
+                          Producto:
+                        </div>
+                        <div class="col-sm-7 col-xs-8 item-dato g-text-uppercase">
+                          {{item.NombreProducto}}
+                        </div>
+                      </li>
+                      <li class="col-sm-6 clearfix cnt-item" ng-show="isSoat()">
+                        <div class="col-sm-5 item-label">
+                            Estado de pago:
+                        </div>
+                        <div class="col-sm-7 item-dato g-text-uppercase">
+                            {{item.EstadoPago}}
+                        </div>
+                      </li>
+                    </ul>-->
+                  </li>
+                  <!--<li class="col-md-4 clearfix" ng-hide="!isSAlud()">
+                    <div class="col-md-12 cnt-item" ng-hide="item.EstadoEmision == 'PENDIENTE' || ((item.CodigoRamo == optionSeeMore.Transporte.codeRamoArray[0]) && (item.EstadoEmision == 'NO PROCESADA')) || isSoat()">
+                      <a class="g-btn g-btn-white block second-design" ng-show="item.EstadoEmision != 'NO VIGENTE'" ng-click="actionButton($index)">{{(item.EstadoEmision != 'EMITIDA') ? 'Ver más' : 'Descargar PDF'}}</a>
+                      <p class="gH6 gCGray2 no-margin-xs" ng-show="item.EstadoEmision == 'NO VIGENTE'">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s.</p>
+                    </div>
+                  </li>-->
+                  <li class="col-md-4 clearfix">
+                    <!--ng-hide="isSalud()"-->
+                    <div class="col-md-12 cnt-item">
+                      <a class="g-btn g-btn-white block second-design" ng-show="item.EstadoSolicitud === statesSalud.emitida" ng-click="descargarPdfSalud(item.NumeroPoliza, item.McaProvicional)">{{'Descargar PDF'}}</a>
+                      <a
+                        class="g-btn g-btn-white block second-design"
+                        ng-show="showButton(item)"
+                        ng-click="actionSaludButton(item.NumeroDocumento, item.EstadoSolicitud, item)">{{'Ver más'}}</a>
+                      <!--<p class="gH6 gCGray2 no-margin-xs" ng-show="item.EstadoEmision == 'NO VIGENTE'">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s.</p>-->
+                    </div>
+					
+					
+					  <!-- FIN MSAAVEDRA -->
+					  
+                  </li>
+                  <!--<li>
+                    <div class="col-md-12 cnt-item" ng-show="isSalud()">
+                      <a class="g-btn g-btn-white block second-design" ng-show="item.EstadoEmision != statesSalud.noVigente" ng-click="actionSaludButton(item)">{{(item.EstadoEmision != statesSalud.emitida) ? 'Ver más' : 'Descargar PDF'}}</a>-->
+                      <!--<p class="gH6 gCGray2 no-margin-xs" ng-show="item.EstadoEmision == 'NO VIGENTE'">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s.</p>-->
+                    <!--</div>-->
+                  <!--</li>-->
+                  <li class="col-md-3 clearfix" ng-show="isSoat() && item.NumeroPoliza">
+                    <div class="btn-group" uib-dropdown is-open="status(item)" ng-show=" item.EstadoEmisionTron != 'ANULADO'">
+                      <button id="single-button" type="button" class="g-btn g-btn-white block add-ico" uib-dropdown-toggle ng-disabled="disabled">
+                        Acciones <span class="caret"></span>
+                      </button>
+                      <ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="single-button">
+                        <li role="menuitem"><a ng-click="actionButton($index)">{{(item.EstadoEmision != 'EMITIDA') ? 'Ver más' : 'Descargar PDF'}}</a></li>
+                        <li role="menuitem" ng-show="permitirAnular && item.EstadoEmisionTron != 'ANULADO' && vigenteAnular(item)"><a ng-click="anularSOAT(item)">Anular póliza</a></li>
+                        <li role="menuitem" ng-show="checkValue(item.CodigoModalidad)"><a ng-click="enviarMailSOAT(item)">Enviar por correo</a></li>
+                      </ul>
+                    </div>
+                  </li>
+                </ul>
+              </div>
+              <!-- content -->
+              <div class="row g-box-content">
+                <ul class="clearfix g-list">
+                  <li class="col-md-12">
+                    <ul class="row" ng-if="item.EstadoPoliza === 'MIGRADO'">
+                      <li class="col-sm-3 clearfix">
+                        <div class="col-sm-12 col-xs-12 item-label">
+                          Producto Inicial
+                        </div>
+                        <div class="col-sm-12 col-xs-12 item-dato g-text-uppercase mt-xs-1">
+                          {{item.NombreProductoInicial}}
+                        </div>
+                        <!--<div class="col-sm-5 col-xs-4 item-label" >
+                          Agente:
+                        </div>
+                        <div class="col-sm-7 col-xs-8 item-dato g-text-uppercase">
+                          {{ item.NombreAgente }}
+                        </div>-->
+                      </li>
+                      <li class="col-sm-3 clearfix">
+                        <div class="col-sm-12 col-xs-12 item-label">
+                          Producto Final
+                        </div>
+                        <div class="col-sm-12 col-xs-12 item-dato g-text-uppercase mt-xs-1">
+                          {{item.NombreProducto}}
+                        </div>
+                        <!--<div class="col-sm-5 col-xs-4 item-label" >
+                          Agente:
+                        </div>
+                        <div class="col-sm-7 col-xs-8 item-dato g-text-uppercase">
+                          {{ item.NombreAgente }}
+                        </div>-->
+                      </li>
+                      <li class="col-sm-2 clearfix">
+                        <div class="col-sm-12 col-xs-12 item-label">
+                          Contratante
+                        </div>
+                        <div class="col-sm-12 col-xs-12 item-dato g-text-lowercase mt-xs-1">
+                          {{ item.NombreContratante }}
+                        </div>
+                        <!--<div class="col-sm-5 col-xs-4 item-label" >
+                          Agente:
+                        </div>
+                        <div class="col-sm-7 col-xs-8 item-dato g-text-uppercase">
+                          {{ item.NombreAgente }}
+                        </div>-->
+                      </li>
+                      <li class="col-sm-2 clearfix">
+                        <div class="col-sm-12 item-label gCWhite1-md">
+                          -
+                        </div>
+                        <div class="col-sm-12 item-dato mt-xs-1">
+                          <span class="g-box-label text-center ml-xs-1-5 ml-md-0 mb-xs-1 g-new-label-gray">
+                             {{ item.EstadoPoliza }}
+                          </span>
+                        </div>
+                      </li>
+                      <li class="col-sm-2 clearfix" ng-show="true">
+                        <!--<div class="col-sm-5 col-xs-4 item-label">
+                          Condición:
+                        </div>
+                        <div class="col-sm-7 col-xs-8 item-dato g-text-uppercase">
+                          {{(item.EstadoSolicitud == '') ? item.TipoDocumento : 'SUSCRIPCIÓN' }}
+                        </div>-->
+                        <div class="col-sm-12 item-label">
+                          Cotización
+                        </div>
+                        <div class="col-sm-12 item-dato mt-xs-1">
+                      <span class="g-box-label text-center ml-xs-1-5 ml-md-0 mb-xs-1"
+                            ng-class="{
+                          'g-new-label-blue': item.EstadoSolicitud === statesSalud.pendiente || item.EstadoEmision === statesSalud.pendiente,
+                          'g-new-label-yellow': item.EstadoSolicitud === statesSalud.observado || item.EstadoEmision === statesSalud.observado,
+                          'g-new-label-red': item.EstadoSolicitud === statesSalud.rechazado || item.EstadoSolicitud === 'CADUCADO' || item.EstadoEmision === statesSalud.rechazado,
+                          'g-new-label-green': item.EstadoSolicitud === statesSalud.emitida || item.EstadoEmision === statesSalud.emitida,
+                          'g-new-label-orange': item.EstadoSolicitud === statesSalud.aprobado || item.EstadoEmision === statesSalud.aprobado,
+                          'g-new-label-gray': ((item.EstadoEmision === statesSalud.vigente && item.EstadoSolicitud == '') || (item.EstadoEmision === statesSalud.noVigente && item.EstadoSolicitud == '') || (item.CodigoEstadoEmision == '10' || item.CodigoEstadoEmision == '11') )
+                        }"
+                      >{{ (item.EstadoSolicitud == '') ? item.EstadoEmision : item.EstadoSolicitud }}</span>
+                          <p class="mb-xs-0 text-center gCGreen1 g-u-cursor--pointer"
+                             ng-click="openModalDocumentSalud(item)"
+                             ng-if="item.EstadoSolicitud === statesSalud.observado ||
+                      item.EstadoSolicitud === statesSalud.aprobado">
+                            {{ (item.DetalleMotivoSolicitud.length > 0 )? ((item.DetalleMotivoSolicitud.length > 1)? 'Por Continuidad de Preexistencias y DPS':((item.DetalleMotivoSolicitud[0] == 'CP')?'Por Continuidad de Preexistencias': 'Por Declaración Personal de Salud')):item.DescripcionSolicitud }}
+                          </p>
+                          <p class="mb-xs-0 text-center gCGreen1" ng-if="item.EstadoSolicitud === statesSalud.rechazado">{{ item.DescripcionSolicitud }}</p>
+                        </div>
+                      </li>
+                      <!--<li class="col-sm-3 clearfix cnt-item" >
+                        <div ng-show="item.EstadoEmision === statesSalud.emitida">
+                    <div class="col-sm-5 col-xs-4 item-label">
+                            Número de Poliza:
+                    </div>
+                    <div class="col-sm-7 col-xs-8 item-dato g-text-uppercase">
+                            {{ item.NumeroPoliza }}
+                          </div>
+                        </div>
+                        <div class="mb-xs-0 text-center gCGreen1 g-u-cursor--pointer" ng-if="item.DetalleMotivoSolicitud.length > 0" ng-click="openModalDocumentSaludComentarios(item)"  >
+                          <span> Ver Comentarios </span><span class="ico-mapfre_222_informacion icon gCGreen1" ></span>
+                        </div>
+
+                      </li>-->
+                    </ul>
+                    <ul class="row" ng-if="item.EstadoPoliza !== 'MIGRADO'">
+                      <li class="col-sm-3 clearfix">
+                        <div class="col-sm-12 col-xs-12 item-label">
+                          Titular
+                        </div>
+                        <div class="col-sm-12 col-xs-12 item-dato g-text-lowercase mt-xs-1">
+                      {{ item.NombreTitular }}
+                    </div>
+                        <!--<div class="col-sm-5 col-xs-4 item-label" >
+                      Agente:
+                    </div>
+                    <div class="col-sm-7 col-xs-8 item-dato g-text-uppercase">
+                      {{ item.NombreAgente }}
+                        </div>-->
+                      </li>
+                      <li class="col-sm-3 clearfix">
+                        <div class="col-sm-12 col-xs-12 item-label">
+                          Agente
+                    </div>
+                        <div class="col-sm-12 col-xs-12 item-dato g-text-lowercase mt-xs-1">
+                          {{ item.NombreAgente }}
+                        </div>
+                        <!--<div class="col-sm-5 col-xs-4 item-label" >
+                          Agente:
+                        </div>
+                        <div class="col-sm-7 col-xs-8 item-dato g-text-uppercase">
+                          {{ item.NombreAgente }}
+                        </div>-->
+                  </li>
+                      <li class="col-sm-2 clearfix">
+                        <div class="col-sm-12 col-xs-12 item-label">
+                          Contratante
+                        </div>
+                        <div class="col-sm-12 col-xs-12 item-dato g-text-lowercase mt-xs-1">
+                          {{ item.NombreContratante }}
+                        </div>
+                        <!--<div class="col-sm-5 col-xs-4 item-label" >
+                          Agente:
+                        </div>
+                        <div class="col-sm-7 col-xs-8 item-dato g-text-uppercase">
+                          {{ item.NombreAgente }}
+                        </div>-->
+                      </li>
+                      <li class="col-sm-2 clearfix">
+                        <div class="col-sm-12 item-label gCWhite1-md">
+                          -
+                        </div>
+                        <div class="col-sm-12 item-dato mt-xs-1">
+                          <span class="g-box-label text-center ml-xs-1-5 ml-md-0 mb-xs-1 g-new-label-gray">
+                             {{ item.EstadoPoliza }}
+                          </span>
+                        </div>
+                      </li>
+                      <li class="col-sm-2 clearfix" ng-show="true">
+                        <!--<div class="col-sm-5 col-xs-4 item-label">
+                      Condición:
+                    </div>
+                    <div class="col-sm-7 col-xs-8 item-dato g-text-uppercase">
+                      {{(item.EstadoSolicitud == '') ? item.TipoDocumento : 'SUSCRIPCIÓN' }}
+                        </div>-->
+                        <div class="col-sm-12 item-label">
+                          Estado
+                    </div>
+                        <div class="col-sm-12 item-dato mt-xs-1">
+                      <span class="g-box-label text-center ml-xs-1-5 ml-md-0 mb-xs-1"
+                        ng-class="{
+                          'g-new-label-blue': item.EstadoSolicitud === statesSalud.pendiente || item.EstadoEmision === statesSalud.pendiente,
+                          'g-new-label-yellow': item.EstadoSolicitud === statesSalud.observado || item.EstadoEmision === statesSalud.observado,
+                          'g-new-label-red': item.EstadoSolicitud === statesSalud.rechazado || item.EstadoSolicitud === 'CADUCADO' || item.EstadoEmision === statesSalud.rechazado,
+                          'g-new-label-green': item.EstadoSolicitud === statesSalud.emitida || item.EstadoEmision === statesSalud.emitida,
+                          'g-new-label-orange': item.EstadoSolicitud === statesSalud.aprobado || item.EstadoEmision === statesSalud.aprobado,
+                          'g-new-label-gray': ((item.EstadoEmision === statesSalud.vigente && item.EstadoSolicitud == '') || (item.EstadoEmision === statesSalud.noVigente && item.EstadoSolicitud == '') || (item.CodigoEstadoEmision == '10' || item.CodigoEstadoEmision == '11') )
+                        }"
+                      >{{ (item.EstadoSolicitud == '') ? item.EstadoEmision : item.EstadoSolicitud }}</span>
+                      <p class="mb-xs-0 text-center gCGreen1 g-u-cursor--pointer" 
+                      ng-click="openModalDocumentSalud(item)" 
+                      ng-if="item.EstadoSolicitud === statesSalud.observado || 
+                      item.EstadoSolicitud === statesSalud.aprobado">
+                      {{ (item.DetalleMotivoSolicitud.length > 0 )? ((item.DetalleMotivoSolicitud.length > 1)? 'Por Seguro anterior de salud y DPS':((item.DetalleMotivoSolicitud[0] == 'CP')?'Por Seguro anterior de salud': 'Por Declaración Personal de Salud')):item.DescripcionSolicitud }}
+                      </p>
+                      <p class="mb-xs-0 text-center gCGreen1" ng-if="item.EstadoSolicitud === statesSalud.rechazado">{{ item.DescripcionSolicitud }}</p>
+                    </div>
+                      </li>
+                      <!--<li class="col-sm-3 clearfix cnt-item" >
+                      <div ng-show="item.EstadoEmision === statesSalud.emitida">
+                        <div class="col-sm-5 col-xs-4 item-label">
+                          Número de Poliza:
+                        </div>
+                        <div class="col-sm-7 col-xs-8 item-dato g-text-uppercase">
+                          {{ item.NumeroPoliza }}
+                        </div>
+                      </div>
+                      <div class="mb-xs-0 text-center gCGreen1 g-u-cursor--pointer" ng-if="item.DetalleMotivoSolicitud.length > 0" ng-click="openModalDocumentSaludComentarios(item)"  >
+                        <span> Ver Comentarios </span><span class="ico-mapfre_222_informacion icon gCGreen1" ></span>
+                     </div>
+                      
+                      </li>-->
+                    </ul>
+                    </li>
+                </ul>
+              </div>
+            </div>
+            <!-- Fin: Resultados -->
+
+            <!-- Fin: Resultados -->
+            <!-- Inicio: Paginacion -->
+            <div class="row" ng-if="!noResult && totalItems > 10">
+              <div class="col-md-12">
+                <ul uib-pagination class="g-pagination" ng-model="mPagination" max-size="10" total-items="totalItems" ng-change="pageChanged(mPagination)" boundary-link-numbers="true"></ul>
+              </div>
+            </div>
+            <!-- Fin: Paginacion -->
+          </div>
+          <!-- FIN: Resultado de consulta de documentos -->
+        </div>
+      </div>
+    </div>
+</section>
+<form id="frmDownloadExcelSalud" name="frmDownloadExcelSalud" action="{{saludURL}}" method="post" target="_blank">
+    <input type="hidden" name="json" value='{{excelData}}'>
+</form>
+<form id="frmDownloadPDF" name="frmDownloadPDF" action="{{pdfURL}}" method="post" target="_blank">
+    <input type="hidden" name="json" value='{{pdfData}}'>
+</form>
+

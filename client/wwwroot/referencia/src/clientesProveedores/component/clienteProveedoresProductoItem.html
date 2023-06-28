@@ -1,0 +1,248 @@
+<div class="panel__body-item">
+  <div class="row">
+    <div class="col-sm-4">
+      <span class="lbl">{{ ::$ctrl.item.descripcion }}:</span>
+      <span class="ico-mapfre_284_circlequestion"
+            uib-tooltip="{{::$ctrl.item.ayuda}}"
+            tooltip-placement="right"
+            ng-if="$ctrl.item.ayuda"></span>
+      <p ng-if="$ctrl.item.nota">{{ ::$ctrl.item.nota }}</p>
+    </div>
+    <div class="col-sm-8"
+         ng-switch="$ctrl.item.idTipoCaracteristica">
+
+      <div class="counter"
+           ng-switch-when="1">
+        <!-- Tipo 1: cantidad-->
+        <button class="c-btn btn btn--counter"
+                ng-click="$ctrl.substract(); $ctrl.onChange()"
+                data-ng-disabled="$ctrl.auditSaving">
+          <span class="iconref-minus"></span>
+        </button>
+        <form class="input-wrapper" name="{{'form' + $ctrl.item.idProducto}}">
+          <input type="text"
+                 name="input"
+                 class="c-input-txt"
+                 ng-model="$ctrl.item.idValor"
+                 ng-min="0"
+                 ng-keyup="$ctrl.testValue()"
+                 ng-change="$ctrl.numberChange()"
+                 data-ng-disabled="$ctrl.auditSaving">
+        </form>
+        <button class="c-btn btn btn--counter"
+                ng-click="$ctrl.add(); $ctrl.onChange()"
+                data-ng-disabled="$ctrl.auditSaving">
+          <span class="iconref-plus"></span>
+        </button>
+      </div>
+
+      <div class="btn-group"
+           ng-switch-when="2">
+        <!-- Tipo 2: GUARDIA-RETEN -->
+        <label class="c-btn btn btn--default"
+               ng-model="$ctrl.item.idValor"
+               ng-change="$ctrl.onChange()"
+               data-ng-disabled="$ctrl.auditSaving"
+               uib-btn-radio="1">
+         <span>Guardia</span>
+        </label>
+        <label class="c-btn btn btn--default"
+               ng-model="$ctrl.item.idValor"
+               ng-change="$ctrl.onChange()"
+               data-ng-disabled="$ctrl.auditSaving"
+               uib-btn-radio="2">
+         <span>Retén</span>
+        </label>
+      </div>
+
+      <div class="btn-group"
+           ng-switch-when="3">
+        <div ng-if="!$ctrl.item.subCaracteristicas.length">
+          <!-- Tipo 3: SÍ-NO -->
+          <label class="c-btn btn btn--default"
+                 ng-model="$ctrl.item.idValor"
+                 ng-change="$ctrl.onChange()"
+                 data-ng-disabled="$ctrl.auditSaving"
+                 uib-btn-radio="1">
+            <span>Sí tiene</span>
+          </label>
+          <label class="c-btn btn btn--default"
+                 ng-model="$ctrl.item.idValor"
+                 ng-change="$ctrl.onChange()"
+                 data-ng-disabled="$ctrl.auditSaving"
+                 uib-btn-radio="0">
+            <span>No tiene</span>
+          </label>
+        </div>
+        <div ng-if="$ctrl.item.subCaracteristicas.length"
+             ng-repeat="item in $ctrl.item.subCaracteristicas">
+          <label class="c-btn btn btn--default"
+                 ng-model="item.idValor"
+                 ng-change="$ctrl.onChange(); $ctrl.enableEmergency()"
+                 data-ng-disabled="$ctrl.auditSaving"
+                 uib-btn-radio="1">
+            <span>Sí tiene</span>
+          </label>
+          <label class="c-btn btn btn--default"
+                 ng-model="item.idValor"
+                 ng-change="$ctrl.onChange(); $ctrl.disableEmergency()"
+                 data-ng-disabled="$ctrl.auditSaving"
+                 uib-btn-radio="0">
+            <span>No tiene</span>
+          </label>
+        </div>
+      </div>
+
+      <div ng-switch-when="5">
+        <!-- Tipo 5: MULTIPLE SELECCIÓN -->
+        <span class="lbl">AM:</span>
+        <div class="btn-group u-mb-10">
+          <label class="c-btn btn btn--default"
+                 ng-model="$ctrl.item.valores.am.lun"
+                 ng-change="$ctrl.onChange()"
+                 data-ng-disabled="$ctrl.auditSaving"
+                 uib-btn-checkbox
+                 uncheckable>
+            <span>LUN</span>
+          </label>
+          <label class="c-btn btn btn--default"
+                 ng-model="$ctrl.item.valores.am.mar"
+                 ng-change="$ctrl.onChange()"
+                 data-ng-disabled="$ctrl.auditSaving"
+                 uib-btn-checkbox
+                 uncheckable>
+            <span>MAR</span>
+          </label>
+          <label class="c-btn btn btn--default"
+                 ng-model="$ctrl.item.valores.am.mie"
+                 ng-change="$ctrl.onChange()"
+                 data-ng-disabled="$ctrl.auditSaving"
+                 uib-btn-checkbox
+                 uncheckable>
+            <span>MIE</span>
+          </label>
+          <label class="c-btn btn btn--default"
+                 ng-model="$ctrl.item.valores.am.jue"
+                 ng-change="$ctrl.onChange()"
+                 data-ng-disabled="$ctrl.auditSaving"
+                 uib-btn-checkbox
+                 uncheckable>
+            <span>JUE</span>
+          </label>
+          <label class="c-btn btn btn--default"
+                 ng-model="$ctrl.item.valores.am.vie"
+                 ng-change="$ctrl.onChange()"
+                 data-ng-disabled="$ctrl.auditSaving"
+                 uib-btn-checkbox
+                 uncheckable>
+            <span>VIE</span>
+          </label>
+          <label class="c-btn btn btn--default"
+                 ng-model="$ctrl.item.valores.am.sab"
+                 ng-change="$ctrl.onChange()"
+                 data-ng-disabled="$ctrl.auditSaving"
+                 uib-btn-checkbox uncheckable>
+            <span>SAB</span>
+          </label>
+        </div>
+        <span class="lbl">PM:</span>
+        <div class="btn-group">
+          <label class="c-btn btn btn--default"
+                 ng-model="$ctrl.item.valores.pm.lun"
+                 ng-change="$ctrl.onChange()"
+                 data-ng-disabled="$ctrl.auditSaving"
+                 uib-btn-checkbox
+                 uncheckable>
+            <span>LUN</span>
+          </label>
+          <label class="c-btn btn btn--default"
+                 ng-model="$ctrl.item.valores.pm.mar"
+                 ng-change="$ctrl.onChange()"
+                 data-ng-disabled="$ctrl.auditSaving"
+                 uib-btn-checkbox
+                 uncheckable>
+            <span>MAR</span>
+          </label>
+          <label class="c-btn btn btn--default"
+                 ng-model="$ctrl.item.valores.pm.mie"
+                 ng-change="$ctrl.onChange()"
+                 data-ng-disabled="$ctrl.auditSaving"
+                 uib-btn-checkbox
+                 uncheckable>
+            <span>MIE</span>
+          </label>
+          <label class="c-btn btn btn--default"
+                 ng-model="$ctrl.item.valores.pm.jue"
+                 ng-change="$ctrl.onChange()"
+                 data-ng-disabled="$ctrl.auditSaving"
+                 uib-btn-checkbox
+                 uncheckable>
+            <span>JUE</span>
+          </label>
+          <label class="c-btn btn btn--default"
+                 ng-model="$ctrl.item.valores.pm.vie"
+                 ng-change="$ctrl.onChange()"
+                 data-ng-disabled="$ctrl.auditSaving"
+                 uib-btn-checkbox
+                 uncheckable>
+            <span>VIE</span>
+          </label>
+          <label class="c-btn btn btn--default"
+                 ng-model="$ctrl.item.valores.pm.sab"
+                 ng-change="$ctrl.onChange()"
+                 data-ng-disabled="$ctrl.auditSaving"
+                 uib-btn-checkbox
+                 uncheckable>
+            <span>SAB</span>
+          </label>
+        </div>
+      </div>
+
+      <div ng-switch-when="6">
+        <!-- Tipo 6: CADENA -->
+        <textarea class="c-input-txt"
+                  msd-elastic
+                  ng-model="$ctrl.item.valor"
+                  ng-change="$ctrl.onChange()"
+                  data-ng-disabled="$ctrl.auditSaving"></textarea>
+      </div>
+
+      <div class="btn-group"
+           ng-switch-when="7">
+        <!-- Tipo 7: SÍ-NO PRINCIPAL -->
+        <label class="c-btn btn btn--default"
+               ng-model="$ctrl.item.idValor"
+               ng-change="$ctrl.enableModule(); $ctrl.onChange()"
+               uib-btn-radio="1">
+          <span>Sí tiene</span>
+        </label>
+        <label class="c-btn btn btn--default"
+               ng-model="$ctrl.item.idValor"
+               uib-btn-radio="0"
+               ng-change="$ctrl.disableModule(); $ctrl.onChange()">
+          <span>No tiene</span>
+        </label>
+      </div>
+
+      <div class="btn-group"
+           ng-switch-when="8">
+        <!-- Tipo 8: TIPO I-TIPO II PRINCIPAL -->
+        <label class="c-btn btn btn--default"
+               ng-model="$ctrl.item.idValor"
+               ng-change="$ctrl.enableModule(); $ctrl.onChange()"
+               data-ng-disabled="$ctrl.auditSaving"
+               uib-btn-radio="1">
+          <span>Tipo I</span>
+        </label>
+        <label class="c-btn btn btn--default"
+               ng-model="$ctrl.item.idValor"
+               uib-btn-radio="2"
+               ng-change="$ctrl.disableModule(); $ctrl.onChange()"
+               data-ng-disabled="$ctrl.auditSaving">
+          <span>Tipo II</span>
+        </label>
+      </div>
+
+    </div>
+  </div>
+</div>

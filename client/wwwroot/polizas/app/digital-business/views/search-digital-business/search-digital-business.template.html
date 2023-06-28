@@ -1,0 +1,90 @@
+<div class="g-page g-ui-view page-plantilla-bandeja">
+  <div class="g-title">
+    <div class="container">
+      <div class="row">
+        <div class="col-sm-9 mb-xs-2 no-mb-sm">
+          <h1>Mantenimiento de Plantillas</h1>
+        </div>
+        <div class="col-sm-3">
+          <a class="g-btn g-btn-verde block" ng-click="vm.newDigitalBusiness()">Nueva Plantillas</a>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="g-section-inner">
+    <form action="" name="frmSearch">
+      <div class="container">
+        <div show-filter class="clearfix g-col-filter g-box-md gBgcGray5-md gBgcWhite1"
+          ng-class="{'show': isFilterVisible}">
+          <div class="col-md-12">
+            <div class="clearfix gH4 gCGray1 mb-xs-1-5">
+              <h2 class="hidden-xs hidden-sm"><b>Filtrar por:</b></h2>
+              <div id="show-filter" class="row pt-xs-2 pb-xs-2 gBgcGray5 g-border-bottom-xs hidden-md hidden-lg"
+                ng-click="toggleFilter();">
+                <div class="col-xs-10">
+                  <h2><b>Filtrar por:</b></h2>
+                </div>
+                <div class="col-xs-2 g-text-right-xs">
+                  <span class="glyphicon glyphicon-chevron-down" ng-if="isFilterVisible"></span>
+                  <span class="glyphicon glyphicon-chevron-up" ng-if="!isFilterVisible"></span>
+                </div>
+                <div class="clearfix"></div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-8">
+                <div class="row">
+                  <div class="col-md-12 mb-xs-2">
+                    <mpf-input label="{label: 'Nombre', required: false}" name="nDescription"
+                      ng-model="vm.parameters.description"></mpf-input>
+                    <ul class="g-error">
+                      <li ng-show="false">* Ingrese un número de documento</li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-4 mt-md-3">
+                <div class="row">
+                  <div class="col-md-6 mb-xs-1 no-mb-md">
+                    <a href="javascript:void(0);" class="g-btn g-btn-verde second-design block"
+                      ng-click="vm.searchDigitalBusiness(); toggleFilter()">Filtrar</a>
+                  </div>
+                  <div class="col-md-6">
+                    <a href="javascript:void(0);" class="g-btn g-btn-white second-design block"
+                      ng-click="vm.clearSearch(); toggleFilter()">Limpiar</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+    <div class="sec-list pt-xs-3">
+      <div class="container">
+        <div class="clearfix">
+          <mpf-no-search-digital-business hide="!vm.pagination.noSearch"></mpf-no-search-digital-business>
+          <mpf-no-result-digital-business hide="!vm.pagination.noResult"></mpf-no-result-digital-business>
+          <mpf-item-digital-business ng-repeat="item in vm.pagination.items track by $index"
+          item="item"
+          edit="vm.editDigitalBusiness($event)"
+          delete="vm.deleteDigitalBusiness($event)"
+          ></mpf-item-digital-business>
+        </div>
+      </div>
+    </div>
+    <div class="sec-list pt-xs-3">
+      <div class="container">
+        <div class="clearfix">
+          <div class="row" ng-if="!vm.pagination.noResult && vm.pagination.totalItems > 10">
+            <div class="col-md-12">
+              <ul uib-pagination class="g-pagination" ng-model="vm.pagination.currentPage"
+                items-per-page="vm.pagination.maxSize" total-items="vm.pagination.totalItems"
+                ng-change="vm.pageChanged(vm.pagination.currentPage)" boundary-link-numbers="true"></ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

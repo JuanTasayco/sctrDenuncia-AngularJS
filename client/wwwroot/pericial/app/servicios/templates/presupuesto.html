@@ -1,0 +1,671 @@
+<form id="presupuestoForm" action="" name="$ctrl.presupuestoForm">
+  <div class="g-section-inner">
+
+  <div class="row mb-xs-2" ng-if="presupAmpFlag">
+    <div class="col-md-12">
+      <h2 class="gCGray1 gH4"><b>AMPLIACIÓN {{numAmpliacion}}</b></h2>
+    </div>
+  </div>
+
+  <div class="row mb-xs-2">
+    <div class="col-sm-6 col-md-4 mb-xs-2 no-mb-md">
+      <mpf-select label="{label: 'Nivel de daño', required: true}" ng-disabled="$ctrl.isDisabledNivelDanho" name="nNivelDanho" ng-model="$ctrl.siniestro.mNivelDanho" m-data-source="$ctrl.nivelDanhoData" text-field="damageLevel" value-field="idDamage" m-Empty-Option="{enterData:true}" ng-required="true" ng-change="$ctrl.formularioChanged()"></mpf-select>
+      <ul class="g-error">
+        <li ng-show="$ctrl.presupuestoForm.nNivelDanho.$error.required && !$ctrl.presupuestoForm.nNivelDanho.$pristine">* Este campo es obligatorio</li>
+      </ul>
+    </div>
+    <div class="col-sm-6 col-md-4 mb-xs-2 no-mb-md">
+      <mpf-select label="{label: 'Tipo de perito', required: true}" ng-disabled="$ctrl.isDisabledTipoPerito" name="nTipoPerito" ng-model="$ctrl.siniestro.mTipoPerito" m-data-source="$ctrl.peritoData" text-field="name" value-field="idProficient" m-Empty-Option="{enterData:true}" ng-required="true" ng-change="$ctrl.formularioChanged()"></mpf-select>
+      <ul class="g-error">
+        <li ng-show="$ctrl.presupuestoForm.nTipoPerito.$error.required && !$ctrl.presupuestoForm.nTipoPerito.$pristine">* Este campo es obligatorio</li>
+      </ul>
+    </div>
+  </div>
+
+</div>
+
+  <!-- Inicio: PERDIDA TOTAL -->
+  <div class="g-section-inner" ng-show="$ctrl.peritadoFlag && $ctrl.isFlagTotalLossByBudget">
+    <div class="row mb-xs-2">
+      <div class="col-md-12">
+        <h2 class="gCGray1 gH4"><b>Pérdida total</b></h2>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-sm-6 col-md-4 mt-xs-3">
+        <mpf-checkbox ng-model="$ctrl.mRegistrarPerdidaTotal" label="Registrar pérdida total por presupuesto" data-ng-disabled="true"></mpf-checkbox>
+      </div>
+      <div class="col-sm-6 col-md-4">
+        <mpf-input label="{label: 'Valor comercial', required: false}" name="nValorComercial" ng-model="$ctrl.mValorComercial" ng-required="true" data-ng-disabled="true"></mpf-input>
+      </div>
+      <div class="col-sm-6 col-md-4">
+        <mpf-input label="{label: 'Valor de restos', required: false}" name="nValorRestos" ng-model="$ctrl.mValorRestos" ng-required="true" data-ng-disabled="true"></mpf-input>
+      </div>
+    </div>
+    <div class="row mt-xs-2">
+      <div class="col-sm-6 col-md-4 mb-xs-1" ng-repeat="item in $ctrl.inventoryFile">
+        <div class="g-box gBgcWhite1 g-file-item pt-xs-1 pb-xs-1 pl-xs-1-5 pr-xs-1-5">
+              <span class="doc-item g-span-middle">
+                <span class="doc-item__icon">
+                  <span class="{{$ctrl.iconFile}} gnIcon-md"></span>
+                </span>
+               <span class="doc-item__name" ng-click="$ctrl.downloadFile(item.idAttachFile)">
+                  <span class="g-block g-cut-text gH5" uib-popover="{{item.fileName}}" popover-trigger="'mouseenter'">{{item.fileName}}</span>
+              </span>
+                <span class="doc-item__close">
+                  <!--<span class="ico-mapfre_302_error gnIcon-xsm"></span>-->
+                </span>
+              </span>
+        </div>
+      </div>
+    </div>
+    <div class="row mt-xs-2">
+      <div class="col-xs-12">
+        <mpf-textarea label="{label:'Consideraciones', required: false}" ng-model="$ctrl.mConsideraciones" name="nConsideraciones" ng-required="true" ng-Maxlength="4000" data-ng-disabled="true"></mpf-textarea>
+      </div>
+    </div>
+  </div>
+  <!-- Fin: PERDIDA TOTAL -->
+
+  <!-- Inicio FOTOGRAFÍAS -->
+  <div class="g-section-inner">
+
+  <div class="row mb-xs-2">
+    <div class="col-md-12">
+      <h2 class="gCGray1 gH4"><b>Fotografías</b></h2>
+    </div>
+  </div>
+
+  <!-- Para subir fotos -->
+  <div class="clearfix" ng-if="$ctrl.showPhotoFile">
+    <div class="col-md-12 g-box gBgcGray5 pt-xs-2 pb-xs-2">
+      <div class="row mb-xs-2">
+        <div class="col-md-12">
+          <h2 class="gCGray1 gH4"><b>Fotografías adjuntas - Taller</b></h2>
+        </div>
+      </div>
+
+      <!-- Inicio: Photo row -->
+      <div class="clearfix">
+        <div id="" class="view-foto g-viewer-photo">
+          <div class="container">
+
+            <div class="g-photo-box" ng-show="$ctrl.isTaller()">
+              <div class="g-photo-close" ng-show="true">
+                <span ng-click="" class="ico-mapfre_119_wrong"></span>
+              </div>
+              <label class="g-photo-inner-box">
+
+                  <input type="file" file-model="$ctrl.photoFile" multiple="" ng-model="$ctrl.files" accept=".jpg,.bmp,.png,.jpeg" class="input__file"/>
+                  <div class="g-photo-title">AGREGAR FOTO</div>
+                  <div class="g-photo-img"></div>
+              </label>
+              <div class="g-photo-name" ng-show="false">{{photo.name}}</div>
+            </div>
+
+            <!-- Para mostrar fotos -->
+            <div class="g-photo-box" ng-repeat="item in $ctrl.filesT">
+              <div class="g-photo-close" ng-if="$ctrl.filesT && $ctrl.isTaller()">
+                <span ng-click="$ctrl.deleteFile($index, $ctrl.filesT, 0)" class="ico-mapfre_119_wrong"></span>
+              </div>
+              <div class="g-photo-inner-box" ng-click="$ctrl.showImage(item.idAttachFile, 1);">
+                <div class="g-photo-img loaded">
+                  <img ng-src="{{ item.src }}" ng-if="true">
+                </div>
+              </div>
+              <!--<div class="g-photo-name">{{item.fileName[0].name}}</div>-->
+            </div>
+
+          </div>
+        </div>
+      </div>
+      <!-- Fin: Photo row -->
+    </div>
+  </div>
+
+  <!-- Para mostrar fotos -->
+  <!--<div class="clearfix mb-xs-2"  ng-if="!$ctrl.showPhotoFile" ng-repeat="box in $ctrl.photoBox">-->
+  <div class="clearfix mb-xs-2"  ng-if="!$ctrl.showPhotoFile">
+    <div class="col-md-12 g-box gBgcGray5 pt-xs-2 pb-xs-2 mb-xs-2" ng-if="!$ctrl.presupuestadoAsign">
+      <div class="row mb-xs-2">
+        <div class="col-md-12">
+          <h2 class="gCGray1 gH4"><b>Fotografías adjuntas - Perito</b></h2>
+        </div>
+      </div>
+
+      <!-- Inicio: Photo row -->
+      <div class="clearfix" data-ng-hide="$ctrl.isPerito()">
+        <div id="" class="view-foto g-viewer-photo">
+          <div class="container">
+
+            <div class="g-photo-box" ng-repeat="item in $ctrl.filesP">
+              <div class="g-photo-close" ng-if="$ctrl.filesP">
+                <!--<span ng-click="" class="ico-mapfre_119_wrong"></span>-->
+              </div>
+              <div class="g-photo-inner-box" ng-click="$ctrl.showImage(item.idAttachFile, 1);">
+                <div class="g-photo-img loaded">
+                  <img ng-src="{{ item.src }}" ng-if="true">
+                </div>
+              </div>
+              <div class="g-photo-name" ng-show="true">{{item.fileName[0].name}}</div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+      <!-- Fin: Photo row -->
+
+      <!-- Inicio: Photo row -->
+      <div class="clearfix" data-ng-show="$ctrl.isPerito()">
+        <div class="view-foto g-viewer-photo">
+          <div class="container">
+
+            <div class="g-photo-box" ng-if="true">
+              <div class="g-photo-close" ng-show="true">
+                <span ng-click="" class="ico-mapfre_119_wrong"></span>
+              </div>
+              <label class="g-photo-inner-box">
+                <input type="file" file-model="$ctrl.photoFileP"  multiple="" ng-model="$ctrl.files" accept=".jpg,.bmp,.png,.jpeg" class="input__file"/>
+                <div class="g-photo-img"></div>
+              </label>
+              <div class="g-photo-name" ng-show="false">{{photo.name}}</div>
+            </div>
+
+            <div class="g-photo-box" ng-repeat="item in $ctrl.filesP">
+              <div class="g-photo-close" ng-if="$ctrl.filesP">
+                <!--<span ng-click="" class="ico-mapfre_119_wrong"></span>-->
+                <span class="ico-mapfre_302_error gnIcon-xsm" ng-click="$ctrl.deleteFile($index, $ctrl.filesP, 2)"></span>
+              </div>
+              <div class="g-photo-inner-box" ng-click="$ctrl.showImage(item.idAttachFile, 1);">
+                <div class="g-photo-img loaded">
+                  <img ng-src="{{ item.src }}" ng-if="true">
+                </div>
+              </div>
+              <!--<div class="g-photo-name" ng-show="true">{{item.fileName[0].name}}</div>-->
+            </div>
+
+          </div>
+        </div>
+      </div>
+      <!-- Fin: Photo row -->
+    </div>
+
+    <div class="col-md-12 g-box gBgcGray5 pt-xs-2 pb-xs-2">
+      <div class="row mb-xs-2">
+        <div class="col-md-12">
+          <h2 class="gCGray1 gH4"><b>Fotografías adjuntas - Taller</b></h2>
+        </div>
+      </div>
+
+      <!-- Inicio: Photo row -->
+      <div class="clearfix">
+        <div id="" class="view-foto g-viewer-photo">
+          <div class="container">
+
+            <div class="g-photo-box" ng-repeat="item in $ctrl.filesT">
+              <div class="g-photo-close" ng-if="$ctrl.filesT">
+                <!--<span ng-click="" class="ico-mapfre_119_wrong"></span>-->
+              </div>
+              <div class="g-photo-inner-box" ng-click="$ctrl.showImage(item.idAttachFile, 1);">
+                <div class="g-photo-img loaded">
+                  <img ng-src="{{ item.src }}" ng-if="true">
+                </div>
+              </div>
+              <div class="g-photo-name" ng-show="true">{{item.fileName[0].name}}</div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+      <!-- Fin: Photo row -->
+    </div>
+  </div>
+
+</div>
+  <!-- Fin FOTOGRAFÍAS -->
+
+
+  <!-- Inicio: Reparaciones-->
+  <div class="g-section-inner" ng-if="$ctrl.ingresadoATallerFlag || $ctrl.presupuestadoFlag || $ctrl.presupAmpFlag || $ctrl.presupuestadoAsign || $ctrl.peritadoFlag || $ctrl.porEntregarFlag || $ctrl.enReparacionFlag">
+
+    <div class="row mb-xs-2" ng-if="$ctrl.presupAmpFlag">
+      <div class="col-md-12">
+        <h2 class="gCGray1 gH4"><b>AMPLIACIÓN {{numAmpliacion}}</b></h2>
+      </div>
+    </div>
+
+    <div class="row mb-xs-2">
+      <div class="col-md-12">
+        <h2 class="gCGray1 gH4"><b>Estimación inicial</b></h2>
+      </div>
+    </div>
+    <div class="row mb-xs-2" ng-disabled="$ctrl.presupuestadoFlag">
+      <div class="col-md-3 mb-xs-2 no-mb-md">
+        <m-radio label="{label: 'Reparación sin repuestos'}" ng-change="$ctrl.formularioChanged()" name="nDatosReparacion" ng-model="$ctrl.siniestro.mDatosReparacion" value="N" ng-required="true" ng-disabled="!$ctrl.ingresadoATallerFlag || $ctrl.porEntregarFlag || $ctrl.enReparacionFlag || $ctrl.registradaObservada"></m-radio>
+        <div class="g-error" data-ng-show="nDatosReparacion.$error.required && !nDatosReparacion.$pristine">* Seleccione una opción </div>
+      </div>
+      <div class="col-md-3 mb-xs-2 no-mb-md">
+        <m-radio label="{label: 'Reparación necesita repuestos'}" ng-change="$ctrl.formularioChanged()" name="nDatosReparacion" ng-model="$ctrl.siniestro.mDatosReparacion" value="S" ng-required="true" ng-disabled="!$ctrl.ingresadoATallerFlag || $ctrl.porEntregarFlag || $ctrl.enReparacionFlag || $ctrl.registradaObservada"></m-radio>
+      </div>
+    </div>
+
+    <div class="row" ng-show="$ctrl.siniestro.mDatosReparacion === 'S'">
+      <div class="col-md-12">
+        <h2 class="gCGray1 gH4"><b>Disponibilidad de stock</b></h2>
+      </div>
+    </div>
+    <div class="row mb-xs-2">
+      <div class="col-md-3 mt-xs-3 no-mb-md" ng-show="$ctrl.siniestro.mDatosReparacion === 'S'">
+        <m-radio label="{label: 'Stock disponible'}" ng-change="$ctrl.formularioChanged()" ng-disabled="$ctrl.presupuestadoFlag || $ctrl.presupAmpFlag || $ctrl.presupuestadoAsign || $ctrl.peritadoFlag || $ctrl.porEntregarFlag || $ctrl.enReparacionFlag || $ctrl.registradaObservada" name="nDispStock" ng-model="$ctrl.siniestro.mDispStock" value="S" data-ng-required="true" ng-click=""></m-radio>
+        <div class="g-error" data-ng-show="nDispStock.$error.required && !nDispStock.$pristine">* Seleccione una opción </div>
+      </div>
+      <div class="col-md-3 mt-xs-3 mb-xs-2 no-mb-md" ng-show="$ctrl.siniestro.mDatosReparacion === 'S'">
+        <m-radio label="{label: 'No disponible'}" ng-change="$ctrl.formularioChanged()" ng-disabled="$ctrl.presupuestadoFlag || $ctrl.presupAmpFlag || $ctrl.presupuestadoAsign || $ctrl.peritadoFlag || $ctrl.porEntregarFlag || $ctrl.enReparacionFlag || $ctrl.registradaObservada" name="nDispStock" ng-model="$ctrl.siniestro.mDispStock" value="N" data-ng-required="true" ng-click=""></m-radio>
+      </div>
+      <div class="col-md-3 mb-xs-2 no-mb-md" ng-show="$ctrl.siniestro.mDispStock === 'N' && $ctrl.siniestro.mDatosReparacion === 'S'">
+        <mpf-input label="{label: 'Llegada de repuestos (días)', required: false}" ng-change="$ctrl.formularioChanged()" ng-disabled="$ctrl.presupuestadoFlag || $ctrl.presupAmpFlag || $ctrl.presupuestadoAsign || $ctrl.peritadoFlag || $ctrl.porEntregarFlag || $ctrl.enReparacionFlag || $ctrl.registradaObservada" name="nDiasLlegadaRep" ng-model="$ctrl.siniestro.mDiasLlegadaRep" ng-required="false" mpf-validation="onlyNumber"></mpf-input>
+        <ul class="g-error">
+          <li ng-show="$ctrl.presupuestoForm.nDiasLlegadaRep.$invalid && !$ctrl.presupuestoForm.nDiasLlegadaRep.$pristine">* Este campo es obligatorio</li>
+        </ul>
+      </div>
+      <div class="col-md-3 mb-xs-2 no-mb-md">
+        <mpf-input label="{label: 'Días estimados de reparación', required: true}" ng-change="$ctrl.formularioChanged()" ng-disabled="$ctrl.presupuestadoFlag || $ctrl.presupAmpFlag || $ctrl.presupuestadoAsign || $ctrl.peritadoFlag || $ctrl.porEntregarFlag || $ctrl.enReparacionFlag || $ctrl.registradaObservada" name="nDiasRepa" ng-model="$ctrl.siniestro.mDiasRepa" ng-required="true" mpf-validation="onlyNumber"></mpf-input>
+        <ul class="g-error">
+          <li ng-show="$ctrl.presupuestoForm.nDiasRepa.$invalid && !$ctrl.presupuestoForm.nDiasRepa.$pristine">* Este campo es obligatorio</li>
+        </ul>
+      </div>
+    </div>
+
+  </div>
+  <!-- Fin: Reparaciones -->
+</form>
+<!-- Inicio: PRESUPUESTO -->
+<!-- Para ingresar documentos -->
+<div class="g-section-inner" ng-if="$ctrl.ingresadoATallerFlag">
+
+  <div class="row mb-xs-2">
+    <div class="col-md-12">
+      <h2 class="gCGray1 gH4"><b>Presupuesto</b></h2>
+    </div>
+  </div>
+
+  <div class="clearfix">
+    <div class="col-md-12 g-box gBgcGray5 pt-xs-2 pb-xs-2">
+      <div class="row mb-xs-2">
+        <div class="col-sm-6 col-md-4 mb-xs-2 no-mb-md">
+          <div class="col-xs-12 item-label gH5"><b>Tipo de presupuesto: </b></div>
+          <div class="col-xs-12 item-dato g-text-uppercase gH5 pt-xs-1">INICIAL</div>
+        </div>
+        <div class="col-sm-6 col-md-4 mb-xs-2 no-mb-md" ng-if="!$ctrl.ingresadoATallerFlag">
+           <div class="col-xs-12 item-label gH5"><b>Fecha: </b></div>
+           <div class="col-xs-12 item-dato g-text-uppercase gH5 pt-xs-1">XXXXXXXX</div>
+        </div>
+        <div class="col-sm-6 col-md-4" ng-if="!$ctrl.presupuestadoAsign && $ctrl.isTaller()">
+          <div class="gH5 pb-xs-1"><b>Cargar documentos*</b></div>
+          <label class="g-btn g-btn-white second-design block">
+            <input type="file" file-model="$ctrl.docFile"  multiple="" ng-model="$ctrl.mDocFile" accept=".jpg, .bmp, .gif, .jpeg, .txt, .zip, .rar, .doc, .docx, .xls, .xlsx, .zip, application/x-rar-compressed, application/octet-stream,application/zip,application/x-zip,application/x-zip-compressed, application/pdf,application/msword, application/vnd.openxmlformats-officedocument.wordprocessingml.document, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/vnd.ms-excel" class="input__file"/>
+            + Escoger archivo
+          </label>
+        </div>
+      </div>
+
+      <div class="row mb-xs-1">
+        <div class="col-md-12">
+          <h2 class="gCGray1 gH5"><b>Documentos adjuntos</b></h2>
+        </div>
+      </div>
+
+      <div class="row mb-xs-2">
+        <div class="col-sm-6 col-md-4 mb-xs-1" ng-repeat="item in $ctrl.docFilesT">
+          <div class="g-box gBgcWhite1 g-file-item pt-xs-1 pb-xs-1 pl-xs-1-5 pr-xs-1-5">
+            <span class="doc-item g-span-middle">
+              <span class="doc-item__icon">
+                <span class="{{$ctrl.iconFile}} gnIcon-md"></span>
+              </span>
+              <span class="doc-item__name">
+                <span class="g-block g-cut-text gH5" ng-click="$ctrl.downloadFile(item.idAttachFile)" uib-popover="{{item.fileName}}" popover-trigger="'mouseenter'">{{item.fileName}}</span>
+              </span>
+              <span class="doc-item__close" ng-if="$ctrl.isTaller()">
+                <span class="ico-mapfre_302_error gnIcon-xsm" ng-click="$ctrl.deleteFile($index, $ctrl.docFilesT, 1)"></span>
+              </span>
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- Para mostrar documentos -->
+<div class="g-section-inner" ng-if="($ctrl.presupuestadoFlag || $ctrl.showPresupuestoFile || $ctrl.peritadoFlag || $ctrl.enReparacionFlag) && !$ctrl.ingresadoATallerFlag">
+
+  <div class="row mb-xs-2">
+    <div class="col-md-12">
+      <h2 class="gCGray1 gH4"><b>Presupuesto</b></h2>
+    </div>
+  </div>
+
+  <div class="clearfix mb-xs-2" ng-hide="$ctrl.peritadoFlag || $ctrl.enReparacionFlag">
+    <div class="col-md-12 g-box gBgcGray5 pt-xs-2 pb-xs-2">
+      <ul class="row mb-xs-2">
+        <li class="col-md-4 clearfix cnt-item">
+          <div class="col-xs-5 item-label"><b>Tipo de presupuesto: </b></div>
+          <div class="col-xs-7 item-dato g-text-uppercase">{{$ctrl.siniestro.mBudgetName}}</div>
+        </li>
+        <li class="col-md-4 clearfix cnt-item">
+          <div class="col-xs-5 item-label"><b>Fecha: </b></div>
+          <div class="col-xs-7 item-dato g-text-uppercase">{{$ctrl.siniestro.mBudgetDate | date:'dd/MM/yyyy'}}</div>
+        </li>
+      </ul>
+      <div class="clearfix mb-xs-2 pt-xs-1 g-border-top">
+        <div class="col-md-12">
+          <h2 class="gCGray1 gH5"><b>Documentos adjuntos</b></h2>
+        </div>
+      </div>
+      <div class="row mb-xs-2">
+        <div class="col-sm-6 col-md-4 mb-xs-1" ng-repeat="item in $ctrl.workshopBudgetsFile">
+          <div class="g-box gBgcWhite1 g-file-item pt-xs-1 pb-xs-1 pl-xs-1-5 pr-xs-1-5">
+            <span class="doc-item g-span-middle">
+              <span class="doc-item__icon">
+                <span class="{{$ctrl.iconFile}} gnIcon-md"></span>
+              </span>
+             <span class="doc-item__name" ng-click="$ctrl.downloadFile(item.idAttachFile)">
+                <span class="g-block g-cut-text gH5" uib-popover="{{item.fileName}}" popover-trigger="'mouseenter'">{{item.fileName}}</span>
+            </span>
+              <span class="doc-item__close">
+                <!--<span class="ico-mapfre_302_error gnIcon-xsm"></span>-->
+              </span>
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="clearfix g-border-top pt-xs-2" ng-click="$ctrl.showAjustarPresupuesto()" ng-show="$ctrl.showAjustarPresupuesto()">
+    <div class="col-sm-4 col-sm-offset-8 col-md-3 col-md-offset-9 pr-xs-0 pl-xs-0 pl-sm-1-5">
+      <a class="g-btn g-btn-verde second-design block">Ajustar Presupuesto</a>
+    </div>
+  </div>
+
+
+  <div class="clearfix pt-xs-2" ng-if="$ctrl.showPresupuestoPAR">
+  <div class="col-md-12 g-box gBgcGray5 pt-xs-2 pb-xs-2">
+
+    <div class="row mb-xs-2">
+      <div class="col-sm-6 col-md-4 mb-xs-2 no-mb-md">
+        <div class="col-xs-12 item-label gH5"><b>Tipo de presupuesto: </b></div>
+        <div class="col-xs-12 item-dato g-text-uppercase gH5 pt-xs-1">AJUSTADO</div>
+      </div>
+      <div class="col-sm-6 col-md-4">
+        <div class="gH5 pb-xs-1"><b>Cargar documentos*</b></div>
+        <label class="g-btn g-btn-white second-design block">
+          <input type="file" file-model="$ctrl.docFile"  multiple="" ng-model="$ctrl.mDocFile" accept=".jpg, .bmp, .gif, .jpeg, .txt, .zip, .rar, .doc, .docx, .xls, .xlsx, .zip, application/x-rar-compressed, application/octet-stream,application/zip,application/x-zip,application/x-zip-compressed, application/pdf,application/msword, application/vnd.openxmlformats-officedocument.wordprocessingml.document, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/vnd.ms-excel" class="input__file"/>
+          + Escoger archivo
+        </label>
+      </div>
+    </div>
+
+    <div class="row mb-xs-1">
+      <div class="col-md-12">
+        <h2 class="gCGray1 gH5"><b>Documentos adjuntos</b></h2>
+      </div>
+    </div>
+
+    <div class="row mb-xs-2">
+      <div class="col-sm-6 col-md-4 mb-xs-1" ng-repeat="item in $ctrl.docFilesT">
+        <div class="g-box gBgcWhite1 g-file-item pt-xs-1 pb-xs-1 pl-xs-1-5 pr-xs-1-5">
+            <span class="doc-item g-span-middle">
+              <span class="doc-item__icon">
+                <span class="{{$ctrl.iconFile}} gnIcon-md"></span>
+              </span>
+              <span class="doc-item__name">
+                <span class="g-block g-cut-text gH5" ng-click="$ctrl.downloadFile(item.idAttachFile)" uib-popover="{{item.fileName}}" popover-trigger="'mouseenter'">{{item.fileName}}</span>
+              </span>
+              <span class="doc-item__close">
+                <span class="ico-mapfre_302_error gnIcon-xsm" ng-click="$ctrl.deleteFile($index, $ctrl.docFilesT, 1)"></span>
+              </span>
+            </span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+  <div class="clearfix mb-xs-2" ng-if="$ctrl.peritadoFlag || $ctrl.porEntregarFlag || $ctrl.enReparacionFlag">
+    <div class="clearfix" ng-show="$ctrl.isProficientBudgetsFile">
+      <div class="col-md-12 g-box gBgcGray5 pt-xs-2 pb-xs-2">
+        <div class="row mb-xs-2">
+          <div class="col-sm-6 col-md-4 mb-xs-2 no-mb-md">
+            <div class="col-xs-12 item-label gH5"><b>Tipo de presupuesto: </b></div>
+            <div class="col-xs-12 item-dato g-text-uppercase gH5 pt-xs-1">AJUSTADO</div>
+          </div>
+
+          <div class="col-sm-6 col-md-4 mb-xs-2 no-mb-md">
+            <div class="col-xs-12 item-label gH5"><b>Fecha: </b></div>
+            <div class="col-xs-12 item-dato g-text-uppercase gH5 pt-xs-1">{{$ctrl.siniestro.mBudgetProficientDate | date:'dd/MM/yyyy'}}</div>
+          </div>
+        </div>
+
+        <div class="row mb-xs-1">
+          <div class="col-md-12">
+            <h2 class="gCGray1 gH5"><b>Documentos adjuntos</b></h2>
+          </div>
+        </div>
+
+        <div class="row mb-xs-2">
+          <div class="col-sm-6 col-md-4 mb-xs-1" ng-repeat="item in $ctrl.proficientBudgetsFile">
+            <div class="g-box gBgcWhite1 g-file-item pt-xs-1 pb-xs-1 pl-xs-1-5 pr-xs-1-5">
+            <span class="doc-item g-span-middle">
+              <span class="doc-item__icon">
+                <span class="{{$ctrl.iconFile}} gnIcon-md"></span>
+              </span>
+             <span class="doc-item__name" ng-click="$ctrl.downloadFile(item.idAttachFile)">
+                <span class="g-block g-cut-text gH5" uib-popover="{{item.fileName}}" popover-trigger="'mouseenter'">{{item.fileName}}</span>
+            </span>
+              <span class="doc-item__close">
+                <!--<span class="ico-mapfre_302_error gnIcon-xsm"></span>-->
+              </span>
+            </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="clearfix mt-xs-2">
+      <div class="col-md-12 g-box gBgcGray5 pt-xs-2 pb-xs-2">
+        <ul class="row mb-xs-2">
+          <li class="col-md-4 clearfix cnt-item">
+            <div class="col-xs-5 item-label"><b>Tipo de presupuesto: </b></div>
+            <div class="col-xs-7 item-dato g-text-uppercase">{{$ctrl.siniestro.mBudgetName}}</div>
+          </li>
+          <li class="col-md-4 clearfix cnt-item">
+            <div class="col-xs-5 item-label"><b>Fecha: </b></div>
+            <div class="col-xs-7 item-dato g-text-uppercase">{{$ctrl.siniestro.mBudgetDate | date:'dd/MM/yyyy'}}</div>
+          </li>
+        </ul>
+        <div class="clearfix mb-xs-2 pt-xs-1 g-border-top">
+          <div class="col-md-12">
+            <h2 class="gCGray1 gH5"><b>Documentos adjuntos</b></h2>
+          </div>
+        </div>
+        <div class="row mb-xs-2">
+          <div class="col-sm-6 col-md-4 mb-xs-1" ng-repeat="item in $ctrl.workshopBudgetsFile">
+            <div class="g-box gBgcWhite1 g-file-item pt-xs-1 pb-xs-1 pl-xs-1-5 pr-xs-1-5">
+            <span class="doc-item g-span-middle">
+              <span class="doc-item__icon">
+                <span class="{{$ctrl.iconFile}} gnIcon-md"></span>
+              </span>
+             <span class="doc-item__name" ng-click="$ctrl.downloadFile(item.idAttachFile)">
+                <span class="g-block g-cut-text gH5" uib-popover="{{item.fileName}}" popover-trigger="'mouseenter'">{{item.fileName}}</span>
+            </span>
+              <span class="doc-item__close">
+                <!--<span class="ico-mapfre_302_error gnIcon-xsm"></span>-->
+              </span>
+            </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+<!-- Para mostrar documentos -->
+
+<!-- Procuracion -->
+<div class="g-section-inner" ng-hide="$ctrl.isTaller()">
+  <div class="row mb-xs-2" >
+    <div class="col-md-12">
+      <h2 class="gCGray1 gH4"><b>Procuración</b></h2>
+    </div>
+  </div>
+  <div class="clearfix mb-xs-2" ng-hide="$ctrl.isTaller()">
+    <div class="clearfix">
+      <div class="col-md-12 g-box gBgcGray5 pt-xs-2 pb-xs-1">
+        <div class="row mb-xs-2">
+          <div class="col-sm-6 col-md-4 mb-xs-2 no-mb-md" ng-hide="$ctrl.procurationFiles && $ctrl.procurationFiles.length > 0">
+            <div class="col-xs-12 item-dato g-text-uppercase gH5 pt-xs-1">No hay documentos</div>
+          </div>
+          <div class="col-sm-6 col-md-4 mb-xs-1" ng-repeat="item in $ctrl.procurationFiles">
+            <div class="g-box gBgcWhite1 g-file-item pt-xs-1 pb-xs-1 pl-xs-1-5 pr-xs-1-5">
+            <span class="doc-item g-span-middle">
+              <span class="doc-item__icon">
+                <span class="{{$ctrl.iconFile}} gnIcon-md"></span>
+              </span>
+             <span class="doc-item__name" ng-click="$ctrl.downloadProcuracion(item.idDocumento)">
+                <span class="g-block g-cut-text gH5" uib-popover="{{item.filename}}" popover-trigger="'mouseenter'">{{item.filename}}</span>
+            </span>
+              <span class="doc-item__close">
+              </span>
+            </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+<!-- Procuracion -->
+
+<!-- Inspeccion -->
+<div class="g-section-inner" ng-hide="$ctrl.isTaller()">
+  <div class="row mb-xs-2" >
+    <div class="col-md-12">
+      <h2 class="gCGray1 gH4"><b>Inspección</b></h2>
+    </div>
+  </div>
+  <div class="clearfix mb-xs-2" ng-hide="$ctrl.isTaller()">
+    <div class="clearfix">
+      <div class="col-md-12 g-box gBgcGray5 pt-xs-2 pb-xs-1">
+        <div class="row mb-xs-2">
+          <div class="col-sm-6 col-md-4 mb-xs-2 no-mb-md" ng-show="!$ctrl.inspectionFiles">
+            <!--<div class="col-xs-12 item-label gH5"><b>Versión: </b></div>-->
+            <div class="col-xs-12 item-dato g-text-uppercase gH5 pt-xs-1">No hay documentos</div>
+          </div>
+          <div class="col-sm-6 col-md-4 mb-xs-1" ng-show="$ctrl.inspectionFiles">
+            <!--<div class="col-sm-6 col-md-4 mb-xs-2 no-mb-md">-->
+            <!--<div class="col-xs-12 item-label gH5"><b>Versión: </b></div>-->
+            <!--<div class="col-xs-12 item-dato g-text-uppercase gH5 pt-xs-1">AJUSTADO</div>-->
+            <!--</div>-->
+            <div class="g-box gBgcWhite1 g-file-item pt-xs-1 pb-xs-1 pl-xs-1-5 pr-xs-1-5">
+            <span class="doc-item g-span-middle">
+              <span class="doc-item__icon">
+                <span class="{{$ctrl.iconFile}} gnIcon-md"></span>
+              </span>
+             <span class="doc-item__name" ng-click="$ctrl.downloadInspection($ctrl.inspectionFiles)">
+                <span class="g-block g-cut-text gH5" uib-popover="{{$ctrl.inspectionFiles}}" popover-trigger="'mouseenter'">{{$ctrl.inspectionFiles}}</span>
+            </span>
+              <span class="doc-item__close">
+              </span>
+            </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+<!-- Inspeccion -->
+
+<!-- Orden de trabajo -->
+<div class="g-section-inner">
+  <div class="row mb-xs-2" >
+    <div class="col-md-12">
+      <h2 class="gCGray1 gH4"><b>Orden de trabajo</b></h2>
+    </div>
+  </div>
+  <div class="clearfix mb-xs-2">
+    <div class="clearfix">
+      <div class="col-md-12 g-box gBgcGray5 pt-xs-2 pb-xs-1">
+        <div class="row mb-xs-2">
+          <div class="col-sm-6 col-md-4 mb-xs-2 no-mb-md" ng-show="!$ctrl.ordenFiles || $ctrl.ordenFiles.length === 0">
+            <!--<div class="col-xs-12 item-label gH5"><b>Versión: </b></div>-->
+            <div class="col-xs-12 item-dato g-text-uppercase gH5 pt-xs-1">No hay documentos</div>
+          </div>
+          <div class="col-sm-6 col-md-4 mb-xs-1" ng-repeat="item in $ctrl.ordenFiles">
+            <!--<div class="col-sm-6 col-md-4 mb-xs-2 no-mb-md">-->
+            <!--<div class="col-xs-12 item-label gH5"><b>Versión: </b></div>-->
+            <!--<div class="col-xs-12 item-dato g-text-uppercase gH5 pt-xs-1">AJUSTADO</div>-->
+            <!--</div>-->
+            <div class="g-box gBgcWhite1 g-file-item pt-xs-1 pb-xs-1 pl-xs-1-5 pr-xs-1-5">
+            <span class="doc-item g-span-middle">
+              <span class="doc-item__icon">
+                <span class="{{$ctrl.iconFile}} gnIcon-md"></span>
+              </span>
+             <span class="doc-item__name" ng-click="$ctrl.downloadOrden(item.idDocument)">
+                <span class="g-block g-cut-text gH5" uib-popover="{{item.workorderNumber}}" popover-trigger="'mouseenter'">{{item.workorderNumber}}</span>
+            </span>
+              <span class="doc-item__close">
+              </span>
+            </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+<!-- Orden de trabajo -->
+
+<div class="g-section-inner gper-presupuesto__file" ng-if="$ctrl.dataSiniestro.version > 1 && $ctrl.dataSiniestro.ampliaciones.length>1" ng-hide="$ctrl.firstVersion" >
+  <div class="row mb-xs-2">
+    <div class="col-md-12">
+      <h2 class="gCGray1 gH4"><b>Historial del presupuesto</b></h2>
+    </div>
+  </div>
+  <div class="row" ng-repeat="item in $ctrl.dataSiniestro.ampliaciones" ng-hide="$first">
+    <div class="col-md-12 g-span-middle" ng-hide="$last" ng-click="$ctrl.goToHistorial(item, item.version)"><span class="mr-xs-1"><b>AMPLIACIÓN {{item.version}}</b></span><span><a class="g-link gCGreen1">Ver detalle</a></span></div>
+    <div class="col-md-12 g-span-middle" ng-show="$last" ng-click="$ctrl.goToHistorial(item, 1)"><span class="mr-xs-1"><b>CARGA INICIAL</b></span><span><a class="g-link gCGreen1">Ver detalle</a></span></div>
+  </div>
+</div>
+<!-- Fin: PRESUPUESTO -->
+
+<script type="text/ng-template" id="tplModal.html">
+
+  <section class="gper-modal-img">
+
+    <button type="button" class="close g-close-modal" ng-click="$ctrl.closeModal()">
+      <span class="ico-mapfre_231_cancelaroff"></span>
+    </button>
+    <!--<div class="leftArrow">-->
+      <!--<span class="ico-arrow ico-mapfre_310_arrowLeft"></span>-->
+    <!--</div>-->
+    <div class="g-modal-photo-box">
+      <img class="" ng-src="{{$ctrl.photoBase64 }}" />
+    </div>
+    <!--<div class="rightArrow">-->
+      <!--<span class="ico-arrow ico-mapfre_311_arrowRight"></span>-->
+    <!--</div>-->
+
+  </section>
+
+</script>
+
+<form id="frmAttachFileIngresado" name="frmAttachFileIngresado" action="{{$ctrl.attachFileIngresadoURL}}" method="get" >
+</form>

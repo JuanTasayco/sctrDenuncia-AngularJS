@@ -1,0 +1,22 @@
+<div class="g-select-multiple"
+  tabindex="-1"
+  ng-blur="isActive=false">
+  <span class="placeholder">
+    {{ labelData.label }}<span ng-if="labelData.label && labelData.required">*</span>
+  </span>
+  <div class="text" ng-click="toggleList()">
+    <span>{{ (ngModelText) ? ngModelText : placeholder }}</span>
+    <i class="ico-mapfre_308_arrowDown ico-select"></i>
+  </div>
+  <div class="options" ng-class="{'active': isActive}">
+    <div class="item" ng-repeat="item in dataList track by $index">
+      <label class="g-checkbox" ng-class="{'active' : item.checked}">
+        <span class="ico-checkbox"></span>
+        <input type="checkbox"
+          ng-model="item.checked"
+          ng-change="changeCheck(item.checked, item)">
+          <span class="checkbox-label">{{item[textField]}}</span>
+      </label>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,66 @@
+<div
+  class="page-modal page-modal__tercerbien"
+  data-ng-form="$ctrl.frmBien">
+  <button type="button" class="close g-close-modal" data-ng-click="$ctrl.cerrar()">
+    <span class="ico-mapfre_46_cancelaroff"></span>
+  </button>
+  <div class="container container__head">
+    <div class="clearfix mb-xs-2 g-title-modal">
+      <h2 class="text-center">{{::$ctrl.textos.titulo}}</h2>
+    </div>
+  </div>
+  <div class="container container__body pl-md-2 pr-md-2">
+    <div class="clearfix modal-dialog-box">
+      <div class="modal-dialog-box-header"></div>
+      <div class="modal-dialog-box-body">
+        <div class="clearfix">
+          <div
+            class="col-md-6 mb-xs-2"
+            data-ng-class="{'u-msk-block': $ctrl.existeData}"
+          >
+            <wp-cbo-motivo-inves
+              data-label="{label: 'Motivo de investigación', required: true}"
+              data-ng-model="$ctrl.frm.motivoInvestigacion"
+              data-option-default="{enterData: true}"
+              data-set-model-by-this-key="$ctrl.myData.motivoInvestigacion"
+              name="nMotivoInves"
+            >
+            </wp-cbo-motivo-inves>
+            <div
+              class="g-error"
+              data-ng-show="$ctrl.frmBien.nMotivoInves.$invalid && !$ctrl.frmBien.nMotivoInves.$pristine">
+              Este campo es obligatorio
+            </div>
+          </div>
+          <div class="col-xs-12 mb-xs-2">
+            <mpf-textarea
+              data-ng-maxlength="2000"
+              data-ng-model="$ctrl.frm.comentarioInvestigacion"
+              data-ng-required="false"
+              data-ng-disabled="$ctrl.existeData"
+              label="{label:'Observaciones', required: false}"
+              name="nComentario"
+            >
+            </mpf-textarea>
+          </div>
+        </div>
+      </div>
+      <div class="modal-dialog-box-footer clearfix" data-ng-if="!$ctrl.existeData">
+        <div class="col-xs-6 col-md-3 col-md-offset-2 mb-xs-1">
+          <a
+            class="g-btn g-btn-white block"
+            data-ng-click="$ctrl.cerrar()">
+            {{::$ctrl.textos.btnCancel}}
+          </a>
+        </div>
+        <div class="col-xs-6 col-md-5 col-md-offset-0 mb-xs-1">
+          <a
+            class="g-btn g-btn-verde block"
+            data-ng-click="$ctrl.realizarCb()">
+            {{::$ctrl.textos.btnOk}}
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

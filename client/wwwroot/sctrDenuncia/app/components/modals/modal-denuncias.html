@@ -1,0 +1,69 @@
+<div class="clearfix">
+    <button type="button" class="close g-close-modal" data-ng-click="$ctrl.close()" prevent-default>
+        <span class="ico-mapfre_231_cancelaroff"></span>
+    </button>
+    <div class="container">
+        <form name="frmModal" class="clearfix">
+            <div class="col-xs-12 mb-xs-2">
+                <h2 class="gH3"><b>Denuncias en tratamiento</b></h2>
+            </div>
+            <div class="col-xs-12 mb-xs-2">
+                <span>Se han ingresado las siguientes denuncias registradas para este asegurado.</span><br>
+                <span>Si es la continuación de un tratamiento, omitir el registro de una nueva denuncia. Caso contrario, presionar sobre el botón "Cerrar" y continuar con el registro.</span>
+            </div>
+            <div class="col-xs-12 mb-xs-2">
+                <div class="clearfix g-tbl-wrapper">
+                    <div class="clearfix table__1400">
+                        <ul height-row class="g-row-fz12 g-tbl-row gBgcGray5 pt-xs-1">
+                            <li class="g-col g-col-xs col-6-dktp tbl-item item-title">PERIODO DENUNCIA</li>
+                            <li class="g-col g-col-xs col-6-dktp tbl-item item-title">NRO. DENUNCIA</li>
+                            <li class="g-col g-col-xs col-7-dktp tbl-item item-title">FECHA DENUNCIA</li>
+                            <li class="g-col g-col-xs col-7-dktp tbl-item item-title">FECHA ACCIDENTE</li>
+                            <li class="g-col g-col-xs col-7-dktp tbl-item item-title">TIPO DOC.</li>
+                            <li class="g-col g-col-xs col-10-dktp tbl-item item-title">NRO. DOCUMENTO</li>
+                            <li class="g-col g-col-xs col-14-dktp tbl-item item-title">RAZON SOCIAL/NOMBRE</li>
+                            <li class="g-col g-col-xs col-7-dktp tbl-item item-title">TIPO DOC.</li>
+                            <li class="g-col g-col-xs col-10-dktp tbl-item item-title">NRO. DOCUMENTO</li>
+                            <li class="g-col g-col-xs col-12-dktp tbl-item item-title">NOMBRE COMPLETO</li>
+                            <li class="g-col g-col-xs col-7-dktp tbl-item item-title">ESTADO</li>
+                            <li class="g-col g-col-xs col-7-dktp tbl-item item-title">VER</li>
+                        </ul>
+                        <div class="mb-xs-1 gnContentAuto-bg" ng-repeat="items in $ctrl.data.items">
+                            <ul height-row class="g-row-fz12 g-tbl-row pt-xs-1 g-border-bottom-xs">
+
+                                <li class="g-col g-col-xs col-6-dktp tbl-item">{{items.periodoDenuncia}}</li>
+                                <li class="g-col g-col-xs col-6-dktp tbl-item">{{items.nroDenuncia}}</li>
+                                <li class="g-col g-col-xs col-7-dktp tbl-item">
+                                    {{ items.fecDenuncia | date :'dd/MM/yyyy'}}</li>
+                                <li class="g-col g-col-xs col-7-dktp tbl-item">
+                                    {{ items.fecAccidente | date :'dd/MM/yyyy'}}</li>
+                                <li class="g-col g-col-xs col-7-dktp tbl-item">{{items.tipoDocCliente}}</li>
+                                <li class="g-col g-col-xs col-10-dktp tbl-item">{{items.nroDocCliente}}</li>
+                                <li class="g-col g-col-xs col-14-dktp tbl-item">{{items.razonSocialCliente}}
+                                </li>
+                                <li class="g-col g-col-xs col-7-dktp tbl-item">{{items.tipoDocAsegurado}}</li>
+                                <li class="g-col g-col-xs col-10-dktp tbl-item">{{items.nroDocAsegurado}}</li>
+                                <li class="g-col g-col-xs col-12-dktp tbl-item">{{items.nombreAsegurado}}
+                                </li>
+                                <li class="g-col g-col-xs col-7-dktp tbl-item">{{items.descEstado}}</li>
+                                <li class="g-col g-col-xs col-7-dktp tbl-item" ng-show="$ctrl.role != '2'">
+                                    <a class="g-link" target="_blank"
+                                        ui-sref="complaint.item({periodo: items.periodoDenuncia, nrodenuncia:items.nroDenuncia, codasegurado: items.codAfiliado})">
+                                        Ver Detalle </a>
+                                </li>
+                                <li class="g-col g-col-xs col-7-dktp tbl-item" ng-show="$ctrl.role == '2'">
+                                    <a class="g-link" ng-click="$ctrl.imprimir(items)">Ver Detalle </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="clearfix g-text-center-xs">
+            <div class="col-xs-12 col-md-2 col-md-offset-5">
+                <a class="g-btn g-btn-white second-design block" ng-click="$ctrl.close()">Cerrar</a>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,101 @@
+<div class="row mb-xs-2">
+    <div class="col-xs-12">
+        <ul class="g-menu-main hidden-xs hidden-sm">
+            <span ng-click="$ctrl.selectState(state)" ng-repeat="state in $ctrl.statesCount">
+                <li class="link" ng-class="state.codigoEstado == $ctrl.stateSelected ? 'actived' : ''">
+                    <a>{{state.descripcionEstado}} <span class="badge">{{state.cantidad}}</span>
+                    </a>
+                </li>
+            </span>
+        </ul>
+        <ul id="g-menu-main__responsive" class="g-menu-main g-menu-main__responsive hidden-md hidden-lg" ng-show="isPopupVisible">
+            <span ng-click="$ctrl.selectState(state)" ng-repeat="state in $ctrl.statesCount">
+                <li class="link" ng-class="state.codigoEstado == $ctrl.stateSelected ? 'actived' : ''">
+                    <a>{{state.descripcionEstado}} <span class="badge">{{state.cantidad}}</span>
+                    </a>
+                </li>
+            </span>
+        </ul>
+        <span id="g-menu-main_ico" class="ico-mapfre_95_menuderecha g-menu-main_ico visible-xs visible-sm"  ng-click="showTopMenu()" style="top: -30px"></span>
+    </div>
+</div>
+
+<div ng-show="$ctrl.isSearched && !$ctrl.noResult">
+    <div ng-repeat="item in $ctrl.result" class="row item-search">
+        <div class="col-md-12 mb-xs-2">
+            <div class="clearfix g-box g-overflow-hidden-xs mb-xs-2">
+                <div class="row g-box-content headReg">
+                    <div class="col-xs-10 col-sm-11">
+                        <ul class="clearfix g-list second-design">
+                            <li class="col-xs-12 col-sm-12">
+                                <div class="col-xs-12 pl-xs-0">
+                                    <div class="gH5 item-label resumen-item-denuncia">Solicitud No. {{item.solicitudId}}</div>
+                                    <span class="state" ng-class="{'state-registrado': item.codigoEstado=='1' , 'state-aprobado':item.codigoEstado=='4' , 'state-finalizado':item.codigoEstado=='3', 'state-programado':item.codigoEstado=='2' }">{{ item.descripcionEstado }}</span>
+                                    <span ng-show="item.dictamen !== null && item.dictamen !== ''" class="state state-registrado">{{ item.dictamen }}</span>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="col-xs-2 col-sm-1 text-right pr-xs-3">
+                        <a class="second-design" ui-sref="complaint.disabilityItem({nrosolicitud:item.solicitudId})">
+                            <i class="glyphicon glyphicon-menu-right"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="pt-xs-1 pb-xs-1 gBgcGray5">
+                    <ul class="row clearfix g-list second-design">
+                        <li class="col-md-4 clearfix cnt-item">
+                            <div class="col-sm-4 col-xs-6 item-label">Asegurado</div>
+                            <div class="col-sm-8 col-xs-6 item-dato">{{item.asegurado}}</div>
+                        </li>
+                        <li class="col-md-4 clearfix cnt-item">
+                            <div class="col-sm-4 col-xs-6 item-label">{{item.tipoDocumento}}</div>
+                            <div class="col-sm-8 col-xs-6 item-dato">{{item.numeroDocumento}}</div>
+                        </li>
+                        <li class="col-md-4 clearfix cnt-item">
+                            <div class="col-sm-4 col-xs-6 item-label">Contratante</div>
+                            <div class="col-sm-8 col-xs-6 item-dato">{{item.contratante.razonSocial}}</div>
+                        </li>
+                    </ul>
+                    <ul class="row clearfix g-list second-design">
+                        <li class="col-md-4 clearfix cnt-item">
+                            <div class="col-sm-4 col-xs-6 item-label">Fecha Solicitud</div>
+                            <div class="col-sm-8 col-xs-6 item-dato">{{item.fechaSolicitud | date : 'dd/MM/yyyy'}}</div>
+                        </li>
+                        <li class="col-md-4 clearfix cnt-item">
+                            <div class="col-sm-4 col-xs-6 item-label">Fecha Siniestro</div>
+                            <div class="col-sm-8 col-xs-6 item-dato">{{item.fechaSiniestro | date : 'dd/MM/yyyy'}}</div>
+                        </li>
+                        <li class="col-md-4 clearfix cnt-item">
+                            <div class="col-sm-4 col-xs-6 item-label">Área</div>
+                            <div class="col-sm-8 col-xs-6 item-dato">{{item.areaAsignada}}</div>
+                        </li>
+                    </ul>
+                    <ul class="row clearfix g-list second-design">
+                        <li class="col-md-4 clearfix cnt-item">
+                            <div class="col-sm-4 col-xs-6 item-label">Ahorro estimado</div>
+                            <div class="col-sm-8 col-xs-6 item-dato">{{item.monedaAhorroEstimado}} {{item.importeAhorroEstimado}}</div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row" ng-show="$ctrl.pagination.totalRecords > $ctrl.pagination.sizePerPage">
+        <div class="col-md-12">
+            <ul uib-pagination class="g-pagination" ng-model="$ctrl.pagination.currentPage"
+                max-size="$ctrl.pagination.maxSize" total-items="$ctrl.pagination.totalRecords"
+                ng-change="$ctrl._pageChanged()" items-per-page="$ctrl.pagination.sizePerPage"
+                boundary-link-numbers="true"></ul>
+        </div>
+    </div>
+</div>
+
+<div ng-show="!$ctrl.isSearched || $ctrl.noResult">
+    <div class="row">
+        <div class="col-xs-12 col-md-12">
+            <complaint-list-empty></complaint-list-empty>
+        </div>
+    </div>
+</div>

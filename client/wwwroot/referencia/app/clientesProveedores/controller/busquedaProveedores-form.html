@@ -1,0 +1,219 @@
+<div data-ng-form="BusquedaClienteForm" class="provee-form" role="tablist" aria-multiselectable="true">
+  <div class="col-xs-12 u-mb-30">
+    Filtrar resultados por:
+  </div>
+  <div class="col-xs-12 u-mb-30">
+    <div class="select-box">
+      <span class="select__lbl">Departamento: </span>
+      <select id="slLstDepartamentos"
+              name="slLstDepartamentos"
+              class="select"
+              data-ng-change="$ctrl.change('dep')"
+              data-ng-model="$ctrl.departamento"
+              data-ng-options="item.nombre for item in ::$ctrl.lstDptos">
+        <option value="" selected="">Todos</option>
+      </select>
+      <span class="select__ico--arrow ico-mapfre_76_chevrondown ico-select" aria-hidden="true"></span>
+    </div>
+  </div>
+  <div class="col-xs-12 u-mb-30">
+    <div class="select-box">
+      <span class="select__lbl">Provincia: </span>
+      <select id="slLstProvincias"
+              name="slLstProvincias"
+              class="select"
+              data-ng-change="$ctrl.change('pro')"
+              data-ng-model="$ctrl.provincia"
+              data-ng-options="item.nombre for item in $ctrl.lstProvincias">
+        <option value="" selected="">Todas</option>
+      </select>
+      <span class="select__ico--arrow ico-mapfre_76_chevrondown ico-select" aria-hidden="true"></span>
+    </div>
+  </div>
+  <div class="col-xs-12 u-mb-30">
+    <div class="select-box">
+      <span class="select__lbl">Categor&iacute;a: </span>
+      <select id="slLstCategorias"
+              name="slLstCategorias"
+              class="select"
+              data-ng-change="$ctrl.change('cat')"
+              data-ng-model="$ctrl.categoria"
+              data-ng-options="item.nombre for item in ::$ctrl.lstCategorias">
+        <option value="" selected="">Todas</option>
+      </select>
+      <span class="select__ico--arrow ico-mapfre_76_chevrondown ico-select" aria-hidden="true"></span>
+    </div>
+  </div>
+  <div class="col-xs-12 u-mb-30">
+    <div class="select-box">
+      <span class="select__lbl">Tipo de Entidad: </span>
+      <select id="slLstEntidades"
+              name="slLstEntidades"
+              class="select"
+              data-ng-change="$ctrl.change('ent')"
+              data-ng-model="$ctrl.entidad"
+              data-ng-options="item.nombre for item in ::$ctrl.lstEntidades">
+        <option value="" selected="">Todas</option>
+      </select>
+      <span class="select__ico--arrow ico-mapfre_76_chevrondown ico-select" aria-hidden="true"></span>
+    </div>
+  </div>
+  <div class="col-xs-12 u-mb-30">
+    <div class="select-box">
+      <span class="select__lbl">Convenio: </span>
+      <select id="slLstConvenios"
+              name="slLstConvenios"
+              class="select"
+              data-ng-change="$ctrl.change('con')"
+              data-ng-model="$ctrl.convenio"
+              data-ng-options="item.nombre for item in ::$ctrl.lstConvenios">
+        <option value="" selected="">Todos</option>
+      </select>
+      <span class="select__ico--arrow ico-mapfre_76_chevrondown ico-select" aria-hidden="true"></span>
+    </div>
+  </div>
+  <div class="col-xs-12 u-mb-30">
+    <div class="box">
+      <a href="#accordion1" class="lbl-title frm-col__title collapsed"
+        role="button"
+        data-toggle="collapse">Servicios</a>
+      <div id="accordion1" class="panel-collapse collapse" role="tabpanel">
+        <ul class="chk__list">
+          <li class="chk__item"
+              data-ng-repeat="item in $ctrl.lstServicios | limitTo:$ctrl.serviciosOpt.limit track by $index">
+            <label class="chk__lbl">
+              <input  data-checklist-model="$ctrl.lstSelServicios"
+                      checklist-change="$ctrl.change('ser')"
+                      data-checklist-value="item"
+                      type="checkbox"
+                      name=""
+                      class="chk__input">
+              <span class="chk__ico"></span>
+              <span class="chk__txt">{{::item.nombre}}</span>
+            </label>
+          </li>
+        </ul>
+        <a  class="frm__seemore"
+            data-ng-if="::$ctrl.serviciosOpt.limit < $ctrl.lstServicios.length"
+            data-ng-click="$ctrl.loadMore($ctrl.serviciosOpt, $ctrl.lstServicios)">{{$ctrl.serviciosOpt.txt}}
+            <span class="ico-mapfre_76_chevrondown frm-seemore__ico" data-ng-class="{'is-collapse': !$ctrl.serviciosOpt.show}"></span>
+        </a>
+      </div>
+    </div>
+  </div>
+  <div class="col-xs-12 u-mb-30">
+    <div class="box">
+      <a  href="#accordion2"
+          class="lbl-title frm-col__title collapsed"
+          role="button"
+          data-toggle="collapse">Imagenología</a>
+      <div id="accordion2" class="panel-collapse collapse" role="tabpanel">
+        <ul class="chk__list">
+          <li class="chk__item"
+              data-ng-repeat="item in $ctrl.lstSeviImagenes | limitTo:$ctrl.serviImagenOpt.limit track by $index">
+            <label class="chk__lbl">
+              <input  data-checklist-model="$ctrl.lstSelServiImagenes"
+                      checklist-change="$ctrl.change('serviImg')"
+                      data-checklist-value="item"
+                      type="checkbox"
+                      name=""
+                      class="chk__input">
+              <span class="chk__ico"></span>
+              <span class="chk__txt">{{::item.nombre}}</span>
+            </label>
+          </li>
+        </ul>
+        <a  class="frm__seemore"
+            data-ng-if="::$ctrl.serviImagenOpt.limit < $ctrl.lstSeviImagenes.length"
+            data-ng-click="$ctrl.loadMore($ctrl.serviImagenOpt, $ctrl.lstSeviImagenes)">{{$ctrl.serviImagenOpt.txt}}
+            <span class="ico-mapfre_76_chevrondown frm-seemore__ico"
+                  data-ng-class="{'is-collapse': !$ctrl.serviImagenOpt.show}"></span>
+        </a>
+      </div>
+    </div>
+  </div>
+  <div class="col-xs-12 u-mb-30">
+    <div class="box">
+      <a  href="#accordion3"
+          class="lbl-title frm-col__title collapsed"
+          role="button"
+          data-toggle="collapse">Emergencias</a>
+      <div id="accordion3" class="panel-collapse collapse" role="tabpanel">
+        <ul class="chk__list">
+          <li class="chk__item"
+              data-ng-repeat="item in $ctrl.lstServiEmergencias | limitTo:$ctrl.serviEmergenciaOpt.limit track by $index">
+            <label class="chk__lbl">
+              <input  data-checklist-model="$ctrl.lstSelServiEmergencias"
+                      data-checklist-value="item"
+                      checklist-change="$ctrl.change('serviemergencia')"
+                      type="checkbox"
+                      name=""
+                      class="chk__input">
+              <span class="chk__ico"></span>
+              <span class="chk__txt">{{::item.nombre}}</span>
+            </label>
+          </li>
+        </ul>
+        <a  class="frm__seemore"
+            data-ng-if="::$ctrl.serviEmergenciaOpt.limit < $ctrl.lstServiEmergencias.length"
+            data-ng-click="$ctrl.loadMore($ctrl.serviEmergenciaOpt, $ctrl.lstServiEmergencias)">{{$ctrl.serviEmergenciaOpt.txt}}
+            <span class="ico-mapfre_76_chevrondown frm-seemore__ico"
+                  data-ng-class="{'is-collapse': !$ctrl.serviEmergenciaOpt.show}"></span>
+        </a>
+      </div>
+    </div>
+  </div>
+  <div class="col-xs-12 u-mb-30">
+    <div class="box">
+      <a  href="#accordion4"
+          class="lbl-title frm-col__title collapsed"
+          role="button"
+          data-toggle="collapse">Ambulancia</a>
+      <div id="accordion4" class="panel-collapse collapse" role="tabpanel">
+        <ul class="chk__list">
+          <li class="chk__item"
+              data-ng-repeat="item in ::$ctrl.lstServiAmbulancias | limitTo:$ctrl.serviAmbulanciaOpt.limit track by $index">
+            <label class="chk__lbl">
+              <input  data-checklist-model="$ctrl.lstSelServiAmbulancias"
+                      data-checklist-value="item"
+                      checklist-change="$ctrl.change('serviambulancia')"
+                      type="checkbox"
+                      name=""
+                      class="chk__input">
+              <span class="chk__ico"></span>
+              <span class="chk__txt">{{::item.nombre}}</span>
+            </label>
+          </li>
+        </ul>
+        <a  class="frm__seemore"
+            data-ng-if="::$ctrl.lstServiAmbulancias.limit < $ctrl.lstServiAmbulancias.length"
+            data-ng-click="$ctrl.loadMore($ctrl.serviAmbulanciaOpt, $ctrl.lstServiAmbulancias)">{{$ctrl.serviAmbulanciaOpt.txt}}
+            <span class="ico-mapfre_76_chevrondown frm-seemore__ico"
+                  data-ng-class="{'is-collapse': !$ctrl.serviAmbulanciaOpt.show}"></span>
+        </a>
+      </div>
+    </div>
+  </div>
+  <div class="col-xs-12 u-mb-30">
+    <div class="box">
+      <a  href="#accordion5"
+          class="lbl-title frm-col__title collapsed"
+          role="button"
+          data-toggle="collapse">Especialidades
+      </a>
+      <div id="accordion5" class="panel-collapse collapse typeahead__wp" role="tabpanel">
+        <input  class="c-input-txt typeahead"
+                placeholder="Nombre de la especialidad"
+                type="text"
+                sf-typeahead
+                datasets="$ctrl.especialidadesDataset"
+                data-ng-model="$ctrl.espSelected">
+        <div>
+          <div class="taItem" data-ng-repeat="item in $ctrl.lstEspSelected">{{item.nombre}}
+            <a class="crossItem" data-ng-click="$ctrl.deleteEsp($index)"></a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

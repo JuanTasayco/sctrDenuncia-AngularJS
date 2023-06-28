@@ -1,0 +1,267 @@
+<!-- Step 4 -->
+<form name="frmForthStep">
+  <div class="g-section-inner">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12">
+          <h2 class="g-sub-title g-myd-subtitle">Financiamiento</h2>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-4">
+          <mpf-select
+            label="{label: 'Tipo de financiamiento', required: true}"
+            name="nTipoFinanciamiento"
+            ng-model="fourthStep.mTipoFinanciamiento"
+            m-data-source="financingData"
+            text-field="Descripcion"
+            value-field="Codigo"
+            m-Empty-Option="{enterData:true}"
+            mpf-validation="required"
+            ng-change="fnSetRequiredManager()"
+          ></mpf-select>
+          <ul class="g-error">
+            <li
+              ng-show="frmForthStep.nTipoFinanciamiento.$error.required && !frmForthStep.nTipoFinanciamiento.$pristine"
+            >
+              * Este campo es obligatorio
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+	<div class="g-section-inner">
+		<div class="container">
+			<div class="row">
+				<div class="col-md-12">
+					<h2 class="g-sub-title g-myd-subtitle">Endosatario <span>(opcional)</span></h2>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-11">
+					<span class="g-placeholder block mb-xs-2">Selecciona como deseas buscar a el endosatario:</span>
+					<ul class="row">
+            <li class="col-md-4 mb-xs-1 no-mb-md">
+              <m-radio
+                label="{label: 'No usar endosatario'}"
+                name="nOpcionEndosatario"
+                ng-model="fourthStep.mOpcionEndosatario"
+                value="0"
+                ng-required="true"
+                ng-click="fnClearEndorsee(0)"
+              ></m-radio>
+            </li>
+            <li class="col-md-4 mb-xs-1 no-mb-md">
+              <m-radio
+                label="{label: 'Buscar endosatario por RUC'}"
+                name="nOpcionEndosatario"
+                ng-model="fourthStep.mOpcionEndosatario"
+                value="1"
+                ng-required="true"
+                ng-click="fnClearEndorsee(1)"
+              ></m-radio>
+            </li>
+            <li class="col-md-4">
+              <m-radio
+                label="{label: 'Buscar endosatario por Razón social'}"
+                name="nOpcionEndosatario"
+                ng-model="fourthStep.mOpcionEndosatario"
+                value="2"
+                ng-required="true"
+                ng-click="fnClearEndorsee(2)"
+              ></m-radio>
+            </li>
+          </ul>
+				</div>
+			</div>
+			<div class="row h-myd--flex h-myd--flex-alg-end h-myd--flex-wrap" ng-if="fourthStep.mOpcionEndosatario == 1">
+				<div class="col-xs-12 col-sm-10 col-md-4 pt-xs-2 mb-xs-1 no-mb-sm">
+					<div class="layer-input" ng-if="!fourthStep.showLabelEndorsee">
+						<mpf-input label="{label: 'RUC del endosatario', required: true}" name="nBuscarEndosatario" ng-model="fourthStep.mBuscarEndosatario" ng-required="true" mpf-validation="onlyNumber" ng-maxlength="11"></mpf-input>
+						<ul class="g-error">
+							<li ng-show="frmForthStep.nBuscarEndosatario.$invalid && !frmForthStep.nBuscarEndosatario.$pristine">* Este campo es obligatorio</li>
+						</ul>
+						<ul class="gErrorIco firstDesign">
+							<li ng-if="fourthStep.errorEndorsee.error1"><span class="ico-mapfre_37_informacion ico"></span>El endosatario no esta registrado en Mapfre. Solicite el ingreso en su oficina comercial</li>
+							<li ng-if="fourthStep.errorEndorsee.error2"><span class="ico-mapfre_37_informacion ico"></span>Debe buscar el endosatario</li>
+						</ul>
+					</div>
+					<div class="layer-label" ng-if="fourthStep.showLabelEndorsee">
+						<label class="g-placeholder block mb-xs-2">RUC del endosatario<span>*</span></label>
+						<span>{{fourthStep.mEndosatario.Codigo + ' - ' + fourthStep.mEndosatario.Descripcion}}</span>
+					</div>
+				</div>
+				<div class="col-xs-12 col-sm-2 col-md-2 pt-sm-5 g-text-left-sm g-text-right-xs">
+					<a class="g-btn g-btn-white second-design pt-md-3 h-myd-mt--20" ng-click="fnSearchEndorsee(fourthStep.mBuscarEndosatario, fourthStep.showLabelEndorsee)">
+						<span ng-if="!fourthStep.showLabelEndorsee"></span>
+						{{(!fourthStep.showLabelEndorsee) ? 'Buscar' : 'Cambiar'}}
+					</a>
+				</div>
+			</div>
+			<div class="row" ng-if="fourthStep.mOpcionEndosatario == 2">
+				<div class="col-md-4 pt-xs-2">
+					<mpf-select label="{label: 'Seleccionar endosatario de la lista', required: false}" name="nEndosatario" ng-model="fourthStep.mEndosatario" m-data-source="endorseeData" text-field="Descripcion" value-field="Codigo" m-Empty-Option="{enterData:true}" ng-change="endorseeChange(fourthStep.mEndosatario)" ng-required="true"></mpf-select>
+					<ul class="g-error">
+            <li ng-show="frmForthStep.nEndosatario.$invalid && !frmForthStep.nEndosatario.$pristine">* Este campo es obligatorio</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="row" ng-show="fourthStep.viewDcto">
+        <div class="col-md-4 pt-xs-2">
+          <mpf-Checkbox
+            ng-model="fourthStep.DctoIntegralidad"
+            label="Aplicar % del ratio de integralidad"
+            ng-change="obtenerDctontegralidad()"
+          ></mpf-Checkbox>
+          <span ng-show="fourthStep.DctoIntegralidad"><br />
+          Descuento de integralidad {{fourthStep.PorDctoIntgPlaza}}%</span>
+        </div>
+        <div class="col-md-4"></div>
+      </div>
+
+	<!-- Calcular Prima -->
+	<div class="g-section g-step-action">
+		<div class="container">
+			<div class="row">
+				<div class="col-md-4 col-md-offset-4">
+					<div class="row">
+						<a class="col-md-12 g-btn g-btn-verde g-myd-btn-secundary" ng-click="calculatePremium()">Calcular prima</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="g-section emitir-totales" ng-show="fourthStep.showCalculatePremium">
+		<div class="container">
+			<div class="col-md-12 g-box g-list">
+				<div class="row g-gray2-section">
+					<div class="col-md-4 col-md-offset-3 col-xs-6 clearfix">
+						<div class="col-md-12 h-myd-p--0">
+							<span class="ico-mapfre_82_circle ico-bullet"></span>Prima comercial:
+						</div>
+					</div>
+					<div class="col-md-2 col-xs-6 g-text-right-xs">
+            {{fourthStep.dataCalculatePremium.commercialPremium | currency:currencyType}}
+          </div>
+				</div>
+				<div class="row h-myd--flex h-myd--flex-alg-end h-myd--flex-wrap" data-ng-if="thirdStep.dataContractor.saldoMapfreDolares > 0">
+          <div class="col-xs-12 col-sm-6 col-md-4 col-md-offset-3">
+          	<div class="col-md-12 h-myd-p--0">
+	            <span class="ico-mapfre_82_circle ico-bullet"></span>
+	            <span class="pr-sm-2"> MAPFRE DÓLARES:</span>
+	            <b>({{(thirdStep.dataContractor.saldoMapfreDolares || 0)}} disponibles)</b>
+	           </div>
+          </div>
+          <div class="col-xs-12 col-sm-6 col-md-2 text-right g-input-design__wp--pt-0 g-input-design__wp--squash">
+            <mpf-input
+              data-ng-keyup="addMapfreDollar(fourthStep.mMapfreDolar)"
+              data-ng-model="fourthStep.mMapfreDolar"
+              mpf-validation="onlyNumberDecimal"
+              label="{label: '', required: false}"
+              name="nMapfreDolar"
+            ></mpf-input>
+            <div
+              class="g-valorauto-warning g-error pl-xs-0 pr-xs-0"
+              data-ng-if="fourthStep.mMapfreDolar < 0 || fourthStep.mMapfreDolar > thirdStep.dataContractor.saldoMapfreDolares"
+            >
+              <span class="ico-mapfre_37_informacion g-valorauto-warning-ico"></span>
+              Valor fuera de rango
+            </div>
+          </div>
+        </div>
+        <div class="row h-myd--flex h-myd--flex-alg-end h-myd--flex-wrap g-gray2-section">
+					<div class="col-xs-12 col-sm-4 col-md-3 col-md-offset-3 clearfix mb-xs-2 mb-sm-0">
+						<div class="col-md-12 h-myd-p--0">
+            	<span class="ico-mapfre_82_circle ico-bullet"></span>Descuento comisión:
+            </div>
+          </div>
+					<div class="col-xs-12 col-sm-4 col-md-1 mb-xs-2 mb-sm-0">
+						<mpf-select
+              label="{label: '', required: false}"
+              name="nDescuentoComision"
+              ng-model="fourthStep.mDescuentoComision"
+              m-data-source="fourthStep.discountCommissionData"
+              text-field="DsctoEspecialPorcentaje"
+              value-field="AgenteComision"
+              m-Empty-Option="{text:'%'}"
+              mpf-validation="required"
+              ng-change="calculateDiscountCommission(fourthStep.mDescuentoComision)"
+              ng-required="false"></mpf-select>
+					</div>
+					<div class="col-xs-12 col-sm-4 col-md-2 g-text-right-xs">
+            {{fourthStep.dataCalculatePremium.discountCommission | currency:currencyType}}
+          </div>
+        </div>
+        <div class="row h-myd--flex h-myd--flex-alg-end h-myd--flex-wrap g-gray2-section" >
+					<div class="col-xs-12 col-sm-4 col-md-3 col-md-offset-3 clearfix mb-xs-2 mb-sm-0">
+						<div class="col-md-12 h-myd-p--0">
+            	<span class="ico-mapfre_82_circle ico-bullet"></span>Descuento comercial:
+            </div>
+          </div>
+					<div class="col-xs-12 col-sm-4 col-md-1 mb-xs-2 mb-sm-0">
+						<mpf-select
+              label="{label: '', required: false}"
+              name="nDescuentoComercial"
+              ng-model="fourthStep.nDescuentoComercial"
+              m-data-source="fourthStep.discountComercialDataBs"              
+              text-field="DsctoEspValor"
+              value-field="DsctoComercial"             
+              mpf-validation="required"
+              ng-change="calculateDiscountComercial(fourthStep.nDescuentoComercial)"
+              ng-required="false"></mpf-select>
+					</div>
+					<div class="col-xs-12 col-sm-4 col-md-2 g-text-right-xs">
+            {{fourthStep.dataCalculatePremium.discountComercial | currency:currencyType}}
+          </div>
+				</div>
+				<div class="row">
+					<div class="col-md-4 col-md-offset-3 col-xs-6 clearfix">
+						<div class="col-md-12 h-myd-p--0">
+            	<span class="ico-mapfre_82_circle ico-bullet"></span>IGV:
+            </div>
+          </div>
+          <div class="col-md-2 col-xs-6 g-text-right-xs">
+            {{ fourthStep.dataCalculatePremium.igv | currency: currencyType }}
+          </div>
+				</div>
+				<div class="row g-gray2-section emitir-totales-total1" data-ng-show="!fourthStep.mapfreDollarTotal">
+					<div class="col-md-4 col-md-offset-3 total-label col-xs-6 clearfix">
+						<div class="col-md-12 h-myd-p--0">
+            	<span class="ico-mapfre_82_circle ico-bullet"></span>Total
+            </div>
+          </div>
+          <div class="col-md-2 col-xs-6 g-text-right-xs">
+            {{ fourthStep.dataCalculatePremium.total | currency: currencyType }}
+          </div>
+				</div>
+				<div class="row g-gray2-section emitir-totales-total1" data-ng-show="fourthStep.mapfreDollarTotal">
+					<div class="col-md-4 col-md-offset-3 clearfix">
+						<div class="col-md-12 h-myd-p--0">
+            	<span class="ico-mapfre_82_circle ico-bullet"></span>Total con MAPFRE Dólares
+            </div>
+          </div>
+          <div class="col-md-2 g-text-right-xs total-mount">
+            {{ fourthStep.dataCalculatePremium.total | currency: currencyType }}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Button -->
+  <div class="g-section">
+    <div class="container">
+      <div class="row">
+        <div class="col-xs-12 mb-xs-3">
+          <span class="g-comment">*Campos obligatorios</span>
+        </div>
+        <div class="col-md-4 col-md-offset-4" ng-show="fourthStep.showCalculatePremium">
+          <a class="g-btn g-btn-verde block" ng-click="nextStep()">Siguiente</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>

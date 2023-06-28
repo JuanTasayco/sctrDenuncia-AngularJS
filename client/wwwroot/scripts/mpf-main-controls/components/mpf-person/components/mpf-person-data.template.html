@@ -1,0 +1,481 @@
+<div class="row">
+  <div class="col-md-4 mb-xs-2" ng-if="vm.searchField([vm.fields.TIP_DOCUM])">
+    <mpf-select label="{
+        label: 'Tipo de documento',
+        required: vm.checkRequired(vm.fields.TIP_DOCUM)
+      }"
+      name="documentType"
+      ng-model="vm.form.documentType"
+      m-data-source="vm.documentTypeSource"
+      text-field="Codigo"
+      value-field="Codigo"
+      m-empty-option="{ enterData: true }"
+      ng-change="vm.documentTypeChange()"
+      ng-required="vm.checkRequired(vm.fields.TIP_DOCUM)"
+      ng-disabled="vm.checkDisabled('TipoDocumento')"
+      focuss-me="vm.focus">
+    </mpf-select>
+    <ul class="g-error">
+      <li ng-show="personForm.documentType.$error.required && !personForm.documentType.$pristine">El campo Tipo de Documento es requerido</li>
+    </ul>
+  </div>
+  <div class="col-md-4 mb-xs-2" ng-if="vm.searchField([vm.fields.COD_DOCUM])">
+    <mpf-input
+      label="{
+        label: 'Número de documento',
+        required: vm.checkRequired(vm.fields.COD_DOCUM)
+      }"
+      name="documentNumber"
+      ng-model="vm.form.documentNumber"
+      ng-required="vm.checkRequired(vm.fields.COD_DOCUM)"
+      ng-blur="vm.getContractorData(vm.form.documentType.Codigo, vm.form.documentNumber)"
+      ng-disabled="vm.checkDisabled('TipoDocumento')"
+      ng-minlength="vm.docNumMinLength"
+      ng-maxlength="vm.docNumMaxLength"
+      mpf-validation="{{vm.docNumType}}"
+      mpf-validation-disabled="{{vm.docNumTypeDisabled}}"
+      disabled-view-model="true">
+    </mpf-input>
+    <ul class="g-error">
+      <li ng-show="personForm.documentNumber.$invalid && !personForm.documentNumber.$pristine">El campo Número de Documento es requerido</li>
+    </ul>
+  </div>
+  <div class="col-md-4 mb-xs-2" ng-if="vm.searchField([vm.fields.RELACION])">
+    <mpf-select
+      label="{
+        label: 'Relación',
+        required: vm.checkRequired(vm.fields.RELACION)
+      }"
+      name="Relacion"
+      ng-model="vm.form.Relacion"
+      m-data-source="vm.relacionSource"
+      text-field="Descripcion"
+      value-field="Codigo"
+      m-empty-option="{ enterData: true }"
+      disabled-view-model="true"
+      ng-disabled="vm.checkDisabled('Relacion')"
+      mpf-generic-validations="{{vm.getValidations(vm.fields.RELACION)}}">
+    </mpf-select>
+  </div>
+
+  <div class="col-md-3 mt-xs-2">
+    <a
+      ng-if="vm.searchField([vm.fields.BTN_CLEAN]) && vm.isVisibleCleanButton && !vm.blockAll && !vm.noButton"
+      class="g-btn block g-btn-white second-design"
+      ng-click="vm.cleanForm()">
+      Limpiar {{vm.textClean || 'contratante'}}
+    </a>
+  </div>
+</div>
+<div class="row" ng-if="vm.searchField([vm.fields.SCORE_CAR])">
+  <div class="col-md-12 mb-xs-1">
+    <div class="gBgcGray5 pt-xs-1 pb-xs-1 pl-xs-1">
+     <span class="middle">Score de Autos: <b>{{vm.form.Score}}</b></span>
+    </div>
+  </div>
+</div>
+
+<p class="item-title mt-xs-1 gH3" ng-if="vm.searchField([vm.fields.TIP_DOCUM])">Datos principales</p>
+<div class="row">
+  <div class="col-md-4 mb-xs-2" ng-if="vm.searchField([vm.fields.NAME_PERSON])">
+    <mpf-input
+      label="{
+        label: 'Nombres',
+        required: vm.checkRequired(vm.fields.NAME_PERSON)
+      }"
+      name="Nombre"
+      ng-model="vm.form.Nombre"
+      ng-disabled="vm.checkDisabled('Nombre')"
+      disable-onchange="false"
+      disabled-view-model="true"
+      mpf-generic-validations="{{vm.getValidations(vm.fields.NAME_PERSON)}}">
+    </mpf-input>
+  </div>
+  <div class="col-md-4 mb-xs-2" ng-if="vm.searchField([vm.fields.LASTNAME])">
+    <mpf-input
+      label="{
+        label: 'Apellido Paterno',
+        required: vm.checkRequired(vm.fields.LASTNAME)
+      }"
+      name="ApellidoPaterno"
+      ng-model="vm.form.ApellidoPaterno"
+      ng-disabled="vm.checkDisabled('ApellidoPaterno')"
+      disabled-view-model="true"
+      mpf-generic-validations="{{vm.getValidations(vm.fields.LASTNAME)}}">
+    </mpf-input>
+  </div>
+  <div class="col-md-4 mb-xs-2" ng-if="vm.searchField([vm.fields.SECOND_LASTNAME])">
+    <mpf-input
+      label="{
+        label: 'Apellido Materno',
+        required: vm.checkRequired(vm.fields.SECOND_LASTNAME)
+      }"
+      name="ApellidoMaterno"
+      ng-model="vm.form.ApellidoMaterno"
+      ng-disabled="vm.checkDisabled('ApellidoMaterno')"
+      disabled-view-model="true"
+      mpf-generic-validations="{{vm.getValidations(vm.fields.SECOND_LASTNAME)}}">
+    </mpf-input>
+  </div>
+  <div class="col-md-4 mb-xs-2" ng-if="vm.searchField([vm.fields.FULL_NAME])">
+    <mpf-input
+      label="{
+        label: 'Nombre Completo',
+        required: vm.checkRequired(vm.fields.FULL_NAME)
+      }"
+      name="FullName"
+      ng-model="vm.form.FullName"
+      ng-disabled="vm.checkDisabled('FullName')"
+      disabled-view-model="true"
+      mpf-generic-validations="{{vm.getValidations(vm.fields.FULL_NAME)}}">
+    </mpf-input>
+  </div>
+  <div class="col-md-4 mb-xs-2" ng-if="vm.searchField([vm.fields.BIRTHDATE])">
+    <div class="relive">
+      <label class="g-placeholder animated">Fecha de Nacimiento <span ng-if="vm.checkRequired(vm.fields.BIRTHDATE)">*</span></label>
+    </div>
+    <div class="row">
+      <div class="col-xs-3">
+        <mpf-select
+          label="{
+            label: '',
+            required: vm.checkRequired(vm.fields.BIRTHDATE)
+          }"
+          name="day"
+          ng-model="vm.form.day"
+          text-field="Descripcion"
+          value-field="Codigo"
+          ng-required="vm.checkRequired(vm.fields.BIRTHDATE)"
+          m-data-source="vm.daySource"
+          m-empty-option="{ text: 'Día' }"
+          ng-disabled="(vm.checkDisabled('FechaNacimiento') || vm.blockAll) && vm.disabledFecha">
+        </mpf-select>
+      </div>
+      <div class="col-xs-4">
+        <mpf-select
+          label="{
+            label: '',
+            required: vm.checkRequired(vm.fields.BIRTHDATE)
+          }"
+          name="month"
+          ng-model="vm.form.month"
+          text-field="Descripcion"
+          value-field="Codigo"
+          ng-required="vm.checkRequired(vm.fields.BIRTHDATE)"
+          m-data-source="vm.monthSource"
+          m-empty-option="{ text: 'Mes' }"
+          ng-disabled="(vm.checkDisabled('FechaNacimiento') || vm.blockAll) && vm.disabledFecha ">
+        </mpf-select>
+      </div>
+      <div class="col-xs-3">
+        <mpf-select
+          label="{
+            label: '',
+            required: vm.checkRequired(vm.fields.BIRTHDATE)
+          }"
+          name="year"
+          ng-model="vm.form.year"
+          text-field="Descripcion"
+          value-field="Codigo"
+          ng-required="vm.checkRequired(vm.fields.BIRTHDATE)"
+          m-data-source="vm.yearSource"
+          m-empty-option="{ text: 'Año' }"
+          ng-disabled="(vm.checkDisabled('FechaNacimiento') || vm.blockAll) && vm.disabledFecha">
+        </mpf-select>
+      </div>
+    </div>
+    <div
+      class="g-error"
+      ng-if="
+        personForm.day.$error.required && (!personForm.day.$pristine || personForm.$submitted) ||
+        personForm.month.$error.required && (!personForm.month.$pristine || personForm.$submitted) ||
+        personForm.year.$error.required && (!personForm.year.$pristine || personForm.$submitted)
+      "
+    >
+      * El campo Fecha de Nacimiento es requerido
+    </div>
+  </div>
+  <div class="col-md-4 mb-xs-2" ng-if="vm.form.year.Codigo && vm.form.month.Codigo && vm.form.day.Codigo && vm.formCode!= 'ACCIONISTAS' ">
+    <span class="g-label mb-xs-2">{{ vm.lblEdad }}</span>
+    <p class="mb-xs-0">{{ vm.getAge() }}</p>
+  </div>
+  <div class="col-md-4 mb-xs-2" ng-if="vm.searchField([vm.fields.CIVIL_STATUS]) && !vm.hideField(vm.fields.CIVIL_STATUS)">
+    <mpf-select
+      label="{
+        label: 'Estado civil',
+        required: vm.checkRequired(vm.fields.CIVIL_STATUS)
+      }"
+      name="civilState"
+      ng-model="vm.form.civilState"
+      text-field="Descripcion"
+      value-field="Codigo"
+      m-data-source="vm.civilStatusSource"
+      m-empty-option="{ enterData: true }"
+      disabled-view-model="true"
+      ng-disabled="vm.checkDisabled('civilState') || vm.blockAll"
+      mpf-generic-validations="{{vm.getValidations(vm.fields.CIVIL_STATUS)}}">
+    </mpf-select>
+  </div>
+  <div class="col-md-4 mb-xs-2" ng-if="vm.searchField([vm.fields.NATIONALITY])">
+    <mpf-select
+      label="{
+        label: 'Nacionalidad',
+        required: vm.checkRequired(vm.fields.NATIONALITY)
+      }"
+      name="nationality"
+      ng-model="vm.form.nationality"
+      m-data-source="vm.countriesSource"
+      text-field="Descripcion"
+      value-field="Codigo"
+      m-empty-option="{ enterData: true }"
+      disabled-view-model="true"
+      ng-disabled="vm.checkDisabled('nationality') || vm.blockAll"
+      mpf-generic-validations="{{vm.getValidations(vm.fields.NATIONALITY)}}">
+    </mpf-select>
+  </div>
+  <div class="col-md-4 mb-xs-2" ng-if="vm.searchField([vm.fields.RESIDENCE_COUNTRY_FISCAL])">
+    <mpf-select
+      label="{
+        label: 'País residencia fiscal',
+        required: vm.checkRequired(vm.fields.RESIDENCE_COUNTRY_FISCAL)
+      }"
+      name="residenceCountryFiscal"
+      ng-model="vm.form.residenceCountryFiscal"
+      m-data-source="vm.countriesSource"
+      m-empty-option="{ enterData: true }"
+      text-field="Descripcion" value-field="Codigo"
+      disabled-view-model="true"
+      mpf-generic-validations="{{vm.getValidations(vm.fields.RESIDENCE_COUNTRY_FISCAL)}}">
+    </mpf-select>
+  </div>
+  <div class="col-md-4 mb-xs-2" ng-if="vm.searchField([vm.fields.BUSINESSNAME])">
+    <mpf-input
+      label="{
+        label: 'Razón Social',
+        required: vm.checkRequired(vm.fields.BUSINESSNAME)
+      }"
+      name="razonSocial"
+      ng-model="vm.form.Nombre"
+      disabled-view-model="true"
+      ng-disabled="vm.checkDisabled('Nombre') || vm.blockAll"
+      mpf-generic-validations="{{vm.getValidations(vm.fields.BUSINESSNAME)}}">
+    </mpf-input>
+  </div>
+  <!--INICIO BUILDSOFT-->
+  <div class="col-md-4 mb-xs-2" ng-if="vm.searchField([vm.fields.PARTICIPATION_PCT])">
+    <mpf-input
+      label="{
+        label: 'Porcentaje de participacion',
+        required: vm.checkRequired(vm.fields.PARTICIPATION_PCT)
+      }"
+      name="PorcentajeParticipacion"
+      ng-model="vm.form.PorParticipacion"
+      ng-disabled="vm.blockAll"
+      disabled-view-model="true"
+      mpf-generic-validations="{{vm.getValidations(vm.fields.PARTICIPATION_PCT)}}">
+    </mpf-input>
+  </div>
+  <!--FIN BUILDSOFT-->
+  <div class="col-md-4" ng-if="vm.searchField([vm.fields.ECONOMIC_ACTIVITY])">
+    <mpf-select
+      label="{
+        label: 'Actividad económica',
+        required: vm.checkRequired(vm.fields.ECONOMIC_ACTIVITY)
+      }"
+      name="ActividadEconomica"
+      ng-model="vm.form.ActividadEconomica"
+      m-data-source="vm.activitiesSource"
+      text-field="Descripcion"
+      value-field="Codigo"
+      m-empty-option="{ enterData: true }"
+      ng-disabled="vm.blockAll"
+      disabled-view-model="true"
+      mpf-generic-validations="{{vm.getValidations(vm.fields.ECONOMIC_ACTIVITY)}}">
+    </mpf-select>
+  </div>
+  <div class="col-md-4" ng-if="vm.searchField([vm.fields.RELATIONSHIP]) && vm.appCode != 'DECESO'">
+    <mpf-select
+      label="{
+        label: 'Tipo',
+        required: vm.checkRequired(vm.fields.RELATIONSHIP)
+      }"
+      name="tipoPersona"
+      ng-model="vm.form.tipoPersona"
+      m-data-source="vm.relationshipSource"
+      text-field="Descripcion"
+      ng-disabled="vm.blockAll"
+      value-field="Codigo"
+      m-empty-option="{ enterData: true }"
+      disabled-view-model="true"
+      mpf-generic-validations="{{vm.getValidations(vm.fields.RELATIONSHIP)}}">
+    </mpf-select>
+  </div>
+</div>
+<p class="item-title mt-xs-1 gH3" ng-if="vm.searchField(vm.personalControls)">
+  Características personales
+</p>
+<div class="row">
+  <div class="col-md-4 mb-xs-2" ng-if="vm.searchField([vm.fields.SEX])">
+    <div class="row mb-sm-2 mb-xs-1">
+      <div class="col-md-12">
+        <span class="g-label">Sexo*</span>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-xs-6">
+        <m-radio
+          label="{ label: 'Masculino' }"
+          name="Sexo"
+          ng-model="vm.form.Sexo"
+          value="1"
+          ng-disabled="vm.checkDisabled('Sexo') || vm.blockAll"
+          ng-required="vm.checkRequired(vm.fields.SEX)">
+        </m-radio>
+      </div>
+      <div class="col-xs-6">
+        <m-radio
+          label="{ label: 'Femenino' }"
+          name="Sexo"
+          ng-disabled="vm.blockAll"
+          ng-model="vm.form.Sexo"
+          value="0"
+          ng-disabled="vm.checkDisabled('Sexo')"
+          ng-required="vm.checkRequired(vm.fields.SEX)">
+        </m-radio>
+      </div>
+    </div>
+    <div
+      class="g-error"
+      ng-if="personForm.Sexo.$error.required && (!personForm.Sexo.$pristine || personForm.$submitted)"
+    >
+      * El campo Sexo es requerido
+    </div>
+  </div>
+  <div class="col-md-4 mb-xs-2" ng-if="vm.searchField([vm.fields.SIZE]) && !vm.hideField(vm.fields.SIZE)">
+    <m-numeric-textbox
+      label="{
+        label: 'Talla (mt)',
+        required: vm.checkRequired(vm.fields.SIZE)
+      }"
+      name="size"
+      ng-disabled="vm.blockAll"
+      ng-model="vm.form.size"
+      disabled-view-model="true"
+      mpf-generic-validations="{{vm.getValidations(vm.fields.SIZE)}}">
+    </m-numeric-textbox>
+  </div>
+  <div class="col-md-4 mb-xs-2" ng-if="vm.searchField([vm.fields.SIZE_CM])">
+    <m-numeric-textbox
+      label="{
+        label: 'Talla (Cm)',
+        required: vm.checkRequired(vm.fields.SIZE_CM)
+      }"
+      name="size"
+      ng-disabled="vm.blockAll"
+      ng-model="vm.form.size"
+      disabled-view-model="true"
+      mpf-generic-validations="{{vm.getValidations(vm.fields.SIZE_CM)}}">
+    </m-numeric-textbox>
+  </div>
+  <div class="col-md-4 mb-xs-2" ng-if="vm.searchField([vm.fields.WEIGHT]) && !vm.hideField(vm.fields.WEIGHT)">
+    <m-numeric-textbox
+      label="{
+        label: 'Peso (kg)',
+        required: vm.getValidations(vm.fields.WEIGHT)
+      }"
+      name="weight"
+      ng-disabled="vm.blockAll"
+      ng-model="vm.form.weight"
+      disabled-view-model="true"
+      mpf-generic-validations="{{vm.getValidations(vm.fields.WEIGHT)}}">
+    </m-numeric-textbox>
+  </div>
+</div>
+<p class="item-title mt-xs-1 gH3" ng-if="vm.searchField(vm.jobControls)">
+  Datos laborales
+</p>
+<div class="row">
+  <div class="col-md-4 mb-xs-2" ng-if="vm.searchField([vm.fields.PROFESSION])">
+    <mpf-select
+      label="{
+        label: 'Profesión',
+        required: vm.checkRequired(vm.fields.PROFESSION)
+      }"
+      name="Profesion"
+      ng-model="vm.form.Profesion"
+      m-data-source="vm.professionSource"
+      text-field="Descripcion"
+      value-field="Codigo"
+      m-empty-option="{ enterData: true }"
+      disabled-view-model="true"
+      ng-disabled="vm.blockAll"
+      mpf-generic-validations="{{vm.getValidations(vm.fields.PROFESSION)}}">
+    </mpf-select>
+  </div>
+  <div class="col-md-4 mb-xs-2" ng-if="vm.searchField([vm.fields.PROFESSION_AUTOCOMPLETE])">
+    <mp-data-seeker
+      behavior="{
+        label:'Profesión',
+        placeholder:'Busque o seleccione una profesión ...',
+        matchField:'descripcion',
+        required:vm.checkRequired(vm.fields.PROFESSION_AUTOCOMPLETE)
+      }"
+      name="Profesion"
+      ng-model="vm.form.Profesion"
+      ng-disabled="vm.blockAll"
+      ng-change="vm.autoCompleteHandler('Profesion')"
+      m-data-source="'proxyAccidente.GetListAutoOcupacion'"
+      ng-required="vm.checkRequired(vm.fields.PROFESSION_AUTOCOMPLETE)"
+      mpf-generic-validations="{{vm.getValidations(vm.fields.PROFESSION_AUTOCOMPLETE)}}">
+      <div ng-bind-html="$item.descripcion | highlight: $select.search"></div>
+    </mp-data-seeker>
+  </div>
+  <div class="col-md-4 mb-xs-2" ng-if="vm.searchField([vm.fields.OCCUPATION])">
+    <mpf-select
+      label="{
+        label: 'Ocupación',
+        required: vm.checkRequired(vm.fields.OCCUPATION)
+      }"
+      name="Ocupacion"
+      ng-model="vm.form.Ocupacion"
+      m-data-source="vm.professionSource"
+      text-field="Descripcion"
+      value-field="Codigo"
+      ng-disabled="vm.blockAll"
+      m-empty-option="{ enterData: true }"
+      disabled-view-model="true"
+      mpf-generic-validations="{{vm.getValidations(vm.fields.OCCUPATION)}}">
+    </mpf-select>
+  </div>
+  <div class="col-md-4 mb-xs-2" ng-if="vm.searchField([vm.fields.OCCUPATION_AUTOCOMPLETE])">
+    <mp-data-seeker
+      behavior="{
+        label:'Ocupación',
+        placeholder:'Busque o seleccione una ocupación ...',
+        matchField:'descripcion',
+        required:vm.checkRequired(vm.fields.OCCUPATION_AUTOCOMPLETE)
+      }"
+      name="Ocupacion"
+      ng-model="vm.form.Ocupacion"
+      ng-disabled="vm.blockAll"
+      ng-change="vm.autoCompleteHandler('Ocupacion')"
+      m-data-source="'proxyAccidente.GetListAutoOcupacion'"
+      ng-required="vm.checkRequired(vm.fields.OCCUPATION_AUTOCOMPLETE)"
+      mpf-generic-validations="{{vm.getValidations(vm.fields.OCCUPATION_AUTOCOMPLETE)}}">
+      <div ng-bind-html="$item.descripcion | highlight: $select.search"></div>
+    </mp-data-seeker>
+  </div>
+  <div class="col-md-4 mb-xs-2" ng-if="vm.searchField([vm.fields.WORKPLACE])">
+    <mpf-input
+      label="{
+        label: 'Empresa donde trabaja',
+        required: vm.checkRequired(vm.fields.WORKPLACE)
+      }"
+      name="NombreEmpresa"
+      ng-model="vm.form.NombreEmpresa"
+      ng-disabled="vm.blockAll"
+      disabled-view-model="true"
+      mpf-generic-validations="{{vm.getValidations(vm.fields.WORKPLACE)}}">
+    </mpf-input>
+  </div>
+</div>

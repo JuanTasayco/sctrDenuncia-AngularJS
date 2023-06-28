@@ -1,0 +1,178 @@
+<section class="g-page pageDetailEvaluation mining">
+
+	<div class="g-title">
+		<div class="container">
+			<div class="row g-row">
+				<div class="col-md-8 g-col-md middle col-sm-11 col-xs-10">
+					<h1>Consulta de evaluación</h1>
+				</div>
+				<div class="col-md-4 g-col-md middle g-text-right-md hidden-sm hidden-xs">
+					<a
+						href="javascript:void(0)"
+						ng-click="fnGoEvaluation()">
+						<span class="g-icon gCGray3">
+							<span class="icon ico-mapfre_310_arrowLeft"></span>
+							<span class="g-link"><b>Volver al listado</b></span>
+						</span>
+					</a>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+
+	<div class="g-sec-information-md">
+		<div class="sec-item">
+			<div class="container">
+
+				<div class="row">
+
+					<div class="col-md-3">
+						<ul class="row">
+							<li class="col-md-12 clearfix cnt-item">
+								<div class="col-xs-12 item-label">
+									Cod File {{data.STATE_PARAMS.evaluation.fileId}}
+									<br>
+									<span class="g-box-label gBgcGreen1">{{data.STATE_PARAMS.evaluation.stateDescription}}</span>
+								</div>
+							</li>
+						</ul>
+					</div>
+
+					<div class="col-md-9">
+						<ul class="row">
+							<li class="col-md-6 clearfix cnt-item add-border-left">
+								<div class="col-md-5 col-sm-3 col-ms-4 col-xs-5 item-label">
+									Nombre:
+								</div>
+								<div
+									class="col-md-7 col-sm-9 col-ms-8 col-xs-7 item-dato g-text-uppercase g-cut-text"
+									title="{{data.STATE_PARAMS.evaluation.fileDescription | uppercase}}">
+									{{data.STATE_PARAMS.evaluation.fileDescription}}
+								</div>
+							</li>
+							<li class="col-md-6 clearfix cnt-item">
+								<div class="col-md-5 col-sm-3 col-ms-4 col-xs-5 item-label">
+									Fecha de carga
+								</div>
+								<div class="col-md-7 col-sm-9 col-ms-8 col-xs-7 item-dato g-text-uppercase">
+									{{data.STATE_PARAMS.evaluation.uploadDate}}
+								</div>
+							</li>
+						</ul>
+						<ul class="row">
+							<li class="col-md-6 clearfix cnt-item add-border-left">
+								<div class="col-md-5 col-sm-3 col-ms-4 col-xs-5 item-label">
+									Usuario de proceso:
+								</div>
+								<div class="col-md-7 col-sm-9 col-ms-8 col-xs-7 item-dato g-text-uppercase">
+									{{data.STATE_PARAMS.evaluation.userId}}
+								</div>
+							</li>
+							<li class="col-md-6 clearfix cnt-item">
+								<div class="col-md-5 col-sm-3 col-ms-4 col-xs-5 item-label">
+									Médico:
+								</div>
+								<div class="col-md-7 col-sm-9 col-ms-8 col-xs-7 item-dato g-text-uppercase">
+									{{data.STATE_PARAMS.evaluation.medicName}}
+								</div>
+							</li>
+						</ul>
+						<ul class="row">
+							<li class="col-md-6 clearfix cnt-item add-border-left">
+								<div class="col-md-5 col-sm-3 col-ms-4 col-xs-5 item-label">
+									Fecha de proceso:
+								</div>
+								<div class="col-md-7 col-sm-9 col-ms-8 col-xs-7 item-dato g-text-uppercase">
+									{{data.STATE_PARAMS.evaluation.processDate}}
+								</div>
+							</li>
+						</ul>
+					</div>
+
+				</div>
+
+
+
+			</div>
+		</div>
+	</div>
+
+
+	<div class="g-section-inner no-border-top">
+		<div class="container">
+
+			<mining-check-filter
+				ng-show="data.dataList.allList.length > 0"
+				data="checkFilter"
+				check-filter="fnCheckFilter(currentCheck)">
+			</mining-check-filter>
+
+    	<nsctr-no-result-filter
+				type="filter"
+				no-result-info="noResultFilter.noResultInfo"
+				no-result="noResultFilter.noResult" >
+			</nsctr-no-result-filter>
+
+			<div
+				class="row"
+				ng-if="data.dataList.list.length > 0">
+				<div class="col-md-12">
+					<div class="clearfix g-tbl-wrapper">
+						<div class="clearfix table__1024">
+							<ul
+								height-row
+								class="g-row-fz12 g-tbl-row gBgcGray5 pt-xs-1">
+								<li class="g-col g-col-xs col-12-dktp tbl-item"></li>
+								<li class="g-col g-col-xs col-24-dktp tbl-item item-title">NOMBRE</li>
+								<li class="g-col g-col-xs col-8-dktp tbl-item item-title">APTITUD</li>
+								<li class="g-col g-col-xs col-9-dktp tbl-item item-title">TIPO DOC</li>
+								<li class="g-col g-col-xs col-10-dktp tbl-item item-title">NRO DOC</li>
+								<li class="g-col g-col-xs col-8-dktp tbl-item item-title">TIPO EXAMEN</li>
+								<li class="g-col g-col-xs col-10-dktp tbl-item item-title">FECHA EXAMEN</li>
+								<li class="g-col g-col-xs col-9-dktp tbl-item item-title">DICTAMEN</li>
+								<li class="g-col g-col-xs col-10-dktp tbl-item item-title">MENOSCABO</li>
+							</ul>
+							<div class="mb-xs-1 gnContentAuto-bg">
+								<ul
+									height-row
+									class="g-row-fz12 g-tbl-row pt-xs-1 g-border-bottom-xs g-text-uppercase"
+									ng-repeat="item in data.dataList.list">
+									<li class="g-col g-col-xs col-12-dktp tbl-item">
+										<span class="g-box-label gBgcGreen1">{{item.statusDescription}}</span>
+									</li>
+									<li class="g-col g-col-xs col-24-dktp tbl-item">
+										{{item.fullName}}
+									</li>
+									<li class="g-col g-col-xs col-8-dktp tbl-item">
+										{{item.apto}}
+									</li>
+									<li class="g-col g-col-xs col-9-dktp tbl-item">
+										{{item.documentType}}
+									</li>
+									<li class="g-col g-col-xs col-10-dktp tbl-item">
+										{{item.documentNumber}}
+									</li>
+									<li class="g-col g-col-xs col-8-dktp tbl-item">
+										{{item.testType}}
+									</li>
+									<li class="g-col g-col-xs col-10-dktp tbl-item">
+										{{item.testDate}}
+									</li>
+									<li class="g-col g-col-xs col-9-dktp tbl-item">
+										{{item.dictamen || '-'}}
+									</li>
+									<li class="g-col g-col-xs col-10-dktp tbl-item">
+										{{item.menoscabo}}
+									</li>
+								</ul>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+		</div>
+	</div>
+</section>

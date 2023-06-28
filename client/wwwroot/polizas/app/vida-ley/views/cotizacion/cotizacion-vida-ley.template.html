@@ -1,0 +1,40 @@
+<section class="g-page page-vidaley-cotizar">
+  <div class="g-ui-view">
+    <page-title info="{title: 'Cotizar póliza de vida ley'}"></page-title>
+    <!-- Sección Agente -->
+    <div class="g-section">
+      <div class="container">
+        <div class="row" ng-show="!vm.activeSeleccionarAgente()">
+          <div class="col-md-5">
+            <span ng-show="!vm.userRoot">
+              <h2>Agente: {{ vm.agente.codigoAgente }} - {{ vm.agente.nombreAgente }}</h2>
+            </span>
+            <mp-data-seeker ng-show="vm.userRoot"
+              behavior="{label:'Seleccionar Agente', placeholder:'Busque o seleccione un agente ...', matchField:'codigoNombre'}"
+              m-data-source="'proxyAgente.buscarAgente'" ng-model="vm.agente" ng-change="vm.saveAgent(vm.agente)">
+              <div ng-bind-html="$item.codigoNombre | highlight: $select.search"></div>
+            </mp-data-seeker>
+          </div>
+        </div>
+
+        <div class="row" ng-show="vm.activeSeleccionarAgente()">
+          <div class="col-md-5">
+            <span>
+              <h2>Agente: {{ vm.agente.codigoNombre }}</h2>
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Steps -->
+  <wizard-stairs
+    stairs="{steps: [{description:'Datos del contratante'}, {description:'Datos de la póliza'},{description:'Datos del riesgo'}, {description: 'Resultados de la cotización'}], stateName:'.steps', stateParameter: 'step'}"
+    current-Step="vm.currentStep" steping="vm.nextStep($stepToGo)">
+  </wizard-stairs>
+  <!-- STEPS -->
+
+  <div id="form-views" ui-view=""></div>
+
+</section>

@@ -1,0 +1,211 @@
+<section class="g-page page-accidentes-cotizar g-summary">
+	<!-- <page-title info="{title: 'Emisa póliza accidentes'}"></page-title> -->
+	<div class="g-title summary">
+		<div class="container">
+			<div class="row">
+				<div class="col-md-8 mb-xs-2 no-mb-md">
+					<h2>
+						<span class="ico-mapfre_118_ok ico"></span>Póliza emitida	
+					</h2>
+				</div>
+				<div class="col-md-4">
+					<a class="g-btn g-btn-white block" ui-sref="getQuotesAccidente">Emitir nueva póliza accidentes</a>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="g-section">
+		<div class="container">
+			<!-- Box -->
+			<div class="row mb-xs-4">
+				<div class="col-md-12">
+					<div class="g-summary-box-radius pt-xs-1-5 pr-xs-1-5 pb-xs-1-5 pl-xs-1-5">
+						<div class="row mb-xs-1-5">
+							<div class="col-md-12">
+								<div class="row">
+									<div class="col-md-4">
+										<h2 class="g-summary-sub-title">Póliza de Accidentes</h2>
+									</div>
+									<div class="col-md-4">
+										<span class="g-summary-label">Condición: </span>
+										<span class="g-summary-data">{{emisionGuardada.EstadoEmision}}</span>
+									</div>
+									<div class="col-md-4" ng-if="emisionGuardada.NumeroPoliza">
+										<span class="g-summary-label">Nro. de Póliza: </span>
+										<span class="g-summary-data">{{emisionGuardada.NumeroPoliza}}</span>
+									</div>
+								</div>		
+							</div>
+						</div>
+						<div class="row mb-xs-1-5">
+							<div class="g-summary-box no-bl no-br clearfix">
+								<div class="row mb-xs-1">
+									<div class="col-xs-12">
+										<h2 class="g-summary-sub-title">Datos del contratante</h2>
+									</div>
+								</div>
+								<div class="row">
+									<div class="col-xs-12">
+										<ul class="row">
+											<li class="col-md-4 clearfix cnt-item no-padding-xs mb-xs-1">
+												<div class="col-sm-6 item-label fwBold">
+													Tipo de documento: 
+												</div>
+												<div class="col-sm-6 item-dato">{{emisionGuardada.Contratante.TipoDocumento}}</div>								
+											</li>
+											<li class="col-md-4 clearfix cnt-item no-padding-xs mb-xs-1">
+												<div class="col-sm-6 item-label fwBold">
+													Nro. de documento: 
+												</div>
+												<div class="col-sm-6 item-dato">{{emisionGuardada.Contratante.CodigoDocumento}}</div>
+											</li>
+											<li class="col-md-4 clearfix cnt-item no-padding-xs mb-xs-1" ng-hide="vShowNaturalRucPerson">
+												<div class="col-sm-6 item-label fwBold">
+													Razón Social:
+												</div>
+												<div class="col-sm-6 item-dato g-text-uppercase">{{emisionGuardada.Contratante.Nombre | uppercase}}</div>
+											</li>
+											<li class="col-md-4 clearfix cnt-item no-padding-xs mb-xs-1" ng-hide="vShowNaturalRucPerson">
+												<div class="col-sm-6 item-label fwBold">
+													Nombre:
+												</div>
+												<div class="col-sm-6 item-dato g-text-uppercase">{{emisionGuardada.Contratante.Nombre | uppercase}} {{emisionGuardada.Contratante.ApellidoPaterno | uppercase}} {{emisionGuardada.Contratante.ApellidoMaterno | uppercase}}</div>
+											</li>
+											<li class="col-md-4 clearfix cnt-item no-padding-xs mb-xs-1">
+												<div class="col-sm-6 item-label fwBold">
+													Fecha de nacimiento: 
+												</div>
+												<div class="col-sm-6 item-dato">{{emisionGuardada.Contratante.FechaNacimiento}}</div>
+											</li>
+											<li class="col-md-4 clearfix cnt-item no-padding-xs mb-xs-1">
+												<div class="col-sm-6 item-label fwBold">
+													Sexo: 
+												</div>
+												<div class="col-sm-6 item-dato">{{sexo | uppercase}}</div>
+											</li>
+											<li class="col-md-4 clearfix cnt-item no-padding-xs mb-xs-1">
+												<div class="col-sm-6 item-label fwBold">
+													Profesión: 
+												</div>
+												<div class="col-sm-6 item-dato">{{emisionGuardada.Contratante.Profesion.Descripcion}}</div>
+											</li>
+											<li class="col-md-4 clearfix cnt-item no-padding-xs mb-xs-1">
+												<div class="col-sm-6 item-label fwBold">
+													Teléfono fijo: 
+												</div>
+												<div class="col-sm-6 item-dato">{{emisionGuardada.Contratante.Telefono}}</div>
+											</li>
+											<li class="col-md-4 clearfix cnt-item no-padding-xs mb-xs-1">
+												<div class="col-sm-6 item-label fwBold">
+													Teléfono móvil: 
+												</div>
+												<div class="col-sm-6 item-dato">{{emisionGuardada.Contratante.Telefono2}}</div>
+											</li>
+											<li class="col-md-4 clearfix cnt-item no-padding-xs mb-xs-1">
+												<div class="col-sm-6 item-label fwBold">
+													Correo electrónico: 
+												</div>
+												<div class="col-sm-6 item-dato">{{emisionGuardada.Contratante.CorreoElectronico | uppercase}}</div>
+											</li>
+											<li class="col-md-4 clearfix cnt-item no-padding-xs mb-xs-1">
+												<div class="col-sm-6 item-label fwBold">
+													Dirección: 
+												</div>
+												<div class="col-sm-6 item-dato">{{emisionGuardada.Contratante.Ubigeo.NombreDepartamento}}, {{emisionGuardada.Contratante.Ubigeo.NombreProvincia}}, {{emisionGuardada.Contratante.Ubigeo.NombreDistrito}}</div>
+											</li>
+											<li class="col-md-4 clearfix cnt-item no-padding-xs">
+												<div class="col-sm-6 item-label fwBold">
+													MAPFRE dólares aplicados:  
+												</div>
+												<div class="col-sm-6 item-dato">{{emisionGuardada.Contratante.ImporteAplicarMapfreDolar | currency: '$'}}</div>
+											</li>
+										</ul>
+									</div>
+								</div>
+							</div>
+						</div>
+						<!-- Inicio: Datos del riesgo -->
+						<div class="row">
+							<div class="col-md-12">
+								<div class="row mb-xs-1-5">
+									<div class="col-md-12">
+										<h2 class="g-summary-sub-title">Riesgos incluidos</h2>
+									</div>									
+								</div>
+								<div class="row table-riesgo">
+									<div class="col-xs-12">
+										<div class="row">
+											<div class="table-riesgo-title">
+												<div class="col-md-1 title-col text-center">Nro. Riesgo</div>
+												<div class="col-md-4 title-col">Actividad</div>
+												<div class="col-md-1 title-col text-center">Nro. Asegurados</div>
+												<div class="col-md-2 title-col text-right">Prima Neta x asegurado</div>
+												<div class="col-md-2 title-col text-right">Prima Neta Total</div>
+												<div class="col-md-2 title-col text-right">Prima Total (incluye IGV)</div>
+											</div>
+										</div>
+										<div class="row">
+											<div class="table-riesgo-main">
+												<!-- row 1 -->
+												<div class="table-riesgo-row" ng-repeat="riesgo in riesgos">
+													<div class="table-riesgo-row-content">
+														<div class="col-md-1 data-col mb-xs-1 mb-md-0">
+															<span class="cell-label">Nro. Riesgo</span>
+															<span class="cell-data text-center">{{riesgo.nroRiesgo}}</span>
+														</div>
+														<div class="col-md-4 data-col mb-xs-1 mb-md-0">
+															<span class="cell-label">Actividad</span>
+															<span class="cell-data">{{riesgo.actividad}}</span>
+														</div>
+														<div class="col-md-1 data-col mb-xs-1 mb-md-0">
+															<span class="cell-label">Nro. Asegurados</span>
+															<span class="cell-data text-center">{{riesgo.numeroAseg}}</span>
+														</div>
+														<div class="col-md-2 data-col mb-xs-1 mb-md-0">
+															<span class="cell-label">Prima Neta x asegurado</span>
+															<span class="cell-data text-right">{{riesgo.primaNetaAseg}}</span>
+														</div>
+														<div class="col-md-2 data-col mb-xs-1 mb-md-0">
+															<span class="cell-label">Prima Neta Total</span>
+															<span class="cell-data text-right">{{riesgo.primaNetaTotal}}</span>
+														</div>
+														<div class="col-md-2 data-col mb-xs-1 mb-md-0">
+															<span class="cell-label">Prima Total (incluye IGV)</span>
+															<span class="cell-data text-right">{{riesgo.primaTotal}}</span>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<!-- Fin: Datos del riesgo -->
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-xs-12 col-sm-4 col-sm-offset-2 col-md-offset-4">
+					<h2 class="g-sub-title green g-text-right-sm g-lheight-1">Total del período</h2>
+				</div>
+				<div class="col-xs-12 col-sm-6 col-md-4">
+					<ul>
+						<li class="row mb-xs-0-5">
+							<div class="col-xs-7">Prima net x asegurado:</div>
+							<div class="col-xs-5 text-right"><span>{{PrimaNetaIndividual | number : 2}}</span></div>
+						</li>
+						<li class="row mb-xs-0-5 del-border">
+							<div class="col-xs-7">Prima neta total:</div>
+							<div class="col-xs-5 text-right"><span>{{PrimaNeta | number : 2}}</span></div>
+						</li>
+						<li class="row mb-xs-0-5 del-border">
+							<div class="col-xs-7"><span> Prima total (incluye IGV):</span></div>
+							<div class="col-xs-5 text-right"><span>{{PrimaTotal | number : 2}}</span></div>
+						</li>
+					</ul>
+				</div>
+		  </div>
+		</div>
+	</div>
+</section>

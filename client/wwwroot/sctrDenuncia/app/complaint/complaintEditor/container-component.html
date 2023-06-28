@@ -1,0 +1,450 @@
+<div class="g-complaint mt-xs-1">
+    <div class="container">
+        <div class="row">
+            <div class="clearfix g-table">
+                <div class="col-md-6 col-lg-12 g-text-right-sm hidden-sm hidden-xs mt-xs-1">
+                    <a href="/sctrDenuncia/">
+                        <span class="g-icon gCGray3">
+                            <span class="icon ico-mapfre_310_arrowLeft"></span>
+                            <span class="g-link"><b>Volver a la búsqueda</b></span>
+                        </span>
+                    </a>
+                </div>
+                <div class="col-xs-12 g-cell-middle pl-xs-0 pr-xs-0" ng-class="{
+                    'col-md-4' : $ctrl.showStateAttention() && $ctrl.showStateAttention2(),
+                    'col-md-6' : !($ctrl.showStateAttention() && $ctrl.showStateAttention2())
+                }">
+                    <div class="denuncia-edit-title">
+                        <div class="container">
+                            <div class="row">
+                                <div class="col-xs-12 g-complaint-title">
+                                    <h2 class="compl-title">
+                                        Denuncia No.
+                                        {{$ctrl.periodo}}-{{$ctrl.dataView.nroDenuncia}}
+                                    </h2>
+
+                                    <span class="state"
+                                        ng-class="{'state-aprobado':$ctrl.dataView.estado=='P' , 'state-rechazado':$ctrl.dataView.estado=='H', 'state-finalizado':$ctrl.dataView.estado=='F' }"
+                                        uib-tooltip="{{$ctrl.infoToolTip}}">{{ $ctrl.dataView.descEstado }}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="col-xs-12" ng-class="{
+                      'col-md-6': !(!$ctrl.showApprove() || !$ctrl.showReject() || $ctrl.showStateAttention2()|| $ctrl.showStateAttention() || $ctrl.showFinish() || $ctrl.showRehab()), 
+                      'col-md-3':   !$ctrl.showApprove() || !$ctrl.showReject() || $ctrl.showStateAttention() || $ctrl.showStateAttention2()|| $ctrl.showFinish() || $ctrl.showRehab()
+                    }">
+                </div>
+
+                <div class="col-xs-12" ng-class="{
+                        'col-md-3': !($ctrl.showReject() && ($ctrl.showApprove() || $ctrl.showFinish())),
+                        'col-md-6': $ctrl.showReject() && ($ctrl.showApprove() || $ctrl.showFinish()),
+                        'col-md-8': $ctrl.showStateAttention() && $ctrl.showStateAttention2()
+                    }">
+                    <div class="row">
+                        <div class="col-xs-2 col-md-2 titel-col mt-md-2 mb-md-2 mt-xs-1 mb-xs-1" ng-class="{
+                                'col-md-offset-10' : !$ctrl.showApprove()  && !$ctrl.showReject() && !$ctrl.showFinish() && !$ctrl.showRehab(),
+                                'col-md-offset-1 col-md-1' : $ctrl.showStateAttention() && $ctrl.showStateAttention2()
+                            }">
+                            <a class="g-btn g-btn-white second-design block" ng-click="$ctrl.download()">
+                                <i class="glyphicon glyphicon-print"></i>
+                            </a>
+                        </div>
+
+                        <div class="col-xs-12 col-md-10 mt-md-2 mb-md-2 mt-xs-1 mb-xs-1" ng-show="$ctrl.showRehab()">
+                            <a class="g-btn g-btn-verde second-design block"
+                                ng-click="$ctrl.rehabAttention()">Rehabilitar
+                                denuncia</a>
+                        </div>
+
+                        <div class="col-xs-12 mt-md-2 mb-md-2 mt-xs-1 mb-xs-1" ng-class="{
+                                'col-md-10': !$ctrl.showReject() || !$ctrl.showFinish(),
+                                'col-md-5': $ctrl.showReject() && $ctrl.showFinish()
+                            }" ng-show="$ctrl.showFinish()">
+                            <a class="g-btn g-btn-verde second-design block"
+                                ng-click="$ctrl.finishComplaint()">Finalizar
+                                denuncia</a>
+                        </div>
+
+                        <div class="col-xs-12 mt-md-2 mb-md-2 mt-xs-1 mb-xs-1" ng-show="$ctrl.showReject()" ng-class="{
+                                'col-md-10': !($ctrl.showReject() && ($ctrl.showApprove() || $ctrl.showFinish())) && !($ctrl.showStateAttention() && $ctrl.showStateAttention2()),
+                                'col-md-5': $ctrl.showReject() && ($ctrl.showApprove() || $ctrl.showFinish()) && !($ctrl.showStateAttention() && $ctrl.showStateAttention2()),
+                                'col-md-3': $ctrl.showStateAttention() && $ctrl.showStateAttention2()
+                            }">
+                            <a class="g-btn g-btn-white second-design block" ng-click="$ctrl.rejectDenuncia()">Rechazar
+                                Denuncia</a>
+                        </div>
+
+                        <div class="col-xs-12 mt-md-2 mb-md-2 mt-xs-1 mb-xs-1 col-md-3"
+                            ng-show="$ctrl.showStateAttention2()">
+                            <a class="g-btn g-btn-white second-design block" ng-click="$ctrl.rejectAttention()">Rechazar
+                                Atencion</a>
+                        </div>
+
+                        <div class="col-xs-12 mt-md-2 mb-md-2 mt-xs-1 mb-xs-1" ng-show="$ctrl.showApprove()" ng-class="{
+                                'col-md-10': !$ctrl.showApprove() || !$ctrl.showReject(),
+                                'col-md-5': $ctrl.showApprove() && $ctrl.showReject()
+                            }">
+                            <a class="g-btn g-btn-verde second-design block" ng-click="$ctrl.acceptDenuncia()">Aprobar
+                                Denuncia</a>
+                        </div>
+
+                        <div class="col-xs-12 mt-md-2 mb-md-2 mt-xs-1 mb-xs-1 col-md-3"
+                            ng-show="$ctrl.showStateAttention()">
+                            <a class="g-btn g-btn-verde second-design block"
+                                ng-click="$ctrl.authorizeAttention()">Autorizar
+                                Atencion</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <ul class="tracking-denuncia" ng-class="$ctrl.track.length > 3 ? 'tracking-denuncia-scroll' : ''">
+                    <li ng-repeat="itemTrack in $ctrl.track" ng-class="$ctrl.getTrackItemClass()">
+                        <span ng-class="{'untrack': !itemTrack.fechaRegistro}">
+                            <i class="glyphicon" ng-class="{'glyphicon-pencil' : itemTrack.estado == '1', 
+                                                        'glyphicon-ok': itemTrack.estado == '3', 
+                                                        'glyphicon-remove': itemTrack.estado == '2', 
+                                                        'glyphicon-thumbs-up': itemTrack.estado == '4'}"></i>
+                            {{ itemTrack.descEstado }}
+                        </span>
+                        <span class="hora">{{ itemTrack.fechaRegistro | date :'dd/MM/yyyy h:mm a' }}</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="g-section g-section-tabs relive row u-pt-xs-0 u-pb-0">
+        <div class="container">
+            <div class="tabs-box-list main-tabs pb-xs-2 wp-tabs-detalle__wp relive u-bg--white">
+                <uib-tabset justified="true" active="$ctrl.activeTab">
+                    <uib-tab classes="tabs-box-list__tab" index="0">
+                        <uib-tab-heading>
+                            <i class="glyphicon glyphicon-ok" ng-show="$ctrl.dataItem.itsSavedDet"></i>
+                            Detalle
+                        </uib-tab-heading>
+
+                        <complaint-editor-detail ng-show="$ctrl.activeTab==0" viewdata="$ctrl.dataView"
+                            emit-fn-complaint="$ctrl.recepFnComplaint($fn)"></complaint-editor-detail>
+                    </uib-tab>
+                    <uib-tab classes="tabs-box-list__tab" index="1">
+                        <uib-tab-heading>
+                            Gestión
+                        </uib-tab-heading>
+
+                        <complaint-editor-management ng-show="$ctrl.activeTab==1" viewdata="$ctrl.dataView">
+                        </complaint-editor-management>
+                    </uib-tab>
+                    <uib-tab classes="tabs-box-list__tab" index="2">
+                        <uib-tab-heading>
+                            Historial
+                        </uib-tab-heading>
+                        <complaint-history ng-show="$ctrl.activeTab==2" viewdata="$ctrl.dataView"></complaint-history>
+                    </uib-tab>
+                </uib-tabset>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal-complaint modal-change-state"></div>
+</div>
+
+<!-- popup rechazar denuncia -->
+<script type="text/ng-template" id="rejectComplaint.html">
+    <form name="formState">
+        <div class="modal-header">
+            <h3 class="modal-title complaint-title" id="modal-title">{{ $ctrl.config.title }}</h3>
+        </div>
+        <div class=" modal-body container">
+            <div class="row">
+                <div class="col-xs-12 mb-xs-2">
+                    <mpf-Select
+                    text-field="descripcion"
+                    value-field="codigo"
+                        label="{label: 'Motivo Rechazo', required: false}"
+                    m-data-source="$ctrl.lookups[$ctrl.config.rechazos]"
+                    ng-model="$ctrl.motivoReject" name="mMotivo" ng-required="true"
+                    m-Empty-Option="{enterData:true}"></mpf-Select>
+                    <div class="g-error" ng-show="formState.mMotivo.$error.required && !formState.mMotivo.$pristine" >* Seleccione un motivo</div>
+                </div>
+                
+                <div class="col-xs-12 mb-xs-2" ng-if="$ctrl.havePendingAttetion() && $ctrl.showAttetionReason()">
+                    <mpf-Select
+                        text-field="descripcion"
+                        value-field="codigo"
+                        label="{label: 'Motivo Atencion', required: false}"
+                        m-data-source="$ctrl.lookups[$ctrl.config.motivos]"
+                        ng-model="$ctrl.motivoRejectAtencion" name="mMotivoAtencion" ng-required="$ctrl.showAttetionReason()"
+                        m-Empty-Option="{enterData:true}"></mpf-Select>
+                    <div class="g-error" ng-show="formState.mMotivoAtencion.$error.required && !formState.mMotivoAtencion.$pristine" >* Seleccione un motivo</div>
+                </div>
+                
+                <div class="col-md-12 mb-xs-2" ng-show="$ctrl.showDateReject()">
+                    <mpf-datepicker 
+                        label="{label: 'Fecha', required: false}"
+                        name="nFechaRechazo"
+                        format="'dd/MM/yyyy'"
+                        data-maxDate="$ctrl.currentDate"
+                        ng-model="$ctrl.viewdata.eFecAccidente"
+                        ng-required="$ctrl.showDateReject()"
+                        nomargin="true">
+                    </mpf-datepicker>
+                    <div class="g-error" ng-show="formState.nFechaRechazo.$error.required && !formState.nFechaRechazo.$pristine" >* Ingrese una fecha</div>
+                </div>                     
+                <div class="col-xs-12">
+                    <mpf-textarea 
+                        name="nDescripcion" 
+                        ng-required="false" 
+                        label="{label: 'Descripción', required: false}" 
+                        ng-model="$ctrl.descripcionReject">
+                  </mpf-textarea>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal-footer">
+            <div class="col-md-12">
+                <div class="col-md-6">
+            <a class="g-btn g-btn-verde second-design block" type="button" ng-click="$ctrl.ok()">OK</a>
+                </div>
+                <div class="col-md-6">
+            <a class="g-btn g-btn-white second-design block" type="button" ng-click="$ctrl.cancel()">Cancelar</a>
+                </div>
+        </div>
+    </form>
+</script>
+
+<!-- popup rechazar atencion -->
+<script type="text/ng-template" id="rejectAttention.html">
+    <form name="formState">
+        <div class="modal-header">
+            <h3 class="modal-title complaint-title" id="modal-title">{{ $ctrl.config.title }}</h3>
+        </div>
+        <div class=" modal-body container">
+            <div class="row">
+                <div class="col-xs-12 mb-xs-2" ng-show="$ctrl.showAttetionReason()">
+                    <mpf-Select
+                        text-field="descripcion"
+                        value-field="codigo"
+                        label="{label: 'Motivo Atencion', required: false}"
+                        m-data-source="$ctrl.lookups[$ctrl.config.motivos]"
+                        ng-model="$ctrl.motivoRejectAtencion" name="mMotivoAtencion" 
+                        ng-required="true"
+                        m-Empty-Option="{enterData:true}"></mpf-Select>
+                    <div class="g-error" ng-show="formState.mMotivoAtencion.$error.required && !formState.mMotivoAtencion.$pristine" >* Seleccione un motivo</div>
+                </div>
+                                  
+                <div class="col-xs-12">
+                    <mpf-textarea 
+                        name="nDescripcion" 
+                        ng-required="false" 
+                        label="{label: 'Descripción', required: false}" 
+                        ng-model="$ctrl.descripcionReject">
+                  </mpf-textarea>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal-footer">
+            <div class="col-md-12">
+                <div class="col-md-6">
+            <a class="g-btn g-btn-verde second-design block" type="button" ng-click="$ctrl.ok()">OK</a>
+                </div>
+                <div class="col-md-6">
+            <a class="g-btn g-btn-white second-design block" type="button" ng-click="$ctrl.cancel()">Cancelar</a>
+                </div>
+        </div>
+    </form>
+</script>
+
+<!-- popup aprobar denuncia -->
+<script type="text/ng-template" id="aproveComplaint.html">
+    <form name="formState">
+        <div class="modal-header">
+            <h3 class="modal-title complaint-title" id="modal-title">{{ $ctrl.config.title }}</h3>
+        </div>
+        <div class=" modal-body container">
+            <div class="row" ng-show="$ctrl.attention">
+                <div class="col-xs-8">
+                    <span class="high-label">SITEDS No. {{ $ctrl.attention.numAutorizacionSITEDS }}</span><br />
+                    <span class="low-label">{{ $ctrl.attention.clinica }}</span><br />
+                    <span class="low-label">{{ $ctrl.attention.desc_Cbnfco }} {{ $ctrl.attention.copago }}%</span>
+                </div>
+                <div class="col-xs-4"></div>
+                <span class="low-label" >{{ $ctrl.attention.fechaRegistro | date: "dd/MM/yyyy" }}</span>
+            </div>
+            <div class="row">
+                <div class="col-xs-12 mb-xs-2" ng-if ="$ctrl.config.showGradoDenuncia">
+                    <mpf-Select
+                        text-field="descripcion"
+                        value-field="codigo"
+                        label="{label: 'Grado de la Denuncia', required: false}"
+                        m-data-source="$ctrl.lookups.gradosDenuncia"
+                        ng-model="$ctrl.gradoDenuncia" 
+                        name="mGradoDenuncia" 
+                        ng-required="true"
+                        m-Empty-Option="{enterData:true}">
+                    </mpf-Select>
+                    <div class="g-error" ng-show="formState.mGradoDenuncia.$error.required && !formState.mGradoDenuncia.$pristine" >* Seleccione un grado de denuncia</div>
+                </div>
+                <div class="col-xs-12 mb-xs-2" ng-if="$ctrl.havePendingAttetion() &&  $ctrl.showSI24()">
+                    <mpf-input
+                        label="{label: 'Autorización SI24', required: false}"
+                        ng-model="$ctrl.authoSys24" 
+                        ng-required="false"
+                        name="nAuthoSys24">
+                    </mpf-input>
+                </div>
+                <div class="col-md-12 mb-xs-2" ng-show="$ctrl.showDateAcept()">
+                    <mpf-datepicker label="{label: 'Fecha', required: false}"
+                        name="nFechaAprobar"
+                        format="'dd/MM/yyyy'"
+                        data-maxDate="$ctrl.currentDate"
+                        ng-model="$ctrl.viewdata.eFecAccidente"
+                        ng-required="$ctrl.showDateAcept()"
+                        nomargin="true">
+                    </mpf-datepicker>
+                    <div class="g-error" ng-show="formState.nFechaAprobar.$error.required && !formState.nFechaAprobar.$pristine" >* Ingrese una fecha</div>
+                </div>
+                <div class="col-xs-12">
+                    <mpf-textarea 
+                        ng-required="false" 
+                        name="nDescripcion" 
+                        label="{label: 'Descripción', required: false}" 
+                        ng-model="$ctrl.descripcion">
+                    </mpf-textarea>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+              <div class="col-md-12">
+                <div class="col-md-6">
+            <a class="g-btn g-btn-verde second-design block" type="button" ng-click="$ctrl.ok()">OK</a>
+                </div>
+                <div class="col-md-6">
+            <a class="g-btn g-btn-white second-design block" type="button" ng-click="$ctrl.cancel()">Cancelar</a>
+                </div>
+        </div>
+    </form>
+</script>
+
+<!-- popup autorizar atencion -->
+<script type="text/ng-template" id="authorizeAttention.html">
+    <form name="formState">
+        <div class="modal-header">
+            <h3 class="modal-title complaint-title" id="modal-title">{{ $ctrl.config.title }}</h3>
+        </div>
+        <div class=" modal-body container">
+            <div class="row" ng-show="$ctrl.attention">
+                <div class="col-xs-8">
+                    <span class="high-label">SITEDS No. {{ $ctrl.attention.numAutorizacionSITEDS }}</span><br />
+                    <span class="low-label">{{ $ctrl.attention.clinica }}</span><br />
+                    <span class="low-label">{{ $ctrl.attention.desc_Cbnfco }} {{ $ctrl.attention.copago }}%</span>
+                </div>
+                <div class="col-xs-4"></div>
+                <span class="low-label" >{{ $ctrl.attention.fechaRegistro | date: "dd/MM/yyyy" }}</span>
+            </div>
+            <div class="row">
+                <div class="col-xs-12 mb-xs-2">
+                    <mpf-input
+                        label="{label: 'Autorización SI24', required: false}"
+                        ng-model="$ctrl.authoSys24" 
+                        ng-required="true"
+                        name="nAuthoSys24">
+                    </mpf-input>
+                    <div class="g-error" ng-show="formState.nAuthoSys24.$error.required && !formState.nAuthoSys24.$pristine" >* Ingrese una autorización</div>
+                </div>
+                <div class="col-xs-12">
+                    <mpf-textarea 
+                        ng-required="false" 
+                        name="nDescripcion" 
+                        label="{label: 'Descripción', required: false}" 
+                        ng-model="$ctrl.descripcion">
+                    </mpf-textarea>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+              <div class="col-md-12">
+                <div class="col-md-6">
+            <a class="g-btn g-btn-verde second-design block" type="button" ng-click="$ctrl.ok()">OK</a>
+                </div>
+                <div class="col-md-6">
+            <a class="g-btn g-btn-white second-design block" type="button" ng-click="$ctrl.cancel()">Cancelar</a>
+                </div>
+        </div>
+    </form>
+</script>
+
+<!-- popup finalizar denuncia -->
+<script type="text/ng-template" id="EndComplaint.html">
+    <form name="formState">
+        <div class="modal-header">
+            <h3 class="modal-title complaint-title" id="modal-title">{{ $ctrl.config.title }}</h3>
+        </div>
+        <div class=" modal-body container">
+            <div class="row">
+                <div class="col-xs-12 mb-xs-2">
+                    <mpf-Select
+                        text-field="descripcion"
+                        value-field="codigo"
+                        label="{label: 'Motivo', required: false}"
+                        m-data-source="$ctrl.lookups.finalizarDenuncia"
+                        ng-model="$ctrl.motivoFin" name="mMotivo" ng-required="true"
+                        m-Empty-Option="{enterData:true}">
+                    </mpf-Select>
+                    <div class="g-error" ng-show="formState.mMotivo.$error.required && !formState.mMotivo.$pristine" >* Seleccione un motivo</div>
+                </div>
+                <div class="col-xs-12">
+                    <mpf-textarea 
+                        name="nDescripcion" 
+                        ng-required="false" 
+                        label="{label: 'Descripción', required: false}" 
+                        ng-model="$ctrl.descripcionEnd">
+                    </mpf-textarea>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal-footer">
+            <div class="col-md-12">
+                <div class="col-md-6">
+            <a class="g-btn g-btn-verde second-design block" type="button" ng-click="$ctrl.ok()">OK</a>
+            </div>
+            <div class="col-md-6">
+            <a class="g-btn g-btn-white second-design block" type="button" ng-click="$ctrl.cancel()">Cancelar</a>
+        </div>
+        </div>
+        </div>
+    </form>
+</script>
+
+<!-- popup rehabilitar denuncia -->
+<script type="text/ng-template" id="rehabComplaint.html">
+    <form name="formState">
+        <div class="modal-header">
+            <h3 class="modal-title complaint-title" id="modal-title">{{ $ctrl.config.title }}</h3>
+        </div>
+        <div class="col-md-12 mb-xs-2 mt-xs-2 text-center">
+            <div class="gH4"><span>¿Está seguro que desea rehabilitar la denuncia?</span></div>
+        </div>
+        <div class=" modal-body container">
+            <div class="col-md-12">
+                <div class="col-md-offset-2 col-md-4 text-center">
+                    <button class="g-btn g-btn-verde second-design block" ng-click="$ctrl.ok()">Si</button>
+                </div>
+                <div class=" col-md-4 text-center">
+                    <a ng-click="$ctrl.cancel()" class="g-btn g-btn-white second-design block">No</a>
+                </div>
+            </div>
+        </div>
+    </form>
+</script>

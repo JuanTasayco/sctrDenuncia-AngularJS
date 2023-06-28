@@ -1,0 +1,596 @@
+<!-- STEP 1 -->
+<div class="page-vida-cotizar-step1" ng-init="toggle=true" ng-form="fData">
+  <!-- Ingrese datos de la empresa -->
+  <div class="g-section-inner">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12">
+          <h2 class="g-sub-title g-myd-subtitle">Datos de la póliza</h2>
+        </div>
+      </div>
+      <div class="row mb-md-1">
+        <div class="col-md-4 mb-xs-2">
+          <mpf-select
+            label="{label: 'Producto', required: true}"
+            name="nProducto"
+            ng-model="data.producto"
+            ng-change="onProductChange()"
+            m-data-source="productos"
+            text-field="NombreProducto"
+            value-field="CodigoProducto"
+            m-Empty-Option="{enterData:true}"
+            mpf-validation="required"
+            add-messages
+          ></mpf-select>
+        </div>
+        <div class="col-md-4 mb-xs-2">
+          <mpf-input
+            label="{label: 'Fecha de inicio vigencia', required: true}"
+            name="nFechaVigencia"
+            ng-model="data.fechaVigencia"
+            ng-required="true"
+            mpf-validation="required"
+            add-messages
+            ng-disabled="true"
+          ></mpf-input>
+        </div>
+        <div class="col-md-4 mb-xs-2">
+          <mpf-select
+            label="{label: 'Gestor/Supervisor', required: false}"
+            name="nGestorSupervisor"
+            ng-model="data.gestorSupervisor"
+            m-data-source="data.gestores"
+            text-field="Descripcion"
+            ng-disabled="disabledManager"
+            value-field="Codigo"
+            m-Empty-Option="{enterData:true}"
+            ng-change="onGestorChange(data.gestorSupervisor)"
+            mpf-validation="required"
+            add-messages
+          ></mpf-select>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-4 mb-xs-2">
+          <span ng-show="!showAgent">
+            <span class="g-placeholder block mb-xs-1">Agente</span>
+            <span>{{ mainStep.mAgente.codigoNombre }}</span>
+          </span>
+          <mp-data-seeker
+            ng-show="showAgent"
+            behavior="{label:'Para cotizar una póliza debes elegir un agente', placeholder:'Busque o seleccione un agente ...', matchField:'codigoNombre'}"
+            m-data-source="findAgent"
+            ng-change="saveAgent(mainStep.mAgente)"
+            ng-model="mainStep.mAgente"
+          >
+            <div
+              ng-bind-html="$item.codigoNombre | highlight: $select.search"
+            ></div>
+          </mp-data-seeker>
+          <li ng-if="disableSgt" style="color:red">{{formData.msjReferidoValidate}}</li>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12">
+        <h3 class="g-sub-title g-myd-subtitle">Datos del contratante</h3>
+      </div>
+    </div>
+  </div>
+  <mpf-person-component
+    habilitar-validacion-telefonos="true"
+    person-data="data.dataContratante"
+    name="contratante"
+    codigo-compania="companyCode"
+    app-code="{{ appCode }}"
+    form-code="{{ formCodeCN }}"
+    outdata="getContractorData(data)"
+    valid-blacklist-numdoc="{{ validaContractorForm }}"
+  >
+  </mpf-person-component>
+
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12">
+        <h3 class="g-sub-title g-myd-subtitle pt-md-3">Datos del asegurado</h3>
+      </div>
+    </div>
+  </div>
+
+  <div class="container">
+    <div class="row mb-md-2">
+      <div class="col-md-6">
+        <label class="g-checkbox" ng-class="{active : data.IgualAsegurado}">
+          <span class="ico-checkbox"></span>
+          <input
+            type="checkbox"
+            name="IgualAsegurado"
+            ng-model="data.IgualAsegurado"
+            ng-change="setAsegurado()"
+            ng-disabled="data.tipoDocumento.TipoDocumento == 'RUC'"
+          />
+          <span class="checkbox-label"
+            >Los datos del asegurado son los mismos que los del
+            contratante.</span
+          >
+          <div class="g-error g-absolute" ng-show="showAseguradoMsg">
+            <div class="invalid">Debe llenar la información de contratante</div>
+          </div>
+        </label>
+      </div>
+    </div>
+  </div>
+
+  <mpf-person-component
+    person-data="data.asegurado"
+    name="asegurado"
+    codigo-compania="companyCode"
+    app-code="{{ appCode }}"
+    form-code="{{ formCodeAS }}"
+    check="data.IgualAsegurado"
+    text-clean="asegurado"
+    hidden-fields="hiddenFields"
+    valid-blacklist-numdoc="{{ validaInsuredForm }}"
+    outdata="processInsuredData(data)"
+  >
+  </mpf-person-component>
+
+  <!-- Características del Seguro -->
+  <div class="g-section-inner">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12">
+          <h2 class="g-sub-title g-myd-subtitle pt-md-3">Características del Seguro</h2>
+        </div>
+      </div>
+      <div ng-if="!data.esProductoNuevo" class="row mb-md-1">
+        <div class="col-md-4 mb-xs-2">
+          <mpf-input
+            label="{label: 'Años de duración del seguro', required: true}"
+            name="nDuracionSeguro"
+            ng-model="data.duracionSeguro"
+            ng-required="true"
+            mpf-validation="onlyNumber"
+            ng-blur="onDuracionSeguro()"
+            ng-disabled="data.fcobertura.ActivoDuracionSeguro=='N'"
+            add-messages
+          ></mpf-input>
+        </div>
+        <div class="col-md-4 mb-xs-2">
+          <mpf-input
+            label="{label: 'Años de duración del pago', required: true}"
+            name="nDuracionPagos"
+            ng-disabled="data.fcobertura.ActivoDuracionPago=='N'"
+            ng-model="data.duracionPago"
+            ng-required="true"
+            ng-blur="onDuracionPago()"
+            mpf-validation="onlyNumber"
+            add-messages
+          ></mpf-input>
+        </div>
+        <div class="col-md-4 mb-xs-2">
+          <mpf-input
+            label="{label: 'Anualidades', required: true}"
+            ng-disabled="data.fcobertura.ActivoDuracionAnualidad=='N'"
+            ng-blur="onAnualidades()"
+            name="nAnualidades"
+            ng-model="data.duracionAnualidad"
+            ng-required="true"
+            mpf-validation="onlyNumber"
+            add-messages
+          ></mpf-input>
+        </div>
+      </div>
+
+      <div ng-if="data.esProductoNuevo" class="row mb-md-1">
+        <div class="col-md-4 mb-xs-2">
+          <mpf-select
+            label="{label: 'Moneda', required: false}"
+            name="nMoneda"
+            ng-model="data.moneda"
+            text-field="Descripcion"
+            value-field="Codigo"
+            m-data-source="data.monedas"
+            ng-disabled="true"
+            m-Empty-Option="{enterData:true}"
+          ></mpf-select>
+        </div>
+        <div class="col-md-4 mb-xs-2">
+          <mpf-select
+            label="{label: 'Años de duración del seguro', required: true}"
+            name="nDuracionSeguro"
+            m-data-source="data.listDuracionSeguro"
+            ng-model="data.duracionSeguro"
+            text-field="Description"
+            value-field="Value"
+            m-Empty-Option="{enterData:true}"
+            mpf-validation="required"
+            add-messages
+            ng-change="onDuracionSeguroChange()"
+          ></mpf-select>
+        </div>
+        <div class="col-md-4 mb-xs-2">
+          <div class="col-md-12 no-padding-xs">
+            <span class="g-label mb-md-2 h-myd-mb--5">Pago adelantado*</span>
+          </div>
+          <div class="col-md-6 no-padding-xs">
+            <m-radio
+              label="{label: data.pagoAdelantado.Valores[0].Descripcion}"
+              name="nPagoAdelantado"
+              ng-model="data.pagoAdelantado.checked"
+              value="{{data.pagoAdelantado.Valores[0].Codigo}}"
+              ng-disabled="data.pagoAdelantado.McaEditable"
+            ></m-radio>
+          </div>
+          <div class="col-md-6 no-padding-xs">
+            <m-radio
+              label="{label: data.pagoAdelantado.Valores[1].Descripcion}"
+              name="nPagoAdelantado"
+              ng-model="data.pagoAdelantado.checked"
+              value="{{data.pagoAdelantado.Valores[1].Codigo}}"
+              ng-disabled="data.pagoAdelantado.McaEditable"
+            ></m-radio>
+          </div>
+        </div>
+      </div>
+      <div ng-if="data.esProductoNuevo" class="row mb-md-1">
+        <div class="col-md-4 mb-xs-2">
+          <div class="col-md-12 no-padding-xs">
+            <span class="g-label mb-md-2 h-myd-mb--5">Ajuste de renta*</span>
+          </div>
+          <div class="col-md-6 no-padding-xs">
+            <m-radio
+              label="{label: 'Sí'}"
+              name="nAjusteRenta"
+              ng-model="data.ajusteRenta"
+              value="S"
+            ></m-radio>
+          </div>
+          <div class="col-md-6 no-padding-xs">
+            <m-radio
+              label="{label: 'No'}"
+              name="nAjusteRenta"
+              ng-model="data.ajusteRenta"
+              value="N"
+            ></m-radio>
+          </div>
+        </div>
+        <div class="col-md-4 mb-xs-2">
+          <mpf-select
+            label="{label: '% de devolución', required: true}"
+            name="nDevolucion"
+            m-data-source="data.listDevolucion"
+            ng-model="data.devolucion"
+            text-field="Description"
+            value-field="Value"
+            m-Empty-Option="{enterData:true}"
+            mpf-validation="required"
+            add-messages
+          ></mpf-select>
+        </div>
+        <div class="col-md-4 mb-xs-2">
+          <mpf-select
+            label="{label: 'Periodicidad de pago renta', required: true}"
+            name="nPeriocidad"
+            m-data-source="data.listPeriocidad"
+            ng-model="data.periocidad"
+            text-field="Description"
+            value-field="Value"
+            m-Empty-Option="{enterData:true}"
+            mpf-validation="required"
+            ng-disabled="true"
+            add-messages
+          ></mpf-select>
+        </div>
+      </div>
+      <div ng-if="data.esProductoNuevo" class="row mb-md-1">
+        <div class="col-md-4 mb-xs-2">
+          <mpf-select
+            label="{label: 'Diferimiento de pago (meses)', required: true}"
+            name="nDiferimiento"
+            m-data-source="data.listDiferimiento"
+            ng-model="data.diferimiento"
+            text-field="Description"
+            value-field="Value"
+            m-Empty-Option="{enterData:true}"
+            mpf-validation="required"
+            add-messages
+          ></mpf-select>
+        </div>
+        <div class="col-md-4 mb-xs-2">
+          <div class="col-md-12 no-padding-xs">
+            <span class="g-label mb-md-2 h-myd-mb--5">Periodo garantizado*</span>
+          </div>
+          <div class="col-md-6 no-padding-xs">
+            <m-radio
+              label="{label: data.periodoGarantizado.Valores[0].Descripcion}"
+              name="nPeriodoGarantizado"
+              ng-model="data.periodoGarantizado.checked"
+              value="{{data.periodoGarantizado.Valores[0].Codigo}}"
+              ng-disabled="data.periodoGarantizado.McaEditable"
+            ></m-radio>
+          </div>
+          <div class="col-md-6 no-padding-xs">
+            <m-radio
+              label="{label: data.periodoGarantizado.Valores[1].Descripcion}"
+              name="nPeriodoGarantizado"
+              ng-model="data.periodoGarantizado.checked"
+              value="{{data.periodoGarantizado.Valores[1].Codigo}}"
+              ng-disabled="data.periodoGarantizado.McaEditable"
+            ></m-radio>
+          </div>
+        </div>
+        <div class="col-md-4 mb-xs-2">
+          <m-numeric-textbox
+            label="{label: '% de Cesión de comisión'}"
+            name="nCesionComision"
+            ng-model="data.cesionComision"
+            ng-required="false"
+          ></m-numeric-textbox>
+        </div>
+      </div>
+      <div ng-if="data.esProductoNuevo" class="row mb-md-1">
+        <div class="col-md-4 mb-xs-2">
+          <m-numeric-textbox
+            label="{label: 'Prima comercial única', required: true}"
+            name="nPrimaComercial"
+            ng-model="data.primaComercial"
+            mpf-validation="required"
+          ></m-numeric-textbox>
+        </div>
+        <div class="col-md-4" ng-if="data.visibleCodigoPromocion">
+          <mpf-input label="{label: 'Código de promoción', required: false}" name="nCodigoPromocion"
+            ng-model="data.codigoPromocion" ng-required="false" ng-blur="onCodigoPromocion()">
+          </mpf-input>
+          <div class="g-error g-absolute" ng-show="data.showMessageError === 1">
+            <div class="invalid">Código inválido o inexistente.</div>
+          </div>
+        </div>
+        <div style="margin-top: 35px;" ng-show="data.visibleCodigoPromocion && data.validoCodigoPromocion && data.codigoPromocion && data.codigoPromocionValidado">
+          <span class="ico-mapfre_184_circleCheck" style="font-size: 29px; color: green;"></span>
+        </div>
+        <div style="margin-top: 35px;" ng-show="data.visibleCodigoPromocion && (!data.validoCodigoPromocion) && data.codigoPromocion && data.codigoPromocionValidado">
+          <span class="ico-mapfre_231_cancelaroff" style="font-size: 29px; color: red;"></span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="g-section-inner" ng-if="!data.esProductoNuevo">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12">
+          <h2 class="g-sub-title g-myd-subtitle">Cotizar</h2>
+        </div>
+      </div>
+      <div class="row mb-xs-1">
+        <div class="col-md-12">
+          <span class="g-label h-myd-mb--5">Cotizar por*</span>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-6">
+          <div class="g-box gBgcGray5 pt-xs-1 mb-xs-2">
+            <div class="col-md-12">
+              <m-radio
+                label="{label: 'Garantía'}"
+                name="nCotizarPor"
+                ng-model="data.cotizaPor"
+                value="G"
+                ng-click="clearPrimaDeseada()"
+              ></m-radio>
+            </div>
+            <div class="col-md-2 pt-md-1">
+              <m-radio
+                label="{label: 'Prima'}"s
+                name="nCotizarPor"
+                ng-model="data.cotizaPor"
+                value="P"
+              ></m-radio>
+            </div>
+            <div class="col-md-5 mb-xs-2 h-myd-mt--20">
+              <m-numeric-textbox
+                label="{label: 'Prima deseada', required: true}"
+                name="nPrimaDeseada"
+                ng-model="data.primaDeseada"
+                options="data.producto.CodigoMoneda"
+                m-Range=""
+                ng-required="data.cotizaPor=='P'"
+                ng-disabled="data.cotizaPor=='G'"
+              >
+              </m-numeric-textbox>
+              <ul class="g-error">
+                <li
+                  ng-show="fData.nPrimaDeseada.$invalid && !fData.nPrimaDeseada.$pristine"
+                >
+                  * Este campo es requerido
+                </li>
+              </ul>
+            </div>
+            <!-- Button -->
+            <div class="col-md-5 mb-xs-2 mt-xs-3">
+              <button
+                type="button"
+                class="g-btn second-design block"
+                ng-class="{'g-btn-verde': data.cotizaPor =='P', 'g-btn-white': data.cotizaPor=='G'}"
+                ng-disabled="data.cotizaPor=='G'"
+                ng-click="calcularPrima()"
+              >
+                Calcular
+              </button>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-3 mb-xs-2">
+          <mpf-select
+            label="{label: 'Fraccionamiento de pago', required: true}"
+            name="nFraccPago"
+            text-field="ValueResult"
+            value-field="CodeResult"
+            ng-model="data.fraccionamientoPago"
+            m-data-source="fraccPagoData"
+            mpf-validation="required"
+            ng-disabled="disabledPPJPU"
+            add-messages
+          ></mpf-select>
+        </div>
+        <div class="col-md-3">
+          <div class="col-md-12 no-padding-xs">
+            <span class="g-label mb-md-2 h-myd-mb--5">¿Es Empleado MAPFRE?</span>
+          </div>
+          <div class="col-md-6 no-padding-xs">
+            <m-radio
+              label="{label: 'Sí'}"
+              name="nEmpMapfre"
+              ng-model="data.empMapfre"
+              ng-disabled="disabledPPJPU"
+              value="S"
+            ></m-radio>
+          </div>
+          <div class="col-md-6 no-padding-xs">
+            <m-radio
+              label="{label: 'No'}"
+              name="nEmpMapfre"
+              ng-model="data.empMapfre"
+              ng-disabled="disabledPPJPU"
+              value="N"
+            ></m-radio>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="g-section-inner" ng-if="!data.esProductoNuevo">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12">
+          <h3 class="g-sub-title g-myd-subtitle">Garantías</h3>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-12 g-box">
+          <div class="row gBgcGray5">
+            <div class="col-md-1 col-md-offset-3 col-xs-3">
+              <span class="g-box-title">Seleccionar</span>
+            </div>
+            <div class="col-md-3 col-xs-5">
+              <span class="g-box-title">Cobertura</span>
+            </div>
+            <div class="col-md-2 col-xs-4 text-right">
+              <span class="g-box-title">Capital garantizado</span>
+            </div>
+          </div>
+          <div ng-repeat="item in data.coberturas">
+            <div class="row">
+              <div class="col-md-1 col-xs-3 col-md-offset-3">
+                <mpf-checkbox ng-show="(codCoberturaPPJ != item.CodigoCobertura) || !disabledPPJPU"
+                  ng-model="item.Checked"
+                  label=""
+                  ng-disabled="item.MarcaPrincipal=='S'  || disabledPPJPU"
+                ></mpf-checkbox>
+              </div>
+              <div class="col-md-3 col-xs-5">
+                <span>{{ item.NombreCobertura }}</span>
+              </div>
+              <div
+                class="col-md-2 col-xs-4 text-right"
+                ng-if="item.MarcaPrincipal=='S'"
+              >
+                <input
+                  type="text"
+                  class="onlyInput text-right g-tablet-block"
+                  ng-model="item.MontoCobertura"
+                  ng-blur="onCoberturaChange(item)"
+                  mpf-validation="numberFixed2"
+                  add-messages
+                />
+              </div>
+              <div class="col-md-2 text-right" ng-if="item.MarcaPrincipal=='N'">
+                <span ng-show="item.Checked || (primaDeseadaCalculada && codCoberturaPPJ == item.CodigoCobertura) "
+                  >{{ item.MontoCobertura | number }}</span
+                >
+              </div>
+            </div>
+          </div>
+          <div class="row gBgcGray5 pt-xs-1" ng-if="!disabledPPJPU">
+            <div class="col-md-3 col-md-offset-4 col-xs-5 col-xs-offset-3">
+              <span class="g-box-rent">Rentabilidad estimada 1</span>
+            </div>
+            <div class="col-md-2 col-xs-4 text-right">
+              <input
+                type="text"
+                class="g-box-rent onlyInput text-right g-tablet-block"
+                ng-model="data.rentEstimada1"
+                ng-disabled="data.fcobertura.ActivoCapitalEstimado1=='N'"
+                ng-blur="onEstimado1()"
+                mpf-validation="number2"
+                add-messages
+              />
+            </div>
+          </div>
+          <div class="row gBgcGray5" ng-if="!disabledPPJPU">
+            <div class="col-md-1 col-md-offset-3 col-xs-3">
+              <mpf-checkbox
+                name="nRent2"
+                ng-disabled="data.fcobertura.ActivoCheckCapitalEstimado2=='N'"
+                ng-model="data.mRent2"
+                label=""
+              ></mpf-checkbox>
+            </div>
+            <div class="col-md-3 col-xs-5">
+              <span class="g-box-rent">Rentabilidad estimada 2</span>
+            </div>
+            <div class="col-md-2 col-xs-4 text-right">
+              <input
+                type="text"
+                class="g-box-rent onlyInput text-right g-tablet-block"
+                ng-model="data.rentEstimada2"
+                ng-disabled="!data.mRent2"
+                ng-blur="onEstimado2()"
+                mpf-validation="number2"
+                add-messages
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Button -->
+  <div class="g-section">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-4 mb-xs-1">
+          <span class="g-comment">*Campos obligatorios</span>
+        </div>
+        <div class="col-md-4">
+          <a
+            type="button"
+            class="g-btn g-btn-verde block"
+            ga-click
+            ga-category="'Emisa - Vida'"
+            ga-action="'MPF - Cotización'"
+            ga-label="'Botón: Cotizar'"
+            ng-click="onCalcularVida()"
+            ng-class="{'disabled': contractorDisabledForm || insuredDisabledForm}"
+            ng-show="!disableSgt"
+            >Cotizar
+          </a>
+          <button
+            type="button"
+            class="g-btn g-btn-verde block"
+            ng-disabled="disableSgt || (contractorDisabledForm || insuredDisabledForm)"
+            ng-show="disableSgt"
+            >Cotizar
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

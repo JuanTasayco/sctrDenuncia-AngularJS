@@ -1,0 +1,151 @@
+<div class="consultaGestion">
+
+  <div class="container">
+    <div class="row mb-xs-2">
+      <div class="col-xs-12 g-text-right-xs">
+        <a class="g-link no-underline" ui-sref="consulta.33({ currentData: $ctrl.currentData })">
+          <span class="ico-mapfre_78_chevronleft"></span>
+          Volver a Siniestros de Auto de Reemplazo
+        </a>
+      </div>
+    </div>
+    <div show-filter class="clearfix g-col-filter g-box-md gBgcGray5-md gBgcWhite1 g-myd-box" ng-class="{'show': isFilterVisible}">
+      <div class="col-xs-12">
+        <div class="clearfix gH4 gCGray1 mb-xs-1-5">
+          <h2 class="hidden-xs hidden-sm"><b>Opciones de Búsqueda</b></h2>
+          <div id="show-filter" class="row pt-xs-2 pb-xs-2 gBgcGray5 g-border-bottom-xs hidden-md hidden-lg" ng-click="toggleFilter();">
+            <div class="col-xs-10"><h2><b>Opciones de Búsqueda</b></h2></div>
+            <div class="col-xs-2 g-text-right-xs">
+              <!-- ngIf: isFilterVisible --><span class="glyphicon glyphicon-chevron-down ng-scope" ng-if="isFilterVisible"></span><!-- end ngIf: isFilterVisible -->
+              <!-- ngIf: !isFilterVisible --><span class="glyphicon glyphicon-chevron-up ng-scope" ng-if="!isFilterVisible"></span><!-- end ngIf: !isFilterVisible -->
+            </div>
+            <div class="clearfix"></div>
+          </div>
+        </div>
+        <form class="clearfix" name="frmEdoRecibos">
+          <div class="row">
+            <div class="col-md-3">
+              <mpf-datepicker
+                ng-model="$ctrl.mFechaDesde"
+                label="{label: 'Desde:', required: false}"
+                format="$ctrl.format"
+                name="nFechaDesde"
+                ng-required="false"
+                data-readonly="false"
+                mpf-validate="required"
+                maxdate="$ctrl.currentDate">
+              </mpf-datepicker>
+            </div>
+            <div class="col-md-3 mt-xs-1 mt-md-0">
+              <mpf-datepicker
+                ng-model="$ctrl.mFechaHasta"
+                label="{label: 'Hasta:', required: false}"
+                format="$ctrl.format"
+                name="nFechaHasta"
+                ng-required="false"
+                ng-change="$ctrl.onChangeFechaHasta()"
+                data-readonly="false"
+                mpf-validate="required"
+                maxdate="$ctrl.currentDate">
+              </mpf-datepicker>
+            </div>
+
+            <div class="col-xs-12 mt-xs-3 mt-md-1">
+              <div class="row">
+                <div class="col-md-4 col-md-offset-8">
+                  <div class="row">
+                    <div class="col-xs-6"></div>
+                    <div class="col-xs-6"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-offset-8 col-md-2 mb-xs-1 no-mb-md"><a class="g-btn g-btn-verde second-design block" ng-click="$ctrl.searchPayroll()">Buscar</a></div>
+            <div class="col-md-2"><a class="g-btn g-btn-white second-design block" ng-click="$ctrl.cleanPayroll()">Limpiar</a></div>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- Top bar: Filtro e iconos -->
+    <div tbl-oim-topbar class="clearfix g-tbl-topbar mt-md-2 mb-md-2 width-filtro" ng-if="$ctrl.firstSearch && !$ctrl.noResult">
+      <div class="g-row-icons__box">
+        <a data-ng-click="$ctrl.exportPayroll()" uib-popover="Exportar" popover-trigger="'mouseenter'"><span class="g-icon-box g-icon-box-md"><span class="ico-mapfre ico-mapfre_124_download ico-download"></span></span></a>
+      </div>
+    </div>
+
+    <div class="clearfix" ng-if="$ctrl.noResult">
+      <div class="col-md-12 text-center g-box-noresult">
+        <div class="row">
+          <div class="col-md-12 g-box-noresult-ico gCRed1 h-myd-mt--20">
+            <span class="ico-mapfre_302_error"></span>
+          </div>
+          <div class="col-md-12 g-box-noresult-text">
+            No hay resultados para la búsqueda realizada.<br/>Intenta nuevamente
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="clearfix" ng-if="$ctrl.firstSearch && !$ctrl.noResult">
+      <div tbl-oim class="col-xs-12 g-tbl-wrapper pl-xs-0">
+        <div class="tbl-main">
+          <ul class="tbl-header clearfix">
+            <li class="title col-12-dktp">PÓLIZA</li>
+            <li class="title col-13-dktp">SINIESTRO</li>
+            <li class="title col-10-dktp text-center">EXPEDIENTE</li>
+            <li class="title col-11-dktp">ORDEN SERVICIO</li>
+            <li class="title col-6-dktp text-center">DÍAS</li>
+            <li class="title col-10-dktp text-center">COSTO/DÍA</li>
+            <li class="title col-11-dktp text-center">TOTAL GENERAL</li>
+            <li class="title col-14-dktp">DEDUCIBLE</li>
+            <li class="title col-12-dktp text-center">TOTAL INDEMNIZAR</li>
+          </ul>
+          <ul class="tbl-body clearfix">
+            <li data-ng-repeat="item in $ctrl.payrolls">
+              <a ng-click="showDocumentoPago()">
+              <ul height-row class="tbl-row clearfix">
+                <li class="cell col-12-dktp">
+                  <span class="cell-title"><span class="cell-data">{{ item.policyid }}</span></span>
+                </li>
+                <li class="cell col-13-dktp">
+                  <span class="cell-label"><span class="cell-data">{{ item.sinisterid }}</span></span>
+                </li>
+                <li class="cell col-10-dktp text-center">
+                  <span class="cell-label"><span class="cell-data">{{ item.casefile }}</span></span>
+                </li>
+                <li class="cell col-11-dktp">
+                  <span class="cell-label"><span class="cell-data">{{ item.orderservicecode }}</span></span>
+                </li>
+                <li class="cell col-6-dktp text-center">
+                  <span class="cell-label"><span class="cell-data">{{ item.totaldays }}</span>
+                </li>
+                <li class="cell col-10-dktp text-center">
+                  <span class="cell-label"><span class="cell-data">{{ item.dayprice }}</span></span>
+                </li>
+                <li class="cell col-11-dktp text-center">
+                  <span class="cell-label"><span class="cell-data">{{ item.totalcount }}</span></span>
+                </li>
+                <li class="cell col-14-dktp ">
+                  <span class="cell-label"><span class="cell-data">{{ item.deduciblepercent }}</span></span>
+                </li>
+                <li class="cell col-12-dktp text-center">
+                  <span class="cell-label"><span class="cell-data">{{ item.totalcompensation }}</span></span>
+                </li>
+              </ul>
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="clearfix" ng-if="!vm.noResult && vm.totalPages>1">
+      <div class="col-md-12">
+        <ul uib-pagination class="g-pagination" ng-model="mPagination" total-items="vm.totalItems" ng-change="vm.pageChanged(mPagination)" boundary-link-numbers="true"></ul>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,46 @@
+<section class="g-security-clonarAcceso">
+  <button type="button" class="close g-close-modal" ng-click="closeModalClonarAccesos()">
+    <span class="ico-mapfre_231_cancelaroff"></span>
+  </button>
+  <form name="frm">
+    <div class="container head-content pb-xs-2">
+      <div class="row">
+        <div class="col-sm-10 col-sm-offset-1">
+          <div class="row g-div-middle">
+            <div class="col-sm-6">
+              <h2 class="gH3 g-text-uppercase"><b>Clonar Accesos</b></h2>
+            </div>
+            <div class="col-sm-6 text-right">
+              <span class=" gH5 g-text-uppercase gCGray3">{{countSelect}} usuarios seleccionados</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="container body-content mt-xs-2">
+      <div class="row">
+        <div class="col-sm-10 col-sm-offset-1">
+          <p class="mb-xs-2">Podrás asignar los accesos de un usuario específico a los que hayas seleccionado.</p>
+          <div class="clearfix g-box pt-xs-3 pb-xs-3 text-center">
+            <div class="col-sm-10 col-sm-offset-1 col-md-8 col-md-offset-2">
+              <div class="mb-xs-1"><span class="ico-mapfre_333_searchUser gnIcon-bg gCGray6"></span></div>
+              <div class="mb-xs-2 modal-seeker">
+                <mp-data-seeker 
+                  behavior="{label:'Busca el usuario'
+                  , placeholder:'Escribe el ID del usuario...'
+                  , matchField:'nombre'}" 
+                  m-data-source="fnGetListUserClone($inputNeed)" 
+                  ng-model="frmModalAccesos.mIDUsuario">
+                  <div ng-bind-html="$item.nombre | highlight: $select.search"></div>
+                </mp-data-seeker>
+              </div>
+              <div>
+                <a class="g-btn g-btn-verde block" ng-click="closeModalClonarAccesos(); openClonarRoles()">Escoger usuario</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+</section>

@@ -1,0 +1,340 @@
+<section class="suscripcion-paso3">
+    <div class="container">
+		<form action="" name="fData">
+			<div class="g-section mt-xs-3">
+				<div class="container" ng-if="firstStep.FormaPago.Codigo == '1'" >
+
+					<div class="row">
+						<div class="col-md-12">
+							<h2 class="g-sub-title g-myd-subtitle">Datos del Gestor de Cobro</h2>
+						</div>
+					</div>
+					<div class="row" >
+						<div class="col-md-4">
+							<div class="row">
+								<div class="col-md-6 mb-xs-2">
+									<m-radio
+										label="{label: 'Registro de cuenta'}"
+										name="nRegistro"
+										ng-model="firstStep.registro"
+										value="C"
+										ng-click="clearCollectionManager(firstStep.data.registro, true)"
+										>
+									</m-radio>
+								</div>
+								<div class="col-md-6 mb-xs-2" ng-if="firstStep.registro=='T1'">
+									<m-radio
+										label="{label: 'Registro de tarjeta'}"
+										name="nRegistro"
+										ng-model="firstStep.registro"
+										value="T"
+										ng-click="clearCollectionManager(firstStep.data.registro, true)"
+										>
+									</m-radio>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="row" ng-if="firstStep.registro=='C'">
+						<div class="col-md-4 mb-xs-2">
+							<mpf-select
+								label="{label: 'Entidad', required: true}"
+								name="nEntidad"
+								ng-model="firstStep.data.entidad"
+								text-field="Descripcion"
+								value-field="Codigo"
+								m-data-source="entidades"
+								m-Empty-Option="{enterData:true}"
+								ng-change="onEntidadChange(firstStep.data.entidad)"
+								ng-required="true">
+							</mpf-select>
+							<ul class="g-error">
+								<li ng-show="fData.nEntidad.$invalid && !fData.nEntidad.$pristine">* Este campo es requerido</li>
+							</ul>
+						</div>
+						<div class="col-md-4 mb-xs-2">
+							<mpf-input
+								label="{label: 'Oficina', required: true}"
+								name="nOficina"
+								ng-model="firstStep.data.entidad.CodigoOficiona"
+								ng-required="true"
+								ng-disabled="true">
+							</mpf-input>
+							<ul class="g-error">
+					<li ng-show="fData.nOficina.$invalid && !fData.nOficina.$pristine">* Este campo es requerido</li>
+				</ul>
+						</div>
+						<div class="col-md-4 mb-xs-2">
+							<mpf-select
+								label="{label: 'Tipo de cuenta', required: true}"
+								name="nTipoCuenta"
+								ng-model="firstStep.data.tipoCuenta"
+								text-field="Descripcion"
+								value-field="Codigo"
+								m-data-source="tipoCuentas"
+								ng-required="true"
+								m-Empty-Option="{enterData:true}">
+							</mpf-select>
+							<ul class="g-error">
+								<li ng-show="fData.nTipoCuenta.$invalid && !fData.nTipoCuenta.$pristine">* Este campo es requerido</li>
+							</ul>
+						</div>
+					</div>
+					<div class="row" ng-if="firstStep.registro=='C'">
+						<div class="col-md-4 mb-xs-2">
+							<mpf-select
+								label="{label: 'Moneda', required: true}"
+								name="nMoneda"
+								ng-model="firstStep.data.moneda"
+								text-field="Descripcion"
+								value-field="Codigo"
+								m-data-source="monedas"
+								m-Empty-Option="{enterData:true}"
+								ng-required="true"
+								>
+							</mpf-select>
+							<ul class="g-error">
+								<li ng-show="fData.nMoneda.$invalid && !fData.nMoneda.$pristine">* Este campo es requerido</li>
+							</ul>
+						</div>
+						<div class="col-md-4 mb-xs-2">
+							<mpf-input
+								label="{label: 'Nro de Cuenta', required: true}"
+								name="nCalcular"
+								ng-model="firstStep.data.ctaCalcular"
+								ng-maxlength="firstStep.data.maxCuenta"
+								mpf-validation="onlyNumber"
+								ng-required="true"
+								ng-blur="onCtaCalcular(firstStep.data.ctaCalcular)">
+							</mpf-input>
+							<ul class="g-error">
+								<li ng-show="fData.nCalcular.$invalid && !fData.nCalcular.$pristine">* Este campo es requerido</li>
+							</ul>
+						</div>
+						<div class="col-md-4 mb-xs-2">
+							<mpf-input
+								label="{label: 'Cuenta', required: true}"
+								name="nCuenta"
+								ng-model="firstStep.data.cuenta"
+								mpf-validation="onlyLetterNumber"
+								ng-maxlength="100"
+								ng-required="true"
+								ng-disabled="true">
+							</mpf-input>
+							<ul class="g-error">
+								<li ng-show="fData.nCuenta.$invalid && !fData.nCuenta.$pristine">* Este campo es requerido</li>
+							</ul>
+						</div>
+					</div>
+					<div class="row" ng-if="firstStep.registro=='C'">
+						<div class="col-md-4">
+							<mpf-select
+								label="{label: 'Código gestor', required: true}"
+								name="nCodigoGestorEn"
+								ng-model="firstStep.data.codigoGestorEn"
+								m-data-source="firstStep.data.codigoGestoresEn"
+								text-field="Descripcion"
+								value-field="Codigo"
+								ng-required="true"
+								m-Empty-Option="{enterData:true}" >
+							</mpf-select>
+							<ul class="g-error">
+								<li ng-show="fData.nCodigoGestorEn.$invalid && !fData.nCodigoGestorEn.$pristine">* Este campo es requerido</li>
+							</ul>
+						</div>
+					</div>
+
+
+					<div class="row" ng-if="firstStep.registro=='T1'">
+						<div class="col-md-4 mb-xs-2">
+							<mpf-select
+								label="{label: 'Tipo de tarjeta'}"
+								name="nTipoTarjeta"
+								ng-model="firstStep.data.tipoTarjeta"
+								text-field="Descripcion"
+								value-field="Codigo"
+								m-data-source="tipoTarjetas"
+								ng-change="onTipoTarjetaChange(firstStep.data.tipoTarjeta)"
+								m-Empty-Option="{enterData:true}"
+								ng-required="firstStep.registro=='T'">
+							</mpf-select>
+							<ul class="g-error">
+								<li ng-show="fData.nTipoTarjeta.$invalid && !fData.nTipoTarjeta.$pristine">* Este campo es requerido</li>
+							</ul>
+						</div>
+						<div class="col-md-4 mb-xs-2">
+							<mpf-select
+								label="{label: 'Código tarjeta'}"
+								name="nCodigoTarjeta"
+								ng-model="firstStep.data.codigoTarjeta"
+								text-field="Descripcion"
+								value-field="Codigo"
+								m-data-source="firstStep.data.codigoTarjetas"
+								m-Empty-Option="{enterData:true}">
+							</mpf-select>
+							<ul class="g-error">
+								<li ng-show="fData.nCodigoTarjeta.$invalid && !fData.nCodigoTarjeta.$pristine">* Este campo es requerido</li>
+							</ul>
+						</div>
+						<div class="col-md-4 mb-xs-2">
+							<mpf-input
+								label="{label: 'N. Tarjeta'}"
+								name="nTarjeta"
+								ng-model="firstStep.data.numeroTarjeta"
+								ng-maxlength="firstStep.data.maxTarjeta"
+								ng-change="onNumeroChange()"
+								ng-blur="onNumeroBlur()">
+							</mpf-input>
+							<ul class="g-error">
+								<li ng-show="fData.nTarjeta.$invalid && !fData.nTarjeta.$pristine">* Este campo es requerido</li>
+							</ul>
+						</div>
+					</div>
+					<div class="row" ng-if="firstStep.registro=='T1'">
+						<div class="col-md-4 mb-xs-2 no-mb-md">
+							<mpf-input
+								label="{label: 'Fecha de vencimiento de tarjeta (mm/yyyy)'}"
+								name="nFecha"
+								ng-model="firstStep.data.fechaTarjeta"
+								ng-maxlength="7"
+								ng-pattern="pattern"
+								ignore-trunc="true">
+							</mpf-input>
+							<ul class="g-error">
+								<li ng-show="fData.nFecha.$invalid && !fData.nFecha.$pristine">* Este campo es requerido</li>
+							</ul>
+						</div>
+						<div class="col-md-4">
+							<mpf-select
+								label="{label: 'Código gestor'}"
+								name="nCodigoGestorTa"
+								ng-model="firstStep.data.codigoGestorTa"
+								text-field="Descripcion"
+								value-field="Codigo"
+								m-data-source="firstStep.data.codigoGestoresTa"
+								m-Empty-Option="{enterData:true}">
+							</mpf-select>
+							<ul class="g-error">
+								<li ng-show="fData.nCodigoGestorTa.$invalid && !fData.nCodigoGestorTa.$pristine">* Este campo es requerido</li>
+							</ul>
+						</div>
+					</div>
+					<div class="row mt-xs-4 h-myd--block h-oim-none" ng-if="false">
+						<div class="col-sm-6 col-md-4 col-sm-offset-3 col-md-offset-4">
+				<a class="g-btn g-btn-verde block">Generar Documento</a>
+						</div>
+					</div>
+
+				</div>
+			</div>			
+			<div class="g-section-inner" ng-if="firstStep.FormaPago.Codigo == '1'">
+				<div class="container">
+					<div class="row">
+						<div class="col-md-12">
+							<h2 class="g-sub-title g-myd-subtitle">Archivo cargomático</h2>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-4 col-sm-6 g-text-center-xs">
+	
+							<div class="clearfix g-box fz14 gBgcGray5 pt-xs-2 pb-xs-2">
+								<div class="col-md-12 mb-xs-1">
+									<span>Cargar documento escaneado (solo archivos PDF)</span>
+								</div>
+								<div class="col-md-10 col-md-offset-1">
+									<label class="g-btn g-btn-white second-design block g-btn-input-file">
+										<span class="g-icon">
+											<span class="icon icon-plus ico-mapfre_56_visitasalmedico"></span>
+											<span>Escoger archivo</span>
+										</span>
+										<input type="file" accept="application/pdf, .pdf" data-show-preview="false" id="iLoadFile2" name="nLoadFile2" file-model="firstStep.fmLoadFileC"
+										ng-model="firstStep.mLoadFile"
+										onchange="angular.element(this).scope().fnLoadFile2()">
+									</label>
+									<ul class="g-error" ng-if="firstStep.cargomatico.archivo.length == 0">
+										<li>* Seleccione un archivo</li>
+									</ul>
+								</div>
+							</div>
+	
+							<div class="clearfix g-box fz14 gBgcGray5 pt-xs-2 pb-xs-2"  ng-if="firstStep.cargomatico.archivo.length > 0">
+								
+								<div class="col-sm-12">
+									<div class="gH7 fwLight mr-xs-2" ng-repeat="file in firstStep.cargomatico.archivo" style="display: inline-flex;align-items: center;" >
+										{{file.NombreArchivoFisico}}
+										<span  class="ml-xs-1 icon ico-mapfre_231_cancelaroff gH2 gCGreen1 g-u-cursor--pointer" ng-click="limpiarArchivoC($index, file)"></span>
+									</div>
+								</div>
+							</div>
+	
+						</div>
+	
+					</div>
+				</div>
+			</div>		
+			<div class="g-section-inner">
+				<div class="row mb-xs-4 ">
+					<div class="col-xs-12">
+						<div class="row">
+							<div class="col-xs-12">
+								<div class=" pb-xs-1 g-border-bottom h-myd-border--none  h-myd-pb--0">
+									<h2 class="gH3 gCGray2 fwBold">Adjuntar documentos</h2>
+									<span class="gH5 fwLight">Adjunta archivos (fotos o documentos) que tengan alguna de estas extensiones: .jpg, .jpeg, .png, .doc, .docx, .xls, .xlsx, .ppt, .pptx, .pdf Puedes subir hasta 5 archivos, cada uno con un peso maximo de 5MB:</span>
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-xs-12 col-md-5">
+								<mpf-select label="{label: ''}" name="nProducto" ng-model="firstStep.documento"  m-data-source="documentosInfo"
+									text-field="descripcion" value-field="descripcion" m-Empty-Option="{enterData:true}" add-messages >
+								</mpf-select>
+							</div>
+							<div class="col-xs-12 col-md-5">
+								<label class="g-btn g-btn-green-border second-design g-btn-input-file" style="border-color: #fff; text-align: left; margin: 20px 0;">
+									<span class="g-icon">
+										<span class="h-myd--none icon icon-plus ico-mapfre_56_visitasalmedico"></span>
+										<span class="h-myd--show h-oim-none icon icon-plus ico-mapfre-366-myd-agregar"></span>
+										<span>Adjuntar documento</span>
+									</span>
+									<input
+									type="file"
+									
+									accept=".jpg,.jpeg,.png,.doc,.docx,.xls,.xlsx,.ppt,.pptx,.pdf"
+									data-show-preview="false"
+									id="iLoadFileDE"
+									name="nAjuntarDocumento"
+									file-model="firstStep.fmLoadFile"
+									ng-model="firstStep.mLoadFile"
+									onchange="angular.element(this).scope().fnLoadFile4()">
+								</label>
+							</div>
+						</div>
+						<div class="row g-new-list-documents g-myd-box h-myd-p--0 mt-xs-3">
+							<div class="col-xs-12 clearfix g-border-bottom g-new-list-content g-div-middle g-myd-list-files" ng-repeat="documentoInfo in documentosInfo" ng-if="documentoInfo.archivo.length > 0" >
+								<div class="col-xs-6 col-sm-3 pl-xs-0 g-span-middle g-border-right list-document ng-binding">
+									<span class="gH4 gCGray2" >{{documentoInfo.descripcion}}</span>
+								</div>
+								<div class="col-xs-6 col-sm-9 pl-md-2">
+									<div class="gH7 fwLight mr-xs-2" ng-repeat="file in documentoInfo.archivo" style="display: inline-flex;align-items: center;" >
+										{{file.NombreArchivoFisico}}
+										<span  class="ml-xs-1 icon ico-mapfre_231_cancelaroff gH2 gCGreen1 g-u-cursor--pointer" ng-click="limpiarArchivo($index, file)"></span>
+									</div>
+								</div>
+
+							</div>
+
+						</div>
+					</div>
+				</div>
+			</div>
+			
+			<div class="row mb-xs-1">
+				<div class="col-xs-12 col-sm-6 col-md-4 col-sm-offset-3 col-md-offset-4" ng-if="validate('EMITIR')">
+					<a class="g-btn g-btn-verde block"
+					ga-click ga-category="'Emisa - Salud'" ga-action="'MPF - Emisión'" ga-label="'Botón: Suscribir'"
+					ng-click="suscripcion()" href="javascript:void(0)">Emision</a>
+				</div>
+			</div>
+		</form>
+    </div>
+</section>

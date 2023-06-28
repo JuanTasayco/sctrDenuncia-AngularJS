@@ -1,0 +1,156 @@
+<contratante contratante="$ctrl.resumen"></contratante>
+<div class="g-list-md g-box gBgcGray5 pt-xs-2 pb-xs-2 pl-xs-2 pr-xs-2 mb-xs-2">
+  <ul class="row">
+    <li class="col-sm-12 clearfix mb-xs-1">
+      <div class="item-label">Datos del contrato u obra</div>
+    </li>
+  </ul>
+  <ul class="row">
+    <li class="col-sm-12 clearfix mb-xs-1">
+      <div class="item-label">Duración </div>
+    </li>
+    <li class="col-sm-4 clearfix mb-xs-2 page-rrgg__table-list-item">
+      <div class="col-xs-4 item-label"><span class="ico-mapfre_82_circle ico-bullet"></span>Desde</div>
+      <div class="col-xs-8 item-dato ">{{$ctrl.resumen.DuracionDesde | date:"dd/MM/yyyy"}}</div>
+    </li>
+    <li class="col-sm-4 clearfix mb-xs-2 page-rrgg__table-list-item">
+      <div class="col-xs-4 item-label"><span class="ico-mapfre_82_circle ico-bullet"></span>Hasta</div>
+      <div class="col-xs-8 item-dato ">{{$ctrl.resumen.DuracionHasta | date:"dd/MM/yyyy"}}</div>
+    </li>
+    <li ng-if="$ctrl.resumen.MasUbicaciones === '1'" class="col-sm-4 clearfix mb-xs-2 page-rrgg__table-list-item">
+      <div class="col-xs-4 item-label"><span class="ico-mapfre_82_circle ico-bullet"></span>Nro de ubicaciones
+      </div>
+      <div class="col-xs-8 item-dato ng-binding">{{$ctrl.resumen.CantidadUbicaciones}}</div>
+    </li>
+    <li ng-if="$ctrl.resumen.CantidadTrabajadores" class="col-sm-4 clearfix mb-xs-2 page-rrgg__table-list-item">
+      <div class="col-xs-4 item-label"><span class="ico-mapfre_82_circle ico-bullet"></span>Número de trabajadores
+      </div>
+      <div class="col-xs-8 item-dato ng-binding">{{$ctrl.resumen.CantidadTrabajadores}}</div>
+    </li>
+    <li class="col-sm-4 clearfix mb-xs-2 page-rrgg__table-list-item">
+      <div class="col-xs-4 item-label"><span class="ico-mapfre_82_circle ico-bullet"></span>Tipo de cambio
+      </div>
+      <div class="col-xs-8 item-dato ng-binding">{{$ctrl.resumen.TipoCambio}}</div>
+    </li>
+    <li class="col-sm-4 clearfix mb-xs-2 page-rrgg__table-list-item">
+      <div class="col-xs-4 item-label"><span class="ico-mapfre_82_circle ico-bullet"></span>Validez Hasta:
+      </div>
+      <div class="col-xs-8 item-dato ng-binding">{{$ctrl.resumen.fechaValidezHasta}}</div>
+    </li>
+  </ul>
+</div>
+<div
+  ng-if="$ctrl.resumen.Ramo.Codigo === $ctrl.constantsRrgg.RAMO.RESPON_CIVIL || $ctrl.resumen.Ramo.Codigo ===  $ctrl.constantsRrgg.RAMO.RESPON_CIVILL_DESHONESTIDAD"
+  class="g-list-md g-box gBgcGray5 pt-xs-2 pb-xs-2 pl-xs-2 pr-xs-2 mb-xs-2">
+  <ul class="row">
+    <li class="col-sm-12 clearfix mb-xs-1">
+      <div class="item-label">Responsabilidad Civil</div>
+    </li>
+  </ul>
+  <ul class="col-md-12 clearfix mb-xs-2" style="padding-left: 0px;">
+    <li class="col-sm-4 clearfix mb-xs-2 page-rrgg__table-list-item" style="padding-left: 0px;">
+      <div class="col-sm-4 item-label"><span class="ico-mapfre_82_circle ico-bullet"></span>Suma asegurada RC</div>
+      <div class="col-sm-8 item-dato pl-md-1 ng-binding">{{$ctrl.resumen.SumaAseguradaRC | currency:
+        $ctrl.currencyType($ctrl.resumen.Moneda.Codigo)}} {{'en límite único y combinado y en agregado vigencia'}}</div>
+    </li>
+    <li class="col-sm-4 clearfix mb-xs-2 page-rrgg__table-list-item">
+      <div class="col-xs-4 item-label"><span class="ico-mapfre_82_circle ico-bullet"></span>Prima comercial vigencia
+      </div>
+      <div class="col-xs-8 item-dato ng-binding">{{$ctrl.resumen.PrimaComercial | currency:
+        $ctrl.currencyType($ctrl.resumen.Moneda.Codigo)}}</div>
+    </li>
+    <li class="col-sm-4 clearfix mb-xs-2 page-rrgg__table-list-item">
+      <div class="col-xs-4 item-label"><span class="ico-mapfre_82_circle ico-bullet"></span>Costo de inclusion por
+        persona - Prima Neta:</div>
+      <div class="col-xs-8 item-dato ng-binding">{{$ctrl.resumen.PrimaNetaCosto | currency:
+        $ctrl.currencyType($ctrl.resumen.Moneda.Codigo)}}</div>
+    </li>  
+  </ul>
+  <ul class="col-md-12 clearfix mb-xs-2" style="padding-left: 0px;">
+    <li class="col-sm-4 clearfix mb-xs-2 page-rrgg__table-list-item" ng-if="$ctrl.showLimiteEventoRC" style="padding-left: 0px;">
+      <div class="col-xs-4 item-label"><span class="ico-mapfre_82_circle ico-bullet"></span>Limite por evento
+     </div>
+      <div class="col-xs-8 item-dato ng-binding">{{$ctrl.resumen.LimiteEvento | currency: $ctrl.currencyType($ctrl.resumen.Moneda.Codigo) }}</div>
+    </li>
+    <li class="col-sm-4 clearfix mb-xs-2 page-rrgg__table-list-item"  ng-if="!$ctrl.showLimiteEventoRC" style="padding-left: 0px;">
+      <div class="col-xs-4 item-label"><span class="ico-mapfre_82_circle ico-bullet"></span>Deducible</div>
+      <div class="col-xs-8 item-dato ng-binding">{{$ctrl.resumen.Deducible}}</div>
+    </li>
+    <li class="col-sm-4 clearfix mb-xs-2 page-rrgg__table-list-item">
+      <div class="col-xs-4 item-label"><span class="ico-mapfre_82_circle ico-bullet"></span>Prima comercial más IGV
+        vigencia</div>
+      <div class="col-xs-8 item-dato ng-binding">{{$ctrl.resumen.PrimaComercialIGV | currency:
+        $ctrl.currencyType($ctrl.resumen.Moneda.Codigo)}}</div>
+    </li>
+    <li class="col-sm-4 clearfix mb-xs-2 page-rrgg__table-list-item">
+      <div class="col-xs-4 item-label"><span class="ico-mapfre_82_circle ico-bullet"></span>Prima neta mínima por
+        endoso</div>
+      <div class="col-xs-8 item-dato ng-binding">{{$ctrl.resumen.PrimaNetaMinima | currency:
+        $ctrl.currencyType($ctrl.resumen.Moneda.Codigo)}}</div>
+    </li>  
+  </ul>
+  <ul class="col-md-12 clearfix mb-xs-2" style="padding-left: 0px;" ng-if="$ctrl.showLimiteEventoRC">
+    <li class="col-sm-4 clearfix mb-xs-2 page-rrgg__table-list-item" style="padding-left: 0px;">
+      <div class="col-xs-4 item-label"><span class="ico-mapfre_82_circle ico-bullet"></span>Deducible</div>
+      <div class="col-xs-8 item-dato ng-binding">{{$ctrl.resumen.Deducible}}</div>
+    </li>
+  </ul>
+</div>
+
+<div
+  ng-if="$ctrl.resumen.Ramo.Codigo === $ctrl.constantsRrgg.RAMO.DESHONESTIDAD  ||  $ctrl.resumen.Ramo.Codigo === $ctrl.constantsRrgg.RAMO.RESPON_CIVILL_DESHONESTIDAD"
+  class="g-list-md g-box gBgcGray5 pt-xs-2 pb-xs-2 pl-xs-2 pr-xs-2 mb-xs-2">
+  <ul class="row">
+    <li class="col-sm-12 clearfix mb-xs-1">
+      <div class="item-label">Deshonestidad</div>
+    </li>
+  </ul>
+  <ul class="col-md-12 clearfix mb-xs-2" style="padding-left: 0px;">
+    <li class="col-sm-4 clearfix mb-xs-2 page-rrgg__table-list-item" style="padding-left: 0px;">
+      <div class="col-sm-4 item-label"><span class="ico-mapfre_82_circle ico-bullet"></span>Suma asegurada Desh</div>
+      <div class="col-sm-8 item-dato pl-md-1 ng-binding">{{$ctrl.resumen.SumaAseguradaDesh | currency:
+        $ctrl.currencyType($ctrl.resumen.Moneda.Codigo)}} {{'en límite único y combinado y en agregado vigencia'}}</div>
+    </li>
+    <li class="col-sm-4 clearfix mb-xs-2 page-rrgg__table-list-item">
+      <div class="col-xs-4 item-label"><span class="ico-mapfre_82_circle ico-bullet"></span>Prima comercial vigencia
+      </div>
+      <div class="col-xs-8 item-dato ng-binding">{{$ctrl.resumen.PrimaComercialDesh | currency:
+        $ctrl.currencyType($ctrl.resumen.Moneda.Codigo)}}</div>
+    </li>
+    <li class="col-sm-4 clearfix mb-xs-2 page-rrgg__table-list-item">
+      <div class="col-xs-4 item-label"><span class="ico-mapfre_82_circle ico-bullet"></span>Costo de inclusion por
+        persona - Prima Neta:</div>
+      <div class="col-xs-8 item-dato ng-binding">{{$ctrl.resumen.PrimaNetaCostoDesh | currency:
+        $ctrl.currencyType($ctrl.resumen.Moneda.Codigo)}}</div>
+    </li>
+  </ul>
+  <ul class="col-md-12 clearfix mb-xs-2" style="padding-left: 0px;">
+    <li class="col-sm-4 clearfix mb-xs-2 page-rrgg__table-list-item" ng-if="$ctrl.showLimiteEventoDes"  style="padding-left: 0px;">
+      <div class="col-xs-4 item-label"><span class="ico-mapfre_82_circle ico-bullet"></span>Limite por evento
+     </div>
+      <div class="col-xs-8 item-dato ng-binding">{{$ctrl.resumen.LimiteEventoDesh | currency: $ctrl.currencyType($ctrl.resumen.Moneda.Codigo) }}</div>
+    </li>
+    <li class="col-sm-4 clearfix mb-xs-2 page-rrgg__table-list-item" ng-if="!$ctrl.showLimiteEventoDes" style="padding-left: 0px;">
+      <div class="col-xs-4 item-label"><span class="ico-mapfre_82_circle ico-bullet"></span>Deducible</div>
+      <div class="col-xs-8 item-dato ng-binding">{{$ctrl.resumen.DeducibleDesh}}</div>
+    </li>
+    <li class="col-sm-4 clearfix mb-xs-2 page-rrgg__table-list-item">
+      <div class="col-xs-4 item-label"><span class="ico-mapfre_82_circle ico-bullet"></span>Prima comercial más IGV
+        vigencia</div>
+      <div class="col-xs-8 item-dato ng-binding">{{$ctrl.resumen.PrimaComercialIGVDesh | currency:
+        $ctrl.currencyType($ctrl.resumen.Moneda.Codigo)}}</div>
+    </li>
+    <li class="col-sm-4 clearfix mb-xs-2 page-rrgg__table-list-item" ng-if="$ctrl.resumen.PrimaNetaMinimaDesh>$ctrl.resumen.PrimaNetaCostoDesh" >
+      <div class="col-xs-4 item-label"><span class="ico-mapfre_82_circle ico-bullet"></span>Prima neta mínima por
+        endoso</div>
+      <div class="col-xs-8 item-dato ng-binding">{{$ctrl.resumen.PrimaNetaMinimaDesh | currency:
+        $ctrl.currencyType($ctrl.resumen.Moneda.Codigo)}}</div>
+    </li>
+  </ul>
+  <ul class="col-md-12 clearfix mb-xs-2" style="padding-left: 0px;" ng-if="$ctrl.showLimiteEventoDes">
+    <li class="col-sm-4 clearfix mb-xs-2 page-rrgg__table-list-item" style="padding-left: 0px;">
+      <div class="col-xs-4 item-label"><span class="ico-mapfre_82_circle ico-bullet"></span>Deducible</div>
+      <div class="col-xs-8 item-dato ng-binding">{{$ctrl.resumen.DeducibleDesh}}</div>
+    </li>
+  </ul>
+</div>

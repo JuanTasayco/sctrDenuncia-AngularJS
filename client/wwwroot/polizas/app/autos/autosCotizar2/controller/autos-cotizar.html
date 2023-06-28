@@ -1,0 +1,80 @@
+<section class="g-page page-automovil-cotizar">
+  <div class="g-ui-view">
+    <page-title info="{title: 'Cotizar póliza de auto'}"></page-title>
+    <!-- Sección Agente -->
+    <div class="g-section h-myd-mb--10 h-myd-mt--10">
+      <div class="container">
+        <div class="row" ng-show="currentStep==1">
+          <div class="col-md-5">
+            <span ng-show="!userRoot"
+              ><h2>Agente: {{ formData.claims.codigoAgente }} - {{ formData.claims.nombreAgente }}</h2></span
+            >
+
+            <mp-data-seeker
+              ng-show="userRoot"
+              behavior="{label:'Para cotizar una póliza debes elegir un agente', placeholder:'Busque o seleccione un agente ...', matchField:'codigoNombre'}"
+              m-data-source="'proxyAgente.buscarAgente'"
+              ng-model="mAgente"
+              ng-change="saveAgent(mAgente)"
+            >
+              <div ng-bind-html="$item.codigoNombre | highlight: $select.search"></div>
+            </mp-data-seeker>
+            <li ng-if="disableSgt" style="color:red">{{formData.msjReferidoValidate}}</li>
+          </div>
+        </div>
+
+        <div class="row" ng-show="currentStep!=1">
+          <div class="col-md-5">
+            <span
+              ><h2>Agente: {{ mAgente.codigoNombre }}</h2></span
+            >
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Fin Sección Agente -->
+
+  <!-- Steps -->
+  <wizard-stairs
+    stairs="{steps: [{description:'Datos del auto'},{description:'Productos a cotizar'}, {description: 'Resultados cotización'}], stateName:'.steps', stateParameter: 'step'}"
+    current-Step="currentStep"
+    steping="nav.go($stepToGo)"
+  ></wizard-stairs>
+  <!-- STEPS -->
+
+  <div id="form-views" ui-view=""></div>
+  <!-- Modal -->
+  <div id="modalGuardarCotizacion" class="modal fade" role="dialog">
+    <div class="modal-dialog modal-md" role="document">
+      <div class="modal-content">
+        <button type="button" class="close g-close-modal" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true" class="ico-mapfre_231_cancelaroff"></span>
+        </button>
+        <div class="container">
+          <div class="row mb-md-3">
+            <div class="col-md-12 g-text-center-xs mb-xs-2">
+              <h2 class="gH3"><b>¿Estás seguro que quieres guardar la cotización?</b></h2>
+            </div>
+            <div class="col-md-12 mb-md-1 text-center">Recuerda que una vez guardada ya no podrá hacer cambios</div>
+          </div>
+          <div class="row">
+            <div class="col-md-12 mb-md-1">
+              <a href="" class="col-md-6 col-md-offset-3 col-xs-12 g-btn g-btn-verde" data-dismiss="modal"
+                >Seguir editando cotización</a
+              >
+            </div>
+            <div class="col-md-12">
+              <a
+                href=""
+                class="col-md-6 col-md-offset-3 col-xs-12 g-btn g-btn-verde"
+                ng-click="$ctrl.guardarCotizacion()"
+                >Guardar</a
+              >
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

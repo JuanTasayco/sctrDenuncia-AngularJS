@@ -1,0 +1,82 @@
+<form action="" name="frmDocuments">
+  <div show-filter class="clearfix g-col-filter g-box-md fz14 gBgcGray5-md gBgcWhite1 g-myd-box g-myd-box--filter"
+    ng-class="{'show': isFilterVisible}">
+    <div class="col-md-12 mb-xs-3 gH4 gCGray1">
+      <h2 class="pb-xs-1 g-border-bottom-xs hidden-xs hidden-sm"><b>Opciones de búsqueda</b></h2>
+      <div id="show-filter" class="row pt-xs-2 pb-xs-2 gBgcGray5 g-border-bottom-xs hidden-md hidden-lg"
+        ng-click="toggleFilter();">
+        <div class="col-xs-10">
+          <h2><b>Opciones de búsqueda</b></h2>
+        </div>
+        <div class="col-xs-2 g-text-right-xs">
+          <span class="glyphicon glyphicon-chevron-down" ng-if="isFilterVisible"></span>
+          <span class="glyphicon glyphicon-chevron-up" ng-if="!isFilterVisible"></span>
+        </div>
+        <div class="clearfix"></div>
+      </div>
+    </div>
+    <div class="g-col-filter__box">
+      <div class="col-md-12 mb-xs-2">
+        <span ng-show="vm.mostrarAgente()">
+          <h2>Agente: {{vm.user.codigoAgente}} - {{vm.user.nombreAgente}}</h2>
+        </span>
+        <mp-data-seeker ng-show="!vm.mostrarAgente()"
+          behavior="{label:'Agente', placeholder:'Busque o seleccione un agente ...', matchField:'codigoNombre'}"
+          m-data-source="'proxyAgente.buscarAgente'" ng-model="vm.filtros.agente">
+          <div ng-bind-html="$item.codigoNombre | highlight: $select.search"></div>
+        </mp-data-seeker>
+      </div>
+      <div class="col-md-12 mb-xs-2" ng-if="vm.showStates()">
+        <mpf-select label="{label: 'Estado', required: false}" name="nEstadoFilter"
+          ng-model="vm.filtros.tipoEstado" m-data-source="vm.estados" text-field="Descripcion"
+          value-field="CodigoParametro" m-Empty-Option="{enterData:true}" ng-required="false">
+        </mpf-select>
+      </div>
+      <div class="col-md-12 mb-xs-2">
+        <mpf-select label="{label: 'Tipo de Doc.', required: false}" name="nTipoDocFilter"
+          ng-model="vm.filtros.tipoDocumento" m-data-source="vm.tiposDocumento" text-field="Descripcion"
+          value-field="Codigo" m-Empty-Option="{enterData:true}" ng-required="false"
+          ng-change="fnChangeDocumentType(vm.filtros.tipoDocumento)">
+        </mpf-select>
+      </div>
+      <div class="col-md-12 mb-xs-2">
+        <mpf-input label="{label: 'Nro. Documento', required: false}" name="nNroDocumentoFilter"
+          ng-model="vm.filtros.numeroDocumento" mpf-validation="{{ $ctrl.data.mNroDocumentoFilter.FIELD_TYPE }}"
+          mpf-validation-disabled="{{ $ctrl.data.mNroDocumentoFilter.FIELD_TYPE_DISABLED }}"
+          ng-maxlength="$ctrl.data.mNroDocumentoFilter.MAX_LENGTH"
+          ng-required="vm.filtros.tipoDocumento.Codigo !== null">
+        </mpf-input>
+        <ul class="g-error">
+          <li
+            ng-show="frmDocuments.nNroDocumentoFilter.$viewValue && (frmDocuments.nNroDocumentoFilter.$error.onlyNumber || frmDocuments.nNroDocumentoFilter.$error.maxlength) && !frmDocuments.nNroDocumentoFilter.$pristine">
+            * Nro de documento incorrecto
+          </li>
+          <li
+            ng-show="frmDocuments.nNroDocumentoFilter.$invalid && frmDocuments.nNroDocumentoFilter.$error.required && !frmDocuments.nNroDocumentoFilter.$pristine">
+            * Ingrese un nro de documento
+          </li>
+        </ul>
+      </div>
+      <div class="col-md-12 mb-xs-2">
+        <mpf-input label="{label: 'Nro. de solicitud', required: false}" name="nNroCotizacion"
+          ng-model="vm.filtros.numeroCotizacion"></mpf-input>
+      </div>
+      <div class="col-md-6 mb-xs-2">
+        <mpf-datepicker label="{label: 'Fecha inicial', required: true}" ng-model="vm.filtros.fechaInicial"
+          format="vm.format" name="nFechaInicial" ng-required="true" nomargin="true">
+      </div>
+      <div class="col-md-6 mb-xs-2">
+        <mpf-datepicker label="{label: 'Fecha final', required: true}" ng-model="vm.filtros.fechaFinal"
+          format="vm.format" name="nFechaFinal" ng-required="true" nomargin="true">
+      </div>
+      <div class="col-md-12 mb-xs-1">
+        <a href="javascript:void(0);" class="g-btn g-btn-verde block"
+          ng-click="vm.buscarDocumentos(); toggleFilter();">Filtrar</a>
+      </div>
+      <div class="col-md-12">
+        <a href="javascript:void(0);" class="g-btn g-btn-white block"
+          ng-click="vm.limpiarFiltros(); toggleFilter();">Limpiar</a>
+      </div>
+    </div>
+  </div>
+</form>

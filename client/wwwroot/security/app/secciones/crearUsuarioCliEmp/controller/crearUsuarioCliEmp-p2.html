@@ -1,0 +1,132 @@
+<div ng-show="!viewSuccess">
+  <div ng-form="frmCreateUserS2">
+    <!-- Bloque de Informacion y formularios -->
+    <div class="container">
+      <div class="g-section">
+        <div class="container">
+          <div class="row">
+            <div class="col-xs-12 mb-xs-1">
+              <h2 class="gH4 gCGray1"><b class="ng-binding">Datos Empresa</b></h2>
+            </div>
+          </div>
+        </div>
+        <div class="row mb-xs-2">
+          <div class="col-xs-12">
+            <div class="clearfix g-box pt-xs-2 pb-xs-2">
+              <div class="col-sm-4"><b>Razón Social: </b>{{createS2.company.nombre}}</div>
+              <div class="col-sm-4"><b>RUC: </b>{{createS2.company.documento}}</div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-xs-12 mb-xs-1">
+              <h2 class="gH4 gCGray1"><b class="ng-binding">Tipo de Usuario</b></h2>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-sm-4 mb-xs-1 mb-sm-0">
+            <mpf-radio-button 
+            label="{label: 'Usuario administrador'}" 
+            name="nTipoUsuario" 
+            ng-model="createS2.company.mTipoUsuario" 
+            value="2"
+            ng-disabled="createS2.isEdit"
+            ></mpf-radio-button>
+          </div>
+          <div class="col-sm-4">
+            <mpf-radio-button 
+            label="{label: 'Usuario regular'}" 
+            name="nTipoUsuario" 
+            ng-model="createS2.company.mTipoUsuario" 
+            value="1" 
+            ng-disabled="createS2.isEdit"
+            ></mpf-radio-button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <datos-personales data="createS2.company.datosPersonales"></datos-personales>
+
+    <div class="g-section-inner">
+      <div class="container">
+        <div class="row">
+          <div class="col-xs-12 mb-xs-1">
+            <h2 class="gH4 gCGray1"><b class="ng-binding">Datos Contacto</b></h2>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-sm-4 mb-xs-1">
+            <mpf-select
+              label="{label: 'Cargo: ', required: true}" 
+              name="nCargo" 
+              ng-model="createS2.company.mCargo" 
+              m-data-source="cargoData"
+              text-field="descripcion" 
+              value-field="codigo" 
+              m-Empty-Option="{enterData:true}" 
+              ng-required="true" 
+              ng-change=""
+            ></mpf-select>
+            <ul class="g-error">
+              <li ng-show="
+              frmCreateUserS2.nCargo.$error.required &&
+              !frmCreateUserS2.nCargo.$pristine"
+              >* Este campo es obligatorio</li>
+            </ul>            
+          </div>
+          <div class="col-sm-4 mb-xs-1">
+            <mpf-input 
+            label="{label: 'Teléfono', required: false}" 
+            name="nTelefono" 
+            ng-model="createS2.company.mTelefono"
+            ng-maxlength = "10"
+            mpf-validation = "onlyNumber"
+            ></mpf-input>
+          </div>
+          <div class="col-sm-4 mb-xs-1">
+            <mpf-input 
+            label="{label: 'Celular', required: false}" 
+            name="nCelular" 
+            ng-model="createS2.company.mCelular"
+            ng-maxlength = "9"
+            mpf-validation = "onlyNumber"            
+            ></mpf-input>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-sm-4">
+            <mpf-input 
+            label="{label: 'Correo electrónico', required: true}" 
+            name="nEmail" 
+            ng-model="createS2.company.mEmail"
+            ng-required="true"
+            ng-maxlength = "150"
+            mpf-validation = "email"
+            ></mpf-input>
+            <ul class="g-error">
+              <li ng-show="frmCreateUserS2.nEmail.$error.required && !frmCreateUserS2.nEmail.$pristine">* Este campo es obligatorio</li>
+              <li ng-show="
+              !frmCreateUserS2.nEmail.$error.required &&
+              frmCreateUserS2.nEmail.$error.email && 
+              !frmCreateUserS2.nEmail.$pristine">* Correo inválido</li>
+            </ul>          
+          </div>
+        </div>
+      </div>
+    </div>
+  </div> <!-- ngForm -->
+  
+  <div class="g-section mt-xs-3 mb-xs-3">
+    <div class="container">
+        <div class="row">
+        <div class="col-md-4 col-md-offset-4 col-sm-6 col-sm-offset-3">
+            <a class="g-btn g-btn-verde block" ng-click="createS2.fnNextStep(true, {cancel: false, step: 3})">
+            <span ng-show="!create.validStep2">Continuar</span>
+            <span ng-show="create.validStep2">Actualizar usuario</span>            
+            </a>
+        </div>
+        </div>
+    </div>
+  </div>
+</div>

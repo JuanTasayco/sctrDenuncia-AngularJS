@@ -1,0 +1,50 @@
+<div  ng-if="tab1" ui-tree-handle class="g-box tree-node tree-node-content mb-xs-1">
+    <div class="clearfix g-div-middle pl-xs-2 pt-xs-2" >
+        <div class="col-sm-1 col-xs-6 mb-xs-2">
+            <span class="gH5 gCBlack1 fwBold">{{$index + 1}}</span>
+        </div>
+        <div class="col-xs-6 col-sm-10 mb-xs-2" data-nodrag ng-click="longShortText('pg_salud' + $index)">
+            <div class="g-u-cursor--pointer">
+                <span class="gH7 text-span-eclipse">{{ (node.Titulo != '' ) ? node.Titulo : 'Pregunta ' + ($index + 1) }}</span>
+            </div>
+            <div class="g-u-cursor--pointer">
+                <div id="{{'pg_salud' + $index }}"  class="gH8 text-span-eclipse" style="font-weight: 400;" >{{node.Pregunta}}</div>
+            </div>
+        </div>
+        <div class="col-xs-6 col-sm-1 mb-xs-2" data-nodrag >
+            <span class="gH8 gCBlack1 fwBold">{{node.FechaEfecto}}</span>
+        </div>
+    </div>
+</div>
+
+<div  ng-if="tab2" ui-tree-handle class="g-box tree-node tree-node-content mb-xs-1">
+    <div data-nodrag class="clearfix g-div-middle pl-xs-2 pt-xs-2" >
+        <div class="col-sm-1 col-xs-6 mb-xs-2">
+            <span class="gH5 gCBlack1 fwBold">{{$index + 1}}</span>
+        </div>
+        <div class="col-xs-6 col-sm-4 mb-xs-2" data-nodrag ng-click="longShortText('pg_salud' + $index)">
+            <div class="g-u-cursor--pointer">
+                <span class="gH7 text-span-eclipse">{{ (node.Titulo != '' ) ? node.Titulo : 'Pregunta ' + ($index + 1) }}</span>
+            </div>
+            <div class="g-u-cursor--pointer">
+                <div id="{{'pg_salud' + $index }}"  class="gH8 text-span-eclipse" style="font-weight: 400;" >{{node.Pregunta}}</div>
+            </div>
+        </div>
+        <div class="col-xs-6 col-sm-1 mb-xs-2" data-nodrag >
+            <span class="gH8 gCBlack1 fwBold">{{node.FechaRegistro}}</span>
+        </div>
+        <div class="col-xs-6 col-sm-1 mb-xs-2" data-nodrag >
+            <span class="gH8 gCBlack1 fwBold">{{node.FechaEfecto}}</span>
+        </div>
+        <div class="col-xs-6 col-sm-1 mb-xs-2" data-nodrag >
+            <span class="gH8 gCBlack1 fwBold">{{node.UsuarioRegistro}}</span>
+        </div>
+        <div class="col-xs-6 col-sm-2 mb-xs-2">
+            <mpf-checkbox-toggle ng-model="node.Estado" ng-true-value="'A'" ng-false-value="'I'" data-nodrag ng-change="changeStatusMenu(this)" ></mpf-checkbox-toggle>
+            <span  ng-class="{'g-security-habilitar': node.Estado === 'A', 'g-security-inhabilitar': node.Estado === 'I'}"></span>
+        </div>
+        <div class="col-xs-6 col-sm-2 mb-xs-2">
+            <a class="g-btn g-btn-gris second-design block" data-nodrag ng-click="openModalAnadir(node)">Clonar</a>
+        </div>
+    </div>
+</div>

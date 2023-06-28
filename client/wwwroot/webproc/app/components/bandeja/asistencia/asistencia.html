@@ -1,0 +1,69 @@
+<div class="col-md-12 g-box">
+  <div class="row g-box-body">
+    <div class="col-xs-12 col-sm-4 search-result g-border-right mb-xs-1 mb-sm-0">
+      <div class="row">
+        <div class="col-md-12">
+          <span class="search-result-label asistencia-label">ASISTENCIA #:&nbsp;</span>
+          <span class="search-result-data asistencia-data">{{$ctrl.datos.assistanceNumber}}&nbsp;</span>
+        </div>
+        <div class="col-md-12">
+          <span
+            class="search-result-tag g-tag"
+            data-ng-class="$ctrl.clsLabel[$ctrl.datos.assistanceState.toLowerCase()] || 'tag-gray'"
+          >
+            {{$ctrl.txtLabel}}
+          </span>
+        </div>
+        <div class="col-md-12">
+          <span class="search-result-label asistencia-date">Actualización:&nbsp;</span>
+          <span class="search-result-data asistencia-date">{{$ctrl.datos.lastUpdate | date : 'dd/MM/yyyy' }}</span>
+        </div>
+        <div class="col-md-12" data-ng-if="$ctrl.datos.lastUpdateMongo">
+          <span class="search-result-label asistencia-date">Autoguardado:&nbsp;</span>
+          <span class="search-result-data asistencia-date">{{$ctrl.datos.lastUpdateMongo | date : 'dd/MM/yyyy' }}</span>
+        </div>
+      </div>
+    </div>
+    <div class="col-xs-12 col-sm-4 search-result g-border-right mb-md-1">
+      <div class="row">
+        <div class="col-md-12">
+          <span class="search-result-label">SINIESTRO:&nbsp;</span>
+          <span class="search-result-data">{{$ctrl.datos.sinisterNumber}}&nbsp;</span>
+        </div>
+        <div class="col-md-12">
+          <span class="search-result-label">PLACA:&nbsp;</span>
+          <span class="search-result-data">{{$ctrl.datos.placa}}&nbsp;</span>
+        </div>
+        <div class="col-md-12">
+          <span class="search-result-label">USUARIO:&nbsp;</span>
+          <span class="search-result-data">{{$ctrl.datos.modifyuser | uppercase}}&nbsp;</span>
+        </div>
+      </div>
+    </div>
+    <div class="col-xs-12 col-sm-2 search-result">
+      <div class="row">
+        <div class="col-md-12">
+          <span class="search-result-label">AVISO</span>
+          <span class="search-result-data"></span>
+        </div>
+        <div class="col-md-12">
+          <span class="search-result-label">
+            <span class="ico-mapfre_27_horario search-result-ico"></span>&nbsp;
+          </span>
+          <span class="search-result-data">{{$ctrl.datos.callTime}}<span>
+        </div>
+        <div class="col-md-12">
+          <span class="search-result-label">
+            <span class="ico-mapfre_127_calendar3 search-result-ico"></span>&nbsp;
+          </span>
+          <span class="search-result-data">{{$ctrl.datos.callDate | date: 'dd/MM/yyyy'}}</span>
+        </div>
+      </div>
+    </div>
+    <div class="col-xs-12 col-sm-2 search-result mt-xs-1 mt-sm-0">
+      <a class="g-btn g-btn-white second-design block" data-ng-click="$ctrl.verDetalle()"
+        data-ui-sref="detalleAsistencia.generales({nroAsistencia: $ctrl.datos.assistanceNumber})" >Ver más<span class="ico-mapfre_79_chevroneright g-btn-ico2"></span>
+      </a>
+    </div>
+  </div>
+</div>

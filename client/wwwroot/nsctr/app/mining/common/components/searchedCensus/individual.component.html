@@ -1,0 +1,108 @@
+<mining-check-filter
+  ng-show="$ctrl.data.dataList.allList.length > 0"
+  data="$ctrl.checkFilter"
+  check-filter="$ctrl.fnCheckFilter(currentCheck)">
+</mining-check-filter>
+
+<nsctr-no-result-filter
+  type="filter"
+  no-result-info="$ctrl.noResult.noResultInfo"
+  no-result="$ctrl.noResult.noResult">
+</nsctr-no-result-filter>
+
+<div
+  class="row"
+  ng-if="$ctrl.data.dataList.list.length > 0">
+  <div class="col-md-12">
+    <div class="clearfix g-tbl-wrapper">
+      <div class="clearfix table__1920">
+        <ul
+          height-row
+          class="g-row-fz12 g-tbl-row gBgcGray5 pt-xs-1">
+          <li class="g-col-5pd g-col-xs col-3-dktp tbl-item item-title" ng-if="$ctrl.segurityUpdate">&nbsp;</li>
+          <li class="g-col-5pd g-col-xs col-13-dktp tbl-item item-title">NOMBRE</li>
+          <li class="g-col-5pd g-col-xs col-4-dktp tbl-item item-title">TIPO<br>DOC</li>
+          <li class="g-col-5pd g-col-xs col-5-dktp tbl-item item-title">NRO.<br>DOC</li>
+          <li class="g-col-5pd g-col-xs col-4-dktp tbl-item item-title">APTITUD</li>
+          <li class="g-col-5pd g-col-xs col-5-dktp tbl-item item-title">FECHA<br>REGISTRO</li>
+          <li class="g-col-5pd g-col-xs col-12-dktp tbl-item item-title">EMPRESA</li>
+          <li class="g-col-5pd g-col-xs col-5-dktp tbl-item item-title">LOCACIÓN</li>
+          <li class="g-col-5pd g-col-xs col-5-dktp tbl-item item-title">TIPO<br>EXAMEN</li>
+          <li class="g-col-5pd g-col-xs col-5-dktp tbl-item item-title">FECHA<br>EXAMEN</li>
+          <li class="g-col-5pd g-col-xs col-5-dktp tbl-item item-title">DICTAMEN</li>
+          <li class="g-col-5pd g-col-xs col-6-dktp tbl-item item-title">MENOSCABO</li>
+          <li class="g-col-5pd g-col-xs col-5-dktp tbl-item item-title">USUARIO</li>
+          <li class="g-col-5pd g-col-xs col-10-dktp tbl-item item-title">DOCTOR</li>
+          <li class="g-col-5pd g-col-xs col-8-dktp tbl-item item-title">CLíNICA</li>
+          <li class="g-col-5pd g-col-xs col-5-dktp tbl-item item-title">NRO.<br>SOLICITUD</li>
+        </ul>
+        <div class="mb-xs-1 gnContentAuto-bg">
+          <ul
+            height-row
+            class="g-row-fz12 g-tbl-row pt-xs-1 g-border-bottom-xs"
+            ng-repeat="item in $ctrl.data.dataList.list">
+            <li class="g-col-5pd g-col-xs col-3-dktp tbl-item g-text-center-xs" ng-if="$ctrl.segurityUpdate">
+              <a
+                href="javascript:void(0)"
+                ng-click="$ctrl.fnShowModalUpdateIndividualCensus(item, $index)">
+                <span class="ico-mapfre_298_buscar gnIcon-sm gCGray3"></span>
+              </a>
+            </li>
+            <li class="g-col-5pd g-col-xs col-13-dktp tbl-item">
+              {{item.name | uppercase}}
+            </li>
+            <li class="g-col-5pd g-col-xs col-4-dktp tbl-item">
+              {{item.documentType | uppercase}}
+            </li>
+            <li class="g-col-5pd g-col-xs col-5-dktp tbl-item">
+              {{item.documentNumber | uppercase}}
+            </li>
+            <li class="g-col-5pd g-col-xs col-4-dktp tbl-item">
+              {{item.able | uppercase}}
+            </li>
+            <li class="g-col-5pd g-col-xs col-5-dktp tbl-item">
+              {{item.registerDate}}
+            </li>
+            <li
+              class="g-col-5pd g-col-xs col-12-dktp tbl-item g-cut-text"
+              title="{{item.company | uppercase}}">
+              {{item.company | uppercase}}
+            </li>
+            <li
+              class="g-col-5pd g-col-xs col-5-dktp tbl-item g-cut-text"
+              title="{{item.location | uppercase}}">
+              {{item.location | uppercase}}
+            </li>
+            <li class="g-col-5pd g-col-xs col-5-dktp tbl-item">
+              {{item.examType | uppercase}}
+            </li>
+            <li class="g-col-5pd g-col-xs col-5-dktp tbl-item">
+              {{item.examDate}}
+            </li>
+            <li class="g-col-5pd g-col-xs col-5-dktp tbl-item">
+              {{item.verdict | uppercase}}
+            </li>
+            <li class="g-col-5pd g-col-xs col-6-dktp tbl-item">
+              {{item.lessening}}
+            </li>
+            <li class="g-col-5pd g-col-xs col-5-dktp tbl-item">
+              {{item.user | uppercase}}
+            </li>
+            <li class="g-col-5pd g-col-xs col-10-dktp tbl-item">
+              {{item.doctor | uppercase}}
+            </li>
+            <li
+              class="g-col-5pd g-col-xs col-8-dktp tbl-item g-cut-text"
+              title="{{item.clinic | uppercase}}">
+              {{item.clinic | uppercase}}
+            </li>
+            <li class="g-col-5pd g-col-xs col-5-dktp tbl-item">
+              {{item.requestNumber}}
+            </li>
+          </ul>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>

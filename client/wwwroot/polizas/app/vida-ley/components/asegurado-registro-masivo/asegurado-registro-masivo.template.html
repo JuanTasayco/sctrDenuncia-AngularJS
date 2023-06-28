@@ -1,0 +1,92 @@
+<div class="content-tab">
+
+  <div class="row">
+    <div class="col-md-12">
+      <div class="g-box gBgcGray5 pt-xs-1 pb-xs-1 pl-xs-1">
+        <span class="ico-mapfre_222_informacion gCBlue2 gnIcon-xsm g-cell-middle"></span>
+        <span class="g-cell-middle pl-xs-1">El sueldo no debe considerar bonos, movilidad o costos adicionales. Sí debe contemplar la asignación familiar.</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-12">
+      <div class="g-box gBgcGray5 pt-xs-1 pb-xs-1 pl-xs-1">
+        <span class="ico-mapfre_222_informacion gCBlue2 gnIcon-xsm g-cell-middle"></span>
+        <span class="g-cell-middle pl-xs-1">El monto tope de remuneración por cada mes declarado es de S/ {{vm.riesgo.montoTopado || vm.cotizacion.montoTopado}}.</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-12">
+      <div class="g-box gBgcGray5 pt-xs-1 pb-xs-1 pl-xs-1">
+        <span class="ico-mapfre_222_informacion gCBlue2 gnIcon-xsm g-cell-middle"></span>
+        <span class="g-cell-middle pl-xs-1">El detalle de planilla a ingresar corresponde a la primera declaración,
+          del {{ vm.cotizacion.duracion.fechaInicial || vm.cotizacion.duracion.modelo.fechaInicial }} al {{ vm.cotizacion.infoAplicacion.FechaFinal || vm.cotizacion.duracion.modelo.mFechaFinal}}. Considera {{ vm.cotizacion.infoAplicacion.DescripcionTiempo || vm.cotizacion.duracion.modelo.mFrecuenciaDuracion.Descripcion | lowercase }} de renumeración.</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="row g-text-center-xs" ng-form name="frmPlanillaFile{{index}}">
+
+    <div class="col-md-4 col-sm-6" ng-if="!vm.riesgo.fileName && !vm.archivoCargado">
+
+      <div class="clearfix g-box fz14 gBgcGray5 pt-xs-2 pb-xs-2">
+        <div class="col-md-12 mb-xs-1">
+          <span>Planilla en Excel</span>
+        </div>
+        <div class="col-md-10 col-md-offset-1">
+          <label class="g-btn g-btn-white second-design block g-btn-input-file">
+            <span class="g-icon">
+              <span class="icon icon-plus ico-mapfre_56_visitasalmedico"></span>
+              <span>Escoger archivo</span>
+            </span>
+            <input type="file" data-show-preview="false" id="file-upload{{index}}" name="file-upload{{index}}"
+              file-model="vm.riesgo.planilla" ng-model="vm.riesgo.planilla"
+              accept=".xls,.xlsx, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/vnd.ms-excel"
+              ng-required="false" onclick="angular.element(this)[0].value=null;" ng-change="vm.cargarEmpleadosMasivo()">
+          </label>
+          <ul class="g-error g-text-left-xs">
+            <li ng-show="$ctrl.replacePayroll.errorAttachFile">* Este campo es obligatorio</li>
+          </ul>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="col-md-4 col-sm-6" ng-if="!!vm.riesgo.fileName">
+      <div class="clearfix g-box fz14 gBgcGray5 pt-xs-2 pb-xs-2">
+        <div class="col-md-12 mb-xs-0-5">
+          <span class="ico-mapfre_314_archivos gnIcon-lg gCGray3"></span>
+        </div>
+        <div class="col-md-12">
+          <b>{{vm.riesgo.fileName}}</b>
+        </div>
+        <div class="col-md-12 mb-xs-1">
+          Planilla cargada exitosamente
+        </div>
+        <div class="col-sm-12" ng-hide="disabled">
+          <label class="g-btn-input-file">
+            <span class="g-icon gCGreen1">
+              <span class="icon ico-mapfre_311_arrowRight"></span>
+              <span class="g-link"><b>Volver a cargar documento</b></span>
+            </span>
+            <input type="file" data-show-preview="false" id="file-upload{{index}}" name="file-upload{{index}}"
+              file-model="vm.riesgo.planilla" ng-model="vm.riesgo.planilla"
+              accept=".xls,.xlsx, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/vnd.ms-excel"
+              ng-required="false" onclick="angular.element(this)[0].value=null;" ng-change="vm.cargarEmpleadosMasivo()">
+          </label>
+        </div>
+      </div>
+    </div>
+
+  </div>
+  <mpf-cobertura-vida-ley ng-model="vm.riesgo" name="'masivo'" ng-if="vm.riesgo.tipo == 0 && !vm.update" 
+    ng-disabled="disabled">
+  </mpf-cobertura-vida-ley>
+  <mpf-cobertura-vida-ley ng-model="vm.riesgoUpdate" name="'masivo'" ng-if="vm.riesgo.tipo == 0 && vm.update" update="vm.update"
+  ng-disabled="disabled">
+  </mpf-cobertura-vida-ley>
+
+</div>

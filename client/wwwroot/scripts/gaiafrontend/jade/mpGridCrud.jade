@@ -1,0 +1,31 @@
+div
+    div(mp-grid="{{id}}", mp-grid-pager="{{pagerId}}", mp-grid-model="model", mp-grid-data="data", mp-grid-options="options", mp-grid-context="$parent", mp-grid-disabled="editionMode")
+    .btn-group-form
+        button.btn.btn-link.pull-left(type="button", ng-show="options.crud.create", ng-disabled="disabled || editionMode", ng-click="!disabled && MpGridCrud.create()")
+            div
+                img(src="gaiafrontend/img/icons/nuevoDoc.png")
+            span {{'mpGridCrud.create' | translate}}
+        button.btn.btn-link.pull-left(type="button", ng-show="options.crud.read", ng-disabled="disabled || MpGridCrud.isOnlyOneRowSelected() || editionMode", ng-click="!(disabled || MpGridCrud.isOnlyOneRowSelected() || editionMode) && MpGridCrud.read()")
+            div
+                img(src="gaiafrontend/img/icons/detalle.png")
+            span {{'mpGridCrud.read' | translate}}
+        button.btn.btn-link.pull-left(type="button", ng-show="options.crud.update", ng-disabled="disabled || MpGridCrud.isOnlyOneRowSelected() || editionMode", ng-click="!(disabled || MpGridCrud.isOnlyOneRowSelected() || editionMode) && MpGridCrud.update()")
+            div
+                img(src="gaiafrontend/img/icons/editar.png")
+            span {{'mpGridCrud.update' | translate}}
+        button.btn.btn-link.pull-left(type="button", ng-show="options.crud.copy", ng-disabled="disabled || MpGridCrud.isOnlyOneRowSelected() || editionMode", ng-click="!(disabled || MpGridCrud.isOnlyOneRowSelected() || editionMode) && MpGridCrud.copy()")
+            div
+                img(src="gaiafrontend/img/icons/copiarDoc.png")
+            span {{'mpGridCrud.copy' | translate}}
+        button.btn.btn-link.pull-left(type="button", ng-show="options.crud.delete", ng-disabled="disabled || !MpGridCrud.isAnyRowSelected() || editionMode", ng-click="!(disabled || !MpGridCrud.isAnyRowSelected() || editionMode) && MpGridCrud.delete()")
+            div
+                img(src="gaiafrontend/img/icons/cancelar24.png")
+            span {{'mpGridCrud.delete' | translate}}
+        button.btn.btn-link(type="button", ng-show="options.crud.create || options.crud.update || options.crud.copy", ng-disabled="disabled || !editionMode", ng-click="!(disabled || !editionMode) && MpGridCrud.confirm()")
+            div
+                img(src="gaiafrontend/img/icons/guardar24.png")
+            span {{'mpGridCrud.confirm' | translate}}
+        button.btn.btn-link(type="button", ng-show="options.crud.create || options.crud.update || options.crud.copy", ng-disabled="disabled || !editionMode", ng-click="!(disabled || !editionMode) && MpGridCrud.cancel()")
+            div
+                img(src="gaiafrontend/img/icons/exit.png")
+            span {{'mpGridCrud.cancel' | translate}}

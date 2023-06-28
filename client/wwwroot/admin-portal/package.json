@@ -1,0 +1,60 @@
+{
+  "name": "ap",
+  "version": "1.0.0",
+  "description": "Modulo ADMINPORTAL de OIM",
+  "main": "package.js",
+  "scripts": {
+    "client:i": "cd ../../ && npm i && bower install",
+    "commit-msg": "",
+    "lint:js": "eslint --fix",
+    "prettier:js": "prettier --single-quote --no-bracket-spacing --print-width 120 --write",
+    "sass": "cd ../../ && grunt sass",
+    "serve": "cd ../../ && grunt serve:dev --force",
+    "start": "run-p serve",
+    "ugli": "cd ../../ && grunt uglify:dev"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://kevinrodbemx@bitbucket.org/mxperu/admin-portal.git"
+  },
+  "keywords": [
+    "ADMINPORTAL",
+    "OIM",
+    "Multiplica",
+    "Mapfre"
+  ],
+  "author": "@Kevinrodbe",
+  "license": "MIT",
+  "devDependencies": {
+    "@commitlint/cli": "^8.3.5",
+    "@commitlint/config-conventional": "^8.3.4",
+    "eslint-config-angular": "^0.5.0",
+    "eslint-config-prettier": "^2.3.0",
+    "eslint-plugin-angular": "^3.2.0",
+    "eslint-plugin-prettier": "^2.6.0",
+    "eslint": "^4.17.0",
+    "husky": "^3.1.0",
+    "lint-staged": "^8.2.1",
+    "npm-run-all": "^4.0.2",
+    "prettier": "^1.5.3"
+  },
+  "dependencies": {
+    "ng-redux": "^3.4.1",
+    "redux": "^3.7.2",
+    "redux-logger": "^3.0.6"
+  },
+  "husky": {
+    "hooks": {
+      "commit-msg": "commitlint -e $HUSKY_GIT_PARAMS",
+      "pre-commit": "lint-staged",
+      "pre-push": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "*.js": [
+      "npm run prettier:js",
+      "npm run lint:js",
+      "git add"
+    ]
+  }
+}

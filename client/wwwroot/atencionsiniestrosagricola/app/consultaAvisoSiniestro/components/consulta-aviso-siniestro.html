@@ -1,0 +1,247 @@
+<div class="g-title g-border-bottom">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-10 col-xs-12">
+                <h1 class="ng-binding">Bandeja de Avisos siniestro</h1>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="dashboard-body">
+    <div class="g-section-inner g-dashboard-section">
+        <div class="container">
+
+            <div class="row">
+                <div class="col-md-3">
+                    <form action="">
+                        <div show-filter class="clearfix g-col-filter g-box-md fz14 gBgcGray5-md gBgcWhite1"
+                            ng-class="{'show': isFilterVisible}">
+                            <div class="col-md-12 mb-xs-1-5 gH4 gCGray1">
+                                <h2 class="pb-xs-1 g-border-bottom-xs hidden-xs hidden-sm"><b>Filtro</b></h2>
+                                <div class="row pt-xs-2 pb-xs-2 gBgcGray5 g-border-bottom-xs hidden-md hidden-lg">
+                                    <div id="show-filter"
+                                        class="row pt-xs-2 pb-xs-2 gBgcGray5 g-border-bottom-xs hidden-md hidden-lg"
+                                        ng-click="toggleFilter();">
+                                        <div class="col-xs-10">
+                                            <h2><b>Filtro</b></h2>
+                                        </div>
+                                        <div class="col-xs-2 g-text-right-xs">
+                                            <span class="glyphicon glyphicon-chevron-down"
+                                                ng-if="isFilterVisible"></span>
+                                            <span class="glyphicon glyphicon-chevron-up"
+                                                ng-if="!isFilterVisible"></span>
+                                        </div>
+                                        <div class="clearfix"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="g-col-filter__box">
+                                <div class="col-md-12 pb-md-2">
+                                    <mpf-input label="{label: 'Código de Aviso'}" name="nFiltroCodigoA"
+                                        ng-model="mCodigoAviso" ng-Minlength="1" ng-Maxlength="8"
+                                        mpf-validation="onlyNumberNoSpace">
+                                    </mpf-input>
+                                </div>
+                                <div class="col-md-12 pb-md-2">
+                                    <mpf-select label="{label: 'Campaña'}" name="nCampania" ng-model="mCampania"
+                                        m-Empty-Option="{enterData:true}" mpf-validation="required"
+                                        m-data-source="dsCampania" value-field="codigo" text-field="descripcion"
+                                        ng-change="changeCampania();">
+                                    </mpf-select>
+                                </div>
+                                <div class="col-md-12 g-text-left-md pb-md-2">
+                                    <label><b>Rango de fecha del aviso</b></label>
+                                </div>
+                                <div class="col-md-12 pb-md-2">
+                                    <div class="row">
+                                        <div class="col-md-6 mb-xs-2">
+                                            <mpf-datepicker nomargin="true" label="{label: 'Desde:'}"
+                                                ng-model="mFechaIni" name="nFechaIni" format="format" readonly="false"
+                                                maxDate="dateMax">
+                                            </mpf-datepicker>
+                                        </div>
+                                        <div class="col-md-6 mb-xs-2">
+                                            <mpf-datepicker nomargin="true" label="{label: 'Hasta:'}"
+                                                ng-model="mFechaFin" name="nFechaFin" format="format" readonly="false"
+                                                maxDate="dateMax">
+                                            </mpf-datepicker>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-12 pb-md-2">
+                                    <mpf-select label="{label: 'Cultivo'}" name="nCultivo" ng-model="mCultivo"
+                                        m-Empty-Option="{enterData:true}" mpf-validation="required"
+                                        m-data-source="dsCultivo" value-field="codigo" text-field="descripcion">
+                                    </mpf-select>
+                                </div>
+                                <div class="col-md-10 g-text-left-md pb-md-2">
+                                    <label><b>Ubigeo</b></label>
+                                </div>
+                                <div class="col-md-2 g-text-right-md pb-md-2">
+                                    <span class="glyphicon glyphicon-chevron-down" ng-show="isUbigeoChevron"
+                                        ng-click="showUbigeo(false);"></span>
+                                    <span class="glyphicon glyphicon-chevron-up" ng-show="!isUbigeoChevron"
+                                        ng-click="showUbigeo(true);"></span>
+                                </div>
+                                <div class="col-md-12 pb-md-2" ng-show="!isUbigeoChevron">
+                                    <mpf-select label="{label: 'Región'}" name="nRegion" ng-model="mRegion"
+                                        m-Empty-Option="{enterData:true}" mpf-validation="required"
+                                        m-data-source="dsRegion" value-field="codigo" text-field="descripcion"
+                                        ng-change="changeRegion();">
+                                    </mpf-select>
+                                </div>
+                                <div class="col-md-12 pb-md-2" ng-show="!isUbigeoChevron">
+                                    <mpf-select label="{label: 'Provincia'}" name="nProvincia" ng-model="mProvincia"
+                                        m-Empty-Option="{enterData:true}" mpf-validation="required"
+                                        m-data-source="dsProvincia" value-field="codigo" text-field="descripcion"
+                                        ng-change="loadDistrito();">
+                                    </mpf-select>
+                                </div>
+                                <div class="col-md-12 pb-md-2" ng-show="!isUbigeoChevron">
+                                    <mpf-select label="{label: 'Distrito'}" name="nDistrito" ng-model="mDistrito"
+                                        m-Empty-Option="{enterData:true}" mpf-validation="required"
+                                        m-data-source="dsDistrito" value-field="codigo" text-field="descripcion"
+                                        ng-change="loadSector();">
+                                    </mpf-select>
+                                </div>
+                                <div class="col-md-12 pb-md-2" ng-show="!isUbigeoChevron">
+                                    <mpf-select label="{label: 'Sector estadístico'}" name="nSector" ng-model="mSector"
+                                        m-Empty-Option="{enterData:true}" mpf-validation="required"
+                                        m-data-source="dsSector" value-field="codigo" text-field="descripcion">
+                                    </mpf-select>
+                                </div>
+
+                                <div class="col-md-12 pb-md-1">
+                                    <a class="g-btn g-btn-verde block" ng-click="searchResults();">Filtrar</a>
+                                </div>
+                                <div class="col-md-12 pb-md-1">
+                                    <a class="g-btn g-btn-transparent block" ng-click="clearFilters();">Limpiar</a>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="col-md-9">
+                    <div class="g-menu-main__box">
+                        <div class="container">
+                            <ul class="g-menu-main hidden-xs hidden-sm">
+                                <span ng-repeat="item in menuConsulta" class="wdMenuConsulta">
+                                    <li class="link col-md-12" ng-class="{'actived':item.actived}"><a
+                                            ng-click="searchState(item.codigo);"
+                                            class="styleMenuconsulta">{{item.descripcion}}
+                                            <span class="badge">{{item.cantidad}}</span>
+                                        </a></li>
+                                </span>
+                            </ul>
+                        </div>
+                    </div>
+                    <br>
+                    <div class="col-md-12 text-center g-box-noresult"
+                        ng-show="resultadoConsulta.length === 0 || resultadoConsulta === undefined">
+                        <div class="row">
+                            <div class="col-md-12 g-box-noresult-ico gCRed1"><span
+                                    class="ico-mapfre_302_error gnIcon-bg"></span>
+                            </div>
+                            <div class="col-md-12 g-box-noresult-text">No se encontró resultados.<br>Realice una
+                                búsqueda nuevamente.</div>
+                        </div>
+                    </div>
+
+                    <div class="g-text-right-md g-span-middle" ng-show="resultadoConsulta.length > 0">
+                        <span ng-click="descargaExcel(undefined);">
+                            <a class="g-btn g-btn-white block second-design pl-md-2 pr-md-2">
+                                <span class="g-icon">
+                                    <span>DESCARGAR EXCEL</span>
+                                    <span class="ico-mapfre_124_download gnIcon-sm"></span>
+                                </span>
+                            </a>
+                        </span>
+                    </div>
+                    <br>
+                    <!--Inicio: Resultados-->
+                    <div class="clearfix g-box mb-xs-2" ng-repeat="item in resultadoConsulta">
+                        <div
+                            class="clearfix g-box no-bbl-radius no-bbr-radius g-border-noborder pt-xs-1 pb-xs-1 gBgcGray5">
+                            <ul class="row g-list-sm">
+                                <li class="col-md-3 col-sm-3">
+                                    <div class="item-label">
+                                        <ul class="clearfix">
+                                            <li class="col-xs-12">
+                                                <b>Código de aviso: {{item.codAviso}}</b>
+                                            </li>
+                                            <li class="col-xs-12">
+                                                <b>Campaña: </b>{{item.nomCampania}}
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </li>
+                                <li class="col-md-3 col-sm-3 mt-xs-1 mt-md-0 pl-md-0 pr-md-1 text-left">
+                                    <span class="g-box-label ml-xs-1-5 ml-md-0 estadoEstilo" ng-class="{
+                                            'estadoRojo': item.codEstado === '1',
+                                            'estadoNaranja': item.codEstado === '2',
+                                            'estadoTurqueza': item.codEstado === '3',
+                                            'estadoPlomo': item.codEstado === '4'
+                                            }">{{item.nomEstado}}</span>
+                                    <span class="ml-md-2 glyphicon glyphicon-calendar gnIcon-sm gCGray3"
+                                        ng-show="item.codEstado === '2' && item.requTrasEvaluacion === '3'"
+                                        uib-tooltip="Diferido hasta {{item.fecDiferirHasta}}">
+                                    </span>
+                                </li>
+                                <li class="col-md-4 col-sm-4 clearfix cnt-item">
+                                    <div class="col-xs-12">
+                                        <b>Fecha de aviso: </b>{{item.fecAviso}}
+                                    </div>
+                                </li>
+                                <li class="col-md-1 col-sm-1">
+                                    <span class="ico-mapfre_124_download gnIcon-xsm gCGray3"
+                                        ng-click="descargaExcel(item.codAviso);"></span>
+                                </li>
+                                <li class="col-md-1 col-sm-1">
+                                    <span class="ico-mapfre_311_arrowRight gnIcon-xsm gCGray3"
+                                        ng-click="iniciarDetalle(item);"></span>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="clearfix g-box-content">
+                            <ul class="row g-list-sm">
+                                <li class="col-md-3 col-sm-6 clearfix cnt-item">
+                                    <div class="col-xs-12">
+                                        <b>Fecha de siniestro: </b>{{item.fecSini}}
+                                    </div>
+                                </li>
+                                <li class="col-md-3 col-sm-6 clearfix cnt-item">
+                                    <div class="col-xs-12">
+                                        <b>Grupo y cultivo: </b>{{item.nomGrupoCultivo}} - {{item.nomCultivo}}
+                                    </div>
+                                </li>
+                                <li class="col-md-3 col-sm-6 clearfix cnt-item">
+                                    <div class="col-xs-12">
+                                        <b>Ubígeo: </b>{{item.nomDepartamnto}} - {{item.nomProvincia}} -
+                                        {{item.nomDistrito}}
+                                    </div>
+                                </li>
+                                <li class="col-md-3 col-sm-6 clearfix cnt-item">
+                                    <div class="col-xs-12">
+                                        <b>Sector estadístico: </b>{{item.nomSectorEst}}
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <!--Fin: Resultados-->
+                    <!-- Inicio: pagination -->
+                    <div class="row">
+                        <div class="col-md-12" ng-show="resultadoConsulta.length > 0">
+                            <ul uib-pagination class="g-pagination" ng-model="vm.pagination.currentPage"
+                                max-size="vm.pagination.maxSize" total-items="vm.pagination.totalRecords"
+                                ng-change="vm.pageChanged(vm.pagination.currentPage)"
+                                items-per-page="vm.pagination.sizePerPage" boundary-link-numbers="true"></ul>
+                        </div>
+                    </div>
+                    <!-- Fin: pagination -->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

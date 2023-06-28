@@ -1,0 +1,173 @@
+<form id="entregaForm" action="" name="$ctrl.entregaForm">
+
+  <div class="g-section-inner" ng-if="!$ctrl.entregaPorRechazoFlag">
+
+    <div class="row mb-xs-2">
+      <div class="col-md-12">
+        <h2 class="gCGray1 gH4"><b>Datos de entrega</b></h2>
+      </div>
+    </div>
+
+    <div class="row mb-xs-2">
+      <div class="col-md-4">
+        <span class="g-label gH5 mb-xs-2">Repuestos pendientes*</span>
+        <div class="row">
+          <div class="col-md-6 mb-xs-2 no-mb-md">
+            <m-radio label="{label: 'Sí'}" name="nRepPend" ng-model="$ctrl.mRepPend" value="S" ng-required="true" ng-disabled="$ctrl.entregadoFlag"></m-radio>
+            <div class="g-error" data-ng-show="$ctrl.entregaForm.nRepPend.$error.required && !$ctrl.entregaForm.nRepPend.$pristine">* Seleccione una opción </div>
+          </div>
+          <div class="col-md-6 mb-xs-2 no-mb-md">
+            <m-radio label="{label: 'No'}" name="nRepPend" ng-model="$ctrl.mRepPend" value="N" ng-required="true" ng-disabled="$ctrl.entregadoFlag"></m-radio>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-4" ng-show="$ctrl.mRepPend==='S'">
+        <mpf-input label="{label: 'Detalle de repuestos pendientes / proveedor(es)', required: true}" name="nDetalleRepPend" ng-model="$ctrl.mDetalleRepPend" ng-required="true"  ng-disabled="$ctrl.entregadoFlag"></mpf-input>
+        <div class="g-error"  ng-show="$ctrl.entregaForm.nDetalleRepPend.$invalid && !$ctrl.entregaForm.nDetalleRepPend.$pristine">* Ingrese detalle de repuestos pendientes</div>
+      </div>
+
+      <div class="col-md-4 gper-dp-null" ng-show="$ctrl.mRepPend==='S'">
+        <mpf-datepicker
+          ng-model="$ctrl.mFechaEntrega"
+          label="{label: 'Fecha aproximada de entrega:', required: true}"
+          format="'dd/MM/yyyy'"
+          name="nFechaEntrega"
+          ng-required="false"
+          ng-change=""
+          mpf-validate="required"
+          readonly="true"
+          minDate="$ctrl.today"
+          add-messages>
+        </mpf-datepicker>
+        <div class="g-error"  ng-show="$ctrl.entregaForm.nFechaEntrega.$invalid && !$ctrl.entregaForm.nFechaEntrega.$pristine">* Ingrese fecha</div>
+      </div>
+    </div>
+    <div class="row mb-xs-2">
+      <div class="col-md-4" ng-show="$ctrl.mRepPend==='S'">
+        <span class="g-label gH5 mb-xs-2">Carta de repuestos</span>
+        <a class="g-btn g-btn-white block" ng-click="$ctrl.downloadFile(1)">Generar y descargar carta de repuestos</a>
+        <!--<div class="gCGray3 text-center mt-xs-1" ng-show="true">Documento descargó exitosamente</div>-->
+      </div>
+
+      <div class="col-md-4" ng-if="$ctrl.siniestro.idTypeInsured !== 2">
+        <span class="g-label gH5 mb-xs-2">Carta de conformidad</span>
+
+        <a class="g-btn g-btn-white block mb-xs-1" ng-click="$ctrl.downloadFile(2)" ng-hide="$ctrl.entregadoFlag">Generar y descargar carta de conformidad</a>
+
+        <label class="g-btn g-btn-white second-design block" ng-show="$ctrl.conformidadLetterDownloaded">
+          <input type="file" file-model="$ctrl.conformidadLetter" ng-model="$ctrl.mConformidadLetter" accept=".jpg, .bmp, .gif, .jpeg, .txt, .zip, .rar, .doc, .docx, .xls, .xlsx, .zip, application/x-rar-compressed, application/octet-stream,application/zip,application/x-zip,application/x-zip-compressed, application/pdf,application/msword, application/vnd.openxmlformats-officedocument.wordprocessingml.document, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/vnd.ms-excel" class="input__file"/>
+          + Cargar carta
+        </label>
+
+        <div class="g-box g-div-middle pl-xs-2 pr-xs-2 pt-xs-1 pb-xs-1" ng-hide="$ctrl.isConformidadLetterDeleted">
+          <div class="ico-mapfre_314_archivos gnIcon-lg pr-xs-2 gper-w20"></div>
+          <div class="gper-w80">
+            <div class="gCGray3 g-cut-text g-block"><b>{{$ctrl.mConformidadLetter.fileName}} - </b><label class="g-link"><a ng-click="$ctrl.downloadFile($ctrl.mConformidadLetter.idAttachFile)"> Descargar</a></label></div>
+            <div class="gCGray3 g-cut-text">Documento cargado exitosamente.</div>
+            <div class="gCGreen1">
+              <b>
+                <span class="ico-mapfre_79_chevroneright"></span>
+                <label class="g-link">
+                  <input type="file" file-model="$ctrl.conformidadLetter" ng-model="$ctrl.mConformidadLetter" accept=".jpg, .bmp, .gif, .jpeg, .txt, .zip, .rar, .doc, .docx, .xls, .xlsx, .zip, application/x-rar-compressed, application/octet-stream,application/zip,application/x-zip,application/x-zip-compressed, application/pdf,application/msword, application/vnd.openxmlformats-officedocument.wordprocessingml.document, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/vnd.ms-excel" class="input__file"/>
+                  Volver a cargar documento
+                </label>
+              </b>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <span class="g-label gH5 mb-xs-2">Carta de garantía</span>
+        <a class="g-btn g-btn-white block" ng-click="$ctrl.downloadFile(3)">Generar y descargar carta de garantía</a>
+        <!--<div class="gCGray3 text-center mt-xs-1" ng-show="true">Documento descargó exitosamente</div>-->
+      </div>
+    </div>
+
+    <div class="row mb-xs-4" ng-if="$ctrl.siniestro.idTypeInsured !== 1">
+      <div class="col-md-4">
+        <span class="g-label gH5 mb-xs-2">Carta de desistimiento</span>
+
+        <a class="g-btn g-btn-white block" ng-click="$ctrl.downloadFile(4)">Generar y descargar carta de desestimiento</a>
+
+        <label class="g-btn g-btn-white second-design block" ng-show="$ctrl.desestimientoLeLetterDownloaded">
+          <input type="file" file-model="$ctrl.desestimientoLetter" ng-model="$ctrl.mDesestimientoFile"  accept=".jpg, .bmp, .gif, .jpeg, .txt, .zip, .rar, .doc, .docx, .xls, .xlsx, .zip, application/x-rar-compressed, application/octet-stream,application/zip,application/x-zip,application/x-zip-compressed, application/pdf,application/msword, application/vnd.openxmlformats-officedocument.wordprocessingml.document, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/vnd.ms-excel" class="input__file"/>
+          + Cargar carta
+        </label>
+
+        <div class="g-box g-span-middle pl-xs-2 pr-xs-2 pt-xs-1 pb-xs-1" ng-show="$ctrl.desestimientoLetter">
+          <span class="ico-mapfre_314_archivos gnIcon-lg pr-xs-2"></span>
+          <span>
+            <div><b>cartadedesestimiento.pdf</b></div>
+            <div class="gCGray3 g-cut-text">Documento cargado exitosamente.</div>
+            <div class="gCGreen1">
+              <b>
+                <span class="ico-mapfre_79_chevroneright"></span>
+                <label class="g-link">
+                  <input type="file" file-model="" accept=".jpg, .bmp, .gif, .jpeg, .txt, .zip, .rar, .doc, .docx, .xls, .xlsx, .zip, application/x-rar-compressed, application/octet-stream,application/zip,application/x-zip,application/x-zip-compressed, application/pdf,application/msword, application/vnd.openxmlformats-officedocument.wordprocessingml.document, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/vnd.ms-excel" class="input__file"/>
+                  Volver a cargar documento
+                </label>
+              </b>
+            </div>
+          </span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="g-section-inner" ng-if="$ctrl.entregaPorRechazoFlag">
+    <div class="row mb-xs-2">
+      <div class="col-md-12">
+        <h2 class="gCGray1 gH4"><b>Documentos</b></h2>
+      </div>
+    </div>
+
+    <div class="row mb-xs-2" ng-show="true">
+      <div class="col-sm-4">
+        <label class="g-btn g-btn-white second-design block">
+          <input type="file" file-model="" accept=".jpg, .bmp, .gif, .jpeg, .txt, .zip, .rar, .doc, .docx, .xls, .xlsx, .zip, application/x-rar-compressed, application/octet-stream,application/zip,application/x-zip,application/x-zip-compressed, application/pdf,application/msword, application/vnd.openxmlformats-officedocument.wordprocessingml.document, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/vnd.ms-excel" class="input__file"/>
+          + Escoger archivo
+        </label>
+      </div>
+    </div>
+
+    <div class="row mb-xs-1">
+      <div class="col-md-12">
+        <h2 class="gCGray1 gH5"><b>Documentos adjuntos</b></h2>
+      </div>
+    </div>
+
+    <div class="clearfix g-box gBgcGray5 pt-xs-2 pb-xs-1 mb-xs-2">
+      <div class="col-sm-6 col-md-4 mb-xs-1" ng-repeat="item in [1,2,3,4]">
+        <div class="g-box gBgcWhite1 g-file-item pt-xs-1 pb-xs-1 pl-xs-1-5 pr-xs-1-5">
+          <span class="doc-item g-span-middle">
+            <span class="doc-item__icon">
+              <span class="{{$ctrl.iconFile}} gnIcon-md"></span>
+            </span>
+            <span class="doc-item__name gH5">
+              <span class="g-block g-cut-text" uib-popover="{{$ctrl.nameFile}}" popover-trigger="'mouseenter'">{{$ctrl.nameFile}}</span>
+            </span>
+            <span class="doc-item__close">
+              <span class="ico-mapfre_302_error gnIcon-xsm"></span>
+            </span>
+          </span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+
+  <div class="g-section" ng-show="$ctrl.isTaller() && !$ctrl.isEntregado">
+    <div class="row">
+      <div class="col-sm-6 col-sm-offset-3 col-md-4 col-md-offset-4">
+        <a class="g-btn g-btn-verde block" ng-click="$ctrl.fnGuardarEntrega()">Guardar</a>
+      </div>
+    </div>
+  </div>
+</form>
+
+<form id="frmAttachFileIngresado" name="frmAttachFileIngresado" action="{{$ctrl.attachFileIngresadoURL}}" method="get" >
+</form>

@@ -1,0 +1,33 @@
+<section class="g-page page-automovil-emitir">
+  <page-title info="{title: gLblTitle}"></page-title>
+  <div class="emitir-usado">
+      <!-- Sección Agente -->
+      <div class="g-section">
+        <div class="container">
+          <div class="row" ng-show="currentStep==1">
+            <div class="col-md-5">
+             <span ng-show="!userRoot"><h2>Agente: {{formData.claims.codigoAgente}} - {{formData.claims.nombreAgente}}</h2></span>
+
+              <mp-data-seeker ng-show="userRoot" behavior="{label:'Para cotizar una póliza debes elegir un agente', placeholder:'Busque o seleccione un agente ...', matchField:'codigoNombre'}" m-data-source="'proxyAgente.buscarAgente'" ng-model="mAgente" ng-change="saveAgent(mAgente)">
+                  <div ng-bind-html="$item.codigoNombre | highlight: $select.search"></div>
+              </mp-data-seeker>
+              <li ng-if="disableSgt" style="color:red">{{formData.msjReferidoValidate}}</li>
+            </div>
+          </div>
+
+          <div class="row" ng-show="currentStep!=1">
+            <div class="col-md-5">
+              <span ><h2>Agente: {{mAgente.codigoNombre}}</h2></span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Fin Sección Agente -->
+      <!-- Steps -->
+      <wizard-stairs stairs="{steps: [{description:'Datos del vehículo'},{description:'Datos de la póliza'}, {description: 'Datos del contratante'}, {description: 'Emitir póliza'}], stateName:'.steps', stateParameter: 'step'}" current-Step="currentStep" steping="nav.go($stepToGo)"></wizard-stairs>
+      <!-- STEPS -->     
+      <div id="form-views" ui-view=""></div>
+  </div>
+</section>
+
+

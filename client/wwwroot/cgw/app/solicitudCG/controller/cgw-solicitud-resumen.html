@@ -1,0 +1,444 @@
+<div class="g-page">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12 g-title">
+        <h1>Resumen</h1>
+      </div>
+      <div class="col-md-6 mb-xs-2 mt-xs-2 mt-md-0 g-summary-title">
+        <h2 class="mb-xs-1">
+          <span class="ico-mapfre_118_ok ico"></span>Carta de Garantía Registrada
+        </h2>
+      </div>
+      <div class="col-md-3 mb-xs-2">
+        <a class="g-btn g-btn-transparent block"
+              ng-click="verBandeja()">VOLVER A BANDEJA DE SOLICITUDES</a>
+      </div>
+      <div class="col-md-3 mb-xs-2">
+        <a class="g-btn g-btn-transparent block"
+              ng-click="nuevaSolicitud()">NUEVA SOLICITUD</a>
+      </div>
+    </div>
+    <div class="clearfix g-summary-box-radius">
+      <div class="col-xs-12 g-cell-middle g-text-right-xs g-border-bottom">
+        <h3 class="col-xs-12 mt-xs-1 mb-xs-1 cgw-box__txt-header size-1-3">Nro. de Carta de Garantía: {{formData.numberLetter}} - Año: {{formData.yearLetter}}</h3>
+      </div>
+      <div class="col-xs-12 g-cell-middle">
+        <h3 class="col-xs-12 mt-xs-1 mb-xs-1 cgw-box__txt-header size-1-3">Paciente y Titular</h3>
+      </div>
+      <div class="col-xs-12">
+        <div class="clearfix u-bb-plomo">
+          <div class="clearfix u-bb-plomo">
+            <h3 class="col-xs-12 mt-xs-1 mb-xs-1 cgw-box__txt-header color--red">Datos del paciente</h3>
+          </div>
+          <ul class="clearfix g-list pt-xs-1">
+            <li class="col-md-3 clearfix cnt-item">
+              <div class="col-sm-5 clearfix">
+                <span class="ico-mapfre_82_circle ico-bullet"></span>
+                <strong>Nombre:</strong>
+              </div>
+              <div class="col-sm-7">
+                {{formData.afiliado.nombres}} {{formData.afiliado.apellidoPaterno}} {{formData.afiliado.apellidoMaterno}}
+              </div>
+            </li>
+            <li class="col-md-3 clearfix cnt-item">
+              <div class="clearfix">
+                <div class="col-sm-5">
+                  <span class="ico-mapfre_82_circle ico-bullet"></span>
+                  <strong>Sexo:</strong>
+                </div>
+                <div class="col-sm-7">
+                  {{formData.afiliado.sexo}}
+                </div>
+              </div>
+              <div class="clearfix">
+                <div class="col-sm-5">
+                  <span class="ico-mapfre_82_circle ico-bullet"></span>
+                  <strong>Fecha nacimiento:</strong>
+                </div>
+                <div class="col-sm-7">
+                  {{formData.afiliado.fechaNacimiento}}
+                </div>
+              </div>
+              <div class="clearfix">
+                <div class="col-sm-5">
+                  <span class="ico-mapfre_82_circle ico-bullet"></span>
+                  <strong>DNI:</strong>
+                </div>
+                <div class="col-sm-7">
+                  {{formData.patientInfo.documentNumber}}
+                </div>
+              </div>
+            </li>
+            <li class="col-md-3 clearfix cnt-item">
+              <div class="clearfix">
+                <div class="col-sm-5">
+                  <span class="ico-mapfre_82_circle ico-bullet"></span>
+                  <strong>Inicio de vigencia:</strong>
+                </div>
+                <div class="col-sm-7">
+                  {{formData.patientInfo.effectiveDateBegin}}
+                </div>
+              </div>
+              <div class="clearfix">
+                <div class="col-sm-5">
+                  <span class="ico-mapfre_82_circle ico-bullet"></span>
+                  <strong>Fin de vigencia:</strong>
+                </div>
+                <div class="col-sm-7">
+                  {{formData.patientInfo.effectiveDateEnd}}
+                </div>
+              </div>
+              <div class="clearfix">
+                <div class="col-sm-5">
+                  <span class="ico-mapfre_82_circle ico-bullet"></span>
+                  <strong>Estado:</strong>
+                </div>
+                <div class="col-sm-7">
+                  {{formData.patientInfo.state}}
+                </div>
+              </div>
+            </li>
+            <li class="col-md-3 clearfix cnt-item">
+              <div class="clearfix">
+                <div class="col-sm-5">
+                  <span class="ico-mapfre_82_circle ico-bullet"></span>
+                  <strong>Plan de salud:</strong>
+                </div>
+                <div class="col-sm-7">
+                  {{formData.patientInfo.healthPlan}}
+                </div>
+              </div>
+              <div class="clearfix">
+                <div class="col-sm-5">
+                  <span class="ico-mapfre_82_circle ico-bullet"></span>
+                  <strong>Carné:</strong>
+                </div>
+                <div class="col-sm-7">
+                  {{formData.patientInfo.license}}
+                </div>
+              </div>
+              <div class="clearfix">
+                <div class="col-sm-5">
+                  <span class="ico-mapfre_82_circle ico-bullet"></span>
+                  <strong>Parentesco:</strong>
+                </div>
+                <div class="col-sm-7">
+                  {{formData.patientInfo.relationship}}
+                </div>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div class="col-xs-12">
+        <div class="clearfix u-bb-plomo">
+          <div class="clearfix">
+            <h3 class="col-xs-12 mt-xs-1 mb-xs-1 cgw-box__txt-header color--red">Datos del titular</h3>
+          </div>
+          <ul class="clearfix g-list pt-xs-1">
+            <li class="col-md-3 clearfix cnt-item">
+              <div class="clearfix">
+                <div class="col-sm-5">
+                  <span class="ico-mapfre_82_circle ico-bullet"></span>
+                  <strong>Nombre:</strong>
+                </div>
+                <div class="col-sm-7">
+                  {{formData.policyholderInfo.fullName}}
+                </div>
+              </div>
+            </li>
+            <li class="col-md-3 clearfix cnt-item">
+              <div class="clearfix">
+                <div class="col-sm-5">
+                  <span class="ico-mapfre_82_circle ico-bullet"></span>
+                  <strong>Nro. de contrato:</strong>
+                </div>
+                <div class="col-sm-7">
+                  {{formData.policyholderInfo.contractNumber}}
+                </div>
+              </div>
+              <div class="clearfix">
+                <div class="col-sm-5">
+                  <span class="ico-mapfre_82_circle ico-bullet"></span>
+                  <strong>RUC:</strong>
+                </div>
+                <div class="col-sm-7">
+                  {{formData.policyholderInfo.rucNumber}}
+                </div>
+              </div>
+              <div class="clearfix">
+                <div class="col-sm-5">
+                  <span class="ico-mapfre_82_circle ico-bullet"></span>
+                  <strong>Moneda:</strong>
+                </div>
+                <div class="col-sm-7">
+                  {{formData.policyholderInfo.currency}}
+                </div>
+              </div>
+            </li>
+            <li class="col-md-3 clearfix cnt-item">
+              <div class="clearfix">
+                <div class="col-sm-5">
+                  <span class="ico-mapfre_82_circle ico-bullet"></span>
+                  <strong>Fecha de contrato:</strong>
+                </div>
+                <div class="col-sm-7">
+                  {{formData.policyholderInfo.contractDate}}
+                </div>
+              </div>
+              <!-- <div  class="clearfix"
+                    data-ng-if="$ctrl.data.policyholderInfo.rucNumber > 8"> -->
+              <div  class="clearfix">
+                <div class="col-sm-5">
+                  <span class="ico-mapfre_82_circle ico-bullet"></span>
+                  <strong>Empresa:</strong>
+                </div>
+                <div class="col-sm-7">
+                  {{formData.policyholderInfo.companyName}}
+                </div>
+              </div>
+            </li>
+            <li class="col-md-3 clearfix cnt-item">
+              <div class="clearfix">
+                <div class="col-sm-5">
+                  <span class="ico-mapfre_82_circle ico-bullet"></span>
+                  <strong>Tipo de afiliación:</strong>
+                </div>
+                <div class="col-sm-7">
+                  {{formData.policyholderInfo.typeAffiliation}}
+                </div>
+              </div>
+              <div class="clearfix">
+                <div class="col-sm-5">
+                  <span class="ico-mapfre_82_circle ico-bullet"></span>
+                  <strong>Inclusión EPS:</strong>
+                </div>
+                <div class="col-sm-7">
+                  {{formData.policyholderInfo.affiliateDate}}
+                </div>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div class="col-xs-12 g-cell-middle" ng-if="showComplaint">
+        <h3 class="col-xs-12 mt-xs-1 mb-xs-1 cgw-box__txt-header size-1-3">Denuncia de accidente</h3>
+      </div>
+      <div class="col-xs-12">
+        <div class="clearfix">
+          <ul class="clearfix g-list pt-xs-1">
+            <li class="col-md-4 clearfix cnt-item">
+              <div class="col-sm-5 clearfix">
+                <span class="ico-mapfre_82_circle ico-bullet"></span>
+                <strong>No. Denuncia:</strong>
+              </div>
+              <div class="col-sm-7">
+                {{ formData.complaint.complaintYear }} - {{ formData.complaint.complaintNumber }}
+              </div>
+            </li>
+            <li class="col-md-4 clearfix cnt-item">
+              <div class="col-sm-5 clearfix">
+                <span class="ico-mapfre_82_circle ico-bullet"></span>
+                <strong>Estado:</strong>
+              </div>
+              <div class="col-sm-7">
+                {{ formData.complaint.status.description }}
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div class="col-xs-12 g-cell-middle">
+        <h3 class="col-xs-12 mt-xs-1 mb-xs-1 cgw-box__txt-header size-1-3">Cobertura</h3>
+      </div>
+      <div class="col-xs-12">
+        <div class="clearfix">
+          <ul class="clearfix g-list pt-xs-1">
+            <li class="col-md-4 clearfix cnt-item">
+              <div class="col-sm-5 clearfix">
+                <span class="ico-mapfre_82_circle ico-bullet"></span>
+                <strong>Tipo de Cobertura:</strong>
+              </div>
+              <div class="col-sm-7">
+                {{formData.cobertura.code}} {{formData.cobertura.typeCoverage}}
+              </div>
+            </li>
+            <li class="col-md-4 clearfix cnt-item">
+              <div class="clearfix">
+                <div class="col-sm-5">
+                  <span class="ico-mapfre_82_circle ico-bullet"></span>
+                  <strong>Copago Fijo:</strong>
+                </div>
+                <div class="col-sm-7">
+                  {{formData.cobertura.copaymentFixed}}
+                </div>
+              </div>
+            </li>
+            <li class="col-md-4 clearfix cnt-item">
+              <div class="clearfix">
+                <div class="col-sm-5">
+                  <span class="ico-mapfre_82_circle ico-bullet"></span>
+                  <strong>Copago Variable:</strong>
+                </div>
+                <div class="col-sm-7">
+                  {{formData.cobertura.copaymentVariable}}
+                </div>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div class="col-xs-12 g-cell-middle">
+        <h3 class="col-xs-12 mt-xs-1 mb-xs-1 cgw-box__txt-header size-1-3">Diagnóstico Principal</h3>
+      </div>
+      <div class="col-xs-12">
+        <div class="clearfix">
+          <ul class="clearfix g-list pt-xs-1">
+            <li class="col-md-4 clearfix cnt-item">
+              <div class="clearfix">
+                <div class="col-sm-5">
+                <span class="ico-mapfre_82_circle ico-bullet"></span>
+                <strong>Código de diagnóstico:</strong>
+              </div>
+              <div class="col-sm-7">
+                {{formData.diagnostico.mCodDiagnostico.code}} - {{formData.diagnostico.mCodDiagnostico.name}}
+              </div>
+              </div>
+              <div class="clearfix">
+                <div class="col-sm-5">
+                  <span class="ico-mapfre_82_circle ico-bullet"></span>
+                  <strong>Fecha de accidente:</strong>
+                </div>
+                <div class="col-sm-7">
+                  {{formData.diagnostico.mFechaAccidente | date: 'dd/MM/yyyy'}}
+                </div>
+              </div>
+            </li>
+            <li class="col-md-4 clearfix cnt-item">
+              <div class="clearfix">
+                <div class="col-sm-5">
+                  <span class="ico-mapfre_82_circle ico-bullet"></span>
+                  <strong>Médico tratante:</strong>
+                </div>
+                <div class="col-sm-7">
+                  {{formData.diagnostico.mMedicoTratante.fName}}
+                </div>
+              </div>
+              <div class="clearfix">
+                <div class="col-sm-5">
+                  <span class="ico-mapfre_82_circle ico-bullet"></span>
+                  <strong>Amputación:</strong>
+                </div>
+                <div class="col-sm-7">
+                  {{formData.diagnostico.mAmputacion == 'S' ? 'SI' : 'NO'}}
+                </div>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div class="col-xs-12 g-cell-middle">
+        <h3 class="col-xs-12 mt-xs-1 mb-xs-1 cgw-box__txt-header size-1-3">Beneficio/Alternativa Copago</h3>
+      </div>
+      <div class="col-xs-12">
+        <div class="clearfix">
+          <ul class="clearfix g-list pt-xs-1">
+            <li class="col-md-4 clearfix cnt-item">
+              <div class="clearfix">
+                <div class="col-sm-5">
+                  <span class="ico-mapfre_82_circle ico-bullet"></span>
+                  <strong>Tipo Atención:</strong>
+                </div>
+                <div class="col-sm-7">
+                  {{formData.beneficio.mTipoAtencion.description}}
+                </div>
+              </div>
+              <div class="clearfix">
+                <div class="col-sm-5">
+                  <span class="ico-mapfre_82_circle ico-bullet"></span>
+                  <strong>Días Hospitalización:</strong>
+                </div>
+                <div class="col-sm-7">
+                  {{formData.mDiasHospitalizacion}}
+                </div>
+              </div>
+            </li>
+            <li class="col-md-4 clearfix cnt-item" ng-show="formData.listCopayForced.length>0">
+              <div class="clearfix" ng-show="formData.mUsuarioForzado.code">
+                <div class="col-sm-5">
+                  <span class="ico-mapfre_82_circle ico-bullet"></span>
+                  <strong>Usuario Forzado:</strong>
+                  {{formData.mUsuarioForzado}} +++
+                </div>
+                <div class="col-sm-7">
+                  {{formData.mUsuarioForzado.fullName}}
+                </div>
+              </div>
+            </li>
+            <li class="col-md-4 clearfix cnt-item" ng-show="formData.listCopayForced.length>0">
+              <div class="clearfix">
+                <div class="col-sm-5">
+                  <span class="ico-mapfre_82_circle ico-bullet"></span>
+                  <strong>Copago Forzado:</strong>
+                </div>
+                <div class="col-sm-7">
+                  {{formData.copayForced.descriptionForced}}
+                </div>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div class="col-xs-12 g-cell-middle">
+        <h3 class="col-xs-12 mt-xs-1 mb-xs-1 cgw-box__txt-header size-1-3">Presupuesto</h3>
+      </div>
+      <div class="col-xs-12">
+        <div  class="item u-br-gris-4 u-bg--gris-9 clearfix"
+              data-ng-repeat="item in formData.procedimientos">
+          <div class="col-sm-2 col-md-1 u-bg--gris-9 g-text-center-xs u-pvh-1 u-lh-1">
+           <span class="{{item.icon}} cgw-presupuesto__icon"></span>
+          </div>
+          <div class="col-sm-8 info cgw-presupuesto__info u-txt-weight">
+            <span class="g-link green u-txt-deco--none">{{item.description}}</span>
+          </div>
+          <div class="col-sm-2 u-pvh-15 u-mt-08 cgw-presupuesto__price-wp">
+            <span><b>{{item.price | currency: 'S/.'}}</b></span>
+          </div>
+        </div>
+      </div>
+      <div class="col-xs-12 clearfix u-ph-15 mb-xs-1">
+        <div class="col-sm-4 col-md-3 u-bg--gris-9 u-pt-15 mt-xs-2 cgw-presupuesto__total-box clearfix">
+          <p class="clearfix u-txt-weight">
+            <span class="col-xs-5">Subtotal</span>
+            <span class="col-xs-7">{{formData.subtotal | currency: 'S/.'}}</span>
+          </p>
+          <p class="clearfix u-txt-weight">
+            <span class="col-xs-5">IGV {{formData.valorIGV}}%</span>
+            <span class="col-xs-7">{{formData.montoIGV | currency: 'S/.'}}</span>
+          </p>
+          <p class="clearfix u-txt-weight">
+            <span class="col-xs-5">Total</span>
+            <span class="col-xs-7">{{formData.total | currency: 'S/.'}}</span>
+          </p>
+        </div>
+      </div>
+      <div class="col-xs-12 g-cell-middle"  ng-if="formData.myFile">
+        <h3 class="col-xs-12 mt-xs-1 mb-xs-1 cgw-box__txt-header size-1-3 u-bt-plomo pt-xs-1">Archivos</h3>
+      </div>
+      <div class="col-xs-12 pb-xs-2 cgw-inline-files" ng-if="formData.myFile">
+        <div class="container container__attach mb-xs-3">
+          <div class="cgw-attach__main_box">
+            <div class="col-sm-3 cgw-attach__wp" ng-repeat="file in formData.myFile">
+              <label class="cgw-attach__box g-text-center-xs">
+                <div class="cgw-attach__box-body" uib-tooltip="{{file.name}}">
+                  <span class="ico-mapfre_170_archivos cgw-attach__icon u-color--gris-8"></span>
+                  <p class="u-txt-weight mb-xs-0 mt-xs-1 g-cut-text">{{file.name}}</p>
+                </div>
+              </label>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

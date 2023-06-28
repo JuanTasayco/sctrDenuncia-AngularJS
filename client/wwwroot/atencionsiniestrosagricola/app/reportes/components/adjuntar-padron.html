@@ -1,0 +1,160 @@
+<div class="g-section-inner g-dashboard-section">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-8 col-md-offset-2">
+                <form name="frmAdjuntarPadron">
+                    <div class="clearfix g-box-md mb-md-2 gBgcWhite1">
+                        <div class="clearfix g-box mb-xs-2 gBgcGray5">
+                            <div class="clearfix g-box no-bbl-radius no-bbr-radius g-border-noborder pt-xs-1 pb-xs-1">
+                                <ul class="row g-list-sm">
+                                    <li class="col-md-12 col-sm-3 clearfix mg-top-10">
+                                        <div class="col-xs-12">
+                                            <b>Aviso Cód. {{item.codAviso}}</b>
+                                            <span class="g-box-label ml-xs-1-5 ml-md-0 estadoEstilo mg-top-10m" ng-class="{
+                                                'estadoTurqueza': item.codEstado === '3'
+                                                }">{{item.nomEstado}}</span> 
+                                        </div>
+                                    </li>
+                                    <li class="col-md-3 col-sm-3 clearfix mg-top-10">
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="clearfix g-box-content gBgcGray5">
+                                <ul class="row g-list-sm">
+                                    <li class="col-md-4 col-sm-6 clearfix cnt-item">
+                                        <div class="col-xs-12">
+                                            <b>Campaña: </b>{{item.nomCampania}}
+                                        </div>
+                                    </li>
+                                    <li class="col-md-4 col-sm-6 clearfix cnt-item">
+                                        <div class="col-xs-12">
+                                            <b>Fecha de aviso: </b>{{item.fecAviso}}
+                                        </div>
+                                    </li>
+                                    <li class="col-md-4 col-sm-6 clearfix cnt-item">
+                                        <div class="col-xs-12">
+                                            <b>Fecha de siniestro: </b>{{item.fecSini}}
+                                        </div>
+                                    </li>
+                                </ul>
+                                <ul class="row g-list-sm">
+                                    <li class="col-md-4 col-sm-6 clearfix cnt-item">
+                                        <div class="col-xs-12">
+                                            <b>Grupo y cultivo: </b>{{item.nomGrupoCultivo}} - {{item.nomCultivo}}
+                                        </div>
+                                    </li>
+                                    <li class="col-md-4 col-sm-6 clearfix cnt-item">
+                                        <div class="col-xs-12">
+                                            <b>Ubígeo: </b>{{item.nomDepartamnto}} - {{item.nomProvincia}} -
+                                            {{item.nomDistrito}}
+                                        </div>
+                                    </li>
+                                    <li class="col-md-4 col-sm-6 clearfix cnt-item">
+                                        <div class="col-xs-12">
+                                            <b>Sector estadístico: </b>{{item.nomSectorEst}}
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="g-col-filter__box">
+                            <div class="col-md-12">
+                                <div class="row">
+                                    <div class="col-md-12 mb-md-1">
+                                        <span class="col-md-8 mg-top-15">
+                                            <label class="g-placeholder animated ng-binding pl-xs-1-5"><b>Carga de
+                                                    Padrón de Beneficiarios
+                                                </b></label>
+                                        </span>
+                                        <span class="col-md-4 mg-top-15 rg-15">
+                                            <a class="g-btn g-btn-gris block second-design pl-md-2 pr-md-2"
+                                                ng-href="{{ Plantilla_Padron }}" download="Plantilla_Padron_Beneficiarios.xlsx">DESCARGAR FORMATO</a>
+                                        </span>
+                                    </div>
+                                    <div class="col-md-12 mt-md-2 mb-md-2 ">
+                                        <div class="col-md-12" ng-show="filePadron.length>0">
+                                            <li class="col-md-12 col-sm-12 mg-bot-10 ">
+                                                <div class="item-label g-box">
+                                                    <ul class="clearfix">
+                                                    </ul>
+                                                    <ul class="clearfix">
+                                                        <li class="col-md-12 pt-xs-1 mg-bot-10">
+                                                            <div class="clearfix g-box no-bbl-radius no-bbr-radius
+                                                             pt-xs-1 pb-xs-1 gBgcGray5 col-md-12 col-sm-12 ng-binding">
+                                                                <input disabled style="font-weight:bold;"
+                                                                    class="col-md-10 g-border-noborder"
+                                                                    ng-model="mNombreArchivo" />
+                                                                <span
+                                                                    class="col-md-1 ico-mapfre_244_descargar gnIcon-xsm gCGray3"
+                                                                    ng-click="descargarFile();"></span>
+                                                                <span
+                                                                    class="col-md-1 ico-mapfre_233_cerrar gnIcon-xsm gCGray3"
+                                                                    ng-click="cancelarCarga();"></span>
+                                                            </div>
+
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                            </li>
+                                        </div>
+                                        <div class="col-md-12" ng-hide="filePadron.length>0">
+                                            <li class="col-md-12 col-sm-12 mg-bot-10 ">
+                                                <div class="item-label g-box">
+                                                    <ul class="clearfix">
+                                                        <li class="col-md-12 pt-xs-1 mg-bot-10">
+                                                            <label class="g-btn-input-file wd-90 font-1-2"
+                                                                style="display: block;">
+                                                                <span
+                                                                    class="lbl-file-verde col-md-12 col-sm-12">Adjuntar
+                                                                    archivo</span>
+                                                                <input type="file" file-model="filePadron"
+                                                                    ng-model="filePadron" class="input__file"
+                                                                    ng-required="true" ng-click="clicFileImport()"
+                                                                    accept=".xls, .xlsx" />
+                                                            </label>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                            </li>
+                                        </div>
+                                    </div>
+                                    <div ng-show="mShowLog">
+                                        <div class="col-md-12 mb-md-1 lbl-error-rojo" >
+                                            Se encontraron observaciones en el archivo, por favor validar.
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12 g-text-right-md g-span-middle">
+
+                                        <div class="col-md-6 mb-md-1">
+                                            <span class="col-md-12">                                                
+                                                <a ng-show="mShowLog" class="g-btn g-btn-rojo block second-design"
+                                                    ng-click="descargarLog()">
+                                                    <span class="col-md-1 ico-mapfre_244_descargar gnIcon-xsm gCWhite3 lft-15" >                                                        
+                                                    </span>DESCARGAR LOG
+                                                </a>
+                                            </span>
+                                        </div>
+                                        
+                                        <div class="col-md-6 mb-md-1 mg-top-5">
+                                            <span class="col-md-6">
+                                            <a class="g-btn g-btn-transparent block second-design pl-md-2 pr-md-2"
+                                                ng-click="cargarBandejaReportes()">CANCELAR</a>
+                                        </span>
+                                            <span class="col-md-6">
+                                            <button ng-disabled="frmAdjuntarPadron.$invalid"
+                                                ng-click="adjuntarPadron();"
+                                                class="g-btn g-btn-verde block second-design pl-md-2 pr-md-2">REGISTRAR</button>
+                                        </span>
+                                    </div>
+
+                                        
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

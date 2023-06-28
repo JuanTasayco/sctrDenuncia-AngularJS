@@ -1,0 +1,195 @@
+.map-cli-frm__box {
+  @include breakpoint(sm) {
+    .input__box {
+      &:first-child {
+        padding-left: 0;
+      }
+
+      &:last-child {
+        padding-right: 0;
+      }
+    }
+  }
+}
+
+.frm-search {
+  &__input-box {
+    display: block;
+    margin-top: 30px;
+
+    @include breakpoint(lg) {
+      display: flex;
+      margin-top: 15px;
+    }
+  }
+
+  &__box {
+    margin: 25px auto;
+    padding: 15px 25px 20px;
+  }
+
+  &__input {
+    margin: 0 0 30px;
+
+    @include breakpoint(lg) {
+      margin: 0 25px 0 0;
+    }
+  }
+
+  &__btn {
+    font-weight: 400;
+    line-height: 14px;
+    min-width: 135px;
+    text-align: center;
+    width: 100%;
+
+    @include breakpoint(lg) {
+      width: auto;
+    }
+  }
+
+  &__txt-box {
+    align-items: center;
+    display: flex;
+    flex-wrap: wrap;
+    margin: 0; // fix center in ie11
+    max-width: 120px;
+  }
+
+  &__btn-ico {
+    font-size: 1.4em;
+    font-weight: bolder;
+    margin: -6px 5px 0 0;
+  }
+
+  &__ico {
+    align-self: flex-start;
+    color: $gris23;
+    font-size: 1.5em;
+    font-weight: 500;
+    line-height: 1;
+    margin: 0 5px 0 0;
+  }
+
+  &__ico--provee {
+    position: relative;
+    top: 6px;
+  }
+
+  &__input--name {
+    @include breakpoint(lg) {
+      width: 38%;
+    }
+  }
+
+  &__input--dni {
+    appearance: textfield;
+    margin: 0 0 30px;
+    width: 100%;
+
+    @include breakpoint(lg) {
+      margin: 0 25px 0 0;
+      width: 25%;
+    }
+  }
+
+  &__title-ico--arrow {
+    color: $verde2;
+    display: inline-block;
+    font-size: 1.15em;
+    margin-left: 0;
+    margin-right: 10px;
+    padding-bottom: 3px;
+    transform: rotate(180deg);
+  }
+}
+
+.reg-mapa__wp {
+  .mapaSVG {
+    display: none;
+
+    @include breakpoint(md) {
+      display: block;
+    }
+
+    &.is-loading {
+      background: url('/referencia/assets/loading3.gif') no-repeat;
+      background-position: 50% 50%;
+      background-size: 35%;
+      opacity: 0.7;
+
+      svg {
+        opacity: 0;
+        visibility: hidden;
+      }
+    }
+  }
+}
+
+.mapaSVG {
+  padding: 25px 20px;
+  text-align: center;
+
+  &.is-loading {
+    opacity: 0.7;
+
+    svg {
+      opacity: 0;
+      visibility: hidden;
+    }
+  }
+
+  &.mapaPeru {
+    path,
+    polygon {
+      stroke-width: 1px;
+    }
+
+    @include  breakpoint(md) {
+      min-height: 600px;
+    }
+  }
+
+  .ui-loading {
+    max-width: 170px;
+  }
+
+  svg {
+    height: 100%;
+    max-width: 480px;
+    min-height: 450px;
+    width: 100%;
+  }
+
+  path,
+  polygon {
+    cursor: pointer;
+    fill: $gris13;
+    stroke: $white;
+    stroke-width: 0.5px;
+    transition: 0.3s ease-in;
+
+    &.is-selected,
+    &:hover {
+      fill: $verde2;
+    }
+
+    &.is-selected {
+      pointer-events: none;
+    }
+  }
+}
+
+.mapa-search__result {
+  min-height: 100px;
+  position: relative;
+
+  &.is-loading {
+    opacity: 0.7;
+
+    .panel__item {
+      opacity: 0;
+      visibility: hidden;
+    }
+  }
+}

@@ -1,0 +1,43 @@
+<section class="">
+	<button type="button" class="close g-close-modal" ng-click="closeModal()">
+		<span class="ico-mapfre_231_cancelaroff"></span>
+	</button>
+
+	<form name="frmMdg">
+		<div class="container">
+			<div class="row">
+				<div class="col-md-12 g-text-center-xs mb-xs-2">
+					<h2 class="gH3"><b>AGREGAR DIAGNÓSTICO</b></h2>
+				</div>
+			</div>
+		</div>
+
+		<div class="container">
+			<div class="col-md-12">
+		  	<div class="row">
+		  		<div class="col-md-6 mb-xs-2  col-md-offset-3">
+		  			<mp-data-seeker
+              behavior="{label:'', placeholder:'Ingresa código o nombre del diagnóstico', matchField:'codeName'}"
+              m-data-source="getListDiagnostic($inputNeed)"
+              ng-model="mCodDiagnostico"
+              name="nCodDiagnostico"
+              ng-required="true"
+              ng-change="">
+              <div ng-bind-html="$item.codeName | highlight: $select.search"></div>
+            </mp-data-seeker>
+            <div class="g-error" ng-show="frmMdg.nCodDiagnostico.$error.required && !frmMdg.nCodDiagnostico.$pristine">* Busque y seleccione un diagnóstico
+            </div>
+					</div>
+		  	</div>
+				<div class="row">
+					<div class="col-md-4 col-md-offset-2 mb-xs-1 no-mb-md">
+						<a href="" class="g-btn g-btn-transparent block" ng-click="closeModal()">Cancelar</a>
+					</div>
+					<div class="col-md-4">
+						<a href="" class="g-btn g-btn-verde block" ng-click="addDiagnostic(mCodDiagnostico)">Agregar diagnóstico</a>
+					</div>
+				</div>
+			</div>
+	  </div>
+	</form>
+</section>

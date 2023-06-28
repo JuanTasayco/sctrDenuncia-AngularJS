@@ -1,0 +1,129 @@
+<form action="" name="frmColFilter">
+  <div
+    show-filter
+    class="clearfix g-col-filter g-box-md gBgcGray5-md gBgcWhite1 g-myd-box"
+    ng-class="{'show': isFilterVisible}"
+  >
+    <div class="col-md-12 mb-xs-3 gH4 gCGray1">
+      <h2 class="pb-xs-1 g-border-bottom-xs hidden-xs hidden-sm">Filtro</h2>
+      <div
+        id="show-filter"
+        class="row pt-xs-2 pb-xs-2 gBgcGray5 g-border-bottom-xs hidden-md hidden-lg"
+        ng-click="toggleFilter();"
+      >
+        <div class="col-xs-10">
+          <h2><b>Filtro</b></h2>
+        </div>
+        <div class="col-xs-2 g-text-right-xs">
+          <span class="glyphicon glyphicon-chevron-down" ng-if="isFilterVisible"></span>
+          <span class="glyphicon glyphicon-chevron-up" ng-if="!isFilterVisible"></span>
+        </div>
+        <div class="clearfix"></div>
+      </div>
+    </div>
+
+    <div class="g-col-filter__box">
+      <div class="col-md-12 mb-xs-2">
+        <div ng-if="$ctrl.showAutocompleteGestor == false">
+          <span class="g-placeholder block mb-xs-1">Gestor</span>
+          <span>{{ $ctrl.data.mGestorFilter.idName }}</span>
+        </div>
+        <mp-data-seeker
+          ng-if="$ctrl.showAutocompleteGestor"
+          behavior="{label:'Gestor', placeholder:'Ingrese Gestor', matchField:'idName'}"
+          m-data-source="fnAutocompleteManager($inputNeed)"
+          ng-model="$ctrl.data.mGestorFilter"
+        >
+          <div ng-bind-html="$item.idName | highlight: $select.search"></div>
+        </mp-data-seeker>
+      </div>
+      <div class="col-md-12 mb-xs-2">
+        <div ng-if="$ctrl.showAutocompleteAgent == false">
+          <span class="g-placeholder block mb-xs-1">Agente</span>
+          <span>{{ $ctrl.data.mAgenteFilter.idName }}</span>
+        </div>
+        <mp-data-seeker
+          ng-if="$ctrl.showAutocompleteAgent"
+          behavior="{label:'Agente', placeholder:'Ingrese Agente', matchField:'idName'}"
+          m-data-source="fnAutocompleteAgent($inputNeed)"
+          ng-model="$ctrl.data.mAgenteFilter"
+        >
+          <div ng-bind-html="$item.idName | highlight: $select.search"></div>
+        </mp-data-seeker>
+      </div>
+      <div class="col-md-12 mb-xs-2">
+        <mpf-select
+          label="{label: 'Tipo de Doc.', required: false}"
+          name="nTipoDocFilter"
+          ng-model="$ctrl.data.mTipoDocFilter"
+          m-data-source="$ctrl.data.tipoDocFilterData"
+          text-field="typeDescription"
+          value-field="typeId"
+          m-Empty-Option="{enterData:true}"
+          ng-required="false"
+          ng-change="fnChangeDocumentType($ctrl.data.mTipoDocFilter)"
+        >
+        </mpf-select>
+        <ul class="g-error">
+          <li ng-show="frmColFilter.nTipoDocFilter.$invalid && !frmColFilter.nTipoDocFilter.$pristine">
+            * Seleccione un tipo de documento
+          </li>
+        </ul>
+      </div>
+      <div class="col-md-12 mb-xs-2">
+        <mpf-input
+          label="{label: 'Nro. Documento', required: false}"
+          name="nNroDocumentoFilter"
+          ng-model="$ctrl.data.mNroDocumentoFilter.model"
+          mpf-validation="{{ $ctrl.data.mNroDocumentoFilter.FIELD_TYPE }}"
+          mpf-validation-disabled="{{ $ctrl.data.mNroDocumentoFilter.FIELD_TYPE_DISABLED }}"
+          ng-maxlength="$ctrl.data.mNroDocumentoFilter.MAX_LENGTH"
+          ng-required="$ctrl.data.mTipoDocFilter.typeId !== null"
+        >
+        </mpf-input>
+        <ul class="g-error">
+          <li
+            ng-show="frmColFilter.nNroDocumentoFilter.$viewValue && (frmColFilter.nNroDocumentoFilter.$error.onlyNumber || frmColFilter.nNroDocumentoFilter.$error.maxlength) && !frmColFilter.nNroDocumentoFilter.$pristine"
+          >
+            * Nro de documento incorrecto
+          </li>
+          <li
+            ng-show="frmColFilter.nNroDocumentoFilter.$invalid && frmColFilter.nNroDocumentoFilter.$error.required && !frmColFilter.nNroDocumentoFilter.$pristine"
+          >
+            * Ingrese un nro de documento
+          </li>
+        </ul>
+      </div>
+      <div class="col-md-12 mb-xs-2">
+        <mpf-input
+          label="{label: 'Razón Social', required: false}"
+          name="nRazonSocialFilter"
+          ng-model="$ctrl.data.mRazonSocialFilter"
+          ng-required="false"
+        >
+        </mpf-input>
+      </div>
+      <div class="col-md-12 mb-xs-2">
+        <mpf-input
+          label="{label: 'Nro. Póliza', required: false}"
+          name="nNumPolizaFilter"
+          ng-model="$ctrl.data.mNumPolizaFilter"
+          ng-required="false"
+          mpf-validation="onlyNumber"
+          ng-maxlength="13"
+        >
+        </mpf-input>
+      </div>
+      <div class="col-md-12 mb-xs-1">
+        <a href="javascript:void(0)" class="g-btn g-btn-verde block" ng-click="fnFilter(); toggleFilter()">
+          Filtrar
+        </a>
+      </div>
+      <div class="col-md-12">
+        <a href="javascript:void(0)" class="g-btn g-btn-white block" ng-click="fnClearFilter(); toggleFilter()">
+          Limpiar
+        </a>
+      </div>
+    </div>
+  </div>
+</form>

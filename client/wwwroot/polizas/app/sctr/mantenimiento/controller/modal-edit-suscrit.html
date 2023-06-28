@@ -1,0 +1,158 @@
+<section class="g-page page-modal">
+	
+	<button type="button" class="close g-close-modal" ng-click="closeModal()">
+		<span class="ico-mapfre_46_cancelaroff"></span>
+	</button>
+
+	<form name="frmMaintenanceForm">
+		<div ng-if="!message">
+			<div class="container">
+				<div class="row">
+					<div class="col-md-12 mb-xs-2 g-title-modal">
+						<h2>EDITAR ASIGNACIÓN</h2>
+					</div>
+				</div>
+			</div>
+	  	<div class="container">
+			<div class="row">
+				<div class="col-md-4 mb-xs-2">
+					<mpf-input label="{label: 'Código:', required: false}" ng-model="formData.mCodigo" name="nCodigo"></mpf-input>
+					<ul class="g-error">
+						<li ng-show="frmMaintenanceForm.nCodigo.$error.required && !frmMaintenanceForm.nCodigo.$pristine">* Este campo es obligatorio</li>
+					</ul>
+				</div>
+				<div class="col-md-4 mb-xs-2">
+					<mpf-input label="{label: 'Oficina:', required: false}" ng-model="formData.mValor" name="nValor"></mpf-input>
+					<ul class="g-error">
+						<li ng-show="frmMaintenanceForm.nValor.$error.required && !frmMaintenanceForm.nValor.$pristine">* Este campo es obligatorio</li>
+					</ul>
+				</div>
+				<div class="col-md-4 mb-xs-2">
+					<a class="g-btn g-btn-transparent g-btn-mini g-polizagrupo-button mt-md-3 h-myd-mt--15" ng-click="getListOficina()"><span class="ico-mapfre_30_buscar"></span> Buscar</a>
+				</div>
+			</div>
+	  	</div>
+	  	<hr>
+	  	<div class="container">
+	  		<div class="row">
+		  		<div class="col-md-12">
+			  		<h2 class="g-sub-title">
+			  			Oficinas
+			  		</h2>
+		  		</div>
+				<div class="col-md-12 cont-modal-list h-myd-mb--20">
+					<div class="row">
+	  					<div class="col-md-12" ng-repeat="ofi in formData.oficinas">
+							<div class="clearfix g-box sec-design g-box-white">
+								<div class="">
+									<div class="col-md-12 g-text-uppercase">
+										<ul class="row g-list second-design">
+											<li class="col-md-1 text-center" ng-if="formData.suscriptorPadre != ofi.CodigoUsuario && ofi.CodigoUsuario !=''"> 
+												<div class="cnt-check">
+													<div class="g-cnt-checkbox">
+														<label class="g-checkbox" ng-class="{'active' : ofi.Indice == 1}">
+															<span class="ico-checkbox"></span>
+															<input value="{{ofi.Indice}}" type="checkbox" ng-model="ofi.Indice"  ng-disabled="true">
+														</label>
+													</div>
+												</div>
+												<!-- <label class="g-checkbox" ng-class="{active : _ngModel}">
+													<span class="ico-checkbox"></span>
+													<input  type="checkbox" ng-model="_ngModel" 
+														ng-click="agregarSuscriptor(ofi, _ngModel)" 
+														ng-disabled="isDisabled()">
+												</label> -->
+											</li>
+												<li class="col-md-1 text-center" ng-if="formData.suscriptorPadre == ofi.CodigoUsuario || ofi.CodigoUsuario ==''"> 
+												<div class="cnt-check">
+													<div class="g-cnt-checkbox">
+														<label class="g-checkbox" ng-class="{'active' : ofi.Indice == 1}">
+															<span class="ico-checkbox"></span>
+															<input value="{{ofi.Indice}}" type="checkbox" ng-model="ofi.Indice" ng-click="agregarSuscriptor(ofi, _ngModel)" ng-true-value="1" ng-false-value="0">
+														</label>
+													</div>
+												</div>
+												<!-- <label class="g-checkbox" ng-class="{active : _ngModel}">
+													<span class="ico-checkbox"></span>
+													<input  type="checkbox" ng-model="_ngModel" 
+														ng-click="agregarSuscriptor(ofi, _ngModel)" 
+														ng-disabled="isDisabled()">
+												</label> -->
+											</li>
+											<!-- <li class="col-md-1 text-center" ng-if="formData.suscriptorPadre != ofi.CodigoUsuario"> 
+												<label class="g-checkbox" ng-class="{active : _ngModel}">
+													<span class="ico-checkbox"></span>
+													<input  type="checkbox" ng-model="_ngModel" 
+														ng-click="agregarSuscriptor(ofi, _ngModel)">
+												</label>
+											</li>
+											<li class="col-md-1 text-center" ng-if="formData.suscriptorPadre != ofi.CodigoUsuario"> 
+												<label class="g-checkbox" ng-class="{active : _ngModel}">
+													<span class="ico-checkbox"></span>
+													<input  type="checkbox" ng-model="_ngModel" 
+														ng-click="agregarSuscriptor(ofi, _ngModel)" 
+														ng-disabled="isDisabled()">
+												</label>
+											</li> -->
+											<li class="col-md-3 cnt-item g-border-noborder mb-md-0">
+												<div class="row">
+													<div class="col-md-7 col-xs-6 item-label">
+														COD OFICINA:
+													</div>
+													<div class="col-md-5 col-xs-6 item-dato">
+														{{ofi.CodigoOficina}}
+													</div>
+												</div>
+											</li>
+											<li class="col-md-4 cnt-item mb-xs-0 mb-md-0">
+												<div class="row">
+													<div class="col-md-5 col-xs-6 item-label">
+														OFICINA:
+													</div>
+													<div class="col-md-7 col-xs-6 item-dato">
+														{{ofi.NombreOficina}}
+													</div>
+												</div>
+											</li>
+											<li class="col-md-4 cnt-item mb-xs-0 mb-md-0">
+												<div class="row">
+													<div class="col-md-7 col-xs-6 item-label">
+														SUSCRIPTORES:
+													</div>
+													<div class="col-md-4 col-xs-6 item-dato">
+														{{ofi.CodigoUsuario}}
+													</div>
+												</div>
+											</li>
+										</ul>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+	  		</div>
+	  	</div>
+	  	<div class="container">
+	  		<div class="row">
+	  			<div class="col-md-6 col-md-offset-3 mt-md-3">
+	  				<a href="" class="g-btn g-btn-verde block" ng-click="grabarOficina()">Grabar</a>
+	  			</div>
+	  		</div>
+	  	</div>
+		</div>
+		<div ng-if="message">
+			<div class="row mb-xs-3">
+				<div class="col-md-12">
+					<p class="text-center mb-xs-0">{{respuesta}}</p>
+				</div>
+			</div>
+			<div class="row mb-xs-3">
+				<div class="col-md-4 col-md-offset-4">
+					<a class="g-btn g-btn-verde block" ng-click="closeModal()">Cerrar</a>
+				</div>
+			</div>
+		</div>
+	</form>
+
+</section>

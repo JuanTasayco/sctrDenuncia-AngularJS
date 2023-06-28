@@ -1,0 +1,72 @@
+<div class="g-inner-section g-inforiesgo">
+  <div class="container">
+
+    <div class="row">
+      <!-- Tipo de vehículo -->
+      <div class="col-md-3 mb-md-2">
+        <mpf-select ng-model="mTipoVehiculo" name="nTipoVehiculo" label="{label: gLblTipoVehiculo.label, required: true}" m-data-source="tipoVehiculo" text-field="Descripcion" value-field="Codigo" m-Empty-Option="{enterData:true}" mpf-validation="required" ng-change="loadTypeUse(mTipoVehiculo); loadMarca(mTipoVehiculo)"></mpf-select>
+      </div>
+
+      <!-- Tipo de uso -->
+      <div class="col-md-3 mb-md-2">
+        <mpf-select ng-model="mUsoRiesgo" name="nUsoRiesgo" label="{label: gLblUsoRiesgo.label, required: true}" m-data-source="usoRiesgos" text-field="Descripcion" value-field="Codigo" m-Empty-Option="{enterData:true}" mpf-validation="required" ng-change="saveTipoUso(mUsoRiesgo)"></mpf-select>
+      </div>
+    </div>
+
+    <div class="row">
+      <!-- Marca / Modelo -->
+     <!--  <div class="col-md-3 mb-md-2  g-inforiesgo-marcamodelo">
+        <mpf-select ng-model="mAcMarcaModelo" name="nAcMarcaModelo" label="{label: gLblMarcaModelo.label, required: true}" m-data-source="marcasModelos" text-field="MarcaModelo" value-field="CodigoModelo" m-Empty-Option="{enterData:true}" mpf-validation="required" ng-change="getFunctionsModeloMarca(mMarcaModelo)"></mpf-select>
+      </div> -->
+
+       <div class="col-md-3 mb-md-2  g-inforiesgo-marcamodelo">
+        <mpf-select ng-model="mAcMarca" name="nAcMarca" label="{label: gLblMarca.label, required: true}" m-data-source="marcas" text-field="Descripcion" value-field="Codigo" m-Empty-Option="{enterData:true}" mpf-validation="required" ng-change="loadModelo(mTipoVehiculo, mAcMarca)"></mpf-select>
+      </div>
+
+       <div class="col-md-3 mb-md-2  g-inforiesgo-marcamodelo">
+        <mpf-select ng-model="mAcModelo" name="nAcModelo" label="{label: gLblModelo.label, required: true}" m-data-source="modelos" text-field="Descripcion" value-field="Codigo" m-Empty-Option="{enterData:true}" mpf-validation="required" ng-change="loadSubModelo(mTipoVehiculo, mAcMarca, mAcModelo)"></mpf-select>
+      </div>
+
+      <!-- Submodelo -->
+      <div class="col-md-3 mb-md-2">
+        <mpf-select ng-model="mSubModelo" name="nSubModelo" label="{label: gLblSubModelo.label, required: true}" m-data-source="submodelos" text-field="Descripcion" value-field="Codigo" m-Empty-Option="{enterData:true}" mpf-validation="required"></mpf-select>
+      </div>
+
+      <!-- Año de Fabricación -->
+      <div class="col-md-3 mb-md-2">
+        <!-- <mpf-select ng-model="mYearFabric" name="nYearFabric" label="{label: gLblYearFabric.label, required: true}" m-data-source="yearsFabric" text-field="Descripcion" value-field="Codigo" m-Empty-Option="{enterData:true}" mpf-validation="required" ng-change="getFuctionsYearFabric(mYearFabric);"></mpf-select> -->
+        <mpf-input label="gLblYearFabric" ng-model="mYearFabric" mpf-validation="onlyNumber"></mpf-input>
+      </div>
+    </div>
+
+    <div class="row">
+      <!-- Cantidad de asientos -->
+      <div class="col-md-3 mb-md-2">
+        <mpf-input label="gLblAsientos" ng-model="mNumAsientos" mpf-validation="onlyNumber"></mpf-input>
+      </div>
+
+      <!-- Timon cambiado -->
+      <div class="col-md-3">
+        <div class="row mb-md-1">
+          <div class="col-md-12">
+            <span class="g-label">Timón cambiado:</span>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-4">
+            <mpf-radio label="gLblSi" info="si" ng-model="optRadio"></mpf-radio>
+          </div>
+          <div class="col-md-4">
+            <mpf-radio label="gLblNo" info="no" ng-model="optRadio"></mpf-radio>
+          </div>
+        </div>
+      </div>
+
+      <!-- Modelo para impresion -->
+      <div class="col-md-3 mb-md-2">
+        <mpf-input label="gLblModeloPrint" ng-model="mModeloPrint" ng-Maxlength="18" ></mpf-input>
+      </div>
+
+    </div>
+  </div>
+</div>

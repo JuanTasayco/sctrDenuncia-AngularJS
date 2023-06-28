@@ -1,0 +1,98 @@
+@doc-component directive
+@name uiBootstrap.directive.accordion
+@param {expression} close-others Expression to evaluate. If the result of the expression is truthy only one `accordion-group` can be open at once. If the result of the expression is falsy several `accordion-group` can be open at once.
+@param {expression} is-open Expression to evaluate. If the expression is an scope variable, its value will control if the accordion is open or not. If the result of the expression is truthy, the accordion will display open 'by default'.
+
+The `accordion` directive allows you to display an accordion.
+
+It builds on top of the **ui.bootstrap** `collapse` directive to provide a list of items, with collapsible bodies that are collapsed or expanded by clicking on the item's header.
+
+We can control whether expanding an item will cause the other items to close, using the `close-others` attribute on accordion.
+
+@example
+<doc:example>
+    <doc:source>
+    script
+        function AccordionCtrl($scope) {
+            $scope.oneAtATime = true;
+
+            $scope.groups = [{
+                title: "Dynamic Group Header 1",
+                content: "Dynamic Group Content 1"
+            }, {
+                title: "Dynamic Group Header 2",
+                content: "Dynamic Group Content 2"
+            }];
+
+            $scope.items = ['Item 1', 'Item 2', 'Item 3'];
+
+            $scope.addItem = function() {
+                var newItemNo = $scope.items.length + 1;
+                $scope.items.push('Item ' + newItemNo);
+            };
+        }
+        AccordionCtrl.$inject = ['$scope']
+    div(accordion, close-others="oneAtATime", ng-controller="AccordionCtrl")
+        div(accordion-group, heading="Static Header, initally expanded", is-open="true")
+            p This content is straight in the template.
+        div(accordion-group, heading="{{group.title}}", ng-repeat="group in groups")
+            p {{group.content}}
+        div(accordion-group, is-open="isopenmodel")
+            div(accordion-heading) Dynamic Body Content
+                i.pull-right.panel-icon(ng-class="{'is-open': isopenmodel, 'is-closed': !isopenmodel}")
+            p The body of the accordion group grows to fit the contents
+            p
+                button.btn.btn-default(ng-click="addItem()") Add Item
+                div(ng-repeat="item in items") {{item}}
+    </doc:source>
+</doc:example>
+
+@doc-component directive
+@name uiBootstrap.directive.accordion.accordionGroup
+@param {string} heading Text to use as accordion-group heading.
+@param {expression} is-open String expression to compile. The accordion status (open/closed) will be assigned to the result of the expression. If the result of the expression is not something to be assigned to the directive will use the result of the expression (truthy/falsy) as the default status.
+@description
+
+This directive requires `accordion` directive to be its parent and wraps the body of the collapsible elements of our accordion.
+
+The body of each accordion group is transcluded in to the body of the collapsible element.
+
+Keep in mind this directive replaces the original element and creates an isolated scope.
+
+@example
+<doc:example>
+ <doc:source>
+ script
+     function AccordionCtrl($scope) {
+         $scope.oneAtATime = true;
+
+         $scope.groups = [{
+             title: "Dynamic Group Header 1",
+             content: "Dynamic Group Content 1"
+         }, {
+             title: "Dynamic Group Header 2",
+             content: "Dynamic Group Content 2"
+         }];
+
+         $scope.items = ['Item 1', 'Item 2', 'Item 3'];
+
+         $scope.addItem = function() {
+             var newItemNo = $scope.items.length + 1;
+             $scope.items.push('Item ' + newItemNo);
+         };
+     }
+     AccordionCtrl.$inject = ['$scope']
+ div(accordion, close-others="oneAtATime", ng-controller="AccordionCtrl")
+     div(accordion-group, heading="Static Header, initally expanded", is-open="true")
+         p This content is straight in the template.
+     div(accordion-group, heading="{{group.title}}", ng-repeat="group in groups")
+         p {{group.content}}
+     div(accordion-group, is-open="isopenmodel")
+         div(accordion-heading) Dynamic Body Content
+             i.pull-right.panel-icon(ng-class="{'is-open': isopenmodel, 'is-closed': !isopenmodel}")
+         p The body of the accordion group grows to fit the contents
+         p
+             button.btn.btn-default(ng-click="addItem()") Add Item
+             div(ng-repeat="item in items") {{item}}
+ </doc:source>
+</doc:example>

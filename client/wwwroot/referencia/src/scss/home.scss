@@ -1,0 +1,208 @@
+.modal {
+  overflow: auto;
+}
+
+.modal-home {
+  &.fade {
+    .modal-dialog {
+      transform: translate(0, -75%);
+    }
+  }
+
+  &.in {
+    .modal-dialog {
+      top: 50%;
+      transform: translate(0, -50%);
+    }
+  }
+}
+
+.home-btn-panel__wp {
+  margin: auto;
+  max-width: 840px;
+  width: 100%;
+}
+
+.modal__box {
+  align-items: center;
+  display: flex;
+  flex-wrap: wrap;
+  height: 330px;
+  justify-content: space-between;
+  width: 100%;
+
+  @include breakpoint(sm) {
+    height: 255px;
+  }
+}
+
+.modal__link {
+  color: $modal-link-color;
+  font-weight: 400;
+  position: initial;
+
+  &:focus,
+  &:active {
+    box-shadow: none;
+    outline: none;
+  }
+}
+
+.modal__link-box {
+  margin: auto;
+
+  @include breakpoint(sm) {
+    &:first-child {
+      .modal__link {
+        &::before {
+          background: $gris20;
+          bottom: 10%;
+          content: '';
+          position: absolute;
+          right: 50%;
+          top: 10%;
+          width: 1px;
+        }
+      }
+    }
+  }
+}
+
+.modal-home__ico {
+  color: $gris27;
+  display: block;
+  font-size: 48px;
+  margin: auto auto 15px;
+  padding: 0;
+  text-align: center;
+  width: 100%;
+
+  @include breakpoint(sm) {
+    margin: auto;
+    width: auto;
+  }
+
+  &--big {
+    color: $gris23;
+    display: block;
+    font-size: 4em;
+    margin: auto auto 15px;
+  }
+}
+
+.modal-home__txt {
+  display: block;
+}
+
+.home-btn-panel__box {
+  text-align: center;
+  width: 100%;
+
+  @include breakpoint(sm) {
+    float: left;
+    width: 50%;
+  }
+}
+
+.home-btn-panel__item {
+  background: $white;
+  border: 1px solid transparent;
+  border-radius: 7px;
+  box-shadow: 0 1px 15px $panelbtn-shadowcolor;
+  color: $panelbtn-color;
+  cursor: pointer;
+  display: inline-block;
+  font-family: 'Roboto';
+  font-size: 19px;
+  font-weight: normal;
+  margin: 15px auto;
+  max-width: 345px;
+  padding: 50px 15px;
+  text-align: center;
+  text-decoration: none;
+  text-shadow: 0 -1px 2px $panelbtn-textcolor;
+  transition: 0.35s;
+  width: 100%;
+
+  @include breakpoint(md) {
+    padding: 57px 15px;
+  }
+
+  &:hover {
+    border-color: $gris23;
+  }
+}
+
+[ui-view] {
+  &.ng-enter {
+    left: 0;
+    opacity: 0;
+    position: absolute;
+    right: 0;
+    transition: all 0.5s ease-in-out;
+  }
+
+  &.ng-leave {
+    left: 0;
+    opacity: 1;
+    position: absolute;
+    right: 0;
+    transform: translate3d(0, 0, 0);
+    transition: all 0.5s ease-in-out;
+  }
+
+  &.ng-enter-active {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+
+  &.ng-leave-active {
+    opacity: 0;
+  }
+}
+
+.slide {
+  transition: transform 0.7s ease-in-out;
+
+  &.ng-enter {
+    &.ng-enter-active {
+      position: absolute;
+    }
+  }
+
+  .ng-enter-active {
+    opacity: 1;
+  }
+
+  &.ng-leave {
+    opacity: 0;
+    position: absolute;
+
+    &.ng-leave-active {
+      opacity: 0;
+    }
+  }
+
+  .ng-leave-active {
+    opacity: 0;
+  }
+}
+
+.ref-show-hide {
+  transition: all linear 0.5s;
+
+  &.ng-hide {
+    opacity: 0;
+    position: absolute;
+  }
+}
+
+@keyframes my_fade_animation {
+  from {
+    opacity: 1;
+  }
+
+  to {
+    opacity: 0;
+  }
+}

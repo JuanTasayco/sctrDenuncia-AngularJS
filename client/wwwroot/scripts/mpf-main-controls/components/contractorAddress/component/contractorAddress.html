@@ -1,0 +1,162 @@
+<div ng-form name="{{$ctrl.formName}}">
+
+	<div ng-class="{'g-section-inner': showTitle, 'border-top': showTitle}">
+		<div ng-class="{container: showTitle}">
+			<div class="row" ng-show="showTitle">
+				<div class="col-md-12">
+					<h2 class="g-sub-title g-myd-subtitle">{{title}}</h2>
+				</div>
+			</div>
+			<!-- <div class="row"> -->
+				<mpf-ubigeo data="$ctrl.data.ubigeoData" is-Valid="$ctrl.ubigeoValid" setter="$ctrl.setter" clean="$ctrl.clean" block-Departament="$ctrl.blockDepartament" block-Provincia="$ctrl.blockProvincia" block-Distrito="$ctrl.blockDistrito" all-fields-required="fieldsRequiredDefault.boolean"></mpf-ubigeo>
+			<!-- </div> -->
+			<div class="row">
+				<div class="col-md-1 mb-xs-2">
+				<!-- mpf-validation="fieldsRequiredDefault.string" -->
+					<mpf-select 
+						label="{label: 'Vía', required: fieldsRequiredDefault.boolean}" 
+						name="nTipoVia" 
+						ng-model="$ctrl.data.mTipoVia" 
+						m-data-source="$ctrl.typeViaData"
+						text-field="Descripcion" 
+						value-field="Codigo" 
+						m-Empty-Option="{text: '-Tipo-'}" 
+						ng-required="fieldsRequiredDefault.boolean" 
+						ng-Disabled="$ctrl.disabledFieldsBeneficiary">
+					</mpf-select>
+					<ul class="g-error">
+          	<li ng-show="currentForm.nTipoVia.$invalid && !currentForm.nTipoVia.$pristine">
+          		* Seleccione un tipo de vía
+          	</li>
+          </ul>
+				</div>
+				<div class="col-md-3 mb-xs-2">
+					<mpf-input 
+						label="{label: 'Nombre Vía', required: fieldsRequiredDefault.boolean}" 
+						name="nNombreVia" 
+						ng-model="$ctrl.data.mNombreVia" 
+						ng-required="fieldsRequiredDefault.boolean" 
+						ng-maxlength="$ctrl.viaMaxlength" 
+						ng-Disabled="$ctrl.disabledFieldsBeneficiary">
+					</mpf-input>
+					<ul class="g-error">
+          	<li ng-show="currentForm.nNombreVia.$invalid && !currentForm.nNombreVia.$pristine">
+          		* Ingrese un nombre de vía
+          	</li>
+          </ul>
+				</div>
+				<!-- Número, Interior -->
+				<div class="col-md-1 mb-xs-2">
+          <mpf-select
+            label="{label: 'Número', required: numeroRequired}"
+            name="nTipoNumero"
+            ng-model="$ctrl.data.mTipoNumero"
+            m-data-source="$ctrl.typeNumberData"
+            text-field="Descripcion"
+            value-field="Codigo"
+            m-Empty-Option="{text: '-Tipo-'}"
+            ng-change="_numeroRequired()"
+            ng-required="numeroRequired"
+            ng-Disabled="$ctrl.disabledFieldsBeneficiary">
+          </mpf-select>
+          <ul class="g-error">
+          	<li ng-show="currentForm.nTipoNumero.$invalid && !currentForm.nTipoNumero.$pristine">
+          		* Seleccione un tipo de enumeración
+          	</li>
+          </ul>
+        </div>
+        <div class="col-md-3 mb-xs-2">
+          <mpf-input
+            label="{label: 'Enumeración', required: numeroRequired}"
+            name="nNumeroDireccion"
+            ng-model="$ctrl.data.mNumeroDireccion"
+            ng-required="numeroRequired || ($ctrl.isSOAT && $ctrl.data.mTipoNumero.Codigo)"
+            ng-Disabled="$ctrl.disabledFieldsBeneficiary"
+            ng-maxlength="$ctrl.maxLengthNumero">
+          </mpf-input>
+          <ul class="g-error">
+						<li ng-show="currentForm.nNumeroDireccion.$invalid && !currentForm.nNumeroDireccion.$pristine">* Ingrese el numero de dirección</li>
+					</ul>
+        </div>
+				<div class="col-md-1 mb-xs-2">
+					<mpf-select 
+						label="{label: 'Interior', required: interiorRequired}" 
+						name="nTipoInterior" 
+						ng-model="$ctrl.data.mTipoInterior" 
+						m-data-source="$ctrl.typeInteriorData" 
+						text-field="Descripcion" 
+						value-field="Codigo" 
+						m-Empty-Option="{text: '-Tipo-'}" 
+						ng-change="_interiorRequired()" 
+						ng-required="interiorRequired" 
+						ng-Disabled="$ctrl.disabledFieldsBeneficiary">
+					</mpf-select>
+					<ul class="g-error">
+						<li ng-show="currentForm.nTipoInterior.$invalid && !currentForm.nTipoInterior.$pristine">* Seleccione un tipo de interior</li>
+					</ul>
+				</div>
+				<div class="col-md-3 mb-xs-2">
+					<mpf-input 
+						label="{label: 'Enumeración interior', required: interiorRequired}" 
+						name="nNumeroInterior" 
+						ng-model="$ctrl.data.mNumeroInterior" 
+						trn-Length="5" 
+						ng-maxlength="5" 
+						ng-required="interiorRequired || ($ctrl.isSOAT && $ctrl.data.mTipoInterior.Codigo)" 
+						ng-Disabled="$ctrl.disabledFieldsBeneficiary">
+					</mpf-input>
+					<ul class="g-error">
+						<li ng-show="currentForm.nNumeroInterior.$invalid && !currentForm.nNumeroInterior.$pristine">* Ingrese un número de interior</li>
+					</ul>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-1 mb-xs-2 no-mb-md">
+					<mpf-select 
+						label="{label: 'Zona', required: zonaRequired}" 
+						name="nTipoZona" 
+						ng-model="$ctrl.data.mTipoZona" 
+						m-data-source="$ctrl.typeZoneData"
+						text-field="Descripcion" 
+						value-field="Codigo" 
+						m-Empty-Option="{text: '-Tipo-'}" 
+						ng-Disabled="$ctrl.disabledFieldsBeneficiary" 
+						ng-required="fieldsNoRequiredDefault.boolean">
+					</mpf-select>
+					<ul class="g-error">
+						<li ng-show="currentForm.nTipoZona.$invalid && !currentForm.nTipoZona.$pristine">* Seleccione una zona</li>
+					</ul>
+				</div>
+				<div class="col-md-3 mb-xs-2 no-mb-md">
+					<mpf-input 
+						label="{label: 'Nombre de la Zona', required: zonaRequired}" 
+						name="nNombreZona" 
+						ng-model="$ctrl.data.mNombreZona" 
+						trn-Length="30" 
+						mpf-validation="onlyLetterNumber" 
+						ng-required="zonaRequired || ($ctrl.isSOAT && $ctrl.data.mTipoZona.Codigo)" 
+						ng-Disabled="$ctrl.disabledFieldsBeneficiary">
+					</mpf-input>
+					<ul class="g-error">
+						<li ng-show="currentForm.nNombreZona.$invalid && !currentForm.nNombreZona.$pristine">* Ingrese nombre de zona</li>
+					</ul>
+				</div>
+				<!-- Referencias -->
+				<div class="col-md-4">
+					<mpf-input 
+						label="{label: 'Referencia', required: fieldsNoRequiredDefault.boolean}"
+						name="nDirReferencias"
+						mpf-validation="onlyLetterNumberGuion"
+						ng-model="$ctrl.data.mDirReferencias"
+						trn-Length="40" 
+						ng-required="fieldsNoRequiredDefault.boolean" 
+						ng-Disabled="$ctrl.disabledFieldsBeneficiary">
+						</mpf-input>
+						<ul class="g-error">
+							<li ng-show="currentForm.nDirReferencias.$invalid && !currentForm.nDirReferencias.$pristine">* Ingrese una referencia</li>
+						</ul>	
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

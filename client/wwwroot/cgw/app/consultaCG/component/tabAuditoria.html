@@ -1,0 +1,281 @@
+<form name="frmTabAuditoria">
+  <div class="row pt-xs-2 pb-xs-2">
+    <div class="col-sm-6">
+      <div class="clearfix" ng-show="rolSupervisor()">
+        <div class="col-md-6 mb-xs-2">
+          <mpf-select
+            data-ng-model="formData.mEjecutivo"
+            name="nEjecutivo"
+            label="{label: 'Ejecutivo', required: false}"
+            m-data-source="ejecutivos"
+            text-field="name"
+            value-field="name"
+            m-Empty-Option="{enterData:false}">
+          </mpf-select>
+        </div>
+        <div class="g-title-btn-col col-md-6 mt-xs-2">
+          <a class="g-btn g-btn-white second-design block" ng-click="cambiarEjecutivo()">Cambiar ejecutivo</a>
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-6">
+      <div class="g-title-btn-row u-ph-15 mt-xs-2">
+        <div class="g-title-btn-col mb-xs-1 mb-md-0">
+          <label class="g-checkbox">
+              <span class="ico-checkbox"></span>
+              <input type="checkbox" ng-model="checkReticencia" ng-click="generarReticencia()" value="0"
+              ><span class="checkbox-label">Registrar Solicitud Reticencia</span>
+          </label>
+          <!--<a class="g-btn g-btn-white second-design block" ng-click="generarReticencia()">Registrar Solicitud Reticencia</a>-->
+        </div>
+        <div class="g-title-btn-col mb-xs-1 mb-md-0" ng-show="showUltimaAE"><a class="g-btn g-btn-white second-design block" ng-click="verUltimaAE()">Ver Última Auditoría ext</a></div>
+        <div class="g-title-btn-col mb-xs-1 mb-md-0" ng-show="showTarifas()">
+          <a class="g-btn g-btn-green-border second-design block"
+            ng-click="mostrarTarifas()">Ver Tarifas</a>
+        </div>
+        <div class="g-title-btn-col mb-xs-1 mb-md-0" ng-show="showSolicitarScan()">
+          <a class=" g-btn g-btn-verde second-design block"
+            ng-click="solicitarScan()">Solicitar Scan</a>
+        </div>
+        <div class="g-title-btn-col mb-xs-1 mb-md-0" ng-show="showDatosScanEdit()">
+          <a class=" g-btn g-btn-verde second-design block"
+            ng-click="editarDatosScan()">Datos Scan</a>
+        </div>
+        <div class="g-title-btn-col mb-xs-1 mb-md-0" ng-show="showDatosScan()">
+          <a class=" g-btn g-btn-verde second-design block"
+            ng-click="verDatosScan()">Datos Scan</a>
+        </div>
+        <div class="g-title-btn-col mb-xs-1 mb-md-0" ng-show="showAltosCostos()">
+          <a class="g-btn g-btn-verde second-design block"
+            ng-click="mostrarAltosCostos()">Altos Costos</a>
+        </div>
+        <div class="g-title-btn-col mb-xs-1 mb-md-0" ng-show="showSolicitarAE()"><a class="g-btn g-btn-verde second-design block" ng-click="irAuditoriaExt()">Solicitar Auditoría Externa</a></div>
+      </div>
+    </div>
+    <div class="col-xs-12 mt-xs-2">
+      <!-- Inicio: Procedimientos solicitados -->
+      <div class="clearfix">
+        <h2 class="col-xs-12 col-sm-8 mt-xs-1 mb-xs-2 gCRed1 gH4"><b>Procedimientos Solicitados</b></h2>
+        <div class="col-xs-12 col-sm-4 g-title-btn-row">
+          <div class="g-title-btn-col mb-xs-1" ng-show="showAuditar()"><a class="g-btn g-btn-white second-design block" data-ng-click="auditarToggle($index, 0)">Auditar</a></div>
+          <div class="g-title-btn-col mb-xs-1" data-ng-show="selectedItem[$index]"><a class="g-btn g-btn-green-border second-design block" data-ng-click="auditarToggle($index, 1); saveProcedimiento(procedimientosSolicitados)">Guardar</a></div>
+        </div>
+      </div>
+      <div class="clearfix">
+        <div class="col-md-12">
+          <div class="clearfix g-tbl-wrapper">
+            <div class="clearfix u-w--1140">
+              <ul class="g-row-fz12 g-tbl-row gBgcGray5 u-pv-0-5">
+                <li class="g-col g-col-xs col-6-dktp tbl-item mb-xs-0 pt-xs-1 pb-xs-1 g-border-right-xs item-title inlineblock-middle no-bl">COD</li>
+                <li class="g-col g-col-xs col-19-dktp tbl-item mb-xs-0 pt-xs-1 pb-xs-1 g-border-right-xs item-title inlineblock-middle no-bl">PROCEDIMIENTOS</li>
+                <li class="g-col g-col-xs col-16-dktp tbl-item mb-xs-0 pt-xs-1 pb-xs-1 g-border-right-xs item-title inlineblock-middle no-bl">DETALLES</li>
+                <li class="g-col g-col-xs col-12-dktp tbl-item mb-xs-0 pt-xs-1 pb-xs-1 g-border-right-xs item-title inlineblock-middle no-bl text-right">SOLICITADO</li>
+                <li class="g-col g-col-xs col-12-dktp tbl-item mb-xs-0 pt-xs-1 pb-xs-1 g-border-right-xs item-title inlineblock-middle no-bl text-right">APROBADO</li>
+                <li class="g-col g-col-xs col-35-dktp tbl-item mb-xs-0 pt-xs-1 pb-xs-1 item-title inlineblock-middle no-bl">OBSERVACIÓN</li>
+              </ul>
+              <div class="mb-xs-1">
+                <ul class="g-row-fz12 g-tbl-row  u-pv-0-5 g-border-bottom-xs" data-ng-repeat="item in procedimientosSolicitados track by $index">
+                  <li class="g-col g-col-xs col-6-dktp tbl-item mb-xs-0 inlineblock-top no-bl">{{item.code}}</li>
+                  <li class="g-col g-col-xs col-19-dktp tbl-item mb-xs-0 inlineblock-top no-bl">{{item.description}}</li>
+                  <li class="g-col g-col-xs col-16-dktp tbl-item mb-xs-0 inlineblock-top no-bl u-txt-weight">{{item.codeDetail}}-{{item.descriptionDetail}}</li>
+                  <li class="g-col g-col-xs col-12-dktp tbl-item mb-xs-0 inlineblock-top no-bl text-right">{{item.requestedAmount | currency}}</li>
+                  <li class="g-col g-col-xs col-12-dktp tbl-item mb-xs-0 inlineblock-top no-bl text-right">
+                    <div data-ng-hide="isSelectedItem">{{item.approvedAmount | currency}}</div>
+                    <div  class="g-input-design__wp--pt-0" data-ng-show="isSelectedItem">
+                      <div class="int-none-heigt">
+                        <m-Numeric-Textbox  ng-model="procedimientosSolicitados[$index].approvedAmount" options="" name="nMontoAprobado" label="{label: '', required: false}" ng-required="true" ng-blur="" ng-keyup="updateProcedimiento($index)"></m-Numeric-Textbox>
+                      </div>
+                      <div class="g-error" data-ng-show="verifyValue(item)">
+                        * Ingrese un monto no mayor a {{item.requestedAmount | currency}}
+                      </div>
+                    </div>
+                  </li>
+                  <li class="g-col g-col-xs col-35-dktp tbl-item inlineblock-top no-bl">
+                    <div data-ng-hide="isSelectedItem" class="g-text-uppercase">{{item.observation}}</div>
+                    <div  class="g-input-design__wp--pt-0" data-ng-show="isSelectedItem">
+                      <mpf-textarea label="{label:'', required: false}" ng-model="procedimientosSolicitados[$index].observation" name="nObservcion" ng-required="false" ng-Maxlength="4000"></mpf-textarea>
+                    </div>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class=" clearfix">
+        <div class="col-xs-12 mb-xs-1">
+          <div class="col-md-4 col-xs-12 gBgcGray5 g-box gBgcGray5 pt-xs-1 pb-xs-1 pull-right">
+            <p class="clearfix u-txt-weight mb-xs-0">
+              <span class="col-xs-5">Total Solicitado</span>
+              <span class="col-xs-7 text-right">{{totalRequestedAmountProcedimientos | currency}}</span>
+            </p>
+            <p class="clearfix u-txt-weight mb-xs-0">
+              <span class="col-xs-5">Total Aprobado</span>
+              <span class="col-xs-7 text-right">{{totalApprovedAmountProcedimientos | currency}}</span>
+            </p>
+            <p class="clearfix u-txt-weight mb-xs-0">
+              <span class="col-xs-5">IGV</span>
+              <span class="col-xs-7 text-right">{{montoIGVProcedimientos | currency}}</span>
+            </p>
+            <p class="clearfix u-txt-weight mb-xs-0">
+              <span class="col-xs-5">Total Aprobado</span>
+              <span class="col-xs-7 text-right">{{totalAmountProcedimientos | currency}}</span>
+            </p>
+          </div>
+        </div>
+      </div>
+      <!-- Fin: Procedimientos solicitados -->
+
+      <!-- Inicio: Archivos -->
+      <div class="clearfix pt-xs-1 pb-xs-3 cgw-inline-files">
+        <div class="clearfix">
+          <h2 class="col-xs-12 mb-md-2 gCRed1 gH4"><b>Archivos</b></h2>
+        </div>
+        <div class="clearfix">
+          <div class="col-xs-12">
+            <div class="container__attach">
+              <div class="cgw-attach__main_box">
+              <div class="u-inline" data-ng-repeat="item in filesOtros">
+                  <label class="g-text-center-xs">
+                    <div class="g-box g-box-dashed pt-xs-1 pb-xs-1 pr-xs-1 pl-xs-1 cgw-attach__box-body" uib-tooltip="{{item.fileName}}" data-ng-click="downloadAttachFileCGW(item)">
+                      <span class="ico-mapfre_170_archivos u-txt-24 u-color--gris-8"></span>
+                      <p class="u-txt-weight mb-xs-0 mt-xs-1 g-cut-text">{{item.fileName}}</p>
+                    </div>
+                  </label>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Fin: Archivos -->
+
+     <!-- Inicio: Anatomia Patologica -->
+     <div class="clearfix pt-xs-1 pb-xs-3 cgw-inline-files" data-ng-show="filesPatologicos.length > 0">
+      <div class="clearfix">
+        <h2 class="col-xs-12 mb-md-2 gCRed1 gH4"><b>Anatomia Patológica</b></h2>
+      </div>
+      <div class="clearfix">
+        <div class="col-xs-12">
+          <div class="container__attach">
+            <div class="cgw-attach__main_box">
+              <div class="u-inline" data-ng-repeat="item in filesPatologicos">
+                <label class="g-text-center-xs">
+                  <div class="g-box g-box-dashed pt-xs-1 pb-xs-1 pr-xs-1 pl-xs-1 cgw-attach__box-body"
+                    uib-tooltip="{{item.fileName}}" data-ng-click="downloadAttachFileCGW(item)">
+                    <span class="ico-mapfre_170_archivos u-txt-24 u-color--gris-8"></span>
+                    <p class="u-txt-weight mb-xs-0 mt-xs-1 g-cut-text">{{item.fileName}}</p>
+                  </div>
+                </label>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Fin: Anatomia Patologica -->
+
+      <!-- Inicio: Observaciones Internas -->
+      <div class="clearfix pt-xs-1 pb-xs-2">
+        <div class="clearfix">
+          <h2 class="col-xs-12 col-md-6 gCRed1 gH4"><b>Observaciones Internas</b></h2>
+        </div>
+      </div>
+      <div class="clearfix">
+        <div class="clearfix">
+          <div class="u-ph-15 mb-xs-3">
+            <!--           <div class="u-br-gris-4 u-bg--gris-11 u-pvh-15 g-text-center-xs g-box" data-ng-show="!areThereObsInternas()">
+                        No hay ninguna observación registrada
+                        <div class="clearfix mt-xs-2">
+                          <div class="col-md-4 col-md-offset-4 mb-xs-1">
+                            <a  class="g-btn g-btn-transparent block" data-ng-click="agregarObsInterna()"> Agregar Observación</a>
+                          </div>
+                        </div>
+                      </div> -->
+            <div data-ng-show="areThereObsInternas()">
+              <div  class="item g-box gBgcGray5 mb-xs-1 clearfix" data-ng-repeat="item in observInternas track by $index">
+                <ul class="clearfix g-list pt-xs-1">
+                  <li class="col-md-1 clearfix mb-xs-1">
+                    <b>ID: </b> {{item.id}}
+                  </li>
+                  <li class="col-md-2 clearfix cnt-item">
+                    <b>USUARIO: </b>
+                    {{item.userCreate}}
+                  </li>
+                  <li class="col-md-2 clearfix cnt-item">
+                    <b>FECHA: </b>
+                    {{item.dateCreate | date : format : 'dd/MM/yyyy h:mm a'}}
+                  </li>
+                  <li class="col-md-7 clearfix cnt-item">
+                    <b>Observaciones:</b>
+                    {{item.remark}}
+                  </li>
+                </ul>
+              </div>
+            </div>
+            <div ng-hide="rolConsulta()">
+              <div class="row">
+                <div class="col-sm-4 mb-xs-1">{{mInternalRemarkCommon}}
+                  <mpf-select label="{label:'Observación', required: false}" m-data-source="internalRemarkCommon" ng-model="formData.mInternalRemarkCommon"
+                              text-field="code" value-field="value" name="nSelectObser" ng-change="changeInternalRemarkCommon(formData.mInternalRemarkCommon)" ng-required="false"></mpf-select>
+                </div>
+                <div class="col-sm-8">
+                  <mpf-textarea label="{label:'Detalle', required: false}" ng-model="formData.mObsInterna" name="nObsInterna" ng-required="false" ng-Maxlength="800"></mpf-textarea>
+                </div>
+              </div>
+              <div class="clearfix">
+                <div class="col-sm-3 col-md-2 col-sm-offset-3 col-md-offset-4 mb-xs-1">
+                  <a  class="g-btn g-btn-white second-design block" data-ng-click="cancelFrmObsInterna()"> Cancelar</a>
+                </div>
+                <div class="col-sm-3 col-md-2 mb-xs-1">
+                  <a  class="g-btn g-btn-verde second-design block" data-ng-click="saveFrmObsInterna()">Guardar</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Fin: Observaciones Internas -->
+
+      <!-- Inicio: Observaciones Externas -->
+      <div class="clearfix pt-xs-1">
+        <h2 class="col-xs-12 col-md-6 gCRed1 gH4"><b>Observaciones Externas</b></h2>
+      </div>
+      <div class="clearfix mb-md-1">
+        <div class="col-md-12">
+          <mpf-textarea label="{label:'Detalles Autorización Forzada', required: false}" ng-model="cartaGarantia.remark" name="nObsExterna" ng-required="false" ng-disabled="isObservada(cartaGarantia)" ng-Maxlength="4000"></mpf-textarea>
+          <div class="g-error" data-ng-show="!cartaGarantia.remark && anuladaFlag">* Ingrese el motivo por el que se anula.</div>
+        </div>
+      </div>
+      <!-- Fin: Observaciones Externas -->
+    </div>
+  </div>
+</form>
+
+<form id="frmAttachFileCGW" name="frmAttachFileCGW" action="{{attachFileCGWURL}}" method="get" target="_blank">
+</form>
+
+<div class="row">
+  <div class="col-xs-12">
+    <div class="g-inline-btn-row text-center">
+      <div class="g-inline-btn-col mb-xs-1" ng-show="showRechazar()">
+        <a class="g-btn g-btn-transparent block" ng-click="setEstadoCGW(1)">Rechazar</a>
+      </div>
+      <div class="g-inline-btn-col mb-xs-1" ng-show="showAnular()">
+        <a class="g-btn g-btn-transparent block" ng-click="setEstadoCGW(2)">Anular</a>
+      </div>
+      <div class="g-inline-btn-col mb-xs-1" ng-if="showObservar()">
+        <a  class="g-btn g-btn-transparent block" ng-click="setEstadoCGW(3)">Observar</a>
+      </div>
+      <div class="g-inline-btn-col mb-xs-1" ng-if="showAprobar()">
+        <a  class="g-btn g-btn-verde block" ng-click="setEstadoCGW(4)">Aprobar</a>
+      </div>
+      <div class="g-inline-btn-col mb-xs-1" ng-if="showAprobarEjec()">
+        <a  class="g-btn g-btn-verde block" ng-click="setEstadoCGW(5)">Aprobar ejecutivo</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<form id="frmDownloadLetter" name="frmDownloadLetter" action="{{pdfLetterURL}}" method="get" target="_blank">
+</form>

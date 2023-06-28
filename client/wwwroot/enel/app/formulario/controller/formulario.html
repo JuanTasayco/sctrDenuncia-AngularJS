@@ -1,0 +1,336 @@
+<section class="g-page g-enel-formulario">
+  <form action="" name="formCertificado">
+    <page-title info="{title: 'Nuevo certificado de hogar'}" ng-if="isNuevoCertificado"></page-title>
+    <page-title info="{title: 'Certificado de hogar'}" ng-if="!isNuevoCertificado"></page-title>
+    
+    <!-- Número de certificado-->
+    <div class="g-section-inner no-border-top">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-4">
+            <mpf-input label="{label: 'Nro. de certificado', required: true}" name="nNroCertificado" ng-model="mainForm.mNroCertificado" mpf-validation="required,onlyNumber"></mpf-input>
+            <ul class="g-error">
+              <li ng-show="formCertificado.nNroCertificado.$invalid && !formCertificado.nNroCertificado.$pristine">* Este campo es obligatorio</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Ingrese datos vendedor -->
+    <div class="g-section-inner">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <h2 class="g-sub-title">Vendedor</h2>
+                </div>
+            </div>
+            <div class="row">
+              <div class="col-md-4 mb-xs-2 no-mb-md">
+                <mpf-input label="{label: 'Nombre del vendedor', required: true}" name="nNombVendedor" ng-model="mainForm.mNomVendedor" mpf-validation="onlyLetterNumber" ng-required="!mainForm.mCodVendedor"></mpf-input>
+                <ul class="g-error">
+                  <li ng-show="formCertificado.nNombVendedor.$invalid && !formCertificado.nNombVendedor.$pristine">* Este campo es obligatorio</li>
+                </ul>
+              </div>
+              <div class="col-md-4">
+                <mpf-input label="{label: 'Código del vendedor', required: true}" name="nCodVendedor" ng-model="mainForm.mCodVendedor" mpf-validation="required, onlyNumber" ng-maxlength="20" ng-required="!mainForm.mNomVendedor"></mpf-input>
+                <ul class="g-error">
+                  <li ng-show="formCertificado.nCodVendedor.$invalid && !formCertificado.nCodVendedor.$pristine">* Este campo es obligatorio</li>
+                </ul>
+              </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Ingrese datos producto -->
+    <div class="g-section-inner">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <h2 class="g-sub-title">Producto</h2>
+                </div>
+            </div>
+            <div class="row">
+              <div class="col-md-4 mb-xs-2 no-mb-md">
+                <mpf-select label="{label: 'Selecciona producto', required: true}" name="nSelectProducto" ng-model="mainForm.mSelectProducto" m-data-source="mainForm.selectProductoData" text-field="descripcion" value-field="id_Producto_Tipo_Extendido" m-Empty-Option="{enterData:true}" ng-change="listarSumaAsegurada(mainForm.mSelectProducto)" ng-required="true" mpf-validation="required"></mpf-select>
+                 <ul class="g-error">
+                  <li ng-show="formCertificado.nSelectProducto.$invalid && !formCertificado.nSelectProducto.$pristine">* Este campo es obligatorio</li>
+                </ul>
+              </div>
+              <div class="col-md-4">
+                <div class="input-group g-date-picker">
+                  <label class="g-placeholder animated">Inicio de vigencia*<span></span></label>
+                  <input type="text" class="form-control" ng-change="changeDate()" uib-datepicker-popup="{{mainForm.formatDate}}" ng-model="mainForm.mInicioVigencia" is-open="mainForm.popupInicioVigencia.opened" datepicker-options="mainForm.dateOptionsInicioVigencia" close-text="Close" alt-input-formats="mainForm.altInputFormats" ui-mask="{{mainForm.mask}}" ng-pattern="mainForm.pattern" model-view-value="true" ng-required="true"/>
+                  <!-- <input type="text" class="form-control" ng-change="changeDate()" uib-datepicker-popup="{{mainForm.formatDate}}" ng-model="mainForm.mInicioVigencia" is-open="popupInicioVigencia.opened" datepicker-options="dateOptionsInicioVigencia" ng-required="true" close-text="Close" alt-input-formats="altInputFormats" readonly/> -->
+                  <span class="input-group-btn">
+                    <button type="button" class="btn btn-default" ng-click="openInicioVigencia()"><i class="glyphicon glyphicon-calendar"></i></button>
+                  </span>
+                </div>
+              </div>
+            </div>
+        </div>
+    </div> 
+
+    <!-- Ingrese datos contratante -->
+    <div class="g-section-inner">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-12">
+              <h2 class="g-sub-title">Datos del contratante</h2>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-4 mb-xs-2">
+            <!-- <mpf-select label="{label: 'Tipo documento', required: true}" name="nContratanteTipoDocumento" ng-model="mainForm.mContratanteTipoDocumento" m-data-source="contratanteTipoDocumentoData" text-field="descripcion" value-field="codigo" m-Empty-Option="{enterData:true}" ng-change="updateTipoDoc(mContratanteTipoDocumento);" ng-required="true" mpf-validation="required"></mpf-select> -->
+            <!-- <mpf-select label="{label: 'Tipo documento', required: true}" name="nContratanteTipoDocumento" ng-model="mainForm.mContratanteTipoDocumento" m-data-source="mainForm.contratanteTipoDocumentoData" text-field="descripcion" value-field="codigo" m-Empty-Option="{enterData:true}" ng-change="updateTipoDoc(mainForm.mContratanteTipoDocumento); contratanteData(true)" ng-required="true" mpf-validation="required"></mpf-select> -->
+            <mpf-select label="{label: 'Tipo documento', required: true}" name="nContratanteTipoDocumento" ng-model="mainForm.mContratanteTipoDocumento" m-data-source="mainForm.contratanteTipoDocumentoData" text-field="descripcion" value-field="codigo" m-Empty-Option="{enterData:true}" ng-change="updateTipoDoc(mainForm.mContratanteTipoDocumento); contratanteData(true)" ng-required="true" mpf-validation="required"></mpf-select>
+            <ul class="g-error">
+              <li ng-show="formCertificado.nContratanteTipoDocumento.$invalid && !formCertificado.nContratanteTipoDocumento.$pristine">* Este campo es obligatorio</li>
+            </ul>
+          </div>
+          <div class="col-md-4 mb-xs-2">
+            <!-- <mpf-input label="{label: 'Nro. documento', required: true}" name="nContratanteNroDocumento" ng-model="mainForm.mContratanteNroDocumento" ng-blur="contratanteData(mContratanteTipoDocumento, mContratanteNroDocumento)" mpf-validation="required,onlyNumber"></mpf-input> -->
+            
+
+            <!-- <mpf-input label="{label: 'Nro. documento', required: true}" name="nContratanteNroDocumento" ng-model="mainForm.mContratanteNroDocumento" ng-blur="contratanteData()" mpf-validation="required,onlyNumber" ng-maxlength="20"></mpf-input> -->
+            <mpf-input label="{label: !mainForm.mContratanteTipoDocumento || mainForm.mContratanteTipoDocumento.codigo == null ? 'Nro. documento' : 'Ingrese su ' + mainForm.mContratanteTipoDocumento.descripcion, required: true}" name="nContratanteNroDocumento" ng-model="mainForm.mContratanteNroDocumento" ng-blur="contratanteData()" mpf-validation="required,onlyNumber" ng-maxlength="20"></mpf-input>
+            <ul class="g-error">
+              <li ng-show="formCertificado.nContratanteNroDocumento.$invalid && !formCertificado.nContratanteNroDocumento.$pristine">* Este campo es obligatorio</li>
+            </ul>
+          </div>
+          <div class="col-md-4 mb-xs-2">
+            <a ng-show="searchedPerson" class="g-btn g-btn-white g-btn-mini" ng-click="clearSearchContractor()">Limpiar contratante</a>
+          </div>
+        </div>
+        
+        <div class="row" ng-if="showNaturalRucPerson">
+          <div class="col-md-4 mb-xs-2">
+            <mpf-input label="{label: 'Nombre', required: true}" name="nNombContratante" ng-model="mainForm.mNomContratante" mpf-validation="required, onlyLetterNumber"></mpf-input>
+            <ul class="g-error">
+              <li ng-show="formCertificado.nNombContratante.$invalid && !formCertificado.nNombContratante.$pristine">* Este campo es obligatorio</li>
+            </ul>
+          </div>
+          <div class="col-md-4 mb-xs-2">
+            <mpf-input label="{label: 'Apellido paterno', required: true}" name="nApellidoPaterno" ng-model="mainForm.mApellidoPaterno" mpf-validation="required, onlyLetterNumber"></mpf-input>
+            <ul class="g-error">
+              <li ng-show="formCertificado.nApellidoPaterno.$invalid && !formCertificado.nApellidoPaterno.$pristine">* Este campo es obligatorio</li>
+            </ul>
+          </div>
+          <div class="col-md-4 mb-xs-2">
+            <mpf-input label="{label: 'Apellido materno', required: true}" name="nApellidoMaterno" ng-model="mainForm.mApellidoMaterno" mpf-validation="required, onlyLetterNumber"></mpf-input>
+            <ul class="g-error">
+              <li ng-show="formCertificado.nApellidoMaterno.$invalid && !formCertificado.nApellidoMaterno.$pristine">* Este campo es obligatorio</li>
+            </ul>
+          </div>
+        </div>
+        <div class="row" ng-if="showNaturalRucPerson">
+          <div class="col-md-4 mb-xs-2">
+            <div class="input-group g-date-picker">
+              <label class="g-placeholder animated">Fecha nacimiento*<span></span></label>
+              <input type="text" class="form-control" ng-change="changeDate()" uib-datepicker-popup="{{mainForm.formatDate}}" ng-model="mainForm.mContratanteFechaNacimiento" is-open="mainForm.popupFechaNacimiento.opened" datepicker-options="mainForm.dateOptionsFechaNacimiento" close-text="Close" alt-input-formats="mainForm.altInputFormats" ui-mask="{{mainForm.mask}}" ng-pattern="mainForm.pattern" model-view-value="true" ng-required="true"/>
+              <!-- <input type="text" class="form-control" name="nContratanteFechaNacimiento" ng-change="changeDate()" uib-datepicker-popup="{{mainForm.formatDate}}" ng-model="mainForm.mContratanteFechaNacimiento" is-open="popupFechaNacimiento.opened" datepicker-options="dateOptionsFechaNacimiento" close-text="Close" ui-mask="{{mainForm.mask}}" ng-pattern="mainForm.pattern" model-view-value="true" ng-required="true"/> -->
+              <span class="input-group-btn">
+                <button type="button" class="btn btn-default" ng-click="openFechaNacimiento()"><i class="glyphicon glyphicon-calendar"></i></button>
+              </span>
+            </div>
+            <!-- {{formCertificado.nContratanteFechaNacimiento}}
+            {{mContratanteFechaNacimiento}} -->
+          </div>
+          <div class="col-md-4 mb-xs-2">
+            <span class="g-label mb-xs-2">Sexo*</span>
+            <div class="row">
+              <div class="col-md-6">
+                <m-radio label="{label: 'Masculino'}" name="nSexo" ng-model="mainForm.mSexo" value="1" ng-required="true"></m-radio>
+              </div>
+              <div class="col-md-6">
+                <m-radio label="{label: 'Femenino'}" name="nSexo" ng-model="mainForm.mSexo" value="2" ng-required="true"></m-radio>
+              </div>
+              <ul class="col-md-12 g-error">
+                <li ng-show="formCertificado.nSexo.$invalid && !formCertificado.nSexo.$pristine">* Seleccione un sexo</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div class="row" ng-if="!showNaturalRucPerson">
+          <div class="col-md-8 mb-xs-2">
+            <mpf-input label="{label: 'Razón social', required: true}" name="nRazonSocial" ng-model="mainForm.mRazonSocial" mpf-validation="required, onlyLetterNumber"></mpf-input>
+            <ul class="g-error">
+              <li ng-show="formCertificado.nRazonSocial.$invalid && !formCertificado.nRazonSocial.$pristine">* Este campo es obligatorio</li>
+            </ul>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-4 mb-xs-2">
+            <mpf-select label="{label: 'Departamento', required: true}" name="nContratanteDepartamento" ng-model="mainForm.mContratanteDepartamento" m-data-source="mainForm.contratanteDepartamentoData" text-field="descripcion" value-field="id_Departamento" m-Empty-Option="{enterData:true}" ng-change="listarProvContratante(mainForm.mContratanteDepartamento);" ng-required="true" mpf-validation="required"></mpf-select>
+            <ul class="g-error">
+              <li ng-show="formCertificado.nContratanteDepartamento.$invalid && !formCertificado.nContratanteDepartamento.$pristine">* Este campo es obligatorio</li>
+            </ul>
+          </div>
+          <div class="col-md-4 mb-xs-2">
+            <mpf-select label="{label: 'Provincia', required: true}" name="nContratanteProvincia" ng-model="mainForm.mContratanteProvincia" m-data-source="mainForm.contratanteProvinciaData" text-field="descripcion" value-field="id_Provincia" m-Empty-Option="{enterData:true}" ng-change="listarDistContratante(mainForm.mContratanteDepartamento, mainForm.mContratanteProvincia);" ng-required="true" mpf-validation="required"></mpf-select>
+            <ul class="g-error">
+              <li ng-show="formCertificado.nContratanteProvincia.$invalid && !formCertificado.nContratanteProvincia.$pristine">* Este campo es obligatorio</li>
+            </ul>
+          </div>
+          <div class="col-md-4 mb-xs-2">
+            <mpf-select label="{label: 'Distrito', required: true}" name="nContratanteDistrito" ng-model="mainForm.mContratanteDistrito" m-data-source="mainForm.contratanteDistritoData" text-field="descripcion" value-field="id_Distrito" m-Empty-Option="{enterData:true}" ng-required="true" mpf-validation="required"></mpf-select>
+            <ul class="g-error">
+              <li ng-show="formCertificado.nContratanteDistrito.$invalid && !formCertificado.nContratanteDistrito.$pristine">* Este campo es obligatorio</li>
+            </ul>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-8 mb-xs-2">
+            <mpf-input label="{label: 'Domicilio', required: true}" name="nDomicilio" ng-model="mainForm.mDomicilio" mpf-validation="required"></mpf-input>
+            <ul class="g-error">
+              <li ng-show="formCertificado.nDomicilio.$invalid && !formCertificado.nDomicilio.$pristine">* Este campo es obligatorio</li>
+            </ul>
+          </div>
+          <div class="col-md-4 mb-xs-2">
+            <mpf-input label="{label: 'Nro. de suministro', required: true}" name="nNroSuministro" ng-model="mainForm.mNroSuministro" mpf-validation="required, onlyNumber"></mpf-input>
+            <ul class="g-error">
+              <li ng-show="formCertificado.nNroSuministro.$invalid && !formCertificado.nNroSuministro.$pristine">* Este campo es obligatorio</li>
+            </ul>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-4 mb-xs-2">
+            <mpf-input label="{label: 'Teléfono'}" name="nContratanteTelefono" ng-model="mainForm.mContratanteTelefono" mpf-validation="onlyNumber"></mpf-input>
+            <ul class="g-error">
+              <li ng-show="formCertificado.nContratanteTelefono.$invalid && !formCertificado.nContratanteTelefono.$pristine">* Este campo es obligatorio</li>
+            </ul>
+          </div>
+          <div class="col-md-4 mb-xs-2">
+            <mpf-input label="{label: 'Correo electrónico'}" name="nContratanteCorreoElectronico" ng-model="mainForm.mContratanteCorreoElectronico" mpf-validation="email"></mpf-input>
+            <ul class="g-error">
+              <li ng-show="formCertificado.nContratanteCorreoElectronico.$invalid && !formCertificado.nContratanteCorreoElectronico.$pristine">* Este campo es obligatorio</li>
+            </ul>
+          </div>
+        </div>
+        <div class="row" ng-show="!showNaturalRucPerson">
+          <div class="col-md-4 mb-xs-2 no-mb-md">
+            <mpf-select label="{label: 'Tipo empresa', required: !showNaturalRucPerson}" name="nTipoEmpresa" ng-model="mainForm.mTipoEmpresa" m-data-source="mainForm.tipoEmpresaData" text-field="tipo" value-field="id_Empresa_Tipo" m-Empty-Option="{enterData:true}" ng-change="giroNegocio(mainForm.mTipoEmpresa)" ng-required="!showNaturalRucPerson" mpf-validation="required"></mpf-select>
+            <ul class="g-error">
+              <li ng-show="formCertificado.nTipoEmpresa.$invalid && !formCertificado.nTipoEmpresa.$pristine">* Este campo es obligatorio</li>
+            </ul>
+          </div>
+          <div class="col-md-4">
+            <mpf-select label="{label: 'Giro del negocio', required: !showNaturalRucPerson}" name="nGiroNegocio" ng-model="mainForm.mGiroNegocio" text-field="giro" value-field="id_Empresa_Giro" m-data-source="mainForm.giroNegocioData" m-Empty-Option="{enterData:true}" ng-required="!showNaturalRucPerson" mpf-validation="required"></mpf-select>
+            <ul class="g-error">
+              <li ng-show="formCertificado.nGiroNegocio.$invalid && !formCertificado.nGiroNegocio.$pristine">* Este campo es obligatorio</li>
+            </ul>
+          </div>
+        </div>
+      </div>    
+    </div>
+
+    <!-- Ingrese Interés asegurable -->
+    <div class="g-section-inner">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-12">
+              <h2 class="g-sub-title">Interés asegurable</h2>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-4 mb-xs-2">
+            <span class="g-placeholder block mb-xs-2">Material del seguro</span>
+            <span class="">Edificación</span>
+          </div>
+          <div class="col-md-4">
+            <div class="g-box bg-gray pt-xs-1 pl-xs-1 pr-xs-1 pb-xs-1">
+              <strong>Edificación:</strong></br>
+              En caso de casas-habitaciones, locales comerciales, de servicios y/o industriales
+            </div>
+          </div>
+          <div class="col-md-4 mb-xs-2">
+            <mpf-select label="{label: 'Suma asegurada principal', required: true}" name="nSumaAsegurada" ng-model="mainForm.mSumaAsegurada" m-data-source="mainForm.sumaAseguradaData" text-field="Descripcion" value-field="id_Suma_Asegurada" m-Empty-Option="{enterData:true}" ng-required="true" mpf-validation="required"></mpf-select>
+            <ul class="g-error">
+              <li ng-show="formCertificado.nSumaAsegurada.$invalid && !formCertificado.nSumaAsegurada.$pristine">* Este campo es obligatorio</li>
+            </ul>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-4 mb-xs-2">
+            <mpf-select label="{label: 'Departamento', required: true}" name="nAsegurableDepartamento" ng-model="mainForm.mAsegurableDepartamento" m-data-source="mainForm.asegurableDepartamentoData" text-field="descripcion" value-field="id_Departamento" m-Empty-Option="{enterData:true}" ng-change="listarProvAsegurable(mainForm.mAsegurableDepartamento);" ng-required="true" mpf-validation="required"></mpf-select>
+            <ul class="g-error">
+              <li ng-show="formCertificado.nAsegurableDepartamento.$invalid && !formCertificado.nAsegurableDepartamento.$pristine">* Este campo es obligatorio</li>
+            </ul>
+          </div>
+          <div class="col-md-4 mb-xs-2">
+            <mpf-select label="{label: 'Provincia', required: true}" name="nAsegurableProvincia" ng-model="mainForm.mAsegurableProvincia" m-data-source="mainForm.asegurableProvinciaData" text-field="descripcion" value-field="id_Provincia" m-Empty-Option="{enterData:true}" ng-change="listarDistAsegurable(mainForm.mAsegurableDepartamento, mainForm.mAsegurableProvincia)" ng-required="true" mpf-validation="required"></mpf-select>
+            <ul class="g-error">
+              <li ng-show="formCertificado.nAsegurableProvincia.$invalid && !formCertificado.nAsegurableProvincia.$pristine">* Este campo es obligatorio</li>
+            </ul>
+          </div>
+          <div class="col-md-4 mb-xs-2">
+            <mpf-select label="{label: 'Distrito', required: true}" name="nAsegurableDistrito" ng-model="mainForm.mAsegurableDistrito" m-data-source="mainForm.asegurableDistritoData" text-field="descripcion" value-field="id_Distrito" m-Empty-Option="{enterData:true}" ng-required="true" mpf-validation="required"></mpf-select>
+            <ul class="g-error">
+              <li ng-show="formCertificado.nAsegurableDistrito.$invalid && !formCertificado.nAsegurableDistrito.$pristine">* Este campo es obligatorio</li>
+            </ul>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-8 mb-xs-2">
+            <mpf-input label="{label: 'Dirección del riesgo', required: true}" name="nDireccionRiesgo" ng-model="mainForm.mDireccionRiesgo" mpf-validation="required"></mpf-input>
+            <ul class="g-error">
+              <li ng-show="formCertificado.nDireccionRiesgo.$invalid && !formCertificado.nDireccionRiesgo.$pristine">* Este campo es obligatorio</li>
+            </ul>
+          </div>
+        </div>
+      </div>    
+    </div>
+
+    <!-- Ingrese datos categoria construccion -->
+    <div class="g-section-inner">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-12">
+            <h2 class="g-sub-title">Categorías de construcción</h2>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-12">
+            <span class="g-placeholder block mb-xs-2">Categorías asegurables*</span>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-4 mb-xs-2 no-mb-md">
+            <m-radio label="{label: 'Primera'}" name="nCategoriaAsegurada" ng-model="mainForm.mCategoriaAsegurada" value="1" ng-required="true"></m-radio>
+            <div class="pl-xs-3 pt-xs-1">Edificaciones construidas con Paredes, Entrepisos y Techos de Concreto, Sillar, Ladrillo y Cemento.</div>
+          </div>
+          <div class="col-md-4">
+            <m-radio label="{label: 'Segunda'}" name="nCategoriaAsegurada" ng-model="mainForm.mCategoriaAsegurada" value="2" ng-required="true"></m-radio>
+            <div class="pl-xs-3 pt-xs-1">Edificaciones construidas con Paredes y Entrepisos de Concreto, Sillar, Ladrillo y Cemento; Techos de Planchas de Calamina, Fibra Cemento, Plásticos o Tejas.</div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-12">
+            <ul class="g-error">
+              <li class="pt-xs-2" ng-show="formCertificado.nCategoriaAsegurada.$invalid && !formCertificado.nCategoriaAsegurada.$pristine">* Seleccione una categoría</li>
+            </ul>
+          </div>
+        </div>
+      </div>    
+    </div>
+
+
+
+    <div class="g-section">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-4 col-md-offset-4">
+            <a class="g-btn g-btn-verde block" ng-click="save('I')" ng-if="isNuevoCertificado">Registrar certificado</a>
+            <a class="g-btn g-btn-verde block" ng-click="save('U')" ng-if="!isNuevoCertificado">Actualizar certificado</a>
+         </div>
+        </div>
+      </div>
+    </div>
+
+    
+
+  </form>
+
+    
+
+</section>

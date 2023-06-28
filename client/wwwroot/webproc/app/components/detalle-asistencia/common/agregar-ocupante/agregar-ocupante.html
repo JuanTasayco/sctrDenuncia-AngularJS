@@ -1,0 +1,34 @@
+<div
+  class="col-xs-12 g-box3 g-box-add-item-1 box-add-occupant-1"
+  data-ng-if="$ctrl.showBoxInicialAgregar">
+  <p class="text-center">No hay ningún ocupante registrado.</p>
+  <a
+    class="col-xs-8 col-xs-offset-2 col-sm-6 col-sm-offset-3 col-md-4 col-md-offset-4 g-btn g-btn-white mt-xs-1"
+    data-ng-click="$ctrl.showFrmAddOcupante()">
+    <span class="glyphicon glyphicon-plus"></span>Agregar ocupante
+  </a>
+</div>
+<div
+  class="container-add-occupant"
+  data-ng-repeat="item in $ctrl.ocupantes track by $index">
+  <wp-ocupante
+    data-idx="$index"
+    data-ocupante="item"
+    data-on-delete="$ctrl.handleEliminarOcupante($index)"
+    data-on-editar="$ctrl.handleEditarOcupante($event)"
+  >
+  </wp-ocupante>
+</div>
+<div data-ng-show="$ctrl.showBtnAddOcupante">
+  <a
+    class="col-xs-8 col-xs-offset-2 col-md-3 col-md-offset-9 mt-xs-2 mt-md-2 g-btn g-btn-white"
+    data-ng-click="$ctrl.showFrmAddOcupante()">
+    <span class="glyphicon glyphicon-plus"></span>Agregar ocupante
+  </a>
+</div>
+<wp-agregar-editar-ocupante
+  data-es-frm-agregar="true"
+  data-ng-if="$ctrl.showAddFrm"
+  data-on-agregar="$ctrl.handleAgregarOcupante($event)"
+>
+</wp-agregar-editar-ocupante>

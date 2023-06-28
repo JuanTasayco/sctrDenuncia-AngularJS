@@ -1,0 +1,70 @@
+<section class="g-page page-modal page-modal__nueva-inspeccion">
+
+  <button type="button" class="close g-close-modal" ng-click="$ctrl.closeModal()">
+    <span class="ico-mapfre_46_cancelaroff"></span>
+  </button>
+
+  <form name="$ctrl.frmProgram">
+    <div class="clearfix">
+      <div class="col-md-12 g-text-center-xs mb-xs-2">
+        <h2 class="gH3"><b>PROGRAMAR INSPECCIÓN</b></h2>
+      </div>
+      <div class="col-md-12">
+        <!-- {{ $ctrl.frmProgram }} -->
+        <div class="modal-body" id="automas">
+          <div class="row">
+            <div class="col-md-8 mb-xs-2">
+              <mpf-select label="{label: 'Inspector', required: true}" name="nInspector" ng-model="$ctrl.formData.mInspector" m-data-source="$ctrl.inspectors" text-Field="fullName" value-Field="inspectorId"  m-Empty-Option="{enterData:true}" ng-required="true"></mpf-select>
+              <div class="g-error" ng-show="$ctrl.frmProgram.nInspector.$invalid && !$ctrl.frmProgram.nInspector.$pristine">* Seleccione un inspector</div>
+            </div>
+          </div>
+					<div class="row">
+            <div class="col-md-3 mb-xs-2">
+              <mpf-datepicker label="{label: 'Fecha inicio', required: true}" format="'dd/MM/yyyy'" ng-model="$ctrl.formData.mFechaInicio" name="nFechaInicio" ng-required="true" data-minDate="$ctrl.formData.mFechaInicio" ></mpf-datepicker>
+              <div class="g-error" ng-show="$ctrl.frmProgram.nFechaInicio.$invalid && !$ctrl.frmProgram.nFechaInicio.$pristine">* Ingrese fecha inicio</div>
+            </div>
+            <div class="col-md-3">
+              <div class="">
+                <mpf-timepicker label-data="{label: 'Hora inicio', required: true}" modelo="$ctrl.formData.mFechaInicio" requerido="true" is-read-only="false"></mpf-timepicker>
+              </div>
+            </div>
+            <div class="col-md-3 mb-xs-2">
+              <mpf-datepicker label="{label: 'Fecha fin', required: true}" format="'dd/MM/yyyy'" ng-model="$ctrl.formData.mFechaFin" name="nFechaFin" ng-required="true" data-minDate="$ctrl.formData.mFechaInicio" data-maxDate="$ctrl.formData.mFechaInicio"></mpf-datepicker>
+              <div class="g-error" ng-show="$ctrl.frmProgram.nFechaFin.$invalid && !$ctrl.frmProgram.nFechaFin.$pristine">* Ingrese fecha fin</div>
+            </div>
+            <div class="col-md-3">
+              <div class="">
+                <mpf-timepicker label-data="{label: 'Hora fin', required: true}" modelo="$ctrl.formData.mFechaFin" requerido="true" is-read-only="false"></mpf-timepicker>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-12 mb-xs-2 g-error" ng-show="$ctrl.hasError">* {{ $ctrl.hasError }}</div>
+          </div>
+          <div class="row">
+            <inspec-ubigeo data="$ctrl.formData.ubigeoData"></inspec-ubigeo>
+          </div>
+          <div class="row">
+            <div class="col-md-12 mb-xs-2">
+              <mpf-input label="{label: 'Dirección', required: true}" name="nDireccion" ng-model="$ctrl.formData.mDireccion" ng-required="true"></mpf-input>
+              <div class="g-error" ng-show="$ctrl.frmProgram.nDireccion.$invalid && !$ctrl.frmProgram.nDireccion.$pristine">* Ingrese dirección</div>
+            </div>
+            <div class="col-md-12 mb-xs-2">
+              <mpf-input label="{label: 'Referencia', required: false}" name="nReferencia" ng-model="$ctrl.formData.mReferencia"></mpf-input>
+            </div>
+            <div class="col-md-12 mb-xs-2">
+              <mpf-input label="{label: 'Observaciones', required: false}" name="nObservaciones" ng-model="$ctrl.formData.mObservaciones"></mpf-input>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-4 col-md-offset-4 mt-xs-2">
+              <a ng-if="$ctrl.isFleet" class="g-btn g-btn-verde add-ico block" ng-click="$ctrl.showNextModalFleet()">Siguiente&nbsp;</a>
+              <a ng-if="!$ctrl.isFleet" class="g-btn g-btn-verde add-ico block" ng-click="$ctrl.programRequest()">Programar&nbsp;</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+
+</section>

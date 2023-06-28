@@ -1,0 +1,32 @@
+<section class="page-modal page-modal__nueva-inspeccion">
+
+  <button type="button" class="kpi-modal-chart__close-modal" ng-click="$ctrl.closeModal()">
+    <span><i class="material-icons">close</i></span>{{$ctrl.titletext}}
+  </button>
+
+  <div class="container kpi-modal-chart__table">
+    <div class="row">
+      <div class="col-xs-12">
+        <div class="kpi-filtros__container-modal">
+          <table class="table table-bordered table-hover">
+            <thead>
+              <tr class="gBgcGray5">
+                <th ng-class="$index == 0 ? 'kpi-modal-chart__table-header-left' : 'kpi-modal-chart__table-header'" ng-repeat="header in $ctrl.headers">{{header.label}}</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr ng-repeat="item in $ctrl.rows">
+                <td ng-class="$index == 0 ? 'kpi-modal-chart__table-item-left' : 'kpi-modal-chart__table-item'" ng-repeat="header in $ctrl.headers">{{$ctrl.showWithFormat(item[header.key], header.key)}}</td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="kpi-modal-chart__footer">
+            <div class="kpi-modal-chart__download-report">
+              <a class="g-btn g-btn-gris second-design" ng-click="$ctrl.downloadReport()">DESCARGAR REPORTE</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

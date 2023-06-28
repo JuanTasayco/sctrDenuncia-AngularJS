@@ -1,0 +1,357 @@
+<form id="cotiza-form" action="" name="frmSCTR2">
+<div class="page-sctr-emitir-step2 g-section-inner">
+
+		<!-- Datos de la empresa -->
+		<div class="container">
+			<div class="row">
+				<div class="col-md-12">
+					<uib-accordion close-others="oneAtATime">
+						<div uib-accordion-group class="g-acordeon" is-open="status.open">
+				      <uib-accordion-heading>
+				        Datos de la empresa<i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': status.open, 'glyphicon-chevron-right': !status.open}"></i>
+								<div class="msn-acordeon" ng-show="false">
+				        	<span class="ico-mapfre_316_exclamacion ico-md ico-medium ico-excl ico-naranja"></span>
+				        	<span class="cont-text">Cliente Deficitario</span>
+				      	</div>
+				      </uib-accordion-heading>
+			      	<div class="g-sec-information">
+								<div class="">
+									<div class="container">
+										<ul class="row">
+											<li class="col-md-4 clearfix cnt-item">
+												<div class="col-sm-6 item-label">
+													<span class="ico-mapfre_82_circle ico-bullet"></span>Tipo de documento:
+												</div>
+												<div class="col-sm-6 item-dato">{{formData.mTipoDocumento.Codigo}}</div>
+											</li>
+
+											<li class="col-md-4 clearfix cnt-item">
+												<div class="col-sm-5 item-label">
+													<span class="ico-mapfre_82_circle ico-bullet"></span>Nro. Documento:
+												</div>
+												<div class="col-sm-7 item-dato">{{formData.mNumeroDocumento}}</div>
+											</li>
+
+											<li class="col-md-4 clearfix cnt-item">
+												<div class="col-sm-6 item-label">
+													<span class="ico-mapfre_82_circle ico-bullet"></span>Razón Social:
+												</div>
+												<div class="col-sm-6 item-dato g-text-uppercase">{{formData.mRazonSocial}}</div>
+											</li>
+										</ul>
+										<ul class="row">
+											<li class="col-md-4 clearfix cnt-item" ng-show="formData.mActivSunat.codigo">
+												<div class="col-sm-6 item-label">
+													<span class="ico-mapfre_82_circle ico-bullet"></span>Actividad SUNAT:
+												</div>
+												<div class="col-sm-6 item-dato">{{formData.mActivSunat.codigo}} :: {{formData.mActivSunat.descripcion}}</div>
+											</li>
+
+											<li class="col-md-4 clearfix cnt-item">
+												<div class="col-sm-5 item-label">
+													<span class="ico-mapfre_82_circle ico-bullet"></span>Dirección:
+												</div>
+												<div class="col-sm-7 item-dato g-text-uppercase">
+													{{formData.contractorAddress.mNombreVia}} {{formData.contractorAddress.mNumeroDireccion}},
+													{{formData.contractorAddress.ubigeoData.mDistrito.Descripcion}}
+													{{formData.contractorAddress.ubigeoData.mProvincia.Descripcion}}
+													{{formData.contractorAddress.ubigeoData.mDepartamento.Descripcion}}
+												</div>
+											</li>
+
+											<li class="col-md-4 clearfix cnt-item">
+												<div class="col-sm-6 item-label">
+													<span class="ico-mapfre_82_circle ico-bullet"></span>Teléfono:
+												</div>
+												<div class="col-sm-6 item-dato">{{formData.dataContractor2.Telefono}}</div>
+											</li>
+										</ul>
+										<ul class="row">
+											<li class="col-md-4 clearfix cnt-item">
+												<div class="col-sm-6 item-label">
+													<span class="ico-mapfre_82_circle ico-bullet"></span>Correo electrónico:
+												</div>
+												<div class="col-sm-6 item-dato g-text-uppercase">
+													<span class="g-cut-text">{{formData.dataContractor2.EmailUsuario}}</span>
+												</div>
+											</li>
+
+											<li class="col-md-4 clearfix cnt-item">
+												<div class="col-sm-5 item-label">
+													<span class="ico-mapfre_82_circle ico-bullet"></span>Representante:
+												</div>
+												<div class="col-sm-7 item-dato g-text-uppercase">{{formData.mRepresentante}}</div>
+											</li>
+
+											<li class="col-md-4 clearfix cnt-item">
+												<div class="col-sm-6 item-label">
+													<span class="ico-mapfre_82_circle ico-bullet"></span>Cargo representante:
+												</div>
+												<div class="col-sm-6 item-dato">{{formData.mRepresentanteCargo.Descripcion}}</div>
+											</li>
+										</ul>
+									</div>
+								</div>
+							</div>
+			    	</div>
+					</uib-accordion>
+				</div>
+			</div>
+		</div>
+
+		<!-- Riesgos a emitir -->
+		<div class="g-section js-section-emitir g-border-bottom">
+			<div class="container">
+				<div class="row">
+          <div class="col-md-12 pb-xs-2">
+            <h2 class="g-sub-title g-myd-subtitle h-myd-p--0">Elige los ramos</h2>
+            <span>Seleccione los producto que desea emitir</span>
+          </div>
+				</div>
+				<div class="row" ng-if="!formData.paso2Grabado">
+
+					<div class="col-md-3" ng-if="formData.showRamos.Salud==='N'">
+						<div class="g-check-box">
+							<div class="g-check-box-input">
+								<!-- <input type="checkbox" ng-model="formData.salud"> -->
+								<mpf-checkbox ng-show="formData.dataContractor2.McaReciboPendienteSalud === 'N'" ng-click="onClickCheckbox" name="nChkSolicitud" ng-model="formData.salud"></mpf-checkbox>
+							</div>
+							<div class="g-check-box-label">
+								<ul class="box-label">
+									<li class="box-label-ico"><span class="ico-mapfre_34_salud"></span></li>
+									<li class="box-label-text">Mapfre Salud</li>
+								</ul>
+							</div>
+						</div>
+					</div>
+
+					<div class="col-md-3 mt-xs-1 mt-md-0" ng-if="formData.showRamos.Pension==='N'">
+						<div class="g-check-box">
+							<div class="g-check-box-input">
+								<!-- <input type="checkbox" ng-model="formData.pension"> -->
+								<mpf-checkbox ng-show="formData.dataContractor2.McaReciboPendientePension === 'N'" ng-click="onClickCheckbox" name="nChkSolicitud" ng-model="formData.pension"></mpf-checkbox>
+							</div>
+							<div class="g-check-box-label">
+								<ul class="box-label">
+									<li class="box-label-ico"><span class="ico-mapfre_36_sctr"></span></li>
+									<li class="box-label-text">Mapfre Pensión</li>
+								</ul>
+							</div>
+						</div>
+					</div>
+
+					<div class="g-error" ng-show="formData.McaReciboPendienteSalud === 'S' && formData.McaReciboPendientePension === 'N'">* El cliente actual tiene recibos pendientes en SCTR Salud por más de 60 dias por pagar</div>
+
+					<div class="g-error" ng-show="formData.McaReciboPendienteSalud === 'N' && formData.McaReciboPendientePension === 'S'">* El cliente actual tiene recibos pendientes en SCTR Pensión por mas de 60 dias por pagar</div>
+
+
+				</div>
+
+				<div class="row" ng-if="formData.paso2Grabado">
+
+					<div class="col-md-3" ng-if="formData.showRamos.Pension==='N'">
+						<div class="g-check-box">
+							<div class="g-check-box-input">
+								<!-- <input type="checkbox" ng-model="formData.pension" disabled> -->
+								<mpf-checkbox ng-show="formData.dataContractor2.McaReciboPendientePension === 'N'" type="checkbox" ng-model="formData.pension" disabled></mpf-checkbox>
+							</div>
+							<div class="g-check-box-label">
+								<ul class="box-label">
+									<li class="box-label-ico"><span class="ico-mapfre_36_sctr"></span></li>
+									<li class="box-label-text">SCTR Pensión</li>
+								</ul>
+							</div>
+						</div>
+					</div>
+
+					<div class="col-md-3 mt-xs-1 mt-md-0" ng-if="formData.showRamos.Salud==='N'">
+						<div class="g-check-box">
+							<div class="g-check-box-input">
+								<!-- <input type="checkbox" ng-model="formData.salud" disabled> -->
+								<mpf-checkbox ng-show="formData.dataContractor2.McaReciboPendienteSalud === 'N'" type="checkbox" ng-model="formData.salud" disabled></mpf-checkbox>
+							</div>
+							<div class="g-check-box-label">
+								<ul class="box-label">
+									<li class="box-label-ico"><span class="ico-mapfre_34_salud"></span></li>
+									<li class="box-label-text">SCTR Salud</li>
+								</ul>
+							</div>
+						</div>
+					</div>
+
+				</div>
+			</div>
+		</div>
+
+		<!-- Especifique la actividad -->
+		<div class="g-section g-border-bottom h-myd-mt--20">
+			<div class="container">
+				<div class="row">
+					<div class="col-md-12">
+						<h2 class="g-sub-title g-myd-subtitle">Especifique la actividad</h2>
+					</div>
+          <div ng-hide="formData.mActEco" class="col-md-4 col-md-offset-4 text-center mt-xs-3 h-myd-mt--20">
+            <a ng-click="showModalActivities()" class="g-btn-verde btn-lg"><span>BUSCA Y SELECCIONA UNA ACTIVIDAD</span></a>
+          </div>
+          <div ng-show="formData.mActEco">
+            <div class="col-md-4 mb-xs-2">
+              <div ng-if="!formData.paso3Grabado">
+                <div class="actividad-seleccionada">
+                  <h3 class="g-label mb-xs-2 h-myd-mb--5">Actividad</h3>
+                  <span class="cod col-15-dktp">{{formData.mActEco.CodigoCiiuEmp}}</span>
+                  <span class="descAct col-75-dktp">{{formData.mActEco.DescripcionCiiuEmp}}</span>
+                  <span ng-click="showModalActivities()" class="ico-opneAct col-6-dktp"><i class="glyphicon glyphicon-edit"></i></span>
+                </div>
+              </div>
+
+              <div ng-if="formData.paso3Grabado">
+                <div class="actividad-seleccionada">
+                  <h3 class="g-label mb-xs-2 h-myd-mb--5">Actividad</h3>
+                  <span class="cod col-15-dktp">{{formData.mActEco.CodigoCiiuEmp}}</span>
+                  <span class="descAct col-85-dktp">{{formData.mActEco.DescripcionCiiuEmp}}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+					<div class="col-md-4 mb-xs-2" ng-if="!formData.paso3Grabado" ng-show="formData.mActEco">
+						<!-- <mpf-select label="{label: 'Subactividad', required: true}" name="subactividad" ng-model="formData.subactividad" m-data-source="formData.arrayExample" m-Empty-Option="{enterData:true}" mpf-validation="required"></mpf-select>
+						<div class="g-error" ng-show="frmSCTR2.subactividad.$error.required && !frmSCTR2.subactividad.$pristine && formData.arrayExample.length>0">* Seleccione la subactividad</div> -->
+						<div ng-hide="formData.subactividad.Descripcion" class="col-md-12 text-center mt-xs-3 h-myd-mt--20">
+	            <a ng-click="showModalSubActivities()" class="g-btn-verde btn-lg">SELECCIONA UNA SUBACTIVIDAD</a>	           
+	          </div>
+	          
+	          <div class="col-md-12 text-center mt-xs-3 h-myd-mt--20 g-error" ng-show="!formData.subactividad.Descripcion && showRequieredSubActivity" style="">* Seleccione la subactividad</div>
+
+
+            <div ng-if="!formData.paso3Grabado && formData.subactividad.Descripcion">
+              <div class="actividad-seleccionada subactividad-seleccionada">
+                <h3 class="g-label mb-xs-2 h-myd-mb--5">Subctividad</h3>
+                <span class="cod col-15-dktp">{{formData.subactividad.Codigo}}</span>
+                <span class="descAct col-75-dktp">{{formData.subactividad.Descripcion}}</span>
+                <span ng-click="showModalSubActivities()" class="ico-opneAct col-6-dktp"><i class="glyphicon glyphicon-edit"></i></span>
+              </div>
+            </div>
+					</div>
+
+					<div class="col-md-3 mbxs-2" ng-if="!formData.paso3Grabado" ng-show="formData.mActEco">
+						<div class="g-box gBgcGray5 pt-xs-1 pb-xs-1 pl-xs-1 mt-xs-1 h-myd-mt--0 g-myd-box--info">
+	            <span class="ico-mapfre_222_informacion gCBlue2 gnIcon-xsm g-cell-middle"></span>
+	            <span class="g-cell-middle pl-xs-1">Si no encuentra la subactividad, por favor comunicarse con su gestor.</span>
+	          </div>
+					</div>
+
+					<div class="col-md-4 mb-xs-2" ng-if="formData.paso3Grabado" ng-show="formData.mActEco">
+						<div class="actividad-seleccionada subactividad-seleccionada">
+              <h3 class="g-label mb-xs-2 h-myd-mb--5">Subactividad</h3>
+              <span></span>
+              <span>{{formData.subactividad ? formData.subactividad.Descripcion : ''}}</span>
+            </div>
+					</div>
+
+				<div class="col-md-12 mb-xs-2" ng-if="!formData.paso3Grabado && formData.mActEco">
+						<h3 class="g-label mb-xs-2">Cláusulas</h3>
+						<!-- <div id="clausulas" class="g-summary-box rounded" ng-repeat="clau in formData.clausulaAutomatica2"><p ng-bind-html="clau.Nombre"></p> -->
+						<div id="clausulas" class="g-summary-box rounded" ng-repeat="clau in formData.clausulaAutomatica2"><p ng-bind-html="clau.Nombre"></p></div>
+				</div>
+				
+
+				<div class="col-md-12 mb-xs-2" ng-if="formData.paso3Grabado && formData.clausulaAutomatica2">
+						<h3 class="g-label mb-xs-2">Cláusulas</h3>
+						<!-- <div id="clausulas" class="g-summary-box rounded" ng-repeat="clau in formData.clausulaAutomatica2"><p ng-bind-html="clau.Nombre"></p> -->
+						<div id="clausulas" class="g-summary-box rounded" ng-repeat="clau in formData.clausulaAutomatica2"><p ng-bind-html="clau.Nombre"></p></div>
+				</div>
+
+				<div class="col-md-12 mb-xs-2" ng-if="formData.paso3Grabado && cotizacion[0].Solicitud.ClausulaAutomatica">
+					<h3 class="g-label mb-xs-2">Cláusulas</h3>
+						<div id="clausulas" class="g-summary-box rounded">
+							<p ng-bind-html="cotizacion[0].Solicitud.ClausulaAutomatica"></p>							
+						</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+		<!-- Detalles del Riesgo -->
+		<div class="g-section h-myd-mt--20" ng-show="formData.mActEco">
+			<div class="container">
+				<div class="row"><div class="col-md-12"><h2 class="g-sub-title g-myd-subtitle">Detalles del Riesgo</h2></div></div>
+				<div class="row mb-md-1">
+
+					<div class="col-md-6 mb-xs-2" ng-if="!formData.paso3Grabado">
+						<mpf-select label="{label: 'Frecuencia de declaración', required: true}" name="nFrecDeclaracion" ng-model="formData.mFrecDeclaracion" m-data-source="frecDeclaracionData" m-Empty-Option="{enterData:true}" mpf-validation="required" ng-change="changeCobertura()" ng-required="true" ></mpf-select>
+
+						<div class="g-error" ng-show="frmSCTR2.nFrecDeclaracion.$error.required && !frmSCTR2.nFrecDeclaracion.$pristine">* Seleccione la frecuencia</div>
+					</div>
+
+	        <div class="col-md-6 mb-xs-2" ng-if="formData.paso3Grabado">
+	          <label class="mb-md-2"><strong>Frecuencia de declaración*</strong></label><br>
+	          <span>{{formData.mFrecDeclaracion.Descripcion}}</span>
+	        </div>
+
+         	<div class="col-md-2 mb-xs-2" ng-if="formData.paso3GrabadoNotEdit">
+	          <label class="mb-md-2"><strong>Fecha Inicio*</strong></label><br>
+	          <span>{{formData.desde | date:"dd/MM/yyyy" }}</span>
+	        </div>
+
+					<!-- <div class="col-md-3" ng-if="formData.duraciones"> -->
+					<div class="col-md-3 mb-xs-2" ng-if="!formData.paso3GrabadoNotEdit">
+            <div class="g-date-picker pt-md-0">
+              <label class="g-placeholder block">Fecha Inicio*</label>
+              <p class="input-group mb-xs-0">
+                <input type="text" class="form-control" uib-datepicker-popup="{{format}}" ng-model="formData.mConsultaDesde" is-open="popup1.opened" datepicker-options="dateOptions" ng-required="true" close-text="Close" alt-input-formats="altInputFormats" placeholder="{{hoy}}" readonly="true" />
+                <span class="input-group-btn">
+                    <button type="button" class="btn btn-default" ng-click="open1()"><i class="glyphicon glyphicon-calendar"></i></button>
+                </span>
+              </p>
+            </div>
+          </div>
+					<div class="col-md-3 mb-xs-2" ng-if="formData.duraciones && !formData.paso3GrabadoNotEdit">
+						<mpf-select label="{label: 'Duración de la cobertura', required: true}" name="nDuracionCobertura" ng-model="formData.mDuracionCobertura" m-data-source="duracionCoberturaData" m-Empty-Option="{enterData:false}" mpf-validation="required" ng-required="true" ></mpf-select>
+
+						<div class="g-error" ng-show="frmSCTR2.nDuracionCobertura.$error.required && !frmSCTR2.nDuracionCobertura.$pristine">* Seleccione la duracion</div>
+					</div>
+
+					<div class="col-md-3 mb-xs-2" ng-if="formData.paso3GrabadoNotEdit">
+	          <label class="mb-md-2"><strong>Duración de la cobertura*</strong></label><br>
+	          <span>{{formData.descripcionDuracion}}</span>
+	        </div>
+				</div>
+				<div class="row mb-md-3 ">
+					<div class="col-md-12 mb-xs-2">
+						<mpf-input ng-Maxlength="80" label="{label:'Centro de riesgo', required: true}" ng-model="formData.mCentroRiesgo" validate="validate[required]" name="nCentroRiesgo" ng-required="true" ng-disabled="formData.paso3Grabado"></mpf-input>
+
+						<div class="g-error" ng-show="frmSCTR2.nCentroRiesgo.$error.required && !frmSCTR2.nCentroRiesgo.$pristine">* Ingrese centro</div>
+					</div>
+<!-- @TODO Jordi - Eliminación a confirmar
+					<div class="col-md-6 mb-xs-2">
+						<mpf-input label="{label:'Descripción de trabajo', required: false}" ng-model="formData.mDescripcionTrabajo" validate="validate[required]" ng-required="false" name="nDescripcionTrabajo"  ng-Maxlength="1" ng-disabled="true"></mpf-input>
+
+						<div class="g-error" ng-show="frmSCTR2.nDescripcionTrabajo.$error.required && !frmSCTR2.nDescripcionTrabajo.$pristine">* Ingrese descripción</div>
+					</div> -->
+				</div>
+			</div>
+		</div>
+
+		<!-- Dirección del contratante -->
+		<div class="g-section" ng-hide="true">
+			<div class="container">
+				<mpf-contractor-address data="formData.contractorAddress"  is-Valid="addressValid" setter-Ubigeo="setterUbigeo" clean-Ubigeo="cleanUbigeo"></mpf-contractor-address>
+			</div>
+		</div>
+
+		<!-- Button -->
+		<div class="g-section g-step-action" ng-show="formData.mActEco">
+			<div class="container">
+				<div class="row mb-md-1">
+					<span class="col-md-4 gCGray3">*Campos obligatorios</span>
+					<div class="col-md-4">
+						<div class="row">
+							<a class="col-md-12 g-btn g-btn-verde" ng-click="showModalConfirmation()">Guardar y Seguir</a>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+</div>
+</form>

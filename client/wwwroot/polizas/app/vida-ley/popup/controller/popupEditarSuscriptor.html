@@ -1,0 +1,149 @@
+<section class="g-page page-modal">
+  <button type="button" class="close g-close-modal" ng-click="closeModal()">
+    <span class="ico-mapfre_46_cancelaroff"></span>
+  </button>
+
+  <form name="form.frmMaintenanceForm">
+    <div ng-if="!message">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-12 mb-xs-2 g-title-modal">
+            <h2>EDITAR SUSCRIPTOR</h2>
+          </div>
+        </div>
+      </div>
+
+      <div class="container">
+        <div class="row">
+          <div class="col-md-4 mb-xs-2">
+            <label class="mb-md-2 h-myd-mb--5"><strong>Usuaro OIM:*</strong></label
+            ><br />
+            <span>{{ formData.CodigoUsuario }}</span>
+          </div>
+
+          <div class="col-md-4 mb-xs-2">
+            <mpf-input
+              label="{label: 'Nombres:', required: true}"
+              ng-model="formData.Nombres"
+              name="nNombre"
+              ng-required="true"
+            ></mpf-input>
+            <ul class="g-error">
+              <li
+                ng-show="form.frmMaintenanceForm.nNombre.$error.required && !form.frmMaintenanceForm.nNombre.$pristine"
+              >
+                * Este campo es obligatorio
+              </li>
+            </ul>
+          </div>
+          <div class="col-md-4 mb-xs-2">
+            <mpf-input
+              label="{label: 'Ape. Paterno:', required: true}"
+              ng-model="formData.ApellidoPaterno"
+              name="nApelPSus"
+              ng-required="true"
+            ></mpf-input>
+            <ul class="g-error">
+              <li
+                ng-show="form.frmMaintenanceForm.nApelPSus.$error.required && !form.frmMaintenanceForm.nApelPSus.$pristine"
+              >
+                * Este campo es obligatorio
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-4 mb-xs-2">
+            <mpf-input
+              label="{label: 'Ape. Materno:', required: true}"
+              ng-model="formData.ApellidoMaterno"
+              name="nApelMSus"
+              ng-required="true"
+            ></mpf-input>
+            <ul class="g-error">
+              <li
+                ng-show="form.frmMaintenanceForm.nApelMSus.$error.required && !form.frmMaintenanceForm.nApelMSus.$pristine"
+              >
+                * Este campo es obligatorio
+              </li>
+            </ul>
+          </div>
+          <div class="col-md-4 mb-xs-2">
+            <mpf-select
+              ng-model="formData.TipoDocumento"
+              name="nTipoDocumento"
+              label="{label: 'Tipo Documento:', required: false}"
+              m-data-source="tipoDocumentosList"
+              text-field="Descripcion"
+              value-field="Codigo"
+              m-Empty-Option="{enterData:true}"
+              mpf-validation="required"
+              ng-change="showNaturalPerson(mTipoDocumentoSus);"
+            ></mpf-select>
+          </div>
+          <div class="col-md-4 mb-xs-2">
+            <mpf-input
+              label="{label: 'Nro. Documento:', required: false}"
+              name="nNumeroDocumento"
+              ng-model="formData.CodigoDocumento"
+              mpf-validation="onlyNumber"
+              ng-required="true"
+              ng-maxlength="docNumMaxLength"
+              ng-minlength="docNumMaxLength"
+            ></mpf-input>
+
+            <div
+              class="g-error"
+              ng-show="form.frmMaintenanceForm.nNumeroDocumento.$error.required && !form.frmMaintenanceForm.nNumeroDocumento.$pristine"
+            >
+              * Ingrese número de documento
+            </div>
+          </div>
+        </div>
+         <div class="row">
+          <div class="col-md-4 mb-xs-2">
+            <mpf-input
+              label="{label: 'Email:', required: true}"
+              ng-model="formData.Correo"
+              name="nCorreo"
+              ng-required="true"
+            ></mpf-input>
+            <ul class="g-error">
+              <li
+                ng-show="form.frmMaintenanceForm.nCorreo.$error.required && !form.frmMaintenanceForm.nCorreo.$pristine"
+              >
+                * Este campo es obligatorio
+              </li>
+            </ul>
+          </div>
+          <div class="col-md-4 mb-xs-2">
+            <mpf-select
+              label="{label: 'Estado', required: true}"
+              name="mEstadoSusN"
+              ng-model="formData.Estado"
+              m-Empty-Option="{enterData:false}"
+              ng-required="true"
+              m-data-source="vm.listEstados"
+              text-field="Descripcion" 
+              value-field="Valor1">
+            </mpf-select>
+
+            <ul class="g-error">
+              <li ng-show="!formData.Estado.Valor1  && !form.frmMaintenanceForm.mEstadoSusN.$pristine">
+                * Este campo es obligatorio
+              </li>
+            </ul>
+          </div>
+         </div> 
+      </div>
+      
+      <div class="container">
+        <div class="row">
+          <div class="col-md-6 col-md-offset-3 mt-md-3">
+            <a href="" class="g-btn g-btn-verde block" ng-click="guardarSuscriptor()">Actualizar</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+</section>

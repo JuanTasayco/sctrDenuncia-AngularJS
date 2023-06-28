@@ -1,0 +1,51 @@
+<section class="">
+  <button type="button" class="close g-close-modal" ng-click="$ctrl.closeModal()">
+    <span class="ico-mapfre_231_cancelaroff"></span>
+  </button>
+  <form name="frm">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12 g-text-center-xs mb-xs-2">
+          <h2 class="gH3"><b>INICIAR REPARACIÓN</b></h2>
+        </div>
+      </div>
+    </div>
+    <div class="container">
+      <div class="col-md-12">
+        <div class="row mb-xs-3">
+          <div class="col-md-5 col-md-offset-1 mt-xs-1">
+            <m-radio label="{label: 'Ningún repuesto pendiente'}" name="nNoRepuestoPend" ng-model="mNoRepuestoPend" value="1" data-ng-required="true"></m-radio>
+          </div>
+          <div class="col-md-5 mt-xs-1">
+            <m-radio label="{label: 'A la espera de repuestos'}" name="nEsperaRespuesto" ng-model="mEsperaRespuesto" value="2" data-ng-required="true"></m-radio>
+          </div>
+        </div>
+        <div class="row mb-xs-4">
+          <div class="col-md-5 col-md-offset-1">
+            <mpf-datepicker
+              ng-model="mFechaFinRepa"
+              label="{label: 'Fecha fin de la reparación:', required: true}"
+              format="format"
+              name="nFechaFinRepa"
+              ng-required="false"
+              ng-change=""
+              mpf-validate="required"
+              readonly="true"
+              maxDate="maxDate"
+              add-messages>
+            </mpf-datepicker>
+            <div class="g-error" ng-show="nFechaDesde.$error.required && !nFechaDesde.$pristine">* Seleccione una fecha</div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-5 col-md-offset-1 mb-xs-1 no-mb-md">
+            <a href="" class="g-btn g-btn-transparent block" ng-click="$ctrl.closeModal()">Cancelar</a>
+          </div>
+          <div class="col-md-5">
+            <a href="" class="g-btn g-btn-verde block" ng-click="$ctrl.fnIniRepa()">Iniciar registro</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+</section>

@@ -1,0 +1,107 @@
+<div class="container">
+  <div class="row">
+    <div class="clearfix">
+      <div tbl-oim class="col-xs-12 g-tbl-wrapper pl-xs-0 tbl-broker-reembolsos">
+        <div class="tbl-main">
+          <ul height-row class="tbl-header clearfix">
+            <li
+              class="title col-20-dktp text-center g-text-uppercase"
+              ng-repeat="header in $ctrl.headerTable track by $index"
+            >
+              {{ header }}
+            </li>
+          </ul>
+          <ul class="tbl-body clearfix">
+            <li ng-repeat="item in $ctrl.executivesList">
+              <ul
+                height-row class="tbl-row clearfix g-u-cursor--pointer"
+                ng-style="item.isDefaultConfiguration && item.isDefaultConfiguration === '1' && {'background': 'rgba(116, 152, 6, 0.1)'}"
+              >
+                <li class="cell text-center g-text-uppercase col-20-dktp">
+                  <div class="g-content-outer">
+                    <div class="g-content-inner">
+                      <mpf-checkbox
+                        class="fw-normal"
+                        name="nCheck"
+                        ng-model="item.isChecked"
+                        label=""
+                        ng-disabled="!(item.isActiveState)"
+                        ng-change="$ctrl.onCheck(item)">
+                      </mpf-checkbox>
+                    </div>
+                  </div>
+                </li>
+                <li class="cell text-center g-text-uppercase col-20-dktp">
+                  <span class="cell-label g-cut-text" style="line-height: 28px">
+                    <span class="cell-data">{{ item.executiveCode }}</span>
+                  </span>
+                </li>
+                <li class="cell text-center g-text-uppercase col-20-dktp">
+                  <span class="cell-label g-cut-text" style="line-height: 28px">
+                    <span class="cell-data">
+                      {{
+                        item.lastSinisterNumber !== undefined ?
+                          item.lastSinisterNumber :
+                          item.doctorCode
+                      }}
+                    </span>
+                  </span>
+                </li>
+                <li class="cell text-center g-text-uppercase col-20-dktp">
+                  <span class="cell-label mt-xs-0-5" style="line-height: 28px">
+                    <div>
+                      <div class="g-toggle">
+                        <div class="cntr">
+                          <div class="row press">
+                            <input
+                              ng-if="!item.isActiveState"
+                              type="checkbox"
+                              id="{{ item.itemId }}"
+                              class="cbx hidden"
+                              ng-model="item.isActiveState"
+                              ng-disabled="item.isActiveState"
+                              ng-change="$ctrl.onChangeState(item)"
+                            />
+                            <input
+                              ng-if="item.isActiveState"
+                              type="checkbox"
+                              id="{{ item.itemId }}"
+                              class="cbx hidden"
+                              ng-model="item.isActiveState"
+                              ng-disabled="!item.isActiveState"
+                              ng-change="$ctrl.onChangeState(item)"
+                            />
+                            <label for="{{ item.itemId }}" class="lbl"></label>
+                          </div>
+                        </div>
+                        <span></span>
+                      </div>
+                    </div>
+                  </span>
+                </li>
+                <li class="cell text-center g-text-uppercase col-20-dktp">
+                  <div class="g-content-outer">
+                    <div class="g-content-inner">
+                      <span
+                        class="gnIcon-sm gCGreen1 ico-mapfre_228_editar"
+                        ng-click="$ctrl.onEdit(item)">
+                      </span>
+                    </div>
+                  </div>
+                </li>
+              </ul>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="col-xs-12 mt-xs-4" ng-if="!$ctrl.isSoat">
+        <div class="row">
+          <div class="col-xs-1" style="background: rgba(116, 152, 6, 0.1); height: 19px;"></div>
+          <p class="col-xs-3">Configuración por defecto activada</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+

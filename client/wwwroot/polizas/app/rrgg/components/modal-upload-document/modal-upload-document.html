@@ -1,0 +1,97 @@
+<div class="clearfix page-rrgg__modal mb-xs-3 mb-md-4" id="formFile">
+  <button type="button" class="close g-close-modal" ng-click="$ctrl.close()">
+    <span class="ico-mapfre_231_cancelaroff"></span>
+  </button>
+  <div class="row no-margin-xs">
+    <div class="col-md-12 mb-xs-2 border-bottom pb-xs-2 pl-xs-0 pr-xs-0">
+      <h2 class="gH3"><b>{{$ctrl.data.type ? 'DOCUMENTACIÓN' : 'COMENTARIOS'}}</b></h2>
+    </div>
+    <div ng-if="$ctrl.data.type" class="col-xs-12 pr-xs-0 pl-xs-0">
+      <div class="row">
+        <div class="col-xs-12" ng-if="!$ctrl.data.emision.file.fileName">
+          <div class="clearfix g-box fz14 gBgcGray5 pt-xs-2 pb-xs-2">
+            <div class="col-md-12 mb-xs-1 text-center">
+              <span>Carga de documentos</span>
+            </div>
+            <div class="col-md-10 col-md-offset-1">
+              <label class="g-btn g-btn-white second-design block g-btn-input-file">
+                <span class="g-icon">
+                  <span class="icon icon-plus ico-mapfre_56_visitasalmedico"></span>
+                  <span>Escoger archivo</span>
+                </span>
+                <input type="file" multiple data-show-preview="false" id="file-upload{{index}}"
+                  name="file-upload{{index}}" file-model="$ctrl.data.emision.modelo.documentacion[$ctrl.data.item].documentosTemporal"
+                  ng-model="$ctrl.data.emision.modelo.documentacion[$ctrl.data.item].documentosTemporal"
+                  onchange="angular.element(this).scope().fnChangeLoadFile()"
+                  accept=".xls,.xlsx,.txt, .doc, .docx,.jpg,.gif,.bmp,.png,.pdf,.msg,.txt,.zip application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/vnd.ms-excel"
+                  ng-required="false" onclick="angular.element(this)[0].value=null;">
+              </label>
+              <ul class="g-error g-text-left-xs">
+                <li ng-show="$ctrl.replacePayroll.errorAttachFile">*
+                  Este campo es obligatorio</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div ng-if="$ctrl.data.type" class="container">
+      <div class="col-md-12">
+        <h2 class="g-sub-title c-red">Lista de documentos</h2>
+      </div>
+      <div class="col-md-12">
+        <div class="clearfix g-tbl-wrapper">
+          <div class="clearfix">
+            <ul height-row class="g-row-fz14 g-tbl-row gBgcGray5 pt-xs-1 list__flex">
+              <li class="g-col g-col-xs col-60-dktp tbl-item item-title">
+                NOMBRE
+              </li>
+              <li class="g-col g-col-xs col-40-dktp tbl-item item-title g-text-center-xs">
+                TIPO DOCUMENTO
+              </li>
+              <li class="g-col g-col-xs col-7-dktp   tbl-item g-text-center-xs item-title">
+                <p></p>
+              </li>
+            </ul>
+            <div class="gnContentAuto-bg">
+              <ul ng-repeat="item in $ctrl.data.emision.modelo.documentacion[$ctrl.data.item].documentos track by $index" height-row
+                class="g-row-fz14 g-tbl-row pt-xs-1 g-border-bottom-xs list__flex">
+                <li class="g-col g-col-xs col-60-dktp tbl-item list__flex">
+                  <p class="mb-xs-0">{{item.name}}</p>
+                </li>
+                <li class="g-col g-col-xs col-40-dktp tbl-item  list__flex">
+                  <mpf-select class="rg-select-no-header no-margin" ng-model="item.tipoDocumentoFile"
+                    name="tipoDocumentoFile{{$index}}" label="{label: ''}" m-data-source="$ctrl.tipoDocumento"
+                    text-field="NombreTipoDocumento" value-field="TipoDocumento" m-Empty-Option="{enterData:true}"
+                    ng-required="false">
+                  </mpf-select>
+                </li>
+                <li class="g-col g-col-xs  col-7-dktp tbl-item g-text-center-xs  list__flex">
+                  <span class="g-icon" ng-click="$ctrl.deleteFile($index)">
+                    <span class="icon icon-plus ico-mapfre-363-myd-eliminar"></span>
+                  </span>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div ng-if="!$ctrl.data.type" class="col-xs-12 pr-xs-0 pl-xs-0">
+      <mpf-textarea label="{label: 'Agrega un comentario', required: false}" name="comentarios"
+        ng-model="$ctrl.data.emision.modelo.documentacion[$ctrl.data.item].comentarios" ng-required="false">
+      </mpf-textarea>
+    </div>
+  </div>
+</div>
+<div class="h-myd-pt--0">
+  <div class="container">
+    <div class="row row-footer">
+      <div class="col-sm-3 mb-xs-2 mb-md-0"></div>
+      <div class="col-sm-4 col-sm-offset-1">
+        <a class="g-btn g-btn-verde block" ng-click="$ctrl.cargarMultipleFile()">{{$ctrl.data.type ? 'AGREGAR DOCUMENTO'
+          : 'AGREGAR COMENTARIO'}}</a>
+      </div>
+    </div>
+  </div>
+</div>

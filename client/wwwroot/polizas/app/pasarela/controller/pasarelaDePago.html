@@ -1,0 +1,206 @@
+<div class="container" ng-show="!dataSummary.recibo.flagPago">
+  <div class="g-myd-payment g-myd-box mt-xs-3 mb-xs-3">
+    <div class="form g-myd-payment--form">
+      <div class="col-12">
+        <h2 class="title" ng-if="showPaymentDirect && showPaymentDeferred">MÉTODO DE PAGO<span class="ico-mapfre_37_informacion no-margin-xs gCGreen1 pl-md-0-5 gH2"
+          uib-tooltip="{{ tooltipContent }}"
+          tooltip-placement="button"></span></h2>
+        <h2 class="title" ng-hide="showPaymentDirect && showPaymentDeferred" ng-if="showPaymentDirect"> PAGO DIRECTO<span class="ico-mapfre_37_informacion no-margin-xs gCGreen1 pl-md-0-5 gH2"
+          uib-tooltip="{{ tooltipContent }}"
+          tooltip-placement="button"></span></h2>
+        <h2 class="title" ng-hide="showPaymentDirect && showPaymentDeferred" ng-if="showPaymentDeferred">ENVIAR LINK<span class="ico-mapfre_37_informacion no-margin-xs gCGreen1 pl-md-0-5 gH2"
+          uib-tooltip="{{ tooltipContent }}"
+          tooltip-placement="button"></span></h2>
+      </div>
+      <!-- Inicio: TAB1 -->
+      <div class="row" ng-if="showPaymentDirect && showPaymentDeferred">
+        <div
+          class="g-tabs--doble g-section-tabs g-overflow-hidden-xs"
+          ng-class="{'mpf-tabs-fixed': boolChangeClassTabs, 'wt1200': changeTabWidth}"
+        >
+          <div>
+            <uib-tabset justified="true">
+              <uib-tab index="0" ng-if="showPaymentDirect" data-ng-click="setTooltipContent(true)">
+                <uib-tab-heading>DIRECTO</uib-tab-heading>
+                <div class="content-tab">
+                  <div class="cont-form">
+                    <lyra
+                      poliza="paymentParam.policy.policyNumber"
+                      cuota="paymentParam.policy.quoteNumber"
+                      ramo="paymentParam.policy.codeRamo"
+                    ></lyra>
+                  </div>
+                </div>
+              </uib-tab>
+              <uib-tab index="1" ng-if="showPaymentDeferred" data-ng-click="setTooltipContent(false)">
+                <uib-tab-heading>ENVIAR LINK</uib-tab-heading>
+                <form name="frmPayment">
+                  <div class="content-tab">
+                    <div class="cont-form c-email">
+                      <p class="description">Ingresa el correo electrónico a quien se le enviará el link de pago:</p>
+                      <div class="row">
+                        <div class="col-md-12 mt-xs-1">
+                          <mpf-input
+                            label="{label: 'Correo electrónico', required: false}"
+                            name="nEmail"
+                            ng-model="dataSummary.contratante.email"
+                            ng-required="true"
+                            data-mpf-validation="email"
+                            data-ng-maxlength="50"
+                            data-ng-minlength="2"
+                          >
+                          </mpf-input>
+                          <ul class="g-error">
+                            <li ng-show="frmPayment.nEmail.$invalid && !frmPayment.nEmail.$pristine">
+                              * Ingrese un correo
+                            </li>
+                          </ul>
+                        </div>
+                        <div class="col-md-10 col-md-offset-1 mt-xs-4">
+                          <button class="g-btn g-btn-verde second-design block" ng-click="sendMailPaymentDeferred()">
+                            ENVIAR CORREO
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </form>
+              </uib-tab>
+            </uib-tabset>
+          </div>
+        </div>
+      </div>
+      <!-- Fin: TAB1 -->
+      <div class="row" ng-hide="showPaymentDirect && showPaymentDeferred" ng-if="showPaymentDirect">
+        <div class="col-xs-12">
+          <div class="cont-form">
+            <lyra
+              poliza="paymentParam.policy.policyNumber"
+              cuota="paymentParam.policy.quoteNumber"
+              ramo="paymentParam.policy.codeRamo"
+            ></lyra>
+          </div>
+        </div>
+      </div>
+
+      <div class="row" ng-hide="showPaymentDirect && showPaymentDeferred" ng-if="showPaymentDeferred">
+        <div class="col-xs-12">
+          <div class="cont-form c-email">
+            <p class="description">Ingresa el correo electrónico a quien se le enviará el link de pago:</p>
+            <div class="row">
+              <div class="col-md-12 mt-xs-1">
+                <mpf-input
+                  label="{label: 'Correo electrónico', required: false}"
+                  name="nEmail"
+                  ng-model="dataSummary.contratante.email"
+                  ng-required="true"
+                  data-mpf-validation="email"
+                  data-ng-maxlength="50"
+                  data-ng-minlength="2"
+                >
+                </mpf-input>
+                <ul class="g-error">
+                  <li ng-show="frmPayment.nEmail.$invalid && !frmPayment.nEmail.$pristine">
+                    * Ingrese un correo
+                  </li>
+                </ul>
+              </div>
+              <div class="col-md-10 col-md-offset-1 mt-xs-4">
+                <button class="g-btn g-btn-verde second-design block" ng-click="sendMailPaymentDeferred()">
+                  ENVIAR CORREO
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="g-myd-payment--summary">
+      <h2 class="title">RESUMEN DE PAGO</h2>
+
+      <div class="g-myd-acordion" ng-class="{'active': $ctrl.showSummary ? '': !$ctrl.showSummary}">
+        <div class="g-myd-acordion--header" ng-click="$ctrl.showSummary = !$ctrl.showSummary">
+          <h2 class="title">RESUMEN DE PAGO</h2>
+          <i
+            ng-class="{'ico-mapfre_76_chevrondown': !$ctrl.showSummary, 'ico-mapfre_77_chevronup': $ctrl.showSummary}"
+          ></i>
+        </div>
+
+        <div class="g-myd-acordion--body">
+          <div class="g-myd-acordion--body-wrapper">
+            <div class="mb-xs-3">
+              <div class="box-summary">
+                <i class="{{ paymentParam.font }}"></i>
+                <div class="myd-info">
+                  <p class="myd-title">{{ dataSummary.poliza.nombreProducto }}</p>
+                  <div class="myd-date price">
+                    <span class="myd-label">Monto:</span>
+                    <span class="myd-item"
+                      >{{ dataSummary.recibo.simboloMoneda }} {{ dataSummary.recibo.montoPago }}</span
+                    >
+                  </div>
+                  <div class="myd-date">
+                    <span class="myd-label">Nro. de póliza:</span>
+                    <span class="myd-item">{{ dataSummary.poliza.numeroPoliza }}</span>
+                  </div>
+                  <div class="myd-date">
+                    <span class="myd-label">Nro. de recibo:</span>
+                    <span class="myd-item"
+                      >{{ dataSummary.recibo.numeroRecibo }}</span
+                    >
+                  </div>
+                  <div class="myd-date">
+                    <span class="myd-label">Cuota:</span>
+                    <span class="myd-item" ng-if="dataSummary.poliza.numeroCuotas=== 1 ">AL CONTADO </span>
+                    <span class="myd-item" ng-if="dataSummary.poliza.numeroCuotas!== 1 ">{{ dataSummary.poliza.cuotaPago }} de {{ dataSummary.poliza.numeroCuotas }} </span>
+                  </div>
+                  <div class="myd-date">
+                      <span class="myd-label">Vencimiento:</span>
+                      <span class="myd-item">{{ dataSummary.recibo.fechaVencimiento }} </span>
+                    </div>
+                </div>
+              </div>
+            </div>
+
+            <div>
+              <div class="box-summary">
+                <i class="ico-mapfre-350-myd-user"></i>
+
+                <div class="myd-info">
+                  <p class="myd-title">DATOS DEL CONTRATANTE</p>
+
+                  <div class="myd-date">
+                    <span class="myd-label">Nombre:</span>
+                    <span class="myd-item"
+                      >{{ dataSummary.contratante.nombres }}
+                      {{ dataSummary.contratante.apellidoPaterno }} {{dataSummary.contratante.apellidoMaterno}}
+                    </span>
+                  </div>
+
+                  <div class="myd-date">
+                    <span class="myd-label">Documento:</span>
+                    <span class="myd-item"
+                      >{{ dataSummary.contratante.tipoDocumento }} {{ dataSummary.contratante.numeroDocumento }}</span
+                    >
+                  </div>
+
+                  <div class="myd-date">
+                    <span class="myd-label">Correo:</span>
+                    <span class="myd-item">{{ emailDif | uppercase }}</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="g-myd-acordion--footer">
+          <span
+            ><strong>Monto total:</strong> {{ dataSummary.recibo.simboloMoneda }}
+            {{ dataSummary.recibo.montoPago }}</span
+          >
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

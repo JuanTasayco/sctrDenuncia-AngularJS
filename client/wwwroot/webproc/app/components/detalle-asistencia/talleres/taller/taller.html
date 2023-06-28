@@ -1,0 +1,74 @@
+<div class="col-md-12 g-box">
+  <div class="row g-box-body u-pt-xs-0">
+    <div class="clearfix">
+      <div class="col-md-12">
+        <span class="search-result-label asistencia-label">
+          {{::$ctrl.nombreTaller}}
+        </span>
+      </div>
+    </div>
+    <div class="col-xs-12 col-sm-4 search-result g-border-right mb-xs-1 mb-sm-0">
+      <span class="search-result-label"><b>DEDUCIBLE:</b></span>
+      <div class="row">
+        <div class="col-md-12">
+          <span class="search-result-label">Monto superior a:</span>
+          <span class="search-result-data">{{::$ctrl.montoSuperior}}</span>
+        </div>
+        <div class="col-md-12">
+          <span class="search-result-data">
+            {{$ctrl.txtMontoIndenmizable}}
+          </span>
+        </div>
+      </div>
+    </div>
+    <div class="col-xs-12 col-sm-4 search-result g-border-right mb-xs-1 mb-sm-0">
+      <div class="row">
+        <div class="col-md-12">
+          <span class="search-result-label"><b>TIPO DE TALLER:</b></span>
+          <span class="search-result-data">{{::$ctrl.tipoTaller}}</span>
+        </div>
+        <div class="col-md-12">
+          <span class="search-result-label">
+            <span class="ico-mapfre_25_ubicacion search-result-ico u-txt-size--18"></span>&nbsp;
+          </span>
+          <span class="search-result-data">{{$ctrl.datos.direccionTaller}}<span>
+        </div>
+        <div class="col-md-12" data-ng-show="$ctrl.datos.telefonoTaller">
+          <span class="search-result-label">
+            <span class="ico-mapfre_16_llamar search-result-ico u-txt-size--18"></span>&nbsp;
+          </span>
+          <span class="search-result-data">{{$ctrl.datos.telefonoTaller}}</span>
+        </div>
+      </div>
+    </div>
+    <div class="col-xs-12 col-sm-4 search-result">
+      <div
+        class="cnt-item"
+        data-ng-class="{'u-msk': $ctrl.idSeleccion === $ctrl.datos.codigoTaller}"
+      >
+        <a
+          class="g-btn block second-design"
+          data-ng-click="$ctrl.onSeleccionar()"
+          data-ng-class="$ctrl.idSeleccion === $ctrl.datos.codigoTaller ? 'g-btn-verde' : 'g-btn-white'"
+        >
+          <span class="g-icon">
+            <span>{{$ctrl.idSeleccion === $ctrl.datos.codigoTaller ? 'Seleccionado' : 'Seleccionar'}}</span>
+            <span
+              class="icon ico-mapfre_311_arrowRight"
+              data-ng-hide="$ctrl.idSeleccion === $ctrl.datos.codigoTaller"
+            >
+            </span>
+          </span>
+        </a>
+      </div>
+      <div
+        class="mb-xs-1 mt-xs-1 g-text-center-xs"
+        data-ng-if="$ctrl.idSeleccion === $ctrl.datos.codigoTaller"
+      >
+        <a class="g-link gCGreen1 gH4" data-ng-click="$ctrl.onDeseleccionar()">
+          <b>Elegir otro taller</b>
+        </a>
+      </div>
+    </div>
+  </div>
+</div>

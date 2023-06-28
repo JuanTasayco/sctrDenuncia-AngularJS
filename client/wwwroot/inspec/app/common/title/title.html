@@ -1,0 +1,27 @@
+<div fixed-section class="g-title" ng-class="{'fixed-section': boolChangeClass}">
+  <div class="container">
+    <div class="row" ng-if="$ctrl.hasActions">
+      <div class="col-md-6 col-sm-12 mb-xs-2 no-mb-md">
+        <h1>{{ $ctrl.title }}</h1>
+      </div>
+      <div class="col-md-6 col-sm-12 no-padding-sm">
+        <div ng-class="$ctrl.currentOffsetClass()"></div>
+        <div ng-if="$ctrl.canDo('REGSOL')" class="col-sm-4 mb-xs-1 no-mb-sm"><a ng-click="$ctrl.showNewRequest()" class="g-btn g-btn-white second-design block" title="Nueva solicitud" 
+          ga-click
+          ga-category="'INSPECCION AUTOS'"
+          ga-action="'Solicitudes - Botón Nueva Solicitud'"
+          ga-label="'Botón: Nueva Solicitud'" >Nueva solicitud</a></div>
+        <div ng-if="$ctrl.canDo('REGINS')" class="col-sm-4 mb-xs-1 no-mb-sm"><a ng-click="$ctrl.showNewInspection()" class="g-btn g-btn-white second-design block" title="Nueva inspección">Nueva inspección</a></div>
+        <div ng-if="$ctrl.canDo('ANUSOL')" class="col-sm-4" title="Anular"><a ng-click="$ctrl.showVoid()" ng-class="{disabled: $ctrl.selectedRequests <= 0 }" class="g-btn g-btn-green-border second-design block" title="Anular">Anular</a></div>
+      </div>
+    </div>
+    <div class="row" ng-if="!$ctrl.hasActions">
+				<div class="col-xs-10 col-sm-5 col-md-6 no-mb-sm">
+					<h1>{{ $ctrl.title }}</h1>
+        </div>
+        <div class="text-right col-xs-12 col-sm-12 col-md-6 btns-box mt-xs-1 mt-md-1" ng-if="$ctrl.fromRequest">
+          <a class="g-link green" ng-click="$ctrl.showContinueWithoutCotz()">Continuar sin cotización<span class="ico-mapfre_79_chevroneright"></span></a>
+        </div>
+    </div>
+  </div>
+</div>

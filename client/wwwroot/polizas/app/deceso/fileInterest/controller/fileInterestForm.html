@@ -1,0 +1,76 @@
+<section class="g-page page-vida-file-interest page-modal">
+	
+	<button type="button" class="close g-close-modal" ng-click="closeModal()">
+		<span class="ico-mapfre_231_cancelaroff"></span>
+	</button>
+
+	<form name="frmFileInterestForm">
+
+		<div class="container">
+			<div class="row">
+				<div class="col-md-12 g-text-center-xs mb-xs-2">
+					<h2 class="gH3"><b>{{modalTitle}}</b></h2>
+				</div>
+			</div>
+		</div>
+
+	  <div class="container">
+			<div class="row">
+				<div class="col-md-12 mb-xs-2">
+					<mpf-input label="{label: 'Archivo', required: true}" ng-model="mainStep.mArchivo" name="nArchivo" ng-required="true"></mpf-input>
+					<ul class="g-error">
+						<li ng-show="frmFileInterestForm.nArchivo.$error.required && !frmFileInterestForm.nArchivo.$pristine">* Este campo es obligatorio</li>
+					</ul>
+				</div>
+				<div class="col-md-12 mb-xs-2">
+					<label class="g-placeholder block mb-xs-1">{{modalAttachTitle}}<span>*</span></label>
+					<div class="row">
+						<div class="col-sm-6" ng-if="modalAttach">
+							<label class="g-btn g-btn-white second-design block g-btn-input-file">
+								Cargar Archivo
+								<input type="file" data-show-preview="false" name="nCargarArchivo" file-model="mainStep.mCargarArchivo" ng-model="mainStep.modelCargarArchivo" ng-required="false" onchange="angular.element(this).scope().changeLoadFile()">
+							</label>
+							<ul class="g-error">
+								<li ng-show="!errorAttachedFile">* Este campo es obligatorio</li>
+							</ul>
+						</div>
+						<div class="col-sm-12" ng-if="!modalAttach">
+							<ul class="g-box-attachment">
+								<li class="box-content">
+									<span class="ico-mapfre_92_emitir box-ico"></span>
+									{{modalPathAttach}}
+									<a href="" class="box-close" ng-click="clearFileAttach()"><span class="ico-mapfre_46_cancelaroff"></span></a>
+								</li>
+							</ul>
+						</div>
+					</div>
+				</div>
+				<div class="col-md-12 mb-xs-2">
+					<mpf-input label="{label: 'Descripción', required: false}" ng-model="mainStep.mDescripcion" name="nDescripcion" ng-required="false" ng-maxlength="90"></mpf-input>
+					<ul class="g-error">
+						<li ng-show="frmFileInterestForm.nDescripcion.$error.required && !frmFileInterestForm.nDescripcion.$pristine">* Este campo es obligatorio</li>
+					</ul>
+				</div>
+				<div class="col-md-12 mb-xs-2">
+					<mpf-select label="{label: 'Estado', required: true}" name="nEstado" ng-model="mainStep.mEstado" m-data-source="mainStep.stateData" text-field="Descripcion" value-field="Codigo" m-Empty-Option="{enterData:true}" mpf-validation="required"></mpf-select>
+					<ul class="g-error">
+						<li ng-show="frmFileInterestForm.nEstado.$error.required && !frmFileInterestForm.nEstado.$pristine">* Este campo es obligatorio</li>
+					</ul>
+				</div>
+			</div>
+	  </div>
+
+	  <div class="container">
+	  	<div class="row">
+	  		<div class="col-md-6 mb-xs-1 no-mb-md">
+	  			<a href="" class="g-btn g-btn-white block" ng-click="closeModal()">cerrar</a>
+	  		</div>
+	  		<div class="col-md-6">
+	  			<a href="" class="g-btn g-btn-verde block" ng-click="saveFileInterest()">grabar</a>
+	  		</div>
+	  	</div>
+	  </div>
+
+	</form>
+
+</section>

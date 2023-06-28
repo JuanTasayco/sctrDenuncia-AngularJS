@@ -1,0 +1,110 @@
+<section class="g-page-popup">
+  <button type="button" class="close g-close-modal" ng-click="closeModal()">
+    <span class="ico-mapfre_231_cancelaroff"></span>
+  </button>
+
+  <form name="formPlan">
+    <div class="container g-modal-header g-text-uppercase pb-xs-2">
+      <div class="col-xs-12">
+        <div class="row">
+          <div class="col-md-12 mb-xs-1">
+            <h2 class="gH3"><b>Editar</b> {{mContrato.nombreContrato}}</h2>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="container g-modal-body pt-xs-2 pb-xs-2">
+      <div class="col-xs-12">
+        <div class="row mb-xs-2">
+          <div class="col-xs-12">
+            <p class="g-text-uppercase gCGray3">Nombre comercial</p>
+            <mpf-input
+              label="{label: '', required: true}"
+              name="nNombreComercial"
+              ng-model="mContrato.plan.nombre"
+              ng-required="true"
+            ></mpf-input>
+            <ul class="g-error">
+              <li ng-show="formPlan.nNombreComercial.$invalid && !formPlan.nNombreComercial.$pristine">* Este campo es obligatorio</li>
+            </ul>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-xs-12">
+            <p class="g-text-uppercase gCGray3">Subvencion por persona</p>
+            <mpf-input
+              label="{label: '', required: true}"
+              name="nSubvencion"
+              ng-model="mContrato.plan.subvencion"
+              ng-required="true"
+              mpf-validation="onlyNumberDecimal"
+            ></mpf-input>
+            <ul class="g-error">
+              <li ng-show="formPlan.nSubvencion.$invalid && !formPlan.nSubvencion.$pristine">* Este campo es obligatorio</li>
+            </ul>
+          </div>
+        </div>
+        <div class="row pt-xs-2">
+          <div class="col-xs-12">
+            <label class="g-btn g-btn-white block g-btn-input-file">
+              <span class="g-icon">
+                <span class="icon icon-plus"></span>
+                <span>+ CARGAR CONDICIONADO</span>
+              </span>
+              <input
+                type="file"
+                data-show-preview="false"
+                name="nSubirCondicionadoParticular"
+                accept=".pdf"
+                file-model="fmSubirCondicionadoParticular"
+                ng-model="mSubirCondicionadoParticular"
+                ng-required="false"
+                onchange="angular.element(this).scope().cargarCondicionadoParticular(this.files)"
+                class="ng-pristine ng-empty ng-valid ng-valid-required ng-touched"
+              />
+            </label>
+          </div>
+        </div>
+        <div class="row pt-xs-2">
+          <div class="col-xs-11">
+            <div class="gBgcWhite1 g-file-item pl-xs-1-5 bg-content-file-name" ng-show="vFileNameParticular">
+              <span class="doc-item g-span-middle">
+                <span class="doc-item__icon">
+                  <span class="ico-mapfre_315_pdf gnIcon-md"></span>
+                </span>
+                <span class="doc-item__name color-emitido fw-900">
+                  <span
+                    class="g-block g-cut-text gH5"
+                    ng-click="downloadFile()"
+                    uib-popover="{{mContrato.plan.condicionado}}"
+                    popover-trigger="'mouseenter'"
+                    >{{vFileNameParticular}}</span
+                  >
+                </span>
+              </span>
+            </div>
+          </div>
+          <div class="col-xs-1">
+            <div class="gBgcWhite1 g-file-item pt-6" ng-show="vFileNameParticular">
+              <span class="doc-item g-span-middle">
+                <span class="doc-item__close">
+                  <span class="ico-mapfre_307_tacho gnIcon-xsm" ng-click="deleteFile()"></span>
+                </span>
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="container g-modal-footer pt-xs-2">
+      <div class="col-md-4 col-md-offset-2 mb-xs-1 no-mb-md">
+        <a href="" class="g-btn g-btn-transparent block" ng-click="closeModal()">Cancelar</a>
+      </div>
+      <div class="col-md-4">
+        <button class="g-btn g-btn-verde block" ng-disabled="formPlan.$pristine && disabledButton" ng-click="saveModal()">Guardar</button>
+      </div>
+    </div>
+  </form>
+</section>

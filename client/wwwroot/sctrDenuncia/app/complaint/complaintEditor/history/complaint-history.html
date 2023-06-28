@@ -1,0 +1,182 @@
+<div id="form-views" class="g-history">
+    <div>
+        <div class="sec-auto g-section-inner">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12 mb-1">
+                        <h2 class="g-sub-title">Cartas de garant&iacute;a</h2>
+                    </div>
+                </div>
+                <div ng-repeat="cartag in $ctrl.viewdata.guaranteeLatters" class="row">
+                    
+                    <div class="col-md-12 mb-xs-2 item">
+                        <div class="clearfix g-box g-overflow-hidden-xs">
+                            <div class="row g-box-content part">
+                                
+                                <ul class="clearfix g-list second-design detail-data">
+                                    <li class="col-xs-12 col-sm-12">
+                                        <span class="item-label label-lateral-state">No</span>
+                                        <span class="item-label label-lateral-state">{{ cartag.anioNumeroVersion
+                                            }}</span>
+                                        <span class="state"
+                                            ng-class="{'state-anulado': cartag.estadoCarta=='ANULADA' , 'state-liquidado':cartag.estadoCarta=='LIQUIDADO', 'state-anulado':cartag.estadoCarta=='ANULADA', 'state-rechazado':cartag.estadoCarta=='RECHAZADA' }">{{
+                                            cartag.estadoCarta }}</span>
+                                        <span class="isaudit gBgcGray5">{{ cartag.desEstadoCarta }} <i
+                                                class="glyphicon glyphicon-eye-open"></i> </span>
+                                    </li>
+                                    <li class="col-xs-12 col-sm-12">
+                                        <b>{{ cartag.clinica }}</b>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="row pt-xs-1 gBgcGray5 part">
+                                <div class="col-md-2">
+                                    <span class="sc-title" >Fecha de ingreso</span></br>
+                                    <span class="sc-data">{{ cartag.fecIngreso | date: 'dd/MM/yyyy' }}</span>
+                                </div>
+                                <div class="col-md-2">
+                                    <span class="sc-title" >Monto Solicitado</span> </br>
+                                    <span class="sc-data" >{{ (cartag.monSolicitado ||0) | currency }}</span>
+                                </div>
+                                <div class="col-md-2">
+                                    <span class="sc-title" >Monto Aprobado</span> </br>
+                                    <span class="sc-data" >{{ (cartag.monAprobado || 0) | currency }}</span>
+                                </div>
+                                <div class="col-md-6">
+                                    <span class="sc-title" >Diagnóstico </span> </br>
+                                    <span class="sc-data" >{{ cartag.diagnostico }}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="sec-auto g-section-inner">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12 mb-1">
+                        <h2 class="g-sub-title">Liquidaciones</h2>
+                    </div>
+                </div>
+                
+                <div  ng-repeat="liq in $ctrl.viewdata.liquidations" class="row">
+                    <div class="col-md-12 mb-xs-2 item">
+                        <div class="clearfix g-box g-overflow-hidden-xs mb-xs-2">
+                            <div class="row g-box-content part">
+                                <ul class="clearfix g-list second-design detail-data">
+                                    <li class="col-xs-12 col-sm-12">
+                                        <span class="item-label">No</span>
+                                        <span class="item-label">{{ liq.anioNroLiqui }}</span>
+                                    </li>
+                                    <li class="col-xs-12 col-sm-12">
+                                        <b>{{ liq.clinica }}</b>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="row pt-xs-1 gBgcGray5 part">
+                                <div class="col-md-2">
+                                    <span class="sc-title" >Fecha de ingreso</span></br>
+                                    <span class="sc-data">{{ liq.fecIngreso | date: 'dd/MM/yyyy' }}</span>
+                                </div>
+                                <div class="col-md-2">
+                                    <span class="sc-title" >Importe</span> </br>
+                                    <span class="sc-data" >S/ {{ liq.importe }}</span>
+                                </div>
+                                <div class="col-md-8">
+                                    <span class="sc-title" >Diagnostico</span> </br>
+                                    <span class="sc-data" >{{ liq.diagnostico }}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+             
+            </div>
+        </div>
+        <div  class="sec-auto g-section-inner">
+            <div class="container">
+                <div class="row">
+
+                </div>
+                
+                <div class="row">
+                    <div class="col-md-12 item">
+                        <div class="clearfix g-box g-overflow-hidden-xs mb-xs-2">
+                            <div class="col-md-12 line">
+                                <span class="title-monto">Reserva Total Acumulada</span>
+                            </div>
+                            <div class="col-md-4 cont-monto">
+                                <span class="monto pag">{{ $ctrl.getPagada()|currency}}</span></br>
+                                <span class="title-monto">Pagada</span>    
+                            </div>
+                            <div class="col-md-4 cont-monto">
+                                <span class="monto pen">{{ $ctrl.getPendiente()|currency}}</span></br>
+                                <span class="title-monto">Pendiente</span>    
+                            </div>
+                            <div class="col-md-4 cont-monto">
+                                <span class="monto pen">{{ $ctrl.getPagada()+
+                                    $ctrl.getPendiente()|currency}}</span></br>
+                                <span class="title-monto">Reserva Total</span>    
+                            </div>
+                        </div>
+                    </div>
+                    
+                </div>
+            </div>
+        </div>
+        <div class="sec-auto g-section-inner">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12 mb-1">
+                        <h2 class="g-sub-title">Denuncias</h2>
+                    </div>
+                </div>
+
+                <div ng-repeat= "denun in $ctrl.viewdata.complaints" class="row">
+                    <div class="col-md-12 mb-xs-2 item">
+                        <div class="clearfix g-box g-overflow-hidden-xs mb-xs-2">
+                            <div class="row g-box-content part">
+                                <ul class="clearfix g-list second-design detail-data">
+                                    <li class="col-xs-12 col-sm-12">
+                                        <span class="item-label label-lateral-state">No</span>
+                                        <span class="item-label label-lateral-state">{{ denun.periodoDenuncia }} - {{
+                                            denun.nroDenuncia }}</span>
+                                        <span class="state"
+                                            ng-class="{'state-aprobado': denun.estado=='APROBADA' , 'state-registrado':denun.estado=='REGISTRADA'}">{{
+                                            denun.estado }}</span>
+                                      
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="row pt-xs-1 gBgcGray5 part">
+                                <div class="col-md-2">
+                                    <span class="sc-title" >Fecha de ocurrencia</span></br>
+                                    <span class="sc-data">{{ denun.fecDenuncia | date:'dd/MM/yyyy' }}</span>
+                                </div>
+                                <div class="col-md-2">
+                                    <span class="sc-title" >Tipo</span> </br>
+                                    <span class="sc-data" >{{ denun.tipoAccidente }}</span>
+                                </div>
+                                <div class="col-md-2">
+                                    <span class="sc-title" >No. de poliza</span> </br>
+                                    <span class="sc-data" >{{ denun.nroPoliza }}</span>
+                                </div>
+                                <div class="col-md-4">
+                                    <span class="sc-title" >Cliente </span> </br>
+                                    <span class="sc-data">{{ denun.razonSocialCliente }} - {{ denun.tipoDocCliente }} {{
+                                        denun.nroDocCliente }}</span>
+                                </div>
+
+                                <div class="col-md-2">
+                                    <span class="sc-title" >Total gastado</span></br>
+                                    <span class="sc-data">{{ denun.totGastado }}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

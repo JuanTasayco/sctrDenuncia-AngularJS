@@ -1,0 +1,192 @@
+<div class="clearfix">
+    <button type="button" class="close g-close-modal" ng-click="$ctrl.close()" prevent-default>
+      <span class="ico-mapfre_231_cancelaroff"></span>
+    </button>
+    <div class="container">
+      <div class="row mb-md-2">
+        <div class="col-md-12 g-text-center-xs mb-xs-2">
+          <a class="g-btn col-xs" style="border: none; padding-left: 12px; float: right;" ng-if="showBack" ng-click="$ctrl.redirectToStep1()">
+              <span class="glyphicon glyphicon-remove"></span>
+          </a>
+          <h2 class="gH3"><b>Denuncias de Accidentes</b></h2>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-xs-12">
+          <div class="clearfix">
+            <ul class="clearfix g-list-md mb-xs-1">
+              <li class="col-md-6 clearfix cnt-item">
+                <div class="col-xs-4 item-label">
+                  <span class="ico-mapfre_82_circle ico-bullet"></span>
+                  Apellidos y Nombres:
+                </div>
+                <div class="col-xs-8 item-dato g-text-uppercase">
+                  {{$ctrl.data.affiliate.fullName}}
+                </div>
+              </li>
+              <li class="col-md-6 clearfix cnt-item">
+                <div class="col-xs-4 item-label">
+                  <span class="ico-mapfre_82_circle ico-bullet"></span>
+                  Clínica:
+                </div>
+                <div class="col-xs-8 item-dato g-text-uppercase">
+                  {{$ctrl.data.clinic.description}}
+                </div>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      
+      <div class="row" ng-if="$ctrl.data.isClientVIP || $ctrl.showSectionVIP">
+        <div class="col-xs-12">
+          <div  class="clearfix g-list-md g-box pt-xs-1 pb-xs-1 g-row-fz12 mb-xs-1 ng-scope">
+            <div class="col-md-10 g-col-md middle">
+              <h2 class="gH5">
+                <b> {{$ctrl.msgSectionVIP}}</b>
+              </h2>
+            </div>
+            <div class="col-md-2 g-col-md middle">
+              <a class="g-btn second-design g-btn-green-border block"
+                ng-click="$ctrl.continueVip();">
+                Continuar sin denuncia
+              </a>
+            </div>
+            
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-xs-12">
+          <!-- <div class="modal-body__scroll"> -->
+          <div>
+            <!-- data-ng-repeat="complaint in $ctrl.data.complaints"> -->
+            <div  class="clearfix g-list-md g-box gBgcGray5 pt-xs-1 g-row-fz12 mb-xs-1 ng-scope" 
+              data-ng-repeat="complaint in $ctrl.localComplaints">
+              <div class="col-md-10 g-col-md middle">
+                <ul class="row">
+                  <li class="col-md-3 clearfix cnt-item">
+                    <div class="col-xs-5 item-label">
+                      No. Denuncia:
+                    </div>
+                    <div class="col-xs-7 item-dato g-text-uppercase">
+                      {{ complaint.complaintYear + ' - ' + complaint.complaintNumber }}
+                    </div>
+                  </li>
+                  <li class="col-md-3 clearfix cnt-item">
+                    <div class="col-xs-5 item-label">
+                      Fec. Ocurrencia:
+                    </div>
+                    <div class="col-xs-7 item-dato g-text-uppercase">
+                      {{complaint.incidenceDate | date: 'dd/MM/yyyy'}}
+                    </div>
+                  </li>
+                  <li class="col-md-6 clearfix cnt-item">
+                    <div class="col-xs-3 item-label">
+                      Contratante:
+                    </div>
+                    <div class="col-xs-9 item-dato g-text-uppercase">
+                      {{complaint.clientName}}
+                    </div>
+                  </li>
+                </ul>
+                <ul class="row">
+                  <li class="col-md-3 clearfix cnt-item">
+                    <div class="col-xs-5 item-label">
+                      Tipo Declaración:
+                    </div>
+                    <div class="col-xs-7 item-dato g-text-uppercase">
+                      {{complaint.declarationName}}
+                    </div>
+                  </li>
+                  <li class="col-md-3 clearfix cnt-item">
+                    <div class="col-xs-5 item-label">
+                      Estado:
+                    </div>
+                    <div class="col-xs-7 item-dato g-text-uppercase">
+                      {{complaint.status.description}}
+                    </div>
+                  </li>
+                  <li class="col-md-6 clearfix cnt-item">
+                    <div class="col-xs-3 item-label">
+                      Descripci&oacute;n del accidente:
+                    </div>
+
+                    <div class="col-xs-9 item-dato g-text-uppercase">
+                      
+                      <button 
+                        type="button"
+                        class="form-control g-text-uppercase" 
+                        style="border: 0; background-color: inherit; outline:none !important;
+                        outline-width: 0 !important;
+                        box-shadow: none; 
+                        -moz-box-shadow: none; 
+                        -webkit-box-shadow: none;
+                        padding: 0;
+                        text-align: left;"
+                        uib-popover-template="dynamicPopover.templateUrl"
+                        popover-placement="{{complaint.placement}}"
+                        popover-trigger="'focus'">
+                        {{$ctrl.truncText(complaint.description)}}
+                      </button>
+
+                      <script type="text/ng-template" id="denunciaRelatoTooltipPlantilla.html">
+                        <div style="max-width: 500px; max-height: 250px; overflow-x: hidden; overflow-y: auto;">
+                          <p>
+                              {{ complaint.description }}
+                          </p>
+                        </div>
+                      </script>
+                    </div>
+                  </li>
+                </ul>
+                <ul class="row">
+                  <li class="col-md-3 clearfix cnt-item">
+                    <div class="col-xs-5 item-label">
+                      Beneficio:
+                    </div>
+                    <div class="col-xs-7 item-dato g-text-uppercase">
+                      {{ complaint.benefit.description }}
+                    </div>
+                  </li>
+                  <li class="col-md-7 clearfix cnt-item">
+                    <div class="col-xs-2 item-label">
+                      Cl&iacute;nica:
+                    </div>
+                    <div class="col-xs-10 item-dato g-text-uppercase">
+                      {{complaint.clinic.description}}
+                    </div>
+                  </li>
+                </ul>
+              </div>
+              <div class="col-md-2 g-col-md middle">
+                <a class="g-btn g-btn-white second-design block" 
+                  ng-class="{disabled: complaint.status.code === statusRejectedCode}"
+                  ng-click="selectComplaint(complaint);">
+                  Seleccionar
+                </a>
+              </div>
+            </div>
+              </div>
+
+          <!-- Inicio: pagination -->
+          <div class="row">
+            <!-- <div class="col-md-12" ng-show="$ctrl.data.complaints.length > 0"> -->
+            <div class="col-md-12" ng-show="$ctrl.localComplaints.length > 0 && $ctrl.pagination.pageCont > 1">
+                <ul class="g-pagination" 
+                  uib-pagination
+                  max-size="$ctrl.pagination.maxSize"
+                  total-items="$ctrl.pagination.totalRecords"
+                  boundary-link-numbers="true"
+                  items-per-page="$ctrl.pagination.sizePerPage"
+                  ng-model="$ctrl.pagination.currentPage"
+                  ng-change="$ctrl.pageChanged($ctrl.pagination.currentPage)"
+                ></ul>
+            </div>
+          </div>
+          <!-- Fin: pagination -->
+        </div>
+      </div>
+    </div>
+  </div>

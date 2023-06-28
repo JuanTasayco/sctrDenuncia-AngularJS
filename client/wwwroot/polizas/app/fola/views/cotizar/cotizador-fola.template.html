@@ -1,0 +1,225 @@
+<section ng-form="vm.formFola" class="g-page page-fola-cotizar">
+  <div class="g-title g-border-bottom">
+    <div class="container">
+      <div class="row">
+        <div class="col-sm-8">
+          <a href="" ui-sref="homePolizasFola">
+            <span class="ico-mapfre_78_chevronleft arrow-left size-ico-arrow"></span>
+          </a>
+          <h1 class="ng-binding">Cotizador</h1>
+        </div>
+        <div class="col-sm-4 g-text-right-xs no-tablet">
+          <a href="" class="g-link-back" ui-sref="homePolizasFola"
+            ><span class="ico-mapfre_78_chevronleft arrow-left"></span>Volver a FOLA</a
+          >
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="g-section-inner">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12">
+          <h2 class="g-sub-title">Información general</h2>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-4 mb-xs-2">
+          <mp-data-seeker
+            behavior="{label:'Agente*', placeholder:'Buscar', matchField:'codigoNombre'}"
+            m-data-source="vm.findAgent"
+            ng-model="vm.agente"
+            ng-disabled="!vm.isAdmin"
+            ng-change="vm.saveAgent(vm.agente)"
+          >
+            <div ng-bind-html="$item.codigoNombre | highlight: $select.search"></div>
+          </mp-data-seeker>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-2 mb-xs-2">
+          <mpf-datepicker
+            label="{label: 'Fecha inicial', required: true}"
+            ng-model="vm.fechaInicio"
+            format="vm.format"
+            name="nFechaInicio"
+            minDate="vm.validadores.minStartDate"
+            mpf-validate-date="{ minDate: vm.formatearFecha(vm.validadores.minStartDate) }"
+            ng-disabled="disabled"
+            ng-required="true"
+            readonly="false"
+            nomargin="true"
+            data-ng-change="vm.onFechaInicioChanged()"
+          >
+          </mpf-datepicker>
+          <div class="g-error" ng-show="vm.formFola.nFechaInicio.$invalid && !vm.formFola.nFechaInicio.$pristine">
+            Este campo es obligatorio
+          </div>
+        </div>
+        <div class="col-md-2 mb-xs-2">
+          <mpf-datepicker
+            label="{label: 'Fecha final', required: true}"
+            ng-model="vm.fechaFin"
+            format="vm.format"
+            name="nFechaFin"
+            minDate="vm.validadores.minEndDate"
+            maxDate="vm.validadores.maxEndDate"
+            ng-required="true"
+            ng-disabled="disabled"
+            readonly="false"
+            nomargin="true"
+            data-ng-change="vm.onFechaFinChanged()"
+          >
+          </mpf-datepicker>
+          <div class="g-error" ng-show="vm.formFola.nFechaFin.$invalid && !vm.formFola.nFechaFin.$pristine">
+            Este campo es obligatorio
+          </div>
+        </div>
+        <div class="col-md-3 mb-xs-2">
+          <mpf-input
+            label="{label: 'RUC', required: true}"
+            name="nNumeroDocumento"
+            ng-model="vm.contratante.numeroDocumento"
+            ng-required="true"
+            ng-blur="vm.buscarContratante()"
+            ng-minlength="vm.validadores.minNumeroDoc"
+            ng-maxlength="vm.validadores.maxNumeroDoc"
+            mpf-validation="{{vm.validadores.typeNumeroDoc}}"
+            disabled-view-model="true"
+          >
+          </mpf-input>
+          <div
+            class="g-error"
+            ng-show="vm.formFola.nNumeroDocumento.$invalid && !vm.formFola.nNumeroDocumento.$pristine"
+          >
+            El RUC debe contar con 11 dígitos
+          </div>
+          <div class="g-error" ng-show="vm.emptyRuc">Los dos primeros dígitos deben empezar en 20</div>
+        </div>
+
+        <div class="col-md-3 mb-xs-2">
+          <mpf-input
+            label="{label: '',required: true }"
+            name="nNombreCompleto"
+            ng-model="vm.contratante.nombreCompleto"
+            ng-disabled="vm.desactivarControl()"
+            disabled-view-model="true"
+            ng-required="true"
+          >
+          </mpf-input>
+          <div class="g-error" ng-show="vm.formFola.nNombreCompleto.$invalid && !vm.formFola.nNombreCompleto.$pristine">
+            Este campo es obligatorio
+          </div>
+        </div>
+        <div class="col-md-2 mb-xs-2">
+          <mpf-select
+            label="{label: 'Fraccionamiento de pago', required: true}"
+            name="nFracPago"
+            ng-model="vm.fraccionamientoPago"
+            mpf-validation="required"
+            text-field="segundoValor"
+            value-field="primerValor"
+            m-Empty-Option="{enterData:true}"
+            ng-required="true"
+            m-data-source="vm.tiposFraccionamiento"
+          >
+          </mpf-select>
+          <div class="g-error" ng-show="vm.formFola.nFracPago.$invalid && !vm.formFola.nFracPago.$pristine">
+            Este campo es obligatorio
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-12">
+          <h2 class="g-sub-title">Asegurados</h2>
+        </div>
+      </div>
+      <!-- Tabla -->
+      <div class="col-md-12">
+        <div class="row topping table-riesgo g-box h-myd-m--1">
+          <div class="table-riesgo-title gBgcGray5">
+            <div class="container">
+              <div class="col-md-3 title-col g-text-uppercase">Grupo creados</div>
+              <div class="col-md-2 title-col g-text-uppercase">Cantidad</div>
+              <div class="col-md-2 title-col g-text-uppercase">Actividad</div>
+              <div class="col-md-3 title-col g-text- uppercase">Subvención por persona</div>
+              <div class="col-md-2 title-col"></div>
+            </div>
+          </div>
+
+          <div class="table-riesgo-main">
+            <div class="table-riesgo-row" ng-repeat="item in vm.riesgos">
+              <div class="table-riesgo-row-content">
+                <div class="container">
+                  <div class="col-md-3 col-xs-12 data-col">
+                    <div class="media-tablet"><span class="title-col g-text-uppercase">Grupo {{$index+1}}</span></div>
+                  </div>
+                  <div class="col-md-2 col-xs-12 data-col g-border-right">
+                    <mpf-input
+                      label="{label: '', required: true}"
+                      name="nCantidad{{$index+1}}"
+                      ng-model="item.cantidad"
+                      mpf-validation="onlyNumber"
+                      ng-disabled="disabled"
+                      disabled-view-model="true"
+                    >
+                    </mpf-input>
+                    <div
+                      class="g-error"
+                      ng-show="vm.formFola.nCantidad{{$index+1}}.$invalid && !vm.formFola.nCantidad{{$index+1}}.$pristine"
+                    >
+                      Este campo es obligatorio
+                    </div>
+                  </div>
+                  <div class="col-md-2 col-xs-12 data-col">
+                    <mp-data-seeker
+                      behavior="{label:'', placeholder:'', matchField:'nombre'}"
+                      name="nOcupacion{{$index+1}}"
+                      m-data-source="vm.ocupaciones"
+                      ng-model="item.ocupacion"
+                      ng-change="vm.saveOcupacion()"
+                    >
+                      <div ng-bind-html="$item.nombre | highlight: $select.search"></div>
+                    </mp-data-seeker>
+                  </div>
+                  <div class="col-md-2 col-xs-12 data-col g-border-left">
+                    <mpf-input
+                      label="{label: '', required: true}"
+                      name="nSubvencion{{$index+1}}"
+                      ng-model="item.subvencion"
+                      mpf-validation="onlyNumberDecimal"
+                      ng-disabled="disabled"
+                      disabled-view-model="true"
+                    >
+                    </mpf-input>
+                  </div>
+                  <div class="col-md-3 col-xs-12 data-col g-border-left text-right">
+                    <a href="javascript:void(0)" ng-show="vm.riesgos.length > 1" ng-click="vm.eliminarRiesgo($index)">
+                      <span class="gnIcon-md ico-mapfre_307_tacho h-myd--none"></span>
+                      <span
+                        class="gnIcon-md ico-mapfre-363-myd-eliminar h-myd-color--green h-myd--show h-oim-none"
+                      ></span>
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- FIn tabla -->
+      <!-- Acciones -->
+      <div class="row">
+        <div class="col-sm-3 col-sm-offset-6 mt-xs-1">
+          <a class="g-btn g-btn-white block uppercase" ng-click="vm.agregarRiesgo()"
+            ><span class="glyphicon glyphicon-plus"></span> Agregar</a
+          >
+        </div>
+
+        <div class="col-sm-3 mt-xs-1">
+          <a class="g-btn g-btn-verde block uppercase" ng-click="vm.validarFormCotizacion()"> cotizar </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

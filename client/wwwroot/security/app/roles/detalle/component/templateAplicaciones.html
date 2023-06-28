@@ -1,0 +1,104 @@
+<div class="g-section">
+  <div class="container">
+    <div class="row" ng-show="$parent.applicationsRole.length == 0">
+        <div class="col-xs-12 g-box pt-xs-4 pb-xs-4">
+            <div class="row mb-xs-2">
+              <div class="hidden-xs col-sm-2"></div>
+              <div class="col-xs-12 col-sm-8">
+                <div class="col-sm-12 col-md-8">
+                  <mp-data-seeker
+                    behavior="{label:'Asigna una aplicación al rol que estás creando', placeholder:'Código o nombre de aplicación', matchField:'descripcion'}"
+                     m-data-source="$parent.getApplicationSearchAutocomplete($inputNeed)" ng-model="$parent.mCodigoApplication" ng-required="true" ng-change="$parent.selectApplicationAutocomplete($parent.mCodigoApplication)">
+                  <div ng-bind-html="$item.descripcion | highlight: $select.search"></div>
+                </mp-data-seeker>
+              </div>
+              <div class="col-sm-12 col-md-4 text-center pt-xs-2">
+                <a class="g-btn g-btn-white block second-design" ng-click="$parent.addApplicationRole()">+ Agregar</a>
+              </div>
+            </div>
+            <div class="hidden-xs col-sm-2"></div>
+              </div>
+          </div>
+    </div>
+
+<div class="row mb-xs-2" ng-show="$parent.applicationsRole.length > 0">
+  <div class="col-sm-8 col-md-4 col-md-offset-6">
+    <mp-data-seeker
+      behavior="{label:'', placeholder:'Código o nombre de aplicación', matchField:'descripcion'}"
+      m-data-source="$parent.getApplicationSearchAutocomplete($inputNeed)" ng-model="$parent.mCodigoApplication" ng-required="true" ng-change="$parent.selectApplicationAutocomplete($parent.mCodigoApplication)">
+      <div ng-bind-html="$item.descripcion | highlight: $select.search"></div>
+    </mp-data-seeker>
+  </div>
+  <div class="col-sm-4 col-md-2 text-center pt-xs-2 pr-md-0">
+    <a class="g-btn g-btn-white block second-design" ng-click="$parent.addApplicationRole()">+ Agregar</a>
+  </div>
+</div>
+
+<div class="row" ng-if="$parent.applicationsRole.length > 0">
+  <div class="col-xs-12">
+    <div class="g-box g-box--accordion mb-xs-2 ml-xs-0 mr-xs-0">
+      <div mpf-accordion class="g-accord--wrapper mt-xs-1 mb-xs-1" ng-repeat="item in $parent.applicationsRole">
+        <!--Accordion Head-->
+        <div class="g-accord--head g-box gBgcGray5">
+          <div class="clearfix g-div-middle">
+            <div class="col-xs-12 col-sm-3 col-md-3 mb-xs-1 mb-sm-0">
+              <div class="g-inlineblock g-div-middle g-u-cursor--pointer">
+                <div><span class="gnIcon-sm" ng-class="{'ico-mapfre_309_arrowUp': item.isOpen, 'ico-mapfre_308_arrowDown': !item.isOpen }" ng-click="item.isOpen = !item.isOpen"></span></div>
+                <div><span class="g-inlineblock gH5 pl-xs-1" ng-click="item.isOpen = !item.isOpen">{{item.codApplication}}</span></div>
+              </div>
+            </div>
+            <div class="col-xs-12 col-sm-5 col-md-5 mb-xs-1-5 mb-sm-0">
+              <span class="gH5">{{item.nomLargo}}</span>
+            </div>
+            <div class="col-xs-9 col-sm-3 col-md-3 g-text-left-xs g-text-right-sm">
+              <mpf-checkbox-toggle ng-model="item.codEstado" label="" ng-true-value="$parent.ENABLE_STATE" ng-false-value="$parent.DISABLED_STATE" ng-change="$parent.changeStateApplication(item, $event);"></mpf-checkbox-toggle>
+              <span class="" ng-class="{'g-security-asignado': item.codEstado === $parent.ENABLE_STATE, 'g-security-sinasignar': item.codEstado === $parent.DISABLED_STATE}"></span>
+            </div>
+            <div class="col-xs-3 col-sm-1 col-md-1 pr-xs-0 g-text-right-xs g-text-center-sm l-height-0" ng-if="false">
+              <span class="ico-mapfre_307_tacho g-link no-underline gnIcon-sm gCGray3" ng-click="$parent.deleteApplication(item)"></span>
+            </div>
+          </div>
+        </div>
+        <!--Accordion Body-->
+        <div class="g-accord--body" ng-class="{'open': item.isOpen}">
+          <div class="row mb-xs-2">
+            <div class="col-sm-3 col-md-4 col-md-offset-1 pt-xs-4 pl-md-0">
+              <span class="gH5 g-text-uppercase"><b>Lista de perfiles</b></span>
+            </div>
+            <div class="col-sm-6 col-md-4">
+              <mp-data-seeker
+                behavior="{label:'', placeholder:'Código o nombre de perfil', matchField:'description'}"
+                m-data-source="$parent.getProfilesSearchAutocomplete(item.numApplication, $inputNeed)" ng-model="$parent.mCodigoProfile[$index]" ng-required="true" ng-change="$parent.selectProfileAutocomplete($parent.mCodigoProfile[$index])">
+                <div ng-bind-html="$item.description | highlight: $select.search"></div>
+              </mp-data-seeker>
+            </div>
+            <div class="col-sm-3 col-md-2 pt-xs-2 pr-md-0">
+              <a class="g-btn g-btn-verde block second-design" ng-click="$parent.addProfileAppRole(item, $index)">+ Agregar perfil</a>
+            </div>
+          </div>
+          <div class="row mb-xs-1 pl-xs-1-5 pr-xs-1-5 pl-md-0 pr-md-0" ng-repeat="perfil in item.profiles">
+            <div class="col-md-10 col-md-offset-1 g-box pt-xs-1 pb-xs-1 pt-sm-0-7 pb-sm-0-7">
+              <div class="clearfix g-div-middle">
+                <div class="col-xs-12 col-sm-2 col-md-2 pt-xs-0 mb-xs-1 mb-sm-0">
+                  <span class="gH5 g-text-uppercase">{{perfil.codProfile}}</span>
+                </div>
+                <div class="col-xs-12 col-sm-6 col-md-6 mb-xs-1 mb-sm-0">
+                  <span class="gH5 g-text-uppercase">{{perfil.description}}</span>
+                </div>
+                <div class="col-xs-9 col-sm-3 col-md-3 g-text-left-xs g-text-right-sm">
+                    <mpf-checkbox-toggle ng-model="perfil.codEstado" label="" ng-true-value="ENABLE_STATE" ng-false-value="DISABLED_STATE" ng-change="changeStateProfile(perfil, item, $event);"></mpf-checkbox-toggle>
+                    <span class="" ng-class="{'g-security-asignado': perfil.codEstado ===  $parent.ENABLE_STATE, 'g-security-sinasignar': perfil.codEstado ===  $parent.DISABLED_STATE}"></span>
+                  </div>
+                <div class="col-xs-3 col-sm-1 col-md-1 g-text-right-xs pr-md-0 l-height-0" ng-if="false">
+                  <span class="ico-mapfre_307_tacho g-link no-underline gnIcon-sm gCGray3" ng-click="$parent.deleteProfileAppRole(item, perfil)"></span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+</div>

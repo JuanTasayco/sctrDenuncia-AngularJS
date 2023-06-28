@@ -1,0 +1,244 @@
+<div
+  class="page-modal page-modal__tercerpeaton"
+  data-ng-form="$ctrl.frmPeaton">
+  <button type="button" class="close g-close-modal" data-ng-click="$ctrl.cerrarFrm()">
+    <span class="ico-mapfre_46_cancelaroff"></span>
+  </button>
+  <div class="container container__head">
+    <div class="col-md-12 mb-xs-2 g-title-modal">
+      <h2 class="text-center">{{$ctrl.frmTitulo}}</h2>
+    </div>
+  </div>
+
+  <div class="container container__body pl-md-2 pr-md-2">
+    <div class="clearfix modal-dialog-box">
+      <div class="modal-dialog-box-header"></div>
+      <div class="modal-dialog-box-body">
+        <div class="clearfix">
+          <div class="col-md-4 mb-xs-2">
+            <mpf-input
+              data-mpf-validation="required, onlyLetter"
+              data-ng-maxlength="200"
+              data-ng-model="$ctrl.frm.nombrePeaton"
+              label="{label: 'Nombres', required: true}"
+              name="nNombre"
+            >
+            </mpf-input>
+            <div
+              class="g-error"
+              data-ng-show="$ctrl.frmPeaton.nNombre.$invalid && !$ctrl.frmPeaton.nNombre.$pristine">
+              Este campo es obligatorio
+            </div>
+          </div>
+          <div class="col-md-4 mb-xs-2">
+            <mpf-input
+              data-mpf-validation="required, onlyLetter"
+              data-ng-maxlength="200"
+              data-ng-model="$ctrl.frm.paternoPeaton"
+              label="{label: 'Apellidos', required: true}"
+              name="nApellido">
+            </mpf-input>
+            <div
+              class="g-error"
+              data-ng-show="$ctrl.frmPeaton.nApellido.$invalid && !$ctrl.frmPeaton.nApellido.$pristine">
+              Este campo es obligatorio
+            </div>
+          </div>
+          <div class="col-md-4 mb-xs-2">
+            <mpf-input
+              data-mpf-validation="onlyNumberNoSpace"
+              data-ng-maxlength="8"
+              data-ng-model="$ctrl.frm.dniPeaton"
+              label="{label: 'Número de documento', required: false}"
+              name="nNumDoc">
+            </mpf-input>
+            <div
+              class="g-error"
+              data-ng-show="$ctrl.frmPeaton.nNumDoc.$invalid && !$ctrl.frmPeaton.nNumDoc.$pristine">
+              Ingrese un dato válido
+            </div>
+          </div>
+        </div>
+        <div class="clearfix">
+          <div class="col-md-4 mb-xs-2">
+            <div class="row">
+              <div class="col-md-12"><span class="g-label">Sexo*</span></div>
+              <div class="col-md-6 col-sm-3 col-xs-3 mt-xs-1">
+                <m-radio
+                  data-ng-model="$ctrl.frm.sexoPeaton"
+                  data-ng-required="true"
+                  label="{label: 'Masculino'}"
+                  name="nSexo"
+                  value="1">
+                </m-radio>
+              </div>
+              <div class="col-md-6 col-sm-3 col-xs-3 mt-xs-1">
+                <m-radio
+                  data-ng-model="$ctrl.frm.sexoPeaton"
+                  data-ng-required="true"
+                  label="{label: 'Femenino'}"
+                  name="nSexo"
+                  value="0">
+                </m-radio>
+              </div>
+              <div
+                class="g-error col-xs-12"
+                data-ng-show="$ctrl.frmPeaton.nSexo.$invalid && !$ctrl.frmPeaton.nSexo.$pristine">
+                Este campo es obligatorio
+              </div>
+            </div>
+          </div>
+          <div class="col-md-8 mb-xs-2">
+            <mpf-input
+              data-ng-maxlength="250"
+              data-ng-model="$ctrl.frm.direccionPeaton"
+              label="{label: 'Dirección', required: false}"
+              name="nDireccion"
+            >
+            </mpf-input>
+          </div>
+        </div>
+        <div class="clearfix">
+          <div class="col-md-4 mb-xs-2">
+            <mpf-input
+              data-atrn-length="20"
+              data-mpf-validation="onlyNumberNoSpace"
+              data-ng-maxlength="20"
+              data-ng-model="$ctrl.frm.telefonoPeaton"
+              label="{label: 'Teléfono', required: false}"
+              name="nTelefono"
+            >
+            </mpf-input>
+            <div
+              class="g-error"
+              data-ng-show="$ctrl.frmPeaton.nTelefono.$invalid && !$ctrl.frmPeaton.nTelefono.$pristine">
+              Ingrese un dato válido
+            </div>
+          </div>
+          <div class="col-md-4 mb-xs-2">
+            <mpf-input
+              data-mpf-validation="email"
+              data-ng-maxlength="200"
+              data-ng-model="$ctrl.frm.correoPeaton"
+              label="{label: 'Email', required: false}"
+              name="nEmail"
+            >
+            </mpf-input>
+            <div
+              class="g-error"
+              data-ng-show="$ctrl.frmPeaton.nEmail.$invalid && !$ctrl.frmPeaton.nEmail.$pristine">
+              Ingrese un dato válido
+            </div>
+          </div>
+          <div class="col-md-4 mb-xs-2">
+            <wp-cbo-soat
+              data-label="{label: 'Asegurado en', required: false}"
+              data-ng-model="$ctrl.frm.tab4At2.seguro"
+              data-option-default="{enterData: true}"
+              data-set-model-by-this-key="$ctrl.frm.codigoSeguroPeaton"
+              name="nSeguro"
+            >
+            </wp-cbo-soat>
+            <div
+              class="g-error"
+              data-ng-show="$ctrl.frmPeaton.nSeguro.$invalid && !$ctrl.frmPeaton.nSeguro.$pristine">
+              Este campo es obligatorio
+            </div>
+          </div>
+        </div>
+        <div class="clearfix">
+          <div class="col-md-4 mb-xs-2 g-input-design__wp--pt-0">
+            <mpf-datepicker
+              data-format="$ctrl.dateFormat"
+              data-ng-model="$ctrl.objMock1"
+              data-ng-required="false"
+              data-parsear-to-date="true"
+              data-readonly="false"
+              data-set-model-by-this-data="$ctrl.frm.fchDosajePeaton"
+              label="{label: 'Fecha dosaje:', required: false}"
+              name="nFechaDosaje"
+            >
+            </mpf-datepicker>
+          </div>
+          <div class="col-md-4 mb-xs-2">
+            <mpf-timepicker
+              data-is-hh-mm="true"
+              data-is-read-only="true"
+              data-label-data="{label: 'Hora dosaje', required: false}"
+              data-modelo="$ctrl.frm.horaDosajePeaton"
+              data-requerido="false"
+              name="horaDosaje"
+            >
+            </mpf-timepicker>
+          </div>
+          <div class="col-md-4 mb-xs-2">
+            <div class="row">
+              <div class="col-md-12"><span class="g-label">Resultado dosaje cualitativo</span></div>
+              <div class="col-md-6 col-sm-3 col-xs-3 mt-xs-1">
+                <m-radio
+                  data-is-input-boolean="true"
+                  data-ng-model="$ctrl.frm.resulDosajePeaton"
+                  label="{label: 'Positivo'}"
+                  name="nResultadoDosaje"
+                  value="true"
+                >
+                </m-radio>
+              </div>
+              <div class="col-md-6 col-sm-3 col-xs-3 mt-xs-1">
+                <m-radio
+                  data-is-input-boolean="true"
+                  data-ng-model="$ctrl.frm.resulDosajePeaton"
+                  label="{label: 'Negativo'}"
+                  name="nResultadoDosaje"
+                  value="false"
+                >
+                </m-radio>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="clearfix">
+          <div class="col-md-4 mb-xs-2">
+            <wp-cbo-tipo-lesion
+              data-label="{label: 'Tipo de lesión', required: false}"
+              data-ng-model="$ctrl.frm.tab4At2.tipoLesion"
+              data-set-model-by-this-key="$ctrl.frm.codigoTipoLesionPeaton"
+              name="nTipoLesion"
+            >
+            </wp-cbo-tipo-lesion>
+            <div
+              class="g-error"
+              data-ng-show="$ctrl.frmPeaton.nTipoLesion.$invalid && !$ctrl.frmPeaton.nTipoLesion.$pristine">
+              Este campo es obligatorio
+            </div>
+          </div>
+          <div class="col-md-8 mb-xs-2">
+            <mpf-input
+              data-ng-maxlength="500"
+              data-ng-model="$ctrl.frm.observacionPeaton"
+              label="{label: 'Observación', required: false}"
+              name="nObservacionLesion"
+            >
+            </mpf-input>
+          </div>
+        </div>
+      </div>
+      <div class="modal-dialog-box-footer clearfix">
+        <div class="col-xs-6 col-md-3 col-md-offset-3 mb-xs-1">
+          <a
+            class="g-btn g-btn-white block"
+            data-ng-click="$ctrl.cerrarFrm()">
+            Cancelar
+          </a>
+        </div>
+        <div class="col-xs-6 col-md-3 col-md-offset-0 mb-xs-1">
+          <a
+            class="g-btn g-btn-verde block"
+            data-ng-click="$ctrl.grabarPeaton()">
+            Guardar
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

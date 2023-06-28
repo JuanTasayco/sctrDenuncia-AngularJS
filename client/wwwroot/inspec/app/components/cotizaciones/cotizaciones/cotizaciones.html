@@ -1,0 +1,71 @@
+<title-section title="Cotizaciones de auto" from-request="$ctrl.fromRequest"></title-section>
+
+<div class="g-section-inner">
+	<div class="container">
+		<div class="row">
+			<!-- Filtro -->
+			<div class="col-md-3 mb-xs-2 ">
+				<form action="" name="frmDocuments">
+					<mpf-search-filter></mpf-search-filter>
+				</form>
+			</div>
+
+			<!-- Resultados -->
+			<div class="col-md-9 mb-xs-2">
+        <!-- Mensaje de error si no hay resultados -->
+        <inspec-empty-data length="$ctrl.quotations.length" first-query-completed="$ctrl.firstQueryCompleted"></inspec-empty-data>
+        <!-- Inicio: Resultados -->
+        <inspec-order-by total-items="$ctrl.quotations.length" pagination="$ctrl.pagination"></inspec-order-by>
+				<div class="clearfix g-box g-overflow-hidden-xs mb-xs-2 programaciones" ng-repeat="quotation in $ctrl.quotations" ng-if="!($ctrl.quotations.length === 0 && $ctrl.firstQueryCompleted)">
+					<!-- header -->
+					<div class="row pt-xs-1 gBgcGray5">
+						<ul class="clearfix g-list-sm">
+							<li class="col-xs-12 col-sm-8">
+								<ul class="row">
+									<li class="col-xs-12 col-sm-6 clearfix cnt-item">
+										<div class="col-xs-6 item-label g-text-uppercase">Nro. cotización: </div>
+										<div class="col-xs-6 item-dato g-text-uppercase">{{quotation.numero}}</div>
+									</li>
+									<li class="col-xs-12 col-sm-6 clearfix cnt-item">
+										<div class="col-xs-6 col-sm-12 item-label g-text-uppercase">Fecha Cotización: </div>
+										<div class="col-xs-6 col-sm-12 item-dato g-text-uppercase">{{quotation.fechaCotizacion}}</div>
+									</li>
+								</ul>
+							</li>
+							<li class="col-xs-12 col-sm-4 clearfix">
+								<ul class="clearfix">
+									<li class="col-md-12 cnt-item"><a class="g-btn g-btn-white block second-design" ui-sref="cotizacionesDetalle({ number:  quotation.url, fromInspec: $ctrl.fromInspec, copyEmail: $ctrl.copyEmail, confirmationEmail: $ctrl.confirmationEmail, agent: $ctrl.agent })">Ver cotización&nbsp;<span class="icon ico-mapfre_311_arrowRight"></span></a></li>
+								</ul>
+							</li>
+						</ul>
+					</div>
+					<!-- content -->
+					<div class="row g-box-content">
+						<ul height-row class="clearfix g-list second-design">
+							<li class="col-xs-12 col-md-4 clearfix cnt-item">
+								<div class="col-xs-6 col-sm-4 item-label">Producto:</div>
+								<div class="col-xs-6 col-sm-8 item-dato">{{quotation.producto}}</div>
+							</li>
+							<li class="col-xs-12 col-md-4 clearfix cnt-item">
+								<div class="col-xs-6 col-sm-4 col-md-12 item-label">Contratante:</div>
+								<div class="col-xs-6 col-sm-8 col-md-12 item-dato">{{quotation.contratante}}</div>
+							</li>
+							<li class="col-xs-12 col-md-4 clearfix cnt-item">
+								<div class="col-xs-6 col-sm-4 item-label">Auto:</div>
+								<div class="col-xs-6 col-sm-8 item-dato">{{quotation.auto}}</div>
+							</li>
+						</ul>
+					</div>
+				</div>
+				<!-- Fin: Resultados -->
+				<!-- Paginación -->
+				<div class="row" ng-if="$ctrl.pagination.totalRecords > $ctrl.pagination.maxSize">
+					<div class="col-md-12">
+						<ul uib-pagination class="g-pagination" ng-model="$ctrl.pagination.currentPage" max-size="$ctrl.pagination.maxSize" total-items="$ctrl.pagination.totalRecords"  ng-change="$ctrl.pageChanged()" boundary-link-numbers="true"></ul>
+					</div>
+        </div>
+				<!-- Fin Paginación -->
+			</div>
+		</div>
+	</div>
+</div>

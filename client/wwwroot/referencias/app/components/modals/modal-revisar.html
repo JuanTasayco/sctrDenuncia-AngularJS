@@ -1,0 +1,186 @@
+<section>
+    <form name="guardar">
+        <div style="color: #1f1f1f;background-color: transparent;">
+            <a class="col-md-1 gCGray3 glyphicon glyphicon-remove" style="float: right;" ng-click="$ctrl.cerrar()"></a>
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12">
+                        <h4 style="font-weight: 600;">Revisar referencia</h4>
+                    </div>
+                </div>
+                <div class="col-md-12" ng-show="!$ctrl.noEntidadDestRegist">
+                    <div class="row" style="margin-top: 15px;">
+                        <div class="col-md-3 ">
+                            <h3 style="font-weight: 600; margin-top: 5px;">Diagnosticos y tratamientos</h3>
+                        </div>
+
+                        <div class="col-md-6"
+                            style="text-align: right; margin-left:25%; flex-direction: row; padding-left: 0;">
+                            <span style="margin: 5px 10px 15px 0px;">No se registró en la entidad destino</span>
+                            <mpf-checkbox-toggle ng-model=" $ctrl.noEntidadDestRegist" ng-true-value=" ENABLE_STATE"
+                                ng-false-value="DISABLED_STATE" label="" style="padding-top: 10px;">
+                            </mpf-checkbox-toggle>
+                            <!-- <mpf-checkbox class="fw-normal" name="nCheckNoDestino" ng-model="$ctrl.noEntidadDestRegist">
+                            </mpf-checkbox> -->
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12" style="margin-top: 25px;">
+                            <div class="col-md-6" style="padding-left: 0;">
+                                <label class="g-placeholder animated"
+                                    style="margin-top: 20px; margin-bottom: 18px;">Diagnóstico de
+                                    ingreso</label>
+                                <br>
+                                <br>
+                                <br>
+                                <span>{{$parent.resumeList.diagnosticoIng}}</span>
+                            </div>
+                            <!-- {{$parent.$parent.resumeList |json}} -->
+                            <!-- <div class="col-md-3 mb-xs-12" style="padding-left: 0;">
+                                <label class="g-placeholder animated" style="margin-top: 20px;">Fecha de
+                                    ingreso<span></span>:</label>
+                                <mpf-datepicker data-format="'dd/MM/yyyy'" data-parsear-to-date="true"
+                                    data-set-max-today="true" data-ng-model="$parent.resumeList.fechaHora"
+                                    data-readonly="false" model-view-value="true"
+                                    label="{label: '',placeholder:'', required: false}" name="nFechaDesde"
+                                    ng-required="$ctrl.noEntidadDestRegist == false">
+
+                            </div> -->
+                            <div class="col-md-3">
+                                <label class="g-placeholder animated"
+                                    style="margin-top: 20px; margin-bottom: 18px;">Fecha
+                                    de
+                                    ingreso<span></span>:</label>
+                                <br>
+                                <br>
+                                <br>
+                                <span>{{$parent.resumeList.historial[0].fechaHora  | date:'dd/MM/yyyy' }}</span>
+                            </div>
+                            <div class="col-md-3 mb-xs-12">
+                                &nbsp;
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="col-md-6 mb-xs-12" style="height: 66px; padding-left: 0;">
+                                <label class="g-placeholder animated" style="margin-top: 20px;">Diagnóstico de
+                                    Egreso</label> <br>
+                                <mpf-data-seeker-placeholder
+                                    behavior="{label: '', placeholder:'', matchField:'text', required: false}"
+                                    name="nDiagiE" ng-model="$ctrl.filters.CDiagnosticoSalida"
+                                    m-data-source="$ctrl.searchDiagnostico($inputNeed)">
+                                    <div ng-bind-html="$item.text | highlight: $select.search">
+                                    </div>
+                                </mpf-data-seeker-placeholder>
+                            </div>
+                            <div class="col-md-3 mb-xs-12" style="padding-left: 0;">
+                                <label class="g-placeholder animated" style="margin-top: 20px;">Fecha
+                                    de
+                                    egreso<span></span>:</label>
+                                <mpf-datepicker data-format="'dd/MM/yyyy'" data-parsear-to-date="true"
+                                    data-set-max-today="true" data-set-min-today="true"
+                                    data-ng-model="$ctrl.filters.FechaSalida" data-readonly="false"
+                                    label="{label: '',placeholder:''}" name="nFechaDesde"
+                                    ng-required="$ctrl.noEntidadDestRegist == false">
+                                    <!-- <mpf-datepicker nomargin="true" label="{label: 'Desde:'}" ng-model="mFechaIni"
+                                        name="nFechaIni" format="format" readonly="false" maxDate="dateMax">
+                                    </mpf-datepicker> -->
+                            </div>
+                            <div class="col-md-3 mb-xs-12" style=" margin-top: 20px; padding-left: 0;">
+                                <mpf-select-placeholder label="{label: 'Condición del paciente', required: false}"
+                                    name="nCondicion" ng-model="$ctrl.filters.CondPaciente"
+                                    m-data-source="$ctrl.masters.Condiciones" text-field="text" value-field="value"
+                                    m-Empty-Option="{enterData: true}">
+                                </mpf-select-placeholder>
+                            </div>
+                            <div class="col-md-12 mb-xs-12" style=" margin-top: 20px; padding-left: 0;">
+                                <mpf-input label="{label: 'Procedimientos realizados', required: false}"
+                                    name="nTelefono" ng-model="$ctrl.filters.Procedure" ng-required="false">
+                                </mpf-input>
+                            </div>
+                        </div>
+
+                        <div class="col-md-12 ">
+                            <h3 style="font-weight: 600; margin-top: 25px;">Médico responsable</h3>
+                        </div>
+
+                        <div class="col-md-12" style="margin-top: 20px; padding-left: 0;">
+                            <div class="col-md-3">
+
+                                <mpf-input label="{label: 'Colegiatura', required: false}" name="nColegiatura"
+                                    value-field="value" ng-model="$ctrl.filters.x_Medic.Colegiatura"
+                                    mpf-validation="onlyNumberNoSpace" ng-maxlength="5">
+                                </mpf-input>
+                            </div>
+                            <div class="col-md-6">
+                                <mpf-input label="{label: 'Nombres y apellidos', required: false}" name="nNombre"
+                                    value-field="value" ng-model="$ctrl.filters.x_Medic.Nombre">
+                                </mpf-input>
+                                <!-- CONTROL DE CAMBIO
+                            <mpf-data-seeker-placeholder
+                                behavior="{label: 'Nombre', placeholder:'', matchField:'Nombre', required: false}"
+                                name="nNombre" ng-model="$ctrl.filters.x_Medic"
+                                m-data-source="$ctrl.searchMedico($inputNeed)"
+                                ng-change="$ctrl.selectMedico($ctrl.filters.x_Medic)">
+                                <div ng-bind-html="$item.Nombre| highlight: $select.search">
+                                </div>
+                            </mpf-data-seeker-placeholder> -->
+                            </div>
+                            <div class="col-md-3">
+                                <mpf-select-placeholder label="{label: 'Especialidad', required: false}"
+                                    name="nEspecialidad" ng-model="$ctrl.filters.Especialidad"
+                                    m-data-source="$ctrl.masters.Especialidades" text-field="text" value-field="value"
+                                    m-Empty-Option="{enterData: true}">
+                                </mpf-select-placeholder>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-12" ng-show="$ctrl.noEntidadDestRegist">
+                    <div class="row" style="margin-top: 15px;">
+                        <div class="col-md-3">
+                            <div style="font-weight: 600;">Motivo del No registro</div>
+                        </div>
+                        <div class="col-md-6 col-md-offset-3" style="text-align: right;
+                        margin-left: 25%; flex-direction: row; padding-left: 0;">
+                            <span style="margin: 5px 10px 15px 0px;">No se registró en la entidad destino</span>
+                            <mpf-checkbox-toggle ng-model="$ctrl.noEntidadDestRegist" ng-true-value=" ENABLE_STATE"
+                                ng-false-value="DISABLED_STATE" label="">
+                            </mpf-checkbox-toggle>
+                            <!-- <mpf-checkbox class="fw-normal" name="nCheckNoDestino" ng-model="$ctrl.noEntidadDestRegist">
+                            </mpf-checkbox> -->
+                        </div>
+                    </div>
+                    <div class="row" style="margin-top: 20px;">
+                        <div class="col-md-3 mb-xs-12">
+                            <mpf-select-placeholder label="{label: 'Motivo', required: false}" name="nProductoP"
+                                ng-model="$ctrl.filters.cMotivoNoRegistro" m-data-source="$ctrl.masters.Motivos"
+                                text-field="text" value-field="value" m-Empty-Option="{enterData: true}"
+                                ng-required="$ctrl.noEntidadDestRegist == true">
+                            </mpf-select-placeholder>
+                        </div>
+                        <div class="col-md-9 mb-xs-12">
+                            <mpf-input label="{label: 'Observaciones', required: false}" name="nObservaciones"
+                                ng-model="$ctrl.filters.observacion" ng-required="false">
+                            </mpf-input>
+                        </div>
+                    </div>
+                </div>
+                </br>
+                <div class="col-md-12 col-md-offset-6" style="margin-top: 25px;">
+                    <div class="col-md-3 col-xs-12">
+                        <button ng-click="$ctrl.cerrar()" class="g-btn g-btn-white second-design block"
+                            style="border: none;">Cancelar</button>
+                    </div>
+                    <div class="col-md-3 col-xs-12">
+                        <button ng-click="$ctrl.referenceRevisar()" class="g-btn g-btn-verde second-design block"
+                            ng-disabled="guardar.$invalid">Finalizar
+                            Registro</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</section>

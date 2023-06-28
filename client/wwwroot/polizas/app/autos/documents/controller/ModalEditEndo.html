@@ -1,0 +1,81 @@
+<!-- <section class="g-page"> -->
+<section class="">
+
+	<button type="button" class="close g-close-modal" ng-click="closeModal()">
+		<span class="ico-mapfre_231_cancelaroff"></span>
+	</button>
+
+	<form name="frm">
+			<div class="container">
+				<div class="row">
+					<div class="col-md-12 g-text-center-xs mb-xs-2">
+						<h2 class="gH3"><b>EDITAR ENDOSATARIO</b></h2>
+					</div>
+				</div>
+			</div>
+			<div class="container">
+				<div class="clearfix mb-xs-1 mt-xs-1">
+					<div class="col-md-10 col-md-offset-1">
+						<span><b>Endosatario actual:&nbsp;&nbsp;&nbsp;</b></span>
+						<span class="g-text-uppercase" ng-show="mEndosatario.codigo!=null"><b>{{mEndosatario.descripcion}}</b></span>
+					</div>
+				</div>
+				<div class="clearfix mb-xs-1">
+					<div class="col-md-5 col-md-offset-1 pl-xs-1 pr-xs-0 pb-xs-2">
+						<m-radio label="{label: 'Buscar endosatario por RUC'}" name="nOpcionTipoBusqueda" ng-model="mOpcionTipoBusqueda" value="2" data-ng-required="true" ng-click="fnClearEndorsee(2)"></m-radio>
+					</div>
+					<div class="col-md-5 pl-xs-1 pr-xs-0 pb-xs-2">
+						<m-radio label="{label: 'Buscar endosatario por razón social'}" name="nOpcionTipoBusqueda" ng-model="mOpcionTipoBusqueda" value="3" data-ng-required="true" ng-click="fnClearEndorsee(3)"></m-radio>
+					</div>
+				</div>
+				<div class="clearfix">
+					<div class="col-md-10 col-md-offset-1 mb-xs-4" ng-show="mOpcionTipoBusqueda == '2'">
+						<div class="row">
+							<div class="col-md-9">
+								<div class="layer-input" ng-if="!main.showLabelEndorsee">
+									<mpf-input label="{label: 'RUC del endosatario', required: true}" name="nBuscarEndosatario" ng-model="main.mEndosatario" ng-required="true" mpf-validation="onlyNumber" ng-maxlength="11"></mpf-input>
+									<ul class="g-error">
+										<li ng-show="nBuscarEndosatario.$invalid && !nBuscarEndosatario.$pristine">* Este campo es obligatorio</li>
+									</ul>
+									<ul class="gErrorIco firstDesign">
+										<li ng-if="main.errorEndorsee.error1"><span class="ico-mapfre_37_informacion ico"></span>El endosatario no esta registrado en Mapfre. Solicite el ingreso en su oficina comercial</li>
+										<li ng-if="main.errorEndorsee.error2"><span class="ico-mapfre_37_informacion ico"></span>Debe realizar la busqueda del endosatario</li>
+									</ul>
+								</div>
+								<div class="layer-label" ng-if="main.showLabelEndorsee">
+									<label class="g-placeholder block mb-xs-2">RUC del endosatario<span>*</span></label>
+									<span>{{mEndosatario.codigo + ' - ' + mEndosatario.descripcion}}</span>
+								</div>
+							</div>
+							<div class="col-md-3 pt-xs-2">
+								<a class="g-btn g-btn-white second-design block" ng-click="fnSearchEndorsee(main.mEndosatario, main.showLabelEndorsee)">
+									{{(!main.showLabelEndorsee) ? 'Buscar' : 'Cambiar'}}
+								</a>
+							</div>
+						</div>
+					</div>
+					<div class="col-md-10 col-md-offset-1 mb-xs-4" ng-show="mOpcionTipoBusqueda == '3'">
+						<div class="row">
+							<div class="col-xs-12">
+								<mpf-select label="{label: 'Nombre del endosatario', required: false}" name="nEndosario" ng-model="mEndosatario" m-data-source="endosatarios" text-field="descripcion" value-field="codigo" m-Empty-Option="{enterData:true}" ng-required="true"></mpf-select>
+								<ul class="g-error">
+									<li ng-show="nEndosario.$invalid && !nEndosario.$pristine">* Este campo es obligatorio</li>
+								</ul>
+							</div>
+						</div>
+					</div>
+				</div>	
+				<div class="col-md-10 col-md-offset-1">
+					<div class="row">
+						<div class="col-md-6 mb-xs-1 no-mb-md">
+							<a href="" class="g-btn g-btn-transparent block" ng-click="closeModal()">Cancelar</a>
+						</div>
+						<div class="col-md-6">
+							<button class="g-btn g-btn-verde block" ng-click="modificarEndosatario(1)" ng-disabled="activeButton" prevent-default>Guardar</button>
+						</div>
+					</div>
+				</div>
+			</div>
+	</form>
+
+</section>

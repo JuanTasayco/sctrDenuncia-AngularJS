@@ -1,0 +1,179 @@
+<section class="g-page-popup g-reembolso-popup">
+  <button type="button" class="close g-close-modal" ng-click="$ctrl.cerrar()">
+    <span class=" ico-mapfre_231_cancelaroff"></span>
+  </button>
+  <form name="$ctrl.frmModal">
+    <div class="container g-modal-header g-text-uppercase">
+      <div class="col-xs-12">
+        <div class="row">
+          <div class="col-md-12 mb-xs-1">
+            <h2 class="gH3"><b>Ingresar montos de los procedimientos</b></h2>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="container g-modal-body pt-xs-2 pb-xs-2">
+      <div class="row mt-xs-1 mb-xs-4">
+        <div class="col-xs-12">
+          <div class="col-xs-12 g-box fz14 pt-xs-2 pb-xs-2 content-modal-montos">
+            <div class="row mb-xs-2">
+              <div class="col-xs-12">
+                <div class="col-xs-12" ng-repeat="procedure in $ctrl.itemsList">
+                  <div class="row">
+                    <div class="col-xs-12 g-box fz14 pt-xs-1 pb-xs-1 mb-xs-1">
+                      <div class="row">
+                        <div class="col-xs-7 col-sm-4 g-cut-text mt-xs-2">
+                          {{procedure.code + '  ' + procedure.description}}
+                        </div>
+                        <div class="col-xs-12 col-sm-3 g-div-bottom">
+                          <mp-data-seeker
+                            behavior="{label:'', placeholder:'Diagnostico', matchField:'codeName'}"
+                            m-data-source="$ctrl.getDiagnosticList($inputNeed)"
+                            ng-model="procedure.diagnostic"
+                            name="nDiagnostic"
+                            ng-required="true"
+                            ng-change="$ctrl.onChangeDiagnostic(procedure.diagnostic)"
+                            ng-disabled="$ctrl.diagnostic">
+                            <div ng-bind-html="$item.codeName | highlight: $select.search"></div>
+                          </mp-data-seeker>
+                          <div
+                            class="g-error"
+                            ng-show="$ctrl.frmModal.nDiagnostic.$error.required && !$ctrl.frmModal.nDiagnostic.$pristine">
+                            * Busque y seleccione un diagnóstico
+                          </div>
+                        </div>
+                        <div class="col-xs-12 col-sm-3 mt-xs-2 mt-sm-0">
+                          <div class="input-group g-date-picker">
+                            <label class="g-placeholder animated">Inicio de tratamiento<span></span>:</label>
+                            <input
+                              type="text"
+                              class="form-control"
+                              name="nTreatmentDate"
+                              ng-model="procedure.treatmentDate.model"
+                              uib-datepicker-popup="{{procedure.treatmentDate.FORMAT_DATE}}"
+                              is-open="procedure.treatmentDate.open"
+                              datepicker-options="procedure.treatmentDate.options"
+                              close-text="Close"
+                              alt-input-formats="procedure.treatmentDate.ALT_INPUT_FORMATS"
+                              ui-mask="{{procedure.treatmentDate.FORMAT_MASK}}"
+                              ng-pattern="procedure.treatmentDate.FORMAT_PATTERN"
+                              model-view-value="true"
+                              ng-required="true"
+                              ng-change="$ctrl.onChangeTreatmentDate(procedure.treatmentDate.model)"
+                              ng-disabled="$ctrl.treatmentInit"/>
+                            <span class="input-group-btn">
+                              <button
+                                type="button"
+                                class="btn btn-default"
+                                ng-disabled = "false"
+                                ng-click="procedure.treatmentDate.setOpen(true)">
+                                <i class="glyphicon glyphicon-calendar"></i>
+                              </button>
+                            </span>
+                          </div>
+                          <ul class="g-error">
+                            <li ng-show="!$ctrl.frmModal.nTreatmentDate.$error.required && $ctrl.frmModal.nTreatmentDate.$invalid && !$ctrl.frmModal.nTreatmentDate.$pristine">* Fecha incorrecta</li>
+                            <li ng-show="$ctrl.frmModal.nTreatmentDate.$error.required && !$ctrl.frmModal.nTreatmentDate.$pristine">* Este campo es necesario</li>
+                          </ul>
+                        </div>
+                        <div class="col-xs-12 col-sm-2">
+                          <m-Numeric-Textbox
+                            label="{label: 'Importe', required: true}"
+                            name="nImport"
+                            ng-model="procedure.importe"
+                            ng-change="$ctrl.onChangeSumImports(procedure)"
+                            ng-required="true"
+                            ng-disabled="procedure.procedureGroupCode === $ctrl.medicCode"
+                            options="1">
+                          </m-Numeric-Textbox>
+                          <div
+                            class="g-error"
+                            ng-show="$ctrl.frmModal.nImport.$error.required && !$ctrl.frmModal.nImport.$pristine">
+                            * Campo requerido
+                          </div>
+                        </div>
+                      </div>
+                      <div class="row" ng-if="procedure.procedureGroupCode === $ctrl.medicCode">
+                        <div class="col-xs-3">
+                          <button
+                            class="g-btn g-btn-green-border second-design fz14"
+                            style="font-size: 12px"
+                            ng-click="$ctrl.addFarmaco(procedure)">
+                            Añadir farmaco
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div
+                    class="row mb-xs-3"
+                    ng-if="procedure.farmacos.length > 0">
+                    <div class="col-xs-12 col-sm-6">
+                      <div class="clearfix">
+                        <div tbl-oim class="col-xs-12 g-tbl-wrapper pl-xs-0 tbl-reembolsos-comprobantes">
+                          <div class="tbl-main" style="min-width: inherit">
+                            <ul height-row class="tbl-header clearfix">
+                              <li class="title col-30-dktp text-center g-text-uppercase">Nº item</li>
+                              <li class="title col-40-dktp text-center g-text-uppercase">Valor de venta</li>
+                              <li class="title col-30-dktp text-center g-text-uppercase"></li>
+                            </ul>
+                            <ul class="tbl-body clearfix">
+                              <li ng-repeat="farmaco in procedure.farmacos">
+                                <ul height-row class="tbl-row clearfix g-u-cursor--pointer">
+                                  <li class="cell text-center g-text-uppercase col-30-dktp">
+                                    <span class="cell-label mt-xs-1">
+                                      <span class="cell-data">{{farmaco.code}}</span>
+                                    </span>
+                                  </li>
+                                  <li class="cell text-center g-text-uppercase col-40-dktp">
+                                    <span class="cell-label">
+                                      <span class="cell-data numeric-wrapper">
+                                        <m-Numeric-Textbox
+                                          label="{label: '', required: false}"
+                                          name="nImport"
+                                          ng-model="farmaco.import"
+                                          ng-change="$ctrl.onChangeFarmacoImport(procedure)"
+                                          options="1">
+                                        </m-Numeric-Textbox>
+                                      </span>
+                                    </span>
+                                  </li>
+                                  <li class="cell text-center g-text-uppercase col-30-dktp">
+                                    <span
+                                      class="gnIcon-sm gCGreen1 ico-mapfre_307_tacho ml-xs-2"
+                                      ng-click="$ctrl.deleteFarmaco(procedure, farmaco)">
+                                    </span>
+                                  </li>
+                                </ul>
+                              </li>
+                            </ul>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-xs-12">
+                <div
+                  class="col-xs-10 col-md-8 col-xs-offset-2 col-md-offset-4 gBgcGray5 pt-xs-1 pb-xs-1 box-total">
+                  <div class="col-xs-7 no-padding-xs g-text-uppercase"><b>Importe Total</b></div>
+                  <div class="col-xs-5 no-padding-xs text-right g-text-uppercase">
+                    <b>{{$ctrl.sumTotal | currency: 'S/ '}}</b>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="container g-modal-footer pt-xs-2">
+      <div class="col-md-4 col-md-offset-4 mb-xs-1 no-mb-md">
+        <a href="" class="g-btn g-btn-verde block" ng-click="$ctrl.sendResumenProcedures()">Aceptar</a>
+      </div>
+    </div>
+  </form>
+</section>

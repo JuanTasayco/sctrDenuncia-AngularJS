@@ -1,0 +1,115 @@
+<section class="gNsctr gNsctrModal modalHistory">
+	
+	<button 
+		type="button" class="close g-close-modal" 
+		ng-click="$ctrl.fnCloseModal()">
+		<span class="ico-mapfre_231_cancelaroff"></span>
+	</button>
+
+	<div class="container">
+		<div class="row">
+			<div class="col-md-12 g-text-center-xs g-text-uppercase mb-xs-2">
+				<h2 class="gH3"><b>HISTORIAL DE CONSTANCIAS</b></h2>
+			</div>
+		</div>
+
+		<div 
+			class="row mb-xs-2" 
+			ng-repeat="itemPolicy in $ctrl.data.proofsHistory">
+			
+			<div 
+				class="col-md-12 clearfix" 
+				ng-if="itemPolicy.applications.length > 0">
+				
+				<div class="clearfix g-tbl-wrapper g-box">
+					<div class="clearfix">
+
+						<div class="col-md-12 g-tbl-row gBgcGray5 pt-xs-1">
+							<div class="row g-row-fz12 g-border-bottom-xs gBdWhite1 mb-xs-1">
+								<div class="g-col col-md-12 tbl-item item-label">
+									{{($ctrl.IS_MODULE.lifeLaw) ? 'Vida Ley: ' : (itemPolicy.policyType == 'P') ? 'Pólizas pensión: ' : 'Pólizas salud: '}} {{itemPolicy.policyNumber}}
+								</div>
+							</div>
+							<div class="row g-row-fz12">
+								<div class="g-col col-xs-4 col-ms-4 col-sm-4 tbl-item item-label col-xs-offset-2">
+									Aplicación
+								</div>
+								<div class="g-col col-xs-6 col-ms-6 col-sm-6 tbl-item item-label">
+									Vigencia
+								</div>
+							</div>
+						</div>
+
+
+						<div class="col-md-12 cnt-content gnContentAuto-sm">
+
+							<div 
+								class="clearfix mt-xs-1" 
+								ng-class="{'g-border-bottom-xs' : !$last}" 
+								ng-repeat="itemApplication in itemPolicy.applications">
+
+								<ul class="row g-row-fz12 g-tbl-row">
+									<li 
+										class="g-col col-xs-2 col-ms-2 col-sm-2 tbl-item item-dato g-text-center-xs" 
+										ng-init="$ctrl.fnInitCheckBox(itemPolicy, itemApplication)">
+										<mpf-checkbox 
+											ng-model="itemApplication.mCheckBox" 
+											label="" 
+											dom-change="$ctrl.fnCheck(itemPolicy, itemApplication)">
+										</mpf-checkbox>
+									</li>
+									<li class="g-col col-xs-4 col-ms-4 col-sm-4 tbl-item item-dato">
+										{{itemApplication.applicationNumber}}
+									</li>
+									<li class="g-col col-xs-6 col-ms-6 col-sm-6 tbl-item item-dato">
+										{{itemApplication.dateStart +  ' - ' + itemApplication.dateFinish}}
+									</li>
+								</ul>
+
+							</div>						
+
+						</div>
+				
+					</div>
+				</div>
+
+				<div 
+					class="col-md-10 col-md-offset-1" 
+					ng-if="itemPolicy.totalItems > 10">
+					<ul 
+						uib-pagination 
+						class="g-pagination" 
+						ng-model="itemPolicy.currentPage" 
+						max-size="itemPolicy.rowByPage" 
+						total-items="itemPolicy.totalItems" 
+						ng-change="$ctrl.fnChangePage(itemPolicy, itemPolicy.currentPage)" 
+						boundary-link-numbers="true">
+					</ul>
+				</div>
+
+			</div>
+
+		</div>
+
+		<div class="row">
+			<div class="col-md-4 col-sm-5 col-ms-5 col-md-offset-2 col-sm-offset-1 col-ms-offset-1 mb-xs-1 no-mb-ms">
+				<a 
+					href="javascript:void(0)" 
+					class="g-btn g-btn-white block" 
+					ng-click="$ctrl.fnCloseModal()">
+					Cancelar
+				</a>
+			</div>
+			<div class="col-md-4 col-sm-5 col-ms-5">
+				<a 
+					href="javascript:void(0)" 
+					class="g-btn g-btn-verde block" 
+					ng-click="$ctrl.fnDownload()">
+					Descargar
+				</a>
+			</div>
+		</div>
+	</div>
+
+
+</section>

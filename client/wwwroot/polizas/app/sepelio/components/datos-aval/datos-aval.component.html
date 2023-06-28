@@ -1,0 +1,60 @@
+<form name="frmDAval">
+<div class="content-tab">
+  <div class="row">
+    <div class="col-md-12 mb-xs-2 mt-xs-3">
+      <h2 class="g-sub-title g-myd-subtitle">Información necesaria para la emisión</h2>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-sm-12">
+      <div ng-if="!$ctrl.cotizacion.datosAval.modelo.eliminado">
+        <div class="g-box gBgcWhite1 pt-xs-2 pb-xs-2 pl-xs-2 pr-xs-2 mb-xs-2">
+  <cpsform-emision cotizacion="$ctrl.cotizacion.datosAval" cabecera="'Aval'" form='frmDAval' disabled ="false"></cpsform-emision>
+
+  <div class="row mb-xs-2">
+    <div class="col-md-12">
+      <h2 class="gCGray1"><b>Sesión de los derechos</b></h2>
+    </div>
+  </div>
+  <div class="row mb-xs-2">
+    <div class="col-md-3 mb-xs-2">
+      <m-numeric-textbox label="{label: 'Importe a financiar', required: $ctrl.reqImporteAFinanciar}" name="nImporteFinanciar"
+      ng-model="$ctrl.cotizacion.datosAval.modelo.ImporteAFinanciar" m-range="{min:0,max:9999999999}" ng-required="$ctrl.reqImporteAFinanciar" ng-disabled="true">
+      </m-numeric-textbox>
+      <ul class="g-error">
+        <li
+          ng-show="frmDAval.nImporteFinanciar.$error.required && !frmDAval.nImporteFinanciar.$pristine">
+          * Este campo es obligatorio</li>
+      </ul>
+    </div>
+  </div>
+
+          <div class="row" ng-if="$ctrl.ramo == 401">
+            <div class="col-sm-12 g-text-right-md">
+              <a class="gCRed1 gH5 fwMedium mb-xs-0 delete" ng-if="!$ctrl.isReadOnly" ng-click="$ctrl.eliminarAval()">
+                <span class="icon--md ico-mapfre-363-myd-eliminar ml-xs-1"></span>
+                Eliminar
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row" ng-if="$ctrl.cotizacion.datosAval.modelo.eliminado">
+    <div class="col-md-12">
+      <div class="clearfix g-col-filter g-box-md gBgcGray5-md gBgcWhite1" ng-if="!$ctrl.isReadOnly">
+        <div class="row">
+          <div class="col-md-4 col-md-offset-4">
+            <a class="g-btn g-btn-white block" ng-click="$ctrl.agregarAval()"> + AGREGAR AVAL</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+
+</div>
+</form>

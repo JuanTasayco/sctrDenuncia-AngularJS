@@ -1,0 +1,80 @@
+<div ng-if="$ctrl.typeUser==2">
+  <div class="row mb-xs-2" ng-if="$ctrl.roles.length == 0">
+    <div class="col-md-3 col-md-offset-6 col-sm-4 col-sm-offset-4">
+      <mp-data-seeker behavior="{label:'Rol'
+        , placeholder:'Escribe código o nombre de rol...'
+        , matchField:'codigoDescripcion',
+        lenSearching: 2}" m-data-source="fnGetListRole($inputNeed)" ng-model="frmData.mRol" ng-change="">
+        <div ng-bind-html="$item.codigoDescripcion | highlight: $select.search"></div>
+      </mp-data-seeker>
+    </div>
+    <div class="col-md-3 col-sm-4 pt-xs-2">
+      <a class="g-btn g-btn-white second-design block" ng-click="fnInsertRoleToUser()">+ Agregar</a>
+    </div>
+  </div>
+  <div class="clearfix g-box mb-xs-2 pt-xs-3 pb-xs-3 pt-md-6 pb-md-6 text-center" ng-if="$ctrl.roles.length == 0">
+    <span class="gH3">
+      <b>“Agrega un rol que deseas asignarle a un usuario”</b>
+    </span>
+  </div>
+
+  <div class="row mb-xs-2" ng-if="$ctrl.roles.length > 0">
+    <div class="col-xs-12">
+      <h2 class="gH4 gCGray1">
+        <b class="ng-binding">Rol</b>
+      </h2>
+    </div>
+  </div>
+  <div class="row mb-xs-2" ng-if="$ctrl.roles.length > 0">
+    <div class="col-md-12">
+      <div class="clearfix g-box g-overflow-hidden-xs">
+        <ul class="clearfix g-list gBgcGray5 pt-xs-1 hidden-xs">
+          <li class="col-sm-4 clearfix cnt-item">
+            <b>Código</b>
+          </li>
+          <li class="col-sm-4 clearfix cnt-item">
+            <b>Nombre</b>
+          </li>
+          <li class="col-sm-4 clearfix cnt-item">
+          </li>
+        </ul>
+
+        <div class="col-md-12 cnt-content g-list-sm pt-xs-1" ng-repeat="item in $ctrl.roles">
+          <div class="clearfix">
+            <ul class="row hidden-xs">
+              <li class="col-sm-4 cnt-item item-dato g-text-uppercase">{{item.codRol}}</li>
+              <li class="col-sm-4 cnt-item item-dato">{{item.nombreRol}}</li>
+              <li class="col-sm-4 cnt-item item-dato text-center">
+                <span class="ico-mapfre_307_tacho gH5 g-u-cursor--pointer" ng-click="$ctrl.fnEliminarRol(item)"></span>
+              </li>
+            </ul>
+            <ul class="row mb-xs-1 visible-xs">
+              <li class="cnt-item clearfix">
+                <div class="col-xs-3 item-label">Código:</div>
+                <div class="col-xs-9 item-dato g-text-uppercase">{{item.codRol}}</div>
+              </li>
+              <li class="cnt-item clearfix">
+                <div class="col-xs-3 item-label">Nombre:</div>
+                <div class="col-xs-9 item-dato">{{item.nombreRol}}</div>
+              </li>
+              <li class=" clearfix">
+                <div class="col-ms-12 item-dato">
+                  <span class="ico-mapfre_307_tacho gH4 g-u-cursor--pointer" ng-click="$ctrl.fnEliminarRol(item)"></span>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row mt-xs-2 mb-xs-2" ng-if="$ctrl.typeGroup!=1 && $ctrl.existRole">
+    <div class="col-xs-12">
+      <div class="row">
+        <div class="col-md-4 col-md-offset-8 col-sm-6 col-sm-offset-6">
+          <a class="g-btn g-btn-white block" ng-class="$ctrl.showCopyAccess ? '': 'disabled'" ng-click="$ctrl.fnBtnCopyAccess()">Copiar accesos a regulares</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

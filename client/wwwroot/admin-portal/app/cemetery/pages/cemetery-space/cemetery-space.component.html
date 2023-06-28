@@ -1,0 +1,65 @@
+<div class="g-page">
+	<div class="g-title pb-0">
+		<navbar-cemetery data-active="true" data-show-button="true" data-on-update="$ctrl.upateCemeteryAndSpaces()">
+		</navbar-cemetery>
+	</div>
+	<div class="g-menu-main__box c-menu-main__box">
+		<tab-cemetery data-tabs="$ctrl.tabs"></tab-cemetery>
+	</div>
+	<!--========== SPACES ==========-->
+	<div class="g-section">
+		<form name="frmRegister">
+			<div class="g-section-inner">
+				<div class="container">
+					<div class="row">
+						<div class="col-md-6 mb-md-1 mb-xs-1" data-ng-repeat="space in $ctrl.form.spaces">
+							<div class="c-bg-gray">
+								<div class="c-space__container">
+									<div class="c-space__content h-110">
+										<div class="c-space__title">
+											<div class="c-toggle g-center-flex">
+												<mpf-checkbox-toggle 
+													ng-model="space.activo" 
+													ng-true-value="'1'"
+													ng-false-value="'0'" 
+													data-nodrag ng-change="$ctrl.disableSpace()">
+												</mpf-checkbox-toggle>
+												<span class="c-space__name ml-md-1 ml-xs-1">  {{space.valor1 | capitalize}} </span>
+											</div>
+											<div class="c-space__image">
+												<img ng-src="{{space.valor2}}" alt="">
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="c-subspace__container pl-md-3 pr-md-3 pl-xs-1 pr-xs-1 ">
+									<div class="c-section__information">
+										<h3 class="c-section__title">Espacios</h3>
+									</div>
+									<div class=c-subspace__content data-ng-repeat="subspace in space.subspaces">
+										<div class="c-subspace__image h-50">
+											<img ng-src="{{subspace.valor2}}" alt="" class="c-image">
+										</div>
+										<div class="c-subspace__checkbox">
+											<mpf-checkbox ng-model="subspace.activo" ng-true-value="'1'"
+												ng-false-value="'0'" ng-change="$ctrl.disableSpace()">
+											</mpf-checkbox>
+											<label class="form-check-label">{{subspace.valor1 | capitalize}}</label>
+										</div>
+										<div class="c-subspace__edit">
+											<span class="g-icon gCGray3">
+												<span class="ico-mapfre_228_editar ico-edit" ng-class="{disabled: subspace.idEspacio == 0 }"></span>
+												<span class="g-link"><a ng-class="{disabled: subspace.idEspacio == 0 }" data-ui-sref="cemeterySubspace({cemeteryId : $ctrl.cemeteryId, spaceId: subspace.idEspacio })">Editar</a>
+												</span>
+											</span>
+										</div>
+									</div>
+								</section>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</form>
+	</div>
+</div>

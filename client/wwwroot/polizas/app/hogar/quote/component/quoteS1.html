@@ -1,0 +1,242 @@
+<div class="first-step">
+	<form action="" name="frmFirstStep">
+
+    <!-- Producto -->
+		<div class="g-section-inner">
+			<div class="container">
+				<div class="row"><div class="col-md-12"><h2 class="g-sub-title g-myd-subtitle">Producto</h2></div></div>
+				<div class="row">
+					<div class="col-md-4">
+						<mpf-select label="{label: 'Selecciona Producto', required: true}" name="nProducto" ng-model="firstStep.mProducto" m-data-source="firstStep.productData" text-field="Descripcion" value-field="Codigo"
+							m-Empty-Option="{enterData:true}" mpf-validation="required" ng-change="_requiredTypeCoverage(firstStep.mProducto)">
+						</mpf-select>
+						<ul class="g-error">
+							<li ng-show="frmFirstStep.nProducto.$invalid && !frmFirstStep.nProducto.$pristine">* Este campo es obligatorio</li>
+						</ul>
+					</div>
+				</div>
+			</div>
+    </div>
+
+    <!-- Datos Personales -->
+    <div class="g-section-inner">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-12"><h2 class="g-sub-title">Datos de la póliza</h2></div>
+        </div>
+        <div class="row">
+          <mpf-person-component
+            name="datosPoliza"
+            app-code="{{ appCode }}"
+            form-code="{{ formCode }}"
+            editable="true"
+            outdata="loadContractorData(data)"
+            codigo-compania="companyCode"
+            person-data="firstStep.formData"
+            document-type="firstStep.formData.documentType.Codigo"
+            valid-blacklist-numdoc="true"
+          >
+          </mpf-person-component>
+        </div>
+      </div>
+    </div>
+
+    <!-- Mapfre dólares -->
+    <div class="g-section-inner" ng-if="showMapfreDollars">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-12"><h2 class="g-sub-title">MAPFRE dólares</h2></div>
+        </div>
+        <div class="row">
+          <div class="col-md-12">
+            Tienes
+            <strong>{{
+              firstStep.mSaldoMapfreDolar > 0
+                ? firstStep.mSaldoMapfreDolar
+                : ("0.00" | currency: currencyType)
+            }}</strong>
+            MAPFRE dólares
+          </div>
+        </div>
+        <div class="row collapse pt-xs-1" uib-collapse="!firstStep.mSaldoMapfreDolar > 0">
+          <div class="col-md-3 pb-xs-1">
+            ¿Quieres ingresar MAPFRE dólares?
+          </div>
+          <div class="col-md-1 pb-xs-1">
+            <m-radio
+              label="{label: 'Si'}"
+              name="nOpcionMapfreDolares"
+              ng-model="firstStep.mOpcionMapfreDolares"
+              value="Si"
+            ></m-radio>
+          </div>
+          <div class="col-md-1 pb-xs-1">
+            <m-radio
+              label="{label: 'No'}"
+              name="nOpcionMapfreDolares"
+              ng-model="firstStep.mOpcionMapfreDolares"
+              value="No"
+              ng-click="clearMapfreDolares()"
+            ></m-radio>
+          </div>
+        </div>
+        <div class="row collapse" uib-collapse="firstStep.mOpcionMapfreDolares == 'Si' ? false : true">
+          <div class="col-md-4 pt-xs-1">
+            <mpf-input
+              label="{label: '¿Cuántos MAPFRE dólares quieres usar?', required: true}"
+              name="nMapfreDolares"
+              ng-model="firstStep.mMapfreDolares"
+              ng-required="firstStep.mOpcionMapfreDolares == 'Si' ? true : false"
+              ng-keyup="evalMapfreDollars(firstStep.mMapfreDolares)"
+              mpf-validation="onlyNumber"
+            >
+            </mpf-input>
+            <ul class="g-error">
+              <li ng-show="showErrMapfreDollars">El monto ingresado no puede ser mayor a tu saldo disponible</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+	<!-- Datos Inmueble -->
+  <div class="g-section-inner">
+    <div class="container">
+				<div class="row"><div class="col-md-12"><h2 class="g-sub-title g-myd-subtitle">Datos del inmueble</h2></div></div>
+
+        <mpf-ubigeo
+          data="firstStep.ubigeoData"
+          is-Valid="firstStep.ubigeoValid"
+          setter="firstStep.setter"
+          clean="firstStep.clean"
+          all-fields-required="true"
+        ></mpf-ubigeo>
+
+				<div class="row">
+					<div class="col-md-4 mb-xs-2">
+						<mpf-select label="{label: 'Año de construcción', required: true}" name="nAnioConstruccion" ng-model="firstStep.mAnioConstruccion" m-data-source="firstStep.constructionYearData" text-field="Campo" value-field="Codigo" m-Empty-Option="{enterData:true}" mpf-validation="required"></mpf-select>
+						<ul class="g-error">
+							<li ng-show="frmFirstStep.nAnioConstruccion.$invalid && !frmFirstStep.nAnioConstruccion.$pristine">* Seleccione un año de construcción</li>
+						</ul>
+					</div>
+					<div class="col-md-4 mb-xs-2">
+						<mpf-select label="{label: 'Categoria', required: true}" name="nCategoria" ng-model="firstStep.mCategoria" m-data-source="firstStep.categoryData" text-field="Descripcion" value-field="Codigo" m-Empty-Option="{enterData:true}" mpf-validation="required" ng-change="firstStep.showCategoryDescription(firstStep.mCategoria)"></mpf-select>
+						<ul class="g-error">
+							<li ng-show="frmFirstStep.nCategoria.$invalid && !frmFirstStep.nCategoria.$pristine">* Seleccione una categoria</li>
+						</ul>
+					</div>
+					<div class="col-md-4 pb-xs-3" ng-show="firstStep.mCategoria.Dato">
+						<span class="g-label">Descripción de la categoría</span>
+						{{firstStep.mCategoria.Dato}}
+						<!-- Muros y/o Paredes y Columnas de apoyo de los Techos construidos de Adobe y Tapial y/o Fibra Cemento, Eternit y similares. -->
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-md-4 mb-xs-2">
+						<mpf-input label="{label: 'Nro. de pisos', required: false}" name="nNroPisos" ng-model="firstStep.mNroPisos" ng-required="false" mpf-validation="onlyNumber" ng-maxlength="2"></mpf-input>
+					</div>
+					<div class="col-md-4 mb-xs-2">
+						<mpf-input label="{label: 'Nro. de sótanos', required: false}" name="nNroSotanos" ng-model="firstStep.mNroSotanos" ng-required="false" mpf-validation="onlyNumber" ng-maxlength="2"></mpf-input>
+					</div>
+				</div>
+			</div>
+		</div>
+
+    <hogar-cpnte-alarms-type title="Alarma de monitoreo"></hogar-cpnte-alarms-type>
+
+		<!-- Poliza de grupo -->
+		<div class="g-section-inner">
+			<div class="container">
+				<div class="row"><div class="col-md-12"><h2 class="g-sub-title g-myd-subtitle">Póliza de grupo</h2></div></div>
+				<div class="row">
+					<div class="col-md-12">
+						<div class="row">
+							<div class="col-md-4" ng-show="firstStep.showGroupPolize">{{firstStep.groupPolizeData}}</div>
+							<mpf-group-polize data="firstStep.groupPolizeData" ng-show="!firstStep.showGroupPolize"></mpf-group-polize>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+    <!-- Otros -->
+    <div class="g-section-inner">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-12"><h2 class="g-sub-title">Otros</h2></div>
+        </div>
+        <div class="row" >
+          <div class="col-md-4">
+            <mpf-Checkbox
+              ng-model="firstStep.DctoIntegralidad"
+              label="Aplicar % del ratio de integralidad"
+              ng-click="obtenerDctontegralidad()"
+            >
+            </mpf-Checkbox><br />
+            <span ng-show="firstStep.DctoIntegralidad">Descuento de integralidad {{firstStep.PorDctoIntgPlaza}}% </span>
+          </div>
+          <div class="col-md-4" ng-if="showCurrencyType">
+            <mpf-select
+              label="{label: 'Moneda', required: true}"
+              name="nMoneda"
+              ng-model="firstStep.mMoneda"
+              m-data-source="firstStep.monedaData"
+              text-field="Descripcion"
+              value-field="Codigo"
+              m-Empty-Option="{enterData:true}"
+              mpf-validation="required"
+            ></mpf-select>
+            <ul class="g-error">
+              <li ng-show="frmFirstStep.nMoneda.$invalid && !frmFirstStep.nMoneda.$pristine">
+                * Seleccione una moneda
+              </li>
+            </ul>
+          </div>
+          <div class="col-md-4" ng-if="!showCurrencyType">
+            <div style="font-weight: 700; color: #4C4C4C; margin-bottom: 10px">Moneda</div>
+            <div>NUEVOS SOLES</div>
+          </div>
+        </div>
+        <div class="row" ng-if="firstStep.showDiscounts">
+          <div class="col-md-4">
+            <mpf-input
+              label="{label: 'Descuento comercial (%)', required: false}"
+              name="nDescuentoComercial"
+              ng-model="firstStep.mDescuentoComercial"
+              ng-required="false"
+              mpf-validation="onlyNumber"
+              ng-maxlength="2"
+              ng-blur="_errorDescCommercial()"
+            ></mpf-input>
+            <ul class="g-error">
+              <li ng-show="frmFirstStep.nDescuentoComercial.$invalid && !frmFirstStep.nDescuentoComercial.$pristine">
+                * Este campo es obligatorio
+              </li>
+            </ul>
+            <ul class="gErrorIco firstDesign">
+              <li ng-show="errorDescCommercial">
+                <span class="ico-mapfre_37_informacion ico"></span>Descuento comercial no debe superar el valor de 10
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Button -->
+    <div class="g-section">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-4 mb-xs-1">
+          </div>
+          <div class="col-md-4">
+            <a class="g-btn g-btn-verde block" ng-click="nextStep()">{{
+              firstStep.endButton ? firstStep.endButton : "Cotizar"
+            }}</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+
+</div>

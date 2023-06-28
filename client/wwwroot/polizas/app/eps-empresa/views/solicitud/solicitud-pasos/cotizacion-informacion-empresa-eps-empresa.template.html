@@ -1,0 +1,66 @@
+<form name="frmInformacionEmpresa">
+    <div class="g-section-inner">
+        <div class="container">
+            <div class="row">
+                <!-- Seleccion de tipos de departamento -->
+                <div class="col-md-3 mb-xs-2">
+                    <mpf-select 
+                        ng-model="vm.informacionEmpresa.mepsCia" 
+                        name="nEpsCia"
+                        label="{label: 'EPS/CIA actual', required: true}"
+                        m-data-source="vm.eps_cia" 
+                        text-field="descripcion" 
+                        value-field="valorNumerico"
+                        m-Empty-Option="{enterData:true}"
+                        mpf-validation="required"
+                        ng-change="vm.cambioEpsCia(vm.informacionEmpresa.mepsCia)"
+                        disabled-view-model="true">
+                    </mpf-select>
+                </div>
+                <div class="col-md-6 mb-xs-2">
+                    <mpf-input 
+                        ng-model="vm.informacionEmpresa.nombre"
+                        name="nNombre" 
+                        label="{label: 'Nombre', required: true}"
+                        ng-disabled="vm.informacionEmpresa.epsCia === 3"
+                        ng-maxlength="200"
+                        ng-blur="return;">
+                    </mpf-input>
+                    <ul class="g-error">
+                        <li
+                          ng-show="(vm.informacionEmpresa.epsCia !==3 && vm.informacionEmpresa.nombre === '') && !frmInformacionEmpresa.nNombre.$pristine"
+                        >
+                          * El campo nombre es requerido
+                        </li>
+                    </ul>
+                </div>
+                <div class="col-md-3 mb-xs-2">
+                    <mpf-input 
+                        ng-model="vm.informacionEmpresa.nroAsegurados"
+                        name="nNroAsegurados" 
+                        label="{label: 'Nº de Asegurados', required: true}"
+                        ng-disabled="vm.informacionEmpresa.epsCia === 3"
+                        mpf-validation="onlyNumber">
+                    </mpf-input>
+                    <ul class="g-error">
+                        <li
+                          ng-show="(vm.informacionEmpresa.epsCia !==3 && !vm.informacionEmpresa.nroAsegurados > 0) && !frmInformacionEmpresa.nNroAsegurados.$pristine"
+                        >
+                          * El campo Nº de Asegurados es requerido
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="g-section h-myd-pt--0">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4 col-md-offset-8">
+                    <a class="g-btn g-btn-verde block" ng-class="{'disabled': !vm.activeBotonSiguiente()}"
+                        ng-click="vm.goToNextStep()">Siguiente</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>

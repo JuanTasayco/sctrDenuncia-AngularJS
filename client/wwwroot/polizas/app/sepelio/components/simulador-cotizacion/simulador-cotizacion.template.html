@@ -1,0 +1,181 @@
+<form name="$ctrl.frmSimulador">
+  <section class="g-page">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12">
+          <h2 class="g-sub-title g-myd-subtitle">Simulador de la cotización</h2>
+        </div>
+      </div>
+      <div class="row mb-xs-2 mt-md-2">
+        <div class="col-sm-6 col-md-20-pct mb-xs-2">
+          <m-Numeric-Textbox label="{label: 'Precio Lista', required: true}" name="precioProducto"  ng-model="$ctrl.cotizacion.datosCotizacion.producto.Precio" ng-disabled="true" options="1" m-Range="" ng-required="true"></m-Numeric-Textbox>
+          <ul class="g-error">
+            <li
+              ng-show="$ctrl.frmSimulador.precioProducto.$error.required && !$ctrl.frmSimulador.precioProducto.$pristine">
+              * Este campo es obligatorio</li>
+          </ul>
+        </div>
+        <div class="col-sm-6 col-md-20-pct mb-xs-2">
+          <m-Numeric-Textbox label="{label: 'Descuento %'}" name="descuento" ng-model="$ctrl.cotizacion.simulador.descuento"
+            ng-keyup="$ctrl.descuentoProducto()" ng-required="true"></m-Numeric-Textbox>
+          <ul class="g-error">
+            <li ng-show="$ctrl.frmSimulador.descuento.$error.required && !$ctrl.frmSimulador.descuento.$pristine">* Este
+              campo es obligatorio</li>
+          </ul>
+        </div>
+        <div class="col-sm-6 col-md-20-pct mb-xs-2">
+          <m-Numeric-Textbox label="{label: 'Precio final', required: true}" name="montoTotalDescuento"  ng-model="$ctrl.cotizacion.simulador.montoTotal" ng-disabled="true" options="1" m-Range=""  ng-required="true"></m-Numeric-Textbox>
+          <ul class="g-error">
+            <li
+              ng-show="$ctrl.frmSimulador.montoTotalDescuento.$error.required && !$ctrl.frmSimulador.montoTotalDescuento.$pristine">
+              * Este campo es obligatorio</li>
+          </ul>
+        </div>
+        <div class="col-sm-6 col-md-20-pct mb-xs-2">
+          <m-numeric-textbox label="{label: 'Importe cuota inicial'}" name="importeInicial"
+            ng-keyup="$ctrl.descuentoProducto()" ng-model="$ctrl.cotizacion.simulador.importeInicial" ng-blur="$ctrl.importeInicialFixed()" options="1" m-Range="" 
+            ng-required="true"></m-numeric-textbox>
+          <ul class="g-error">
+            <li
+              ng-show="$ctrl.frmSimulador.importeInicial.$error.required && !$ctrl.frmSimulador.importeInicial.$pristine">
+              * Este campo es obligatorio</li>
+              <li ng-show="$ctrl.cotizacion.simulador.importeInicial==0">* Ingresa un valor mayor a 0 </li>
+              <li ng-show="$ctrl.montoTopeCuotaInicial">* No puedes ingresar un valor superior al precio final</li>
+          </ul>
+        </div>
+        <div class="col-sm-6 col-md-20-pct mt-xs-2">
+          <a class="g-btn g-btn-white second-design block" ng-click="$ctrl.simular()">SIMULAR</a>
+        </div>
+      </div>
+      <div ng-if="$ctrl.resSimulador">
+        <div class="row mb-xs-2">
+          <div class="col-md-12">
+            <div class="g-list-md g-box gBgcGray5 pt-xs-1 mb-xs-1 pr-xs-1 pl-xs-1">
+              <p><b>Datos de la cotización</b></p>
+              <ul class="row g-list-md mb-xs-1">
+                <li class="col-md-4 clearfix cnt-item">
+                  <div class="col-xs-5 item-label">
+                    <span class="ico-mapfre_82_circle ico-bullet"></span>Contratante
+                  </div>
+                  <div class="col-xs-7 item-dato g-text-uppercase">
+                    {{$ctrl.person.Nombre}} {{$ctrl.person.ApellidoPaterno}} {{$ctrl.person.ApellidoMaterno}}
+                  </div>
+                </li>
+                <li class="col-md-4 clearfix cnt-item">
+                  <div class="col-xs-5 item-label">
+                    <span class="ico-mapfre_82_circle ico-bullet"></span>Agente
+                  </div>
+                  <div class="col-xs-7 item-dato g-text-uppercase">
+                    {{$ctrl.cotizacion.datosCotizacion.claims.nombreAgente || $ctrl.cotizacion.datosCotizacion.nombreAgente}}
+                  </div>
+                </li>
+                <li class="col-md-4 clearfix cnt-item">
+                  <div class="col-xs-5 item-label">
+                    <span class="ico-mapfre_82_circle ico-bullet"></span>Tipo de contrato
+                  </div>
+                  <div class="col-xs-7 item-dato g-text-uppercase">
+                    {{$ctrl.cotizacion.datosCotizacion.tipoContrato.Descripcion || $ctrl.person.tipoContrato.Descripcion}}
+                  </div>
+                </li>
+              </ul>
+              <ul class="row g-list-md mb-xs-1">
+                <li class="col-md-4 clearfix cnt-item">
+                  <div class="col-xs-5 item-label">
+                    <span class="ico-mapfre_82_circle ico-bullet"></span>Modalidad
+                  </div>
+                  <div class="col-xs-7 item-dato g-text-uppercase">
+                    {{$ctrl.cotizacion.datosCotizacion.modalidad.Descripcion || $ctrl.person.modalidad.Descripcion}}
+                  </div>
+                </li>
+                <li class="col-md-4 clearfix cnt-item">
+                  <div class="col-xs-5 item-label">
+                    <span class="ico-mapfre_82_circle ico-bullet"></span>Producto
+                  </div>
+                  <div class="col-xs-7 item-dato g-text-uppercase">
+                    {{$ctrl.cotizacion.datosCotizacion.producto.Descripcion || $ctrl.person.idProducto.Descripcion}}
+                  </div>
+                </li>
+                <li class="col-md-4 clearfix cnt-item">
+                  <div class="col-xs-5 item-label">
+                    <span class="ico-mapfre_82_circle ico-bullet"></span>Número de cuotas
+                  </div>
+                  <div class="col-xs-7 item-dato g-text-uppercase">
+                    {{$ctrl.cotizacion.datosCotizacion.cuotas.NumeroCuota || $ctrl.resSimulador.numeroCuotas}}
+                  </div>
+                </li>
+              </ul>
+              <ul class="row g-list-md mb-xs-1">
+                <li class="col-md-4 clearfix cnt-item">
+                  <div class="col-xs-5 item-label">
+                    <span class="ico-mapfre_82_circle ico-bullet"></span>Moneda
+                  </div>
+                  <div class="col-xs-7 item-dato g-text-uppercase">
+                    Nuevos Soles
+                  </div>
+                </li>
+                <li class="col-md-4 clearfix cnt-item">
+                  <div class="col-xs-5 item-label">
+                    <span class="ico-mapfre_82_circle ico-bullet"></span>Precio final
+                  </div>
+                  <div class="col-xs-7 item-dato g-text-uppercase">
+                    {{$ctrl.cotizacion.simulador.montoTotal | currency: "S/"}}
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-12">
+            <h2 class="g-sub-title g-myd-subtitle">Resumen forma de pago</h2>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-12">
+            <div class="g-list-md g-box gBgcGray5 pt-xs-1 mb-xs-1 pr-xs-1 pl-xs-1 pb-xs-1">
+              <p><b>Sumas Aseguradas según detalle</b></p>
+              <div class="box-white">
+                <div class="row">
+                  <div class="col-md-6 col-lg-3">
+                    <p><b>Nro de cuotas</b></p>
+                    <p class="mb-md-0">{{$ctrl.resSimulador.numeroCuotas}}</p>
+                  </div>
+                  <div class="col-md-6 col-lg-2">
+                    <p><b>Cuota Mensual</b></p>
+                    <p class="mb-md-0">{{$ctrl.resSimulador.cuotaMensual | currency: "S/"}}</p>
+                  </div>
+                  <div class="col-md-6 col-lg-2">
+                    <p><b>Descuento</b></p>
+                    <p class="mb-md-0">{{$ctrl.cotizacion.simulador.descuento | currency: ""}} %</p>
+                  </div>
+                  <div class="col-md-6 col-lg-2">
+                    <p><b>Importe a financiar</b></p>
+                    <p class="mb-md-0">{{((($ctrl.resSimulador.impNetaBoni || 0) + ($ctrl.resSimulador.impImptos || 0)) - ($ctrl.cotizacion.simulador.importeInicial || 0)).toFixed(2) || 0 | currency: "S/"}}</p>
+                  </div>
+                  <div class="col-md-6 col-lg-3">
+                    <p><b>Total intereses</b></p>
+                    <p class="mb-md-0">{{$ctrl.resSimulador.impInteres || 0 | currency: "S/"}}</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row mt-xs-2 mt-md-6">
+          <div class="col-md-12 mb-xs-2">
+            <span class="g-comment">*Campos obligatorios</span>
+          </div>
+        </div>
+        <div class="row mt-xs-1">
+          <div class="col-md-3 col-md-offset-3 mb-xs-2 col-xs-12">
+              <a class="g-btn g-btn-white block" ng-click="$ctrl.saveSimulacion(false)">CERRAR Y GUARDAR OPERACIÓN</a>
+            </div>
+          <div class="col-md-3 mb-xs-2 col-xs-12">
+              <a ng-show="$ctrl.cotizacion.datosCotizacion.idPago === 'DIRECTO' || $ctrl.cotizacion.datosCotizacion.TipoFinancimiento === 'DIRECTO'" class="g-btn g-btn-verde block" ng-click="$ctrl.saveSimulacion(true)">CAMBIAR A PRE EMITIDO</a>
+              <a ng-hide="$ctrl.cotizacion.datosCotizacion.idPago === 'DIRECTO'  || $ctrl.cotizacion.datosCotizacion.TipoFinancimiento === 'DIRECTO'" class="g-btn g-btn-verde block" ng-click="$ctrl.saveSimulacion(true)">CAMBIAR A COTIZADO</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</form>

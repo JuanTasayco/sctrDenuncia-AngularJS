@@ -1,0 +1,54 @@
+<div ng-repeat="equipo in $ctrl.equipos.listaEquipos track by $index"
+  class="g-box pt-xs-2 pb-xs-2 pl-xs-2 pr-xs-2 mb-xs-2">
+  <div class="row">
+    <div class="col-sm-6 col-md-3 mb-xs-2 mb-sm-0">
+      <mpf-input label="{label: 'Valor total de equipos', required: true}" name="valorEquipo{{$index}}"
+        ng-model="equipo.ValorEquipo" ng-required="true" ng-blur="$ctrl.calculaEquipos(equipo.ValorEquipo)"
+        mpf-validation="onlyDecimal" m-input-currency ng-disabled="$ctrl.validate">
+      </mpf-input>
+      <div class="g-error" ng-show="$ctrl.validControlForm('valorEquipo{{$index}}')">
+        {{$ctrl.constantsRrgg.SMS_ERROR.REQUERIDO}}
+      </div>
+    </div>
+    <div class="col-sm-6 col-md-3 mb-xs-2 mb-md-0">
+      <mpf-select ng-model="equipo.Descripcion" name="descripcionEquipo{{$index}}" m-data-source="$ctrl.descripcion"
+        text-field="Descripcion" value-field="Codigo" m-Empty-Option="{enterData:true}"
+        label="{label: 'Descripción del equipo',required: true}" mpf-validation="required" ng-disabled="$ctrl.validate"
+        ng-required="true">
+      </mpf-select>
+      <div class="g-error" ng-show="$ctrl.validControlForm('descripcionEquipo{{$index}}')">
+        {{$ctrl.constantsRrgg.SMS_ERROR.REQUERIDO}}
+      </div>
+    </div>
+    <div class="col-sm-6 col-md-3 mb-xs-2 mb-md-0">
+      <mpf-input label="{label: 'Detalle del equipo'}" mpf-validation="onlyLetterNumCaracteres" ng-maxlength="150"
+        name="detalleEquipo{{$index}}" ng-model="equipo.DetalleEquipo" ng-disabled="$ctrl.validate">
+      </mpf-input>
+    </div>
+    <div class="col-sm-6 col-md-1 mb-xs-2 mb-md-0">
+      <mpf-input label="{label: 'Marca', required: true}" mpf-validation="onlyLetterNumCaracteres" ng-maxlength="150"
+        name="marcaEquipo{{$index}}" ng-model="equipo.MarcaEquipo" ng-disabled="$ctrl.validate" ng-required="true">
+      </mpf-input>
+      <div class="g-error" ng-show="$ctrl.validControlForm('marcaEquipo{{$index}}')">
+        {{$ctrl.constantsRrgg.SMS_ERROR.REQUERIDO}}
+      </div>
+    </div>
+    <div class="col-sm-6 col-md-1 mb-xs-2 mb-md-0">
+      <mpf-input label="{label: 'Año'}" name="anioEquipo{{$index}}" ng-model="equipo.Anio" ng-required="true"
+        mpf-validation="onlyNumber" ng-minlength="4" ng-maxlength="4" ng-disabled="$ctrl.validate" trn-Length="4">
+      </mpf-input>
+      <div class="g-error" ng-show="$ctrl.validControlForm('anioEquipo{{$index}}')"
+        ng-show="$ctrl.validControlForm('valorEquipo{{$index}}')">
+        {{$ctrl.constantsRrgg.SMS_ERROR.ANIO}}
+      </div>
+    </div>
+    <div class="col-sm-6 col-md-1 mb-xs-2 mb-md-0">
+      <mpf-input label="{label: 'Serie/motor',required: true}" mpf-validation="onlyLetterNumCaracteres" ng-maxlength="150"
+        name="serieEquipo{{$index}}" ng-model="equipo.SerieMotor" ng-disabled="$ctrl.validate" ng-required="true">
+      </mpf-input>
+      <div class="g-error" ng-show="$ctrl.validControlForm('serieEquipo{{$index}}')">
+        {{$ctrl.constantsRrgg.SMS_ERROR.REQUERIDO}}
+      </div>
+    </div>
+  </div>
+</div>

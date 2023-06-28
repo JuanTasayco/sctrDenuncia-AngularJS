@@ -1,0 +1,180 @@
+	<section class="g-page">
+	
+	<div class="g-title">
+		<div class="container">
+			<div class="row">
+				<div class="col-xs-12 col-sm-8 mb-xs-2 no-mb-sm">
+					<h1>Detalle</h1>
+				</div>
+				<div class="col-xs-7 col-xs-push-5 col-sm-4 col-sm-push-0 text-right">
+					<a class="g-link-back" ui-sref="sctrParametros"><span class="ico-mapfre_78_chevronleft arrow-left"></span>Seleccionar otro parámetro</a>
+				</div>
+
+				<div class="col-xs-5 col-xs-pull-7 col-sm-4 col-sm-offset-8 col-sm-pull-0 col-md-3 col-md-offset-9">
+					<a class="g-btn g-btn-verde block" ng-click="showModalNuevoDetalleDatosGrupoParametros(formData.param.CodigoGrupo, formData.param.DesGrupo);">Nuevo detalle</a>
+				</div>
+			</div>
+		</div>
+	</div>
+
+ <!-- Sección Agente -->
+  <div class="g-section" ng-hide="true">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-5">
+        
+         <span ng-show="!userRoot"><h2>Agente: {{formData.claims.codigoAgente}} - {{formData.claims.nombreAgente}}</h2></span>		         
+          <mp-data-seeker ng-show="userRoot" behavior="{label:'Para cotizar una póliza debes elegir un agente', placeholder:'Busque o seleccione un agente ...', matchField:'codigoNombre'}" m-data-source="'proxyAgente.buscarAgente'" ng-model="mAgente" ng-change="saveAgent(mAgente)">
+              <div ng-bind-html="$item.codigoNombre | highlight: $select.search"></div>
+          </mp-data-seeker>
+
+        </div>
+      </div>
+
+      <div class="row" ng-show="currentStep!=1">
+        <div class="col-md-5">
+          <span ><h2>Agente: {{mAgente.codigoNombre}}</h2></span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+	<div class="g-section-inner">
+		<div class="container">
+			<div class="row">
+				<div class="col-md-12 mb-xs-2">
+					<div class="clearfix g-col-filter g-box-gray1 g-border g-border-color1">
+						<ul class="row g-list">
+							<li class="col-md-12">
+								<div class="col-md-12"><h2 class="g-list-title">Datos del parámetro</h2></div>
+							</li>
+							<li class="col-md-3 g-border-right g-border-color1">
+								<div class="col-xs-3 no-pr-xs item-label">Código:&nbsp;</div>
+								<div class="col-xs-9 item-dato">{{formData.param.CodigoGrupo}}</div>
+							</li>
+							<li class="col-md-3 g-border-right g-border-color1">
+								<div class="col-xs-3 col-sm-4 no-pr-xs item-label">Estado:&nbsp;</div>
+								<div class="col-xs-9 col-sm-8 item-dato">{{formData.param.DescripcionEstado}}</div>
+							</li>
+							<li class="col-md-6">
+								<div class="col-sm-3 no-pr-xs item-label">Descripción:&nbsp;</div>
+								<div class="col-sm-9 item-dato">{{formData.param.DesGrupo}}</div>
+							</li>
+						</ul>
+					</div>
+				</div>
+
+				<div class="col-md-12">
+					<div class="clearfix g-box sec-design g-box-white" ng-repeat="detail in formData.paramDetalle">
+						<div class="row">
+							<div class="col-md-12 g-text-uppercase">
+								<ul class="row g-list">
+									<li class="col-md-1 cnt-item text-center mb-md-0">
+										<a href="" ng-click="showModalNuevoDetalleEditarDatosGrupoParametros(detail);"><span class="ico-mapfre_43_editar ico-edit"></span></a>
+									</li>
+									<li class="col-md-4 cnt-item mb-md-0">
+										<div class="col-xs-4 no-pr-xs item-label">DESCRIPCIÓN:&nbsp;</div>
+										<div class="col-xs-8 item-dato">{{detail.Descripcion}}</div>
+										<div class="col-xs-4 item-label">VALOR 1:&nbsp;</div>
+										<div class="col-xs-8 item-dato" ng-if="detail.Valor1">{{detail.Valor1}}</div>
+										<div class="col-xs-8 item-dato" ng-hide="detail.Valor1">-</div>
+									</li>
+									<li class="col-md-4 cnt-item mb-md-0">
+										<div class="col-xs-4 col-md-5 item-label">ESTADO:&nbsp;</div>
+										<div class="col-xs-8 col-md-7 item-dato">{{detail.DescripcionEstado}}</div>
+										<div class="col-xs-4 col-md-5 item-label">VALOR 2:&nbsp;</div>
+										<div class="col-xs-8 col-md-7 item-dato" ng-if="detail.Valor2">{{detail.Valor2}}</div>
+										<div class="col-xs-8 col-md-7 item-dato" ng-hide="detail.Valor2">-</div>
+									</li>
+									<li class="col-md-3 cnt-item mb-md-0">
+<!-- 										<div class="col-xs-4 col-md-5 item-label">&nbsp;</div>
+										<div class="col-xs-8 col-md-7 item-dato">&nbsp;</div> -->
+										<div class="col-xs-4 col-md-5 item-label">VALOR 3:&nbsp;</div>
+										<div class="col-xs-8 col-md-7 item-dato" ng-if="detail.Valor3">{{detail.Valor3}}</div>
+										<div class="col-xs-8 col-md-7 item-dato" ng-hide="detail.Valor3">-</div>										
+										<div class="col-xs-4 col-md-5 item-label">VALOR 4:&nbsp;</div>
+										<div class="col-xs-8 col-md-7 item-dato" ng-if="detail.Valor4">{{detail.Valor4}}</div>
+										<div class="col-xs-8 col-md-7 item-dato" ng-hide="detail.Valor4">-</div>
+									</li>
+								</ul>
+							</div>
+						</div>
+					</div>
+				</div>
+<!-- 
+				<div class="col-md-12">
+					<div class="clearfix g-box sec-design g-box-white" ng-repeat="detail in formData.paramDetalle">
+						<div class="row">
+							<div class="col-md-12 g-text-uppercase">
+								<ul class="row g-list">
+									<li class="col-md-1 cnt-item text-center mb-md-0">
+										<a href="" ng-click="showModalNuevoDetalleEditarDatosGrupoParametros2();"><span class="ico-mapfre_43_editar ico-edit"></span></a>
+									</li>
+									<li class="col-md-5 cnt-item mb-md-0">
+										<div class="col-xs-3 col-sm-4 item-label">AGENTE:&nbsp;</div>
+										<div class="col-xs-9 col-sm-8 item-dato">{{detail.UserCreacion}}</div>
+										<div class="col-xs-4 item-label">CÓDIGO DE AGENTE:&nbsp;</div>
+										<div class="col-xs-8 item-dato">9808</div>
+										<div class="clearfix"></div>
+										<div class="col-xs-4 item-label">VALOR 4:&nbsp;</div>
+										<div class="col-xs-8 item-dato">{{detail.Valor4}}</div>
+									</li>
+									<li class="col-md-3 cnt-item mb-md-0">
+										<div class="col-xs-4 col-md-5 item-label">ESTADO:&nbsp;</div>
+										<div class="col-xs-8 col-md-7 item-dato">{{detail.DescripcionEstado}}</div>
+										<div class="col-xs-4 col-md-5 item-label">DOCUMENTO:&nbsp;</div>
+										<div class="col-xs-8 col-md-7 item-dato">RUC_20143229816</div>
+									</li>
+									<li class="col-md-3 cnt-item mb-md-0">
+										<div class="col-xs-4 col-md-5 item-label">VALOR 3:&nbsp;</div>
+										<div class="col-xs-8 col-md-7 item-dato">{{detail.Valor3}}</div>
+									</li>
+								</ul>
+							</div>
+						</div>
+					</div>
+				</div> -->
+
+				<!-- Mensaje de error si no hay resultados de la busqueda -->
+				<div class="col-md-12 g-text-center-xs g-box-noresult" ng-if="noResult">
+					<div class="row">
+						<div class="col-md-12 g-box-noresult-ico"><span class="ico-mapfre_119_wrong ico-wrong"></span></div>
+						<div class="col-md-12 g-box-noresult-text">No hay resultados para los datos ingresados en la busqueda.<br>
+						Intente nuevamente</div>
+					</div>
+				</div>
+
+			</div>
+
+
+			<!-- Inicio: Paginacion -->
+			<!-- <div class="col-md-12 mb-md-2" ng-show="showPages && showCotizaciones"> -->							
+			<!-- <div class="col-md-12 mb-md-2"> -->
+			<!-- 	<div class="row">
+					<div class="col-md-6 col-md-offset-3">
+						<ul class="g-pages">
+							<li class="g-pages-item"><a ng-click="consultaDocumentosPrev(mContratante, searchOptions.pageActive.number -1 )"><span class="ico-mapfre_78_chevronleft"></span></a></li>
+
+							<li class="g-pages-item" ng-repeat="pageGrid in getNumber(CantidadTotalPaginas) track by $index" ng-class="{active:pageGrid.active, disabled:!pageGrid.active}">
+								<a ng-click="listarCotizacionesVigentes(mContratante, $index+1)">{{$index+1}}</a>
+							</li>
+
+							<li class="g-pages-item"><a ng-click="consultaDocumentosNext(mContratante,searchOptions.pageActive.number)"><span class="ico-mapfre_79_chevroneright"></span></a></li>
+						</ul>
+					</div>
+				</div> -->
+			<!-- </div>  -->
+
+			<!-- PAGINATION -->
+			<!-- <div class="row" ng-if="!noResult">
+				<div class="col-md-9 col-md-offset-3">
+					<ul uib-pagination class="g-pagination" ng-model="mainStep.mPagination" max-size="10" total-items="totalItems" ng-change="pageChanged(mainStep.mPagination)" boundary-link-numbers="true"></ul>
+				</div>
+			</div>
+ -->
+		</div>
+	</div>
+
+
+
+</section>

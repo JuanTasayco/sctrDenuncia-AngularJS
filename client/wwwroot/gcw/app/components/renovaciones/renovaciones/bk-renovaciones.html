@@ -1,0 +1,239 @@
+<div class="consultaGestion">
+  <div class="container">
+    <div show-filter class="clearfix g-col-filter g-box-md gBgcGray5-md gBgcWhite1" ng-class="{'show': isFilterVisible}">
+      <div class="col-xs-12">
+        <div class="clearfix gH4 gCGray1 mb-xs-1-5">
+          <h2 class="hidden-xs hidden-sm"><b>Opciones de Búsqueda</b></h2>
+          <div id="show-filter" class="row pt-xs-2 pb-xs-2 gBgcGray5 g-border-bottom-xs hidden-md hidden-lg" ng-click="toggleFilter();">
+            <div class="col-xs-10"><h2><b>Opciones de Búsqueda</b></h2></div>
+            <div class="col-xs-2 g-text-right-xs">
+              <!-- ngIf: isFilterVisible --><span class="glyphicon glyphicon-chevron-down ng-scope" ng-if="isFilterVisible" style=""></span><!-- end ngIf: isFilterVisible -->
+              <!-- ngIf: !isFilterVisible --><span class="glyphicon glyphicon-chevron-up ng-scope" ng-if="!isFilterVisible" style=""></span><!-- end ngIf: !isFilterVisible -->
+            </div>
+            <div class="clearfix"></div>
+          </div>
+        </div>
+        <form class="clearfix" name="vm.formDataRenovaciones.frmRenovaciones">
+          <div class="row">
+            <div class="col-md-5 col-xs-12 g-border-right">
+              <div class="row">
+                <div class="col-md-6 pr-xs-0">
+                  <m-radio label="{label: 'Por fecha de vencimiento'}" name="nTipoFecha" ng-model="vm.formDataRenovaciones.mTipoFecha" value="1" data-ng-required="true" ></m-radio>
+                    <div class="g-error"
+                     data-ng-show="frmRenovaciones.nTipoFecha.$error.required && !frmRenovaciones.nTipoFecha.$pristine">* Seleccione una opción
+                     </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-6">
+                  <div class="g-datepicker">
+                    <div class="g-date-picker">
+                      <label class="g-placeholder animated">Desde<span ng-show="false" class="ng-hide" style="">*</span></label>
+                      <div class="input-group">
+                        <input  type="text" class="form-control" uib-datepicker-popup="{{vm.format}}" data-ng-model="vm.formDataRenovaciones.mConsultaDesde" is-open="vm.popup1.opened" datepicker-options="vm.dateOptions"
+                                data-ng-required="true" close-text="Close" alt-input-formats="vm.altInputFormats" placeholder="Desde" readonly="true" />
+                        <span class="input-group-btn">
+                          <button type="button" class="btn btn-default" data-ng-click="vm.open1()"> <i class="glyphicon glyphicon-calendar"></i> </button>
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-6 mt-xs-2 mt-md-0">
+                  <div class="g-datepicker">
+                    <div class="g-date-picker">
+                      <label class="g-placeholder animated ng-binding">Hasta<span ng-show="false" class="ng-hide" style="">*</span></label>
+                      <div class="input-group">
+                        <input  type="text" class="form-control" uib-datepicker-popup="{{vm.format}}" data-ng-model="vm.formDataRenovaciones.mConsultaHasta" is-open="vm.popup2.opened" datepicker-options="vm.dateOptions2"
+                                data-ng-required="true" close-text="Close" alt-input-formats="vm.altInputFormats" placeholder="Hasta" readonly="true"  />
+                        <span class="input-group-btn">
+                          <button type="button" class="btn btn-default" data-ng-click="vm.open2()"> <i class="glyphicon glyphicon-calendar"></i></button>
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                </div>
+            </div>
+
+            <div class="col-md-7 col-xs-12 mt-xs-2 mt-md-0">
+              <div class="row">
+                <div class="col-md-5 pl-xs-1 pr-xs-0">
+                  <m-radio label="{label: 'Por contratante/Asegurado'}" name="nOpcionTipoBusqueda" ng-model="vm.formDataRenovaciones.mOpcionTipoBusqueda" value="1" data-ng-required="true"></m-radio>
+                  <div class="g-error"
+                     data-ng-show="frmRenovaciones.nOpcionTipoBusqueda.$error.required && !frmRenovaciones.nOpcionTipoBusqueda.$pristine">* Seleccione una opción
+                  </div>
+                 </div>
+                <div class="col-md-3 pl-xs-1 pr-xs-0">
+                  <m-radio label="{label: 'No. Póliza'}" name="nOpcionTipoBusqueda" ng-model="vm.formDataRenovaciones.mOpcionTipoBusqueda" value="2" data-ng-required="true"></m-radio>
+                </div>
+              </div>
+
+              <div class="row" ng-if="vm.formDataRenovaciones.mOpcionTipoBusqueda == '1'">
+                <!-- Buscar Cliente -->
+                <gcw-cliente data="vm.formDataRenovaciones.Cliente"></gcw-cliente>
+              </div>
+
+              <div class="row" ng-if="vm.formDataRenovaciones.mOpcionTipoBusqueda  == '2'">
+                <div class="col-md-6">
+                  <mpf-input label="{label: 'Nro. Póliza', required: true}" name="nNumPoliza" ng-model="vm.formDataRenovaciones.mNumPoliza" data-ng-required="true" mpf-validation="onlyNumber"></mpf-input>
+                   <div class="g-error"
+                     data-ng-show="frmRenovaciones.nNumPoliza.$error.required && !frmRenovaciones.nNumPoliza.$pristine">* Ingrese número de póliza
+                  </div>
+                </div>
+              </div>
+
+            </div>
+
+            <div class="col-xs-12 mt-xs-3 mt-md-1">
+              <div class="row">
+                <div class="col-md-4 col-md-offset-8">
+                  <div class="row">
+                    <div class="col-xs-6">
+
+                    </div>
+                    <div class="col-xs-6">
+
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-offset-8 col-md-2 mb-xs-1 no-mb-md"><a class="g-btn g-btn-verde second-design block" ng-click="vm.buscar()">Buscar</a></div>
+            <div class="col-md-2"><a class="g-btn g-btn-white second-design block" ng-click="vm.limpiar()">Limpiar</a></div>
+          </div>
+        </form>
+      </div>
+
+    </div>
+
+     <!-- Top bar: Filtro e iconos -->
+    <div tbl-oim-topbar class="clearfix g-tbl-topbar mt-md-2 mb-md-2 mt-xs-1 width-filtro">
+      <div class="g-row-icons__box visible-xs visible-sm" ng-show="vm.totalRows >= 1">
+        <a ng-click="showFilterTopbar = !showFilterTopbar" uib-popover="Filtro" popover-trigger="'mouseenter'"><span class="ico-mapfre ico-mapfre_203_filtro ico-filter"></span></a>
+        <a data-ng-click="exportar()" uib-popover="Exportar" popover-trigger="'mouseenter'"><span class="ico-mapfre ico-mapfre_124_download ico-download"></span></a>
+      </div>
+      <div class="g-row-filter__box g-row-icons__box box_left hidden-xs hidden-sm" ng-show="vm.totalRows >= 1">
+        <a data-ng-click="exportar()" uib-popover="Exportar" popover-trigger="'mouseenter'"><span class="ico-mapfre ico-mapfre_124_download ico-download"></span></a>
+      </div>
+      <div class="g-row-filter__box box_right height-xs height-sm" ng-class="{'filter__show': showFilterTopbar}">
+        <form class="clearfix" name="vm.formFilterRenovaciones.frmRenovaciones">
+          <div class="g-filter-col pt-xs-1 mt-md-0">
+            <mpf-select-horz
+              ng-model="vm.formFilterRenovaciones.Sector"
+              name="nSector"
+              label="{label: 'Sector', required: false}"
+              m-data-source="vm.lstSectores"
+              text-field="description"
+              value-field="code"
+              m-Empty-Option="{text:'todos'}"
+              mpf-validation="required">
+            </mpf-select>
+          </div>
+          <div class="g-filter-col pt-xs-1 mt-md-0">
+            <mpf-select-horz
+              ng-model="vm.formFilterRenovaciones.Ramo"
+              name="nRamo"
+              label="{label: 'Ramo', required: false}"
+              m-data-source="vm.lstRamos"
+              text-field="ramoDescription"
+              value-field="identifierId"
+              m-Empty-Option="{text:'todos'}"
+              mpf-validation="required">
+            </mpf-select>
+          </div>
+          <div class="g-filter-col col__buttons hidden-xs hidden-sm">
+            <a class="g-btn g-btn-white block second-design " ng-click="vm.buscar()">Aplicar Filtros</a>
+          </div>
+          <div class="col__buttons visible-xs mt-xs-2">
+            <a class="g-btn g-btn-white block second-design " ng-click="vm.buscar()">Aplicar Filtros</a>
+            <a ng-click="showFilterTopbar = !showFilterTopbar" class="g-btn g-btn-white block second-design ">Cerrar</a>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <div class="clearfix" ng-show="vm.totalRows >= 1">
+      <div tbl-oim class="col-xs-12 g-tbl-wrapper pl-xs-0">
+        <div class="tbl-main">
+          <ul class="tbl-header clearfix">
+            <li class="title col-12-dktp">Póliza</li>
+            <li class="title col-8-dktp">Mes-Año</li>
+            <li class="title col-12-dktp">Producto</li>
+            <li class="title col-9-dktp text-center">Vencimiento</li>
+            <li class="title col-13-dktp">Cliente</li>
+            <li class="title col-8-dktp text-center">Segmento Comercial</li>
+            <li class="title col-5-dktp text-right">Mapfre Dólar</li>
+            <li class="title col-10-dktp text-right">Prima Neta</li>
+            <li class="title col-8-dktp text-right">Prima Renov.</li>
+            <li class="title col-4-dktp text-center">Mon.</li>
+            <li class="title col-6-dktp text-center">Pagos Pend.</li>
+            <li class="title col-4-dktp text-center">Sini.</li>
+          </ul>
+          <ul class="tbl-body clearfix">
+            <li ng-repeat="item in vm.renovaciones" ng-click="vm.irDetalleRenovacion(item)">
+              <ul height-row class="tbl-row clearfix">
+                <li class="cell col-12-dktp">
+                  <span class="cell-title">{{item.policyNumber}}</span>
+                  <span class="c-tag mb-xs-1"
+                      data-ng-class="{'u-bg--rojo-primario': item.state === 'NO RENOVADA', 'u-bg--verde-2': item.state === 'RENOVADA'}">{{item.state}}
+                  </span>
+                </li>
+                <li class="cell col-8-dktp">
+                  <span class="cell-label"><span class="cell-data g-text-uppercase">{{item.period}}</span></span>
+                </li>
+                <li class="cell col-12-dktp">
+                  <span class="cell-label"><span class="cell-data g-text-uppercase">{{item.branchName}}</span></span>
+                </li>
+                <li class="cell col-9-dktp text-center">
+                  <span class="cell-label"><span class="cell-data">{{item.expirationDateEnd}}</span></span>
+                </li>
+                <li class="cell col-13-dktp">
+                  <span class="cell-label"><span class="cell-data g-text-uppercase">{{item.clientName}}</span></span>
+                </li>
+                <li class="cell col-8-dktp">
+                  <span class="cell-label text-center"><span class="cell-data">{{item.businessSegment}}</span></span>
+                </li>
+                <li class="cell col-5-dktp text-right">
+                  <span class="cell-label"><span class="cell-data">{{item.balanceMapfreDollar | number:2}}</span></span>
+                </li>
+                <li class="cell col-10-dktp text-right">
+                  <span class="cell-label"><span class="cell-data">{{item.netPremium | number:2}}</span></span>
+                </li>
+                <li class="cell col-8-dktp text-right">
+                  <span class="cell-label"><span class="cell-data">{{item.renewalPremium | number:2}}</span></span>
+                </li>
+                <li class="cell col-4-dktp text-center">
+                  <span class="cell-label"><span class="cell-data g-text-uppercase">{{item.coinDescription}}</span></span>
+                </li>
+                <li class="cell col-6-dktp text-center">
+                  <span class="cell-label"><span class="cell-data g-text-uppercase">{{item.withPendingPayment}}</span></span>
+                </li>
+                <li class="cell col-4-dktp text-center">
+                  <span class="cell-label"><span class="cell-data g-text-uppercase">{{item.withAmountSinister}}</span></span>
+                </li>
+              </ul>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <mx-paginador
+      data-datos="vm.renovaciones"
+      data-items-x-page="vm.itemsXPagina"
+      data-msg-vacio="vm.msgVacio"
+      data-on-paginar="vm.pageChanged($event)"
+      data-pagina-actual="vm.currentPage"
+      data-total-items="vm.totalRows"
+    >
+    </mx-paginador>
+
+  </div>
+</div>
+
+<form id="frmExport" name="frmExport" action="{{vm.exportURL}}" method="post" target="_blank">
+  <input type="hidden" name="json" value='{{vm.downloadFile}}'>
+</form>

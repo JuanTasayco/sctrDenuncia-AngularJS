@@ -1,0 +1,95 @@
+<inspec-applicant
+  anchor="'anchor-1'"
+  data="$ctrl.formData.applicantData"
+  from-quotation="true"
+  agent-code="$ctrl.dataCotizacion.codigoAgente"
+  agent-name="$ctrl.dataCotizacion.nombreAgente"
+  agent-loaded="$ctrl.agentLoaded"
+></inspec-applicant>
+<!-- DATOS DEL VEHÍCULO -->
+<div class="g-section-inner" id="anchor-2">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12">
+        <h2 class="g-sub-title g-myd-subtitle">Datos del vehículo</h2>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-4 mb-xs-2 no-mb-md">
+        <mpf-input
+          ng-maxlength="6"
+          ng-minLength="6"
+          label="{label: 'Placa', required: true}"
+          name="nPlaca"
+          ng-model="$ctrl.formData.vehicleLicensePlate"
+          ng-required="true"
+          mpf-validation="placas"
+        ></mpf-input>
+        <div class="g-error" ng-show="$ctrl.formData.nPlaca.$error.required && !$ctrl.formData.nPlaca.$pristine">
+          * Ingrese una placa
+        </div>
+      </div>
+      <div class="col-md-4 mb-xs-2 no-mb-md">
+        <mpf-input
+          label="{label: 'Cantidad de accesorios adicionales', required: true}"
+          mpf-validation="number"
+          ng-maxlength="3"
+          name="nCantAccesoriosAdic"
+          ng-model="$ctrl.formData.vehicleAccesoriesAmount"
+          ng-required="true"
+        ></mpf-input>
+        <span
+          class="ico-mapfre_222_informacion gCGreen1 gnIcon-xsm iconInfo"
+          uib-popover="Accesorios adicionales a los de fábrica. Ejm: parlantes, radios..."
+          popover-trigger="'mouseenter'"
+          popover-placement="left"
+        ></span>
+        <!-- </span> -->
+        <div
+          class="g-error"
+          ng-show="$ctrl.formData.nCantAccesoriosAdic.$error.required && !$ctrl.formData.nCantAccesoriosAdic.$pristine"
+        >
+          * Ingrese una cantidad
+        </div>
+      </div>
+      <div
+        class="col-md-4"
+        ng-show="$ctrl.formData.vehicleAccesoriesAmount > 0 && $ctrl.formData.vehicleAccesoriesAmount < 4"
+      >
+        <span class="g-label mb-xs-1">Tipo de accesorios adicionales</span>
+        <div class="row">
+          <div class="g-solicitud-checkboxes">
+            <div class="col-md-12">
+              <mpf-checkbox
+                name="nAccesoriesEspecials"
+                ng-model="$ctrl.formData.accesoriesEspecials"
+                label="Faros y/o focos especiales, Parrillas y barras de techo, Equipo GLP / GNV, Estribos, Parlante de música, Radio, Aros no originales"
+              ></mpf-checkbox>
+            </div>
+            <div class="col-md-12 mt-xs-2">
+              <mpf-checkbox
+                name="nAccesoriesOthers"
+                ng-model="$ctrl.formData.accesoriesOthers"
+                label="Otros accesorios adicionales"
+              ></mpf-checkbox>
+            </div>
+            <ul class="col-md-12 g-error mt-xs-2">
+              <li ng-show="!$ctrl.formData.accesoriesEspecials && !$ctrl.formData.accesoriesOthers">
+                * Seleccione un tipo de accesorio
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="g-section">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-4 col-md-offset-4">
+        <a class="g-btn g-btn-verde block" ng-click="$ctrl.goToNextStep2()">siguiente</a>
+      </div>
+    </div>
+  </div>
+</div>

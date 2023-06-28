@@ -1,0 +1,80 @@
+<section class="g-page page-inspeccion-autos page-inspeccion-autos__nueva-solicitud">
+  <page-title class="hidden-lg hidden-md" info="{title: 'Inspecciones Autos'}"></page-title>
+  <div class="container">
+    <div class="row mb-xs-2">
+      <div class="g-title col-md-9">
+        <div class="">
+          <h2 class="ng-binding pr-xs-1">Nueva Solicitud Especial</h2>
+        </div>
+        <div class="title-details mt-xs-1 mt-md-0">
+          <span>Usuario: <span><b>{{ $ctrl.username }}</b></span></span>
+          <span>Fecha creación: <span><b>{{ $ctrl.creationDate }}</b></span></span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Agente -->
+  <div class="g-section">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-4">
+          <div class="row" ng-show="$ctrl.currentStep == 1">
+            <div class="col-md-12">
+              <mp-data-seeker ng-if="$ctrl.user.isAPermittedObject('MODAGE')" ng-required="true" behavior="{label:'Agente *', matchField:'nombre', placeholder: 'Ingresa nombre o código de agente'}" m-data-source="$ctrl.queryAgents($inputNeed)" ng-model="$ctrl.agentRequest" ng-required="$ctrl.user.isAPermittedObject('MODAGE')" name="nCurrentAgente">
+                <div ng-bind-html="$item.nombre | highlight: $select.search"></div>
+              </mp-data-seeker>
+              <div class="g-error" ng-show="formData.nCurrentAgente.$error.required && !formData.nCurrentAgente.$pristine">* Ingrese y seleccione un agente</div>
+            </div>
+          </div>
+          <div class="row" ng-show="!$ctrl.user.isAPermittedObject('MODAGE') && $ctrl.currentStep == 1">
+            <div class="col-md-12">
+              <span><h2>Agente: {{ $ctrl.agentRequest.nombre }}</h2></span>
+            </div>
+          </div>
+          <div class="row" ng-show="$ctrl.currentStep != 1">
+            <div class="col-md-12">
+              <span><h2>Agente: {{ $ctrl.agentRequest.nombre }}</h2></span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Steps -->
+  <div class="g-steps mb-md-3" >
+    <wizard-stairs
+    stairs="{steps: [{description:'Solicitante y vehículo'}, {description:'Lugar de inspeccion / Contacto'}], stateName:'.steps', stateParameter: 'step'}"
+    current-Step="$ctrl.currentStep"
+    steping="$ctrl.steping($stepToGo)"></wizard-stairs>
+  </div>
+  <div class="g-sec-information mt-xs-1" ng-if="$ctrl.currentStep > 1">
+    <div class="sec-item">
+      <div class="container">
+        <ul class="row cnt-title">
+          <li class="col-xs-6 item-title">Datos del solicitante</li>
+          <li class="col-xs-6 item-edit">
+            <a href="" ui-sref-opts="{ reload: false, inherit: false }" ui-sref="solicitudNuevaEspecial.steps({ step: 1, anchor: 'anchor-1'})"><span class="ico-mapfre_43_editar ico-edit"></span>Editar datos del solicitante</a>
+          </li>
+        </ul>
+        <ul class="row">
+          <li class="col-md-4 clearfix cnt-item">
+            <div class="col-sm-5 item-label">
+              <span class="ico-mapfre_82_circle ico-bullet"></span>Tipo de inspección:&nbsp;
+            </div>
+            <div class="col-sm-7 item-dato g-text-uppercase">{{ $ctrl.formData.applicantData.mInspectionType.description }}</div>
+          </li>
+
+          <li class="col-md-4 clearfix cnt-item">
+            <div class="col-sm-5 item-label">
+              <span class="ico-mapfre_82_circle ico-bullet"></span>Tipo de registro:&nbsp;
+            </div>
+            <div class="col-sm-7 item-dato g-text-uppercase">{{ $ctrl.requestType.description || 'INDIVIDUAL' }}</div>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <form name="$ctrl.formData">
+    <div class="second-step" ui-view="" id="scrollTo"></div>
+  </form>
+</section>

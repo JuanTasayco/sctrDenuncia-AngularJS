@@ -1,0 +1,536 @@
+<!-- inicio paso 3 -->
+<form name="paso3">
+  <div class="cleaner container">
+
+    <div class="col-xs-12">
+      <div class="register-progress-block u-bg--grey u-br-5 re">
+        <div class="col-md-12 pro-summary-box--left">
+          <div class="col-md-2 reg-step reg-step--summary" ng-show="!$ctrl.edit">
+            <span class="reg-step__circle glyphicon glyphicon-ok" ng-show="$parent.edit3 == false"></span>
+            <span class="reg-step__circle" ng-show="$parent.edit3 == true"> 3 </span>
+            <span class=" register-step__title">DESTINO</span>
+          </div>
+          <div class="col-md-2 reg-step reg-step--summary" ng-hide="!$ctrl.edit"
+               ng-class="{'steps':$ctrl.step != 3 }">
+            <span class="reg-step__circle"> 3 </span>
+            <span class="register-step__title">DESTINO</span>
+          </div>
+          <div class="col-md-8 col-xs-6 item-label" style=" margin-top: 10px;" ng-show="!$ctrl.edit">
+            <span style=" font-weight: bold">Entidad destino</span>
+          </div>
+        </div>
+
+
+        <div class="col-md-12 pro-summary-box--right" ng-show="$parent.currentStep >= 3 && $parent.edit3">
+          <div class="row" ng-show="$ctrl.step >= 3">
+            <div class="clearfix g-list-lg">
+              <div class="col-md-12">
+                <div class="row ">
+                  <div class="col-sm-12 clearfix cnt-item">
+                    <div class="col-md-4 item-label">
+                                            <span style="font-weight: bold">Selecciona al proveedor y requerimientos de
+                                                destino</span>
+                    </div>
+                    <div class="col-md-3 col-md-offset-5"
+                         style="text-align: right; padding-right: 10px;">
+                      <span>Forzar proveedor destino</span>
+                      <mpf-checkbox-toggle ng-model="$ctrl.filters.fRefeForzada"
+                                           ng-true-value=" ENABLE_STATE" ng-false-value="DISABLED_STATE"
+                                           ng-change="$ctrl.forzarDestino()">
+                      </mpf-checkbox-toggle>
+                    </div>
+                    </br>
+
+                    <div style="padding-top: 20px;" ng-show="!$ctrl.filters.fRefeForzada">
+                      <div class="col-md-4 mb-xs-2">
+                        <mpf-select-placeholder label="{label: 'Departamento', required: false}"
+                                                m-Empty-Option="{text: 'TODOS'}" name="nDepartamentoDestino"
+                                                text-field="text" value-field="value"
+                                                ng-model="$ctrl.filters.ac_cdprtmntoDestino"
+                                                m-data-source="$ctrl.masters.departamentosDestino"
+                                                ng-change="$ctrl.selectDepartamentoDestino()">
+                        </mpf-select-placeholder>
+                      </div>
+                      <div class="col-md-4 mb-xs-2">
+                        <mpf-select-placeholder label="{label: 'Provincia', required: false}"
+                                                m-Empty-Option="{text: 'TODOS'}" name="nProvinciaDestino"
+                                                text-field="text" value-field="value"
+                                                ng-model="$ctrl.filters.an_cprvncaDestino"
+                                                m-data-source="$ctrl.masters.provinciasDestino">
+                        </mpf-select-placeholder>
+                        <div class="g-error">
+                          <div
+                            ng-show="paso3.nProvinciaDestino.$invalid && !form2.nProvinciaDestino.$pristine">
+                            * Seleccione una provincia</div>
+                        </div>
+                      </div>
+                      <div class="col-md-4 mb-xs-2">
+                        <mpf-select-placeholder label="{label: 'Entidad', required: false}"
+                                                m-Empty-Option="{text: 'TODOS'}" name="nEntidad" text-field="text"
+                                                value-field="value" ng-model="$ctrl.filters.ac_Entidad"
+                                                m-data-source="$ctrl.masters.rEntidad">
+                        </mpf-select-placeholder>
+                      </div>
+                      <!---->
+                      <div class="col-md-2 mb-xs-2">
+                        <mpf-select-placeholder label="{label: 'Categoría', required: false}"
+                                                m-Empty-Option="{text: 'TODOS'}" name="nCategoria"
+                                                text-field="text" value-field="value"
+                                                ng-model="$ctrl.filters.ac_Categoria"
+                                                m-data-source="$ctrl.masters.rCategoria">
+                        </mpf-select-placeholder>
+
+                      </div>
+                      <div class="col-md-4 mb-xs-2">
+                        <mpf-select-placeholder label="{label: 'Institución', required: false}"
+                                                m-Empty-Option="{text: 'TODOS'}" name="nInstitucion"
+                                                text-field="text" value-field="value"
+                                                ng-model="$ctrl.filters.ac_Institucion"
+                                                m-data-source="$ctrl.masters.rInstitucion">
+                        </mpf-select-placeholder>
+                      </div>
+                      <div class="col-md-2 mb-xs-2">
+                        <mpf-select-placeholder label="{label: 'Convenio', required: false}"
+                                                m-Empty-Option="{text: 'TODOS'}" name="nCentro" text-field="text"
+                                                value-field="value" ng-model="$ctrl.filters.ac_Convenio"
+                                                m-data-source="$ctrl.masters.rConvenio">
+                        </mpf-select-placeholder>
+                      </div>
+                      <div class="col-md-4 mb-xs-2">
+                        <mpf-select-placeholder label="{label: 'Cobertura', required: false}"
+                                                m-Empty-Option="{text: 'TODOS'}" name="nCobertura"
+                                                text-field="text" value-field="value"
+                                                ng-model="$ctrl.filters.ac_Cobertura"
+                                                m-data-source="$ctrl.masters.rCobertura">
+                        </mpf-select-placeholder>
+                      </div>
+                      <!--
+                        <div class="col-md-2 mb-xs-2">
+                            <mpf-select-placeholder label="{label: 'Departamento', required: false}"
+                                m-Empty-Option="{text: 'TODOS'}" name="nDepartamentoDestino"
+                                text-field="text" value-field="value"
+                                ng-model="$ctrl.filters.ac_cdprtmntoDestino"
+                                m-data-source="$ctrl.masters.departamentosDestino"
+                                ng-change="$ctrl.selectDepartamentoDestino()">
+                            </mpf-select-placeholder>
+                        </div>
+                        <div class="col-md-2 mb-xs-2">
+                            <mpf-select-placeholder label="{label: 'Provincia', required: false}"
+                                m-Empty-Option="{text: 'TODOS'}" name="nProvinciaDestino"
+                                text-field="text" value-field="value"
+                                ng-model="$ctrl.filters.an_cprvncaDestino"
+                                m-data-source="$ctrl.masters.provinciasDestino">
+                            </mpf-select-placeholder>
+                            <div class="g-error">
+                                <div
+                                    ng-show="paso3.nProvinciaDestino.$invalid && !form2.nProvinciaDestino.$pristine">
+                                    * Seleccione una provincia</div>
+                            </div>
+                        </div>
+                        <div class="col-md-2 mb-xs-2">
+                            <mpf-select-placeholder label="{label: 'Categoría', required: false}"
+                                m-Empty-Option="{text: 'TODOS'}" name="nCategoria"
+                                text-field="text" value-field="value"
+                                ng-model="$ctrl.filters.ac_Categoria"
+                                m-data-source="$ctrl.masters.rCategoria">
+                            </mpf-select-placeholder>
+
+                        </div>
+                        <div class="col-md-2 mb-xs-2">
+                            <mpf-select-placeholder label="{label: 'Entidad', required: false}"
+                                m-Empty-Option="{text: 'TODOS'}" name="nEntidad" text-field="text"
+                                value-field="value" ng-model="$ctrl.filters.ac_Entidad"
+                                m-data-source="$ctrl.masters.rEntidad">
+                            </mpf-select-placeholder>
+                        </div>
+
+                        <div class="col-md-2 mb-xs-2">
+                            <mpf-select-placeholder label="{label: 'Institución', required: false}"
+                                m-Empty-Option="{text: 'TODOS'}" name="nInstitucion"
+                                text-field="text" value-field="value"
+                                ng-model="$ctrl.filters.ac_Institucion"
+                                m-data-source="$ctrl.masters.rInstitucion">
+                            </mpf-select-placeholder>
+                        </div>
+                        <div class="col-md-2 mb-xs-2">
+                            <mpf-select-placeholder label="{label: 'Convenio', required: false}"
+                                m-Empty-Option="{text: 'TODOS'}" name="nCentro" text-field="text"
+                                value-field="value" ng-model="$ctrl.filters.ac_Convenio"
+                                m-data-source="$ctrl.masters.rConvenio">
+                            </mpf-select-placeholder>
+                        </div>
+                        -->
+                      <!-- requerimientos 1 -->
+                      <div class="col-md-12">
+                        <div class="col-md-6" style="padding-left: 0; width: 20%;">
+                          <button
+                            class="g-btn g-btn-gris second-design text-transform: uppercase"
+                            style="margin-top:4px;"
+                            ng-click="$ctrl.showModalRequirements()">Agregar
+                            requerimientos</button>
+                        </div>
+                        <div
+                          style="border: 1px solid #e6e6e6; border-radius: 5px 5px 5px 5px; min-height: 50px;">
+                          <div class="chipCore" ng-repeat="item in $ctrl.filters.listChecked">
+                            <label
+                              style="margin-bottom: 4px; font-weight: bold; padding: 10px; border-radius: 5px; color: #fff; background: #2C7F8F;  text-transform: uppercase;">{{item.nombreRequerimiento}}
+                              <a class="glyphicon glyphicon-remove"
+                                 ng-click="$ctrl.unRequirement($index, item)"></a></label>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div style="padding-top: 20px;" ng-show="$ctrl.filters.fRefeForzada">
+                      <div class="col-md-2 mb-xs-2">
+                        <mpf-select-placeholder label="{label: 'Departamento', required: false}"
+                                                m-Empty-Option="{text: 'TODOS'}" name="nDepartamentoDestino1"
+                                                text-field="text" value-field="value"
+                                                ng-model="$ctrl.filters.ac_cdprtmntoDestino"
+                                                m-data-source="$ctrl.masters.departamentosDestino"
+                                                ng-change="$ctrl.selectDepartamentoDestino()">
+                        </mpf-select-placeholder>
+                      </div>
+                      <div class="col-md-2 mb-xs-2">
+                        <mpf-select-placeholder label="{label: 'Provincia', required: false}"
+                                                m-Empty-Option="{text: 'TODOS'}" name="nProvinciaDestino1"
+                                                text-field="text" value-field="value"
+                                                ng-model="$ctrl.filters.an_cprvncaDestino"
+                                                m-data-source="$ctrl.masters.provinciasDestino"
+                                                ng-change="$ctrl.changePrvnc()">
+                        </mpf-select-placeholder>
+
+                      </div>
+                      <div class="col-md-8 mb-xs-2">
+                        <mpf-data-seeker-placeholder
+                          behavior="{label: '', placeholder:'Nombre', matchField:'text', required: false}"
+                          name="nClinica" ng-model="$ctrl.filters.ac_CentroDest"
+                          m-data-source="$ctrl.searchCentroDestino($inputNeed)">
+                          <div ng-bind-html="$item.text | highlight: $select.search"></div>
+                        </mpf-data-seeker-placeholder>
+                      </div>
+                      <!-- requerimientos 2 -->
+                      <div class="col-md-12">
+                        <div class="col-md-6" style="padding-left: 0; width: 20%;">
+                          <button
+                            class="g-btn g-btn-gris second-design text-transform: uppercase"
+                            style="margin-top:4px;"
+                            ng-click="$ctrl.showModalRequirements()">Agregar
+                            requerimientos</button>
+                        </div>
+                        <div
+                          style="border: 1px solid #e6e6e6; border-radius: 5px 5px 5px 5px; min-height: 50px;">
+                          <div class="chipCore" ng-repeat="item in $ctrl.filters.listChecked">
+                            <label
+                              style="margin-bottom: 4px; font-weight: bold; padding: 10px; border-radius: 5px; color: #fff; background: #2C7F8F;  text-transform: uppercase;">{{item.nombreRequerimiento}}
+                              <a class="glyphicon glyphicon-remove"
+                                 ng-click="$ctrl.unRequirement($index, item)"></a></label>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-12">
+                    <div class=" col-md-3 col-sm-offset-9"
+                         style="padding-bottom: 12px; padding-top: 20px;">
+                      <button class="g-btn g-btn-verde second-design block"
+                              ng-click="$ctrl.buscadorProveedor();">Buscar
+                        proveedor</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- resumen de paso 3 -->
+        <div class="col-md-12" ng-show="!$ctrl.edit">
+          <ul class="row">
+            <li class="col-md-10 col-md-offset-2 clearfix cnt-item">
+              <div class="col-md-12 col-sm-12 clearfix cnt-item g-box-content">
+                <div class=" row clearfix g-list-md">
+                  <div class="col-md-4 col-xs-12 item-label g-text">
+                    <div>
+                      <span class="gCGray3">Centro de atención médica</span> </br>
+                      <span style="font-weight: Bold;">
+                                                {{$ctrl.filters.ac_CentroDest1.Nombre}} -
+                                                {{$ctrl.filters.ac_cdprtmntoDestino.text}} -
+                                                {{$ctrl.filters.an_cprvncaDestino.text}}</span>
+                    </div>
+                    <div style="margin-top: 15px;">
+                      <span class="gCGray3">Categoría</span> </br>
+                      <span style="font-weight: Bold;">
+                                                {{$ctrl.filters.ac_CentroDest1.Categoria}}</span>
+                    </div>
+                  </div>
+                  <div class="col-md-6 col-xs-12 item-label g-text-capitalize">
+                    <div>
+                      <span class="gCGray3">Dirección</span> </br>
+                      <span style="font-weight: Bold;">
+                                                {{$ctrl.filters.ac_CentroDest1.Direccion}}</span>
+                    </div>
+                    <div style="margin-top: 15px;">
+                      <span class="gCGray3">Institución</span> </br>
+                      <span
+                        style="font-weight: Bold;">{{$ctrl.filters.ac_CentroDest1.Institucion}}</span>
+                      <span ng-style="getStyle($ctrl.filters.ac_CentroDest1.Convenio)">
+                                                {{$ctrl.filters.ac_CentroDest1.Convenio}}</span>
+                      <p>{{ctrl.filters | json}}</p>
+                    </div>
+                  </div>
+                </div>
+                </br>
+              </div>
+            </li>
+          </ul>
+        </div>
+
+        <div class="pro-summary__options">
+          <a ng-show="!$ctrl.edit" ng-click="$ctrl.editarDestino()">
+            <span class="register-progress-block__btn--title reg-summary--edit">Editar</span>
+            <span class="lista-title__ico ico-mapfre_43_editar"></span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- fin paso 3 -->
+
+  <!-- resultados paso 3 -->
+  <div ng-show="$ctrl.step >= 3 && $ctrl.edit">
+    <div class="row g-text-center-xs g-box-noresult" ng-show="$ctrl.showemptymsg">
+      <div class="col-md-12 g-box-noresult-ico gCRed1">
+        <span class="ico-mapfre_302_error"></span>
+      </div>
+      <div class="col-md-12 g-box-noresult-text" ng-show="item == null">
+        No hay resultados para los filtros escogidos.<br>Intenta de nuevo.
+      </div>
+    </div>
+  </div>
+  <!--
+  <br>
+  <br>
+  -->
+  <div class="cleaner container" ng-hide="$ctrl.showemptymsg || $parent.currentStep != 3">
+    <div class="col-md-12">
+      <!-- Cantidad de resultados -->
+      <div class="row" ng-show="$ctrl.showRest" style="margin-bottom: 8px;">
+        <div class="col-md-6 gH4 gCGray3 g-text-left-md mb-xs-1" style="padding-left: 16px;">
+          {{$parent.ListProveAll.length+($parent.ListProveAll.length>1 ? ' resultados encontrados' : ' resultado encontrado')}}
+          <!-- {{$parent.ListProveAll || JSON}} -->
+        </div>
+        <div class="col-md-6" style="/*text-align: right; padding-right: 10px;*/ display: flex; align-content: center; justify-content: center; align-items: center;">
+          <span><b>Ver por</b></span>
+          <div ng-show="!$ctrl.filters.ordenaCosto && !$ctrl.filters.ordenaRequerimiento" style="padding: 8px 15px; background-color: #888383; border-radius: 25px; cursor: pointer; font-size: 13px; margin: 0px 5px;color: white" ng-click="$ctrl.setProximidad();">
+            <span>Proximidad</span>
+          </div>
+          <div ng-show="$ctrl.filters.ordenaCosto || $ctrl.filters.ordenaRequerimiento" style="padding: 8px 15px; background-color: #f1f5f7; border-radius: 25px; cursor: pointer; font-size: 13px; margin: 0px 5px;" ng-click="$ctrl.setProximidad();">
+            <span>Proximidad</span>
+          </div>
+          <div ng-show="$ctrl.filters.ordenaCosto" style="padding: 8px 15px; background-color: #888383; border-radius: 25px; cursor: pointer; font-size: 13px; margin: 0px 4px;color: white" ng-click="$ctrl.setCosto();">
+            <span>Agrupación por costo</span>
+          </div>
+          <div ng-show="!$ctrl.filters.ordenaCosto" style="padding: 8px 15px; background-color: #f1f5f7; border-radius: 25px; cursor: pointer; font-size: 13px; margin: 0px 4px;" ng-click="$ctrl.setCosto();">
+            <span>Agrupación por costo</span>
+          </div>
+          <div ng-show="$ctrl.filters.ordenaRequerimiento" style="padding: 8px 15px; background-color: #888383; border-radius: 25px; cursor: pointer; font-size: 13px; margin: 0px 5px;color: white" ng-click="$ctrl.setRequerimientos();">
+            <span>Total de requerimientos</span>
+          </div>
+          <div ng-show="!$ctrl.filters.ordenaRequerimiento" style="padding: 8px 15px; background-color: #f1f5f7; border-radius: 25px; cursor: pointer; font-size: 13px; margin: 0px 5px;" ng-click="$ctrl.setRequerimientos();">
+            <span>Total de requerimientos</span>
+          </div>
+          <!--
+          <span>Ordenar por requerimiento</span>
+          <mpf-checkbox-toggle ng-model="$ctrl.filters.ordenaRequerimiento" ng-true-value=" ENABLE_STATE"
+              ng-false-value="DISABLED_STATE" label="" ng-change="$ctrl.buscadorProveedor()">
+          </mpf-checkbox-toggle>
+          -->
+        </div>
+      </div>
+
+      <!-- Lista de resultados -->
+      <div class="clearfix g-box g-overflow-hidden-xs mb-xs-2" ng-repeat="item in $parent.ListProve">
+        <div class="row ">
+          <div class="col-md-8 pt-xs-2 gBgcGray5" style="padding-bottom: 10px;">
+            <div class="clearfix g-list-lg" style="margin-bottom: 40px;">
+              <div class="col-sm-12 col-xs-12 clearfix cnt-item" style="margin-bottom: 15px;">
+                <div class="col-sm-8 col-xs-12" style="font-weight: bold">
+                                    <span class="glyphicon glyphicon-plus"
+                                          style="color:white; background: grey; border-radius: 5px; padding: 6px; font-size: 16px;"></span>
+                  &nbsp;{{item.nombre}}
+                </div>
+                <div class="col-sm-1 col-md-offset-3 col-xs-12">
+                  <a ng-click="$ctrl.showModalDetalled(item)">
+                    <span class="glyphicon glyphicon-eye-open gCGray3" style="font-size: 18px;"></span></a>
+                </div>
+              </div>
+
+              <div class="col-sm-12">
+                <div class="col-md-2" ng-show="item.distancia != null"
+                     style="border-right: 1px solid #E1E1E1">
+                  &nbsp; A {{item.distancia}} Km.
+                </div>
+                <div class="col-md-3" ng-show="item.distancia == null"
+                     style="border-right: 1px solid #E1E1E1; color: crimson; text-align: center; font-weight: bold;">
+                  Ubicación no disponible
+                </div>
+
+                <div class="col-md-4" style="margin-bottom: 15px; border-right: 1px solid #E1E1E1">
+                                    <span class="glyphicon glyphicon-ok"
+                                          style="font-size: 12px; border-radius: 5px; color: #00B09F;"></span>
+                  <span>
+                                        {{item.cumple}}</span>
+
+                  <span> de</span>
+                  {{$ctrl.filters.listChecked.length}}
+                  <span class="gCGray3"> requerimientos
+                                        solicitados </span><br>
+                  <!--
+                  <div style="display:inline-block;"><span style="text-transform: uppercase;"
+                          ng-style="getStyle2(item2.cumpleRequerimiento)"
+                          ng-repeat="item2 in item.requerimientosCumple">
+                          {{ item2.nombreRequerimiento  }}
+                          {{ ($ctrl.filters.listChecked.length - 1 > $index ) ? ', ' : ''}}</span>
+                  </div>
+                  -->
+                </div>
+                <div class="col-md-3" style="border-right: 1px solid #E1E1E1">
+                  <span class="gCGray3" style="font-weight: bold;">Deducible </span>
+                  <span class="gCGray3">{{item.deducible}}</span>
+                </div>
+                <div class="col-md-2">
+                  <span class="gCGray3" style="font-weight: bold;">Cobertura </span>
+                  <span class="gCGray3">{{item.cobertura}}</span>
+                </div>
+                <br>
+                <div style="border-top: 1px solid #E1E1E1"
+                     class="col-md-12 col-sm-12 clearfix cnt-item g-box-content">
+                  <div class=" row clearfix g-list-md">
+                    </br>
+                    <div class="col-md-2 col-xs-12  item-label g-text-capitalize"
+                         style="margin-bottom: 20px;">
+                      <span class="gCGray3">dirección </span>
+                    </div>
+                    <div class="col-md-10 " style="font-weight: bold;">
+                      &nbsp;
+                      {{item.direccion}}-{{item.departamento}}-{{item.provincia}}
+                    </div>
+                  </div>
+
+                  <div class=" row clearfix g-list-md">
+                    <div class="col-md-2 col-xs-12 item-label g-text-capitalize">
+                      <span class="gCGray3">Categoría</span>
+                    </div>
+                    <div class="col-md-3" style="font-weight: bold;">
+                      {{item.categoria}}
+                    </div>
+                    <div class="col-md-2 col-xs-12 item-label g-text-capitalize">
+                      <span class="gCGray3">Entidad </span>
+                    </div>
+                    <div class="col-md-5" style="font-weight: bold;">
+                      {{item.entidad}}
+                    </div>
+                  </div>
+                  <br>
+                  <div class=" row clearfix g-list-md">
+                    <div class="col-md-2 col-xs-12 item-label g-text-capitalize">
+                      <span class="gCGray3">institución </span>
+                    </div>
+                    <div class="col-md-3 " style="font-weight: bold;">
+                      &nbsp;{{item.institucion}} <span
+                      ng-style="getStyle(item.convenio)">{{item.convenio}}</span>
+                    </div>
+                    <div class="col-md-2 col-xs-12 item-label g-text-capitalize">
+                      <span class="gCGray3">Teléfono </span>
+                    </div>
+                    <div class="col-md-5 " style="font-weight: bold;">
+                      &nbsp;{{item.telefono}}
+                    </div>
+                  </div>
+                  <br>
+                  <div class=" row clearfix g-list-md"  >
+                    <div class="col-md-2 col-xs-12 item-label g-text-capitalize">
+                      <span class="gCGray3">Agrupación por costo </span>
+                    </div>
+                    <div class="col-md-3 " style="font-weight: bold;">
+                      &nbsp;Nivel {{item.agrupCosto}}
+                    </div>
+                    <div class="col-md-2 col-xs-12 item-label g-text-capitalize">
+                      <span class="gCGray3">Cobertura </span>
+                    </div>
+                    <div class="col-md-5" style="font-weight: bold;">
+                      &nbsp;{{item.nomCobertura}}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- fin resultados paso 3 -->
+
+          <div class="col-sm-4 col-xs-12" style="margin-top: 20px;">
+            <div ng-show="item.showProveedor">
+              <div class="col-md-9 col-md-offset-1">
+                <mpf-select-placeholder label="{label: 'Medio de traslado'}" ng-required="true"
+                                        m-Empty-Option="{enterData: true}" name="rTraslado" text-field="text"
+                                        value-field="value" ng-model="$ctrl.filters.ac_Traslado"
+                                        m-data-source="$ctrl.masters.rTraslado">
+                </mpf-select-placeholder>
+              </div>
+              <div class="col-md-9 col-md-offset-1">
+                <mpf-select-placeholder label="{label: 'Tipo de traslado'}" ng-required="true"
+                                        m-Empty-Option="{enterData: true}" name="rTTraslado" text-field="text"
+                                        value-field="value" ng-model="$ctrl.filters.ac_TTraslado"
+                                        m-data-source="$ctrl.masters.rTTraslado">
+                </mpf-select-placeholder>
+              </div>
+              <div class="col-md-9 col-md-offset-1" ng-if="!$ctrl.ocultarProveedor()">
+                <mpf-data-seeker-X behavior="{label: '', placeholder:'Proveedor', matchField:'text'}"
+                                   name="nProveedor2" ng-model="$ctrl.filters.proveTraslado"
+                                   ng-required="!$ctrl.ocultarProveedor()"
+                                   m-data-source="$ctrl.masters.proveTras">
+                  <div ng-bind-html="$item.text | highlight: $select.search">
+                  </div>
+                </mpf-data-seeker-X>
+              </div>
+              <div class="col-md-9 col-md-offset-1">
+                <!--
+                <button class="col-md-3 g-btn g-btn-verde second-design block"
+                    ng-click="$ctrl.showModalGrabar(item)" ng-disabled="paso3.$invalid"
+                    style=" margin-top: 15px;">Continuar</button>
+                -->
+                <button class="col-md-3 g-btn g-btn-verde second-design block"
+                        ng-click="$ctrl.goStep4(item)" ng-disabled="paso3.$invalid"
+                        style=" margin-top: 15px;">Continuar</button>
+              </div>
+            </div>
+            <div ng-show="!item.showProveedor">
+              <div class="col-md-9 col-md-offset-1">
+                <a class="g-btn g-btn-verde second-design block" ng-click="$ctrl.selectProveedor(item)"
+                   ng-hide="item.showProveedor"
+                   style="margin-top: 110px; margin-left: 8px;">Seleccionar</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Inicio: pagination -->
+      <div class="row" ng-show="$ctrl.showRest">
+        <div class="col-md-12">
+          <ul uib-pagination class=" g-pagination" ng-model="$ctrl.mPagination"
+              items-per-page="$ctrl.itemPerPage" max-size="7" total-items="$ctrl.totalItems"
+              boundary-link-numbers="true" ng-change="$ctrl.pagination($event)">
+          </ul>
+        </div>
+
+      </div>
+      <!-- Fin: pagination -->
+    </div>
+  </div>
+
+</form>
+<!-- fin de resultados paso 3 -->

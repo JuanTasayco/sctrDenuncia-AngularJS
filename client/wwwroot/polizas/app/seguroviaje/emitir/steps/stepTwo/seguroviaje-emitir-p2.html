@@ -1,0 +1,140 @@
+<seguroviaje-emitir-step-one-component></seguroviaje-emitir-step-one-component>
+<!-- Datos del Producto-->
+<div ng-class="vm.currentStep === '2' ? 'g-section' : ''" >
+  <div class="container">
+    <div class="col-xs-12 g-list-md g-box gBgcGray5 pt-xs-1 mb-xs-2" ng-show="vm.currentStep !== '2'" >
+      <ul class="row cnt-title">
+        <li class="col-xs-6 item-title gH4">Datos del contratante</li>
+      </ul>
+      <ul class="row g-list-md">
+        <li class="col-md-4 clearfix cnt-item">
+          <div class="col-xs-5 item-label">
+            <span class="ico-mapfre_82_circle ico-bullet"></span>Nombre:
+          </div>
+          <div class="col-xs-7 item-dato g-text-uppercase">
+            {{ vm.formData.contractor.name }} {{vm.formData.contractor.firstLastName != null ? vm.formData.contractor.firstLastName : ''}}
+          </div>
+        </li>
+        <li class="col-sm-4 clearfix cnt-item" ng-show="vm.formData.contractor.email">
+          <div class="col-xs-5 item-label">
+            <span class="ico-mapfre_82_circle ico-bullet"></span>Email:
+          </div>
+          <div class="col-xs-7 item-dato g-text-uppercase">
+            {{ vm.formData.contractor.email }}
+          </div>
+        </li>
+        <li class="col-sm-4 clearfix cnt-item" ng-show="vm.formData.contractor.tipActEconomica">
+          <div class="col-xs-5 item-label">
+            <span class="ico-mapfre_82_circle ico-bullet"></span>Actividad económica:
+          </div>
+          <div class="col-xs-7 item-dato g-text-uppercase">
+            {{ vm.formData.contractor.tipActEconomica.Descripcion }}
+          </div>
+        </li>
+        <li class="col-sm-4 clearfix cnt-item">
+          <div class="col-xs-5 item-label">
+            <span class="ico-mapfre_82_circle ico-bullet"></span>{{ vm.formData.contractor.documentType.code }}:
+          </div>
+          <div class="col-xs-7 item-dato g-text-uppercase">
+            {{ vm.formData.contractor.documentNumber }}
+          </div>
+        </li>
+      </ul>
+      <ul class="row g-list-md mb-sm-2">
+        <li class="col-sm-4 clearfix cnt-item">
+          <div class="col-xs-5 item-label">
+            <span class="ico-mapfre_82_circle ico-bullet"></span>Tipo de persona:
+          </div>
+          <div class="col-xs-7 item-dato g-text-uppercase">
+            PERSONA {{ vm.formData.contractor.personType == 'S' ? 'NATURAL' : 'JURIDICA' }}
+          </div>
+        </li>
+        <li class="col-sm-4 clearfix cnt-item" ng-show="vm.formData.pais && vm.currentStep != '2' ">
+          <div class="col-xs-5 item-label">
+            <span class="ico-mapfre_82_circle ico-bullet"></span>País:
+          </div>
+          <div class="col-xs-7 item-dato g-text-uppercase">
+            {{ vm.formData.contractor.pais }}
+          </div>
+        </li>
+        <li class="col-sm-4 clearfix cnt-item" ng-show="vm.formData.contractor.departamento && vm.currentStep != '2' ">
+          <div class="col-xs-5 item-label">
+            <span class="ico-mapfre_82_circle ico-bullet"></span>Departamento:
+          </div>
+          <div class="col-xs-7 item-dato g-text-uppercase">
+            {{ vm.formData.contractor.departamento.Descripcion }}
+          </div>
+        </li>
+        <li class="col-sm-4 clearfix cnt-item" ng-show="vm.formData.contractor.provincia && vm.currentStep != '2' ">
+          <div class="col-xs-5 item-label">
+            <span class="ico-mapfre_82_circle ico-bullet"></span>Provincia:
+          </div>
+          <div class="col-xs-7 item-dato g-text-uppercase">
+            {{ vm.formData.contractor.provincia.Descripcion }}
+          </div>
+        </li>
+        <li class="col-sm-4 clearfix cnt-item" ng-show="vm.formData.contractor.distrito && vm.currentStep != '2' ">
+          <div class="col-xs-5 item-label">
+            <span class="ico-mapfre_82_circle ico-bullet"></span>Distrito:
+          </div>
+          <div class="col-xs-7 item-dato g-text-uppercase">
+            {{ vm.formData.contractor.distrito.Descripcion }}
+          </div>
+        </li>
+      </ul>
+    </div>
+    <!-- Step 2 -->
+    <div ng-class="vm.currentStep !== '2' ? 'col-xs-12 g-list-md g-box g-visible gBgcGray5 pt-xs-1 mb-xs-2' : '' " ng-show="vm.currentStep === '2' ">
+      <form ng-submit="vm.saveForm()" name="stepTwoForm">
+        <!-- Summary -->
+        <div ng-class="vm.currentStep === '2' ? 'g-section-inner' : '' ">
+          <div class="container">
+            <div class="row">
+              <div class="col-xs-8 mb-1">
+                <h2 class="g-sub-title">Datos del contratante</h2>
+              </div>
+            </div>
+          </div>
+          <mpf-person-component
+            person-data="vm.formData.contractor"
+            name="contractor"
+            codigo-compania="vm.companyCode"
+            app-code="{{ vm.appCode }}"
+            form-code="{{ vm.formCodeCN }}"
+            editable="false"
+            document-type="vm.formData.contractor.documentType.Codigo"
+            >
+          </mpf-person-component>
+        </div>
+        <div ng-repeat="viajero in vm.formData.travelers">
+          <div class="container">
+            <div class="row">
+              <div class="col-xs-8 mb-1">
+                <h2 class="g-sub-title">Datos del Viajero {{$index + 1}} {{viajero.asContractor ? '(CONTRATANTE)' : ''}}</h2>
+              </div>
+            </div>
+          </div>
+          <mpf-person-component
+            person-data="viajero"
+            codigo-compania="vm.companyCode"
+            name="viajero-{{$index}}"
+            app-code="{{ vm.appCode }}"
+            form-code="{{ vm.formCodeVJ }}">
+          </mpf-person-component>
+        </div>
+        <div class="g-section">
+          <div class="container">
+            <div class="row" ng-if="vm.currentStep === '2'">
+              <div class="col-sm-3 col-sm-offset-3 mb-xs-1">
+                <button type="button" class="g-btn g-btn-white block" ui-sref="seguroviajeEmitir.initSteps.steps({step: 1})">Anterior</button>
+              </div>
+              <div class="col-sm-3">
+                <button type="submit" class="g-btn g-btn-verde block">Siguiente</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,190 @@
+<div class="row">
+    <div class="cropperRB"  ng-class="{'fs': $ctrl.fullscreen}">
+        <div class="left">
+            <img id="image" src="">
+            <div class="optRB select">
+                <span class="lbl">Imagen</span>
+                <span ng-if="$ctrl.images[0]" ng-click="$ctrl.changeImg(0)" ng-class="{spnSlct: $ctrl.initialImg == 0}">1</span>
+                <span ng-if="$ctrl.images[1]" ng-click="$ctrl.changeImg(1)" ng-class="{spnSlct: $ctrl.initialImg == 1}">2</span>
+                <span ng-if="$ctrl.images[2]" ng-click="$ctrl.changeImg(2)" ng-class="{spnSlct: $ctrl.initialImg == 2}">3</span>
+                <span ng-if="$ctrl.images[3]" ng-click="$ctrl.changeImg(3)" ng-class="{spnSlct: $ctrl.initialImg == 3}">4</span>
+                <span ng-if="$ctrl.images[4]" ng-click="$ctrl.changeImg(4)" ng-class="{spnSlct: $ctrl.initialImg == 4}">5</span>
+            </div>
+            <div class="optRB reflect">
+                <span class="glyphicon glyphicon-resize-horizontal" ng-click="$ctrl.scaleImageX()">
+                </span>
+                <span class="glyphicon glyphicon-resize-vertical" ng-click="$ctrl.scaleImageY()">
+                </span>
+            </div>
+            <div class="optRB rotate">
+                <span class="glyphicon glyphicon-repeat" ng-click="$ctrl.rotateImageL()" style="-moz-transform: scaleX(-1); -webkit-transform: scaleX(-1);transform: scaleX(-1);">
+                </span>
+                <span class="glyphicon glyphicon-repeat" ng-click="$ctrl.rotateImageR()">
+                </span>
+            </div>
+            <div class="optRB download">
+                <span class="glyphicon glyphicon-download-alt" ng-click="$ctrl.downloadImage()" href="">
+                </span>
+            </div>
+            <div class="optRB prev">
+                <span class="glyphicon glyphicon-chevron-left" ng-if="$ctrl.initialImg != 0" ng-click="$ctrl.prevImg()">
+                </span>
+            </div>
+            <div class="optRB next">
+                <span class="glyphicon glyphicon-chevron-right" ng-if="$ctrl.initialImg != $ctrl.images.length-1" ng-click="$ctrl.nextImg()">
+                </span>
+            </div>
+            <div class="optRB zoom">
+                <span class="glyphicon glyphicon-minus" ng-click="$ctrl.zoomM()">
+                </span>
+                <span class="glyphicon glyphicon-search" ng-click="$ctrl.zoomR()">
+                </span>
+                <span class="glyphicon glyphicon-plus" ng-click="$ctrl.zoomP()">
+                </span>
+            </div>
+        </div>
+        <div class="right">
+            <div class="row top">
+                <div class="col-sm-12 col-md-6">
+                    <h1>BO Despacho</h1> 
+                    {{$ctrl.bodispatch.description}}
+                    <!-- <mpf-select
+                        data-m-data-source="$ctrl.bodispatchs"
+                        data-ng-model="$ctrl.bodispatch"
+                        data-text-field="description"
+                        data-value-field="id"
+                        label="{label: '', required: false}"
+                        m-Empty-Option = "{enterData : true}"
+                        name="nBODispatchs"
+                        ng-disabled="$ctrl.itsCancel || medicaments[0].hasDispatch"
+                        ng-change="$ctrl.changeBoDispatch($ctrl.bodispatch, $index)"
+                    >
+                    </mpf-select>
+                    <ul class="g-error">
+                        <li ng-show="$ctrl.bodispatch==''">* Asignar a BO despacho</li>
+                    </ul> -->
+                </div>
+                <div class="col-sm-12 col-md-6" style="text-align: right" ng-click="$ctrl.fullsc()">
+                    <a class="g-btn first-design" ng-if="!$ctrl.fullscreen">Ver en pantalla completa</a>
+                    <a class="g-btn first-design" ng-if="$ctrl.fullscreen">Salir de pantalla completa</a>
+                </div>
+            </div>
+            <div class="medicines">
+                <h1>Ingresa los medicamentos recetados</h1>
+                <!-- class="list" -->
+                <div>
+                    <div class="row register mb-md-2" ng-repeat="medi in $ctrl.medicaments">
+                        <!-- ng-class="{'col-md-4': $ctrl.itscollect, 'col-md-2': !$ctrl.itscollect}" -->
+                        <div class="col-md-4">
+                            <!-- ng-disabled="$ctrl.itsCancel || medi.hasDispatch || $ctrl.readonly" 
+                            ng-change="$ctrl.changeMedicine(medi);"
+                            m-data-source="$ctrl.searchMedicines($inputNeed, $index)"-->
+                            <mp-data-seeker
+                                behavior="{label:'Medicamento', placeholder:'', matchField:'description'}"
+                                
+                                ng-model="medi.medicine"
+                                name="nMedicaments"
+                                ng-disabled="true"
+                                ng-required="true"
+                            >
+                                <!-- <div ng-bind-html="$item.description + ($item.itscollect ? '' : ' - (' + $item.stock + ')') | highlight: $select.search"></div> -->
+                                <div ng-bind-html="$item.description | highlight: $select.search"></div>
+                            </mp-data-seeker>
+                            <ul class="g-error" ng-if="!$ctrl.readonly">
+                                <li ng-show="medi.medicine.id=='' || medi.medicine.id==null">* Seleccione un medicamento</li>
+                            </ul>
+                        </div>
+                        <!-- <div class="col-md-2 col-md-2-RB-1" ng-if="!$ctrl.itscollect">
+                            <m-numeric-textbox options="'SHORT'" label="{label: 'Stock', required: false}"
+                                data-ng-model="medi.medicine.currentStock"
+                                name="nStock"
+                                ng-disabled="true" class="clearBottom">
+                            </m-numeric-textbox>
+                        </div> -->
+                        <div class="col-md-2 col-md-2-RB-2" ng-if="!$ctrl.itscollect">
+                            <!-- ng-disabled="medi.medicine.stock > 0 || $ctrl.itsCancel || medi.hasDispatch || $ctrl.readonly" -->
+                            <mpf-select
+                                data-m-data-source="medi.externalProviders"
+                                data-ng-model="medi.externalProvider"
+                                data-text-field="description"
+                                data-value-field="id"
+                                label="{label: 'Farmacia aliada', required: true}"
+                                m-Empty-Option = "{enterData : true}"
+                                name="nProviders"
+                                ng-disabled="true"
+                            >
+                            </mpf-select>
+                            <ul class="g-error" ng-if="!$ctrl.readonly">
+                                <li ng-show="medi.externalProvider==''">* Seleccione un proveedor</li>
+                            </ul>
+                        </div>
+                        <div class="col-md-3" ng-if="$ctrl.itscollect">
+                            <!-- ng-disabled="medi.medicine.stock > 0 || $ctrl.itsCancel || medi.hasDispatch || $ctrl.readonly" -->
+                            <mpf-select
+                                class="txt-lett-1"
+                                data-m-data-source="$ctrl.externalProviders"
+                                data-ng-model="medi.externalProvider"
+                                data-text-field="fullName"
+                                data-value-field="id2"
+                                label="{label: 'Farmacia - Local', required: true}"
+                                m-Empty-Option = "{enterData : true}"
+                                name="nProviders"
+                                ng-disabled="true"
+                            >
+                            </mpf-select>
+                            <ul class="g-error" ng-if="!$ctrl.readonly">
+                                <li ng-show="medi.externalProvider==''">* Seleccione un proveedor</li>
+                            </ul>
+                        </div>
+                        <div class="col-md-2 col-md-2-RB-1">
+                            <!-- ng-change="$ctrl.valStock($index);$ctrl.calcCopago(medi);$ctrl.updateStock(medi);" 
+                                ng-disabled="$ctrl.itsCancel || medi.hasDispatch || $ctrl.readonly"-->
+                            <m-numeric-textbox options="'SHORT'" label="{label: 'Cant.', required: true}"
+                                data-ng-model="medi.quantityRequired"
+                                name="nCantidad"
+                                ng-disabled="true"
+                                ng-change="$ctrl.calcCopago(medi);"
+                                >
+                            </m-numeric-textbox>
+                            <ul class="g-error" ng-if="!$ctrl.readonly">
+                                <li ng-show="medi.quantityRequired == '' || medi.quantityRequired == null || medi.quantityRequired == 0">*Verifique cantidad</li>
+                            </ul>
+                        </div>
+                        <div class="col-md-2">
+                            <!-- ng-disabled="medi.medicine.stock > 0 || $ctrl.itsCancel || medi.hasDispatch || (medi.externalProvider.id === 1) || $ctrl.readonly" -->
+                            <m-numeric-textbox class="txt-lett-1" options="1" label="{label: 'Precio S/.', required: true}"
+                                data-ng-model="medi.medicine.priceSales"
+                                name="nPrecio"
+                                ng-disabled="true"
+                                ng-change="$ctrl.calcCopago(medi);">
+                            </m-numeric-textbox>
+                            <ul class="g-error" ng-if="!$ctrl.readonly">
+                                <li ng-show="medi.medicine.priceSales == '' || medi.medicine.priceSales == null">* Ingrese precio total</li>
+                            </ul>
+                        </div>
+                        <div class="col-md-2">
+                            <m-numeric-textbox options="1" label="{label: 'Copago S/.', required: false}"
+                                data-ng-model="medi.copago"
+                                name="nCopago"
+                                ng-disabled="true" class="clearBottom">
+                            </m-numeric-textbox>
+                        </div>
+                        <!-- <div class="icon-row" ng-if="!$ctrl.itsCancel && !medi.hasDispatch">
+                            <a ng-click="$ctrl.removeItem(medi)"><i class="glyphicon glyphicon-remove"> </i></a>
+                        </div> -->
+                    </div>
+                </div>
+                <div class="row total">
+                    <div class="col-md-4">
+                        <!-- <a ng-click="$ctrl.addItem()" ng-if="!$ctrl.readonly">
+                            <i class="glyphicon glyphicon-plus add"></i>Agregar medicamento
+                        </a> -->
+                    </div>
+                    <div class="col-md-8">
+                        Total a pagar por el asegurado <span>S/. {{$ctrl.calcTotal() | number: 2}}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

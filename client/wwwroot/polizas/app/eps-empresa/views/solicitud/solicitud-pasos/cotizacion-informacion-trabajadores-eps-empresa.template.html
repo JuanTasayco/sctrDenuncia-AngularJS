@@ -1,0 +1,166 @@
+<form name="frmInformacionTrabajadores">
+    <div class="g-section-inner">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-3 mb-xs-2">
+                    <mpf-input 
+                        ng-model="vm.informacionTrabajadores.nroOperarios"
+                        name="nNroOperarios" 
+                        label="{label: 'N° Operarios', required: true}"
+                        mpf-generic-validations="{{vm.getValidations('NRO_OPERARIOS')}}"
+                        ng-disabled="false"
+                        disabled-view-model="true"
+                        mpf-validation="onlyNumber"
+                        ng-blur="vm.calcularNroTrabajadores()"
+                        ng-maxlength="10">
+                    </mpf-input>
+                </div>
+                <div class="col-md-3 mb-xs-2">
+                    <mpf-input 
+                        ng-model="vm.informacionTrabajadores.nroAdministrativos"
+                        name="nNroAdministrativos" 
+                        label="{label: 'N° Administrativos', required: true}"
+                        mpf-generic-validations="{{vm.getValidations('NRO_ADMINISTRATIVOS')}}"
+                        ng-disabled="false"
+                        disabled-view-model="true"
+                        mpf-validation="onlyNumber"
+                        ng-blur="vm.calcularNroTrabajadores()"
+                        ng-maxlength="10">
+                    </mpf-input>
+                </div>
+                <div class="col-md-6 mb-xs-2">
+                    <mpf-input 
+                        ng-model="vm.informacionTrabajadores.nroTrabajadoresPlanilla"
+                        name="nNroTrabajadoresPlanilla" 
+                        label="{label: 'N° de trabajadores en planilla', required: true}"
+                        mpf-generic-validations="{{vm.getValidations('NRO_TRABAJADORES_PLANILLA')}}"
+                        ng-disabled="true"
+                        disabled-view-model="true">
+                    </mpf-input>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6 mb-xs-2">
+                    <div class="row left-form-trabajadores">
+                        <div class="col-md-12 mb-xs-2">
+                            <div class="row titles">
+                                <div class="col-md-7 left">
+                                    <span>Composición de grupo</span>
+                                </div>
+                                <div class="col-md-5 mb-xs-2 rigth">
+                                    <span>CANTIDAD</span>
+                                </div>
+                            </div>
+                            <div class="row line-content" ng-repeat="item in vm.composicion_grupo track by $index">
+                                <div class="col-md-7">
+                                    <span>{{item.descripcion}}</span>
+                                </div>
+                                <div class="col-md-5 mb-xs-2 rigth">
+                                    <div class="row">
+                                        <div class="col-sm-7 col-sm-offset-2">
+                                            <mpf-input 
+                                                name="{{'titularMas' + (item.valorNumerico - 1)}}"
+                                                ng-model="vm.informacionTrabajadores['titularMas' + (+item.valorNumerico - 1)]" 
+                                                ng-disabled="false"
+                                                disabled-view-model="true"
+                                                mpf-validation="onlyNumber"
+                                                ng-blur="vm.sumaComposicionGrupo()">
+                                            </mpf-input>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row footer-grid">
+                                <div class="col-md-12">
+                                    <p class="message">* El número de trabajadores en pantalla debe ser igual a la cantidad total de composición de grupo: <span>{{vm.sum_grupos}}</span>/<span>{{(vm.informacionTrabajadores.nroTrabajadoresPlanilla === '' || vm.informacionTrabajadores.nroTrabajadoresPlanilla === undefined) ? 0 : vm.informacionTrabajadores.nroTrabajadoresPlanilla}}</span></p>
+                                </div>
+                                <div class="col-md-12" ng-if="vm.sum_grupos != 0 && vm.sum_grupos > ((vm.informacionTrabajadores.nroTrabajadoresPlanilla === '' || vm.informacionTrabajadores.nroTrabajadoresPlanilla === undefined) ? 0 : vm.informacionTrabajadores.nroTrabajadoresPlanilla)">
+                                    <p class="error">** Has excedido el número de composición</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 mb-xs-2">
+                    <div class="row left-form-trabajadores">
+                        <div class="col-md-12 mb-xs-2">
+                            <div class="row titles">
+                                <div class="col-md-7 left">
+                                    <span>Rango Etario</span>
+                                </div>
+                                <div class="col-md-5 mb-xs-2 rigth">
+                                    <span>CANTIDAD</span>
+                                </div>
+                            </div>
+                            <div class="row line-content" ng-repeat="item in vm.rango_etario">
+                                <div class="col-md-7">
+                                    <span>{{item.descripcion}}</span>
+                                </div>
+                                <div class="col-md-5 mb-xs-2 rigth">
+                                    <div class="row">
+                                        <div class="col-sm-7 col-sm-offset-2">
+                                            <mpf-input 
+                                                name="{{item.nombre}}"
+                                                ng-model="vm.informacionTrabajadores.rangosEtarios[item.indice].cantidad" 
+                                                ng-disabled="false"
+                                                disabled-view-model="true"
+                                                mpf-validation="onlyNumber"
+                                                ng-blur="vm.sumaRangoEtario()">
+                                            </mpf-input>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row footer-grid">
+                                <div class="col-md-12">
+                                    <p class="message">* La cantidad total de afiliados por rango etario debe considerar a los titulares y dependientes en función de lo indicado en el cuadro de composición de grupo.<span ng-if="vm.rangoTitularMas3WithValue">Mayor o igual</span><span ng-if="!vm.rangoTitularMas3WithValue">Igual</span> a <span>{{vm.sum_rangos}}</span>/<span>{{vm.calculo_grupos}}</span> afiliados</p>
+                                </div>
+                                <div class="col-md-12" ng-if="(vm.sum_rangos < vm.calculo_grupos) || (!vm.rangoTitularMas3WithValue && vm.sum_rangos > vm.calculo_grupos)">
+                                    <p class="error">** Cantidad de rango etario incorrecto</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6 mb-xs-2">
+                    <m-numeric-textbox 
+                        label="{label: 'Aporte anual ESALUD', required: true}" 
+                        name="nAporteAnualEsalud" 
+                        ng-model="vm.informacionTrabajadores.aporteAnualEsalud" 
+                        options="1"
+                        ng-required="true"
+                        mpf-generic-validations="{{vm.getValidations('APORTE_ANUAL_ESSALUD')}}"
+                        m-range="{min: 0.01, max: 999999999.99}"
+                        ng-blur="return;"
+                        >
+                    </m-numeric-textbox>
+                </div>
+                <div class="col-md-6 mb-xs-2">
+                    <mpf-select 
+                        ng-model="vm.informacionTrabajadores.mpagoFirmaCargo" 
+                        name="nPagoFirmaCargo"
+                        label="{label: 'Pago de la firma a cargo de', required: true}"
+                        m-data-source="vm.firma_cargo" 
+                        text-field="descripcion" 
+                        value-field="valorNumerico"
+                        m-Empty-Option="{enterData:true}"
+                        ng-change="vm.cambioPagoFirmaCargo(vm.informacionTrabajadores.mpagoFirmaCargo)"
+                        disabled-view-model="true">
+                    </mpf-select>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="g-section h-myd-pt--0">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4 col-md-offset-8">
+                    <a class="g-btn g-btn-verde block" ng-class="{'disabled': !vm.activeBotonSiguiente()}"
+                        ng-click="vm.goToNextStep()">Siguiente</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>

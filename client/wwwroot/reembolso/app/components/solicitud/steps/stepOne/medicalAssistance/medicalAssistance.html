@@ -1,0 +1,241 @@
+<form name="$ctrl.frmStepOne">
+  <div class="row mb-xs-3">
+    <div class="col-xs-12 col-sm-3">
+      <div
+        class="g-autocomplete-desing input-modal"
+        ng-click="$ctrl.openModalAfiliate()">
+        <a href="javascript:void(0)">
+          <div class="input-modal__container">
+            {{$ctrl.medicalAssistance.afiliate.documentNumber}}
+            <span ng-if="$ctrl.medicalAssistance.afiliate.documentNumber"> | </span>
+            {{
+              $ctrl.medicalAssistance.afiliate.fullName
+                ? $ctrl.medicalAssistance.afiliate.fullName
+                : 'Seleccionar Afiliado'
+            }}
+          </div>
+        </a>
+      </div>
+    </div>
+    <div class="col-xs-12 col-sm-3 mt-xs-2 mt-sm-0">
+      <div class="input-group g-date-picker">
+        <label class="g-placeholder animated">Fecha de Tratamiento<span></span>:</label>
+        <input
+          type="text"
+          class="form-control"
+          name="nTratamientoDate"
+          ng-model="$ctrl.medicalAssistance.date.model"
+          uib-datepicker-popup="{{$ctrl.medicalAssistance.date.FORMAT_DATE}}"
+          is-open="$ctrl.medicalAssistance.date.open"
+          datepicker-options="$ctrl.medicalAssistance.date.options"
+          close-text="Close"
+          alt-input-formats="$ctrl.medicalAssistance.date.ALT_INPUT_FORMATS"
+          ui-mask="{{$ctrl.medicalAssistance.date.FORMAT_MASK}}"
+          ng-pattern="$ctrl.medicalAssistance.date.FORMAT_PATTERN"
+          model-view-value="true"
+          ng-required="true"
+          ng-disabled="false"
+          ng-change="$ctrl.onChangeDate($ctrl.medicalAssistance.date.model)"
+        />
+        <span class="input-group-btn">
+          <button
+            type="button"
+            class="btn btn-default"
+            ng-disabled = "false"
+            ng-click="$ctrl.medicalAssistance.date.setOpen(true)">
+            <i class="glyphicon glyphicon-calendar"></i>
+          </button>
+        </span>
+      </div>
+      <ul class="g-error">
+        <li ng-show="!$ctrl.frmStepOne.nFechaTratamiento.$error.required && $ctrl.frmStepOne.nFechaTratamiento.$invalid && !$ctrl.frmStepOne.nFechaTratamiento.$pristine">* Fecha incorrecta</li>
+        <li ng-show="$ctrl.frmStepOne.nFechaTratamiento.$error.required && !$ctrl.frmStepOne.nFechaTratamiento.$pristine">* Este campo es necesario</li>
+      </ul>
+    </div>
+  </div>
+  <div class="row mt-xs-4 mt-sm-5" ng-if="$ctrl.showBodySection">
+    <div class="col-xs-12">
+      <uib-accordion close-others="planCtrl.oneAtATime">
+        <div uib-accordion-group class="panel-default acordion no-hidden" is-open="true">
+          <uib-accordion-heading>
+            <div ng-click="planCtrl.Acordion1()">
+              Datos de la solicitud
+              <i
+                class="pull-right i-acordion"
+                ng-class="{'ico-mapfre_309_arrowUp': planCtrl.status.open1,'ico-mapfre_308_arrowDown': !planCtrl.status.open1}">
+              </i>
+            </div>
+          </uib-accordion-heading>
+          <div class="col-xs-12 panel1">
+            <div class="row mt-xs-2">
+              <div class="col-xs-12 col-sm-3 mt-xs-1 mt-sm-0">
+                <mpf-input
+                  label="{label: 'Póliza', required: true}"
+                  name="nPolicy"
+                  ng-model="$ctrl.medicalAssistance.solicitudData.policyNumber"
+                  ng-disabled="true"
+                  ng-required="true"
+                  ng-change="$ctrl.onChangePolicy($ctrl.medicalAssistance.solicitudData.policyNumber)">
+                </mpf-input>
+                <div
+                  class="g-error"
+                  ng-show="$ctrl.frmStepOne.nPolicy.$error.required && !$ctrl.frmStepOne.nPolicy.$pristine">
+                  * Campo requerido
+                </div>
+              </div>
+              <div class="col-xs-12 col-sm-3 mt-xs-1 mt-sm-0">
+                <mpf-input
+                  ng-if="!($ctrl.customersList.length > 1)"
+                  label="{label: 'Cliente ', required: true}"
+                  name="nCliente"
+                  ng-model="$ctrl.medicalAssistance.solicitudData.client.description"
+                  ng-disabled="true"
+                  ng-required="true">
+                </mpf-input>
+                <mpf-select
+                  ng-if="$ctrl.customersList.length > 1"
+                  label="{label: 'Cliente ', required: true}"
+                  name="nCliente"
+                  ng-model="$ctrl.medicalAssistance.solicitudData.client"
+                  m-data-source="$ctrl.customersList"
+                  text-field="description"
+                  value-field="id"
+                  ng-change="$ctrl.onChangeCustomer($ctrl.medicalAssistance.solicitudData.client)"
+                  ng-required="true"
+                  m-Empty-Option="{enterData:true}">
+                </mpf-select>
+                <div
+                  class="g-error"
+                  ng-show="$ctrl.frmStepOne.nCliente.$error.required && !$ctrl.frmStepOne.nCliente.$pristine">
+                  * Campo requerido
+                </div>
+              </div>
+              <div class="col-xs-12 col-sm-3 mt-xs-1 mt-sm-0">
+                <div ng-if="!($ctrl.constractorNumberList.length > 1)">
+                  <mpf-input
+                    label="{label: 'Número de contrato', required: true}"
+                    name="nNroContrato"
+                    ng-model="$ctrl.medicalAssistance.solicitudData.contractNumber.description"
+                    ng-disabled="true"
+                    ng-required="true">
+                  </mpf-input>
+                </div>
+                <div ng-if="$ctrl.constractorNumberList.length > 1">
+                  <mpf-select
+                    label="{label: 'Número de contrato ', required: true}"
+                    name="nNroContrato"
+                    ng-model="$ctrl.medicalAssistance.solicitudData.contractNumber"
+                    m-data-source="$ctrl.constractorNumberList"
+                    text-field="description"
+                    value-field="id"
+                    ng-change="$ctrl.onChangeContractorNumber($ctrl.medicalAssistance.solicitudData.contractNumber)"
+                    ng-required="true"
+                    m-Empty-Option="{enterData:true}">
+                  </mpf-select>
+                </div>
+              
+                <div
+                  class="g-error"
+                  ng-show="$ctrl.frmStepOne.nNroContrato.$error.required && !$ctrl.frmStepOne.nNroContrato.$pristine">
+                  * Campo requerido
+                </div>
+              </div>
+              <div class="col-xs-12 col-sm-3 mt-xs-1 mb-xs-1 mt-sm-0 mb-sm-0">
+                <m-Numeric-Textbox
+                  label="{label: 'Importe total de comprobantes ', required: true}"
+                  name="ntotalComprobantesImport"
+                  ng-model="$ctrl.medicalAssistance.solicitudData.totalComprobantesImport"
+                  ng-required="true"
+                  options="1">
+                </m-Numeric-Textbox>
+                <div
+                  class="g-error"
+                  ng-show="$ctrl.frmStepOne.ntotalComprobantesImport.$error.required && !$ctrl.frmStepOne.ntotalComprobantesImport.$pristine">
+                  * Campo requerido
+                </div>
+              </div>
+            </div>
+            <div class="row mt-xs-2">
+              <div class="col-xs-12 col-sm-3 mt-xs-1 mt-sm-0 col-sm-offset-3">
+                <mpf-input
+                  label="{label: 'Plan', required: true}"
+                  name="nPlan"
+                  ng-model="$ctrl.medicalAssistance.solicitudData.plan.name"
+                  ng-disabled="true"
+                  ng-required="true">
+                </mpf-input>
+                <div
+                  class="g-error"
+                  ng-show="$ctrl.frmStepOne.nPlan.$error.required && !$ctrl.frmStepOne.nPlan.$pristine">
+                  * Campo requerido
+                </div>
+              </div>
+              <div class="col-xs-12 col-sm-3 mt-xs-1 mt-sm-0">
+                <mpf-input
+                  label="{label: 'Parentesco', required: true}"
+                  name="nParentezco"
+                  ng-model="$ctrl.medicalAssistance.solicitudData.relationship.description"
+                  ng-disabled="true"
+                  ng-required="true">
+                </mpf-input>
+                <div
+                  class="g-error"
+                  ng-show="$ctrl.frmStepOne.nParentezco.$error.required && !$ctrl.frmStepOne.nParentezco.$pristine">
+                  * Campo requerido
+                </div>
+              </div>
+              <div class="col-xs-12 col-sm-3 mt-xs-1 mt-sm-0">
+                <mpf-input
+                  label="{label: 'Afiliado titular', required: true}"
+                  name="nAfiliadoVinculacion"
+                  ng-model="$ctrl.medicalAssistance.solicitudData.afiliateTitular.name"
+                  ng-disabled="true"
+                  ng-required="true">
+                </mpf-input>
+                <div
+                  class="g-error"
+                  ng-show="$ctrl.frmStepOne.nAfiliadoVinculacion.$error.required && !$ctrl.frmStepOne.nAfiliadoVinculacion.$pristine">
+                  * Campo requerido
+                </div>
+              </div>
+            </div>
+            <div class="row mt-xs-4">
+            </div>
+            <div class="row" ng-if="$ctrl.showLastBodySection">
+              <div class="col-xs-12 col-sm-3 mt-xs-1 mt-sm-0">
+                <mpf-select
+                  label="{label: 'Beneficio ', required: false}"
+                  name="nBenefit"
+                  ng-model="$ctrl.medicalAssistance.solicitudData.benefit"
+                  m-data-source="$ctrl.benefitList"
+                  text-field="benefitDescription"
+                  value-field="benefitCode"
+                  ng-required="false"
+                  m-Empty-Option="{enterData:true}">
+                </mpf-select>
+                <div
+                  class="g-error"
+                  ng-show="$ctrl.frmStepOne.nBenefit.$error.required && !$ctrl.frmStepOne.nBenefit.$pristine">
+                  * Seleccione un beneficio
+                </div>
+              </div>
+              <div class="col-xs-12 col-sm-3 mt-xs-1 mt-sm-0">
+                <mpf-input
+                  label="{label: 'Producto', required: false}"
+                  name="nProducto"
+                  ng-model="$ctrl.solicitud.product.name"
+                  ng-disabled="true">
+                </mpf-input>
+              </div>
+            </div>
+          </div>
+        </div>
+      </uib-accordion>
+    </div>
+  </div>
+  <div class="row mt-xs-4 mb-xs-3" ng-if="$ctrl.showBodySection">
+    <div class="col-md-4 col-md-offset-4">
+      <a class="g-btn g-btn-verde block" ng-click="$ctrl.validateForm()">Continuar</a>
+    </div>
+  </div>
+</form>

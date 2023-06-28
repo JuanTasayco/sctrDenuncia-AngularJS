@@ -1,0 +1,581 @@
+<section class="g-page g-page-documents">
+  <div class="consulta-cotizaciones">
+
+    <div class="g-title">
+			<div class="container">
+				<div class="row">
+					<div class="col-sm-9 mb-xs-2 no-mb-md">
+						<span class="ico-mapfre_84_circleleft ico-title"></span><h1>Bandeja de Gestión</h1>
+					</div>
+				</div>
+			</div>
+		</div>
+
+    <div class="g-section g-section-tabs g-overflow-hidden-xs tabs-responsive">
+      <div class="container">
+
+        <div class="row" ng-show="VISTA == 'LISTAR'">
+          <div class="clearfix">
+            <div class="col-md-12">
+              <div class="clearfix g-tbl-wrapper pt-xs-4 g-border-top-xs">
+                <div class="clearfix">
+                                  
+                  <form class="form-inline" style="margin: 25px 0px;">
+                    <div class="form-group">
+                      <label for="txtNroPoliza" style="margin: 0px 15px; font-weight: 700;">NRO. PÓLIZA:</label>
+                      <input type="text" id="txtNroPoliza" placeholder="##########"
+                      ng-model="FILTROS.num_poliza"
+                      class="form-control" style="margin: 0px 15px;">
+                    </div>
+                    <div class="form-group">
+                      <label for="txtNroRequerimiento" style="margin: 0px 15px; font-weight: 700;">NRO. REQUERIMIENTO:</label>
+                      <input type="text" id="txtNroRequerimiento" placeholder="####"
+                      ng-model="FILTROS.id_req"
+                      class="form-control" style="margin: 0px 15px;">
+                    </div>
+                  </form>
+                  <form class="form-inline" style="margin: 25px 0px;">
+                    <div class="form-group">
+                      <label for="txtNroPoliza" style="margin: 0px 15px; font-weight: 700;">TIPO:</label>
+                      <select class="form-control"
+                        ng-model="FILTROS.tipo_flujo"
+                        ng-options="ITEM.VALOR as ITEM.TEXTO for ITEM in LS_TIPOS">
+                      </select>
+                    </div>
+                    <div class="form-group">
+                      <label for="txtNroRequerimiento" style="margin: 0px 15px; font-weight: 700;">SITUACIÓN:</label>
+                      <select class="form-control"
+                        ng-model="FILTROS.situacion"
+                        ng-options="ITEM.VALOR as ITEM.TEXTO for ITEM in LS_SITUACIONES">
+                      </select>
+                    </div>
+                  </form>                  
+                  <form class="form-inline" style="margin: 25px 0px;">
+                    <div class="form-group">
+                      <label for="txtFechaInicio" style="margin: 0px 15px; font-weight: 700;">FECHA - INICIO:</label>
+                      <input type="text" id="txtFechaInicio"
+                      ng-model="FILTROS.fec_ini" placeholder="DD/MM/YYYY"
+                      class="form-control" style="margin: 0px 15px;">
+                    </div>
+                    <div class="form-group">
+                      <label for="txtFechaFin" style="margin: 0px 15px; font-weight: 700;">FIN:</label>
+                      <input type="text" id="txtFechaFin"
+                      ng-model="FILTROS.fec_fin" placeholder="DD/MM/YYYY"
+                      class="form-control" style="margin: 0px 15px;">
+                    </div>
+                    <button class="g-btn" style="background-color: #980606; border-color: #360707; color: #FFFFFF;"
+                    ng-click="FN_FILTRAR();">
+                    <i class="glyphicon glyphicon-search"></i> FILTRAR</button>
+                  </form>                  
+
+                  <table class="table table-bordered table-striped table-hover" style="margin-top: 20px;"
+                  ng-show="REQUERIMIENTOS.length > 0">
+                    <thead>
+                      <tr>
+                        <th style="font-weight: 700;">Nro. Req.</th>
+                        <th style="font-weight: 700;">Fecha</th>
+                        <th style="font-weight: 700;">Usuario</th>
+                        <th style="font-weight: 700;">Tipo</th>                        
+                        <th style="font-weight: 700;">Motivo</th>
+                        <th style="font-weight: 700;">Sustento</th>
+                        <th style="font-weight: 700;">Compañía</th>                        
+                        <th style="font-weight: 700;">Sector</th>
+                        <th style="font-weight: 700;">Nro. Póliza</th>                                              
+                        <th style="font-weight: 700;">Estado</th>
+                        <th style="font-weight: 700;">Situación</th>
+                        <th style="text-align: center;"></th>
+                        <th style="text-align: center;"></th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr ng-repeat="FILA in REQUERIMIENTOS_PAGINA">
+                        <td>{{FILA.id_req}}</td>
+                        <td>{{FILA.fec_emision_spto}}</td>    
+                        <td>{{FILA.cod_usua}}</td>
+                        <td>{{FILA.tipo_flujo}}</td>
+                        <td>{{(LS_REQ_MOTIVOS | filter: {VALOR:FILA.id_motivo} : true)[0].TEXTO }}</td>
+                        <td style="white-space: pre-wrap;">{{FILA.info_adicional}}</td> 
+                        <td>{{FILA.cod_cia}}</td>
+                        <td>{{FILA.cod_sector}}</td>
+                        <td>
+                          <div ng-show="FILA.num_poliza != '0'">{{FILA.num_poliza}}
+                          </div>
+                        </td>       
+                        <td>
+                          {{ (LS_ESTADOS | filter:{VALOR:FILA.estado})[0].TEXTO  }}
+                          <div style="display: inline;" ng-show="FILA.estado == 'REV' && FILA.tipo_flujo == 'REQ OBSERVACION'">SUP. COM.</div>
+                          <div style="display: inline;" ng-show="FILA.estado == 'REV' && FILA.tipo_flujo != 'REQ OBSERVACION'">ASISTENTE</div>                          
+                        </td>
+                        <td>
+                          <div ng-show="!(FILA.estado == 'ATE' || FILA.estado == 'REC' || FILA.estado == 'NVA')">PENDIENTE</div>
+                          <div ng-show="FILA.estado == 'ATE' || FILA.estado == 'REC' || FILA.estado == 'NVA'">TERMINADO</div>
+                        </td>
+                        <td>
+                          <button class="g-btn g-btn-verde g-btn" style="margin: 0px; padding: 6px;"
+                          ng-click="FN_VISTA_DETALLE(FILA)" prevent-default>
+                          <i class="glyphicon glyphicon glyphicon-zoom-in"></i> Detalle</button>
+                        </td>                        
+                        <td>
+                          <button class="g-btn g-btn-verde g-btn" style="margin: 0px; padding: 6px;"
+                          ng-show="(FILA.cod_aprob == USUARIO) && (FILA.estado == 'REG' || FILA.estado == 'APR' || FILA.estado == 'DER' || FILA.estado == 'REV')"                          
+                          ng-click="FN_VISTA_ATENDER(FILA)" prevent-default>
+                          <i class="glyphicon glyphicon-hand-right"></i> Atención</button>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+
+              <div class="clearfix"
+              ng-show="REQUERIMIENTOS.length > 0">
+                <div class="col-md-12">
+                  <ul uib-pagination class="g-pagination"
+                  ng-model="PAGINADO_NU_PAGI"
+                  ng-change="FN_PAGINA();"
+                  max-size="10"
+                  total-items="REQUERIMIENTOS.length" items-per-page="PAGINADO_CA_PAGI"
+                  boundary-link-numbers="true"></ul>
+                </div>
+              </div>
+
+              <div class="col-md-12 text-center g-box-noresult"
+              ng-show="REQUERIMIENTOS.length == 0">
+                <div class="row">
+                  <div class="col-md-12 g-box-noresult-ico gCRed1"><span class="ico-mapfre_302_error"></span></div>
+                  <div class="col-md-12 g-box-noresult-text">No hay resultados para los filtros escogidos.<br>Intente nuevamente.</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="row" ng-show="VISTA == 'EVENTO'">
+          <div class="clearfix">
+            <div class="col-md-12">
+              <div class="clearfix g-tbl-wrapper pt-xs-4 g-border-top-xs">
+                <div class="clearfix" style="overflow: hidden;">
+             
+                  <button class="g-btn g-btn-verde" style="margin: 8px;"
+                  ng-click="FN_VISTA_LISTAR(false);"
+                  prevent-default>
+                  <i class="glyphicon glyphicon-arrow-left"></i> Regresar
+                  </button>
+
+                  <div style="text-align: center; font-weight: 700; margin: 20px; font-size: 18px; margin-top:0px;">
+                    <h2>ATENCIÓN DE REQUERIMIENTO</h3>
+                  </div>
+                  <form class="form-horizontal">
+                    <div class="form-group" style="margin: 30px 0px;">
+                      <label class="col-sm-1 control-label" style="font-weight: 700; text-align: left;">
+                        NRO. REQ.: </label>
+                      <div class="col-sm-4">
+                        <p class="form-control-static">{{REQ.id_req}}</p>
+                      </div>
+
+                      <label for="txtFrmNumPoliza" class="col-sm-1 control-label" style="font-weight: 700; text-align: left;"
+                      ng-show="REQ_TIPO == 'REQ OBSERVACION' || REQ_TIPO == 'REQ GESTION'">
+                        NRO. PÓLIZA: </label>
+                      <div class="col-sm-2"
+                      ng-show="REQ_TIPO == 'REQ OBSERVACION' || REQ_TIPO == 'REQ GESTION'">
+                       <p class="form-control-static">{{REQ.num_poliza}}</p>
+                      </div>    
+                      <label class="col-sm-1 control-label" style="font-weight: 700; text-align: left;" ng-show="REQ.poliza.validacion">
+                        FECHA EMIS.: </label>
+                      <div class="col-sm-2" ng-show="REQ.poliza.validacion"><p class="form-control-static">{{REQ.poliza.fec_actu}}</p></div>                   
+                    </div>                     
+                    <div class="form-group" style="margin: 30px 0px;">
+                      <label for="txtFrmCodEmpresa" class="col-sm-1 control-label" style="font-weight: 700; text-align: left;">
+                        COMPAÑÍA: </label>
+                      <div class="col-sm-4">
+                        <p class="form-control-static">
+                          {{(LS_REQ_EMPRESAS | filter:{VALOR:REQ.cod_cia})[0].TEXTO  }}
+                        </p>
+                      </div>
+
+                      <label class="col-sm-1 control-label" style="font-weight: 700; text-align: left;" ng-show="REQ.poliza.validacion">
+                        FECHA EFEC.: </label>
+                      <div class="col-sm-2" ng-show="REQ.poliza.validacion"><p class="form-control-static">{{REQ.poliza.fec_efec_poliza}}</p></div>
+                      <label class="col-sm-1 control-label" style="font-weight: 700; text-align: left;" ng-show="REQ.poliza.validacion">
+                        FECHA VCTO.: </label>
+                      <div class="col-sm-2" ng-show="REQ.poliza.validacion"><p class="form-control-static">{{REQ.poliza.fec_vcto_poliza}}</p></div>                     
+                    </div>                    
+                    <div class="form-group" style="margin: 30px 0px;">
+                      <label for="txtFrmCodSector" class="col-sm-1 control-label" style="font-weight: 700; text-align: left;">
+                        SECTOR: </label>
+                      <div class="col-sm-4">
+                        <p class="form-control-static">
+                          {{(LS_REQ_SECTORES | filter:{VALOR:REQ.cod_sector})[0].TEXTO  }}
+                        </p>
+                      </div>
+
+                      <label class="col-sm-1 control-label" style="font-weight: 700; text-align: left;" ng-show="REQ.poliza.validacion">
+                        SUPLEMENTO: </label>
+                      <div class="col-sm-2" ng-show="REQ.poliza.validacion"><p class="form-control-static">{{REQ.poliza.num_spto}}</p></div>
+                      <label class="col-sm-1 control-label" style="font-weight: 700; text-align: left;" ng-show="REQ.poliza.validacion">
+                        RAMO: </label>
+                      <div class="col-sm-2" ng-show="REQ.poliza.validacion"><p class="form-control-static">{{REQ.poliza.cod_ramo}}</p></div>          
+                    </div>                   
+                    <div class="form-group" style="margin: 30px 0px;">
+                      <label class="col-sm-1 control-label" style="font-weight: 700; text-align: left;">
+                        TIPO: </label>
+                      <div class="col-sm-4">
+                        <p class="form-control-static">{{REQ_TIPO}}</p>
+                      </div>
+
+                      <label class="col-sm-1 control-label" style="font-weight: 700; text-align: left;" ng-show="REQ.poliza.validacion">
+                        AGENTE: </label>                       
+                      <div class="col-sm-2" ng-show="REQ.poliza.validacion"><p class="form-control-static">{{REQ.poliza.cod_agt}} - {{REQ.poliza.nom_agt}}</p></div>   
+                      <label class="col-sm-1 control-label" style="font-weight: 700; text-align: left;" ng-show="REQ.poliza.validacion">
+                        MCA PROV.: </label>
+                      <div class="col-sm-2" ng-show="REQ.poliza.validacion"><p class="form-control-static">{{REQ.poliza.mca_provisional}}</p></div>                       
+                    </div>
+                    <div class="form-group" style="margin: 30px 0px;">
+                      <label for="txtFrmIdMotivo" class="col-sm-1 control-label" style="font-weight: 700; text-align: left;">
+                        MOTIVO: </label>
+                      <div class="col-sm-4">
+                        <p class="form-control-static">
+                          {{(LS_REQ_MOTIVOS | filter:{VALOR:REQ.id_motivo})[0].TEXTO  }}
+                        </p>
+                      </div>
+
+                      <label class="col-sm-1 control-label" style="font-weight: 700; text-align: left;" ng-show="REQ.poliza.validacion">
+                        CLIENTE: </label>
+                      <div class="col-sm-2" ng-show="REQ.poliza.validacion"><p class="form-control-static">{{REQ.poliza.nom_tercero}}</p></div>                      
+                      <label class="col-sm-1 control-label" style="font-weight: 700; text-align: left;" ng-show="REQ.poliza.validacion">
+                        ESTADO: </label>
+                      <div class="col-sm-2" ng-show="REQ.poliza.validacion">
+                        <p class="form-control-static">
+                          {{(LS_REQ_ESTADOS_POLIZA | filter:{VALOR:REQ.poliza.estado_poliza})[0].TEXTO }}
+                        </p>
+                      </div> 
+                    </div>    
+                    <div class="form-group" style="margin: 30px 0px;">
+                      <label for="" class="col-sm-1 control-label" style="font-weight: 700; text-align: left;">
+                        <div ng-show="REQ.tiene_submotivos">SUBMOTIVO: </div>   
+                      </label>
+                      <div class="col-sm-4">
+                        <p class="form-control-static" ng-show="REQ.tiene_submotivos">
+                          {{(LS_REQ_SUBMOTIVOS | filter:{VALOR:REQ.id_submotivo} : true)[0].TEXTO }}
+                        </p>  
+                      </div>
+
+                      <label class="col-sm-1 control-label" style="font-weight: 700; text-align: left;" ng-show="REQ.poliza.validacion">
+                        GESTOR: </label>
+                      <div class="col-sm-2" ng-show="REQ.poliza.validacion">
+                        <p class="form-control-static">{{REQ.poliza.tip_gestor}} - {{REQ.poliza.cod_gestor}} - {{REQ.poliza.nom_gestor}}</p></div>                      
+                      <label class="col-sm-1 control-label" style="font-weight: 700; text-align: left;" ng-show="REQ.poliza.validacion">
+                        SUPERVISOR: </label>
+                      <div class="col-sm-2" ng-show="REQ.poliza.validacion">
+                        <p class="form-control-static">{{REQ.poliza.cod_supervisor}} - {{REQ.poliza.nom_supervisor}}</p>
+                      </div> 
+                    </div>   
+                    <div class="form-group" style="margin: 30px 0px;" ng-show="REQ.requiere_placa">
+                      <label for="" class="col-sm-1 control-label" style="font-weight: 700; text-align: left;">
+                        PLACA: </label>
+                      <div class="col-sm-4">
+                        <p class="form-control-static">{{REQ.nom_placa}}</p>                    
+                      </div> 
+                    </div>     
+                    <div class="form-group" style="margin: 30px 0px;" ng-show="REQ.requiere_fechas">
+                      <label for="" class="col-sm-1 control-label" style="font-weight: 700; text-align: left;">
+                        FECHA INICIO: </label>
+                      <div class="col-sm-2">
+                        <p class="form-control-static">{{REQ.fec_opcional_ini}}</p>                    
+                      </div> 
+                      <label for="" class="col-sm-1 control-label" style="font-weight: 700; text-align: left;">
+                        FECHA FIN: </label>
+                      <div class="col-sm-2">
+                        <p class="form-control-static">{{REQ.fec_opcional_fin}}</p>                    
+                      </div>                       
+                    </div>                      
+                    <div class="form-group" style="margin: 30px 0px;">
+                      <label for="txtEventos" class="col-sm-1 control-label" style="font-weight: 700; text-align: left;">
+                        EVENTOS: </label>
+                      <div class="col-sm-10">
+                        <p class="form-control-static" ng-show="REQ.eventos.length == 0">SIN EVENTOS</p>
+                        <table class="table table-bordered table-striped table-hover" style="margin-top: 20px;"
+                        ng-show="REQ.eventos.length > 0">
+                          <thead>
+                            <tr>
+                              <th style="font-weight: 700;">ESTADO</th>                                  
+                              <th style="font-weight: 700;">FECHA</th>                        
+                              <th style="font-weight: 700;">USUARIO</th>                    
+                              <th style="font-weight: 700;">OBSERVACIONES</th>
+                              <th style="font-weight: 700; text-align: left;" colspan="2">ADJUNTO</th>                    
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <tr ng-repeat="FILA in REQ.eventos">
+                              <td>
+                                {{ (LS_ESTADOS | filter:{VALOR:FILA.estado})[0].TEXTO  }}
+                                <div style="display: inline;" ng-show="FILA.estado == 'REV' && REQ_TIPO == 'REQ OBSERVACION'">SUP. COM.</div>
+                                <div style="display: inline;" ng-show="FILA.estado == 'REV' && REQ_TIPO != 'REQ OBSERVACION'">ASISTENTE</div>                                
+                              </td>                              
+                              <td>{{FILA.fec_evento}}</td>
+                              <td>{{FILA.cod_usua}}</td>                  
+                              <td style="white-space: pre-wrap;">{{FILA.sustento_comentario}}</td>   
+                              <td>{{FILA.nom_documento}}</td> 
+                              <td style="text-align: center;">
+                                <button class="g-btn g-btn-verde g-btn" style="margin: 0px; padding: 6px;"
+                                ng-show="(FILA.id_documento != null) && (FILA.id_documento != '')"
+                                ng-click="FN_ADJUNTO_ABRIR(FILA.nom_documento, FILA.id_documento)" prevent-default>
+                                <i class="glyphicon glyphicon-search"></i></button>                                
+                              </td>  
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </div> 
+
+                    <div class="form-group" style="margin: 30px 0px;">
+                      <label for="txtFrmObservaciones" class="col-sm-2 control-label" style="font-weight: 700;">
+                        OBSERVACIONES: </label>
+                      <div class="col-sm-8">
+                        <textarea class="form-control" rows="5" style="text-transform: uppercase;"
+                        ng-model="REQ.sustento_comentario" id="txtFrmObservaciones"></textarea>
+                      </div>
+                    </div>                                                  
+                    <div class="form-group" style="margin: 30px 0px;">
+                      <label for="fileFrmAdjunto" class="col-sm-2 control-label" style="font-weight: 700;">
+                        ADJUNTO: </label>
+                      <div class="col-sm-4">
+                        <input id="fileFrmAdjunto"             
+                        type="file" onchange="angular.element(this).scope().fileSelected(this)" />
+                      </div>
+                    </div>   
+
+                    <div class="form-group">
+                      <div class="col-sm-6">
+                        <button class="g-btn"
+                        ng-show="mostrar_aprobado"
+                        style="background-color: #065698; border-color: #065698; color: #FFFFFF; padding: 15px; margin-right: 20px;"
+                        ng-click="FN_GRABAR('APR');" ng-disabled="!REQ.emitir"><i class="glyphicon glyphicon-ok"></i> APROBADO</button>
+                        <button class="g-btn"
+                        ng-show="mostrar_rechazado"
+                        style="background-color: #980606; border-color: #980606; color: #FFFFFF; padding: 15px; margin-right: 20px;"
+                        ng-click="FN_GRABAR('REC');" ng-disabled="!REQ.emitir"><i class="glyphicon glyphicon-remove"></i> RECHAZADO</button>
+                        <button class="g-btn"
+                        ng-show="mostrar_derivado"
+                        style="background-color: #989606; border-color: #989606; color: #FFFFFF; padding: 15px; margin-right: 20px;"
+                        ng-click="FN_GRABAR('DER');" ng-disabled="!REQ.emitir"><i class="glyphicon glyphicon-arrow-right"></i> DERIVADO</button>
+                        <button class="g-btn"
+                        ng-show="mostrar_revisado"
+                        style="background-color: #b16b1c; border-color: #b16b1c; color: #FFFFFF; padding: 15px; margin-right: 20px;"
+                        ng-click="FN_GRABAR('REV');" ng-disabled="!REQ.emitir"><i class="glyphicon glyphicon-share-alt"></i> APROBADO</button>
+                        <button class="g-btn"
+                        ng-show="mostrar_atendido"
+                        style="background-color: #0c8f0c; border-color: #0c8f0c; color: #FFFFFF; padding: 15px; margin-right: 20px;"
+                        ng-click="FN_GRABAR('ATE');" ng-disabled="!REQ.emitir"><i class="glyphicon glyphicon-saved"></i> ATENDIDO</button>
+                        <button class="g-btn"
+                        ng-show="mostrar_nosubsanado"
+                        style="background-color: #FF9393; border-color: #FF9393; color: #FFFFFF; padding: 15px; margin-right: 20px;"
+                        ng-click="FN_GRABAR('NVA');" ng-disabled="!REQ.emitir"><i class="glyphicon glyphicon-saved"></i> NO SUBSANADO</button>                        
+                      </div>
+                      <div class="col-sm-6">
+                        <div class="row">
+                          <div class="col-md-12 g-box-noresult-ico gCRed1" ng-show="!REQ.emitir"><span class="ico-mapfre_302_error"></span></div>
+                          <div class="col-md-12 g-box-noresult-text" ng-show="!REQ.emitir">PLAZO NO PERMITIDO</div>
+                          <div class="col-md-12 g-box-noresult-text">Días desde Atención, permitidos: {{REQ.dias_permitidos}}</div>
+                          <div class="col-md-12 g-box-noresult-text">Días desde Atención, transcurrido: {{REQ.dias_transcurridos}}</div>
+                        </div>
+                      </div>                      
+                    </div>
+                  </form>
+                  
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="row" ng-show="VISTA == 'DETALLE'">
+          <div class="clearfix">
+            <div class="col-md-12">
+              <div class="clearfix g-tbl-wrapper pt-xs-4 g-border-top-xs">
+                <div class="clearfix" style="overflow: hidden;">
+             
+                  <button class="g-btn g-btn-verde" style="margin: 8px;"
+                  ng-click="FN_VISTA_LISTAR(false);"
+                  prevent-default>
+                  <i class="glyphicon glyphicon-arrow-left"></i> Regresar
+                  </button>
+
+                  <div style="text-align: center; font-weight: 700; margin: 20px; font-size: 18px; margin-top:0px;">
+                    <h2>DETALLE DE REQUERIMIENTO</h3>
+                  </div>
+                  <form class="form-horizontal">
+                    <div class="form-group" style="margin: 30px 0px;">
+                      <label class="col-sm-1 control-label" style="font-weight: 700; text-align: left;">
+                        NRO. REQ.: </label>
+                      <div class="col-sm-4">
+                        <p class="form-control-static">{{REQ.id_req}}</p>
+                      </div>
+
+                      <label for="txtFrmNumPoliza" class="col-sm-1 control-label" style="font-weight: 700; text-align: left;"
+                      ng-show="REQ_TIPO == 'REQ OBSERVACION' || REQ_TIPO == 'REQ GESTION'">
+                        NRO. PÓLIZA: </label>
+                      <div class="col-sm-2"
+                      ng-show="REQ_TIPO == 'REQ OBSERVACION' || REQ_TIPO == 'REQ GESTION'">
+                       <p class="form-control-static">{{REQ.num_poliza}}</p>
+                      </div>    
+                      <label class="col-sm-1 control-label" style="font-weight: 700; text-align: left;" ng-show="REQ.poliza.validacion">
+                        FECHA EMIS.: </label>
+                      <div class="col-sm-2" ng-show="REQ.poliza.validacion"><p class="form-control-static">{{REQ.poliza.fec_actu}}</p></div>                   
+                    </div>                     
+                    <div class="form-group" style="margin: 30px 0px;">
+                      <label for="txtFrmCodEmpresa" class="col-sm-1 control-label" style="font-weight: 700; text-align: left;">
+                        COMPAÑÍA: </label>
+                      <div class="col-sm-4">
+                        <p class="form-control-static">
+                          {{(LS_REQ_EMPRESAS | filter:{VALOR:REQ.cod_cia})[0].TEXTO  }}
+                        </p>
+                      </div>
+
+                      <label class="col-sm-1 control-label" style="font-weight: 700; text-align: left;" ng-show="REQ.poliza.validacion">
+                        FECHA EFEC.: </label>
+                      <div class="col-sm-2" ng-show="REQ.poliza.validacion"><p class="form-control-static">{{REQ.poliza.fec_efec_poliza}}</p></div>
+                      <label class="col-sm-1 control-label" style="font-weight: 700; text-align: left;" ng-show="REQ.poliza.validacion">
+                        FECHA VCTO.: </label>
+                      <div class="col-sm-2" ng-show="REQ.poliza.validacion"><p class="form-control-static">{{REQ.poliza.fec_vcto_poliza}}</p></div>                     
+                    </div>                    
+                    <div class="form-group" style="margin: 30px 0px;">
+                      <label for="txtFrmCodSector" class="col-sm-1 control-label" style="font-weight: 700; text-align: left;">
+                        SECTOR: </label>
+                      <div class="col-sm-4">
+                        <p class="form-control-static">
+                          {{(LS_REQ_SECTORES | filter:{VALOR:REQ.cod_sector})[0].TEXTO  }}
+                        </p>
+                      </div>
+
+                      <label class="col-sm-1 control-label" style="font-weight: 700; text-align: left;" ng-show="REQ.poliza.validacion">
+                        SUPLEMENTO: </label>
+                      <div class="col-sm-2" ng-show="REQ.poliza.validacion"><p class="form-control-static">{{REQ.poliza.num_spto}}</p></div>
+                      <label class="col-sm-1 control-label" style="font-weight: 700; text-align: left;" ng-show="REQ.poliza.validacion">
+                        RAMO: </label>
+                      <div class="col-sm-2" ng-show="REQ.poliza.validacion"><p class="form-control-static">{{REQ.poliza.cod_ramo}}</p></div>          
+                    </div>                   
+                    <div class="form-group" style="margin: 30px 0px;">
+                      <label class="col-sm-1 control-label" style="font-weight: 700; text-align: left;">
+                        TIPO: </label>
+                      <div class="col-sm-4">
+                        <p class="form-control-static">{{REQ_TIPO}}</p>
+                      </div>
+
+                      <label class="col-sm-1 control-label" style="font-weight: 700; text-align: left;" ng-show="REQ.poliza.validacion">
+                        AGENTE: </label>                       
+                      <div class="col-sm-2" ng-show="REQ.poliza.validacion"><p class="form-control-static">{{REQ.poliza.cod_agt}} - {{REQ.poliza.nom_agt}}</p></div>   
+                      <label class="col-sm-1 control-label" style="font-weight: 700; text-align: left;" ng-show="REQ.poliza.validacion">
+                        MCA PROV.: </label>
+                      <div class="col-sm-2" ng-show="REQ.poliza.validacion"><p class="form-control-static">{{REQ.poliza.mca_provisional}}</p></div>                       
+                    </div>
+                    <div class="form-group" style="margin: 30px 0px;">
+                      <label for="txtFrmIdMotivo" class="col-sm-1 control-label" style="font-weight: 700; text-align: left;">
+                        MOTIVO: </label>
+                      <div class="col-sm-4">
+                        <p class="form-control-static">
+                          {{(LS_REQ_MOTIVOS | filter:{VALOR:REQ.id_motivo})[0].TEXTO  }}
+                        </p>
+                      </div>
+
+                      <label class="col-sm-1 control-label" style="font-weight: 700; text-align: left;" ng-show="REQ.poliza.validacion">
+                        CLIENTE: </label>
+                      <div class="col-sm-2" ng-show="REQ.poliza.validacion"><p class="form-control-static">{{REQ.poliza.nom_tercero}}</p></div>                      
+                      <label class="col-sm-1 control-label" style="font-weight: 700; text-align: left;" ng-show="REQ.poliza.validacion">
+                        ESTADO: </label>
+                      <div class="col-sm-2" ng-show="REQ.poliza.validacion">
+                        <p class="form-control-static">
+                          {{(LS_REQ_ESTADOS_POLIZA | filter:{VALOR:REQ.poliza.estado_poliza})[0].TEXTO }}
+                        </p>
+                      </div> 
+                    </div>    
+                    <div class="form-group" style="margin: 30px 0px;">
+                      <label for="" class="col-sm-1 control-label" style="font-weight: 700; text-align: left;">
+                        <div ng-show="REQ.tiene_submotivos">SUBMOTIVO: </div></label>
+                      <div class="col-sm-4">
+                        <p class="form-control-static" ng-show="REQ.tiene_submotivos">
+                          {{(LS_REQ_SUBMOTIVOS | filter:{VALOR:REQ.id_submotivo} : true)[0].TEXTO }}
+                        </p>                     
+                      </div>
+
+                      <label class="col-sm-1 control-label" style="font-weight: 700; text-align: left;" ng-show="REQ.poliza.validacion">
+                        GESTOR: </label>
+                      <div class="col-sm-2" ng-show="REQ.poliza.validacion">
+                        <p class="form-control-static">{{REQ.poliza.tip_gestor}} - {{REQ.poliza.cod_gestor}} - {{REQ.poliza.nom_gestor}}</p></div>                      
+                      <label class="col-sm-1 control-label" style="font-weight: 700; text-align: left;" ng-show="REQ.poliza.validacion">
+                        SUPERVISOR: </label>
+                      <div class="col-sm-2" ng-show="REQ.poliza.validacion">
+                        <p class="form-control-static">{{REQ.poliza.cod_supervisor}} - {{REQ.poliza.nom_supervisor}}</p>
+                      </div> 
+                    </div>   
+                    <div class="form-group" style="margin: 30px 0px;" ng-show="REQ.requiere_placa">
+                      <label for="" class="col-sm-1 control-label" style="font-weight: 700; text-align: left;">
+                        PLACA: </label>
+                      <div class="col-sm-4">
+                        <p class="form-control-static">{{REQ.nom_placa}}</p>                    
+                      </div> 
+                    </div>     
+                    <div class="form-group" style="margin: 30px 0px;" ng-show="REQ.requiere_fechas">
+                      <label for="" class="col-sm-1 control-label" style="font-weight: 700; text-align: left;">
+                        FECHA INICIO: </label>
+                      <div class="col-sm-2">
+                        <p class="form-control-static">{{REQ.fec_opcional_ini}}</p>                    
+                      </div> 
+                      <label for="" class="col-sm-1 control-label" style="font-weight: 700; text-align: left;">
+                        FECHA FIN: </label>
+                      <div class="col-sm-2">
+                        <p class="form-control-static">{{REQ.fec_opcional_fin}}</p>                    
+                      </div>                       
+                    </div>                                                            
+                    <div class="form-group" style="margin: 30px 0px;">
+                      <label for="txtEventos" class="col-sm-1 control-label" style="font-weight: 700; text-align: left;">
+                        EVENTOS: </label>
+                      <div class="col-sm-10">
+                        <p class="form-control-static" ng-show="REQ.eventos.length == 0">SIN EVENTOS</p>
+                        <table class="table table-bordered table-striped table-hover" style="margin-top: 20px;"
+                        ng-show="REQ.eventos.length > 0">
+                          <thead>
+                            <tr>
+                              <th style="font-weight: 700;">ESTADO</th>                                  
+                              <th style="font-weight: 700;">FECHA</th>                        
+                              <th style="font-weight: 700;">USUARIO</th>                    
+                              <th style="font-weight: 700;">OBSERVACIONES</th>
+                              <th style="font-weight: 700; text-align: left;" colspan="2">ADJUNTO</th>                    
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <tr ng-repeat="FILA in REQ.eventos">
+                              <td>
+                                {{ (LS_ESTADOS | filter:{VALOR:FILA.estado})[0].TEXTO  }}
+                                <div style="display: inline;" ng-show="FILA.estado == 'REV' && REQ_TIPO == 'REQ OBSERVACION'">SUP. COM.</div>
+                                <div style="display: inline;" ng-show="FILA.estado == 'REV' && REQ_TIPO != 'REQ OBSERVACION'">ASISTENTE</div>                                
+                              </td>                              
+                              <td>{{FILA.fec_evento}}</td>
+                              <td>{{FILA.cod_usua}}</td>                  
+                              <td style="white-space: pre-wrap;">{{FILA.sustento_comentario}}</td>   
+                              <td>{{FILA.nom_documento}}</td> 
+                              <td style="text-align: center;">
+                                <button class="g-btn g-btn-verde g-btn" style="margin: 0px; padding: 6px;"
+                                ng-show="(FILA.id_documento != null) && (FILA.id_documento != '')"
+                                ng-click="FN_ADJUNTO_ABRIR(FILA.nom_documento, FILA.id_documento)" prevent-default>
+                                <i class="glyphicon glyphicon-search"></i></button>                                
+                              </td>  
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>                                              
+                  </form>
+                  
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>    
+
+  </div>
+
+</section>			

@@ -1,0 +1,106 @@
+<form name="frmUserConfigItemMaintenance" action="">
+    <div class="col-md-12 g-list-md g-box pt-xs-1 mb-xs-1 ng-scope" ng-class="{'gBgcGray5': $ctrl.type === 2}">
+        <div class="row">
+
+            <ul class="row g-list-sm" >
+                <li class="col-md-4 col-sm-12 col-xs-12  clearfix mb-xs-1 mt-xs-1">
+                    <div class="col-sm-9 col-xs-6 item-dato">
+                        <mpf-select
+                            data-m-data-source="$ctrl.branchs"
+                            data-ng-model="$ctrl.frm.branchOffice"
+                            data-text-field="description"
+                            data-value-field="id"
+                            label="{label: 'Sucursal ', required: true}"
+                            m-Empty-Option = "{enterData : true}"
+                            name="nbranchOffice"
+                            ng-required="true"
+                            ng-change="$ctrl.changeBranchOffice($ctrl.frm.branchOffice.id)">
+                        </mpf-select>
+                    </div>
+                </li>
+                <li class="col-md-4 col-sm-5 col-xs-5 clearfix mb-xs-1 mt-xs-1">
+                    <div class="col-sm-9 col-xs-6 item-dato">
+                        <mpf-select
+                            data-m-data-source="$ctrl.attentiontypes"
+                            data-ng-model="$ctrl.frm.attentionType"
+                            data-text-field="description"
+                            data-value-field="id"
+                            label="{label: 'Tipo de Atención ', required: true}"
+                            m-Empty-Option = "{enterData : true}"
+                            name="nattentionType"
+                            ng-required="true">
+                        </mpf-select>
+                    </div>
+                </li>
+                <li class="col-md-4 col-sm-5 col-xs-5 clearfix mb-xs-1 mt-xs-1">
+                    <div class="col-sm-9 col-xs-6 item-dato">
+                        <mpf-select
+                            data-m-data-source="$ctrl.warehouses"
+                            data-ng-model="$ctrl.frm.warehouse"
+                            data-text-field="description"
+                            data-value-field="id"
+                            label="{label: 'Almacén ', required: true}"
+                            m-Empty-Option = "{enterData : true}"
+                            name="nwarehouse"
+                            ng-required="true">
+                        </mpf-select>
+                    </div>
+                </li> 
+            </ul>
+        </div>
+
+        <div class="row">
+            <ul class="row g-list-sm mt-md-2" >
+                <li class="col-md-4 col-sm-12 col-xs-12  clearfix mb-xs-1 mt-xs-1">
+                    <div class="col-sm-7 col-xs-6 item-label">Require Autorizaci&oacute;n SITEDS</div>
+                    <div class="col-sm-5 col-xs-6 item-dato">
+                        <div class="g-toggle l-height-0" 
+                            ng-class="{'g-toggle__withOutLabel': !{{ $ctrl.frm.requiresAutSited }} }">
+                            <input type="checkbox" 
+                                id="chk-1-{{ $ctrl.order.branchOffice.id }}-{{ $ctrl.order.attentionType.id }}"
+                                class="cbx hidden" 
+                                ng-model="$ctrl.frm.requiresAutSited"
+                                ng-disabled="isDisabled()"
+                                ng-checked="{{$ctrl.frm.requiresAutSited}}"
+                                ng-click="_click($event)" />
+                            <label for="chk-1-{{ $ctrl.order.branchOffice.id }}-{{ $ctrl.order.attentionType.id }}" class="lbl"></label>
+                        </div>
+                    </div>
+                </li>
+                <li class="col-md-4 col-sm-5 col-xs-5 clearfix mb-xs-1 mt-xs-1">
+                    <div class="col-sm-7 col-xs-6 item-label">Crea Pedido</div>
+                    <div class="col-sm-5 col-xs-6 item-dato">
+                        
+                        <div class="g-toggle l-height-0" 
+                            ng-class="{'g-toggle__withOutLabel': !{{ $ctrl.frm.orderCreationIndicator }} }">
+                            <input type="checkbox" 
+                                id="chk-2-{{ $ctrl.order.branchOffice.id }}-{{ $ctrl.order.attentionType.id }}"
+                                class="cbx hidden" 
+                                ng-model="$ctrl.frm.orderCreationIndicator"
+                                ng-disabled="isDisabled()"
+                                ng-checked="{{$ctrl.frm.orderCreationIndicator}}"
+                                ng-click="_click($event)" />
+                            <label for="chk-2-{{ $ctrl.order.branchOffice.id }}-{{ $ctrl.order.attentionType.id }}" class="lbl"></label>
+                        </div>
+
+                    </div>
+                </li>
+                <li class="col-md-4 col-sm-5 col-xs-5 clearfix mb-xs-1 mt-xs-1">
+                </li> 
+            </ul>
+        </div>
+
+        <div class="row g-list-sm clearfix" >
+            <div class="col-md-12 clearfix mb-xs-2 mt-xs-2" style="text-align: right;">
+                <a class="g-btn second-design g-btn-transparent mr-md-1" 
+                    ng-click="$ctrl.cancel()">
+                    CANCELAR
+                </a>  
+                <a class="g-btn second-design g-btn-verde" 
+                    ng-class="{disabled: !frmUserConfigItemMaintenance.$valid}" 
+                    ng-click="$ctrl.save()"
+                >GUARDAR</a>
+            </div>
+        </div>
+    </div>
+</form>

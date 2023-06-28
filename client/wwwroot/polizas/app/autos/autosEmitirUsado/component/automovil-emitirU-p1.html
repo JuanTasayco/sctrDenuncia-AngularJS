@@ -1,0 +1,110 @@
+<!-- Step 1 -->
+<!-- Inspección -->
+<form name="frmFirstStep">
+
+	<div class="g-section-inner elige-inspeccion">
+		<div class="container">
+			<div class="clearfix">
+				<div class="row">
+					<div class="col-md-12"><h2 class="g-sub-title g-myd-subtitle">Elige un auto inspecionado para emitir</h2></div>
+				</div>
+				<div class="row h-myd--flex h-myd--flex-alg-end h-myd--flex-wrap h-myd-mb--20">
+					<div class="col-xs-12 col-sm-6 col-md-4 h-myd-mb--0">
+						<mpf-input label="{label: 'Ingresa Nro. de placa o Nro. de inspección', required: true}" ng-model="firstStep.mInspeccionPlaca" name="nInspeccionPlaca" ng-required="true"></mpf-input>
+						<ul class="g-error">
+							<li ng-show="frmFirstStep.nInspeccionPlaca.$error.required && !frmFirstStep.nInspeccionPlaca.$pristine">* Este campo es obligatorio</li>
+						</ul>
+					</div>
+					<div class="col-xs-12 col-sm-6 col-md-2 mt-xs-2 mt-sm-3 h-myd-mb--0">
+						<a class="g-btn g-btn-white second-design" ng-click="searchCarInspected(firstStep.mInspeccionPlaca)"></span>Buscar</a>
+					</div>
+					<div class="col-xs-12 col-sm-6 col-md-6 pt-md-2 mt-xs-1">
+						<ul class="gErrorIco secondDesign" ng-show="errorInspection.value">
+							<li><span class="ico-mapfre_37_informacion ico"></span>{{errorInspection.description}}</li>
+						</ul>
+					</div>
+				</div>
+			</div>
+
+			<div class="clearfix g-list-md g-box gBgcGray5 pt-xs-1 g-row-fz12 mt-xs-2 mb-xs-2 h-myd-mt--20" ng-show="firstStep.showInspection">
+				<div class="col-md-12 g-col-md middle">
+					<ul class="row">
+						<li class="col-md-3 clearfix cnt-item h-myd-p--0">
+							<div class="col-xs-5 item-label">
+								Nro. Inspección:
+							</div>
+							<div class="col-xs-7 item-dato g-text-uppercase">
+								{{firstStep.dataInspection.NumeroInspeccion}}
+							</div>
+						</li>
+						<li class="col-md-3 clearfix cnt-item h-myd-p--0">
+							<div class="col-xs-5 item-label">
+								Fecha de inspección:
+							</div>
+							<div class="col-xs-7 item-dato g-text-uppercase">
+								{{firstStep.dataInspection.FechaCreacion | date:formatDate}}
+							</div>
+						</li>
+						<li class="col-md-3 clearfix cnt-item h-myd-p--0">
+							<div class="col-xs-5 item-label">
+								Estado:
+							</div>
+							<div class="col-xs-7 item-dato g-text-uppercase">
+								{{firstStep.dataInspection.Estado}}
+							</div>
+						</li>
+					</ul>
+					<ul class="row">
+						<li class="col-md-3 clearfix cnt-item h-myd-p--0">
+							<div class="col-xs-5 item-label">
+								Auto:
+							</div>
+							<div class="col-xs-7 item-dato g-text-uppercase">
+								{{firstStep.dataInspection.NomMarca}} {{firstStep.dataInspection.NomModelo}}
+							</div>
+						</li>
+						<li class="col-md-3 clearfix cnt-item h-myd-p--0">
+							<div class="col-xs-5 item-label">
+								Nro. de placa:
+							</div>
+							<div class="col-xs-7 item-dato g-text-uppercase">
+								{{firstStep.dataInspection.NumeroPlaca}}
+							</div>
+						</li>
+						<li class="col-md-3 clearfix cnt-item h-myd-p--0">
+							<div class="col-xs-5 item-label">
+								Valor del auto:
+							</div>
+							<div class="col-xs-7 item-dato g-text-uppercase">
+								{{firstStep.dataInspection.Veh_valor | currency:currencyType}}
+							</div>
+						</li>
+						<li class="col-md-3 clearfix cnt-item h-myd-p--0">
+							<div class="col-xs-5 item-label">
+								Contratante:
+							</div>
+							<div class="col-xs-7 item-dato g-text-uppercase">
+								{{firstStep.dataContractor.Nombre}}
+							</div>
+						</li>
+					</ul>
+				</div>
+			</div>
+
+		</div>
+	</div>
+
+	<!-- Button -->
+	<div class="g-section">
+		<div class="container">
+			<div class="row">
+				<div class="col-xs-12 mb-xs-3">
+					<span class="g-comment">*Campos obligatorios</span>
+				</div>
+				<div class="col-md-4 col-md-offset-4" ng-if="firstStep.showInspection">
+					<a class="g-btn g-btn-verde block" ng-click="nextStep()">Siguiente</a>
+				</div>
+			</div>
+		</div>
+	</div>
+</form>

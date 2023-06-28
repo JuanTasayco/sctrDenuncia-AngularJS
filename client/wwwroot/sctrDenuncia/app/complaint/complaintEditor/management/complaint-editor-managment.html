@@ -1,0 +1,140 @@
+<div id="form-views">
+    <div>
+        <div class="sec-auto g-section-inner">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12 mb-1">
+                        <h2 class="g-sub-title">Alertas</h2>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-12 g-box3 g-managment-alert" ng-show="!(!$ctrl.viewdata.alerts || $ctrl.viewdata.alerts.length==0)" >
+                        <div ng-repeat="alert in $ctrl.viewdata.alerts" class="item">
+                            <div class="row">
+                                <div class="col-md-10">
+                                    <span class="low-info">{{ alert.descripcionAlerta }}</span>  </br>
+                                    <b>{{ alert.mensajeAlerta }}</b>
+                                </div>
+                                <div class="col-md-2">
+                                    <span class="low-info">{{ alert.fechaCreacion | date: 'dd/MM/yyyy h:mm a' }}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-12" ng-show="!$ctrl.viewdata.alerts || $ctrl.viewdata.alerts.length==0">
+                        <complaint-list-empty text-Empty="'La denuncia no cuenta con alertas.'"></complaint-list-empty>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="sec-auto g-section-inner g-managment-documents">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12 mb-1">
+                        <h2 class="g-sub-title">Documentos</h2>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4 mb-1">
+                        <mpf-Select text-field="descripcion" 
+                                    value-field="codigo" 
+                                    label="{label: 'Documento Solicitado', required: false}" 
+                                    m-data-source="$ctrl.documentosSolicitados" 
+                                    ng-model="$ctrl.data.documentoSolicitado" 
+                                    name="mDocumentoSolicitado" 
+                                    ng-disabled="$ctrl.isEndStatus()"
+                                    m-Empty-Option="{enterData:true}">
+                        </mpf-Select>
+                    </div>
+                    <div class="col-md-3 mb-1">
+                        <div class="col-xs-9">
+                                <mpf-input label="{label: 'Seleccionar Documento', required: false}" ng-disabled="true" 
+                                ng-model="$ctrl.data.file[0].name"  name="nFilename" ></mpf-input>
+                        </div>
+                        <div class="col-xs-3 file-field">
+                            <div class="file-field">
+                                <div class="btn btn-primary float-left"
+                                    ng-class="$ctrl.isEndStatus() ? 'disabled' : ''">
+                                    <span>Buscar</span>
+                                    <input file-model="$ctrl.data.file" type="file"
+                                    accept=".jpg, .jpeg, .png .gif, .bmp, .pdf, .doc, .xls,.docx, .xlsx, .txt" 
+                                    ng-disabled="$ctrl.isEndStatus()">
+                                </div>
+                            </div>
+                        </div>
+                        
+                    </div>
+                    <div class="col-md-3 mb-1">
+
+                    </div>
+                    <div class="col-md-2 mb-1 cargar-c">
+                        <a ng-click="$ctrl.appendDocument()" 
+                            ng-disabled="$ctrl.isEndStatus()"
+                            class="g-btn g-btn-white second-design block"
+                            ng-class="$ctrl.isEndStatus() ? 'disabled' : ''">Cargar</a>
+                    </div>
+                </div>
+                <div>
+                    <div ng-repeat ="doc in $ctrl.documents" class="row item">
+                        <div class="col-md-12 mb-xs-2 clearfix g-box">
+                            <div class="row g-box-content">
+                                <div class="col-md-11">
+                                    <b>{{ $ctrl.getNameTipo(doc) }}</b>
+                                    <br>
+                                    <span>{{ $ctrl.getFilename(doc) }}</span>
+                                </div>
+                                <div class="col-md-1 buttons">
+                                    <a title="Descargar archivo" ng-click="$ctrl.downloadDocument(doc)">
+                                        <i class="glyphicon glyphicon-download-alt"></i>
+                                    </a>
+                                    <a title="Borrar archivo" ng-click="$ctrl.deleteDocument(doc)"
+                                        ng-class="$ctrl.isEndStatus() ? 'disabled' : ''"
+                                        ng-disabled="$ctrl.isEndStatus()">
+                                        <i  class="glyphicon glyphicon-trash"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="sec-auto g-section-inner">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-10 mb-1">
+                        <h2 class="g-sub-title">Bit&aacute;cora</h2>
+                    </div>
+                    <div class="col-md-2 mb-1">
+                        <a ng-click="$ctrl.addBitacora()" class="g-btn g-btn-white second-design block">Agregar Bitácora</a>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12 mb-1">
+                        <mpf-textarea label="{label:'Obvervación', required: true}" ng-model="$ctrl.mObsExterna" name="nObsExterna" ng-required="true" ng-Maxlength="4000"></mpf-textarea>
+                    </div>
+                </div>
+                <div class="row" ng-repeat="bita in $ctrl.bicatoras">
+                    <div class="col-md-12 mb-1 g-box3">
+                           <div class="row">
+                                <div class="col-md-8">
+                                    <span class="low-info">Observación</span>  </br>
+                                    <b>{{ bita.comentario }}</b>
+                                </div>
+                                <div class="col-md-2">
+                                    <span class="low-info">Usuario</span>  </br>
+                                    <b>{{ bita.usuario }}</b>
+                                </div>
+                                <div class="col-md-2">
+                                    <span class="low-info">Fecha y hora</span>  </br>
+                                    <b>{{ bita.fechaCreacion | date: "dd/MM/yyyy h:mm a" }}</b>
+                                </div>
+                            </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>

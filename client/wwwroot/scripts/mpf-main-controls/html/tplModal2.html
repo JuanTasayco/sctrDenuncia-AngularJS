@@ -1,0 +1,73 @@
+<div class="gSweetModal">
+  <button type="button" class="close g-close-modal" ng-click="tplModalOptions.fnClose()">
+    <span class="ico-mapfre_231_cancelaroff"></span>
+  </button>
+  <div class="cntContent container">
+    <div class="row" ng-if="tplModalOptions.fontIcon">
+      <div class="col-md-12">
+        <div class="swal2-icon" ng-class="tplModalOptions.fontIcon"></div>
+      </div>
+    </div>
+    <div class="row" ng-if="tplModalOptions.title">
+      <div class="col-md-12">
+        <h2
+          ng-if="tplModalOptions.title"
+          class="swal2-title"
+          ng-class="{'text-transform-none' : !tplModalOptions.titleUppercase}"
+          ng-bind-html="tplModalOptions.title"
+        >
+          <!-- {{tplModalOptions.title}} -->
+        </h2>
+      </div>
+    </div>
+    <div class="row" ng-if="tplModalOptions.content">
+      <div class="col-md-12">
+        <div class="swal2-content">
+          {{ tplModalOptions.content }}
+        </div>
+      </div>
+    </div>
+    <div class="row" ng-if="tplModalOptions.templateContent">
+      <!-- <div class="swal2-content"> -->
+      <div ng-include="tplModalOptions.templateContent"></div>
+      <!-- </div> -->
+    </div>
+    <!-- <div class="row swal2-buttonswrapper" ng-if="tplModalOptions.showCancelButton || tplModalOptions.showConfirmButton">
+			<div class="col-sm-4 col-ms-6 col-sm-offset-2 mb-xs-1" ng-class="{'col-sm-offset-4': !tplModalOptions.showConfirmButton}" ng-if="tplModalOptions.showCancelButton">
+				<a href="" class="g-btn g-btn-white block" ng-click="tplModalOptions.fnClose()">cancelar</a>
+			</div>
+			<div class="col-sm-4 col-ms-6" ng-class="{'col-sm-offset-4 col-ms-offset-3': !tplModalOptions.showCancelButton}" ng-if="tplModalOptions.showConfirmButton">
+				<a href="" class="g-btn g-btn-verde block" ng-click="tplModalOptions.fnAcept()">{{tplModalOptions.confirmButtonText}}</a>
+			</div>
+		</div> -->
+    <div
+      class="row swal2-buttonswrapper g-text-center-xs"
+      ng-if="tplModalOptions.showCancelButton || tplModalOptions.showConfirmButton"
+    >
+      <div class="col-md-12">
+        <div class="row">
+          <div class="col-md-6">
+            <button
+              type="button"
+              class="g-btn g-btn-white second-design block mt-xs-1"
+              ng-click="tplModalOptions.fnClose()"
+              ng-if="tplModalOptions.showCancelButton"
+            >
+              cancelar
+            </button>
+          </div>
+          <div class="col-md-6">
+            <button
+              type="button"
+              class="g-btn g-btn-verde second-design block mt-xs-1"
+              ng-click="tplModalOptions.fnAcept()"
+              ng-if="tplModalOptions.showConfirmButton"
+            >
+              {{ tplModalOptions.confirmButtonText }}
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

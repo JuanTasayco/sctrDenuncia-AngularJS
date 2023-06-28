@@ -1,0 +1,87 @@
+<div class="clearfix">
+  <button type="button" class="mt-xs-2 close g-close-modal" data-ng-click="$ctrl.close()" prevent-default>
+    <span class="ico-mapfre_231_cancelaroff"></span>
+  </button>
+
+  <div class="container g-section-tabs tab-modal">
+    <div class="row">
+      <div class="col-md-12">
+        <h2 class="gH3"><b>Datos Scan</b></h2>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-5">
+        <div class="mb-xs-1 mb-md-0 mt-xs-4">
+          <b>Listado de clínicas</b>
+        </div>
+      </div>
+      <div class="col-md-7 g-title-btn-row">
+        <div style="display: inline-block;width: 50%;">
+          <mpf-input label="{label:'Nombre del coordinador o clínica', required: false}" 
+            name="nFiltro"
+            ng-model="filter">
+          </mpf-input>
+        </div>
+        <div class="g-title-btn-col mb-xs-1 mb-md-0 mt-xs-2">
+          <a class="g-btn g-btn-green-border second-design" ng-click="filtrar()">Buscar</a>
+        </div>
+        <div class="g-title-btn-col mb-xs-1 mb-md-0 mt-xs-2">
+          <a class="g-btn g-btn-white second-design" ng-click="limpiar()">Limpiar</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="clearfix">
+      <div class="mt-xs-2">
+        <div class="clearfix g-box mt-xs-1" ng-show="results.length != 0">
+          <div class="clearfix">
+            <div data-ng-repeat="item in results">
+              <ul class="g-row-fz12 g-tbl-row pt-xs-1 pb-xs-1"
+                ng-class="$index != 0 ? 'g-border-top-xs' : ''"
+                ng-click=openClinicas(item)>
+                <li class="g-col g-col-xs col-xs-8">{{item.nom_Persona1}} {{item.nom_Persona2}} {{item.ape_Paterno}} {{item.ape_Materno}}</li>
+                <li class="g-col g-col-xs col-xs-4 text-right">
+                  <span class="mr-xs-2">Evaluaciones Realizadas: {{item.concurrentCount}}/{{item.listaClinicas.length}}</span>
+                  <span class="g-pull-right-xs" ng-class="item.show ? 'ico-mapfre_309_arrowUp' : 'ico-mapfre_308_arrowDown'"></span>
+                </li>
+              </ul>
+              <div ng-show="item.show">
+                <ul class="g-row-fz12 g-tbl-row pt-xs-1 pb-xs-1 gBgcGray5 g-border-top-xs"
+                  data-ng-repeat="clinica in item.listaClinicas">
+                  <li class="g-col g-col-xs col-xs-8"><span>{{clinica.frsaynmbrs}}</span></li>
+                  <li class="g-col g-col-xs col-xs-4 text-right">
+                    <div class="mr-xs-2" style="display: inline-block;">
+                      <span ng-show="clinica.scanIndicator != ''">
+                        <div style="width: 30px;display: inline-block;font-weight: bold;">Scan:</div>
+                        <div style="width: 20px;display: inline-block;text-align: left;margin-left: 5px;">{{ clinica.scanIndicator == "S" ? "SI" : "NO"}}</div>
+                      </span>
+                      <span ng-show="clinica.scanIndicator == ''" style="font-style: italic;">Evaluación pendiente</span>
+                    </div>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-12 text-center g-box-noresult" ng-show="noResult">
+          <div class="row">
+            <div class="col-md-12 g-box-noresult-ico gCRed1">
+              <span class="ico-mapfre_302_error"></span>
+            </div>
+            <div class="col-md-12 g-box-noresult-text">No hay resultados para la búsqueda
+              realizada.<br>Intente nuevamente.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-12" ng-show="results.length != 0">
+      <ul uib-pagination class="g-pagination" ng-model="mPagination" max-size="5"
+        total-items="totalItems" items-per-page="pageSize" ng-change="pageChanged(mPagination)"
+        boundary-link-numbers="true">
+      </ul>
+    </div>
+  </div>
+</div>

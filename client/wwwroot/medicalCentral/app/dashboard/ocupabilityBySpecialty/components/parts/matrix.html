@@ -1,0 +1,27 @@
+
+<div class="table-flipscroll">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th style="padding-right:100px">Especialidad</th>
+                    <th style="padding-right:100px" ng-show="$ctrl.nvtFilter.detailType.codigo == 'M'" >Medico</th>
+                    <th ng-repeat="header in $ctrl.nvtSource.header[0].properties">{{header.value}}</th>
+                    
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="item in $ctrl.nvtSource.data" ng-class="{'detailrow': item.itemType == 'S'}">
+                    <td align="left" ng-show="$ctrl.nvtFilter.detailType.codigo == 'M'">{{ item.itemType == 'S' || item.itemType == 'T' ? item.especialityCode: ''}}</td>
+                    <td align="left" ng-show="$ctrl.nvtFilter.detailType.codigo != 'M'">{{ item.especialityCode }}</td>
+                    <td align="left" ng-show="$ctrl.nvtFilter.detailType.codigo == 'M'">{{item.medicalName || '-'}}</td>
+                    <td ng-repeat="prop in item.properties">
+                            <i ng-if="$ctrl.isIndexPosition(item.properties, prop)" class="glyphicon" 
+                            ng-class="{ 'glyphicon-arrow-up': $ctrl.isUp(item, prop)=='M', 'glyphicon-arrow-down': $ctrl.isUp(item, prop) =='N', 'glyphicon-resize-horizontal': $ctrl.isUp(item, prop)=='I',
+                                        'reportUp': $ctrl.isUp(item, prop) =='M', 'reportDown': $ctrl.isUp(item, prop)=='N', 'reportEqual': $ctrl.isUp(item, prop)=='I' }"></i>
+                        {{((prop.value || 0) *100) | number:2}}%
+                    </td>
+                    
+                </tr>
+            </tbody>
+        </table>
+    </div>

@@ -1,0 +1,84 @@
+<div class="gSweetModal">
+  <button type="button" class="close g-close-modal" ng-click="closeModal()">
+    <span class="ico-mapfre_231_cancelaroff"></span>
+  </button>
+  <div class="cntContent container">
+    <div class="row mb-xs-3">
+      <div class="col-xs-12">
+        <h2 class="gCGray2 gH3 g-text-uppercase">Histórico de clientes integrales</h2>
+      </div>
+    </div>
+    <div class="row mb-xs-3">
+      <div class="col-xs-12">
+        <div class="row mb-xs-2">
+          <div class="col-xs-12">
+            <strong>{{vm.infoAgent.fullName}}</strong><br>
+            <span ng-show="vm.infoAgent.officeName">Oficina: {{vm.infoAgent.officeName}}</span>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-xs-12">
+            <div tbl-oim class="g-tbl-wrapper g-new-tbl-wrapper">
+              <div class="tbl-main withOutOverflow">
+                <ul class="tbl-header clearfix gBgcGray5">
+                  <li class="title col-25-dktp text-center">mes/año</li>
+                  <li class="title col-15-dktp text-center">Autos</li>
+                  <li class="title col-15-dktp text-center">Salud</li>
+                  <li class="title col-15-dktp text-center">Hogar</li>
+                  <li class="title col-15-dktp text-center">Vida</li>
+                  <li class="title col-15-dktp text-center">Total</li>
+                </ul>
+                <ul class="tbl-body clearfix">
+                  <li data-ng-repeat="item in vm.agentes">
+                    <ul height-row class="tbl-row clearfix g-u-cursor--pointer">
+                      <li class="cell col-25-dktp text-center">
+                        {{item.fecha}}
+                      </li>
+                      <li class="cell col-15-dktp text-center">
+                        {{item.nAutos}}
+                      </li>
+                      <li class="cell col-15-dktp text-center">
+                        {{item.nSalud}}
+                      </li>
+                      <li class="cell col-15-dktp text-center">
+                        {{item.nHogar}}
+                      </li>
+                      <li class="cell col-15-dktp text-center">
+                        {{item.nVida}}
+                      </li>
+                      <li class="cell col-15-dktp text-center">
+                        {{item.nClientesIntegrales}}
+                      </li>
+                    </ul>
+                  </li>
+                </ul>
+                <!-- Inicio: pagination -->
+                <div class="row" ng-if="vm.totalPages > 1">
+                    <div class="col-md-12">
+                      <ul uib-pagination
+                        total-items="vm.totalRows"
+                        class="g-pagination"
+                        ng-model="vm.currentPage"
+                        items-per-page="vm.itemsPerPage"
+                        ng-change="vm.pageChanged(vm.currentPage)"
+                        num-pages="vm.totalPages"
+                        boundary-link-numbers = "true"
+                        rotate="true"
+                        max-size="10"
+                      ></ul>
+                    </div>
+                  </div>
+                  <!-- Fin: pagination -->
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-2 col-md-offset-5">
+        <a class="g-btn g-btn-white second-design block" ng-click="closeModal()">Cerrar</a>
+      </div>
+    </div>
+  </div>
+</div>

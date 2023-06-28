@@ -1,0 +1,199 @@
+<gcw-header
+  data="{type: 99}" title="vm.clientName">
+</gcw-header>
+
+<div class="container">
+  <div class="clearfix mb-xs-3" ng-show="vm.muestraPago == 'SI' && vm.pagos.length>0">
+    <div class="col-xs-12">
+      <h2 class="mb-xs-2 mt-xs-1 sub-title-tb">Pagos pendientes</h2>
+    </div>
+    <div tbl-oim class="col-xs-12 g-tbl-wrapper pl-xs-0">
+      <div class="tbl-main">
+        <ul class="tbl-header clearfix">
+          <li class="title col-12-dktp">Póliza</li>
+          <li class="title col-9-dktp">Producto</li>
+          <li class="title col-8-dktp text-center">Tipo Doc.</li>
+          <li class="title col-10-dktp">Nro. Documento</li>
+          <li class="title col-6-dktp text-center">Días venc.</li>
+          <li class="title col-10-dktp">Vencimiento</li>
+          <li class="title col-10-dktp text-right">Importe</li>
+          <li class="title col-6-dktp text-center">Moneda</li>
+          <li class="title col-9-dktp text-center">Medio cobro</li>
+          <li class="title col-12-dktp">Compañía</li>
+        </ul>
+        <ul class="tbl-body clearfix">
+          <li ng-repeat="pago in vm.pagos">
+            <ul height-row class="tbl-row clearfix">
+              <li class="cell col-12-dktp">
+                <span class="cell-title">{{pago.policyNumber}}</span>
+                <span class="g-box-label g-text-uppercase" data-ng-class="pago.situationType === 'PEND' ?  'c-yellow' : 'u-bg--verde-2'" >{{pago.situationType}}</span>
+              </li>
+              <li class="cell col-9-dktp">
+                <span class="cell-label"><span class="cell-data g-text-uppercase">{{pago.ramo.description}}</span></span>
+              </li>
+              <li class="cell col-8-dktp text-center">
+                <span class="cell-label"><span class="cell-data g-text-uppercase">{{pago.documentType}}</span></span>
+              </li>
+              <li class="cell col-10-dktp">
+                <span class="cell-label"><span class="cell-data">{{pago.documentNumber}}</span></span>
+              </li>
+              <li class="cell col-6-dktp">
+                <span class="cell-label text-center"><span class="cell-data">{{pago.numberDayExpiration}}</span></span>
+              </li>
+              <li class="cell col-10-dktp">
+                <span class="cell-label"><span class="cell-data">{{pago.dateEffect}}</span></span>
+              </li>
+              <li class="cell col-10-dktp text-right">
+                <span class="cell-label"><span class="cell-data">{{pago.amount | number:2}}</span></span>
+              </li>
+              <li class="cell col-6-dktp text-center">
+                <span class="cell-label"><span class="cell-data g-text-uppercase">{{pago.coinDescription}}</span></span>
+              </li>
+              <li class="cell col-9-dktp text-center">
+                <span class="cell-label"><span class="cell-data g-text-uppercase">{{pago.collectionMethod.description}}</span></span>
+              </li>
+              <li class="cell col-12-dktp">
+                <span class="cell-label"><span class="cell-data g-text-uppercase">{{pago.ramo.companyName}}</span></span>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Inicio: Paginacion -->
+    <!-- <div class="clearfix" ng-if="!noResult"> -->
+    <div class="clearfix" ng-show="vm.totalItemsPagos > 5">
+      <div class="col-md-12">
+        <ul uib-pagination class="g-pagination" ng-model="mPagination" max-size="10" total-items="vm.totalItemsPagos" ng-change="pageChanged(mPagination)" boundary-link-numbers="true"></ul>
+      </div>
+    </div>
+    <!-- Fin: Paginacion -->
+  </div>
+
+  <div class="clearfix mb-xs-3" ng-show="vm.muestraSiniestro == 'SI'">
+    <div class="col-xs-12">
+      <h2 class="mb-xs-2 mt-xs-1 sub-title-tb">Siniestro Vigencia Previa</h2>
+    </div>
+    <div tbl-oim class="col-xs-12 g-tbl-wrapper pl-xs-0">
+      <div class="tbl-main">
+        <ul class="tbl-header clearfix">
+          <li class="title col-12-dktp">Siniestro</li>
+          <li class="title col-20-dktp">Contratante</li>
+          <li class="title col-20-dktp">Asegurado</li>
+          <li class="title col-10-dktp">Póliza</li>
+          <li class="title col-14-dktp">Producto</li>
+          <li class="title col-10-dktp text-center">Fecha ocurrencia</li>
+          <li class="title col-10-dktp text-center">Fecha denuncia</li>
+        </ul>
+        <ul class="tbl-body clearfix">
+          <li ng-repeat="siniestro in vm.siniestros">
+            <ul height-row class="tbl-row clearfix" ng-click="vm.showDetailSiniestro(siniestro)">
+              <li class="cell col-12-dktp">
+                <span class="cell-title">{{siniestro.accidentNumber}}</span>
+                <span class="g-box-label g-text-uppercase" data-ng-class="{'u-bg--rojo-2': siniestro.state === 'RECHAZADO', 'c-green': siniestro.state === 'AUTORIZADO', 'u-bg--yellow-2': siniestro.state === 'EN EVALUACION'}">{{siniestro.state}}</span>
+              </li>
+              <li class="cell col-20-dktp">
+                <span class="cell-label"><span class="cell-data g-text-uppercase">{{siniestro.contractingName}}</span></span>
+              </li>
+              <li class="cell col-20-dktp">
+                <span class="cell-label"><span class="cell-data g-text-uppercase">{{siniestro.insuredName}}</span></span>
+              </li>
+              <li class="cell col-10-dktp">
+                <span class="cell-label"><span class="cell-data g-text-uppercase">{{siniestro.policyNumber}}</span></span>
+              </li>
+              <li class="cell col-14-dktp">
+                <span class="cell-label"><span class="cell-data g-text-uppercase">{{siniestro.ramo.description}}</span></span>
+              </li>
+              <li class="cell col-10-dktp text-center">
+                <span class="cell-label"><span class="cell-data">{{siniestro.dateTermination}}</span></span>
+              </li>
+              <li class="cell col-10-dktp text-center">
+                <span class="cell-label"><span class="cell-data">{{siniestro.dateIncurral}}</span></span>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <!-- Inicio: Paginacion -->
+    <div class="clearfix" ng-show="vm.totalItemsSiniestro > 5">
+      <div class="col-md-12">
+        <ul uib-pagination class="g-pagination" ng-model="mPagination" max-size="10" total-items="totalItems" ng-change="pageChanged(mPagination)" boundary-link-numbers="true"></ul>
+      </div>
+    </div>
+    <!-- Fin: Paginacion -->
+  </div>
+
+  <div class="clearfix mb-xs-3" ng-show="vm.renovacionesLength >= 1">
+    <div class="col-xs-12">
+      <h2 class="mt-xs-1">Impresión de Póliza</h2>
+    </div>
+    <div class="col-xs-12 g-tbl-wrapper noscroll-lg">
+      <div class="tbl-main table__820">
+        <ul class="tbl-header clearfix">
+          <li class="title col-9-dktp">Spto.</li>
+          <li class="title col-11-dktp">Tipo</li>
+          <li class="title col-30-dktp">Motivo</li>
+          <li class="title col-12-dktp text-center">Efecto</li>
+          <li class="title col-13-dktp text-center">Vencimiento</li>
+          <li class="title col-12-dktp text-center">Estado</li>
+          <li class="title col-5-dktp text-center">&nbsp;</li>
+        </ul>
+        <ul class="tbl-body clearfix">
+          <li ng-repeat="item in vm.renovaciones | startFromGrid: currentPage * pageSize | limitTo: pageSize" data-ng-if="!vm.noResultPoliza">
+            <ul height-row class="tbl-row clearfix">
+              <li class="cell col-5-dktp" ng-if="vm.showPolizaElectronica() && vm.showCheckAndButton()">
+                <mpf-checkbox label="" name="nSelectPoliza" ng-model="item.selected" ng-click="vm.selectPoliza($index, item.selected)" >{{item.selected}}</mpf-checkbox>
+              </li>
+              <li class="cell col-9-dktp">
+                <span class="cell-label"><span class="cell-data g-text-uppercase">{{item.supplement}}</span></span>
+              </li>
+              <li class="cell col-11-dktp">
+                <span class="cell-label"><span class="cell-data g-text-uppercase">{{item.supplementType}}</span></span>
+              </li>
+              <li class="cell col-30-dktp">
+                <span class="cell-label"><span class="cell-data g-text-uppercase">{{item.reasonSupplement}}</span></span>
+              </li>
+              <li class="cell col-12-dktp text-center">
+                <span class="cell-label"><span class="cell-data">{{item.expirationStartDate}}</span></span>
+              </li>
+              <li class="cell col-13-dktp text-center">
+                <span class="cell-label"><span class="cell-data">{{item.expirationEndDate}}</span></span>
+              </li>
+              <li class="cell col-12-dktp text-center">
+                <span class="cell-label"><span class="cell-data g-text-uppercase">{{item.state}}</span></span>
+              </li>
+              <li class="cell col-5-dktp text-center">
+                <a ng-model="item.download" ng-if="item.viewDownload == 'S'" ng-click="vm.downloadImpresion(item)"><span class="ico-mapfre_124_download ico-md"></span></a>
+
+                 <a ng-click="vm.modalEnvioMail(item)"><span class="ico-mapfre_123_envelop ico-md pl-md-1"></span>
+                </a>
+
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <!-- Inicio: Paginacion -->
+    <div class="clearfix" ng-show="vm.renovacionesLength > 5">
+      <div class="col-md-12">
+        <ul uib-pagination class="g-pagination" ng-model="mPagination" max-size="10" total-items="vm.renovacionesLength" ng-change="pageChanged(mPagination)" boundary-link-numbers="true"></ul>
+      </div>
+    </div>
+    <!-- Fin: Paginacion -->
+  </div>
+
+
+  <div class="col-md-12 text-center g-box-noresult" data-ng-if="vm.muestraPago == 'NO' && vm.muestraSiniestro == 'NO' && vm.renovacionesLength == 0">
+    <div class="row">
+      <div class="col-md-12 g-box-noresult-ico gCRed1">
+        <span class="ico-mapfre_302_error"></span>
+      </div>
+      <div class="col-md-12 g-box-noresult-text">
+        No hay información para la renovación seleccionada
+      </div>
+    </div>
+  </div>
+</div>

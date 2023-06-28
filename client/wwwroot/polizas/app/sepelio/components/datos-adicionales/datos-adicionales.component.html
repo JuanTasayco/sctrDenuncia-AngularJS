@@ -1,0 +1,189 @@
+<form name="frmDatosAdicionales">
+  <div class="content-tab">
+    <div class="row" ng-if="!$ctrl.userRoot">
+      <div>
+        <h2 class="g-sub-title col-md-12 mb-xs-2 mt-xs-3 g-myd-subtitle">Datos adicionales</h2>
+        <div class="col-md-5 mb-xs-9">
+          <div class="poliza-search">
+            <mp-data-seeker
+            behavior="{label:'Datos de la agencia funeraria', placeholder:'Busque o seleccione una agencia ...', matchField:'NombreAgencia', required: true}"
+            m-data-source="$ctrl.combo.agenciaFuneraria" ng-change-text="$ctrl.changeAgenciaFunerariaWithDelay"
+              ng-model="$ctrl.cotizacion.datosAdicionales.modelo.agenciaFuneraria" ng-required="true"
+              name="agenciaFuneraria2">
+            <div ng-bind-html="$item.NombreAgencia | highlight: $select.search">
+            </div>
+            </mp-data-seeker>
+          <ul class="g-error">
+              <li
+                ng-show="frmDatosAdicionales.agenciaFuneraria2.$error.required && !frmDatosAdicionales.agenciaFuneraria2.$pristine">
+                * Este campo
+              es obligatorio</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    </div>
+
+    <div ng-if="$ctrl.userRoot">
+      <div class="row">
+        <h2 class="g-sub-title col-md-12 mb-xs-2 mt-xs-3 g-myd-subtitle">Datos adicionales</h2>
+      </div>
+      <div class="row">
+        <div class="col-md-3 mb-xs-2">
+          <mpf-input label="{label: 'Tipo de contrato', required: false}" name="nombreTipoContrato"
+            ng-model="$ctrl.cotizacion.datosAdicionales.modelo.nombreTipoContrato" ng-disabled="true">
+          </mpf-input>
+        </div>
+        <div class="col-md-3 mb-xs-2">
+          <mpf-input label="{label: 'Producto', required: false}" name="nombreProducto"
+            ng-model="$ctrl.cotizacion.datosAdicionales.modelo.nombreProducto" ng-disabled="true">
+          </mpf-input>
+        </div>
+        <div class="col-md-3 mb-xs-2">
+          <mpf-input label="{label: 'Modalidad', required: false}" name="nombreModalidad"
+            ng-model="$ctrl.cotizacion.datosAdicionales.modelo.nombreModalidad" ng-disabled="true">
+          </mpf-input>
+        </div>
+        <div class="col-md-3 mb-xs-2">
+          <mpf-select ng-model="$ctrl.cotizacion.datosAdicionales.modelo.tipoEmision" name="tipoEmision"
+            label="{label: 'Tipo de emisión',required: false}" ng-disabled="!$ctrl.validadores.is400 || $ctrl.isReadOnly"
+            m-data-source="$ctrl.combo.tipoEmision" text-field="text" value-field="value"
+            m-Empty-Option="{enterData:true}">
+          </mpf-select>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-3 mb-xs-2">
+          <mpf-input label="{label: 'N° contrato', required: true}" name="numeroContrato" ng-maxlength="5"
+            ng-model="$ctrl.cotizacion.datosAdicionales.modelo.numeroContrato" ng-disabled="$ctrl.isReadOnly"
+            ng-change="$ctrl.getNumeroContratoGeneraro()" ng-required="true">
+          </mpf-input>
+          <ul class="g-error">
+            <li
+              ng-show="frmDatosAdicionales.numeroContrato.$error.required && !frmDatosAdicionales.numeroContrato.$pristine">
+              * Este campo
+              es obligatorio</li>
+          </ul>
+        </div>
+        <div class="col-md-3 mb-xs-2">
+          <mpf-input label="{label: 'Número contrato manual', required: false}" name="numeroContratoManual"
+            ng-model="$ctrl.cotizacion.datosAdicionales.modelo.numeroContratoManual" ng-disabled="true">
+          </mpf-input>
+        </div>
+        <div class="col-md-3 mb-xs-2">
+          <mpf-input label="{label: 'Número contrato', required: false}" name="numeroContratoGenerado"
+            ng-model="$ctrl.cotizacion.datosAdicionales.modelo.numeroContratoGenerado" ng-disabled="true">
+          </mpf-input>
+        </div>
+        <div class="col-md-3 mb-xs-2">
+          <mpf-datepicker label="{label: 'Fecha de contrato',required: true}"
+            ng-model="$ctrl.cotizacion.datosAdicionales.modelo.fechaContrato" format="$ctrl.format" name="fechaContrato"
+            ng-required="true" minDate="$ctrl.validadores.minStartDate" ng-disabled="$ctrl.isReadOnly" readonly="false">
+          </mpf-datepicker>
+          <ul class="g-error">
+            <li
+              ng-show="frmDatosAdicionales.fechaContrato.$error.required && !frmDatosAdicionales.fechaContrato.$pristine">
+              * Este campo es obligatorio</li>
+          </ul>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-3 mb-xs-2">
+          <mpf-input label="{label: 'N° Contrato sepultura relacionado', required: false}"
+            name="numeroContratoRelacionado"
+            ng-model="$ctrl.cotizacion.datosAdicionales.modelo.numeroContratoRelacionado"
+            ng-disabled="!$ctrl.validadores.isNumContratoRelacionadoEnable">
+          </mpf-input>
+        </div>
+        <div class="col-md-3 mb-xs-2">
+          <mpf-datepicker label="{label: 'Fecha Inhumación',required: false}"
+            ng-model="$ctrl.cotizacion.datosAdicionales.modelo.fechaInhumacion" format="$ctrl.format"
+            name="fechaInhumacion" ng-required="false" minDate="$ctrl.validadores.minStartDate" ng-disabled="$ctrl.isReadOnly"
+            readonly="false">
+          </mpf-datepicker>
+        </div>
+        <div class="col-md-3 mb-xs-2">
+          <mp-data-seeker
+            behavior="{label:'Agencia funeraria', placeholder:'Busque o seleccione una agencia ...', matchField:'NombreAgencia', required: $ctrl.validadores.is400}"
+            m-data-source="$ctrl.combo.agenciaFuneraria" ng-change-text="$ctrl.changeAgenciaFunerariaWithDelay"
+            ng-disabled="!$ctrl.validadores.is400 || $ctrl.isReadOnly" ng-model="$ctrl.cotizacion.datosAdicionales.modelo.agenciaFuneraria"
+            ng-required="$ctrl.validadores.is400" name="agenciaFuneraria">
+            <div ng-bind-html="$item.NombreAgencia | highlight: $select.search">
+            </div>
+          </mp-data-seeker>
+          <ul class="g-error">
+            <li
+              ng-show="frmDatosAdicionales.agenciaFuneraria.$error.required && !frmDatosAdicionales.agenciaFuneraria.$pristine">
+              * Este campo
+              es obligatorio</li>
+          </ul>
+        </div>
+        <div class="col-md-3 mb-xs-2">
+          <mp-data-seeker
+            behavior="{label:'Nombres y apellido vendedor funerario', placeholder:'Busque o seleccione un vendedor ...', matchField:'nombreCompleto', required: $ctrl.validadores.is400}"
+            m-data-source="$ctrl.combo.vendedorFunerario" ng-change-text="$ctrl.changeVendedorFunerarioWithDelay"
+            ng-disabled="!$ctrl.validadores.is400 || $ctrl.isReadOnly" ng-model="$ctrl.cotizacion.datosAdicionales.modelo.vendedorFunerario"
+            ng-required="$ctrl.validadores.is400" name="vendedorFunerario">
+            <div ng-bind-html="$item.nombreCompleto | highlight: $select.search">
+            </div>
+          </mp-data-seeker>
+          <ul class="g-error">
+            <li
+              ng-show="frmDatosAdicionales.vendedorFunerario.$error.required && !frmDatosAdicionales.vendedorFunerario.$pristine">
+              * Este campo
+              es obligatorio</li>
+          </ul>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-3 mb-xs-2">
+          <mp-data-seeker
+            behavior="{label:'Supervisor NI', placeholder:'Busque o seleccione un supervisor ...', matchField:'nombreCompleto', required: $ctrl.validadores.is400}"
+            m-data-source="$ctrl.combo.supervisorNI" ng-change-text="$ctrl.changeSupervisorNIWithDelay"
+            ng-disabled="!$ctrl.validadores.is400 || $ctrl.isReadOnly" ng-model="$ctrl.cotizacion.datosAdicionales.modelo.supervisorNI"
+            ng-required="$ctrl.validadores.is400" name="supervisorNI">
+            <div ng-bind-html="$item.nombreCompleto | highlight: $select.search">
+            </div>
+          </mp-data-seeker>
+          <ul class="g-error">
+            <li
+              ng-show="frmDatosAdicionales.supervisorNI.$error.required && !frmDatosAdicionales.supervisorNI.$pristine">
+              * Este campo
+              es obligatorio</li>
+          </ul>
+        </div>
+      </div>
+      <div class="row">
+        <h2 class="g-sub-title col-md-12 mb-xs-2 mt-xs-3 g-myd-subtitle">Espacio</h2>
+      </div>
+      <div class="row">
+        <div class="col-md-3 mb-xs-2">
+          <mpf-input label="{label: 'Camposanto', required: false}" name="camposanto"
+            ng-model="$ctrl.cotizacion.datosAdicionales.modelo.camposanto" ng-disabled="true">
+          </mpf-input>
+        </div>
+        <div class="col-md-3 mb-xs-2">
+          <mpf-input label="{label: 'Código ubicación', required: false}" name="ubicacion" ng-maxlength="20"
+            ng-required="false" ng-model="$ctrl.cotizacion.datosAdicionales.modelo.ubicacion" ng-disabled="$ctrl.isReadOnly">
+          </mpf-input>
+          <ul class="g-error">
+            <li ng-show="frmDatosAdicionales.ubicacion.$error.required && !frmDatosAdicionales.ubicacion.$pristine">*
+              Este campo
+              es obligatorio</li>
+          </ul>
+        </div>
+        <div class="col-md-3 mb-xs-2">
+          <mpf-input label="{label: 'Código sector', required: false}" name="sector" ng-required="false"
+            ng-model="$ctrl.cotizacion.datosAdicionales.modelo.sector" ng-maxlength="20" ng-disabled="$ctrl.isReadOnly">
+          </mpf-input>
+          <ul class="g-error">
+            <li ng-show="frmDatosAdicionales.sector.$error.required && !frmDatosAdicionales.sector.$pristine">* Este
+              campo
+              es obligatorio</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</form>

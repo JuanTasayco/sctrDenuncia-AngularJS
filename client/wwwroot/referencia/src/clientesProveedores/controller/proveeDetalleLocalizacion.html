@@ -1,0 +1,34 @@
+<div class="container map-location-info">
+  <div class="col-xs-12">
+    <div class="panel__wrapper u-br-5">
+        <header class="panel__header u-align-v">
+          <span class="panel__title u-color-verde">Dirección del establecimiento</span>
+        </header>
+        <ul class="lista-group u-bg--grey u-br-5">
+          <li class="lista__item">
+            <div class="lista__header">
+              <div class="col-xs-12 col-sm-6 lista-header__col">
+                <p class="lista-title__txt">Dirección sede principal</p>
+              </div>
+              <div class="col-xs-12 col-sm-6 lista-header__col">
+                {{::$ctrl.address || '--'}}
+              </div>
+            </div>
+          </li>
+        </ul>
+      </div>
+  </div>
+</div>
+<div id="street-view"
+      data-ng-if="$ctrl.localizacion.latitud && $ctrl.localizacion.longitud">
+  <ng-map zoom="{{::$ctrl.zoom}}"
+          id="{{::$ctrl.proveid}}"
+          center="{{$ctrl.localizacion.latitud}},{{$ctrl.localizacion.longitud}}"
+          class="referencia-map"
+          lazy-init="true">
+  	<marker position="{{$ctrl.localizacion.latitud}},{{$ctrl.localizacion.longitud}}"
+      title="{{::$ctrl.markerTitle}}"
+      animation="Animation.DROP"
+      centered="true"></marker>
+  </ng-map>
+</div>

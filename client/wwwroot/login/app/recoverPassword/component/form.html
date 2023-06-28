@@ -1,0 +1,76 @@
+<!-- <div 
+	class="clearfix" 
+	ng-show="!$ctrl.isEmailSent"> -->
+<div 
+	class="clearfix">
+		
+	<div class="col-md-12 mb-xs-3 text-center login-header">
+		<h2 class="title red text-center">
+			<span>Restablecer contraseña</span>
+		</h2>
+		<!-- <p class="mb-xs-0">Ingresa tu usuario y correo electrónico</p> -->
+		<p class="mb-xs-0">Ingresa tu usuario</p>
+	</div>
+
+	<form 
+		ng-submit="$ctrl._recoverPassword()" 
+		name="frmRecoverPassword" 
+		class="cnt-recover-password">
+		
+		<div class="col-md-10 col-md-offset-1 mb-xs-2">
+			<mpf-input 
+				label="{label: 'Usuario', required: true}" 
+				name="nIngresaUsuario" 
+				ng-model="$ctrl.mIngresaUsuario" 
+				ng-required="true"
+        mpf-validation="onlyLetterNumberGuion"
+        ng-maxlength="50"
+			></mpf-input>
+			<ul class="g-error">
+				<li ng-show="frmRecoverPassword.nIngresaUsuario.$error.required && !frmRecoverPassword.nIngresaUsuario.$pristine">* Este campo es obligatorio</li>
+			</ul>
+		</div>
+		<!-- <div class="col-md-10 col-md-offset-1 mb-xs-3">
+			<mpf-input 
+				label="{label: 'Correo electrónico', required: true}" 
+				name="nIngresaCorreoElectronico" 
+				ng-model="$ctrl.mIngresaCorreoElectronico" 
+				mpf-validation="email" 
+				ng-required="true">
+			</mpf-input>
+			<ul class="g-error">
+				<li ng-show="frmRecoverPassword.nIngresaCorreoElectronico.$error.required && !frmRecoverPassword.nIngresaCorreoElectronico.$pristine">* Este campo es obligatorio</li>
+				<li ng-show="frmRecoverPassword.nIngresaCorreoElectronico.$error.email && !frmRecoverPassword.nIngresaCorreoElectronico.$pristine">* Correo electrónico inválido</li>
+			</ul>
+		</div> -->
+		
+		<div class="col-md-10 col-md-offset-1 mb-xs-3">
+			<div class="recaptcha" vc-recaptcha
+				theme="'light'"
+				key="$ctrl.model.key"
+				on-create="$ctrl.setWidgetId(widgetId)"
+				on-success="$ctrl.setResponse(response)"
+				on-expire="$ctrl.cbExpiration()"></div>
+		</div>
+
+		<div class="col-md-10 col-md-offset-1">
+			<button 
+				type="submit" 
+				class="g-btn g-btn-verde block" 
+				ng-class="{disabled: !validationForm()}">
+				Recuperar Contraseña
+			</button>	
+		</div>
+
+	</form>	
+
+</div>
+
+
+<!-- <div 
+	class="cntEmailSent col-md-12 text-center pt-sm-6" 
+	ng-show="$ctrl.isEmailSent">
+	<span class="icon ico-mapfre_184_circleCheck gCGreen7"></span>
+	<p class="mt-xs-1 mb-xs-2 gH4">Se ha enviado un correo para reestablecer tu contraseña.</p>
+	<P>Revisa tu bandeja de correo electrónico.</P>
+</div> -->

@@ -1,0 +1,878 @@
+<div class="page-sctr-emitir-step5 g-section-inner">
+	<form action="" name="frmFifthStep">
+
+		<div class="g-border-bottom pb-xs-2 mb-xs-2">
+			<div class="container">
+				<!-- Title -->
+				<div class="row g-summary-title">
+					<div class="col-md-6 mb-xs-2 " ng-show="formData.Pagado">
+						<h2>
+							<span class="ico-mapfre_118_ok ico"></span>¡Su solicitud fue procesada con éxito!
+						</h2>
+					</div>
+
+					<div class="col-md-6 mb-xs-2 mt-xs-2 mt-md-0" ng-hide="formData.Pagado">
+						<h2 class="mb-xs-1">
+							<span class="ico-mapfre_118_ok ico"></span>La póliza ha sido emitida con éxito
+						</h2>
+					</div>
+					<div class="col-md-3 mb-xs-2">
+						<a class="g-btn g-btn-transparent block" ng-click="sendEmail()">ENVIAR POR CORREO</a>
+					</div>
+					<div class="col-md-3 mb-xs-2">
+						<a class="g-btn g-btn-verde block" ng-click="downloadAll()">DESCARGAR TODO</a>
+					</div>
+				</div>
+			</div>
+
+			<!-- Datos de la empresa -->
+			<div class="container">
+				<div class="row">
+					<div class="col-md-12">
+						<uib-accordion close-others="oneAtATime">
+							<div uib-accordion-group class="g-acordeon" is-open="status.open">
+					      <uib-accordion-heading>
+					        Datos de la empresa<i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': status.open, 'glyphicon-chevron-right': !status.open}"></i>
+					      </uib-accordion-heading>
+				      	<div class="g-sec-information">
+									<div class="">
+										<div class="container">
+											<ul class="row">
+												<li class="col-md-4 clearfix cnt-item">
+													<div class="col-sm-6 item-label">
+														<span class="ico-mapfre_82_circle ico-bullet"></span>Tipo de documento:
+													</div>
+													<div class="col-sm-6 item-dato">{{formData.mTipoDocumento.Codigo}}</div>
+												</li>
+
+												<li class="col-md-4 clearfix cnt-item">
+													<div class="col-sm-5 item-label">
+														<span class="ico-mapfre_82_circle ico-bullet"></span>Nro. Documento:
+													</div>
+													<div class="col-sm-7 item-dato">{{formData.mNumeroDocumento}}</div>
+												</li>
+
+												<li class="col-md-4 clearfix cnt-item">
+													<div class="col-sm-6 item-label">
+														<span class="ico-mapfre_82_circle ico-bullet"></span>Razón Social:
+													</div>
+													<div class="col-sm-6 item-dato g-text-uppercase">{{formData.mRazonSocial}}</div>
+												</li>
+											</ul>
+											<ul class="row">
+												<!--<li class="col-md-4 clearfix cnt-item" ng-show="formData.mActivSunat.codigo">-->
+                        <li class="col-md-4 clearfix cnt-item">
+													<div class="col-sm-6 item-label">
+														<span class="ico-mapfre_82_circle ico-bullet"></span>Actividad SUNAT:
+													</div>
+													<div class="col-sm-6 item-dato">{{formData.mActivSunat.codigo}} :: {{formData.mActivSunat.descripcion}}</div>
+												</li>
+
+												<li class="col-md-4 clearfix cnt-item">
+													<div class="col-sm-5 item-label">
+														<span class="ico-mapfre_82_circle ico-bullet"></span>Dirección:
+													</div>
+													<div class="col-sm-7 item-dato g-text-uppercase">{{formData.contractorAddress.mNombreVia}} {{formData.contractorAddress.mNumeroDireccion}},
+														{{formData.contractorAddress.ubigeoData.mDistrito.Descripcion}}
+														{{formData.contractorAddress.ubigeoData.mProvincia.Descripcion}}
+														{{formData.contractorAddress.ubigeoData.mDepartamento.Descripcion}}</div>
+												</li>
+
+												<li class="col-md-4 clearfix cnt-item">
+													<div class="col-sm-6 item-label">
+														<span class="ico-mapfre_82_circle ico-bullet"></span>Teléfono:
+													</div>
+													<div class="col-sm-6 item-dato">{{formData.dataContractor2.Telefono}}</div>
+												</li>
+											</ul>
+											<ul class="row">
+												<li class="col-md-4 clearfix cnt-item">
+													<div class="col-sm-6 item-label">
+														<span class="ico-mapfre_82_circle ico-bullet"></span>Correo electrónico:
+													</div>
+													<div class="col-sm-6 item-dato g-text-uppercase">
+														<div class="g-cut-text" uib-popover="{{formData.dataContractor2.EmailUsuario}}" popover-trigger="'mouseenter'">{{formData.dataContractor2.EmailUsuario}}</div>
+													</div>
+												</li>
+
+												<li class="col-md-4 clearfix cnt-item">
+													<div class="col-sm-5 item-label g-text-uppercase">
+														<span class="ico-mapfre_82_circle ico-bullet"></span>Representante:
+													</div>
+													<div class="col-sm-7 item-dato g-text-uppercase">{{formData.mRepresentante}}</div>
+												</li>
+
+												<li class="col-md-4 clearfix cnt-item">
+													<div class="col-sm-6 item-label">
+														<span class="ico-mapfre_82_circle ico-bullet"></span>Cargo representante:
+													</div>
+													<div class="col-sm-6 item-dato">{{formData.mRepresentanteCargo.Descripcion}}</div>
+												</li>
+											</ul>
+										</div>
+									</div>
+								</div>
+				    	</div>
+						</uib-accordion>
+					</div>
+				</div>
+			</div>
+
+			<!-- Datos de la poliza -->
+			<div class="container">
+				<div class="row">
+					<div class="col-md-12">
+						<uib-accordion close-others="oneAtATime">
+							<div uib-accordion-group class="g-acordeon" is-open="status.open">
+					      <uib-accordion-heading>
+					        Datos de la póliza<i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': status.open, 'glyphicon-chevron-right': !status.open}"></i>
+					      </uib-accordion-heading>
+				      	<div class="g-sec-information">
+									<div class="">
+										<div class="container">
+											<ul class="row">
+												<li class="col-md-4 clearfix cnt-item">
+													<div class="col-sm-5 item-label">
+														<span class="ico-mapfre_82_circle ico-bullet"></span>Actividad:
+													</div>
+													<div class="col-sm-7 item-dato">{{formData.mActEco.CodigoCiiuEmp}} : {{formData.mActEco.DescripcionCiiuEmp}}</div>
+												</li>
+												<li class="col-md-4 clearfix cnt-item">
+													<div class="col-sm-5 item-label">
+														<span class="ico-mapfre_82_circle ico-bullet"></span>Subactividad:
+													</div>
+													<div class="col-sm-7 item-dato g-text-uppercase">
+													{{formData.subactividad ? formData.subactividad.Descripcion : ''}}</div>
+												</li>
+												<li class="col-md-4 clearfix cnt-item">
+													<div class="col-sm-5 item-label">
+														<span class="ico-mapfre_82_circle ico-bullet"></span>Frecuencia:
+													</div>
+													<div class="col-sm-7 item-dato">{{formData.mFrecDeclaracion.Descripcion}}</div>
+												</li>
+											</ul>
+											<ul class="row">
+												<li class="col-md-4 clearfix cnt-item">
+													<div class="col-sm-5 item-label">
+														<span class="ico-mapfre_82_circle ico-bullet"></span>Inicio de Vigencia:
+													</div>
+													<div class="col-sm-7 item-dato">{{formData.desde}}</div>
+												</li>
+												<li class="col-md-4 clearfix cnt-item">
+													<div class="col-sm-5 item-label">
+														<span class="ico-mapfre_82_circle ico-bullet"></span>Fin de Vigencia:
+													</div>
+													<div class="col-sm-7 item-dato">{{formData.hasta}}</div>
+												</li>
+												<li class="col-md-4 clearfix cnt-item">
+													<div class="col-sm-5 item-label">
+														<span class="ico-mapfre_82_circle ico-bullet"></span>Centro de riesgos:
+													</div>
+													<div class="col-sm-7 item-dato g-text-uppercase">{{formData.mCentroRiesgo}}</div>
+												</li>
+											</ul>
+										</div>
+									</div>
+								</div>
+				    	</div>
+						</uib-accordion>
+					</div>
+				</div>
+			</div>
+
+			<!-- Datos del riesgo -->
+			<div class="container">
+				<div class="row">
+					<div class="col-md-12">
+						<uib-accordion close-others="oneAtATime">
+							<div uib-accordion-group class="g-acordeon" is-open="status.open">
+					      <uib-accordion-heading>
+					        Datos del riesgo<i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': status.open, 'glyphicon-chevron-right': !status.open}"></i>
+					      </uib-accordion-heading>
+				      	<div class="g-sec-information">
+									<div class="">
+										<div class="container">
+                      <div ng-show="formData.pension">
+                        <div class="row">
+                          <span class="h-myd-mb--10">
+                            <h3 class="h-myd-ml--5"><b>Mapfre pensión</b></h3>
+                          </span>
+                        </div>
+                        <ul class="row">
+                          <li class="col-md-4 clearfix cnt-item">
+                            <div class="col-sm-7 item-label">
+                              <span class="ico-mapfre_82_circle ico-bullet"></span>Nro de trabajadores:
+                            </div>
+                            <div class="col-sm-5 item-dato">{{formData.mNroTrabajadores}}</div>
+                          </li>
+                          <li class="col-md-4 clearfix cnt-item">
+                            <div class="col-sm-7 item-label">
+                              <span class="ico-mapfre_82_circle ico-bullet"></span>Importe planilla:
+                            </div>
+                            <div class="col-sm-5 item-dato">{{formData.mImportePlanillaPension | currency: 'S/.'}}</div>
+                          </li>
+                          <li class="col-md-4 clearfix cnt-item">
+                            <div class="col-sm-7 item-label">
+                              <span class="ico-mapfre_82_circle ico-bullet"></span>Tasa %:
+                            </div>
+                            <div class="col-sm-5 item-dato">{{formData.mTasaPension}} %</div>
+                          </li>
+                        </ul>
+                        <ul class="row">
+                          <li class="col-md-4 clearfix cnt-item">
+                            <div class="col-sm-7 item-label">
+                              <span class="ico-mapfre_82_circle ico-bullet"></span>Subtotal:
+                            </div>
+                            <div class="col-sm-5 item-dato">{{formData.subTotalPension | currency: 'S/.'}}</div>
+                          </li>
+                          <li class="col-md-4 clearfix cnt-item">
+                            <div class="col-sm-7 item-label">
+                              <span class="ico-mapfre_82_circle ico-bullet"></span>Prima Neta:
+                            </div>
+                            <div class="col-sm-5 item-dato">{{formData.primaNetaPension | currency: 'S/.'}}</div>
+                          </li>
+                          <li class="col-md-4 clearfix cnt-item">
+                            <div class="col-sm-7 item-label">
+                              <span class="ico-mapfre_82_circle ico-bullet"></span>Factor:
+                            </div>
+                            <div class="col-sm-5 item-dato">{{formData.factorPension}}</div>
+                          </li>
+                        </ul>
+                        <ul class="row">
+                          <li class="col-md-4 clearfix cnt-item">
+                            <div class="col-sm-7 item-label">
+                              <span class="ico-mapfre_82_circle ico-bullet"></span>Prima total:
+                            </div>
+                            <div class="col-sm-5 item-dato">{{formData.primaTotalPension | currency: 'S/.'}}</div>
+                          </li>
+                        </ul>
+                      </div>
+                      <div ng-show="formData.salud">
+                        <div class="row">
+                          <span class="h-myd-mb--10">
+                            <h3 class="h-myd-ml--5"><b>Mapfre salud</b></h3>
+                          </span>
+                        </div>
+                        <ul class="row">
+                          <li class="col-md-4 clearfix cnt-item">
+                            <div class="col-sm-7 item-label">
+                              <span class="ico-mapfre_82_circle ico-bullet"></span>Nro de trabajadores:
+                            </div>
+                            <div class="col-sm-5 item-dato">{{formData.mNroTrabajadores}}</div>
+                          </li>
+                          <li class="col-md-4 clearfix cnt-item">
+                            <div class="col-sm-7 item-label">
+                              <span class="ico-mapfre_82_circle ico-bullet"></span>Importe planilla:
+                            </div>
+                            <div class="col-sm-5 item-dato">{{formData.mImportePlanillaSalud | currency: 'S/.'}}</div>
+                          </li>
+                          <li class="col-md-4 clearfix cnt-item">
+                            <div class="col-sm-7 item-label">
+                              <span class="ico-mapfre_82_circle ico-bullet"></span>Tasa %:
+                            </div>
+                            <div class="col-sm-5 item-dato">{{formData.mTasaSalud}} %</div>
+                          </li>
+                        </ul>
+                        <ul class="row">
+                          <li class="col-md-4 clearfix cnt-item">
+                            <div class="col-sm-7 item-label">
+                              <span class="ico-mapfre_82_circle ico-bullet"></span>Subtotal:
+                            </div>
+                            <div class="col-sm-5 item-dato">{{formData.subTotalSalud  | currency: 'S/.'}}</div>
+                          </li>
+                          <li class="col-md-4 clearfix cnt-item">
+                            <div class="col-sm-7 item-label">
+                              <span class="ico-mapfre_82_circle ico-bullet"></span>Prima Neta:
+                            </div>
+                            <div class="col-sm-5 item-dato">{{formData.primaNetaSalud  | currency: 'S/.'}}</div>
+                          </li>
+                          <li class="col-md-4 clearfix cnt-item">
+                            <div class="col-sm-7 item-label">
+                              <span class="ico-mapfre_82_circle ico-bullet"></span>Factor:
+                            </div>
+                            <div class="col-sm-5 item-dato">{{formData.factorSalud}}</div>
+                          </li>
+                        </ul>
+                        <ul class="row">
+                          <li class="col-md-4 clearfix cnt-item">
+                            <div class="col-sm-7 item-label">
+                              <span class="ico-mapfre_82_circle ico-bullet"></span>Prima total:
+                            </div>
+                            <div class="col-sm-5 item-dato">{{formData.primaTotalSalud | currency: 'S/.'}}</div>
+                          </li>
+                        </ul>
+                      </div>
+										</div>
+									</div>
+								</div>
+				    	</div>
+						</uib-accordion>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="g-section">
+			<div class="container">
+
+				<div class="row">
+					<div class="col-md-12">
+
+            <div ng-show="formData.pension && formData.CodigoEstado == 'EP'">
+              <div class="g-box h-myd--none">
+                <div class="clearfix g-box-header">
+                  <ul class="g-list second-design">
+                    <li class="col-xs-12 col-md-5 mt-xs-1 mb-xs-2">
+                      <div class="row">
+                        <div class="col-sm-12 item-label text-left">
+                          <span class="ico-mapfre_158_pdf ico-medium ico-griss mr-md-1"></span>
+                          Comprobante_Pensión.pdf
+                        </div>
+                      </div>
+                    </li>
+                    <li class="col-xs-12 col-md-4 cnt-item mt-md-2 mb-xs-2">
+                      <div class="row">
+                        <div class="col-sm-12 col-md-12 item-dato">Nro. doc.: {{formData.NumeroReciboPension}}</div>
+                      </div>
+                    </li>
+                    <li class="col-xs-12 col-md-3">
+                      <a class="g-btn g-btn-white block" ng-click="downloadRecibo('Pension',2)" >Descargar</a>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+              <div class="row h-myd-ml--0 h-myd-mr--0 h-myd--show h-oim-none">
+                <div class="c-myd-sign h-myd-mb--20">
+                  <div class="c-myd-sign--header">
+                    <div class="c-myd-sign--header-title">
+                      <div class="title">
+                        <div class="text">
+                          <div class="info">
+                            <p>Comprobante_Pensión.pdf</p>
+                            <span>Nro. doc.: {{formData.NumeroReciboPension}}</span>
+                          </div>
+                        </div>
+                        <div class="document" ng-click="downloadRecibo('Pension',2)">
+                          <i class="ico-mapfre-349-myd-pdf"></i>
+                          <span>Ver documento</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div ng-show="formData.salud && formData.CodigoEstado == 'EP'">
+              <div class="g-box h-myd--none">
+                <div class="clearfix g-box-header">
+                  <ul class="g-list second-design">
+                    <li class="col-xs-12 col-md-5 mt-xs-1 mb-xs-2">
+                      <div class="row">
+                        <div class="col-sm-12 item-label text-left">
+                          <span class="ico-mapfre_158_pdf ico-medium ico-griss mr-md-1"></span>
+                          Comprobante_Salud.pdf
+                        </div>
+                      </div>
+                    </li>
+                    <li class="col-xs-12 col-md-4 cnt-item mt-md-2 mb-xs-2">
+                      <div class="row">
+                        <div class="col-sm-12 col-md-12 item-dato">Nro. doc.: {{formData.NumeroReciboSalud}}</div>
+                      </div>
+                    </li>
+                    <li class="col-xs-12 col-md-3">
+                      <a class="g-btn g-btn-white block" ng-click="downloadRecibo('Salud',3)" >Descargar</a>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+              <div class="row h-myd-ml--0 h-myd-mr--0 h-myd--show h-oim-none">
+                <div class="c-myd-sign h-myd-mb--20">
+                  <div class="c-myd-sign--header">
+                    <div class="c-myd-sign--header-title">
+                      <div class="title">
+                        <div class="text">
+                          <div class="info">
+                            <p>Comprobante_Salud.pdf</p>
+                            <span>Nro. doc.: {{formData.NumeroReciboSalud}}</span>
+                          </div>
+                        </div>
+                        <div class="document" ng-click="downloadRecibo('Salud',3)">
+                          <i class="ico-mapfre-349-myd-pdf"></i>
+                          <span>Ver documento</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div ng-show="formData.pension">
+              <div class="g-box h-myd--none">
+                <div class="clearfix g-box-header">
+                  <ul class="g-list second-design">
+                    <li class="col-xs-12 col-md-5 mt-xs-1 mb-xs-2">
+                      <div class="row">
+                        <div class="col-sm-12 item-label text-left">
+                          <span class="ico-mapfre_158_pdf ico-medium ico-griss mr-md-1 h-myd--none"></span>
+                          Recibo de Pensión
+                        </div>
+                      </div>
+                    </li>
+                    <li class="col-xs-12 col-md-4 cnt-item mt-md-2 mb-xs-2">
+                      <div class="row">
+                        <div class="col-sm-12 col-md-12 item-dato">Nro.: {{formData.NumeroReciboPension}}</div>
+                      </div>
+                    </li>
+                    <li class="col-xs-12 col-md-3">
+                      <a class="g-btn g-btn-white block" ng-click="getRecibo(formData.NumeroReciboPensionEncrypt)">DESCARGAR</a>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+              <div class="row h-myd-ml--0 h-myd-mr--0 h-myd--show h-oim-none">
+                <div class="c-myd-sign h-myd-mb--20">
+                  <div class="c-myd-sign--header">
+                    <div class="c-myd-sign--header-title">
+                      <div class="title">
+                        <div class="text">
+                          <div class="info">
+                            <p>Recibo de Pensión</p>
+                            <span>Nro.: {{formData.NumeroReciboPension}}</span>
+                          </div>
+                        </div>
+                        <div class="document" ng-click="getRecibo(formData.NumeroReciboPensionEncrypt)">
+                          <i class="ico-mapfre-349-myd-pdf"></i>
+                          <span>Ver documento</span>
+                        </div>
+                        <div class="button">
+                          <a class="g-btn g-myd-btn-secundary" ng-click="goToPaymentGateway(0)">Pagar</a>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div ng-show="formData.salud">
+              <div class="g-box h-myd--none">
+                <div class="clearfix g-box-header">
+                  <ul class="g-list second-design">
+                    <li class="col-xs-12 col-md-5 mt-xs-1 mb-xs-2">
+                      <div class="row">
+                        <div class="col-sm-12 item-label text-left">
+                          <span class="ico-mapfre_158_pdf ico-medium ico-griss mr-md-1 h-myd--none"></span>
+                          Recibo de Salud
+                        </div>
+                      </div>
+                    </li>
+                    <li class="col-xs-12 col-md-4 cnt-item mt-md-2 mb-xs-2">
+                      <div class="row">
+                        <div class="col-sm-12 col-md-12 item-dato">Nro.: {{formData.NumeroReciboSalud}}</div>
+                      </div>
+                    </li>
+                    <li class="col-xs-12 col-md-3">
+                      <a class="g-btn g-btn-white block" ng-click="getRecibo(formData.NumeroReciboSaludEncrypt)">DESCARGAR</a>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+              <div class="row h-myd-ml--0 h-myd-mr--0 h-myd--show h-oim-none">
+                <div class="c-myd-sign h-myd-mb--20">
+                  <div class="c-myd-sign--header">
+                    <div class="c-myd-sign--header-title">
+                      <div class="title">
+                        <div class="text">
+                          <div class="info">
+                            <p>Recibo de Salud</p>
+                            <span>Nro.: {{formData.NumeroReciboSalud}}</span>
+                          </div>
+                        </div>
+                        <div class="document" ng-click="getRecibo(formData.NumeroReciboSaludEncrypt)">
+                          <i class="ico-mapfre-349-myd-pdf"></i>
+                          <span>Ver documento</span>
+                        </div>
+                        <div class="button">
+                          <a class="g-btn g-myd-btn-secundary" ng-click="goToPaymentGateway(1)">Pagar</a>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div ng-show="formData.pension && (formData.Pagado && formData.pNormal)">
+              <div class="g-box h-myd--none">
+                <div class="clearfix g-box-header">
+                  <ul class="g-list second-design">
+                    <li class="col-xs-12 col-md-5 mt-xs-1 mb-xs-2">
+                      <div class="row">
+                        <div class="col-sm-12 item-label text-left">
+                          <span class="ico-mapfre_158_pdf ico-medium ico-griss mr-md-1 h-myd--none"></span>
+                          Póliza de Pensión
+                        </div>
+                      </div>
+                    </li>
+                    <li class="col-xs-12 col-md-4 cnt-item mt-md-2 mb-xs-2">
+                      <div class="row">
+                        <div class="col-sm-12 col-md-12 item-dato">Nro.: {{formData.NumPolizaPension}}</div>
+                      </div>
+                    </li>
+                    <li class="col-xs-12 col-md-3">
+                      <a class="g-btn g-btn-white block" ng-click="getPoliza(2, formData.NumPolizaPension)">DESCARGAR</a>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+              <div class="row h-myd-ml--0 h-myd-mr--0 h-myd--show h-oim-none">
+                <div class="c-myd-sign h-myd-mb--20">
+                  <div class="c-myd-sign--header">
+                    <div class="c-myd-sign--header-title">
+                      <div class="title">
+                        <div class="text">
+                          <div class="info">
+                            <p>Póliza de Pensión</p>
+                            <span>Nro.: {{formData.NumPolizaPension}}</span>
+                          </div>
+                        </div>
+                        <div class="document" ng-click="getPoliza(2, formData.NumPolizaPension)">
+                          <i class="ico-mapfre-349-myd-pdf"></i>
+                          <span>Ver documento</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div ng-show="formData.pension && (formData.PagadoP && !formData.pNormal)">
+              <div class="g-box h-myd--none">
+                <div class="clearfix g-box-header">
+                  <ul class="g-list second-design">
+                    <li class="col-xs-12 col-md-5 mt-xs-1 mb-xs-2">
+                      <div class="row">
+                        <div class="col-sm-12 item-label text-left">
+                          <span class="ico-mapfre_158_pdf ico-medium ico-griss mr-md-1 h-myd--none"></span>
+                          Póliza de Pensión
+                        </div>
+                      </div>
+                    </li>
+                    <li class="col-xs-12 col-md-4 cnt-item mt-md-2 mb-xs-2">
+                      <div class="row">
+                        <div class="col-sm-12 col-md-12 item-dato">Nro.: {{formData.NumPolizaPension}}</div>
+                      </div>
+                    </li>
+                    <li class="col-xs-12 col-md-3">
+                      <a class="g-btn g-btn-white block" ng-click="getPoliza(2, formData.NumPolizaPension)">DESCARGAR</a>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+              <div class="row h-myd-ml--0 h-myd-mr--0 h-myd--show h-oim-none">
+                <div class="c-myd-sign h-myd-mb--20">
+                  <div class="c-myd-sign--header">
+                    <div class="c-myd-sign--header-title">
+                      <div class="title">
+                        <div class="text">
+                          <div class="info">
+                            <p>Póliza de Pensión</p>
+                            <span>Nro.: {{formData.NumPolizaPension}}</span>
+                          </div>
+                        </div>
+                        <div class="document" ng-click="getPoliza(2, formData.NumPolizaPension)">
+                          <i class="ico-mapfre-349-myd-pdf"></i>
+                          <span>Ver documento</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div ng-show="formData.salud && (formData.Pagado && formData.pNormal)">
+              <div class="g-box h-myd--none">
+                <div class="clearfix g-box-header">
+                  <ul class="g-list second-design">
+                    <li class="col-xs-12 col-md-5 mt-xs-1 mb-xs-2">
+                      <div class="row">
+                        <div class="col-sm-12 item-label text-left">
+                          <span class="ico-mapfre_158_pdf ico-medium ico-griss mr-md-1 h-myd--none"></span>
+                          Póliza de Salud
+                        </div>
+                      </div>
+                    </li>
+                    <li class="col-xs-12 col-md-4 cnt-item mt-md-2 mb-xs-2">
+                      <div class="row">
+                        <div class="col-sm-12 col-md-12 item-dato">Nro.: {{formData.NumPolizaSalud}}</div>
+                      </div>
+                    </li>
+                    <li class="col-xs-12 col-md-3">
+                      <a class="g-btn g-btn-white block" ng-click="getPoliza(3, formData.NumPolizaSalud)">DESCARGAR</a>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+              <div class="row h-myd-ml--0 h-myd-mr--0 h-myd--show h-oim-none">
+                <div class="c-myd-sign h-myd-mb--20">
+                  <div class="c-myd-sign--header">
+                    <div class="c-myd-sign--header-title">
+                      <div class="title">
+                        <div class="text">
+                          <div class="info">
+                            <p>Póliza de Salud</p>
+                            <span>Nro.: {{formData.NumPolizaSalud}}</span>
+                          </div>
+                        </div>
+                        <div class="document" ng-click="getPoliza(3, formData.NumPolizaSalud)">
+                          <i class="ico-mapfre-349-myd-pdf"></i>
+                          <span>Ver documento</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div ng-show="formData.salud && (formData.PagadoS && !formData.pNormal)">
+              <div class="g-box h-myd--none" >
+                <div class="clearfix g-box-header">
+                  <ul class="g-list second-design">
+                    <li class="col-xs-12 col-md-5 mt-xs-1 mb-xs-2">
+                      <div class="row">
+                        <div class="col-sm-12 item-label text-left">
+                          <span class="ico-mapfre_158_pdf ico-medium ico-griss mr-md-1 h-myd--none"></span>
+                          Póliza de Salud
+                        </div>
+                      </div>
+                    </li>
+                    <li class="col-xs-12 col-md-4 cnt-item mt-md-2 mb-xs-2">
+                      <div class="row">
+                        <div class="col-sm-12 col-md-12 item-dato">Nro.: {{formData.NumPolizaSalud}}</div>
+                      </div>
+                    </li>
+                    <li class="col-xs-12 col-md-3">
+                      <a class="g-btn g-btn-white block" ng-click="getPoliza(3, formData.NumPolizaSalud)">DESCARGAR</a>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+              <div class="row h-myd-ml--0 h-myd-mr--0 h-myd--show h-oim-none">
+                <div class="c-myd-sign h-myd-mb--20">
+                  <div class="c-myd-sign--header">
+                    <div class="c-myd-sign--header-title">
+                      <div class="title">
+                        <div class="text">
+                          <div class="info">
+                            <p>Póliza de Salud</p>
+                            <span>Nro.: {{formData.NumPolizaSalud}}</span>
+                          </div>
+                        </div>
+                        <div class="document" ng-click="getPoliza(3, formData.NumPolizaSalud)">
+                          <i class="ico-mapfre-349-myd-pdf"></i>
+                          <span>Ver documento</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div ng-show="(formData.Pagado && formData.pNormal)">
+              <div class="g-box h-myd--none">
+                <div class="clearfix g-box-header">
+                  <ul class="g-list second-design">
+                    <li class="col-xs-12 col-md-5 mt-xs-1 mb-xs-2">
+                      <div class="row">
+                        <div class="col-sm-12 item-label text-left">
+                          <span class="ico-mapfre_158_pdf ico-medium ico-griss mr-md-1 h-myd--none"></span>
+                          Constancia
+                        </div>
+                      </div>
+                    </li>
+                    <li class="col-xs-12 col-md-4 cnt-item mt-md-2 mb-xs-2">
+                      <div class="row">
+                        <div class="col-sm-12 col-md-12 item-dato">Nro.: {{formData.CodigoConstancia}}</div>
+                      </div>
+                    </li>
+                    <li class="col-xs-12 col-md-3">
+                      <a class="g-btn g-btn-white block" ng-click="getConstancia()">DESCARGAR</a>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+              <div class="row h-myd-ml--0 h-myd-mr--0 h-myd--show h-oim-none">
+                <div class="c-myd-sign h-myd-mb--20">
+                  <div class="c-myd-sign--header">
+                    <div class="c-myd-sign--header-title">
+                      <div class="title">
+                        <div class="text">
+                          <div class="info">
+                            <p>Constancia</p>
+                            <span>Nro.: {{formData.CodigoConstancia}}</span>
+                          </div>
+                        </div>
+                        <div class="document" ng-click="getConstancia()">
+                          <i class="ico-mapfre-349-myd-pdf"></i>
+                          <span>Ver documento</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div ng-show="(formData.ambosPagados && !formData.pNormal)">
+              <div class="g-box h-myd--none">
+                <div class="clearfix g-box-header">
+                  <ul class="g-list second-design">
+                    <li class="col-xs-12 col-md-5 mt-xs-1 mb-xs-2">
+                      <div class="row">
+                        <div class="col-sm-12 item-label text-left">
+                          <span class="ico-mapfre_158_pdf ico-medium ico-griss mr-md-1 h-myd--none"></span>
+                          Constancia
+                        </div>
+                      </div>
+                    </li>
+                    <li class="col-xs-12 col-md-4 cnt-item mt-md-2 mb-xs-2">
+                      <div class="row">
+                        <div class="col-sm-12 col-md-12 item-dato">Nro.: {{formData.CodigoConstancia}}</div>
+                      </div>
+                    </li>
+                    <li class="col-xs-12 col-md-3">
+                      <a class="g-btn g-btn-white block" ng-click="getConstancia()">DESCARGAR</a>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+              <div class="row h-myd-ml--0 h-myd-mr--0 h-myd--show h-oim-none">
+                <div class="c-myd-sign h-myd-mb--20">
+                  <div class="c-myd-sign--header">
+                    <div class="c-myd-sign--header-title">
+                      <div class="title">
+                        <div class="text">
+                          <div class="info">
+                            <p>Constancia</p>
+                            <span>Nro.: {{formData.CodigoConstancia}}</span>
+                          </div>
+                        </div>
+                        <div class="document" ng-click="getConstancia()">
+                          <i class="ico-mapfre-349-myd-pdf"></i>
+                          <span>Ver documento</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div ng-show="(formData.Pagado || formData.pNormal)">
+              <div class="g-box h-myd--none">
+                <div class="clearfix g-box-header">
+                  <ul class="g-list second-design">
+                    <li class="col-xs-12 col-md-5 mt-xs-1 mb-xs-2">
+                      <div class="row">
+                        <div class="col-sm-12 item-label text-left">
+                          <span class="ico-mapfre_158_pdf ico-medium ico-griss mr-md-1 h-myd--none"></span>
+                          Condiciones Generales
+                        </div>
+                      </div>
+                    </li>
+                    <li class="col-xs-12 col-md-4 cnt-item mt-md-2 mb-xs-2">
+                      <div class="row">
+                        <div class="col-sm-12 col-md-12 item-dato"></div>
+                      </div>
+                    </li>
+                    <li class="col-xs-12 col-md-3">
+                      <a class="g-btn g-btn-white block" ng-click="getCondiciones()">DESCARGAR</a>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+              <div class="row h-myd-ml--0 h-myd-mr--0 h-myd--show h-oim-none">
+                <div class="c-myd-sign h-myd-mb--20">
+                  <div class="c-myd-sign--header">
+                    <div class="c-myd-sign--header-title">
+                      <div class="title">
+                        <div class="text">
+                          <div class="info">
+                            <p>Condiciones Generales</p>
+                          </div>
+                        </div>
+                        <div class="document" ng-click="getCondiciones()">
+                          <i class="ico-mapfre-349-myd-pdf"></i>
+                          <span>Ver documento</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div ng-show="(formData.Pagado || formData.pNormal)">
+              <div class="g-box h-myd--none">
+                <div class="clearfix g-box-header">
+                  <ul class="g-list second-design">
+                    <li class="col-xs-12 col-md-5 mt-xs-1 mb-xs-2">
+                      <div class="row">
+                        <div class="col-sm-12 item-label text-left">
+                          <span class="ico-mapfre_158_pdf ico-medium ico-griss mr-md-1 h-myd--none"></span>
+                          Procedimiento en caso de siniestro
+                        </div>
+                      </div>
+                    </li>
+                    <li class="col-xs-12 col-md-4 cnt-item mt-md-2 mb-xs-2">
+                      <div class="row">
+                        <div class="col-sm-12 col-md-12 item-dato"></div>
+                      </div>
+                    </li>
+                    <li class="col-xs-12 col-md-3">
+                      <a class="g-btn g-btn-white block" ng-click="getTemplate(4)">DESCARGAR</a>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+              <div class="row h-myd-ml--0 h-myd-mr--0 h-myd--show h-oim-none">
+                <div class="c-myd-sign h-myd-mb--20">
+                  <div class="c-myd-sign--header">
+                    <div class="c-myd-sign--header-title">
+                      <div class="title">
+                        <div class="text">
+                          <div class="info">
+                            <p>Procedimiento en caso de siniestro</p>
+                          </div>
+                        </div>
+                        <div class="document" ng-click="getTemplate(4)">
+                          <i class="ico-mapfre-349-myd-pdf"></i>
+                          <span>Ver documento</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- Dirección del contratante -->
+		<div class="g-section" ng-hide="true">
+			<div class="container">
+				<mpf-contractor-address data="formData.contractorAddress"  is-Valid="addressValid" setter-Ubigeo="setterUbigeo" clean-Ubigeo="cleanUbigeo"></mpf-contractor-address>
+			</div>
+		</div>
+
+	</form>
+</div>

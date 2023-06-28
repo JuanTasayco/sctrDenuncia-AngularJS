@@ -1,0 +1,115 @@
+<div class="g-section-inner g-section-tabs g-overflow-hidden-xs">
+  <div class="container">
+    <uib-tabset justified="true">
+      <uib-tab index="0">
+        <uib-tab-heading>ALTERNATIVAS PARA EL CLIENTE</uib-tab-heading>
+        <form name="$ctrl.frmAlternativas">
+        <div class="content-tab">
+            <div class="container no-padding-md ng-scope">
+              <div class="row">
+                <div class="col-md-12 mb-xs-2 mt-xs-3">
+                  <h2 class="g-sub-title g-myd-subtitle">Alternativas para el cliente</h2>
+                  <p>Te mostramos algunas alternativas con las cuales el cliente podría calificar:</p>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-sm-6 col-md-3 mb-xs-2">
+                  <mpf-select ng-model="$ctrl.modelo.camposanto" name="nCamposanto" label="{label: 'Camposanto', required: true}"
+                    m-data-source="$ctrl.combo.camposanto" text-field="Descripcion" value-field="Codigo"
+                    m-Empty-Option="{text:'Elige Camposanto'}" mpf-validation="required" ng-disabled=""></mpf-select>
+                  <ul class="g-error" style="position: absolute;">
+                    <li ng-show="$ctrl.frmAlternativas.nCamposanto.$error.required && !$ctrl.frmAlternativas.nCamposanto.$pristine">* Este campo
+                      es obligatorio</li>
+                  </ul>
+                </div>
+                <div class="col-sm-6 col-md-3 mb-xs-2">
+                  <mpf-select ng-model="$ctrl.modelo.tipoContrato" name="nTipoContrato" label="{label: 'Tipo Contrato', required: true}"
+                    m-data-source="$ctrl.combo.tipoContrato" text-field="Descripcion" value-field="Codigo"
+                    m-Empty-Option="{text:'Elige Tipo Contrato'}" ng-change="$ctrl.isAmpliacion();$ctrl._getModalidad()" mpf-validation="required">
+                  </mpf-select>
+                  <ul class="g-error" style="position: absolute;">
+                    <li ng-show="$ctrl.frmAlternativas.nTipoContrato.$error.required && !$ctrl.frmAlternativas.nTipoContrato.$pristine">* Este campo
+                      es obligatorio</li>
+                  </ul>
+                </div>
+                <div class="col-sm-6 col-md-3 mb-xs-2" ng-if="$ctrl.showContratoRelacionado">
+                    <mpf-input label="{label: 'Número de contrato relacionado', required: true}" ng-disabled="disabledAll" 
+                    name="nContratoRelacionado" ng-model="$ctrl.modelo.contratoRelacionado" mpf-validation="onlyNumber" ng-maxlength="13"
+                    ng-blur="$ctrl.getProducto()" mpf-validation="required" ng-required="true">
+                    </mpf-input>
+                    <ul class="g-error" style="position: absolute;">
+                        <li ng-show="$ctrl.validControlForm('nContratoRelacionado')">* Este campo es obligatorio</li>
+                    </ul>
+                </div>
+                <div class="col-sm-6 col-md-3 mb-xs-2">
+                  <mpf-select ng-model="$ctrl.modelo.modalidad" name="nModalidad" label="{label: 'Modalidad', required: true}"
+                    m-data-source="$ctrl.combo.modalidad" text-field="Descripcion" value-field="Codigo"
+                    m-Empty-Option="{text:'Elige Modalidad'}" ng-change="$ctrl.getProducto()" mpf-validation="required">
+                  </mpf-select>
+                  <ul class="g-error" style="position: absolute;">
+                    <li ng-show="$ctrl.frmAlternativas.nModalidad.$error.required && !$ctrl.frmAlternativas.nModalidad.$pristine">* Este campo
+                      es obligatorio</li>
+                  </ul>
+                </div>
+                <div class="col-sm-6 col-md-3 mb-xs-2">
+                  <mpf-select ng-model="$ctrl.modelo.producto" name="nProducto" label="{label: 'Producto', required: true}"
+                    m-data-source="$ctrl.combo.producto" text-field="Descripcion" value-field="Codigo"
+                    m-Empty-Option="{text:'Elige Producto'}"
+                    ng-change="$ctrl.selectProducto($ctrl.modelo.producto.Codigo)" mpf-validation="required"
+                    ng-disabled="inputProductoDisable"></mpf-select>
+                  <ul class="g-error" style="position: absolute;">
+                    <li ng-show="$ctrl.frmAlternativas.nProducto.$error.required && !$ctrl.frmAlternativas.nProducto.$pristine">* Este campo
+                      es obligatorio</li>
+                  </ul>
+                </div>
+                <div class="col-sm-6 col-md-3 mb-xs-2">
+                  <mpf-select ng-model="$ctrl.modelo.cuotas" name="nCuotas" label="{label: 'Número de cuotas', required: true}"
+                    m-data-source="$ctrl.combo.cuotas" text-field="Descripcion" value-field="Codigo"
+                    m-Empty-Option="{text:'Elige Nro de Cuotas'}" mpf-validation="required" 
+                    ng-disabled="inputCuotasDisable"></mpf-select>
+                  <ul class="g-error" style="position: absolute;">
+                    <li ng-show="$ctrl.frmAlternativas.nCuotas.$error.required && !$ctrl.frmAlternativas.nCuotas.$pristine">* Este campo
+                      es obligatorio</li>
+                  </ul>
+                </div>
+              </div>
+              <div class="row row-footer mt-sm-3">
+                <div class="col-md-4 col-md-offset-4 mb-xs-2">
+                  <a class="g-btn g-btn-verde block" ng-click="$ctrl.seleccionarCotizacion();">SELECCIONAR</a>
+                </div>
+              </div>
+            </div>
+        </div>
+        </form>
+      </uib-tab>
+      <uib-tab index="1">
+        <uib-tab-heading>SOLICITAR APROBACIÓN EXCEPCIONAL</uib-tab-heading>
+        <div class="content-tab">
+          <div class="container no-padding-md ng-scope">
+            <div class="row">
+              <div class="col-md-12 mb-xs-2 mt-xs-3">
+                <h2 class="g-sub-title g-myd-subtitle">Solicitar aprobación</h2>
+                <p>Pese a la calificación <b>¿Quieres solicitar la aprobación del producto inicial?</b></p>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-sm-6 col-md-4 mb-xs-2">
+                <form name="frmContratante" class="mt-xs-2 mt-md-0">
+                  <mpf-input label="{label: 'Ingrese comentario adicional'}" id="txtComentario" name="txtComentario"
+                    ng-model="$ctrl.modelo.comentario" ng-blur="" ng-disabled="" ng-required="true"></mpf-input>
+                </form>
+              </div>
+            </div>
+            <div class="row row-footer mt-sm-3">
+              <div class="col-md-4 mb-xs-2">
+                <a class="g-btn g-btn-verde block" ng-click="$ctrl.enviarCorreoExepcional()">PEDIR APROBACIÓN
+                  EXCEPCIONAL</a>
+                <p class="mt-xs-1">Esta aprobación sera solicitada al emisor EAC</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </uib-tab>
+    </uib-tabset>
+  </div>
+</div>

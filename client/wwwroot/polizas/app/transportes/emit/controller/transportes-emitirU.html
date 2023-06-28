@@ -1,0 +1,409 @@
+<!-- <section class="g-page page-automovil-emitir" ng-init="$parent.hidePolizas=true"> -->
+<section class="g-page page-transportes-emitir transportes">
+
+	<page-title info="{title: 'Emitir póliza transporte'}" ng-show="currentStep < 6"></page-title>
+	
+	<div class="emitir-trans">
+		<div>
+			<div class="g-section"  ng-show="currentStep == 1">
+				<div class="container">
+					<div class="row">
+						<div class="col-md-4">
+							<span ng-show="!userRoot">
+								<h2>
+									Agente: {{mainStep.claims.codigoAgente}} - {{mainStep.claims.nombreAgente}}
+								</h2>
+							</span>
+							<mp-data-seeker ng-show="userRoot" behavior="{label:'Para emitir una póliza debes elegir un agente', placeholder:'Busque o seleccione un agente ...', matchField:'codigoNombre'}" m-data-source="'proxyAgente.buscarAgente'" ng-model="mainStep.mAgente" ng-change="saveAgent(mainStep.mAgente)">
+								<div ng-bind-html="$item.codigoNombre | highlight: $select.search"></div>
+							</mp-data-seeker>
+						</div>
+					</div>
+				</div>
+			</div>
+			<wizard-stairs stairs="pasosTransporte" current-step="currentStep" steping="gotoStep($stepToGo)" ng-show="currentStep<6 && firstStep.existGroupPolicy">
+			</wizard-stairs>
+			
+			<!-- <div class="g-inner-section g-gray-step init-data mt-md-3" ng-show="currentStep>1 && currentStep<6">
+				<div class="container g-datastep">
+					<div class="row">
+						<div class="col-md-10">
+							<h2>Nro. Póliza de grupo: {{firstStep.poliza.NumeroPolizaGrupo}}</h2>
+						</div>
+						<div class="col-md-2">
+							<a class="g-btn g-btn-transparent g-btn-mini g-valorauto-modificar"  ng-click="gotoStep(1)">MODIFICAR P&Oacute;LIZA</a>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-3 g-datastep-info">
+							<span class="g-datastep-info-label">
+								<span class="ico-mapfre_82_circle g-datastep-info-dot"></span>
+								Descripci&oacute;n:
+							</span>
+							<span class="g-datastep-info-dato">
+								{{firstStep.poliza.NombrePolizaGrupo}}
+							</span>
+						</div>
+						<div class="col-md-3 g-datastep-info">
+							<span class="g-datastep-info-label">
+								<span class="ico-mapfre_82_circle g-datastep-info-dot"></span>
+								Fecha de vencimiento:
+							</span>
+							<span class="g-datastep-info-dato">
+								{{firstStep.vigencia | date: 'dd/MM/yyyy'}}-{{firstStep.vigenciaFin | date: 'dd/MM/yyyy'}}
+							</span>
+						</div>
+						<div class="col-md-3 g-datastep-info">
+							<span class="g-datastep-info-label">
+								<span class="ico-mapfre_82_circle g-datastep-info-dot"></span>
+								Moneda:
+							</span>
+							<span class="g-datastep-info-dato">
+								{{firstStep.poliza.SimboloMoneda}}
+							</span>
+						</div>
+						<div class="col-md-3 g-datastep-info">
+							<span class="g-datastep-info-label">
+								<span class="ico-mapfre_82_circle g-datastep-info-dot"></span>
+								Tipo de transporte:
+							</span>
+							<span class="g-datastep-info-dato">
+								{{firstStep.poliza.NombreTipoTransporte}}
+							</span>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-3 g-datastep-info">
+							<span class="g-datastep-info-label">
+								<span class="ico-mapfre_82_circle g-datastep-info-dot"></span>
+								Tasa m&iacute;nima:
+							</span>
+							<span class="g-datastep-info-dato">
+								{{firstStep.poliza.TasaMinima}}
+							</span>
+						</div>
+						<div class="col-md-3 g-datastep-info">
+							<span class="g-datastep-info-label">
+								<span class="ico-mapfre_82_circle g-datastep-info-dot"></span>
+								Tasa m&aacute;xima:
+							</span>
+							<span class="g-datastep-info-dato">
+								{{firstStep.poliza.TasaMaxima}}
+							</span>
+						</div>
+						<div class="col-md-3 g-datastep-info">
+							<span class="g-datastep-info-label">
+								<span class="ico-mapfre_82_circle g-datastep-info-dot"></span>
+								L&iacute;mite de embalaje:
+							</span>
+							<span class="g-datastep-info-dato">
+								{{firstStep.poliza.LimiteEmbarque}}
+							</span>
+						</div>
+						<div class="col-md-3 g-datastep-info">
+							<span class="g-datastep-info-label">
+								<span class="ico-mapfre_82_circle g-datastep-info-dot"></span>
+								Periodo de vigencia:
+							</span>
+							<span class="g-datastep-info-dato">
+								{{firstStep.vigencia | date: 'dd/MM/yyyy'}}-{{firstStep.vigenciaFin | date: 'dd/MM/yyyy'}}
+							</span>
+						</div>
+					</div>
+				</div>
+			</div> -->
+
+			<div class="g-sec-information" ng-show="currentStep>1 && currentStep<6">
+				<div class="sec-item">
+					<div class="container">
+						<ul class="row cnt-title">
+							<li class="col-xs-6 item-title">Datos de la Póliza</li>
+							<li class="col-xs-6 g-text-right-sm hidden-sm hidden-xs">
+								<a href="" ng-click="gotoStep(1)">
+									<span class="g-icon gCGray3">
+										<span class="ico-mapfre_228_editar ico-edit"></span>
+										<span class="g-link">Editar datos de la poliza</span>
+									</span>
+								</a>
+							</li>
+						</ul>
+						<ul class="row">
+							<li class="col-md-4 clearfix cnt-item">
+								<div class="col-xs-5 item-label">
+									<span class="ico-mapfre_82_circle ico-bullet"></span>Nro. Póliza de grupo:
+								</div>
+								<div class="col-xs-7 item-dato">{{firstStep.poliza.NumeroPolizaGrupo}}</div>
+							</li>
+
+							<li class="col-md-4 clearfix cnt-item">
+								<div class="col-xs-5 item-label">
+									<span class="ico-mapfre_82_circle ico-bullet"></span>Descripcion:
+								</div>
+								<div class="col-xs-7 item-dato">{{firstStep.poliza.NombrePolizaGrupo}}</div>
+							</li>
+							
+							<li class="col-md-4 clearfix cnt-item">
+								<div class="col-xs-5 item-label">
+									<span class="ico-mapfre_82_circle ico-bullet"></span>Vencimiento póliza grupo:
+								</div>
+								<div class="col-xs-7 item-dato">{{firstStep.vigenciaFin | date: 'dd/MM/yyyy'}}</div>
+							</li> 
+						</ul>
+						<ul class="row">
+							<li class="col-md-4 clearfix cnt-item">
+								<div class="col-xs-5 item-label">
+									<span class="ico-mapfre_82_circle ico-bullet"></span>Moneda:
+								</div>
+								<div class="col-xs-7 item-dato">{{firstStep.poliza.SimboloMoneda}}</div>
+							</li>
+
+							<li class="col-md-4 clearfix cnt-item">
+								<div class="col-xs-5 item-label">
+									<span class="ico-mapfre_82_circle ico-bullet"></span>Tipo de transporte:
+								</div>
+								<div class="col-xs-7 item-dato">{{firstStep.poliza.NombreTipoTransporte}}</div>
+							</li>
+							
+							<li class="col-md-4 clearfix cnt-item">
+								<div class="col-xs-5 item-label">
+									<span class="ico-mapfre_82_circle ico-bullet"></span>Tasa minima:
+								</div>
+								<div class="col-xs-7 item-dato">{{firstStep.poliza.TasaMinima}}</div>
+							</li> 
+						</ul>
+						<ul class="row">
+							<li class="col-md-4 clearfix cnt-item">
+								<div class="col-xs-5 item-label">
+									<span class="ico-mapfre_82_circle ico-bullet"></span>Tasa maxima:
+								</div>
+								<div class="col-xs-7 item-dato">{{firstStep.poliza.TasaMaxima}}</div>
+							</li>
+
+							<li class="col-md-4 clearfix cnt-item">
+								<div class="col-xs-5 item-label">
+									<span class="ico-mapfre_82_circle ico-bullet"></span>Limite de embalaje:
+								</div>
+								<div class="col-xs-7 item-dato">{{firstStep.poliza.LimiteEmbarque}}</div>
+							</li>
+							
+							<li class="col-md-4 clearfix cnt-item">
+								<div class="col-xs-5 item-label" ng-if="formData.mModeloPrint!=''">
+									<span class="ico-mapfre_82_circle ico-bullet"></span>Periodo de vigencia:
+								</div>
+								<div class="col-xs-7 item-dato">{{firstStep.vigencia | date: 'dd/MM/yyyy'}}-{{firstStep.vigenciaFin | date: 'dd/MM/yyyy'}}</div>
+							</li> 
+						</ul>
+					</div>
+				</div>		
+			</div>
+
+			<!-- <div class="g-inner-section g-gray-step init-data" ng-show="currentStep>2 && currentStep<5">
+				<div class="container g-datastep">
+					<div class="row">
+						<div class="col-md-10">
+						</div>
+						<div class="col-md-2">
+							<a class="g-btn g-btn-transparent g-btn-mini g-valorauto-modificar"  ng-click="gotoStep(2)">MODIFICAR RIESGO</a>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-3 g-datastep-info">
+							<span class="g-datastep-info-label">
+								<span class="ico-mapfre_82_circle g-datastep-info-dot"></span>
+								Tipo de materia asegurada:
+							</span>
+							<span class="g-datastep-info-dato">
+								{{secondStep.materiaAsegurada.Descripcion}}
+							</span>
+						</div>
+						<div class="col-md-3 g-datastep-info">
+							<span class="g-datastep-info-label">
+								<span class="ico-mapfre_82_circle g-datastep-info-dot"></span>
+								Tasa de mercader&iacute;a:
+							</span>
+							<span class="g-datastep-info-dato">
+								{{secondStep.tasaMercaderia}}
+							</span>
+						</div>
+						<div class="col-md-3 g-datastep-info">
+							<span class="g-datastep-info-label">
+								<span class="ico-mapfre_82_circle g-datastep-info-dot"></span>
+								Origen:
+							</span>
+							<span class="g-datastep-info-dato">
+								{{secondStep.pais.Descripcion}}
+							</span>
+						</div>
+						<div class="col-md-3 g-datastep-info">
+							<span class="g-datastep-info-label">
+								<span class="ico-mapfre_82_circle g-datastep-info-dot"></span>
+								Destino:
+							</span>
+							<span class="g-datastep-info-dato">
+								{{secondStep.paisDestino}}
+							</span>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-3 g-datastep-info">
+							<span class="g-datastep-info-label">
+								<span class="ico-mapfre_82_circle g-datastep-info-dot"></span>
+								Factura gu&iacute;a:
+							</span>
+							<span class="g-datastep-info-dato">
+								{{secondStep.facturaGuia}}
+							</span>
+						</div>
+						<div class="col-md-3 g-datastep-info">
+							<span class="g-datastep-info-label">
+								<span class="ico-mapfre_82_circle g-datastep-info-dot"></span>
+								Compa&nacute;ia de transporte:
+							</span>
+							<span class="g-datastep-info-dato">
+								{{secondStep.companniaTransporte}}
+							</span>
+						</div>
+						<div class="col-md-3 g-datastep-info">
+							<span class="g-datastep-info-label">
+								<span class="ico-mapfre_82_circle g-datastep-info-dot"></span>
+								Nombre del proveedor:
+							</span>
+							<span class="g-datastep-info-dato">
+								{{secondStep.nombreNave}}
+							</span>
+						</div>
+					</div>
+				</div>
+			</div> -->
+
+			<div class="g-sec-information mt-xs-1" ng-show="currentStep>2 && currentStep<4">
+				<div class="sec-item">
+					<div class="container">
+						<ul class="row cnt-title">
+							<li class="col-xs-6 item-title">Datos del Riesgo</li>
+							<li class="col-xs-6 g-text-right-sm hidden-sm hidden-xs">
+								<a href="" ng-click="gotoStep(2)">
+									<span class="g-icon gCGray3">
+										<span class="ico-mapfre_228_editar ico-edit"></span>
+										<span class="g-link">Editar datos del riesgo</span>
+									</span>
+								</a>
+							</li>
+						</ul>
+						<ul class="row">
+							<li class="col-md-4 clearfix cnt-item">
+								<div class="col-xs-5 item-label">
+									<span class="ico-mapfre_82_circle ico-bullet"></span>Tipo de materia asegurada:
+								</div>
+								<div class="col-xs-7 item-dato">{{secondStep.materiaAsegurada.Descripcion}}</div>
+							</li>
+
+							<li class="col-md-4 clearfix cnt-item">
+								<div class="col-xs-5 item-label">
+									<span class="ico-mapfre_82_circle ico-bullet"></span>Tasa de mercaderia:
+								</div>
+								<div class="col-xs-7 item-dato">{{secondStep.tasaMercaderia}}</div>
+							</li>
+							
+							<li class="col-md-4 clearfix cnt-item">
+								<div class="col-xs-5 item-label">
+									<span class="ico-mapfre_82_circle ico-bullet"></span>Origen:
+								</div>
+								<div class="col-xs-7 item-dato">{{secondStep.pais.Descripcion}}</div>
+							</li> 
+						</ul>
+						<ul class="row">
+							<li class="col-md-4 clearfix cnt-item">
+								<div class="col-xs-5 item-label">
+									<span class="ico-mapfre_82_circle ico-bullet"></span>Destino:
+								</div>
+								<div class="col-xs-7 item-dato">{{secondStep.paisDestino.Descripcion}}</div>
+							</li>
+
+							<li class="col-md-4 clearfix cnt-item">
+								<div class="col-xs-5 item-label">
+									<span class="ico-mapfre_82_circle ico-bullet"></span>Factura guia:
+								</div>
+								<div class="col-xs-7 item-dato">{{secondStep.facturaGuia}}</div>
+							</li>
+							
+							<li class="col-md-4 clearfix cnt-item">
+								<div class="col-xs-5 item-label">
+									<span class="ico-mapfre_82_circle ico-bullet"></span>Compañía de transporte:
+								</div>
+								<div class="col-xs-7 item-dato">{{firstStep.poliza.NombreTipoTransporte}}</div>
+							</li> 
+						</ul>
+						<ul class="row">
+							<li class="col-md-4 clearfix cnt-item">
+								<div class="col-xs-5 item-label">
+									<span class="ico-mapfre_82_circle ico-bullet"></span>Nombre del proveedor:
+								</div>
+								<div class="col-xs-7 item-dato">{{secondStep.nombreNave}}</div>
+							</li>
+						</ul>
+					</div>
+				</div>		
+			</div>
+			
+			<div class="g-sec-information mt-xs-1" ng-show="currentStep>3 && currentStep<6">
+				<div class="sec-item">
+					<div class="container">
+						<ul class="row cnt-title">
+							<li class="col-xs-6 item-title">Datos de la Prima</li>
+							<li class="col-xs-6 g-text-right-sm hidden-sm hidden-xs">
+								<a href="" ng-click="gotoStep(3)">
+									<span class="g-icon gCGray3">
+										<span class="ico-mapfre_228_editar ico-edit"></span>
+										<span class="g-link">Recalcular prima</span>
+									</span>
+								</a>
+							</li>
+						</ul>
+						<ul class="row">
+							<li class="col-md-4 clearfix cnt-item">
+								<div class="col-xs-5 item-label">
+									<span class="ico-mapfre_82_circle ico-bullet"></span>Importe Sobreseguro:
+								</div>
+								<div class="col-xs-7 item-dato">$ {{(thirdStep.calculo.ImporteSobreSeguro || 0) | number}}</div>
+							</li>
+
+							<li class="col-md-4 clearfix cnt-item">
+								<div class="col-xs-5 item-label">
+									<span class="ico-mapfre_82_circle ico-bullet"></span>Importe asegurado mercaderia:
+								</div>
+								<div class="col-xs-7 item-dato">$ {{thirdStep.calculo.ImporteAsegurado | number}}</div>
+							</li>
+							
+							<li class="col-md-4 clearfix cnt-item">
+								<div class="col-xs-5 item-label">
+									<span class="ico-mapfre_82_circle ico-bullet"></span>Importe derecho de aduana:
+								</div>
+								<div class="col-xs-7 item-dato">$ {{(thirdStep.calculo.ImporteDerechoAduana || 0) | number}}</div>
+							</li> 
+						</ul>
+						<ul class="row">
+							<li class="col-md-4 clearfix cnt-item">
+								<div class="col-xs-5 item-label">
+									<span class="ico-mapfre_82_circle ico-bullet"></span>Importe asegurado:
+								</div>
+								<div class="col-xs-7 item-dato">$ {{thirdStep.calculo.TotalImporteAsegurado | number}}</div>
+							</li>
+
+							<li class="col-md-4 clearfix cnt-item">
+								<div class="col-xs-5 item-label">
+									<span class="ico-mapfre_82_circle ico-bullet"></span>Importe prima:
+								</div>
+								<div class="col-xs-7 item-dato">$ {{thirdStep.calculo.PrimaNeta | number}}</div>
+							</li>
+						</ul>
+					</div>
+				</div>		
+			</div>
+
+			<!-- <hr ng-show="currentStep==1"/> -->
+			<!-- STEPS -->
+			<div id="form-views" ui-view=""></div>
+		</div>
+	</div>
+</section>

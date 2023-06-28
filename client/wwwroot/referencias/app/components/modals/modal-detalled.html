@@ -1,0 +1,283 @@
+<section>
+    <a class="col-md-1 gCGray3 glyphicon glyphicon-remove" style="float: right;" ng-click="$ctrl.cerrar()"></a>
+    <div style="color: #1f1f1f;background-color: transparent; border-bottom: 0;">
+        <div class="container">
+            <div class="row ">
+                <div class="clearfix g-list-lg">
+                    <div class="col-md-12 col-xs-12 clearfix item-dato">
+                        <h4 style="font-weight: bold;">Detalle de proveedor</h4>
+                        <div style="margin-top: 15px;">
+                            <a class="col-md-6 col-xs-12" style="font-weight: bold;text-align: center;padding: 10px 0;"
+                                ng-style="$ctrl.showPaciente && {'border-bottom': '2px solid red', 'color': 'red'} || {'border-bottom': '1px solid #ddd'}"
+                                ng-click="$ctrl.showPaciente = true;">Cobertura del
+                                asegurado</a>
+                            <a class="col-md-6 col-xs-12" style="font-weight: bold;text-align: center;padding: 10px 0;"
+                                ng-style="!$ctrl.showPaciente && {'border-bottom': '2px solid red', 'color': 'red'} || {'border-bottom': '1px solid #ddd'}"
+                                ng-click="$ctrl.showPaciente = false;">Informacion basica del
+                                Proveedor</a>
+                        </div>
+                    </div>
+                    <br>
+                </div>
+                <br>
+
+                <!-- Datos de asegurado -->
+                <div ng-show="$ctrl.showPaciente">
+                    <!-- Datos del asegurado -->
+                    <div class="col-md-12 col-xs-12 clearfix">
+                        <span style="font-weight: Bold;">Datos del asegurado</span>
+                    </div>
+                    <div class="col-md-12 col-sm-12 clearfix cnt-item g-box-content">
+                        <div class="col-md-6 col-xs-12 item-label">
+                            <span class="gCGray3">Nombre completo</span> </br>
+                            <span style="font-weight: Bold;">
+                                {{$ctrl.data.paciente.nombre}} {{$ctrl.data.paciente.apellidoP}}
+                                {{$ctrl.data.paciente.apellidoM}}</span>
+                        </div>
+                        <div class="col-md-2 col-xs-12 item-label">
+                            <span class="gCGray3">Doc de identidad</span> </br>
+                            <span style="font-weight: Bold;">
+                                {{$ctrl.data.paciente.numDoc}}</span>
+                        </div>
+                        <!-- <div class="col-md-2 col-xs-12 item-label ">
+                            <span class="gCGray3">Departamento</span> </br>
+                            <span style="font-weight: Bold;">
+                                {{$ctrl.data.Paciente.}}</span>
+                        </div> -->
+                        <!-- <div class="col-md-2 col-xs-12 item-label ">
+                            <span class="gCGray3">Provincia</span> </br>
+                            <span style="font-weight: Bold;">
+                                {{$ctrl.data.Paciente.}}</span>
+                        </div> -->
+                    </div>
+                    <div class="col-md-12 col-sm-12 clearfix cnt-item g-box-content">
+                        <div class="col-md-2 col-xs-12 item-label">
+                            <span class="gCGray3">Estado</span> </br>
+                            <span style="font-weight: Bold;">
+                                {{$ctrl.data.paciente.estado}}</span>
+                        </div>
+                        <div class="col-md-2 col-xs-12 item-label">
+                            <span class="gCGray3">Parentesco</span> </br>
+                            <span style="font-weight: Bold;">
+                                {{$ctrl.data.paciente.parentesco}}</span>
+                        </div>
+                        <div class="col-md-2 col-xs-12 item-label">
+                            <span class="gCGray3">Género</span> </br>
+                            <span style="font-weight: Bold;">
+                                {{$ctrl.data.paciente.genero}}</span>
+                        </div>
+                        <div class="col-md-2 col-xs-12 item-label">
+                            <span class="gCGray3">Compañía</span> </br>
+                            <span style="font-weight: Bold;">
+                                {{$ctrl.data.paciente.nomCompania}}</span>
+                        </div>
+                        <div class="col-md-2 col-xs-12 item-label">
+                            <span class="gCGray3">Producto</span> </br>
+                            <span style="font-weight: Bold;">
+                                {{$parent.paciente.producto}}</span>
+                        </div>
+                    </div>
+                    <!-- FIN Datos del asegurado -->
+
+                    <!-- Datos del Titular -->
+                    <div class="col-md-3 col-xs-12 clearfix" style=" margin-top: 15px;">
+                        <span style="font-weight: Bold;">Datos del
+                            titular</span>
+                    </div>
+                    <div class="col-md-12 col-sm-12 clearfix cnt-item g-box-content">
+                        <div class="col-md-6 col-xs-12 item-label">
+                            <span class="gCGray3">Nombre</span> </br>
+                            <span style="font-weight: Bold;">
+                                {{$ctrl.data.paciente.oTitular.nombre}}</span>
+                        </div>
+                        <div class="col-md-2 col-xs-12 item-label">
+                            <span class="gCGray3">Fecha de afiliación</span> </br>
+                            <span style="font-weight: Bold;">
+                                {{$ctrl.data.paciente.oTitular.fechAfiliacion | date:'dd/MM/yyyy'}}</span>
+                        </div>
+                        <div class="col-md-2 col-xs-12 item-label">
+                            <span class="gCGray3">Tipo de afiliación</span> </br>
+                            <span style="font-weight: Bold;">
+                                {{$ctrl.data.paciente.oTitular.tipoAfiliacion}}</span>
+                        </div>
+                    </div>
+                    <div class="col-md-12 col-sm-12 clearfix cnt-item g-box-content">
+                        <div class="col-md-6 col-xs-12 item-label">
+                            <span class="gCGray3">Contratante</span> </br>
+                            <span style="font-weight: Bold;">
+                                {{$ctrl.data.paciente.oTitular.contratante}}</span>
+                        </div>
+                        <div class="col-md-2 col-xs-12 item-label">
+                            <span class="gCGray3">{{$ctrl.data.paciente.oTitular.tipDocCont}}</span> </br>
+                            <span style="font-weight: Bold;">
+                                {{$ctrl.data.paciente.oTitular.numDocCont}}</span>
+                        </div>
+                        <div class="col-md-2 col-xs-12 item-label">
+                            <span class="gCGray3">No. de contrato</span> </br>
+                            <span style="font-weight: Bold;">
+                                {{$ctrl.data.paciente.numContrato}}</span>
+                        </div>
+                    </div>
+                    <!-- FIN Datos del Titular -->
+
+                    <!-- Datos de Cobertura -->
+                    <div ng-show="$ctrl.tieneCobertura()">
+                        <div class="col-md-3  col-xs-12 clearfix" style=" margin-top: 15px;">
+                            <span style="font-weight: Bold;">Detalle de la
+                                cobertura</span>
+                        </div>
+                        <div class="col-md-12 col-sm-12 clearfix cnt-item g-box-content"
+                            ng-repeat="item in $ctrl.data.cobertura">
+                            <div class="col-sm-12">
+                                <div style="border-bottom: 1px solid #E1E1E1;" class="row">
+                                    <div class="col-md-5 col-xs-12 item-label">
+                                <span style="font-weight: Bold;">{{item.text}}</span>
+                            </div>
+                                    <div class="col-md-4 col-xs-12 item-label">
+                                <span class="gCGray3">{{item.value}}</span>
+                            </div>
+                                    <div class="col-md-3">
+                                <span style="font-weight: Bold;">Carencia</span>
+                                <span style="color: red"> {{item.fechCarencia | date:'dd/MM/yyyy'}}</span>
+                            </div>
+                        </div>
+                    </div>
+                        </div>
+                    </div>
+                    <!-- FIN Datos de Cobertura -->
+                </div>
+                <!-- FIN Datos de asegurado -->
+
+                <!-- Datos de proveedor -->
+                <div ng-show="!$ctrl.showPaciente">
+                    <!-- Datos Generales -->
+                    <div class="col-md-12 col-xs-12 clearfix">
+                        <span style="font-weight: Bold;">Datos generales</span>
+                    </div>
+                    <div class="col-md-12 col-sm-12 clearfix cnt-item g-box-content">
+                        <div class="col-md-8 col-xs-12 item-label">
+                            <span class="gCGray3">Nombre</span> </br>
+                            <span style="font-weight: Bold;">
+                                {{$ctrl.data.proveedor.nombre}}</span>
+                        </div>
+                        <div class="col-md-4 col-xs-12 item-label">
+                            <span class="gCGray3">Categoría</span> </br>
+                            <span style="font-weight: Bold;">
+                                {{$ctrl.data.proveedor.categoria}}</span>
+                        </div>
+                    </div>
+                    <div class="col-md-12 col-sm-12 clearfix cnt-item g-box-content">
+                        <div class="col-md-4 col-xs-12 item-label">
+                            <span class="gCGray3">Institución</span> </br>
+                            <span style="font-weight: Bold;">
+                                {{$ctrl.data.proveedor.institucion}}</span> <span
+                                ng-style="getStyle($ctrl.data.proveedor.convenio)">{{$ctrl.data.proveedor.convenio}}</span>
+                        </div>
+                        <div class="col-md-4 col-xs-12 item-label">
+                            <span class="gCGray3">Tipo de establecimiento</span> </br>
+                            <span style="font-weight: Bold;"> {{$ctrl.data.proveedor.establecimiento}}
+                            </span>
+                        </div>
+                        <div class="col-md-4 col-xs-12 item-label">
+                            <span class="gCGray3">Clasificación</span> </br>
+                            <span style="font-weight: Bold;">
+                                {{$ctrl.data.proveedor.entidad}}</span>
+                        </div>
+                    </div>
+                    <div class="col-md-12 col-sm-12 clearfix cnt-item g-box-content">
+                        <div class="col-md-6 col-xs-12 item-label">
+                            <span class="gCGray3">Nombre del director médico</span> </br>
+                            <span style="font-weight: Bold;">
+                                {{$ctrl.data.proveedor.nomDirtrMedico}}</span>
+                        </div>
+                        <div class="col-md-6 col-xs-12 item-label">
+                            <span class="gCGray3">Dirección fiscal</span> </br>
+                            <span style="font-weight: Bold;">
+                                {{$ctrl.data.proveedor.direccionFiscal}}</span>
+                        </div>
+                    </div>
+                    <div class="col-md-12 col-sm-12 clearfix cnt-item g-box-content">
+                        <div class="col-md-6 col-xs-12 item-label">
+                            <span class="gCGray3">Razón social</span> </br>
+                            <span style="font-weight: Bold;">
+                                {{$ctrl.data.proveedor.razonSocial}}</span>
+                        </div>
+                        <div class="col-md-6 col-xs-12 item-label">
+                            <span class="gCGray3">Nombre del representante legal</span> </br>
+                            <span style="font-weight: Bold;">
+                                {{$ctrl.data.proveedor.nomRepLegal}}</span>
+                        </div>
+                    </div>
+                    <div class="col-md-12 col-sm-12 clearfix cnt-item g-box-content">
+                        <div class="col-md-6 col-xs-12 item-label">
+                            <span class="gCGray3">Aforo</span> </br>
+                            <span style="font-weight: Bold;">
+                                {{$ctrl.data.proveedor.aforo}}</span>
+                        </div>
+                    </div>
+                    <!-- FIN Datos Generales -->
+
+                    <!-- Datos de Contacto -->
+                    <div class="col-md-3 col-xs-12 clearfix" style=" margin-top: 15px;">
+                        <span style="font-weight: Bold;">Datos de contacto</span>
+                    </div>
+
+                    <div class="col-md-12 col-sm-12 clearfix cnt-item g-box-content">
+                        <div class="col-md-8 col-xs-12 item-label">
+                            <span class="gCGray3">Dirección sede principal</span> </br>
+                            <span style="font-weight: Bold;">
+                                {{$ctrl.data.proveedor.direccionPrincipal}}</span>
+                        </div>
+                        <div class="col-md-4 col-xs-12 item-label">
+                            <span class="gCGray3">Teléfono</span> </br>
+                            <span style="font-weight: Bold;">
+                                {{$ctrl.data.proveedor.telefono}}</span>
+                        </div>
+                    </div>
+                    <div class="col-md-12 col-sm-12 clearfix cnt-item g-box-content">
+                        <div class="col-md-8 col-xs-12 item-label">
+                            <span class="gCGray3">Correo electrónico</span> </br>
+                            <span style="font-weight: Bold;">
+                                {{$ctrl.data.proveedor.email}}</span>
+                        </div>
+                        <div class="col-md-4 col-xs-12 item-label">
+                            <span class="gCGray3">Horario de atención</span> </br>
+                            <span style="font-weight: Bold;">
+                                {{$ctrl.data.proveedor.horarioAtencion}}</span>
+                        </div>
+                    </div>
+                    <!-- FIN Datos de Contacto -->
+
+                    <!-- Datos de Responsable -->
+                    <div class="col-md-12 col-xs-12 clearfix" style=" margin-top: 15px;">
+                        <span style="font-weight: Bold;">Datos del responsable de la
+                            referencia</span>
+                    </div>
+
+                    <div class="col-md-12 col-sm-12 clearfix cnt-item g-box-content">
+                        <div class="col-md-8 col-xs-12 item-label">
+                            <span class="gCGray3">Nombre</span> </br>
+                            <span style="font-weight: Bold;">
+                                {{$ctrl.data.proveedor.nombre}}</span>
+                        </div>
+                        <div class="col-md-4 col-xs-12 item-label">
+                            <span class="gCGray3">Teléfono</span> </br>
+                            <span style="font-weight: Bold;">
+                                {{$ctrl.data.proveedor.telRspRef}}</span>
+                        </div>
+                    </div>
+                    <div class="col-md-12 col-sm-12 clearfix cnt-item g-box-content">
+                        <div class="col-md-8 col-xs-12 item-label">
+                            <span class="gCGray3">Correo electrónico</span> </br>
+                            <span style="font-weight: Bold;">
+                                {{$ctrl.data.proveedor.mailRspRef}}</span>
+                        </div>
+                    </div>
+                    <!-- FIN Datos de Responsable -->
+                </div>
+                <!-- Datos de proveedor -->
+            </div>
+        </div>
+    </div>
+
+</section>

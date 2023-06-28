@@ -1,0 +1,351 @@
+<div class="clearfix typeRegister">
+
+  <div class="row g-row">
+    <div
+      class="col-md-8 col-sm-8 g-col-sm bottom"
+      ng-class="($ctrl.showDownloadLink) ? ['mb-sm-2', 'mb-xs-1-5'] : ['mb-xs-2']">
+      <h2 class="g-sub-title c-red no-pb">{{$ctrl.title}}</h2>
+    </div>
+    <div
+      ng-if="$ctrl.showDownloadLink"
+      class="col-md-4 col-sm-4 g-col-sm bottom g-text-right-sm mb-xs-2">
+      <a
+        href="javascript:void(0)"
+        class="gCGreen1 g-text-uppercase"
+        ng-click="$ctrl.fnDownloadPayroll()">
+        <span class="g-icon">
+          <span class="ico-mapfre_139_excel icon"></span>
+          <span class="g-link"><b>DESCARGAR PLANILLA</b></span>
+        </span>
+      </a>
+    </div>
+  </div>
+
+  <!-- TABS -->
+  <div
+    class="row mb-xs-1"
+    ng-if="$ctrl.showButtonTabs">
+    <div class="col-md-3 col-sm-6 col-ms-6 mb-xs-1">
+      <a
+        href="javascript:void(0)"
+        class="g-btn g-btn-white block"
+        ng-class="{active: $ctrl.fnActiveTab('M')}"
+        ng-click="$ctrl.fnClickTab('M')">
+        Carga masiva
+      </a>
+    </div>
+    <div class="col-md-3 col-sm-6 col-ms-6 mb-xs-1">
+      <a
+        href="javascript:void(0)"
+        class="g-btn g-btn-white block"
+        ng-class="{active: $ctrl.fnActiveTab('I')}"
+        ng-click="$ctrl.fnClickTab('I')">
+        Cargar individual
+      </a>
+    </div>
+  </div>
+
+  <!-- MASSIVE -->
+  <div
+    class="row g-text-center-xs"
+    ng-if="$ctrl.fnActiveTab('M')">
+    <div
+      class="col-md-4 col-sm-6"
+      ng-if="$ctrl.data.selectMassiveLoad">
+      <div class="clearfix g-box fz14 gBgcGray5 pt-xs-2 pb-xs-2">
+        <div class="col-md-12 mb-xs-1">
+          <span>Planilla en Excel</span>
+        </div>
+        <div class="col-md-10 col-md-offset-1">
+          <label class="g-btn g-btn-white second-design block g-btn-input-file">
+            <span class="g-icon">
+              <span class="icon icon-plus ico-mapfre_56_visitasalmedico"></span>
+              <span>Escoger archivo</span>
+            </span>
+            <input
+              type="file"
+              data-show-preview="false"
+              id="iImportarPlanilla"
+              name="nImportarPlanilla"
+              file-model="$ctrl.data.fmImportarPlanilla"
+              ng-model="$ctrl.data.mImportarPlanilla"
+              ng-required="false"
+              onclick="angular.element(this)[0].value=null;"
+              onchange="angular.element(this).scope().fnChangeLoadFile()">
+          </label>
+          <ul class="g-error g-text-left-xs">
+            <li ng-show="$ctrl.data.errorAttachFile">* Este campo es obligatorio</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div
+      class="col-md-4 col-sm-6"
+      ng-if="$ctrl.data.selectMassiveLoad == false">
+      <div class="clearfix g-box fz14 gBgcGray5 pt-xs-2 pb-xs-2">
+        <div class="col-md-12 mb-xs-0-5">
+          <span class="ico-mapfre_314_archivos gnIcon-lg gCGray3"></span>
+        </div>
+        <div
+          class="col-md-12 g-cut-text"
+          title="{{$ctrl.data.nameMassiveLoad}}">
+          <b>{{$ctrl.data.nameMassiveLoad}}</b>
+        </div>
+        <div class="col-md-12 mb-xs-1">
+          Planilla cargada exitosamente
+        </div>
+        <div class="col-sm-12">
+          <label class="g-btn-input-file">
+            <span class="g-icon gCGreen1">
+              <span class="icon ico-mapfre_311_arrowRight"></span>
+              <span class="g-link"><b>Volver a cargar documento</b></span>
+            </span>
+            <input
+              type="file"
+              data-show-preview="false"
+              id="iImportarPlanilla"
+              name="nImportarPlanilla"
+              file-model="$ctrl.data.fmImportarPlanilla"
+              ng-model="$ctrl.data.mImportarPlanilla"
+              ng-required="false"
+              onclick="angular.element(this)[0].value=null;"
+              onchange="angular.element(this).scope().fnChangeLoadFile();">
+          </label>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- INDIVIDUAL -->
+  <div
+    class="clearfix"
+    ng-if="$ctrl.fnActiveTab('I')"
+    ng-form="$ctrl.data.frmIndividual">
+    <div class="row">
+      <div class="col-md-12">
+        <h2 class="g-sub-title c-red">Nuevo padrón</h2>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-4 mb-xs-2">
+        <mpf-input
+          label="{label: 'Nro. solicitud', required: false}"
+          name="nNroSolicitud"
+          ng-model="$ctrl.data.mNroSolicitud"
+          ng-required="false">
+        </mpf-input>
+        <ul class="g-error">
+          <li ng-show="$ctrl.data.frmIndividual.nNroSolicitud.$invalid && !$ctrl.data.frmIndividual.nNroSolicitud.$pristine">* Ingrese un nro solicitud</li>
+        </ul>
+      </div>
+      <div class="col-md-4 mb-xs-2">
+        <mpf-select
+          label="{label: 'Tipo documento', required: true}"
+          name="nTipoDoc"
+          ng-model="$ctrl.data.mTipoDoc"
+          m-data-source="$ctrl.data.documentTypeData"
+          text-field="typeDescription"
+          value-field="typeId"
+          m-Empty-Option="{enterData:true}"
+          ng-required="true"
+          ng-change="$ctrl.fnChangeDocumentType($ctrl.data.mTipoDoc)">
+        </mpf-select>
+        <ul class="g-error">
+          <li ng-show="$ctrl.data.frmIndividual.nTipoDoc.$invalid && !$ctrl.data.frmIndividual.nTipoDoc.$pristine">* Seleccione un tipo de documento</li>
+        </ul>
+      </div>
+      <div class="col-md-4 mb-xs-2">
+        <mpf-input
+          label="{label: 'Nro. documento', required: true}"
+          name="nNroDocumento"
+          ng-model="$ctrl.data.mNroDocumento.model"
+          mpf-validation="{{$ctrl.data.mNroDocumento.FIELD_TYPE}}"
+          mpf-validation-disabled="{{$ctrl.data.mNroDocumento.FIELD_TYPE_DISABLED}}"
+          ng-maxlength="$ctrl.data.mNroDocumento.MAX_LENGTH"
+          ng-required="true">
+        </mpf-input>
+        <ul class="g-error">
+          <li ng-show="$ctrl.data.frmIndividual.nNroDocumento.$viewValue && ($ctrl.data.frmIndividual.nNroDocumento.$error.onlyNumber || $ctrl.data.frmIndividual.nNroDocumento.$error.maxlength) && !$ctrl.data.frmIndividual.nNroDocumento.$pristine">* Nro de documento incorrecto</li>
+          <li ng-show="$ctrl.data.frmIndividual.nNroDocumento.$invalid && $ctrl.data.frmIndividual.nNroDocumento.$error.required && !$ctrl.data.frmIndividual.nNroDocumento.$pristine">* Ingrese un nro de documento</li>
+        </ul>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-8 mb-xs-2">
+        <mpf-input
+          label="{label: 'Nombre', required: true}"
+          name="nNombre"
+          ng-model="$ctrl.data.mNombre"
+          ng-required="true">
+        </mpf-input>
+        <ul class="g-error">
+          <li ng-show="$ctrl.data.frmIndividual.nNombre.$invalid && !$ctrl.data.frmIndividual.nNombre.$pristine">* Ingrese un nombre</li>
+        </ul>
+      </div>
+      <div class="col-md-4 mb-xs-2">
+        <div class="input-group g-date-picker">
+          <label class="g-placeholder animated">Fecha nacimiento<span></span>:</label>
+          <input
+            type="text"
+            class="form-control"
+            name="nFechaNacimiento"
+            ng-model="$ctrl.data.mFechaNacimiento.model"
+            model-view-value="true"
+            datepicker-options="$ctrl.data.mFechaNacimiento.options"
+            is-open="$ctrl.data.mFechaNacimiento.open"
+            close-text="Close"
+            uib-datepicker-popup="{{$ctrl.data.mFechaNacimiento.FORMAT_DATE}}"
+            alt-input-formats="$ctrl.data.mFechaNacimiento.ALT_INPUT_FORMATS"
+            ui-mask="{{$ctrl.data.mFechaNacimiento.FORMAT_MASK}}"
+            ng-pattern="$ctrl.data.mFechaNacimiento.FORMAT_PATTERN"
+            ng-required="false"
+            ng-disabled="false"
+            mpf-validate-date="$ctrl.data.mFechaNacimiento.validate"/>
+          <span class="input-group-btn">
+            <button
+              type="button"
+              class="btn btn-default"
+              ng-click="$ctrl.data.mFechaNacimiento.setOpen(true)">
+              <i class="glyphicon glyphicon-calendar"></i>
+            </button>
+          </span>
+        </div>
+        <ul class="g-error">
+          <li ng-show="($ctrl.data.frmIndividual.nFechaNacimiento.$error.pattern || $ctrl.data.frmIndividual.nFechaNacimiento.$error.maxDate) && !$ctrl.data.frmIndividual.nFechaNacimiento.$pristine">* Fecha de nacimiento incorrecta</li>
+          <li ng-show="$ctrl.data.frmIndividual.nFechaNacimiento.$invalid && $ctrl.data.frmIndividual.nFechaNacimiento.$error.required && !$ctrl.data.frmIndividual.nFechaNacimiento.$pristine">* Ingrese una fecha de nacimiento</li>
+        </ul>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-4 mb-xs-2">
+        <mpf-select
+          label="{label: 'Aptitud', required: true}"
+          name="nAptitud"
+          ng-model="$ctrl.data.mAptitud"
+          m-data-source="$ctrl.data.aptitudeData"
+          text-field="value"
+          value-field="code"
+          m-Empty-Option="{enterData:true}"
+          ng-required="true">
+        </mpf-select>
+        <ul class="g-error">
+          <li ng-show="$ctrl.data.frmIndividual.nAptitud.$invalid && !$ctrl.data.frmIndividual.nAptitud.$pristine">* Seleccione una aptitud</li>
+        </ul>
+      </div>
+      <div class="col-md-4 mb-xs-2">
+        <mpf-select
+          label="{label: 'Contrata', required: false}"
+          name="nContrata"
+          ng-model="$ctrl.data.mContrata"
+          m-data-source="$ctrl.data.contractData"
+          text-field="value"
+          value-field="code"
+          m-Empty-Option="{enterData:true}"
+          ng-required="false"
+          ng-change="$ctrl.fnChangeContract($ctrl.data.mContrata)">
+        </mpf-select>
+        <ul class="g-error">
+          <li ng-show="$ctrl.data.frmIndividual.nContrata.$invalid && !$ctrl.data.frmIndividual.nContrata.$pristine">* Seleccione un contrata</li>
+        </ul>
+      </div>
+      <div class="col-md-4 mb-xs-2">
+        <mpf-select
+          label="{label: 'Locación', required: false}"
+          name="nLocacion"
+          ng-model="$ctrl.data.mLocacion"
+          m-data-source="$ctrl.data.locationData"
+          text-field="locationName"
+          value-field="locationId"
+          m-Empty-Option="{enterData:true}"
+          ng-required="false">
+        </mpf-select>
+        <ul class="g-error">
+          <li ng-show="$ctrl.data.frmIndividual.nLocacion.$invalid && !$ctrl.data.frmIndividual.nLocacion.$pristine">* Seleccione una locación</li>
+        </ul>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-4 mb-xs-2">
+        <mpf-input
+          label="{label: 'Sustento', required: false}"
+          name="nSustento"
+          ng-model="$ctrl.data.mSustento">
+        </mpf-input>
+        <ul class="g-error">
+          <li ng-show="$ctrl.data.frmIndividual.nSustento.$invalid && !$ctrl.data.frmIndividual.nSustento.$pristine">* Ingrese un sustento</li>
+        </ul>
+      </div>
+      <div class="col-md-4 mb-xs-2">
+        <mpf-select
+          label="{label: 'Tipo de examen', required: true}"
+          name="nTipoExamen"
+          ng-model="$ctrl.data.mTipoExamen"
+          m-data-source="$ctrl.data.examTypeData"
+          text-field="value"
+          value-field="code"
+          m-Empty-Option="{enterData:true}"
+          ng-required="true">
+        </mpf-select>
+        <ul class="g-error">
+          <li ng-show="$ctrl.data.frmIndividual.nTipoExamen.$invalid && !$ctrl.data.frmIndividual.nTipoExamen.$pristine">* Seleccione un tipo examen</li>
+        </ul>
+      </div>
+      <div class="col-md-4 mb-xs-2">
+        <div class="input-group g-date-picker">
+          <label class="g-placeholder animated">Fecha examen<span></span>:</label>
+          <input
+            type="text"
+            class="form-control"
+            name="nFechaExamen"
+            ng-model="$ctrl.data.mFechaExamen.model"
+            model-view-value="true"
+            datepicker-options="$ctrl.data.mFechaExamen.options"
+            is-open="$ctrl.data.mFechaExamen.open"
+            close-text="Close"
+            uib-datepicker-popup="{{$ctrl.data.mFechaExamen.FORMAT_DATE}}"
+            alt-input-formats="$ctrl.data.mFechaExamen.ALT_INPUT_FORMATS"
+            ui-mask="{{$ctrl.data.mFechaExamen.FORMAT_MASK}}"
+            ng-pattern="$ctrl.data.mFechaExamen.FORMAT_PATTERN"
+            ng-required="false"
+            ng-disabled="false"/>
+          <span class="input-group-btn">
+            <button
+              type="button"
+              class="btn btn-default"
+              ng-click="$ctrl.data.mFechaExamen.setOpen(true)">
+              <i class="glyphicon glyphicon-calendar"></i>
+            </button>
+          </span>
+        </div>
+        <ul class="g-error">
+          <li ng-show="$ctrl.data.frmIndividual.nFechaExamen.$error.pattern && !$ctrl.data.frmIndividual.nFechaExamen.$pristine">* Fecha de examen incorrecta</li>
+          <li ng-show="$ctrl.data.frmIndividual.nFechaExamen.$invalid && $ctrl.data.frmIndividual.nFechaExamen.$error.required && !$ctrl.data.frmIndividual.nFechaExamen.$pristine">* Ingresa una fecha de examen</li>
+        </ul>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-4 mb-xs-2">
+        <mpf-input
+          label="{label: 'Dictamen CM', required: false}"
+          name="nDictamenCM"
+          ng-model="$ctrl.data.mDictamenCM">
+        </mpf-input>
+        <ul class="g-error">
+          <li ng-show="$ctrl.data.frmIndividual.nDictamenCM.$invalid && !$ctrl.data.frmIndividual.nDictamenCM.$pristine">* Ingrese un dictamen</li>
+        </ul>
+      </div>
+      <div class="col-md-4 mb-xs-2">
+        <mpf-input
+          label="{label: 'Menoscabo (%)', required: false}"
+          name="nMenoscabo"
+          ng-model="$ctrl.data.mMenoscabo">
+        </mpf-input>
+        <ul class="g-error">
+          <li ng-show="$ctrl.data.frmIndividual.nMenoscabo.$invalid && !$ctrl.data.frmIndividual.nMenoscabo.$pristine">* Ingrese un menoscabo</li>
+        </ul>
+      </div>
+    </div>
+
+  </div>
+
+</div>

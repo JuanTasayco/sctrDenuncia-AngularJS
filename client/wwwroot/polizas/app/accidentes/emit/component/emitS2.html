@@ -1,0 +1,130 @@
+<div class="second-step">
+  <div class="g-sec-information mt-xs-1">
+    <div class="sec-item">
+      <div class="container">
+        <ul class="row cnt-title">
+          <li class="col-xs-6 item-title">Datos del contratante</li>
+          <li class="col-xs-6 item-edit">
+            <a ui-sref="accidentesEmit.steps({step: 1})"><span class="ico-mapfre_43_editar ico-edit"></span><span>Editar datos del contratante</span></a>
+          </li>
+        </ul>
+        <ul class="row">
+          <li class="col-md-4 clearfix cnt-item">
+            <div class="col-sm-5 item-label">
+              <span class="ico-mapfre_82_circle ico-bullet"></span>No. Documento:
+            </div>
+            <div class="col-sm-7 item-dato">{{formData.dataContractor.mTipoDocumento.Codigo}} {{formData.dataContractor.mNumeroDocumento}}</div>
+          </li>
+          <li class="col-md-4 clearfix cnt-item">
+            <div class="col-sm-5 item-label">
+              <span class="ico-mapfre_82_circle ico-bullet"></span>Nombre/Raz. Social:
+            </div>
+            <div class="col-sm-7 item-dato">{{formData.dataContractor.mRazonSocial}}
+                {{formData.dataContractor.mNomContratante}} {{formData.dataContractor.mApePatContratante}} {{formData.dataContractor.mApeMatContratante}}</div>
+          </li>
+          <li class="col-md-4 clearfix cnt-item">
+            <div class="col-sm-5 item-label"><span class="ico-mapfre_82_circle ico-bullet"></span>MAPFRE dólares aplicados:</div>
+            <div class="col-sm-7 item-dato g-text-uppercase">{{formData.mMapfreDolares}}</div>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <!-- Cargar asegurados -->
+  <div class="g-section">
+    <div class="container">
+      <div class="row">
+        <div class="col-sm-8">
+          <h2 class="g-sub-title">Cargar asegurados</h2>
+        </div>
+        <div class="col-md-4 g-text-right-sm mt-xs-1">
+          <a href="{{formData.urlPlanilla}}">
+            <span class="g-icon gCGray3">
+              <span class="icon ico-mapfre_139_excel"></span>
+              <span class="g-link">Descargar planilla excel</span>
+            </span>
+          </a>
+        </div>
+      </div>
+
+      <div
+        class="row mt-xs-1"
+        data-ng-repeat="x in formData.riesgosLength">
+        <div class="col-md-12">
+          <div class="clearfix g-list-md g-box gBgcGray5 g-row-fz12 mb-xs-1 ng-scope">
+            <div class="g-grid-col-middle col-sm-3 col-xs-12 mb-xs-1 no-mb-sm">
+              <strong>Riesgo  Nro. {{$index + 1}} </strong>
+            </div>
+            <div class="g-grid-col-middle col-sm-9 col-xs-12 mt-xs-1">
+              <div class="row">
+                <div
+                  class="col-xs-12 col-sm-6 col-md-4"
+                  data-ng-show="formData.fileRiesgo[$index].cargado">
+                  <div class="col-xs-12 col-sm-3 pl-xs-0">
+                    <span class="ico-mapfre_300_sucess gCGreen1 acc-emit__ico--file-ok"></span>
+                  </div>
+                  <div class="col-xs-12 col-sm-9 pl-xs-0 pr-xs-0 pt-xs-1">
+                    <span class="file-message">Planilla cargada exitosamente</span>
+                  </div>
+                </div>
+                <div class="col-xs-12 col-sm-6 col-md-4 mb-xs-1">
+                  <div data-ng-show="!formData.file[x]['0'].name">
+                    <label class="g-btn g-btn-white second-design block g-btn-input-file">
+                      Importar planilla
+                      <input
+                        accept=".xls,.xlsx, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/vnd.ms-excel"
+                        file-model="formData.file[x]"
+                        type="file"/>
+                    </label>
+                  </div>
+                  <div data-ng-show="formData.file[x]['0'].name">
+                    <b>
+                      <span class="ico-mapfre_170_archivos file-ico"></span>
+                      <span class="file-name">{{formData.file[x]['0'].name}}</span>
+                    </b>
+                    <div data-ng-show="formData.file[x]['0'].name">
+                      <b>
+                        <span class="ico-mapfre_79_chevroneright file-ico acc-u-txt--verde"></span>
+                        <label
+                          class="g-link gCGreen1 g-btn-input-file"
+                          data-ng-click="cargarOtraVez($index)">
+                          Volver a cargar documento
+                          <input
+                            accept=".xls,.xlsx, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/vnd.ms-excel"
+                            file-model="formData.file[x]"
+                            type="file"/>
+                        </label>
+                      </b>
+                    </div>
+                  </div>
+                </div>
+                <div
+                  class="col-md-4 col-sm-6 mb-xs-1"
+                  data-ng-show="formData.file[x]['0'].name && !formData.fileRiesgo[$index].cargado">
+                  <button
+                    class="g-btn g-btn-white second-design block"
+                    data-ng-click="uploadPlantilla(formData.file[x], $index + 1)">Subir planilla</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="g-section">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-4 mb-xs-1">
+          <span class="gCGray3">*Campos obligatorios</span>
+        </div>
+        <div class="col-md-4">
+          <a class="g-btn g-btn-verde block"
+          ga-click ga-category="'Emisa - Accidentes'" ga-action="'MPF - Emisión'" ga-label="'Botón: Emitir'"
+          data-ng-click="showModalConfirmation()">Emitir póliza</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

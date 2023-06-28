@@ -1,0 +1,87 @@
+<section class="g-page g-page-documents">
+
+  <!-- <div fixed-section class="g-title" ng-class="{'fixed-section': boolChangeClass}"> -->
+  <div class="g-title" ng-class="{'fixed-section': boolChangeClass}">
+    <div class="container">
+      <div class="row mb-xs-2">
+        <div class="col-sm-6 col-md-6">
+          <div class="">
+            <h2 class="ng-binding pr-xs-1">Solicitud #{{ idRequest || '--' }}</h2>
+            <span class="g-box-label g-text-uppercase mt-md-1" ng-class="request.state.className">{{ request.state.description || '--' }}</span>
+          </div>
+          <div class="title-details mt-xs-1 mt-md-0">
+            <span>Siniestro: <span><b>{{ request.DatosGenerales.NUM_SINI || '--' }}</b></span></span>
+            <span ng-hide="request.state.code === 1">Fecha de ingreso: <span><b>{{ request.DatosGenerales.FEC_INGRSO || '--' }}</b></span></span>
+          </div>
+        </div>
+        <div class="col-xs-12 col-sm-6 col-md-6">
+          <div class="g-title-btn-row mt-xs-1">
+            <div class="g-title-btn-col mb-xs-1"
+                 ng-if="request.state.code === 1 && canDo('CARTA_RECOJO')">
+              <a class="g-btn g-btn-transparent block" ng-click="notifyPickLetter()">Enviar carta de recojo</a>
+            </div>
+            <div class="g-title-btn-col mb-xs-1"
+                 ng-if="request.state.code === 3 && canDo('NOTI_SUBASTA')">
+              <a class="g-btn g-btn-transparent block" ng-click="notifyAuction()">Notificar subasta</a>
+            </div>
+            <div class="g-title-btn-col mb-xs-1" ng-if="request.state.code === 3 && canUpdateTo(4)">
+              <a class="g-btn g-btn-verde block" ng-click="updateState(4)">Poner en subasta</a>
+            </div>
+            <div class="g-title-btn-col mb-xs-1" ng-if="request.state.code === 4 && canUpdateTo(5)">
+              <a class="g-btn g-btn-verde block" ng-click="updateState(5)">Adjudicar</a>
+            </div>
+            <div class="g-title-btn-col mb-xs-1" ng-if="(request.state.code === 4 || request.state.code === 5) && canUpdateTo(7)">
+              <a class="g-btn g-btn-transparent block" ng-click="updateState(7)">Terminar</a>
+            </div>
+            <div class="g-title-btn-col mb-xs-1" ng-if="request.state.code === 6 && canUpdateTo(8)">
+              <a class="g-btn g-btn-transparent block" ng-click="updateState(8)">Observado</a>
+            </div>
+            <div class="g-title-btn-col mb-xs-1" ng-if="(request.state.code === 6 || request.state.code === 8) && canUpdateTo(7)">
+              <a class="g-btn g-btn-verde block" ng-click="updateState(7)">Terminar</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="g-section" ng-if="request.state.code !== 7 && canUpdateTo(2,3,4,5,6,7,8)">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12">
+          <div class="g-box gBgcGray5 pt-xs-1 pb-xs-1 pl-xs-1">
+            <span class="ico-mapfre_222_informacion gCBlue2 gnIcon-xsm middle"></span>
+            <span class="middle" ng-bind-html="request.DatosGenerales.MENSAJE"></span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Inicio Tabs -->
+	<div class="g-section g-section-tabs">
+    <div class="container g-overflow-hidden-xs">
+      <uib-tabset justified="true"
+                  active="activeTabIndex">
+        <uib-tab ng-click="showView('generalData')">
+          <uib-tab-heading>DATOS GENERALES</uib-tab-heading>
+        </uib-tab>
+        <uib-tab ng-click="showView('vehicle')">
+          <uib-tab-heading>VEHÍCULO</uib-tab-heading>
+        </uib-tab>
+        <uib-tab ng-click="showView('documents')">
+          <uib-tab-heading>DOCUMENTOS</uib-tab-heading>
+        </uib-tab>
+        <uib-tab ng-click="showView('history')">
+          <uib-tab-heading>HISTORIAL</uib-tab-heading>
+        </uib-tab>
+        <uib-tab ng-click="showView('payments')">
+          <uib-tab-heading>PAGOS</uib-tab-heading>
+        </uib-tab>
+      </uib-tabset>
+    </div>
+    <div class="container">
+      <div ui-view></div>
+    </div>
+  </div>
+  <!-- Fin Tabs -->
+</section>

@@ -1,0 +1,66 @@
+<div class="row mb-xs-2" ng-if="question.TIPO == questionType.radio">
+    <div class="col-xs-12">
+        <div class="g-u-cursor--pointer">
+            <span class="gH4 text-span-eclipse fwBold  ">{{ (question.TITULO) ? ((question.TITULO != '' ) ? question.TITULO : 'Pregunta ') : 'Pregunta ' + (question.order) }}</span>
+        </div>
+        <div class="g-u-cursor--pointer">
+            <div ng-if="$ctrl.withIndex == 1" class="gH5 text-span-eclipse" style="font-weight: 400;" >{{question.DSCRPCN}}</div>
+            <div ng-if="$ctrl.withIndex != 1"  class="gH5 text-span-eclipse" style="font-weight: 400;" >{{question.DSCRPCN}}</div>
+        </div>
+    </div>
+    <div class="col-xs-4 col-sm-4" ng-repeat="option in question.OPCIONES">
+        <m-radio
+            name="question{{question.COD_PRGNTA}}"
+            ng-model="$ctrl.mQuestion"
+            label="{label: option.NOMBRE}"
+            value="{{option.CODIGO}}"
+            ng-disabled="$ctrl.block"
+            ng-change="clearDetail($ctrl.type)"
+            ng-required="question.MCA_OBLIGATORIO === answer.yes">
+        </m-radio>
+    </div>
+    <ul class="g-error">
+        <li ng-show="$ctrl.form.question{{question.COD_PRGNTA}}.$invalid && !$ctrl.form.question{{question.COD_PRGNTA}}.$pristine">Seleccione una respuesta</li>
+    </ul>
+</div>
+
+<mpf-input
+  ng-if="question.TIPO == questionType.input || (question.TIPO == questionType.select && question.OPCIONES.length == 0)"
+  label="{label: question.DSCRPCN, required: question.MCA_OBLIGATORIO === answer.yes}"
+  name="question{{question.COD_PRGNTA}}"
+  ng-model="$ctrl.mQuestion"
+  ng-required="question.MCA_OBLIGATORIO === answer.yes">
+</mpf-input>
+
+<div class="input-group g-date-picker"  ng-if="question.TIPO == questionType.date">
+  <label class="g-placeholder animated">{{question.DSCRPCN}}<span> *</span></label>
+  <input
+    type="text"
+    class="form-control"
+    name="question{{question.COD_PRGNTA}}"
+    uib-datepicker-popup="{{format}}"
+    ng-model="$ctrl.mQuestion"
+    is-open="datePopup.opened"
+    datepicker-options="dateOptions"
+    ng-required="true"
+    close-text="Close"
+    />
+    <span class="input-group-btn">
+      <button type="button" class="btn btn-default" ng-click="openDatePicker()"><i class="glyphicon glyphicon-calendar"></i></button>
+    </span>
+</div>
+<ul class="g-error" ng-if="question.TIPO == questionType.input || question.TIPO == questionType.date">
+    <li ng-show="$ctrl.form.question{{question.COD_PRGNTA}}.$invalid && $ctrl.form.question{{question.COD_PRGNTA}}.$pristine">Ingrese un valor válido</li>
+</ul>
+
+<mpf-select
+  ng-if="question.TIPO == questionType.select && question.OPCIONES.length > 0"
+  label="{label:question.DSCRPCN, required: question.MCA_OBLIGATORIO === answer.yes}"
+  ng-required="question.MCA_OBLIGATORIO === answer.yes"
+  name="question{{question.COD_PRGNTA}}"
+  ng-model="$ctrl.mQuestion"
+  m-data-source="question.OPCIONES"
+  text-field="NOMBRE"
+  value-field="CODIGO"
+  m-Empty-Option="{text:'Seleccione'}">
+</mpf-select>

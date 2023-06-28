@@ -1,0 +1,141 @@
+<div class="consultaGestion">
+  <div class="container">
+    <div
+      show-filter
+      class="clearfix g-col-filter g-box-md gBgcGray5-md gBgcWhite1 g-myd-box"
+      ng-class="{'show': isFilterVisible}"
+    >
+      <div class="col-xs-12">
+        <div class="clearfix gH4 gCGray1 mb-xs-1-5">
+          <h2 class="hidden-xs hidden-sm"><b>Opciones de Búsqueda</b></h2>
+          <div
+            id="show-filter"
+            class="row pt-xs-2 pb-xs-2 gBgcGray5 g-border-bottom-xs hidden-md hidden-lg"
+            ng-click="toggleFilter();"
+          >
+            <div class="col-xs-10">
+              <h2><b>Opciones de Búsqueda</b></h2>
+            </div>
+            <div class="col-xs-2 g-text-right-xs">
+              <!-- ngIf: isFilterVisible --><span
+                class="glyphicon glyphicon-chevron-down ng-scope"
+                ng-if="isFilterVisible"
+                style=""
+              ></span
+              ><!-- end ngIf: isFilterVisible -->
+              <!-- ngIf: !isFilterVisible --><span
+                class="glyphicon glyphicon-chevron-up ng-scope"
+                ng-if="!isFilterVisible"
+                style=""
+              ></span
+              ><!-- end ngIf: !isFilterVisible -->
+            </div>
+            <div class="clearfix"></div>
+          </div>
+        </div>
+        <form class="clearfix" name="vm.formEstadoMD.frmEstadoMD">
+          <div class="row mb-xs-2">
+            <div class="col-md-2 pr-xs-0">
+              <m-radio
+                label="{label: 'Por cliente'}"
+                name="nMapDolar"
+                ng-model="vm.optRadio1"
+                value="1"
+                data-ng-required="true"
+              ></m-radio>
+            </div>
+            <div class="col-md-3 pl-xs-1 pr-xs-0">
+              <m-radio
+                label="{label: 'Nro. póliza'}"
+                name="nMapDolar"
+                ng-model="vm.optRadio1"
+                value="2"
+                data-ng-required="true"
+              ></m-radio>
+            </div>
+            <div class="col-xs-12 mt-xs-2" ng-show="vm.optRadio1 == '1'">
+              <div class="row">
+                <div class="col-xs-12">
+                  <gcw-cliente data="vm.formEstadoMD.Cliente"></gcw-cliente>
+                </div>
+              </div>
+            </div>
+            <div class="col-xs-12 mt-xs-2 no-padding-xs" ng-show="vm.optRadio1 == '2'">
+              <div class="col-md-3">
+                <mpf-input
+                  label="{label: 'Nro. Póliza', required: true}"
+                  name="nNumPoliza"
+                  ng-model="vm.formEstadoMD.mNumPoliza"
+                  data-ng-required="true"
+                  mpf-validation="onlyNumber"
+                  minLength="12"
+                  maxLength="15"
+                ></mpf-input>
+                <div
+                  class="g-error"
+                  data-ng-show="vm.formEstadoMD.frmCarteraPoliza.nNumPoliza.$error.required && !vm.formEstadoMD.frmCarteraPoliza.nNumPoliza.$pristine"
+                >
+                  * Ingrese número de póliza
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-offset-8 col-md-2 mb-xs-1 no-mb-md">
+              <a ng-click="vm.buscar()" class="g-btn g-btn-verde second-design block">Buscar</a>
+            </div>
+            <div class="col-md-2">
+              <a class="g-btn g-btn-white second-design block" ng-click="vm.limpiar()">Limpiar</a>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <div class="clearfix">
+      <div class="col-md-12 g-list-md g-box gBgcGray5 pt-xs-1 mb-xs-1 mt-xs-1" ng-show="vm.totalRows >= 1">
+        <div class="row g-row-fz12">
+          <div class="col-md-12 g-col-md top">
+            <ul class="row" ng-repeat="item in vm.estadomd">
+              <li class="col-md-12 clearfix cnt-item no-border-left">
+                <div class="col-xs-12 item-dato">
+                  <span class="gH4 gCGray1"
+                    ><b>{{ item.name }} {{ item.lastName }} {{ item.surname }}</b></span
+                  >
+                </div>
+              </li>
+              <li class="col-md-4 mt-xs-1 clearfix cnt-item no-border-left">
+                <div class="col-md-4 col-xs-5 item-label">{{ item.documentType }}:</div>
+                <div class="col-md-8 col-xs-7 item-dato g-text-uppercase">
+                  {{ item.documentNumber }}
+                </div>
+              </li>
+
+              <li class="col-md-3 col-sm-6 col-md-offset-5 g-col-sm middle cnt-item no-border-left clearfix">
+                <div class="pl-xs-1-5 pr-xs-1-5 no-pl-md no-pr-md">
+                  <a href="" class="g-btn g-btn-white second-design block" ng-click="descargarPDF(item)"
+                    >DESCARGAR PDF</a
+                  >
+                </div>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <mx-paginador
+      data-datos="vm.estadomd"
+      data-items-x-page="vm.itemsXPagina"
+      data-msg-vacio="vm.msgVacio"
+      data-on-paginar="vm.pageChanged($event)"
+      data-pagina-actual="vm.currentPage"
+      data-total-items="vm.totalRows"
+    >
+    </mx-paginador>
+  </div>
+</div>
+
+<form id="frmExport" name="frmExport" action="{{ vm.exportURL }}" method="post" target="_blank">
+  <input type="hidden" name="json" value="{{ vm.downloadFile }}" />
+</form>

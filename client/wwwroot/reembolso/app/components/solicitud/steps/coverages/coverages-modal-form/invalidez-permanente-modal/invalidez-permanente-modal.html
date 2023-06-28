@@ -1,0 +1,326 @@
+<section class="g-page-popup g-reembolso-popup body-pasos">
+  <button type="button" class="close g-close-modal" ng-click="$ctrl.cerrar()">
+    <span class=" ico-mapfre_231_cancelaroff"></span>
+  </button>
+  <form name="$ctrl.frmModal">
+    <div class="container g-modal-header g-text-uppercase">
+      <div class="col-xs-12">
+        <div class="row">
+          <div class="col-md-12 mb-xs-1">
+            <h2 class="gH3"><b>Invalidez Permanente</b></h2>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="container g-modal-body pt-xs-2 pb-xs-2">
+      <div class="col-xs-12">
+        <div class="container g-modal-body pt-xs-2 pb-xs-2">
+          <div class="col-xs-12">
+            <div class="row">
+              <div class="col-xs-12 g-box box-search-afiliado box-search-afiliado--no-height">
+                <div class="row">
+                  <div class="col-xs-12">
+                    <uib-accordion close-others="planCtrl.oneAtATime">
+                      <div uib-accordion-group class="panel-default acordion no-hidden" is-open="true">
+                        <uib-accordion-heading>
+                          <div ng-click="planCtrl.Acordion1()">
+                            Datos del beneficiario
+                            <i
+                              class="pull-right i-acordion"
+                              ng-class="{'ico-mapfre_309_arrowUp': planCtrl.status.open1,'ico-mapfre_308_arrowDown': !planCtrl.status.open1}">
+                            </i>
+                          </div>
+                        </uib-accordion-heading>
+                        <div class="col-xs-12 panel1">
+                          <div class="row">
+                            <div class="col-xs-12 col-sm-3 mt-xs-1 mt-sm-0">
+                              <mpf-input
+                                label="{label: 'Apellido Paterno ', required: true}"
+                                name="nLastName"
+                                ng-model="$ctrl.frmCoverage.lastName"
+                                mpf-validation="onlyLetter"
+                                ng-required="true">
+                              </mpf-input>
+                              <div
+                                class="g-error"
+                                ng-show="$ctrl.frmModal.nLastName.$error.required && !$ctrl.frmModal.nLastName.$pristine">
+                                * Campo requerido
+                              </div>
+                            </div>
+                            <div class="col-xs-12 col-sm-3 mt-xs-1 mt-sm-0">
+                              <mpf-input
+                                label="{label: 'Apellido Materno ', required: true}"
+                                name="nSecondLastName"
+                                ng-model="$ctrl.frmCoverage.motherLastName"
+                                mpf-validation="onlyLetter"
+                                ng-required="true">
+                              </mpf-input>
+                              <div
+                                class="g-error"
+                                ng-show="$ctrl.frmModal.nSecondLastName.$error.required && !$ctrl.frmModal.nSecondLastName.$pristine">
+                                * Campo requerido
+                              </div>
+                            </div>
+                            <div class="col-xs-12 col-sm-3 mt-xs-1 mt-sm-0">
+                              <mpf-input
+                                label="{label: 'Nombres ', required: true}"
+                                name="nNames"
+                                ng-model="$ctrl.frmCoverage.names"
+                                mpf-validation="onlyLetter"
+                                ng-required="true">
+                              </mpf-input>
+                              <div
+                                class="g-error"
+                                ng-show="$ctrl.frmModal.nNames.$error.required && !$ctrl.frmModal.nNames.$pristine">
+                                * Campo requerido
+                              </div>
+                            </div>
+                            <div class="col-xs-12 col-sm-3 mt-xs-1 mt-sm-0">
+                              <mpf-select
+                                label="{label: 'Parentesco beneficiario', required: true}"
+                                name="nParentescoBeneficiario"
+                                ng-model="$ctrl.frmCoverage.parentesco"
+                                m-data-source="$ctrl.parentescoList"
+                                text-field="relationship"
+                                value-field="idBeneficiary"
+                                ng-required="true"
+                                m-Empty-Option="{enterData:true}">
+                              </mpf-select>
+                              <div
+                                class="g-error"
+                                ng-show="$ctrl.frmModal.nParentescoBeneficiario.$error.required && !$ctrl.frmModal.nParentescoBeneficiario.$pristine">
+                                * Seleccione un parentesco
+                              </div>
+                            </div>
+                          </div>
+                          <div class="row mt-xs-2">
+                            <div class="col-xs-12 col-sm-3 mt-xs-2 mt-sm-0">
+                              <div class="input-group g-date-picker">
+                                <label class="g-placeholder animated">Fecha de Nacimiento<span></span>:</label>
+                                <input
+                                  type="text"
+                                  class="form-control"
+                                  name="nFechaNacimiento"
+                                  ng-model="$ctrl.frmCoverage.birthDate.model"
+                                  uib-datepicker-popup="{{$ctrl.frmCoverage.birthDate.FORMAT_DATE}}"
+                                  is-open="$ctrl.frmCoverage.birthDate.open"
+                                  datepicker-options="$ctrl.frmCoverage.birthDate.options"
+                                  close-text="Close"
+                                  alt-input-formats="$ctrl.frmCoverage.birthDate.ALT_INPUT_FORMATS"
+                                  ui-mask="{{$ctrl.frmCoverage.birthDate.FORMAT_MASK}}"
+                                  ng-pattern="$ctrl.frmCoverage.birthDate.FORMAT_PATTERN"
+                                  model-view-value="true"
+                                  ng-required="true"
+                                  ng-disabled="false"
+                                  ng-change=""/>
+                                <span class="input-group-btn">
+                                  <button
+                                    type="button"
+                                    class="btn btn-default"
+                                    ng-disabled = "false"
+                                    ng-click="$ctrl.frmCoverage.birthDate.setOpen(true)">
+                                    <i class="glyphicon glyphicon-calendar"></i>
+                                  </button>
+                                </span>
+                              </div>
+                              <ul class="g-error">
+                                <li ng-show="!$ctrl.frmModal.nFechaNacimiento.$error.required && $ctrl.frmModal.nFechaNacimiento.$invalid && !$ctrl.frmModal.nFechaNacimiento.$pristine">* Fecha incorrecta</li>
+                                <li ng-show="$ctrl.frmModal.nFechaNacimiento.$error.required && !$ctrl.frmModal.nFechaNacimiento.$pristine">* Este campo es necesario</li>
+                              </ul>
+                            </div>
+                            <div class="col-xs-12 col-sm-3 mt-xs-1 mt-sm-0">
+                              <mpf-select
+                                label="{label: 'Sexo ', required: true}"
+                                name="nSexo"
+                                ng-model="$ctrl.frmCoverage.sex"
+                                m-data-source="$ctrl.sexList"
+                                text-field="valueField"
+                                value-field="codeField"
+                                ng-required="true"
+                                m-Empty-Option="{enterData:true}">
+                              </mpf-select>
+                              <div
+                                class="g-error"
+                                ng-show="$ctrl.frmModal.nSexo.$error.required && !$ctrl.frmModal.nSexo.$pristine">
+                                * Seleccione un sexo
+                              </div>
+                            </div>
+                            <div class="col-xs-12 col-sm-3 mt-xs-1 mt-sm-0">
+                              <mpf-select
+                                label="{label: 'Tipo de documento ', required: true}"
+                                name="nDocumentType"
+                                ng-model="$ctrl.frmCoverage.documentType"
+                                m-data-source="$ctrl.documentTypeList"
+                                text-field="valueField"
+                                value-field="codeField"
+                                ng-change="$ctrl.showNaturalPerson($ctrl.frmCoverage.documentType)"
+                                ng-required="true"
+                                m-Empty-Option="{enterData:true}">
+                              </mpf-select>
+                              <div
+                                class="g-error"
+                                ng-show="$ctrl.frmModal.nDocumentType.$error.required && !$ctrl.frmModal.nDocumentType.$pristine">
+                                * Seleccione un tipo de documento
+                              </div>
+                            </div>
+                            <div class="col-xs-12 col-sm-3 mt-xs-1 mt-sm-0">
+                              <mpf-input
+                                label="{label: 'Número de documento', required: false}"
+                                name="nDocumentNumber"
+                                ng-model="$ctrl.frmCoverage.documentNumber"
+                                mpf-validation="onlyNumber"
+                                ng-maxlength="$ctrl.docNumMaxLength"
+                                ng-minlength="$ctrl.docNumMaxLength"
+                                ng-required="true">
+                              </mpf-input>
+                              <div
+                                class="g-error"
+                                ng-show="$ctrl.frmModal.nDocumentNumber.$error.required && !$ctrl.frmModal.nDocumentNumber.$pristine">
+                                * Campo requerido
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </uib-accordion>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-xs-12">
+                    <uib-accordion close-others="planCtrl.oneAtATime">
+                      <div uib-accordion-group class="panel-default acordion no-hidden" is-open="true">
+                        <uib-accordion-heading>
+                          <div ng-click="planCtrl.Acordion1()">
+                            Datos de la indemnización
+                            <i
+                              class="pull-right i-acordion"
+                              ng-class="{'ico-mapfre_309_arrowUp': planCtrl.status.open1,'ico-mapfre_308_arrowDown': !planCtrl.status.open1}">
+                            </i>
+                          </div>
+                        </uib-accordion-heading>
+                        <div class="col-xs-12 panel1">
+                          <div class="row">
+                            <div class="col-xs-12 col-sm-3 mt-xs-2">
+                              <mp-data-seeker
+                                behavior="{label:'', placeholder:'Diagnostico', matchField:'codeName'}"
+                                m-data-source="$ctrl.getDiagnosticList($inputNeed)"
+                                ng-model="$ctrl.frmCoverage.diagnostic"
+                                name="nDiagnostic"
+                                ng-required="true"
+                                ng-change="">
+                                <div ng-bind-html="$item.codeName | highlight: $select.search"></div>
+                              </mp-data-seeker>
+                              <div
+                                class="g-error"
+                                ng-show="$ctrl.frmModal.nDiagnostic.$error.required && !$ctrl.frmModal.nDiagnostic.$pristine">
+                                * Busque y seleccione un diagnóstico
+                              </div>
+                            </div>
+                            <div class="col-xs-12 col-sm-3 mt-xs-1 mt-sm-0">
+                              <mpf-input
+                                label="{label: 'Médico tratante ', required: true}"
+                                name="nMedico"
+                                ng-model="$ctrl.frmCoverage.treatingDoctor"
+                                mpf-validation="onlyLetter"
+                                ng-required="true">
+                              </mpf-input>
+                              <div
+                                class="g-error"
+                                ng-show="$ctrl.frmModal.nMedico.$error.required && !$ctrl.frmModal.nMedico.$pristine">
+                                * Campo requerido
+                              </div>
+                            </div>
+                            <div class="col-xs-12 col-sm-3 mt-xs-1 mt-sm-0">
+                              <mpf-select
+                                label="{label: 'Especialidad ', required: true}"
+                                name="nSpecialty"
+                                ng-model="$ctrl.frmCoverage.specialty"
+                                m-data-source="$ctrl.specialtyList"
+                                text-field="description"
+                                value-field="idSpecialty"
+                                ng-required="true"
+                                m-Empty-Option="{enterData:true}">
+                              </mpf-select>
+                              <div
+                                class="g-error"
+                                ng-show="$ctrl.frmModal.nSpecialty.$error.required && !$ctrl.frmModal.nSpecialty.$pristine">
+                                * Seleccione una especialidad
+                              </div>
+                            </div>
+                            <div class="col-xs-12 col-sm-3 mt-xs-1 mt-sm-0">
+                              <mpf-input
+                                label="{label: '% Partic. el beneficio ', required: true}"
+                                name="nParticipacionBeneficio"
+                                ng-model="$ctrl.frmCoverage.pctngBeneficiaryParticipation"
+                                ng-required="true"
+                                ng-blur="$ctrl.calculationCompensation()">
+                              </mpf-input>
+                              <div
+                                class="g-error"
+                                ng-show="$ctrl.frmModal.nParticipacionBeneficio.$error.required && !$ctrl.frmModal.nParticipacionBeneficio.$pristine">
+                                * Campo requerido
+                              </div>
+                            </div>
+                          </div>
+                          <div class="row mt-xs-2">
+                            <div class="col-xs-12 col-sm-3 mt-xs-1 mt-sm-0">
+                              <mpf-input
+                                label="{label: 'Importe de beneficio ', required: true}"
+                                name="nImporteBeneficio"
+                                ng-model="$ctrl.frmCoverage.benefitImport"
+                                ng-required="true"
+                                ng-disabled="true">
+                              </mpf-input>
+                              <div
+                                class="g-error"
+                                ng-show="$ctrl.frmModal.nImporteBeneficio.$error.required && !$ctrl.frmModal.nImporteBeneficio.$pristine">
+                                * Campo requerido
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </uib-accordion>
+                  </div>
+                </div>
+                <re-coverage-grid
+                  table-list="$ctrl.compensationList"
+                  delete="$ctrl.deleteCompensation"
+                  edit="$ctrl.editCompensation">
+                </re-coverage-grid>
+                <div class="row mt-xs-2">
+                  <div class="col-xs-12 col-sm-4 col-sm-offset-4">
+                    <a class="g-btn g-btn-white second-design block" ng-click="$ctrl.cleanCompensation()">
+                      <span class="g-icon">
+                        <span>Limpiar</span>
+                      </span>
+                    </a>
+                  </div>
+                  <div class="col-xs-12 col-sm-4">
+                    <a class="g-btn g-btn-white second-design block" ng-click="$ctrl.addCompensation()">
+                      <span class="g-icon">
+                        <span class="icon icon-plus ico-mapfre_56_visitasalmedico"></span>
+                        <span>Agregar</span>
+                      </span>
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="container g-modal-footer pt-xs-2">
+      <div class="col-md-4 col-md-offset-4 mb-xs-1 no-mb-md">
+        <a
+          href="javascript:void(0)"
+          class="g-btn g-btn-verde block"
+          ng-class="{'disabled': !$ctrl.compensationList.length}"
+          ng-click="$ctrl.aceptar()">
+          Aceptar
+        </a>
+      </div>
+    </div>
+  </form>
+</section>

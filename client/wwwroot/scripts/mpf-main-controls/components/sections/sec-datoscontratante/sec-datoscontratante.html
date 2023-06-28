@@ -1,0 +1,85 @@
+<!-- <div class="g-inner-section g-mpfdolar" ng-show="mProducto.CodigoProducto >= 1"> -->
+<div class="g-inner-section g-mpfdolar">
+<!-- <div class="g-section"> -->
+	<div class="container">
+
+			<!-- Datos del contratante -->
+			<div class="row">
+				<!-- Seleccion de tipos de persona -->
+				<div class="col-md-4 mb-2 m-mb-1">
+					<mpf-select label="$ctrl.gLblOpcionContratante" info="$ctrl.opcionContratante" ng-model="formData.mOpcionContratante"></mpf-select>
+					<!-- Quieres ingresar Mapfre Dolares -->
+					<!-- <div class="row" ng-show="mOpcionContratante.Codigo==1" ng-click="$ctrl.toggleCliente()"> -->
+					<div class="row" ng-show="formData.mOpcionContratante.Codigo==1" ng-click="$ctrl.toggleCliente()">
+						<div class="col-md-12 g-mpfdolar-radios-title">
+						<span>¿Quieres ingresar Mapfre dólares?</span>
+						</div>
+						<div class="col-md-12 g-mpfdolar-radios">
+							<div class="row">
+								<div class="col-md-3">
+									<mpf-radio ng-model="optMostrarMDolar" label="$ctrl.gLblSi" info="$ctrl.si" ></mpf-radio>
+								</div>
+								<div class="col-md-3">
+									<mpf-radio ng-model="optMostrarMDolar" label="$ctrl.gLblNo" info="$ctrl.no" ></mpf-radio>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<!-- Persona natural -->
+				<div class="col-md-8 g-mpfdolar-search" ng-show="optMostrarMDolar == '1' && formData.mOpcionContratante.Codigo==1">
+					<div class="row" ng-show="$ctrl.bDatosContratante==0 || $ctrl.bDatosContratante==2">
+						<!-- Tipo de documento -->
+						<div class="col-md-4">
+							<mpf-select label="$ctrl.gLblTipoDocumento" info="$ctrl.tipoDocumento" ng-model="formData.mTipoDocumento" validate="validate[required]"></mpf-select>
+						</div>
+						<!-- Numero de documento -->
+						<div class="col-md-4">
+							<mpf-input label="$ctrl.gLblNumeroDocumento" ng-model="formData.mNumeroDocumento" validate="validate[required]"></mpf-input>
+						</div>
+						<!-- Boton consultar -->
+						<div class="col-md-4">
+							<a href="" class="g-btn g-btn-mini g-btn-transparent" ng-click="$ctrl.showMapfreDolares(formData.mTipoDocumento, formData.mNumeroDocumento)">Consultar Mapfre dólares</a>							
+						</div>
+						<!-- No existe contratante -->
+						<div class="row" ng-show="$ctrl.bDatosContratante==2">							
+							<div class="col-md-12 mb-2 m-mb-1 g-error">							
+								<p>No existe el cliente en la base de datos</p> <span ng-click="$ctrl.toggleCliente()">(X)</span>
+							</div>
+						</div>
+					</div>
+					<!-- Resultado de consulta -->
+					<div class="row g-mpfdolar-search-resultado">
+						<div class="col-md-12" ng-show="$ctrl.bDatosContratante==1">
+							<span class="resultado-label">Nombre: <span class="resultado-data">{{formData.mNomContratante}} {{formData.mApePatContratante}}</span><span class="ico-mapfre_48_cerrar ico-cerrar" ng-click="$ctrl.toggleCliente()"></span></span><br>
+							<span class="resultado-label">Mapfre dólares: <span class="resultado-data">{{formData.ImporteMapfreDolar | currency: '$'}}</span></span>
+						</div>
+					</div>			
+				</div>
+
+				<!-- Ingresar datos de Persona Ntural -->
+				<div class="col-md-8" ng-show="optMostrarMDolar == '2' && formData.mOpcionContratante.Codigo==1">
+					<div class="row">
+						<div class="col-md-6 mb-2 m-mb-1">
+							<mpf-input label="$ctrl.gLblNombre" ng-model="formData.mNomContratante" validate="validate[required]"></mpf-input>
+						</div>
+						<div class="col-md-6 mb-2 m-mb-1">
+							<mpf-input label="$ctrl.gLblApePaterno" ng-model="formData.mApePatContratante" validate="validate[required]"></mpf-input>
+						</div>
+					</div>
+				</div>
+				
+				<!-- Ingresar datos de Persona juridica -->
+				<div class="col-md-3" ng-show="formData.mOpcionContratante.Codigo==2">
+					<mpf-input label="$ctrl.gLblRazSocial" ng-model="formData.mRazSocContratante" validate="validate[required]"></mpf-input>
+				</div>
+
+			</div>
+
+			<div class="row">
+				<a class="col-md-4 col-md-offset-4 g-btn g-btn-verde" ng-click="$ctrl.guardarCotizacion()"><span>Guardar Cotización</span></a>
+			<!-- 	<a class="col-md-4 col-md-offset-4 g-btn g-btn-verde" ng-click="$ctrl.validarCotizacion()" data-toggle="modal" data-target="#modalGuardarCotizacion">Guardar Cotización</a>  -->
+			</div>
+	</div>
+</div>

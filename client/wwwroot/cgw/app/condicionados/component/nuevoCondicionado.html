@@ -1,0 +1,181 @@
+<div ng-show="showNewItem" class="container pt-xs-4">
+  <form name="frmNuevoCondicionado">
+    <div class="row g-box pt-xs-3 pb-xs-3 pl-xs-2 pr-xs-2" style="position: relative;">
+      <button type="button" class="mr-xs-2 mt-xs-2 close g-close-modal" data-ng-click="mostrarCrearRegistro()" prevent-default>
+        <span class="ico-mapfre_231_cancelaroff"></span>
+      </button>
+      <div class="col-xs-12">
+        <h4><b>Nuevo Condicionado</b></h4>
+      </div>
+      <div class="col-xs-12 mt-xs-2">
+        <div class="row">
+          <div class="col-sm-4 mt-xs-2 mt-sm-0">
+            <mpf-input
+              data-ng-model="formData.newItem.mNombre"
+              label="{label: 'Nombre del condicionado', required: true}" 
+              name="nNombre" 
+              data-ng-required="true"></mpf-input>
+          </div>
+          <div class="col-sm-4 mt-xs-2 mt-sm-0">
+            <mpf-select-placeholder
+              data-ng-model="formData.newItem.mEmpresa"
+              name="nEmpresa"
+              label="{label: 'Empresa', required: true}"
+              m-data-source="masters.empresas"
+              text-field="description"
+              value-field="code"
+              ng-change="loadProducts(formData.newItem.mEmpresa.id)"
+              m-Empty-Option="{enterData: true}"
+              data-ng-required="true"></mpf-select-placeholder>
+          </div>
+          <div class="col-sm-4 mt-xs-2 mt-sm-0">
+            <mpf-select-placeholder
+              data-ng-model="formData.newItem.mProducto"
+              name="nProducto"
+              label="{label: 'Producto', required: true}"
+              m-data-source="masters.productos"
+              text-field="productDescription"
+              value-field="productCode"
+              ng-change="loadRamos(formData.newItem.mEmpresa.id, formData.newItem.mProducto.productCode)"
+              m-Empty-Option="{enterData: true}"
+              data-ng-required="true"></mpf-select-placeholder>
+          </div>
+          <div class="col-sm-4 mt-xs-2" ng-if="mostrarRamo()">
+            <mpf-select-placeholder
+              data-ng-model="formData.newItem.mRamo"
+              name="nRamo"
+              label="{label: 'Ramo', required: true}"
+              m-data-source="masters.ramos"
+              text-field="description"
+              value-field="code"
+              ng-change="loadRamoOpciones(formData.newItem.mRamo.code)"
+              m-Empty-Option="{enterData: true}"
+              data-ng-required="true"></mpf-select-placeholder>
+          </div>
+          <div class="col-sm-4 mt-xs-2" ng-if="formData.newItem.mRamo.code == 116">
+            <mpf-select-placeholder
+              data-ng-model="formData.newItem.mContrato"
+              name="nContrato"
+              label="{label: 'Contrato', required: true}"
+              m-data-source="masters.contratos"
+              text-field="description"
+              value-field="code"
+              m-Empty-Option="{enterData: true}"
+              data-ng-required="true"></mpf-select-placeholder>
+          </div>
+          <div class="col-sm-4 mt-xs-2" ng-if="formData.newItem.mRamo.code == 114 || formData.newItem.mRamo.code == 115">
+            <mpf-select-placeholder
+              data-ng-model="formData.newItem.mModalidad"
+              name="nModalidad"
+              label="{label: 'Modalidad', required: true}"
+              m-data-source="masters.modalidades"
+              text-field="description"
+              value-field="code"
+              ng-change="loadProductosSalud(formData.newItem.mModalidad.code)"
+              m-Empty-Option="{enterData: true}"
+              data-ng-required="true"></mpf-select-placeholder>
+          </div>
+          <div class="col-sm-4 mt-xs-2" ng-if="formData.newItem.mRamo.code == 114 || formData.newItem.mRamo.code == 115">
+            <mpf-select-placeholder
+              data-ng-model="formData.newItem.mProductoSalud"
+              name="nProductoSalud"
+              label="{label: 'Producto Salud', required: true}"
+              m-data-source="masters.productosSalud"
+              text-field="description"
+              value-field="code"
+              ng-change="loadSubProductosSalud(formData.newItem.mProductoSalud.code)"
+              m-Empty-Option="{enterData: true}"
+              data-ng-required="true"></mpf-select-placeholder>
+          </div>
+          <div class="col-sm-4 mt-xs-2" ng-if="formData.newItem.mRamo.code == 114 || formData.newItem.mRamo.code == 115">
+            <mpf-select-placeholder
+              data-ng-model="formData.newItem.mSubProductoSalud"
+              name="nSubProductoSalud"
+              label="{label: 'Sub Producto Salud', required: true}"
+              m-data-source="masters.subProductosSalud"
+              text-field="description"
+              value-field="code"
+              m-Empty-Option="{enterData: true}"
+              data-ng-required="true"></mpf-select-placeholder>
+          </div>
+          <div class="col-sm-4 mt-xs-2">
+              <mpf-data-seeker-placeholder
+                behavior="{label:'Cliente', placeholder:'', matchField:'name'}"
+                m-data-source="getListClients($inputNeed)"
+                ng-model="formData.newItem.mCliente"
+                name="nCliene">
+                <div ng-bind-html="$item.name | highlight: $select.search"></div>
+              </mpf-data-seeker-placeholder>
+            </div>
+        </div>
+        <div class="row">
+          <div class="col-xs-12 mt-xs-3"><b>Información sobre el condicionado *</b></div>
+          <div class="col-xs-12 mt-xs-2 editor-editable">
+            <ng-quill-editor 
+              ng-model="formData.newItem.info"
+              placeholder="''"
+              on-editor-created="onEditorCreated(editor)"
+              on-content-changed="contentChanged(editor, html, text, content, delta, oldDelta, source)">
+              <ng-quill-toolbar>
+                <div class="u-bg--gris-9">
+                  <span class="ql-formats">
+                    <button type="button" class="ql-undo" ng-click="undoEditor()">
+                      <svg viewBox="0 0 18 18">
+                        <polygon class="ql-fill ql-stroke" points="6 10 4 12 2 10 6 10"></polygon>
+                        <path class="ql-stroke" d="M8.09,13.91A4.6,4.6,0,0,0,9,14,5,5,0,1,0,4,9"></path>
+                      </svg>
+                    </button>
+                    <button type="button" class="ql-redo" ng-click="redoEditor()">
+                      <svg viewbox="0 0 18 18">
+                        <polygon class="ql-fill ql-stroke" points="12 10 14 12 16 10 12 10"/>
+                        <path class="ql-stroke" d="M9.91,13.91A4.6,4.6,0,0,1,9,14a5,5,0,1,1,5-5"/>
+                      </svg>
+                    </button>
+                  </span>
+                  <span class="ql-formats">
+                    <select class="ql-size"></select>
+                  </span>
+                  <span class="ql-formats">
+                    <button type="button" class="ql-bold"></button>
+                    <button type="button" class="ql-italic"></button>
+                    <button type="button" class="ql-underline"></button>
+                    <button type="button" class="ql-strike"></button>
+                    <select class="ql-color"></select>
+                  </span>
+                  <span class="ql-formats">
+                    <select class="ql-align">
+                      <option selected></option>
+                      <option value="center"></option>
+                      <option value="right"></option>
+                      <option value="justify"></option>
+                    </select>
+                  </span>
+                  <span class="ql-formats">
+                    <button type="button" class="ql-list" value="ordered"></button>
+                    <button type="button" class="ql-list" value="bullet"></button>
+                  </span>
+                  <span class="ql-formats">
+                    <button type="button" class="ql-indent" value="-1"></button>
+                    <button type="button" class="ql-indent" value="+1"></button>
+                  </span>
+                  <span class="ql-formats">
+                    <button type="button" class="ql-blockquote"></button>
+                    <button type="button" class="ql-clean"></button>
+                  </span>
+                </div>
+              </ng-quill-toolbar>
+            </ng-quill-editor>
+          </div>
+        </div>
+      </div>
+      <div class="col-xs-12 g-title-btn-row mt-xs-2 mt-sm-0">
+        <div class="g-title-btn-col mt-xs-2">
+          <button class="g-btn g-btn-white second-design block" ng-click="mostrarCrearRegistro()">Cancelar</button>
+        </div>
+        <div class="g-title-btn-col mt-xs-2">
+          <button class="g-btn g-btn-verde second-design block" ng-click="crearCondicionado()" ng-disabled="!frmNuevoCondicionado.$valid || !validHtml">Registrar</button>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>

@@ -1,0 +1,113 @@
+<div class="row"
+  ng-if="$ctrl.data.dataList.list.length > 0">
+  <div class="col-md-12 mb-xs-1 g-text-right-sm">
+    <a
+      href="javascript:void(0)"
+      class="gCGreen1 g-text-uppercase"
+      ng-click="$ctrl.fnDownload()">
+      <span class="g-icon">
+        <span class="icon ico-mapfre_139_excel"></span>
+        <span class="g-link"><b>Descargar Padrón</b></span>
+      </span>
+    </a>
+  </div>
+</div>
+
+<mining-check-filter
+  ng-show="$ctrl.data.dataList.allList.length > 0"
+  data="$ctrl.checkFilter"
+  check-filter="$ctrl.fnCheckFilter(currentCheck)">
+</mining-check-filter>
+
+<nsctr-no-result-filter
+  type="filter"
+  no-result-info="$ctrl.noResult.noResultInfo"
+  no-result="$ctrl.noResult.noResult">
+</nsctr-no-result-filter>
+
+<div
+  class="row"
+  ng-if="$ctrl.data.dataList.list.length > 0">
+  <div class="col-md-12">
+    <div class="clearfix g-tbl-wrapper">
+      <div class="clearfix table__1440">
+        <ul
+          height-row
+          class="g-row-fz12 g-tbl-row gBgcGray5 pt-xs-1">
+          <li class="g-col-5pd g-col-xs col-10-dktp tbl-item item-title">CLÍNICA</li>
+          <li class="g-col-5pd g-col-xs col-6-dktp tbl-item item-title">NRO.<br>SOLICITUD</li>
+          <li class="g-col-5pd g-col-xs col-4-dktp tbl-item item-title">TIPO<br>DOC</li>
+          <li class="g-col-5pd g-col-xs col-6-dktp tbl-item item-title">NRO.<br>DOC</li>
+          <li class="g-col-5pd g-col-xs col-13-dktp tbl-item item-title">NOMBRE</li>
+          <li class="g-col-5pd g-col-xs col-5-dktp tbl-item item-title">APTITUD</li>
+          <li class="g-col-5pd g-col-xs col-7-dktp tbl-item item-title">FECHA<br>EXAMEN</li>
+          <li class="g-col-5pd g-col-xs col-10-dktp tbl-item item-title">EMPRESA</li>
+          <li class="g-col-5pd g-col-xs col-7-dktp tbl-item item-title">POL PEN</li>
+          <li class="g-col-5pd g-col-xs col-7-dktp tbl-item item-title">POL SAL</li>
+          <li class="g-col-5pd g-col-xs col-6-dktp tbl-item item-title">LOCACIÓN</li>
+          <li class="g-col-5pd g-col-xs col-6-dktp tbl-item item-title">USUARIO</li>
+          <li class="g-col-5pd g-col-xs col-7-dktp tbl-item item-title">VIGENCIA<br>DESDE</li>
+          <li class="g-col-5pd g-col-xs col-6-dktp tbl-item item-title">VIGENCIA<br>HASTA</li>
+        </ul>
+        <div class="mb-xs-1 gnContentAuto-bg">
+          <ul
+            height-row
+            class="g-row-fz12 g-tbl-row pt-xs-1 g-border-bottom-xs"
+            ng-repeat="item in $ctrl.data.dataList.list">
+            <li class="g-col-5pd g-col-xs col-10-dktp tbl-item">
+              {{item.clinic | uppercase}}
+            </li>
+            <li class="g-col-5pd g-col-xs col-6-dktp tbl-item">
+              {{item.requestNumber}}
+            </li>
+            <li class="g-col-5pd g-col-xs col-4-dktp tbl-item">
+              {{item.documentType | uppercase}}
+            </li>
+            <li class="g-col-5pd g-col-xs col-6-dktp tbl-item">
+              {{item.documentNumber}}
+            </li>
+            <li class="g-col-5pd g-col-xs col-13-dktp tbl-item">
+              {{item.name | uppercase}}
+            </li>
+            <li
+              class="g-col-5pd g-col-xs col-5-dktp tbl-item"
+              title="{{item.ableText | uppercase}}">
+              {{item.ableText | uppercase}}
+            </li>
+            <li class="g-col-5pd g-col-xs col-7-dktp tbl-item">
+              {{item.examDate}}
+            </li>
+            <li
+              class="g-col-5pd g-col-xs col-10-dktp tbl-item"
+              title="{{item.company | uppercase}}">
+              {{item.company | uppercase}}
+            </li>
+            <li class="g-col-5pd g-col-xs col-7-dktp tbl-item">
+              {{item.pensionPolicy}}
+            </li>
+            <li class="g-col-5pd g-col-xs col-7-dktp tbl-item">
+              {{item.healthPolicy}}
+            </li>
+            <li
+              class="g-col-5pd g-col-xs col-6-dktp tbl-item"
+              title="{{item.location | uppercase}}">
+              {{item.location | uppercase}}
+            </li>
+            <li
+              class="g-col-5pd g-col-xs col-6-dktp tbl-item"
+              title="{{item.user | uppercase}}">
+              {{item.user | uppercase}}
+            </li>
+            <li class="g-col-5pd g-col-xs col-7-dktp tbl-item">
+              {{item.validityStartDate}}
+            </li>
+            <li class="g-col-5pd g-col-xs col-6-dktp tbl-item">
+              {{item.validityEndDate}}
+            </li>
+          </ul>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>

@@ -1,0 +1,270 @@
+<!-- Datos del riesgo -->
+<form action="" name="frmCarData">
+  <div class="g-section-inner">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-4">
+          <h2 class="g-sub-title g-myd-subtitle">Ingresa los datos del vehículo</h2>
+        </div>
+        <div class="col-md-4 mb-xs-2">
+          <a ng-show="formData.showClean" class="g-btn g-btn-white g-btn-mini" ng-click="limpiarDataSOAT()" style=""
+            >Limpiar datos</a
+          >
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-4 mb-xs-2">
+          <mpf-input
+            label="{label: gLblPlaca.label, required: gLblPlaca.required}"
+            name="nPlaca"
+            ng-model="formData.mPlaca"
+            ng-required="true"
+            ng-pattern="'(^[a-zA-Z0-9]+$)'"
+            ng-Minlength="5"
+            ng-Maxlength="8"
+            trn-Length="8"
+            mpf-validation="onlyLetterNumber"
+            ng-keydown="buscarRiesgo($event, formData.mPlaca, 1)"
+            focuss-me="true"
+          ></mpf-input>
+
+          <div class="g-error" ng-show="frmCarData.nPlaca.$invalid && !frmCarData.nPlaca.$pristine">
+            * Ingrese placa
+          </div>
+        </div>
+        <div class="col-md-4 mb-xs-2">
+          <mpf-input
+            label="{label: gLblChasis.label, required: gLblChasis.required}"
+            name="nNumeroChasis"
+            ng-model="formData.mNumeroChasis"
+            ng-required="true"
+            ng-pattern="'(^[^oO]+$)'"
+            ng-Minlength="8"
+            ng-Maxlength="20"
+            trn-Length="20"
+            mpf-validation="onlyLetterNumber"
+            ng-change="changeChasis()"
+          ></mpf-input>
+
+          <div class="g-error" ng-show="frmCarData.nNumeroChasis.$invalid && !frmCarData.nNumeroChasis.$pristine">
+            * Ingrese número de chasis
+          </div>
+        </div>
+        <div class="col-md-4 mb-xs-2">
+          <mpf-input
+            label="{label: gLblMotor.label, required: gLblMotor.required}"
+            name="nNumeroMotor"
+            ng-model="formData.mNumeroMotor"
+            ng-required="true"
+            ng-pattern="'(^[^oO]+$)'"
+            ng-Minlength="8"
+            ng-Maxlength="20"
+            trn-Length="20"
+            mpf-validation="onlyLetterNumber"
+            ng-change="changeMotor()"
+          ></mpf-input>
+          <div class="g-error" ng-show="frmCarData.nNumeroMotor.$invalid && !frmCarData.nNumeroMotor.$pristine">
+            * Ingrese número de motor
+          </div>
+        </div>
+      </div>
+
+      <div class="row row-warning">
+        <div class="col-md-12">
+          <span class="g-warning" ng-show="formData.resultPlaca==2"
+            ><span class="ico-mapfre_37_informacion g-warning-ico"></span>{{ sinDataPlaca }}<br /><a
+              href=""
+              ng-click="searchAgain()"
+              >{{ newSearch }}</a
+            ></span
+          >
+          <span class="g-warning" ng-show="formData.resultPlaca==1"
+            ><span class="ico-mapfre_37_informacion g-warning-ico"></span>{{ conDataPlaca }}
+            <a href="" ng-click="searchAgain()"><br />{{ newSearch }}</a>
+          </span>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-4 col-md-offset-4 mb-xs-2">
+          <a
+            class="g-btn g-btn-transparent block mt-md-2"
+            ng-click="buscarXRiesgo(formData.mPlaca, formData.mNumeroChasis, formData.mNumeroMotor)"
+          >
+            <span class="ico-mapfre_102_buscar pr-md-1"></span>Buscar
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="g-section-inner" ng-show="formData.mostrarRiesgo">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12">
+          <h2 class="g-sub-title g-myd-subtitle">Detalles del riesgo</h2>
+        </div>
+      </div>
+      <div class="row">
+        <div class="pt-xs-2 ng-scope" ng-show="sinSubmodelo">
+          <div class="container">
+            <div class="row">
+              <div class="col-md-12">
+                <div class="g-box gBgcGray5 pt-xs-1 pb-xs-1 pl-xs-1">
+                  <span class="ico-mapfre_222_informacion gCBlue2 gnIcon-xsm g-cell-middle"></span>
+                  <span class="g-cell-middle pl-xs-1">El vehiculo ingresado no esta configurado para cotizar</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="g-inner-section g-inforiesgo">
+          <div class="container">
+            <div class="row">
+              <!-- Tipo de vehículo -->
+              <div class="col-md-4 mb-xs-2">
+                <mpf-select
+                  ng-model="formData.mTipoVehiculo"
+                  name="nTipoVehiculo"
+                  label="{label: gLblTipoVehiculo.label, required: true}"
+                  m-data-source="tipoVehiculo"
+                  text-field="Descripcion"
+                  value-field="Codigo"
+                  m-Empty-Option="{enterData:true}"
+                  mpf-validation="required"
+                  ng-change="loadMarca()"
+                  ng-required="true"
+                ></mpf-select>
+
+                <div
+                  class="g-error"
+                  ng-show="frmCarData.nTipoVehiculo.$error.required && !frmCarData.nTipoVehiculo.$pristine"
+                >
+                  * Seleccione tipo de vehículo
+                </div>
+              </div>
+
+              <!-- Año de Fabricación -->
+              <div class="col-md-4 mb-xs-2">
+                <mpf-input
+                  label="gLblYearFabric"
+                  ng-model="formData.mYearFabric"
+                  id="year"
+                  name="year"
+                  mpf-validation="onlyNumber"
+                  ng-Minlength="4"
+                  ng-Maxlength="4"
+                  trn-Length="4"
+                  mpf-validation="onlyLetterNumber"
+                  ng-required="true"
+                  ng-blur="changeYear(formData.mYearFabric)"
+                ></mpf-input>
+                <div class="g-error" ng-show="formData.mYearFabric<anioMin || formData.mYearFabric>anioMax ">
+                  * Año debe ser entre {{ anioMin }} y {{ anioMax }}
+                </div>
+
+                <div class="g-error" ng-show="frmCarData.year.$error.required && !frmCarData.year.$pristine">
+                  * Ingrese año
+                </div>
+              </div>
+            </div>
+
+            <div class="row" ng-init="toggle=false">
+              <!-- Marca / Modelo -->
+              <div class="col-md-4 mb-xs-2">
+                <span ng-show="noValue">No hay coincidencias</span>
+                <mp-data-seeker
+                  behavior="{label:'Marca y Modelo', placeholder:'Ingresa marca y/o modelo', matchField:'marcaModelo'}"
+                  m-data-source="searchMarcaModelo($inputNeed)"
+                  ng-model="formData.ModeloMarca"
+                  ng-change="getFunctionsModeloMarca(formData.ModeloMarca)"
+                  name="nModeloMarca"
+                  ng-required="true"
+                >
+                  <div ng-bind-html="$item.marcaModelo | highlight: $select.search"></div>
+                </mp-data-seeker>
+
+                <div
+                  class="g-error"
+                  ng-show="frmCarData.nModeloMarca.$error.required && !frmCarData.nModeloMarca.$pristine"
+                >
+                  * Ingrese marca/modelo
+                </div>
+                <div class="g-error" ng-show="formData.marcaModeloRequired">* Ingrese marca/modelo</div>
+              </div>
+
+              <!-- Cantidad de asientos -->
+              <div class="col-md-4 mb-xs-2">
+                <mpf-input
+                  label="{label: gLblAsientos.label, required: true}"
+                  ng-model="formData.mNumAsientos"
+                  id="asientos"
+                  name="nNumAsientos"
+                  mpf-validation="onlyNumber"
+                  ng-Maxlength="3"
+                  ng-required="true"
+                  ng-change="changeAsientos()"
+                ></mpf-input>
+
+                <div class="g-error" ng-show="frmCarData.nNumAsientos.$invalid && !frmCarData.nNumAsientos.$pristine">
+                  * Ingrese número de asientos
+                </div>
+
+                <div class="g-error" ng-show="validarAsientos()">
+                  El número de asientos no puede ser mayor a {{ formData.mSubModelo.NumeroAsiento }}
+                </div>
+              </div>
+            </div>
+
+            <!-- Modelo para impresion -->
+            <div class="row" ng-init="toggle=!!formData.mModeloPrint">
+              <div class="col-md-12 collapse" uib-collapse="toggle">
+                <a href="" class="g-link first-design green" ng-click="toggle=!toggle"
+                  >Ingresar modelo para impresión</a
+                >
+              </div>
+              <div class="col-md-4 mb-xs-1 no-mb-md collapse" uib-collapse="!toggle">
+                <mpf-input
+                  label="{label: gLblModeloPrint.label, required: true}"
+                  ng-Maxlength="18"
+                  ng-model="formData.mModeloPrint"
+                  name="nModeloPrint"
+                ></mpf-input>
+                <div class="g-error" ng-show="frmCarData.nModeloPrint.$invalid && !frmCarData.nModeloPrint.$pristine">
+                  * Ingrese modelo de impresión
+                </div>
+                <div class="mt-xs-1 text-right">
+                  <a href="" class="g-link first-design c-gray" ng-click="toggle=!toggle; cleanModelo()">Cancelar</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Button -->
+  <div class="g-section" ng-show="formData.mostrarRiesgo">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-4 mb-xs-1">
+          <span class="g-comment">*Campos obligatorios</span>
+        </div>
+        
+        <div class="col-md-4">
+          <a
+            class="g-btn g-btn-verde block"
+            ng-click="nextStep(formData.mYearFabric, formData.mNumAsientos, optRadio, formData.mModeloPrint)"
+            ng-show="!disableSgt"
+            >Siguiente</a>
+            <button
+            class="g-btn g-btn-verde block"
+            ng-show="disableSgt"
+            ng-disabled="disableSgt">Siguiente</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>

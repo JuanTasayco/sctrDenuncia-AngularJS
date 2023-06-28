@@ -1,0 +1,195 @@
+<seguroviaje-cotizar-step-two-component></seguroviaje-cotizar-step-two-component>
+<div ng-class="vm.currentStep === '3' ? 'g-section' : ''" >
+  <div class="container">
+    <div class="col-xs-12 g-list-md g-box gBgcGray5 pt-xs-1 mb-xs-2" ng-hide="vm.currentStep === '3'">
+      <ul class="row cnt-title">
+        <li class="col-xs-6 item-title gH4">Datos del contratante:</li>
+        <li class="col-xs-6 item-edit">
+          <a ui-sref="seguroviajeCotizar.initSteps.steps({step: 3})">
+            <span class="ico-mapfre_43_editar ico-edit"></span>
+            Editar datos
+          </a>
+        </li>
+      </ul>
+
+      <ul class="row">
+        <li class="col-sm-4 clearfix cnt-item">
+          <div class="col-sm-5 item-label">
+            <span class="ico-mapfre_82_circle ico-bullet"></span>Contratante:
+          </div>
+          <div class="col-xs-7 item-dato">
+            {{vm.formData[2].contratante.Nombre | uppercase}}
+          </div>
+        </li>
+        <li class="col-sm-4 clearfix cnt-item">
+          <div class="col-xs-5 item-label">
+            <span class="ico-mapfre_82_circle ico-bullet"></span>Número de documento:
+          </div>
+          <div class="col-xs-7 item-dato">
+            {{vm.formData[2].contratante.CodigoDocumento}}
+          </div>
+        </li>
+        <li class="col-sm-4 clearfix cnt-item" ng-if="vm.showNaturalPerson">
+          <div class="col-xs-5 item-label">
+            <span class="ico-mapfre_82_circle ico-bullet"></span>Email:
+          </div>
+          <div class="col-xs-7 item-dato">
+            {{vm.formData[2].contratante.CorreoElectronico | uppercase}}
+          </div>
+        </li>
+      </ul>
+    </div>
+
+    <!-- Step 3 -->
+    <div ng-class="vm.currentStep !== '3' ? 'col-xs-12 g-list-md g-box g-visible gBgcGray5 pt-xs-1 mb-xs-2' : '' " ng-show="vm.currentStep === '3'">
+      <form ng-submit="vm.setPrima(vm.formData[2].descuento)" name="stepThreeForm">
+        <!-- Datos de tipo de cotización -->
+        <div ng-class="vm.currentStep === '3' ? 'g-section-inner' : '' ">
+          <div class="container">
+            <div class="row">
+              <!-- Datos del contratante -->
+              <div class="col-xs-8 mb-1" ng-class="vm.currentStep === '3' ? '' : 'cnt-title' ">
+                <h2 ng-class="vm.currentStep === '3' ? 'g-sub-title' : 'item-title gH4' ">Datos del contratante</h2>
+              </div>
+            </div>
+          </div>
+          
+          <mpf-person-component
+            person-data="vm.formData[2].contratante"
+            name="contratante"
+            codigo-compania="vm.companyCode"
+            app-code="{{ vm.appCode }}"
+            form-code="{{ vm.formCodeCN }}"
+            editable="true"
+            outdata="vm.getContractorData(data)"
+            validate-minor="true"
+            habilitar-validacion-telefonos="vm.habilitarValidacionTelef">
+          </mpf-person-component>
+        </div>
+
+        <div class="g-section">
+          <div class="container">
+            <div class="row">
+              <!-- Datos del contratante -->
+              <div ng-class="vm.currentStep === '3' ? 'col-md-12 mb-1' : 'row cnt-title' ">
+                <h2 ng-class="vm.currentStep === '3' ? 'g-sub-title' : 'col-xs-6 item-title gH4' ">Datos del viajero</h2>
+              </div>
+            </div>
+          </div>
+
+          <div ng-repeat="viajero in vm.formData[2].viajeros">
+            <!-- Datos del contratante -->
+            <div class="container">
+              <div class="row">
+                <div ng-class="$first ? 'col-sm-8' : 'col-sm-12'">
+                  <h2 class="g-sub-title gH3 gCGray1">Viajero Número {{ $index + 1 }} {{ viajero.asContratante ? '(CONTRATANTE)' : '' }}</h2>
+                </div>
+                <div class="col-sm-4 pl-sm-8 mb-xs-3" ng-if="$first">
+                  <mpf-checkbox
+                    class="{{!vm.showNaturalPerson || vm.isRuc10 ? 'disabled' : '' }}"
+                    ng-model="viajero.asContratante"
+                    name="viajerocomocontratante"
+                    label="Viajero igual a contratante"
+                    ng-disabled="!vm.showNaturalPerson || vm.isRuc10"
+                    uib-tooltip="{{!vm.showNaturalPerson || vm.isRuc10 ? 'El viajero no puede ser Persona jurídica. Por favor ingresar los datos' : '' }}"
+                    ng-change="vm.setAsContractor(viajero.asContratante)">
+                  </mpf-checkbox>
+                </div>
+              </div>
+            </div>
+
+            <mpf-person-component
+              text-clean="viajero"
+              person-data="viajero"
+              name="viajero-{{$index}}"
+              codigo-compania="vm.companyCode"
+              app-code="{{ vm.appCode }}"
+              form-code="{{ vm.formCodeVJ }}"
+              editable="true"
+              outdata="vm.getTravelerData(data, $index)"
+              habilitar-validacion-telefonos="vm.habilitarValidacionTelef">
+            </mpf-person-component>
+          </div>
+          <div class="container">
+            <div class="row">
+              <div class="col-sm-offset-4 col-sm-4 col-xs-offset-0 col-xs-12">
+                <button type="submit" class="g-btn g-btn-verde block">CALCULAR PRIMA</button>
+              </div>
+            </div>
+            <div class="g-error text-center pt-xs-2" ng-show="vm.resetBonus">
+              Se realizó una edición. Por favor volver a calcular la prima
+            </div>
+            <div class="row">
+              <div class="col-md-12 mb-xs-1">
+                <h2 class="g-sub-title">Prima:</h2>
+              </div>
+              <div class="container">
+                <div class="col-md-12 g-box g-calcular-prima">
+                  <div class="row pb-xs-1 pt-xs-1 g-list-md">
+                    <div class="col-md-6 col-md-offset-3 clearfix">
+                      <div class="col-xs-7 item-label gH5">
+                        <span class="ico-mapfre_82_circle ico-bullet"></span>Prima total:
+                      </div>
+                      <div class="col-xs-5 item-dato g-text-uppercase gH3 text-right">{{ vm.formData[2].prima ? (vm.formData[2].prima | currency : '$') : '--' }}</div>
+                    </div>
+                  </div>
+                  <div class="row pb-xs-1 pt-xs-1 g-list-md">
+                    <div class="col-md-6 col-md-offset-3 clearfix">
+                      <div class="col-xs-7 item-label gH5">
+                        <span class="ico-mapfre_82_circle ico-bullet"></span> Descuento: {{focus}}
+                      </div>
+                      <div class="col-xs-offset-1 col-xs-4 col-sm-offset-2 col-sm-3 item-dato g-text-uppercase text-right valor">
+                        <div class="col-xs-offset-5 col-xs-5 pl-xs-0 pr-xs-0">
+                          <mpf-input
+                            label="{label: '', required: true}"
+                            name="descuento"
+                            mpf-validation="onlyNumberDecimal"
+                            ng-model="vm.formData[2].descuento"
+                            ng-required="true"
+                            ng-disabled="vm.userAdminRegular != 'A' "
+                            class="g-input-design__wp--squash">
+                          </mpf-input>
+                        </div>
+                        <div class="col-xs-2 gH4 pl-xs-0 pr-xs-0">
+                          <span>%</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row pb-xs-1 pt-xs-1 g-list-md">
+                    <div class="col-md-6 col-md-offset-3 clearfix">
+                      <div class="col-xs-7 item-label gH5">
+                        <span class="ico-mapfre_82_circle ico-bullet"></span>Producto:
+                      </div>
+                      <div class="col-xs-5 item-dato g-text-uppercase text-right">{{vm.formData[1].producto.nameProduct}}</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="g-section">
+          <div class="container">
+            <div class="row">
+              <div class="col-sm-3 col-sm-offset-3 mb-xs-1">
+                <button type="button" class="g-btn g-btn-white block" ui-sref="seguroviajeCotizar.initSteps.steps({step: 2})">Anterior</button>
+              </div>
+              <div class="col-sm-3">
+                <button
+                  ng-click="vm.nextStep()"
+                  type="button"
+                  class="g-btn g-btn-verde block"
+                  ng-class="vm.formData[2].prima || !vm.resetBonus ? '' : 'disabled' "
+                  ng-disabled="!vm.formData[2].prima || vm.resetBonus">
+                    Siguiente
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

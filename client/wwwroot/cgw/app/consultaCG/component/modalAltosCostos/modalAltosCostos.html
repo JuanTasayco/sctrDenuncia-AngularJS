@@ -1,0 +1,102 @@
+<div class="clearfix">
+    <button type="button" class="mt-xs-2 close g-close-modal" data-ng-click="$ctrl.close()" prevent-default>
+      <span class="ico-mapfre_231_cancelaroff"></span>
+    </button>
+    <div class="container g-section-tabs tab-modal">
+      <form name="frmModalBeneficio" class="clearfix container">
+        <div class="row">
+          <div class="col-md-12 mb-xs-2">
+            <h2 class="gH3"><b>Registro de Medicamentos de altos costos</b></h2>
+          </div>
+        </div>
+        <div class="row g-border-bottom-xs pb-xs-2">
+          <div class="col-xs-6" style="white-space: nowrap;overflow: hidden;text-overflow: ellipsis;">
+            <b>Medicamento*</b>
+          </div>
+          <div class="col-xs-1">
+            <b>Cantidad*</b>
+          </div>
+          <div class="col-xs-2" style="white-space: nowrap;overflow: hidden;text-overflow: ellipsis;">
+            <b>Precio comercial*</b>
+          </div>
+          <div class="col-xs-2" style="white-space: nowrap;overflow: hidden;text-overflow: ellipsis;">
+            <b>Precio total</b>
+          </div>
+          <div class="col-xs-1"></div>
+        </div>
+        <div class="row g-border-bottom-xs pb-xs-2" data-ng-repeat="medicine in results track by $index">
+          <div class="col-xs-6">
+            <mp-data-seeker
+              behavior="{label:'', placeholder:'Medicamento', matchField:'articleDesc'}"
+              m-data-source="getListMedicamento($inputNeed)"
+              ng-model="medicine.medicamento"
+              ng-required="true"
+              name="nMedicamento"
+              ng-change="selectMedicine(medicine)">
+              <div ng-bind-html="$item.articleDesc | highlight: $select.search"></div>
+            </mp-data-seeker>
+          </div>
+          <div class="col-xs-1">
+            <m-Numeric-Textbox 
+                label="{label: '', required: false}"
+                name="nCantidad"
+                class="text-right"
+                ng-model="medicine.cantidad"
+                options="optionsNumber"
+                ng-required="true"
+                ng-change="calcularPrecioTotal(medicine)">
+            </m-Numeric-Textbox >
+          </div>
+          <div class="col-xs-2">
+            <m-Numeric-Textbox 
+                label="{label: '', required: false}"
+                name="nPrecioComercial"
+                class="text-right"
+                ng-model="medicine.comercialCost"
+                options="optionsMoney"
+                ng-required="true"
+                ng-change="calcularPrecioTotal(medicine)">
+            </m-Numeric-Textbox >
+          </div>
+          <div class="col-xs-2">
+            <m-Numeric-Textbox 
+                label="{label: '', required: false}"
+                name="nPrecioTotal"
+                class="text-right"
+                ng-model="medicine.totalCost"
+                options="optionsMoney"
+                ng-required="true"
+                ng-disabled="true">
+            </m-Numeric-Textbox >
+          </div>
+          <div class="col-xs-1" style="padding: 20px 0;text-align: center;">
+            <a ng-click="eliminar($index)" ng-show="results.length != 1">
+              <span class="gnIcon-xsm ico-mapfre_29_eliminar"></span>
+            </a>
+          </div>
+        </div>
+        <div class="row mt-xs-2">
+          <div class="col-xs-12">
+            <a href="" ng-click="agregarMedicamento()">
+              <span class="g-icon gCGreen2">
+                <span class="icon ico-mapfre_230_agregarusuario"></span>
+                <span class="g-link no-underline"><b>Agregar medicamento</b></span>
+              </span>
+            </a>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-xs-12 g-title-btn-row mt-xs-2 mt-sm-0">
+            <div class="g-title-btn-col mt-xs-2">
+              <button class="g-btn g-btn-white second-design block" ng-click="$ctrl.close()">Cancelar</button>
+            </div>
+            <div class="g-title-btn-col mt-xs-2">
+              <button class="g-btn g-btn-verde second-design block" ng-click="guardar()" ng-disabled="disabledGuardar()">Registrar</button>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+  

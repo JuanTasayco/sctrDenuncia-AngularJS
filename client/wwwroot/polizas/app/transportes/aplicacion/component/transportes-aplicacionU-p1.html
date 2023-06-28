@@ -1,0 +1,165 @@
+<div class="first-step">
+	<div class="g-section-inner">
+		<div class="container">
+			<div class="row">
+
+				<div ng-if ="!mainStep.IS_COMPANY_CLIENT"
+					class="col-md-3 mb-xs-2">
+					<form action="" name="frmFirstStep">
+						<div show-filter class="clearfix g-col-filter g-box-md fz14 gBgcGray5-md gBgcWhite1" ng-class="{'show': isFilterVisible}">
+							<div class="col-md-12 mb-xs-3 gH4 gCGray1">
+								<h2 class="pb-xs-1 g-border-bottom-xs hidden-xs hidden-sm">Filtro</h2>
+								<div id="show-filter" class="row pt-xs-2 pb-xs-2 gBgcGray5 g-border-bottom-xs hidden-md hidden-lg" ng-click="toggleFilter();">
+									<div class="col-xs-10"><h2><b>Filtro</b></h2></div>
+									<div class="col-xs-2 g-text-right-xs">
+										<span class="glyphicon glyphicon-chevron-down" ng-if="isFilterVisible"></span>
+										<span class="glyphicon glyphicon-chevron-up" ng-if="!isFilterVisible"></span>
+									</div>
+									<div class="clearfix"></div>
+								</div>
+							</div>
+							<div class="g-col-filter__box">
+								<div class="col-md-12 mb-xs-2">
+									<div ng-if="!userRoot">
+										<span class="g-placeholder block mb-xs-1">Agente</span>
+										<span>{{mainStep.claims.codigoNombre}}</span>
+									</div>
+									<mp-data-seeker
+										ng-show="userRoot"
+										behavior="{label:'Agente', placeholder:'Busque o seleccione un agente ...', matchField:'codigoNombre'}"
+										m-data-source="'proxyAgente.buscarAgente'"
+										ng-model="mainStep.claims">
+										<div ng-bind-html="$item.codigoNombre | highlight: $select.search"></div>
+									</mp-data-seeker>
+								</div>
+								<div class="col-md-12 mb-xs-2">
+									<mpf-select ng-model="search.tipoDocumento" label="{label: 'Tipo', required: false}" m-data-source="tiposDeDocumentos" text-field="Descripcion" value-field="Codigo" m-Empty-Option="{enterData:true}"></mpf-select>
+								</div>
+								<div class="col-md-12 mb-xs-2">
+									<mpf-input label="{label: 'Nro. Documento', required: false}" ng-model="search.numeroDocumento" mpf-validation="onlyNumber" add-messages></mpf-input>
+								</div>
+								<div class="col-md-12 mb-xs-2">
+									<mpf-input label="{label: 'P&oacute;liza', required: false}" ng-model="search.poliza" mpf-validation="onlyNumber" add-messages></mpf-input>
+								</div>
+								<div class="col-md-12 mb-xs-2">
+									<mpf-input label="{label: 'Contratante', required: false}" ng-model="search.cliente" mpf-validation="onlyLetterNumber" add-messages></mpf-input>
+								</div>
+								<div class="col-md-12 mb-xs-1">
+									<a
+										href="javascript:void(0)"
+										class="g-btn g-btn-verde block"
+										ng-click="filter('1', false)">
+										Filtrar
+									</a>
+								</div>
+							</div>
+						</div>
+					</form>
+				</div>
+
+				<div ng-class="(mainStep.IS_COMPANY_CLIENT) ? 'col-md-12' : 'col-md-9'">
+					<div class="row" ng-if="!noResult">
+						<div class="col-md-12 g-text-right-md mb-xs-1">
+							<b>Nro. Pólizas: {{totalPolicies}}</b>
+						</div>
+					</div>
+					<!-- Mensaje de realiza una busqueda -->
+					<div class="col-md-12 text-center g-box-noresult" ng-if="noResultInfo">
+						<div class="row">
+							<div class="col-md-12 g-box-noresult-ico gCBlue2">
+								<span class="ico-mapfre_303_informacion"></span>
+							</div>
+							<div class="col-md-12 g-box-noresult-text">
+								Realiza una búsqueda para obtener resultados.
+							</div>
+						</div>
+					</div>
+					<!-- Mensaje de error si no hay resultados -->
+					<div class="col-md-12 text-center g-box-noresult" ng-if="noResult">
+						<div class="row">
+							<div class="col-md-12 g-box-noresult-ico gCRed1">
+								<span class="ico-mapfre_302_error"></span>
+							</div>
+							<div class="col-md-12 g-box-noresult-text">No hay resultados para los filtros escogidos.<br>Intente nuevamente.</div>
+						</div>
+					</div>
+					<div class="clearfix g-box g-overflow-hidden-xs mb-xs-2" ng-repeat="item in items" ng-if="!noResult">
+						<div class="row pt-xs-1 gBgcGray5">
+							<ul class="clearfix g-list">
+								<li class="col-md-8">
+									<ul class="row">
+										<li class="col-sm-6 clearfix cnt-item">
+											<div class="col-sm-5 col-xs-4 item-label">
+												Nro. P&oacute;liza:
+											</div>
+											<div class="col-sm-7 col-xs-8 item-dato g-text-uppercase">
+												{{item.NumeroPoliza}}
+											</div>
+										</li>
+										<li class="col-sm-6 clearfix cnt-item">
+											<div class="col-sm-5 col-xs-4 item-label">
+												Contratante:
+											</div>
+											<div class="col-sm-7 col-xs-8 item-dato g-text-uppercase">
+												{{item.ContratanteNombre}}
+											</div>
+										</li>
+									</ul>
+								</li>
+								<li class="col-md-4 clearfix">
+									<div class="col-md-12 cnt-item">
+										<a href="" class="g-btn g-btn-white block second-design" ng-click="onAplicacion(item)">Nueva Aplicacion</a>
+									</div>
+								</li>
+							</ul>
+						</div>
+						<div class="row g-box-content">
+							<ul class="clearfix g-list">
+								<li class="col-md-4 clearfix cnt-item">
+									<div class="col-sm-5 item-label">
+										Inicio de vigencia:
+									</div>
+									<div class="col-sm-7 item-dato g-text-uppercase">
+										{{item.InicioVigencia}}
+									</div>
+								</li>
+								<li class="col-md-4 clearfix cnt-item">
+									<div class="col-sm-5 item-label">
+										Fin de vigencia:
+									</div>
+									<div class="col-sm-7 item-dato g-text-uppercase">
+										{{item.FinVigencia}}
+									</div>
+								</li>
+								<li class="col-md-4 clearfix cnt-item">
+									<div class="col-sm-5 item-label">
+										Aplicaciones:
+									</div>
+									<div class="col-sm-7 item-dato g-text-uppercase">
+										{{item.CantidadAplicaciones}}
+									</div>
+								</li>
+							</ul>
+							<ul class="clearfix g-list">
+								<li class="col-md-4 clearfix cnt-item">
+									<div class="col-sm-5 item-label">
+										Nro. de Ultimo Suplemento:
+									</div>
+									<div class="col-sm-7 item-dato g-text-uppercase">
+										{{item.NumeroSPTOExt}}
+									</div>
+								</li>
+							</ul>
+						</div>
+					</div>
+					<div class="row" ng-show="!noResult && totalPolicies > 10">
+						<div class="col-md-12">
+							<ul uib-pagination class="g-pagination" ng-model="mPagination" max-size="10" total-items="totalItems" ng-change="pageChanged(mPagination)" boundary-link-numbers="true"></ul>
+						</div>
+					</div>
+				</div>
+
+			</div>
+		</div>
+	</div>
+</div>

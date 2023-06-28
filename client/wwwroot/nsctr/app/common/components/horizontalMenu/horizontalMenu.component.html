@@ -1,0 +1,159 @@
+<div
+	m-horizontal-menu
+	class="gHorizontalMenu__box">
+	<div class="container">
+		<div class="row">
+			<div class="col-xs-12">
+				<ul class="gHorizontalMenu hidden-xs hidden-sm">
+					<span ng-repeat="item in $ctrl.horizontalMenu | limitTo:$ctrl.LIMIT_MENU">
+						<li
+							class="link"
+							ng-class="{'actived':item.actived}"
+							ng-if="item.menu.length == 0">
+							<a
+								href="javascript:void(0)"
+								ng-click="$ctrl.fnGoPage(item)">
+								{{item.label}}
+							</a>
+						</li>
+						<li
+							class="submenu"
+							ng-class="{'actived':item.actived}"
+							ng-if="item.menu.length > 0">
+							<a>{{item.label}}</a><span class="iconArrow"></span>
+							<ul class="sbm-main">
+								<span ng-repeat="subitem in item.menu">
+									<li
+										class="sbm-link"
+										ng-class="{'actived':subitem.actived}"
+										ng-if="subitem.menu.length == 0">
+										<a
+											href="javascript:void(0)"
+											ng-click="$ctrl.fnGoPage(subitem)">
+											{{subitem.label}}
+										</a>
+							 		</li>
+									<li
+										class="sbm-link submenu__more"
+										ng-class="{'actived':subitem.actived}"
+										ng-if="subitem.menu.length > 0">
+										<a>{{subitem.label}}</a><span class="iconArrow"></span>
+										<ul class="sbm-main">
+											<span ng-repeat="grandChild in subitem.menu">
+												<li
+													class="sbm-link"
+													ng-class="{'actived':grandChild.actived}">
+													<a
+														href="javascript:void(0)"
+														ng-click="$ctrl.fnGoPage(grandChild)">
+														{{grandChild.label}}
+													</a>
+												</li>
+											</span>
+										</ul>
+									</li>
+								</span>
+							</ul>
+						</li>
+					</span>
+					<span ng-if="$ctrl.MORE_OPTIONS">
+						<li class="submenu">
+							<a>Más opciones</a><span class="iconArrow"></span>
+							<ul class="sbm-main">
+								<span ng-repeat="item in $ctrl.horizontalMenu | limitTo:$ctrl.horizontalMenu.length:5">
+									<li
+										class="sbm-link"
+										ng-class="{'actived':item.actived}"
+										ng-if="item.menu.length == 0">
+										<a
+											href="javascript:void(0)"
+											ng-click="$ctrl.fnGoPage(item)">
+											{{item.label}}
+										</a>
+									</li>
+									<li
+										class="sbm-link submenu__more"
+										ng-class="{'actived':item.actived}"
+										ng-if="item.menu.length > 0">
+										<a>{{item.label}}</a><span class="iconArrow"></span>
+										<ul class="sbm-main">
+											<span ng-repeat="subitem in item.menu">
+												<li
+													class="sbm-link"
+													ng-class="{'actived':subitem.actived}">
+													<a
+														href="javascript:void(0)"
+														ng-click="$ctrl.fnGoPage(subitem)">
+														{{subitem.label}}
+													</a>
+												</li>
+											</span>
+										</ul>
+									</li>
+								</span>
+							</ul>
+						</li>
+					</span>
+				</ul>
+
+				<ul class="gHorizontalMenu gHorizontalMenu__responsive hidden-md hidden-lg">
+					<span ng-repeat="item in $ctrl.horizontalMenu">
+
+						<li
+							class="link"
+							ng-class="{'actived':item.actived}"
+							ng-if="item.menu.length == 0"
+							ng-click="fnGoPage($event, item)">
+							<a>{{item.label}}</a>
+						</li>
+
+						<li
+							class="submenu"
+							ng-class="{'actived':item.actived}"
+							ng-if="item.menu.length > 0"
+							ng-click="fnGoPage($event, item)">
+							<a>{{item.label}}</a><span class="iconArrow"></span>
+							<ul class="sbm-main">
+								<span ng-repeat="subitem in item.menu">
+
+									<li
+										class="sbm-link"
+										ng-class="{'actived':subitem.actived}"
+										ng-if="subitem.menu.length == 0"
+										ng-click="fnGoPage($event, subitem)">
+										<a>{{subitem.label}}</a>
+									</li>
+
+									<li
+										class="sbm-link submenu__more"
+										ng-class="{'actived':item.actived}"
+										ng-if="subitem.menu.length > 0"
+										ng-click="fnGoPage($event, subitem)">
+										<a>{{subitem.label}}</a><span class="iconArrow"></span>
+										<ul class="sbm-main">
+											<span ng-repeat="grandChild in subitem.menu">
+												<li
+													class="sbm-link"
+													ng-class="{'actived':grandChild.actived}"
+													ng-click="fnGoPage($event, grandChild)">
+												 	<a>{{grandChild.label}}</a>
+												</li>
+											</span>
+										</ul>
+									</li>
+
+								</span>
+							</ul>
+						</li>
+					</span>
+				</ul>
+				<span
+					id="gHorizontalMenu_ico"
+					class="ico-mapfre_95_menuderecha gHorizontalMenu_ico visible-xs visible-sm"
+					ng-click="fnOpenMenuResponsive()">
+				</span>
+
+			</div>
+		</div>
+	</div>
+</div>

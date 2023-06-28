@@ -1,0 +1,424 @@
+<wp-msg-box data-show-msg-error="$ctrl.isFrmRequire && !$ctrl.frmsValidationStates.conductor"></wp-msg-box>
+<form name="$ctrl.frmConductorObj" class="pt-xs-2">
+  <div class="container u-ph-0">
+    <div class="row">
+      <div class="col-md-12"><h2 class="g-sub-title">Conductor</h2></div>
+    </div>
+    <div class="row">
+      <div class="col-md-4 mb-xs-2">
+        <mpf-input
+          data-ng-model="$ctrl.frm.conductor.dniConductor"
+          data-mpf-validation="required, onlyNumberNoSpace"
+          data-ng-maxlength="8"
+          data-trn-length="8"
+          label="{label: 'Número de documento', required: true}"
+          name="nDniConductor"
+        >
+        </mpf-input>
+        <div
+          class="g-error"
+          data-ng-show="$ctrl.frmConductorObj.nDniConductor.$invalid && !$ctrl.frmConductorObj.nDniConductor.$pristine">
+          Este campo es obligatorio
+        </div>
+      </div>
+      <div class="col-md-4 mb-xs-2">
+        <wp-cbo-relacion-co-ase
+          data-label="{label: 'Relación conductor con asegurado', required: false}"
+          data-ng-model="$ctrl.frm.tab2.relacionCoAse"
+          data-option-default="{enterData: true}"
+          data-set-model-by-this-key="$ctrl.frm.codigoRelacionAsegurado"
+          name="nRelacionCoAse"
+        >
+        </wp-cbo-relacion-co-ase>
+        <div
+          class="g-error"
+          data-ng-show="$ctrl.frmConductorObj.nRelacionCoAse.$invalid && !$ctrl.frmConductorObj.nRelacionCoAse.$pristine">
+          Este campo es obligatorio
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12 mb-xs-1"><h3 class="gH3">Datos Principales</h3></div>
+    </div>
+    <div class="row">
+      <div class="col-md-4 mb-xs-2">
+        <mpf-input
+          data-mpf-validation="required, onlyLetter"
+          data-ng-maxlength="50"
+          data-ng-model="$ctrl.frm.conductor.nombreConductor"
+          label="{label: 'Nombres', required: true}"
+          name="nNombresConductor"
+        >
+        </mpf-input>
+        <div
+          class="g-error"
+          data-ng-show="$ctrl.frmConductorObj.nNombresConductor.$invalid && !$ctrl.frmConductorObj.nNombresConductor.$pristine">
+          Este campo es obligatorio
+        </div>
+      </div>
+      <div class="col-md-4 mb-xs-2">
+        <mpf-input
+          data-mpf-validation="required, onlyLetter"
+          data-ng-maxlength="50"
+          data-ng-model="$ctrl.frm.conductor.paternoConductor"
+          label="{label: 'Apellidos', required: true}"
+          name="nApellidosConductor"
+        >
+        </mpf-input>
+        <div
+          class="g-error"
+          data-ng-show="$ctrl.frmConductorObj.nApellidosConductor.$invalid && !$ctrl.frmConductorObj.nApellidosConductor.$pristine">
+          Este campo es obligatorio
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-3 mb-xs-2">
+        <mpf-datepicker
+          data-format="$ctrl.dateFormat"
+          data-ng-change="$ctrl.changeNacimiento()"
+          data-ng-model="$ctrl.fechaNacimiento"
+          data-ng-required="false"
+          data-parsear-to-date="true"
+          data-readonly="false"
+          data-set-max-today="true"
+          data-set-model-by-this-data="$ctrl.frm.conductor.fchNacimientoConductor"
+          label="{label: 'Fecha de nacimiento:', required: false}"
+          name="nFechaNacimiento"
+        >
+        </mpf-datepicker>
+        <div
+          class="g-error"
+          data-ng-show="$ctrl.frmConductorObj.nFechaNacimiento.$invalid && !$ctrl.frmConductorObj.nFechaNacimiento.$pristine">
+          Este campo es obligatorio
+        </div>
+      </div>
+      <div class="col-md-1 mb-xs-2">
+        <mpf-input
+          data-ng-disabled="true"
+          data-ng-model="$ctrl.frm.conductor.edadCondutor"
+          label="{label: 'Edad', required: false}"
+          name="nEdadConductor"
+        >
+        </mpf-input>
+        <div
+          class="g-error"
+          data-ng-show="$ctrl.frmConductorObj.nEdadConductor.$invalid && !$ctrl.frmConductorObj.nEdadConductor.$pristine">
+          Este campo es obligatorio
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12 mb-xs-1"><h3 class="gH3">Características Personales</h3></div>
+    </div>
+    <div class="row">
+      <div class="col-md-4 mb-xs-2">
+        <div class="row">
+          <div class="col-md-12"><span class="g-label text-left">Sexo</span></div>
+          <div class="col-md-6 col-sm-3 col-xs-3 mt-xs-1">
+            <m-radio
+              data-ng-model="$ctrl.frm.conductor.sexoConductor"
+              label="{label: 'Masculino'}"
+              name="nSexoConductor"
+              value="1">
+            </m-radio>
+          </div>
+          <div class="col-md-6 col-sm-3 col-xs-3 mt-xs-1">
+            <m-radio
+              data-ng-model="$ctrl.frm.conductor.sexoConductor"
+              label="{label: 'Femenino'}"
+              name="nSexoConductor"
+              value="0">
+            </m-radio>
+          </div>
+          <div
+            class="g-error col-xs-12"
+            data-ng-show="$ctrl.frmConductorObj.nSexoConductor.$invalid && !$ctrl.frmConductorObj.nSexoConductor.$pristine">
+            Este campo es obligatorio
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12 mb-xs-1"><h3 class="gH3">Datos Académicos</h3></div>
+    </div>
+    <div class="row">
+      <div class="col-md-4 mb-xs-2">
+        <wp-cbo-nivel-academico
+          data-label="{label: 'Nivel académico', required: false}"
+          data-ng-model="$ctrl.frm.tab2.nivelAcademico"
+          data-option-default="{enterData: true}"
+          data-set-model-by-this-key="$ctrl.frm.conductor.codigoAcademicoConductor"
+          name="nNivelAcademico"
+        >
+        </wp-cbo-nivel-academico>
+        <div
+          class="g-error"
+          data-ng-show="$ctrl.frmConductorObj.nNivelAcademico.$invalid && !$ctrl.frmConductorObj.nNivelAcademico.$pristine">
+          Este campo es obligatorio
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12 mb-xs-1"><h3 class="gH3">Datos de Contacto</h3></div>
+    </div>
+    <div class="row">
+      <div class="col-md-4 mb-xs-2">
+        <mpf-input
+          data-atrn-length="20"
+          data-mpf-validation="onlyNumberNoSpace"
+          data-ng-maxlength="20"
+          data-ng-model="$ctrl.frm.conductor.telefonoConductor"
+          label="{label: 'Teléfono', required: false}"
+          name="nTelefonoConductor"
+        >
+        </mpf-input>
+        <div
+          class="g-error"
+          data-ng-show="$ctrl.frmConductorObj.nTelefonoConductor.$invalid && !$ctrl.frmConductorObj.nTelefonoConductor.$pristine">
+          Ingrese un dato válido
+        </div>
+      </div>
+      <div class="col-md-4 mb-xs-2">
+        <mpf-input
+          data-mpf-validation="required, email"
+          data-ng-maxlength="50"
+          data-ng-model="$ctrl.frm.conductor.correoConductor"
+          label="{label: 'Email', required: true}"
+          name="nEmailConductor"
+        >
+        </mpf-input>
+        <div
+          class="g-error"
+          data-ng-show="$ctrl.frmConductorObj.nEmailConductor.$invalid && !$ctrl.frmConductorObj.nEmailConductor.$pristine">
+          Ingrese un campo válido
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12 mb-xs-1"><h3 class="gH3">Dirección</h3></div>
+    </div>
+    <div class="row">
+      <div class="col-md-6 mb-xs-2">
+        <mpf-input
+          data-ng-model="$ctrl.frm.conductor.direccionConductor"
+          data-ng-maxlength="40"
+          label="{label: 'Dirección domicilio del conductor', required: false}"
+          name="nDireccConductor"
+        >
+        </mpf-input>
+        <div
+          class="g-error"
+          data-ng-show="$ctrl.frmConductorObj.nDireccConductor.$invalid && !$ctrl.frmConductorObj.nDireccConductor.$pristine">
+          Ingrese un dato válido
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12 mb-xs-1"><h3 class="gH3">Licencia</h3></div>
+    </div>
+    <div class="row">
+      <div class="col-md-4 mb-xs-2">
+        <mpf-input
+          data-ng-maxlength="15"
+          data-mpf-validation="alfanumericoEspacio"
+          data-ng-model="$ctrl.frm.conductor.licenciaConductor"
+          label="{label: 'Nro. Licencia de conducir', required: false}"
+          name="nLicenciaConductor"
+        >
+        </mpf-input>
+        <div
+          class="g-error"
+          data-ng-show="$ctrl.frmConductorObj.nLicenciaConductor.$invalid && !$ctrl.frmConductorObj.nLicenciaConductor.$pristine">
+          Ingrese un campo válido
+        </div>
+      </div>
+      <div class="col-md-4 mb-xs-2">
+        <mpf-datepicker
+          data-format="$ctrl.dateFormat"
+          data-ng-model="$ctrl.objMock2"
+          data-ng-required="false"
+          data-parsear-to-date="true"
+          data-readonly="false"
+          data-set-model-by-this-data="$ctrl.frm.conductor.fchExpiracionLicenciConductor"
+          label="{label: 'Fecha de expiración:', required: false}"
+          name="nFechaExpiracion"
+        >
+        </mpf-datepicker>
+        <div
+          class="g-error"
+          data-ng-show="$ctrl.frmConductorObj.nFechaExpiracion.$invalid && !$ctrl.frmConductorObj.nFechaExpiracion.$pristine">
+          Este campo es obligatorio
+        </div>
+      </div>
+      <div class="col-md-4 mb-xs-2">
+        <wp-cbo-tipo-licencia
+          data-label="{label: 'Tipo de licencia', required: false}"
+          data-ng-model="$ctrl.frm.tab2.codigoLicenciaConductor"
+          data-option-default="{enterData: true}"
+          data-set-model-by-this-key="$ctrl.frm.conductor.codigoLicenciaConductor"
+          name="nTipoLicencia"
+        >
+        </wp-cbo-tipo-licencia>
+        <div
+          class="g-error"
+          data-ng-show="$ctrl.frmConductorObj.nTipoLicencia.$invalid && !$ctrl.frmConductorObj.nTipoLicencia.$pristine">
+          Este campo es obligatorio
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="container u-ph-0" data-ng-if="$ctrl.frm.exoneraDenuncia + '' == 'false'">
+    <div class="g-border-bottom mt-xs-3 mt-md-5"></div>
+    <div class="row mt-xs-3 mt-md-5">
+      <div class="col-md-12">
+        <h2 class="g-sub-title">Información Dosaje del Conductor</h2>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-3 mb-xs-2">
+        <mpf-datepicker
+          data-format="$ctrl.dateFormat"
+          data-ng-disabled="$ctrl.frm.exoneraDenuncia + '' == 'true'"
+          data-ng-model="$ctrl.objMock3"
+          data-ng-required="false"
+          data-parsear-to-date="true"
+          data-set-max-today="true"
+          data-set-model-by-this-data="$ctrl.frm.conductor.fchDosajeConductor"
+          label="{label: 'Fecha de dosaje:', required: false}"
+          name="nFechaDosaje"
+        >
+        </mpf-datepicker>
+        <div
+          class="g-error"
+          data-ng-show="$ctrl.frmConductorObj.nFechaDosaje.$invalid && !$ctrl.frmConductorObj.nFechaDosaje.$pristine">
+          Este campo es obligatorio
+        </div>
+      </div>
+      <div class="col-md-3 mb-xs-2">
+        <mpf-timepicker
+          data-is-hh-mm="true"
+          data-is-read-only="false"
+          data-label-data="{label: 'Hora dosaje', required: false}"
+          data-modelo="$ctrl.frm.conductor.horaDosajeConductor"
+          data-requerido="false"
+          data-ng-disabled="$ctrl.frm.exoneraDenuncia + '' == 'true'"
+          name="nHoraDosaje"
+        >
+        </mpf-timepicker>
+        <div
+          class="g-error"
+          data-ng-show="$ctrl.frmConductorObj.nHoraDosaje.$invalid && !$ctrl.frmConductorObj.nHoraDosaje.$pristine">
+          Este campo es obligatorio
+        </div>
+      </div>
+      <div class="col-md-3 mb-xs-2">
+        <div class="row">
+          <div class="col-md-12"><span class="g-label">Resultado del dosaje cualitativo</span></div>
+          <div class="col-md-6 col-sm-3 col-xs-5 mt-xs-1">
+            <m-radio
+              data-is-input-boolean="true"
+              data-ng-disabled="$ctrl.frm.exoneraDenuncia + '' == 'true'"
+              data-ng-model="$ctrl.frm.conductor.resulDosajeConductor"
+              label="{label: 'Positivo'}"
+              name="nResultadoDosaje"
+              value="true"
+            >
+            </m-radio>
+          </div>
+          <div class="col-md-6 col-sm-3 col-xs-5 mt-xs-1">
+            <m-radio
+              data-is-input-boolean="true"
+              data-ng-disabled="$ctrl.frm.exoneraDenuncia + '' == 'true'"
+              data-ng-model="$ctrl.frm.conductor.resulDosajeConductor"
+              label="{label: 'Negativo'}"
+              name="nResultadoDosaje"
+              value="false"
+            >
+            </m-radio>
+          </div>
+          <div
+            class="g-error col-xs-12"
+            data-ng-show="$ctrl.frmConductorObj.nResultadoDosaje.$invalid && !$ctrl.frmConductorObj.nResultadoDosaje.$pristine">
+            Este campo es obligatorio
+          </div>
+        </div>
+      </div>
+      <div class="col-md-3 mb-xs-2">
+        <mpf-input
+          data-ng-disabled="$ctrl.frm.exoneraDenuncia + '' == 'true'"
+          data-ng-model="$ctrl.frm.conductor.oficioDosajeCondunctor"
+          label="{label: 'Nro. de oficio del dosaje', required: false}"
+          name="nNumOficioDosaje"
+        >
+        </mpf-input>
+        <div
+          class="g-error"
+          data-ng-show="$ctrl.frmConductorObj.nNumOficioDosaje.$invalid && !$ctrl.frmConductorObj.nNumOficioDosaje.$pristine">
+          Este campo es obligatorio
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="g-border-bottom mt-xs-3 mt-md-5"></div>
+  <div class="container u-ph-0">
+    <div class="row mt-xs-3 mt-md-5">
+      <div class="col-md-12">
+        <h2 class="g-sub-title">Lesiones del Conductor</h2>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-3 mb-xs-2">
+        <wp-cbo-tipo-lesion
+          data-label="{label: 'Tipo de lesión', required: false}"
+          data-ng-change="$ctrl.changeLesion()"
+          data-ng-model="$ctrl.frm.tab2.tipoLesion"
+          data-set-model-by-this-key="$ctrl.frm.conductor.codigoLesionConductor"
+          name="nTipoLesion"
+        >
+        </wp-cbo-tipo-lesion>
+        <div
+          class="g-error"
+          data-ng-show="$ctrl.frmConductorObj.nTipoLesion.$invalid && !$ctrl.frmConductorObj.nTipoLesion.$pristine">
+          Este campo es obligatorio
+        </div>
+      </div>
+      <div class="col-md-9 mb-xs-2" data-ng-if="$ctrl.frm.conductor.codigoLesionConductor">
+        <mpf-textarea
+          data-ng-model="$ctrl.frm.conductor.diagnosticoLesionConductor"
+          label="{label:'Diagnóstico de lesión', required: false}"
+          validate="validate[required]"
+          name="nDiagnosticoLesion"
+        >
+        </mpf-textarea>
+        <div
+          class="g-error"
+          data-ng-show="$ctrl.frmConductorObj.nDiagnosticoLesion.$invalid && !$ctrl.frmConductorObj.nDiagnosticoLesion.$pristine">
+          Este campo es obligatorio
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="g-border-bottom mt-xs-3 mt-md-5"></div>
+  <div class="container u-ph-0">
+    <div class="row mt-xs-3 mt-md-5">
+      <div class="col-md-12"><h2 class="g-sub-title">Ocupantes</h2></div>
+    </div>
+    <div class="row">
+      <div class="col-md-12">
+        <span class="g-label">Ingrese los datos de los ocupantes que estaban en el vehículo a la hora del siniestro.</span>
+      </div>
+    </div>
+    <wp-agregar-ocupante
+      data-ocupantes="$ctrl.lstOcupantes"
+      data-on-agregar="$ctrl.agregarOcupante($event)"
+      data-on-editar="$ctrl.editarOcupante($event)"
+      data-on-eliminar="$ctrl.eliminarOcupante($event)"
+    >
+    </wp-agregar-ocupante>
+  </div>
+</form>

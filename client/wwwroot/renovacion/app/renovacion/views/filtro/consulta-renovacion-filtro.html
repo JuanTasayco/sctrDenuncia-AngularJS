@@ -1,0 +1,100 @@
+<form action="" name="fmrRenovacionFiltro">
+    <div class="col-md-12 mb-xs-3 gH4 gCGray1 renovacion__title">
+        <h1 class="pb-xs-1  hidden-xs hidden-sm"><b>Filtros</b></h1>
+        <div id="show-filter" class="row pt-xs-2 pb-xs-2 gBgcGray5 g-border-bottom-xs hidden-md hidden-lg">
+            <div class="col-xs-10">
+                <h2><b>Filtros</b></h2>
+            </div>
+            <div class="col-xs-2 g-text-right-xs">
+                <span class="glyphicon glyphicon-chevron-down"></span>
+            </div>
+            <div class="clearfix"></div>
+        </div>
+    </div>
+    <div id="filtros_container" show-filter
+        class="renovacion__filtro__container clearfix g-col-filter g-box-md fz14 gBgcGray5-md gBgcWhite1 g-myd-box g-myd-box--filter">
+
+        <div class="g-col-filter__box">
+            <div class="col-md-12 mb-xs-2">
+                <mpf-select ng-model="vm.nDocumento" label="{label: 'Tipo de Doc.'}" name="nTipoDocFilter"
+                    ng-change="vm.actualizarSelect(vm.nDocumento,'001')" ng-required="false"
+                    m-data-source="vm.documentos" text-field="descripcion" value-field="codigo"
+                    m-Empty-Option="{enterData:true}">
+                </mpf-select>
+            </div>
+            <div class="col-md-12 mb-xs-2">
+                <mpf-input ng-model="vm.filtros.numeroDocumento" label="{label: 'Nro. Documento'}"
+                    name="nNroDocumentoFilter">
+                </mpf-input>
+            </div>
+            <div class="col-md-12 mb-xs-2">
+                <mpf-input ng-model="vm.filtros.nombreCliente" label="{label: 'Nombre del Cliente'}"
+                    name="nNroCotizacion">
+                </mpf-input>
+            </div>
+            <div class="col-md-12 mb-xs-2">
+                <mpf-input  
+                    ng-if="!vm.isAdmin &&  vm.mrol == 'AGENTE_COMERCIAL'" label="{label:'Agente'}" ng-disabled="true"
+                    name="valueAgente" ng-model="vm.mAgente.codigoNombre"> </mpf-input>
+
+                <mp-data-seeker ng-if="vm.mrol != 'AGENTE_COMERCIAL'"
+                    behavior="{label:'Agente', placeholder:'Busque o seleccione un agente ...', matchField:'codigoNombre'}"
+                    m-data-source="findAgent" ng-model="vm.mAgente">
+                    <div ng-bind-html="$item.codigoNombre | highlight: $select.search"></div>
+                </mp-data-seeker>
+            </div>
+            <div class="col-md-12 mb-xs-2">
+                <mpf-input ng-if="!vm.isAdmin && (vm.mrol == 'EAC' || vm.mrol == 'AGENTE_COMERCIAL')"
+                    ng-model="vm.mOficina" ng-disabled="true" label="{label: 'Oficina'}" name="mOficina"
+                    nomargin="true"></mpf-input>
+
+                <mp-data-seeker ng-if="vm.isAdmin"
+                    behavior="{label:'Oficina', placeholder:'Busque o seleccione una oficina ...', matchField:'nombreOficina'}"
+                    m-data-source="findOffice" ng-model="vm.mOficina">
+                    <div ng-bind-html="$item.nombreOficina | highlight: $select.search"></div>
+                </mp-data-seeker>
+            </div>
+            <div class="col-md-12 mb-xs-2">
+                <mpf-select ng-model="vm.nSegmento" label="{label: 'Ramo'}"
+                    ng-change="vm.actualizarSelect(vm.nSegmento,'003')" name="ramo" nomargin="true"
+                    m-data-source="vm.segmentos" text-field="descripcion" value-field="codigo"
+                    m-Empty-Option="{enterData:true}"></mpf-select>
+            </div>
+            <div class="col-md-12 mb-xs-2">
+                <mpf-input ng-model="vm.filtros.polizaId" label="{label: 'Póliza'}" name="nPoliza" nomargin="true">
+            </div>
+            <div class="col-md-12 mb-xs-2">
+                <mpf-select ng-model="vm.nEstadoPoliza" label="{label: 'Estado Póliza'}" name="ePoliza" nomargin="true"
+                    ng-change="vm.actualizarSelect(vm.nEstadoPoliza,'004')" m-data-source="vm.estado_poliza"
+                    text-field="descripcion" value-field="codigo" m-Empty-Option="{enterData:true}"></mpf-select>
+            </div>
+            <div class="col-md-12 mb-xs-2">
+                <mpf-select ng-model="vm.nEstadoRenovacion" ng-change="vm.actualizarSelect(vm.nEstadoRenovacion,'005')"
+                    label="{label: 'Estado Renovación'}" name="eRenovacion" nomargin="true"
+                    m-data-source="vm.estado_renovacion" text-field="descripcion" value-field="codigo"
+                    m-Empty-Option="{enterData:true}"></mpf-select>
+            </div>
+            <div class="col-md-12 mb-xs-2">
+                <mpf-input ng-model="vm.filtros.endosatario" label="{label: 'Endosatario'}" name="nEndosatario"
+                    nomargin="true">
+            </div>
+            <div class="col-md-6 mb-xs-2">
+                <mpf-datepicker class="customPicker" ng-model="vm.filtros.fechaInicio" label="{label: 'Fecha inicial'}"
+                    format="'dd/MM/yyyy'" name="nFechaInicial" nomargin="true">
+            </div>
+            <div class="col-md-6 mb-xs-2">
+                <mpf-datepicker class="customPicker" ng-model="vm.filtros.fechaFin" label="{label: 'Fecha final'}"
+                    format="'dd/MM/yyyy'" name="nFechaFinal" nomargin="true">
+            </div>
+            <div class="col-md-12 mb-xs-2">
+                <mpf-input ng-model="vm.filtros.diasVencimiento" label="{label: 'Días para vencimiento'}"
+                    name="dVencimientos" nomargin="true">
+            </div>
+
+        </div>
+    </div>
+    <div class="col-md-12 mt-xs-4 mb-xs-1">
+        <a href="javascript:void(0);" class="g-btn g-btn-verde block"
+            ng-click="vm.buscarDocumentos(); toggleFilter();">Consultar</a>
+    </div>
+</form>

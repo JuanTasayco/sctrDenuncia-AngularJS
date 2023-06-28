@@ -1,0 +1,110 @@
+<div class="g-title g-border-bottom">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-2">
+                <h1 class="ng-binding">Campañas</h1>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="dashboard-body">
+    <div class="g-section-inner g-dashboard-section">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <form name="frmFormCampania">
+                        <div class="clearfix g-box-md mb-md-2 gBgcWhite1">
+                            <div class="g-col-filter__box">
+                                <div class="col-md-12">
+                                    <div class="row">
+                                        <div class="col-md-12 mb-md-1">
+                                            <span class="col-md-6" style="margin-top: 15px;">
+                                                <label class="g-placeholder animated ng-binding pl-xs-1-5">{{tituloCampania}}</label>
+                                            </span>                                            
+                                        </div>
+                                        <div class="col-md-12 mt-md-2 mb-md-2">
+                                            <div class="col-md-4">
+                                                <input hidden ng-model="mCodigoCampania"/>
+                                                <mpf-input label="{label: 'Nombre de la Campaña'}" name="nNombreCampania" ng-disabled="mEstadoRegistro =='A'"
+                                                    ng-model="mNombreCampania" ng-maxlength="50" ng-required="true"></mpf-input>
+                                                <div class="g-error"
+                                                    data-ng-show="frmFormCampania.nNombreCampania.$error.required && !frmFormCampania.nNombreCampania.$pristine">
+                                                    * Ingrese Nombre de campaña
+                                                </div>
+                                            </div>
+                                            <div class="col-md-2">                                                
+                                                <mpf-datepicker nomargin="true" label="{label: 'Fecha de inicio:'}"
+                                                data-format="'dd/MM/yyyy'" ng-model="mFechaIni" name="nFechaIni" ng-disabled="mEstadoRegistro =='A'"
+                                                    data-ng-required="true" >
+                                                </mpf-datepicker>
+                                                <div class="g-error"
+                                                    data-ng-show="frmFormCampania.nFechaIni.$error.required && !frmFormCampania.nFechaIni.$pristine">
+                                                    *Ingrese fecha de inicio
+                                                </div>
+                                            </div>
+                                            <div class="col-md-2">                                                
+                                                <mpf-datepicker nomargin="true" label="{label: 'Fecha de fin:'}"
+                                                data-format="'dd/MM/yyyy'" ng-model="mFechaFin" name="nFechaFin" ng-disabled="mEstadoRegistro =='A'"
+                                                    data-ng-required="true">
+                                                </mpf-datepicker>
+                                                <div class="g-error"
+                                                    data-ng-show="frmFormCampania.nFechaFin.$error.required && !frmFormCampania.nFechaFin.$pristine">
+                                                    *Ingrese fecha de fin
+                                                </div>
+                                            </div>
+                                            <div class="col-md-2">
+                                                <mpf-input label="{label: 'Código MINAGRI'}" name="nCodigoMinagri" ng-disabled="mEstadoRegistro =='A'"
+                                                    ng-model="mCodigoMinagri" ng-maxlength="4" ng-trim="false"  ng-required="true" ng-pattern="patronMinagri"></mpf-input>
+                                                <div class="g-error"
+                                                    data-ng-show="frmFormCampania.nCodigoMinagri.$error.required && !frmFormCampania.nCodigoMinagri.$pristine">
+                                                    * Ingrese Código MINAGRI
+                                                </div>
+                                            </div>
+                                            <div class="col-md-2">
+                                                <mpf-input label="{label: 'N° de Póliza'}" name="nNumPoliza" ng-disabled="mEstadoRegistro =='A'"
+                                                    ng-model="mNumPoliza" ng-maxlength="35"
+                                                    mpf-validation="onlyNumber" ng-required="true"></mpf-input>
+                                                <div class="g-error"
+                                                    data-ng-show="frmFormCampania.nNumPoliza.$error.required && !frmFormCampania.nNumPoliza.$pristine">
+                                                    * Ingrese N° de Póliza
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12 mt-md-2 mb-md-2">
+                                            <div class="col-md-2">
+                                                <mpf-input label="{label: 'Cantidad de Duplicados'}" name="nCantDuplicados" ng-disabled="mEstadoRegistro =='A'"
+                                                    ng-model="mCantDuplicados" ng-maxlength="3"
+                                                    mpf-validation="onlyNumber" ng-required="true"></mpf-input>
+                                                <div class="g-error"
+                                                    data-ng-show="frmFormCampania.nCantDuplicados.$error.required && !frmFormCampania.nCantDuplicados.$pristine">
+                                                    * Ingrese Cantidad de Duplicados
+                                                </div>
+                                            </div>
+                                            <div class="col-md-2">
+                                                <mpf-input label="{label: 'Cant. Máxima de Lotes'}" name="nCantMaxLotes" ng-disabled="mEstadoRegistro =='A'"
+                                                    ng-model="mCantMaxLotes" ng-maxlength="3"
+                                                    mpf-validation="onlyNumber" ng-required="true"></mpf-input>
+                                                <div class="g-error"
+                                                    data-ng-show="frmFormCampania.nCantMaxLotes.$error.required && !frmFormCampania.nCantMaxLotes.$pristine">
+                                                    * Ingrese Cant. Máxima de Lotes
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12 g-text-right-md g-span-middle" style="margin-bottom: 10px;">
+                                           <span class="mr-md-2">
+                                               <a class="g-btn g-btn-transparent block second-design pl-md-2 pr-md-2" ng-click="confirmarCancelar()">CANCELAR</a>
+                                           </span>
+                                           <span class="mr-md-2">
+                                                <button  ng-disabled="frmFormCampania.$invalid || mEstadoRegistro =='A'" ng-click="registrarCampania();" class="g-btn g-btn-verde block second-design pl-md-2 pr-md-2" >GRABAR</button>
+                                           </span>
+                                       </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+        </div>
+    </div>
+</div>

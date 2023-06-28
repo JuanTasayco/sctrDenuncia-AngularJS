@@ -1,0 +1,118 @@
+<section class="page-inspeccion-autos page-inspeccion-autos__cotizaciones">
+
+  <div class="g-title">
+		<div class="container">
+			<div class="row">
+				<div class="col-xs-10 col-sm-5 col-md-6 no-mb-sm">
+					<h1>Detalle cotización</h1>
+				</div>
+				<div class="col-sm-7 col-md-6 g-text-right-xs no-responsive mt-xs-1">
+					<a href class="g-link-back" ui-sref="cotizaciones({ fromInspec: $ctrl.fromInspec, copyEmail: $ctrl.copyEmail, confirmationEmail: $ctrl.confirmationEmail, agent: $ctrl.agent })">
+						<span class="g-icon gCGray3">
+						<span class="icon ico-mapfre_310_arrowLeft"></span>
+						<span class="g-link"><b>Seleccionar otra cotización</b></span>
+					</a>
+				</div>
+			</div>
+		</div>
+  </div>
+
+	<div class="g-section g-myd-summary">
+		<div class="container">
+          <!-- Inicio: Detalle -->
+          <div class="col-md-12 g-box fz14 pt-xs-2 g-myd-box g-box cotizaciones g-overflow-hidden-xs g-myd-box">
+            <div class="row h-myd-ml--0 h-myd-mr--0 gH4 mb-xs-1">
+              <div class="col-md-6 col-sm-6 clearfix gH4 gCGray1 ">
+                <h2 class="gCGray1 g-text-uppercase g-myd-title"><b>Cotización Póliza de Autos</b></h2>
+              </div>
+              <div class="col-md-6 col-sm-6 clearfix gH4 g-text-right-sm gCGray1">
+                <h2>Nro. Cotización: {{$ctrl.cotizacion.number}}</h2>
+              </div>
+            </div>
+
+            <!-- content -->
+            <div class="row h-myd-ml--0 h-myd-mr--0">
+              <div class="col-xs-12 mb-xs-1">
+                <h2 class="gH4 gCGray1 g-border-bottom-xs g-myd-title"><b>Datos de la cotización</b></h2>
+              </div>
+            </div>
+
+            <ul class="row h-myd-ml--0 h-myd-mr--0 g-list-md mb-xs-1">
+              <li class="col-md-4 h-myd-p--0 clearfix cnt-item">
+                <div class="col-xs-5 item-label"><span class="ico-mapfre_82_circle ico-bullet"></span>Auto:</div>
+                <div class="col-xs-7 item-dato g-text-uppercase">{{$ctrl.cotizacion.auto}}</div>
+              </li>
+              <li class="col-md-4 h-myd-p--0 clearfix cnt-item">
+                <div class="col-xs-5 item-label"><span class="ico-mapfre_82_circle ico-bullet"></span>Valor <span class="hidden-xs">del </span>auto:</div>
+                <div class="col-xs-7 item-dato g-text-uppercase">{{$ctrl.cotizacion.valor | currency:'$'}}</div>
+              </li>
+              <li class="col-md-4 h-myd-p--0 clearfix cnt-item">
+                <div class="col-xs-5 item-label"><span class="ico-mapfre_82_circle ico-bullet"></span>Contratante:</div>
+                <div class="col-xs-7 item-dato g-text-uppercase">{{$ctrl.cotizacion.contratante}}</div>
+              </li>
+            </ul>
+            <ul class="row h-myd-ml--0 h-myd-mr--0 g-list-md mb-xs-1">
+              <li class="col-md-4 h-myd-p--0 clearfix cnt-item">
+                <div class="col-xs-5 item-label"><span class="ico-mapfre_82_circle ico-bullet"></span>Circulación:</div>
+                <div class="col-xs-7 item-dato g-text-uppercase">{{$ctrl.cotizacion.circulacion}}</div>
+              </li>
+              <li class="col-md-4 h-myd-p--0 clearfix cnt-item">
+                <div class="col-xs-5 item-label"><span class="ico-mapfre_82_circle ico-bullet"></span>Tipo de uso:</div>
+                <div class="col-xs-7 item-dato g-text-uppercase">{{$ctrl.cotizacion.tipoUso}}</div>
+              </li>
+              <li class="col-md-4 h-myd-p--0 clearfix cnt-item">
+                <div class="col-xs-5 item-label"><span class="ico-mapfre_82_circle ico-bullet"></span>Póliza grupo:</div>
+                <div class="col-xs-7 item-dato g-text-uppercase">{{$ctrl.cotizacion.polizaGrupo}}</div>
+              </li>
+            </ul>
+            <ul class="row h-myd-ml--0 h-myd-mr--0 g-list mb-xs-1 h-myd-border--bottom-1 h-myd-pb--10 h-myd-mb--20">
+              <li class="col-md-4 h-myd-p--0 clearfix cnt-item">
+                <div class="col-xs-5 item-label"><span class="ico-mapfre_82_circle ico-bullet"></span>Mapfre Dólares:</div>
+                <div ng-if="$ctrl.cotizacion.mapfreDolar>0" class="col-xs-7 item-dato g-text-uppercase">{{$ctrl.cotizacion.mapfreDolar}}</div>
+                <div ng-if="$ctrl.cotizacion.mapfreDolar<0" class="col-xs-7 item-dato g-text-uppercase"> - </div>
+              </li>
+            </ul>
+
+            <div class="row h-myd-ml--0 h-myd-mr--0 g-box-content producto mb-xs-2">
+              <div class="col-md-12 mb-xs-1 g-myd-title">
+                <h3 class="gH4 gCGray1"><b>Producto cotizado</b></h3>
+              </div>
+              <div class="col-md-12">
+                <div class="col-md-12 producto__box">
+                  <div class="row">
+                    <div class="col-md-6 producto__name"><h4>{{$ctrl.cotizacion.producto}}</h4></div>
+                    <div class="col-md-6 producto__data">
+                      <ul class="row">
+                        <li class="col-md-12 clearfix cnt-item no-br pl-xs-0">
+                          <div class="col-xs-6 col-md-4 col-md-offset-2 item-label">Prima Neta:</div>
+                          <div class="col-xs-6 col-md-5 item-dato ng-binding">{{$ctrl.cotizacion.primaNeta| currency:'$'}}</div>
+                        </li>
+                        <li class="col-md-12 clearfix cnt-item no-br pl-xs-0">
+                          <div class="col-xs-6 col-md-4 col-md-offset-2 item-label">Descuento:</div>
+                          <div class="col-xs-6 col-md-5 item-dato ng-binding">{{$ctrl.cotizacion.descuento | percentage}}</div>
+                        </li>
+                        <li class="col-md-12 clearfix cnt-item no-br pl-xs-0" ng-hide="$ctrl.cotizacion.totalDscto === 0">
+                          <div class="col-xs-6 col-md-4 col-md-offset-2 item-label">Tu comisión:</div>
+                          <div class="col-xs-6 col-md-5 item-dato ng-binding">{{$ctrl.cotizacion.tuComision| percentage}}</div>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Fin: Detalle -->
+          <div class="col-md-4 mb-mx-1 mt-xs-2 col-md-offset-4 col-xs-12">
+            <a href="" 
+              ga-click
+              ga-category="'Solicitud - INSPECCION'"
+              ga-action="'Con Cotización - Solicitar Inspección'"
+              ga-label="'Botón: Solicitar inspección'"
+              class="g-btn g-btn-verde block" ng-if="!$ctrl.goToInspec()" ng-click="$ctrl.requestInspection()">Solicitar inspección</a>
+            <a href="" class="g-btn g-btn-verde block" ng-if="$ctrl.goToInspec()" ng-click="$ctrl.registerInspection()">Crear registro de inspección</a>
+          </div>
+		</div>
+	</div>
+
+</section>

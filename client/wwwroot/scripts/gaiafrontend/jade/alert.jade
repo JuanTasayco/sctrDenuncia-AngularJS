@@ -1,0 +1,12 @@
+.alert(class="{{'alert-' + (type || defaultType)}}", ng-class="{'alert-dismissable': closeable}", role="alert")
+    button.close(type="button", ng-show="closeable", ng-click="close()")
+        span(aria-hidden="true") &times;
+        span.sr-only {{'close' | translate}}
+    button.close(type="button", ng-show="hasCodeToDisplay && !showCode", ng-click="showCode=1")
+        span(aria-hidden="true") &#43;
+        span.sr-only {{'show' | translate}}
+    button.close(type="button", ng-show="hasCodeToDisplay && showCode", ng-click="showCode=0")
+        span(aria-hidden="true") &#45;
+        span.sr-only {{'hide' | translate}}
+    div(ng-transclude)
+    pre(ng-show="hasCodeToDisplay && showCode") {{code() | json}}

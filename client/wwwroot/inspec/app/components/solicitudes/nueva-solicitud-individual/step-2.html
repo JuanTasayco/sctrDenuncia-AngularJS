@@ -1,0 +1,48 @@
+<div class="container">
+	<div class="row">
+		<div class="col-md-6 mt-xs-3 mb-xs-2">
+			<h2 class="g-sub-title">Datos del contratante</h2>
+		</div>
+	</div>
+</div>
+<mpf-person-component
+	person-data="$ctrl.formData.contractorData"
+	name="contratante"
+	codigo-compania="$ctrl.companyCode"
+	app-code="{{ $ctrl.appCode }}"
+	form-code="{{ $ctrl.formCodeCN }}"
+	editable="true"
+	outdata="$ctrl.getDocumentData(data)"
+	process-name="SOLICITUD" 
+	not-save-blacklist-audit="true"
+	valid-blacklist-numdoc="true"
+	habilitar-validacion-listanegra-datos-contacto="true"
+	>
+</mpf-person-component>
+<div class="g-section">
+
+		<div class="g-section">
+			<div class="container">
+				<div class="row">
+					<div class="col-md-4">
+						<mpf-Checkbox
+						ng-model="$ctrl.formData.DctoIntegralidad"
+						label="Aplicar % del ratio de integralidad"
+						ng-click="$ctrl.obtenerDctoIntegralidad()">
+						</mpf-Checkbox><br/>
+						<span ng-show="$ctrl.formData.DctoIntegralidad">
+						Descuento de Integralidad {{$ctrl.formData.PorDctoIntgPlaza}}%
+						</span>
+					</div>
+				</div>
+			</div>
+		</div>
+
+    <div class="container">
+			<div class="row">
+				<div class="col-md-4 col-md-offset-4">
+					<a class="g-btn g-btn-verde block" ng-click="$ctrl.goToNextStep()">siguiente</a>
+				</div>
+			</div>
+    </div>
+</div>

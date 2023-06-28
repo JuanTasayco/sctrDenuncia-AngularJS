@@ -1,0 +1,109 @@
+<div class="row" ng-if="$ctrl.compensationList.length > 0">
+  <div class="col-xs-12">
+    <div class="clearfix">
+      <div tbl-oim class="col-xs-12 g-tbl-wrapper pl-xs-0 tbl-reembolsos-comprobantes">
+        <div class="tbl-main">
+          <ul height-row class="tbl-header clearfix">
+            <li class="title col-15-dktp text-center g-text-uppercase">Nombre</li>
+            <li class="title col-10-dktp text-center g-text-uppercase">Secuencia Referencial</li>
+            <li class="title col-10-dktp text-center g-text-uppercase">Parentesco Beneficiario</li>
+            <li class="title col-10-dktp text-center g-text-uppercase">% Part. Beneficiario</li>
+            <li class="title col-9-dktp text-center g-text-uppercase">Moneda</li>
+            <li class="title col-9-dktp text-center g-text-uppercase">Importe Beneficio</li>
+            <li class="title col-10-dktp text-center g-text-uppercase">Estado de indemnización</li>
+            <li class="title col-9-dktp text-center g-text-uppercase">Año Control Doc.</li>
+            <li class="title col-9-dktp text-center g-text-uppercase">Nro. Control Doc.</li>
+            <li class="title col-9-dktp"></li>
+          </ul>
+          <ul class="tbl-body clearfix">
+            <li ng-repeat="item in $ctrl.compensationList">
+              <ul height-row class="tbl-row clearfix g-u-cursor--pointer">
+                <li class="cell text-center g-text-uppercase col-15-dktp">
+                  <span class="cell-label">
+                    <span class="cell-data">{{item.lastName + ' ' + item.motherLastName + ' ' + item.names}}</span>
+                  </span>
+                </li>
+                <li class="cell text-center g-text-uppercase col-10-dktp">
+                  <span class="cell-label">
+                    <span class="cell-data">{{item.preferentialSequenceNumber || item.index}}</span>
+                  </span>
+                </li>
+                <li class="cell text-center g-text-uppercase col-10-dktp">
+                  <span class="cell-label g-cut-text"><span class="cell-data">{{item.relationshipCodeOfBeneficiary}}</span></span>
+                </li>
+                <li class="cell text-center g-text-uppercase col-10-dktp">
+                  <span class="cell-label"><span class="cell-data">{{item.pctngBeneficiaryParticipation}}</span></span>
+                </li>
+                <li class="cell text-center g-text-uppercase col-9-dktp">
+                  <span class="cell-label"><span class="cell-data">{{item.idMoney}}</span></span>
+                </li>
+                <li class="cell text-center g-text-uppercase col-9-dktp">
+                  <span class="cell-label"><span class="cell-data">{{item.benefitImport | currency: 'S/ '}}</span></span>
+                </li>
+                <li class="cell text-center g-text-uppercase col-10-dktp">
+                  <span class="cell-label"><span class="cell-data">{{item.compensationStatus}}</span></span>
+                </li>
+                <li class="cell text-center g-text-uppercase col-9-dktp">
+                  <span class="cell-label"><span class="cell-data"></span></span>
+                </li>
+                <li class="cell text-center g-text-uppercase col-9-dktp">
+                  <span class="cell-label"><span class="cell-data">{{item.documentControlNumber}}</span></span>
+                </li>
+                <li
+                  class="cell text-center g-text-uppercase col-9-dktp"
+                  ng-if="!$ctrl.readOnly"
+                >
+                  <span
+                    class="gnIcon-sm gCGreen1 ico-mapfre_228_editar ml-xs-1"
+                    ng-click="$ctrl.editItem(item)">
+                  </span>
+                  <span
+                    class="gnIcon-sm gCGreen1 ico-mapfre_307_tacho ml-xs-2"
+                    ng-click="$ctrl.deleteItem(item)">
+                  </span>
+                </li>
+              </ul>
+            </li>
+            <li>
+              <ul height-row class="tbl-row clearfix g-u-cursor--pointer">
+                <li class="cell text-center g-text-uppercase col-15-dktp">
+                  <span class="cell-label"><span class="cell-data"><b>TOTALES</b></span></span>
+                </li>
+                <li class="cell text-center g-text-uppercase col-10-dktp">
+                  <span class="cell-label"><span class="cell-data"></span></span>
+                </li>
+                <li class="cell text-center g-text-uppercase col-10-dktp">
+                  <span class="cell-label g-cut-text"><span class="cell-data"></span></span>
+                </li>
+                <li class="cell text-center g-text-uppercase col-10-dktp">
+                  <span class="cell-label">
+                    <span class="cell-data"><b>{{$ctrl.sumPercent}}</b></span>
+                  </span>
+                </li>
+                <li class="cell text-center g-text-uppercase col-9-dktp">
+                  <span class="cell-label"><span class="cell-data"></span></span>
+                </li>
+                <li class="cell text-center g-text-uppercase col-9-dktp">
+                  <span class="cell-label">
+                    <span class="cell-data"><b>{{$ctrl.sumImport | currency: 'S/ '}}</b></span>
+                  </span>
+                </li>
+                <li class="cell text-center g-text-uppercase col-10-dktp">
+                  <span class="cell-label"><span class="cell-data"></span></span>
+                </li>
+                <li class="cell text-center g-text-uppercase col-9-dktp">
+                  <span class="cell-label"><span class="cell-data"></span></span>
+                </li>
+                <li class="cell text-center g-text-uppercase col-9-dktp">
+                  <span class="cell-label"><span class="cell-data"></span></span>
+                </li>
+                <li class="cell text-center g-text-uppercase col-9-dktp">
+                </li>
+              </ul>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

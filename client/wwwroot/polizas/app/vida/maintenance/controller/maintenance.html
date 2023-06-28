@@ -1,0 +1,139 @@
+<section class="g-page page-vida-maintenance g-ui-view">
+
+	<div class="g-title">
+		<div class="container">
+			<div class="row">
+				<div class="col-sm-9 mb-xs-2 no-mb-sm">
+					<span class="ico-mapfre_84_circleleft ico-title"></span><h1>Mantenimiento de parámetros</h1>
+				</div>
+				<div class="col-sm-3">
+					<a ng-show="isAdmin" class="g-btn g-btn-white second-design block" ng-click="showModal('r')">Agregar un parámetro</a>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="g-section-inner">
+		<div class="container">
+			<div class="row">
+				<!-- Consulta de documentos -->
+				<div class="col-md-3 mb-xs-2">
+					<form action="" name="frmDocuments">
+						<div show-filter class="clearfix g-col-filter g-box-md fz14 gBgcGray5-md gBgcWhite1 g-myd-box g-myd-box--filter" ng-class="{'show': isFilterVisible}">
+							<div class="col-md-12 mb-xs-3 gH4 gCGray1">
+								<h2 class="pb-xs-1 g-border-bottom-xs hidden-xs hidden-sm">Filtro</h2>
+								<div id="show-filter" class="row pt-xs-2 pb-xs-2 gBgcGray5 g-border-bottom-xs hidden-md hidden-lg" ng-click="toggleFilter();">
+									<div class="col-xs-10"><h2>Filtro</h2></div>
+									<div class="col-xs-2 g-text-right-xs">
+										<span class="glyphicon glyphicon-chevron-down" ng-if="isFilterVisible"></span>
+										<span class="glyphicon glyphicon-chevron-up" ng-if="!isFilterVisible"></span>
+									</div>
+									<div class="clearfix"></div>
+								</div>
+							</div>
+							<div class="g-col-filter__box">
+								<div class="col-md-12 mb-xs-2">
+									<mpf-input label="{label: 'Código', required: false}"
+								name="nCodigoFilter" ng-model="mainStep.mCodigoFilter"></mpf-input>
+								</div>
+								<div class="col-md-12 mb-xs-2">
+									<mpf-input label="{label: 'Valor', required: false}"
+								name="nValorFilter" ng-model="mainStep.mValorFilter"></mpf-input>
+								</div>
+								<div class="col-md-12 mb-xs-2">
+									<mpf-input label="{label: 'Desc', required: false}"
+								name="nDescFilter" ng-model="mainStep.mDescFilter"></mpf-input>
+								</div>
+								<div class="col-md-12 mb-xs-1">
+									<a href="" class="g-btn g-btn-verde block" ng-click="filter('1')">Filtrar</a>
+								</div>
+								<div class="col-md-12">
+									<a href="" class="g-btn g-btn-white block" ng-click="clearFilter()">Limpiar</a>
+								</div>
+							</div>
+						</div>
+					</form>
+				</div>
+
+				<div class="col-md-9" >
+					<!-- <div class="clearfix g-box" ng-repeat="n in [0,1,2,3,4,5,6]"> -->
+					<div class="clearfix g-box g-overflow-hidden-xs mb-xs-2" ng-repeat="item in items">
+						<div class="row pt-xs-1 gBgcGray5 h-myd-bg--white">
+							<div class="col-md-9 g-text-uppercase">
+								<ul class="clearfix g-list">
+									<li class="col-md-6 cnt-item">
+										<div class="col-sm-5 item-label">
+											código
+										</div>
+										<div class="col-sm-7 item-dato">
+											{{item.Campo}}
+										</div>
+									</li>
+									<li class="col-md-4 cnt-item">
+										<div class="col-sm-5 item-label">
+											valor
+										</div>
+										<div class="col-sm-7 item-dato">
+											{{item.Codigo}}
+										</div>
+									</li>
+								</ul>
+								<ul class="clearfix g-list">
+									<li class="col-md-6 cnt-item">
+										<div class="col-sm-5 item-label">
+											descripción:
+										</div>
+										<div class="col-sm-7 item-dato">
+											{{item.Descripcion}}
+										</div>
+									</li>
+								</ul>
+							</div>
+							<div class="col-md-3">
+								<ul ng-show="isAdmin" class="clearfix g-list">
+									<li class="col-xs-6 cnt-item add-border-left">
+										<div class="col-md-12 g-text-center-xs">
+											<a href="" ng-click="showModal('u', $index)">
+                        <span class="ico-mapfre_228_editar gnIcon-md gCGray3 h-myd--none"></span>
+                        <span class="ico-mapfre_345_myd-edit ico-mapfre h-myd--show h-oim-none h-myd-color--green h-myd-ico--mediun"></span>
+                      </a>
+										</div>
+									</li>
+									<li class="col-xs-6 cnt-item">
+										<div class="col-md-12 g-text-center-xs">
+											<a href="" ng-click="deleteItem($index)">
+                        <span class="ico-mapfre_307_tacho gnIcon-md gCGray3 h-myd--none"></span>
+                        <span class="ico-mapfre-363-myd-eliminar ico-mapfre h-myd--show h-oim-none h-myd-color--green h-myd-ico--mediun"></span>
+                      </a>
+										</div>
+									</li>
+								</ul>
+							</div>
+						</div>
+					</div>
+
+					<!-- Mensaje de error si no hay resultados de la busqueda -->
+					<div class="col-md-12 text-center g-box-noresult" ng-if="noResult">
+						<div class="row">
+							<div class="col-md-12 g-box-noresult-ico gCRed1">
+								<span class="ico-mapfre_302_error"></span>
+							</div>
+							<div class="col-md-12 g-box-noresult-text">No hay resultados para los filtros escogidos.<br>Intente nuevamente.</div>
+						</div>
+					</div>
+
+				</div>
+
+			<!-- PAGINATION -->
+			<div class="row" ng-if="!noResult && totalItems > 10">
+				<div class="col-md-9 col-md-offset-3">
+					<ul uib-pagination class="g-pagination" ng-model="mainStep.mPagination" max-size="10" total-items="totalItems" ng-change="pageChanged(mainStep.mPagination)" boundary-link-numbers="true"></ul>
+				</div>
+			</div>
+
+		</div>
+	</div>
+
+
+
+</section>

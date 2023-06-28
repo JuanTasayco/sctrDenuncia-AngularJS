@@ -1,0 +1,71 @@
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <h2 class="g-sub-title c-red">Lista de trabajadores</h2>
+        </div>
+    </div>
+
+    <div class="row"	ng-show="!$ctrl.trabajadores.length">
+        <div class="col-md-12">
+            <div class="clearfix g-box fz14 gBgcGray5 pt-xs-2 pb-xs-2 g-text-center-xs">
+                <span>Sube un excel de trabajadores para cargar lista</span>
+            </div>
+        </div>
+    </div><br>
+
+<div class="col-md-12" ng-if="$ctrl.trabajadores.length > 0">
+<div class="clearfix g-tbl-wrapper">
+  <div class="clearfix table__970">
+    <ul height-row class="g-row-fz12 g-tbl-row gBgcGray5 pt-xs-1">
+      <li class="g-col g-col-xs col-28-dktp tbl-item item-title">
+        NOMBRE COMPLETO
+      </li>
+      <li class="g-col g-col-xs col-5-dktp tbl-item item-title">
+        TIPO<br>DOC
+      </li>
+      <li class="g-col g-col-xs col-10-dktp tbl-item item-title">
+        NRO.<br>DOC
+      </li>
+      <li class="g-col g-col-xs col-12-dktp tbl-item item-title g-text-right-xs">
+        SUELDO
+      </li>
+      <li class="g-col g-col-xs col-10-dktp tbl-item item-title">
+        OCUPACIÓN
+      </li>
+      <li class="g-col g-col-xs col-10-dktp tbl-item item-title">
+        NACIMIENTO
+      </li>
+      <li ng-if="$ctrl.risk" class="g-col g-col-xs col-16-dktp tbl-item item-title">
+        CATEGORIA
+      </li>
+    </ul>
+    <div class="gnContentAuto-bg">
+      <ul height-row class="g-row-fz12 g-tbl-row pt-xs-1 g-border-bottom-xs"
+        ng-repeat="item in $ctrl.trabajadores">
+        <li class="g-col g-col-xs col-28-dktp tbl-item">
+          {{item.name | uppercase}} {{item.fathersSurname | uppercase}} {{item.mothersSurname | uppercase}}
+        </li>
+        <li class="g-col g-col-xs col-5-dktp tbl-item">
+          {{item.documentType | uppercase}}
+        </li>
+        <li class="g-col g-col-xs col-10-dktp tbl-item">
+          {{item.documentNumber | uppercase}}
+        </li>
+        <li class="g-col g-col-xs col-12-dktp tbl-item g-text-right-xs">
+          {{item.salary | currency: data.CURRENCY_TYPES.soles.description}}
+        </li>
+        <li class="g-col g-col-xs col-10-dktp tbl-item">
+          {{item.occupation | uppercase}}
+        </li>
+        <li class="g-col g-col-xs col-10-dktp tbl-item">
+          {{item.birthDate ||  item.birthDay}}
+        </li>
+        <li  ng-if="$ctrl.risk" class="g-col g-col-xs col-16-dktp tbl-item">
+          {{item.riskCategoryName | uppercase}}
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>
+</div>
+</div><br>

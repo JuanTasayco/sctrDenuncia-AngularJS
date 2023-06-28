@@ -1,0 +1,440 @@
+<div class="page-empresa-cotizar-step2 body-pasos">
+  <div class="row mb-xs-4">
+    <div class="col-xs-12">
+      <uib-accordion close-others="planCtrl.oneAtATime">
+        <div uib-accordion-group class="panel-default acordion no-hidden" is-open="true">
+          <uib-accordion-heading>
+          <div ng-click="planCtrl.Acordion1()">
+              Datos de la solicitud
+              <i
+                class="pull-right i-acordion"
+                ng-class="{'ico-mapfre_309_arrowUp': planCtrl.status.open1, 'ico-mapfre_308_arrowDown': !planCtrl.status.open1}">
+              </i>
+          </div>
+          </uib-accordion-heading>
+          <div class="col-xs-12 panel1" ng-hide="$ctrl.currentFlow.salud || $ctrl.currentFlow.sctr">
+            <div class="row mb-xs-1 cont-btn-editar">
+              <div class="col-xs-12 text-right">
+                <span class="gnIcon-sm gCGreen1 ico-mapfre_228_editar" ng-click="$ctrl.goToStepOne()"></span>
+              </div>
+            </div>
+            <div class="row mb-xs-1 mb-sm-3">
+              <div class="col-xs-12 col-sm-3 mt-xs-1 mt-sm-0">
+                <div class="col-xs-12 col-sm-8 item-label pl-xs-0 pr-xs-0">
+                  <b>Fecha inicio de tratamiento:</b>
+                </div>
+                <div class="col-xs-12 col-sm-4 item-dato g-text-uppercase  pl-xs-0 pr-xs-0">
+                  {{
+                    $ctrl.formatDateToSlash(
+                      $ctrl.solicitud.additionalData.treatmentDate ||
+                      $ctrl.solicitud.additionalData.sinisterDate
+                    )
+                  }}
+                </div>
+              </div>
+              <div class="col-xs-12 col-sm-3">
+                <div class="col-xs-12 col-sm-4 item-label pl-xs-0 pr-xs-0">
+                  <b>Beneficio:</b>
+                </div>
+                <div class="col-xs-12 col-sm-8 item-dato g-text-uppercase g-cut-text pl-xs-0 pr-xs-0">
+                  {{$ctrl.solicitud.solicitudData.benefit.benefitDescription}}
+                </div>
+              </div>
+              <div class="col-xs-12 col-sm-3 mt-xs-1 mt-sm-0">
+                <div class="col-xs-12 col-sm-5 item-label pl-xs-0 pr-xs-0">
+                  <b>Producto:</b>
+                </div>
+                <div class="col-xs-12 col-sm-7 item-dato g-text-uppercase  pl-xs-0 pr-xs-0">
+                  {{$ctrl.solicitud.product.name}}
+                </div>
+              </div>
+            </div>
+            <div class="row mb-xs-1 mb-sm-3">
+              <div class="col-xs-12 col-sm-3">
+                <div class="col-xs-12 col-sm-4 item-label pl-xs-0 pr-xs-0">
+                  <b>Afiliado:</b>
+                </div>
+                <div class="col-xs-12 col-sm-8 item-dato g-text-uppercase g-cut-text pl-xs-0 pr-xs-0">
+                  {{$ctrl.solicitud.afiliate.fullName}}
+                </div>
+              </div>
+              <div class="col-xs-12 col-sm-3 mt-xs-1 mt-sm-0">
+                <div class="col-xs-12 col-sm-4 item-label pl-xs-0 pr-xs-0">
+                  <b>Cliente:</b>
+                </div>
+                <div class="col-xs-12 col-sm-8 item-dato g-text-uppercase  pl-xs-0 pr-xs-0">
+                  {{$ctrl.solicitud.solicitudData.client.name || $ctrl.solicitud.solicitudData.client.description}}
+                </div>
+              </div>
+              <div class="col-xs-12 col-sm-3 mt-xs-1 mt-sm-0">
+                <div class="col-xs-12 col-sm-5 item-label pl-xs-0 pr-xs-0">
+                  <b>Plan:</b>
+                </div>
+                <div class="col-xs-12 col-sm-7 item-dato g-text-uppercase  pl-xs-0 pr-xs-0">
+                  {{$ctrl.solicitud.solicitudData.plan.name}}
+                </div>
+              </div>
+              <div class="col-xs-12 col-sm-3 mt-xs-1 mt-sm-0">
+                <div class="col-xs-12 col-sm-5 item-label pl-xs-0 pr-xs-0">
+                  <b>Parenteszco:</b>
+                </div>
+                <div class="col-xs-12 col-sm-7 item-dato g-text-uppercase  pl-xs-0 pr-xs-0">
+                  {{$ctrl.solicitud.solicitudData.relationship.description}}
+                </div>
+              </div>
+            </div>
+            <div class="row mb-xs-1 mb-sm-3">
+              <div class="col-xs-12 col-sm-3 mt-xs-1 mt-sm-0 col-md-offset-3">
+                <div class="col-xs-12 col-sm-5 item-label pl-xs-0 pr-xs-0">
+                  <b>Afiliado titular:</b>
+                </div>
+                <div class="col-xs-12 col-sm-7 item-dato g-text-uppercase  pl-xs-0 pr-xs-0">
+                  {{$ctrl.solicitud.solicitudData.afiliateTitular.name}}
+                </div>
+              </div>
+              <div class="col-xs-12 col-sm-3 mt-xs-1 mt-sm-0">
+                <div class="col-xs-12 col-sm-6 item-label pl-xs-0 pr-xs-0">
+                  <b>Número Contrato:</b>
+                </div>
+                <div class="col-xs-12 col-sm-6 item-dato g-text-uppercase  pl-xs-0 pr-xs-0">
+                  {{$ctrl.solicitud.solicitudData.contractNumber.description}}
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-xs-12 panel1" ng-if="$ctrl.currentFlow.salud || $ctrl.currentFlow.sctr">
+            <div class="row mb-xs-1 cont-btn-editar">
+              <div class="col-xs-12 text-right">
+                <span class="gnIcon-sm gCGreen1 ico-mapfre_228_editar" ng-click="$ctrl.goToStepOne()"></span>
+              </div>
+            </div>
+            <div class="row mb-xs-1 mb-sm-3">
+              <div class="col-xs-12 col-sm-3 mt-xs-1 mt-sm-0">
+                <div class="col-xs-12 col-sm-8 item-label pl-xs-0 pr-xs-0">
+                  <b>Fecha inicio tratamiento:</b>
+                </div>
+                <div class="col-xs-12 col-sm-4 item-dato g-text-uppercase  pl-xs-0 pr-xs-0">
+                  {{$ctrl.formatDateToSlash($ctrl.solicitud.treatment.date)}}
+                </div>
+              </div>
+              <div class="col-xs-12 col-sm-3 mt-xs-1 mt-sm-0">
+                <div class="col-xs-12 col-sm-5 item-label pl-xs-0 pr-xs-0">
+                  <b>Producto:</b>
+                </div>
+                <div class="col-xs-12 col-sm-7 item-dato g-text-uppercase  pl-xs-0 pr-xs-0">
+                  {{$ctrl.solicitud.product.name}}
+                </div>
+              </div>
+              <div class="col-xs-12 col-sm-3 mt-xs-1 mt-sm-0">
+                <div class="col-xs-12 col-sm-5 item-label pl-xs-0 pr-xs-0">
+                  <b>Beneficio:</b>
+                </div>
+                <div class="col-xs-12 col-sm-7 item-dato g-text-uppercase  pl-xs-0 pr-xs-0">
+                  {{$ctrl.solicitud.solicitudData.benefit.longDescription}}
+                </div>
+              </div>
+            </div>
+            <div class="row mb-xs-1 mb-sm-3"Parentesco>
+              <div class="col-xs-12 col-sm-3">
+                <div class="col-xs-12 col-sm-4 item-label pl-xs-0 pr-xs-0">
+                  <b>Afiliado:</b>
+                </div>
+                <div class="col-xs-12 col-sm-8 item-dato g-text-uppercase g-cut-text pl-xs-0 pr-xs-0">
+                  {{$ctrl.solicitud.afiliate.fullName}}
+                </div>
+              </div>
+              <div class="col-xs-12 col-sm-3 mt-xs-1 mt-sm-0">
+                <div class="col-xs-12 col-sm-4 item-label pl-xs-0 pr-xs-0">
+                  <b>Cliente:</b>
+                </div>
+                <div class="col-xs-12 col-sm-8 item-dato g-text-uppercase  pl-xs-0 pr-xs-0">
+                  {{$ctrl.solicitud.solicitudData.client.name}}
+                </div>
+              </div>
+              <div class="col-xs-12 col-sm-3 mt-xs-1 mt-sm-0">
+                <div class="col-xs-12 col-sm-5 item-label pl-xs-0 pr-xs-0">
+                  <b>Plan:</b>
+                </div>
+                <div class="col-xs-12 col-sm-7 item-dato g-text-uppercase  pl-xs-0 pr-xs-0">
+                  {{$ctrl.solicitud.solicitudData.plan.name}}
+                </div>
+              </div>
+              <div class="col-xs-12 col-sm-3 mt-xs-1 mt-sm-0">
+                <div class="col-xs-12 col-sm-5 item-label pl-xs-0 pr-xs-0">
+                  <b>Parentesco:</b>
+                </div>
+                <div class="col-xs-12 col-sm-7 item-dato g-text-uppercase  pl-xs-0 pr-xs-0">
+                  {{$ctrl.solicitud.solicitudData.relationship.description}}
+                </div>
+              </div>
+            </div>
+            <div class="row mb-xs-1 mb-sm-3">
+              <div class="col-xs-12 col-sm-3">
+                <div class="col-xs-12 col-sm-4 item-label pl-xs-0 pr-xs-0">
+                  <b>Afiliado Vinculación:</b>
+                </div>
+                <div class="col-xs-12 col-sm-8 item-dato g-text-uppercase g-cut-text pl-xs-0 pr-xs-0">
+                  {{$ctrl.solicitud.afiliate.fullName}}
+                </div>
+              </div>
+              <div class="col-xs-12 col-sm-3 mt-xs-1 mt-sm-0">
+                <div class="col-xs-12 col-sm-6 item-label pl-xs-0 pr-xs-0">
+                  <b>Número Contrato:</b>
+                </div>
+                <div class="col-xs-12 col-sm-6 item-dato g-text-uppercase  pl-xs-0 pr-xs-0">
+                  {{$ctrl.solicitud.solicitudData.contractNumber}}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </uib-accordion>
+    </div>
+  </div>
+  <div
+    class="row mt-xs-4 mb-xs-4">
+    <div class="col-xs-12">
+      <div class="col-xs-12 col-sm-offset-9 col-sm-3 mt-xs-1 mt-sm-0" ng-hide="$ctrl.currentFlow.salud || $ctrl.currentFlow.sctr">
+        <m-Numeric-Textbox
+          label="{label: 'Importe total de comprobantes', required: true}"
+          name="ntotalComprobantesImport"
+          ng-disabled="true"
+          ng-model="$ctrl.solicitud.solicitudData.totalComprobantesImport"
+          options="1">
+        </m-Numeric-Textbox>
+      </div>
+      <div class="col-xs-12 col-sm-offset-9 col-sm-3 mt-xs-1 mt-sm-0" ng-if="$ctrl.currentFlow.salud || $ctrl.currentFlow.sctr">
+        <m-Numeric-Textbox
+          label="{label: 'Importe total de comprobantes', required: true}"
+          name="ntotalComprobantesImport"
+          ng-disabled="true"
+          ng-model="$ctrl.solicitud.solicitudData.totalComprobantesImport"
+          options="1">
+        </m-Numeric-Textbox>
+      </div>
+    </div>
+  </div>
+  <!-- Comprobantes -->
+  <div class="row mb-xs-3">
+    <div class="col-xs-12">
+      <div class="row mb-xs-1">
+        <div class="col-xs-12">
+          <h2 class="g-sub-title red">Comprobantes de pago</h2>
+        </div>
+      </div>
+      <re-coverage-grid
+        table-list="$ctrl.comprobantesListValid"
+        edit="$ctrl.editComprobante"
+        total-list="$ctrl.getSumTotalList"
+        grid-comprobantes="true">
+      </re-coverage-grid>
+    </div>
+  </div>
+  <div class="mt-xs-4" ng-if="$ctrl.isVisibleAddSectionComprobante">
+    <div class="row mb-xs-3">
+      <div class="col-xs-12">
+        <div class="row">
+          <div class="col-xs-12 g-box fz14 pb-xs-2 content-add-comprobante">
+            <div class="row">
+              <div class="col-xs-12 pt-xs-2 pb-xs-2 text-center add-comprobante-title">
+                <h3 class="g-text-uppercase"><b>Agregar comprobante</b></h3>
+              </div>
+            </div>
+            <form name="$ctrl.frmComprobante">
+              <div class="row pt-xs-4 pl-sm-4 pr-sm-4 mb-xs-3">
+                <div class="col-xs-12 mb-xs-4">
+                  <div class="row mb-xs-2">
+                    <div class="col-xs-12 col-sm-3">
+                      <mpf-input
+                        label="{label: 'RUC', required: true}"
+                        name="nRUC"
+                        ng-model="$ctrl.frmComprobanteData.rucNumber"
+                        ng-required="true"
+                        ng-maxlength="$ctrl.docNumMaxLength"
+                        ng-minlength="$ctrl.docNumMaxLength"
+                        ng-blur="$ctrl.onBlurRuc($ctrl.frmComprobanteData.rucNumber)">
+                      </mpf-input>
+                      <div
+                        class="g-error"
+                        ng-show="$ctrl.frmComprobante.nRUC.$error.required && !$ctrl.frmComprobante.nRUC.$pristine">
+                        * Campo requerido
+                      </div>
+                    </div>
+                    <div class="col-xs-12 col-sm-3">
+                      <mpf-input
+                        label="{label: 'Razón Social', required: true}"
+                        name="nRazonSocial"
+                        ng-model="$ctrl.frmComprobanteData.rucDescription"
+                        ng-required="true"
+                        ng-disabled="true">
+                      </mpf-input>
+                      <div
+                        class="g-error"
+                        ng-show="$ctrl.frmComprobante.nRazonSocial.$error.required && !$ctrl.frmComprobante.nRazonSocial.$pristine">
+                        * Campo requerido
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-xs-12 col-sm-3">
+                      <mpf-select
+                        label="{label: 'Tipo de documento ', required: true}"
+                        name="nTipoDocumento"
+                        ng-model="$ctrl.frmComprobanteData.documentType"
+                        m-data-source="$ctrl.documentTypeList"
+                        text-field="valueField"
+                        value-field="codeField"
+                        m-Empty-Option="{enterData:true}"
+                        ng-required="true">
+                      </mpf-select>
+                      <div
+                        class="g-error"
+                        ng-show="$ctrl.frmComprobante.nTipoDocumento.$error.required && !$ctrl.frmComprobante.nTipoDocumento.$pristine">
+                        * Campo requerido
+                      </div>
+                    </div>
+                    <div class="col-xs-12 col-sm-3">
+                      <div class="row">
+                        <div class="col-xs-12 col-sm-4">
+                          <mpf-input
+                            label="{label: '', required: true}"
+                            name="nNroCode"
+                            ng-model="$ctrl.frmComprobanteData.documentSerialNumber"
+                            ng-required="true"
+                            ng-pattern="'(^[a-zA-Z]{1,4}[0-9]{0,3}$)'"
+                            ng-maxlength="4"
+                            ng-blur="$ctrl.onBlurDocumentSerialNumber()">
+                          </mpf-input>
+                          <div
+                            class="g-error"
+                            ng-show="$ctrl.frmComprobante.nNroCode.$error.required && !$ctrl.frmComprobante.nNroCode.$pristine">
+                            * Campo requerido
+                          </div>
+                        </div>
+                        <div class="col-xs-12 col-sm-8">
+                          <mpf-input
+                            label="{label: '', required: true}"
+                            name="nNroDocumento"
+                            ng-model="$ctrl.frmComprobanteData.documentNumberWithoutSerie"
+                            ng-required="true"
+                            ng-maxlength="8"
+                            ng-blur="$ctrl.onBlurDocumentNumberWithoutSerie()"
+                            mpf-validation="onlyNumber">
+                          </mpf-input>
+                          <div
+                            class="g-error"
+                            ng-show="$ctrl.frmComprobante.nNroDocumento.$error.required && !$ctrl.frmComprobante.nNroDocumento.$pristine">
+                            * Campo requerido
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="col-xs-12 col-sm-3">
+                      <div class="input-group g-date-picker">
+                        <label class="g-placeholder animated">Fecha de documento<span></span>:</label>
+                        <input
+                          type="text"
+                          class="form-control"
+                          name="nFechaComprobante"
+                          ng-model="$ctrl.frmComprobanteData.date.model"
+                          uib-datepicker-popup="{{$ctrl.frmComprobanteData.date.FORMAT_DATE}}"
+                          is-open="$ctrl.frmComprobanteData.date.open"
+                          datepicker-options="$ctrl.frmComprobanteData.date.options"
+                          close-text="Close"
+                          alt-input-formats="$ctrl.frmComprobanteData.date.ALT_INPUT_FORMATS"
+                          ui-mask="{{$ctrl.frmComprobanteData.date.FORMAT_MASK}}"
+                          ng-pattern="$ctrl.frmComprobanteData.date.FORMAT_PATTERN"
+                          model-view-value="true"
+                          ng-required="true"
+                          ng-change="$ctrl.onChangeDate($ctrl.frmComprobanteData.date.model)"/>
+                        <span class="input-group-btn">
+                          <button
+                            type="button"
+                            class="btn btn-default"
+                            ng-disabled = "false"
+                            ng-click="$ctrl.frmComprobanteData.date.setOpen(true)">
+                            <i class="glyphicon glyphicon-calendar"></i>
+                          </button>
+                        </span>
+                      </div>
+                      <ul class="g-error">
+                        <li ng-show="!$ctrl.frmComprobante.nFechaComprobante.$error.required && $ctrl.frmComprobante.nFechaComprobante.$invalid && !$ctrl.frmComprobante.nFechaComprobante.$pristine">* Fecha incorrecta</li>
+                        <li ng-show="$ctrl.frmComprobante.nFechaComprobante.$error.required && !$ctrl.frmComprobante.nFechaComprobante.$pristine">* Este campo es necesario</li>
+                        <li ng-show="$ctrl.showErrorDateRange">* Fecha no está en el rango permitido</li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-xs-12 mb-xs-5">
+                  <div class="clearfix g-div-middle" style="text-align: center">
+                    <div class="col-xs-12">
+                      <re-attachments-procedimientos
+                        get-procedure-list="$ctrl.getProcedureList"
+                        procedures-List="$ctrl.proceduresList"
+                        edit="$ctrl.isEditComprobante"
+                        id-company="$ctrl.solicitud.company.id"
+                        has-procedure-error="$ctrl.hasProcedureError"
+                      >
+                      </re-attachments-procedimientos>
+                    </div>
+                    <div class="col-xs-12 mt-xs-4">
+                      <re-attachments-file
+                        additional-data="$ctrl.solicitud.additionalData"
+                        id-company="$ctrl.solicitud.company.id"
+                        product-code="$ctrl.solicitud.product.code"
+                        list-file="$ctrl.listFile"
+                        code-upload-file="$ctrl.codeUploadFile"
+                        id-affiliate="$ctrl.solicitud.afiliate.idAffiliate"
+                        benefit-code="$ctrl.solicitud.solicitudData.benefit.benefitCode || $ctrl.solicitud.solicitudData.benefit.code"
+                        document-liquidation-number="$ctrl.solicitud.documentLiquidation"
+                        invoice-item-number="$ctrl.isEditComprobante ?
+                        $ctrl.frmComprobanteData.invoiceItemNumber : $ctrl.comprobantesListValid.length + 1">
+                      </re-attachments-file>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-xs-12 no-padding-xs">
+                  <div class="col-md-3 col-md-offset-3 mb-xs-1 no-mb-md">
+                    <a
+                      class="g-btn g-btn-transparent block"
+                      ng-click="$ctrl.cancelComprobante()">Cancelar</a>
+                  </div>
+                  <div class="col-md-3">
+                    <a class="g-btn g-btn-verde block" ng-click="$ctrl.addComprobante()">Agregar</a>
+                  </div>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row mb-xs-7" ng-if="$ctrl.showAddComprobanteBtn">
+    <div class="col-xs-12 col-sm-4 col-sm-offset-8">
+      <a
+        class="g-btn g-btn-white second-design block"
+        ng-class="{'disabled': $ctrl.disabledAddButtonComprobante}"
+        ng-click="$ctrl.showAddComprobanteSection()"
+      >
+        <span class="g-icon">
+          <span class="icon icon-plus ico-mapfre_56_visitasalmedico"></span>
+          <span>Agregar comprobante</span>
+        </span>
+      </a>
+    </div>
+  </div>
+  <div class="row mb-xs-4 mt-xs-4">
+    <div class="col-md-4 col-md-offset-4">
+      <a
+        class="g-btn g-btn-verde block"
+        ng-class="{'disabled':$ctrl.isVisibleAddSectionComprobante}"
+        ng-click="$ctrl.validateImporte()"
+      >
+        Continuar
+      </a>
+    </div>
+  </div>
+</div>

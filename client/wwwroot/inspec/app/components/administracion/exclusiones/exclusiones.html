@@ -1,0 +1,168 @@
+<section class="g-page page-inspeccion-autos page-inspeccion-autos__programaciones g-ui-view">
+	<div fixed-section class="g-title" ng-class="{'fixed-section': boolChangeClass}">
+		<div class="container">
+			<div class="row">
+				<div class="col-xs-10 col-sm-5 col-md-9 no-mb-sm">
+					<h1>Exclusiones de Autoinspección</h1>
+				</div>
+				<div class="col-md-3 col-xs-12 mt-xs-1 mt-md-0">
+					<a href="" class="g-btn g-btn-white second-design block" ng-click="$ctrl.migration()">Migrar datos</a>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="g-section-inner">
+		<div class="container">
+			<div class="row">
+
+				<div class="col-md-3 mb-md-2 filter-exclusiones">
+					<form action="" name="frmDocuments">
+						<div show-filter class="clearfix g-col-filter g-box-md fz14 gBgcGray5-md gBgcWhite1 g-myd-box" ng-class="{'show': isFilterVisible}">
+							<div class="col-md-12 mb-xs-3 gH4 gCGray1">
+								<h2 class="pb-xs-1 g-border-bottom-xs hidden-xs hidden-sm"><b>BUSCAR</b></h2>
+								<div id="show-filter" class="row pt-xs-2 pb-xs-2 gBgcGray5 g-border-bottom-xs hidden-md hidden-lg" ng-click="toggleFilter()">
+									<div class="col-xs-10">
+										<h2 class="cnt-title"><b>BUSCAR</b></h2>
+									</div>
+									<div class="col-xs-2 g-text-right-xs">
+										<span class="glyphicon glyphicon-chevron-down" ng-if="isFilterVisible"></span>
+										<span class="glyphicon glyphicon-chevron-up" ng-if="!isFilterVisible"></span>
+									</div>
+									<div class="clearfix"></div>
+								</div>
+							</div>
+							<div class="g-col-filter__box">
+								<div class="col-md-12 mb-xs-2">
+									<h6 class="gH6"><b>Buscar por:</b></h6>
+								</div>
+								<div class="col-md-12 mb-xs-2">
+									<mp-data-seeker
+									behavior="{label:''
+									, placeholder:'Estructura Territorial'
+									, matchField:'idName'}"
+									m-data-source="$ctrl.fnAutoCompleteTerritorial($inputNeed)"
+									ng-model="$ctrl.mBuscarEstructura"
+									is-horz="true">
+										<div ng-bind-html="$item.idName | highlight: $select.search"></div>
+									</mp-data-seeker>
+								</div>
+								<div class="col-md-12 mb-xs-2">
+
+									<mp-data-seeker
+									behavior="{label:''
+									, placeholder:'Ejecutivo'
+									, matchField:'idName'}"
+									m-data-source="$ctrl.fnAutoCompleteExecutives($inputNeed)"
+									ng-model="$ctrl.mBuscarEjecutivo"
+									is-horz="true">
+										<div ng-bind-html="$item.idName | highlight: $select.search"></div>
+									</mp-data-seeker>
+								</div>
+								<div class="col-md-12 mb-xs-6">
+
+									<mp-data-seeker
+									behavior="{label:''
+									, placeholder:'Agente'
+									, matchField:'idName'}"
+									m-data-source="$ctrl.fnAutoCompleteAgents($inputNeed)"
+									ng-model="$ctrl.mBuscarAgente"
+									is-horz="true">
+										<div ng-bind-html="$item.idName | highlight: $select.search"></div>
+									</mp-data-seeker>
+								</div>
+								<div class="col-md-12 mb-xs-1">
+									<a href="" class="g-btn g-btn-verde block" ng-click="$ctrl.fnBuscar()">Buscar</a>
+								</div>
+								<div class="col-md-12">
+									<a href="" class="g-btn g-btn-transparent block" ng-click="$ctrl.fnLimpiar()">Limpiar</a>
+								</div>
+							</div>
+						</div>
+					</form>
+				</div>
+
+				<div class="col-md-9 mb-xs-2">
+					<inspec-empty-data data-length="$ctrl.arrTerritorial.length" first-query-completed="$ctrl.firstQueryCompleted"></inspec-empty-data>
+					<div class="clearfix content-acordion-inspec" ng-show="$ctrl.arrTerritorial.length > 0">
+						<uib-accordion close-others="oneAtATime">
+							<div uib-accordion-group class="panel-default acordion mb-xs-2" ng-repeat="territorial in $ctrl.arrTerritorial" is-open="true">
+
+								<uib-accordion-heading>
+									<div class="g-div-middle" ng-click="$ctrl.acordion()">
+										<div class="col-xs-2 col-sm-1 pr-xs-0">
+											<span class="btn-acordion">
+												<i class="i-acordion" ng-class="{'ico-mapfre_309_arrowUp': $ctrl.status.open, 'ico-mapfre_308_arrowDown': !$ctrl.status.open}"></i>
+											</span>
+										</div>
+										<div class="col-xs-9 title-acordion">
+											<p class="gH4 g-text-uppercase fwBold mb-xs-0  g-cut-text">
+												{{territorial.name}}
+											</p>
+										</div>
+										<div class="col-xs-1 col-sm-2 check-acordion-heading g-text-right-xs">
+											<mpf-checkbox
+											name="nCheck"
+											ng-model="territorial.status"
+											label=""
+											ng-click="$ctrl.fnUpdateStatusStructure(territorial, $event)"
+											></mpf-checkbox>
+										</div>
+									</div>
+								</uib-accordion-heading>
+								<div class="col-xs-12 panel pt-xs-2 pb-xs-1">
+									<div class="row row-panel-aling children">
+										<div class="col-xs-12" ng-repeat="executive in territorial.executives">
+											<div class="row mt-xs-2">
+												<div class="col-xs-10">
+													<p class="gH5 g-text-uppercase fwBold g-cut-text">{{executive.name}}</p>
+												</div>
+												<div class="col-xs-2 g-text-right-xs">
+													<mpf-checkbox
+													name="nCheck"
+													ng-model="executive.status"
+													label=""
+													ng-click="$ctrl.fnUpdateStatusExecutive(executive, $event)"
+													></mpf-checkbox>
+												</div>
+											</div>
+											<div class="row grandchildren" ng-repeat="item in executive.agents">
+												<div class="col-xs-12">
+													<div class="row">
+														<div class="col-xs-10">
+															<p class="ml-xs-2 gH5 g-text-uppercase  g-cut-text">{{item.name}}</p>
+														</div>
+														<div class="col-xs-2 g-text-right-xs">
+															<mpf-checkbox
+															name="nCheck"
+															ng-model="item.status"
+															label=""
+															ng-click="$ctrl.fnUpdateStatusAgent(item, $event)"
+															></mpf-checkbox>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</uib-accordion>
+					</div>
+
+					<div class="row" ng-if="$ctrl.pagination.totalRecords > $ctrl.pagination.maxSize">
+						<div class="col-md-12">
+							<ul uib-pagination
+							class="g-pagination"
+							ng-model="$ctrl.pagination.currentPage"
+							max-size="$ctrl.pagination.maxSize"
+							total-items="$ctrl.pagination.totalRecords"
+							ng-change="$ctrl.pageChanged($ctrl.pagination.currentPage)"
+							boundary-link-numbers="true"></ul>
+						</div>
+					</div>
+
+				</div>
+			</div>
+		</div>
+	</div>
+</section>

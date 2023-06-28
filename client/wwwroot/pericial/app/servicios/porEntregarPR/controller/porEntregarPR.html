@@ -1,0 +1,166 @@
+<section>
+
+  <!--<cabecera-servicios-->
+    <!--siniestro="$ctrl.dataSiniestro"-->
+    <!--auto="$ctrl.dataAuto"-->
+    <!--btns-bar="{{$ctrl.rol}}"-->
+    <!--etiqueta="porEntregar"-->
+  <!--&gt;</cabecera-servicios>-->
+
+  <!-- Inicio Menu -->
+  <div class="">
+    <div class="g-title">
+      <div class="container">
+        <div class="row">
+          <div class="mb-xs-2 no-mb-sm" ng-class="{'col-sm-5': !$ctrl.presupuestadoAmpFlag, 'col-sm-7': $ctrl.presupuestadoAmpFlag}">
+            <h1>
+              Siniestro #
+              <span>{{ $ctrl.dataSiniestro.numSiniestro }}</span>
+              <span class="g-box-label gH7 mt-xs-1 ml-xs-1 gperFondoMorado" ng-show="{{$ctrl.presupuestadoAmpFlag}}">AMPLIACIÓN {{ $ctrl.ampliacion }}</span>
+              <span
+                class="g-box-label gH7 mt-xs-1 ml-xs-1 g-text-uppercase"
+                ng-class="{
+                'gperFondoAmarillo': $ctrl.turnOnAmarillo,
+                'gperFondoGris': $ctrl.turnOnGris,
+                'gperFondoNaranja': $ctrl.turnOnNaranja,
+                'gperFondoRojo': false,
+                'gperFondoVerde': $ctrl.turnOnVerde
+              }"
+              >{{$ctrl.etiquetaVal}}</span>
+            </h1>
+          </div>
+          <div class="title-buttns--box text-right g-div-middle pl-sm-0" ng-class="{'col-sm-7': !$ctrl.presupuestadoAmpFlag, 'col-sm-5': $ctrl.presupuestadoAmpFlag}">
+
+            <!-- Taller -->
+            <div class="pl-xs-1" ng-if="$ctrl.tallerBtns && $ctrl.enReparacionFlag">
+              <a class="g-btn g-btn-white second-design block" ng-click="$ctrl.fnGenerarAmpliacion()">Generar ampliación</a>
+            </div>
+            <div class="pl-xs-1" ng-if="$ctrl.tallerBtns && $ctrl.enReparacionFlag">
+              <a class="g-btn g-btn-white second-design block" ng-click="$ctrl.fnListoEntregar()">Listo para entregar</a>
+            </div>
+            <div class="pl-xs-1" ng-if="$ctrl.tallerBtns && $ctrl.peritadoFlag">
+              <a class="g-btn g-btn-verde second-design block" ng-click="$ctrl.fnModalIniRepa()">Iniciar reparación</a>
+            </div>
+            <div class="pl-xs-1" ng-if="$ctrl.tallerBtns && $ctrl.ingresadoFlag">
+              <a class="g-btn g-btn-verde second-design block" ng-click="$ctrl.fnRegistrar()">Registrar</a>
+            </div>
+
+            <!-- Perito -->
+            <div class="pl-xs-1" ng-if="$ctrl.isSupervisor()">
+              <a class="g-btn g-btn-white second-design block" ng-click="$ctrl.fnReasignarServicio()" ng-show="true">Reasignar siniestro</a>
+            </div>
+            <div class="pl-xs-1" ng-if="$ctrl.peritoBtns && $ctrl.presupuestadoVirtFlag">
+              <a class="g-btn g-btn-white second-design block" ng-click="$ctrl.fnModalMasInfo()" ng-show="true">Solicitar más información</a>
+            </div>
+            <!--<div class="pl-xs-1" ng-if="$ctrl.isSupervisor()">-->
+              <!--<a class="g-btn g-btn-verde second-design block" ng-click="$ctrl.fnAsignarmeServicio()">Asignarme siniestro</a>-->
+            <!--</div>-->
+            <div class="pl-xs-1" ng-if="($ctrl.peritoBtns && $ctrl.presupuestadoVirtFlag) || ($ctrl.peritoBtns && $ctrl.presupuestadoZoneFlag) || ($ctrl.peritoBtns && $ctrl.peritajeFlag) || ($ctrl.peritoBtns && $ctrl.presupuestadoFlag)">
+              <a class="g-btn g-btn-verde second-design block" ng-click="$ctrl.fnTerminarPeritaje()" ng-show="true">Terminar peritaje</a>
+            </div>
+
+            <!-- Supervisor -->
+            <div class="pl-xs-1" ng-if="$ctrl.supervisorBtns && $ctrl.perdidaTotalFlag">
+              <a class="g-btn g-btn-white second-design block" ng-click="$ctrl.fnRechazarSiniestro()">Rechazar pérdida</a>
+            </div>
+            <div class="pl-xs-1" ng-if="$ctrl.supervisorBtns && $ctrl.perdidaTotalFlag">
+              <a class="g-btn g-btn-verde second-design block" ng-click="$ctrl.fnAprobarSiniestro()">Aprobar pérdida</a>
+            </div>
+          </div>
+          <div class="col-xs-12">
+            <ul class="row">
+              <li class="col-md-3 col-xs-6 g-border-right"><b>Nro. expediente: <span>{{$ctrl.dataSiniestro.numExpdiente}}</span></b></li>
+              <li class="col-md-3 col-xs-6" ng-show="$ctrl.siniestro.repair.dateStartRepair"><b>Fecha inicio de reparación: <span>{{$ctrl.siniestro.repair.dateStartRepair  | date:'dd/MM/yyyy'}}</span></b></li>
+            </ul>
+            <ul class="row">
+              <li class="col-md-3 col-xs-6 g-border-right" ng-show="$ctrl.siniestro.budget.dateBudget"><b>Fecha de presupuesto: <span>{{$ctrl.siniestro.budget.dateBudget | date:'dd/MM/yyyy'}}</span></b></li>
+              <!--<li class="g-inlineblock pl-md-2" ng-show="$ctrl.siniestro.budget.dateBudget"><b>Fecha inicio de reparación: <span>{{$ctrl.siniestro.budget.dateBudget | date:'dd/MM/yyyy'}}</span></b></li>-->
+              <li class="col-md-3 col-xs-6" ng-show="$ctrl.siniestro.proficient.dateProficient"><b>Fecha de peritación: <span>{{$ctrl.siniestro.proficient.dateProficient | date:'dd/MM/yyyy'}}</span></b></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="g-sec-information-md mb-xs-3">
+    <div class="sec-item">
+      <div class="container">
+        <ul class="row">
+          <li class="col-sm-6 col-md-4 clearfix cnt-item g-border-right">
+            <div class="row">
+              <div class="col-xs-4 col-sm-2 item-label"><span class="gnIcon-sm ico-mapfre_324_placa"></span></div>
+              <div class="col-xs-8 col-sm-10 pl-xs-0 pl-md-1-5 item-dato g-text-uppercase">{{$ctrl.dataAuto.placa}}</div>
+            </div>
+            <div class="row">
+              <div class="col-xs-4 col-sm-2 item-label"><span class="gnIcon-xsm ico-mapfre_299_auto_front"></span></div>
+              <div class="col-xs-8 col-sm-10 pl-xs-0 pl-md-1-5 item-dato g-text-uppercase">{{$ctrl.dataAuto.modelo}}</div>
+            </div>
+            <div class="row" ng-if="$ctrl.dataAuto.perito">
+              <div class="col-xs-4 col-sm-2 item-label"><span class="gnIcon-xsm ico-mapfre_196_agendarchofer"></span></div>
+              <div class="col-xs-8 col-sm-10 pl-xs-0 pl-md-1-5 item-dato g-text-uppercase">{{$ctrl.dataAuto.perito}}</div>
+            </div>
+          </li>
+          <li class="col-sm-6 col-md-4 clearfix cnt-item g-border-noborder">
+            <div class="row">
+              <div class="col-xs-4 col-sm-4 col-md-4 item-label">Nro. motor:</div>
+              <div class="col-xs-8 col-sm-8 col-md-8 pl-xs-0 pl-md-1-5 item-dato g-text-uppercase">{{$ctrl.dataAuto.numMotor}}</div>
+            </div>
+            <div class="row">
+              <div class="col-xs-4 col-sm-4 col-md-4 item-label">Serie:</div>
+              <div class="col-xs-8 col-sm-8 col-md-8 pl-xs-0 pl-md-1-5 item-dato g-text-uppercase">{{$ctrl.dataAuto.serie}}</div>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <!-- Fin: Menu -->
+
+  <!-- Inicio TABs -->
+  <!--<div  class="g-section g-section-tabs tabs-responsive" ng-class="{'showTabs': showTabs, 'wt1200': changeTabWidth}">-->
+  <div gper-tabs-fixed class="g-section g-section-tabs tabs-responsive" ng-class="{'showTabs': showTabs, 'gper-tabs-fixed': boolChangeClass, 'wt1200': changeTabWidth}">
+    <div class="container">
+      <span class="tabs__more glyphicon glyphicon-chevron-down hidden-sm hidden-md hidden-lg" ng-click="showTabs = !showTabs"></span>
+      <uib-tabset justified="true" active="$ctrl.tab">
+        <uib-tab index="0" data-ng-click="mainData.tabSelected(0)">
+          <uib-tab-heading>
+            <span ng-click="tabsFalse()">Daños y Presupuesto</span>
+          </uib-tab-heading>
+          <div class="content-tab">
+            <div ng-include="$ctrl.tabPresupuesto"></div>
+          </div>
+        </uib-tab>
+        <uib-tab index="2" data-ng-click="mainData.tabSelected(2)">
+          <uib-tab-heading>
+            <span ng-click="tabsFalse()">Reparaciones</span>
+          </uib-tab-heading>
+          <div class="content-tab">
+            <div ng-include="$ctrl.tabReparaciones"></div>
+          </div>
+        </uib-tab>
+        <!--<uib-tab index="3" data-ng-click="mainData.tabSelected(2)">-->
+          <!--<uib-tab-heading><span>Entrega</span></uib-tab-heading>-->
+          <!--<div class="content-tab">-->
+            <!--<div ng-include="$ctrl.tabEntrega"></div>-->
+          <!--</div>-->
+        <!--</uib-tab>-->
+        <uib-tab index="3" data-ng-click="mainData.tabSelected(2)" >
+          <uib-tab-heading>
+            <span class="g-span-middle" ng-click="tabsFalse()">
+              <span>Comentarios</span>
+              <span class="nmbMessages2">
+                <span class="ico-mapfre_316_exclamacion gnIcon-sm"></span>
+              </span>
+            </span>
+          </uib-tab-heading>
+          <div class="content-tab">
+            <div ng-include="$ctrl.tabComentarios"></div>
+          </div>
+        </uib-tab>
+        <div class="border-tabs-fixed" ng-show="boolChangeClass"></div>
+      </uib-tabset>
+    </div>
+  </div>
+  <!-- Fin: TABs -->
+
+</section>

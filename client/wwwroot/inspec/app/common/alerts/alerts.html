@@ -1,0 +1,180 @@
+<div class="inspec-alert">
+    <div class="row">
+        <div class="col-xs-12 col-sm-6 col-md-3 col-sm-offset-6 col-md-offset-9 mt-xs-2">
+            <a class="g-btn g-btn-verde block" ng-click="$ctrl.createAlert()">crear alerta</a>
+        </div>
+    </div>
+    <div class="g-tab-vertical g-section g-section-tabs mt-xs-2 alerts">
+        <uib-tabset active="$ctrl.activePill" vertical="true">
+            <uib-tab ng-repeat="alert in $ctrl.alerts">
+                <uib-tab-heading>
+                    <div class="myd-vertical-alert">
+                        <span class="ico-mapfre_82_circle ico-bullet" ng-class="{'red': alert.alertStatus !== 'ATENDIDO', 'green': alert.alertStatus === 'ATENDIDO'}"></span>
+                        <div class="myd-vertical-alert-info">
+                            <span class="myd-user-code"><b>{{ alert.userCode }}</b></span><br>
+                            <!-- {{ alert.creationDate }} -->
+                            <span class="myd-date">{{ alert.creationDate | date : "d/M/y h:mm:ss a" }}</span><br>
+                            <span class="myd-preview-message">{{ alert.previewMessage }}</span>
+                        </div>
+                    </div>
+                </uib-tab-heading>
+                <div class="cont-alert">
+                    <div class="col-md-12 gBgcGray5 pt-xs-1">
+                        <ul class="row g-list mb-xs-2 h-myd--flex h-myd--flex-wrap h-myd--flex-alg-center">
+                            <li class="col-xs-12 col-md-7">
+                                <div class="mb-xs-1 mb-md-0 h-myd--flex h-myd--flex-wrap h-myd--flex-alg-center">
+                                    <span class="mr-xs-1">USUARIO ORIGEN <span><b>{{ alert.userCode }}</b></span></span>
+                                    <span ng-if="alert.alertStatus === 'ATENDIDO'" class="g-box-label gBgcGreen1 g-text-uppercase">ATENDIDA</span>
+                                    <span ng-if="alert.alertStatus !== 'ATENDIDO'" class="g-box-label gBgcRed3 g-text-uppercase">PENDIENTE</span>
+                                </div>
+                                </li>
+                                <li class="col-xs-12 col-md-5 clearfix">
+                                    <div class="title-details g-text-right-md">
+                                        <span class="alert-date">{{ alert.creationDate | date : "EEEE d 'de' MMMM" }}</span><span class="g-text-uppercase">{{ alert.creationDate | date : "mediumTime" }}</span>
+                                    </div>
+                                </li>
+                            </ul>
+                        <ul class="g-list row mt-md-1">
+                            <li class="col-xs-12 col-md-6 clearfix cnt-item h-myd-p--0">
+                                <div class="col-sm-5 item-label">
+                                    <span class="ico-mapfre_82_circle ico-bullet"></span>Usuario destino:&nbsp;
+                                </div>
+                                <div class="col-sm-7 item-dato g-text-uppercase">{{ alert.userCodeTarget || '-' }}</div>
+                            </li>
+                            <li class="col-xs-12 col-md-3 clearfix cnt-item h-myd-p--0">
+                                <div class="col-sm-5 item-label">
+                                    <span class="ico-mapfre_82_circle ico-bullet"></span>Rol:&nbsp;
+                                </div>
+                                <div class="col-sm-7 item-dato g-text-uppercase">{{ alert.userRole }}</div>
+                            </li>
+                            <li class="col-xs-12 col-md-3 clearfix cnt-item h-myd-p--0">
+                                <div class="col-sm-5 item-label">
+                                    <span class="ico-mapfre_82_circle ico-bullet"></span>Frustrada:&nbsp;
+                                </div>
+                                <div class="col-sm-7 item-dato g-text-uppercase">{{ alert.isFrustratedCode === 'S' ? 'SI' : 'NO' }}</div>
+                            </li>
+                        </ul>
+                        <ul class="g-list row">
+                            <li class="col-md-6 clearfix cnt-item h-myd-p--0">
+                                <div class="col-sm-5 item-label">
+                                    <span class="ico-mapfre_82_circle ico-bullet"></span>Rol destino:&nbsp;
+                                </div>
+                                <div class="col-sm-7 item-dato g-text-uppercase" ng-show="!$ctrl.replyAlert">{{ alert.userRoleTarget }}</div>
+                                <div class="col-sm-7 item-dato g-text-uppercase" ng-show="$ctrl.replyAlert && !$ctrl.showDropdown(alert.riskStatusCode)">{{ alert.userRoleTarget }}</div>
+                                <div class="col-sm-7 item-dato g-text-uppercase role-target" ng-show="$ctrl.replyAlert && $ctrl.showDropdown(alert.riskStatusCode)">
+                                    <mpf-select label="{label: '', required: false}" name="nEstado" ng-model="$ctrl.roleDestination" m-data-source="$ctrl.roles" text-Field="name" value-Field="name"></mpf-select>
+                                </div>
+                            </li>
+                        </ul>
+					</div>
+                    <div ng-if="$ctrl.replyAlert">
+                        <div class="col-md-12 mt-xs-2 g-border-bottom pb-xs-2">
+                            <div class="nuevaAlerta">
+                              <span class="title" ng-if="!$ctrl.responseAlert">NUEVA ALERTA</span>
+                            </div>
+                            <ul class="g-list row mt-xs-1">
+                              <li class="col-md-12 clearfix cnt-item h-myd-p--0">
+                                <div class="col-sm-12 item-label">
+                                  <span class="ico-mapfre_82_circle ico-bullet"></span>MENSAJE:&nbsp;
+                                </div>
+                              </li>
+                              <div class="col-md-12">
+                                <mpf-textarea label="{label: '', required: false}" name="nMessage" ng-model="$ctrl.mMessage" ng-required="true"></mpf-textarea>
+                                <div class="g-error" ng-show="!$ctrl.validMessage">* Debe ingresar el mensaje de la alerta.</div>
+                              </div>
+                            </ul>
+                        </div>
+                    </div>
+                    <div ng-if="!$ctrl.replyAlert">
+                        <div class="col-md-12 mt-xs-2 g-border-bottom pb-xs-2">
+                            <ul class="g-list row mt-xs-1">
+                                <li class="col-md-12 clearfix cnt-item h-myd-p--0">
+                                    <div class="col-xs-6 item-label">
+                                        <span class="ico-mapfre_82_circle ico-bullet"></span>MENSAJE:&nbsp;
+                                    </div>
+                                    <div class="col-xs-6 item-label g-text-right-xs">
+                                      <a href="" ng-click="$ctrl.toggleReply();">
+                                        <span class="g-icon gCGray3">
+                                          <span class="icon ico-mapfre_182_responder"></span>
+                                          <span class="g-link"><b>Responder</b></span>
+                                        </span>
+                                      </a>
+                                    </div>
+                                </li>
+                                <div class="col-md-12 mb-xs-2 cont-mensaje">
+                                  <div class="gBgcGray5 scroll-msn pb-xs-1 pt-xs-1 h-myd-bg--white">
+                                    <div class="listado-alert g-list second-design pl-xs-2 pr-xs-2 pb-xs-1">
+                                        <span class="item-label" ng-bind-html="alert.message"></span>
+                                    </div>
+                                  </div>
+                                </div>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-md-12 mt-xs-1">
+                        <ul class="g-list row mt-xs-1">
+                            <li class="col-md-12 clearfix cnt-item h-myd-p--0">
+                                <div class="col-sm-12 item-label">
+                                    <span class="ico-mapfre_82_circle ico-bullet"></span>ASIGNADA A:&nbsp;
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="col-md-12">
+                        <ul class="g-list clearfix col-md-12 g-list-md g-box gBgcGray5 pt-xs-1 mb-xs-1 ng-scope h-myd-bg--gray4">
+                            <li class="col-md-3 clearfix cnt-item no-padding-xs pl-md-0 pr-md-1-5">
+                                <inspec-request-label request-id="alert.riskStatusCode" request-text="alert.riskStatus"></inspec-request-label>
+                            </li>
+                            <li class="col-md-3 clearfix cnt-item no-padding-xs pl-md-1-5 pr-md-1-5">
+                                <div class="col-xs-12 item-label h-myd-p--0">
+                                    <span class="ico-mapfre_82_circle ico-bullet"></span><b>CONTACTO:&nbsp;</b>
+                                </div>
+                                <div class="col-xs-12 g-text-uppercase item-dato mb-xs-1 h-myd-p--0">{{ alert.contactName + ' ' + alert.contactLastName }}</div>
+                                <div class="col-xs-12 item-label h-myd-p--0">
+                                    <span class="ico-mapfre_82_circle ico-bullet"></span><b>AGENTE:&nbsp;</b>
+                                </div>
+                                <div class="col-xs-12 g-text-uppercase item-dato h-myd-p--0">{{ alert.agent }}</div>
+                            </li>
+                            <li class="col-md-3 clearfix cnt-item no-padding-xs pl-md-1-5 pr-md-1-5">
+                                <div class="col-xs-12 item-label h-myd-p--0">
+                                    <span class="ico-mapfre_82_circle ico-bullet"></span><b>MARCA / MODELO / PLACA / AÑO:&nbsp;</b>
+                                </div>
+                                <div class="col-xs-12 g-text-uppercase item-dato mb-xs-1 h-myd-p--0">{{ alert.vehicleBrand + ' / ' + alert.vehicleModel + ' / ' + alert.vehicleLicensePlate + ' / ' + (alert.vehicleYear || '-')}}</div>
+                                <div class="col-xs-12 item-label h-myd-p--0">
+                                    <span class="ico-mapfre_82_circle ico-bullet"></span><b>USUARIO:&nbsp;</b>
+                                </div>
+                                <div class="col-xs-12 g-text-uppercase item-dato h-myd-p--0">{{ alert.creationUser }}</div>
+                            </li>
+                            <li class="col-md-3 clearfix cnt-item no-padding-xs pl-md-1-5 pr-md-1-5">
+                                <div class="col-xs-12 item-label h-myd-p--0">
+                                    <span class="ico-mapfre_82_circle ico-bullet"></span><b>SITUACIÓN:&nbsp;</b>
+                                </div>
+                                <div class="col-xs-12 g-text-uppercase item-dato h-myd-p--0">-</div>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="col-md-12 mt-xs-1 g-text-right-xs" ng-if="$ctrl.replyAlert && $ctrl.isFleet">
+                        <a class="gCGray3" ng-click="$ctrl.showReplicateAlert()" ng-if="$ctrl.selectedRequestLength === 0"><span class="ico-mapfre_170_archivos"></span> Replicar a otros vehículos de la flota</a>
+                        <a class="gCGray3" ng-click="$ctrl.showReplicateAlert()" ng-if="$ctrl.selectedRequestLength > 0"><span class="ico-mapfre_170_archivos"></span>Alerta replicada en {{ $ctrl.selectedRequestLength }} vehículos</a>
+                    </div>
+                    <div class="col-xs-12 col-md-6 ng-scope mt-xs-2">
+                        <mpf-checkbox name="nChkSolicitud" ng-if="!$ctrl.replyAlert" ng-disabled="true" ng-model="alert.sendEmail" label="Enviar Email"></mpf-checkbox>
+                        <mpf-checkbox name="nChkSolicitud" ng-if="$ctrl.replyAlert" ng-disabled="false" ng-model="$ctrl.sendEmail" label="Enviar Email"></mpf-checkbox>
+                    </div>
+                    <div ng-if="$ctrl.replyAlert">
+                        <div class="col-xs-12 col-md-6">
+                            <div class="row ng-scope">
+                                <div class="col-md-6 mt-xs-2">
+                                    <a class="g-btn g-btn-transparent block" ng-click="$ctrl.toggleReply();">cancelar</a>
+                                </div>
+                                <div class="col-md-6 mt-xs-2">
+                                    <a class="g-btn g-btn-verde block" ng-click="$ctrl.addAlert();">enviar</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </uib-tab>
+        </uib-tabset>
+    </div>
+</div>

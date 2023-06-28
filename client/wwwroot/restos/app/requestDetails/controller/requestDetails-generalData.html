@@ -1,0 +1,396 @@
+<div class="row">
+  <div class="col-md-12 fz14 pt-xs-2 pb-xs-2">
+    <div class="row">
+      <div class="col-md-12">
+        <h2 class="g-sub-title red">Datos de la solicitud</h2>
+      </div>
+    </div>
+    <div class="g-box gBgcGray5 pt-xs-1 pb-xs-1 pl-xs-1 mb-xs-2"
+         ng-if="request.DatosGenerales.MCA_PNLDAD === 'S' && request.state.code === 8">
+      <span class="ico-mapfre_222_informacion gCBlue2 gnIcon-xsm middle"></span>
+      <span class="middle"><b>Tiene un pago pendiente de {{ request.DatosGenerales.IMP_PNLDAD }} {{ request.DatosGenerales.NOM_MON_PNLDAD }}.</b></span>
+    </div>
+    <ul class="row mb-xs-1">
+      <li class="col-sm-6 col-md-3 clearfix cnt-item">
+        <div class="row">
+          <div class="col-xs-12 item-label">
+            <b>Nro. de solicitud</b>
+          </div>
+          <div class="col-xs-12 item-dato g-text-uppercase">{{ idRequest || '--' }}</div>
+        </div>
+      </li>
+      <li class="col-sm-6 col-md-3 clearfix cnt-item">
+        <div class="row">
+          <div class="col-xs-12 item-label">
+            <b>Nro. de póliza</b>
+          </div>
+          <div class="col-xs-12 item-dato g-text-uppercase">{{ request.DatosGenerales.NUM_POLIZA || '--' }}</div>
+        </div>
+      </li>
+      <li class="col-sm-6 col-md-3 clearfix cnt-item">
+        <div class="row">
+          <div class="col-xs-12 item-label">
+            <b>Nro. de siniestro</b>
+          </div>
+          <div class="col-xs-12 item-dato g-text-uppercase">{{ request.DatosGenerales.NUM_SINI || '--' }}</div>
+        </div>
+      </li>
+      <li class="col-sm-6 col-md-3 clearfix cnt-item">
+        <div class="row">
+          <div class="col-xs-12 item-label">
+            <b>¿Es chatarra?</b>
+          </div>
+          <div class="col-xs-12 item-dato g-text-uppercase">
+            <div class="row">
+              <div class="col-xs-3">
+                <m-radio label="{label: 'Si'}" name="rMCA_CHTRRA" ng-model="request.DatosGenerales.MCA_CHTRRA" value="S" ng-required="true"></m-radio>
+              </div>
+              <div class="col-xs-3">
+                <m-radio label="{label: 'No'}" name="rMCA_CHTRRA" ng-model="request.DatosGenerales.MCA_CHTRRA" value="N" ng-required="true"></m-radio>
+              </div>
+              <ul class="col-md-12 g-error">
+                <li ng-show="frmContractor.nEsChatarra.$invalid && !frmContractor.nEsChatarra.$pristine">* Seleccione si hay penalidad</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </li>
+    </ul>
+    <ul class="row mb-xs-1">
+      <li class="col-sm-6 col-md-3 clearfix cnt-item">
+        <div class="row">
+          <div class="col-xs-12 item-label">
+            <b>Ubicación</b>
+          </div>
+          <div class="col-xs-12 item-dato g-text-uppercase">{{ request.DatosGenerales.CUBCN_DESC || '--' }}</div>
+        </div>
+      </li>
+      <li class="col-sm-6 col-md-3 clearfix cnt-item">
+        <div class="row">
+          <div class="col-xs-12 item-label">
+            <b>Posición</b>
+          </div>
+          <div class="col-xs-12 item-dato g-text-uppercase">{{ request.DatosGenerales.CPSCN_DESC || '--' }}</div>
+        </div>
+      </li>
+      <li class="col-sm-6 col-md-3 clearfix cnt-item">
+        <div class="row">
+          <div class="col-xs-12 item-label">
+            <b>Fecha de ingreso</b>
+          </div>
+          <div class="col-xs-12 item-dato g-text-uppercase">{{ request.DatosGenerales.FEC_INGRSO || '--' }}</div>
+        </div>
+      </li>
+      <li class="col-sm-6 col-md-3 clearfix cnt-item">
+        <div class="row">
+          <div class="col-xs-12 item-label">
+            <b>Fecha adjudica</b>
+          </div>
+          <div class="col-xs-12 item-dato g-text-uppercase">{{ request.DatosGenerales.FEC_ADJDCA || '--' }}</div>
+        </div>
+      </li>
+    </ul>
+    <ul class="row mb-xs-1">
+      <li class="col-sm-6 col-md-3 clearfix cnt-item">
+        <div class="row">
+          <div class="col-xs-12 item-label">
+            <b>Fecha de salida</b>
+          </div>
+          <div class="col-xs-12 item-dato g-text-uppercase">{{ request.DatosGenerales.FEC_SLDA || '--' }}</div>
+        </div>
+      </li>
+      <li class="col-sm-6 col-md-3 clearfix cnt-item">
+        <div class="row">
+          <div class="col-xs-12 item-label">
+            <b>Tipo de daño</b>
+          </div>
+          <div class="col-xs-12 item-dato g-text-uppercase">{{ request.DatosGenerales.TIP_DNO_DESC || '--' }}</div>
+        </div>
+      </li>
+      <li class="col-sm-6 col-md-3 clearfix cnt-item">
+        <div class="row">
+          <div class="col-xs-12 item-label">
+            <b>Origen</b>
+          </div>
+          <div class="col-xs-12 item-dato g-text-uppercase">{{ request.DatosGenerales.COD_ORGN_DESC || '--' }}</div>
+        </div>
+      </li>
+      <li class="col-sm-6 col-md-3 clearfix cnt-item">
+        <div class="row">
+          <div class="col-xs-12 item-label">
+            <b>Código de unidad</b>
+          </div>
+          <div class="col-xs-12 item-dato g-text-uppercase">{{ request.DatosGenerales.COD_UNDAD || '--' }}</div>
+        </div>
+      </li>
+    </ul>
+    <ul class="row mb-xs-1">
+      <li class="col-sm-6 col-md-3 clearfix cnt-item">
+        <div class="row">
+          <div class="col-xs-12 item-label">
+            <b>Estado de la solicitud</b>
+          </div>
+          <div class="col-xs-12 item-dato g-text-uppercase">{{ request.DatosGenerales.ESTDO_SLCTD_DESC || '--' }}</div>
+        </div>
+      </li>
+    </ul>
+
+    <div class="row">
+      <div class="col-md-12 g-border-top pt-xs-1 mt-xs-1">
+        <h2 class="g-sub-title red">Datos del contratante</h2>
+      </div>
+    </div>
+    <ul class="row mb-xs-1">
+      <li class="col-sm-6 col-md-3 clearfix cnt-item">
+        <div class="row">
+          <div class="col-xs-12 item-label">
+            <b>Tipo de documento</b>
+          </div>
+          <div class="col-xs-12 item-dato g-text-uppercase">{{ request.Contratante.TIP_DCMNTO_DESC || '--' }}</div>
+        </div>
+      </li>
+      <li class="col-sm-6 col-md-3 clearfix cnt-item">
+        <div class="row">
+          <div class="col-xs-12 item-label">
+            <b>Nro. de documento</b>
+          </div>
+          <div class="col-xs-12 item-dato g-text-uppercase">{{ request.Contratante.NRO_DCMNTO || '--' }}</div>
+        </div>
+      </li>
+      <li class="col-sm-6 col-md-3 clearfix cnt-item">
+        <div class="row">
+          <div class="col-xs-12 item-label">
+            <b>Nombres</b>
+          </div>
+          <div class="col-xs-12 item-dato g-text-uppercase">{{ request.Contratante.NMBRES || '--' }}</div>
+        </div>
+      </li>
+      <li class="col-sm-6 col-md-3 clearfix cnt-item">
+        <div class="row">
+          <div class="col-xs-12 item-label">
+            <b>Apellido paterno</b>
+          </div>
+          <div class="col-xs-12 item-dato g-text-uppercase">{{ request.Contratante.APLLDO_PTRNO || '--' }}</div>
+        </div>
+      </li>
+    </ul>
+    <ul class="row mb-xs-1">
+      <li class="col-sm-6 col-md-3 clearfix cnt-item">
+        <div class="row">
+          <div class="col-xs-12 item-label">
+            <b>Apellido materno</b>
+          </div>
+          <div class="col-xs-12 item-dato g-text-uppercase">{{ request.Contratante.APLLDO_MTRNO || '--' }}</div>
+        </div>
+      </li>
+      <li class="col-sm-6 col-md-3 clearfix cnt-item">
+        <div class="row">
+          <div class="col-xs-12 item-label">
+            <b>Estado civil</b>
+          </div>
+          <div class="col-xs-12 item-dato g-text-uppercase">{{ request.Contratante.ESTDO_CVIL_DESC || '--' }}</div>
+        </div>
+      </li>
+      <li class="col-sm-6 col-md-3 clearfix cnt-item">
+        <div class="row">
+          <div class="col-xs-12 item-label">
+            <b>Fecha de nacimiento</b>
+          </div>
+          <div class="col-xs-12 item-dato g-text-uppercase">{{ request.Contratante.FEC_NACIMIENTO || '--' }}</div>
+        </div>
+      </li>
+      <li class="col-sm-6 col-md-3 clearfix cnt-item">
+        <div class="row">
+          <div class="col-xs-12 item-label">
+            <b>Sexo</b>
+          </div>
+          <div class="col-xs-12 item-dato g-text-uppercase">{{ request.Contratante.SXO_DESC || '--' }}</div>
+        </div>
+      </li>
+    </ul>
+    <ul class="row mb-xs-1">
+      <li class="col-sm-6 col-md-3 clearfix cnt-item">
+        <div class="row">
+          <div class="col-xs-12 item-label">
+            <b>Teléfono fijo</b>
+          </div>
+          <div class="col-xs-12 item-dato g-text-uppercase">{{ request.Contratante.TLF_FJO || '--' }}</div>
+        </div>
+      </li>
+      <li class="col-sm-6 col-md-3 clearfix cnt-item">
+        <div class="row">
+          <div class="col-xs-12 item-label">
+            <b>Teléfono móvil</b>
+          </div>
+          <div class="col-xs-12 item-dato g-text-uppercase">{{ request.Contratante.TLF_MVIL || '--' }}</div>
+        </div>
+      </li>
+      <li class="col-sm-6 col-md-3 clearfix cnt-item">
+        <div class="row">
+          <div class="col-xs-12 item-label">
+            <b>Email personal</b>
+          </div>
+          <div class="col-xs-12 item-dato g-text-uppercase">{{ request.Contratante.EMAIL_PRSNAL || '--' }}</div>
+        </div>
+      </li>
+      <li class="col-sm-6 col-md-3 clearfix cnt-item">
+        <div class="row">
+          <div class="col-xs-12 item-label">
+            <b>Departamento</b>
+          </div>
+          <div class="col-xs-12 item-dato g-text-uppercase">{{ request.Contratante.COD_DPRTMNTO_DESC || '--' }}</div>
+        </div>
+      </li>
+    </ul>
+    <ul class="row mb-xs-1">
+      <li class="col-sm-6 col-md-3 clearfix cnt-item">
+        <div class="row">
+          <div class="col-xs-12 item-label">
+            <b>Provincia</b>
+          </div>
+          <div class="col-xs-12 item-dato g-text-uppercase">{{ request.Contratante.COD_PRVNCIA_DESC || '--' }}</div>
+        </div>
+      </li>
+      <li class="col-sm-6 col-md-3 clearfix cnt-item">
+        <div class="row">
+          <div class="col-xs-12 item-label">
+            <b>Distrito</b>
+          </div>
+          <div class="col-xs-12 item-dato g-text-uppercase">{{ request.Contratante.COD_DSTRTO_DESC || '--' }}</div>
+        </div>
+      </li>
+      <li class="col-sm-6 col-md-3 clearfix cnt-item">
+        <div class="row">
+          <div class="col-xs-12 item-label">
+            <b>Dirección</b>
+          </div>
+          <div class="col-xs-12 item-dato g-text-uppercase">{{ request.Contratante.DRCCON || '--' }}</div>
+        </div>
+      </li>
+      <li class="col-sm-6 col-md-3 clearfix cnt-item">
+        <div class="row">
+          <div class="col-xs-12 item-label">
+            <b>Referencia</b>
+          </div>
+          <div class="col-xs-12 item-dato g-text-uppercase">{{ request.Contratante.RFERNCIA || '--' }}</div>
+        </div>
+      </li>
+    </ul>
+    <ul class="row mb-xs-1">
+      <li class="col-sm-6 col-md-2 clearfix cnt-item">
+        <div class="row">
+          <div class="col-xs-12 item-label">
+            <b>Email oficina</b>
+          </div>
+          <div class="col-xs-12 item-dato g-text-uppercase">{{ request.Contratante.EMAIL_OFCNA || '--' }}</div>
+        </div>
+      </li>
+    </ul>
+
+    <div class="row">
+      <div class="col-md-12 g-border-top pt-xs-1 mt-xs-1">
+        <h2 class="g-sub-title red">Datos del taller</h2>
+      </div>
+    </div>
+    <ul class="row mb-xs-1">
+      <li class="col-sm-6 col-md-3 clearfix cnt-item">
+        <div class="row">
+          <div class="col-xs-12 item-label">
+            <b>Nombre del taller</b>
+          </div>
+          <div class="col-xs-12 item-dato g-text-uppercase">{{ request.DatosGenerales.NOM_TALLER || '--' }}</div>
+        </div>
+      </li>
+      <li class="col-sm-6 col-md-3 clearfix cnt-item">
+        <div class="row">
+          <div class="col-xs-12 item-label">
+            <b>Nombre de contacto</b>
+          </div>
+          <div class="col-xs-12 item-dato g-text-uppercase">{{ request.DatosGenerales.NOM_CNTCTO || '--' }}</div>
+        </div>
+      </li>
+      <li class="col-sm-6 col-md-3 clearfix cnt-item">
+        <div class="row">
+          <div class="col-xs-12 item-label">
+            <b>Teléfono de contacto</b>
+          </div>
+          <div class="col-xs-12 item-dato g-text-uppercase">{{ request.DatosGenerales.TELF_CNTCTO || '--' }}</div>
+        </div>
+      </li>
+      <li class="col-sm-6 col-md-3 clearfix cnt-item">
+        <div class="row">
+          <div class="col-xs-12 item-label">
+            <b>Departamento</b>
+          </div>
+          <div class="col-xs-12 item-dato g-text-uppercase">{{ request.DatosGenerales.COD_DPRTMNTO_DESC || '--' }}</div>
+        </div>
+      </li>
+    </ul>
+    <ul class="row mb-xs-1">
+      <li class="col-sm-6 col-md-3 clearfix cnt-item">
+        <div class="row">
+          <div class="col-xs-12 item-label">
+            <b>Provincia</b>
+          </div>
+          <div class="col-xs-12 item-dato g-text-uppercase">{{ request.DatosGenerales.COD_PRVNCIA_DESC || '--' }}</div>
+        </div>
+      </li>
+      <li class="col-sm-6 col-md-3 clearfix cnt-item">
+        <div class="row">
+          <div class="col-xs-12 item-label">
+            <b>Distrito</b>
+          </div>
+          <div class="col-xs-12 item-dato g-text-uppercase">{{ request.DatosGenerales.COD_DSTRTO_DESC || '--' }}</div>
+        </div>
+      </li>
+      <li class="col-sm-6 col-md-3 clearfix cnt-item">
+        <div class="row">
+          <div class="col-xs-12 item-label">
+            <b>Dirección de contacto</b>
+          </div>
+          <div class="col-xs-12 item-dato g-text-uppercase">{{ request.DatosGenerales.DIRECC_CNTCTO || '--' }}</div>
+        </div>
+      </li>
+    </ul>
+
+    <div ng-if="request.state.code > 4">
+      <div class="row">
+        <div class="col-md-12 g-border-top pt-xs-1 mt-xs-1">
+          <h2 class="g-sub-title red">Datos del adjudicatario</h2>
+        </div>
+      </div>
+      <ul class="row mb-xs-1">
+        <li class="col-sm-6 col-md-3 clearfix cnt-item">
+          <div class="row">
+            <div class="col-xs-12 item-label">
+              <b>Tipo de documento</b>
+            </div>
+            <div class="col-xs-12 item-dato g-text-uppercase">{{ request.DatosGenerales.TIP_DOC_ADJUDICA_DESC || '--' }}</div>
+          </div>
+        </li>
+        <li class="col-sm-6 col-md-3 clearfix cnt-item">
+          <div class="row">
+            <div class="col-xs-12 item-label">
+              <b>Nro. de documento</b>
+            </div>
+            <div class="col-xs-12 item-dato g-text-uppercase">{{ request.DatosGenerales.NUM_DOC_ADJUDICA || '--' }}</div>
+          </div>
+        </li>
+        <li class="col-sm-6 col-md-3 clearfix cnt-item">
+          <div class="row">
+            <div class="col-xs-12 item-label">
+              <b>Nombre del contacto</b>
+            </div>
+            <div class="col-xs-12 item-dato g-text-uppercase">{{ request.DatosGenerales.NOM_ADJUDICA || '--' }}</div>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="row mt-xs-5" ng-show="requestChanged">
+    <div class="col-md-offset-4 col-md-4">
+      <button class="g-btn g-btn-verde second-design block" ng-click="updateRequest()">Guardar cambios</button>
+    </div>
+  </div>
+</div>

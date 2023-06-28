@@ -1,0 +1,76 @@
+<form id="reparacionesForm" action="" name="$ctrl.reparacionesForm">
+  <div class="g-section-inner">
+
+	<div class="row mb-xs-2" ng-if="$ctrl.presupAmpFlag">
+		<div class="col-md-12">
+			<h2 class="gCGray1 gH4"><b>AMPLIACIÓN {{numAmpliacion}}</b></h2>
+		</div>
+	</div>
+
+	<div class="row mb-xs-2">
+		<div class="col-md-12">
+			<h2 class="gCGray1 gH4"><b>Datos de la reparación</b></h2>
+		</div>
+	</div>
+	<div class="row mb-xs-2">
+		<div class="col-md-3 mb-xs-2 no-mb-md">
+			<m-radio label="{label: 'Ningún repuesto pendiente'}" name="nDatosReparacion" ng-model="$ctrl.repair.mDatosReparacion" value="N" ng-required="true" ng-click="$ctrl.fnShowStock()" ng-disabled="$ctrl.disabledDatosRepar"></m-radio>
+			<div class="g-error" data-ng-show="nDatosReparacion.$error.required && !nDatosReparacion.$pristine">* Seleccione una opción </div>
+		</div>
+		<div class="col-md-3 mb-xs-2 no-mb-md">
+			<m-radio label="{label: 'A la espera de repuestos'}" name="nDatosReparacion" ng-model="$ctrl.repair.mDatosReparacion" value="S" ng-required="true" ng-click="f$ctrl.nShowStock()" ng-disabled="$ctrl.disabledDatosRepar"></m-radio>
+		</div>
+	</div>
+
+	<div class="row" ng-show="$ctrl.showStock">
+		<div class="col-md-12">
+			<h2 class="gCGray1 gH4"><b>Disponibilidad de stock</b></h2>
+		</div>
+	</div>
+	<div class="row mb-xs-2">
+		<div class="col-md-3 mt-xs-3 no-mb-md" ng-show="$ctrl.showStock">
+			<m-radio label="{label: 'Se puede iniciar reparación'}" name="nDispStock" ng-model="$ctrl.repair.mDispStock" value="S" data-ng-required="true" ng-click="" ng-disabled="$ctrl.disabledDatosRepar"></m-radio>
+			<div class="g-error" data-ng-show="nDispStock.$error.required && !nDispStock.$pristine">* Seleccione una opción </div>
+		</div>
+		<div class="col-md-3 mt-xs-3 mb-xs-2 no-mb-md" ng-show="$ctrl.showStock">
+			<m-radio label="{label: 'Esperar a que llegue la pieza'}" name="nDispStock" ng-model="$ctrl.repair.mDispStock" value="N" data-ng-required="true" ng-click="" ng-disabled="$ctrl.disabledDatosRepar"></m-radio>
+		</div>
+		<div class="col-md-3 mb-xs-2 no-mb-md" ng-show="$ctrl.repair.mDatosReparacion === 'S' && $ctrl.repair.mDispStock === 'N'">
+			<mpf-input label="{label: 'Llegada de repuestos (días)', required: false}" name="nDiasLlegadaRep" ng-model="$ctrl.repair.mDiasLlegadaRep" ng-required="false" ng-disabled="$ctrl.disabledDatosRepar"></mpf-input>
+		</div>
+		<div class="col-md-3 mb-xs-2 no-mb-md">
+			<mpf-input label="{label: 'Días estimados de reparación', required: false}" name="nDiasRepa" ng-model="$ctrl.repair.mDiasRepa" ng-required="false" ng-disabled="$ctrl.disabledDatosRepar" mpf-validation="onlyNumber"></mpf-input>
+		</div>
+	</div>
+
+	<div class="row" ng-if="$ctrl.porEntregarFlag" ng-disabled="$ctrl.disabledDatosRepar">
+		<div class="col-md-3">
+			<mpf-datepicker
+				ng-model="$ctrl.repair.mFechaDesde"
+				label="{label: 'Fecha fin de la reparación:', required: true}"
+        format="'dd/MM/yyyy'"
+				name="nFechaDesde"
+				ng-required="false"
+				ng-change=""
+				mpf-validate="required"
+				readonly="true"
+				maxDate="maxDate"
+				add-messages>
+			</mpf-datepicker>
+		</div>
+	</div>
+
+</div>
+</form>
+<div class="g-section-inner gper-presupuesto__file" ng-if="$ctrl.presupAmpFlag">
+	<div class="row mb-xs-2">
+		<div class="col-md-12">
+			<h2 class="gCGray1 gH4"><b>Historial de las reparaciones</b></h2>
+		</div>
+	</div>
+
+	<div class="row">
+		<div class="col-md-12 g-span-middle"><span class="mr-xs-1"><b>AMPLIACIÓN 1</b></span><span><a class="g-link gCGreen1">Ver detalle</a></span></div>
+		<div class="col-md-12 g-span-middle"><span class="mr-xs-1"><b>CARGA INICIAL</b></span><span><a class="g-link gCGreen1">Ver detalle</a></span></div>
+	</div>
+</div>

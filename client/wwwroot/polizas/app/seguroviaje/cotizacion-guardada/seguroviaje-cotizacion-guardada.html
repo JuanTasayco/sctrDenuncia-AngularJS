@@ -1,0 +1,192 @@
+<section class="g-page page-segurviaje-cotizacion-guardada">
+	<page-title info="{title: 'Cotización guardada'}"></page-title>
+	<div class="container">
+		<div class="row mt-xs-2">
+			<div class="col-xs-offset-6 col-xs-6 text-right">
+				<a class="g-btn g-btn-white" ui-sref="seguroviajeCotizar.initSteps.steps({step: 1})">
+					COTIZAR NUEVA POLIZA
+				</a>
+			</div>
+		</div>
+		<div class="g-box gBgcGray5 mt-sm-3 pt-xs-2 pr-xs-3 pb-xs-2 pl-xs-3">
+			<h2 class="gH2 g-border-bottom-xs pb-xs-1-5 mb-xs-1-5">
+				COTIZACIÓN DE VIAJE
+			</h2>
+			<p class="gH4">Datos de la póliza</p>
+			<ul class="row g-list-md">
+				<li class="col-sm-4 clearfix cnt-item">
+					<div class="col-xs-5 item-label">
+						<span class="ico-mapfre_82_circle ico-bullet"></span>Destino:
+					</div>
+					<div class="col-xs-7 item-dato g-text-uppercase">
+						{{ vm.quotation.policyData.destination }}
+					</div>
+				</li>
+				<li class="col-sm-4 clearfix cnt-item">
+					<div class="col-xs-5 item-label">
+						<span class="ico-mapfre_82_circle ico-bullet"></span>Inicio de Vigencia:
+					</div>
+					<div class="col-xs-7 item-dato g-text-uppercase">
+						{{ vm.quotation.policyData.dateDeparture }}
+					</div>
+				</li>
+				<li class="col-sm-4 clearfix cnt-item">
+					<div class="col-xs-5 item-label">
+						<span class="ico-mapfre_82_circle ico-bullet"></span>Fin de Vigencia:
+					</div>
+					<div class="col-xs-7 item-dato g-text-uppercase">
+						{{ vm.quotation.policyData.dateArrival }}
+					</div>
+				</li>
+				<li class="col-sm-4 clearfix cnt-item">
+					<div class="col-xs-5 item-label">
+						<span class="ico-mapfre_82_circle ico-bullet"></span>Num. viajeros:
+					</div>
+					<div class="col-xs-7 item-dato g-text-uppercase">
+						{{ vm.quotation.travelers.length }}
+					</div>
+				</li>
+				<li class="col-sm-4 clearfix cnt-item">
+					<div class="col-xs-5 item-label">
+						<span class="ico-mapfre_82_circle ico-bullet"></span>Edad. viajeros:
+					</div>
+					<div class="col-xs-7 item-dato g-text-uppercase" >
+						<span ng-repeat="traveler in vm.quotation.travelers">
+							{{ !$first ?  ' - ' + traveler.age : traveler.age }}
+						</span>
+					</div>
+				</li>
+				<li class="col-sm-4 clearfix cnt-item">
+					<div class="col-xs-5 item-label">
+						<span class="ico-mapfre_82_circle ico-bullet"></span>Motivo del viaje:
+					</div>
+					<div class="col-xs-7 item-dato g-text-uppercase">
+						{{ vm.quotation.policyData.travelReason }}
+					</div>
+				</li>
+			</ul>
+			<ul class="row g-list-md mb-sm-2">
+				<li class="col-sm-4 clearfix cnt-item">
+					<div class="col-xs-5 item-label">
+						<span class="ico-mapfre_82_circle ico-bullet"></span>Producto:
+					</div>
+					<div class="col-xs-7 item-dato g-text-uppercase">
+						{{ vm.quotation.policyData.policyGroupName }}
+					</div>
+				</li>
+				<li class="col-sm-4 clearfix cnt-item">
+					<div class="col-xs-5 item-label">
+						<span class="ico-mapfre_82_circle ico-bullet"></span>Plan:
+					</div>
+					<div class="col-xs-7 item-dato g-text-uppercase">
+						{{ vm.quotation.product.planName }}
+					</div>
+				</li>
+			</ul>
+			<hr class="g-border-bottom-xs">
+			<p class="gH4">Datos del contratante</p>
+			<ul class="row g-list-md">
+				<li class="col-md-4 clearfix cnt-item">
+					<div class="col-xs-5 item-label">
+						<span class="ico-mapfre_82_circle ico-bullet"></span>{{ vm.quotation.contractor.personType == 'S' ? 'Nombre' : 'Razón social'}}:
+					</div>
+					<div class="col-xs-7 item-dato g-text-uppercase">
+						{{ vm.quotation.contractor.name }} {{ vm.quotation.contractor.personType == 'S' ? vm.quotation.contractor.firstLastName : '' }}
+					</div>
+				</li>
+				<li class="col-sm-4 clearfix cnt-item" ng-if="vm.quotation.contractor.personType == 'S'">
+					<div class="col-xs-5 item-label">
+						<span class="ico-mapfre_82_circle ico-bullet"></span>Email:
+					</div>
+					<div class="col-xs-7 item-dato g-text-uppercase">
+						{{ vm.quotation.contractor.email }}
+					</div>
+				</li>
+				<li class="col-sm-4 clearfix cnt-item">
+					<div class="col-xs-5 item-label">
+						<span class="ico-mapfre_82_circle ico-bullet"></span>{{ vm.quotation.contractor.documentType.code }}:
+					</div>
+					<div class="col-xs-7 item-dato g-text-uppercase">
+						{{ vm.quotation.contractor.documentNumber }}
+					</div>
+				</li>
+			</ul>
+			<ul class="row g-list-md mb-sm-2">
+				<li class="col-sm-4 clearfix cnt-item">
+					<div class="col-xs-5 item-label">
+						<span class="ico-mapfre_82_circle ico-bullet"></span>Tipo de persona:
+					</div>
+					<div class="col-xs-7 item-dato g-text-uppercase">
+						PERSONA {{ vm.quotation.contractor.personType == 'S' ? 'NATURAL' : 'JURIDICA' }}
+					</div>
+				</li>
+			</ul>
+			<hr class="g-border-bottom-xs">
+			<div ng-repeat="traveler in vm.quotation.travelers">
+				<p class="gH4">{{$index + 1}} - Datos del viajero</p>
+				<ul class="row g-list-md">
+					<li class="col-md-4 clearfix cnt-item">
+						<div class="col-xs-5 item-label">
+							<span class="ico-mapfre_82_circle ico-bullet"></span>Nombre:
+						</div>
+						<div class="col-xs-7 item-dato g-text-uppercase">
+							{{ traveler.name + ' ' + traveler.firstLastName}}
+						</div>
+					</li>
+					<li class="col-sm-4 clearfix cnt-item">
+						<div class="col-xs-5 item-label">
+							<span class="ico-mapfre_82_circle ico-bullet"></span>Email:
+						</div>
+						<div class="col-xs-7 item-dato g-text-uppercase">
+							{{ traveler.email }}
+						</div>
+					</li>
+					<li class="col-sm-4 clearfix cnt-item">
+						<div class="col-xs-5 item-label">
+							<span class="ico-mapfre_82_circle ico-bullet"></span>{{ traveler.documentType.code }}:
+						</div>
+						<div class="col-xs-7 item-dato g-text-uppercase">
+							{{ traveler.documentNumber }}
+						</div>
+					</li>
+				</ul>
+				<ul class="row g-list-md mb-sm-2">
+					<li class="col-sm-4 clearfix cnt-item">
+						<div class="col-xs-5 item-label">
+							<span class="ico-mapfre_82_circle ico-bullet"></span>Tipo de persona:
+						</div>
+						<div class="col-xs-7 item-dato g-text-uppercase">
+							PERSONA NATURAL
+						</div>
+					</li>
+					<li class="col-sm-4 clearfix cnt-item">
+						<div class="col-xs-5 item-label">
+							<span class="ico-mapfre_82_circle ico-bullet"></span>Edad:
+						</div>
+						<div class="col-xs-7 item-dato g-text-uppercase">
+							{{ traveler.age }}
+						</div>
+					</li>
+				</ul>
+			</div>
+			<div class="row">
+				<div class="col-md-2 g-box-md gBgcWhite1 pt-xs-1 pb-xs-1 mt-xs-1 mb-xs-1">
+					<p class="mb-xs-0"><strong>Num. de cotización:</strong> {{vm.quotation.quotationNumber}}</p>
+				</div>
+				<div class="col-md-10 pt-xs-1 pb-xs-1 text-right btn-set myd-btn-set">
+					<button class="g-btn g-btn-white" ng-click="vm.showSendEmail()">
+						<span class="g-btn-ico gnIcon-sm ico-mapfre_123_envelop"></span>
+						<span>ENVIAR POR EMAIL</span>
+					</button>
+					<button id="download" class="g-btn g-btn-white ml-md-1 pt-xs-0" ng-click="vm.getPDF()">
+						<span class="g-btn-ico gnIcon-xs ico-mapfre_327_arrow_down"></span>
+						<span>DESCARGAR</span>
+					</button>
+					<button class="g-btn g-btn-verde ml-md-1" ui-sref="seguroviajeEmitir.initSteps.steps( { numeroDoc: vm.numeroDoc , step : 1 })">
+						EMITIR
+					</button>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>

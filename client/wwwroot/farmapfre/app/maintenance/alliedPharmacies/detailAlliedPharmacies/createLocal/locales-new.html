@@ -1,0 +1,137 @@
+<div class="g-title" style="border-bottom-style: solid; border-width: 1px; border-color: #d5d5d5; ">
+  <div class="container">
+    <div class="row">
+      <div class="col-xs-9 col-sm-9 col-md-9 col-lg-9 pr-xs-0 pr-md-1 mt-1 title-box">
+        <h1>Nuevo Local</h1>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="dashboard-body">
+  <div class="g-section-inner g-dashboard-section">
+    <div class="container">
+      <div class="row">
+
+        <form name="frmlocalesNew" action="">
+          <div class="col-md-12 g-list-md g-boxRb pt-xs-2 mb-xs-2 ng-scope">
+            <div class="row g-list-sm clearfix" >
+              <div class="col-md-12" style="font-size:18px">
+                Datos del local
+              </div>
+              <div class="col-md-4 clearfix mb-xs-2 mt-xs-2">
+                <mpf-input
+                  data-ng-model="frm.description"
+                  ng-required="true"
+                  ng-maxlength="100"
+                  mpf-validation="onlyLetterNumberGuion"
+                  label="{label: 'Nombre', required: false}"
+                  name="nPremisesName">
+                </mpf-input>
+                <div class="g-error" data-ng-show="frmlocalesNew.nPremisesName.$invalid && !frmlocalesNew.nPremisesName.$pristine">
+                  * Ingrese una descripción
+                </div>
+              </div>
+
+              <div class="col-md-4 clearfix mb-xs-2 mt-xs-2">
+                <mpf-input
+                  data-ng-model="frm.email"
+                  ng-required="true"
+                  ng-maxlength="200"
+                  data-mpf-validation="email"
+                  label="{label: 'Correo electrónico', required: true}"
+                  name="nPremisesEmail">
+                </mpf-input>
+                <div class="g-error" data-ng-show="frmlocalesNew.nPremisesEmail.$invalid && !frmlocalesNew.nPremisesEmail.$pristine">
+                  * Ingrese un correo válido
+                </div>
+              </div>
+
+              <div class="col-md-4 clearfix mb-xs-2 mt-xs-2">
+                <mpf-input
+                  data-ng-model="frm.phoneNumber"
+                  mpf-validation="onlyNumber"
+                  ng-required="false"
+                  ng-maxlength="9"
+                  label="{label: 'Teléfono', required: false}"
+                  name="nPhoneNumber">
+                </mpf-input>
+              </div>
+
+              <div class="col-md-12 clearfix mb-xs-2 mt-xs-2">
+                <mpf-input
+                  ng-model="frm.addressDescription"
+                  mpf-validation="onlyLetterNumberGuion"
+                  ng-required="true"
+                  ng-maxlength="200"
+                  label="{label: 'Dirección', required: true}"
+                  name="nPremisesAddress">
+                </mpf-input>
+                <div class="g-error" data-ng-show="frmlocalesNew.nPremisesAddress.$invalid && !frmlocalesNew.nPremisesAddress.$pristine">
+                  * Ingrese una dirección de recojo
+                </div>
+              </div>
+
+              <div class="col-md-4 clearfix mb-xs-2 mt-xs-2">
+                <mpf-select
+                  data-m-data-source="departments"
+                  data-ng-model="frm.department"
+                  data-text-field="description"
+                  data-value-field="id"
+                  ng-change="changeDepartment(frm.department.id)"
+                  ng-required="true"
+                  label="{label: 'Departamento ', required: true}"
+                  m-Empty-Option = "{enterData : true}"
+                  name="nDepartment">
+                </mpf-select>
+                <div class="g-error" data-ng-show="frmlocalesNew.nDepartment.$invalid && !frmlocalesNew.nDepartment.$pristine">
+                  * Seleccione un departamento
+                </div>
+
+              </div>
+              <div class="col-md-4 clearfix mb-xs-2 mt-xs-2">
+                <mpf-select
+                  data-m-data-source="provinces"
+                  data-ng-model="frm.province"
+                  data-text-field="description"
+                  data-value-field="id"
+                  ng-change="changeProvince(frm.province.id)"
+                  ng-required="true"
+                  label="{label: 'Provincia ', required: true}"
+                  m-Empty-Option = "{enterData : true}"
+                  name="nProvince">
+                </mpf-select>
+                <div class="g-error" data-ng-show="frmlocalesNew.nProvince.$invalid && !frmlocalesNew.nProvince.$pristine">
+                  * Seleccione una provincia
+                </div>
+              </div>
+
+              <div class="col-md-4 clearfix mb-xs-2 mt-xs-2">
+                <mpf-select
+                  data-m-data-source="districts"
+                  data-ng-model="frm.district"
+                  data-text-field="description"
+                  data-value-field="id"
+                  ng-required="true"
+                  label="{label: 'Distrito ', required: true}"
+                  m-Empty-Option = "{enterData : true}"
+                  name="nDistrict">
+                </mpf-select>
+                <div class="g-error" data-ng-show="frmlocalesNew.nDistrict.$invalid && !frmlocalesNew.nDistrict.$pristine">
+                  * Seleccione un distrito
+                </div>
+              </div>
+
+              <div class="col-md-12 clearfix mb-xs-2 mt-xs-2" style="text-align: right;">
+                <a class="g-btn second-design g-btn-transparent" ng-click="cancel()">CANCELAR</a>
+                <a class="g-btn second-design g-btn-verde"
+                  ng-class="{disabled: !frmlocalesNew.$valid}"
+                  ng-click="save()"
+                >GUARDAR</a>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

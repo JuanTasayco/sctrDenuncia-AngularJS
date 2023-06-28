@@ -1,0 +1,90 @@
+<!-- menu nuevo -->
+<div class="g-menu-main__box menuConsultaGestion h-myd-border--bottom-0">
+  <div class="container">
+    <div class="row">
+      <div top-menu class="col-xs-12">
+        <ul class="g-menu-main hidden-xs hidden-sm">
+          <span ng-repeat="item in menuConsultaGestion | limitTo:limiteMenus">
+            <li class="link" ng-class="{'actived':item.actived}" ng-if="!item.isSubMenu">
+              <a>{{ item.label }}</a>
+            </li>
+            <li
+              class="submenu"
+              ng-if="item.isSubMenu"
+              ng-class="{'active': showSubMenu, 'actived':item.actived}"
+              ng-mouseover="showSubMenu = true"
+              ng-mouseleave="showSubMenu = false"
+            >
+              <a>{{ item.label }}</a>
+              <ul class="sbm-main">
+                <span ng-repeat="subitem in item.menu">
+                  <li class="sbm-link" ng-class="{'actived':subitem.actived}">
+                    <a ng-click="go(subitem)">{{ subitem.label }}</a>
+                  </li>
+                </span>
+              </ul>
+            </li>
+          </span>
+          <span ng-if="showMoreFlag">
+            <li
+              class="submenu liMasOpciones"
+              ng-class="{'active': showSubMenuMore}"
+              ng-mouseover="showSubMenuMore = true"
+              ng-mouseleave="showSubMenuMore = false"
+            >
+              <a>Más opciones</a>
+              <ul class="sbm-main">
+                <span ng-repeat="item in menuConsultaGestion | limitTo:10:5">
+                  <li class="link" ng-class="{'actived':item.actived}" ng-if="!item.isSubMenu">{{ item.label }}</li>
+                  <li
+                    class="sbm-link submenu__more"
+                    ng-class="{'active': showSub2, 'actived':subitem.actived}"
+                    ng-mouseover="showSub2 = true"
+                    ng-mouseleave="showSub2 = false"
+                  >
+                    <a ng-click="go(item)">{{ item.label }}</a>
+                    <ul class="sbm-main">
+                      <span ng-repeat="subitem in item.menu">
+                        <li class="sbm-link" ng-class="{'actived':subitem.actived}">
+                          <a ng-click="go(subitem)">{{ subitem.label }}</a>
+                        </li>
+                      </span>
+                    </ul>
+                  </li>
+                </span>
+              </ul>
+            </li>
+          </span>
+        </ul>
+        <ul
+          id="g-menu-main__responsive"
+          class="g-menu-main g-menu-main__responsive hidden-md hidden-lg"
+          ng-show="isPopupVisible"
+          ng-style="mnStyle"
+        >
+          <span ng-repeat="item in menuConsultaGestion">
+            <li class="link" ng-class="{'actived':item.actived}" ng-if="!item.isSubMenu">
+              <a ng-click="go(subitem)">{{ item.label }}</a>
+            </li>
+            <li
+              class="submenu"
+              ng-if="item.isSubMenu"
+              ng-class="{active: showSubMenu, 'actived':item.actived}"
+              ng-click="showSubMenu = !showSubMenu;"
+            >
+              <a ng-click="go(item)">{{ item.label }}</a>
+              <ul class="sbm-main">
+                <span ng-repeat="subitem in item.menu">
+                  <li class="sbm-link" ng-class="{'actived':subitem.actived}">
+                    <a ng-click="go(subitem)">{{ subitem.label }}</a>
+                  </li>
+                </span>
+              </ul>
+            </li>
+          </span>
+        </ul>
+        <span class="ico-mapfre_95_menuderecha g-menu-main_ico visible-xs visible-sm" ng-click="showTopMenu();"></span>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,91 @@
+<form name="frmFilterComplaint">
+    <div show-filter class="clearfix g-col-filter g-box-md fz14 gBgcGray5-md gBgcWhite1" ng-class="{'show': isFilterVisible}">
+        <div class="col-md-12 mb-xs-1-5 gH4 gCGray1">
+            <h2 class="pb-xs-1 g-border-bottom-xs hidden-xs hidden-sm">
+                <b>Filtro</b>
+            </h2>
+            <div id="show-filter" class="row pt-xs-2 pb-xs-2 gBgcGray5 g-border-bottom-xs hidden-md hidden-lg" 
+                ng-click="toggleFilter()">
+                <div class="col-xs-10">
+                    <h2 class="cnt-title"><b>Filtro</b></h2>
+                </div>
+                <div class="col-xs-2 g-text-right-xs">
+                    <span class="glyphicon glyphicon-chevron-down" ng-if="isFilterVisible"></span>
+                    <span class="glyphicon glyphicon-chevron-up" ng-if="!isFilterVisible"></span>
+                </div>
+                <div class="clearfix"></div>
+            </div>
+        </div>
+
+        <div class="g-col-filter__box">
+            <div class="col-md-12 mb-xs-3">
+                <mpf-input
+                    data-ng-model="$ctrl.frmFilter.requestNumber"
+                    label="{label: 'Nro. de solicitud', required: false}"
+                    name="nRequestNumber">
+              </mpf-input>
+            </div>
+            <div class="col-md-12 mb-xs-3">
+                <mpf-input
+                    data-ng-model="$ctrl.frmFilter.documentNumber"
+                    label="{label: 'Nro. de Documento', required: false}"
+                    name="nDocumentNumber">
+              </mpf-input>
+            </div>
+            <div class="col-md-12 mb-xs-3">
+                <mpf-input
+                    data-ng-model="$ctrl.frmFilter.insuredName"
+                    label="{label: 'Nombre del asegurado', required: false}"
+                    name="nInsuredName">
+              </mpf-input>
+            </div>
+            <div class="col-md-12 mb-xs-3">
+                <mpf-select
+                    data-m-data-source="$ctrl.areas"
+                    data-ng-model="$ctrl.frmFilter.area"
+                    data-text-field="descripcion"
+                    data-value-field="codigo"
+                    label="{label: 'Áreas', required: false}"
+                    m-Empty-Option="{enterData : true, text:'Todos'}"
+                    name="nArea">
+                </mpf-select>
+            </div>
+            <div class="col-md-12">
+                <b>Fecha solicitud</b>
+            </div>
+            <div class="col-md-6 col-xs-6 mb-xs-3">
+                <mpf-datepicker 
+                    name="nDateFrom"
+                    label="{label: 'Desde', required: false}"
+                    format="'dd/MM/yyyy'"
+                    data-format="$ctrl.dateFormat"
+                    data-set-max-today="true"
+                    data-parsear-to-date="true"
+                    data-readonly="false"
+                    data-ng-required="false"
+                    data-ng-model="$ctrl.frmFilter.fromDate">
+                </mpf-datepicker>
+            </div>
+            <div class="col-md-6 col-xs-6 mb-xs-3">
+                <mpf-datepicker 
+                    name="nDateTo"
+                    label="{label: 'Hasta', required: false}"
+                    format="'dd/MM/yyyy'"
+                    minDate="$ctrl.frmFilter.fromDate"
+                    data-format="$ctrl.dateFormat"
+                    data-set-max-today="true"
+                    data-parsear-to-date="true"
+                    data-readonly="false"
+                    data-ng-required="false"
+                    data-ng-model="$ctrl.frmFilter.toDate">
+                </mpf-datepicker>
+            </div>
+            <div class="col-md-12 mb-xs-1">
+                <a class="g-btn g-btn-verde block" ng-class="{disabled: $ctrl.frm.disabled}" ng-click="$ctrl.search()">Filtrar</a>
+            </div>
+            <div class="col-md-12 mb-xs-1">
+                <a class="g-btn g-btn-transparent block" ng-click="$ctrl.clear()">Limpiar</a>
+            </div>
+        </div>
+    </div>
+</form>

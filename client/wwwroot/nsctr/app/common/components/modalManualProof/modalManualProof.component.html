@@ -1,0 +1,255 @@
+<section class="gNsctr gNsctrModal modalManualProof">
+	
+	<button 
+		type="button" 
+		class="close g-close-modal" 
+		ng-click="$ctrl.fnCloseModal()">
+		<span class="ico-mapfre_231_cancelaroff"></span>
+	</button>
+
+	<form name="frmModalManualProof">
+
+		<div class="container">
+			<div class="row">
+				<div class="col-md-12 text-center mb-xs-2">
+					<h2 class="gH3"><b>Generar Nueva Constancia Manual</b></h2>
+				</div>
+			</div>
+		</div>
+
+		<div class="g-sec-information mb-xs-4">
+			<div class="sec-item">
+				<div class="container">
+					<div class="col-md-12">
+						<ul class="row">
+							<li class="col-md-12 clearfix cnt-item">
+								<div class="col-sm-3 col-xs-5 item-label h-myd-pl--0">
+									<span class="ico-mapfre_82_circle ico-bullet"></span>{{$ctrl.STATE_PARAMS.client.documentType}}:
+								</div>
+								<div class="col-sm-9 col-xs-7 item-dato h-myd-pl--0">
+									{{$ctrl.STATE_PARAMS.client.documentNumber}}
+								</div>
+							</li>
+							<li class="col-md-12 clearfix cnt-item no-border-left">
+								<div class="col-sm-3 col-xs-5 item-label h-myd-pl--0">
+									<span class="ico-mapfre_82_circle ico-bullet"></span>{{$ctrl.STATE_PARAMS.client.titleClientType}}
+								</div>
+								<div class="col-sm-9 col-xs-7 item-dato h-myd-pl--0">
+									{{$ctrl.STATE_PARAMS.client.clientName}}
+								</div>
+							</li>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+
+	  <div class="container content-form">
+	  	<div class="col-md-12">
+		  	<div class="row mb-xs-3">
+					<div class="col-md-6 no-margin-md mb-xs-4">
+						<div class="clearfix box ">
+							<m-radio 
+								label="{label: 'Fecha de coberturas'}" 
+								name="nCoberturaProof" 
+								ng-model="$ctrl.data.mOptionCobertura" 
+								value="1" 
+								class="option">
+							</m-radio>
+							<mpf-select 
+								label="{label: 'Seleccione vigencia', required: $ctrl.data.mOptionCobertura == 1}" 
+								name="nVigenciaProof" 
+								ng-model="$ctrl.data.mVigencia" 
+								m-data-source="$ctrl.data.vigenciaData" 
+								text-field="validity" 
+								value-field="validityCode" 
+								m-Empty-Option="{enterData:true}" 
+								mpf-validation="required" 
+								ng-required="$ctrl.data.mOptionCobertura == 1" 
+								ng-disabled="$ctrl.data.mOptionCobertura != 1">
+							</mpf-select>
+							<ul class="g-error">
+								<li ng-show="frmModalManualProof.nVigenciaProof.$error.required && !frmModalManualProof.nVigenciaProof.$pristine">* Seleccione una vigencia</li>
+							</ul>
+						</div>
+					</div>
+					<div class="col-md-6">
+						<div class="box">
+							<m-radio 
+								label="{label: 'Elija coberturas'}" 
+								name="nCoberturaProof" 
+								ng-model="$ctrl.data.mOptionCobertura" 
+								value="2" 
+								class="option">
+							</m-radio>
+							<div class="row">
+								<div class="col-md-6 no-margin-md mb-xs-2">
+									<div class="input-group g-date-picker">
+										<label class="g-placeholder animated">Inicio cobertura<span ng-if="$ctrl.data.mOptionCobertura == 2">* </span></label>
+										<input 
+											type="text" 
+											class="form-control" 
+											name="nInicioCobertura" 
+											ng-model="$ctrl.data.mInicioCobertura.model" 
+											uib-datepicker-popup="{{$ctrl.data.mInicioCobertura.FORMAT_DATE}}" 
+											is-open="$ctrl.data.mInicioCobertura.open" 
+											datepicker-options="$ctrl.data.mInicioCobertura.options" 
+											close-text="Close" 
+											alt-input-formats="$ctrl.data.mInicioCobertura.ALT_INPUT_FORMATS" 
+											ui-mask="{{$ctrl.data.mInicioCobertura.FORMAT_MASK}}" 
+											ng-pattern="$ctrl.data.mInicioCobertura.FORMAT_PATTERN" 
+											model-view-value="true" 
+											ng-required="$ctrl.data.mOptionCobertura == 2" 
+											ng-disabled="false" 
+											ng-change="$ctrl.fnChangeCalendar()" 
+											readonly/>
+										<span class="input-group-btn">
+											<button 
+												type="button" 
+												class="btn btn-default" 
+												ng-disabled = "$ctrl.data.mOptionCobertura == 1" 
+												ng-click="$ctrl.data.mInicioCobertura.setOpen(true)">
+												<i class="glyphicon glyphicon-calendar"></i>
+											</button>
+										</span>
+									</div>
+									<ul class="g-error">
+										<li ng-show="frmModalManualProof.nInicioCobertura.$invalid && !frmModalManualProof.nInicioCobertura.$pristine">* Este campo es obligatorio</li>
+									</ul>
+								</div>
+								<div class="col-md-6">
+									<div class="input-group g-date-picker">
+										<label class="g-placeholder animated">Fin cobertura<span ng-if="$ctrl.data.mOptionCobertura == 2">* </span></label>
+											<input 
+											type="text" 
+											class="form-control" 
+											name="nFinCobertura" 
+											ng-model="$ctrl.data.mFinCobertura.model" 
+											uib-datepicker-popup="{{$ctrl.data.mFinCobertura.FORMAT_DATE}}" 
+											is-open="$ctrl.data.mFinCobertura.open" 
+											datepicker-options="$ctrl.data.mFinCobertura.options" 
+											close-text="Close" 
+											alt-input-formats="$ctrl.data.mFinCobertura.ALT_INPUT_FORMATS" 
+											ui-mask="{{$ctrl.data.mFinCobertura.FORMAT_MASK}}" 
+											ng-pattern="$ctrl.data.mFinCobertura.FORMAT_PATTERN" 
+											model-view-value="true" 
+											ng-required="$ctrl.data.mOptionCobertura == 2" 
+											ng-disabled="false" 
+											ng-change="$ctrl.fnChangeCalendar()" 
+											readonly/>
+										<span class="input-group-btn">
+											<button 
+												type="button" 
+												class="btn btn-default" 
+												ng-disabled = "$ctrl.data.mOptionCobertura == 1" 
+												ng-click="$ctrl.data.mFinCobertura.setOpen(true)">
+												<i class="glyphicon glyphicon-calendar"></i>
+											</button>
+										</span>
+									</div>
+									<ul class="g-error">
+										<li ng-show="frmModalManualProof.nFinCobertura.$error.required && !frmModalManualProof.nFinCobertura.$pristine">* Este campo es obligatorio</li>
+									</ul>
+								</div>	
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="row mb-xs-3">
+					<div class="col-md-12">
+						<mpf-textarea 
+							label="{label: 'Centro de Trabajo', required: false}" 
+							name="nCentroTrabajoProof" 
+							ng-model="$ctrl.data.mCentroTrabajo" 
+							ng-required="false">
+						</mpf-textarea>
+						<ul class="g-error">
+							<li ng-show="frmModalManualProof.nCentroTrabajoProof.$error.required && !frmModalManualProof.nCentroTrabajoProof.$pristine">* Este campo es obligatorio</li>
+						</ul>
+					</div>
+				</div>
+				<div class="row mb-xs-3">
+					<div class="col-md-12">
+						<label class="gH4 gCGray1 mb-xs-1 h-myd-mb--20">
+							<b>{{$ctrl.data.titleAttachFile}}<span>*</span></b>
+						</label>
+					</div>
+					<div 
+						class="col-md-4 col-sm-6" 
+						ng-if="$ctrl.data.attachFile">
+						<label class="g-btn g-btn-white second-design block g-btn-input-file">
+							Cargar Planilla
+							<input 
+								type="file" 
+								data-show-preview="false" 
+								id="$ctrl.data.iCargarPlanilla" 
+								name="nCargarPlanillaProof" 
+								file-model="$ctrl.data.fmCargarPlanilla" 
+								ng-model="$ctrl.data.mCargarPlanilla" 
+								ng-required="false" 
+								onchange="angular.element(this).scope().fnChangedAttachedFile()">
+						</label>
+						<ul class="g-error">
+							<li ng-show="$ctrl.data.errorAttachFile">* Este campo es obligatorio</li>
+						</ul>
+					</div>
+					<div 
+						class="col-md-6" 
+						ng-if="!$ctrl.data.attachFile">
+						<div class="g-border-xs gBgcGray5 mb-xs-1 pl-xs-1">
+							<div class="g-box-attachment">
+								<span class="ico-mapfre_314_archivos box-ico"></span>
+								{{$ctrl.data.nameAttachedFile}}
+								<a 
+									href="javascript:void(0)" 
+									class="box-close" 
+									ng-click="$ctrl.fnDeleteAttachedFile()">
+									<span class="ico-mapfre_231_cancelaroff"></span>
+								</a>
+							</div>
+						</div>
+					</div>
+				</div>
+				
+				<div class="row mb-xs-3">
+					<div class="col-md-12">
+						<div class="g-section">
+							<div class="container">
+								<div class="row">
+									<div class="col-md-4 col-sm-6 col-md-offset-4 col-sm-offset-3">
+										<a href="javascript:void(0)" class="g-btn g-btn-verde block"
+										ng-click="$ctrl.fnProcessExcell()">
+											Procesar
+										</a>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<nsctr-workers-list  trabajadores="$ctrl.dataS1.data.employeesList" risk="$ctrl.dataS1.riskInsuredList"></nsctr-workers-list>
+				</div>
+
+				<div class="row h-myd-pt--20">
+					<div class="col-md-4 col-md-offset-2 mb-xs-1 no-mb-md">
+						<a 
+							href="javascript:void(0)" 
+							class="g-btn g-btn-transparent block" 
+							ng-click="$ctrl.fnCloseModal()">
+							Cancelar
+						</a>
+					</div>
+					<div class="col-md-4">
+						<a 
+						href="javascript:void(0)"
+						class="g-btn g-btn-verde block" 
+						ng-click="$ctrl.fnSave()">
+							Guardar
+						</a>
+					</div>
+				</div>
+			</div>
+	  </div>
+
+	</form>
+
+</section>

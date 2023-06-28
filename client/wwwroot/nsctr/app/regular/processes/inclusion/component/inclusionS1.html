@@ -1,0 +1,210 @@
+<div class="firstStep">
+
+	<form
+		action=""
+		name="frmFirstStep">
+
+		<div
+			class="g-section-inner"
+			ng-if="data.SHOW_RISKS_LIST">
+			<div class="container">
+
+				<div class="row g-row">
+					<div class="col-md-9 col-sm-8 g-col-sm middle">
+						<h2 class="g-sub-title c-red">Selecciona</h2>
+					</div>
+					<!-- COMENTADO HASTA TENER EL SERVICIO E IMPLEMENTARLO -->
+					<!-- <div class="col-md-3 col-sm-4 g-col-sm middle g-text-right-sm mb-xs-1-5">
+						<span class="g-icon-text icon-right pr-xs-3" uib-popover="Anular hará que esta aplicación no tenga movimientos durante esta vigencia." popover-trigger="'mouseenter'">
+							<mpf-checkbox ng-model="dataS1.mCheckAnularAplicacion" label="Anular Aplicación" ng-click="fnCancelApplication()"></mpf-checkbox>
+							<span class="ico-mapfre_222_informacion icon iconInfo"></span>
+						</span>
+					</div> -->
+				</div>
+
+				<div
+					class="row gnSecToggle"
+					ng-repeat="itemApplication in dataS1.itemsApplication">
+
+					<div class="col-md-12">
+
+						<uib-accordion close-others="true">
+							<div
+								uib-accordion-group
+								is-disabled="true"
+								is-open="dataS1.openToggle"
+								class="g-box fz14">
+								<uib-accordion-heading>
+									<div class="clearfix gBgcGray5 pt-xs-2 pb-xs-2">
+										<div class="col-md-12">
+											<ul class="row gH4">
+												<li class="col-md-12 mb-xs-1">
+													<b>Póliza {{(itemApplication.policyType == 'P') ? 'Pensión: ' :  'Salud: '}} {{itemApplication.applicationPolicyNumber}}</b>
+												</li>
+												<li class="col-sm-6 mb-xs-1 no-mb-sm g-text-uppercase">
+													<b>Aplicación: {{itemApplication.applicationNumber}}</b>
+												</li>
+												<li class="col-sm-6 g-text-uppercase g-text-right-sm">
+													<b>Vigencia: {{itemApplication.applicationPolicyExpirationDate}}</b>
+												</li>
+											</ul>
+										</div>
+									</div>
+								</uib-accordion-heading>
+								<div class="col-md-12 clearfix g-box-content gnContentAuto-lg">
+									<div
+										class="col-md-12 gBgcGray5 pt-xs-1 pb-xs-1 mb-xs-1"
+										ng-repeat="itemRisk in itemApplication.risks">
+										<ul class="row g-row">
+											<li
+												class="col-md-3 g-col-md middle mb-xs-2 no-mb-md"
+												ng-init="fnInitRisk(itemRisk)">
+												<mpf-checkbox
+													label="{{'RIESGO ' + itemRisk.riskNumber}}"
+													ng-model="itemRisk.mCheckRisk">
+												</mpf-checkbox>
+											</li>
+											<li class="col-md-3 col-sm-4 g-col-sm middle mb-xs-1 no-mb-sm">
+												<span class="g-placeholder block mb-xs-1">Categoría</span>
+												{{itemRisk.riskDescription | uppercase}}
+											</li>
+											<li class="col-md-3 col-sm-4 g-col-sm middle mb-xs-1 no-mb-sm">
+												<mpf-input
+													class="secondDesign"
+													label="{label: 'Nro. Trabajadores', required: (itemRisk.mCheckRisk) ? true : false}"
+													name="nNroTrabajadores{{$parent.$index}}{{$index}}"
+													ng-model="itemRisk.mNroTrabajadores"
+													mpf-validation="onlyNumber"
+													ng-required="itemRisk.mCheckRisk"
+													ng-blur="fnChangeInputRisk()">
+												</mpf-input>
+												<ul class="g-error">
+													<li ng-show="frmFirstStep.nNroTrabajadores{{$parent.$index}}{{$index}}.$invalid && !frmFirstStep.nNroTrabajadores{{$parent.$index}}{{$index}}.$pristine">* Ingrese nro de trabajadores</li>
+												</ul>
+											</li>
+											<li class="col-md-3 col-sm-4 g-col-sm middle">
+												<mpf-input
+													class="secondDesign"
+													label="{label: 'Monto', required: (itemRisk.mCheckRisk) ? true : false}"
+													name="nMonto{{$parent.$index}}{{$index}}"
+													ng-model="itemRisk.mMonto"
+													ng-required="itemRisk.mCheckRisk"
+													mpf-validation="onlyNumberDecimal">
+												</mpf-input>
+												<ul class="g-error">
+													<li ng-show="frmFirstStep.nMonto{{$parent.$index}}{{$index}}.$invalid && !frmFirstStep.nMonto{{$parent.$index}}{{$index}}.$pristine">* Ingrese un monto</li>
+												</ul>
+											</li>
+										</ul>
+									</div>
+								</div>
+							</div>
+						</uib-accordion>
+
+					</div>
+
+				</div>
+
+				<div class="row">
+					<div class="col-md-12">
+						<b>* En el caso de las pólizas de pensiones, las planillas a declarar deben considerar el monto máximo de remuneración, establecido para el Sistema Privado de Pensiones.</b>
+					</div>
+				</div>
+
+			</div>
+		</div>
+
+		<div class="g-section-inner">
+			<nsctr-type-load
+				data="dataS1"
+				with-number-workers="data.SHOW_RISKS_LIST">
+			</nsctr-type-load>
+		</div>
+
+		<div
+			class="g-section-inner"
+			ng-if="data.SHOW_RISKS_LIST">
+			<div class="container">
+				<div class="row" ng-if="segurityDeclared || segurityNotDeclared">
+					<div class="col-md-9 col-sm-8">
+						<h2 class="g-sub-title c-red">Facturación</h2>
+					</div>
+				</div>
+				<div class="row" ng-if="segurityDeclared && segurityNotDeclared">
+					<div class="col-md-12 mb-xs-1">
+						<b>Selecciona si la Inclusión sera Facturada o No Facturada</b>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-md-2 col-sm-3 mb-xs-1 no-mb-sm"
+					ng-if="segurityDeclared">
+						<m-radio
+							label="{label: 'Facturada'}"
+							name="nOpcionFacturacion"
+							ng-model="dataS1.mOpcionFacturacion"
+							value="1"
+							ng-required="true">
+						</m-radio>
+					</div>
+					<div class="col-md-2 col-sm-3"
+					ng-if="segurityNotDeclared">
+						<m-radio
+							label="{label: 'No Facturada'}"
+							name="nOpcionFacturacion"
+							ng-model="dataS1.mOpcionFacturacion"
+							value="0"
+							ng-required="true"
+							ng-disabled="data.IS_MANIPULABLE">
+						</m-radio>
+					</div>
+					<ul class="col-xs-12 g-error">
+            <li ng-show="frmFirstStep.nOpcionFacturacion.$invalid && !frmFirstStep.nOpcionFacturacion.$pristine">* Seleccione un opción</li>
+          </ul>
+				</div>
+			</div>
+		</div>
+
+		<div
+			class="g-section-inner"
+			ng-if="!data.SHOW_RISKS_LIST || dataS1.mOpcionFacturacion == 0">
+			<div class="container">
+				<div class="row">
+					<div class="col-md-12">
+						<h2 class="g-sub-title c-red">Información de Inclusión</h2>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-md-8 mb-xs-2">
+						<mpf-textarea
+							label="{label: 'Datos de Obra o Centro de Trabajo', required: false}"
+							name="nDatosObra"
+							ng-model="dataS1.mDatosObra"
+							ng-required="false">
+						</mpf-textarea>
+						<ul class="g-error">
+							<li ng-show="frmFirstStep.nDatosObra.$invalid && !frmFirstStep.nDatosObra.$pristine">* Ingrese centro de trabajo</li>
+						</ul>
+						<div class="gH7 mt-xs-1">Completa los datos de obra o centro de trabajo</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="g-section">
+			<div class="container">
+				<div class="row">
+					<div class="col-md-4 col-sm-6 col-md-offset-4 col-sm-offset-3">
+						<a
+							href="javascript:void(0)"
+							class="g-btn g-btn-verde block"
+							ng-click="fnActionButton()">
+							{{(!data.SHOW_RISKS_LIST || dataS1.mOpcionFacturacion == 0) ? 'Generar' : 'Siguiente'}}
+						</a>
+					</div>
+				</div>
+			</div>
+		</div>
+
+	</form>
+
+</div>

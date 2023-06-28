@@ -1,0 +1,10 @@
+
+<div ng-repeat="part in ibanParts" style="margin-right: 0px;" class="iban form-group">
+  <label for="{{mpName}}{{$index}}" class="sr-only">{{mpName}}{{$index}}</label>
+  <div ng-if="$index === 0 || ($index === 1 &amp;&amp; (mpIbanFormat[0] === 2 || mpIbanFormat[0] === undefined) &amp;&amp; mpIbanAutoCalculatedDC)">
+    <label style="margin-top: 5px;"> {{part.value}}</label>
+  </div>
+  <div ng-if="$index &gt; 1 || ($index === 1 &amp;&amp; mpIbanFormat[0] === undefined &amp;&amp; !mpIbanAutoCalculatedDC) || ($index === 1 &amp;&amp; mpIbanFormat[0] === 2 &amp;&amp; !mpIbanAutoCalculatedDC) || ($index === 1 &amp;&amp; mpIbanFormat[0] === 4)">
+    <input type="text" numbers-only="numbers-only" id="{{mpName}}{{$index}}" mp-name="{{mpName}}{{$index}}" ng-model="part.value" maxlength="{{part.size}}" placeholder="{{part.placeholder}}" ng-disabled="mpDisabled" style="margin-left: 5px;" class="form-control iban{{part.size}}"/>
+  </div>
+</div>

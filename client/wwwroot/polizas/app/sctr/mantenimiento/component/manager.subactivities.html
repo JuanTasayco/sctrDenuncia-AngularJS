@@ -1,0 +1,38 @@
+<div class="row">
+    <div class="col-md-12">
+        <h2 class="sub-title g-border-bottom pb-xs-1 mb-xs-2"><a href="" ng-click="$ctrl.showModalActivity()">{{$ctrl.selectedActivity.CodigoDescricionCiiu || "BUSCAR ACTIVIDAD"}}<span class="ico-mapfre_79_chevroneright"></span></a></h2>		
+    </div>
+    <div class="col-md-4">
+        <div class="cont-subActividades">
+            <div class="header">
+                <div class="clearfix">
+                    <div class="col-md-5"><span>Subactividades</span></div>
+                    <div class="col-md-7"><a ng-show="$ctrl.selectedActivity" class="g-btn g-btn-white g-btn-mediano btn-block" ng-click="$ctrl.editSubActivity()"><span class="glyphicon glyphicon-plus"></span> SUBACTIVIDAD</a></div>
+                </div>
+            </div>
+            <ul class="cont">
+                <li ng-repeat="subactivity in $ctrl.listSubActivities"><a href=""><b>{{subactivity.IdSubactividad}}</b> {{subactivity.Nombre}} <span ng-click="$ctrl.removeSubActivity(subactivity)" class="ico-mapfre_29_eliminar ico-griss ico-pointer"></span></a></li>		
+            </ul>
+        </div>	
+    </div>
+    <div class="col-md-8 mt-xs-1 mt-md-0">
+        <div class="g-box">
+            <div class="clearfix g-box-header">		
+                <div class="col-md-12"><span class="cont-title">Cláusulas</span></div>
+                <div class="col-md-12 mt-xs-2">
+                    <div class="box-blanco">
+                    <div class="ng-pristine ng-untouched ng-valid ng-isolate-scope ng-empty" label="{label: '', required: false}" name="nMensaje" ng-model="$ctrl.mMensaje" style="">
+                       <!--  <mpf-textarea label="{label: '', required: false}" name="nMensaje" ng-model="$ctrl.mClausula"></mpf-textarea> -->
+
+                        <div ng-bind-html="$ctrl.mClausula" contenteditable="true" ng-model="$ctrl.mClausula2" cols="50" rows="10">
+                        </div>
+                    </div>
+                    </div>
+                </div>
+                <div class="col-md-3 mt-xs-1 mb-xs-2 col-md-offset-9">
+                    <a ng-show="$ctrl.selectedActivity" class="g-btn g-btn-verde btn-block g-btn-mediano" ng-click="$ctrl.updateClausula($ctrl.mClausula2)">Actualizar</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

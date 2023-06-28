@@ -1,0 +1,157 @@
+<mfloader loader="$ctrl.loader"></mfloader>
+<div class="container">
+  <mfbreadcrumb panel= "$ctrl.panel"
+                lvl0="$ctrl.lvl0"
+                lvl1=""
+                lvl2=""
+                show-lvl1= ""
+                show-lvl2= ""
+                open-map=""
+                loader="$ctrl.loader"
+                lst-dptos=""></mfbreadcrumb>
+
+  <h1 class="title-r u-title-divider--up" data-ng-bind="::$ctrl.title"></h1>
+
+  <div class="containerMapa">
+    <div class="row">
+      <div class="col-xs-12 col-md-6 reg-mapa__wp">
+        <mapa-mapfre  lugar="$ctrl.mapId"
+                      loadclass="$ctrl.loadCls"
+                      mapsvg="$ctrl.mapSvg"
+                      open="$ctrl.openMap(a,b,c)"
+                      controller-name="MapaRegistroController"></mapa-mapfre>
+      </div>
+
+      <div class="col-xs-12 col-md-6 reg-step-wp--origen">
+        <mfstep step="$ctrl.currentStep"></mfstep>
+        <div class="cleaner">
+          <div class="col-xs-12">
+            <div class="row">
+              <h4 class="title-r u-ph-0 register-step__sub-title u-mb-20">Datos de origen de la Referencia</h4>
+            </div>
+          </div>
+        </div>
+        <div  class="register-form cleaner u-bg--grey u-br-5"
+              data-ng-form="origenRefForm">
+          <div class="u-pos-rela u-ph-15">
+            <h4 class="u-pos-rela u-mb-30">
+              Tipo de referencia
+              <div data-ng-show="$ctrl.typeRequiredError" class="select-msg__error">
+                Necesitamos este dato
+              </div>
+            </h4>
+          </div>
+          <div class="cleaner">
+            <div  class="col-sm-6 col-lg-3 reg-origin__r-btn-wp"
+                  data-ng-repeat="item in $ctrl.lstTiposReferencia track by $index">
+              <label  class="register-form__tipo-ref"
+                      data-ng-class="{ 'register-form__tipo-ref--active': $ctrl.tipoRefSelected[$index] }">
+                <input  data-ng-model="$ctrl.origen.origenReferencia"
+                        type="radio"
+                        name="origenReferencia"
+                        ng-value="item"
+                        data-ng-click="$ctrl.toggle($index)"
+                        required>{{item.nombre}}
+              </label>
+            </div>
+          </div>
+          <div class="">
+            <h4 class="u-mb-20 col-xs-12">Centro de atención médica de origen</h4>
+            <div class="form-group register-form__list">
+              <div class="register-form__select-block col-sm-6 col-xs-12 u-mb-30">
+                <div class="select-box">
+                  <span class="select__lbl">Departamento:</span>
+                  <select id="slLstDepartamentos"
+                          name="slLstDepartamentos"
+                          class="select"
+                          data-ng-change="$ctrl.change('dep')"
+                          data-ng-model="$ctrl.origen.departamento"
+                          data-ng-options="item.nombre for item in $ctrl.lstDptos"
+                          required>
+                    <option value="">Seleccione</option>
+                  </select>
+                  <span class="select__ico--arrow ico-mapfre_76_chevrondown ico-select" aria-hidden="true"></span>
+                  <div data-ng-show="$ctrl.depaRequiredError" class="select-msg__error">
+                    Necesitamos este dato
+                  </div>
+                </div>
+              </div>
+              <div class="register-form__select-block col-sm-6 col-xs-12  u-mb-30">
+                <div class="select-box">
+                  <span class="select__lbl">Provincia:</span>
+                  <select id="slLstProvincias"
+                          name="slLstProvincias"
+                          class="select"
+                          data-ng-change="$ctrl.change('pro')"
+                          data-ng-model="$ctrl.origen.provincia"
+                          data-ng-options="item.nombre for item in $ctrl.lstProvincias"
+                          required>
+                    <option value="" hidden="">Seleccione</option>
+                  </select>
+                  <span class="select__ico--arrow ico-mapfre_76_chevrondown ico-select" aria-hidden="true"></span>
+                  <div data-ng-show="$ctrl.provRequiredError" class="select-msg__error">
+                    Necesitamos este dato
+                  </div>
+                </div>
+              </div>
+              <div class="col-xs-12 u-mb-30" tabindex="-1">
+                <mfinput  data-id="centro_origen" tabindex="-1"
+                          data-valor="$ctrl.origen.centro"
+                          data-tipo="caracter"
+                          data-placeholder="Introduce el nombre del centro de origen"
+                          data-requerido = "true"
+                          data-mf-form="origenRefForm"
+                          data-maxlong = "170"
+                          data-external-required-error = "$ctrl.dataRequiredError"
+                          data-call-enter="$ctrl.buscar()"></mfinput>
+              </div>
+              <div class="col-xs-12 u-mb-30" tabindex="-1">
+                <mfinput  data-id="responsable" tabindex="-1"
+                          data-valor="$ctrl.origen.responsable"
+                          data-tipo="caracter"
+                          data-placeholder="Introduce el nombre del responsable"
+                          data-requerido = "true"
+                          data-maxlong = "130"
+                          data-mf-form="origenRefForm"
+                          data-external-required-error = "$ctrl.dataRequiredError"
+                          data-call-enter="$ctrl.buscar()"></mfinput>
+              </div>
+              <div class="col-sm-6 col-xs-12 u-mb-30" tabindex="-1">
+                <mfinput  data-id="telefono" tabindex="-1"
+                          data-valor="$ctrl.origen.tel"
+                          data-tipo="telefono"
+                          data-placeholder="Teléfono"
+                          data-requerido = "true"
+                          data-maxlong = "13"
+                          data-mf-form="origenRefForm"
+                          data-external-required-error = "$ctrl.dataRequiredError"
+                          data-call-enter="$ctrl.buscar()"></mfinput>
+              </div>
+              <div class="col-sm-6 col-xs-12 u-mb-30" tabindex="-1">
+                <mfinput  data-id="email"
+                          data-valor="$ctrl.origen.mail"
+                          data-tipo="email"
+                          data-placeholder="Correo electrónico"
+                          data-requerido = "true"
+                          data-maxlong = "130"
+                          data-mf-form="origenRefForm"
+                          data-external-required-error = "$ctrl.dataRequiredError"
+                          data-call-enter="$ctrl.buscar()"></mfinput>
+              </div>
+            </div>
+          </div>
+          <div class="register-form__submit col-xs-12">
+            <button class="c-btn btn btn--secundary frm-search__btn"
+                    data-ng-click="$ctrl.buscar()">
+              <span class="u-inline-b">
+                <span class="frm-search__txt-box">
+                  <span>Continuar</span>
+                </span>
+              </span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

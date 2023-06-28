@@ -1,0 +1,206 @@
+<section class="g-page page-inspeccion-autos page-inspeccion-autos__programaciones g-ui-view">
+	<div fixed-section class="g-title" ng-class="{'fixed-section': boolChangeClass}">
+		<div class="container">
+			<div class="row">
+				<div class="col-xs-10 col-sm-5 col-md-9 no-mb-sm">
+					<h1>Inspectores</h1>
+				</div>
+				<div class="col-md-3 col-xs-12 mt-xs-1 mt-md-0">
+					<a href="" class="g-btn g-btn-verde second-design block" ng-click="$ctrl.showModal()">NUEVO INSPECTOR</a>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="g-section-inner">
+		<div class="container">
+			<div class="row">
+				<!-- Filtro -->
+				<div class="col-md-3 mb-md-2">
+					<form action="" name="frmDocuments">
+            <div show-filter class="clearfix g-col-filter g-box-md fz14 gBgcGray5-md gBgcWhite1 g-myd-box" ng-class="{'show': isFilterVisible}">
+              <div class="col-md-12 mb-xs-3 gH4 gCGray1">
+                <h2 class="pb-xs-1 g-border-bottom-xs hidden-xs hidden-sm"><b>Filtro</b></h2>
+                <div id="show-filter" class="row pt-xs-2 pb-xs-2 gBgcGray5 g-border-bottom-xs hidden-md hidden-lg" ng-click="toggleFilter()">
+                  <div class="col-xs-10">
+                    <h2 class="cnt-title"><b>Filtro</b></h2>
+                  </div>
+                  <div class="col-xs-2 g-text-right-xs">
+                    <span class="glyphicon glyphicon-chevron-down" ng-if="isFilterVisible"></span>
+                    <span class="glyphicon glyphicon-chevron-up" ng-if="!isFilterVisible"></span>
+                  </div>
+                  <div class="clearfix"></div>
+                </div>
+              </div>
+              <div class="g-col-filter__box">
+                <div class="col-md-12 mb-xs-2">
+                  <mpf-select label="{label: 'Proveedor', required: true}" name="nProvider" ng-model="$ctrl.query.mProvider" m-data-source="$ctrl.providers" m-Empty-Option="{enterData:true}" text-Field="providerName" value-Field="documentCode"></mpf-select>
+                </div>
+                <div class="col-md-12 mb-xs-2">
+                  <mpf-select label="{label: 'Tipo', required: false}" name="nTipo" ng-model="mTipo"></mpf-select>
+                </div>
+                <div class="col-md-12 mb-xs-2">
+                  <mpf-input label="{label: 'Nro. documento', required: true}" name="nNroDocumento" ng-model="mNroDocumento"></mpf-input>
+                </div>
+                <div class="col-md-12 mb-xs-2">
+                  <mpf-input label="{label: 'Nombres', required: false}" name="nNombre" ng-model="mNombre"></mpf-input>
+                </div>
+                <div class="col-md-12 mb-xs-2">
+                  <mpf-input label="{label: 'Apellido', required: false}" name="nApellido" ng-model="mApellido"></mpf-input>
+                </div>
+                <div class="col-md-12 mb-xs-1">
+                  <a href="" class="g-btn g-btn-verde block" ng-click="fullFilter()">Filtrar</a>
+                  <!-- <a href="" class="g-btn g-btn-verde block" ng-click="filter()">Filtrar</a>  -->
+                </div>
+                <div class="col-md-12">
+                  <a href="" class="g-btn g-btn-transparent block" ng-click="clearFilter()">Limpiar</a>
+                </div>
+              </div>
+            </div>
+
+					</form>
+				</div>
+
+				<!-- Resultados -->
+				<div class="col-md-9 mb-xs-2">
+					<!-- Mensaje de error si no hay resultados -->
+					<inspec-empty-data data-length="$ctrl.requests.length" first-query-completed="$ctrl.firstQueryCompleted"></inspec-empty-data>
+
+					<div class="pt-xs-3 pt-md-0">
+						<div class="clearfix g-box g-overflow-hidden-xs mb-xs-2 ng-scope" ng-repeat="inspector in $ctrl.inspectors">
+							<!-- header -->
+							<div class="row pt-xs-1 gBgcGray5">
+								<ul class="clearfix g-list-sm">
+									<li class="col-md-11">
+										<ul class="row">
+											<li class="col-md-4 clearfix cnt-item">
+												<div class="col-xs-6 item-label">
+													Tipo doc.:
+												</div>
+												<div class="col-xs-6 item-dato g-text-uppercase">
+													{{inspector.userdocumenttypecode || '-'}}
+												</div>
+											</li>
+											<li class="col-md-4 clearfix cnt-item">
+												<div class="col-xs-6 item-label">
+													Nombres:
+												</div>
+												<div class="col-xs-6 item-dato g-text-uppercase">
+													{{inspector.username || '-'}}
+												</div>
+											</li>
+											<li class="col-md-4 clearfix cnt-item">
+												<div class="col-xs-6 item-label">
+													Estado:
+												</div>
+												<div class="col-xs-6 item-dato g-text-uppercase">
+													{{inspector.status}}
+												</div>
+											</li>
+										</ul>
+										<ul class="row">
+											<li class="col-md-4 clearfix cnt-item">
+												<div class="col-xs-6 item-label">
+													Número doc.:
+												</div>
+												<div class="col-xs-6 item-dato g-text-uppercase">
+													{{inspector.userdocumentnumber || '-'}}
+												</div>
+											</li>
+											<li class="col-md-4 clearfix cnt-item">
+												<div class="col-xs-6 item-label">
+													Apellidos:
+												</div>
+												<div class="col-xs-6 item-dato g-text-uppercase">
+													{{inspector.userlastname + ' ' + inspector.usermotherlastname|| '-'}}
+												</div>
+											</li>
+											<li class="col-md-4 clearfix cnt-item">
+												<div class="col-xs-6 item-label">
+													Teléfono:
+												</div>
+												<div class="col-xs-6 item-dato g-text-uppercase">
+													{{inspector.phonenumber || '-'}}
+												</div>
+											</li>
+										</ul>
+									</li>
+									<div class="col-md-1 g-col-md middle gCGray3 g-text-center-xs">
+										<div class="row g-row">
+											<div class="col-xs-12 g-col-xs middle cnt-item add-border-left">
+												<span class="ico-mapfre_228_editar gnIcon-md" ng-click="$parent.showAddTitleInspector = false; $parent.showAddGuardar = false; showInspector()"></span>
+											</div>
+										</div>
+									</div>
+								</ul>
+							</div>
+							<!-- content -->
+							<div class="row g-box-content">
+								<ul class="clearfix g-list-sm">
+									<li class="col-md-4 col-sm-6 clearfix cnt-item">
+										<div class="col-sm-5 col-xs-6 item-label">
+											Celular:
+										</div>
+										<div class="col-sm-7 col-xs-6 item-dato g-text-uppercase">
+											{{inspector.mobilenumber || '-'}}
+										</div>
+									</li>
+									<li class="col-md-4 col-sm-6 clearfix cnt-item">
+										<div class="col-sm-5 col-xs-6 item-label">
+											Usuario OIM:
+										</div>
+										<div class="col-sm-7 col-xs-6 item-dato g-text-uppercase">
+                      {{inspector.oimusercode || '-'}}
+										</div>
+									</li>
+									<li class="col-md-4 col-sm-6 clearfix cnt-item">
+										<div class="col-sm-5 col-xs-6 item-label">
+											Número doc. Prov.:
+										</div>
+										<div class="col-sm-7 col-xs-6 item-dato g-text-uppercase">
+                      {{inspector.providerdocumentnumber || '-'}}
+										</div>
+									</li>
+								</ul>
+								<ul class="clearfix g-list-sm">
+									<li class="col-md-4 col-sm-6 clearfix cnt-item">
+										<div class="col-sm-5 col-xs-6 item-label">
+											E-mail:
+										</div>
+										<div class="col-sm-7 col-xs-6 item-dato g-text-uppercase g-cut-text" uib-popover="{{inspector.emailUser}}" popover-trigger="'mouseenter'">
+											{{inspector.useremail || '-'}}
+										</div>
+									</li>
+									<li class="col-md-4 col-sm-6 clearfix cnt-item">
+										<div class="col-sm-5 col-xs-6 item-label">
+											Tipo doc. prov.:
+										</div>
+										<div class="col-sm-7 col-xs-6 item-dato g-text-uppercase">
+											{{inspector.providerdocumenttype || '-'}}
+										</div>
+									</li>
+									<li class="col-md-4 col-sm-6 clearfix cnt-item">
+										<div class="col-sm-5 col-xs-6 item-label">
+											Nombre prov.:
+										</div>
+										<div class="col-sm-7 col-xs-6 item-dato g-text-uppercase">
+                      {{inspector.providername || '-'}}
+										</div>
+									</li>
+								</ul>
+							</div>
+						</div>
+					</div>
+					<!-- Fin: Resultados -->
+					<div class="row" ng-if="$ctrl.pagination.totalRecords > $ctrl.pagination.maxSize">
+            <div class="col-md-12">
+              <ul uib-pagination class="g-pagination" ng-model="$ctrl.pagination.currentPage" max-size="$ctrl.pagination.maxSize" total-items="$ctrl.pagination.totalRecords"  ng-change="$ctrl.pageChanged()" boundary-link-numbers="true"></ul>
+            </div>
+          </div>
+				</div>
+
+			</div>
+		</div>
+	</div>
+
+</section>

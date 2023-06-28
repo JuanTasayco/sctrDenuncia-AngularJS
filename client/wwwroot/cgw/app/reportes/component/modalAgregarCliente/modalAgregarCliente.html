@@ -1,0 +1,66 @@
+<div class="clearfix">
+  <button type="button" class="close g-close-modal" data-ng-click="$ctrl.close()" prevent-default>
+    <span class="ico-mapfre_231_cancelaroff"></span>
+  </button>
+  <div class="container">
+    <form name="frmModalBuscarCliente" class="clearfix">
+      <div class="u-ph-15">
+        <div class="clearfix">
+          <div class="col-md-12 g-text-center-xs mb-xs-2">
+            <h2 class="gH3"><b>Buscar Código Cliente</b></h2>
+          </div>
+        </div>
+        <div class="clearfix g-box gBgcGray5 gBgcWhite1 pt-xs-2 pb-xs-1">
+          <div class="col-sm-9 mb-xs-2 u-ph-md-15">
+            <mpf-input
+              label="{label: 'Nombre del cliente', required: false}"
+              name="nNombreCliente"
+              ng-model="mNombreCliente"
+              ng-required="true"></mpf-input>
+            <div  class="g-error"
+                  data-ng-show="frmModalBuscarCliente.nNombreCliente.$error.required && !frmModalBuscarCliente.nNombreCliente.$pristine">* Este campo es obligatorio
+            </div>
+          </div>
+          <div class="col-sm-3">
+            <a  class="g-btn g-btn-verde second-design block mt-xs-2"
+                data-ng-click="$ctrl.buscar()">Buscar
+            </a>
+          </div>
+        </div>
+        <div  class="u-scroll-v--450 mt-xs-4"
+              data-ng-if="true">
+          <div  class="u-br-gris-4 mb-xs-1"
+                data-ng-repeat="item in clientes">
+            <ul class="clearfix u-pv-15 g-list">
+              <li class="col-md-4 pt-md-1 clearfix">
+                <div class="clearfix">
+                  <div class="col-xs-12">
+                    <span class="ico-mapfre_82_circle ico-bullet"></span>
+                    <strong>{{item.name}}</strong>
+                  </div>
+                </div>
+              </li>
+              <li class="col-md-5 pt-md-1 mb-xs-2 mb-md-0 clearfix">
+                <div class="clearfix">
+                  <div class="col-sm-5">
+                    <span class="ico-mapfre_82_circle ico-bullet"></span>
+                    <strong>CÓDIGO:</strong>
+                  </div>
+                  <div class="col-sm-7">
+                    {{item.code}}
+                  </div>
+                </div>
+              </li>
+              <li class="col-md-3 clearfix">
+                <div class="clearfix">
+                  <a  class="g-btn g-btn-verde second-design block"
+                      data-ng-click="$ctrl.seleccionarCliente(item)">Seleccionar</a>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>

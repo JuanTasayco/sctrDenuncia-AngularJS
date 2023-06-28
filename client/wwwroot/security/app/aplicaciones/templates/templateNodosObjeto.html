@@ -1,0 +1,36 @@
+<div ui-tree-handle class="g-box tree-node tree-node-content mb-xs-1">
+        <div class="clearfix g-div-middle">
+            <div class="col-xs-12 col-sm-7 mb-xs-1-5 mb-sm-0 g-div-middle">
+                <div class="g-inlineblock g-div-middle g-u-cursor--pointer cont-nombre">
+                    <div class="cont-icon" ng-if="node.nodes && node.nodes.length > 0" data-nodrag ng-click="toggleAction(this)">
+                        <span class="gnIcon-sm" ng-class="{'ico-mapfre_309_arrowUp': node.isOpen,'ico-mapfre_308_arrowDown': !node.isOpen }"></span>
+                    </div>
+                    <div class="g-cut-text cont-nombre-inner" ng-class="{'cont-nombre-inner': node.nodes.length > 0}">
+                        <span class="g-inlineblock gH5" ng-click="item.isOpen = !item.isOpen">{{node.numDescripcion}} {{node.nomLargo | uppercase}}</span>
+                    </div>
+                </div>
+            </div>
+    
+            <div class="col-xs-12 col-sm-5 pl-xs-0 pr-xs-0 text-left g-div-middle">
+                <!-- Opcion para deshabilitar-->
+                <div class="col-xs-8 col-sm-8 pl-xs-0 pr-xs-0">
+                    <mpf-checkbox-toggle ng-model="node.codEstado" ng-true-value="1" ng-false-value="2" data-nodrag ng-change="changeStatusMenu(this)"></mpf-checkbox-toggle>
+                    <span class="" ng-class="{'g-security-asignado': node.codEstado === 1, 'g-security-sinasignar': node.codEstado === 2}"></span>
+                </div>
+    
+                <!-- Opcion para editar -->
+                <div class="col-xs-2 col-sm-2 pl-xs-0 pr-xs-0 text-center l-height-0">
+                    <span class="ico-mapfre_228_editar g-link no-underline gnIcon-sm gCGray3" data-nodrag ng-click="changeViewCreateMenu('UPDATE', this)"></span>
+                </div>
+    
+                <!-- Opcion para eliminar -->
+                <div class="col-xs-2 col-sm-2 pl-xs-0 pr-xs-0 text-center l-height-0" ng-if="$parent.isVisibleDelete">
+                        <span class="ico-mapfre_307_tacho g-link no-underline gnIcon-sm gCGray3" data-nodrag ng-click="deleteMenu(this)"></span>
+                    </div>
+            </div>
+        </div>
+    </div>
+    <ol ui-tree-nodes="" ng-model="node.nodes" ng-class="{hidden: !node.isOpen}">
+        <li ng-repeat="node in node.nodes" ui-tree-node ng-include="$parent.tabNodosObjeto" ng-class="{isCreate : node.isCreate}">
+        </li>
+    </ol>

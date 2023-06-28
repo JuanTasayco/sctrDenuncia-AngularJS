@@ -1,0 +1,101 @@
+<div class="clearfix">
+  <button type="button" class="close g-close-modal" data-ng-click="$ctrl.close()" prevent-default>
+    <span class="ico-mapfre_231_cancelaroff"></span>
+  </button>
+  <div class="container">
+    <form name="frmModal" class="clearfix">
+      <div class="u-ph-15" ng-if="!$ctrl.message">
+        <div class="clearfix">
+          <div  class="col-md-12 g-text-center-xs mb-xs-2">
+            <h2 class="gH3"><b>Diagnóstico</b></h2>
+          </div>
+          <div class="col-md-12 mb-xs-2 text-center">
+            <b>Busca y selecciona el Diagnóstico: *</b>
+          </div>
+        </div>
+        <div class="clearfix mb-xs-4 pt-xs-2">
+          <div class="col-xs-12 g-input-design__wp--pt-0 u-ph-md-15">
+            <mp-data-seeker
+              behavior="{label:'', placeholder:'Ingresa código o nombre del diagnóstico', matchField:'codeName'}"
+              m-data-source="$ctrl.getListDiagnostic($inputNeed)"
+              ng-model="$ctrl.carta.CodDiagnostico"
+              name="nCodDiagnostico"
+              ng-required="true"
+              ng-change="">
+              <div ng-bind-html="$item.codeName | highlight: $select.search"></div>
+            </mp-data-seeker>
+            <div class="g-error" ng-show="frmModal.nCodDiagnostico.$error.required && !frmModal.nCodDiagnostico.$pristine">* Busque y seleccione un diagnóstico
+            </div>
+          </div>
+        </div>
+        <div class="clearfix mb-xs-4 pt-xs-2" ng-show="$ctrl.carta.ShowObservaciones">
+          <mpf-textarea
+              label="{label:'Observaciones Médico Tratante:', required: true}"
+              ng-model="$ctrl.carta.DoctorRemark"
+              name="nObservacionesMedicoT"
+              ng-required="false"
+              ng-Maxlength="400"></mpf-textarea>
+          <div class="g-error" ng-show="frmModal.nObservacionesMedicoT.$error.required && !frmModal.nObservacionesMedicoT.$pristine">* Ingrese observaciones
+          </div>
+        </div>
+        <div class="clearfix mb-xs-4 pt-xs-2">
+            <div class="col-xs-12 g-input-design__wp--pt-0 u-ph-md-15">
+              <label class="g-checkbox" ng-class="{active : $ctrl.carta.isPreExistence == 'S'}">
+                <span class="ico-checkbox"></span>
+                
+                <input  type="checkbox" ng-model="$ctrl.carta.isPreExistence" 
+                    ng-true-value="'S'" ng-false-value="'N'"
+                  ><span class="checkbox-label">Pre-Existencia</span>
+              </label>
+            </div>
+        </div>
+        <div class="clearfix mb-xs-4 pt-xs-2">
+          <div class="col-xs-12 g-input-design__wp--pt-0 u-ph-md-15">
+            <label class="g-placeholder animated pl-xs-1-5">Amputación</label><br><br>
+            <m-radio 
+              label="{label: 'Si'}" 
+              name="nAmputacion"
+              ng-model="$ctrl.carta.AmputationIndicator" 
+              value="S"
+              ng-required="true"></m-radio>
+            <m-radio label="{label: 'No'}" 
+              name="nAmputacion"
+              ng-model="$ctrl.carta.AmputationIndicator" 
+              value="N"
+              ng-required="true"
+              class="ml-xs-3"></m-radio>
+          </div>
+      </div>
+        <div class="col-lg-10 col-lg-offset-1 u-ph-0 g-text-center-xs">
+          <div  class="col-xs-12 col-md-5 u-float-center">
+            <button type="button"
+                    class="g-btn col-xs-12 mt-xs-1 g-btn-transparent"
+                    data-ng-click="$ctrl.close()" prevent-default>
+              Cancelar
+            </button>
+          </div>
+          <div  class="col-xs-12 col-md-5 u-float-center">
+            <button type="button"
+                    class="g-btn col-xs-12 mt-xs-1 g-btn-verde"
+                    data-ng-click="$ctrl.guardar()" prevent-default>
+              Guardar
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="clearfix" ng-if="$ctrl.message">
+        <div class="row mb-xs-3">
+          <div class="col-md-12">
+            <p class="text-center mb-xs-0">Datos actualizados</p>
+          </div>
+        </div>
+        <div class="row mb-xs-3">
+          <div class="col-md-4 col-md-offset-4">
+            <a class="g-btn g-btn-verde block" ng-click="$ctrl.reload()">Cerrar</a>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>

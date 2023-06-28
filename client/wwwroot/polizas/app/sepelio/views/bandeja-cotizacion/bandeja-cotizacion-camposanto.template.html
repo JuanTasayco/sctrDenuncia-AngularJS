@@ -1,0 +1,356 @@
+<style>
+    .semaforo {
+        position: absolute;
+        background-color: white;
+        width: 22px;
+        height: 22px;
+        font-size: 24px;
+        font-weight: bold;
+        margin-top: -7px;
+        margin-left: -7px;
+        border-radius: 17px;
+    }
+</style>
+<form name="frmContratante" class="mt-md-0">
+    <section class="g-page g-ui-view page-sepelios">
+        <div class="g-title">
+            <div class="container">
+                <div class="row">
+                    <div class="col-sm-9 no-mb-sm">
+                        <h1>Bandeja de Camposanto</h1>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="g-section-inner" style="padding-top: 18px;">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-3">
+                        <div show-filter
+                            class="clearfix g-col-filter g-box-md fz14 gBgcGray5-md gBgcWhite1 g-myd-box g-myd-box--filter"
+                            ng-class="{'show': isFilterVisible}">
+                            <div class="col-md-12 mb-xs-3 gH4 gCGray1">
+                                <h2 class="pb-xs-1 g-border-bottom-xs hidden-xs hidden-sm"><b>Opciones de Búsqueda</b>
+                                </h2>
+                                <div id="show-filter"
+                                    class="row pt-xs-2 pb-xs-2 gBgcGray5 g-border-bottom-xs hidden-md hidden-lg"
+                                    ng-click="toggleFilter();">
+                                    <div class="col-xs-10">
+                                        <h2><b>Filtro</b></h2>
+                                    </div>
+                                    <div class="col-xs-2 g-text-right-xs">
+                                        <span class="glyphicon glyphicon-chevron-down" ng-if="isFilterVisible"></span>
+                                        <span class="glyphicon glyphicon-chevron-up" ng-if="!isFilterVisible"></span>
+                                    </div>
+                                    <div class="clearfix"></div>
+                                </div>
+                            </div>
+                            <div class="g-col-filter__box">
+                                <div class="col-md-12 mb-xs-2">
+                                    <mpf-input label="{label: 'Nombre de asegurado', required: false}"
+                                        name="nContratante" ng-model="modelo.nombreAsegurado"></mpf-input>
+                                </div>
+                                <div class="col-md-12 mb-xs-2">
+                                    <mpf-input label="{label: 'Número de cotización', required: false}"
+                                        name="nNumeroCotizacion" ng-model="modelo.numeroCotizacion"></mpf-input>
+                                </div>
+                                <div class="col-md-12 mb-xs-2">
+                                    <mpf-select ng-model="modelo.reserva" name="filtersReserva"
+                                        label="{label: 'Reserva',required: false}" m-data-source="reserva"
+                                        text-field="Text" value-field="Codigo" m-Empty-Option="{enterData:true}"
+                                        mpf-validation="required" ng-required="false"></mpf-select>
+                                </div>
+                                <div class="col-md-12 mb-xs-2">
+                                    <mpf-select ng-change="_getCampoSanto(modelo.ramo)" ng-model="modelo.ramo"
+                                        name="filtersRamo" label="{label: 'Ramo',required: false}" m-data-source="ramo"
+                                        text-field="Text" value-field="Codigo" m-Empty-Option="{enterData:true}"
+                                        mpf-validation="required" ng-required="false"></mpf-select>
+                                </div>
+                                <div class="col-md-12 mb-xs-2">
+                                    <mpf-select ng-model="modelo.camposanto" name="nCamposanto"
+                                    label="{label: 'Camposanto'}" m-data-source="camposanto"
+                                        text-field="Descripcion" value-field="Codigo"
+                                        m-Empty-Option="{text:'Elige Camposanto'}" mpf-validation="required"
+                                        ng-disabled=""></mpf-select>
+                                </div>
+                                <div class="col-md-12 mb-xs-2">
+                                    <mpf-select ng-model="modelo.tipoContrato" name="nTipoContrato"
+                                    label="{label: 'Tipo Contrato'}" m-data-source="tipoContrato"
+                                        text-field="Descripcion" value-field="Codigo"
+                                        m-Empty-Option="{text:'Elige Tipo Contrato'}" ng-change=""
+                                        mpf-validation="required"></mpf-select>
+                                </div>
+                                <div class="col-md-12 mb-xs-2">
+                                    <mpf-select ng-model="modelo.estado" name="nEstados" label="{label: 'Estado'}"
+                                        m-data-source="estado" text-field="Codigo" value-field="Codigo"
+                                        m-Empty-Option="{text:'Elige Estado'}" ng-change=""
+                                        mpf-validation="required"></mpf-select>
+                                </div>
+                                <div class="col-sm-6 mb-xs-2">
+                                    <div class="pt-md-0">
+                                        <mpf-datepicker readonly="false" class="input-no-margin"
+                                            label="{label: 'Desde', required: false}" ng-model="modelo.inicio"
+                                            format="'dd/MM/yyyy'" maxDate="validadores.maxEndDate"
+                                            ng-change="changeDate()" name="fechaInicio">
+                                        </mpf-datepicker>
+                                        
+                                    </div>
+                                </div>
+                                <div class="col-sm-6 mb-xs-2">
+                                    <div class="pt-md-0">
+                                        <mpf-datepicker readonly="false" class="input-no-margin"
+                                            label="{label: 'Hasta', required: false}" ng-model="modelo.fin"
+                                            format="'dd/MM/yyyy'" ng-change="changeDate()" name="fechaFin">
+                                            </mpf-datepicker>
+                                    </div>
+                                </div>
+                                <div class="col-md-12 mb-xs-1">
+                                    <a class="g-btn g-btn-verde block"
+                                        ng-click="filtrarCotizaciones();toggleFilter()">Filtrar</a>
+                                </div>
+                                <div class="col-md-12">
+                                    <a class="g-btn block" ng-click="limpiar();toggleFilter()">Limpiar</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-9">
+                        <div class="" ng-if="!pagination.noResult">
+                            <div class="clearfix g-box g-overflow-hidden-xs mb-xs-2 g-myd-result"
+                                ng-repeat="item in listaBandeja">
+                                    <div class="">
+                                    <div ng-if="!(item.estado==='PROSPECTO' || item.estado==='SOLICITADO' || item.estado==='APROBADO' || item.estado==='RECHAZADO')">
+                                    <span ng-if="item.reserva === 'con_reserva'" uib-popover="Con reserva" popover-trigger="'mouseenter'" popover-placement="top-left"
+                                            class="ico-mapfre-346-sucess semaforo gCGreen1" style="font-size: 22px;"></span>
+                                    <span ng-if="item.reserva === 'no_req_reserva'" uib-popover="No requiere reserva" popover-trigger="'mouseenter'" popover-placement="top-left"
+                                            class="ico-mapfre-346-sucess semaforo gCGreen1" style="font-size: 22px;"></span>
+                                    <span ng-if="item.reserva === 'sin_reserva'" uib-popover="Sin reserva" popover-trigger="'mouseenter'" popover-placement="top-left"
+                                        class="ico-mapfre_301_warning semaforo gCRed1"></span>
+                                    </div>
+                                        <div class="g-box-top gBgcGray5 pt-xs-2 pb-xs-1 pl-xs-2 pr-xs-2 g-box--mb">
+                                            <div class="row">
+
+                                                <div class="col-sm-4 col-md-3 mb-xs-2 mb-md-0">
+                                                    <p class="mb-xs-0"><b>Nro. Cotización</b></p>
+                                                    <p class="mb-xs-1 mt-xs-1">{{item.numeroCotizacion || '-'}}</p>
+                                                <span
+                                                    class="g-tags g-text-uppercase gCWhite1 gH6 {{item.color}}">{{item.estado}}</span>
+                                                </div>
+                                            <div class="col-sm-4 col-md-3 mb-xs-2 mb-md-0"
+                                                ng-if="item.idDocumento!=='RUC'">
+                                                    <p class="mb-xs-0 mb-md-1"><b>Cliente:</b></p>
+                                                <p class="mb-xs-0"> {{item.nombre | uppercase}} {{item.paterno |
+                                                    uppercase}} {{item.materno | uppercase}} </p>
+                                                </div>
+                                            <div class="col-sm-4 col-md-3 mb-xs-2 mb-md-0"
+                                                ng-if="item.idDocumento=='RUC'">
+                                                    <p class="mb-xs-0 mb-md-1"><b>Empresa:</b></p>
+                                                    <p class="mb-xs-0"> {{item.nombre | uppercase}}</p>
+                                                </div>
+                                                <div class="col-sm-4 col-md-3 mb-xs-2 mb-md-0">
+                                                    <p class="mb-xs-0 mb-md-1"><b>Tipo de contrato:</b></p>
+                                                    <p class="mb-xs-0">{{item.nombreTipoProducto}}</p>
+                                                </div>
+                                                <div class="col-sm-12 col-md-3" ng-if="item.estado === 'SOLICITADO'">
+                                                    <div class="row">
+                                                    <div class="col-sm-6 col-md-12">
+                                                        <a class="g-btn g-btn-verde block mb-xs-1 g-btn--height"
+                                                            ng-click="verMas(item,true);">Ver más</a>
+                                                        </div>
+                                                    <div class="col-sm-6 col-md-12" ng-if="userRoot">
+                                                        <a class="g-btn block g-btn--height"
+                                                            ng-click="item.select=!item.select"> SELECCIONE <span
+                                                                class="ico-mapfre_76_chevrondown icon--md"></span>
+                                                            </a>
+                                                            <div class="select-bandeja" ng-show="item.select">
+                                                                <ul>
+                                                                <li class="options" ng-click="aprobar(item);"> Aprobar
+                                                                </li>
+                                                                <li class="options" ng-click="cerrar('R',true,item)">
+                                                                    Rechazar </li>
+                                                                </ul>
+                                                            </div>
+                                                        </div>
+                                                    <div class="col-sm-6 col-md-12" ng-if="!userRoot">
+                                                        <a class="g-btn g-btn block mb-xs-1 g-btn--height"
+                                                            ng-click="cerrar('C',true,item)">cerrar</a>
+                                                        </div>
+                                                    </div> 
+                                                </div>
+                                            <div class="col-sm-12 col-md-3"
+                                                ng-if="item.estado == 'PROSPECTO' || item.estado == 'APROBADO' || item.estado == 'RECHAZADO'">
+                                                    <div class="row">
+                                                        <div class="col-sm-6 col-sm-offset-3 col-md-12 col-md-offset-0">
+                                                        <a class="g-btn g-btn-verde block mb-xs-1 g-btn--height"
+                                                            ng-click="continuar(item)">Continuar</a>
+                                                        </div>
+                                                        <div class="col-sm-6 col-sm-offset-3 col-md-12 col-md-offset-0">
+                                                        <a class="g-btn g-btn block mb-xs-1 g-btn--height"
+                                                            ng-click="cerrar('C',true,item)">cerrar</a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+    
+                                            <div class="col-sm-12 col-md-3"
+                                                ng-if="item.estado == 'PROVISIONAL' || item.estado == 'COTIZADO' || item.estado == 'EMITIDO' || item.estado == 'CERRADO' || item.estado == 'PRE-EMITIDO'">
+                                                    <div class="row">
+                                                    <div class="col-sm-6 col-md-12">
+                                                        <a ng-if="item.estado == 'COTIZADO' || item.estado == 'CERRADO' || item.estado == 'PRE-EMITIDO'"
+                                                            class="g-btn g-btn-verde block mb-xs-1 g-btn--height"
+                                                            ng-click="verMas(item,null);">Ver más</a>
+                                                        <div ng-if="item.estado === 'EMITIDO' || item.estado == 'PROVISIONAL'"
+                                                            class="mb-xs-1">
+                                                            <a class="g-btn g-btn-verde block g-btn--height"
+                                                                ng-click="item.selectMas=!item.selectMas"> Ver más <span
+                                                                    class="ico-mapfre_76_chevrondown icon--md"></span>
+                                                                </a>
+                                                                <div class="select-bandeja" ng-show="item.selectMas">
+                                                                    <ul>
+                                                                    <li class="options"
+                                                                        ng-click="verMas(item,null,true);"> Cotización
+                                                                    </li>
+                                                                    <li class="options"
+                                                                        ng-click="verMas(item,null,false);"> Emisión
+                                                                    </li>
+                                                                    </ul>
+                                                                </div>
+                                                            </div>
+
+                                                        </div>
+                                                        <div class="col-sm-6 col-md-12">
+                                                            <div ng-if="item.estado === 'COTIZADO'">
+                                                            <a class="g-btn block g-btn--height"
+                                                                ng-click="item.select=!item.select"> SELECCIONE <span
+                                                                    class="ico-mapfre_76_chevrondown icon--md"></span>
+                                                                </a>
+                                                                <div class="select-bandeja" ng-show="item.select">
+                                                                    <ul>
+                                                                    <li class="options"
+                                                                        ng-click="cerrar('C',true,item)"> Cerrar </li>
+                                                                    <li class="options" ng-click="preEmitir(item)">
+                                                                        {{userRoot ? 'Emitir' : 'Pre Emitir' }} </li>
+                                                                    </ul>
+                                                                </div>
+                                                            </div>
+                                                            <div  ng-if="item.estado === 'EMITIDO'">
+                                                            <a class="g-btn block g-btn--height"
+                                                                ng-click="item.select=!item.select"> DESCARGAR PDF <span
+                                                                    class="ico-mapfre_76_chevrondown icon--md"></span>
+                                                                </a>
+                                                                <div class="select-bandeja" ng-show="item.select">
+                                                                    <ul>
+                                                                    <li class="options"
+                                                                        ng-click="descargarPDFemision(item,'POLIZA')">
+                                                                        Contrato </li>
+                                                                    <li class="options"
+                                                                        ng-click="descargarPDFemision(item,'CERTIFICADO')">
+                                                                        Certificado Digital</li>
+                                                                    </ul>
+                                                                </div>
+                                                            </div>
+                                                            <div ng-if="item.estado === 'PRE-EMITIDO'">
+                                                            <div ng-if="userRoot">
+                                                                <a class="g-btn block g-btn--height"
+                                                                    ng-click="item.select=!item.select"> SELECCIONE
+                                                                    <span
+                                                                        class="ico-mapfre_76_chevrondown icon--md"></span>
+                                                                    </a>
+                                                                    <div class="select-bandeja" ng-show="item.select">
+                                                                        <ul>
+                                                                        <li class="options"
+                                                                            ng-click="cerrar('C',true,item)"> Cerrar
+                                                                        </li>
+                                                                        <li class="options" ng-click="preEmitir(item)">
+                                                                            Emitir</li>
+                                                                        </ul>
+                                                                    </div>
+                                                                </div>
+                                                            <div ng-if="!userRoot">
+                                                                <a class="g-btn block mb-xs-1 g-btn--height"
+                                                                    ng-click="cerrar('C',true,item)">Cerrar</a>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            <div class="col-sm-12 col-md-3" ng-if="item.estado == 'OBSERVADO' ">
+                                                    <div class="row">
+                                                    <div class="col-sm-6 col-md-12">
+                                                        <a class="g-btn g-btn-verde block mb-xs-1 g-btn--height"
+                                                            ng-click="preEmitir(item)">EDITAR</a>
+                                                        </div>
+                                                    <div class="col-sm-6 col-md-12">
+                                                        <a class="g-btn g-btn block mb-xs-1 g-btn--height"
+                                                            ng-click="cerrar('C',true,item)">cerrar</a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                
+                                            </div>
+    
+                                            </div>
+                                        </div>
+                                        <div class="pt-xs-2 pb-xs-2 pl-xs-2 pr-xs-2">
+                                            <div class="row d-center">
+                                                <div class="col-xs-6 col-md-3">
+                                                    <p class="mb-xs-1"><b>Fecha de registro:</b></p>
+                                                    <p class="mb-xs-0">{{ item.fechaRegistro | date :  "dd/MM/y" }}</p>
+                                                </div>
+
+                                                <div class="col-xs-6 col-md-3">
+                                                    <p class="mb-xs-1"><b>Ramo :</b></p>
+                                            <p class="mb-xs-0" ng-if=" item.idRamo===400"> {{ "Necesidad Inmediata" |
+                                                uppercase }}</p>
+                                            <p class="mb-xs-0" ng-if=" item.idRamo===401"> {{ "Necesidad Futura" |
+                                                uppercase }}</p>
+                                                </div>
+
+                                                <div class="col-xs-6 col-md-3"  ng-if="item.emision.numeroContrato">
+                                                    <p class="mb-xs-1"><b>Nro. Contrato :</b></p>
+                                                    <p class="mb-xs-0"> {{ item.emision.numeroContrato }}</p>
+                                                </div>
+
+                                        <div class="col-xs-6 col-sm-offset-3 col-md-3"
+                                            ng-if="(item.estado === 'CERRADO' || item.estado === 'RECHAZADO' || item.estado == 'OBSERVADO') && !item.emision.numeroContrato ">
+                                            <a ng-click="cerrar('C',false,item)"
+                                                class="g-box--double-link g-text-center-xs gCGreen7 fwMedium gH6"
+                                                ng-if="item.estado === 'CERRADO'">Ver motivos
+                                                        de cierre +</a>
+                                            <a ng-click="cerrar('R',false,item)"
+                                                class="g-box--double-link g-text-center-xs gCGreen7 fwMedium gH6"
+                                                ng-if="item.estado === 'RECHAZADO'">Ver motivos
+                                                        de rechazo +</a>
+                                            <a ng-click="cerrar('O',false,item)"
+                                                class="g-box--double-link g-text-center-xs gCGreen7 fwMedium gH6"
+                                                ng-if="item.estado == 'OBSERVADO'">Ver motivos
+                                                        de observación +</a>   
+                                                </div>
+                                                
+                                            </div>
+                                        </div>
+                                    </div>
+                        </div>
+                        <div class="row" ng-if="!pagination.noResult">
+                                  <div class="col-md-12">
+                                    <ul uib-pagination class="g-pagination" ng-model="pagination.currentPage"
+                                    max-size="pagination.maxSize" total-items="pagination.totalItems"
+                                    ng-change="pageChanged(pagination.currentPage)" boundary-link-numbers="true">
+                                    </ul>
+                                  </div>
+                        </div>
+                        <div class="text-center g-box-noresult" ng-if="pagination.noResult">
+                            <div class="row">
+                                <div class="col-md-12 g-box-noresult-ico gCRed1 h-myd-mt--20">
+                                    <span class="ico-mapfre_302_error"></span>
+                                </div>
+                                <div class="col-md-12 g-box-noresult-text">No hay resultados para los filtros
+                                    escogidos.<br>Intente nuevamente.</div>
+                            </div>
+                        </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</form>

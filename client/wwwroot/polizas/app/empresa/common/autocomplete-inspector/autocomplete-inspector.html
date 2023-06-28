@@ -1,0 +1,16 @@
+<mp-data-seeker-horz
+  behavior="{label:'Inspector', placeholder:'', matchField:'idFullName'}"
+  m-data-source="$inspectorCtrl.getListInspector($inputNeed)"
+  ng-model="$inspectorCtrl.inspector"
+  name="nInspector"
+  ng-change="updateInspector($inspectorCtrl.inspector)"
+  ng-required="true" 
+  ng-hide="$inspectorCtrl.hideInspector || $inspectorCtrl.comprobanteRemitido">
+  <div ng-bind-html="$item.idFullName | highlight: $select.search"></div>
+</mp-data-seeker-horz>
+<div 
+class="g-error" 
+data-ng-if="$inspectorCtrl.sinResultados" 
+data-ng-click="$inspectorCtrl.cleanMsgAdvertencia()">
+  <span>* 0 resultados para los términos ingresados</span>
+</div>

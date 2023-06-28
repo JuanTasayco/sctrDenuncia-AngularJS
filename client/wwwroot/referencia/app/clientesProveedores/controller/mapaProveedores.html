@@ -1,0 +1,137 @@
+<mfloader loader="$ctrl.loader"></mfloader>
+<div class="container">
+  <mfbreadcrumb panel="$ctrl.panel"
+              lvl0="$ctrl.lvl0"
+              lvl1="$ctrl.lvl1"
+              lvl2="$ctrl.lvl2"
+              show-lvl1= "$ctrl.showLvl1"
+              show-lvl2= "$ctrl.showLvl2"
+              open-map="$ctrl.openMap(lvl,pl)"
+              lst-dptos="$ctrl.lstDptos"
+              loader="$ctrl.loader"
+              showcp="$ctrl.showCP"></mfbreadcrumb>
+
+  <h1 class="title-r u-title-divider--up">
+    Proveedores
+  </h1>
+
+  <div class="containerMapa">
+    <div class="cleaner">
+      <div class="col-xs-12 col-md-6">
+        <mapa-mapfre  lugar="$ctrl.mapId"
+                      loadclass="$ctrl.loadCls"
+                      mapsvg="$ctrl.mapSvg"
+                      open="$ctrl.openMap(a,b,c,d)"
+                      controller-name="MapaClienteController"></mapa-mapfre>
+      </div>
+
+      <div class="col-xs-12 col-md-6">
+        <div class="cleaner map-search__title-box">
+          <p class="title-r u-ph-0">
+            <span class="ico-mapfre_84_circleleft frm-search__title-ico--arrow hidden-xs hidden-sm"></span>
+            <span class="u-color-verde u-weight-normal">{{$ctrl.proveedores}}</span> proveedores en
+            <span class="u-weight-normal">{{$ctrl.namePlace}}</span>
+          </p>
+          <a class="c-link-more u-arrow-right" data-ng-click="$ctrl.seeAll()">Ver todos</a>
+        </div>
+
+        <div class="cleaner">
+          <div data-ng-form="BusquedaProveedorForm" class="frm-search__box u-bg--grey u-br-5">
+            <div class="title-select-search">
+              <label class="lbl-title title-frm-search u-squash-align-v" for="buscar">
+                <span class="ico-mapfre_34_salud frm-search__ico hidden-xs hidden-sm frm-search__ico--provee"></span>
+                <span>
+                  Buscar proveedores en <span class="u-weight-500">{{$ctrl.namePlace}} por</span>
+                </span>
+              </label>
+              <div class="select-box">
+                <select id="slLstAtributos" name="slLstAtributos" class="select"  data-ng-model="$ctrl.atributo" data-ng-options="option.nombre for option in $ctrl.lstAtributos" data-ng-change="$ctrl.changeFrm()">
+                </select>
+                <span class="ico-mapfre_87_trianguloup ico-arrow--down" aria-hidden="true"></span>
+              </div>
+            </div>
+            <div class="" data-ng-show="$ctrl.showFrmAttr">
+              <div class="frm-search__input-box search-prov__selects-box cleaner">
+                <div class="col-xs-6 u-ph-0 frm-search__col">
+                  <div class="select-box">
+                    <span class="frm-search__lbl-select">Categoría</span>
+                    <select id="slLstCategorias" name="slLstCategorias" class="select"  data-ng-model="$ctrl.categoria" data-ng-options="item.nombre for item in $ctrl.lstCategorias">
+                      <option value="" selected="">Todos</option>
+                    </select>
+                    <span class="select__ico--arrow ico-mapfre_76_chevrondown ico-select" aria-hidden="true"></span>
+                  </div>
+                </div>
+                <div class="col-xs-6 u-ph-0 frm-search__col">
+                  <div class="select-box">
+                    <span class="frm-search__lbl-select">Convenio</span>
+                     <select id="slLstConvenios" name="slLstConvenios" class="select" data-ng-model="$ctrl.convenio" data-ng-options="item.nombre for item in $ctrl.lstConvenios">
+                      <option value="" selected="">Todos</option>
+                     </select>
+                    <span class="select__ico--arrow ico-mapfre_76_chevrondown ico-select" aria-hidden="true"></span>
+                  </div>
+                </div>
+              </div>
+              <div class="frm-search__input-box cleaner">
+                <div class="select-box frm-search__col">
+                  <span class="frm-search__lbl-select">Entidades</span>
+                  <select id="slLstEntidades" name="slLstEntidades" class="select"  data-ng-model="$ctrl.entidad" data-ng-options="item.nombre for item in $ctrl.lstEntidades">
+                    <option value="" selected="">Todos</option>
+                  </select>
+                  <span class="select__ico--arrow ico-mapfre_76_chevrondown ico-select" aria-hidden="true"></span>
+                </div>
+                <button class="c-btn btn btn--secundary frm-search__btn" type="submit" data-ng-click="$ctrl.buscar()">
+                  <span class="u-inline-b">
+                    <span class="frm-search__txt-box">
+                      <span class="ico-mapfre_30_buscar frm-search__btn-ico"></span> <span>BUSCAR</span>
+                    </span>
+                  </span>
+                </button>
+              </div>
+            </div>
+            <div class="" data-ng-show="$ctrl.showFrmName">
+              <div class="frm-search__input-box cleaner">
+                <mfinput data-id="buscar"
+                      data-valor="$ctrl.nombre"
+                      data-tipo="caracter"
+                      data-placeholder="Nombre de la clínica"
+                      data-requerido = "true"
+                      data-mf-form="BusquedaProveedorForm"
+                      data-call-enter="$ctrl.buscar()"
+                      class="mfinput"></mfinput>
+                <button class="c-btn btn btn--secundary frm-search__btn" type="button" data-ng-click="$ctrl.buscar()"
+                  data-ng-disabled="$ctrl.isDisabled(BusquedaProveedorForm)">
+                  <span class="u-inline-b">
+                    <span class="frm-search__txt-box">
+                      <span class="ico-mapfre_30_buscar frm-search__btn-ico"></span> <span>BUSCAR</span>
+                    </span>
+                  </span>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <ul class="panel__wrapper">
+            <li class="panel__item" data-ng-repeat="grupo in $ctrl.grupos track by $index">
+              <header class="panel__header u-bg--grey u-br-5">
+                <span class="panel__title">{{grupo.nombre}}</span>
+                <span class="panel__caption">{{grupo.afiliados}} afiliados</span>
+              </header>
+              <ul class="lista-group">
+                <li class="lista__item lista__item--bullet" data-ng-repeat="unidad in grupo.unidades track by $index">
+                  <div class="lista__header">
+                    <div class="lista-header__col lista-header__col--collapse">
+                      <a class="panel__dropdown">{{unidad.nombre}}</a>
+                    </div>
+                    <div class="lista-header__col">
+                      <a class="panel__link-more u-arrow-right">ver las <b>{{unidad.empresas || unidad.particulares}}</b> {{$ctrl.tipoEntidad(unidad)}}</a>
+                    </div>
+                  </div>
+                </li>
+              </ul>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,648 @@
+<div class="pt-xs-2" ng-show="formData.agenteSinTasaPC">
+	<div class="container">
+		<div class="clearfix">
+			<div class="col-md-12">
+				<div class="g-box clearfix g-box-header pb-xs-1 pl-md-2">
+					<!-- <span class="ico-mapfre_222_informacion ico-medium ico-verde"></span><span class="txt-bloqueo">Tu usuario ha sido bloqueado</span> -->
+					<span class="ico-mapfre_222_informacion ico-medium ico-verde"></span><span class="txt-bloqueo">Para la actividad {{formData.mActEco.codigoCiiuEmp || formData.mActEco.CodigoCiiuEmp}} : {{formData.mActEco.descripcionCiiuEmp || formData.mActEco.DescripcionCiiuEmp}} seleccionada no hay tasas asignadas <br/>Favor coordinar con su gestor comercial</span>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="page-sctr-emitir-step3 g-section-inner">
+<form id="cotiza-form" action="" name="frmSCTR3">
+	<!-- Datos de la empresa -->
+	<div class="container">
+		<div class="row">
+			<div class="col-md-12">
+				<uib-accordion close-others="oneAtATime">
+					<div uib-accordion-group class="g-acordeon" is-open="status.open">
+				  <uib-accordion-heading>
+					Datos de la empresa
+					<i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': status.open, 'glyphicon-chevron-right': !status.open}"></i>
+					  <div class="msn-acordeon pull-right mr-xs-1" ng-show="isDeficitario()">
+						<span class="ico-mapfre_316_exclamacion ico-md ico-medium ico-excl ico-naranja"></span>
+						<span class="cont-text" >Cliente Deficitario</span>
+					  </div>
+				  </uib-accordion-heading>
+				  <div class="g-sec-information">
+							<div class="">
+								<div class="container">
+									<ul class="row">
+										<li class="col-md-4 clearfix cnt-item">
+											<div class="col-sm-6 item-label">
+												<span class="ico-mapfre_82_circle ico-bullet"></span>Tipo de documento:
+											</div>
+											<div class="col-sm-6 item-dato">{{formData.mTipoDocumento.Codigo}}</div>
+										</li>
+
+										<li class="col-md-4 clearfix cnt-item">
+											<div class="col-sm-5 item-label">
+												<span class="ico-mapfre_82_circle ico-bullet"></span>Nro. Documento:
+											</div>
+											<div class="col-sm-7 item-dato">{{formData.mNumeroDocumento}}</div>
+										</li>
+
+										<li class="col-md-4 clearfix cnt-item">
+											<div class="col-sm-6 item-label">
+												<span class="ico-mapfre_82_circle ico-bullet"></span>Raz&oacute;n Social:
+											</div>
+											<div class="col-sm-6 item-dato g-text-uppercase">{{formData.mRazonSocial}}</div>
+										</li>
+									</ul>
+									<ul class="row">
+										<li class="col-md-4 clearfix cnt-item" ng-show="formData.mActivSunat.codigo">
+											<div class="col-sm-6 item-label">
+												<span class="ico-mapfre_82_circle ico-bullet"></span>Actividad SUNAT:
+											</div>
+											<div class="col-sm-6 item-dato">{{formData.mActivSunat.codigo}} :: {{formData.mActivSunat.descripcion}}</div>
+										</li>
+
+										<li class="col-md-4 clearfix cnt-item">
+											<div class="col-sm-5 item-label">
+												<span class="ico-mapfre_82_circle ico-bullet"></span>Direcci&oacute;n:
+											</div>
+											<div class="col-sm-7 item-dato g-text-uppercase">
+												{{formData.contractorAddress.mNombreVia}} {{formData.contractorAddress.mNumeroDireccion}},
+												{{formData.contractorAddress.ubigeoData.mDistrito.Descripcion}}
+												{{formData.contractorAddress.ubigeoData.mProvincia.Descripcion}}
+												{{formData.contractorAddress.ubigeoData.mDepartamento.Descripcion}}
+											</div>
+										</li>
+
+										<li class="col-md-4 clearfix cnt-item">
+											<div class="col-sm-6 item-label">
+												<span class="ico-mapfre_82_circle ico-bullet"></span>Tel&eacute;fono:
+											</div>
+											<div class="col-sm-6 item-dato">{{formData.dataContractor2.Telefono}}</div>
+										</li>
+									</ul>
+									<ul class="row">
+										<li class="col-md-4 clearfix cnt-item">
+											<div class="col-sm-6 item-label">
+												<span class="ico-mapfre_82_circle ico-bullet"></span>Correo electr&oacute;nico:
+											</div>
+											<div class="col-sm-6 item-dato g-text-uppercase">
+												<div class="g-cut-text" uib-popover="{{formData.dataContractor2.EmailUsuario}}" popover-trigger="'mouseenter'">{{formData.dataContractor2.EmailUsuario}}</div>
+											</div>
+										</li>
+
+										<li class="col-md-4 clearfix cnt-item">
+											<div class="col-sm-5 item-label">
+												<span class="ico-mapfre_82_circle ico-bullet"></span>Representante:
+											</div>
+											<div class="col-sm-7 item-dato g-text-uppercase">{{formData.mRepresentante}}</div>
+										</li>
+
+										<li class="col-md-4 clearfix cnt-item">
+											<div class="col-sm-6 item-label">
+												<span class="ico-mapfre_82_circle ico-bullet"></span>Cargo representante:
+											</div>
+											<div class="col-sm-6 item-dato">{{formData.mRepresentanteCargo.Descripcion}}</div>
+										</li>
+									</ul>
+								</div>
+							</div>
+						</div>
+				</div>
+				</uib-accordion>
+			</div>
+		</div>
+	</div>
+
+	<!-- Datos de la poliza -->
+	<div class="container">
+		<div class="row">
+			<div class="col-md-12">
+				<uib-accordion close-others="oneAtATime">
+					<div uib-accordion-group class="g-acordeon" is-open="status.open">
+				  <uib-accordion-heading>
+					Datos de la p&oacute;liza<i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': status.open, 'glyphicon-chevron-right': !status.open}"></i>
+				  </uib-accordion-heading>
+				  <div class="g-sec-information">
+							<div class="">
+								<div class="container">
+									<ul class="row">
+										<li class="col-md-4 clearfix cnt-item">
+											<div class="col-sm-5 item-label">
+												<span class="ico-mapfre_82_circle ico-bullet"></span>Actividad:
+											</div>
+											<div class="col-sm-7 item-dato">{{formData.mActEco.codigoCiiuEmp || formData.mActEco.CodigoCiiuEmp}} : {{formData.mActEco.descripcionCiiuEmp || formData.mActEco.DescripcionCiiuEmp}}</div>
+										</li>
+										<li class="col-md-4 clearfix cnt-item">
+											<div class="col-sm-5 item-label">
+												<span class="ico-mapfre_82_circle ico-bullet"></span>Subactividad:
+											</div>
+											<div class="col-sm-7 item-dato g-text-uppercase">{{formData.subactividad ? formData.subactividad.Descripcion : ''}}
+											</div>
+										</li>
+										<li class="col-md-4 clearfix cnt-item">
+											<div class="col-sm-5 item-label">
+												<span class="ico-mapfre_82_circle ico-bullet"></span>Frecuencia:
+											</div>
+											<div class="col-sm-7 item-dato">{{formData.mFrecDeclaracion.Descripcion}}</div>
+										</li>
+									</ul>
+									<ul class="row">
+										<li class="col-md-4 clearfix cnt-item">
+											<div class="col-sm-5 item-label">
+												<span class="ico-mapfre_82_circle ico-bullet"></span>Inicio de Vigencia:
+											</div>
+											<div class="col-sm-7 item-dato">{{formData.desde}}</div>
+										</li>
+										<li class="col-md-4 clearfix cnt-item">
+											<div class="col-sm-5 item-label">
+												<span class="ico-mapfre_82_circle ico-bullet"></span>Fin de Vigencia:
+											</div>
+											<div class="col-sm-7 item-dato">{{formData.hasta}}</div>
+										</li>
+										<li class="col-md-4 clearfix cnt-item">
+											<div class="col-sm-5 item-label">
+												<span class="ico-mapfre_82_circle ico-bullet"></span>Centro de riesgos:
+											</div>
+											<div class="col-sm-7 item-dato g-text-uppercase">{{formData.mCentroRiesgo}}</div>
+										</li>
+									</ul>
+								</div>
+							</div>
+						</div>
+				</div>
+				</uib-accordion>
+			</div>
+		</div>
+	</div>
+
+	<!-- Mapfre pension -->
+	<div class="g-section" ng-if="formData.pension">
+		<div class="container">
+		<div class="row"><div class="col-md-12"><h2 class="g-sub-title g-myd-subtitle">MAPFRE Pensi&oacute;n</h2></div></div>
+			<div class="clearfix">
+				<div class="col-md-12 risk-box">
+					<div class="row">
+						<div class="col-md-8 risk-box-inputs">
+							<div class="row">
+								<div class="col-md-4" ng-hide="formData.pNormal && (formData.esAdminSus || formData.SolEnviada || formData.tasasEnviadas)">
+									<mpf-input label="{label: 'Nro. trabajadores', required: true}" name="nNroTrabajadores" mpf-validation="onlyNumber" ng-model="formData.mNroTrabajadores" ng-required="true" ng-Maxlength="10"  ng-disabled="formData.paso3Grabado"></mpf-input>
+									<div class="g-error" ng-show="frmSCTR3.nNroTrabajadores.$error.required && !frmSCTR3.nNroTrabajadores.$pristine">* Ingrese nro. trabajadores</div>
+								</div>
+								<div class="col-md-4"  ng-show="formData.pNormal && (formData.esAdminSus || formData.SolEnviada || formData.tasasEnviadas) && formData.estadoSC">
+									<span>
+										<span class="g-label mb-md-2">* Nro. Trabajadores:</span>
+										<span>{{formData.mNroTrabajadores}}</span>
+										<br>
+									</span>
+								</div>
+								<div class="col-md-4"  ng-show="formData.pNormal && (formData.esAdminSus || formData.SolEnviada || formData.tasasEnviadas) && !formData.estadoSC">
+									<mpf-input label="{label: 'Nro. trabajadores', required: true}" name="nNroTrabajadores" mpf-validation="onlyNumber" ng-model="formData.mNroTrabajadores" ng-required="true" ng-Maxlength="10"  ng-disabled="formData.paso3Grabado"></mpf-input>
+									<div class="g-error" ng-show="frmSCTR3.nNroTrabajadores.$error.required && !frmSCTR3.nNroTrabajadores.$pristine">* Ingrese nro. trabajadores</div>
+								</div>
+								<div class="col-md-4" ng-hide="formData.pNormal && (formData.esAdminSus || formData.SolEnviada || formData.tasasEnviadas)">
+				<m-Numeric-Textbox
+				  label="{label: 'Importe planilla', required: true}"
+				  name="nImportePlanillaPension"
+				  ng-disabled="formData.paso3Grabado"
+				  ng-model="formData.mImportePlanillaPension"
+				  ng-required="true"
+				  options="formData.mMoneda"
+				>
+				</m-Numeric-Textbox>
+									<div class="g-error" ng-show="frmSCTR3.nImportePlanillaPension.$error.required && !frmSCTR3.nImportePlanillaPension.$pristine">* Ingrese importe</div>
+								</div>
+								<div class="col-md-4" ng-show="formData.pNormal && (formData.esAdminSus || formData.SolEnviada || formData.tasasEnviadas) && formData.estadoSC">
+									<span>
+										<span class="g-label mb-md-2">* Importe planilla pensi&oacute;n:</span>
+										<span>S/. {{formData.mImportePlanillaPension}}</span>
+										<br>
+									</span>
+								</div>
+								<div class="col-md-4" ng-show="formData.pNormal && (formData.esAdminSus || formData.SolEnviada || formData.tasasEnviadas) && !formData.estadoSC">
+				<m-Numeric-Textbox
+				  label="{label: 'Importe planilla', required: true}"
+				  name="nImportePlanillaPension"
+				  ng-disabled="formData.paso3Grabado"
+				  ng-model="formData.mImportePlanillaPension"
+				  ng-required="true"
+				  options="formData.mMoneda"
+				>
+				</m-Numeric-Textbox>
+									<div class="g-error" ng-show="frmSCTR3.nImportePlanillaPension.$error.required && !frmSCTR3.nImportePlanillaPension.$pristine">* Ingrese importe</div>
+								</div>
+								<div class="col-md-4" ng-hide="formData.pNormal">
+									<div ng-show=isAdmin()>
+									<!-- 	<span ng-hide="formData.isAdminTasaCero">
+											<span class="g-label mb-md-2">Tasa *: {{formData.isAdminTasaCero}}</span>{{formData.mTasaPension}}<br>
+										</span> -->
+										<div>
+											<mpf-input label="{label: 'Tasa', required: true}" name="nTasaP" ng-model="formData.mTasaPension" ng-required="true" ng-Maxlength="4" mpf-validation="number2" ></mpf-input>
+											<div class="g-error" ng-show="(formData.mTasaPension>100 || formData.mTasaPension==0) && !formData.esAgente">* El valor de la tasa de riesgo no puede ser mayor a 100</div>
+											<div class="g-error" ng-show="frmSCTR3.nTasaP.$error.required && !frmSCTR3.nTasaP.$pristine && !formData.esAgente">* Ingrese tasa</div>
+										</div>
+									</div>
+
+									<div ng-hide=isAdmin()>
+										<span ng-hide="formData.isAdminTasaCero">
+											<span class="g-label mb-md-2">Tasa *:</span>{{formData.mTasaPension}}<br>
+										</span>
+									</div>
+								</div>
+								<div class="col-md-4" ng-show="formData.pNormal">
+									<span ng-show="formData.esAgente">
+										<span ng-show="formData.CodigoEstado != sctrStates.solicitarCotizacion.code && formData.CodigoEstado != sctrStates.reajusteTasa.code" >
+											<span class="g-label mb-md-2"  ng-show="formData.primaTotalPension > 0 && formData.mTasaPension>0">Tasa *:<br><br>{{formData.mTasaPension}}</span>
+											<span class="g-label mb-md-2"  ng-hide="formData.primaTotalPension > 0 && formData.mTasaPension>0">Tasa *:<br><br>Enviar para aprobaci&oacute;n</span>
+										</span>
+										<span ng-show="formData.CodigoEstado == sctrStates.solicitarCotizacion.code || formData.CodigoEstado === sctrStates.reajusteTasa.code" >
+											<span class="g-label mb-md-2"  ng-show="formData.primaTotalPension > 0 && formData.mTasaPension>0">Tasa *:<br><br>{{formData.mTasaPension}}</span>
+											<span class="g-label mb-md-2"  ng-hide="formData.primaTotalPension > 0 && formData.mTasaPension>0">Tasa *:<br><br>En revisi&oacute;n</span>
+										</span>
+									</span>
+									<mpf-input ng-disabled="formData.mInferTasaPension && !formData.esAdminSus" ng-hide="formData.esAgente" label="{label: 'Tasa', required: true}" name="nTasaP" ng-model="formData.mTasaPension" ng-required="true" ng-Maxlength="4" mpf-validation="number2" ></mpf-input>
+									<div class="g-error" ng-show="(formData.mTasaPension>100 || formData.mTasaPension==0) && !formData.esAgente">* El valor de la tasa de riesgo no puede ser mayor a 100</div>
+									<div class="g-error" ng-show="frmSCTR3.nTasaP.$error.required && !frmSCTR3.nTasaP.$pristine && !formData.esAgente">* Ingrese tasa</div>
+								</div>
+							</div>
+						</div>
+						<div class="col-md-4 g-box-header">
+							<ul class="row pt-md-3 pt-xs-2 pb-xs-2 pb-md-3 pl-md-2 pr-md-2 pl-xs-0 pr-xs-0">
+								<li class="col-md-12">
+									<div class="row">
+										<span class="col-xs-6 box-amount-label">Subtotal:</span>
+										<span class="col-xs-6 box-amount-data">{{formData.subTotalPension | currency: 'S/.'}}</span>
+									</div>
+								</li>
+								<li class="col-md-12">
+									<div class="row">
+									<span class="col-xs-6 box-amount-label">Prima Neta:</span>
+									<span class="col-xs-6 box-amount-data">{{formData.primaNetaPension | currency: 'S/.'}}</span>
+									</div>
+								</li>
+								<li class="col-md-12">
+									<div class="row">
+									<span class="col-xs-6 box-amount-label">Factor</span>
+									<span class="col-xs-6 box-amount-data">{{formData.factorPension}}</span>
+									</div>
+								</li>
+								<li class="col-md-12">
+									<div class="row">
+									<span class="col-xs-6 box-amount-label box-amount-label-total">Prima Total</span>
+									<span class="col-xs-6 box-amount-data box-amount-data-total">{{formData.primaTotalPension | currency: 'S/.'}}</span>
+									</div>
+								</li>
+							</ul>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- Mapfre salud -->
+	<div class="g-section" ng-if="formData.salud">
+		<div class="container">
+		<div class="row"><div class="col-md-12"><h2 class="g-sub-title g-myd-subtitle">MAPFRE Salud</h2></div></div>
+			<div class="clearfix">
+				<div class="col-md-12 risk-box">
+					<div class="row">
+						<div class="col-md-8 risk-box-inputs">
+							<div class="row">
+								<div class="col-md-4" ng-hide="formData.pNormal && (formData.esAdminSus || formData.SolEnviada || formData.tasasEnviadas)">
+									<mpf-input label="{label: 'Nro. trabajadores', required: true}" name="nNroTrabajadores"  mpf-validation="onlyNumber" ng-model="formData.mNroTrabajadores" ng-required="true"  ng-Maxlength="10" ng-disabled="formData.paso3Grabado"></mpf-input>
+									<div class="g-error" ng-show="frmSCTR3.nNroTrabajadores.$error.required && !frmSCTR3.nNroTrabajadores.$pristine">* Ingrese nro. trabajadores</div>
+								</div>
+								<div class="col-md-4"  ng-show="formData.pNormal && (formData.esAdminSus || formData.SolEnviada || formData.tasasEnviadas) && formData.estadoSC">
+									<span>
+										<span class="g-label mb-md-2">* Nro. Trabajadores:</span>
+										<span>{{formData.mNroTrabajadores}}</span>
+										<br>
+									</span>
+								</div>
+								<div class="col-md-4"  ng-show="formData.pNormal && (formData.esAdminSus || formData.SolEnviada || formData.tasasEnviadas) && !formData.estadoSC">
+									<mpf-input label="{label: 'Nro. trabajadores', required: true}" name="nNroTrabajadores"  mpf-validation="onlyNumber" ng-model="formData.mNroTrabajadores" ng-required="true"  ng-Maxlength="10"  ng-disabled="formData.paso3Grabado"></mpf-input>
+									<div class="g-error" ng-show="frmSCTR3.nNroTrabajadores.$error.required && !frmSCTR3.nNroTrabajadores.$pristine">* Ingrese nro. trabajadores</div>
+								</div>
+								<div class="col-md-4" ng-hide="formData.pNormal && (formData.esAdminSus || formData.SolEnviada || formData.tasasEnviadas)">
+				<m-Numeric-Textbox
+				  label="{label: 'Importe planilla', required: true}"
+				  name="nImportePlanillaSalud"
+				  ng-disabled="formData.paso3Grabado"
+				  ng-model="formData.mImportePlanillaSalud"
+				  ng-required="true"
+				  options="formData.mMoneda"
+				>
+				</m-Numeric-Textbox>
+									<div class="g-error" ng-show="frmSCTR3.nImportePlanillaSalud.$error.required && !frmSCTR3.nImportePlanillaSalud.$pristine">* Ingrese importe</div>
+								</div>
+								<div class="col-md-4" ng-show="formData.pNormal && (formData.esAdminSus || formData.SolEnviada || formData.tasasEnviadas) && formData.estadoSC">
+									<span>
+										<span class="g-label mb-md-2">* Importe planilla salud:</span>
+										<span>S/. {{formData.mImportePlanillaSalud}}</span>
+										<br>
+									</span>
+								</div>
+								<div class="col-md-4" ng-show="formData.pNormal && (formData.esAdminSus || formData.SolEnviada || formData.tasasEnviadas) && !formData.estadoSC">
+				<m-Numeric-Textbox
+				  ng-model="formData.mImportePlanillaSalud"
+				  options="formData.mMoneda"
+				  name="nImportePlanillaSalud"
+				  label="{label: 'Importe planilla', required: true}"
+				  ng-required="true"
+				  ng-disabled="formData.paso3Grabado"
+				>
+				</m-Numeric-Textbox>
+									<div class="g-error" ng-show="frmSCTR3.nImportePlanillaSalud.$error.required && !frmSCTR3.nImportePlanillaSalud.$pristine">* Ingrese importe</div>
+								</div>
+								<div class="col-md-4" ng-hide="formData.pNormal">
+									<div ng-show=isAdmin()>
+									<!-- 	<span ng-hide="formData.isAdminTasaCero">
+											<span class="g-label mb-md-2">Tasa *: {{formData.isAdminTasaCero}}</span>{{formData.mTasaSalud}}<br>
+										</span> -->
+										<div>
+											<mpf-input label="{label: 'Tasa', required: true}" name="nTasaP" ng-model="formData.mTasaSalud" ng-required="true" ng-Maxlength="4" mpf-validation="number2" ></mpf-input>
+											<div class="g-error" ng-show="(formData.mTasaSalud>100 || formData.mTasaSalud==0) && !formData.esAgente">* El valor de la tasa de riesgo no puede ser mayor a 100</div>
+											<div class="g-error" ng-show="frmSCTR3.nTasaP.$error.required && !frmSCTR3.nTasaP.$pristine && !formData.esAgente">* Ingrese tasa</div>
+										</div>
+									</div>
+
+									<div ng-hide=isAdmin()>
+										<span ng-hide="formData.isAdminTasaCero">
+											<span class="g-label mb-md-2">Tasa *:</span>{{formData.mTasaSalud}}<br>
+										</span>
+									</div>
+								</div>
+								<div class="col-md-4" ng-show="formData.pNormal">
+									<span ng-show="formData.esAgente">
+											<span ng-show="formData.CodigoEstado != sctrStates.solicitarCotizacion.code && formData.CodigoEstado != sctrStates.reajusteTasa.code" >
+												<span class="g-label mb-md-2"  ng-show="formData.primaTotalSalud > 0 && formData.mTasaSalud>0">Tasa *:<br><br>{{formData.mTasaSalud}}</span>
+												<span class="g-label mb-md-2"  ng-hide="formData.primaTotalSalud > 0 && formData.mTasaSalud>0">Tasa *:<br><br>Enviar para aprobaci&oacute;n</span>
+											</span>
+											<span ng-show="formData.CodigoEstado == sctrStates.solicitarCotizacion.code || formData.CodigoEstado === sctrStates.reajusteTasa.code" >
+												<span class="g-label mb-md-2"  ng-show="formData.primaTotalSalud > 0 && formData.mTasaSalud>0">Tasa *:<br><br>{{formData.mTasaSalud}}</span>
+												<span class="g-label mb-md-2"  ng-hide="formData.primaTotalSalud > 0 && formData.mTasaSalud>0">Tasa *:<br><br>En revisi&oacute;n</span>
+											</span>
+										</span>
+									<mpf-input ng-disabled="formData.mInferTasaPension  && !formData.esAdminSus"  ng-hide="formData.esAgente" label="{label: 'Tasa', required: true}" name="nTasaS" ng-model="formData.mTasaSalud" ng-required="true" ng-Maxlength="4"  mpf-validation="number2" ></mpf-input>
+									<div class="g-error" ng-show="(formData.mTasaSalud>100 || formData.mTasaSalud==0) && !formData.esAgente">* El valor de la tasa de riesgo no puede ser mayor a 100</div>
+									<div class="g-error" ng-show="frmSCTR3.nTasaS.$error.required && !frmSCTR3.nTasaS.$pristine && !formData.esAgente">* Ingrese tasa</div>
+								</div>
+							</div>
+						</div>
+						<div class="col-md-4 g-box-header">
+							<ul class="row pt-md-3 pt-xs-2 pb-xs-2 pb-md-3 pl-md-2 pr-md-2 pl-xs-0 pr-xs-0">
+								<li class="col-md-12">
+									<div class="row">
+										<span class="col-xs-6 box-amount-label">Subtotal:</span>
+										<span class="col-xs-6 box-amount-data">{{formData.subTotalSalud | currency: 'S/.'}}</span>
+									</div>
+								</li>
+								<li class="col-md-12">
+									<div class="row">
+										<span class="col-xs-6 box-amount-label">Prima Neta:</span>
+										<span class="col-xs-6 box-amount-data">{{formData.primaNetaSalud | currency: 'S/.'}}</span>
+									</div>
+								</li>
+								<li class="col-md-12">
+									<div class="row">
+										<span class="col-xs-6 box-amount-label">Factor</span>
+										<span class="col-xs-6 box-amount-data">{{formData.factorSalud}}</span>
+									</div>
+								</li>
+								<li class="col-md-12">
+									<div class="row">
+										<span class="col-xs-6 box-amount-label box-amount-label-total">Prima Total</span>
+										<span class="col-xs-6 box-amount-data box-amount-data-total">{{formData.primaTotalSalud | currency: 'S/.'}}</span>
+									</div>
+								</li>
+							</ul>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- Direcci�n del contratante -->
+	<div class="g-section" ng-hide="true">
+		<div class="container">
+			<mpf-contractor-address data="formData.contractorAddress"  is-Valid="addressValid" setter-Ubigeo="setterUbigeo" clean-Ubigeo="cleanUbigeo"></mpf-contractor-address>
+		</div>
+	</div>
+
+	<!-- Button -->
+	<div class="g-section" ng-show="!showClausulas()">
+		<div class="container">
+			<div class="clearfix mb-md-1">
+				<span class="col-md-4 g-comment">*Campos obligatorios</span>
+				<a class="col-md-4 col-xs-12 g-btn g-btn-verde" ng-click="solicitudAgente()" ng-show="!IsAssignedTasa() && formData.esAgente &&  formData.pNormal && cotizacion[0].Solicitud.CodigoEstado != 'SC'">Enviar para aprobaci&oacute;n</span></a>
+			</div>
+			<!--<div class="row mb-md-1">
+				<div class="col-md-4 col-md-offset-2 col-xs-12">
+					<a class="g-btn g-btn-transparent block" ng-click="enviarAgente(1)" ng-show="formData.pNormal && (formData.esAdminSus || formData.esAdmin) && formData.estadoSC" >Rechazar al agente (Rechazar Solicitud)</a>
+				</div>
+				<div class="col-md-4 col-xs-12">
+					<a class="g-btn g-btn-verde block" ng-click="enviarAgente(0)" ng-show="formData.pNormal && (formData.esAdminSus || formData.esAdmin) && formData.estadoSC" >Aceptar al agente (Enviar Tasa)</a>
+				</div>
+			</div>-->
+			<div class="row mb-md-1" ng-show="(!formData.CodigoEstado || formData.CodigoEstado == 'RE') && IsAssignedTasa() && formData.esAgente && formData.pNormal">
+				<div class="col-md-4 col-xs-12">
+					<a class="g-btn g-btn-transparent block" ng-click="rejectTax()" >Rechazar condiciones</a>
+				</div>
+				<div class="col-md-4 col-xs-12">
+					<a class="g-btn g-btn-transparent block" ng-click="readjustmentTax()">Solicitar ajuste de tasa</a>
+				</div>
+				<div class="col-md-4 col-xs-12">
+					<a class="g-btn g-btn-verde block" ng-click="acceptTax()" >Aceptar condiciones</a>
+				</div>
+			</div>
+			<div class="row mb-md-1" ng-show="!formData.pNormal && IsAssignedTasa() && !formData.rechazado">
+				<div class="col-md-4 col-xs-12 col-md-offset-2 h-myd-mb--20">
+					<a class="g-btn g-btn-transparent block" ng-click="showModalConfirmation(1)" >Rechazar condiciones</a>
+				</div>
+				<div class="col-md-4 col-xs-12 h-myd-mb--20">
+					<a class="g-btn g-btn-verde block" ng-click="showModalConfirmation(0)" >Aceptar condiciones</a>
+				</div>
+			</div>
+			<div class="row mb-md-1">
+				<div class="col-md-4 col-md-offset-4 col-xs-12">
+					<a class="col-md g-btn g-btn-verde block" ng-click="continuarAdminPN()"
+					ng-show="formData.CodigoEstado != 'DS' && ((formData.pNormal && formData.esAdmin &&
+										!formData.activarAdm && formData.estadoRE) ||
+										(formData.pNormal && (formData.esAdminSus || formData.esAdmin) &&
+										!formData.estadoSC && (tasasAceptadas)))">Siguiente</a>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- Clausulas automaticas y condiciones -->
+	<div class="g-section" ng-if="showClausulas()" >
+		<div class="container">
+			<div class="clearfix">
+				<div class="g-tap-mobile g-section g-section-tabs">
+					<div class="clearfix">
+						<uib-tabset active="activeJustified" justified="true">
+						<!-- TAB1 -->
+						<uib-tab index="0">
+							<uib-tab-heading>CL&Aacute;USULAS AUTOM&Aacute;TICAS</uib-tab-heading>
+								<div class="row">
+									<div class="col-md-12 mb-md-5 mb-xs-2 pt-md-4 pt-xs-2">
+										<p>Las siguientes cl&aacute;usulas se mostrar&oacute;n en la constancia y hoja anexo de la p&oacute;liza</p>
+										<!-- <mpf-textarea ng-disabled ="!(formData.esAdminSus || formData.esAdmin)" label="{label:'', required: false}" ng-model="formData.clausulaAutomatica" name="nClausula" ng-required="true" ng-Maxlength=""></mpf-textarea>
+-->
+
+<!-- ng-bind-html="renderHTML(formData.clausulaAutomatica)" -->
+										<div contenteditable="true" ng-model="formData.clausulaAutomatica" cols="50" rows="10" ng-if="formData.TipoRol !== 'AGT'">
+					</div>
+				  <div contenteditable="false" ng-model="formData.clausulaAutomatica" cols="50" rows="10" ng-if="formData.TipoRol === 'AGT'">
+					</div>
+									</div>
+								</div>
+							</uib-tab>
+						<!-- TAB2 -->
+						<uib-tab index="1">
+							<uib-tab-heading>CL&Aacute;USULAS MANUALES</uib-tab-heading>
+								<div class="row">
+									<div class="col-md-12 mb-md-5 mb-xs-2 pt-md-4 pt-xs-2">
+										<p>Las siguientes condiciones se mostrar&oacute;n solo en la hoja anexa de la p&oacute;liza</p>
+										<!-- <mpf-textarea ng-disabled="!(formData.esAdminSus || formData.esAdmin)" label="{label:'', required: false}" ng-model="formData.clausulaManual" name="nClausula" ng-required="true" ng-Maxlength=""></mpf-textarea> -->
+
+										<!-- <div ng-bind-html="formData.clausulaManual" contenteditable="true" ng-model="formData.clausulaManual" cols="50" rows="10">
+					</div> -->
+
+					<mpf-textarea ng-disabled="!(formData.esAdminSus || formData.esAdmin)" label="{label:'', required: false}" ng-model="formData.clausulaManual" name="nClausula" ng-required="true" ng-Maxlength=""></mpf-textarea>
+
+									</div>
+								</div>
+						</uib-tab>
+					   </uib-tabset>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!--MOSTRAR SOLAMENTE PARA AGENTES-->
+	<div class="g-section" ng-show="showButtonAgent()">
+		<div class="container">
+			<div class="clearfix">
+				<div class="row">
+					<div class="col-md-4 mt-xs-1">
+						<a class="g-btn g-btn-transparent block" ng-click="rejectTax()">Rechazar condiciones</a>
+					</div>
+					<div class="col-md-4 mt-xs-1">
+						<a class="g-btn g-btn-transparent block" ng-click="readjustmentTax()">Solicitar ajuste de tasa</a>
+					</div>
+					<div class="col-md-4 mt-xs-1">
+						<a class="g-btn g-btn-verde block" ng-click="acceptTax()">Aceptar condiciones</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="g-section" ng-show="formData.esAgente && formData.CodigoEstado == 'AT'">
+		<div class="container">
+			<div class="clearfix">
+			<div class="row">
+					<div class="col-md-4 mt-xs-1">
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-md-4 mt-xs-1">
+						<a class="g-btn g-btn-verde block" ng-click="continuarAT()">Siguiente</a>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-md-4 mt-xs-1">
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!--MOSTRAR SOLAMENTE PARA SUSCRIPTORES -->
+	<div class="g-section" ng-show="showButtonSusc()">
+		<div class="container">
+			<div class="row">
+				<div class="col-md-4 mt-xs-1">
+					<a class="g-btn g-btn-transparent block" ng-click="enviarAgente(1)" >Rechazar Solicitud</a>
+				</div>
+				<div class="col-md-4 mt-xs-1" ng-click="giveBackAgent()">
+					<a class="g-btn g-btn-transparent block">Misma tasa</a>
+				</div>
+				<div class="col-md-4 mt-xs-1">
+					<a class="g-btn g-btn-verde block" ng-click="enviarAgente(0)">Aplicar nueva tasa</a>
+				</div>
+			</div>
+		</div>
+	</div>
+</form>
+
+<form id="cotiza-form" action="" name="frmSCTR3Comment" ng-show="formData.pNormal">
+	<div class="g-section">
+		<div class="container">
+			<div class="row">
+				<div class="col-md-12">
+					<h2 class="g-sub-title c-black h-myd--fz18">Comentarios ({{formData.mensajes.length}})</h2>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-12 g-comment-box" ng-repeat="msj in formData.mensajes" >
+					<ul class="row">
+						<li class="col-md-1 col-xs-3 g-comment-box-ico"><span class="ico-mapfre_305_user"></span></li>
+						<li class="col-md-11 col-xs-9 g-comment-box-data">
+							<ul>
+								<li class="data-name">{{msj.RolRemitente}} : {{msj.NombreUsuario}}</li>
+								<li class="data-text">{{msj.DescripcionMensaje}}</li>
+								<li class="data-text"><a href="" ng-click="getAdjunto(msj.ArchivoAdjunto)">{{msj.ArchivoAdjunto}}</a></li>
+							</ul>
+						</li>
+					</ul>
+				</div>
+			</div>
+
+			<!-- Direcci�n del contratante -->
+			<div class="g-section" ng-hide="true">
+				<div class="container">
+					<mpf-contractor-address data="formData.contractorAddress"  is-Valid="addressValid" setter-Ubigeo="setterUbigeo" clean-Ubigeo="cleanUbigeo"></mpf-contractor-address>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-12 g-comment-input">
+					<ul class="row">
+						<li class="col-md-1 col-xs-3 g-comment-box-ico comentario"><span class="ico-mapfre_305_user"></span></li>
+						<li class="col-md-11 col-xs-9 g-comment-box-data">
+							<div class="row">
+								<div class="col-xs-12 pb-xs-2">
+									<mpf-textarea label="{label:'', required: false}" ng-model="mComment" name="nComment" validate="validate[required]" ng-required="true" ng-Maxlength="250"></mpf-textarea>
+								</div>
+								<div class="col-md-4" ng-repeat="file in myFile" ng-if="myFile">
+									<ul class="box-attachment">
+										<li class="col-md-1 box-ico"><span class="ico-mapfre_92_emitir"></span></li>
+										<li class="col-md-9 box-text">{{file.name}}</li>
+										<li class="col-md-2 box-ico"><a href="" ng-click="deleteFile($index)"><span class="ico-mapfre_46_cancelaroff"></span></a></li>
+									</ul>
+								</div>
+								<div class="col-xs-9 col-md-6 col-md-offset-5 text-right">
+									<div class="row">
+										<div class="col-md-6 col-xs-12 pull-right">
+											<a class="g-btn g-btn-verde block" ng-click="uploadFile()">Guardar</a>
+										</div>
+									</div>
+								</div>
+								<div class="col-md-1 col-xs-3">
+									<label class="g-btn g-btn-transparent g-btn-attach block"><input type="file" file-model="myFile" multiple class="inputfile"/>
+									<span class="ico-mapfre_306_importar"></span></label>
+								</div>
+							</div>
+						</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+	</div>
+</form>
+<form id="frmDownloadADJ" name="frmDownloadADJ" action="{{adjURL}}" method="post" target="_blank">
+	<input type="hidden" name="json" value='{{adjData}}'>
+</form>
+</div>

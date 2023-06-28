@@ -1,0 +1,313 @@
+<div id="form-views" class="pt-md-3">
+  <form name="frmModal" class="clearfix">
+      <div>
+        <div class="clearfix gBgcWhite1 pb-xs-5">
+          <div class="col-md-12">
+            <div class="row">
+              <div class="col-sm-3 mb-xs-2">
+                <div class="input-group g-date-picker">
+                  <label class="g-placeholder animated ng-binding">Fecha solicitud desde:</label>
+                  <input  type="text"
+                          class="form-control"
+                          uib-datepicker-popup="{{format}}"
+                          data-ng-model="mConsultaDesde"
+                          is-open="popup1.opened"
+                          datepicker-options="dateOptions"
+                          data-ng-required="false"
+                          close-text="Close"
+                          alt-input-formats="altInputFormats"
+                          placeholder="Desde"/>
+                  <span class="input-group-btn">
+                    <button type="button"
+                            class="btn btn-default"
+                            data-ng-click="$ctrl.open1()">
+                      <i class="glyphicon glyphicon-calendar"></i>
+                    </button>
+                  </span>
+                </div>
+              </div>
+              <div class="col-sm-3 mb-xs-2">
+                <div class="input-group g-date-picker">
+                  <label class="g-placeholder animated ng-binding">Fecha solicitud hasta:</label>
+                  <input  type="text"
+                          class="form-control"
+                          uib-datepicker-popup="{{format}}"
+                          data-ng-model="mConsultaHasta"
+                          is-open="popup2.opened"
+                          datepicker-options="dateOptions2"
+                          data-ng-required="true"
+                          close-text="Close"
+                          alt-input-formats="altInputFormats"
+                          placeholder="Hasta"/>
+                  <span class="input-group-btn">
+                    <button type="button"
+                            class="btn btn-default"
+                            data-ng-click="$ctrl.open2()">
+                      <i class="glyphicon glyphicon-calendar"></i>
+                    </button>
+                  </span>
+                </div>
+              </div>
+              <div class="col-sm-3 mb-xs-2">
+                <mpf-data-seeker-placeholder
+                  behavior="{label:'Diagnóstico', placeholder:'', matchField:'name'}"
+                  m-data-source="$ctrl.getListDiagnostic($inputNeed)"
+                  ng-model="mDiagnostico"
+                  ng-required="false"
+                  name="mDiagnostic">
+                  <div ng-bind-html="$item.name | highlight: $select.search"></div>
+                </mpf-data-seeker-placeholder>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-2 col-sm-4 col-md-offset-5 col-sm-offset-4 pt-xs-1">
+                <a class="g-btn g-btn-verde second-design block" data-ng-click="$ctrl.buscar()">Buscar</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="g-section-tabs g-overflow-hidden-xs">
+        <div class="container">
+          <uib-tabset justified="true">
+
+            <uib-tab index="0">
+              <uib-tab-heading>CARTAS DE GARANTÍA</uib-tab-heading>
+              <div class="clearfix" ng-show="cartasGarantia.length > 0">
+                <div class="mt-xs-2">
+                  <div class="row">
+                    <div class="col-md-4">
+                      <span class="gH2 gCGray1">Cartas de garantía ({{cartasGarantia.length}})</span>
+                    </div>
+                    <div class="col-md-4 g-text-right-md">
+                      <span class="gH2 gCGray1">Suma asegurada {{carta.sumAssured | currency: 'S/ '}}</span>
+                    </div>
+                  </div>
+                  <div class="clearfix g-tbl-wrapper mt-xs-1">
+                    <div class="clearfix table__1400">
+                      <ul class="g-row-fz12 g-tbl-row gBgcGray5 pt-xs-1">
+                        <li class="g-col g-col-xs col-3-dktp tbl-item item-title">Ver</li>
+                        <li class="g-col g-col-xs col-7-dktp tbl-item item-title">Compañia</li>
+                        <li class="g-col g-col-xs col-7-dktp tbl-item item-title">Cartas</li>
+                        <li class="g-col g-col-xs col-7-dktp tbl-item item-title">Ingreso</li>
+                        <li class="g-col g-col-xs col-6-dktp tbl-item item-title text-right">Monto S.</li>
+                        <li class="g-col g-col-xs col-6-dktp tbl-item item-title text-right">Monto A.</li>
+                        <li class="g-col g-col-xs col-12-dktp tbl-item item-title">Cliente</li>
+                        <li class="g-col g-col-xs col-8-dktp tbl-item item-title">Clínica</li>
+                        <li class="g-col g-col-xs col-9-dktp tbl-item item-title">Estado</li>
+                        <li class="g-col g-col-xs col-7-dktp tbl-item item-title">Audi. Ext.</li>
+                        <li class="g-col g-col-xs col-12-dktp tbl-item item-title">Diagnóstico</li>
+                        <li class="g-col g-col-xs col-7-dktp tbl-item item-title">¿Amputación?</li>
+                        <li class="g-col g-col-xs col-9-dktp tbl-item item-title">Fecha de accidente</li>
+                      </ul>
+                      <div class="mb-xs-1">
+                        <ul class="g-row-fz12 g-tbl-row pt-xs-1 g-border-bottom-xs" data-ng-repeat="item in cartasGarantia">
+                          <li class="g-col g-col-xs col-3-dktp tbl-item gCGray3 text-center">
+                            <a data-ng-click="$ctrl.verCartaGarantia(item)">
+                              <span class="gnIcon-md ico-mapfre_311_arrowRight"></span>
+                            </a>
+                          </li>
+                          <li class="g-col g-col-xs col-7-dktp tbl-item"><span>{{item.company}}</span></li>
+                          <li class="g-col g-col-xs col-7-dktp tbl-item"><span>{{item.fullNumber}}<br>{{item.product}}</span></li>
+                          <li class="g-col g-col-xs col-7-dktp tbl-item"><span>{{item.admissionDate | date : format : 'dd/MM/yyyy h:mm a'}}</span></li>
+                          <li class="g-col g-col-xs col-6-dktp tbl-item text-right">
+                            <span>
+                              {{item.amountRequested}}
+                            </span>
+                          </li>
+                          <li class="g-col g-col-xs col-6-dktp tbl-item text-right">
+                            <span>
+                              {{item.amountApproved}}
+                            </span>
+                          </li>
+                          <li class="g-col g-col-xs col-12-dktp tbl-item"><span>{{item.client}}</span></li>
+                          <li class="g-col g-col-xs col-8-dktp tbl-item"><span>{{item.clinic}}</span></li>
+                          <li class="g-col g-col-xs col-9-dktp tbl-item">
+                            <span class="u-block text-center u-pv-8 c-tag" data-ng-class="$ctrl.getColor(item)">{{item.statusLetter}}</span>
+                          </li>
+                          <li class="g-col g-col-xs col-7-dktp tbl-item"><span>{{item.statusExternalAudit}}</span></li>
+                          <li class="g-col g-col-xs col-12-dktp tbl-item"><span>{{item.diagnostic}}</span></li>
+                          <li class="g-col g-col-xs col-7-dktp tbl-item"><span>{{item.amputationIndicator == 'S' ? 'SI': 'NO'}}</span></li>
+                          <li class="g-col g-col-xs col-9-dktp tbl-item"><span>{{item.accidentDate | date: 'dd/MM/yyyy'}}</span></li>
+                        </ul>
+
+                        <ul class="g-row-fz12 g-tbl-row pt-xs-1 g-border-bottom-xs" ng-show="cartasGarantia.length>0">
+                          <li class="g-col g-col-xs col-5-dktp tbl-item gCGray3 text-center">
+                          </li>
+                          <li class="g-col g-col-xs col-7-dktp tbl-item"><span></span></li>
+                          <li class="g-col g-col-xs col-5-dktp tbl-item"><span></span></li>
+                          <li class="g-col g-col-xs col-7-dktp tbl-item"><b>Total</b></li>
+                          <li class="g-col g-col-xs col-6-dktp tbl-item text-right">
+                            <b>
+                              {{cartasGarantia[0].amountTotalRequested}}
+                            </b>
+                          </li>
+                          <li class="g-col g-col-xs col-6-dktp tbl-item text-right">
+                            <b>
+                              {{cartasGarantia[0].amountTotalApproved}}
+                            </b>
+                          </li>
+                          <li class="g-col g-col-xs col-14-dktp tbl-item"><span></span></li>
+                          <li class="g-col g-col-xs col-12-dktp tbl-item"><span></span></li>
+                          <li class="g-col g-col-xs col-11-dktp tbl-item">
+                            <span>
+                            </span>
+                          </li>
+                          <li class="g-col g-col-xs col-7-dktp tbl-item"><span></span></li>
+                          <li class="g-col g-col-xs col-13-dktp tbl-item"><span></span></li>
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="content-tab pt-xs-3" ng-hide="cartasGarantia.length > 0">
+                <div class="col-md-12 text-center g-box-noresult">
+                  <div class="row">
+                    <div class="col-md-12 g-box-noresult-ico gCRed1">
+                      <span class="ico-mapfre_302_error"></span>
+                    </div>
+                    <div class="col-md-12 g-box-noresult-text">
+                      No hay cartas de garantía para la búsqueda realizada.<br/>Intenta nuevamente
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </uib-tab>
+
+            <uib-tab index="1">
+              <uib-tab-heading>SINIESTROS</uib-tab-heading>
+              <div class="clearfix" ng-show="siniestros.length > 0">
+                <div class="mt-xs-2">
+                  <div class="row">
+                    <div class="col-md-6">
+                      <span class="gH2 gCGray1">Siniestros de Salud ({{siniestros.length}})</span>
+                    </div>
+                    <div class="col-md-6 g-text-right-xs">
+                      <span class="gH2 gCGray1">Total {{amountTotalSinister}}</span>
+                    </div>
+                  </div>
+                  <div class="clearfix g-tbl-wrapper mt-xs-1">
+                    <div class="clearfix table__1170">
+                      <ul class="g-row-fz12 g-tbl-row gBgcGray5 pt-xs-1">
+                        <li class="g-col g-col-xs col-11-dktp tbl-item item-title">Compañia</li>
+                        <li class="g-col g-col-xs col-11-dktp tbl-item item-title">Año-Nro Srto</li>
+                        <li class="g-col g-col-xs col-9-dktp tbl-item item-title">Fecha</li>
+                        <li class="g-col g-col-xs col-17-dktp tbl-item item-title">Diagnóstico</li>
+                        <li class="g-col g-col-xs col-9-dktp tbl-item item-title text-right">Importe en S/</li>
+                        <li class="g-col g-col-xs col-17-dktp tbl-item item-title">Clínica</li>
+                        <li class="g-col g-col-xs col-17-dktp tbl-item item-title">Cliente</li>
+                      </ul>
+                      <div class="mb-xs-1">
+                        <ul class="g-row-fz12 g-tbl-row pt-xs-1 g-border-bottom-xs" data-ng-repeat="item in siniestros">
+                          <li class="g-col g-col-xs col-11-dktp tbl-item"><span>{{item.company}}</span></li>
+                          <li class="g-col g-col-xs col-11-dktp tbl-item"><span>{{item.yearNumber}}</span></li>
+                          <li class="g-col g-col-xs col-9-dktp tbl-item"><span>{{item.dateOccurrence}}</span></li>
+                          <li class="g-col g-col-xs col-17-dktp tbl-item"><span>{{item.diagnostic}}</span></li>
+                          <li class="g-col g-col-xs col-9-dktp tbl-item text-right"><span>{{item.amountSinister}}</span></li>
+                          <li class="g-col g-col-xs col-17-dktp tbl-item"><span>{{item.clinic}}</span></li>
+                          <li class="g-col g-col-xs col-17-dktp tbl-item"><span>{{item.client}}</span></li>
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="content-tab pt-xs-3" ng-hide="siniestros.length > 0">
+                <div class="col-md-12 text-center g-box-noresult">
+                  <div class="row">
+                    <div class="col-md-12 g-box-noresult-ico gCRed1">
+                      <span class="ico-mapfre_302_error"></span>
+                    </div>
+                    <div class="col-md-12 g-box-noresult-text">
+                      No hay siniestros para la búsqueda realizada.<br/>Intenta nuevamente
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </uib-tab>
+
+            <uib-tab index="2">
+              <uib-tab-heading>AUDITORIAS EXTERNAS</uib-tab-heading>
+              <div class="clearfix" ng-show="auditoriaExterna.length > 0">
+                <div class="mt-xs-2">
+                  <div class="row">
+                    <div class="col-md-12">
+                      <span class="gH2 gCGray1">Auditorias Externas de Salud ({{auditoriaExterna.length}})</span>
+                    </div>
+                  </div>
+                  <div class="clearfix g-tbl-wrapper mt-xs-1">
+                    <div class="clearfix table__1170">
+                      <ul class="g-row-fz12 g-tbl-row gBgcGray5 pt-xs-1">
+                        <li class="g-col g-col-xs col-3-dktp tbl-item item-title">Ver</li>
+                        <li class="g-col g-col-xs col-11-dktp tbl-item item-title">Compañia</li>
+                        <li class="g-col g-col-xs col-9-dktp tbl-item item-title">Año-Nro-ver</li>
+                        <li class="g-col g-col-xs col-6-dktp tbl-item item-title text-center">No. AE</li>
+                        <li class="g-col g-col-xs col-8-dktp tbl-item item-title">Producto</li>
+                        <li class="g-col g-col-xs col-10-dktp tbl-item item-title">Fecha ingreso</li>
+                        <li class="g-col g-col-xs col-10-dktp tbl-item item-title">Cliente</li>
+                        <li class="g-col g-col-xs col-17-dktp tbl-item item-title">Clínica</li>
+                        <li class="g-col g-col-xs col-11-dktp tbl-item item-title">STS AUD. EXT.</li>
+                        <li class="g-col g-col-xs col-5-dktp tbl-item item-title"></li>
+                      </ul>
+                      <div class="mb-xs-1">
+                        <ul class="g-row-fz12 g-tbl-row pt-xs-1 g-border-bottom-xs" data-ng-repeat="item in auditoriaExterna">
+                          <li class="g-col g-col-xs col-3-dktp tbl-item gCGray3">
+                            <a data-ng-click="$ctrl.verAuditoriaExterna(item)">
+                              <span class="gnIcon-md ico-mapfre_311_arrowRight"></span>
+                            </a>
+                          </li>
+                          <li class="g-col g-col-xs col-11-dktp tbl-item"><span>{{item.company}}</span></li>
+                            <li class="g-col g-col-xs col-9-dktp tbl-item"><span>{{item.fullNumber}}</span></li>
+                          <li class="g-col g-col-xs col-6-dktp tbl-item text-center"><span>{{item.numberExternalAudit}}</span></li>
+                          <li class="g-col g-col-xs col-8-dktp tbl-item"><span>{{item.product}}</span></li>
+                          <li class="g-col g-col-xs col-10-dktp tbl-item"><span>{{item.admissionDate}}</span></li>
+                          <li class="g-col g-col-xs col-10-dktp tbl-item"><span>{{item.client}}</span></li>
+                          <li class="g-col g-col-xs col-17-dktp tbl-item"><span>{{item.clinic}}</span></li>
+                          <li class="g-col g-col-xs col-11-dktp tbl-item"><span>{{item.statusExternalAudit}}</span></li>
+                          <li class="g-col g-col-xs col-5-dktp tbl-item gCGray3 text-center">
+                            <span ng-hide="item.statusExternalAudit=='AUDITADO'">SIN ADJUNTO</span>
+                            <a data-ng-click="$ctrl.downloadAdjunto(item.fileNameLarge)" ng-show="item.statusExternalAudit=='AUDITADO'">
+                              <span class="gnIcon-md ico-mapfre_124_download"></span>
+                            </a>
+                          </li>
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-12 text-center g-box-noresult ng-scope" ng-if="false">
+                <div class="row">
+                  <div class="col-md-12 g-box-noresult-ico gCBlue2">
+                    <span class="ico-mapfre_303_informacion"></span>
+                  </div>
+                  <div class="col-md-12 g-box-noresult-text">
+                    Realiza una búsqueda para obtener resultados.
+                  </div>
+                </div>
+              </div>
+              <div class="content-tab pt-xs-3" ng-hide="auditoriaExterna.length > 0">
+                <div class="col-md-12 text-center g-box-noresult">
+                  <div class="row">
+                    <div class="col-md-12 g-box-noresult-ico gCRed1">
+                      <span class="ico-mapfre_302_error"></span>
+                    </div>
+                    <div class="col-md-12 g-box-noresult-text">
+                      No hay auditorias externas para la búsqueda realizada.<br/>Intenta nuevamente
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </uib-tab>
+
+          </uib-tabset>
+        </div>
+      </div>
+  </form>
+</div>
+
+<form id="frmFileuditoriaExt2" name="frmFileuditoriaExt2" action="{{fileAuditoriaExtURL}}" method="post" target="_blank">
+  <input type="hidden" name="json" value='{{downloadAtachFile}}'>
+</form>

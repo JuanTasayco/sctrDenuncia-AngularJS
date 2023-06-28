@@ -1,0 +1,99 @@
+<div class="gSweetModal">
+  <form name="formTasaAjuste">
+    <div class="cntContent container">
+      <div class="row">
+        <div class="col-xs-12 mb-xs-3">
+          <h2 class="g-sub-title gH3"><b>{{title}}</b></h2>
+        </div>
+      </div>
+
+      <div class="row mb-xs-3">
+        <div class="col-xs-12">
+          <mpf-select
+            label="{label: 'Clase', required: true}"
+            name="nClase"
+            ng-model="tasa.clase"
+            m-data-source="clases"
+            text-field="descripcionClase"
+            value-field="descripcionClase"
+            m-Empty-Option="{enterData:true}"
+            ng-disabled="isEditable"
+            ng-required="true"></mpf-select>
+
+            <div class="g-error"
+              ng-show="formTasaAjuste.nClase.$error.required && !formTasaAjuste.nClase.$pristine">
+              * Seleccione una clase</div>
+        </div>
+      </div>
+
+      <div class="row mb-xs-3">
+        <div class="col-xs-12">
+            <mpf-select
+              label="{label: 'Contrato/subcontrato', required: true}"
+              name="nContrato"
+              ng-model="tasa.contrato"
+              m-data-source="contratos"
+              text-field="NombreProducto"
+              value-field="NumeroSubContrato"
+              m-Empty-Option="{enterData:true}"
+              ng-disabled="isEditable"
+              ng-required="true"></mpf-select>
+
+              <div class="g-error"
+                ng-show="formTasaAjuste.nContrato.$error.required && !formTasaAjuste.nContrato.$pristine">
+                * Seleccione un contrato/subcontrato</div>
+          </div>
+      </div>
+
+      <div class="row mb-xs-3">
+        <div class="col-xs-12">
+          <mpf-input label="{label: 'Porcentaje ajuste', required: true}" name="nPorcentaje" ng-model="tasa.porcentajeAjuste" ng-required="true"></mpf-input>
+
+          <div class="g-error"
+                ng-show="formTasaAjuste.nPorcentaje.$error.required && !formTasaAjuste.nPorcentaje.$pristine">
+                * Ingrese un porcentaje de ajuste</div>
+        </div>
+      </div>
+
+      <div class="row mb-xs-3">
+        <div class="col-xs-12">
+          <p class="gH6"><b>Estado*</b></p>
+          <div class="row">
+            <div class="col-sm-6 col-md-6 mb-xs-1 h-myd--flex h-myd-m--0">
+              <m-radio
+                label="{label: 'Habilitado'}"
+                name="nEstado"
+                ng-model="tasa.mcaActivo"
+                ng-required="true"
+                value="N">
+              </m-radio>
+            </div>
+            <div class="col-sm-6 col-md-6 mb-xs-1 h-myd--flex h-myd-m--0">
+              <m-radio
+                label="{label: 'Inhabilitado'}"
+                name="nEstado"
+                ng-model="tasa.mcaActivo"
+                ng-required="true"
+                value="S">
+              </m-radio>
+            </div>
+          </div>
+
+          <div class="g-error"
+                ng-show="formTasaAjuste.nEstado.$error.required && !formTasaAjuste.nEstado.$pristine">
+                * Seleccione un estado</div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-4 col-md-offset-2">
+          <a class="g-btn g-btn-mini g-btn-transparent block" ng-click="closeModal()">Cancelar</a>
+        </div>
+        <div class="col-md-4">
+          <a class="g-btn g-btn-mini g-btn-gris-salud block" ng-click="guardar()">Guardar</a>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>
+  

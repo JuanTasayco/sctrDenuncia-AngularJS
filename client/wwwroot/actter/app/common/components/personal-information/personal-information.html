@@ -1,0 +1,321 @@
+<ng-form name="personalInformationForm">
+  <div class="g-section-inner h-myd-pb--20">
+    <div class="container">
+      <div class="row mt-3 mb-xs-2">
+        <div class="col-md-12">
+          <h2 class="g-sub-title g-myd-subtitle">Datos personales</h2>
+        </div>
+        <div class="col-md-12" ng-if="!vm.isRuc">
+          <h2>Si requiere actualizar alguno de los datos no habilidatos haga click aquí <a ng-click="vm.openModal()" class="gCRed1" href="javascript:void(0)">ACTUALIZAR</a></h2>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-12 mb-1">
+          <div class="row">
+            <div class="col-md-3 mb-xs-2">
+              <mpf-select
+                m-data-source="vm.paramsForm.NOMB_CAMP_VAL"
+                ng-model="vm.form.empresa"
+                name="companyType"
+                label="{label: 'Empresa', required: false}"
+                m-Empty-Option="{enterData:true}"
+                value-field="codigo"
+                text-field="descripcion"
+                ng-disabled="true"
+                ng-required="!vm.requiredFieldsForm(vm.fields.BUSSINESS)">
+              </mpf-select>
+              <ul class="g-error">
+                <li ng-show="personalInformationForm.companyType.$error.required && !personalInformationForm.companyType.$pristine">* Seleccione una Empresa</li>
+              </ul>
+            </div>
+            <div class="col-md-3 mb-xs-2">
+              <mpf-input
+                label="{label: 'Segmento comercial', required: false}"
+                name="commercialSegment"
+                ng-disabled="true"
+                ng-model="vm.form.segmentoComercial">
+              </mpf-input>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-3 mb-xs-2">
+              <mpf-select
+                m-data-source="vm.paramsForm.TIPO_PERS_VAL"
+                ng-model="vm.form.tipoPersona"
+                name="personType"
+                m-Empty-Option="{enterData:true}"
+                label="{label: 'Tipo de persona', required: false}"
+                value-field="codigo"
+                text-field="descripcion"
+                ng-disabled="true"
+                ng-required="true">
+              </mpf-select>
+              <ul class="g-error">
+                <li ng-show="personalInformationForm.personType.$error.required && !personalInformationForm.personType.$pristine">* Seleccione un tipo de persona</li>
+              </ul>
+            </div>
+            <div class="col-md-3 mb-xs-2">
+              <mpf-select
+                m-data-source="vm.countries"
+                ng-model="vm.form.nacionalidad"
+                name="nationality"
+                m-Empty-Option="{enterData:true}"
+                label="{label: 'Nacionalidad', required: true}"
+                value-field="codigo"
+                text-field="descripcion"
+                ng-required="true">
+              </mpf-select>
+              <ul class="g-error">
+                <li ng-show="personalInformationForm.nationality.$error.required &&  !personalInformationForm.nationality.$pristine">* Seleccione una nacionalidad</li>
+              </ul>
+            </div>
+            <div class="col-md-3 mb-xs-2">
+              <mpf-select
+                m-data-source="vm.paramsForm.TIP_DOCU_VAL"
+                ng-model="vm.form.documento"
+                name="documentType"
+                label="{label: 'Tipo de documento', required: false}"
+                value-field="codigo"
+                text-field="descripcion"
+                ng-required="true"
+                ng-disabled="true">
+              </mpf-select>
+              <ul class="g-error">
+                <li ng-show="personalInformationForm.documentType.$error.required && !personalInformationForm.documentType.$pristine">* Seleccione tipo de documento</li>
+              </ul>
+            </div>
+            <div class="col-md-3 mb-xs-2">
+              <mpf-input
+                label="{label: 'Número de documento', required: false}"
+                ng-model="vm.numeroDocumento"
+                name="documentNumber"
+                ng-required="true"
+                ng-disabled="true">
+              </mpf-input>
+              <ul class="g-error">
+                <li ng-show="personalInformationForm.documentNumber.$invalid && !personalInformationForm.documentNumber.$pristine">* Ingrese un número de documento</li>
+              </ul>
+            </div>
+          </div>
+          <div class="row" ng-if="!vm.isRuc">
+            <div class="col-md-3 mb-xs-2">
+              <mpf-input
+                label="{label: 'Nombre', required: false}"
+                name="name"
+                ng-model="vm.form.nombre"
+                ng-disabled="true"
+                ng-required="true"
+                ng-maxlength="80">
+              </mpf-input>
+              <ul class="g-error">
+                <li ng-show="personalInformationForm.name.$invalid && !personalInformationForm.name.$pristine">* Ingrese su nombre</li>
+              </ul>
+            </div>
+            <div class="col-md-3 mb-xs-2">
+              <mpf-input
+                label="{label: 'Apellido paterno', required: false}"
+                name="lastName"
+                ng-model="vm.form.apellidoPaterno"
+                ng-disabled="true"
+                ng-required="!vm.requiredFieldsForm(vm.fields.LAST_NAME)"
+                ng-maxlength="30">
+              </mpf-input>
+              <ul class="g-error">
+                <li ng-show="personalInformationForm.lastName.$invalid && !personalInformationForm.lastName.$pristine">* Ingrese su apellido paterno</li>
+              </ul>
+            </div>
+            <div class="col-md-3 mb-xs-2">
+              <mpf-input
+                label="{label: 'Apellido materno', required: false}"
+                name="lastNameMother"
+                ng-model="vm.form.apellidoMaterno"
+                ng-disabled="true"
+                ng-required="!vm.requiredFieldsForm(vm.fields.MOTHER_LAST_NAME)"
+                ng-maxlength="30">
+              </mpf-input>
+              <ul class="g-error">
+                <li ng-show="personalInformationForm.lastNameMother.$invalid && !personalInformationForm.lastNameMother.$pristine">* Ingrese su apellido materno</li>
+              </ul>
+            </div>
+            <div class="col-md-3 mb-xs-2">
+              <mpf-select
+                m-data-source="vm.paramsForm.MCA_SEXO"
+                ng-model="vm.form.sexo"
+                name="gender"
+                m-Empty-Option="{enterData:true}"
+                label="{label: 'Sexo', required: (!vm.requiredFieldsForm(vm.fields.GENDER) && !vm.disabledFieldsForm(vm.fields.GENDER))}"
+                value-field="codigo"
+                ng-disabled="vm.disabledFieldsForm(vm.fields.GENDER)"
+                text-field="descripcion"
+                mpf-validation="required" 
+                ng-required="!vm.requiredFieldsForm(vm.fields.GENDER)">
+              </mpf-select>
+              <ul class="g-error">
+                <li ng-show="personalInformationForm.gender.$invalid && !personalInformationForm.gender.$pristine">* Ingrese su género</li>
+              </ul>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-3 mb-xs-2" ng-if="!vm.isRuc">
+              <mpf-datepicker label="{label: 'Fecha de nacimiento', required: false}" 
+                ng-model="vm.form.fechaNacimiento" 
+                format="'dd/MM/yyyy'"
+                name="dateBirth"
+                ng-required="!vm.requiredFieldsForm(vm.fields.DATE_BIRTH)" 
+                ng-disabled="true"
+                set-max-today="true"
+                nomargin="true">
+              </mpf-datepicker>
+              <ul class="g-error">
+                <li ng-show="personalInformationForm.dateBirth.$invalid && !personalInformationForm.dateBirth.$pristine">* Ingrese su fecha de nacimiento</li>
+              </ul>
+            </div>
+            <div class="col-md-3 mb-xs-2" ng-if="!vm.isRuc">
+              <mpf-input
+                label="{label: 'Lugar de nacimiento', required: false}"
+                name="placeBirth"
+                ng-model="vm.form.lugarNacimiento"
+                ng-maxlength="50">
+              </mpf-input>
+            </div>
+            <div class="col-md-3 mb-xs-2" ng-if="!vm.isRuc">
+              <mpf-select
+                m-data-source="vm.paramsForm.COD_EST_CIVIL"
+                ng-model="vm.form.estadoCivil"
+                m-Empty-Option="{enterData:true}"
+                name="civilStatus"
+                label="{label: 'Estado civil', required: false}"
+                value-field="codigo"
+                text-field="descripcion">
+              </mpf-select>
+            </div>
+            <div class="col-md-3 mb-xs-2" ng-if="vm.isRuc">
+              <mpf-input
+                label="{label: 'Razón social', required: false}"
+                name="razonSocial"
+                ng-model="vm.form.nombre"
+                ng-disabled="true"
+                ng-required="true"
+                ng-maxlength="80">
+              </mpf-input>
+              <ul class="g-error">
+                <li ng-show="personalInformationForm.razonSocial.$invalid && !personalInformationForm.razonSocial.$pristine">* Ingrese su razón social</li>
+              </ul>
+            </div>
+            <div class="col-md-3 mb-xs-2" ng-if="vm.isRuc">
+              <mpf-datepicker label="{label: 'Fecha de aniversario', required: false}" 
+                ng-model="vm.form.fechaAniversario" 
+                format="'dd/MM/yyyy'"
+                name="dateAniv"
+                set-max-today="true"
+                nomargin="true">
+              </mpf-datepicker>
+            </div>
+            <div class="col-md-3 mb-xs-2">
+              <mpf-input
+                label="{label: 'Número de hijos', required: false}"
+                name="numberChildren"
+                ng-model="vm.form.numeroHijos"
+                mpf-validation="onlyNumber"
+                ng-maxlength="2"
+                trn-length="2"
+              ></mpf-input>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-3 mb-xs-2">
+              <mpf-select
+                m-data-source="vm.paramsForm.NIV_EDUCATIVO"
+                ng-model="vm.form.nivelEducativo"
+                name="educationLevel"
+                m-Empty-Option="{enterData:true}"
+                label="{label: 'Nivel educativo', required: false}"
+                value-field="codigo"
+                text-field="descripcion">
+              </mpf-select>
+            </div>
+            <div class="col-md-3 mb-xs-2" ng-if="!vm.isRuc">
+              <mpf-select
+                m-data-source="vm.paramsForm.PROF_OCUP_VAL"
+                ng-model="vm.form.tipoProfesion"
+                name="profession"
+                m-Empty-Option="{enterData:true}"
+                label="{label: 'Profesión', required: false}"
+                value-field="codigo"
+                text-field="descripcion">
+              </mpf-select>
+            </div>
+            <div class="col-md-3 mb-xs-2" ng-if="!vm.isRuc">
+              <mpf-select
+                m-data-source="vm.paramsForm.PROF_OCUP_VAL"
+                ng-model="vm.form.ocupacion"
+                name="occupation"
+                m-Empty-Option="{enterData:true}"
+                label="{label: 'Ocupación', required: !vm.requiredFieldsForm(vm.fields.OCCUPATION)}"
+                value-field="codigo"
+                text-field="descripcion"
+                ng-required="!vm.requiredFieldsForm(vm.fields.OCCUPATION)">
+              </mpf-select>
+              <ul class="g-error">
+                <li ng-show="personalInformationForm.occupation.$invalid && !personalInformationForm.occupation.$pristine">* Seleccione una ocupación</li>
+              </ul>
+            </div>
+            <div class="col-md-3 mb-xs-2" ng-if="!vm.isRuc">
+              <mpf-datepicker  id="personalInformation" label="{label: 'Fecha defunción', required: false}" 
+                ng-model="vm.form.fechaDefuncion" 
+                set-model-by-this-data="vm.form.fechaDefuncion"
+                format="'dd/MM/yyyy'"
+                name="dateDeath"
+                parsear-to-date="true"
+                readonly="false"
+                max-date ="vm.toDay"
+                set-max-today="true"
+                nomargin="true"
+              >
+              </mpf-datepicker>
+              <ul class="g-error">
+                <li ng-show="personalInformationForm.dateDeath.$invalid">* Ingrese una fecha válida</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row" ng-if="vm.isRuc">
+        <div class="g-section h-myd-mt--20">
+          <div class="container">
+            <div class="row">
+              <div class="col-md-12">
+                <h2 class="g-sub-title g-myd-subtitle">Actividad económica</h2>
+              </div>
+              <div ng-hide="vm.form.actividadEconomica" class="col-md-4 col-md-offset-4 text-center mt-xs-3 h-myd-mt--20">
+                <a ng-click="showModalActivities()" class="g-btn-verde btn-lg"><span>BUSCA Y SELECCIONA UNA ACTIVIDAD</span></a>
+              </div>
+              <div ng-show="vm.form.actividadEconomica">
+                <div class="col-md-4 mb-xs-2">
+                  <div>
+                    <div class="actividad-seleccionada">
+                      <h3 class="g-label mb-xs-2 h-myd-mb--5">Actividad *</h3>
+                      <span class="cod col-15-dktp">{{vm.form.actividadEconomica.codigo}}</span>
+                      <span class="descAct col-75-dktp">{{vm.form.actividadEconomica.descripcion}}</span>
+                      <span ng-click="showModalActivities()" class="ico-opneAct col-6-dktp"><i class="glyphicon glyphicon-edit"></i></span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <ul class="g-error">
+              <li ng-show="personalInformationForm.economicActivity.$invalid && !personalInformationForm.economicActivity.$pristine">* Ingrese una actividad económica</li>
+            </ul>
+          </div>
+        </div>
+        <mpf-input 
+          ng-show="false"
+          label=""
+          name="economicActivity"
+          ng-model="vm.form.actividadEconomica.codigo"
+          ng-required="true"
+        ></mpf-input>
+      </div>
+    </div>
+  </div>
+</ng-form>

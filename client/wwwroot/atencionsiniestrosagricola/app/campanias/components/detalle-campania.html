@@ -1,0 +1,72 @@
+<div class="g-title g-border-bottom">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6">
+                <h1 class="ng-binding">Campaña
+                    {{objCampaniaDatosGenerales.descripcion}} (Cód {{objCampaniaDatosGenerales.codigo}})</h1>
+            </div>
+            <div class="col-md-2">
+            </div>        
+            <div class="col-md-4">
+                <span class="col-md-6" ng-if="objCampaniaDatosGenerales.estadoRegistro  != 'I'">
+                </span>
+                <span class="col-md-6">
+                    <a class="g-btn g-btn-white block second-design mr-md-1"
+                    ng-click="clonarCampania()">CLONAR</a>
+                </span>
+                <span class="col-md-6" ng-if="objCampaniaDatosGenerales.estadoRegistro  == 'I'">
+                    <a class="g-btn second-design g-btn-verde block mr-md-1"
+                     ng-click="activarCampania();">Activar Campaña</a>
+                </span>               
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="col-md-12">
+    <div class="g-menu-main__box">
+        <div class="container">
+            <ul class="g-menu-main hidden-xs hidden-sm">
+                <span ng-repeat="item in menuConsulta" class="wdMenuConsulta">
+                    <li class="link col-md-12" ng-class="{'actived':item.elementoActivo}"><a ng-click="refMenuActive(item.codigoMenu);"
+                            class="styleMenuconsulta">{{item.elementoMenu}}
+                        </a></li>
+                </span>
+            </ul>
+        </div>
+    </div>
+    <br>
+    <div>
+
+    </div>
+</div>
+<!--Inicio: Usuarios Asignados-->
+<section>
+    <div class="dashboard-body" ng-model="mListado" ng-hide="mListado != 1">
+        <tab-usuario-campania masters="masters"></tab-usuario-campania>
+    </div>
+</section>
+<!--Inicio: Grupo Cultivo-->
+<section>
+    <div class="dashboard-body" ng-model="mListado" ng-hide="mListado != 2">
+        <tab-grupo-cultivo-campania masters="masters"></tab-grupo-cultivo-campania>
+    </div>
+</section>
+<!--Inicio: Sectores Estadísticos-->
+<section>
+    <div class="dashboard-body" ng-model="mListado" ng-hide="mListado != 3">
+        <tab-sector-estad-campania masters="masters"></tab-sector-estad-campania>
+    </div>
+</section>
+<!--Inicio: Relación Sector-Cultivo-->
+<section>
+    <div class="dashboard-body" ng-model="mListado" ng-hide="mListado != 4">
+        <tab-rel-sector-cultivo-campania masters="masters"></tab-rel-sector-cultivo-campania>      
+    </div>
+</section>
+<!--Inicio: Grupo Parámetro-->
+<section>
+    <div class="dashboard-body" ng-model="mListado" ng-hide="mListado != 5">
+        <tab-grupo-parametro-campania masters="masters"></tab-grupo-parametro-campania>
+    </div>
+</section>

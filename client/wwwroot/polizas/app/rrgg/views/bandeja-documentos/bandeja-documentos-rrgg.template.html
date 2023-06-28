@@ -1,0 +1,159 @@
+<section class="g-page page-automovil-cotizar g-ui-view">
+  <div class="g-title">
+    <div class="container">
+      <div class="row">
+        <div class="col-sm-9 mb-xs-2 no-mb-sm">
+          <h1>Bandeja de Riesgos generales</h1>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="g-section-inner">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-3 mb-xs-2">
+          <div show-filter
+            class="clearfix g-col-filter g-box-md fz14 gBgcGray5-md gBgcWhite1 g-myd-box g-myd-box--filter"
+            ng-class="{'show': isFilterVisible}">
+            <div class="col-md-12 mb-xs-3 gH4 gCGray1">
+              <h2 class="pb-xs-1 g-border-bottom-xs hidden-xs hidden-sm"><b>Opciones de Búsqueda</b></h2>
+              <div id="show-filter" class="row pt-xs-2 pb-xs-2 gBgcGray5 g-border-bottom-xs hidden-md hidden-lg"
+                ng-click="toggleFilter();">
+                <div class="col-xs-10">
+                  <h2><b>Filtro</b></h2>
+                </div>
+                <div class="col-xs-2 g-text-right-xs">
+                  <span class="glyphicon glyphicon-chevron-down" ng-if="isFilterVisible"></span>
+                  <span class="glyphicon glyphicon-chevron-up" ng-if="!isFilterVisible"></span>
+                </div>
+                <div class="clearfix"></div>
+              </div>
+            </div>
+            <div class="g-col-filter__box">
+              <div class="col-md-12 mb-xs-2">
+                <mpf-input label="{label: 'Nombre de asegurado', required: false}" name="nameAsegurado"
+                  ng-model="filter.asegurado"></mpf-input>
+              </div>
+              <div class="col-md-12 mb-xs-2">
+                <mpf-input label="{label: 'Número de cotización', required: false}" name="numCotizacion"
+                  ng-model="filter.nroCotizacion"></mpf-input>
+              </div>
+              <div class="col-md-12 mb-xs-2">
+                <mpf-select ng-model="filter.producto" name="productos" label="{label: 'Filtrar por producto'}"
+                  m-data-source="productos" text-field="Descripcion" value-field="CodigoRiesgoGeneral"
+                  m-Empty-Option="{enterData:true}">
+                </mpf-select>
+              </div>
+              <div class="col-sm-6 mb-xs-2">
+                <mpf-datepicker label="{label: 'Desde', required: false}" ng-model="filter.FechaDesde" format="format"
+                  name="nFechaInicial" ng-required="false" ng-disabled="disabled" readonly="false"
+                  maxDate="validadores.maxStartDate">
+                </mpf-datepicker>
+              </div>
+              <div class="col-sm-6 mb-xs-2">
+                 <mpf-datepicker label="{label: 'Hasta',required: false}" ng-model="filter.FechaHasta" format="format"
+                  name="mFechaFinal" ng-required="false" ng-disabled="disabled" readonly="false"
+                  maxDate="validadores.maxStartDate" >
+                </mpf-datepicker>
+              </div>
+              <div class="col-md-12 mb-xs-1">
+                <a ng-click="filterCotizacion()" class="g-btn g-btn-verde block">Filtrar</a>
+              </div>
+              <div class="col-md-12">
+                <a ng-click="clearfilter()" class="g-btn g-btn-white block">Limpiar</a>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-9">
+          <div class="row">
+            <div class="col-xs-12" ng-repeat="item in cotizacion">
+              <div class="clearfix g-box g-overflow-hidden-xs mb-xs-2">
+                <div class="g-box-top gBgcGray5 pt-xs-2 pb-xs-1 pl-xs-2 pr-xs-2 g-box--mb">
+                  <div class="row">
+                    <div class="col-sm-4 col-md-3 mb-xs-2 mb-md-0">
+                      <p class="mb-xs-0"><b>Nro. Cotización</b></p>
+                      <p class="mb-xs-0">{{item.NU_NRO_TRAMITE}}</p>
+                    </div>
+                    <div class="col-sm-4 col-md-3 mb-xs-2 mb-md-0">
+                      <p class="mb-xs-1"><b>Asegurado:</b></p>
+                      <p class="mb-xs-0">{{item.ASEGURADO}}</p>
+                    </div>
+                    <div class="col-sm-4 col-md-3 mb-xs-2 mb-md-0">
+                      <p class="mb-xs-1"><b>Corredor:</b></p>
+                      <p class="mb-xs-0">{{item.CORREDOR}}</p>
+                    </div>
+                    <div class="col-md-3">
+                      <div class="row">
+                        <div ng-if="item.ESTADO === constantsRrgg.COT_ESTADO.REGISTRADO" ng-click="openResumen(item)"
+                          class="col-sm-6 col-md-12 clearfix">
+                          <a class="g-btn g-btn-verde  block mb-xs-1 g-btn--height">Ver más</a>
+                        </div>
+                        <div ng-click="dowloadPdf(item)" class="col-sm-6 col-md-12 clearfix">
+                          <a class="g-btn g-btn-white block g-btn--height">Descargar cotización</a>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="pt-xs-2 pb-xs-2 pl-xs-2 pr-xs-2">
+                  <div class="row">
+                    <div class="col-sm-4 col-md-3 mb-xs-2 mb-sm-0">
+                      <p class="mb-xs-1"><b>Producto:</b></p>
+                      <p class="mb-xs-0">{{item.PRODUCTO}}</p>
+                    </div>
+                    <div ng-if="item.Ramo" class="col-sm-4 col-md-3 mb-xs-2 mb-sm-0">
+                      <p class="mb-xs-1"><b>Ramo:</b></p>
+                      <p class="mb-xs-0">{{item.Ramo}}</p>
+                    </div>
+                    <div ng-if="item.TipProyecto" class="col-sm-4 col-md-3 mb-xs-2 mb-sm-0">
+                      <p class="mb-xs-1"><b>Tipo de proyecto:</b></p>
+                      <p class="mb-xs-0">{{item.TipProyecto}}</p>
+                    </div>
+                    <div class="col-sm-4 col-md-3 mb-xs-2 mb-sm-0">
+                      <p class="mb-xs-1"><b>Moneda:</b></p>
+                      <p class="mb-xs-0">{{item.MONEDA}}</p>
+                    </div>
+                    <div class="col-sm-4 col-md-3">
+                      <p class="mb-xs-1"><b>Estado:</b></p>
+                      <p>{{item.ESTADO}}</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row" ng-if="pagination.noSearch">
+            <div class="col-md-12 text-center g-box-noresult">
+              <div class="row">
+                <div class="col-md-12 g-box-noresult-ico gCBlue2">
+                  <span class="ico-mapfre_303_informacion"></span>
+                </div>
+                <div class="col-md-12 g-box-noresult-text">
+                  Realiza una búsqueda para obtener resultados.
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row" ng-if="pagination.noResult">
+            <div class="col-md-12 text-center g-box-noresult">
+              <div class="row">
+                <div class="col-md-12 g-box-noresult-ico gCRed1"><span class="ico-mapfre_302_error"></span></div>
+                <div class="col-md-12 g-box-noresult-text">
+                  No hay resultados para los filtros escogidos.<br>Intenta denuevo.
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row" ng-if="!pagination.noResult && pagination.totalItems > 10">
+            <div class="col-md-12">
+              <ul uib-pagination class="g-pagination" ng-model="pagination.currentPage" max-size="pagination.maxSize"
+                total-items="pagination.totalItems" ng-change="pageChanged(pagination.currentPage)"
+                boundary-link-numbers="true"></ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,84 @@
+<section>
+	<button type="button" class="close g-close-modal" ng-click="$ctrl.dismiss()">
+		<span class="ico-mapfre_231_cancelaroff"></span>
+	</button>
+	<form name="frmRegister">
+		<div class="container">
+			<div class="row">
+				<div class="col-md-10 col-md-offset-1">
+					<div class="row">
+						<div class="col-md-12 mb-xs-2">
+							<mpf-input 
+								data-ng-model="$ctrl.form.nombre" 
+								ng-required="true" 
+								ng-maxlength="100"
+								label="{label: $ctrl.label, required: true}" 
+								name="nName"
+								capitalize>
+							</mpf-input>
+							<ul class="g-error">
+								<li ng-show="frmRegister.nName.$invalid && !frmRegister.nName.$pristine">
+									Ingrese el nombre
+								</li>
+							</ul>
+						</div>
+						<div class="col-md-12" data-ng-if="$ctrl.showButton">
+							<div class="c-button__content g-center-flex">
+								<div class="c-image__container-dark">
+									<div class="c-button__upload-large">
+										<upload-button-cemetery 
+											data-is-light="false"
+											data-is-icon="false"
+											data-label="'Cargar icono'"
+											data-title-button="'+ SELECCIONAR ARCHIVO'"
+											data-img-width="$ctrl.format.valor2"
+											data-img-height="$ctrl.format.valor3"
+											data-on-upload="$ctrl.uploadImage($event)">
+										</upload-button-cemetery>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="col-md-12 mb-xs-2" data-ng-if="!$ctrl.showButton">
+							<div class="c-button__content g-center-flex">
+								<div class="c-image__container-ligth">
+									<span class="c-image__name">{{$ctrl.nombreImagen}}</span>
+									<a href="" ng-click="$ctrl.trashImage()"><i class="glyphicon glyphicon-trash nvt-btn-crud"></i></a>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="col-md-12 pl-md-0 pr-md-0 mb-xs-2 g-text-center-md" data-ng-if="$ctrl.showButton">
+						<p class="c-section__subtitle">{{$ctrl.format.valor1}}</p>
+					</div>
+					<div class="col-md-12 pl-md-0 pr-md-0 mb-xs-2 g-text-center-md" data-ng-if="$ctrl.showDescription">
+						<mpf-textarea class="col-100-md h-50-md" 
+							label="{label: 'Descripción', required: $ctrl.showDescription}"
+							ng-required="$ctrl.showDescription"
+							data-ng-model="$ctrl.form.description" 
+							name="nDescription"
+							ng-Maxlength="200">
+						</mpf-textarea>
+						<ul class="g-error g-text-left-md">
+							<li ng-show="frmRegister.nDescription.$invalid && !frmRegister.nDescription.$pristine">
+								Ingrese la descripción
+							</li>
+						</ul>
+					</div>
+				</div>
+				<div class="row mt-xs-2">
+					<div class="col-md-4 col-md-offset-2 mb-xs-1 no-mb-md">
+						<a href="" class="g-btn g-btn-transparent block" ng-click="$ctrl.close()">Cancelar</a>
+					</div>
+					<div class="col-md-4">
+						<a	href="" 
+							class="g-btn g-btn-verde block" 
+							ng-class="{disabled: frmRegister.$invalid || $ctrl.isDisabled}" 
+							ng-click="$ctrl.saveParameter()">Crear
+						</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</form>
+</section>

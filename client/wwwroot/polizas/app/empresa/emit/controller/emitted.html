@@ -1,0 +1,579 @@
+<section class="g-page g-page-documents g-ui-view">
+	<div class="">
+		<section class="g-page">
+			<div class="g-title">
+				<div class="container">
+					<div class="row">
+						<div class="col-sm-8">
+							<h1>Póliza Emitida</h1>
+						</div>
+						<div class="col-md-4 g-text-right-sm hidden-sm hidden-xs">
+							<a class="g-btn g-btn-white second-design block" ui-sref="companyquot.steps({step: 1})">Cotizar nueva póliza empresa</a>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="g-section">
+				<div class="container">
+					<div class="col-md-12 g-box fz14 pt-xs-2 pb-xs-2">
+						<div class="row gH4">
+							<div class="col-sm-6 mb-sm-2 mb-xs-1">
+								<h2 class="gCGray1 g-text-uppercase"><b>Póliza de empresa</b></h2>
+							</div>
+							<div class="col-sm-6 mb-xs-2 g-text-right-sm">
+								Nro. Póliza: <b> {{data.NumeroPoliza}}</b>
+							</div>
+						</div>
+						<div class="row gBgcGray5">
+							<div class="col-md-12 mb-xs-1 pt-xs-1">
+								<h2 class="gH4 gCGray1 g-border-bottom-xs"><b>Prima</b></h2>
+							</div>
+						</div>
+						<ul class="row g-list-md gBgcGray5">
+							<li class="col-md-4 clearfix cnt-item">
+								<div class="col-xs-7 item-label">
+									<span class="ico-mapfre_82_circle ico-bullet"></span>Prima Comercial:
+								</div>
+								<div class="col-xs-5 item-dato g-text-uppercase text-right">
+									<span ng-show="data.Moneda.Codigo == 1">S/ </span>
+									<span ng-show="data.Moneda.Codigo == 2">$ </span>
+									{{data.ConceptosDesglose.PrimaComercial | number: 2}}
+								</div>
+							</li>
+						</ul>
+						<ul class="row g-list-md gBgcGray5">
+							<li class="col-md-4 clearfix cnt-item">
+								<div class="col-xs-7 item-label">
+									<span class="ico-mapfre_82_circle ico-bullet"></span>Descuento MAPFRE DÓLARES:
+								</div>
+								<div class="col-xs-5 item-dato g-text-uppercase text-right">
+									$ {{data.ImporteMapfreDolar | number: 2}}
+								</div>
+							</li>
+						</ul>
+						<ul class="row g-list-md gBgcGray5">
+							<li class="col-md-4 clearfix cnt-item">
+								<div class="col-xs-7 item-label">
+									<span class="ico-mapfre_82_circle ico-bullet"></span>IGV:
+								</div>
+								<div class="col-xs-5 item-dato g-text-uppercase text-right">
+									<span ng-show="data.Moneda.Codigo == 1">S/ </span>
+									<span ng-show="data.Moneda.Codigo == 2">$ </span>
+	                {{data.ConceptosDesglose.Igv | number: 2}}
+								</div>
+							</li>
+						</ul>
+						<ul class="row g-list-md gBgcGray5">
+							<li class="col-md-4 clearfix cnt-item">
+								<div class="col-xs-7 item-label">
+									<span class="ico-mapfre_82_circle ico-bullet"></span>Total:
+								</div>
+								<div class="col-xs-5 item-dato g-text-uppercase text-right">
+									<span ng-show="data.Moneda.Codigo == 1">S/ </span>
+									<span ng-show="data.Moneda.Codigo == 2">$ </span>
+									{{data.ConceptosDesglose.PrimaTotal | number: 2}}
+								</div>
+							</li>
+						</ul>
+						<div class="row">
+							<div class="col-md-12 mb-xs-1 pt-xs-1">
+								<h2 class="gH4 gCGray1 g-border-bottom-xs"><b>Datos de la póliza</b></h2>
+							</div>
+						</div>
+						<ul class="row g-list-md mb-xs-1">
+							<li class="col-md-4 clearfix cnt-item">
+								<div class="col-xs-5 item-label">
+									<span class="ico-mapfre_82_circle ico-bullet"></span>Producto:
+								</div>
+								<div class="col-xs-7 item-dato g-text-uppercase">
+									{{data.Producto.NombreProducto}}
+								</div>
+							</li>
+							<li class="col-md-4 clearfix cnt-item">
+								<div class="col-xs-5 item-label">
+									<span class="ico-mapfre_82_circle ico-bullet"></span>Fecha de inicio:
+								</div>
+								<div class="col-xs-7 item-dato g-text-uppercase">
+									{{data.FechaVigenciaInicio}}
+								</div>
+							</li>
+							<li class="col-md-4 clearfix cnt-item">
+								<div class="col-xs-5 item-label">
+									<span class="ico-mapfre_82_circle ico-bullet"></span>Fecha de término:
+								</div>
+								<div class="col-xs-7 item-dato g-text-uppercase">
+									{{data.FechaVigenciaFin}}
+								</div>
+							</li>
+						</ul>
+						<ul class="row g-list-md mb-xs-1" ng-show="data.PolizaGrupo.Descripcion != ''">
+							<li class="col-md-4 clearfix cnt-item">
+								<div class="col-xs-5 item-label">
+									<span class="ico-mapfre_82_circle ico-bullet"></span>Póliza de grupo:
+								</div>
+								<div class="col-xs-7 item-dato g-text-uppercase">
+									{{data.PolizaGrupo.Descripcion}}
+								</div>
+							</li>
+						</ul>
+						<div class="row">
+							<div class="col-md-12 mb-xs-1">
+								<h2 class="gH4 gCGray1 g-border-bottom-xs"><b>Datos del riesgo</b></h2>
+							</div>
+						</div>
+						<div class="clearfix mb-xs-2" ng-repeat="item in data.Riesgos">
+							<div class="col-md-12 g-box">
+								<div class="row">
+									<div class="col-md-12 gBgcGray5 pt-xs-1 pb-xs-1"> 
+			              <div class="row">
+			                <div class="col-md-8 col-sm-8 col-xs-4 mt-xs-1">
+			                  <b>RIESGO {{$index+1}}</b>
+			                </div>
+			                <div class="col-md-3 col-sm-3 col-xs-5 mt-xs-1">
+			                  <!-- <b>PRIMA TOTAL   S/525.00</b> -->
+			                </div>
+			              </div>
+			            </div>
+			            <div class="col-md-12 gBgcGray5 pt-xs-1 pb-xs-1 mt-xs-0-1">
+		                <div class="row">
+		                  <div class="col-md-4 col-sm-4 col-xs-12">
+		                    <span class=""><b>DIRECCIÓN:</b> {{item.Ubigeo.Departamento.Descripcion}} - {{item.Ubigeo.Provincia.Descripcion}} - {{item.Ubigeo.Distrito.Descripcion}}</span>
+		                  </div>
+		                  <div class="col-md-4 col-sm-4 col-xs-12">
+		                    <span class=""><b>TIPO LOCAL:</b> {{item.Tipolocal.Descripcion}}</span>
+		                  </div>
+		                  <div class="col-md-4 col-sm-4 col-xs-12">
+		                    <span class=""><b>CATEGORÍA:</b> {{item.Categoria.Descripcion}}</span>
+		                  </div>
+		                </div>  
+		              </div> 
+		              <div class="clearfix">
+										<div class="col-md-12 mb-xs-1 mt-xs-2">
+											<h2 class="gH4 gCGray1 g-border-bottom-xs"><b>Datos generales</b></h2>
+										</div>
+									</div>
+									<ul class="clearfix g-list-md mb-xs-1">
+										<li class="col-md-4 clearfix cnt-item">
+											<div class="col-xs-5 item-label">
+												<span class="ico-mapfre_82_circle ico-bullet"></span>Número de pisos:
+											</div>
+											<div class="col-xs-7 item-dato g-text-uppercase">
+												{{item.NumeroPiso}}
+											</div>
+										</li>
+										<li class="col-md-4 clearfix cnt-item">
+											<div class="col-xs-5 item-label">
+												<span class="ico-mapfre_82_circle ico-bullet"></span>Número de sotanos:
+											</div>
+											<div class="col-xs-7 item-dato g-text-uppercase">
+												{{item.NumeroSotano}}
+											</div>
+										</li>
+										<li class="col-md-4 clearfix cnt-item">
+											<div class="col-xs-5 item-label">
+												<span class="ico-mapfre_82_circle ico-bullet"></span>Material de construcción:
+											</div>
+											<div class="col-xs-7 item-dato g-text-uppercase">
+												{{item.MaterialConstruccion.Descripcion}}
+											</div>
+										</li>
+									</ul>
+									<ul class="clearfix g-list-md mb-xs-1">
+										<li class="col-md-4 clearfix cnt-item">
+											<div class="col-xs-5 item-label">
+												<span class="ico-mapfre_82_circle ico-bullet"></span>Uso:
+											</div>
+											<div class="col-xs-7 item-dato g-text-uppercase">
+												{{item.Uso.Descripcion}}
+											</div>
+										</li>
+										<li class="col-md-4 clearfix cnt-item">
+											<div class="col-xs-5 item-label">
+												<span class="ico-mapfre_82_circle ico-bullet"></span>Año de construcción:
+											</div>
+											<div class="col-xs-7 item-dato g-text-uppercase">
+												{{item.AnioConstruccion}}
+											</div>
+										</li>
+										<!-- <li class="col-md-4 clearfix cnt-item">
+											<div class="col-xs-5 item-label">
+												<span class="ico-mapfre_82_circle ico-bullet"></span>Servicio opcional:
+											</div>
+											<div class="col-xs-7 item-dato g-text-uppercase">
+												
+											</div>
+										</li> -->
+									</ul>
+									<div ng-show="item.Inspeccion.Inspector.Codigo != 0">
+										<div class="clearfix">
+										<div class="col-md-12 mb-xs-1">
+											<h2 class="gH4 gCGray1 g-border-bottom-xs"><b>Inspección</b></h2>
+										</div>
+									</div>
+									<ul class="clearfix g-list-md mb-xs-1">
+										<li class="col-md-4 clearfix cnt-item">
+											<div class="col-xs-5 item-label">
+												<span class="ico-mapfre_82_circle ico-bullet"></span>Código de categoría:
+											</div>
+											<div class="col-xs-7 item-dato g-text-uppercase">
+												{{data.Categoria.Codigo}}
+											</div>
+										</li>
+										<li class="col-md-4 clearfix cnt-item">
+											<div class="col-xs-5 item-label">
+												<span class="ico-mapfre_82_circle ico-bullet"></span>Alarma con monitoreo:
+											</div>
+											<div class="col-xs-7 item-dato g-text-uppercase" ng-show="item.AlarmaMonitoreo.McaAlarmaMonitoreo == 'S'">
+											SI
+											</div>
+											<div class="col-xs-7 item-dato g-text-uppercase" ng-show="item.AlarmaMonitoreo.McaAlarmaMonitoreo == 'N'">
+											NO
+											</div>
+										</li>
+										<li class="col-md-4 clearfix cnt-item">
+											<div class="col-xs-5 item-label">
+												<span class="ico-mapfre_82_circle ico-bullet"></span>Rociadores:
+											</div>
+											<div class="col-xs-7 item-dato g-text-uppercase" ng-show="item.Inspeccion.McaRociclador == 'S'">
+												SI
+											</div>
+											<div class="col-xs-7 item-dato g-text-uppercase" ng-show="item.Inspeccion.McaRociclador == 'N'">
+												NO
+											</div>
+										</li>
+									</ul>
+									<ul class="clearfix g-list-md mb-xs-1">
+										<li class="col-md-4 clearfix cnt-item">
+											<div class="col-xs-5 item-label">
+												<span class="ico-mapfre_82_circle ico-bullet"></span>Gabinete:
+											</div>
+											<div class="col-xs-7 item-dato g-text-uppercase" ng-show="item.Inspeccion.McaGabinete == 'S'">
+												SI
+											</div>
+											<div class="col-xs-7 item-dato g-text-uppercase" ng-show="item.Inspeccion.McaGabinete == 'N'">
+												NO
+											</div>
+										</li>
+										<li class="col-md-4 clearfix cnt-item">
+											<div class="col-xs-5 item-label">
+												<span class="ico-mapfre_82_circle ico-bullet"></span>Detector de humo:
+											</div>
+											<div class="col-xs-7 item-dato g-text-uppercase" ng-show="item.Inspeccion.McaDetectoHumo == 'S'">
+												SI
+											</div>
+											<div class="col-xs-7 item-dato g-text-uppercase" ng-show="item.Inspeccion.McaDetectoHumo == 'N'">
+												NO
+											</div>
+										</li>
+										<li class="col-md-4 clearfix cnt-item">
+											<div class="col-xs-5 item-label">
+												<span class="ico-mapfre_82_circle ico-bullet"></span>Vigilancia propia con arma:
+											</div>
+											<div class="col-xs-7 item-dato g-text-uppercase" ng-show="item.Inspeccion.McaVigilanciaPropia == 'S'">
+												SI
+											</div>
+											<div class="col-xs-7 item-dato g-text-uppercase" ng-show="item.Inspeccion.McaVigilanciaPropia == 'N'">
+												NO
+											</div>
+										</li>
+									</ul>
+									<ul class="clearfix g-list-md mb-xs-1">
+										<li class="col-md-4 clearfix cnt-item">
+											<div class="col-xs-5 item-label">
+												<span class="ico-mapfre_82_circle ico-bullet"></span>Vigilancia privada:
+											</div>
+											<div class="col-xs-7 item-dato g-text-uppercase" ng-show="item.Inspeccion.McaVigilanciaPrivada == 'S'">
+												SI
+											</div>
+											<div class="col-xs-7 item-dato g-text-uppercase" ng-show="item.Inspeccion.McaVigilanciaPrivada == 'N'">
+												NO
+											</div>
+										</li>
+										<li class="col-md-4 clearfix cnt-item">
+											<div class="col-xs-5 item-label">
+												<span class="ico-mapfre_82_circle ico-bullet"></span>Cerco eléctrico:
+											</div>
+											<div class="col-xs-7 item-dato g-text-uppercase" ng-show="item.Inspeccion.McaCercoElectrico == 'S'">
+												SI
+											</div>
+											<div class="col-xs-7 item-dato g-text-uppercase" ng-show="item.Inspeccion.McaCercoElectrico == 'N'">
+												NO
+											</div>
+										</li>
+										<li class="col-md-4 clearfix cnt-item">
+											<div class="col-xs-5 item-label">
+												<span class="ico-mapfre_82_circle ico-bullet"></span>Vigilancia del edificio:
+											</div>
+											<div class="col-xs-7 item-dato g-text-uppercase" ng-show="item.Inspeccion.McaVigilanciaEdificio == 'S'">
+												SI
+											</div>
+											<div class="col-xs-7 item-dato g-text-uppercase" ng-show="item.Inspeccion.McaVigilanciaEdificio == 'N'">
+												NO
+											</div>
+										</li>
+									</ul>
+									<ul class="clearfix g-list-md mb-xs-1">
+										<li class="col-md-4 clearfix cnt-item">
+											<div class="col-xs-5 item-label">
+												<span class="ico-mapfre_82_circle ico-bullet"></span>Vigilancia vecinal:
+											</div>
+											<div class="col-xs-7 item-dato g-text-uppercase" ng-show="item.Inspeccion.McaVigilanciaVecinal == 'S'">
+												SI
+											</div>
+											<div class="col-xs-7 item-dato g-text-uppercase" ng-show="item.Inspeccion.McaVigilanciaVecinal == 'N'">
+												NO
+											</div>
+										</li>
+										<li class="col-md-4 clearfix cnt-item">
+											<div class="col-xs-5 item-label">
+												<span class="ico-mapfre_82_circle ico-bullet"></span>Código inspector:
+											</div>
+											<div class="col-xs-7 item-dato g-text-uppercase">
+												{{item.Inspeccion.Inspector.Codigo}}
+											</div>
+										</li>
+										<li class="col-md-4 clearfix cnt-item">
+											<div class="col-xs-5 item-label">
+												<span class="ico-mapfre_82_circle ico-bullet"></span>Fecha inspección del riesgo:
+											</div>
+											<div class="col-xs-7 item-dato g-text-uppercase">
+												{{item.Inspeccion.FechaInspeccion}}
+											</div>
+										</li>
+									</ul>
+									<ul class="clearfix g-list-md mb-xs-1">
+										<li class="col-md-4 clearfix cnt-item">
+											<div class="col-xs-5 item-label">
+												<span class="ico-mapfre_82_circle ico-bullet"></span>Texto de garantías:
+											</div>
+											<div class="col-xs-7 item-dato g-text-uppercase">
+												{{data.DescripcionGarantia}}
+											</div>
+										</li>
+									</ul>	
+									</div>
+									
+		            </div>
+	            </div>
+            </div>
+            <div class="row">
+							<div class="col-md-12 mb-xs-1">
+								<h2 class="gH4 gCGray1 g-border-bottom-xs"><b>Datos del contratante</b></h2>
+							</div>
+						</div>
+						<ul class="row g-list-md mb-xs-1">
+							<li class="col-md-4 clearfix cnt-item">
+								<div class="col-xs-5 item-label">
+									<span class="ico-mapfre_82_circle ico-bullet"></span>Tipo de documento:
+								</div>
+								<div class="col-xs-7 item-dato g-text-uppercase">
+									{{data.Contratante.TipoDocumento.Descripcion}} 
+								</div>
+							</li>
+							<li class="col-md-4 clearfix cnt-item">
+								<div class="col-xs-5 item-label">
+									<span class="ico-mapfre_82_circle ico-bullet"></span>Nro. Documento:
+								</div>
+								<div class="col-xs-7 item-dato g-text-uppercase">
+									{{data.Contratante.NumeroDocumento}}
+								</div>
+							</li>
+						</ul>
+						<ul class="row g-list-md mb-xs-1">
+							<li class="col-md-4 clearfix cnt-item">
+								<div class="col-xs-5 item-label">
+									<span class="ico-mapfre_82_circle ico-bullet"></span>Nombre:
+								</div>
+								<div class="col-xs-7 item-dato g-text-uppercase">
+									{{data.Contratante.Nombre}}
+								</div>
+							</li>
+							<li class="col-md-4 clearfix cnt-item">
+								<div class="col-xs-5 item-label">
+									<span class="ico-mapfre_82_circle ico-bullet"></span>Apellido Paterno:
+								</div>
+								<div class="col-xs-7 item-dato g-text-uppercase">
+									{{data.Contratante.ApellidoPaterno}}
+								</div>
+							</li>
+							<li class="col-md-4 clearfix cnt-item">
+								<div class="col-xs-5 item-label">
+									<span class="ico-mapfre_82_circle ico-bullet"></span>Apellido Materno:
+								</div>
+								<div class="col-xs-7 item-dato g-text-uppercase">
+									{{data.Contratante.ApellidoMaterno}}
+								</div>
+							</li>
+						</ul>
+						<ul class="row g-list-md mb-xs-1">
+							<li class="col-md-4 clearfix cnt-item">
+								<div class="col-xs-5 item-label">
+									<span class="ico-mapfre_82_circle ico-bullet"></span>Fecha Nacimiento:
+								</div>
+								<div class="col-xs-7 item-dato g-text-uppercase">
+									{{data.Contratante.FechaNacimiento}}
+								</div>
+							</li>
+							<li class="col-md-4 clearfix cnt-item">
+								<div class="col-xs-5 item-label">
+									<span class="ico-mapfre_82_circle ico-bullet"></span>Género:
+								</div>
+								<div class="col-xs-7 item-dato g-text-uppercase"">
+									{{data.Contratante.Sexo}}
+								</div>
+							</li>
+							<li class="col-md-4 clearfix cnt-item">
+								<div class="col-xs-5 item-label">
+									<span class="ico-mapfre_82_circle ico-bullet"></span>Profesión:
+								</div>
+								<div class="col-xs-7 item-dato g-text-uppercase g-cut-text" uib-popover="{{data.Contratante.Profesion.Descripcion}}" popover-trigger="'mouseenter'">
+									{{data.Contratante.Profesion.Descripcion}}
+								</div>
+							</li>
+						</ul>
+						<ul class="row g-list-md mb-xs-1">
+							<li class="col-md-4 clearfix cnt-item">
+								<div class="col-xs-5 item-label">
+									<span class="ico-mapfre_82_circle ico-bullet"></span>Teléfono fijo:
+								</div>
+								<div class="col-xs-7 item-dato g-text-uppercase">
+									{{data.Contratante.Telefono}}
+								</div>
+							</li>
+							<li class="col-md-4 clearfix cnt-item">
+								<div class="col-xs-5 item-label">
+									<span class="ico-mapfre_82_circle ico-bullet"></span>Teléfono movil:
+								</div>
+								<div class="col-xs-7 item-dato g-text-uppercase">
+									{{data.Contratante.TelefonoMovil}}
+								</div>
+							</li>
+							<li class="col-md-4 clearfix cnt-item">
+								<div class="col-xs-5 item-label">
+									<span class="ico-mapfre_82_circle ico-bullet"></span>Correo electrónico:
+								</div>
+								<div class="col-xs-7 item-dato g-text-uppercase g-cut-text" uib-popover="{{data.Contratante.CorreoElectronico}}" popover-trigger="'mouseenter'">
+									{{data.Contratante.CorreoElectronico}}
+								</div>
+							</li>
+						</ul>
+						<ul class="row g-list-md mb-xs-1">
+							<li class="col-md-4 clearfix cnt-item">
+								<div class="col-xs-5 item-label">
+									<span class="ico-mapfre_82_circle ico-bullet"></span>Departamento:
+								</div>
+								<div class="col-xs-7 item-dato g-text-uppercase">
+									{{data.Contratante.Ubigeo.Departamento.Descripcion}}
+								</div>
+							</li>
+							<li class="col-md-4 clearfix cnt-item">
+								<div class="col-xs-5 item-label">
+									<span class="ico-mapfre_82_circle ico-bullet"></span>Provincia:
+								</div>
+								<div class="col-xs-7 item-dato g-text-uppercase">
+									{{data.Contratante.Ubigeo.Provincia.Descripcion}}
+								</div>
+							</li>
+							<li class="col-md-4 clearfix cnt-item">
+								<div class="col-xs-5 item-label">
+									<span class="ico-mapfre_82_circle ico-bullet"></span>Distrito:
+								</div>
+								<div class="col-xs-7 item-dato g-text-uppercase">
+									{{data.Contratante.Ubigeo.Distrito.Descripcion}}
+								</div>
+							</li>
+						</ul>
+						<ul class="row g-list-md mb-xs-1">
+							<li class="col-md-4 clearfix cnt-item">
+								<div class="col-xs-5 item-label">
+									<span class="ico-mapfre_82_circle ico-bullet"></span>Via:
+								</div>
+								<div class="col-xs-7 item-dato g-text-uppercase">
+									<!-- PASEO QUIL BLOCK 1 DPTO 1 AA.HH A BLOCK 1 -->
+									{{data.Contratante.Ubigeo.NombreVia}} {{data.Contratante.Ubigeo.TextoNumero}} {{data.Contratante.Ubigeo.NumeroDescripcion}} {{data.Contratante.Ubigeo.InteriorDescripcion}} {{data.Contratante.Ubigeo.ZonaDescripcion}} 
+								</div>
+							</li>
+							<li class="col-md-4 clearfix cnt-item">
+								<div class="col-xs-5 item-label">
+									<span class="ico-mapfre_82_circle ico-bullet"></span>Enumeración:
+								</div>
+								<div class="col-xs-7 item-dato g-text-uppercase">
+									{{data.Contratante.Ubigeo.NumeroDescripcion}}
+								</div>
+							</li>
+							<li class="col-md-4 clearfix cnt-item">
+								<div class="col-xs-5 item-label">
+									<span class="ico-mapfre_82_circle ico-bullet"></span>Enumeración Interior:
+								</div>
+								<div class="col-xs-7 item-dato g-text-uppercase">
+									{{data.Contratante.Ubigeo.InteriorDescripcion}}
+								</div>
+							</li>
+						</ul>
+						<ul class="row g-list-md mb-xs-1">
+							<li class="col-md-4 clearfix cnt-item">
+								<div class="col-xs-5 item-label">
+									<span class="ico-mapfre_82_circle ico-bullet"></span>Zona:
+								</div>
+								<div class="col-xs-7 item-dato g-text-uppercase">
+									{{data.Contratante.Ubigeo.TextoZona}}
+								</div>
+							</li>
+							<li class="col-md-4 clearfix cnt-item">
+								<div class="col-xs-5 item-label">
+									<span class="ico-mapfre_82_circle ico-bullet"></span>Referencia:
+								</div>
+								<div class="col-xs-7 item-dato g-text-uppercase">
+									{{data.Contratante.Ubigeo.Direccion}}
+								</div>
+							</li>
+						</ul>
+						<div class="row">
+							<div class="col-md-12 mb-xs-1 pt-xs-1">
+								<h2 class="gH4 gCGray1 g-border-bottom-xs"><b>Datos del riesgo</b></h2>
+							</div>
+						</div>
+						<ul class="row g-list-md mb-xs-1">
+							<li class="col-md-4 clearfix cnt-item">
+								<div class="col-xs-5 item-label">
+									<span class="ico-mapfre_82_circle ico-bullet"></span>Tipo de financiamiento:
+								</div>
+								<div class="col-xs-7 item-dato g-text-uppercase">
+									{{data.TipoFinanciamiento.Descripcion}}
+								</div>
+							</li>
+							<li class="col-md-4 clearfix cnt-item" ng-show="data.Endosatario.Descripcion != ''">
+								<div class="col-xs-5 item-label">
+									<span class="ico-mapfre_82_circle ico-bullet"></span>Endosatario:
+								</div>
+								<div class="col-xs-7 item-dato g-text-uppercase">
+									{{data.Endosatario.Descripcion}}
+								</div>
+							</li>
+						</ul>
+					</div>
+				</div>
+			</div>
+			<div class="g-section" ng-if="data.EstadoEmision == 'EMITIDA'">
+				<div class="container">
+					<div class="row">
+						<div class="col-md-4 col-sm-6 col-md-offset-2">
+							<a 
+							class="g-btn g-btn-white block" 
+							data-toggle="modal"
+							ng-click="sendEmail()"
+							data-target="{{$parent.modalEmail}}"
+							>enviar por correo
+							</a>
+						</div>
+						<div class="col-md-4 col-sm-6 mt-xs-1 mt-sm-0">
+							<a class="g-btn g-btn-white block" ng-click="downloadResumen(data.Producto.CodigoCia, data.NumeroPoliza)">
+								descargar pdf
+							</a>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+	</div>
+</section>

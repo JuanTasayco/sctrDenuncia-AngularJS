@@ -1,0 +1,143 @@
+    <div class="g-section-inner" ng-form name="frmDatosPersonales">
+      <div class="container">
+        <div class="row">
+          <div class="col-xs-12 mb-xs-1">
+            <h2 class="gH4 gCGray1"><b class="ng-binding">Datos Personales</b></h2>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-sm-4 mb-xs-1">
+            <mpf-select
+              label="{label: 'Tipo de documento: ', required: true}" 
+              name="nTipoDoc" 
+              ng-model="$ctrl.data.mTipoDoc" 
+              m-data-source="$ctrl.tipoDocData"
+              text-field="descripcion" 
+              value-field="codigo" 
+              m-Empty-Option="{enterData:true}" 
+              ng-required="true" 
+              ng-change="$ctrl.fnInferData(); $ctrl.fnChangeTipoDoc()"
+              ng-disabled = $ctrl.data.isEdit
+            ></mpf-select>
+            <ul class="g-error">
+              <li ng-show="
+              frmDatosPersonales.nTipoDoc.$error.required &&
+              !frmDatosPersonales.nTipoDoc.$pristine"
+              >* Este campo es obligatorio</li>
+            </ul>
+          </div>
+
+          <div class="col-sm-4 mb-xs-1">
+            <div ng-if="$ctrl.data.onlyNumber">
+              <mpf-input 
+                label="{label: 'Nro. de documento', required: true}" 
+                name="nNumDoc" 
+                ng-model="$ctrl.data.mNumDoc"
+                ng-required="true"
+                mpf-validation = "onlyNumber"
+                ng-blur = "$ctrl.fnInferData()"
+                ng-maxlength = "$ctrl.data.docNumMaxLength"
+                ng-disabled = $ctrl.data.isEdit
+              ></mpf-input>  
+            </div>
+            <div ng-if="!$ctrl.data.onlyNumber">
+              <mpf-input 
+                label="{label: 'Nro. de documento', required: true}" 
+                name="nNumDoc" 
+                ng-model="$ctrl.data.mNumDoc"
+                ng-required="true"
+                mpf-validation = "onlyLetterNumber"
+                ng-blur = "$ctrl.fnInferData()"
+                ng-maxlength = "$ctrl.data.docNumMaxLength"
+                ng-disabled = $ctrl.data.isEdit
+              ></mpf-input>  
+            </div>
+            <ul class="g-error">
+              <li ng-show="
+              frmDatosPersonales.nNumDoc.$error.required &&
+              !frmDatosPersonales.nNumDoc.$pristine"
+              >* Este campo es obligatorio</li>
+              <li ng-show="!frmDatosPersonales.nNumDoc.$error.required">
+                <span ng-show="($ctrl.data.mTipoDoc.codigo != 4 && $ctrl.data.mTipoDoc.codigo != 6)
+                && $ctrl.data.mNumDoc.length < $ctrl.data.docNumMaxLength">
+                  * La longitud debe ser de {{$ctrl.data.docNumMaxLength}} caracteres</li>
+                </span>
+                <span ng-show="($ctrl.data.mTipoDoc.codigo == 4 || $ctrl.data.mTipoDoc.codigo == 6)
+                && $ctrl.data.mNumDoc.length > 0
+                && $ctrl.data.mNumDoc.length < $ctrl.data.docNumMinLength">
+                  * La mínima longitud debe ser de {{$ctrl.data.docNumMinLength}} caracteres
+                </span>
+              </li>
+            </ul>  
+          </div>       
+        </div>
+        <div class="row" ng-if="!isRuc()">
+          <div class="col-sm-4 mb-xs-1">
+            <mpf-input 
+            label="{label: 'Nombres', required: true}" 
+            name="nNombres" 
+            ng-model="$ctrl.data.mNombres"
+            ng-required="true"
+            mpf-validation="onlyLetter"
+            ng-maxlength="100"
+            ></mpf-input>
+            <ul class="g-error">
+              <li ng-show="
+              frmDatosPersonales.nNombres.$error.required &&
+              !frmDatosPersonales.nNombres.$pristine"
+              >* Este campo es obligatorio</li>
+            </ul>           
+          </div>
+          <div class="col-sm-4 mb-xs-1">
+            <mpf-input 
+            label="{label: 'Apellido Paterno', required: true}" 
+            name="nApellidoPaterno" 
+            ng-model="$ctrl.data.mApellidoPaterno"
+            mpf-validation="onlyLetter"
+            ng-maxlength="100"
+            ng-required = "true"
+            ></mpf-input>
+            <ul class="g-error">
+              <li ng-show="
+              frmDatosPersonales.nApellidoPaterno.$error.required &&
+              !frmDatosPersonales.nApellidoPaterno.$pristine"
+              >* Este campo es obligatorio</li>
+            </ul>            
+          </div>
+          <div class="col-sm-4 mb-xs-1">
+            <mpf-input 
+            label="{label: 'Apellido Materno', required: true}" 
+            name="nApellidoMaterno" 
+            ng-model="$ctrl.data.mApellidoMaterno"
+            mpf-validation="onlyLetter"
+            ng-maxlength="100"
+            ng-required = "true"
+            ></mpf-input>
+            <ul class="g-error">
+              <li ng-show="
+              frmDatosPersonales.nApellidoMaterno.$error.required &&
+              !frmDatosPersonales.nApellidoMaterno.$pristine"
+              >* Este campo es obligatorio</li>
+            </ul>            
+          </div>
+        </div>
+        <div class="row" ng-if="isRuc()">
+          <div class="col-sm-4 mb-xs-1">
+            <mpf-input 
+            label="{label: 'Razón Social', required: true}" 
+            name="nNombres" 
+            ng-model="$ctrl.data.mNombres"
+            ng-required="true"
+            ng-maxlength="100"
+            ></mpf-input>
+            <ul class="g-error">
+              <li ng-show="
+              frmDatosPersonales.nNombres.$error.required &&
+              !frmDatosPersonales.nNombres.$pristine"
+              >* Este campo es obligatorio</li>
+            </ul>           
+          </div>
+        </div> 
+      </div>
+    </div>
+

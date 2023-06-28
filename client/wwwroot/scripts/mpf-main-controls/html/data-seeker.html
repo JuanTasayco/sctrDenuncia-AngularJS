@@ -1,0 +1,25 @@
+<div
+	class="g-autocomplete-desing"
+	ng-class="{'isHorizontal': isHorz}">
+	<label
+		class="g-placeholder animated" ng-class="{'dataSeekerDisabled':getDisabled()}">{{behavior.showTitle!==false ? behavior.label: ''}} <span ng-show="behavior.required">*</span>
+  </label>
+	<ui-select
+		class="g-ui-select"
+		ng-model="ngModel"
+		ng-change="changeModel(ngModel)"
+		ng-class="{'loading': loading,'dataSeekerDisabled':getDisabled()}"
+		theme="select2"
+		title="{{behavior.label}}"
+		ng-disabled="getDisabled()">
+		<ui-select-match
+			placeholder="{{behavior.placeholder}}">{{$select.selected[behavior.matchField]}}
+		</ui-select-match>
+		<ui-select-choices
+			repeat="$item in data track by $index"
+			refresh="search($select.search)"
+			refresh-delay="0">
+			<div template-Seek></div>
+		</ui-select-choices>
+	</ui-select>
+</div>

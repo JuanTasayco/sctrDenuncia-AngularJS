@@ -1,0 +1,169 @@
+<form name="$ctrl.frmConsolidadoObj" class="pt-xs-2">
+  <div class="container">
+    <div class="row">
+      <div class="col-xs-12 col-md-4 col-md-push-8">
+        <div class="row">
+          <wp-info-siniestro data-info="$ctrl.frm"></wp-info-siniestro>
+        </div>
+      </div>
+      <div class="col-xs-12 col-md-8 col-md-pull-4">
+        <span data-ng-if="$ctrl.lstConsolidado.length">
+          <div class="row"><div class="col-md-12 u-ph-0"><h2 class="g-sub-title">Consolidado de Pre-expediente</h2></div></div>
+          <div class="row mb-xs-2 mb-md-2" data-ng-repeat="item in $ctrl.lstConsolidado track by $index">
+            <div class="col-md-12 g-box3 ">
+              <div class="row">
+                <div class="col-md-4 g-border-right">
+                  <ul>
+                    <li class="g-dot text-left">
+                      <span class="g-label3">Afectado:&nbsp;
+                        <span class="g-label3-data">{{item.afectado}}</span>
+                      </span>
+                    </li>
+                    <li class="g-dot text-left">
+                      <span class="g-label3">Tipo Afectado:&nbsp;
+                        <span class="g-label3-data">{{item.tipoAfectado}}</span>
+                      </span>
+                    </li>
+                    <li class="g-dot text-left">
+                      <span class="g-label3">Nivel:&nbsp;
+                        <span class="g-label3-data">{{item.nivelDanio}}</span>
+                      </span>
+                    </li>
+                  </ul>
+                </div>
+                <div class="col-md-3 g-border-right">
+                  <ul>
+                    <li class="g-dot text-left">
+                      <span class="g-label3">Tipo Expediente:&nbsp;
+                        <span class="g-label3-data">{{item.tipoExpediente}}</span>
+                      </span>
+                    </li>
+                  </ul>
+                </div>
+                <div class="col-md-2 g-border-right">
+                  <ul>
+                    <li class="g-dot text-left">
+                      <span class="g-label3">Ind.Gen.Exp:&nbsp;
+                        <span class="g-label3-data"></span>
+                      </span>
+                    </li>
+                    <li class="text-left">
+                      <mpf-select
+                        class="indGenExp"
+                        data-m-data-source="$ctrl.lstIndGenExp"
+                        data-ng-model="$ctrl.mIndGenExp[$index]"
+                        data-text-field="nombreValor"
+                        data-value-field="codigoValor"
+                        label="{label: '', required: false}"
+                        name="nIndGenExp"
+                      >
+                      </mpf-select>
+                      <ul class="g-error">
+                        <li ng-show="nIndGenExp.$error.required && !nIndGenExp.$pristine">* Este campo es obligatorio</li>
+                      </ul>
+                    </li>
+                  </ul>
+                </div>
+                <div class="col-md-3">
+                  <ul>
+                    <li class="g-dot text-left">
+                      <span class="g-label3">Reserva:&nbsp;
+                        <span class="g-label3-data">{{item.reserva}}</span>
+                      </span>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </span>
+        <!-- Fin: Consolidado de Pre-expediente -->
+
+        <!-- Inicio: Servicios -->
+        <span data-ng-if="$ctrl.lstServicios.length">
+          <div class="row"><div class="g-border-bottom mt-md-3"></div></div>
+          <div class="row mt-md-3"><div class="col-md-12 u-ph-0"><h2 class="g-sub-title">Servicios</h2></div></div>
+          <div class="row mb-xs-2 mb-md-2" data-ng-repeat="item in $ctrl.lstServicios track by $index">
+            <div class="col-md-12 g-box3">
+              <div class="row">
+                <div class="col-md-1 g-border-right text-left">{{item.numeroServicio}}</div>
+                <div class="col-md-4 g-border-right">
+                  <ul>
+                    <li class="g-dot text-left">
+                      <span class="g-label3">Procurador:&nbsp;
+                        <span class="g-label3-data">{{item.nombreProcurador}}</span>
+                      </span>
+                    </li>
+                    <li class="g-dot text-left">
+                      <span class="g-label3">Tipo de Doc.:&nbsp;
+                        <span class="g-label3-data">{{item.procuradorTipoDocumento}}</span>
+                      </span>
+                    </li>
+                  </ul>
+                </div>
+                <div class="col-md-4 g-border-right">
+                  <ul>
+                    <li class="g-dot text-left">
+                      <span class="g-label3">Nro. Documento:&nbsp;
+                        <span class="g-label3-data">{{item.procuradorCodigoDocumento}}</span>
+                      </span>
+                    </li>
+                    <li class="g-dot text-left"><span class="g-label3">Tipo de Servicio:&nbsp;<span class="g-label3-data">{{item.tipoServicio}}</span></span></li>
+                  </ul>
+                </div>
+                <div class="col-md-3">
+                  <ul>
+                    <li class="g-dot text-left">
+                      <span class="g-label3">SINIESTRO:&nbsp;<span class="g-label3-data"></span></span>
+                    </li>
+                    <li class="text-left pl-md-1">
+                      <span class="g-label3">
+                        <span class="g-label3-data">
+                          <span class="ico-mapfre ico-mapfre_140_reloj"></span>{{item.horaServicio}}
+                        </span>
+                      </span>
+                    </li>
+                    <li class="text-left pl-md-1">
+                      <span class="g-label3">
+                        <span class="g-label3-data">
+                          <span class="ico-mapfre ico-mapfre_127_calendar3"></span>
+                          {{item.fechaServicio | date:'dd/MM/yyyy'}}
+                        </span>
+                      </span>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </span>
+        <!-- Fin: Servicios -->
+
+        <span data-ng-if="$ctrl.lstVersiones.length">
+          <div class="row"><div class="g-border-bottom mt-md-3"></div></div>
+          <div class="row mt-md-3"><div class="col-md-12 u-ph-0">
+            <h2 class="g-sub-title">Versiones PDF</h2></div>
+          </div>
+          <div class="row mb-md-1 pdf_files_box" data-ng-repeat="item in $ctrl.lstVersiones track by $index">
+            <div class="col-md-6 g-box3">
+              <div class="row">
+                <div class="col-xs-2 col-md-3 g-border-right">{{$index + 1}}</div>
+                <div class="col-xs-7 col-md-6 ico-name">
+                  <span class="ico-mapfre ico-mapfre_92_emitir"></span>
+                  <span>{{item.filename }}</span>
+                </div>
+                <div class="col-xs-3 col-md-3">
+                  <span
+                    class="ico-mapfre ico-mapfre_124_download"
+                    data-ng-click="$ctrl.descargarVersionPDF(item)"
+                  >
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </span>
+      </div>
+    </div>
+  </div>
+</form>

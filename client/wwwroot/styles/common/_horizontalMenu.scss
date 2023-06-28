@@ -1,0 +1,272 @@
+/*#################
+# horizontalMenu
+#################*/
+.gHorizontalMenu{
+  position: absolute; 
+  top: 40px; 
+  right: 0; 
+  z-index: 1040; 
+  width: 100%; 
+  background-color: $cWhite1;
+  bottom: 0;
+  position: fixed;
+  overflow-y: scroll;
+  &__box { 
+    padding-bottom: 1px; 
+    border-bottom: 1px solid $cGray5; 
+  }
+  >span{
+    >li {
+      display: block;
+      font-size: $fz17; 
+      text-align: center;
+      a {
+        display: block; 
+        padding-top: 15px; 
+        padding-bottom: 10px; 
+        color: $cGray6;
+        border-bottom: 2px solid transparent;
+        @include prefix(transition, all 0.25s linear);
+      }
+      &:hover,
+      &.active,
+      &.actived{
+        > a{
+          border-bottom: 2px solid $cRed1;
+          color: $cGray2;    
+        }
+      }
+      &.link {
+        border-left: 1px solid $cGray5;
+      }
+      &.submenu {
+        cursor: pointer; 
+        position: relative;
+        >a {
+          padding-bottom: 10px; 
+          padding-right: 18px;
+        }
+        &:hover,
+        &.active {
+          .iconArrow{
+            &:before{
+              content: '\e94c';
+            }
+          }
+        }
+        .sbm-main {
+          display: none;
+          position: relative;
+          background-color: 
+          transparent; 
+          width: 100%;
+          >span {
+            >li.sbm-link {
+              display: block; 
+              border-bottom: 0; 
+              background-color: $cGray5;
+              border-left: 1px solid $cGray5;
+              border-right: 1px solid $cGray5;
+              >a { 
+                text-align: center; 
+                text-transform: uppercase; 
+                padding: 7px 10px; 
+                font-size: $fz13; 
+              }
+              &:hover,
+              &.active,
+              &.actived{
+                > a{
+                  border-bottom: 2px solid $cRed1;
+                  color: $cGray2;    
+                }
+              }
+              &.submenu__more{
+                position: relative;
+                .sbm-main{
+                  >span{
+                    >li.sbm-link{
+                      background-color: $cGray4;
+                      border-left: 1px solid $cGray4;
+                      border-right: 1px solid $cGray4;  
+                    }  
+                  }  
+                }
+                .iconArrow{
+                  &:before{
+                    top: 8px; 
+                  }
+                }
+              }
+              // &.grandChild{
+              //   background-color: $cGray4;
+              //   border-left: 1px solid $cGray4;
+              //   border-right: 1px solid $cGray4;
+              // }
+            }
+          }
+        }
+      }
+      .iconArrow{
+        &:before{
+          display: block;
+          content: '\e94b';
+          font-family: $Mapfre; 
+          color: $cRed1;
+          position: absolute; 
+          top: 15px; 
+          right: 8px;  
+        }
+      }
+    }
+  }
+  &_ico { 
+    position: absolute; 
+    top: 5px; 
+    right: 15px; 
+    z-index: 1010; 
+    font-size: $fz30; 
+    cursor: pointer; 
+  }
+  &__responsive {
+    display: none;
+    top: 103px;
+    >span{
+      >li {
+        &.submenu{
+          &:hover {
+            .iconArrow{
+              &:before{
+                content: '\e94b';
+              }
+            }
+          }
+          &.openSubMenu{
+            >.iconArrow{
+              &:before{
+                content: '\e94c';
+              }
+            }
+          }
+          .sbm-main{
+            >span{
+              >li.sbm-link{
+                &.submenu__more{
+                  &.openSubMenu{
+                    >.iconArrow{
+                      &:before{
+                        content: '\e94c';
+                      }
+                    }
+                  }
+                }
+              }  
+            }  
+          }
+        }
+      }
+    }
+  }
+}
+@media (min-width: $break-medium){
+  .gHorizontalMenu {
+    margin-top: 0; 
+    text-align: left;
+    >span {
+      @include inlineblock(); 
+      max-width: 165px; 
+      width: 16.66666%;
+      >li {
+        font-size: $fz17; 
+        @include inlineblock();
+        vertical-align: top;
+        zoom: 1; 
+        width: 100%;
+        display: block; 
+        font-size: $fz17;
+        border-left: 1px solid $cGray5;
+        &.submenu {
+          .sbm-main{
+            display: block;
+            // width: 100%;
+            position: absolute;
+            top: 100%;
+            z-index: -1;
+            @include prefix(box-shadow, 0px 5px 10px 0px rgba(0,0,0,0.15));
+            @include prefix(opacity, 0);
+            visibility: hidden;
+            @include prefix(transition, all 0.25s linear);
+            .sbm-link {
+              &.submenu__more {
+                position: relative;
+                .iconArrow{
+                  &:before{
+                    content: '\e94d';
+                    right: inherit;
+                    left: 0; 
+                    top: 5px;
+                  }
+                }
+                .sbm-main {
+                  right: 100.54%;
+                  top:0;
+                }
+                &:hover,
+                &.active{
+                  &>.sbm-main{
+                    z-index: 10;
+                    @include prefix(opacity, 1);
+                    visibility: visible;
+                  }
+                }
+              }
+            }
+          }
+          &:hover,
+          &.active{
+            &>.sbm-main{
+              z-index: 10;
+              @include prefix(opacity, 1);
+              visibility: visible;
+            }
+          }
+        }
+      }
+    }
+  }
+  .gHorizontalMenu {
+    position: relative; 
+    top: auto; 
+    right: auto;
+    text-align: justify; 
+    font-size: 0.1px; 
+    background-color: transparent;
+    overflow-y: visible;
+    z-index: 1030;
+    &:after { 
+      content: ''; 
+      width: 100%; 
+      @include inlineblock();
+    }
+    >span {
+      &:last-child > li { 
+        border-right: 1px solid $cGray5; 
+      }
+      >li {
+        &.active {
+          .sbm-main {
+            top: 52px; 
+            z-index: 1100;
+          }
+        }
+      }
+    }
+  }
+}
+@media (min-width: $break-xmedium){
+  .gHorizontalMenu {
+    >span {
+      max-width: 195.8px;
+    }
+  }
+}

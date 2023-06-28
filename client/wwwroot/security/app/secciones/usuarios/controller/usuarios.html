@@ -1,0 +1,499 @@
+<section class="g-security-usuarios">
+
+	<menu-security title="Movimientos" usuario="{{tallerName}}" show-btn="true"></menu-security>
+
+  <div fixed-section class="g-title" ng-class="{'fixed-section': boolChangeClass}">
+    <div class="container">
+      <div class="row">
+        <div class="col-xs-12 mb-xs-2 no-mb-sm g-div-middle">
+          <div class="title-text">
+            <h1>Usuarios</h1>
+        <!-- <div>Cambiar a 
+          <a href="" ng-show="userDisma" ng-click="fnChangeAdmin(1)">Administrador Externo</a>
+          <a href="" ng-show="!userDisma" ng-click="fnChangeAdmin(0)">Usuario Disma</a>
+        </div>  -->              
+          </div>         
+
+          <!--<div class="title-buttons g-span-middle" ng-if="totalItems > 0">-->
+          <div class="title-buttons g-span-middle">
+            <span><a class="g-btn g-btn-verde second-design block" ng-click="fnCrearUsuario()">+ Nuevo usuario</a></span>
+
+            <!-- Administrador Disma -->
+            <span ng-if="userDisma">
+              <div class="btn-group" uib-dropdown>
+                <a class="g-btn g-btn-white block second-design pl-md-2 pr-md-2" uib-dropdown-toggle ng-disabled="disabled">
+                  <span class="g-icon">
+                    <span>Cargas masivas</span>
+                    <span class="icon ico-mapfre_308_arrowDown"></span>
+                  </span>
+                </a>
+                <ul class="dropdown-menu text-left gH5 gCGray3" uib-dropdown-menu role="menu" aria-labelledby="dsds">
+                  <li role="menuitem"><a ng-click="fnRedireccionarcargasMasivas('MODIFICACION')">Modificación</a></li>
+                  <li role="menuitem"><a ng-click="fnRedireccionarcargasMasivas('DESHABILITACION')">Deshabilitación</a></li>
+                  <li role="menuitem"><a ng-click="fnRedireccionarcargasMasivas('REGISTRO')">Registro</a></li>
+                  <li role="menuitem"><a ng-click="fnRedireccionarcargasMasivas('CLONACIÓN')">Clonación</a></li>
+                  <li role="menuitem"><a ng-click="fnRedireccionarcargasMasivas('HABILITACIÓN')">Habilitación</a></li>
+                </ul>
+              </div>
+            </span>
+
+            <!-- Administrador Disma -->
+            <span class="btn-download" ng-if="userDisma && totalItems > 0">
+              <a class="g-btn g-btn-white second-design block" ng-click="fnExportExcel()"><span class="ico-mapfre_124_download gnIcon-sm"></span></a>
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+	<!-- Inicio Dashboard Body -->
+	<div class="dashboard-body">
+
+    <!-- Inicio: Col Filter -->
+    <div class="g-section-inner g-dashboard-section">
+      <div class="container">
+        <div class="row">
+          <!-- Inicio: Filter -->
+          <div class="col-md-3">
+            <form action="" name="searchClient.frmSeguridadSearchUser">
+              <div show-filter class="clearfix g-col-filter g-box-md fz14 gBgcGray5-md gBgcWhite1" ng-class="{'show': isFilterVisible}">
+                <div class="col-md-12 mb-xs-1-5 gH4 gCGray1">
+                  <h2 class="pb-xs-1 g-border-bottom-xs hidden-xs hidden-sm"><b>Filtro</b></h2>
+                  <div id="show-filter" class="row pt-xs-2 pb-xs-2 gBgcGray5 g-border-bottom-xs hidden-md hidden-lg" ng-click="toggleFilter();">
+                    <div class="col-xs-10"><h2><b>Filtro</b></h2></div>
+                    <div class="col-xs-2 g-text-right-xs">
+                      <span class="glyphicon glyphicon-chevron-down" ng-if="isFilterVisible"></span>
+                      <span class="glyphicon glyphicon-chevron-up" ng-if="!isFilterVisible"></span>
+                    </div>
+                    <div class="clearfix"></div>
+                  </div>
+                </div>
+
+                <!-- Administrador Disma -->
+                <div class="g-col-filter__box" ng-if="userDisma">
+                  <div class="col-md-12 mb-xs-1">
+                    <mpf-input
+                    label="{label: 'Nombre, ID o No. de doc', required: false}"
+                    name="nUsuario"
+                    ng-model="searchClient.mUsuario"
+                    is-horz="false"
+                    mpf-validation="onlyLetterNumberGuion"
+                    ng-maxlength="100"
+                    ></mpf-input>
+                  </div>
+                  <div class="col-md-12 mb-xs-2">
+                    <mp-data-seeker
+                    behavior="{label:''
+                    , placeholder:'Razon Social o RUC'
+                    , matchField:'descripcion'}"
+                    m-data-source="fnGetListCompanies($inputNeed)"
+                    ng-model="searchClient.mEmpresa"
+                    >
+                      <div ng-bind-html="$item.descripcion | highlight: $select.search"></div>
+                    </mp-data-seeker>
+                  </div>
+                  <div class="col-md-12 mb-xs-2 pl-xs-0 pr-xs-0">
+                    <!--Inicio: Accordion filter-->
+                    <uib-accordion close-others="oneAtATime">
+                      <div uib-accordion-group class="panel-default" heading="Tipo de usuario" is-open="accordOpened01.status">
+                        <ul class="checkbox-list">
+                          <li ng-repeat="item in userTypesData">
+                            <mpf-checkbox
+                              ng-model = "item.value"
+                              label = "{{item.name}}"
+                              ng-change="fnChangeState(item)"
+                            ></mpf-checkbox>
+                            <ul class="checkbox-list pl-xs-3" ng-show="item.parent">
+                              <li ng-repeat="child in item.childs">
+                                <mpf-checkbox
+                                  ng-model="child.value"
+                                  label="{{child.name}}"
+                                  ng-change="fnChangeStateChild(item, child)"
+                                ></mpf-checkbox>
+                              </li>
+                            </ul>
+                          </li>
+                        </ul>
+                      </div>
+                      <div uib-accordion-group class="panel-default" heading="Estado" is-open="accordOpened02.status">
+                        <ul class="checkbox-list">
+                          <li ng-repeat="state in userStatesData">
+                            <mpf-checkbox
+                              ng-model = "searchClient.mUserState[$index]"
+                              label = "{{state.descripcion}}"
+                              value = "{{state.codigo}}"
+                              ng-click = "fnBuildStrState(searchClient.mUserState[$index], state.codigo, $event)"
+                            ></mpf-checkbox></li>
+                        </ul>
+                      </div>
+                      <div uib-accordion-group class="panel-default panel-without-hidden" heading="Oficina" is-open="accordOpened03.status">
+                        <mp-data-seeker
+                          behavior="{label:''
+                          , placeholder:'Código o nombre de la Oficina'
+                          , matchField:'codeDescription'}"
+                          m-data-source="fnGetListOffice($inputNeed)"
+                          ng-model="searchClient.mOficina">
+                            <div ng-bind-html="$item.codeDescription | highlight: $select.search"></div>
+                        </mp-data-seeker>
+                      </div>
+                      <div uib-accordion-group class="panel-default panel-without-hidden" heading="Rol" is-open="accordOpened04.status">
+                        <mp-data-seeker
+                          behavior="{label:''
+                          , placeholder:'Código o nombre del Rol'
+                          , matchField:'codeDescription'}"
+                          m-data-source="fnGetListRole($inputNeed)"
+                          ng-model="searchClient.mRol">
+                            <div ng-bind-html="$item.codeDescription | highlight: $select.search"></div>
+                        </mp-data-seeker>
+                      </div>
+                      <div uib-accordion-group class="panel-default panel-without-hidden" heading="Aplicación" is-open="accordOpened05.status">
+                        <mp-data-seeker
+                          behavior="{label:''
+                          , placeholder:'Código o nombre de la aplicación'
+                          , matchField:'codeDescription'}"
+                          m-data-source="fnGetListApps($inputNeed)"
+                          ng-model="searchClient.mAplicacion">
+                            <div ng-bind-html="$item.codeDescription | highlight: $select.search"></div>
+                        </mp-data-seeker>
+                      </div>
+                      <div uib-accordion-group class="panel-default panel-without-hidden" heading="Perfil" is-open="accordOpened06.status">
+                        <mp-data-seeker
+                          behavior="{label:''
+                          , placeholder:'Código o nombre del perfil'
+                          , matchField:'codeDescription'}"
+                          m-data-source="fnGetListProfile($inputNeed)"
+                          ng-model="searchClient.mPerfil">
+                            <div ng-bind-html="$item.codeDescription | highlight: $select.search"></div>
+                        </mp-data-seeker>
+                      </div>
+                    </uib-accordion>
+                    <!--Fin: Accordion filter-->
+                  </div>
+                  <div class="col-md-12 mb-xs-1">
+                    <!-- ng-click="fnFilter('1'); toggleFilter()" -->
+                    <a
+                    href=""
+                    class="g-btn g-btn-verde block"
+                    ng-click="getDashboardData()"
+                    >Buscar</a>
+                  </div>
+                  <div class="col-md-12">
+                    <a
+                    href=""
+                    class="g-btn g-btn-white block"
+                    ng-click="fnClearFilter(); toggleFilter()"
+                    >Limpiar</a>
+                  </div>
+                </div>
+
+                <!-- Administrador Externo -->
+                <div class="g-col-filter__box" ng-if="!userDisma">
+                  <div class="col-md-12 mb-xs-2">
+                    <mpf-input
+                    label="{label: 'Buscar datos por Usuario', required: false}"
+                    name="nUsuario"
+                    ng-model="searchClient.mUsuario"
+                    ></mpf-input>
+                  </div>
+
+                  <div class="col-md-12 mb-xs-2">
+                    <ul class="checkbox-list">
+                      <li class="g-label">Estados</li>
+                      <li ng-repeat="state in userStatesData">
+                        <mpf-checkbox
+                        ng-model = "searchClient.mUserState[$index]"
+                        label = "{{state.descripcion}}"
+                        value = "{{state.codigo}}"
+                        ng-click = "fnBuildStrState(searchClient.mUserState[$index], state.codigo, $event)"
+                        ></mpf-checkbox>
+                    </li>
+                    </ul>
+                  </div>
+                  <div class="col-md-12 mb-xs-1">
+                    <!-- ng-click="fnFilter('1'); toggleFilter()" -->
+                    <a href=""
+                    class="g-btn g-btn-verde block"
+                    ng-click="getDashboardData()"
+                    >Filtrar</a>
+                  </div>
+                  <div class="col-md-12">
+                    <a href=""
+                    class="g-btn g-btn-white block"
+                    ng-click="fnClearFilter(); toggleFilter()"
+                    >Limpiar</a>
+                  </div>
+                </div>
+              </div>
+            </form>
+          </div>
+          <!-- Fin: Filter -->
+          <!-- Inicio: Resultado -->
+          <div class="col-md-9">
+            <!-- Mensaje de realiza una búsqueda -->
+            <div class="col-md-12 text-center g-box-noresult" ng-if="firstLoad">
+              <div class="row">
+                <div class="col-md-12 g-box-noresult-ico gCBlue2">
+                  <span class="ico-mapfre_303_informacion"></span>
+                </div>
+                <div class="col-md-12 g-box-noresult-text">
+                  Realiza una búsqueda para obtener resultados.
+                </div>
+              </div>
+            </div>
+            <!-- FIn -->
+
+            <!--Inicio: Mensaje resultados nulos-->
+            <div class="row text-center mt-xs-5 mb-xs-7" ng-if="false">
+              <div class="col-md-12 g-box-noresult-ico gCRed1">
+                <span class="ico-mapfre_302_error"></span>
+              </div>
+              <div class="col-md-12 g-box-noresult-text"><b>LO SENTIMOS, NO ENCONTRAMOS NINGÚN USUARIO.</b><br>Revisa que el nombre o el número de ID estén bien escritos.</div>
+            </div>
+            <!--Fin: Mensaje resultados nulos-->
+
+            <div class="clearfix g-box mb-xs-2 top-filter-box" ng-if="totalItems > 0">
+              <div class="clearfix g-box g-border-noborder pt-xs-1 pb-xs-1 gBgcGray5">
+                <ul class="row g-list-sm">
+                  <li class="col-md-4 col-sm-3 mt-sm-1 g-div-middle">
+                    <div class="result_check">
+                      <!-- ng-click="fnOpenSelectedBar(mSelectedAllUser)" -->
+                      <mpf-checkbox
+                      ng-model="searchClient.mSelectedAllUser"
+                      label=""
+                      ng-change="fnOpenSelectedBar();"
+                      ></mpf-checkbox>
+                    </div>
+                    <div class="g-text-uppercase"><b>Seleccionar todos</b></div>
+                  </li>
+                  <li class="col-md-8 col-sm-9 g-div-middle mt-xs-1 mt-sm-0">
+                    <div class="result_opc col-100-xs">
+                      <ul class="clearfix g-li-middle g-text-left-xs g-text-right-sm">
+                        <li class="gH5 gCGray3 pr-xs-1-5">
+                          <div class="ml-xs-1-5">{{totalItems}} resultados encontrados</div>
+                        </li>
+                        <li class="">
+                          <div class="ml-xs-1-5">
+                            <mpf-select-horz
+                              label="{label: 'Ordenar: ', required: false}"
+                              name="nOrdenarPor"
+                              ng-model="searchClient.mOrdenarPor"
+                              m-data-source="ordenarPorData"
+                              text-field="descripcion"
+                              value-field="codigo"
+                              m-Empty-Option="{enterData:true}"
+                              ng-required="false"
+                              ng-change="fnOrdenarPor(searchClient.mOrdenarPor.codigo)"
+                            ></mpf-select-horz>
+                          </div>
+                        </li>
+                      </ul>
+                    </div>
+                  </li>
+                </ul>
+              </div>
+            </div>
+            <!--<div class="row mb-xs-2" ng-if="totalItems > 0">-->
+              <!--<div class="col-md-12">-->
+                <!--<div class="g-box gBgcGray5 pt-xs-1 pb-xs-1 pl-xs-1">-->
+                  <!--<span class="ico-mapfre_222_informacion gCBlue2 gnIcon-xsm g-cell-middle"></span>-->
+                  <!--<span class="g-cell-middle pl-xs-1">Se han seleccionado todos los elementos de esta página. <b><a href="" ng-click="fnOpenSelectedBar()">Seleccionar los {{totalItems}}</a> </b>elementos</span>-->
+                <!--</div>-->
+              <!--</div>-->
+            <!--</div>-->
+            <!--Inicio: Resultados-->
+            <div class="clearfix g-box mb-xs-2" ng-repeat="item in dashboardData">
+              <div class="clearfix g-box no-bbl-radius no-bbr-radius g-border-noborder pt-xs-1 pb-xs-1 gBgcGray5">
+                <ul class="row g-list-sm">
+                  <li class="col-md-4 col-sm-4 g-div-middle">
+                    <div class="result_check">
+                      <mpf-checkbox
+                        ng-model="item.selected"
+                        label=""
+                        ng-true-value="fnAddSelectedItem(item)"
+                        ng-false-value="fnRemoveSelectedItem(item)"
+                        ng-change="fnActionByItem(item.selected)"
+                      ></mpf-checkbox>
+                    </div>
+                    <div class="result_nombre">
+                      <ul class="clearfix" ng-show="item.empresa != ''">
+                        <li class="col-xs-12 pl-xs-0 pr-sm-0 g-text-uppercase">
+                          {{item.empresa}}
+                        </li>
+                      </ul>
+                      <ul class="clearfix">
+                        <li class="col-xs-12 pl-xs-0 pr-sm-0 g-text-uppercase">
+                          <b>{{item.persona}}</b>
+                        </li>
+                      </ul>
+                    </div>
+                  </li>
+                  <li class="col-md-2 col-sm-3 mt-xs-1 mt-md-0 pl-md-0 pr-md-0" ng-class="{'pt-md-1': item.empresa != ''}">
+                    <span class="g-box-label g-text-uppercase ml-xs-1-5 ml-md-0"
+                      ng-class="{
+                        'secuFondoGrisOscuro': item.nombreEstado === 'DESHABILITADO',
+                        'secuFondoNaranja': item.nombreEstado === 'SIN CONFIRMAR',
+                        'secuFondoRojo': item.nombreEstado === 'CADUCADO',
+                        'secuFondoVerde': item.nombreEstado === 'HABILITADO'
+                      }"
+                    >{{item.nombreEstado}}</span>
+                    <span class="ico-mapfre_222_informacion gH3 gCGreen1"></span>
+                  </li>
+                  <li class="col-md-6 col-sm-5 mt-xs-1 mt-md-0">
+                    <div class="g-span-middle g-text-left-xs g-text-right-sm pl-xs-1-5 pl-md-0">
+                      <span class="pr-md-1-5" ng-show="item.codEstadoToken == 2">
+                        <div class="btn-group" uib-dropdown is-open="status.isopen">
+                          <a class="g-btn g-btn-white block second-design pl-md-2 pr-md-2" uib-dropdown-toggle ng-disabled="disabled">
+                            <span class="g-icon">
+                              <span>Enlace</span>
+                              <span class="icon ico-mapfre_308_arrowDown"></span>
+                            </span>
+                          </a>
+                          <ul class="dropdown-menu text-left gH5 gCGray3" uib-dropdown-menu role="menu" aria-labelledby="single-button">
+                            <li role="menuitem">
+                              <a ng-click="fnReenviarEnlace(item)">Reenviar</a>
+                            </li>
+                            <li role="menuitem">
+                              <a ng-click="fnAnularUsuario(item)">Caducar</a>
+                            </li>
+                          </ul>
+                        </div>
+                      </span>
+                      <span class="pr-md-1-5" ng-show="item.codEstadoToken == 1">
+                        <a class="g-btn g-btn-white block second-design pl-md-2 pr-md-2" ng-click="fnReenviarEnlace(item)">Reenviar enlace</a>
+                      </span>
+                      <span class="pr-sm-1-5" ng-click="fnViewDetails(item)">
+                        <a class="g-btn g-btn-white block second-design pl-md-2 pr-md-2">
+                          <span class="g-icon">
+                            <span>Ver detalle</span>
+                            <span class="icon ico-mapfre_311_arrowRight"></span>
+                          </span>
+                        </a>
+                      </span>
+                    </div>
+                  </li>
+                </ul>
+              </div>
+              <div class="clearfix g-box-content">
+                <ul class="row g-list-sm">
+                  <li class="col-md-3 col-sm-6 clearfix cnt-item">
+                    <div class="col-sm-5 col-xs-4 item-label">
+                      Usuario:
+                    </div>
+                    <div class="col-sm-7 col-xs-8 item-dato g-text-uppercase">
+                      {{item.nombreTipoGrupo}}
+                    </div>
+                  </li>
+                  <li class="col-md-3 col-sm-6 clearfix cnt-item" ng-show="item.ruc != null">
+                    <div class="col-sm-5 col-xs-4 item-label">
+                      RUC:
+                    </div>
+                    <div class="col-sm-7 col-xs-8 item-dato g-text-uppercase">
+                      {{item.ruc}}
+                    </div>
+                  </li>
+                  <li class="col-md-3 col-sm-6 clearfix cnt-item">
+                    <div class="col-sm-5 col-xs-4 item-label">
+                      ID:
+                    </div>
+                    <div class="col-sm-7 col-xs-8 item-dato g-text-uppercase">
+                      {{item.codigoUsuario}}
+                    </div>
+                  </li>
+                  <li class="col-md-3 col-sm-6 clearfix cnt-item">
+                    <div class="col-sm-5 col-xs-4 item-label">
+                      Registro:
+                    </div>
+                    <div class="col-sm-7 col-xs-8 item-dato g-text-uppercase g-cut-text">
+                      {{item.registro}}
+                    </div>
+                  </li>
+                </ul>
+              </div>
+            </div>
+            <!--Fin: Resultados-->
+            <div class="col-md-12 text-center g-box-noresult" ng-if="!firstLoad && noResult">
+              <div class="row">
+                <div class="col-md-12 g-box-noresult-ico gCBlue2"><span class="ico-mapfre_303_informacion"></span></div>
+                <div class="col-md-12 g-box-noresult-text">No hay resultados para los filtros escogidos.<br>Intente nuevamente.</div>
+              </div>
+            </div>
+            <!-- Inicio: pagination -->
+            <div ng-show="!firstLoad && totalItems > 0">
+              <mx-paginador
+                data-datos="dashboardData"
+                data-items-x-page="itemsXPagina"
+                data-on-paginar="pageChanged($event)"
+                data-pagina-actual="currentPage"
+                data-total-items="totalItems"
+              ></mx-paginador>
+            </div>
+            <!-- Fin: pagination -->
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Fin: Col Filter -->
+	</div>
+	<!--Fin Dashboard Body-->
+
+</section>
+<div class="g-security-selected--fixed-box gBgcGray5" ng-if="showSelectedBar && countSelect > 0">
+  <div class="container">
+    <div class="row g-security-selected--box pt-xs-2 pb-xs-2">
+      <div class=" col-sm-6 col-lg-3 col-lg-offset-1 selected-usuarios mb-xs-1 mb-sm-0">
+        <!-- <span class="box-number mr-xs-1-5">
+          <span>{{countSelect}}</span>
+        </span> -->
+        <!-- <span class="g-text-uppercase">Usuarios seleccionados</span> -->
+      </div>
+      <div class="col-sm-6 col-lg-8 selected-opciones text-right">
+        <ul class="g-li-middle">
+          <!-- <li ng-show="fnValidateClone()"> -->
+          <li>
+            <span
+            class="g-link no-underline"
+            ng-click="fnValidateClone()"
+            >
+            <span class="selected-usuarios">
+              <span class="box-number mr-xs-1-5">
+                <span>{{countSelect}}</span>
+              </span>
+            </span>
+            Clonar Accesos</span>
+          </li>
+          <li>
+            <span
+            class="g-link no-underline"
+            ng-click="fnDeshabilitarUsuario()"
+            >Deshabilitar Usuarios</span>
+          </li>
+          <li>
+            <span
+            class="g-link no-underline"
+            ng-click="fnHabilitarUsuario()"
+            >Habilitar Usuarios</span>
+          </li>
+          <li>
+            <span
+            class="g-u-cursor--pointer ico-mapfre_231_cancelaroff"
+            ng-click="fnCloseSelectedBar()"
+            ></span>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<form id="frmExport" name="frmExport" action="{{exportURL}}" method="get" target="_blank">
+  <input type="hidden" name="user" value='{{params.user}}'>
+  <input type="hidden" name="numCompany" value='{{params.numCompany}}'>
+  <input type="hidden" name="listUserTypesText" value='{{params.listUserTypesText}}'>
+  <input type="hidden" name="listStatesText" value='{{params.listStatesText}}'>
+  <input type="hidden" name="codeOffice" value='{{params.codeOffice}}'>
+  <input type="hidden" name="numRole" value='{{params.numRole}}'>
+  <input type="hidden" name="numApplication" value='{{params.numApplication}}'>
+  <input type="hidden" name="numProfile" value='{{params.numProfile}}'>
+  <input type="hidden" name="sortingType" value='{{params.sortingType}}'>
+</form>

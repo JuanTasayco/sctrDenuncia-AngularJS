@@ -1,0 +1,173 @@
+<!-- Servicio opcional -->
+<div ng-if="$ctrl.showAlarms">
+  <div ng-class="$ctrl.codeModality == undefined ? 'container' : ''">
+    <div class="row">
+      <div class="col-md-12">
+        <h2 class="g-sub-title g-myd-subtitle">{{ $ctrl.title }}</h2>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-4 mb-xs-2">
+        <span class="g-label mb-xs-2 h-myd-mb--5">¿Servicio alarma y monitoreo?*</span>
+        <div class="row">
+          <div class="col-md-6">
+            <m-radio
+              label="{label: 'Si'}"
+              name="nServiceAlarma"
+              ng-model="$ctrl.data.mServiceAlarma"
+              value="1"
+              ng-required="true"
+              ng-disabled="!$ctrl.selectableAlarma"
+              ng-change="$ctrl.changeAlarmService($ctrl.data.mServiceAlarma)"
+              ng-style="!$ctrl.selectableAlarma ? {color: '#bebebe'} : {color: '#27282A'}"
+            >
+            </m-radio>
+          </div>
+          <div class="col-md-6">
+            <m-radio
+              label="{label: 'No'}"
+              name="nServiceAlarma"
+              ng-model="$ctrl.data.mServiceAlarma"
+              value="2"
+              ng-required="true"
+              ng-disabled="!$ctrl.selectableAlarma"
+              ng-change="$ctrl.changeAlarmService($ctrl.data.mServiceAlarma)"
+              ng-style="!$ctrl.selectableAlarma ? {color: '#bebebe'} : {color: '#27282A'}"
+            >
+            </m-radio>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4 mb-xs-2">
+        <span class="g-label mb-xs-2 h-myd-mb--5">Marca Kit Smart</span>
+        <div class="row">
+          <div class="col-md-6">
+            <m-radio
+              label="{label: 'Si'}"
+              name="nKitSmart"
+              ng-model="$ctrl.data.mKitSmart"
+              value="1"
+              ng-required="true"
+              ng-disabled="!$ctrl.selectableKitSmart"
+              ng-change="$ctrl.changeKitSmart($ctrl.data.mKitSmart)"
+              ng-style="!$ctrl.selectableKitSmart ? {color: '#bebebe'} : {color: '#27282A'}"
+            >
+            </m-radio>
+          </div>
+          <div class="col-md-6">
+            <m-radio
+              label="{label: 'No'}"
+              name="nKitSmart"
+              ng-model="$ctrl.data.mKitSmart"
+              value="2"
+              ng-required="true"
+              ng-disabled="!$ctrl.selectableKitSmart"
+              ng-change="$ctrl.changeKitSmart($ctrl.data.mKitSmart)"
+              ng-style="!$ctrl.selectableKitSmart ? {color: '#bebebe'} : {color: '#27282A'}"
+            >
+            </m-radio>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4 mb-xs-2" ng-if="$ctrl.requireComunicationType">
+        <mpf-select
+          label="{label: 'Tipo de comunicación', required: $ctrl.requireComunicationType}"
+          name="nTipoComunicacion"
+          ng-model="$ctrl.data.mTipoComunicacion"
+          m-data-source="$ctrl.tipoComunicacionData"
+          ng-required="$ctrl.requireComunicationType"
+          text-field="Descripcion"
+          value-field="Codigo"
+          m-Empty-Option="{enterData:true}"
+          ng-change="$ctrl.emitAlarmsData()"
+        >
+        </mpf-select>
+        <ul class="g-error">
+          <li ng-show="$ctrl.data.mServiceAlarma == '1' && $ctrl.data.mTipoComunicacion.Codigo == null">
+            * Seleccione un tipo de comunicación
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-4 mb-xs-2">
+        <span class="g-label mb-xs-2 h-myd-mb--5">Marca video web</span>
+        <div class="row">
+          <div class="col-md-6">
+            <m-radio
+              label="{label: 'Si'}"
+              name="nVideoWeb"
+              ng-model="$ctrl.data.mVideoWeb"
+              value="1"
+              ng-required="true"
+              ng-disabled="!$ctrl.selectableVideoWeb"
+              ng-style="!$ctrl.selectableVideoWeb ? {color: '#bebebe'} : {color: '#27282A'}"
+              ng-change="$ctrl.emitAlarmsData()"
+            >
+            </m-radio>
+          </div>
+          <div class="col-md-6">
+            <m-radio
+              label="{label: 'No'}"
+              name="nVideoWeb"
+              ng-model="$ctrl.data.mVideoWeb"
+              value="2"
+              ng-required="true"
+              ng-disabled="!$ctrl.selectableVideoWeb"
+              ng-style="!$ctrl.selectableVideoWeb ? {color: '#bebebe'} : {color: '#27282A'}"
+              ng-change="$ctrl.emitAlarmsData()"
+            >
+            </m-radio>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4 mb-xs-2">
+        <span class="g-label mb-xs-2 h-myd-mb--5">LLavero médico/Imagen plus</span>
+        <div class="row">
+          <div class="col-md-6">
+            <m-radio
+              label="{label: 'Si'}"
+              name="nLlaveroImagen"
+              ng-model="$ctrl.data.mLlaveroImagen"
+              value="1"
+              ng-disabled="!$ctrl.selectableLlaveroImagen"
+              ng-style="!$ctrl.selectableLlaveroImagen ? {color: '#bebebe'} : {color: '#27282A'}"
+              ng-change="$ctrl.emitAlarmsData()"
+            >
+            </m-radio>
+          </div>
+          <div class="col-md-6">
+            <m-radio
+              label="{label: 'No'}"
+              name="nLlaveroImagen"
+              ng-model="$ctrl.data.mLlaveroImagen"
+              value="2"
+              ng-disabled="!$ctrl.selectableLlaveroImagen"
+              ng-style="!$ctrl.selectableLlaveroImagen ? {color: '#bebebe'} : {color: '#27282A'}"
+              ng-change="$ctrl.emitAlarmsData()"
+            >
+            </m-radio>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-4 mb-xs-2" ng-if="$ctrl.codeModality == '31'">
+        <mpf-input
+          label="{label: 'Descuento comercial (%)', required: false}"
+          name="nDescuentoComercial"
+          ng-model="$ctrl.data.mDescuentoComercial"
+          ng-required="false"
+          mpf-validation="onlyNumber"
+          ng-maxlength="2"
+          ng-change="$ctrl.validateDescuento(); $ctrl.emitAlarmsData()"
+        >
+        </mpf-input>
+        <ul class="gErrorIco firstDesign">
+          <li ng-show="$ctrl.data.errorDescCommercial">
+            <span class="ico-mapfre_37_informacion ico"></span>Descuento comercial no debe superar el valor de 10%
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>

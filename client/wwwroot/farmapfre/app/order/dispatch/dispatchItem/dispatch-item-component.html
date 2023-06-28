@@ -1,0 +1,339 @@
+<div class="g-title wp-no-bb">
+    <div class="container">
+        <div class="row">
+            <div class="col-xs-8 col-sm-7 col-md-6 pr-xs-0 mt-1 title-box">
+                <div class="row">
+                    <div class="col-md-12">
+                        <h1>Despacho No. {{$ctrl.model.orderId}}</h1>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-3 pr-xs-3 pr-sm-3 pr-md-0 mb-xs-1">
+                        <span class="g-tag g-tag2 g-box-label lblNvt" 
+                            ng-class="{bgPending: $ctrl.model.move.id == 1, bgInAtention: $ctrl.model.move.id == 2, bgDelivered: $ctrl.model.move.id == 3, bgCanceled: $ctrl.model.move.id == 4}">
+                            {{$ctrl.model.move.description}}
+                        </span>
+                    </div>
+                    <div class="col-md-3 pr-xs-3 pr-sm-3 pr-md-0" ng-if="$ctrl.model.timeElapsed">
+                        <span  class="g-tag g-tag2 g-box-label lblTimeNvt"
+                        ng-class="{bgTimeLow: $ctrl.model.traficLightLabel == 'V', bgTimeHigh: $ctrl.model.traficLightLabel == 'R', bgTimeMedium: $ctrl.model.traficLightLabel == 'A'}">
+                            {{$ctrl.model.timeElapsed ? 'Hace ' + $ctrl.model.timeElapsed : null}}
+                        </span>
+                    </div>
+                    <div class="col-md-1 pr-xs-3 pr-sm-3 pr-md-0 mb-xs-1" ng-if="$ctrl.model.orderOrigin==4">
+                        <span class="g-box-label lblNvt bgTimeLow">
+                            {{$ctrl.model.hasSitedsCL ? "CON SITEDS" : "SIN SITEDS"}}
+                        </span>
+                    </div>
+                    <div class="col-md-6 pr-xs-3 pr-sm-3 pr-md-0 mb-xs-1">
+                        <b ng-if="$ctrl.model.orderOrigin==2" class="">Fecha de entrega</b>
+                        <span ng-if="$ctrl.model.orderOrigin==2" class="lblNvtDateTC">
+                            <b>{{ $ctrl.getDateWithFormat($ctrl.model.schedulingDate) }}</b>
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xs-4 col-sm-5 col-md-6 pl-xs-0">
+                <div class="row g-text-right-xs pr-xs-2 relive">
+                    <div class="col-sm-4"></div>
+                    <div class="col-xs-4 col-sm-4 col-md-4 u-float-align">                        
+                    </div>
+                    <div class="col-xs-4 col-sm-4 col-md-4 u-float-align">
+                        <a  class="col-md-12 g-btn g-btn-transparent second-design" ng-if="$ctrl.showCancelDispatch" ng-click="$ctrl.openCancelDispath()">ANULAR</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <info-client data="$ctrl.model" config="{readonly:true}"></info-client> 
+        </div>
+    </div>
+</div>
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+
+            <!--#region DELIVERY-->
+            <div class="row" ng-if="!$ctrl.model.itsCollect">
+                <div class="col-md-6">
+                    <div class="row">
+                        <div class="col-md-12 box-medicaments">
+                            <div class="col-md-12 box-medicaments-header">
+                                <h3 class="box-medicaments-title">Lista de medicamentos</h3>
+                            </div>
+                            <div class="col-md-12 box-medicaments-body">
+                                <div class="container">
+                                    <div class="row item item-header">
+                                        <div class="col-xs-5 col-sm-5 col-md-5">Medicamento recetado</div>
+                                        <div class="col-xs-2 col-sm-2 col-md-2 text-center">Cant.</div>
+                                        <div class="col-xs-2 col-sm-2 col-md-2 text-center">Proveedor</div>
+                                        <div class="col-xs-3 col-sm-3 col-md-3 text-center">Copago S/.</div>
+                                    </div>
+                                    <div class="row item" ng-repeat="medicine in $ctrl.model.details">
+                                        <div class="col-xs-5 col-sm-5 col-md-5">{{ medicine.medicine.description }}</div>
+                                        <div class="col-xs-2 col-sm-2 col-md-2 text-center">{{ medicine.quantityRequired }}</div>
+                                        <div class="col-xs-2 col-sm-2 col-md-2 text-center">{{ medicine.externalProvider.description }}</div>
+                                        <div class="col-xs-3 col-sm-3 col-md-3 text-center">{{ medicine.copago | currency }}</div>
+                                    </div>
+                                    <div class="row item-bottom">
+                                        <div class="col-xs-9 col-sm-9">Total a pagar por el asegurado</div>
+                                        <div class="col-sm-3 text-center">{{$ctrl.calcTotal() | currency }}</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6 col-md-3">
+                    <div class="row">
+                        <div class="col-md-12 box-medicaments">
+                            <div class="col-md-12 box-medicaments-header">
+                                <h3 class="box-medicaments-title">Ruta de entrega</h3>
+                            </div>
+                            <div class="col-md-12 box-medicaments-body" style="min-height: 240px">
+                                <div class="container">
+                                    <div class="row">
+                                        <div class="col-xs-1 col-sm-1 col-md-1">
+                                            <span class="glyphicon glyphicon-plus-sign"></span>
+                                        </div>
+                                        <div class="col-md-10 col-sm-10 item-dato">
+                                            <b>{{$ctrl.model.boDispatch.description}}</b>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="box-medicaments-body-dashed">
+                                            &nbsp;
+                                            <div>&nbsp;</div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-xs-1 col-sm-1 col-md-1">
+                                            <span class="glyphicon glyphicon-map-marker"></span>
+                                        </div>
+                                        <div class="col-md-10 col-sm-10 item-label">
+                                            <b>
+                                                {{$ctrl.model.address.department.description + ' - ' + $ctrl.model.address.province.description + ' - ' + $ctrl.model.address.district.description }}
+                                            </b>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-xs-1 col-sm-1 col-md-1">
+                                            &nbsp;
+                                        </div>
+                                        <div class="col-md-10 col-sm-10 item-label nvt-paragraph-break">
+                                            {{$ctrl.model.address.description}}
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-xs-1 col-sm-1 col-md-1 nvt-paragraph-break">
+                                            &nbsp;
+                                        </div>
+                                        <div class="col-md-10 col-sm-10">
+                                            {{$ctrl.model.address.reference}}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6 col-md-3">
+                    <div class="row">
+                        <div class="col-md-12 box-medicaments">
+                            <div class="col-md-12 box-medicaments-header">
+                                <h3 class="box-medicaments-title">Medio de pago</h3>
+                            </div>
+                            <div class="col-md-12 box-medicaments-body" style="min-height: 240px">
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <div class="col-xs-6">
+                                            {{ $ctrl.model.payType.description }}
+                                        </div>
+                                        <div class="col-xs-6" ng-show="$ctrl.isEfective()">
+                                            <b>{{ $ctrl.model.paymentAmount | currency }}</b>
+                                        </div>
+                                        <div class="col-xs-6" ng-show="$ctrl.isCard()">
+                                            <img ng-if="$ctrl.model.cardType.id==1" src="/farmapfre/resources/image/visa.png" />
+                                            <img ng-if="$ctrl.model.cardType.id==2" src="/farmapfre/resources/image/mastercard.png" />
+                                            <img ng-if="$ctrl.model.cardType.id==3" src="/farmapfre/resources/image/amex.png" />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-12" ng-show = "$ctrl.isEfective()">
+                                        <hr>
+                                        Recuerde que el repartidor debe llevar el cambio o vuelto seg&uacute;n el monto registrado.
+                                    </div>
+                                    <div class="col-sm-12" ng-show = "$ctrl.isCard()">
+                                        <hr>
+                                        Recuerda que el repartidor debe llevar el POS correspondiente para poder realizar el cobro
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--#endregion-->
+
+            <!--#region RECOJO-->
+            <div ng-if="$ctrl.model.itsCollect">
+                <uib-accordion ng-repeat="itemGroupPharmacyPremises in $ctrl.model.groupPharmacyPremises">
+                  <div uib-accordion-group class="g-acordeon panel-heading remove_padding" is-open="true">
+                    <div uib-accordion-heading>
+                      <b>{{ itemGroupPharmacyPremises.externalProvider.description + ' - ' + itemGroupPharmacyPremises.externalProvider.premises.description }}</b>
+                    </div>
+                    <div class="g-sec-information">
+                      <div class="container">
+              
+                        <div class="row">
+                          <div class="col-md-6">
+                            <div class="row">
+                                <div class="col-md-12 box-medicaments">
+                                    <div class="col-md-12 box-medicaments-header">
+                                        <h3 class="box-medicaments-title">Lista de medicamentos</h3>
+                                    </div>
+                                    <div class="col-md-12 box-medicaments-body">
+                                        <div class="container">
+                                            <div class="row item item-header">
+                                                <div class="col-xs-7 col-sm-7 col-md-7">Medicamento recetado</div>
+                                                <div class="col-xs-2 col-sm-2 col-md-2 text-center">Cant.</div>
+                                                <div class="col-xs-3 col-sm-3 col-md-3 text-center">Copago S/.</div>
+                                            </div>
+                                            <div class="row item" ng-repeat="medi in itemGroupPharmacyPremises.details">
+                                                <div class="col-xs-7 col-sm-7 col-md-7">{{medi.medicine.description}}</div>
+                                                <div class="col-xs-2 col-sm-2 col-md-2 text-center">{{medi.quantityRequired}}</div>
+                                                <div class="col-xs-3 col-sm-3 col-md-3 text-center">S/ {{medi.copago | number: 2}}</div>
+                                            </div>
+                                            <div class="row item-bottom">
+                                                <div class="col-xs-9 col-sm-9"><b>Total a pagar por el asegurado</b></div>
+                                                <div class="col-sm-3 text-center"><b>S/ {{itemGroupPharmacyPremises.copago | number: 2}}</b></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                          </div>
+                          <div class="col-sm-6 col-md-3">
+                            <div class="row">
+                                <div class="col-md-12 box-medicaments">
+                                    <div class="col-md-12 box-medicaments-header">
+                                        <h3 class="box-medicaments-title">Dirección de recojo</h3>
+                                    </div>
+                                    <div class="col-md-12 box-medicaments-body">
+                                        <div class="container">
+                                            <div class="row">
+                                                <div class="col-xs-1 col-sm-1 col-md-1">
+                                                    <i class="ico-mapfre_137_cliente-persona no-underline gCGray3"></i>
+                                                </div>
+                                                <div class="col-md-10 col-sm-10 item-dato">
+                                                    <b>&nbsp;</b>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                              <div class="box-medicaments-body-dashed">
+                                                  &nbsp;
+                                                  <div>&nbsp;</div>
+                                              </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-xs-1 col-sm-1 col-md-1">
+                                                    <span class="glyphicon glyphicon-map-marker"></span>
+                                                </div>
+                                                <div class="col-md-10 col-sm-10 nvt-paragraph-break">
+                                                    {{ itemGroupPharmacyPremises.externalProvider.premises.address.description }}
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                              <div class="col-xs-1 col-sm-1 col-md-1">
+                                                  &nbsp;
+                                              </div>
+                                              <div class="col-md-10 col-sm-10 nvt-paragraph-break">
+                                                {{
+                                                  itemGroupPharmacyPremises.externalProvider.premises.address.department.description 
+                                                  + ' - ' 
+                                                  + itemGroupPharmacyPremises.externalProvider.premises.address.province.description 
+                                                  + ' - ' 
+                                                  + itemGroupPharmacyPremises.externalProvider.premises.address.district.description 
+                                                }}
+                                              </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-xs-1 col-sm-1 col-md-1">
+                                                    &nbsp;
+                                                </div>
+                                                <div class="col-md-10 col-sm-10 nvt-paragraph-break">
+                                                    {{
+                                                      itemGroupPharmacyPremises.externalProvider.premises.address.reference ?
+                                                      '(' + itemGroupPharmacyPremises.externalProvider.premises.address.reference + ')' :
+                                                      null
+                                                    }}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                          </div>
+              
+                          <div class="col-sm-6 col-md-3">
+                            <div class="row">
+                                <div class="col-md-12 box-medicaments">
+                                    <div class="col-md-12 box-medicaments-header">
+                                        <h3 class="box-medicaments-title">Medio de pago</h3>
+                                    </div>
+                                    <div class="col-md-12 box-medicaments-body">
+                                      <div class="row">
+                                        <div class="col-sm-12">
+                                          El pago está sujeto al copago y se realizará en la farmacia de recojo.
+                                        </div>
+                                      </div>  
+                                    </div>
+                                </div>
+                            </div>
+                          </div>
+              
+                        </div>
+              
+                      </div>
+                    </div>
+                  </div>
+                </uib-accordion>
+            </div>
+            <!--#endregion-->
+        </div>
+    </div>
+</div>
+<div class="container">
+    <div class="row">
+        <div class="col-md-6 col-xs-12 col-sm-12">
+            <div class="row">
+                <div class="col-md-12 box-medicaments">
+                    <div class="col-md-12 box-medicaments-header">
+                        <h3 class="box-medicaments-title">Comentarios</h3>
+                    </div>
+                    <div class="col-md-12 box-medicaments-body " style="padding-bottom: 30px; min-height: 90px;">
+                        <mpf-textarea label="{label:'', required: false}" 
+                            ng-class="{commentdvlry: true}"
+                            ng-model="$ctrl.model.comments" 
+                            ng-disabled="true"
+                            name="nComments">
+                        </mpf-textarea>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xs-12 col-sm-6 col-md-3"></div>
+        <div class="col-xs-12 col-sm-6 col-md-3 u-float-align" style="padding: 40px 0 10px 0">
+            <a class="col-md-10 g-btn second-design g-btn-verde" ng-if="$ctrl.model.move.id == 1 && !$ctrl.model.itsCollect" ng-click="$ctrl.sendDispatch()">DESPACHAR</a>
+            <a class="col-md-10 g-btn second-design g-btn-verde" ng-if="$ctrl.model.move.id == 2 && !$ctrl.model.itsCollect" ng-click="$ctrl.confirmDispatch()">CONFIRMAR</a>
+            <a class="col-md-10 g-btn second-design g-btn-verde" ng-if="$ctrl.model.move.id != 3 && $ctrl.model.itsCollect" ng-click="$ctrl.confirmDispatch()">CONFIRMAR</a>
+        </div>
+    </div>
+</div>
+<script type="text/ng-template" id="anularDispatchTemplate.html">
+</script>

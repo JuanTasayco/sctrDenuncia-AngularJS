@@ -1,0 +1,319 @@
+<div class="row pt-xs-2 pb-xs-2">
+  <div class="g-section-inner">
+    <div class="clearfix">
+      <h2 class="col-xs-12 g-sub-title red">Datos de la Carta de Garantía</h2>
+    </div>
+    <ul class="clearfix g-list-md mb-xs-1">
+      <li class="col-md-2 clearfix cnt-item">
+        <div class="col-xs-12 item-label">
+          <span class="ico-mapfre_82_circle ico-bullet"></span>Nro. Carta:
+        </div>
+        <div class="col-xs-12 item-dato g-text-uppercase">
+          {{yearLetter}}-{{letterNumber}}
+        </div>
+      </li>
+      <li class="col-md-1 clearfix cnt-item">
+        <div class="col-xs-12 item-label">
+          <span class="ico-mapfre_82_circle ico-bullet"></span>Versión:
+        </div>
+        <div class="col-xs-12 item-dato g-text-uppercase">
+          {{letterVersion}}
+        </div>
+      </li>
+      <li class="col-md-3 clearfix cnt-item">
+        <div class="col-xs-12 item-label">
+          <span class="ico-mapfre_82_circle ico-bullet"></span>Estado:
+        </div>
+        <div class="col-xs-12 item-dato g-text-uppercase">
+          {{cartaGarantia.statusLetter}}
+        </div>
+      </li>
+      <li class="col-md-2 clearfix cnt-item">
+        <div class="col-xs-12 item-label">
+          <span class="ico-mapfre_82_circle ico-bullet"></span>Imp. Presupuesto:
+        </div>
+        <div class="col-xs-12 item-dato g-text-uppercase">
+          {{cartaGarantia.requestedAmount}}
+      </li>
+      <li class="col-md-2 clearfix cnt-item">
+        <div class="col-xs-12 item-label">
+          <span class="ico-mapfre_82_circle ico-bullet"></span>Imp. Aprobado:
+        </div>
+        <div class="col-xs-12 item-dato g-text-uppercase">
+          {{cartaGarantia.approvedAmount}} {{cartaGarantia.currency}}
+      </li>
+    </ul>
+  </div>
+  <div class="g-section-inner">
+    <div class="clearfix">
+      <div class="col-xs-12">
+        <h2 class="g-sub-title red">Datos del Afiliado</h2>
+      </div>
+    </div>
+    <div class="clearfix mb-xs-1">
+      <div class="col-md-4 col-lg-3 mb-xs-2">
+        <div class="imgUserBox u-pvh-15 u-bg--gris-11 mb-xs-2 g-text-center-xs">
+         <img data-ng-src="{{picAfiliado}}"  height="200px" data-err-src="../images/paciente.png"/>
+        </div>
+      </div>
+      <form class="col-md-8 col-lg-9" name="frmDatosPaciente">
+        <ul class="row g-list-md mb-xs-1">
+          <li class="col-md-6 clearfix cnt-item">
+            <div class="col-xs-12 item-label">
+              <span class="ico-mapfre_82_circle ico-bullet"></span>Nombre:
+            </div>
+            <div class="col-xs-12 item-dato g-text-uppercase">
+              {{cartaGarantia.patientFullName}}
+            </div>
+            <div class="col-md-offset-4 col-sm-8 g-error ng-binding"
+            	data-ng-show="showMsgAseguradoObservado" ng-bind-html="msgAseguradoObservado">
+            </div>
+          </li>
+          <li class="col-md-2 clearfix cnt-item">
+            <div class="col-xs-12 item-label">
+              <span class="ico-mapfre_82_circle ico-bullet"></span>Edad:
+            </div>
+            <div class="col-xs-12 g-input-design__wp--pt-0">
+              <mpf-input  label="{label: '', required: false}"
+                          name="nEdad"
+                          ng-model="cartaGarantia.age"
+                          ng-Maxlength="3"
+                          mpf-validation="onlyNumber"
+                          ng-required="false"></mpf-input>
+            </div>
+          </li>
+          <li class="col-md-2 clearfix cnt-item">
+            <div class="col-xs-12 item-label">
+              <span class="ico-mapfre_82_circle ico-bullet"></span>Sexo:
+            </div>
+            <div class="col-xs-12 g-input-design__wp--pt-0">
+              <mpf-input  label="{label: '', required: false}"
+                          name="nSexo"
+                          ng-Maxlength="1"
+                          ng-model="cartaGarantia.sex"
+                          mpf-validation="onlyLetter"
+                          ng-required="false"></mpf-input>
+            </div>
+          </li>
+          <li class="col-md-2 clearfix cnt-item" ng-show="cartaGarantia.productCode === SCTR || cartaGarantia.productCode === SALUD  ||  cartaGarantia.productCode === ASISTENCIA_MEDICA">
+            <div class="col-xs-12 item-label">
+                <span class="ico-mapfre_82_circle ico-bullet"></span>Parentesco:
+            </div>
+            <div class="col-xs-12 item-dato g-text-uppercase">
+              {{cartaGarantia.relationship}}
+            </div>
+          </li>
+        </ul>
+        <ul class="row g-list-md mb-xs-1">
+          <li class="col-md-3 clearfix cnt-item">
+            <div class="col-xs-12 item-label">
+              <span class="ico-mapfre_82_circle ico-bullet"></span>Póliza:
+            </div>
+            <div class="col-xs-12 item-dato g-text-uppercase">
+              {{cartaGarantia.policyNumber}}
+            </div>
+          </li>
+          <li class="col-md-3 clearfix cnt-item" ng-show="cartaGarantia.productCode === SCTR || cartaGarantia.productCode === SALUD  ||  cartaGarantia.productCode === ASISTENCIA_MEDICA">
+            <div class="col-xs-12 item-label">
+              <span class="ico-mapfre_82_circle ico-bullet"></span>Plan:
+            </div>
+            <div class="col-xs-12 item-dato g-text-uppercase">
+              {{cartaGarantia.numberPlan}}
+            </div>
+          </li>
+          <li class="col-md-3 clearfix cnt-item">
+            <div class="col-xs-12 item-label">
+              <span class="ico-mapfre_82_circle ico-bullet"></span>Producto:
+            </div>
+            <div class="col-xs-12 item-dato g-text-uppercase">
+              {{cartaGarantia.typeProduct}}
+            </div>
+          </li>
+        </ul>
+      </form>
+      <div class="col-md-12">
+        <div class="row">
+          <div class="mb-xs-3 col-xs-12 col-sm-3 col-lg-3" ng-show="showPreExistencias()">
+            <a  class="g-btn g-btn-verde second-design block" data-ng-click="getPreexistencias()">Preexistencias</a>
+          </div>
+          <div class="mb-xs-3 col-xs-12 col-sm-4 col-lg-3" data-ng-show="showObservaciones() && (cartaGarantia.productCode === SCTR || cartaGarantia.productCode === SALUD  ||  cartaGarantia.productCode === ASISTENCIA_MEDICA)">
+            <a  class="g-btn g-btn-verde second-design block" data-ng-click="getObservaciones()">Observaciones</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="clearfix g-section-inner">
+    <div class="clearfix">
+      <div class="col-xs-12">
+        <h2 class="g-sub-title red">Datos del Titular</h2>
+      </div>
+    </div>
+    <ul class="clearfix g-list-md mb-xs-1">
+      <li class="col-md-3 clearfix cnt-item">
+        <div class="col-xs-12 item-label">
+          <span class="ico-mapfre_82_circle ico-bullet"></span>Nombre:
+        </div>
+        <div class="col-xs-12 item-dato g-text-uppercase">
+          {{cartaGarantia.policyholderFullName}}
+        </div>
+      </li>
+      <li class="col-md-3 clearfix cnt-item">
+        <div class="col-xs-12 item-label">
+          <span class="ico-mapfre_82_circle ico-bullet"></span>Nombre / Razón:
+        </div>
+        <div class="col-xs-12 item-dato g-text-uppercase">
+          {{cartaGarantia.companyName}}
+        </div>
+        <div class="col-md-offset-4 col-sm-8 g-error ng-binding"
+        	data-ng-show="showMsgClienteImportante" ng-bind-html="msgClienteImportante">
+        </div>
+      </li>
+      <li class="col-md-3 clearfix cnt-item">
+        <div class="col-xs-12 item-label">
+          <span class="ico-mapfre_82_circle ico-bullet"></span>Inicio de Vigencia:
+        </div>
+        <div class="col-xs-12 item-dato g-text-uppercase" ng-if="!cartaGarantia.isSeguros">
+          {{cartaGarantia.affiliationDate}}
+        </div>
+        <div class="col-xs-12 item-dato g-text-uppercase"  ng-if="cartaGarantia.isSeguros">
+          {{(cartaGarantia.patientInfo && cartaGarantia.patientInfo.effectiveDateBegin ? cartaGarantia.patientInfo.effectiveDateBegin : cartaGarantia.effectiveDate)}}
+        </div>
+      </li>
+      <li class="col-md-3 clearfix cnt-item">
+        <div class="col-xs-12 item-label">
+          <span class="ico-mapfre_82_circle ico-bullet"></span>Fecha contrato:
+        </div>
+        <div class="col-xs-12 item-dato g-text-uppercase">
+          {{cartaGarantia.contractDate}}
+        </div>
+        <div class="col-sm-12 g-error ng-binding g-text-center-xs"
+             data-ng-show="affiliateForcedCoverage && affiliateForcedCoverage.isForcedCoverage">No tiene cobertura al plan asignado
+        </div>
+      </li>
+    </ul>
+    <ul class="clearfix g-list-md mb-xs-1">
+      <li class="col-md-4 clearfix cnt-item">
+        <div class="col-xs-5 item-label">
+          <span class="ico-mapfre_82_circle ico-bullet"></span>Producto:
+        </div>
+        <div class="col-xs-7 item-dato g-text-uppercase">
+          {{cartaGarantia.productName}}
+        </div>
+      </li>
+    </ul>
+  </div>
+  <div class="clearfix mb-xs-3 g-section-inner" ng-if="cartaGarantia.remark!=''">
+    <div class="clearfix">
+      <h2 class="col-xs-12 g-sub-title red">Observación de la Carta</h2>
+    </div>
+    <ul class="clearfix g-list pt-xs-1">
+      <li class="col-md-16 clearfix cnt-item">
+        <div class="clearfix mb-xs-1">
+          <div class="col-sm-12">
+            {{cartaGarantia.remark}}
+          </div>
+        </div>
+      </li>
+    </ul>
+  </div>
+  <div class="clearfix mb-xs-3 g-section-inner">
+    <div class="clearfix">
+      <h2 class="col-xs-12 g-sub-title red">Diagnóstico Principal</h2>
+    </div>
+    <ul class="clearfix g-list-md mb-xs-1">
+      <li class="col-md-6 clearfix cnt-item">
+        <div class="col-md-4 item-label">
+          <span class="ico-mapfre_82_circle ico-bullet"></span>Código Diagnóstico:
+        </div>
+        <div class="col-md-8 item-dato g-text-uppercase">
+          {{cartaGarantia.diagnosticCode}} {{cartaGarantia.diagnostic}}
+        </div>
+      </li>
+      <li class="col-md-6 clearfix cnt-item">
+        <div class="col-md-4 item-label">
+          <span class="ico-mapfre_82_circle ico-bullet"></span>Médico Tratante:
+        </div>
+        <div class="col-md-8 item-dato g-text-uppercase">
+          <span ng-if="cartaGarantia.doctorCode !=='0' ">{{cartaGarantia.doctorCode}}</span>  {{cartaGarantia.doctorFullName}}
+        </div>
+      </li>
+    </ul>
+    <ul class="clearfix g-list-md mb-xs-1">
+      <li class="col-md-12 clearfix cnt-item">
+        <div class="col-md-2 item-label">
+          <span class="ico-mapfre_82_circle ico-bullet"></span>Observación:
+        </div>
+        <div class="col-md-10 item-dato g-text-uppercase">
+          {{cartaGarantia.doctorRemark}}
+        </div>
+      </li>
+    </ul>
+  </div>
+  <div class="clearfix mb-xs-3 g-section-inner">
+    <div class="clearfix">
+      <h2 class="col-xs-12 g-sub-title red">Beneficio/Alternativa Copago</h2>
+    </div>
+    <ul class="clearfix g-list-md mb-xs-1">
+      <li class="col-md-4 clearfix cnt-item">
+        <div class="col-md-6 item-label">
+          <span class="ico-mapfre_82_circle ico-bullet"></span>Tipo de Atención:
+        </div>
+        <div class="col-md-6 tem-dato g-text-uppercase" ng-if="typeAttention=='A'">
+          AMBULATORIO
+        </div>
+        <div class="col-md-6 tem-dato g-text-uppercase" ng-if="typeAttention=='H'">
+          PROCEDIMIENTO
+        </div>
+        <div class="col-md-6 tem-dato g-text-uppercase" ng-if="typeAttention=='P'">
+          HOSPITALARIO
+        </div>
+      </li>
+      <li class="col-md-4 clearfix cnt-item">
+        <div class="col-md-7 item-label">
+          <span class="ico-mapfre_82_circle ico-bullet"></span>Días de Hospitalización:
+        </div>
+        <div class="col-md-5 item-dato g-text-uppercase">
+          {{cartaGarantia.daysOfHospitalization}}
+        </div>
+      </li>
+      <li class="col-md-4 clearfix cnt-item">
+        <div class="col-md-5 item-label">
+          <span class="ico-mapfre_82_circle ico-bullet"></span>Beneficio:
+        </div>
+        <div class="col-md-7 item-dato g-text-uppercase">
+          {{cartaGarantia.benefitCode}} {{cartaGarantia.benefit}}
+        </div>
+      </li>
+    </ul>
+    <ul class="clearfix g-list-md mb-xs-1">
+      <li class="col-md-12 clearfix cnt-item">
+        <div class="clearfix mb-xs-1">
+          <div class="col-sm-2">
+            <span class="ico-mapfre_82_circle ico-bullet"></span>
+            <strong>Copago Plan:</strong>
+          </div>
+          <div class="col-sm-10">
+            {{cartaGarantia.fixedCopayment}}
+          </div>
+        </div>
+      </li>
+    </ul>
+  </div>
+  <div class="row mt-xs-3">
+    <div class="col-xs-12">
+      <div class="container">
+        <div class="col-xs-12">
+          <div class="g-inline-btn-row text-center">
+            <div class="g-inline-btn-col mb-xs-1" ng-show="showLevantarObservacion()">
+              <a  class="g-btn g-btn-transparent block" ng-click="levantarObservacion()">Levantar Observación</a>
+            </div>
+            <div class="g-inline-btn-col mb-xs-1" ng-show="showCrearAmpliacion()">
+              <a  class="g-btn g-btn-verde block" data-ng-click="crearAmpliacion()">Crear ampliación</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

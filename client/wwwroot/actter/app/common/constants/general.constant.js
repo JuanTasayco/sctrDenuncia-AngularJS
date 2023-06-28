@@ -1,0 +1,69 @@
+'use strict';
+
+define([], function() {
+  return {
+    APP_MODULE: 'ActterModule',
+    FIELDS_PERSONAL_ADDRESS:{
+      PHONE_1: "PHONE_1",
+      PHONE_2: "PHONE_2",
+      MOVIL: "MOVIL",
+      EMAIL_PERSONAL: "EMAIL_PERSONAL"
+    },
+    FIELDS_PERSONAL_INFORMATION:{
+      BUSSINESS: "BUSSINESS",
+      BUSSINESS_SEGMENT:"BUSSINESS_SEGMENT",
+      PERSON_TYPE:"PERSON_TYPE",
+      NACIONALIDAD:"PERSON_TYPE",
+      DOC_TYPE:"DOC_TYPE",
+      DOC_NUMBER:"DOC_NUMBER",
+      NAME:"NAME",
+      LAST_NAME: "LAST_NAME",
+      MOTHER_LAST_NAME: "MOTHER_LAST_NAME",
+      GENDER: "GENDER",
+      DATE_BIRTH: "DATE_BIRTH",
+      PLACE_BIRTH: "PLACE_BIRTH",
+      CIVIL_STATUS: "CIVIL_STATUS",
+      NUMBER_CHILDREN: "NUMBER_CHILDREN",
+      EDUCATION_LEVEL: "EDUCATION_LEVEL",
+      PROFESION_TYPE: "PROFESION_TYPE",
+      OCCUPATION: "OCCUPATION",
+      DEATH_DATE: "DEATH_DATE"
+    },
+    FIELDS_COMPANY_CONTACT:{
+      CC_PERSON:"CC_PERSON",
+      CC_CHARGE: "CC_CHARGE",
+      CC_MOVIL_TYPE: "CC_MOVIL_TYPE",
+      CC_MOVIL: "CC_MOVIL",
+      CC_CODE_PHONE: "CC_CODE_PHONE",
+      CC_AREA_PHONE: "CC_AREA_PHONE",
+      CC_PHONE: "CC_PHONE",
+      CC_EMAIL: "CC_EMAIL",
+    },
+    HIDE_FIELDS_POLIZA : [
+      "PHONE_1",
+      "PHONE_2",
+      "MOVIL"
+    ],
+    NOT_REQUIRED_POLIZA : [
+      "BUSSINESS",
+      "LAST_NAME",
+      "MOTHER_LAST_NAME",
+      "GENDER",
+      "DATE_BIRTH",
+      "OCCUPATION",
+      "EMAIL_PERSONAL"
+    ],
+    DISABLED_FIELDS_POLIZA : [
+      "GENDER",
+      "CC_PERSON",
+      "CC_CHARGE",
+      "CC_MOVIL_TYPE",
+      "CC_MOVIL",
+      "CC_CODE_PHONE",
+      "CC_AREA_PHONE",
+      "CC_PHONE",
+      "CC_EMAIL"
+    ],
+    PARAM_FORM : "ACTTER_FORM_REG_CLI"
+  };
+});

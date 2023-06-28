@@ -1,0 +1,67 @@
+<div class="col-md-10 col-md-offset-1 mt-xs-2 mb-xs-2 login-welcome text-center">
+    <h2
+      class="title red text-center title-template"
+      ng-show="$ctrl.isRecurrente">
+        <span class="label-welcome">¡Hola <span>{{shortName}}</span>!</span>
+    </h2>
+    <p ng-show="!$ctrl.isRecurrente">Ingresa con tu usuario y contraseña.</p>
+    <div class="col-md-10 col-md-offset-1 bg-lightPink" ng-if="$ctrl.showMessage">
+      <span class="gH7">
+        {{$ctrl.messageError}}
+      </span>
+    </div>
+</div>
+
+<form
+  ng-submit="$ctrl._logIn()"
+  name="frmLogin">
+
+    <div
+      class="col-md-10 col-md-offset-1 mb-xs-2"
+      ng-show="!$ctrl.isRecurrente">
+        <mpf-input
+          label="{label: 'Ingrese su usuario', required: true}"
+          name="nIngresaUsuario"
+          ng-model="$ctrl.credentials.username"
+          ng-required="true"
+          ng-maxlength="50"
+          mpf-validation="onlyLetterNumberGuion"
+          oim-Enter="$ctrl.__login()">
+        </mpf-input>
+        <div class="g-error" ng-show="frmLogin.nIngresaUsuario.$error.required && !frmLogin.nIngresaUsuario.$pristine">* Este campo es obligatorio</div>
+    </div>
+
+    <div class="col-md-10 col-md-offset-1 mb-xs-3">
+      <mpf-password
+        label="{label: 'Ingresa tu contraseña', required: true}"
+        name="nIngresaPassword"
+        ng-model="$ctrl.credentials.password"
+        ng-required="true"
+        ng-maxlength="50"
+        oim-Enter="$ctrl.__login()">
+      </mpf-password>
+      <div class="g-error" ng-show="frmLogin.nIngresaPassword.$error.required && !frmLogin.nIngresaPassword.$pristine">* Este campo es obligatorio</div>
+
+    </div>
+    <div class="col-md-10 col-md-offset-1 mb-xs-2">
+      <a
+        href=""
+        class="g-btn g-btn-green-border block"
+        ng-click="$ctrl.__login()"
+        ng-class="{disabled: !canSubmitValidationForm()}">
+        Ingresar
+      </a>
+    </div>
+
+</form>
+
+<div class="box-login-options">
+  <div class="col-md-10 col-md-offset-1 text-center mb-xs-2">
+    <a
+      href=""
+      class="link-recover-password"
+      ui-sref="recoverPassword">
+      ¿Olvidaste tu contraseña?
+    </a>
+  </div>
+</div>

@@ -1,0 +1,243 @@
+<ng-form name="correspondenceAddressForm">
+    <div class="g-section-inner h-myd-pb--20">
+        <div class="container">
+          <div class="row mt-3 mb-xs-2">
+            <div class="col-md-12">
+              <h2 class="g-sub-title g-myd-subtitle">Dirección de correspondencia</h2>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-12 mb-1">
+              <div class="row">
+                <div class="col-md-3 mb-xs-2">
+                  <mpf-select
+                    label="{label: 'Tipo de correspondencia', required: true}"
+                    name="dcCorrespondenceType"
+                    ng-model="vm.form.tipoCorrespondencia"
+                    m-Empty-Option="{enterData:true}" 
+                    mpf-validation="required"
+                    m-data-source="vm.paramsForm.TIP_CORR_VAL"
+                    text-field="descripcion"
+                    value-field="codigo">
+                  </mpf-select>
+                  <ul class="g-error">
+                    <li ng-show="correspondenceAddressForm.dcCorrespondenceType.$invalid && !correspondenceAddressForm.dcCorrespondenceType.$pristine">* Seleccione un tipo de correspondencia</li>
+                  </ul>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-3 mb-xs-2">
+                  <mpf-select
+                    label="{label: 'País', required: true}"
+                    name="dcCountry"
+                    ng-model="vm.form.pais"
+                    m-Empty-Option="{enterData:true}" 
+                    mpf-validation="required"
+                    m-data-source="vm.countries"
+                    data-ng-change="vm.getDepartament(vm.form.pais.codigo,true)"
+                    text-field="descripcion"
+                    value-field="codigo">
+                  </mpf-select>
+                  <ul class="g-error">
+                    <li ng-show="correspondenceAddressForm.dcCountry.$invalid && !correspondenceAddressForm.dcCountry.$pristine">* Seleccione un país</li>
+                  </ul>
+                </div>
+                <div class="col-md-3 mb-xs-2">
+                  <mpf-select
+                    label="{label: 'Departamento', required: true}"
+                    name="dcDepartament"
+                    ng-model="vm.form.departamento"
+                    ng-disabled = "!vm.form.pais.codigo"
+                    m-Empty-Option="{enterData:true}" 
+                    mpf-validation="required"
+                    data-ng-change="vm.getProvinces(vm.form.departamento.codigo,true)"
+                    m-data-source="vm.departaments"
+                    text-field="descripcion"
+                    value-field="codigo">
+                  </mpf-select>
+                  <ul class="g-error">
+                    <li ng-show="correspondenceAddressForm.dcDepartament.$invalid && !correspondenceAddressForm.dcDepartament.$pristine">* Seleccione un departamento</li>
+                  </ul>
+                </div>
+                <div class="col-md-3 mb-xs-2">
+                  <mpf-select
+                    label="{label: 'Provincia', required: true}"
+                    name="dcProvince"
+                    ng-model="vm.form.provincia"
+                    ng-disabled = "!vm.form.departamento.codigo"
+                    m-Empty-Option="{enterData:true}" 
+                    mpf-validation="required"
+                    data-ng-change="vm.getDistrict(vm.form.provincia.codigo,true)"
+                    m-data-source="vm.provinces"
+                    text-field="descripcion"
+                    value-field="codigo">
+                  </mpf-select>
+                  <ul class="g-error">
+                    <li ng-show="correspondenceAddressForm.dcProvince.$invalid && !correspondenceAddressForm.dcProvince.$pristine">* Seleccione una provincia</li>
+                  </ul>
+                </div>
+                <div class="col-md-3 mb-xs-2">
+                  <mpf-select
+                    label="{label: 'Distrito', required: true}"
+                    name="dcDistrict"
+                    ng-model="vm.form.distrito"
+                    ng-disabled = "!vm.form.provincia.codigo"
+                    m-Empty-Option="{enterData:true}" 
+                    mpf-validation="required"
+                    m-data-source="vm.district"
+                    text-field="descripcion"
+                    value-field="codigo">
+                  </mpf-select>
+                  <ul class="g-error">
+                    <li ng-show="correspondenceAddressForm.dcDistrict.$invalid && !correspondenceAddressForm.dcDistrict.$pristine">* Seleccione un distrito</li>
+                  </ul>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-3 mb-xs-2">
+                  <mpf-select
+                    label="{label: 'Tipo domicilio', required: true}"
+                    name="dcAddressType"
+                    ng-model="vm.form.tipoDomicilio"
+                    m-Empty-Option="{enterData:true}" 
+                    mpf-validation="required"
+                    m-data-source="vm.paramsForm.TIP_DOMICILIO"
+                    text-field="descripcion"
+                    value-field="codigo">
+                  </mpf-select>
+                  <ul class="g-error">
+                    <li ng-show="correspondenceAddressForm.dcAddressType.$invalid && !correspondenceAddressForm.dcAddressType.$pristine">* Seleccione un tipo de domicilio</li>
+                  </ul>
+                </div>
+                <div class="col-md-3 mb-xs-2">
+                  <mpf-input
+                    label="{label: 'Domicilio', required: true}"
+                    name="dcAddress"
+                    ng-model="vm.form.domicilio"
+                    ng-required="true"
+                    ng-maxlength="30"></mpf-input>
+                  <ul class="g-error">
+                    <li ng-show="correspondenceAddressForm.dcAddress.$invalid && !correspondenceAddressForm.dcAddress.$pristine">* Ingrese un domicilio</li>
+                  </ul>
+                </div>
+                <div class="col-md-3 mb-xs-2">
+                  <div class="row">
+                    <div class="col-xs-5">
+                      <mpf-select
+                        label="{label: 'Número', required: true}"
+                        name="dcNumberType"
+                        ng-model="vm.form.tipoNumero"
+                        m-Empty-Option="{enterData:true}" 
+                        mpf-validation="required"
+                        m-data-source="vm.paramsForm.TIP_NUMERO"
+                        text-field="descripcion"
+                        value-field="codigo">
+                      </mpf-select>
+                      <ul class="g-error">
+                        <li ng-show="correspondenceAddressForm.dcNumberType.$invalid && !correspondenceAddressForm.dcNumberType.$pristine">* Seleccione un número</li>
+                      </ul>
+                    </div>
+                    <div class="col-xs-7">
+                      <mpf-input
+                        label="{label: '', required: true}"
+                        name="dcNumber"
+                        ng-model="vm.form.numero"
+                        ng-maxlength="5"
+                        ng-required="true">
+                      </mpf-input>
+                      <ul class="g-error">
+                        <li ng-show="correspondenceAddressForm.dcNumber.$invalid && !correspondenceAddressForm.dcNumber.$pristine">* Ingrese un número</li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-3 mb-xs-2">
+                  <div class="row">
+                    <div class="col-xs-5">
+                      <mpf-select
+                        label="{label: 'Interior', required: true}"
+                        name="dcInteriorType"
+                        ng-model="vm.form.tipoInterior"
+                        m-Empty-Option="{enterData:true}" 
+                        mpf-validation="required"
+                        m-data-source="vm.paramsForm.TIP_INTERIOR"
+                        text-field="descripcion"
+                        value-field="codigo">
+                      </mpf-select>
+                      <ul class="g-error">
+                        <li ng-show="correspondenceAddressForm.dcInteriorType.$invalid && !correspondenceAddressForm.dcInteriorType.$pristine">* Seleccione un interior</li>
+                      </ul>
+                    </div>
+                    <div class="col-xs-7">
+                      <mpf-input
+                        label="{label: '', required: true}"
+                        name="dcInterior"
+                        ng-model="vm.form.interior"
+                        ng-required="true"
+                        ng-maxlength="5"></mpf-input>
+                      <ul class="g-error">
+                        <li ng-show="correspondenceAddressForm.dcInterior.$invalid && !correspondenceAddressForm.dcInterior.$pristine">* Ingrese un interior</li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-3 mb-xs-2">
+                  <div class="row">
+                    <div class="col-xs-5">
+                      <mpf-select
+                        label="{label: 'Zona', required: false}"
+                        name="dcZoneType"
+                        ng-model="vm.form.tipoZona"
+                        m-Empty-Option="{enterData:true}" 
+                        m-data-source="vm.paramsForm.TIP_ZONA"
+                        text-field="descripcion"
+                        value-field="codigo">
+                      </mpf-select>
+                    </div>
+                    <div class="col-xs-7">
+                      <mpf-input
+                        label="{label: '', required: true}"
+                        name="dcZone"
+                        ng-model="vm.form.zona"
+                        ng-maxlength="30"
+                      ></mpf-input>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-3 mb-xs-2">
+                  <mpf-input
+                    label="{label: 'Código postal', required: false}"
+                    name="dcCodigoPostal"
+                    ng-model="vm.form.codigoPostal.descripcion"
+                    mpf-validation="onlyNumber"
+                    ng-maxlength="10"
+                    trn-length="10"></mpf-input>
+                </div>
+                <div class="col-md-3 mb-xs-2">
+                  <mpf-input
+                    label="{label: 'Referencia lugar', required: false}"
+                    name="dcPlaceReference"
+                    ng-model="vm.form.referenciaLugarC"
+                    ng-maxlength="255"></mpf-input>
+                </div>
+                <div class="col-md-3 mb-xs-2">
+                  <mpf-input
+                    label="{label: 'Email correspondencia', required: true}"
+                    name="dcEmailCorrespondence"
+                    ng-model="vm.form.emailCorrespondencia"
+                    mpf-validation="email"
+                    ng-required="true"
+                    ng-maxlength="60">
+                  </mpf-input>
+                  <ul class="g-error">
+                    <li ng-show="correspondenceAddressForm.dcEmailCorrespondence.$invalid && !correspondenceAddressForm.dcEmailCorrespondence.$pristine">* Ingrese un email válido</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+    </div>
+</ng-form>

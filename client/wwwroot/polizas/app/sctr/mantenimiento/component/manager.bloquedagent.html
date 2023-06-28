@@ -1,0 +1,102 @@
+<div class="row">
+  <div class="col-md-5 mt-md-2">
+    <div class="row">
+      <div class="col-md-6">
+        <a class="g-btn g-btn-white btn-block g-btn-mediano" ng-click="$ctrl.unloked();">DESBLOQUEAR AGENTE</a>
+      </div>
+      <div class="col-md-6 mt-xs-1 mt-md-0">
+        <a class="g-btn g-btn-verde btn-block g-btn-mediano" ng-click="$ctrl.download()">DESCARGAR REPORTE</a>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-7">
+    <div class="row">
+      <div class="col-md-5 col-xs-12 col-md-offset-3 mt-xs-1 mt-md-0">
+        <mpf-input label="{label: 'Buscar por nombre de agente', required: false}" name="nNombSubAct" ng-model="$ctrl.nombreAgente"></mpf-input>
+      </div>
+      <div class="col-md-3 col-xs-8 mt-md-2 mt-xs-1">
+        <a class="g-btn g-btn-verde btn-block g-btn-mediano" ng-click="$ctrl._find()">buscar</a>	
+      </div>
+      <div class="col-md-1 col-xs-4 text-center mt-md-2 mt-xs-1 filt-mant">
+        <span uib-dropdown on-toggle="$ctrl.toggled(open)" auto-close="outsideClick">
+          <a href id="simple-dropdown" uib-dropdown-toggle>
+            <span class="ico-mapfre_203_filtro ico-large ico-griss"></span>
+          </a>
+          <ul class="dropdown-menu" uib-dropdown-menu aria-labelledby="simple-dropdown">
+            <li>
+              <span class="ico-top"></span>
+              <span class="list-cb" ng-repeat="region in $ctrl.listRegions">{{region.Nombre}} <mpf-checkbox ng-click="onLima" ng-model="region.checked"></mpf-checkbox></span>
+            </li>
+          </ul>
+        </span>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-12 mt-md-4 mt-xs-2">
+    <div class="clearfix">
+      <div tbl-oim="" class="col-xs-12 g-tbl-wrapper pl-xs-0">
+        <div class="tbl-main">
+          <ul class="tbl-header clearfix tbl-has-scrollbar">
+            <li class="title col-20-dktp text-center">Agente</li>
+            <li class="title col-20-dktp text-center">Contratante</li>
+            <li class="title col-10-dktp text-center">Ramo</li>
+            <li class="title col-15-dktp text-center">Póliza</li>
+            <li class="title col-15-dktp text-center">Recibos</li>
+            <li class="title col-10-dktp text-center">Periodos</li>
+            <li class="title col-10-dktp text-right">#Dias vencidos</li>
+          </ul>
+          <ul class="tbl-body clearfix scroll-y">
+            <li class="ng-scope" ng-repeat="agentBloqued in $ctrl.agentBloqueds">
+              <ul class="tbl-row clearfix">
+                <li class="cell col-20-dktp">
+                  <span class="cell-title">
+                    <div class="cont-cb">
+                      <mpf-checkbox ng-click="onClickCheckbox" name="nChkSolicitud" ng-model="agentBloqued.checked"></mpf-checkbox>
+                    </div>
+                    <div class="cont-txt">
+                      {{agentBloqued.Agente}}
+                      <span class="g-box-label g-text-uppercase c-griss">Bloqueado</span>
+                    </div>
+                  </span>
+                </li>
+                <li class="cell col-80-dktp sub-tabla">
+                  <ul ng-repeat="client in agentBloqued.Details" height-row="" class="tbl-row clearfix tabla-fondo">
+                    <li class="cell caja1 text-center">
+                      <span class="cell-title">{{client.Contratante.RazonSocial}}</span>
+                    </li>
+                    <li class="cell caja2 text-center">
+                      <span class="cell-title">{{client.Ramo}}</span>
+                    </li>
+                    <li class="cell caja3 text-center">
+                      <span class="cell-title">{{client.NumeroPoliza}}</span>
+                    </li>
+                    <li class="cell caja4 text-center">
+                      <span class="cell-title">{{client.NumeroRecibo}}</span>
+                    </li>
+                    <li class="cell caja5 text-center">
+                      <span class="cell-title">{{client.TipoPeriodo}}</span>
+                    </li>
+                    <li class="cell caja6 text-right">
+                      <span class="cell-title">{{client.Dias}}</span>
+                    </li>	
+                  </ul>
+                </li>
+              </ul>
+            </li>
+          </ul>  
+        </div>
+      </div>
+    </div>
+    <div class="col-md-12">
+      <div class="row" ng-if="!noResult">
+        <div class="col-md-12">
+          <ul uib-pagination class="g-pagination" ng-model="$ctrl.pageNumber" max-size="10" total-items="$ctrl.totalItems" ng-change="$ctrl.pageChanged($ctrl.pageNumber)" boundary-link-numbers="true"></ul>
+        </div>
+      </div>
+    </div>	
+  </div>
+</div>
+<form id="frmdwBlokeds" name="nfrmdwBlokeds"  action="{{$ctrl.urlDonwload}}" method="POST">
+    <input type="hidden" ng-model="$ctrl.nombreAgente" name= "NombreAgente" />
+    <input type="hidden" ng-model="$ctrl.dwRegions" name= "Region" />
+</form>

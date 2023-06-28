@@ -1,0 +1,235 @@
+<form name="$ctrl.frmStepOne">
+  <div class="row mb-xs-3">
+    <div class="col-xs-12 col-sm-3">
+      <mpf-input
+        label="{label: 'Número de póliza', required: true}"
+        name="nNroPoliza"
+        mpf-validation="onlyNumber"
+        ng-disabled="false"
+        ng-required="true"
+        ng-model="$ctrl.personalAccidents.policyNumber"
+        ng-change="$ctrl.onChangePolicy($ctrl.personalAccidents.policyNumber)"
+        ng-
+      >
+      </mpf-input>
+    </div>
+    <div class="col-xs-12 col-sm-3 mt-xs-2 mt-sm-0">
+      <div class="input-group g-date-picker">
+        <label class="g-placeholder animated">Fecha de Accidente<span></span>:</label>
+        <input
+          type="text"
+          class="form-control"
+          name="nTratamientoDate"
+          ng-model="$ctrl.personalAccidents.date.model"
+          uib-datepicker-popup="{{$ctrl.personalAccidents.date.FORMAT_DATE}}"
+          is-open="$ctrl.personalAccidents.date.open"
+          datepicker-options="$ctrl.personalAccidents.date.options"
+          close-text="Close"
+          alt-input-formats="$ctrl.personalAccidents.date.ALT_INPUT_FORMATS"
+          ui-mask="{{$ctrl.personalAccidents.date.FORMAT_MASK}}"
+          ng-pattern="$ctrl.personalAccidents.date.FORMAT_PATTERN"
+          model-view-value="true"
+          ng-required="true"
+          ng-disabled="false"
+          ng-change="$ctrl.onChangeDate($ctrl.personalAccidents.date.model)"
+        />
+        <span class="input-group-btn">
+          <button
+            type="button"
+            class="btn btn-default"
+            ng-disabled = "false"
+            ng-click="$ctrl.personalAccidents.date.setOpen(true)">
+            <i class="glyphicon glyphicon-calendar"></i>
+          </button>
+        </span>
+      </div>
+      <ul class="g-error">
+        <li ng-show="!$ctrl.frmStepOne.nFechaTratamiento.$error.required && $ctrl.frmStepOne.nFechaTratamiento.$invalid && !$ctrl.frmStepOne.nFechaTratamiento.$pristine">* Fecha incorrecta</li>
+        <li ng-show="$ctrl.frmStepOne.nFechaTratamiento.$error.required && !$ctrl.frmStepOne.nFechaTratamiento.$pristine">* Este campo es necesario</li>
+      </ul>
+    </div>
+  </div>
+  <div class="row mt-xs-4 mt-sm-5" ng-if="$ctrl.showBodySection">
+    <div class="col-xs-12">
+      <uib-accordion close-others="planCtrl.oneAtATime">
+        <div uib-accordion-group class="panel-default acordion no-hidden" is-open="true">
+          <uib-accordion-heading>
+            <div ng-click="planCtrl.Acordion1()">
+              Datos de la solicitud
+              <i
+                class="pull-right i-acordion"
+                ng-class="{'ico-mapfre_309_arrowUp': planCtrl.status.open1,'ico-mapfre_308_arrowDown': !planCtrl.status.open1}">
+              </i>
+            </div>
+          </uib-accordion-heading>
+          <div class="col-xs-12 panel1">
+            <div class="row mt-xs-2">
+              <div class="col-xs-12 col-sm-3">
+                <div
+                  class="g-autocomplete-desing input-modal"
+                  ng-click="$ctrl.openModalAffiliate()">
+                  <a href="javascript:void(0)">
+                    <div class="input-modal__container">
+                      {{$ctrl.personalAccidents.afiliate.documentNumber}}
+                      <span ng-if="$ctrl.personalAccidents.afiliate.documentNumber"> | </span>
+                      {{
+                        $ctrl.personalAccidents.afiliate.fullName
+                          ? $ctrl.personalAccidents.afiliate.fullName
+                          : 'Seleccionar Afiliado'
+                      }}
+                    </div>
+                  </a>
+                </div>
+                <div
+                  class="g-error"
+                  ng-show="!$ctrl.personalAccidents.afiliate">
+                  * Selecciona un afiliado
+                </div>
+              </div>
+              <div class="col-xs-12 col-sm-3 mt-xs-1 mt-sm-0">
+                <mpf-input
+                  label="{label: 'Cliente', required: true}"
+                  name="nCliente"
+                  ng-model="$ctrl.personalAccidents.solicitudData.client.name"
+                  ng-disabled="true"
+                  ng-required="true">
+                </mpf-input>
+                <div
+                  class="g-error"
+                  ng-show="$ctrl.frmStepOne.nCliente.$error.required && !$ctrl.frmStepOne.nCliente.$pristine">
+                  * Campo requerido
+                </div>
+              </div>
+              <div class="col-xs-12 col-sm-3 mt-xs-1 mb-xs-1 mt-sm-0 mb-sm-0">
+                <mpf-input
+                  ng-if="$ctrl.constractorNumberList.length <= 1"
+                  label="{label: 'Número de contrato', required: true}"
+                  name="nNroContrato"
+                  ng-model="$ctrl.personalAccidents.solicitudData.contractNumber"
+                  ng-disabled="true"
+                  ng-required="true">
+                </mpf-input>
+                <mpf-select
+                  ng-if="$ctrl.constractorNumberList.length > 1"
+                  label="{label: 'Número de contrato ', required: true}"
+                  name="nNroContrato"
+                  ng-model="$ctrl.personalAccidents.solicitudData.contractNumber"
+                  m-data-source="$ctrl.constractorNumberList"
+                  text-field="description"
+                  value-field="code"
+                  ng-change="$ctrl.onChangeContractorNumber($ctrl.personalAccidents.solicitudData.contractNumber)"
+                  ng-required="true"
+                  m-Empty-Option="{enterData:false}">
+                </mpf-select>
+                <div
+                  class="g-error"
+                  ng-show="$ctrl.frmStepOne.nNroContrato.$error.required && !$ctrl.frmStepOne.nNroContrato.$pristine">
+                  * Campo requerido
+                </div>
+              </div>
+              <div class="col-xs-12 col-sm-3 mt-xs-1 mb-xs-1 mt-sm-0 mb-sm-0">
+                <m-Numeric-Textbox
+                  label="{label: 'Importe total de comprobantes ', required: true}"
+                  name="ntotalComprobantesImport"
+                  ng-model="$ctrl.personalAccidents.solicitudData.totalComprobantesImport"
+                  ng-required="true"
+                  options="1">
+                </m-Numeric-Textbox>
+                <div
+                  class="g-error"
+                  ng-show="$ctrl.frmStepOne.ntotalComprobantesImport.$error.required && !$ctrl.frmStepOne.ntotalComprobantesImport.$pristine">
+                  * Campo requerido
+                </div>
+              </div>
+            </div>
+            <div class="row mt-xs-2">
+              <div class="col-xs-12 col-sm-3 mt-xs-1 mt-sm-0 col-sm-offset-3">
+                <mpf-input
+                  label="{label: 'Plan', required: true}"
+                  name="nPlan"
+                  ng-model="$ctrl.personalAccidents.solicitudData.plan.name"
+                  ng-disabled="true"
+                  ng-required="true">
+                </mpf-input>
+                <div
+                  class="g-error"
+                  ng-show="$ctrl.frmStepOne.nPlan.$error.required && !$ctrl.frmStepOne.nPlan.$pristine">
+                  * Campo requerido
+                </div>
+              </div>
+              <div class="col-xs-12 col-sm-3 mt-xs-1 mt-sm-0">
+                <mpf-input
+                  label="{label: 'Parentesco', required: true}"
+                  name="nParentezco"
+                  ng-model="$ctrl.personalAccidents.solicitudData.relationship.description"
+                  ng-disabled="true"
+                  ng-required="true">
+                </mpf-input>
+                <div
+                  class="g-error"
+                  ng-show="$ctrl.frmStepOne.nParentezco.$error.required && !$ctrl.frmStepOne.nParentezco.$pristine">
+                  * Campo requerido
+                </div>
+              </div>
+              <div class="col-xs-12 col-sm-3 mt-xs-1 mt-sm-0">
+                <mpf-input
+                  label="{label: 'Afiliado titular', required: false}"
+                  name="nAfiliadoVinculacion"
+                  ng-model="$ctrl.personalAccidents.solicitudData.afiliateTitular.name"
+                  ng-disabled="true">
+                </mpf-input>
+                <div
+                  class="g-error"
+                  ng-show="$ctrl.frmStepOne.nAfiliadoVinculacion.$error.required && !$ctrl.frmStepOne.nAfiliadoVinculacion.$pristine">
+                  * Campo requerido
+                </div>
+              </div>
+            </div>
+            <div class="row mt-xs-4">
+            </div>
+            <div class="row" ng-if="$ctrl.showLastBodySection">
+              <div class="col-xs-12 col-sm-3 mt-xs-1 mt-sm-0">
+                <mpf-select
+                  label="{label: 'Beneficio ', required: true}"
+                  name="nBenefit"
+                  ng-model="$ctrl.personalAccidents.solicitudData.benefit"
+                  m-data-source="$ctrl.benefitList"
+                  text-field="benefitDescription"
+                  value-field="benefitCode"
+                  ng-required="true"
+                  m-Empty-Option="{enterData:true}"
+                  ng-change="$ctrl.onChangeBenefit($ctrl.personalAccidents.solicitudData.benefit)">
+                </mpf-select>
+                <div
+                  class="g-error"
+                  ng-show="$ctrl.frmStepOne.nBenefit.$error.required && !$ctrl.frmStepOne.nBenefit.$pristine">
+                  * Seleccione un beneficio
+                </div>
+              </div>
+              <div class="col-xs-12 col-sm-3 mt-xs-1 mt-sm-0">
+                <m-Numeric-Textbox
+                  label="{label: 'Suma asegurada ', required: true}"
+                  name="nSumaAsegurada"
+                  ng-model="$ctrl.personalAccidents.solicitudData.sumaAsegurada"
+                  ng-disabled="true"
+                  ng-required="true"
+                  options="1">
+                </m-Numeric-Textbox>
+                <div
+                  class="g-error"
+                  ng-show="$ctrl.frmStepOne.nSumaAsegurada.$error.required && !$ctrl.frmStepOne.nSumaAsegurada.$pristine">
+                  * Seleccione un beneficio
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </uib-accordion>
+    </div>
+  </div>
+  <div class="row mt-xs-4 mb-xs-3" ng-if="$ctrl.showBodySection">
+    <div class="col-md-4 col-md-offset-4">
+      <a class="g-btn g-btn-verde block" ng-click="$ctrl.validateForm()">Continuar</a>
+    </div>
+  </div>
+</form>

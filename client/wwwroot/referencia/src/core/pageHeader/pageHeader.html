@@ -1,0 +1,34 @@
+<div class="page-heading" ng-class="{'with-subtitle': $ctrl.subtitle}">
+  <div class="container">
+    <div class="row">
+      <div class="col-xs-12" ng-class="{'col-sm-6': $ctrl.areRightActions}">
+        <h1 class="title-r u-title-divider--up">{{::$ctrl.title}}
+          <span class="rating hidden-xs hidden-sm" ng-if="!$ctrl.ratingHideOn && $ctrl.finished">
+            <span class="iconref-estrella"></span> <span class="text">{{::$ctrl.rating}}/10</span>
+          </span>
+          <span class="label label-default" ng-if="!$ctrl.finishedHideOn && !$ctrl.finished">No finalizada</span>
+        </h1>
+        <p class="subtitle" ng-if="$ctrl.subtitle">
+          <span ng-if="!$ctrl.subtitleHideOn">{{::$ctrl.subtitle}}</span>
+          <span ng-if="$ctrl.subtitleHideOn">&nbsp;</span>
+        </p>
+      </div>
+      <button class="menu-trigger c-btn btn--icon"
+              ng-attr-title="Desplegar menú"
+              type="button"
+              aria-controls="rightActions"
+              ng-if="$ctrl.areRightActions"
+              ng-click="$ctrl.rightActionsToggle()">
+        <span class="iconref-menu_contextual"></span>
+      </button>
+      <div ng-transclude="right"
+           id="rightActions"
+           class="col-xs-12 col-sm-6 text-right header-actions-wrapper"
+           ng-class="{'hidden-xs': $ctrl.areRightActionsCollapsed}"
+           ng-if="$ctrl.areRightActions"></div>
+    </div>
+  </div>
+</div>
+<div class="right-actions-bg"
+     ng-if="$ctrl.areRightActions && !$ctrl.areRightActionsCollapsed"
+     ng-click="$ctrl.rightActionsToggle()"></div>

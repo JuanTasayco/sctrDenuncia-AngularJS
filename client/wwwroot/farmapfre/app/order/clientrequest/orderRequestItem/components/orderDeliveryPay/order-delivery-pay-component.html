@@ -1,0 +1,368 @@
+<div ng-repeat="preOrder in $ctrl.preorders" ng-if="$ctrl.itsdelivery">
+  <div class="row">
+      <div class="col-md-6">
+          <div class="row">
+              <div class="col-md-12 box-medicaments">
+                  <div class="col-md-12 box-medicaments-header">
+                      <h3 class="box-medicaments-title">Lista de medicamentos</h3>
+                  </div>
+                  <div class="col-md-12 box-medicaments-body">
+                      <div class="container">
+                          <div class="row item item-header">
+                              <div class="col-xs-5 col-sm-5 col-md-5">Medicamento recetado</div>
+                              <div class="col-xs-2 col-sm-2 col-md-2 text-center">Cant.</div>
+                              <div class="col-xs-2 col-sm-2 col-md-2 text-center">Proveedor</div>
+                              <div class="col-xs-3 col-sm-3 col-md-3 text-center">Copago S/.</div>
+                          </div>
+                          <div class="row item" ng-repeat="medi in preOrder.details">
+                              <div class="col-xs-5 col-sm-5 col-md-5">{{medi.medicine.description}}</div>
+                              <div class="col-xs-2 col-sm-2 col-md-2 text-center">{{medi.quantityRequired}}</div>
+                              <div class="col-xs-2 col-sm-2 col-md-2 text-center">{{medi.externalProvider.description}}</div>
+                              <div class="col-xs-3 col-sm-3 col-md-3 text-center">S/ {{medi.copago | number: 2}}</div>
+                          </div>
+                          <div class="row item-bottom">
+                              <div class="col-xs-9 col-sm-9"><b>Total a pagar por el asegurado</b></div>
+                              <div class="col-sm-3 text-center"><b>S/ {{preOrder.copago | number: 2}}</b></div>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </div>
+      <div class="col-sm-6 col-md-3">
+          <div class="row">
+              <div class="col-md-12 box-medicaments">
+                  <div class="col-md-12 box-medicaments-header">
+                      <h3 class="box-medicaments-title">Ruta de entrega</h3>
+                  </div>
+                  <div class="col-md-12 box-medicaments-body">
+                      <div class="container">
+                          <div class="row">
+                              <div class="col-xs-1 col-sm-1 col-md-1">
+                                  <!-- <span class="ico-mapfre_82_circle"></span> -->
+                                  <span class="glyphicon glyphicon-plus-sign"></span>
+                              </div>
+                              <div class="col-md-10 col-sm-10 item-dato">
+                                  <b>{{preOrder.boDispatch.description}}</b>
+                              </div>
+                          </div>
+                          <div class="row">
+                                  <div class="box-medicaments-body-dashed">
+                                      &nbsp;
+                                      <div>&nbsp;</div>
+                                  </div>
+                          </div>
+                          <div class="row">
+                              <div class="col-xs-1 col-sm-1 col-md-1">
+                                  <span class="glyphicon glyphicon-map-marker"></span>
+                              </div>
+                              <div class="col-md-10 col-sm-10 item-label">
+                                  <b>
+                                      {{$ctrl.address.department.description + ' - ' + $ctrl.address.province.description + ' - ' + $ctrl.address.district.description }}
+                                  </b>
+                              </div>
+                          </div>
+                          <div class="row">
+                              <div class="col-xs-1 col-sm-1 col-md-1">
+                                  &nbsp;
+                              </div>
+                              <div class="col-md-10 col-sm-10 item-label nvt-paragraph-break">
+                                  {{$ctrl.address.description}}
+                              </div>
+                          </div>
+                          <div class="row">
+                              <div class="col-xs-1 col-sm-1 col-md-1">
+                                  &nbsp;
+                              </div>
+                              <div class="col-md-10 col-sm-10 nvt-paragraph-break">
+                                  {{$ctrl.address.reference}}
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </div>
+      <div class="col-sm-6 col-md-3">
+          <div class="row">
+              <div class="col-md-12 box-medicaments">
+                  <div class="col-md-12 box-medicaments-header">
+                      <h3 class="box-medicaments-title">Medio de pago</h3>
+                  </div>
+                  <div class="col-md-12 box-medicaments-body">
+                      <div class="row">
+                          <div class="col-sm-12">
+                            <div class="col-xs-12" ng-repeat="pay in $ctrl.payTypes">
+                                <m-radio 
+                                    label="{label: pay.description}" 
+                                    name="payType-{{$index}}" 
+                                    value="{{pay.id}}"
+                                    ng-model="preOrder.payType.id" 
+                                    ng-change="$ctrl.valCheck()"
+                                      ng-disabled="$ctrl.has100PercentCopago || $ctrl.cancelButtom"
+                                      ></m-radio>
+                              </div>
+
+                              <!-- <div class="col-xs-12">
+                                  <m-radio label="{label: 'Efectivo'}" name="payType-1"  ng-model="preOrder.payType.id" value="1"
+                                      ng-change="$ctrl.valCheck($index)"
+                                      ng-disabled="$ctrl.has100PercentCopago || $ctrl.cancelButtom"
+                                      ></m-radio>
+                              </div>
+                              <div class="col-xs-12">
+                                  <m-radio label="{label: 'Tarjeta'}" name="payType-2"  ng-model="preOrder.payType.id" value="2"
+                                      ng-change="$ctrl.valCheck($index)"
+                                      ng-disabled="$ctrl.has100PercentCopago || $ctrl.cancelButtom"
+                                      ></m-radio>
+                              </div> -->
+
+                              <div class="col-xs-12">
+                                  <ul class="g-error">
+                                      <li ng-show="(!preOrder.payType || !preOrder.payType.id || preOrder.payType.id=='' || preOrder.payType.id==null)">*Seleccione tipo de pago</li>
+                                  </ul>
+                              </div>
+                          </div>
+                      </div>
+                      <div class="row">
+                          <div class="col-sm-12" ng-show="(preOrder.payType.id==1)">
+                              <hr>
+                              <m-numeric-textbox options="1" label="{label: 'Monto', required: false}"
+                                  data-ng-model="preOrder.paymentAmount"
+                                  name="nMonto"
+                                  ng-disabled="$ctrl.has100PercentCopago || $ctrl.cancelButtom"
+                                  ng-change="$ctrl.valPaymentAmount(preOrder)">
+                              </m-numeric-textbox>
+                              <div class="col-xs-12">
+                                  <ul class="g-error">
+                                      <li ng-show="(!preOrder.paymentAmount || preOrder.paymentAmount=='' || preOrder.paymentAmount==null) && !$ctrl.has100PercentCopago && preOrder.paymentAmount!=0">
+                                        *Ingrese monto
+                                      </li>
+                                      <li ng-show="!preOrder.isOkPaymentAmount && !$ctrl.has100PercentCopago">
+                                        *Ingrese un monto mayor o igual al copago
+                                      </li>
+                                  </ul>
+                              </div>
+                          </div>
+                          <div class="col-sm-12 box-medicaments-card-type" ng-show="(preOrder.payType.id==2)">
+                              <hr>
+                                  <input type="radio" name="rCardType-{{preOrder.id ? preOrder.id : preOrder.item}}" id="rCardType-{{preOrder.id ? preOrder.id : preOrder.item}}-1" data-ng-model="preOrder.cardType.id" value="1">
+                                  <label for="rCardType-{{preOrder.id ? preOrder.id : preOrder.item}}-1">
+                                      <img src="./resources/image/visa.png">
+                                  </label>
+                                  <input type="radio" name="rCardType-{{preOrder.id ? preOrder.id : preOrder.item}}" id="rCardType-{{preOrder.id ? preOrder.id : preOrder.item}}-2" data-ng-model="preOrder.cardType.id" value="2">
+                                  <label for="rCardType-{{preOrder.id ? preOrder.id : preOrder.item}}-2">
+                                      <img src="./resources/image/mastercard.png">
+                                  </label>
+                                  <input type="radio" name="rCardType-{{preOrder.id ? preOrder.id : preOrder.item}}" id="rCardType-{{preOrder.id ? preOrder.id : preOrder.item}}-3" data-ng-model="preOrder.cardType.id" value="3">
+                                  <label for="rCardType-{{preOrder.id ? preOrder.id : preOrder.item}}-3">
+                                      <img src="./resources/image/amex.png">
+                                  </label>
+                              <div class="col-xs-12">
+                                  <ul class="g-error">
+                                      <li ng-show="(!preOrder.cardType || !preOrder.cardType.id || preOrder.cardType.id=='' || preOrder.cardType.id==null)">*Seleccione una tarjeta</li>
+                                  </ul>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </div>
+  </div>
+  <div class="row">
+      <div class="col-md-6 col-xs-12 col-sm-12">
+          <div class="row">
+              <div class="col-md-12 box-medicaments">
+                  <div class="col-md-12 box-medicaments-header">
+                      <h3 class="box-medicaments-title">Comentarios</h3>
+                  </div>
+                  <div class="col-md-12 box-medicaments-body " style="padding-bottom: 30px; min-height: 90px;">
+                          <mpf-textarea label="{label:'', required: false}"
+                              ng-class="{commentdvlry: true} "
+                              ng-model="preOrder.comments"
+                              ng-keyup="$ctrl.countChars(preOrder.comments)"
+                              ng-disabled="$ctrl.cancelButtom"
+                              name="nComments"
+                              ng-required="false"
+                              ng-Maxlength="maxLengthTA">
+                          </mpf-textarea>
+                          <p id="charNum" class="count">{{remainMsg}}</p>
+                  </div>
+              </div>
+          </div>
+      </div>
+      <div class="col-xs-12 col-sm-12 col-md-3"></div>
+      <div class="col-xs-12 col-sm-12 col-md-3 u-float-align" style="padding: 50px 0 10px 0" ng-if="!$ctrl.cancelButtom">
+          <a class="col-md-12 g-btn second-design g-btn-verde"
+              ng-click="$ctrl.ordernarDespacho()"
+              ng-class="{disabled: $ctrl.itsCancel}">Ordenar</a>
+	  </div>
+  </div>
+</div>
+
+<div ng-repeat="preOrder in $ctrl.preorders" ng-if="$ctrl.itscollect">
+  <uib-accordion ng-repeat="itemGroupPharmacyPremises in preOrder.groupPharmacyPremises">
+    <div uib-accordion-group class="g-acordeon panel-heading remove_padding" is-open="true">
+      <div uib-accordion-heading>
+        <b>{{ itemGroupPharmacyPremises.externalProvider.description + ' - ' + itemGroupPharmacyPremises.externalProvider.premises.description }}</b>
+      </div>
+      <div class="g-sec-information">
+        <div class="container">
+
+          <div class="row">
+            <div class="col-md-6">
+              <div class="row">
+                  <div class="col-md-12 box-medicaments">
+                      <div class="col-md-12 box-medicaments-header">
+                          <h3 class="box-medicaments-title">Lista de medicamentos</h3>
+                      </div>
+                      <div class="col-md-12 box-medicaments-body">
+                          <div class="container">
+                              <div class="row item item-header">
+                                  <div class="col-xs-7 col-sm-7 col-md-7">Medicamento recetado</div>
+                                  <div class="col-xs-2 col-sm-2 col-md-2 text-center">Cant.</div>
+                                  <div class="col-xs-3 col-sm-3 col-md-3 text-center">Copago S/.</div>
+                              </div>
+                              <div class="row item" ng-repeat="medi in itemGroupPharmacyPremises.details">
+                                  <div class="col-xs-7 col-sm-7 col-md-7">{{medi.medicine.description}}</div>
+                                  <div class="col-xs-2 col-sm-2 col-md-2 text-center">{{medi.quantityRequired}}</div>
+                                  <div class="col-xs-3 col-sm-3 col-md-3 text-center">S/ {{medi.copago | number: 2}}</div>
+                              </div>
+                              <div class="row item-bottom">
+                                  <div class="col-xs-9 col-sm-9"><b>Total a pagar por el asegurado</b></div>
+                                  <div class="col-sm-3 text-center"><b>S/ {{itemGroupPharmacyPremises.copago | number: 2}}</b></div>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+            </div>
+            <div class="col-sm-6 col-md-3">
+              <div class="row">
+                  <div class="col-md-12 box-medicaments">
+                      <div class="col-md-12 box-medicaments-header">
+                          <h3 class="box-medicaments-title">Dirección de recojo</h3>
+                      </div>
+                      <div class="col-md-12 box-medicaments-body">
+                          <div class="container">
+                              <div class="row">
+                                  <div class="col-xs-1 col-sm-1 col-md-1">
+                                    <!-- <span class="glyphicon glyphicon-user"></span> -->
+                                    <i class="ico-mapfre_137_cliente-persona no-underline gCGray3"></i>
+                                  </div>
+                                  <div class="col-md-10 col-sm-10 item-dato">
+                                      <b>&nbsp;</b>
+                                  </div>
+                              </div>
+                              <div class="row">
+                                <div class="box-medicaments-body-dashed">
+                                    &nbsp;
+                                    <div>&nbsp;</div>
+                                </div>
+                              </div>
+                              <div class="row">
+                                  <div class="col-xs-1 col-sm-1 col-md-1">
+                                      <span class="glyphicon glyphicon-map-marker"></span>
+                                  </div>
+                                  <!-- <div class="col-md-10 col-sm-10 item-label">
+                                      <b>
+                                        {{ itemGroupPharmacyPremises.externalProvider.description + ' - ' + itemGroupPharmacyPremises.externalProvider.premises.description }}
+                                      </b>
+                                  </div> -->
+                                  <div class="col-md-10 col-sm-10 nvt-paragraph-break">
+                                      {{ itemGroupPharmacyPremises.externalProvider.premises.address.description }}
+                                  </div>
+                              </div>
+                              <!-- <div class="row">
+                                  <div class="col-xs-1 col-sm-1 col-md-1">
+                                      &nbsp;
+                                  </div>
+                                  <div class="col-md-10 col-sm-10 nvt-paragraph-break">
+                                      {{ itemGroupPharmacyPremises.externalProvider.premises.address.description }}
+                                  </div>
+                              </div> -->
+                              <div class="row">
+                                <div class="col-xs-1 col-sm-1 col-md-1">
+                                    &nbsp;
+                                </div>
+                                <div class="col-md-10 col-sm-10 nvt-paragraph-break">
+                                  {{
+                                    itemGroupPharmacyPremises.externalProvider.premises.address.department.description 
+                                    + ' - ' 
+                                    + itemGroupPharmacyPremises.externalProvider.premises.address.province.description 
+                                    + ' - ' 
+                                    + itemGroupPharmacyPremises.externalProvider.premises.address.district.description
+                                  }}
+                                </div>
+                              </div>
+                              <div class="row">
+                                  <div class="col-xs-1 col-sm-1 col-md-1">
+                                      &nbsp;
+                                  </div>
+                                  <div class="col-md-10 col-sm-10 nvt-paragraph-break">
+                                      {{
+                                        itemGroupPharmacyPremises.externalProvider.premises.address.reference ?
+                                        '(' + itemGroupPharmacyPremises.externalProvider.premises.address.reference + ')' :
+                                        null
+                                      }}
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+            </div>
+
+            <div class="col-sm-6 col-md-3">
+              <div class="row">
+                  <div class="col-md-12 box-medicaments">
+                      <div class="col-md-12 box-medicaments-header">
+                          <h3 class="box-medicaments-title">Medio de pago</h3>
+                      </div>
+                      <div class="col-md-12 box-medicaments-body">
+                        <div class="row">
+                          <div class="col-sm-12">
+                            El pago está sujeto al copago y se realizará en la farmacia de recojo.
+                          </div>
+                        </div>  
+                      </div>
+                  </div>
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </uib-accordion>
+
+  <div class="row">
+    <div class="col-md-6 col-xs-12 col-sm-12">
+        <div class="row">
+            <div class="col-md-12 box-medicaments">
+                <div class="col-md-12 box-medicaments-header">
+                    <h3 class="box-medicaments-title">Comentarios</h3>
+                </div>
+                <div class="col-md-12 box-medicaments-body " style="padding-bottom: 30px; min-height: 90px;">
+                    <mpf-textarea label="{label:'', required: false}"
+                        ng-class="{commentdvlry: true} "
+                        ng-model="preOrder.comments"
+                        ng-keyup="$ctrl.countChars(preOrder.comments)"
+                        name="nComments"
+                        ng-required="false"
+                        ng-Maxlength="maxLengthTA">
+                    </mpf-textarea>
+                    <p id="charNum" class="count">{{remainMsg}}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-xs-12 col-sm-12 col-md-3"></div>
+    <div class="col-xs-12 col-sm-12 col-md-3 u-float-align" style="padding: 50px 0 10px 0" ng-if="!$ctrl.cancelButtom">
+        <a class="col-md-12 g-btn second-design g-btn-verde"
+            ng-click="$ctrl.ordernarDespacho()"
+            ng-class="{disabled: ctrl.itsCancel}">Ordenar</a>
+    </div>
+  </div>
+</div>

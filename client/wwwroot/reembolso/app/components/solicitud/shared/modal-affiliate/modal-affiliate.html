@@ -1,0 +1,178 @@
+<section class="g-page-popup g-reembolso-popup">
+  <button type="button" class="close g-close-modal" ng-click="$ctrl.cerrar()">
+    <span class=" ico-mapfre_231_cancelaroff"></span>
+  </button>
+  <form name="$ctrl.frm">
+    <div class="container g-modal-header g-text-uppercase">
+      <div class="col-xs-12">
+        <div class="row">
+          <div class="col-md-12 mb-xs-1">
+            <h2 class="gH3"><b>Búsqueda de {{ $ctrl.namelbl }}</b></h2>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="container g-modal-body pt-xs-2 pb-xs-2">
+      <div class="col-xs-12">
+        <div class="row mb-xs-2" ng-if="$ctrl.isSoatProduct && $ctrl.showDisclaimer">
+          <div class="col-xs-12 g-box fz14 pt-xs-1-5 pb-xs-1-5 content-alert alert-section">
+            <div class="clearfix g-div-middle">
+              <div class="col-xs-12 col-sm-9 no-padding-xs alert-text">
+                <div class="clearfix g-div-middle">
+                  <div class="col-xs-12 col-sm-2 col-md-2 text-center no-padding-xs mb-xs-1 mb-sm-0">
+                    <i class="fwBold gnIcon-lg ico-mapfre_301_warning"></i>
+                  </div>
+                  <div class="col-xs-12 col-sm-10 col-md-10 g-text-center-xs g-text-left-sm no-padding-xs">
+                    <p class="gH3 no-margin-xs fwMedium gCGray2">
+                      Si el {{ $ctrl.namelbl }} no ha sido encontrado
+                    </p>
+                    <span class="fwLight gCGray2">Puedes buscarlo en los datos de equifax.</span>
+                  </div>
+                </div>
+              </div>
+              <div class="col-xs-12 col-sm-3 text-center alert-create">
+                <p
+                  class="no-margin-xs pt-xs-1-5 pb-xs-1-5 g-u-cursor--pointer"
+                  ng-click="$ctrl.changeToEquifaxModal()">
+                  <b>Buscar {{ $ctrl.namelbl }}</b>
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row mb-xs-2" ng-if="!$ctrl.showDisclaimer">
+          <div class="col-xs-12">
+            <div class="row">
+              <div class="col-xs-8">
+                <mpf-input
+                  label="{label: 'DNI o Nombre ', required: true}"
+                  name="nCriteria"
+                  ng-model="$ctrl.affiliateInput.identifier"
+                  ng-required="true"
+                  mpf-validation="onlyLetterNumber"
+                  ng-minlength="2"
+                  ng-change="$ctrl.onKeyUp($ctrl.affiliateInput.identifier)">
+                </mpf-input>
+                <div
+                  class="g-error"
+                  ng-show="$ctrl.frm.nCriteria.$error.required && !$ctrl.frm.nCriteria.$pristine">
+                  * Campo requerido
+                </div>
+              </div>
+              <div class="col-xs-4 g-div-bottom">
+                <a
+                  class="g-btn g-btn-white second-design block"
+                  ng-click="$ctrl.searchAffiliate()">
+                  Buscar
+                </a>
+              </div>
+            </div>
+            <div
+              class="row mt-xs-2"
+              ng-if="$ctrl.showAdditionalInputs">
+              <div class="col-xs-6">
+                <mpf-input
+                  label="{label: 'Apellido Paterno ', required: true}"
+                  name="nLastName"
+                  mpf-validation="onlyLetter"
+                  ng-model="$ctrl.affiliateInput.lastName"
+                  ng-required="true"
+                >
+                </mpf-input>
+                <div
+                  class="g-error"
+                  ng-show="$ctrl.frm.nLastName.$error.required && !$ctrl.frm.nLastName.$pristine">
+                  * Campo requerido
+                </div>
+              </div>
+              <div class="col-xs-6">
+                <mpf-input
+                  label="{label: 'Apellido Materno ', required: true}"
+                  name="nMotherLastName"
+                  mpf-validation="onlyLetter"
+                  ng-model="$ctrl.affiliateInput.motherLastName"
+                  ng-required="true"
+                >
+                </mpf-input>
+                <div
+                  class="g-error"
+                  ng-show="$ctrl.frm.nMotherLastName.$error.required && !$ctrl.frm.nMotherLastName.$pristine">
+                  * Campo requerido
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-xs-12 g-box box-search-afiliado">
+            <div class="row">
+              <div class="col-xs-12">
+                <div
+                  class="clearfix g-box mb-xs-1 g-u-cursor--pointer content-procedimiento"
+                  ng-repeat="afiliado in $ctrl.listData"
+                  ng-class="{'active': afiliado === $ctrl.afiliate}"
+                  ng-click="$ctrl.selectAffiliate(afiliado)">
+                    <div class="col-xs-3">{{afiliado.documentNumber}}</div>
+                    <div class="col-xs-9">{{afiliado.fullName}}</div>
+                </div>
+              </div>
+            </div>
+            <div
+              class="g-content-outer"
+              ng-if="$ctrl.listData.length < 1"
+            >
+              <div class="g-content-inner-middle">
+                <div class="col-xs-12 pt-xs-2 pb-xs-2 g-col-md middle g-text-center-xs">
+                  <div class="row">
+                    <div class="col-xs-12 text-center no-padding-xs error-alert-reembolso">
+                      <span class="gnIcon-lg ico-mapfre_302_error error-icon"></span>
+                      <h3>¡UPS! EL AFILIADO NO HA SIDO ENCONTRADO O NO EXISTE</h3>
+                      <p class="gCGray3" ng-if="$ctrl.showCreateAffiliate !== false">
+                        Puedes crear un nuevo afiliado en unos simples pasos
+                      </p>
+                      <p class="gCGray3" ng-if="$ctrl.showCreateAffiliate === false">
+                        Por favor comunícate con tu agente.
+                      </p>
+                      <button
+                        class="g-btn g-btn-verde"
+                        ng-click="$ctrl.createAffiliate()"
+                        ng-if="$ctrl.showCreateAffiliate !== false"
+                      >
+                        crear afiliado
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="g-content-outer" ng-if="$ctrl.showMessageEPS()">
+              <div class="g-content-inner-middle">
+                <div class="col-xs-12 pt-xs-2 pb-xs-2 g-col-md middle g-text-center-xs">
+                  <div class="row">
+                    <div class="col-xs-12 text-center no-padding-xs error-alert-reembolso">
+                      <span class="gnIcon-lg ico-mapfre_302_error error-icon"></span>
+                      <h3>¡UPS! EL AFILIADO NO HA SIDO ENCONTRADO O NO EXISTE</h3>
+                      <p class="gCGray3">Favor comunicarse con su ejecutivo Mapfre solicitando el registro del afiliado en el Power EPS</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="container g-modal-footer pt-xs-2">
+      <div class="col-md-4 col-md-offset-4 mb-xs-1 no-mb-md">
+        <a
+          href="javascript:void(0)"
+          class="g-btn g-btn-verde block"
+          ng-class="{'disabled': $ctrl.afiliate === undefined}"
+          ng-click="$ctrl.sendAffiliate()">
+          Aceptar
+        </a>
+      </div>
+    </div>
+  </form>
+</section>

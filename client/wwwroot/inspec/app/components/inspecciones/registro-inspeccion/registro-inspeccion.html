@@ -1,0 +1,1104 @@
+<section class="g-page page-inspeccion-registro page-inspeccion-autos__programacion-detalle">
+  <page-title class="hidden-lg hidden-md" info="{title: 'Inspecciones Autos'}"></page-title>
+  <div fixed-section ng-class="{'fixed-section': boolChangeClass}" class="h-myd-bg--gray4">
+    <div class="container">
+      <div class="row h-myd-mb--20">
+        <div class="g-title col-md-6">
+          <div class="">
+            <h2 class="ng-binding pr-xs-1">Solicitud #{{ $ctrl.requestId }}</h2>
+            <inspec-request-label
+              margin-top="true"
+              request-id="$ctrl.inspection.riskStatusCode"
+              request-text="$ctrl.inspection.riskStatus"
+            ></inspec-request-label>
+          </div>
+          <div class="title-details mt-xs-1 mt-md-0">
+            <span
+              >Usuario:
+              <span
+                ><b>{{ $ctrl.user.username }}</b></span
+              ></span
+            >
+            <span
+              >Fecha creación:
+              <span
+                ><b>{{ $ctrl.creationDate | date: "dd/MM/yyyy" }}</b></span
+              ></span
+            >
+            <inspec-request-label ng-if="$ctrl.inspection.idInspecPresencial"
+                request-id="$ctrl.inspection.idInspecPresencial"
+                request-text="$ctrl.inspection.inspecPresencial"
+              ></inspec-request-label>
+          </div>
+        </div>
+        <div class="col-md-2 mt-md-3 col-sm-3 col-md-offset-0 col-sm-offset-9 col-xs-6 col-xs-offset-6 mt-xs-2" ng-if="$ctrl.inspection.riskStatusCode !== '6' && !$ctrl.finished && $ctrl.firstRequestCompleted">
+          <div class="g-toggle mt-xs-1">
+            <div class="cntr">
+              <div class="row press">
+                <input
+                  ng-if="$ctrl.inspection.riskStatusCode !== '5'"
+                  type="checkbox"
+                  id="unchecked"
+                  class="cbx hidden"
+                  ng-model="$ctrl.inspection.isForEvaluation"
+                  ng-disabled="!$ctrl.user.isAPermittedObject('REGINS')"
+                />
+                <input
+                  ng-if="$ctrl.inspection.riskStatusCode === '5'"
+                  type="checkbox"
+                  id="unchecked"
+                  class="cbx hidden"
+                  ng-model="$ctrl.inspection.isForEvaluation"
+                  ng-disabled="!$ctrl.user.isAPermittedObject('EVAINS')"
+                />
+                <label for="unchecked" class="lbl"></label>
+              </div>
+              <div class="row">
+                <span>EN EVALUACIÓN</span>
+              </div>
+            </div>
+            <span></span>
+          </div>
+        </div>
+        <div
+          class="col-md-2 col-sm-12 col-xs-12 mt-md-3 mt-xs-2"
+          ng-if="$ctrl.inspection.riskStatusCode !== '6' && $ctrl.inspection.riskStatusCode !== '8' && !$ctrl.finished && $ctrl.firstRequestCompleted"
+        >
+          <a
+            ng-if="$ctrl.inspection.riskStatusCode !== '5'"
+            class="g-btn g-btn-verde block"
+            ng-class="{disabled: !$ctrl.hasBeenModified || !$ctrl.user.isAPermittedObject('REGINS')}"
+            ng-click="$ctrl.saveInspection()"
+            >Guardar</a
+          >
+          <a
+            ng-if="$ctrl.inspection.riskStatusCode === '5'"
+            class="g-btn g-btn-verde block"
+            ng-class="{disabled: !$ctrl.hasBeenModified || !$ctrl.user.isAPermittedObject('EVAINS')}"
+            ng-click="$ctrl.saveInspection()"
+            >Guardar</a
+          >
+        </div>
+        <div
+          class="col-md-2 col-md-offset-4 col-sm-12 col-xs-12 mt-md-3 mt-xs-2"
+          ng-if="$ctrl.finished && $ctrl.user.isAPermittedObject('EDIFIN')"
+        >
+          <a
+            class="g-btn g-btn-verde block"
+            ng-class="{disabled: !$ctrl.hasBeenModified}"
+            ng-click="$ctrl.saveInspection()"
+            >Guardar</a
+          >
+        </div>
+        <div
+          class="col-md-2 col-sm-12 col-xs-12 mt-md-3 mt-xs-1"
+          ng-if="$ctrl.inspection.riskStatusCode !== '6' && !$ctrl.finished && $ctrl.firstRequestCompleted"
+        >
+          <a
+            ng-if="$ctrl.inspection.riskStatusCode !== '5' && $ctrl.showEndBtn"
+            class="g-btn g-btn-transparent block"
+            ng-class="{disabled: !$ctrl.inspectionId && !$ctrl.user.isAPermittedObject('REGINS')}"
+            ng-click="$ctrl.endInspection()"
+            >Finalizar</a
+          >
+          <a
+            ng-if="$ctrl.inspection.riskStatusCode === '5'"
+            class="g-btn g-btn-transparent block"
+            ng-class="{disabled: !$ctrl.user.isAPermittedObject('EVAINS')}"
+            ng-click="$ctrl.endInspection()"
+            >Finalizar</a
+          >
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+	<div class="g-sec-information mt-xs-2 mt-md-0 h-myd-m--0">
+		<div class="sec-item">
+			<div class="container">
+				<ul class="row cnt-title">
+					<li class="col-xs-12 item-title g-myd-subtitle">Datos comerciales</li>
+				</ul>
+				<ul class="row">
+					<li class="col-md-4 clearfix cnt-item h-myd-p--0">
+						<div class="col-sm-5 item-label">
+							<span class="ico-mapfre_82_circle ico-bullet"></span>Corredor / Agente:&nbsp;
+						</div>
+						<div class="col-sm-7 item-dato g-text-uppercase">{{ $ctrl.inspection.agentRequestName }}</div>
+					</li>
+					<li class="col-md-4 clearfix cnt-item h-myd-p--0">
+						<div class="col-sm-5 item-label">
+							<span class="ico-mapfre_82_circle ico-bullet"></span>Oficina Comercial:&nbsp;
+            </div>
+            <div class="col-sm-7 item-dato g-text-uppercase">{{ $ctrl.inspectionOffice.nombreOficina || "-" }}</div>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+	<div class="g-section g-section-tabs g-overflow-hidden-xs h-myd-mt--30">
+		<div class="container">
+			<uib-tabset active="$ctrl.activeTab" justified="true">
+        <!-- TAB1 -->
+        <uib-tab index="0">
+          <uib-tab-heading>DATOS GENERALES</uib-tab-heading>
+          <!-- DATOS DEL CONTRATANTE -->
+          <div class="mb-xs-3 u-bb-plomo pt-xs-3">
+            <div class="clearfix">
+              <h2 class="col-xs-12 col-md-8 col-lg-9 g-sub-title red g-myd-subtitle">Datos del contratante / contacto</h2>
+            </div>
+            <ul class="clearfix g-list pt-xs-1 mb-xs-1" ng-if="$ctrl.inspection.documentTypeCode !== 'RUC'">
+              <li class="col-md-4 clearfix cnt-item h-myd-p--0">
+                <div class="clearfix mb-xs-1">
+                  <div class="col-sm-5">
+                    <span class="ico-mapfre_82_circle ico-bullet"></span>
+                    <strong>{{ $ctrl.inspection.documentTypeCode }}:</strong>
+                  </div>
+                  <div class="col-sm-7">
+                    {{ $ctrl.inspection.documentNumber }}
+                  </div>
+                </div>
+                <div class="clearfix mb-xs-1">
+                  <div class="col-sm-5">
+                    <span class="ico-mapfre_82_circle ico-bullet"></span>
+                    <strong>APELLIDO MATERNO:</strong>
+                  </div>
+                  <div class="col-sm-7">
+                    {{ $ctrl.inspection.lastMotherName }}
+                  </div>
+                </div>
+                <div class="clearfix mb-xs-1">
+                  <div class="col-sm-5">
+                    <span class="ico-mapfre_82_circle ico-bullet"></span>
+                    <strong>ESTADO CIVIL:</strong>
+                  </div>
+                  <div class="col-sm-7">
+                    {{ $ctrl.inspection.civilstate }}
+                  </div>
+                </div>
+              </li>
+              <li class="col-md-4 clearfix cnt-item h-myd-p--0">
+                <div class="clearfix mb-xs-1">
+                  <div class="col-sm-5">
+                    <span class="ico-mapfre_82_circle ico-bullet"></span>
+                    <strong>NOMBRES:</strong>
+                  </div>
+                  <div class="col-sm-7">
+                    {{ $ctrl.inspection.name }}
+                  </div>
+                </div>
+                <div class="clearfix mb-xs-1">
+                  <div class="col-sm-5">
+                    <span class="ico-mapfre_82_circle ico-bullet"></span>
+                    <strong>FECHA NACIMIENTO:</strong>
+                  </div>
+                  <div class="col-sm-7">
+                    {{ $ctrl.inspection.birthDate | date: "dd/MM/yyyy" }}
+                  </div>
+                </div>
+                <div class="clearfix mb-xs-1">
+                  <div class="col-sm-5">
+                    <span class="ico-mapfre_82_circle ico-bullet"></span>
+                    <strong>PROFESIÓN: </strong>
+                  </div>
+                  <div class="col-sm-7">
+                    {{ $ctrl.inspection.profession }}
+                  </div>
+                </div>
+              </li>
+              <li class="col-md-4 clearfix cnt-item h-myd-p--0">
+                <div class="clearfix mb-xs-1">
+                  <div class="col-sm-5">
+                    <span class="ico-mapfre_82_circle ico-bullet"></span>
+                    <strong>APELLIDO PATERNO: </strong>
+                  </div>
+                  <div class="col-sm-7">
+                    {{ $ctrl.inspection.lastName }}
+                  </div>
+                </div>
+                <div class="clearfix mb-xs-1">
+                  <div class="col-sm-5">
+                    <span class="ico-mapfre_82_circle ico-bullet"></span>
+                    <strong>SEXO: </strong>
+                  </div>
+                  <div class="col-sm-7">
+                    {{ $ctrl.inspection.sexCode !== "M" ? "MASCULINO" : "FEMENINO" }}
+                  </div>
+                </div>
+                <div class="clearfix mb-xs-1">
+                  <div class="col-sm-5">
+                    <span class="ico-mapfre_82_circle ico-bullet"></span>
+                    <strong>NACIONALIDAD: </strong>
+                  </div>
+                  <div class="col-sm-7">
+                    {{ $ctrl.inspection.nationality }}
+                  </div>
+                </div>
+              </li>
+            </ul>
+            <ul class="clearfix g-list pt-xs-1 mb-xs-1" ng-if="$ctrl.inspection.documentTypeCode === 'RUC'">
+              <li class="col-md-4 clearfix cnt-item h-myd-p--0">
+                <div class="clearfix mb-xs-1">
+                  <div class="col-sm-5">
+                    <span class="ico-mapfre_82_circle ico-bullet"></span>
+                    <strong>{{ $ctrl.inspection.documentTypeCode }}:</strong>
+                  </div>
+                  <div class="col-sm-7">
+                    {{ $ctrl.inspection.documentNumber }}
+                  </div>
+                </div>
+              </li>
+              <li class="col-md-4 clearfix cnt-item h-myd-p--0">
+                <div class="clearfix mb-xs-1">
+                  <div class="col-sm-5">
+                    <span class="ico-mapfre_82_circle ico-bullet"></span>
+                    <strong>RAZÓN SOCIAL:</strong>
+                  </div>
+                  <div class="col-sm-7">
+                    {{ $ctrl.inspection.name }}
+                  </div>
+                </div>
+              </li>
+            </ul>
+          </div>
+          <!-- DATOS DEL CONTRATANTE -->
+          <div class="mb-xs-3 u-bb-plomo pt-xs-2">
+            <div class="clearfix">
+              <h2 class="col-xs-12 col-md-8 col-lg-9 g-sub-title red g-myd-subtitle">Dirección</h2>
+            </div>
+            <ul class="clearfix g-list pt-xs-1 mb-xs-1">
+              <li class="col-md-4 clearfix cnt-item h-myd-p--0">
+                <div class="clearfix mb-xs-1">
+                  <div class="col-sm-5">
+                    <span class="ico-mapfre_82_circle ico-bullet"></span>
+                    <strong>DEPARTAMENTO:</strong>
+                  </div>
+                  <div class="col-sm-7">
+                    {{ $ctrl.inspection.department }}
+                  </div>
+                </div>
+                <div class="clearfix mb-xs-1">
+                  <div class="col-sm-5">
+                    <span class="ico-mapfre_82_circle ico-bullet"></span>
+                    <strong>{{ $ctrl.inspection.roadType }}:</strong>
+                  </div>
+                  <div class="col-sm-7">
+                    {{ $ctrl.inspection.roadDescription }}
+                  </div>
+                </div>
+                <div class="clearfix mb-xs-1">
+                  <div class="col-sm-5">
+                    <span class="ico-mapfre_82_circle ico-bullet"></span>
+                    <strong>{{ $ctrl.inspection.zoneType || "Zona" }}:</strong>
+                  </div>
+                  <div class="col-sm-7">
+                    {{ $ctrl.inspection.zoneDescription || "-" }}
+                  </div>
+                </div>
+              </li>
+              <li class="col-md-4 clearfix cnt-item h-myd-p--0">
+                <div class="clearfix mb-xs-1">
+                  <div class="col-sm-5">
+                    <span class="ico-mapfre_82_circle ico-bullet"></span>
+                    <strong>PROVINCIA:</strong>
+                  </div>
+                  <div class="col-sm-7">
+                    {{ $ctrl.inspection.province }}
+                  </div>
+                </div>
+                <div class="clearfix mb-xs-1">
+                  <div class="col-sm-5">
+                    <span class="ico-mapfre_82_circle ico-bullet"></span>
+                    <strong>{{ $ctrl.inspection.numberType }}:</strong>
+                  </div>
+                  <div class="col-sm-7">
+                    {{ $ctrl.inspection.numberDescription }}
+                  </div>
+                </div>
+                <div class="clearfix mb-xs-1">
+                  <div class="col-sm-5">
+                    <span class="ico-mapfre_82_circle ico-bullet"></span>
+                    <strong>REFERENCIA:</strong>
+                  </div>
+                  <div class="col-sm-7">
+                    {{ $ctrl.inspection.addressReference || "-" }}
+                  </div>
+                </div>
+              </li>
+
+              <li class="col-md-4 clearfix cnt-item h-myd-p--0">
+                <div class="clearfix mb-xs-1">
+                  <div class="col-sm-5">
+                    <span class="ico-mapfre_82_circle ico-bullet"></span>
+                    <strong>DISTRITO: </strong>
+                  </div>
+                  <div class="col-sm-7">
+                    {{ $ctrl.inspection.district }}
+                  </div>
+                </div>
+                <div class="clearfix mb-xs-1">
+                  <div class="col-sm-5">
+                    <span class="ico-mapfre_82_circle ico-bullet"></span>
+                    <strong>{{ $ctrl.inspection.insideType || "INTERIOR" }}: </strong>
+                  </div>
+                  <div class="col-sm-7">
+                    {{ $ctrl.inspection.insideDescription || "-" }}
+                  </div>
+                </div>
+              </li>
+            </ul>
+          </div>
+          <!-- DCONTACTO DEL CONTRATANTE -->
+          <div class="mb-xs-3 u-bb-plomo pt-xs-2">
+            <div class="clearfix">
+              <h2 class="col-xs-12 col-md-8 col-lg-9 g-sub-title red g-myd-subtitle">Contacto</h2>
+            </div>
+            <ul class="clearfix g-list pt-xs-1 mb-xs-1">
+              <li class="col-md-4 clearfix cnt-item h-myd-p--0">
+                <div class="clearfix mb-xs-1">
+                  <div class="col-sm-5">
+                    <span class="ico-mapfre_82_circle ico-bullet"></span>
+                    <strong>TELÉFONO PERSONAL:</strong>
+                  </div>
+                  <div class="col-sm-7">
+                    {{ $ctrl.inspection.phone }}
+                  </div>
+                </div>
+                <div class="clearfix mb-xs-1">
+                  <div class="col-sm-5">
+                    <span class="ico-mapfre_82_circle ico-bullet"></span>
+                    <strong>EMAIL PERSONAL:</strong>
+                  </div>
+                  <div
+                    class="col-sm-7 g-cut-text"
+                    uib-popover="{{ $ctrl.inspection.personalEmail || '-' }}"
+                    popover-trigger="'mouseenter'"
+                  >
+                    {{ $ctrl.inspection.personalEmail || "-" }}
+                  </div>
+                </div>
+              </li>
+              <li class="col-md-4 clearfix cnt-item h-myd-p--0">
+                <div class="clearfix mb-xs-1">
+                  <div class="col-sm-5">
+                    <span class="ico-mapfre_82_circle ico-bullet"></span>
+                    <strong>TELÉFONO OFICINA:</strong>
+                  </div>
+                  <div class="col-sm-7">
+                    {{ $ctrl.inspection.extPhone || "-" }}
+                  </div>
+                </div>
+                <div class="clearfix mb-xs-1">
+                  <div class="col-sm-5">
+                    <span class="ico-mapfre_82_circle ico-bullet"></span>
+                    <strong>EMAIL OFICINA:</strong>
+                  </div>
+                  <div
+                    class="col-sm-7 g-cut-text"
+                    uib-popover="{{ $ctrl.inspection.officeEmail || '-' }}"
+                    popover-trigger="'mouseenter'"
+                  >
+                    {{ $ctrl.inspection.officeEmail || "-" }}
+                  </div>
+                </div>
+              </li>
+              <li class="col-md-4 clearfix cnt-item h-myd-p--0">
+                <div class="clearfix mb-xs-1">
+                  <div class="col-sm-5">
+                    <span class="ico-mapfre_82_circle ico-bullet"></span>
+                    <strong>CELULAR: </strong>
+                  </div>
+                  <div class="col-sm-7">
+                    {{ $ctrl.inspection.celPhone }}
+                  </div>
+                </div>
+              </li>
+            </ul>
+          </div>
+          <!-- MOTIVO DE INSPECCION -->
+          <div class="mb-xs-3 u-bb-plomo pt-xs-2">
+            <div class="clearfix">
+              <h2 class="col-xs-12 col-md-8 col-lg-9 g-sub-title red g-myd-subtitle">Motivo de inspección</h2>
+            </div>
+            <ul class="clearfix g-list pt-xs-1 mb-xs-1">
+              <li class="col-md-4 clearfix cnt-item h-myd-p--0">
+                <div class="clearfix mb-xs-1">
+                  <div class="col-sm-5">
+                    <span class="ico-mapfre_82_circle ico-bullet"></span>
+                    <strong>MOTIVO:</strong>
+                  </div>
+                  <div class="col-sm-7">
+                    INSPECCIÓN
+                  </div>
+                </div>
+              </li>
+            </ul>
+          </div>
+          <!-- LUGAR DE INSPECCION -->
+          <div class="mb-xs-3 pt-xs-2" ng-if="$ctrl.inspection.inspectionDepartment">
+            <div class="clearfix">
+              <h2 class="col-xs-12 col-md-8 col-lg-9 g-sub-title red g-myd-subtitle">Lugar de inspección</h2>
+            </div>
+            <ul class="clearfix g-list pt-xs-1 mb-xs-1">
+              <li class="col-md-4 clearfix cnt-item h-myd-p--0">
+                <div class="clearfix mb-xs-1">
+                  <div class="col-sm-5">
+                    <span class="ico-mapfre_82_circle ico-bullet"></span>
+                    <strong>DEPARTAMENTO:</strong>
+                  </div>
+                  <div class="col-sm-7">
+                    {{ $ctrl.inspection.inspectionDepartment }}
+                  </div>
+                </div>
+                <div class="clearfix mb-xs-1">
+                  <div class="col-sm-5">
+                    <span class="ico-mapfre_82_circle ico-bullet"></span>
+                    <strong>DIRECCIÓN:</strong>
+                  </div>
+                  <div class="col-sm-7">
+                    {{ $ctrl.inspection.inspectionAddress }}
+                  </div>
+                </div>
+                <div class="clearfix mb-xs-1">
+                  <div class="col-sm-5">
+                    <span class="ico-mapfre_82_circle ico-bullet"></span>
+                    <strong>FECHA:</strong>
+                  </div>
+                  <div class="col-sm-7">
+                    {{ $ctrl.inspection.startInspectionDate | date: "dd/MM/yyyy" }}
+                  </div>
+                </div>
+              </li>
+              <li class="col-md-4 clearfix cnt-item h-myd-p--0">
+                <div class="clearfix mb-xs-1">
+                  <div class="col-sm-5">
+                    <span class="ico-mapfre_82_circle ico-bullet"></span>
+                    <strong>PROVINCIA:</strong>
+                  </div>
+                  <div class="col-sm-7">
+                    {{ $ctrl.inspection.inspectionProvince }}
+                  </div>
+                </div>
+                <div class="clearfix mb-xs-1">
+                  <div class="col-sm-5">
+                    <span class="ico-mapfre_82_circle ico-bullet"></span>
+                    <strong>REFERENCIA:</strong>
+                  </div>
+                  <div class="col-sm-7">
+                    {{ $ctrl.inspection.inspectionAddressReference }}
+                  </div>
+                </div>
+              </li>
+              <li class="col-md-4 clearfix cnt-item h-myd-p--0">
+                <div class="clearfix mb-xs-1">
+                  <div class="col-sm-5">
+                    <span class="ico-mapfre_82_circle ico-bullet"></span>
+                    <strong>DISTRITO:</strong>
+                  </div>
+                  <div class="col-sm-7">
+                    {{ $ctrl.inspection.inspectionDistrict }}
+                  </div>
+                </div>
+                <div class="clearfix mb-xs-1">
+                  <div class="col-sm-5">
+                    <span class="ico-mapfre_82_circle ico-bullet"></span>
+                    <strong>HORA:</strong>
+                  </div>
+                  <div class="col-sm-7">
+                    {{ $ctrl.inspection.startInspectionDate | date: "hh:mm a" }}
+                  </div>
+                </div>
+              </li>
+            </ul>
+          </div>
+
+          <!-- ratio integralidad -->
+          <div class="mb-xs-3 pt-xs-2" ng-show="$ctrl.viewDcto">
+            <div class="clearfix">
+              <h2 class="col-xs-12 col-md-8 col-lg-9 g-sub-title red">Ratio de integralidad</h2>
+            </div>
+            <ul class="clearfix g-list pt-xs-1 mb-xs-1">
+              <li class="col-md-4 clearfix cnt-item">
+                <div class="clearfix mb-xs-1">
+                  <div class="col-sm-12 no-padding-xs">
+                    <mpf-Checkbox
+                    ng-model="$ctrl.inspection.DctoIntegralidad"
+                    label="Aplicar % del ratio de integralidad"
+                    ng-click="$ctrl.obtenerDctontegralidad()"
+                  ></mpf-Checkbox><br/>
+                  <span ng-show="$ctrl.inspection.DctoIntegralidad">
+                  Descuento de Integralidad {{$ctrl.inspection.PorDctoIntgPlaza}}%
+                  </span>
+                  </div>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </uib-tab>
+        <!-- TAB2 -->
+        <uib-tab index="1">
+          <uib-tab-heading>DATOS DEL VEHÍCULO</uib-tab-heading>
+          <!-- DATOS DEL VEHICULO -->
+          <form class="g-section-inner" name="$ctrl.formData">
+            <div class="row">
+              <div class="pt-xs-2 ng-scope" ng-show="$ctrl.noSubmodels">
+                <div class="container">
+                  <div class="row">
+                    <div class="col-md-12">
+                      <div class="g-box gBgcGray5 pt-xs-1 pb-xs-1 pl-xs-1">
+                        <span class="ico-mapfre_222_informacion gCBlue2 gnIcon-xsm g-cell-middle"></span>
+                        <span class="g-cell-middle pl-xs-1"
+                          >El vehiculo ingresado no esta configurado para cotizar</span
+                        >
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-md-12">
+                <h2 class="g-sub-title g-myd-subtitle">Datos del vehículo</h2>
+              </div>
+            </div>
+            <div class="row">
+              <!-- Tipo de vehículo -->
+              <div class="col-md-4 mb-xs-2">
+                <mpf-select
+                  ng-model="$ctrl.inspection.mTipoVehiculo"
+                  name="nTipoVehiculo"
+                  label="{label: 'Tipo de vehículo', required: false}"
+                  m-data-source="$ctrl.tipoVehiculo"
+                  text-field="NombreTipo"
+                  value-field="CodigoTipo"
+                  m-Empty-Option="{enterData:true}"
+                  mpf-validation="required"
+                  ng-change="$ctrl.loadMarca()"
+                  ng-required="true"
+                ></mpf-select>
+
+                <div
+                  class="g-error"
+                  ng-show="formData.nTipoVehiculo.$error.required && !formData.nTipoVehiculo.$pristine"
+                >
+                  * Seleccione tipo de vehículo
+                </div>
+              </div>
+
+              <div class="col-md-4 mb-xs-2">
+                <mp-data-seeker
+                  behavior="{label:'Marca y Modelo *', placeholder:'Ingrese marca/modelo', matchField:'marcaModelo'}"
+                  m-data-source="$ctrl.searchMarcaModelo($inputNeed)"
+                  ng-model="$ctrl.inspection.ModeloMarca"
+                  ng-change="$ctrl.getFunctionsModeloMarca($ctrl.inspection.ModeloMarca)"
+                  name="nModeloMarca"
+                  ng-required="true"
+                  ng-if="!$ctrl.disabled"
+                >
+                  <div ng-bind-html="$item.marcaModelo | highlight: $select.search"></div>
+                </mp-data-seeker>
+                <mpf-input
+                  label="{label: 'Marca y Modelo:', required: true}"
+                  ng-if="$ctrl.disabled"
+                  ng-model="$ctrl.inspection.ModeloMarca.marcaModelo"
+                ></mpf-input>
+                <div
+                  class="g-error"
+                  ng-show="$ctrl.formData.nModeloMarca.$invalid && !$ctrl.formData.nModeloMarca.$pristine"
+                >
+                  * Ingrese marca / modelo
+                </div>
+              </div>
+              <div class="col-md-2 mb-xs-2">
+                <mpf-input
+                  class="g-valorauto-input"
+                  label="{label: 'Versión', required: false}"
+                  name="nVersion"
+                  ng-model="$ctrl.inspection.mVersion"
+                  ng-required="false"
+                  ng-Maxlength="30"
+                ></mpf-input>
+              </div>
+              <div class="col-md-2 mb-xs-2">
+                <mpf-select
+                  ng-model="$ctrl.inspection.mYearFabric"
+                  name="nYearFabric"
+                  label="{label: 'Año de fabricación:', required: false}"
+                  m-data-source="$ctrl.years"
+                  text-field="Descripcion"
+                  value-field="Codigo"
+                  m-Empty-Option="{text:'Elige año de fabricación'}"
+                  ng-change="$ctrl.getFuctionsYearFabric($ctrl.inspection.mYearFabric);"
+                ></mpf-select>
+                <div
+                  class="g-error"
+                  ng-show="$ctrl.formData.nYearFabric.$invalid && !$ctrl.formData.nYearFabric.$pristine"
+                >
+                  * Seleccione un año
+                </div>
+                <ul class="gErrorIco firstDesign">
+                  <li ng-show="$ctrl.noYear">
+                    <span class="ico-mapfre_37_informacion ico"></span>No hay año configurado para este auto
+                  </li>
+                </ul>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-4 mb-xs-2">
+                <mpf-input
+                  label="{label: 'Número de placa', required: true}"
+                  name="nPlaca"
+                  ng-model="$ctrl.inspection.vehicleLicensePlate"
+                  ng-minLength="6"
+                  ng-maxLength="6"
+                  mpf-validation="placas,required"
+                  ng-blur="$ctrl.getInfoByLicensePlate()"
+                ></mpf-input>
+                <div class="g-error" ng-show="$ctrl.formData.nPlaca.$invalid && !$ctrl.formData.nPlaca.$pristine">
+                  * Ingrese una placa
+                </div>
+              </div>
+              <div class="col-md-4 mb-xs-2">
+                <mpf-input
+                  label="{label: 'Número de Serie - VIN', required: true}"
+                  mpf-validation="onlyLetterNumber,required"
+                  ng-maxlength="18"
+                  name="nNumeroSerie"
+                  ng-model="$ctrl.inspection.vehicleVinNumber"
+                ></mpf-input>
+                <div
+                  class="g-error"
+                  ng-show="$ctrl.formData.nNumeroSerie.$invalid && !$ctrl.formData.nNumeroSerie.$pristine"
+                >
+                  * Ingrese un número de serie - VIN
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-4 mb-xs-2">
+                <mpf-input
+                  label="{label: 'Número de motor', required: true}"
+                  name="nNumeroMotor"
+                  ng-maxlength="19"
+                  ng-model="$ctrl.inspection.vehicleEngineNumber"
+                  mpf-validation="onlyLetterNumber,required"
+                ></mpf-input>
+                <div
+                  class="g-error"
+                  ng-show="$ctrl.formData.nNumeroMotor.$invalid && !$ctrl.formData.nNumeroMotor.$pristine"
+                >
+                  * Ingrese un número de motor
+                </div>
+              </div>
+              <div class="col-md-4 mb-xs-2">
+                <mpf-select
+                  label="{label: 'Timón', required: true}"
+                  name="nTimon"
+                  ng-model="$ctrl.inspection.mTimon"
+                  m-data-source="$ctrl.steeringWheels"
+                  text-field="description"
+                  value-field="value1"
+                  m-Empty-Option="{enterData:true}"
+                  mpf-validation="required"
+                ></mpf-select>
+                <div class="g-error" ng-show="$ctrl.formData.nTimon.$invalid && !$ctrl.formData.nTimon.$pristine">
+                  * Ingrese un timón
+                </div>
+              </div>
+              <div class="col-md-4 mb-xs-2">
+                <mpf-select
+                  label="{label: 'Color', required: true}"
+                  name="nColor"
+                  ng-model="$ctrl.inspection.vehicleColor"
+                  m-data-source="$ctrl.colors"
+                  text-field="Descripcion"
+                  value-field="Codigo"
+                  m-Empty-Option="{enterData:true}"
+                  mpf-validation="required"
+                ></mpf-select>
+                <div class="g-error" ng-show="$ctrl.formData.nColor.$invalid && !$ctrl.formData.nColor.$pristine">
+                  * Ingrese un color
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-4 mb-xs-2">
+                <mpf-select
+                  label="{label: 'Tracción', required: true}"
+                  name="nTraccion"
+                  ng-model="$ctrl.inspection.mTraccion"
+                  m-data-source="$ctrl.tractions"
+                  text-field="description"
+                  value-field="parameterId"
+                  m-Empty-Option="{enterData:true}"
+                  mpf-validation="required"
+                ></mpf-select>
+                <div class="g-error" ng-show="$ctrl.formData.nTraccion.$invalid && !$ctrl.formData.nTraccion.$pristine">
+                  * Ingrese una tracción
+                </div>
+              </div>
+              <div class="col-md-4 mb-xs-2">
+                <m-Numeric-Textbox
+                  label="{label: 'Kilometraje (km.)', required: true}"
+                  name="nKilometraje"
+                  ng-model="$ctrl.inspection.vehicleMileage"
+                  mpf-validation="number"
+                  ng-required="true"
+                  options="$ctrl.scale"
+                ></m-Numeric-Textbox>
+                <div
+                  class="g-error"
+                  ng-show="$ctrl.formData.nKilometraje.$invalid && !$ctrl.formData.nKilometraje.$pristine"
+                >
+                  * Ingrese un kilometraje
+                </div>
+              </div>
+              <div class="col-md-4 mb-xs-2">
+                <mpf-input
+                  label="{label: 'Suma asegurada', required: true}"
+                  name="nSumaAsegurada"
+                  ng-model="$ctrl.inspection.vehicleAmount"
+                  mpf-validation="required, number"
+                ></mpf-input>
+                <span class="g-comment" ng-if="$ctrl.valorVehiculoMin"
+                  >(Valor referencial entre {{ $ctrl.valorVehiculoMin }} - {{ $ctrl.valorVehiculoMax }})</span
+                >
+                <div
+                  class="g-error"
+                  ng-show="$ctrl.formData.nSumaAsegurada.$invalid && !$ctrl.formData.nSumaAsegurada.$pristine"
+                >
+                  * Ingrese un valor correcto
+                </div>
+                <div class="g-error" ng-if="$ctrl.inspection.vehicleAmount < $ctrl.valorVehiculoMin || $ctrl.inspection.vehicleAmount > $ctrl.valorVehiculoMax">* Ingrese un valor entre {{ $ctrl.valorVehiculoMin }} - {{ $ctrl.valorVehiculoMax }}</div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-4 mb-xs-2">
+                <mpf-select
+                  label="{label: 'Origen auto', required: true}"
+                  name="nOrigenAuto"
+                  ng-model="$ctrl.inspection.mOrigenAuto"
+                  m-data-source="$ctrl.origins"
+                  text-field="description"
+                  value-field="parameterId"
+                  m-Empty-Option="{enterData:true}"
+                  mpf-validation="required"
+                ></mpf-select>
+                <div
+                  class="g-error"
+                  ng-show="$ctrl.formData.nOrigenAuto.$invalid && !$ctrl.formData.nOrigenAuto.$pristine"
+                >
+                  * Ingrese un origen
+                </div>
+              </div>
+              <div class="col-md-4 mb-xs-2">
+                <mpf-select
+                  label="{label: 'Estado auto', required: true}"
+                  name="nEstadoAuto"
+                  ng-model="$ctrl.inspection.mEstadoAuto"
+                  m-data-source="$ctrl.vehicleStatuses"
+                  text-field="description"
+                  value-field="parameterId"
+                  m-Empty-Option="{enterData:true}"
+                  mpf-validation="required"
+                ></mpf-select>
+                <div
+                  class="g-error"
+                  ng-show="$ctrl.formData.nEstadoAuto.$invalid && !$ctrl.formData.nEstadoAuto.$pristine"
+                >
+                  * Ingrese un estado del auto
+                </div>
+              </div>
+              <div class="col-md-4 mb-xs-2">
+                <mpf-datepicker
+                  label="{label: 'Fecha revisión técnica', required: false}"
+                  name="nTechniqueRevision"
+                  format="'dd/MM/yyyy'"
+                  data-maxDate="$ctrl.currentDate"
+                  ng-model="$ctrl.inspection.technicalReviewDate"
+                ></mpf-datepicker>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-2 mb-xs-1 col-sm-6 mt-xs-2">
+                <a
+                  ng-class="{'disabled': !$ctrl.canClickAutomas}"
+                  class="g-btn g-btn-verde block"
+                  ng-click="$ctrl.showAutomas();"
+                  >automas</a
+                >
+              </div>
+              <div class="col-md-2 mb-xs-1 col-sm-6 mt-xs-3">
+                <a
+                  ng-href="//neoauto.com/venta-de-autos?busqueda={{ $ctrl.inspection.ModeloMarca.marcaModelo }}"
+                  target="_blank"
+                  class="g-link green cgw-msg-med__link"
+                  >Ir a NeoAutos</a
+                >
+              </div>
+            </div>
+          </form>
+					<!-- DAÑOS ADICIONALES DEL VEHICULO -->
+					<div class="g-section-inner ng-scope">
+						<div class="row">
+							<div class="col-md-12">
+								<h2 class="g-sub-title g-myd-subtitle">Daños adicionales del vehículo</h2>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-md-8">
+                <mpf-textarea
+                  label="{label: 'Observaciones', required: false}"
+                  name="nObservations"
+                  ng-model="$ctrl.inspection.observations"
+                  ng-required="true"
+                  ng-disabled="$ctrl.disabled"
+                  ng-maxLength="499"
+                ></mpf-textarea>
+              </div>
+            </div>
+          </div>
+          <!-- ACCESORIOS MUSICALES -->
+          <inspec-accessories
+            ng-if="$ctrl.inspection.mStereo.length || !$ctrl.finished || ($ctrl.finished && $ctrl.user.isAPermittedObject('EDIFIN'))"
+            title="$ctrl.accesoriesTitle"
+            data="$ctrl.inspection.mStereo"
+            source-list="$ctrl.stereoAccessories"
+            stereo="true"
+            disabled="$ctrl.disabled"
+          ></inspec-accessories>
+          <!-- ACCESORIOS DEL VEHICULO -->
+          <inspec-accessories
+            ng-if="$ctrl.inspection.mStereo.length || !$ctrl.finished || ($ctrl.finished && $ctrl.user.isAPermittedObject('EDIFIN'))"
+            title="'Accesorios del vehículo'"
+            data="$ctrl.inspection.mItems"
+            source-list="$ctrl.vehicleAccessories"
+            disabled="$ctrl.disabled"
+          ></inspec-accessories>
+        </uib-tab>
+        <!-- TAB3 -->
+        <uib-tab index="2">
+          <uib-tab-heading>{{$ctrl.inspection.isAnotherInsurer ? 'DOCUMENTO' : 'FOTOS'}}</uib-tab-heading>
+					<div class="g-section-inner">
+						<div class="row">
+							<div class="col-xs-12">
+								<h2 class="g-sub-title g-myd-subtitle">{{$ctrl.inspection.isAnotherInsurer ? 'Documento' : 'Fotos'}}</h2>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-xs-12 tb-fotos">
+                <div
+                  class="col-xs-12 pt-xs-1-5 pb-xs-1-5 gBgcGray5 g-border-xs fwBold"
+                  style="border-color: #749806; border-radius: 4px;"
+                  ng-if="$ctrl.inspection.isAnotherInsurer"
+                >
+                  <div class="col-sm-3">Póliza de otra aseguradora</div>
+                  <div class="col-sm-2 col-sm-offset-7">
+                    <a class="gCGreen1" ng-click="$ctrl.downloadPDF()">
+                      <span class="icon icon-plus ico-mapfre_158_pdf gH3"></span>
+                      <span class="g-link">DESCARGAR</span>
+                    </a>
+                  </div>
+                </div>
+								<uib-tabset active="0" justified="true" ng-if="!$ctrl.inspection.isAnotherInsurer">
+                  <!-- TAB1 -->
+                  <uib-tab index="0" ng-if="$ctrl.propertyCardPhotos">
+                    <uib-tab-heading>Tarjeta de propiedad</uib-tab-heading>
+                    <div id="viewOneFoto" class="view-foto g-viewer-photo">
+                      <div class="container">
+                        <div class="g-photo-box" ng-repeat="photo in $ctrl.propertyCardPhotos track by $index">
+                          <inspec-image-preview
+                            photo="photo"
+                            risk-id="$ctrl.inspection.riskId"
+                            disabled="$ctrl.disabled"
+                          ></inspec-image-preview>
+                        </div>
+                      </div>
+                      <div class="container" ng-if="$ctrl.shouldAddObservation()">
+                        <div class="mt-xs-2">
+                          <a
+                            class="gCGreen1 gH4"
+                            ng-click="$ctrl.showObservationModal()"
+                          >
+                            Añadir observación
+                            <span class="icon icon-plus ico-mapfre_56_visitasalmedico"></span>
+                          </a>
+                        </div>
+                      </div>
+                    </div>
+                  </uib-tab>
+                  <!-- TAB2 -->
+                  <uib-tab index="1">
+                    <uib-tab-heading>Fotos del vehículo</uib-tab-heading>
+                    <div id="viewTwoFoto" class="g-viewer-photo">
+                      <div class="container array-foto-box">
+                        <!-- Inicio arreglo de fotos -->
+                        <div class="g-photo-box" ng-hide="hide_fotobox_10" ng-repeat="photo in $ctrl.carPhotos">
+                          <inspec-image-preview
+                            photo="photo"
+                            risk-id="$ctrl.inspection.riskId"
+                            inspection-id="$ctrl.inspection.inspectionId"
+                            disabled="$ctrl.disabled"
+                          ></inspec-image-preview>
+                        </div>
+                      </div>
+                      <div class="container" ng-if="$ctrl.shouldAddObservation()">
+                        <div class="mt-xs-2">
+                          <a
+                            class="gCGreen1 gH4"
+                            ng-click="$ctrl.showObservationModal()"
+                          >
+                            Añadir observación
+                            <span class="icon icon-plus ico-mapfre_56_visitasalmedico"></span>
+                          </a>
+                        </div>
+                      </div>
+                    </div>
+                  </uib-tab>
+                  <!-- TAB 3 -->
+                  <uib-tab index="2" ng-if="$ctrl.inspection.isAutoInspection">
+                    <uib-tab-heading>Observaciones</uib-tab-heading>
+                    <div class="container">
+                      <div class="col-xs-12 gBgcWhite1">
+                        <div class="row mt-xs-2 mb-xs-2">
+                          <div class="col-md-12">
+                            <div class="col-sm-12">
+                              <span class="ico-mapfre_82_circle ico-bullet"></span>Observación:&nbsp;
+                              <span>A la espera de respuesta del</span>
+                              <span class="fwBold">{{ $ctrl.isPeritoObservation ? 'perito' : 'usuario' }}</span>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="row mb-xs-2">
+                          <div class="col-md-4">
+                            <div class="col-sm-12 item-label fwBold">Usuario / Documento&nbsp;</div>
+                            <div class="col-sm-12 item-dato g-text-uppercase">
+                              {{ $ctrl.inspection.vehicleLicensePlate + ' / ' + $ctrl.inspection.documentNumber }}
+                            </div>
+                          </div>
+                          <div class="col-md-4">
+                            <div class="col-sm-12 item-label fwBold">Nombre de usuario&nbsp;</div>
+                            <div class="col-sm-12 item-dato g-text-uppercase">
+                              {{ $ctrl.inspection.name + ' ' + $ctrl.inspection.lastName + ' ' + $ctrl.inspection.lastMotherName }}
+                            </div>
+                          </div>
+                          <div class="col-md-4" ng-if="$ctrl.observationsList.length">
+                            <div class="col-sm-12 fwBold">Estado&nbsp;</div>
+                            <div class="col-sm-12 item-dato g-text-uppercase">
+                              <span
+                                class="obs-lights"
+                                ng-class="{
+                                  'observed': $ctrl.lastObservationStatus === $ctrl.observationStatus.Observado,
+                                  'pending': $ctrl.lastObservationStatus === $ctrl.observationStatus.Pendiente,
+                                  'resolved': $ctrl.lastObservationStatus === $ctrl.observationStatus.Resuelto
+                                }"
+                              >
+                                {{ $ctrl.currentObservationStatus }}
+                              </span>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-xs-12">
+                        <div class="row mt-xs-3 mb-xs-3">
+                          <div class="col-md-3 mt-md-1">
+                            <a
+                              class="gCGreen1"
+                              ng-click="$ctrl.showObservationModal()"
+                              ng-if="$ctrl.shouldAddObservation()"
+                            >
+                              Añadir nueva observación
+                              <span class="icon icon-plus ico-mapfre_56_visitasalmedico"></span>
+                            </a>
+                          </div>
+                          <div class="col-md-3 col-md-offset-6">
+                            <a
+                              class="g-btn g-btn-verde block"
+                              ng-class="{'disabled': $ctrl.lastObservationStatus === $ctrl.observationStatus.Resuelto || $ctrl.lastObservationStatus === $ctrl.observationStatus.none }"
+                              ng-click="$ctrl.resolveObservations();"
+                            >
+                              Marcar como resuelto
+                            </a>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="col-xs-12">
+                        <div class="obs-timestamp">
+                          <ul class="row">
+                            <li class=col-xs-12 ng-repeat="obs in $ctrl.observationsList">
+                              <div class="row timestamp--header">
+                                <div class="col-xs-12 col-md-5 pl-md-0">
+                                  <span class="highlight">
+                                    {{ obs.images.length > 0 ? 'Cliente: ' : 'Perito' }}
+                                    <span ng-if="obs.image64">{{ $ctrl.inspection.name + ' ' + $ctrl.inspection.lastName }}</span>
+                                  </span>
+                                  <span>{{ obs.image64 ? 'Subió una foto' : 'Realizó una observación' }}</span>
+                                </div>
+                                <div class="col-xs-12 mt-xs-1 mt-md-0 col-md-3 col-md-offset-4">{{ obs.insertDate | date:'dd/MM/yyyy - hh:mm a' }}</div>
+                              </div>
+                              <div class="row timestamp--body">
+                                <div class="g-inlineblock mr-xs-2" ng-if="obs.images.length > 0" ng-repeat="image in obs.images">
+                                  <img ng-src="{{ image.image64 }}" />
+                                </div>
+                                <p ng-if="obs.images.length === 0">{{ obs.observation }}</p>
+                              </div>
+                            </li>
+                          </ul>
+                        </div>
+                      </div>
+
+                    </div>
+                  </uib-tab>
+                </uib-tabset>
+              </div>
+            </div>
+          </div>
+
+          <div class="g-section-inner ng-scope" ng-if="!($ctrl.disabled && !$ctrl.aditionalPhotos.length) && !$ctrl.inspection.isAnotherInsurer">
+            <div class="row">
+              <div class="col-xs-12">
+                <h2 class="g-sub-title g-myd-subtitle">Fotos adicionales</h2>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-12">
+                <div photo-viewer id="viewTwoFoto2" class="g-cont-foto g-viewer-photo photo-no-overflow">
+                  <div class="container array-foto-box">
+                    <div
+                      ng-if="$ctrl.aditionalPhotos.length > 3"
+                      ng-click="scrollPhotosLeft()"
+                      class="toLeft hidden-xs hidden-sm"
+                    >
+                      <a class="g-circle-icon"><span class="ico-mapfre_310_arrowLeft icon-inside"></span></a>
+                    </div>
+                    <div class="viewer-photo-array">
+                      <inspec-image-preview-multiple
+                        parameter-id="8"
+                        photos="$ctrl.aditionalPhotos"
+                        risk-id="$ctrl.inspection.riskId"
+                        inspection-id="$ctrl.inspection.inspectionId"
+                        disabled="$ctrl.disabled"
+                      ></inspec-image-preview-multiple>
+                    </div>
+                    <div
+                      ng-if="$ctrl.aditionalPhotos.length > 3"
+                      ng-click="scrollPhotosRight()"
+                      class="toRight hidden-xs hidden-sm"
+                    >
+                      <a class="g-circle-icon"><span class="ico-mapfre_311_arrowRight icon-inside"></span></a>
+                    </div>
+                    <!-- Fin arreglo de fotos -->
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </uib-tab>
+        <!-- Fin: Template 3 -->
+      </uib-tabset>
+    </div>
+  </div>
+</section>

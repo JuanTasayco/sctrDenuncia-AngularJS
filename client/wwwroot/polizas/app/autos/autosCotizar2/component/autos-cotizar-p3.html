@@ -1,0 +1,440 @@
+<div class="third-step">
+
+  <!-- Step 3 -->
+  <form action="" name="frmClientData">
+    <!-- newSecInformation -->
+    <div class="g-sec-information">
+      <div class="sec-item h-myd-pt--30 h-myd-pb--30 h-myd-bg--gray4">
+        <div class="container">
+          <ul class="row cnt-title h-myd-mb--30">
+            <li class="col-xs-6 item-title g-myd-subtitle">Datos del auto</li>
+            <li class="col-xs-6 item-edit">
+              <a
+                class="h-myd--none"
+                href=""
+                ui-sref="autosQuote.steps({step: 1})"
+                ng-hide="$ctrl.usuarioAdmin"
+                ng-click="gotoStep1()">
+                  <span class="ico-mapfre_43_editar ico-edit"></span>
+                  Editar datos del auto
+              </a>
+              <a
+                class="h-myd--show h-oim-none"
+                href=""
+                ui-sref="autosQuote.steps({step: 1})"
+                ng-hide="$ctrl.usuarioAdmin"
+                ng-click="gotoStep1()">
+                  <i class="ico-mapfre_345_myd-edit ico-edit"></i>
+                  <span>Editar</span>
+              </a>
+            </li>
+          </ul>
+
+          <ul class="row">
+            <li class="col-md-4 clearfix cnt-item h-myd-pl--0">
+              <div class="col-sm-5 col-md-4 item-label">
+                <span class="ico-mapfre_82_circle ico-bullet"></span>Auto:
+              </div>
+              <div class="col-sm-7 col-md-8 item-dato">
+                {{formData.ModeloMarca.marcaModelo}}
+                {{formData.mYearFabric.Descripcion}}
+                <span ng-show="!edoVehiculoNew && !(mYearFabric | isEmpty)">, USADO</span>
+                <span ng-show="edoVehiculoNew">
+                  <span ng-if="optRadio==1">, NUEVO</span>
+                  <span ng-if="optRadio==2">, USADO</span>
+                </span>
+              </div>
+            </li>
+            <li class="col-md-4 clearfix cnt-item h-myd-pl--0">
+              <div class="col-sm-5 item-label">
+                <span class="ico-mapfre_82_circle ico-bullet"></span>Valor del auto:
+              </div>
+              <div class="col-sm-7 item-dato">{{formData.valorVehiculo | currency: '$'}}</div>
+            </li>
+            <li class="col-md-4 clearfix cnt-item h-myd-pl--0">
+              <div class="col-sm-5 col-md-4 item-label">
+                <span class="ico-mapfre_82_circle ico-bullet"></span>
+                Circulación:
+              </div>
+              <div class="col-sm-7 col-md-8 item-dato">
+                {{formData.Ubigeo.mDepartamento.Descripcion}},
+                {{formData.Ubigeo.mProvincia.Descripcion}},
+                {{formData.Ubigeo.mDistrito.Descripcion}}
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="sec-item h-myd-pt--30 h-myd-pb--30 h-myd-bg--gray4">
+        <div class="container">
+          <ul class="row cnt-title h-myd-mb--30">
+            <li class="col-xs-6 item-title g-myd-subtitle">Datos del producto</li>
+            <li class="col-xs-6 item-edit">
+              <a
+                class="h-myd--none"
+                href=""
+                ui-sref="autosQuote.steps({step: 2})">
+                <span class="ico-mapfre_43_editar ico-edit"></span>
+                Editar producto a cotizar
+              </a>
+              <a
+                class="h-myd--show h-oim-none"
+                href=""
+                ui-sref="autosQuote.steps({step: 2})">
+                  <i class="ico-mapfre_345_myd-edit ico-edit"></i>
+                  <span>Editar</span>
+              </a>
+            </li>
+          </ul>
+
+          <ul class="row">
+            <li class="col-md-4 clearfix cnt-item h-myd-pl--0">
+              <div class="col-sm-5 item-label">
+                <span class="ico-mapfre_82_circle ico-bullet"></span>Producto:
+              </div>
+              <div class="col-sm-7 item-dato">{{formData.mProducto.NombreProducto}}</div>
+            </li>
+            <li class="col-md-4 clearfix cnt-item h-myd-pl--0">
+              <div class="col-sm-5 item-label">
+                <span class="ico-mapfre_82_circle ico-bullet"></span>Tipo de Uso:
+              </div>
+              <div class="col-sm-7 item-dato">{{formData.mUsoRiesgo.Descripcion}}</div>
+            </li>
+            <li class="col-md-4 clearfix cnt-item h-myd-pl--0">
+              <div class="col-sm-5 item-label"><span class="ico-mapfre_82_circle ico-bullet"></span>Póliza grupo:</div>
+              <div class="col-sm-7 item-dato">{{formData.mPolizaGrupo.groupPolizeDescription}}</div>
+            </li>
+          </ul>
+
+          <ul class="row h-myd-mb--20">
+            <li class="col-md-4 clearfix cnt-item h-myd-pl--0" ng-show="showVigencia()">
+              <div class="col-sm-5 item-label">
+                <span class="ico-mapfre_82_circle ico-bullet"></span>Periodo de vigencia:
+              </div>
+              <div class="col-sm-7 item-dato">{{formData.inicio}} - {{formData.fin}}</div>
+            </li>
+            <li class="col-md-4 clearfix cnt-item h-myd-pl--0" ng-hide="!isBancaSeg()">
+              <div class="col-sm-5 item-label">
+                <span class="ico-mapfre_82_circle ico-bullet"></span>Nro. Solicitud:
+              </div>
+              <div class="col-sm-7 item-dato">{{formData.mNroSolic}}</div>
+            </li>
+            <li class="col-md-4 clearfix cnt-item h-myd-pl--0" ng-hide="!isBancaSeg()">
+              <div class="col-sm-5 item-label">
+                <span class="ico-mapfre_82_circle ico-bullet"></span>Prima pactada:
+              </div>
+              <div class="col-sm-7 item-dato">{{formData.mPrimaPactada | currency: '$'}}</div>
+            </li>
+              </ul>
+
+          <!-- Datos del contratante -->
+          <ul class="row cnt-title mt-xs-1 h-myd-mb--30">
+            <li class="col-xs-12 item-title g-myd-subtitle">Datos del contratante</li>
+          </ul>
+          <ul class="row">
+            <li class="col-md-4 clearfix cnt-item h-myd-pl--0">
+              <div class="col-sm-5 item-label">
+                <span class="ico-mapfre_82_circle ico-bullet"></span>Tipo de documento:
+              </div>
+              <div class="col-sm-7 item-dato">{{formData.mTipoDocumento.Codigo | uppercase }}</div>
+            </li>
+            <li class="col-md-4 clearfix cnt-item h-myd-pl--0">
+              <div class="col-sm-5 item-label">
+                <span class="ico-mapfre_82_circle ico-bullet"></span>Número de documento:
+              </div>
+              <div class="col-sm-7 item-dato">{{formData.mNumeroDocumento}}</div>
+            </li>
+            <li class="col-md-4 clearfix cnt-item h-myd-pl--0" ng-show="!checkRucPerson(formData.mTipoDocumento.Codigo, formData.mNumeroDocumento)">
+              <div class="col-sm-5 item-label">
+                <span class="ico-mapfre_82_circle ico-bullet"></span>Razón Social
+              </div>
+              <div class="col-sm-7 item-dato">{{formData.mRazSocContratante | uppercase }}</div>
+            </li>
+            <li class="col-md-4 clearfix cnt-item h-myd-pl--0" ng-show="checkRucPerson(formData.mTipoDocumento.Codigo, formData.mNumeroDocumento)">
+              <div class="col-sm-5 item-label">
+                <span class="ico-mapfre_82_circle ico-bullet"></span>Fecha de nacimiento:
+              </div>
+              <div class="col-sm-7 item-dato">{{ formData.fechaNacimiento | date:'MM/dd/yyyy'}}</div>
+            </li>
+            <li class="col-md-4 clearfix cnt-item h-myd-pl--0" ng-show="checkRucPerson(formData.mTipoDocumento.Codigo, formData.mNumeroDocumento)">
+              <div class="col-sm-5 item-label">
+                <span class="ico-mapfre_82_circle ico-bullet"></span>Nombre:
+              </div>
+              <div class="col-sm-7 item-dato">{{formData.mNomContratante | uppercase}}</div>
+            </li>
+            <li class="col-md-4 clearfix cnt-item h-myd-pl--0" ng-show="checkRucPerson(formData.mTipoDocumento.Codigo, formData.mNumeroDocumento)">
+              <div class="col-sm-5 item-label">
+                <span class="ico-mapfre_82_circle ico-bullet"></span>Apellido Paterno:
+              </div>
+              <div class="col-sm-7 item-dato">{{formData.mApePatContratante | uppercase}}</div>
+            </li>
+            <li class="col-md-4 clearfix cnt-item h-myd-pl--0" ng-show="checkRucPerson(formData.mTipoDocumento.Codigo, formData.mNumeroDocumento)">
+              <div class="col-sm-5 item-label">
+                <span class="ico-mapfre_82_circle ico-bullet"></span>Apellido Materno:
+              </div>
+              <div class="col-sm-7 item-dato">{{formData.mApeMatContratante | uppercase}}</div>
+            </li>
+            <li class="col-md-4 clearfix cnt-item h-myd-pl--0" ng-show="checkRucPerson(formData.mTipoDocumento.Codigo, formData.mNumeroDocumento)">
+              <div class="col-sm-5 item-label">
+                <span class="ico-mapfre_82_circle ico-bullet"></span>Sexo:
+              </div>
+              <div class="col-sm-7 item-dato">{{formData.Sexo.Description | uppercase}}</div>
+            </li>
+            <li class="col-md-4 clearfix cnt-item" ng-show="formData.DctoIntegralidad">
+              <div class="col-sm-5 item-label"><span class="ico-mapfre_82_circle ico-bullet"></span>Dcto. Integralidad:</div>
+              <div class="col-sm-7 item-dato">{{ formData.PorDctoIntgPlaza }} %</div>
+            </li>
+            <li
+              class="col-md-4 clearfix cnt-item h-myd-pl--0"
+              ng-show="checkRucPerson(formData.mTipoDocumento.Codigo, formData.mNumeroDocumento) && formData.score && formData.isEmblem"
+            >
+              <div class="col-sm-6 item-label"><span class="ico-mapfre_82_circle ico-bullet"></span>Score (Morosidad):</div>
+              <div class="col-sm-6 item-dato">{{formData.score | uppercase}}</div>
+            </li>
+            <li
+              class="col-md-4 clearfix cnt-item h-myd-pl--0"
+              ng-show="checkRucPerson(formData.mTipoDocumento.Codigo, formData.mNumeroDocumento) && formData.mEstadoCivil.Codigo && formData.isEmblem"
+            >
+              <div class="col-sm-5 item-label"><span class="ico-mapfre_82_circle ico-bullet"></span>Estado Civil:</div>
+              <div class="col-sm-7 item-dato">{{formData.mEstadoCivil.Descripcion | uppercase}}</div>
+            </li>
+            <li
+              class="col-md-4 clearfix cnt-item h-myd-pl--0"
+              ng-show="checkRucPerson(formData.mTipoDocumento.Codigo, formData.mNumeroDocumento) && formData.day.Codigo && formData.month.Codigo && formData.year.Codigo && formData.isEmblem"
+            >
+              <div class="col-sm-5 item-label"><span class="ico-mapfre_82_circle ico-bullet"></span>Fecha Expedición Brevete:</div>
+              <div class="col-sm-7 item-dato">
+                {{ formData.day.Descripcion + "/" + formData.month.Descripcion + "/" + formData.year.Descripcion }}
+              </div>
+            </li>
+          </ul>
+
+          <ul class="row cnt-title mt-xs-1 h-myd-mb--30" ng-show="formData.VehicleTransmission.Codigo && formData.isEmblem">
+            <li class="col-xs-12 item-title g-myd-subtitle">Datos adicionales del auto</li>
+          </ul>
+          <ul class="row">
+            <li class="col-md-4 clearfix cnt-item h-myd-pl--0" ng-show="formData.VehicleTransmission.Codigo && formData.isEmblem">
+              <div class="col-sm-5 item-label"><span class="ico-mapfre_82_circle ico-bullet"></span>Transmisión:</div>
+              <div class="col-sm-7 item-dato">{{formData.VehicleTransmission.Descripcion | uppercase }}</div>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="g-section mt-xs-2">
+
+      <div class="container">
+        <div class="row">
+          <div class="col-md-12">
+            <h2 class="g-sub-title g-myd-subtitle mb-1">Elige las cotizaciones que deseas guardar</h2>
+          </div>
+        </div>
+      </div>
+
+      <div class="g-inner-section row-gray1">
+        <div class="container">
+
+          <div class="myd-cotizacion-guardar">
+
+            <div class="row g-cotiza-producto">
+
+              <div class="col-xs-12 col-sm-4 col-md-4 mt-xs-1 mt-sm-0 g-cotiza-producto-tipo">
+                <div class="cnt-check">
+                  <div class="g-cnt-checkbox">
+                    <label class="g-checkbox" ng-class="{'active' : ((prdPrincipal.val || prdPrincipal.ppal == 1) && (prdPrincipal.primaneta2 > 0))}">
+                      <span class="ico-checkbox" ng-show="prdPrincipal.primaneta2>0"></span>
+                      <input
+                        id="{{prdPrincipal.id}}"
+                        type="checkbox"
+                        name="{{prdPrincipal.name}}"
+                        value="{{prdPrincipal.id}}"
+                        ng-model="prdPrincipal.val">
+                      <span ng-class="'{{prdPrincipal.class}}'">{{prdPrincipal.label}}</span>
+                    </label>
+                  </div>
+                </div>
+                <div class="g-cotiza-producto-msg-box" ng-show="prdPrincipal.MensajeError!=''"><span class="ico-mapfre_132_alert ico-alert"></span>{{prdPrincipal.MensajeError}}</div>
+              </div>
+
+              <!-- Descuentos producto principal -->
+              <div class="col-xs-12 col-sm-4 col-md-4 mt-xs-1 mt-sm-0">
+                <div class="row">
+                  <div class="col-xs-12 g-cotiza-producto-descuento" ng-hide="isRC(prdPrincipal.label)">
+                    <label class="g-placeholder animated h-myd-m--0" ng-show="prdPrincipal.codigoProducto!=codProductoPpal">{{gLblDctComision.label}} <span ng-show="{{gLblDctComision.required}}">(*)</span></label>
+                    <div class="g-select-desing" ng-show="prdPrincipal.codigoProducto!=codProductoPpal">
+
+                      <select
+                        ng-model="prdPrincipal.Model"
+                        ng-change="onSelectChange(prdPrincipal, prdPrincipal.Model)"
+                        ng-blur="val = error()"
+                        ng-disabled="{{disabled}}"
+                        class="{{validate}}"
+                        ng-options="desc.DsctoEspValor for desc in prdPrincipal.Descuentos">
+                        <option value=""> 0 % </option>
+
+                      </select>
+                      <span class="ico-mapfre_76_chevrondown ico-select"></span>
+                    </div>
+                  </div>
+                  <div class="col-xs-12 g-cotiza-producto-descuento">
+                    <label class="g-placeholder animated h-myd-m--0">{{gLblDctComercial.label}} </label>
+                    <div class="g-select-desing">
+
+                      <select
+                        ng-model="prdPrincipal.ModelC"
+                        ng-change="onSelectChange_DescuentoComercial(prdPrincipal, prdPrincipal.ModelC)"
+                        ng-blur="val = error()"
+                        ng-disabled="{{disabled}}"
+                        class="{{validate}}"
+                        ng-options="desc.DsctoEspValor for desc in prdPrincipal.OptionsDsctoComercial">
+                        <option value=""> 0 % </option>
+
+                      </select>
+                      <span class="ico-mapfre_76_chevrondown ico-select"></span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+
+
+              <div class="col-xs-12 col-sm-4 col-md-4 mt-xs-1 mt-sm-0 g-cotiza-producto-prima" ng-hide="prdPrincipal.primaneta2<0">
+                <div class="row">
+                  <div class="col-md-12 g-cotiza-producto-prima-neta h-myd-mb--0">
+                    <div class="g-cotiza-producto-prima-neta-label h-myd-p--0">Prima Neta:</div>
+                    <div class="g-cotiza-producto-prima-neta-data text-right h-myd-p--0">
+                      <span>{{prdPrincipal.primaneta2 | currency: '$'}}</span>
+                    </div>
+                  </div>
+                  <div class="col-md-12 g-cotiza-producto-prima-dcto h-myd-mb--0" ng-hide="isRC(prdPrincipal.label) || prdPrincipal.DsctoPorComision >= 0">
+                    <div class="g-cotiza-producto-prima-dcto-label h-myd-p--0">Tu comisión</div>
+                    <div class="g-cotiza-producto-prima-dcto-data text-right h-myd-p--0">
+                      <span>{{(prdPrincipal.Model.AgenteComision || '0')}}%</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+      </div>
+
+      <div
+        class="g-inner-section"
+        ng-repeat="prgRelacionado in prgRelacionados"
+        ng-class-odd="'row-gray3'"
+        ng-class-even="'row-gray2'">
+        <div class="container">
+
+          <div class="myd-cotizacion-guardar">
+
+            <div class="row g-cotiza-producto">
+              <div class="col-xs-12 col-sm-4 col-md-4 mt-xs-1 mt-sm-0 g-cotiza-producto-tipo">
+                <div class="cnt-check">
+                  <div class="g-cnt-checkbox">
+                    <label
+                      class="g-checkbox"
+                      ng-class="{'active' : ((prgRelacionado.val || prgRelacionado.ppal == 1) && (prgRelacionado.primaneta2 > 0))}">
+                      <span
+                        class="ico-checkbox"
+                        ng-show="prgRelacionado.primaneta2>0"></span>
+                      <input
+                        id="{{prgRelacionado.id}}"
+                        type="checkbox"
+                        name="{{prgRelacionado.name}}"
+                        value="{{prgRelacionado.id}}"
+                        ng-model="prgRelacionado.val"
+                        ng-click="selectProduct(prgRelacionado)">
+                      <span ng-class="'{{prgRelacionado.class}}'">{{prgRelacionado.label}}</span>
+                    </label>
+                  </div>
+                </div>
+                <div class="g-cotiza-producto-msg-box" ng-show="prgRelacionado.MensajeError!=''"><span class="ico-mapfre_132_alert ico-alert"></span>{{prgRelacionado.MensajeError}}</div>
+              </div>
+              <!-- Descuentos producto principal -->
+              <div class="col-xs-12 col-sm-4 col-md-4 mt-xs-1 mt-sm-0">
+                <div class="row">
+                  <div class="col-xs-12 g-cotiza-producto-descuento" ng-hide="isRC(prgRelacionado.label)">
+                    <label class="g-placeholder animated h-myd-m--0" ng-show="prgRelacionado.codigoProducto!=codProductoPpal">{{gLblDctComision.label}} <span ng-show="{{gLblDctComision.required}}">(*)</span></label>
+                    <div class="g-select-desing" ng-show="prgRelacionado.codigoProducto!=codProductoPpal">
+
+                      <select
+                        ng-model="prgRelacionado.Model"
+                        ng-change="onSelectChange(prgRelacionado, prgRelacionado.Model)"
+                        ng-blur="val = error()"
+                        ng-disabled="{{disabled}}"
+                        class="{{validate}}"
+                        ng-options="desc.DsctoEspValor for desc in prgRelacionado.Descuentos">
+                        <option value=""> 0 % </option>
+
+                      </select>
+                      <span class="ico-mapfre_76_chevrondown ico-select"></span>
+                    </div>
+                  </div>
+				  
+                  <div class="col-xs-12 g-cotiza-producto-descuento" ng-show="prgRelacionado.flgDsctoComercial === gLblDctComercial.flgValue">
+                    <label class="g-placeholder animated h-myd-m--0">{{gLblDctComercial.label}} </label>
+                    <div class="g-select-desing">
+
+                      <select
+                        ng-model="prgRelacionado.ModelC"
+                        ng-change="onSelectChange_DescuentoComercial(prgRelacionado, prgRelacionado.ModelC)"
+                        ng-blur="val = error()"
+                        ng-disabled="{{disabled}}"
+                        class="{{validate}}"
+                        ng-options="desc.DsctoEspValor for desc in prgRelacionado.OptionsDsctoComercial">
+                        <option value=""> 0 % </option>
+
+                      </select>
+                      <span class="ico-mapfre_76_chevrondown ico-select"></span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-xs-12 col-sm-4 col-md-4 mt-xs-1 mt-sm-0 g-cotiza-producto-prima" ng-hide="prgRelacionado.primaneta2<0">
+                <div class="row">
+                  <div class="col-md-12 g-cotiza-producto-prima-neta h-myd-mb--0">
+                    <div class="g-cotiza-producto-prima-neta-label h-myd-p--0">Prima Neta:</div>
+                    <div class="g-cotiza-producto-prima-neta-data text-right h-myd-p--0">
+                      <span>{{prgRelacionado.primaneta2 | currency: '$'}}</span>
+                    </div>
+                  </div>
+                  <div class="col-md-12 g-cotiza-producto-prima-dcto h-myd-mb--0"  ng-hide="isRC(prgRelacionado.label) || prgRelacionado.DsctoPorComision >= 0">
+                    <div class="g-cotiza-producto-prima-dcto-label h-myd-p--0">Tu comisión</div>
+                    <div class="g-cotiza-producto-prima-dcto-data text-right h-myd-p--0">
+                      <span>{{prgRelacionado.Model.AgenteComision || '0'}}%</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+    <!-- Button -->
+    <div class="g-section">
+      <div class="container">
+        <div class="row">
+          <div class="col-xs-12 mb-xs-3">
+            <span class="g-comment">*Campos obligatorios</span>
+          </div>
+          <div class="col-md-4 col-md-offset-4">
+            <a class="g-btn g-btn-verde block"
+            ga-click ga-category="'Emisa - Autos'" ga-action="'MPF - Cotización'" ga-label="'Botón: Cotizar'"
+            ng-click="showModalConfirmation()">Guardar cotización</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+
+  </div>

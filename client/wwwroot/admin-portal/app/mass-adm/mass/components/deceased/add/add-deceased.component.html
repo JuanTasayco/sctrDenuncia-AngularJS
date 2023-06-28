@@ -1,0 +1,221 @@
+<form name="frmMaintenanceDeceased" action="">
+    <div class="col-md-12 g-list-md g-boxRb pt-xs-2 mb-xs-2 ng-scope">
+        <div class="row">
+            <div class="col-md-12 mb-xs-2" style="font-size:18px">
+                <b>Agregar fallecido</b>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-12" style="font-size:16px">
+                <b>Datos del fallecido</b>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-2 clearfix mb-xs-2 mt-xs-2" >
+                <mpf-select
+                    label="{label: 'Tipo documento ', required: true}"
+                    m-Empty-Option = "{enterData : true}"
+                    name="nDocumentTypeDeceased"
+                    data-text-field="valor"
+                    data-value-field="codigo"
+                    data-m-data-source="$ctrl.documentTypes"
+                    data-ng-model="$ctrl.frm.fallecido.tipoDocumento"
+                    ng-required="true"
+                    ng-change="$ctrl.changeDocumentTypeDeceased($ctrl.frm.fallecido.tipoDocumento)"
+                >
+                </mpf-select>
+                <div class="g-error" data-ng-show="frmMaintenanceDeceased.nDocumentTypeDeceased.$invalid && !frmMaintenanceDeceased.nDocumentTypeDeceased.$pristine">
+                    * Seleccione un documento
+                </div>
+            </div>
+            <div class="col-md-2 clearfix mb-xs-2 mt-xs-2">
+                <mpf-input
+                    label="{label: 'No. documento ', required: true}"
+                    name="nDocumentNumberDeceased"
+                    ng-required="true"
+                    ng-minlength="minLengthDoc1"
+                    ng-maxlength="maxLengthDoc1"
+                    mpf-validation="{{validation1}}"
+                    mpf-validation-disabled="{{validationDisabled1}}"
+                    ng-model="$ctrl.frm.fallecido.numeroDocumento">
+                </mpf-input>
+                <div class="g-error" data-ng-show="frmMaintenanceDeceased.nDocumentNumberDeceased.$invalid && !frmMaintenanceDeceased.nDocumentNumberDeceased.$pristine">
+                    * No. documento inv&aacute;lido
+                </div>
+            </div>
+            <div class="col-md-4 clearfix mb-xs-2 mt-xs-2">
+                <mpf-input
+                    label="{label: 'Nombres ', required: true}"
+                    name="nDeceasedName"
+                    ng-maxlength="60"
+                    ng-required="true"
+                    ng-model="$ctrl.frm.fallecido.nombres"
+                    mpf-validation="onlyLetter"
+                >
+                </mpf-input>
+                <div class="g-error" data-ng-show="frmMaintenanceDeceased.nDeceasedName.$invalid && !frmMaintenanceDeceased.nDeceasedName.$pristine">
+                    * Ingrese una descripción
+                </div>
+            </div>
+            <div class="col-md-2 clearfix mb-xs-2 mt-xs-2">
+                <mpf-input
+                    label="{label: 'Apellido Paterno ', required: true}"
+                    name="nDeceasedLastName1"
+                    ng-required="true"
+                    ng-maxlength="60"
+                    ng-model="$ctrl.frm.fallecido.apellidoPaterno"
+                    mpf-validation="onlyLetter"
+                >
+                </mpf-input>
+                <div class="g-error" data-ng-show="frmMaintenanceDeceased.nDeceasedLastName1.$invalid && !frmMaintenanceDeceased.nDeceasedLastName1.$pristine">
+                    * Ingrese una descripción
+                </div>
+            </div>
+            <div class="col-md-2 clearfix mb-xs-2 mt-xs-2">
+                <mpf-input
+                    label="{label: 'Apellido Materno ', required: true}"
+                    name="nDeceasedLastName2"
+                    ng-required="true"
+                    ng-maxlength="60"
+                    ng-model="$ctrl.frm.fallecido.apellidoMaterno"
+                    mpf-validation="onlyLetter"
+                >
+                </mpf-input>
+                <div class="g-error" data-ng-show="frmMaintenanceDeceased.nDeceasedLastName2.$invalid && !frmMaintenanceDeceased.nDeceasedLastName2.$pristine">
+                    * Ingrese una descripción
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-12" style="font-size:16px">
+                <b>Datos del titular</b>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-2 clearfix mb-xs-2 mt-xs-2" >
+                <mpf-select
+                    label="{label: 'Tipo documento ', required: true}"
+                    name="nDocumentTypeTitular"
+                    data-m-data-source="$ctrl.documentTypes"
+                    data-ng-model="$ctrl.frm.fallecido.pariente.tipoDocumento"
+                    data-text-field="valor"
+                    data-value-field="codigo"
+                    m-Empty-Option = "{enterData : true}"
+                    ng-required="true"
+                    ng-change="$ctrl.changeDocumentTypeTitular($ctrl.frm.fallecido.pariente.tipoDocumento)"
+                >
+                </mpf-select>
+                <div class="g-error" data-ng-show="frmMaintenanceDeceased.nDocumentTypeTitular.$invalid && !frmMaintenanceDeceased.nDocumentTypeTitular.$pristine">
+                    * Seleccione un documento
+                </div>
+            </div>
+            <div class="col-md-2 clearfix mb-xs-2 mt-xs-2">
+                <mpf-input
+                    label="{label: 'No. documento ', required: true}"
+                    name="nDocumentNumberTitular"
+                    ng-model="$ctrl.frm.fallecido.pariente.numeroDocumento"
+                    ng-required="true"
+                    ng-minlength="minLengthDoc2"
+                    ng-maxlength="maxLengthDoc2"
+                    mpf-validation="{{validation2}}"
+                    mpf-validation-disabled="{{validationDisabled2}}">
+                </mpf-input>
+                <div class="g-error" data-ng-show="frmMaintenanceDeceased.nDocumentNumberTitular.$invalid && !frmMaintenanceDeceased.nDocumentNumberTitular.$pristine">
+                    * No. documento inv&aacute;lido
+                </div>
+            </div>
+            <div class="col-md-4 clearfix mb-xs-2 mt-xs-2">
+                <mpf-input
+                    label="{label: 'Nombres ', required: true}"
+                    name="nTitularName"
+                    ng-model="$ctrl.frm.fallecido.pariente.nombres"
+                    ng-required="true"
+                    ng-maxlength="60"
+                    mpf-validation="onlyLetter">
+                </mpf-input>
+                <div class="g-error" data-ng-show="frmMaintenanceDeceased.nTitularName.$invalid && !frmMaintenanceDeceased.nTitularName.$pristine">
+                    * Ingrese una descripci&oacute;n
+                </div>
+            </div>
+            <div class="col-md-2 clearfix mb-xs-2 mt-xs-2">
+                <mpf-input
+                    label="{label: 'Apellido Paterno ', required: true}"
+                    name="nTitularLastName1"
+                    ng-required="true"
+                    ng-maxlength="60"
+                    ng-model="$ctrl.frm.fallecido.pariente.apellidoPaterno"
+                    mpf-validation="onlyLetter"
+                >
+                </mpf-input>
+                <div class="g-error" data-ng-show="frmMaintenanceDeceased.nTitularLastName1.$invalid && !frmMaintenanceDeceased.nTitularLastName1.$pristine">
+                    * Ingrese una descripci&oacute;n
+                </div>
+            </div>
+            <div class="col-md-2 clearfix mb-xs-2 mt-xs-2">
+                <mpf-input
+                    label="{label: 'Apellido Materno ', required: true}"
+                    name="nTitularSecondName2"
+                    ng-required="true"
+                    ng-maxlength="60"
+                    ng-model="$ctrl.frm.fallecido.pariente.apellidoMaterno"
+                    mpf-validation="onlyLetter"
+                >
+                </mpf-input>
+                <div class="g-error" data-ng-show="frmMaintenanceDeceased.nTitularSecondName2.$invalid && !frmMaintenanceDeceased.nTitularSecondName2.$pristine">
+                    * Ingrese una descripción
+                </div>
+            </div>
+            <div class="col-md-12 clearfix mb-xs-2 mt-xs-2">
+                <div class="row">
+                    <div class="col-md-4">
+                        <mpf-input
+                            label="{label: 'Correo electrónico', required: true}"
+                            name="nTitularEmail"
+                            ng-required="true"
+                            ng-maxlength="60"
+                            ng-model="$ctrl.frm.fallecido.pariente.correo"
+                            data-mpf-validation="email"
+                        >
+                        </mpf-input>
+                        <div class="g-error" data-ng-show="frmMaintenanceDeceased.nTitularEmail.$invalid && !frmMaintenanceDeceased.nTitularEmail.$pristine">
+                            * Ingrese un correo v&aacute;lido
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <mpf-input
+                            label="{label: 'Celular', required: true}"
+                            name="nTitularPhoneNumber"
+                            ng-model="$ctrl.frm.fallecido.pariente.telefono"
+                            ng-required="true"
+                            ng-minlength="9"
+                            ng-maxlength="9"
+                            ng-blur="$ctrl.cellPhoneValid($ctrl.frm.fallecido.pariente.telefono) ? $ctrl.frm.fallecido.pariente.telefono : $ctrl.frm.fallecido.pariente.telefono = ''" 
+                            mpf-validation="onlyNumberNoSpace"
+                            >
+                        </mpf-input>
+                        <div class="g-error" data-ng-show="frmMaintenanceDeceased.nTitularPhoneNumber.$invalid && !frmMaintenanceDeceased.nTitularPhoneNumber.$pristine">
+                            * Ingrese un número de celular v&aacute;lido
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-12 clearfix mb-xs-2 mt-xs-2" style="text-align: right;">
+                <a class="g-btn second-design g-btn-transparent pl-md-2 pr-md-2" ng-click="$ctrl.cancel()">
+                    CANCELAR
+                </a>
+                <a class="g-btn second-design g-btn-verde pl-md-2 pr-md-2" 
+                    ng-class="{disabled: !frmMaintenanceDeceased.$valid, button190: $ctrl.mode === 1}"
+                    ng-click="$ctrl.save($ctrl.frm.fallecido)">
+                    {{$ctrl.mode === 1 ? 'AGREGAR FALLECIDO' : 'GUARDAR'}}
+                </a>
+            </div>
+        </div>
+    </div>
+</form>

@@ -1,0 +1,183 @@
+<div class="g-ui-view page-template-modification">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-4 pt-md-4">
+        <div class="row">
+          <div class="col-md-12">
+            <div class="sub-menu">
+              <h3>{{ $ctrl.carousel.titulo }}</h3>
+              <div><span>Última actualización: {{ $ctrl.carousel.fechaModificacion }}</span></div>
+              <div><span>Realizado por: {{ $ctrl.carousel.ultimaModificacion }}</span></div>
+            </div>
+            <div>
+              <p>{{ $ctrl.carousel.descripcion }} </p>
+            </div>
+          </div>
+        </div>
+        <!-- Visualizar carrusel -->
+        <div class="row mb-xs-2" data-ng-if="false">
+          <div class="col-md-9">
+            <a class="g-btn g-btn-blanco second-design block">
+              <span class="pr-xs-1">Visualizar Carousel</span>
+              <i class="h-fw--bold tab--ico ap-ico-mapfre-388-historial h-fw--bold"></i>
+            </a>
+          </div>
+        </div>
+        <!-- Boton activar/desactivar carrusel -->
+        <div class="row mt-xs-6 mb-xs-3">
+          <div class="col-md-12 mb-xs-1">
+            <a
+              data-ng-if="$ctrl.carousel"
+              class="g-btn second-design block"
+              data-ng-class="{
+                'g-btn-white': $ctrl.carousel.activo,
+                'g-btn-verde': !$ctrl.carousel.activo,
+                'disabled': !$ctrl.carousel.listaBanners.length
+              }"
+              data-ng-click="$ctrl.onChangeStatus(!$ctrl.carousel.activo)">
+              {{ $ctrl.carousel.lblActivateBtn }}</a>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-8 gBgcGray8 bgc-full-right pt-md-4 pb-xs-6">
+        <div class="row">
+          <div class="col-sm-8 mb-xs-2 no-mb-sm">
+            <div class="sub-menu">
+              <h3 data-ng-if="$ctrl.carousel">
+                {{ $ctrl.carousel.descCantBanners.split('|')[0] }}
+                <span data-ng-if="$ctrl.carousel.listaBanners.length">
+                  - {{ $ctrl.carousel.descCantBanners.split('|')[1] }}
+                </span>
+              </h3>
+            </div>
+          </div>
+          <div class="col-sm-4 mt-xs-1" uib-tooltip="{{$ctrl.tooltipLimit}}" tooltip-placement="left">
+            <a
+              class="g-btn g-btn-blanco second-design block"
+              data-ng-class="{'disabled': $ctrl.canCreateBanner}"
+              data-ui-sref="addBanner({ codeApp: $ctrl.codeApp, idCarousel: $ctrl.idCarousel })"
+            >
+              CREAR NUEVO BANNER
+            </a>
+          </div>
+        </div>
+        <!-- Buscador de banners -->
+        <div class="row">
+          <div class="col-md-12">
+            <div class="c-search-banners" auto-active>
+              <div class="c-search-banners--box">
+                <input placeholder="Agregar Banner Existente" type="text" data-ng-model="$ctrl.searchModel" data-ng-keyup="$ctrl.validateString()">
+                <span class="c-search-banners--close ico-mapfre-384-navclose" data-ng-click="$ctrl.clearSearch()"></span>
+                <span class="ap-ico-add"></span>
+              </div>
+              <div class="c-search-banners--content" data-ng-class="{'active': active}">
+                <div class="mb-xs-1" data-ng-repeat="item in $ctrl.listBannersExist">
+                  <div class="box-info box-info--small mb-xs-2 ng-scope">
+                    <img class="box-info--img-small" data-ng-src="{{ item.imgPreview }}" alt="">
+                    <div class="box-info--text">
+                      <!-- titulo -->
+                      <div class="section-title">
+                        <div class="w-100 mb-xs-1">
+                          <h4 class="title">{{ item.campania }}</h4>
+                          <span class="nro-banner">Link:
+                            <a style="text-decoration: underline;" href="{{item.link}}" target="_blank">{{ item.link }}</a>
+                          </span>
+                        </div>
+                      </div>
+                      <!-- descripcion -->
+                      <p class="dsc">{{ item.descripcion }}</p>
+                      <!-- fechas -->
+                      <div class="fetch mt-xs-1">
+                        <div>
+                          <i class="ico-mapfre-365-myd-calendar"></i>
+                          <span>Inicio de publicación | <b>{{ item.fechaInicio }}</b></span>
+                        </div>
+                        <div>
+                          <i class="ico-mapfre-365-myd-calendar"></i>
+                          <span>Fin de publicación | <b>{{ item.fechaFin }}</b></span>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="box-info--btn">
+                      <a class="g-btn g-btn-blanco second-design block" data-ng-click="$ctrl.assignBanner(item)">
+                        <span>Agregar</span><i class="ico-mapfre-384-navclose"></i>
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Lista de banners -->
+        <div class="row">
+          <div class="col-md-12">
+            <div class="box-info--degradado">
+              <div class="box-info--scoll">
+
+                <div
+                  data-ng-repeat="item in $ctrl.carousel.listaBanners"
+                  class="box-info mb-xs-2"
+                  data-ng-class="{'disable': !item.activo}"
+                >
+                  <img class="box-info--img" data-ng-src="{{ item.imgPreview }}" alt="">
+                  <div class="box-info--text">
+                    <!-- titulo -->
+                    <div class="section-title">
+                      <div class="w-100">
+                        <h4 class="title">{{ item.campania }}</h4>
+                        <span class="nro-banner">Link:
+                          <a style="text-decoration: underline;" href="{{item.link}}" target="_blank">{{ item.link }}</a>
+                        </span>
+                      </div>
+                      <div class="arrow">
+                        <i
+                          class="ap-ico-arrow-up"
+                          data-ng-click="item.orden == 1 ? null : $ctrl.onBannerUp(item)"
+                          data-ng-class="{'disable': item.orden == 1}"
+                        ></i>
+                        <i
+                          class="ap-ico-arrow-down"
+                          data-ng-click="item.orden == $ctrl.carousel.listaBanners.length ? null : $ctrl.onBannerDown(item)"
+                          data-ng-class="{'disable': item.orden == $ctrl.carousel.listaBanners.length}"
+                        ></i>
+                      </div>
+                    </div>
+                    <!-- descripcion -->
+                    <p class="dsc">{{ item.descripcion }}</p>
+                    <!-- fechas -->
+                    <div class="fetch mt-xs-1 mb-xs-1">
+                      <div>
+                        <i class="ico-mapfre-365-myd-calendar"></i>
+                        <span>Inicio de publicación | <b>{{ item.fechaInicio }}</b></span>
+                      </div>
+                      <div>
+                        <i class="ico-mapfre-365-myd-calendar"></i>
+                        <span>Fin de publicación | <b>{{ item.fechaFin }}</b></span>
+                      </div>
+                    </div>
+                    <!-- última modificación -->
+                    <div class="action">
+                      <div class="sec-notification">
+                        <i class="ico-mapfre-350-myd-user"></i>
+                        <span>Última modificación: <b>{{ item.ultimaModificacion }}</b></span>
+                      </div>
+                    </div>
+                    <!-- acciones -->
+                    <div class="action">
+                      <div class="sec-btn">
+                        <a class="g-btn g-btn-white second-design block" data-ng-click="$ctrl.onRemoveBanner(item)">Quitar Banner</a>
+                        <a class="g-btn g-btn-verde second-design block" data-ui-sref="editBanner({ codeApp: $ctrl.codeApp, idCarousel: $ctrl.idCarousel, idBanner: item.idBanner })">Modificar Banner</a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

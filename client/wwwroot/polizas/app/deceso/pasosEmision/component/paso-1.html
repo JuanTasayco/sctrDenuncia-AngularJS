@@ -1,0 +1,469 @@
+<div class="g-section">
+	<section class="g-page h-myd-bg--gray4">
+  
+	  <div class="g-section g-myd-summary">
+		<div class="container">
+		  <div class="fz14 pt-xs-2 pb-xs-2 g-myd-box">
+			<div class="row h-myd-ml--0 h-myd-mr--0 gH4">
+			  <div class="col-sm-6 mb-sm-1 mb-xs-1">
+				<h2 class="gCGray1 g-text-uppercase g-myd-title"><b>COTIZACIÓN {{productName}}</b></h2>
+			  </div>
+			  <div class="col-sm-6 mb-xs-1 g-text-right-sm g-myd-title">
+				Nro. Cotización: <b>{{ numeroDocumento }}</b>
+			  </div>
+			</div>
+			<div class="h-myd-border--bottom-1">
+			  <div class="row mt-xs-2 h-myd-ml--0 h-myd-mr--0">
+				<div class="col-md-12 mb-xs-1">
+				  <h2 class="gH4 gCGray1 g-border-bottom-xs g-myd-title"><b>Datos de Cotizacion</b></h2>
+				</div>
+			  </div>
+			  <div class="row h-myd-ml--0 h-myd-mr--0" >
+				<div class="col-xs-12">
+				  <div class="g-list-md pt-xs-1 g-row-fz12 mb-xs-1 h-myd-pt--20 h-myd-pb--20">
+					<div class="col-md-12 g-col-md middle">
+					  <div class="row mb-xs-2 gH5">
+						<div class="col-md-4">
+						  <div class="item-label mb-xs-1">
+							Ramo:
+						  </div>
+						  <div class="item-dato g-text-uppercase">
+							{{firstStep.Ramo.NombreRamoComercial}}
+						  </div>
+						</div>
+						<div class="col-md-4">
+						  <div class="item-label mb-xs-1">
+							Poliza Grupo:
+						  </div>
+						  <div class="item-dato g-text-uppercase">
+							{{firstStep.PolizaGrupo.NombrePolizaGrupoComercial}}
+						  </div>
+						</div>
+						<div class="col-md-4">
+						  <div class="item-label mb-xs-1">
+							Modalidad:
+						  </div>
+						  <div class="item-dato g-text-uppercase">
+							{{firstStep.Modalidad.NombreModalidadComercial}}
+						  </div>
+						</div>
+					  </div>
+					  <div class="row h-myd-mb--1 gH5">
+						<div class="col-md-4">
+						  <div class="item-dato g-text-uppercase">
+							<mpf-datepicker label="{label: 'Fecha de inicio vigencia', required: true}" ng-model="data.fechaActual" format="format" name="nFechaActual"
+								ng-change="onFechaActualChanged(data.fechaActual)" ng-required="true"  nomargin="true">
+							</mpf-datepicker>
+						  </div>
+						</div>
+						<div class="col-md-4">
+							<mpf-datepicker label="{label: 'Fecha fin vigencia', required: true}" ng-model="data.fechaVencimiento" ng-disabled="true" format="format" name="nFechaUnAno"
+							ng-change="onFechaVencimientoChanged()" ng-required="true"  nomargin="true">
+						</mpf-datepicker>
+						</div>
+						<div class="col-md-4">
+						  	<mpf-select label="{label: 'Medio de Pago', required: true}" name="nMedioPago" ng-model="firstStep.FormaPago"  m-data-source="medioPagos"
+								text-field="Descripcion" value-field="Descripcion" m-Empty-Option="{enterData:true}" ng-required="true" add-messages>
+							</mpf-select>
+						</div>
+					  </div>
+					</div>
+				  </div>
+				</div>
+			  </div>
+			</div>  
+		  </div>
+		  <div class="h-myd-border--bottom-1">
+			<div class="row mt-xs-2 h-myd-ml--0 h-myd-mr--0">
+			  <div class="col-md-12 mb-xs-1">
+				<h2 class="gH4 gCGray1 g-border-bottom-xs g-myd-title"><b>Contratante</b></h2>
+			  </div>
+			</div>
+			<div class="row h-myd-ml--0 h-myd-mr--0" >
+			  <div class="col-xs-12">
+				<div class="g-list-md g-box gBgcGray5 pt-xs-1 g-row-fz12 mb-xs-1 h-myd-pt--20 h-myd-pb--20">
+				  <div class="col-md-12 g-col-md middle">
+					<ul class="row h-myd-mb--1">
+					  <li class="col-md-4 clearfix cnt-item h-myd-mb--0">
+						<div class="col-xs-5 item-label">
+						  Tipo de documento:
+						</div>
+						<div class="col-xs-7 item-dato g-text-uppercase">
+						  {{ contratante.TipoDocumento.Codigo }}
+						</div>
+					  </li>
+					  <li class="col-md-4 clearfix cnt-item h-myd-mb--0">
+						<div class="col-xs-5 item-label">
+						  Número de documento:
+						</div>
+						<div class="col-xs-7 item-dato g-text-uppercase">
+						  {{ contratante.NumeroDocumento }}
+						</div>
+					  </li>
+					  <li class="col-md-4 clearfix cnt-item">
+						<div class="col-xs-5 item-label">
+						  Nombre:
+						</div>
+						<div class="col-xs-7 item-dato g-text-uppercase">
+						  {{ contratante.Nombre + ' ' + contratante.ApellidoPaterno + ' ' + contratante.ApellidoMaterno }}
+						</div>
+					  </li>                                           
+					</ul>
+					<ul class="row">
+					  <li class="col-md-4 clearfix cnt-item h-myd-mb--0">
+						<div class="col-xs-5 item-label">
+						  Sexo:
+						</div>
+						<div class="col-xs-7 item-dato g-text-uppercase">
+						  {{ contratante.Sexo.Codigo == "0" ? 'Femenino': 'Masculino' }}
+						</div>
+					  </li> 
+					  <li class="col-md-4 clearfix cnt-item">
+						<div class="col-xs-5 item-label">
+						  Fecha de Nacimiento:
+						</div>
+						<div class="col-xs-7 item-dato g-text-uppercase">
+						  {{ contratante.FechaNacimiento }}
+						</div>
+					  </li>
+					  <li class="col-md-4 clearfix cnt-item">
+						<div class="col-xs-5 item-label">
+						  Edad:
+						</div>
+						<div class="col-xs-7 item-dato g-text-uppercase">
+						  {{ contratante.Edad }}
+						</div>
+					  </li>                     
+					</ul>
+					<ul class="row">
+					  <li class="col-md-4 clearfix cnt-item h-myd-mb--0">
+						<div class="col-xs-5 item-label">
+						  Fecha Cambio de Edad:
+						</div>
+						<div class="col-xs-7 item-dato g-text-uppercase">
+						  {{ contratante.FechaCambioEdad }}
+						</div>
+					  </li>
+					</ul>
+				  </div>
+				</div>
+			  </div>
+			</div>
+		  </div>
+		  <div class="h-myd-border--bottom-1">
+			<div class="row mt-xs-2 h-myd-ml--0 h-myd-mr--0">
+			  <div class="col-md-12 mb-xs-1">
+				<h2 class="gH4 gCGray1 g-border-bottom-xs g-myd-title"><b>Personas Aseguradas</b></h2>
+			  </div>
+			</div>
+			<div class="row h-myd-ml--0 h-myd-mr--0" ng-repeat="asegurado in asegurados track by $index">
+			  <div class="col-xs-12">
+				<div class="g-list-md g-box gBgcGray5 pt-xs-1 g-row-fz12 mb-xs-1 h-myd-pt--20 h-myd-pb--20">
+				  <div class="col-md-12 g-col-md middle">
+					<ul class="row h-myd-mb--1">
+					  <li class="col-md-4 clearfix cnt-item">
+						<div class="col-xs-5 item-label">
+						  Tipo:
+						</div>
+						<div class="col-xs-7 item-dato g-text-uppercase">
+						  {{ asegurado.TipoAsegurado.Descripcion}}
+						</div>
+					  </li>
+					  <li class="col-md-4 clearfix cnt-item">
+						<div class="col-xs-5 item-label">
+						  Nombre:
+						</div>
+						<div class="col-xs-7 item-dato g-text-uppercase">
+						  {{ asegurado.Nombre + ' ' + asegurado.ApellidoPaterno + ' ' + asegurado.ApellidoMaterno }}
+						</div>
+					  </li>
+					  <li class="col-md-4 clearfix cnt-item h-myd-mb--0">
+						<div class="col-xs-5 item-label">
+						  Sexo:
+						</div>
+						<div class="col-xs-7 item-dato g-text-uppercase">
+						  {{ asegurado.Sexo.Codigo == "0" ? 'Femenino': 'Masculino' }}
+						</div>
+					  </li>                      
+					</ul>
+					<ul class="row">
+					  <li class="col-md-4 clearfix cnt-item h-myd-mb--0">
+						<div class="col-xs-5 item-label">
+						  Tipo de documento:
+						</div>
+						<div class="col-xs-7 item-dato g-text-uppercase">
+						  {{ asegurado.TipoDocumento.Codigo }}
+						</div>
+					  </li>
+					  <li class="col-md-4 clearfix cnt-item h-myd-mb--0">
+						<div class="col-xs-5 item-label">
+						  Número de documento:
+						</div>
+						<div class="col-xs-7 item-dato g-text-uppercase">
+						  {{ asegurado.NumeroDocumento }}
+						</div>
+					  </li>
+					  <li class="col-md-4 clearfix cnt-item">
+						<div class="col-xs-5 item-label">
+						  Fecha de Nacimiento:
+						</div>
+						<div class="col-xs-7 item-dato g-text-uppercase">
+						  {{ asegurado.FechaNacimiento }}
+						</div>
+					  </li>                      
+					</ul>
+					<ul class="row">
+					  <li class="col-md-4 clearfix cnt-item">
+						<div class="col-xs-5 item-label">
+						  Edad:
+						</div>
+						<div class="col-xs-7 item-dato g-text-uppercase">
+						  {{ asegurado.Edad }}
+						</div>
+					  </li>
+					  <li class="col-md-4 clearfix cnt-item">
+						<div class="col-xs-5 item-label">
+						  Fecha Cambio de Edad:
+						</div>
+						<div class="col-xs-7 item-dato g-text-uppercase">
+						  {{ asegurado.FechaCambioEdad }}
+						</div>
+					  </li>
+					  <li class="col-md-4 clearfix cnt-item h-myd-mb--0">
+						<div class="col-xs-5 item-label">
+						  Incluir la cobertura adicional de Accidentes personales:
+						</div>
+						<div class="col-xs-7 item-dato g-text-uppercase">
+						  <!-- <mpf-checkbox ng-disabled="true" ng-model="asegurado.Cobertura"  label=""></mpf-checkbox> -->
+						  {{  asegurado.Cobertura ? 'SI' : 'NO' }}
+						</div>
+					  </li>
+					</ul>
+				  </div>
+				</div>
+			  </div>
+			</div>
+		  </div>
+		</div>
+	  </div>
+
+	  
+	  <!-- <div ng-form="formDeceso" >
+		  <div class="g-section-inner">
+			<div class="container">
+				<div class="row">
+					<div class="col-md-12">
+						<h2 class="g-sub-title g-myd-subtitle">Datos del contratante</h2>
+					</div>
+					<div class="col-xs-12 panel2">
+						<mpf-person-component 
+							name="datosContratante"
+							person-data="firstStep.ContratantePerson"
+							app-code="{{ 'DECESO' }}"
+							form-code="{{ 'EMI-DECESO-CN' }}"
+							block-all="true"
+							block-fields="['Nombre', 'ApellidoPaterno', 'ApellidoMaterno', 'TipoDocumento', 'nationality','residenceCountry']"
+							editable="false">
+						  </mpf-person-component>
+					</div>
+				</div>
+			</div>
+		  </div>
+		  <div class="g-section-inner">
+			<div class="container">
+				<div class="row">
+					<div class="col-md-12">
+						<h2 class="g-sub-title g-myd-subtitle">Datos del titular</h2>
+					</div>
+					<div class="col-xs-12 panel2">
+						<mpf-person-component 
+							name="datosTitular"
+							person-data="firstStep.TitularPerson"
+							block-all="true"
+							app-code="{{ 'DECESO' }}"
+							form-code="{{ 'EMI-DECESO-ASE-TI' }}"
+							block-fields="['Nombre', 'ApellidoPaterno', 'ApellidoMaterno', 'TipoDocumento', 'nationality','residenceCountry']"
+							editable="false">
+						  </mpf-person-component>
+					</div>
+				</div>
+			</div>
+		  </div>
+		  <div class="g-section-inner">
+			<div class="container">
+				<div class="row">
+					<div class="col-md-12">
+						<h2 class="g-sub-title g-myd-subtitle">Datos de los asegurados</h2>
+					</div>
+					<div class="col-xs-12 panel2" ng-repeat="(key, asegurado) in firstStep.Asegurados">
+						<div class="col-xs-12">
+							<div class="row mb-xs-2">
+								<div class="col-xs-12">
+									<h3 class="gH4 fwBold g-text-uppercase">Parentesco con el titular ({{ asegurado.TipoAsegurado.Descripcion }})</h3>
+								</div>
+							</div>
+							<div class="row mb-xs-2">
+								<div class="col-xs-12 col-sm-4 mb-xs-1 mb-sm-0">
+									<mpf-select
+									  ng-disabled="true"
+									  label="{label: 'Tipo de documento ', required: true}"
+									  name="nTipoDocumentoAsegurado{{key}}"
+									  ng-model="asegurado.TipoDocumento"
+									  m-data-source="tiposDeDocumentos"
+									  m-Empty-Option="{enterData:true}"
+									  ng-required="true"
+									  add-messages>
+									</mpf-select>
+									<ul class="g-error">
+										<li ng-show="formData.nTipoDocumentoAsegurado{{key}}.$invalid && !formData.nTipoDocumentoAsegurado{{key}}.$pristine">* Este campo es obligatorio</li>
+									</ul>
+								</div>
+								<div class="col-xs-12 col-sm-4">
+									<mpf-input
+										ng-disabled="true"
+										label="{label: 'Número de Documento ', required: true}"
+										name="nNroDocumentoAsegurado{{key}}"
+										ng-model="asegurado.NumeroDocumento"
+										mpf-validation="required, onlyNumber">
+									</mpf-input>
+									<ul class="g-error">
+									   <li ng-show="formData.nNroDocumentoAsegurado{{key}}.$invalid && !formData.nNroDocumentoAsegurado{{key}}.$pristine">* Este campo es obligatorio</li>
+									</ul>
+								</div>
+							</div>
+							<div class="row mb-xs-2">
+								<div class="col-xs-12">
+									<h3 class="gH3">Datos principales</h3>
+								</div>
+							</div>
+							<div class="row mb-xs-2">
+								<div class="col-xs-12 col-sm-4 mb-xs-1 mb-sm-0">
+									<mpf-input
+										ng-disabled="true"
+										label="{label: 'Nombres ', required: true}"
+										name="nNameAsegurado{{key}}"
+										ng-model="asegurado.Nombre"
+										mpf-validation="required, onlyLetter">
+									</mpf-input>
+									<ul class="g-error">
+									  <li ng-show="formData.nNameAsegurado{{key}}.$invalid && !formData.nNameAsegurado{{key}}.$pristine">* Este campo es obligatorio</li>
+									</ul>
+								</div>
+								<div class="col-xs-12 col-sm-4 mb-xs-1 mb-sm-0">
+									<mpf-input
+										ng-disabled="true"
+										label="{label: 'Apellido Paterno ', required: true}"
+										name="nApellidoPaternoAsegurado{{key}}"
+										ng-model="asegurado.ApellidoPaterno"
+										mpf-validation="required, onlyLetter">
+									</mpf-input>
+									<ul class="g-error">
+									  <li ng-show="formData.nApellidoPaternoAsegurado{{key}}.$invalid && !formData.nApellidoPaternoAsegurado{{key}}.$pristine">* Este campo es obligatorio</li>
+									</ul>
+								</div>
+								<div class="col-xs-12 col-sm-4">
+									<mpf-input
+										ng-disabled="true"
+										label="{label: 'Apellido Materno ', required: true}"
+										name="nApellidoMaternoAsegurado{{key}}"
+										ng-model="asegurado.ApellidoMaterno"
+										mpf-validation="required, onlyLetter">
+									</mpf-input>
+									<ul class="g-error">
+									  <li ng-show="formData.nApellidoMaternoAsegurado{{key}}.$invalid && !formData.nApellidoMaternoAsegurado{{key}}.$pristine">* Este campo es obligatorio</li>
+									</ul>
+								</div>
+
+							</div>
+							<div class="row mb-xs-2">
+								<div class="col-xs-12 col-sm-4">
+									<div class="row">
+										<div class="col-xs-10">
+											<div class="input-group g-date-picker">
+												<label class="g-placeholder animated">Fecha de Nacimiento<span>*</span></label>
+												<input
+												  type="text"
+												  class="form-control"
+												  name="nFechaNacimientoAsegurado{{key}}"
+												  uib-datepicker-popup="{{format}}"
+												  ng-model="asegurado.FechaNacimiento"
+												  ng-change="cambiarFecNacAsegurado(key)"
+												  is-open="popup5DatePicker.opened"
+												  datepicker-options="dateOptions"
+												  ng-required="true"
+												  close-text="Close"
+												  alt-input-formats="altInputFormats"
+												  readonly="readonly"/>
+												<span class="input-group-btn">
+												  <button type="button" class="btn btn-default" ng-click="openTimePicker5()"><i class="glyphicon glyphicon-calendar"></i></button>
+												</span>
+											</div>
+											<ul class="g-error">
+											  <li ng-show="formData.nFechaNacimientoAsegurado{{key}}.$invalid && !formData.nFechaNacimientoAsegurado{{key}}.$pristine">* Este campo es obligatorio</li>
+											</ul>
+										</div>
+										<div class="col-xs-2">
+											<mpf-input
+												label="{label: 'Edad ', required: true}"
+												name="nEdadAsegurado{{key}}"
+												ng-model="asegurado.Edad"
+												ng-disabled="true"
+												mpf-validation="required">
+											</mpf-input>
+											<ul class="g-error">
+											  <li ng-show="formData.nEdadAsegurado{{key}}.$invalid && !formData.nEdadAsegurado{{key}}.$pristine">* Este campo es obligatorio</li>
+											</ul>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="row mb-xs-2">
+								<div class="col-xs-12">
+									<h3 class="gH3">Caracteríticas personales</h3>
+								</div>
+							</div>
+							<div class="row mb-xs-2">
+								<div class="col-xs-12 col-sm-4 mb-xs-1 mb-sm-0">
+									<div class="row">
+									  <div class="col-md-12"><span class="g-label text-left">Sexo*</span></div>
+									  <div class="col-md-6 col-sm-3 col-xs-3 mt-xs-1">
+										<m-radio
+										  ng-disabled="true"
+										  data-ng-model="asegurado.Sexo.Codigo"
+										  label="{label: 'Masculino'}"
+										  name="nSexoAsegurado{{key}}"
+										  value="1">
+										</m-radio>
+									  </div>
+									  <div class="col-md-6 col-sm-3 col-xs-3 mt-xs-1">
+										<m-radio
+										  ng-disabled="true"
+										  data-ng-model="asegurado.Sexo.Codigo"
+										  label="{label: 'Femenino'}"
+										  name="nSexoAsegurado{{key}}"
+										  value="0">
+										</m-radio>
+									  </div>
+									</div>
+								</div>								
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		  </div>
+		  
+		
+	  </div> -->
+	  <div class="row mb-xs-1">
+		<div class="col-xs-12 col-sm-6 col-md-4 col-sm-offset-3 col-md-offset-4">
+			<a class="g-btn g-btn-verde block"		
+			ng-click="guardar()" href="javascript:void(0)">Siguiente</a>
+		</div>
+	</div>
+
+
+  
+	</section>
+  </div>
+  

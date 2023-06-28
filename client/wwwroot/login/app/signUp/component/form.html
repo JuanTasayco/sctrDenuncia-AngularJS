@@ -1,0 +1,55 @@
+<div class="col-md-12 mb-xs-3">
+	<h2 class="title red text-center">Crear tu cuenta Cliente MAPFRE</h2>
+</div>
+
+<form ng-submit="$ctrl._signUp()" name="frmSignUp" class="cnt-sign-up">
+
+	<div class="col-md-10 col-md-offset-1 mb-xs-2">
+		<div class="row">
+			<div class="col-md-6">
+				<mpf-select ng-model="$ctrl.mTipoDocumento" name="nTipoDocumento" label="{label: 'Tipo de documento', required: true}" m-data-source="$ctrl.provider" text-field="Descripcion" value-field="Codigo" m-Empty-Option="{enterData:true}" mpf-validation="required"></mpf-select>
+				<ul class="g-error">
+					<li ng-show="frmSignUp.nTipoDocumento.$error.required && !frmSignUp.nTipoDocumento.$pristine">* Este campo es obligatorio</li>
+				</ul>
+			</div>
+			<div class="col-md-6">
+				<mpf-input label="{label: !$ctrl.mTipoDocumento || $ctrl.mTipoDocumento.Codigo == null ? 'Número de documento' : 'Ingrese su ' + $ctrl.mTipoDocumento.Codigo, required: true}" name="nIngresaNumero" ng-model="$ctrl.mIngresaNumero" mpf-validation="onlyNumber" ng-required="true"></mpf-input>
+				<ul class="g-error">
+					<li ng-show="frmSignUp.nIngresaNumero.$error.required && !frmSignUp.nIngresaNumero.$pristine">* Este campo es obligatorio</li>
+					<li ng-show="frmSignUp.nIngresaNumero.$error.onlyNumber && !frmSignUp.nIngresaNumero.$pristine">* Valor no valido</li>
+				</ul>
+			</div>
+			<div class="col-md-12">
+				<ul class="g-error-service">
+					<li ng-show="$ctrl.error1"><span class="ico-mapfre_37_informacion ico"></span> El {{$ctrl.tipoDocumento}} que ingresaste no existe</li>
+					<li ng-show="$ctrl.error2"><span class="ico-mapfre_37_informacion ico"></span> El {{$ctrl.tipoDocumento}} que ingresaste ya está registrado.<br> <a href="" ui-sref="authoButtons" class="link">Ingresa a tu cuenta</a></li>
+					<li ng-show="$ctrl.error3"><span class="ico-mapfre_37_informacion ico"></span> El {{$ctrl.tipoDocumento}} que ingresaste no está registrado en TRON.</li>
+				</ul>
+			</div>
+		</div>
+	</div>
+	<div class="col-md-10 col-md-offset-1 mb-xs-3">
+		<mpf-input label="{label: 'Ingresa tu correo electrónico', required: true}" name="nIngresaCorreoElectronico" ng-model="$ctrl.mIngresaCorreoElectronico" mpf-validation="email" ng-required="true"></mpf-input>
+		<ul class="g-error">
+			<li ng-show="frmSignUp.nIngresaCorreoElectronico.$error.required && !frmSignUp.nIngresaCorreoElectronico.$pristine">* Este campo es obligatorio</li>
+			<li ng-show="frmSignUp.nIngresaCorreoElectronico.$error.email && !frmSignUp.nIngresaCorreoElectronico.$pristine">* Correo inválido</li>
+		</ul>
+		<ul class="g-error-service">
+			<li ng-show="$ctrl.error4">
+				<span class="ico-mapfre_37_informacion ico"></span>
+				El correo electrónico que ingresaste no coincide con el que tenemos asociado a tu {{$ctrl.tipoDocumento}}.<br>
+				<strong>¿Dudas?</strong> Llama al (01) 213 - 3333
+			</li>
+		</ul>
+	</div>
+	<div class="col-md-8 col-md-offset-2 text-center mb-xs-1">
+		<p class="message">(Te enviaremos tu contraseña a este correo electrónico)</p>
+	</div>
+	<div class="col-md-12 text-center mb-xs-2">
+		<mpf-checkbox name="nNotification" ng-model="$ctrl.mNotification.valueDefault" label="Quiero recibir noticias de MAPFRE en mi correo"></mpf-checkbox>
+	</div>
+	<div class="col-md-10 col-md-offset-1">
+		<button type="submit" class="g-btn g-btn-verde block" ng-class="{disabled: !validationForm()}">Crear Cuenta</button>	
+	</div>
+
+</form>

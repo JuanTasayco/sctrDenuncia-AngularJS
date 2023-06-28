@@ -1,0 +1,96 @@
+<div class="row" ng-if="$ctrl.comprobantesList.length > 0">
+  <div class="col-xs-12">
+    <div class="clearfix">
+      <div tbl-oim class="col-xs-12 g-tbl-wrapper pl-xs-0 tbl-reembolsos-comprobantes">
+        <div class="tbl-main">
+          <ul height-row class="tbl-header clearfix">
+            <li class="title col-9-dktp text-center g-text-uppercase">Adjunto</li>
+            <li class="title col-10-dktp text-center g-text-uppercase">RUC</li>
+            <li class="title col-19-dktp text-center g-text-uppercase">Razón Social</li>
+            <li class="title col-12-dktp text-center g-text-uppercase">Comprobante</li>
+            <li class="title col-14-dktp text-center g-text-uppercase">Fecha de documento</li>
+            <li class="title col-18-dktp text-center g-text-uppercase">Diagnóstico</li>
+            <li class="title col-9-dktp text-center g-text-uppercase">Importe</li>
+            <li class="title col-9-dktp"></li>
+          </ul>
+          <ul class="tbl-body clearfix">
+            <li ng-repeat="item in $ctrl.comprobantesList" ng-if="item.invoiceItemNumber > 0">
+              <ul height-row class="tbl-row clearfix g-u-cursor--pointer">
+                <li class="cell text-center g-text-uppercase col-9-dktp">
+                  <span class="cell-label">
+                    <span class="cell-data"><span class="gnIcon-sm ico-mapfre_314_archivos"></span></span>
+                  </span>
+                </li>
+                <li class="cell text-center g-text-uppercase col-10-dktp">
+                  <span class="cell-label"><span class="cell-data">{{item.rucNumber}}</span></span>
+                </li>
+                <li class="cell text-center g-text-uppercase col-19-dktp">
+                  <span class="cell-label g-cut-text">
+                    <span class="cell-data">{{item.rucDescription}}</span>
+                  </span>
+                </li>
+                <li class="cell text-center g-text-uppercase col-12-dktp">
+                  <span class="cell-label">
+                    <span class="cell-data">
+                      {{
+                        item.documentSerialNumber ?
+                          $ctrl.formatComprobante(item.documentSerialNumber, item.documentNumberWithoutSerie) :
+                          item.documentNumber
+                      }}
+                    </span>
+                  </span>
+                </li>
+                <li class="cell text-center g-text-uppercase col-14-dktp">
+                  <span class="cell-label">
+                    <span class="cell-data">
+                      {{$ctrl.formatDateToSlash(item.providerDocumentDate || item.date.model)}}
+                    </span>
+                  </span>
+                </li>
+                <li class="cell text-center g-text-uppercase col-18-dktp">
+                  <span class="cell-label">
+                    <span class="cell-data">
+                      {{$ctrl.mapNameProcedures(item.preLiquidationProcedureDtos || item.procedimientos)}}
+                    </span>
+                  </span>
+                </li>
+                <li class="cell text-center g-text-uppercase col-9-dktp">
+                  <span class="cell-label">
+                    <span class="cell-data">{{item.invoiceTotalValue | currency: 'S/ '}}</span>
+                  </span>
+                </li>
+                <li class="cell text-center g-text-uppercase col-9-dktp">
+                  <span
+                    class="gnIcon-sm gCGreen1 ico-mapfre_228_editar ml-xs-1"
+                    ng-click="$ctrl.editItem(item)">
+                  </span>
+                  <!-- <span class="gnIcon-sm gCGreen1 ico-mapfre_307_tacho ml-xs-2"></span> -->
+                </li>
+              </ul>
+            </li>
+          </ul>
+          <ul class="tbl-body tbl-footer clearfix">
+            <li>
+              <ul height-row class="tbl-row clearfix g-u-cursor--pointer">
+                <li class="cell text-center g-text-uppercase col-9-dktp"></li>
+                <li class="cell text-center g-text-uppercase col-10-dktp"></li>
+                <li class="cell text-center g-text-uppercase col-19-dktp"></li>
+                <li class="cell text-center g-text-uppercase col-12-dktp"></li>
+                <li class="cell text-center g-text-uppercase col-14-dktp"></li>
+                <li class="cell text-center g-text-uppercase col-18-dktp">
+                  <span class="cell-label"><span class="cell-data"><b>Importe total</b></span></span>
+                </li>
+                <li class="cell text-center g-text-uppercase col-9-dktp">
+                  <span class="cell-label">
+                    <span class="cell-data">{{$ctrl.sumImporte | currency: 'S/'}}</span>
+                  </span>
+                </li>
+                <li class="cell text-center g-text-uppercase col-9-dktp"></li>
+              </ul>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

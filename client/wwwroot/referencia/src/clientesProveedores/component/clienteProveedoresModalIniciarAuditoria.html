@@ -1,0 +1,54 @@
+<div class="clearfix modal-container u-fx-ac modal-iniciar modal__wrapper">
+  <div class="container">
+    <div class="row">
+      <div class="modal-client-detail__header modal-box-content">
+        <button type="button"
+                class="close g-close-modal"
+                data-ng-click="$ctrl.close()">
+          <span class="ico-mapfre_46_cancelaroff"></span>
+        </button>
+        <h2 class="modal-title modal-spec-title">Iniciar Auditoría</h2>
+      </div>
+    </div>
+    <div class="row">
+      <ul>
+        <li ng-click="$ctrl.selectAudit($ctrl.lastAudit.idAuditoria)"
+            ng-class="{'hover': hoverSaved, 'selected': $ctrl.auditSelected > 0}"
+            ng-mouseenter="hoverSaved = true"
+            ng-mouseleave="hoverSaved = false"
+            ng-if="$ctrl.lastAudit && !$ctrl.lastAudit.auditado">
+          <div>
+            <div class="heading">Auditoría {{ $ctrl.date }}</div>
+            <p>Continúa la auditoría donde la dejaste</p>
+          </div>
+        </li>
+        <li ng-click="$ctrl.selectAudit('new')"
+            ng-class="{'hover': hoverNew, 'selected': $ctrl.auditSelected === 'new'}"
+            ng-mouseenter="hoverNew = true"
+            ng-mouseleave="hoverNew = false">
+          <div>
+            <div class="heading">Nueva auditoría</div>
+            <p>Empieza una auditoría desde cero</p>
+          </div>
+        </li>
+      </ul>
+    </div>
+    <div class="row">
+      <div class="row">
+        <div class="col-sm-6">
+          <button class="c-btn btn btn--default btn-block"
+                  ng-click="$ctrl.close()">
+            Cancelar
+          </button>
+        </div>
+        <div class="col-sm-6">
+          <button class="c-btn btn btn--secundary btn-block"
+                  ng-click="$ctrl.onAuditInit()"
+                  ng-disabled="$ctrl.auditSelected === null">
+            Iniciar auditoría
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

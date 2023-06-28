@@ -1,0 +1,40 @@
+<!-- <div id="g-steps" class="g-steps mb-md-3" scroll-position="scroll" ng-class="{'active-fixed': scroll > 240}"> -->
+<div id="g-steps" class="g-steps mb-md-3" scroll-position ng-class="{'active-fixed': scroll}">
+		<div class="container g-steps-container hidden-xs hidden-sm">
+
+				<div class="row g-steps-circles">
+						<div ng-repeat="item in localSetting.steps" class="col-md-2 text-center" ng-style="setStyleOffset($first, item)" >
+								<div class="g-circle" ng-class="{ active: currentStep >= getStepNumber(item)}" ui-sref="{{getSref(item)}}" step="{{getStepNumber(item)}}">
+										<span>{{getStepNumber(item)}}</span>
+								</div>
+						</div>
+				</div>
+
+				<div class="row g-steps-line">
+						<div ng-repeat="line in lines" ng-style="setStyleCol(line)" ng-class="{'col-md-offset-1': $first}" class="col-md-1">
+								<div class="g-step-line" ng-class="{ gradient : currentStep == getStepLine(line.preview) , full: currentStep >= getStepLine(line.next)}">
+								</div> 
+						</div>
+					 
+				</div>
+				
+				<div class="row g-steps-titles">
+						<a ng-repeat="item in localSetting.steps" ui-sref="{{getSref(item)}}" step="{{getStepNumber(item)}}" >
+								<div class="col-md-2 text-center" ng-style="setStyleOffset($first, item)" >
+										<span ng-class="{ active: currentStep >= item.step  }">{{item.description}}</span>
+								</div>
+						</a>
+				</div>
+		</div>
+
+		<div class="container  hidden-md hidden-lg">
+			<div class="g-steps-container-responsive">
+				<div ng-repeat="item in localSetting.steps" class="g-step-box mt-xs-1" ng-class="{ active: currentStep == getStepNumber(item)}">
+					<div class="g-circle" ng-class="{ active: currentStep == getStepNumber(item)}" ui-sref="{{getSref(item)}}" step="{{getStepNumber(item)}}">
+						<span>{{getStepNumber(item)}}</span>
+					</div>
+					<a class="g-title" ui-sref="{{getSref(item)}}" step="{{getStepNumber(item)}}" ng-class="{ active: currentStep == getStepNumber(item)}"><span>{{item.description}}</span></a>
+				</div>
+			</div>
+		</div>
+</div>

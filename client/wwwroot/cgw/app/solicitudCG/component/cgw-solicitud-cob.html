@@ -1,0 +1,193 @@
+<!-- Step 3 -->
+<form action="" name="frmSolicitudCgwPowerEPS2">
+  <div class="g-section">
+    <div class="container">
+      <div class="u-bs-gris g-overflow-hidden-xs clearfix">
+        <div class="clearfix">
+          <div class="col-xs-12 u-bb-gris-5">
+            <h2 class="gH4 gCGray1 pt-xs-2 pb-xs-2 c-mf-collapse__head" data-ng-click="collapse5 = !collapse5;">
+              <b>Notificación de aprobación</b>
+              <a class="c-mf-collapse g-pull-right-xs" data-ng-class="{'c-mf-collapse--open': collapse5}">
+                <span class="ico-mapfre_76_chevrondown c-mf-collapse__ico"></span>
+              </a>
+            </h2>
+          </div>
+        </div>
+        <div class="row u-bg--gris-10 u-animate-show" data-ng-show="!collapse5">
+          <div class="col-xs-12 pt-xs-2">
+            <div class="col-md-4 mb-xs-3">
+              <mpf-input
+                label="{label: 'Correo electrónico', required: true}"
+                data-mpf-validation="email"
+                ng-model-options="{allowInvalid: true}"
+                data-ng-maxlength="50"
+                data-ng-minlength="2"
+                data-ng-model="mEmail"
+                name="nEmail"
+                ng-required="true">
+              </mpf-input>
+              <div class="g-error"
+                   data-ng-show="frmSolicitudCgwPowerEPS2.nEmail.$invalid && !frmSolicitudCgwPowerEPS2.nEmail.$pristine">* Ingresar correo electrónico
+              </div>
+            </div>
+            <div class="col-md-4 mb-xs-3">
+              <mpf-input
+                label="{label: 'Número de celular', required: true}"
+                ng-model="mCelular"
+                name="nCelular"
+                mpf-validation="onlyNumber"
+                ng-minlength="7"
+                ng-maxlength="9"
+                ng-required="true">
+              </mpf-input>
+              <div class="g-error"
+                   data-ng-show="frmSolicitudCgwPowerEPS2.nCelular.$error.onlyNumber && !frmSolicitudCgwPowerEPS2.nCelular.$pristine">* Ingresar número de celular
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="u-bs-gris g-overflow-hidden-xs clearfix mt-xs-3">
+        <div class="clearfix">
+          <div class="col-xs-12 u-bb-gris-5">
+            <h2 class="gH4 gCGray1 pt-xs-2 pb-xs-2 c-mf-collapse__head" data-ng-click="collapse6 = !collapse6;">
+              <b>Ingresa las coberturas</b>
+              <a class="c-mf-collapse g-pull-right-xs" data-ng-class="{'c-mf-collapse--open': collapse6}">
+                <span class="ico-mapfre_76_chevrondown c-mf-collapse__ico"></span>
+              </a>
+            </h2>
+          </div>
+        </div>
+        <div class="row u-bg--gris-10 u-animate-show" data-ng-show="!collapse6">
+        <div class="col-xs-12 pt-xs-2">
+          <div class="col-md-12 mb-xs-3">
+            <div class="u-bs-gris gBgcWhite1 clearfix"
+            data-ng-repeat="item in procedimientos">
+              <div class="row u-ph-15 mb-xs-1">
+                <div class="item g-border-xs clearfix">
+                  <div class="col-sm-2 gBgcGray5 g-text-center-xs u-pvh-15 cgw-presupuesto__icon-wp">
+                    <span class="{{item.icon}} cgw-presupuesto__icon"></span>
+                  </div>
+                  <div class="col-sm-6 col-md-6 info cgw-presupuesto__info">
+                    <a  class="gCGray3"
+                        data-ng-click="cargarPresupuesto(item.code)"><span class="g-link"><b>{{item.description}}</b></span></a>
+                  </div>
+                  <div class="col-sm-4 col-md-4 u-pvh-15 cgw-presupuesto__price-wp text-right">
+                    <span><b>{{item.price | currency: 'S/.'}}</b></span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      </div>
+
+      <!--<div class="clearfix" ng-hide="isSOAT()">-->
+        <!--<div class="col-xs-12 mt-xs-2 mb-xs-2">-->
+          <!--<div class="col-md-4 col-xs-12 gBgcGray5 g-box gBgcGray5 pt-xs-1 pull-right">-->
+            <!--<p class="clearfix u-txt-weight">-->
+              <!--<span class="col-xs-5">Subtotal</span>-->
+              <!--<span class="col-xs-7 text-right">{{subtotal | currency: 'S/.'}}</span>-->
+            <!--</p>-->
+          <!--</div>-->
+        <!--</div>-->
+      <!--</div>-->
+
+      <div class="row">
+        <div class="col-xs-12 mt-xs-4">
+          <div class="col-md-4 col-xs-12 gBgcGray5 g-box gBgcGray5 pt-xs-1 pull-right">
+            <p class="clearfix u-txt-weight">
+              <span class="col-xs-5">Subtotal</span>
+              <span class="col-xs-7 text-right">{{subtotal | currency: 'S/.'}}</span>
+            </p>
+            <p class="clearfix u-txt-weight">
+              <span class="col-xs-5">IGV {{valorIGV}}%</span>
+              <span class="col-xs-7 text-right">{{(subtotal * valorIGV/100) | currency: 'S/.'}}</span>
+            </p>
+            <p class="clearfix u-txt-weight">
+              <span class="col-xs-5">Total</span>
+              <span class="col-xs-7 text-right">{{(subtotal + (subtotal * valorIGV/100)) | currency: 'S/.'}}</span>
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div class="g-section-inner">
+        <div class="container cgw-inline-files">
+          <div class="row">
+            <div class="col-md-12 mb-xs-2">
+              <h2 class="g-text-uppercase gCRed1 gH4">
+                <b>Adjuntar Archivo</b>
+              </h2>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-lg-5 col-md-6 col-sm-7">
+              <div class="clearfix g-box g-box-dashed fz14 gBgcWhite1 pt-xs-2 pb-xs-3">
+                <div class="col-md-12 text-center">
+                  <ul class="clearfix mb-xs-3">
+                    <li class="clearfix g-border-bottom-xs pt-xs-1 pb-xs-1" ng-repeat="file in filesCgw track by $index" ng-if="filesCgw">
+                      <div class="col-xs-2 g-border-right-xs" uib-tooltip="{{file.name}}">
+                        <span class="gH2 gCGray3 ico-mapfre_170_archivos"></span>
+                      </div>
+                      <div class="col-xs-8 text-left">
+                        <span>{{file.name}}</span>
+                      </div>
+                      <div class="col-xs-2 g-border-left-xs">
+                        <a>
+                          <span class="gH2 gCGreen1 ico-mapfre_307_tacho" ng-click="deleteFile($index, filesCgw)"></span>
+                        </a>
+                      </div>
+                    </li>
+                    <!--<li class="clearfix g-border-bottom-xs pt-xs-1 pb-xs-1">-->
+                      <!--<div class="col-xs-2 g-border-right-xs">-->
+                        <!--<span class="gH2 gCGray3 ico-mapfre_170_archivos"></span>-->
+                      <!--</div>-->
+                      <!--<div class="col-xs-8 text-left">-->
+                        <!--<span>Archivo-2.doc</span>-->
+                      <!--</div>-->
+                      <!--<div class="col-xs-2 g-border-left-xs">-->
+                        <!--<a href="#">-->
+                          <!--<span class="gH2 gCGreen1 ico-mapfre_307_tacho"></span>-->
+                        <!--</a>-->
+                      <!--</div>-->
+                    <!--</li>-->
+                  </ul>
+                  <div class="mt-xs-1 mb-xs-3">
+                    <span class="u-txt-50 gCGray3 ico-mapfre_170_archivos "></span>
+                  </div>
+                </div>
+                <div class="col-md-10 col-md-offset-1">
+                  <label class="g-btn g-btn-white second-design block g-btn-input-file">
+                    <span class="g-icon">
+                      <span class="icon icon-plus ico-mapfre_56_visitasalmedico"></span>
+                      <span>Adjuntar archivo</span>
+                    </span>
+                    <!--<input type="file" data-show-preview="false" id="iImportarPlanilla" name="nImportarPlanilla" file-model="$ctrl.replacePayroll.fmImportarPlanilla" ng-model="$ctrl.replacePayroll.mImportarPlanilla" ng-required="false" custom-on-click="fnValidateRisks" onchange="angular.element(this).scope().fnChangeLoadFile()">-->
+                    <input type="file" file-model="myFile" ng-model="files" multiple class="input__file" accept=".jpg, .bmp, .gif, .jpeg, .txt, .zip, .rar, .doc, .docx, .xls, .xlsx, .zip, application/x-rar-compressed,application/zip,application/x-zip,application/x-zip-compressed, application/pdf,application/msword, application/vnd.openxmlformats-officedocument.wordprocessingml.document, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/vnd.ms-excel"/>
+                  </label>
+                  <!--<ul class="g-error g-text-left-xs">-->
+                    <!--<li ng-show="$ctrl.replacePayroll.errorAttachFile">* Este campo es obligatorio</li>-->
+                  <!--</ul>-->
+                  <div class="g-error" ng-show="sinArchivos">Ingrese archivo
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-4 col-md-offset-4 col-lg-2 col-lg-offset-5 mt-xs-4">
+          <a class="g-btn g-btn-verde block" ng-click="guardarPaso3()">Continuar</a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</form>

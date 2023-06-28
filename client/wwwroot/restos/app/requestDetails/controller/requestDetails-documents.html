@@ -1,0 +1,149 @@
+<div class="g-section-inner">
+  <div class="row mb-xs-2">
+    <div class="col-md-12">
+      <div class="g-text-center-xs" ng-if="!request.Documentos.length">
+        <p>Aún no se ha subido ningún documento para esta solicitud.</p>
+      </div>
+      <div class="clearfix g-box g-overflow-hidden-xs" ng-if="request.Documentos.length">
+        <ul class="clearfix g-list gBgcGray5 pt-xs-1 hidden-xs">
+          <li class="col-md-4 col-sm-3 clearfix cnt-item">
+            <b>Tipo de documento</b>
+          </li>
+          <li class="col-md-3 col-sm-3 clearfix cnt-item">
+            <b>Adjunto</b>
+          </li>
+          <li class="col-md-2 col-sm-2 clearfix cnt-item">
+            <b>Fecha</b>
+          </li>
+          <li class="col-md-2 col-sm-2 clearfix cnt-item">
+            <b>Tamaño</b>
+          </li>
+          <li class="col-md-1 col-sm-2 clearfix cnt-item">
+            <b></b>
+          </li>
+        </ul>
+        <div class="col-md-12 cnt-content g-list-sm pt-xs-1">
+          <div class="clearfix" ng-class="{'g-border-bottom-xs mb-xs-1' : !$last}"
+               ng-repeat="document in request.Documentos | orderBy:'-FEC_CRGA'">
+            <ul class="row">
+              <li class="col-sm-4 cnt-item item-dato g-text-uppercase">{{ document.TIPO_DOCUMENTO }}</li>
+              <li class="col-sm-3 cnt-item item-dato g-cut-text">{{ document.NOM_FSCO }}</li>
+              <li class="col-sm-2 cnt-item item-dato g-text-uppercase">{{ document.FEC_CRGA }}</li>
+              <li class="col-sm-2 cnt-item item-dato g-text-uppercase">
+                <span ng-if="document.PES_ARCHVO && document.PES_ARCHVO < 1048576">
+                  ({{ document.PES_ARCHVO/1024 | number: 0 }} KB)
+                </span>
+                <span ng-if="document.PES_ARCHVO && document.PES_ARCHVO >= 1048576">
+                  ({{ document.PES_ARCHVO/1048576 | number:2 }} MB)
+                </span>
+                <span ng-if="!document.PES_ARCHVO">
+                  --
+                </span>
+              </li>
+              <li class="col-sm-1 cnt-item item-dato g-text-uppercase text-center">
+                <a class="g-icon-box"
+                   title="Descargar documento"
+                   ng-click="downloadDocument(document.COD_TDCMNTO, document.NOM_FSCO)">
+                  <span class="gnIcon-md ico-mapfre_124_download"></span>
+                </a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="g-section">
+  <div class="col-md-12 g-box gBgcGray5 fz14 pt-xs-2 pb-xs-2" ng-hide="showUploadDocs || documentToUpload.file || documentToUpload.documentType || !allowedDocuments.length">
+    <div class="row mt-xs-1 mb-xs-1">
+      <div class="col-md-4 col-md-offset-4 col-sm-6 col-sm-offset-3">
+        <button class="g-btn second-design g-btn-white block"
+                type="button"
+                ng-click="showUploadDocs = true">
+          <span class="icon icon-plus ico-mapfre_56_visitasalmedico"></span>
+          <span>Agregar documentos</span>
+        </button>
+      </div>
+    </div>
+  </div>
+  <form class="clearfix g-box gBgcGray5 pt-xs-2 pb-xs-2"
+        name="uploadDocumentForm"
+        ng-show="showUploadDocs || documentToUpload.file || documentToUpload.documentType"
+        ng-submit="uploadDocument(documentToUpload)">
+    <div class="row g-row-fz12">
+      <div class="col-md-4 g-col-md middle">
+        <ul class="row">
+          <li class="col-md-12 clearfix cnt-item no-border-left">
+            <div class="col-xs-12 item-dato">
+              <div class="g-select-desing">
+                <label class="g-placeholder animated">Seleccionar el tipo de documento*</label>
+                <select ng-model="documentToUpload.documentType"
+                        required>
+                  <option value="">-- SELECCIONA --</option>
+                  <option ng-repeat="option in allowedDocuments" ng-value="option.CODIGO">{{option.NOMBRE}}</option>
+                </select>
+                <span class="ico-mapfre_308_arrowDown ico-select"></span>
+              </div>
+            </div>
+          </li>
+        </ul>
+      </div>
+      <div class="col-md-4 g-col-md middle cnt-item">
+        <div class="clearfix fz14 pb-xs-2" ng-hide="documentToUpload.file">
+          <div class="col-md-10">
+            <span class="g-placeholder block mb-xs-1 text-left">Adjuntar archivo</span>
+            <label class="g-btn g-btn-white second-design block g-btn-input-file">
+                        <span class="g-icon">
+                          <span class="icon icon-plus ico-mapfre_56_visitasalmedico"></span>
+                          <span>Subir archivo</span>
+                        </span>
+              <input type="file"
+                     data-show-preview="false"
+                     name="uDocument"
+                     ng-required="true"
+                     ng-model="documentToUpload.file"
+                     accept=".pdf, .PDF"
+                     base-sixty-four-input>
+            </label>
+          </div>
+        </div>
+        <div class="clearfix fz14 pt-xs-2 pb-xs-2" ng-show="documentToUpload.file">
+          <div class="col-md-12 mb-xs-0-5 archivoAdjunto">
+            <span class="g-placeholder block mb-xs-1 text-left">Adjuntar archivo</span>
+            <div class="cont">
+              <span>
+                <b>{{ documentToUpload.file.filename }}
+                  <span ng-if="documentToUpload.file.filesize < 1048576">
+                    ({{ documentToUpload.file.filesize/1024 | number: 0 }} KB)
+                  </span>
+                  <span ng-if="documentToUpload.file.filesize >= 1048576">
+                    ({{ documentToUpload.file.filesize/1048576 | number: 2 }} MB)
+                  </span>
+                </b>
+              </span>
+            </div>
+            <div class="cont2">
+              <a ng-click="documentToUpload.file = null"><span class="ico-mapfre_307_tacho gnIcon-sm gCGray3"></span></a>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4 g-col-md middle">
+        <div class="clearfix">
+          <div class="col-md-6 mb-xs-1 no-mb-md">
+            <button type="reset"
+                    class="g-btn g-btn-white second-design block"
+                    ng-click="resetUploadDocumentForm()">Cancelar</button>
+          </div>
+          <div class="col-md-6">
+            <button class="g-btn g-btn-verde second-design block"
+                    type="submit"
+                    ng-disabled="uploadDocumentForm.$invalid">Guardar</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>

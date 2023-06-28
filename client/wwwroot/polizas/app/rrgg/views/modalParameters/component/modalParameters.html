@@ -1,0 +1,519 @@
+<div class="clearfix page-rrgg__modal">
+	<button type="button" class="close g-close-modal" ng-click="$ctrl.close()">
+		<span class="ico-mapfre_231_cancelaroff"></span>
+	</button>
+	<div class="row no-margin-xs">
+		<div class="col-md-12 mb-xs-2 border-bottom pb-xs-2 pl-xs-0 pr-xs-0">
+			<h2 class="gH3"><b>{{$ctrl.data.title}}</b></h2>
+		</div>
+
+		<div class="col-xs-12 pr-xs-0 pl-xs-0 mb-xs-2 show-sm">
+			<mpf-select ng-model="vm.contratante.mTipoDocumento" name="nTipoDocumento"
+				label="{label: 'Ramo', required: vm.checkRequired('TIP_DOCUM')}" m-data-source="productos"
+				text-field="Descripcion" value-field="Codigo" m-Empty-Option="{enterData:true}"
+				ng-change="cambioProducto(vm.contratante.mTipoDocumento)" ng-disabled="vm.stepDisabled()"
+				mpf-generic-validations="{{vm.getValidations('TIP_DOCUM')}}" disabled-view-model="true">
+			</mpf-select>
+		</div>
+		<div class="col-xs-12 pr-xs-0 pl-xs-0">
+			<div class="page-rrgg__lists">
+				<uib-tabset active="riesgo.tipo" justified="true" class="page-rrgg__tabs">
+					<!-- TAB1 -->
+					<uib-tab class="page-rrgg__tabs-item">
+						<uib-tab-heading>Tipos de trabos a asegurar</uib-tab-heading>
+						<div class="row">
+							<div class="col-md-12">
+								<div class="page-rrgg__tabs-content">
+									<p><b>Trabajos especificos (no pólizas abiertas para varios trabajos) tales
+											como:</b>
+									</p>
+									<ul class="page-rrgg__tabs-content-list">
+										<li>Obras civiles</li>
+										<li>Montajes y/o desmontjes</li>
+										<li>Servicios industriales en general</li>
+										<li>Servicios mecanicos</li>
+										<li>Trabajos de mantenimiento</li>
+										<li>Tendido de tuberías, tendido de líneas</li>
+										<li>Concesionarios de alimentos</li>
+										<li>Trabajos de oficina</li>
+										<li>Estudios de impacto ambiental</li>
+									</ul>
+								</div>
+							</div>
+						</div>
+					</uib-tab>
+					<!-- TAB2 -->
+					<uib-tab class="page-rrgg__tabs-item">
+						<uib-tab-heading>Riesgos Excluidos</uib-tab-heading>
+						<div class="row">
+							<div class="col-md-12">
+								<div class="page-rrgg__tabs-content">
+									<ul class="page-rrgg__tabs-content-list">
+										<li>Trabajos en muelles y/o aeropuertos</li>
+										<li>Riesgos relacionados a productos químicos o explosivos</li>
+										<li>Riesgos asegurables bajo el producto de RC de Hidrocarburos</li>
+										<li>Riesgos de minería subterranea</li>
+										<li>Riesgos relacionados a basurales y/o manejo de residuos</li>
+										<li>Eventos deportivos, conciertos, fiestas,etc</li>
+										<li>Riesgos Marítimos</li>
+										<li>Obras de construcción de túneles y/o puentes</li>
+										<li>Juegos mecánicos y/o juegos para niños</li>
+										<li>Empresas de vigilancia y limpieza</li>
+										<li>Demoliciones</li>
+										<li>Maquinarias</li>
+										<li>Pólizas anuales para todos los trabajos que realicela empresa</li>
+										<li>Contrucción de muros pantalla</li>
+										<li>Parte de obras CAR no aseguradas con MAPFRE</li>
+										<li>Pólizas anuales para todos los trabajos que realice la empresa (cuando se
+											brinda
+											el
+											servicio en varios lugares de riesgo)</li>
+									</ul>
+								</div>
+							</div>
+						</div>
+					</uib-tab>
+					<!-- TAB3 -->
+					<uib-tab class="page-rrgg__tabs-item">
+						<uib-tab-heading>Duración</uib-tab-heading>
+						<div class="row">
+							<div class="col-md-12">
+								<p><b>Máximo de hasta 12 meses</b></p>
+							</div>
+						</div>
+					</uib-tab>
+					<!-- TAB4 -->
+					<uib-tab class="page-rrgg__tabs-item">
+						<uib-tab-heading>Valor máximo del contrato</uib-tab-heading>
+						<div class="row">
+							<div class="col-md-12">
+								<p><b>Valor máximo: $ 5000,000</b></p>
+							</div>
+						</div>
+					</uib-tab>
+					<!-- TAB5 -->
+					<uib-tab class="page-rrgg__tabs-item">
+						<uib-tab-heading>Suma asegurada máxima</uib-tab-heading>
+						<div class="row">
+							<div class="col-md-12">
+								<p><b>Responsabilidad civil: US$ 500,000 y límite por evento de US$ 150,000</b></p>
+								<p><b>Deshonestidad: US$100,000 y límite por evento de US$50,000</b></p>
+							</div>
+						</div>
+					</uib-tab>
+					<!-- TAB6 -->
+					<uib-tab class="page-rrgg__tabs-item">
+						<uib-tab-heading>Tasa netas anuales</uib-tab-heading>
+						<div class="page-rrgg__table">
+							<div class="row row--padding no-margin-xs pt-xs-1 pb-xs-1 bg-dark">
+								<div class="col-xs-4 fwBold no-padding-md">Valor del contrato <br>o Suma Asegurada</div>
+								<div class="col-xs-2 fwBold no-padding-md">Tasa neta anual</div>
+								<div class="col-xs-2 fwBold pl-xs-0-5 col--flex"><span>Mínimo</span> <span>(*)</span>
+								</div>
+								<div class="col-xs-4 fwBold pl-xs-1 pr-md-0 show-md">Tasa neta anual <br>Deshonestidad</div>
+								<div class="col-xs-4 fwBold pl-xs-1 pr-md-0 show-sm">Tasa neta anual <br>Deshones.</div>
+							</div>
+							<div class="row row--padding no-margin-xs pt-xs-1 pb-xs-1 bg-light">
+								<div class="col-xs-4 no-padding-md">
+									<div class="row pl-xs-0">
+										<div class="col-xs-6 fwBold">Desde</div>
+										<div class="col-xs-6 fwBold pl-sm-0">Hasta</div>
+									</div>
+								</div>
+							</div>
+							<div
+								class="row row--padding no-margin-xs pt-xs-1 pb-xs-1 bg-gray-dark row--flex g-relative">
+
+								<p class="text-rotate no-margin-md mb-xs-1 mt-xs-0 pb-xs-1">Suma asegurada</p>
+
+								<div class="col-xs-12">
+									<div class="row row--inner">
+										<div class="col-xs-4 pl-xs-0">
+											<div class="row">
+												<div class="col-xs-6 pl-xs-0">0</div>
+												<div class="col-xs-6">$20,000</div>
+											</div>
+										</div>
+										<div class="col-xs-8 pr-xs-0">
+											<div class="row">
+												<div class="col-xs-4">
+													0
+												</div>
+												<div class="col-xs-4">
+													$100
+												</div>
+												<div class="col-xs-4">
+													1.376%
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="row row--inner">
+										<div class="col-xs-4 pl-xs-0">
+											<div class="row">
+												<div class="col-xs-6 pl-xs-0">$20,000</div>
+												<div class="col-xs-6">$20,000</div>
+											</div>
+										</div>
+										<div class="col-xs-8 pr-xs-0">
+											<div class="row">
+												<div class="col-xs-4">
+													1.088%
+												</div>
+												<div class="col-xs-4">
+													$120
+												</div>
+												<div class="col-xs-4">
+													1.088%
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="row row--inner">
+										<div class="col-xs-4 pl-xs-0">
+											<div class="row">
+												<div class="col-xs-6 pl-xs-0">$20,000</div>
+												<div class="col-xs-6">$20,000</div>
+											</div>
+										</div>
+										<div class="col-xs-8 pr-xs-0">
+											<div class="row">
+												<div class="col-xs-4">
+													0.800%
+												</div>
+												<div class="col-xs-4">
+													$145
+												</div>
+												<div class="col-xs-4">
+													0.800%
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="row row--inner">
+										<div class="col-xs-4 pl-xs-0">
+											<div class="row">
+												<div class="col-xs-6 pl-xs-0">$20,000</div>
+												<div class="col-xs-6">$20,000</div>
+											</div>
+										</div>
+										<div class="col-xs-8 pr-xs-0">
+											<div class="row">
+												<div class="col-xs-4">
+													1.376%
+												</div>
+												<div class="col-xs-4">
+													$174
+												</div>
+												<div class="col-xs-4">
+													1.376%
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div
+								class="row row--padding no-margin-xs pt-xs-1 pb-xs-1 bg-gray-light  row--flex g-relative">
+								<p class="text-rotate text-rotate--lg no-margin-md mb-xs-1 mt-xs-0 pb-xs-1">Valor del
+									contrato o Suma
+									<br>Asegurada (el mayor)
+								</p>
+								<div class="col-xs-12">
+									<div class="row row--inner">
+										<div class="col-xs-4 pl-xs-0">
+											<div class="row">
+												<div class="col-xs-6 pl-xs-0">0</div>
+												<div class="col-xs-6">$20,000</div>
+											</div>
+										</div>
+										<div class="col-xs-8 pr-xs-0">
+											<div class="row">
+												<div class="col-xs-4">
+													0
+												</div>
+												<div class="col-xs-4">
+													$100
+												</div>
+												<div class="col-xs-4">
+													1.376%
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="row row--inner">
+										<div class="col-xs-4 pl-xs-0">
+											<div class="row">
+												<div class="col-xs-6 pl-xs-0">$20,000</div>
+												<div class="col-xs-6">$20,000</div>
+											</div>
+										</div>
+										<div class="col-xs-8 pr-xs-0">
+											<div class="row">
+												<div class="col-xs-4">
+													1.088%
+												</div>
+												<div class="col-xs-4">
+													$120
+												</div>
+												<div class="col-xs-4">
+													1.088%
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="row row--inner">
+										<div class="col-xs-4 pl-xs-0">
+											<div class="row">
+												<div class="col-xs-6 pl-xs-0">$20,000</div>
+												<div class="col-xs-6">$20,000</div>
+											</div>
+										</div>
+										<div class="col-xs-8 pr-xs-0">
+											<div class="row">
+												<div class="col-xs-4">
+													0.800%
+												</div>
+												<div class="col-xs-4">
+													$145
+												</div>
+												<div class="col-xs-4">
+													0.800%
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="row row--inner">
+										<div class="col-xs-4 pl-xs-0">
+											<div class="row">
+												<div class="col-xs-6 pl-xs-0">$20,000</div>
+												<div class="col-xs-6">$20,000</div>
+											</div>
+										</div>
+										<div class="col-xs-8 pr-xs-0">
+											<div class="row">
+												<div class="col-xs-4">
+													1.376%
+												</div>
+												<div class="col-xs-4">
+													$174
+												</div>
+												<div class="col-xs-4">
+													1.376%
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="row row--inner">
+										<div class="col-xs-4 pl-xs-0">
+											<div class="row">
+												<div class="col-xs-6 pl-xs-0">$20,000</div>
+												<div class="col-xs-6">$20,000</div>
+											</div>
+										</div>
+										<div class="col-xs-8 pr-xs-0">
+											<div class="row">
+												<div class="col-xs-4">
+													1.376%
+												</div>
+												<div class="col-xs-4">
+													$174
+												</div>
+												<div class="col-xs-4">
+													1.376%
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="row row--inner">
+										<div class="col-xs-4 pl-xs-0">
+											<div class="row">
+												<div class="col-xs-6 pl-xs-0">$20,000</div>
+												<div class="col-xs-6">$20,000</div>
+											</div>
+										</div>
+										<div class="col-xs-8 pr-xs-0">
+											<div class="row">
+												<div class="col-xs-4">
+													1.376%
+												</div>
+												<div class="col-xs-4">
+													$174
+												</div>
+												<div class="col-xs-4">
+													1.376%
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</uib-tab>
+					<!-- TAB7 -->
+					<uib-tab class="page-rrgg__tabs-item">
+						<uib-tab-heading>Coberturas adicionales</uib-tab-heading>
+						<div class="row">
+							<div class="col-md-12">
+								<p class="mb-xs-0"><b>RC Patronal:</b></p>
+								<p>Tiene recargo del 10% en la prima. Se incluye marcando en la hoja de parametros del
+									producto
+									RC Patronal: ¨si¨. Se limita la cobertura a US$50,000 por persona.</p>
+								<p class="mb-xs-0"><b>RC Contractual:</b></p>
+								<p>Tiene recargo del 10% en la prima. Se incluye marcando en la hoja de parametros del
+									producto
+									RC Patronal: ¨si¨. Se limita la cobertura a US$50,000 en agregado.</p>
+							</div>
+						</div>
+					</uib-tab>
+					<!-- TAB8 -->
+					<uib-tab class="page-rrgg__tabs-item">
+						<uib-tab-heading>Descuentos comerciales</uib-tab-heading>
+						<div class="row">
+							<div class="col-md-12">
+								<p>(*) El descuento <b>máximo</b> a ser autorizado por los <b>Directores de oficina,</b>
+									sera de
+									acuerdo a lo siguiente:</p>
+								<p class="mb-xs-0">-10% para sumas aseguradas de hasta US$90,000</p>
+								<p>-15% para sumas aseguradas mayores a US$90,000</p>
+								<p><b>NOTA: </b>los descuentos aplican únicamente hasta llegar a la prima neta mínima
+									por
+									rango.
+								</p>
+							</div>
+						</div>
+					</uib-tab>
+					<!-- TAB9 -->
+					<uib-tab class="page-rrgg__tabs-item">
+						<uib-tab-heading>Tablas de periodos cortos</uib-tab-heading>
+						<div class="page-rrgg__table">
+							<div class="row row--padding no-margin-xs pt-xs-2 bg-dark">
+								<div class="col-xs-8 fwBold g-text-center-xs">Vigencia (días)</div>
+								<div class="col-xs-5 col-xs-offset-7 fwBold g-text-center-xs">% de la prima neta anual
+								</div>
+							</div>
+							<div class="row no-margin-xs bg-light g-center-flex g-text-center-xs">
+								<div class="col-xs-4 fwBold">Desde</div>
+								<div class="col-xs-4 fwBold ">Hasta</div>
+								<div class="col-xs-4 fwBold bg-dark">
+									<div class="col-space"></div>
+								</div>
+							</div>
+							<div class="row no-margin-xs pt-xs-1 pb-xs-1 bg-gray-light">
+								<div class="col-xs-12">
+									<div class="row">
+										<div class="col-xs-4 mb-xs-1 g-text-center-xs">0</div>
+										<div class="col-xs-4 mb-xs-1">120</div>
+										<div class="col-xs-4 mb-xs-1">80%</div>
+									</div>
+									<div class="row">
+										<div class="col-xs-4 mb-xs-1 g-text-center-xs">211</div>
+										<div class="col-xs-4 mb-xs-1">270</div>
+										<div class="col-xs-4 mb-xs-1">85%</div>
+									</div>
+									<div class="row">
+										<div class="col-xs-4 mb-xs-1 g-text-center-xs">271</div>
+										<div class="col-xs-4 mb-xs-1">330</div>
+										<div class="col-xs-4 mb-xs-1">90%</div>
+									</div>
+									<div class="row">
+										<div class="col-xs-4 mb-xs-1 g-text-center-xs">331</div>
+										<div class="col-xs-4 mb-xs-1">365</div>
+										<div class="col-xs-4 mb-xs-1">100%</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</uib-tab>
+					<!-- TAB10 -->
+					<uib-tab class="page-rrgg__tabs-item">
+						<uib-tab-heading>Tabla de Volúmen</uib-tab-heading>
+						<div class="row">
+							<div class="col-md-12">
+								<p>El producto considera un descuento en función al número de personas aseguradas. Este
+									descuento ya se encuentra calculado en la prima que se muestra en el Slip
+									Deshoestidad.
+								</p>
+							</div>
+						</div>
+						<div class="page-rrgg__table">
+							<div class="row row--padding no-margin-xs pt-xs-2 bg-dark">
+								<div class="col-xs-8 fwBold g-text-center-xs">Nro de personas</div>
+								<div class="col-xs-5 col-xs-offset-7 fwBold g-text-center-xs">% Dscto.</div>
+							</div>
+							<div class="row no-margin-xs bg-light g-center-flex g-text-center-xs">
+								<div class="col-xs-4 fwBold">Desde</div>
+								<div class="col-xs-4 fwBold ">Hasta</div>
+								<div class="col-xs-4 fwBold bg-dark">
+									<div class="col-space"></div>
+								</div>
+							</div>
+							<div class="row no-margin-xs pt-xs-1 pb-xs-1 bg-gray-light">
+								<div class="col-xs-12">
+									<div class="row">
+										<div class="col-xs-4 mb-xs-1 g-text-center-xs">1</div>
+										<div class="col-xs-4 mb-xs-1">10</div>
+										<div class="col-xs-4 mb-xs-1">0</div>
+									</div>
+									<div class="row">
+										<div class="col-xs-4 mb-xs-1 g-text-center-xs">11</div>
+										<div class="col-xs-4 mb-xs-1">20</div>
+										<div class="col-xs-4 mb-xs-1">5%</div>
+									</div>
+									<div class="row">
+										<div class="col-xs-4 mb-xs-1 g-text-center-xs">21</div>
+										<div class="col-xs-4 mb-xs-1">30</div>
+										<div class="col-xs-4 mb-xs-1">10%</div>
+									</div>
+									<div class="row">
+										<div class="col-xs-4 mb-xs-1 g-text-center-xs">31</div>
+										<div class="col-xs-4 mb-xs-1">40</div>
+										<div class="col-xs-4 mb-xs-1">20%</div>
+									</div>
+									<div class="row">
+										<div class="col-xs-4 mb-xs-1 g-text-center-xs">41</div>
+										<div class="col-xs-4 mb-xs-1">50</div>
+										<div class="col-xs-4 mb-xs-1">30%</div>
+									</div>
+									<div class="row">
+										<div class="col-xs-4 mb-xs-1 g-text-center-xs">51</div>
+										<div class="col-xs-4 mb-xs-1">60</div>
+										<div class="col-xs-4 mb-xs-1">40%</div>
+									</div>
+									<div class="row">
+										<div class="col-xs-4 mb-xs-1 g-text-center-xs">61</div>
+										<div class="col-xs-4 mb-xs-1">más</div>
+										<div class="col-xs-4 mb-xs-1">50%</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</uib-tab>
+					<!-- TAB11 -->
+					<uib-tab class="page-rrgg__tabs-item">
+						<uib-tab-heading>Prima neta mínima</uib-tab-heading>
+						<div class="row">
+							<div class="col-md-12">
+								<p>US$100.00 (RC y Deshonestidad)</p>
+							</div>
+						</div>
+					</uib-tab>
+					<!-- TAB12 -->
+					<uib-tab class="page-rrgg__tabs-item">
+						<uib-tab-heading>Notas</uib-tab-heading>
+						<div class="row">
+							<div class="col-md-12">
+								<p>La oficina podrá cotizar directamente sin requerir de VoBo del área de Suscripción
+									siempre y
+									cuando se respeten los parámetros del producto. En caso se requiera cotizar a las
+									del
+									producto, se deberá contar con la autorización por escrito del área de suscripción.
+								</p>
+							</div>
+						</div>
+					</uib-tab>
+				</uib-tabset>
+			</div>
+		</div>
+	</div>
+</div>

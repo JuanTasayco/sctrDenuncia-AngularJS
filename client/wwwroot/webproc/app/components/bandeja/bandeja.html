@@ -1,0 +1,42 @@
+<section class="g-page page-web-proc-bandeja">
+  <wp-cabecera wptitle="{title: 'Bandeja de Asistencias'}"></wp-cabecera>
+  <div class="container">
+    <div class="row">
+      <div class="col-xs-7 col-sm-8 col-md-9">
+        <h2 class="g-sub-title">Asistencias <span>({{$ctrl.totalAsistencias}})</span></h2>
+      </div>
+      <div class="col-xs-5 col-sm-4 col-md-3 pb-md-1 text-right">
+        <a class="g-btn g-btn-white second-design block" data-ng-click="$ctrl.descargarReporteDiario()" >Descargar reporte Diario</a>
+      </div>
+    </div>
+  </div>
+  <div class="consulta-cotizaciones">
+    <div class="g-section">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-3">
+            <wp-filtro
+              data-bind-filtro-frm="$ctrl.bindFiltroFrm"
+              data-on-filtrar-frm="$ctrl.filtrarAsistencia($event)"
+            >
+            </wp-filtro>
+          </div>
+          <div class="col-md-9">
+            <div data-ng-repeat="item in $ctrl.lstAsistencias">
+              <wp-asistencia data-datos="item" data-ver-detalle="$ctrl.verDetalle()"></wp-asistencia>
+            </div>
+            <mx-paginador
+              data-datos="$ctrl.lstAsistencias"
+              data-items-x-page="$ctrl.itemsXPagina"
+              data-msg-vacio="$ctrl.msgVacio"
+              data-on-paginar="$ctrl.filtrarAsistencia($event)"
+              data-pagina-actual="$ctrl.currentPage"
+              data-total-items="$ctrl.totalAsistencias"
+            >
+            </mx-paginador>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

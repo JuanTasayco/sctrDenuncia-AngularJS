@@ -1,0 +1,139 @@
+<contratante contratante="$ctrl.resumen"></contratante>
+<div class="g-list-md g-box gBgcGray5 pt-xs-2 pb-xs-2 pl-xs-2 pr-xs-2 mb-xs-2">
+  <ul class="row">
+    <li class="col-sm-12 clearfix mb-xs-1">
+      <div class="item-label">Datos del contrato u obra</div>
+    </li>
+    <li class="col-sm-4 clearfix mb-xs-2 page-rrgg__table-list-item">
+      <div class="col-xs-4 item-label"><span class="ico-mapfre_82_circle ico-bullet"></span>Valor del contrato u
+        obra
+      </div>
+      <div class="col-xs-8 item-dato ">
+        {{$ctrl.resumen.ValorObra | currency: $ctrl.currencyType($ctrl.resumen.Moneda.Codigo) }}
+      </div>
+    </li>
+    <li class="col-sm-4 clearfix mb-xs-2 page-rrgg__table-list-item">
+      <div class="col-xs-4 item-label"><span class="ico-mapfre_82_circle ico-bullet"></span>Fecha validez hasta
+      </div>
+      <div class="col-xs-8 item-dato ">{{ $ctrl.getfechaValidez($ctrl.resumen.FechaCotizacion) |
+        date:"dd/MM/yyyy"}}</div>
+    </li>
+  </ul>
+  <ul class="row">
+    <li class="col-sm-4 clearfix mb-xs-2 page-rrgg__table-list-item">
+      <div class="col-xs-4 item-label"><span class="ico-mapfre_82_circle ico-bullet"></span>Ubicación</div>
+      <div class="col-xs-8 item-dato ">{{$ctrl.resumen.Ubicacion}}</div>
+    </li>
+    <li class="col-sm-4 clearfix mb-xs-2 page-rrgg__table-list-item">
+      <div class="col-xs-4 item-label"><span class="ico-mapfre_82_circle ico-bullet"></span>Número de trabajadores
+      </div>
+      <div class="col-xs-8 item-dato ">{{$ctrl.resumen.CantTrabajadores}}</div>
+    </li>
+  </ul>
+</div>
+<div class="g-list-md g-box gBgcGray5 pt-xs-2 pb-xs-2 pl-xs-2 pr-xs-2 mb-xs-2"
+  ng-if="$ctrl.resumen.Ramo.Codigo === $ctrl.constantsRrgg.RAMO.RESPON_CIVIL_TRABAJOS_ESPECIFICOS || $ctrl.resumen.Ramo.Codigo === $ctrl.constantsRrgg.RAMO.RESPON_CIVILL_DESHONESTIDAD">
+  <ul class="row">
+    <li class="col-sm-12 clearfix mb-xs-1">
+      <div class="item-label">Responsabilidad Civil</div>
+    </li>
+    <li class="col-sm-4 clearfix mb-xs-2 page-rrgg__table-list-item">
+      <div class="col-xs-4 item-label"><span class="ico-mapfre_82_circle ico-bullet"></span>Suma asegurada RC</div>
+      <div class="col-xs-8 item-dato ">
+        {{$ctrl.resumen.SumaAsegurada | currency: $ctrl.currencyType($ctrl.resumen.Moneda.Codigo) }}
+      </div>
+    </li>
+    <li class="col-sm-4 clearfix mb-xs-2 page-rrgg__table-list-item">
+      <div class="col-xs-4 item-label"><span class="ico-mapfre_82_circle ico-bullet"></span>Prima comercial anual RC
+      </div>
+      <div class="col-xs-8 item-dato ">
+        {{$ctrl.resumen.PrimaComercialAnual_RC | currency: $ctrl.currencyType($ctrl.resumen.Moneda.Codigo) }}
+      </div>
+    </li>
+    <li class="col-sm-4 clearfix mb-xs-2 page-rrgg__table-list-item">
+      <div class="col-xs-4 item-label"><span class="ico-mapfre_82_circle ico-bullet"></span>Prima comercial más
+        IGV anual RC</div>
+      <div class="col-xs-8 item-dato ">
+        {{$ctrl.resumen.PrimaComercialAnualIgv_RC | currency: $ctrl.currencyType($ctrl.resumen.Moneda.Codigo) }}
+      </div>
+    </li>
+    <li class="col-sm-4 clearfix mb-xs-2 page-rrgg__table-list-item">
+      <div class="col-xs-4 item-label"><span class="ico-mapfre_82_circle ico-bullet"></span>¿Contrata RC Patronal?
+      </div>
+      <div class="col-xs-8 item-dato ">
+        <span
+          ng-if="$ctrl.resumen.RcPatronal == $ctrl.constantsRrgg.RADIO.SI">{{$ctrl.constantsRrgg.RADIO.TEXT_SI}}</span>
+        <span
+          ng-if="$ctrl.resumen.RcPatronal == $ctrl.constantsRrgg.RADIO.NO">{{$ctrl.constantsRrgg.RADIO.TEXT_NO}}</span>
+      </div>
+    </li>
+    <li class="col-sm-4 clearfix mb-xs-2 page-rrgg__table-list-item">
+      <div class="col-xs-4 item-label"><span class="ico-mapfre_82_circle ico-bullet"></span>¿Contrata RC
+        Contractual?</div>
+      <div class="col-xs-8 item-dato ">
+        <span
+          ng-if="$ctrl.resumen.RcContractual == $ctrl.constantsRrgg.RADIO.SI">{{$ctrl.constantsRrgg.RADIO.TEXT_SI}}</span>
+        <span
+          ng-if="$ctrl.resumen.RcContractual == $ctrl.constantsRrgg.RADIO.NO">{{$ctrl.constantsRrgg.RADIO.TEXT_NO}}</span>
+      </div>
+    </li>
+  </ul>
+  <ul class="row">
+    <li class="col-sm-12 clearfix mb-xs-12 page-rrgg__table-list-item">
+      <div class="col-xs-4 col-sm-1 item-label"><span class="ico-mapfre_82_circle ico-bullet"></span>Deducible</div>
+      <div class="col-xs-12 item-dato ">
+        {{$ctrl.resumen.DeducibleL1RC}}<br>
+        {{$ctrl.resumen.DeducibleL2RC}}
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="g-list-md g-box gBgcGray5 pt-xs-2 pb-xs-2 pl-xs-2 pr-xs-2 mb-xs-2"
+  ng-if="$ctrl.resumen.Ramo.Codigo === $ctrl.constantsRrgg.RAMO.DESHONESTIDAD || $ctrl.resumen.Ramo.Codigo === $ctrl.constantsRrgg.RAMO.RESPON_CIVILL_DESHONESTIDAD">
+  <ul class="row">
+    <li class="col-sm-12 clearfix mb-xs-1">
+      <div class="item-label">Deshonestidad</div>
+    </li>
+    <li class="col-sm-4 clearfix mb-xs-2 page-rrgg__table-list-item">
+      <div class="col-xs-4 item-label"><span class="ico-mapfre_82_circle ico-bullet"></span>Suma asegurada Desh.</div>
+      <div class="col-xs-8 item-dato ">
+        {{$ctrl.resumen.SumaAseguradaDesh | currency: $ctrl.currencyType($ctrl.resumen.Moneda.Codigo) }}
+      </div>
+    </li>
+    <li class="col-sm-4 clearfix mb-xs-2 page-rrgg__table-list-item">
+      <div class="col-xs-4 item-label"><span class="ico-mapfre_82_circle ico-bullet"></span>Deducible</div>
+      <div class="col-xs-8 item-dato ">
+        {{$ctrl.resumen.DeducibleDesh}}
+      </div>
+    </li>
+    <li class="col-sm-4 clearfix mb-xs-2 page-rrgg__table-list-item">
+      <div class="col-xs-4 item-label"><span class="ico-mapfre_82_circle ico-bullet"></span>Prima comercial anual Desh.
+      </div>
+      <div class="col-xs-8 item-dato ">
+        {{$ctrl.resumen.PrimaComercialAnual_DESH | currency: $ctrl.currencyType($ctrl.resumen.Moneda.Codigo) }}
+      </div>
+    </li>
+  </ul>
+  <ul class="row">
+    <li class="col-sm-4 clearfix mb-xs-2 page-rrgg__table-list-item">
+      <div class="col-xs-4 item-label"><span class="ico-mapfre_82_circle ico-bullet"></span>Prima comercial más
+        IGV anual Desh.</div>
+      <div class="col-xs-8 item-dato ">
+        {{$ctrl.resumen.PrimaComercialAnualIgv_DESH | currency: $ctrl.currencyType($ctrl.resumen.Moneda.Codigo) }}
+      </div>
+    </li>
+    <li class="col-sm-4 clearfix mb-xs-2 page-rrgg__table-list-item">
+      <div class="col-xs-4 item-label"><span class="ico-mapfre_82_circle ico-bullet"></span>Costo de inclusion Desh. por
+        persona - Prima Neta:</div>
+      <div class="col-xs-8 item-dato ">
+        {{$ctrl.resumen.CostoInclusion_DESH | currency: $ctrl.currencyType($ctrl.resumen.Moneda.Codigo) }}
+      </div>
+    </li>
+    <li class="col-sm-4 clearfix mb-xs-2 page-rrgg__table-list-item">
+      <div class="col-xs-4 item-label"><span class="ico-mapfre_82_circle ico-bullet"></span>Prima Neta minima por endoso:</div>
+      <div class="col-xs-8 item-dato ">
+        {{$ctrl.resumen.PrimaEndoso | currency: $ctrl.currencyType($ctrl.resumen.Moneda.Codigo) }}
+      </div>
+    </li>
+  </ul>
+</div>

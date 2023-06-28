@@ -1,0 +1,122 @@
+<mfloader loader="$ctrl.loader"></mfloader>
+<div class="container">
+  <mfbreadcrumb panel= "$ctrl.panel"
+                lvl0="$ctrl.lvl0"
+                lvl1=""
+                lvl2=""
+                show-lvl1= ""
+                show-lvl2= ""
+                open-map=""
+                loader="$ctrl.loader"
+                lst-dptos=""></mfbreadcrumb>
+
+  <div class="row register-pacient-step">
+    <div class="col-xs-12 col-md-5">
+      <div class="cleaner">
+        <h1 class="title-r u-title-divider--up" data-ng-bind="::$ctrl.title"></h1>
+      </div>
+    </div>
+    <div class="col-xs-12 col-md-7">
+      <mfstep step="$ctrl.currentStep"></mfstep>
+    </div>
+  </div>
+  <div class="u-bar-volver">
+    <div class="container">
+      <div class="row u-align-v">
+        <div class="col-xs-12 col-md-3">
+          <a ui-sref="referencia.panel.registro.origen({estado: 'upd'})" class="u-arrow-left">Volver</a>
+        </div>
+      </div>
+    </div>
+  </div>
+  <mfprogress-summary datast="$ctrl.getDataST"></mfprogress-summary>
+  <div class="containerBusqueda">
+    <div class="row">
+      <div class="col-xs-12 col-md-3 cli-busqueda__col" data-ng-include="$ctrl.busquedaForm">
+      </div>
+      <div class="col-xs-12 col-md-9 cli-busqueda__col js-search-content">
+        <div  class="cleaner form-inline animate-show"
+              data-ng-form="BusquedaClienteForm"
+              data-ng-show="$ctrl.showFrm">
+          <h2 class="register-block-inner__title">Paciente asegurado</h2>
+          <div class="cleaner">
+            <div class="col-sm-4 u-mb-30 reg-paci__input-box">
+              <mfinput  data-id="afiliado_nom"
+                      data-valor="$ctrl.nombre"
+                      data-tipo="caracter"
+                      data-placeholder="Nombres"
+                      data-requerido = "false"
+                      data-minlong = "3"
+                      data-maxlong = "130"
+                      data-mf-form="BusquedaClienteForm"
+                      data-call-enter="$ctrl.buscar()"></mfinput>
+            </div>
+            <div class="col-sm-4 u-mb-30 reg-paci__input-box">
+              <mfinput  data-id="afiliado_ape"
+                    data-valor="$ctrl.apellidos"
+                    data-tipo="caracter"
+                    data-placeholder="Apellidos"
+                    data-requerido = "false"
+                    data-minlong="3"
+                    data-maxlong = "130"
+                    data-mf-form="BusquedaClienteForm"
+                    data-call-enter="$ctrl.buscar()"></mfinput>
+            </div>
+            <div class="col-sm-4 u-mb-30 reg-paci__input-box">
+              <mfinput  data-id="dni"
+                  data-valor="$ctrl.dni"
+                  data-tipo="numero"
+                  data-placeholder="DNI / C.E."
+                  data-requerido = "false"
+                  data-mf-form="BusquedaClienteForm"
+                  data-minlong = "8"
+                  data-maxlong = "11"
+                  data-call-enter="$ctrl.buscar()"></mfinput>
+            </div>
+            <div class="col-xs-12 u-mb-30 reg-paci__btn-box">
+              <button class="c-btn btn btn--secundary frm-search__btn frm-reg__btn btn--250"
+                      data-ng-disabled="$ctrl.isDisabled(BusquedaClienteForm)"
+                      data-ng-click="$ctrl.buscar()">
+                <span class="c-btn-lh-20">
+                  <span class="ico-mapfre_30_buscar frm-search__btn-ico"></span>
+                  <span class="u-t--2">BUSCAR ASEGURADO</span>
+                </span>
+              </button>
+            </div>
+          </div>
+          <p  class="register-block-inner__form-pd"
+              data-ng-show="$ctrl.isEmptySearchResult('textHelp')">Ingresar Nombre y Apellido o Nro. doc. para buscar asegurados</p>
+        </div>
+        <div class="cleaner" data-ng-show="$ctrl.filteredByInputs">
+          <div class="col-md-12 u-ph-0 u-mb-30">
+            <div class="col-sm-9">
+              <span><b class="lista-title__txt">{{$ctrl.totalItems}}</b></span>
+              <span>Resultados para:</span>
+              <span class="lista-title__txt">
+                <b>{{$ctrl.filter.filtro1}} </b>
+                <b data-ng-show="$ctrl.filter.filtro1 && $ctrl.filter.filtro2"> - </b>
+                <b class="u-txt-frmt"> {{$ctrl.filter.filtro2}}</b>
+                <span data-ng-show="$ctrl.filter.filtro3"><b>, </b></span>
+                <b class="u-txt-frmt"> {{$ctrl.filter.filtro3}}</b>
+              </span>
+            </div>
+            <div class="col-sm-3">
+              <a  class="reg-new-search__link"
+                  data-ng-click="$ctrl.newSearch()">
+                <span class="ico-mapfre_60_soat reg-ico__search"></span>
+                Nueva búsqueda
+              </a>
+            </div>
+          </div>
+        </div>
+        <div class="cleaner" data-ng-class="$ctrl.clsLoadSearch" data-ng-include="$ctrl.busquedaContent"></div>
+      </div>
+    </div>
+  </div>
+  <mf-btn-filter  are-there-filters="$ctrl.areThereFilters"
+                  apply-filter="$ctrl.applyFilter()"
+                  reset-filter="$ctrl.resetFilter()"
+                  scroll-to="js-search-content"
+                  btn-options="$ctrl.btnOptions"
+  ></mf-btn-filter>
+</div>

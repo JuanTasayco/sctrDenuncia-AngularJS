@@ -1,0 +1,218 @@
+<div id="form-views">
+    <form name="frmMedicalAppointment">
+        <div class="sec-auto g-section-inner">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12 mb-1">
+                        <h2 class="g-sub-title">Gestión de Citas</h2>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4 mb-xs-2">
+                        <div ng-if="$ctrl.isVisibleDoctorInput">
+                            <mp-data-seeker name="nDoctor" ng-required="true"
+                                behavior="{label:'Médico tratante*', matchField:'doctorFullName', placeholder: 'Ingresa nombre del médico'}"
+                                m-data-source="$ctrl.seekDoctor($inputNeed)" ng-model="$ctrl.data.doctor" ng-disabled="$ctrl.showDetail">
+                                    <div ng-bind-html="$item.doctorFullName | highlight: $select.search"></div>
+                            </mp-data-seeker>
+
+                            <div class="g-error"
+                                ng-show="frmMedicalAppointment.nDoctor.$error.required && !frmMedicalAppointment.nDoctor.$pristine && !$ctrl.cleanForm">
+                                * Seleccione un médico tratante</div>
+
+                            <div class="g-text-right-xs mt-xs-1" ng-if="!$ctrl.showDetail">
+                                <p class="mb-xs-1 gCGray3">¿No encuentras el médico tratante?</p>
+                                <a  class="g-link gCGreen1"
+                                    data-ng-click="$ctrl.mostrarInputMedico()"><b>Ingresar médico manualmente</b></a>
+                            </div>
+                        </div>
+                        <div ng-if="!$ctrl.isVisibleDoctorInput">
+                            <mpf-input
+                                label="{label: 'Médico Tratante no registrado', required: true}"
+                                name="nDoctor2"
+                                ng-model="$ctrl.data.doctor"
+                                ng-required='true'
+                                mpf-validation="onlyLetter"
+                                ng-disabled="$ctrl.showDetail"></mpf-input>
+
+                            <div class="g-error"
+                              ng-show="frmMedicalAppointment.nDoctor2.$error.required && !frmMedicalAppointment.nDoctor2.$pristine && !$ctrl.cleanForm">
+                              * Ingresar Médico Tratante
+                            </div>
+
+                            <div class="g-text-right-xs mt-xs-1" ng-if="!$ctrl.showDetail">
+                              <a  class="g-link green cgw-msg-med__link"
+                                  data-ng-click="$ctrl.mostrarInputMedico()">Volver a ver médicos registrados</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4 mb-xs-2">
+                        <mpf-Select 
+                            text-field="descripcion" 
+                            value-field="codigo"
+                            label="{label: 'Departamento', required: true}"
+                            m-data-source="$ctrl.departments" 
+                            ng-model="$ctrl.data.department"
+                            name="mDepartment"
+                            ng-required="true" 
+                            ng-disabled="$ctrl.showDetail"
+                            m-Empty-Option="{enterData:true}"></mpf-Select>
+
+                        <div class="g-error"
+                                ng-show="frmMedicalAppointment.mDepartment.$error.required && !frmMedicalAppointment.mDepartment.$pristine">
+                                * Seleccione un departamento</div>
+                    </div>
+                    <div class="col-md-4 mb-xs-2">
+                        <div ng-if="$ctrl.isVisibleClinicaInput">
+                            <mp-data-seeker name="nClinic" ng-required="true"
+                                behavior="{label:'Clínica*', matchField:'fulltext', placeholder: 'Ingresa la clínica'}"
+                                m-data-source="$ctrl.seekClinic($inputNeed)" ng-model="$ctrl.data.clinic" ng-disabled="$ctrl.showDetail">
+                                <div ng-bind-html="$item.fulltext | highlight: $select.search"></div>
+                            </mp-data-seeker>
+
+                            <div class="g-error"
+                                ng-show="frmMedicalAppointment.nClinic.$error.required && !frmMedicalAppointment.nClinic.$pristine && !$ctrl.cleanForm">
+                                * Seleccione una clínica</div>
+
+                            <div class="g-text-right-xs mt-xs-1" ng-if="!$ctrl.showDetail">
+                                <p class="mb-xs-1 gCGray3">¿No encuentras la clínica?</p>
+                                <a  class="g-link gCGreen1"
+                                    data-ng-click="$ctrl.mostrarInputClinica()"><b>Ingresar clínica manualmente</b></a>
+                            </div>
+
+                        </div>
+
+                        <div ng-if="!$ctrl.isVisibleClinicaInput">
+                            <mpf-input
+                                label="{label: 'Clínica no registrada', required: true}"
+                                name="nClinic2"
+                                ng-model="$ctrl.data.clinic"
+                                ng-required='true'
+                                mpf-validation="onlyLetter"
+                                ng-disabled="$ctrl.showDetail"></mpf-input>
+
+                            <div class="g-error"
+                              ng-show="frmMedicalAppointment.nClinic2.$error.required && !frmMedicalAppointment.nClinic2.$pristine && !$ctrl.cleanForm">
+                              * Ingresar Clínica
+                            </div>
+
+                            <div class="g-text-right-xs mt-xs-1" ng-if="!$ctrl.showDetail">
+                              <a  class="g-link green cgw-msg-med__link"
+                                  data-ng-click="$ctrl.mostrarInputClinica()">Volver a ver clínicas</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4 mb-xs-2">
+                        <mpf-datepicker label="{label: 'Fecha de cita', required: true}"
+                            name="nAppointmentDate" format="'dd/MM/yyyy'"
+                            ng-model="$ctrl.data.appointmentDate" ng-required="true" nomargin="true"
+                            minDate="$ctrl.currentDate"
+                            ng-disabled="$ctrl.showDetail">
+                        </mpf-datepicker>
+
+                        <div class="g-error"
+                            ng-show="frmMedicalAppointment.nAppointmentDate.$error.required && !frmMedicalAppointment.nAppointmentDate.$pristine">
+                            * Ingrese fecha de cita</div>
+                    </div>
+                    <div class="col-md-4 mb-xs-2">
+                        <div>
+                            <label>
+                                <b>Hora de cita*</b>
+                            </label>
+                            <div uib-timepicker  
+                                ng-model="$ctrl.data.schedule" 
+                                ng-required="true" 
+                                name="mScheduleequestDocument" 
+                                ng-disabled="!$ctrl.data.appointmentDate || $ctrl.showDetail">
+                            </div>
+
+                            <div class="g-error"
+                                ng-show="frmMedicalAppointment.mScheduleequestDocument.$error.required && !frmMedicalAppointment.mScheduleequestDocument.$pristine">
+                                * Ingrese hora de cita</div>
+                        </div>
+                    </div>
+                    <div class="col-md-4 mb-xs-2">
+                        <mpf-Select 
+                            text-field="descripcion"
+                            value-field="codigo"
+                            label="{label: '¿Asistió?', required: false}"
+                            m-data-source="$ctrl.optionsAnswer" 
+                            ng-model="$ctrl.data.isAssisted"
+                            name="mIsAssisted" 
+                            ng-disabled="$ctrl.showDetail && !$ctrl.showEdit"
+                            m-Empty-Option="{enterData:true}">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12 mb-xs-2">
+                        <mpf-textarea 
+                            name="nComment" 
+                            ng-required="false" 
+                            label="{label: 'Comentarios', required: false}" 
+                            ng-disabled="$ctrl.showDetail && !$ctrl.showEdit"
+                            ng-model="$ctrl.data.comment">
+                        </mpf-textarea>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12 mb-1">
+                        <h2 class="g-sub-title">Historial de Citas</h2>
+                    </div>
+                </div>
+                <div>
+                    <div class="col-xs-12">
+                        <ul class="row gBgcGray3 gCWhite1 pt-xs-1 pb-xs-1 g-border-bottom-xs">
+                          <li class="col-xs-2">Fecha de Cita</li>
+                          <li class="col-xs-2">Hora de Cita</li>
+                          <li class="col-xs-4">Clínica</li>
+                          <li class="col-xs-2">¿Asistió?</li>
+                          <li class="col-xs-2"></li>
+                        </ul>
+                        <div class="mb-xs-1" ng-repeat="apmt in $ctrl.appointments">
+                          <ul class="row pt-xs-1 pb-xs-1 g-border-bottom-xs">
+                            <li class="col-xs-2 pb-xs-1 pt-xs-1">{{ apmt.fechaCita | date : 'dd/MM/yyyy' }}</li>
+                            <li class="col-xs-2 pb-xs-1 pt-xs-1">{{ apmt.horaCita }}</li>
+                            <li class="col-xs-4 pb-xs-1 pt-xs-1">{{ apmt.nombreClinica }}</li>
+                            <li class="col-xs-2 pb-xs-1 pt-xs-1">{{ apmt.descripcionIndicador }}</li>
+                            <li class="col-xs-2 text-center">
+                                <a title="Ver detalle" ng-click="$ctrl.show(apmt)" style="font-size: 17px; padding-right: 10px;">
+                                    <i class="glyphicon glyphicon-eye-open"></i>
+                                </a>
+                                <a title="Editar" ng-click="$ctrl.edit(apmt)" style="font-size: 17px; padding-right: 10px;"
+                                    ng-class="$ctrl.showDetail && !$ctrl.showEdit ? 'disabled' : ''"
+                                    ng-disabled="$ctrl.showDetail && !$ctrl.showEdit">
+                                    <i  class="glyphicon glyphicon-pencil"></i>
+                                </a>
+                            </li>
+                          </ul>
+                        </div>
+                        <div class="row" ng-show="$ctrl.pagination.totalRecords > $ctrl.pagination.sizePerPage">
+                            <div class="col-md-12">
+                                <ul uib-pagination class="g-pagination" ng-model="$ctrl.pagination.currentPage"
+                                    max-size="$ctrl.pagination.maxSize" total-items="$ctrl.pagination.totalRecords"
+                                    ng-change="$ctrl._pageChanged()" items-per-page="$ctrl.pagination.sizePerPage"
+                                    boundary-link-numbers="true"></ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-offset-6 col-md-2 mb-xs-2 mt-xs-4">
+                        <a class="g-btn g-btn-verde second-design block" ng-click="$ctrl.clear()" 
+                            ng-class="$ctrl.showDetail ? 'disabled' : ''"
+                            ng-disabled="$ctrl.showDetail">NUEVA CITA</a>
+                    </div>
+                    <div class="col-md-2 mb-xs-2 mt-xs-4">
+                        <a class="g-btn g-btn-verde second-design block" ng-class="$ctrl.showDetail && !$ctrl.showEdit ? 'disabled' : ''"
+                        ng-disabled="$ctrl.showDetail && !$ctrl.showEdit" ng-click="$ctrl.register()">GUARDAR</a>
+                    </div>
+                    <div class="col-md-2 mb-xs-2 mt-xs-4">
+                        <a class="g-btn g-btn-white second-design block" ng-click="$ctrl.cancel()">CANCELAR</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>

@@ -1,0 +1,500 @@
+<!-- Resultados -->
+<div class="container">
+  <div class="col-md-12 mb-xs-2 mt-xs-2">
+    <div class="row">
+      <div class="cont-export gBgcGray5-md g-box-md g-text-right-xs mb-xs-1 g-myd-box h-myd-pl--20 h-myd-pr--20">
+        <span class="txt">Exportar</span>
+        <a href ng-click="$ctrl.exportReport('PDF')">
+          <span class="gnIcon-md ico-mapfre_158_pdf gCGray3 h-myd--none"></span>
+          <span class="ico-mapfre-349-myd-pdf h-myd--show h-oim-none h-myd-color--green h-myd-ico--mediun h-myd-pr--20"></span>
+        </a>
+        <a href ng-click="$ctrl.exportReport('EXCEL')">
+          <span class="gnIcon-md ico-mapfre_139_excel gCGray3 h-myd--none"></span>
+          <span class="ico-mapfre-368-myd-xls h-myd--show h-oim-none h-myd-color--green h-myd-ico--mediun h-myd-pr--0"></span>
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="container">
+  <div class="row">
+    <div class="col-md-6 mb-xs-1">
+      <h2 class="gH4 gCGray1">
+        <b class="ng-binding">MAPFRE PERÚ</b>
+      </h2>
+    </div>
+    <div class="col-md-6 mb-xs-1 g-text-right-md">
+      <h2><b>Fecha: </b>{{ $ctrl.currentDate | date: 'dd/MM/yyyy' }}</h2>
+    </div>
+    <div class="col-md-12 mb-xs-1">
+      <h2 class="gH5">
+        <b class="">{{ $ctrl.reportProperties.title }}</b>
+      </h2>
+    </div>
+  </div>
+  <div class="clearfix g-list-md g-box gBgcGray5 pt-xs-1 g-row-fz12 g-myd-box">
+    <div class="col-md-12 g-col-md middle">
+      <ul class="row g-list">
+        <li class="col-md-4 clearfix cnt-item">
+          <div class="col-xs-5 item-label">
+            Inspector:
+          </div>
+          <div class="col-xs-7 item-dato g-text-uppercase">
+            {{ $ctrl.reportProperties.inspector || 'TODOS' }}
+          </div>
+        </li>
+        <li class="col-md-4 clearfix cnt-item">
+          <div class="col-xs-5 item-label">
+            Agente:
+          </div>
+          <div class="col-xs-7 item-dato g-text-uppercase">
+            {{ $ctrl.reportProperties.agent || 'TODOS' }}
+          </div>
+        </li>
+      </ul>
+      <ul class="row g-list" ng-if="$ctrl.reportProperties.from">
+        <li class="col-md-4 clearfix cnt-item">
+          <div class="col-xs-5 item-label">
+            Periodo del:
+          </div>
+          <div class="col-xs-7 item-dato g-text-uppercase">
+            {{ $ctrl.reportProperties.from | date: 'dd/MM/yyyy' }}
+          </div>
+        </li>
+        <li class="col-md-4 clearfix cnt-item">
+          <div class="col-xs-5 item-label">
+            Al:
+          </div>
+          <div class="col-xs-7 item-dato g-text-uppercase">
+            {{ $ctrl.reportProperties.to | date: 'dd/MM/yyyy' }}
+          </div>
+        </li>
+      </ul>
+      <ul class="row g-list" ng-if="!$ctrl.reportProperties.from">
+        <li class="col-md-4 clearfix cnt-item">
+          <div class="col-xs-5 item-label">
+            Periodo:
+          </div>
+          <div class="col-xs-7 item-dato g-text-uppercase">
+            {{ $ctrl.reportProperties.to | date: 'MM-yyyy' }}
+          </div>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="container" ng-repeat="(key, value) in $ctrl.reportData" ng-if="!$ctrl.advanced">
+  <div class="col-md-12 mt-xs-1">
+    <div class="row g-overflow-hidden-xs g-myd-box h-myd-mt--30 h-myd-p--0">
+      <ul class="clearfix g-list-sm gBgcGray5 pt-xs-1 mb-xs-0-1" ng-if="!$ctrl.noHeader">
+        <li class="col-md-12 col-sm-12 clearfix cnt-item gH4 text-center">
+          <div class="row">
+            <div class="col-md-12 col-ms-5 item-label" ng-if="!$ctrl.reportProperties.subTitle">
+              <span class="ico-mapfre_127_calendar3"></span> <b class="g-text-uppercase"> {{ $ctrl.groupBy === 'anio' ? 'periodo' : $ctrl.groupBy }}: {{ value[0].header }}</b>
+            </div>
+            <div class="col-md-12 col-ms-5 item-label" ng-if="$ctrl.reportProperties.subTitle">
+              <span class="ico-mapfre_127_calendar3"></span> <b > {{ $ctrl.reportProperties.subTitle }}</b>
+            </div>
+          </div>
+        </li>
+      </ul>
+      <div class="clearfix">
+        <div tbl-oim class="col-xs-12 tbl-wrapper pl-xs-0">
+          <div class="tbl-main">
+            <ul class="tbl-header clearfix">
+              <li class="title text-center" ng-class="$ctrl.reportProperties.columns.mainClass">{{ $ctrl.reportProperties.columns.main }}</li>
+              <li class="title text-center" ng-class="$ctrl.reportProperties.columns.detailClass" ng-repeat="detail in $ctrl.reportProperties.columns.detail">{{ detail.label }}</li>
+            </ul>
+            <ul class="tbl-body clearfix scroll-y">
+              <li ng-repeat="row in value">
+                <ul height-row class="tbl-row clearfix">
+                  <li class="cell" ng-class="$ctrl.reportProperties.columns.mainClass">
+                    <span class="cell-title">{{row.viewData.mainRow}}</span>
+                  </li>
+                  <li class="cell text-center" ng-class="$ctrl.reportProperties.columns.detailClass" ng-repeat="detailRow in row.viewData.detailRow track by $index">
+                    <span class="cell-label"><span class="cell-data">{{detailRow}}</span></span>
+                  </li>
+                </ul>
+              </li>
+            </ul>
+            <ul class="tbl-body clearfix" ng-if="$ctrl.reportProperties.hasSum">
+              <li>
+                <ul height-row class="tbl-row clearfix">
+                  <li class="cell" ng-class="$ctrl.reportProperties.columns.mainClass">
+                    <span class="cell-title">TOTAL GENERAL</span>
+                  </li>
+                  <li class="cell text-center" ng-class="$ctrl.reportProperties.columns.detailClass" ng-repeat="(key, value) in $ctrl.sumData[$index].value">
+                    <span class="cell-label"><span class="cell-data">{{ value }}</span></span>
+                  </li>
+                </ul>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="container" ng-repeat="(key, value) in $ctrl.reportData" ng-if="$ctrl.advanced">
+  <div class="col-md-12 mt-xs-1">
+    <div class="row g-overflow-hidden-xs g-myd-box h-myd-mt--30 h-myd-p--0">
+      <ul class="clearfix g-list-sm gBgcGray5 pt-xs-1 mb-xs-0-1" ng-if="!$ctrl.noHeader">
+        <li class="col-md-12 col-sm-12 clearfix cnt-item gH4 text-center">
+          <div class="row">
+            <div class="col-md-12 col-ms-5 item-label" ng-if="!$ctrl.reportProperties.subTitle">
+              <span class="ico-mapfre_127_calendar3"></span> <b class="g-text-uppercase"> {{ $ctrl.groupBy === 'anio' ? 'periodo' : $ctrl.groupBy }}: {{ value[0].header }}</b>
+            </div>
+            <div class="col-md-12 col-ms-5 item-label" ng-if="$ctrl.reportProperties.subTitle">
+              <span class="ico-mapfre_127_calendar3"></span> <b > {{ $ctrl.reportProperties.subTitle }}</b>
+            </div>
+          </div>
+        </li>
+      </ul>
+      <div class="clearfix">
+        <div tbl-oim class="col-xs-12 tbl-wrapper pl-xs-0">
+          <div class="tbl-main">
+            <ul class="tbl-header clearfix">
+              <li class="title text-center" ng-class="$ctrl.reportProperties.columns.mainClass">{{ $ctrl.reportProperties.columns.main }}</li>
+              <li class="title text-center" ng-class="$ctrl.reportProperties.columns.detailClass" ng-repeat="detail in $ctrl.reportProperties.columns.detail">{{ detail.label }}</li>
+            </ul>
+            <ul class="tbl-body clearfix scroll-y">
+              <li>
+                <ul height-row class="tbl-row clearfix">
+                  <li class="cell" ng-class="$ctrl.reportProperties.columns.mainClass">
+                    <span class="cell-title">SOL. REGISTRADAS</span>
+                  </li>
+                  <li class="cell text-center" ng-class="$ctrl.reportProperties.columns.detailClass">
+                    <span class="cell-label"><span class="cell-data">{{ value[0].viewData.detailRow.totalE }}</span></span>
+                  </li>
+                  <li class="cell text-center" ng-class="$ctrl.reportProperties.columns.detailClass">
+                    <span class="cell-label"><span class="cell-data">{{ value[1].viewData.detailRow.totalF }}</span></span>
+                  </li>
+                  <li class="cell text-center" ng-class="$ctrl.reportProperties.columns.detailClass">
+                    <span class="cell-label"><span class="cell-data">{{ value[2].viewData.detailRow.totalM }}</span></span>
+                  </li>
+                  <li class="cell text-center" ng-class="$ctrl.reportProperties.columns.detailClass">
+                    <span class="cell-label"><span class="cell-data">{{ value[3].viewData.detailRow.totalA }}</span></span>
+                  </li>
+                  <li class="cell text-center" ng-class="$ctrl.reportProperties.columns.detailClass">
+                    <span class="cell-label"><span class="cell-data">{{ value[4].viewData.detailRow.totalMA }}</span></span>
+                  </li>
+                  <li class="cell text-center" ng-class="$ctrl.reportProperties.columns.detailClass">
+                    <span class="cell-label"><span class="cell-data">{{ value[5].viewData.detailRow.totalJU }}</span></span>
+                  </li>
+                  <li class="cell text-center" ng-class="$ctrl.reportProperties.columns.detailClass">
+                    <span class="cell-label"><span class="cell-data">{{ value[6].viewData.detailRow.totalJL }}</span></span>
+                  </li>
+                  <li class="cell text-center" ng-class="$ctrl.reportProperties.columns.detailClass">
+                    <span class="cell-label"><span class="cell-data">{{ value[7].viewData.detailRow.totalAG }}</span></span>
+                  </li>
+                  <li class="cell text-center" ng-class="$ctrl.reportProperties.columns.detailClass">
+                    <span class="cell-label"><span class="cell-data">{{ value[8].viewData.detailRow.totalSP }}</span></span>
+                  </li>
+                  <li class="cell text-center" ng-class="$ctrl.reportProperties.columns.detailClass">
+                    <span class="cell-label"><span class="cell-data">{{ value[9].viewData.detailRow.totalOC }}</span></span>
+                  </li>
+                  <li class="cell text-center" ng-class="$ctrl.reportProperties.columns.detailClass">
+                    <span class="cell-label"><span class="cell-data">{{ value[10].viewData.detailRow.totalNO }}</span></span>
+                  </li>
+                  <li class="cell text-center" ng-class="$ctrl.reportProperties.columns.detailClass">
+                    <span class="cell-label"><span class="cell-data">{{ value[11].viewData.detailRow.totalDC }}</span></span>
+                  </li>
+                </ul>
+                <ul height-row class="tbl-row clearfix">
+                  <li class="cell" ng-class="$ctrl.reportProperties.columns.mainClass">
+                    <span class="cell-title">POR PROGRAMAR</span>
+                  </li>
+                  <li class="cell text-center" ng-class="$ctrl.reportProperties.columns.detailClass">
+                    <span class="cell-label"><span class="cell-data">{{ value[0].viewData.detailRow.totalPorProgramarE }}</span></span>
+                  </li>
+                  <li class="cell text-center" ng-class="$ctrl.reportProperties.columns.detailClass">
+                    <span class="cell-label"><span class="cell-data">{{ value[1].viewData.detailRow.totalPorProgramarF }}</span></span>
+                  </li>
+                  <li class="cell text-center" ng-class="$ctrl.reportProperties.columns.detailClass">
+                    <span class="cell-label"><span class="cell-data">{{ value[2].viewData.detailRow.totalPorProgramarM }}</span></span>
+                  </li>
+                  <li class="cell text-center" ng-class="$ctrl.reportProperties.columns.detailClass">
+                    <span class="cell-label"><span class="cell-data">{{ value[3].viewData.detailRow.totalPorProgramarA }}</span></span>
+                  </li>
+                  <li class="cell text-center" ng-class="$ctrl.reportProperties.columns.detailClass">
+                    <span class="cell-label"><span class="cell-data">{{ value[4].viewData.detailRow.totalPorProgramarMA }}</span></span>
+                  </li>
+                  <li class="cell text-center" ng-class="$ctrl.reportProperties.columns.detailClass">
+                    <span class="cell-label"><span class="cell-data">{{ value[5].viewData.detailRow.totalPorProgramarJU }}</span></span>
+                  </li>
+                  <li class="cell text-center" ng-class="$ctrl.reportProperties.columns.detailClass">
+                    <span class="cell-label"><span class="cell-data">{{ value[6].viewData.detailRow.totalPorProgramarJL }}</span></span>
+                  </li>
+                  <li class="cell text-center" ng-class="$ctrl.reportProperties.columns.detailClass">
+                    <span class="cell-label"><span class="cell-data">{{ value[7].viewData.detailRow.totalPorProgramarAG }}</span></span>
+                  </li>
+                  <li class="cell text-center" ng-class="$ctrl.reportProperties.columns.detailClass">
+                    <span class="cell-label"><span class="cell-data">{{ value[8].viewData.detailRow.totalPorProgramarSP }}</span></span>
+                  </li>
+                  <li class="cell text-center" ng-class="$ctrl.reportProperties.columns.detailClass">
+                    <span class="cell-label"><span class="cell-data">{{ value[9].viewData.detailRow.totalPorProgramarOC }}</span></span>
+                  </li>
+                  <li class="cell text-center" ng-class="$ctrl.reportProperties.columns.detailClass">
+                    <span class="cell-label"><span class="cell-data">{{ value[10].viewData.detailRow.totalPorProgramarNO }}</span></span>
+                  </li>
+                  <li class="cell text-center" ng-class="$ctrl.reportProperties.columns.detailClass">
+                    <span class="cell-label"><span class="cell-data">{{ value[11].viewData.detailRow.totalPorProgramarDC }}</span></span>
+                  </li>
+                </ul>
+                <ul height-row class="tbl-row clearfix">
+                  <li class="cell" ng-class="$ctrl.reportProperties.columns.mainClass">
+                    <span class="cell-title">PROGRAMADAS</span>
+                  </li>
+                  <li class="cell text-center" ng-class="$ctrl.reportProperties.columns.detailClass">
+                    <span class="cell-label"><span class="cell-data">{{ value[0].viewData.detailRow.totalProgramadasE }}</span></span>
+                  </li>
+                  <li class="cell text-center" ng-class="$ctrl.reportProperties.columns.detailClass">
+                    <span class="cell-label"><span class="cell-data">{{ value[1].viewData.detailRow.totalProgramadasF }}</span></span>
+                  </li>
+                  <li class="cell text-center" ng-class="$ctrl.reportProperties.columns.detailClass">
+                    <span class="cell-label"><span class="cell-data">{{ value[2].viewData.detailRow.totalProgramadasM }}</span></span>
+                  </li>
+                  <li class="cell text-center" ng-class="$ctrl.reportProperties.columns.detailClass">
+                    <span class="cell-label"><span class="cell-data">{{ value[3].viewData.detailRow.totalProgramadasA }}</span></span>
+                  </li>
+                  <li class="cell text-center" ng-class="$ctrl.reportProperties.columns.detailClass">
+                    <span class="cell-label"><span class="cell-data">{{ value[4].viewData.detailRow.totalProgramadasMA }}</span></span>
+                  </li>
+                  <li class="cell text-center" ng-class="$ctrl.reportProperties.columns.detailClass">
+                    <span class="cell-label"><span class="cell-data">{{ value[5].viewData.detailRow.totalProgramadasJU }}</span></span>
+                  </li>
+                  <li class="cell text-center" ng-class="$ctrl.reportProperties.columns.detailClass">
+                    <span class="cell-label"><span class="cell-data">{{ value[6].viewData.detailRow.totalProgramadasJL }}</span></span>
+                  </li>
+                  <li class="cell text-center" ng-class="$ctrl.reportProperties.columns.detailClass">
+                    <span class="cell-label"><span class="cell-data">{{ value[7].viewData.detailRow.totalProgramadasAG }}</span></span>
+                  </li>
+                  <li class="cell text-center" ng-class="$ctrl.reportProperties.columns.detailClass">
+                    <span class="cell-label"><span class="cell-data">{{ value[8].viewData.detailRow.totalProgramadasSP }}</span></span>
+                  </li>
+                  <li class="cell text-center" ng-class="$ctrl.reportProperties.columns.detailClass">
+                    <span class="cell-label"><span class="cell-data">{{ value[9].viewData.detailRow.totalProgramadasOC }}</span></span>
+                  </li>
+                  <li class="cell text-center" ng-class="$ctrl.reportProperties.columns.detailClass">
+                    <span class="cell-label"><span class="cell-data">{{ value[10].viewData.detailRow.totalProgramadasNO }}</span></span>
+                  </li>
+                  <li class="cell text-center" ng-class="$ctrl.reportProperties.columns.detailClass">
+                    <span class="cell-label"><span class="cell-data">{{ value[11].viewData.detailRow.totalProgramadasDC }}</span></span>
+                  </li>
+                </ul>
+                <ul height-row class="tbl-row clearfix">
+                  <li class="cell" ng-class="$ctrl.reportProperties.columns.mainClass">
+                    <span class="cell-title">INSPECCIONADAS</span>
+                  </li>
+                  <li class="cell text-center" ng-class="$ctrl.reportProperties.columns.detailClass">
+                    <span class="cell-label"><span class="cell-data">{{ value[0].viewData.detailRow.totalInspeccionadasE }}</span></span>
+                  </li>
+                  <li class="cell text-center" ng-class="$ctrl.reportProperties.columns.detailClass">
+                    <span class="cell-label"><span class="cell-data">{{ value[1].viewData.detailRow.totalInspeccionadasF }}</span></span>
+                  </li>
+                  <li class="cell text-center" ng-class="$ctrl.reportProperties.columns.detailClass">
+                    <span class="cell-label"><span class="cell-data">{{ value[2].viewData.detailRow.totalInspeccionadasM }}</span></span>
+                  </li>
+                  <li class="cell text-center" ng-class="$ctrl.reportProperties.columns.detailClass">
+                    <span class="cell-label"><span class="cell-data">{{ value[3].viewData.detailRow.totalInspeccionadasA }}</span></span>
+                  </li>
+                  <li class="cell text-center" ng-class="$ctrl.reportProperties.columns.detailClass">
+                    <span class="cell-label"><span class="cell-data">{{ value[4].viewData.detailRow.totalInspeccionadasMA }}</span></span>
+                  </li>
+                  <li class="cell text-center" ng-class="$ctrl.reportProperties.columns.detailClass">
+                    <span class="cell-label"><span class="cell-data">{{ value[5].viewData.detailRow.totalInspeccionadasJU }}</span></span>
+                  </li>
+                  <li class="cell text-center" ng-class="$ctrl.reportProperties.columns.detailClass">
+                    <span class="cell-label"><span class="cell-data">{{ value[6].viewData.detailRow.totalInspeccionadasJL }}</span></span>
+                  </li>
+                  <li class="cell text-center" ng-class="$ctrl.reportProperties.columns.detailClass">
+                    <span class="cell-label"><span class="cell-data">{{ value[7].viewData.detailRow.totalInspeccionadasAG }}</span></span>
+                  </li>
+                  <li class="cell text-center" ng-class="$ctrl.reportProperties.columns.detailClass">
+                    <span class="cell-label"><span class="cell-data">{{ value[8].viewData.detailRow.totalInspeccionadasSP }}</span></span>
+                  </li>
+                  <li class="cell text-center" ng-class="$ctrl.reportProperties.columns.detailClass">
+                    <span class="cell-label"><span class="cell-data">{{ value[9].viewData.detailRow.totalInspeccionadasOC }}</span></span>
+                  </li>
+                  <li class="cell text-center" ng-class="$ctrl.reportProperties.columns.detailClass">
+                    <span class="cell-label"><span class="cell-data">{{ value[10].viewData.detailRow.totalInspeccionadasNO }}</span></span>
+                  </li>
+                  <li class="cell text-center" ng-class="$ctrl.reportProperties.columns.detailClass">
+                    <span class="cell-label"><span class="cell-data">{{ value[11].viewData.detailRow.totalInspeccionadasDC }}</span></span>
+                  </li>
+                </ul>
+                <ul height-row class="tbl-row clearfix">
+                  <li class="cell" ng-class="$ctrl.reportProperties.columns.mainClass">
+                    <span class="cell-title">EN PROCESO</span>
+                  </li>
+                  <li class="cell text-center" ng-class="$ctrl.reportProperties.columns.detailClass">
+                    <span class="cell-label"><span class="cell-data">{{ value[0].viewData.detailRow.totalEnProcesoE }}</span></span>
+                  </li>
+                  <li class="cell text-center" ng-class="$ctrl.reportProperties.columns.detailClass">
+                    <span class="cell-label"><span class="cell-data">{{ value[1].viewData.detailRow.totalEnProcesoF }}</span></span>
+                  </li>
+                  <li class="cell text-center" ng-class="$ctrl.reportProperties.columns.detailClass">
+                    <span class="cell-label"><span class="cell-data">{{ value[2].viewData.detailRow.totalEnProcesoM }}</span></span>
+                  </li>
+                  <li class="cell text-center" ng-class="$ctrl.reportProperties.columns.detailClass">
+                    <span class="cell-label"><span class="cell-data">{{ value[3].viewData.detailRow.totalEnProcesoA }}</span></span>
+                  </li>
+                  <li class="cell text-center" ng-class="$ctrl.reportProperties.columns.detailClass">
+                    <span class="cell-label"><span class="cell-data">{{ value[4].viewData.detailRow.totalEnProcesoMA }}</span></span>
+                  </li>
+                  <li class="cell text-center" ng-class="$ctrl.reportProperties.columns.detailClass">
+                    <span class="cell-label"><span class="cell-data">{{ value[5].viewData.detailRow.totalEnProcesoJU }}</span></span>
+                  </li>
+                  <li class="cell text-center" ng-class="$ctrl.reportProperties.columns.detailClass">
+                    <span class="cell-label"><span class="cell-data">{{ value[6].viewData.detailRow.totalEnProcesoJL }}</span></span>
+                  </li>
+                  <li class="cell text-center" ng-class="$ctrl.reportProperties.columns.detailClass">
+                    <span class="cell-label"><span class="cell-data">{{ value[7].viewData.detailRow.totalEnProcesoAG }}</span></span>
+                  </li>
+                  <li class="cell text-center" ng-class="$ctrl.reportProperties.columns.detailClass">
+                    <span class="cell-label"><span class="cell-data">{{ value[8].viewData.detailRow.totalEnProcesoSP }}</span></span>
+                  </li>
+                  <li class="cell text-center" ng-class="$ctrl.reportProperties.columns.detailClass">
+                    <span class="cell-label"><span class="cell-data">{{ value[9].viewData.detailRow.totalEnProcesoOC }}</span></span>
+                  </li>
+                  <li class="cell text-center" ng-class="$ctrl.reportProperties.columns.detailClass">
+                    <span class="cell-label"><span class="cell-data">{{ value[10].viewData.detailRow.totalEnProcesoNO }}</span></span>
+                  </li>
+                  <li class="cell text-center" ng-class="$ctrl.reportProperties.columns.detailClass">
+                    <span class="cell-label"><span class="cell-data">{{ value[11].viewData.detailRow.totalEnProcesoDC }}</span></span>
+                  </li>
+                </ul>
+                <ul height-row class="tbl-row clearfix">
+                  <li class="cell" ng-class="$ctrl.reportProperties.columns.mainClass">
+                    <span class="cell-title">EN EVALUACIÓN</span>
+                  </li>
+                  <li class="cell text-center" ng-class="$ctrl.reportProperties.columns.detailClass">
+                    <span class="cell-label"><span class="cell-data">{{ value[0].viewData.detailRow.totalEnEvaluacionE }}</span></span>
+                  </li>
+                  <li class="cell text-center" ng-class="$ctrl.reportProperties.columns.detailClass">
+                    <span class="cell-label"><span class="cell-data">{{ value[1].viewData.detailRow.totalEnEvaluacionF }}</span></span>
+                  </li>
+                  <li class="cell text-center" ng-class="$ctrl.reportProperties.columns.detailClass">
+                    <span class="cell-label"><span class="cell-data">{{ value[2].viewData.detailRow.totalEnEvaluacionM }}</span></span>
+                  </li>
+                  <li class="cell text-center" ng-class="$ctrl.reportProperties.columns.detailClass">
+                    <span class="cell-label"><span class="cell-data">{{ value[3].viewData.detailRow.totalEnEvaluacionA }}</span></span>
+                  </li>
+                  <li class="cell text-center" ng-class="$ctrl.reportProperties.columns.detailClass">
+                    <span class="cell-label"><span class="cell-data">{{ value[4].viewData.detailRow.totalEnEvaluacionMA }}</span></span>
+                  </li>
+                  <li class="cell text-center" ng-class="$ctrl.reportProperties.columns.detailClass">
+                    <span class="cell-label"><span class="cell-data">{{ value[5].viewData.detailRow.totalEnEvaluacionJU }}</span></span>
+                  </li>
+                  <li class="cell text-center" ng-class="$ctrl.reportProperties.columns.detailClass">
+                    <span class="cell-label"><span class="cell-data">{{ value[6].viewData.detailRow.totalEnEvaluacionJL }}</span></span>
+                  </li>
+                  <li class="cell text-center" ng-class="$ctrl.reportProperties.columns.detailClass">
+                    <span class="cell-label"><span class="cell-data">{{ value[7].viewData.detailRow.totalEnEvaluacionAG }}</span></span>
+                  </li>
+                  <li class="cell text-center" ng-class="$ctrl.reportProperties.columns.detailClass">
+                    <span class="cell-label"><span class="cell-data">{{ value[8].viewData.detailRow.totalEnEvaluacionSP }}</span></span>
+                  </li>
+                  <li class="cell text-center" ng-class="$ctrl.reportProperties.columns.detailClass">
+                    <span class="cell-label"><span class="cell-data">{{ value[9].viewData.detailRow.totalEnEvaluacionOC }}</span></span>
+                  </li>
+                  <li class="cell text-center" ng-class="$ctrl.reportProperties.columns.detailClass">
+                    <span class="cell-label"><span class="cell-data">{{ value[10].viewData.detailRow.totalEnEvaluacionNO }}</span></span>
+                  </li>
+                  <li class="cell text-center" ng-class="$ctrl.reportProperties.columns.detailClass">
+                    <span class="cell-label"><span class="cell-data">{{ value[11].viewData.detailRow.totalEnEvaluacionDC }}</span></span>
+                  </li>
+                </ul>
+                <ul height-row class="tbl-row clearfix">
+                  <li class="cell" ng-class="$ctrl.reportProperties.columns.mainClass">
+                    <span class="cell-title">EN TERMINADAS</span>
+                  </li>
+                  <li class="cell text-center" ng-class="$ctrl.reportProperties.columns.detailClass">
+                    <span class="cell-label"><span class="cell-data">{{ value[0].viewData.detailRow.totalTerminadasE }}</span></span>
+                  </li>
+                  <li class="cell text-center" ng-class="$ctrl.reportProperties.columns.detailClass">
+                    <span class="cell-label"><span class="cell-data">{{ value[1].viewData.detailRow.totalTerminadasF }}</span></span>
+                  </li>
+                  <li class="cell text-center" ng-class="$ctrl.reportProperties.columns.detailClass">
+                    <span class="cell-label"><span class="cell-data">{{ value[2].viewData.detailRow.totalTerminadasM }}</span></span>
+                  </li>
+                  <li class="cell text-center" ng-class="$ctrl.reportProperties.columns.detailClass">
+                    <span class="cell-label"><span class="cell-data">{{ value[3].viewData.detailRow.totalTerminadasA }}</span></span>
+                  </li>
+                  <li class="cell text-center" ng-class="$ctrl.reportProperties.columns.detailClass">
+                    <span class="cell-label"><span class="cell-data">{{ value[4].viewData.detailRow.totalTerminadasMA }}</span></span>
+                  </li>
+                  <li class="cell text-center" ng-class="$ctrl.reportProperties.columns.detailClass">
+                    <span class="cell-label"><span class="cell-data">{{ value[5].viewData.detailRow.totalTerminadasJU }}</span></span>
+                  </li>
+                  <li class="cell text-center" ng-class="$ctrl.reportProperties.columns.detailClass">
+                    <span class="cell-label"><span class="cell-data">{{ value[6].viewData.detailRow.totalTerminadasJL }}</span></span>
+                  </li>
+                  <li class="cell text-center" ng-class="$ctrl.reportProperties.columns.detailClass">
+                    <span class="cell-label"><span class="cell-data">{{ value[7].viewData.detailRow.totalTerminadasAG }}</span></span>
+                  </li>
+                  <li class="cell text-center" ng-class="$ctrl.reportProperties.columns.detailClass">
+                    <span class="cell-label"><span class="cell-data">{{ value[8].viewData.detailRow.totalTerminadasSP }}</span></span>
+                  </li>
+                  <li class="cell text-center" ng-class="$ctrl.reportProperties.columns.detailClass">
+                    <span class="cell-label"><span class="cell-data">{{ value[9].viewData.detailRow.totalTerminadasOC }}</span></span>
+                  </li>
+                  <li class="cell text-center" ng-class="$ctrl.reportProperties.columns.detailClass">
+                    <span class="cell-label"><span class="cell-data">{{ value[10].viewData.detailRow.totalTerminadasNO }}</span></span>
+                  </li>
+                  <li class="cell text-center" ng-class="$ctrl.reportProperties.columns.detailClass">
+                    <span class="cell-label"><span class="cell-data">{{ value[11].viewData.detailRow.totalTerminadasDC }}</span></span>
+                  </li>
+                </ul>
+                <ul height-row class="tbl-row clearfix">
+                  <li class="cell" ng-class="$ctrl.reportProperties.columns.mainClass">
+                    <span class="cell-title">ANULADAS</span>
+                  </li>
+                  <li class="cell text-center" ng-class="$ctrl.reportProperties.columns.detailClass">
+                    <span class="cell-label"><span class="cell-data">{{ value[0].viewData.detailRow.totalAnuladasE }}</span></span>
+                  </li>
+                  <li class="cell text-center" ng-class="$ctrl.reportProperties.columns.detailClass">
+                    <span class="cell-label"><span class="cell-data">{{ value[1].viewData.detailRow.totalAnuladasF }}</span></span>
+                  </li>
+                  <li class="cell text-center" ng-class="$ctrl.reportProperties.columns.detailClass">
+                    <span class="cell-label"><span class="cell-data">{{ value[2].viewData.detailRow.totalAnuladasM }}</span></span>
+                  </li>
+                  <li class="cell text-center" ng-class="$ctrl.reportProperties.columns.detailClass">
+                    <span class="cell-label"><span class="cell-data">{{ value[3].viewData.detailRow.totalAnuladasA }}</span></span>
+                  </li>
+                  <li class="cell text-center" ng-class="$ctrl.reportProperties.columns.detailClass">
+                    <span class="cell-label"><span class="cell-data">{{ value[4].viewData.detailRow.totalAnuladasMA }}</span></span>
+                  </li>
+                  <li class="cell text-center" ng-class="$ctrl.reportProperties.columns.detailClass">
+                    <span class="cell-label"><span class="cell-data">{{ value[5].viewData.detailRow.totalAnuladasJU }}</span></span>
+                  </li>
+                  <li class="cell text-center" ng-class="$ctrl.reportProperties.columns.detailClass">
+                    <span class="cell-label"><span class="cell-data">{{ value[6].viewData.detailRow.totalAnuladasJL }}</span></span>
+                  </li>
+                  <li class="cell text-center" ng-class="$ctrl.reportProperties.columns.detailClass">
+                    <span class="cell-label"><span class="cell-data">{{ value[7].viewData.detailRow.totalAnuladasAG }}</span></span>
+                  </li>
+                  <li class="cell text-center" ng-class="$ctrl.reportProperties.columns.detailClass">
+                    <span class="cell-label"><span class="cell-data">{{ value[8].viewData.detailRow.totalAnuladasSP }}</span></span>
+                  </li>
+                  <li class="cell text-center" ng-class="$ctrl.reportProperties.columns.detailClass">
+                    <span class="cell-label"><span class="cell-data">{{ value[9].viewData.detailRow.totalAnuladasOC }}</span></span>
+                  </li>
+                  <li class="cell text-center" ng-class="$ctrl.reportProperties.columns.detailClass">
+                    <span class="cell-label"><span class="cell-data">{{ value[10].viewData.detailRow.totalAnuladasNO }}</span></span>
+                  </li>
+                  <li class="cell text-center" ng-class="$ctrl.reportProperties.columns.detailClass">
+                    <span class="cell-label"><span class="cell-data">{{ value[11].viewData.detailRow.totalAnuladasDC }}</span></span>
+                  </li>
+                </ul>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,13 @@
+<mp-data-seeker-horz
+  behavior="{label:'Gestor', placeholder:'Ingresa nombre o código', matchField:'idFullName', require: true}"
+  m-data-source="$gestorCtrl.getListGestor($inputNeed)"
+  ng-model="$gestorCtrl.gestor"
+  name="nGestor"
+  ng-change="updateGestor($gestorCtrl.gestor)"
+  ng-required="true"
+  ng-hide="$gestorCtrl.hideGestor">
+  <div ng-bind-html="$item.idFullName | highlight: $select.search"></div>
+</mp-data-seeker-horz>
+<div class="g-error" data-ng-if="$gestorCtrl.sinResultados" data-ng-click="$gestorCtrl.cleanMsgAdvertencia()">
+  <span>* 0 resultados para los términos ingresados</span>
+</div>

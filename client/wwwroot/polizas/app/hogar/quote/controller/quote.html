@@ -1,0 +1,64 @@
+<section class="g-page page-hogar-quote">
+  <div class="g-ui-view h-myd-mb--20">
+    <div class="g-title" ng-show="mainStep.showtitle">
+      <div class="container">
+        <div class="row">
+          <div class="col-sm-8">
+            <h1 class="ng-binding">Cotización póliza hogar</h1>
+          </div>
+          <div class="col-sm-4 g-text-right-xs no-tablet" ng-show="mainStep.goback">
+            <a href="" class="g-link-back"><span class="ico-mapfre_78_chevronleft arrow-left"></span>Volver</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Sección Agente -->
+    <div class="g-section" ng-show="mainStep.showagente">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-4">
+            <span ng-show="!userRoot"
+              ><h2>Agente: {{ mainStep.claims.codigoAgente }} - {{ mainStep.claims.nombreAgente }}</h2></span
+            >
+            <mp-data-seeker
+              ng-show="userRoot"
+              behavior="{label:'Para cotizar una póliza debes elegir un agente', placeholder:'Busque o seleccione un agente ...', matchField:'codigoNombre'}"
+              m-data-source="'proxyAgente.buscarAgente'"
+              ng-model="mainStep.mAgente"
+              ng-change="saveAgent(mainStep.mAgente)"
+            >
+              <div ng-bind-html="$item.codigoNombre | highlight: $select.search"></div>
+ 					</mp-data-seeker>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+	<!-- Steps -->
+	<!-- <wizard-stairs stairs="{steps: [{description:'Datos de la póliza'},{description:'Resultados cotización'}], stateName:'.steps', stateParameter: 'step'}"
+   current-Step="currentStep" steping="nav.go($stepToGo)"></wizard-stairs> -->
+	<!-- <div class="g-steps mb-md-3" ng-show="currentStep<3">
+		<div class="container g-steps-container">
+
+			<div class="row g-steps-circles">
+				<div class="col-md-2 text-center"><div class="g-circle" ng-class="{active: currentStep>=1}" ng-click="nav.go(1);"><span>1</span></div></div>
+				<div class="col-md-2 col-md-offset-1 text-center"><div class="g-circle" ng-class="{active: currentStep>=2}" ng-click="nav.go(2);"><span>2</span></div></div>
+			</div>
+
+			<div class="row g-steps-line">
+				<div class="col-md-3 col-md-offset-1"><div class="g-step-line" ng-class="{gradient: currentStep==1, full:currentStep>=2}"></div> </div>
+			</div>
+
+			<div class="row g-steps-titles">
+				<div class="col-md-2 text-center"><span ng-class="{active: currentStep>=1}">Datos de la póliza</span></div>
+				<div class="col-md-2 col-md-offset-1 text-center"><span ng-class="{active: currentStep>=2}">Resultados cotización</span></div>
+			</div>
+		</div>
+	</div> -->
+
+	<!-- STEPS -->
+	<div id="form-views" ui-view=""></div>
+
+</section>

@@ -1,0 +1,49 @@
+<div class="page-modal page-modal__tercervehiculo g-overflow-hidden-xs">
+  <a class="close g-close-modal" data-ng-click="$ctrl.cerrarFrm()">
+    <span class="ico-mapfre_46_cancelaroff"></span>
+  </a>
+  <div class="container">
+    <div class="col-md-12 mb-xs-2 g-title-modal">
+      <h2 class="text-center">{{$ctrl.frmTitulo}}</h2>
+    </div>
+    <div class="g-section-tabs tabs-tercero-vehiculo">
+      <div class="container u-ph-0">
+        <uib-tabset justified="false" active="$ctrl.tabActive">
+          <uib-tab
+            class="col-xs-4 u-ph-0 wp-tabModal__item"
+            data-ng-repeat="tab in $ctrl.tabs track by $index"
+            index="$index">
+            <uib-tab-heading>
+              {{::tab.titulo}}
+              <span>
+                <span
+                  class="wp-frm-tab__ico ico-mapfre_132_alert"
+                  data-ng-class="$ctrl.frmTabs[$index].$invalid && $ctrl.isFrmFire ? '' : 'invisible'">
+                </span>
+              </span>
+            </uib-tab-heading>
+            <div class="content-tab u-scroll-v--450 pt-xs-3 pb-xs-2">
+              <div data-ng-include="::tab.tpl"></div>
+            </div>
+          </uib-tab>
+        </uib-tabset>
+        <div class="modal-dialog-box-footer clearfix">
+          <div class="col-xs-6 col-md-3 col-md-offset-3 mb-xs-1">
+            <a
+              class="g-btn g-btn-white block"
+              data-ng-click="$ctrl.cerrarFrm()">
+              Cancelar
+            </a>
+          </div>
+          <div class="col-xs-6 col-md-3 col-md-offset-0 mb-xs-1">
+            <a
+              class="g-btn g-btn-verde block"
+              data-ng-click="$ctrl.grabarVehiculo()">
+              Guardar
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

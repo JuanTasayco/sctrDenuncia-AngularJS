@@ -1,0 +1,228 @@
+<div class="consultaGestion">
+  <div class="container">
+    <div
+      show-filter
+      class="clearfix g-col-filter g-box-md gBgcGray5-md gBgcWhite1 g-myd-box"
+      ng-class="{'show': isFilterVisible}"
+    >
+      <div class="col-xs-12">
+        <div class="clearfix gH4 gCGray1 mb-xs-1-5">
+          <h2 class="hidden-xs hidden-sm"><b>Opciones de Búsqueda</b></h2>
+          <div
+            id="show-filter"
+            class="row pt-xs-2 pb-xs-2 gBgcGray5 g-border-bottom-xs hidden-md hidden-lg"
+            ng-click="toggleFilter();"
+          >
+            <div class="col-xs-10">
+              <h2><b>Opciones de Búsqueda</b></h2>
+            </div>
+            <div class="col-xs-2 g-text-right-xs">
+              <!-- ngIf: isFilterVisible --><span
+                class="glyphicon glyphicon-chevron-down ng-scope"
+                ng-if="isFilterVisible"
+              ></span
+              ><!-- end ngIf: isFilterVisible -->
+              <!-- ngIf: !isFilterVisible --><span
+                class="glyphicon glyphicon-chevron-up ng-scope"
+                ng-if="!isFilterVisible"
+              ></span
+              ><!-- end ngIf: !isFilterVisible -->
+            </div>
+            <div class="clearfix"></div>
+          </div>
+        </div>
+        <form class="clearfix" name="frmFacturasEmitidas">
+          <div class="row mb-xs-2 h-myd--flex h-myd--flex-wrap h-myd--flex-alg-end">
+            <div class="col-xs-12 col-md-3">
+              <div class="input-group g-date-picker">
+                <label class="g-placeholder animated">Desde<span></span></label>
+                <input
+                  type="text"
+                  class="form-control"
+                  ng-change="changeDate()"
+                  uib-datepicker-popup="{{ formatDate }}"
+                  ng-model="vm.frmFacturasEmitidas.mInicio"
+                  is-open="popupInicio.opened"
+                  datepicker-options="dateOptionsInicio"
+                  ng-required="true"
+                  close-text="Close"
+                  alt-input-formats="altInputFormats"
+                  readonly
+                />
+                <span class="input-group-btn">
+                  <button type="button" class="btn btn-default" ng-click="openInicio()">
+                    <i class="glyphicon glyphicon-calendar"></i>
+                  </button>
+                </span>
+              </div>
+            </div>
+            <div class="col-xs-12 col-md-3 mt-xs-1 mt-md-0">
+              <div class="input-group g-date-picker">
+                <label class="g-placeholder animated">Hasta<span></span></label>
+                <input
+                  type="text"
+                  class="form-control"
+                  ng-change="changeDate()"
+                  uib-datepicker-popup="{{ formatDate }}"
+                  ng-model="vm.frmFacturasEmitidas.mFin"
+                  is-open="popupFin.opened"
+                  datepicker-options="dateOptionsFin"
+                  ng-required="true"
+                  close-text="Close"
+                  alt-input-formats="altInputFormats"
+                  readonly
+                />
+                <span class="input-group-btn">
+                  <button type="button" class="btn btn-default" ng-click="openFin()">
+                    <i class="glyphicon glyphicon-calendar"></i>
+                  </button>
+                </span>
+              </div>
+            </div>
+            <div class="col-xs-12 col-md-6 no-padding-xs mt-xs-1 mt-md-0">
+              <gcw-cliente data="vm.frmFacturasEmitidas.Cliente"></gcw-cliente>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-offset-8 col-md-2 mb-xs-1 no-mb-md">
+              <a class="g-btn g-btn-verde second-design block"
+                ga-click
+                ga-category="'CG - Cobranzas'"
+                ga-action="'MPF - Facturas emitidas x cliente - EPS planes - Buscar'"
+                ga-label="'Botón: Buscar'"
+                ng-click="vm.fnBuscar()">Buscar</a>
+            </div>
+            <div class="col-md-2">
+              <a class="g-btn g-btn-white second-design block" ng-click="vm.fnLimpiar()">Limpiar</a>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- Top bar: Filtro e iconos -->
+    <div tbl-oim-topbar class="clearfix g-tbl-topbar mt-md-2 mb-md-2 width-filtro" ng-show="vm.totalRows >= 1">
+      <div class="g-row-filter__box g-row-icons__box box_right hidden-xs hidden-sm">
+        <a data-ng-click="exportar()" uib-popover="Exportar" popover-trigger="'mouseenter'">
+          <span class="g-icon-box g-icon-box-md">
+            <span class="ico-mapfre ico-mapfre_124_download ico-download h-myd--none"></span>
+            <span
+              class="ico-mapfre ico-mapfre-360-myd-export ico-download h-myd-ico--mediun h-myd--show h-oim-none"
+            ></span>
+          </span>
+        </a>
+      </div>
+      <div class="g-row-filter__box box_left height-xs height-sm" ng-class="{'filter__show': showFilterTopbar}"></div>
+      <div
+        class="col-xs-12 col-sm-12 col-md-8 no-padding-xs g-link no-underline mb-xs-1 mb-sm-0 g-text-center-xs"
+        ng-include="vm.templateFexConsult"
+      ></div>
+    </div>
+
+    <!-- Tabla -->
+    <div class="clearfix" ng-if="vm.facturas && vm.facturas.length">
+      <div tbl-oim class="col-xs-12 g-tbl-wrapper pl-xs-0">
+        <div class="tbl-main table__1400">
+          <ul class="tbl-header clearfix">
+            <li class="title col-7-dktp g-text-uppercase text-center">Broker</li>
+            <li class="title col-7-dktp g-text-uppercase text-center">Contrato</li>
+            <li class="title col-13-dktp g-text-uppercase text-center">Póliza</li>
+            <li class="title col-8-dktp g-text-uppercase text-center">Nro pre factura</li>
+            <li class="title col-9-dktp g-text-uppercase text-center">Inicio</li>
+            <li class="title col-9-dktp g-text-uppercase text-center">Fin</li>
+            <li class="title col-8-dktp g-text-uppercase text-center">Nro factura</li>
+            <li class="title col-8-dktp g-text-uppercase text-center">Fecha de factura</li>
+            <li class="title col-10-dktp g-text-uppercase text-center">Prima Total</li>
+            <li class="title col-7-dktp g-text-uppercase text-center">Estado de factura</li>
+            <li class="title col-7-dktp g-text-uppercase text-center">Estado de cobranza</li>
+            <li class="title col-7-dktp g-text-uppercase text-center">Estado de contrato</li>
+          </ul>
+          <ul class="tbl-body clearfix">
+            <li ng-repeat="item in vm.facturas">
+              <ul
+                ga-click
+                ga-category="'CG - Cobranzas'"
+                ga-action="'MPF - Facturas emitidas x cliente - EPS planes - Click en fila de resultados'"
+                ga-label="'Click: en fila de resultados'"
+                height-row class="tbl-row clearfix g-u-cursor--pointer" ng-click="vm.fnDownloadDetail(item)">
+                <li class="cell col-7-dktp text-center">
+                  <span class="cell-label"
+                    ><span class="cell-data">{{ item.agent.agentId }}</span></span
+                  >
+                </li>
+                <li class="cell col-7-dktp text-center">
+                  <span class="cell-label"
+                    ><span class="cell-data">{{ item.contractNumber }}</span></span
+                  >
+                </li>
+                <li class="cell col-13-dktp text-center">
+                  <span class="cell-label"
+                    ><span class="cell-data">{{ item.PolicyNumber }}</span></span
+                  >
+                </li>
+                <li class="cell col-8-dktp text-center">
+                  <span class="cell-label"
+                    ><span class="cell-data">{{ item.preInvoice }}</span></span
+                  >
+                </li>
+                <li class="cell col-9-dktp text-center">
+                  <span class="cell-label"
+                    ><span class="cell-data">{{ item.dateStartEffective }}</span></span
+                  >
+                </li>
+                <li class="cell col-9-dktp text-center">
+                  <span class="cell-label"
+                    ><span class="cell-data">{{ item.dateEndEffective }}</span></span
+                  >
+                </li>
+                <li class="cell col-8-dktp text-center">
+                  <span class="cell-label"
+                    ><span class="cell-data">{{ item.invoiceNumber }}</span></span
+                  >
+                </li>
+                <li class="cell col-8-dktp text-center">
+                  <span class="cell-label"
+                    ><span class="cell-data">{{ item.invoiceDate }}</span></span
+                  >
+                </li>
+                <li class="cell col-10-dktp text-center">
+                  <span class="cell-label"
+                    ><span class="cell-data">{{ item.totalPrime | currency }}</span></span
+                  >
+                </li>
+                <li class="cell col-7-dktp text-center">
+                  <span class="cell-label"
+                    ><span class="cell-data">{{ item.invoiceStatus }}</span></span
+                  >
+                </li>
+                <li class="cell col-7-dktp text-center">
+                  <span class="cell-label"
+                    ><span class="cell-data">{{ item.collectionStatus }}</span></span
+                  >
+                </li>
+                <li class="cell col-7-dktp text-center">
+                  <span class="cell-label"
+                    ><span class="cell-data">{{ item.contractStatus }}</span></span
+                  >
+                </li>
+              </ul>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <mx-paginador
+      data-datos="vm.facturas"
+      data-items-x-page="vm.itemsXPagina"
+      data-msg-vacio="vm.msgVacio"
+      data-on-paginar="vm.pageChanged($event)"
+      data-pagina-actual="vm.currentPage"
+      data-total-items="vm.totalRows"
+    >
+    </mx-paginador>
+  </div>
+</div>
+<form id="frmExport" name="frmExport">
+  <input type="hidden" name="json" value="{{ vm.downloadFile }}" />
+</form>

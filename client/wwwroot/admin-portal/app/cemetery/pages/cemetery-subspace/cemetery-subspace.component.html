@@ -1,0 +1,133 @@
+<div class="g-page">
+	<div class="g-title g-border-bottom">
+		<navbar-cemetery data-active="true" data-show-button="true" data-on-update="$ctrl.updateSpacesAndGallery()">
+		</navbar-cemetery>
+	</div>
+	<!--========== SUBSPACES ==========-->
+	<div class="g-section">
+		<form name="frmRegister">
+			<div class="container">
+				<div class="row">
+					<div class="col-sm-4 g-text-left-xs no-tablet pl-md-2 pr-md-2 pb-md-2 pt-md-2">
+						<a href="" class="g-link-back" data-ui-sref="cemeterySpace({cemeteryId : $ctrl.cemeteryId})"><span
+								class="ico-mapfre_78_chevronleft arrow-left mr-md-"></span>{{$ctrl.section.valor1 | capitalize}}</a>
+					</div>
+				</div>
+			</div>
+			<div class="container c-bg-gray pb-md-6">
+				<div class="row">
+					<section class="c-section">
+						<div class="row">
+							<div class="col-md-12">
+								<div class="c-subspace__title h-50">
+									<img ng-src="{{$ctrl.subspace.rutaImagen}}" class="c-image no-margin-xs no-margin-md" alt="">
+									<span class=" pl-md-1-5 pr-md-1-5 pt-md-1-5 gH3 fwLight no-margin-xs no-margin-md">{{$ctrl.subspace.nombreSubEspacio}}</span>
+								</div>
+							</div>
+						</div>
+					</section>
+					<!--========== PERMANENCE  ==========-->
+					<section class="c-section">
+						<div class="c-section__information">
+							<h3 class="c-section__title">Permanencia</h3>
+						</div>
+						<div class="row"> 
+							<div class="col-md-12">
+								<div class="c-permanence__content">
+									<div class="col-md-6 ml-xs-1 ml-md-1">
+										<div class="form-check c-form-check d-inline-block" data-ng-repeat="permanencia in $ctrl.permanencias">
+											<mpf-checkbox  ng-model="permanencia.activo" ng-true-value="'1'" ng-false-value="'0'">
+											</mpf-checkbox>
+											<label class="form-check-label">{{permanencia.nombre}}</label>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</section>
+					<!--========== PLATFORM  ==========-->
+					<section class="c-section pt-md-0">
+						<div class="c-section__information">
+							<h3 class="c-section__title">Pataformas</h3>
+						</div>
+						<div class="row">
+							<div class="col-md-12" data-ng-repeat="plataforma in $ctrl.form.plataformas">
+								<div class="c-platform__content">
+									<div class="c-toggle">
+										<mpf-checkbox-toggle
+											ng-model="plataforma.activo"
+											ng-true-value="'1'"
+											ng-false-value="'0'"
+											data-nodrag
+										></mpf-checkbox-toggle>
+									</div>
+									<span class="c-platform__name">{{plataforma.valor1}}</span>
+								</div>
+								<uib-accordion close-others="planCtrl.oneAtATime">
+									<div uib-accordion-group class="panel-default acordion c-panel">
+										<uib-accordion-heading>
+											<div class="pull-right pb-md-1 pr-md-3 pb-xs-1 pr-xs-3" >
+												<span class="ico-mapfre_228_editar ico-edit"></span>
+												<span class="g-link"><a id="panel-{{$index}}">Editar</a></span>
+											</div>
+										</uib-accordion-heading>
+										<div class="col-xs-12">
+											<h3>Seleccione</h3>
+											<div class="row">
+												<div class="col-md-3" data-ng-repeat="opcion in plataforma.tipoMedidas">
+													<div class="form-radio c-form-radio">
+														<m-radio label="{label: opcion.nombre}"
+															value="{{opcion.codigo}}" ng-model="plataforma.tipoMedida"
+															ng-change="$ctrl.clearMeasureType(plataforma)">
+														</m-radio>
+													</div>
+												</div>
+											</div>
+										</div>
+										<div class="col-md-12" ng-if="plataforma.tipoMedida == 'CAPACIDAD'">
+											<h3>Capacidades</h3>
+											<div class="row">
+												<div class="col-md-3"
+													data-ng-repeat="capacidad in plataforma.capacidades">
+													<div class="form-check c-form-check">
+														<mpf-checkbox 
+															ng-model="capacidad.activo" 
+															ng-true-value="'1'"
+															ng-false-value="'0'">
+														</mpf-checkbox>
+														<label class="form-check-label">{{capacidad.valor1}}</label>
+													</div>
+												</div>
+											</div>
+										</div>
+										<div class="col-md-12" ng-if="plataforma.tipoMedida == 'NIVEL'">
+											<h3>Niveles</h3>
+											<div class="row">
+												<div class="col-md-3" data-ng-repeat="nivel in plataforma.niveles">
+													<div class="form-check c-form-check">
+														<mpf-checkbox ng-model="nivel.activo" ng-true-value="'1'"
+															ng-false-value="'0'">
+														</mpf-checkbox>
+														<label class="form-check-label">{{nivel.valor1}}</label>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</uib-accordion>
+							</div>
+						</div>
+					</section>
+					<!--========== GALLERY  ==========-->
+					<section class="c-section" id="gallery" ng-if="$ctrl.section.valor1 == 'CREMACION'">
+						<gallery-cemetery 
+							data-format="$ctrl.format.gallery" 
+							data-galleries="$ctrl.form.galleries"
+							data-on-upload-gallery="$ctrl.uploadGallery($event)">
+						</gallery-cemetery>
+					</section>
+				</div>
+			</div>
+		</form>
+	</div>
+</div>

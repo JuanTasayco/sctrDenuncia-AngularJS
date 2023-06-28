@@ -1,0 +1,278 @@
+<section class="gNsctr gNsctrModal modalInsured">
+
+	<button type="button" class="close g-close-modal" ng-click="$ctrl.fnCancelModal()">
+		<span class="ico-mapfre_231_cancelaroff"></span>
+	</button>
+
+	<form name="frmInsured">
+
+		<div class="container">
+			<div class="row">
+				<div class="col-md-12 g-text-center-xs mb-xs-2">
+					<h2 class="gH3"><b>Actualizar datos del asegurado</b></h2>
+				</div>
+			</div>
+		</div>
+
+		<div class="container" ng-if="$ctrl.showSelects">
+			<div class="col-md-12 mb-xs-4">
+
+				<ul class="clearfix g-box gBgcGray5 pt-xs-2">
+					<li class="col-md-6 mb-xs-2">
+						<mpf-select
+							label="{label: ($ctrl.IS_MODULE.lifeLaw) ? 'Póliza Vida Ley' : 'Póliza Pension/Salud', required: true}"
+							name="nPolizaPensionSalud"
+							ng-model="$ctrl.data.mPolizaPensionSalud"
+							m-data-source="$ctrl.data.pensionHealthPolicyData"
+							text-field="idDescription"
+							value-field="idDescription"
+							m-Empty-Option="{enterData:true}"
+							mpf-validation="required"
+							ng-required="true"
+							ng-change="$ctrl.fnGetVigencias($ctrl.data.mPolizaPensionSalud)">
+						</mpf-select>
+						<ul class="g-error">
+							<li ng-show="frmInsured.nPolizaPensionSalud.$invalid && !frmInsured.nPolizaPensionSalud.$pristine">* Seleccione una póliza</li>
+						</ul>
+					</li>
+					<li class="col-md-6 mb-xs-2">
+						<mpf-select
+							label="{label: 'Vigencia Inicio/Fin', required: true}"
+							name="nVigenciaInicioFin"
+							ng-model="$ctrl.data.mVigenciaInicioFin"
+							m-data-source="$ctrl.data.vigenciaStartEndData"
+							text-field="description"
+							value-field="id"
+							m-Empty-Option="{enterData:true}"
+							mpf-validation="required"
+							ng-required="true"
+							ng-change="$ctrl.fnGetInsured()">
+						</mpf-select>
+						<ul class="g-error">
+							<li ng-show="frmInsured.nVigenciaInicioFin.$invalid && !frmInsured.nVigenciaInicioFin.$pristine">* Seleccione una vigencia</li>
+						</ul>
+					</li>
+				</ul>
+
+			</div>
+		</div>
+
+		<div class="container">
+			<div class="col-md-12">
+				<div class="row">
+					<div class="col-md-12 mb-xs-1 clearfix">
+						<h2 class="g-border-bottom-xs pb-xs-1 h-myd-border--bottom-0"><b>Estado del Asegurado en la vigencia</b></h2>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-md-12 mb-xs-2">
+						<label for="" class="g-placeholder block">Estado</label>
+					</div>
+					<div class="col-md-12" ng-class="$ctrl.SHOW_BUTTON_STATE ? '' : ['mb-xs-1', 'mb-sm-5']">
+						<div class="row g-row">
+							<div class="col-md-2 col-sm-4 col-ms-4 g-col-ms middle mb-xs-1 mb-ms-3" >
+								<span class="g-icon">
+									<span
+										class="icon icoState"
+										ng-class="($ctrl.STATE_INSURED.up) ? ['ico-mapfre_186_sucess', 'enabled'] : ['ico-mapfre_185_prohibido', 'disabled']">
+									</span>
+									<span>
+										{{($ctrl.STATE_INSURED.up) ? 'Habilitado' : 'Dado de baja'}}
+									</span>
+								</span>
+							</div>
+							<div class="col-md-3 col-sm-8 col-ms-8 g-col-ms middle mb-xs-3" >
+								<button
+									class="g-btn second-design block"
+									ng-class="($ctrl.STATE_INSURED.up) ? 'g-btn-white' : 'g-btn-verde'"
+									ng-click="fnActionButton($ctrl.STATE_INSURED.up ? 2 : 3)"
+									ng-if="$ctrl.segurityDarBaja && $ctrl.IS_INVOICED_INSURED"
+									>
+									{{$ctrl.STATE_INSURED.up ? 'Dar baja' : 'Rehabilitar'}}
+								</button>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-md-12 mb-xs-1 clearfix">
+						<h2 class="g-border-bottom-xs pb-xs-1 h-myd-border--bottom-0"><b>Datos Generales</b></h2>
+					</div>
+				</div>
+		  	<div class="row">
+					<div class="col-md-4 mb-xs-2">
+						<mpf-select
+							label="{label: 'Tipo de Doc.', required: false}"
+							name="nTipoDoc"
+							ng-model="$ctrl.data.mTipoDoc"
+							m-data-source="$ctrl.data.documentTypeData"
+							text-field="typeDescription"
+							value-field="typeId"
+							m-Empty-Option="{enterData:true}"
+							ng-required="$ctrl.data.mNroDocumento.model && $ctrl.data.mNroDocumento.model != ''"
+							ng-change="$ctrl.fnChangeDocumentType($ctrl.data.mTipoDoc)"
+							ng-disabled="(!$ctrl.segurityActTrabajador && $ctrl.IS_INVOICED_INSURED) || $ctrl.STATE_INSURED.down ">
+						</mpf-select>
+						<ul class="g-error">
+							<li ng-show="frmInsured.nTipoDoc.$invalid && !frmInsured.nTipoDoc.$pristine">* Seleccione un tipo de documento</li>
+						</ul>
+					</div>
+					<div class="col-md-4 mb-xs-2">
+						<mpf-input
+							label="{label: 'Nro. Documento', required: false}"
+							name="nNroDocumento"
+							ng-model="$ctrl.data.mNroDocumento.model"
+							mpf-validation="{{$ctrl.data.mNroDocumento.FIELD_TYPE}}"
+							mpf-validation-disabled="{{$ctrl.data.mNroDocumento.FIELD_TYPE_DISABLED}}"
+							ng-maxlength="$ctrl.data.mNroDocumento.MAX_LENGTH"
+							ng-required="$ctrl.data.mTipoDoc.typeId !== null"
+							ng-disabled="(!$ctrl.segurityActTrabajador && $ctrl.IS_INVOICED_INSURED) || $ctrl.STATE_INSURED.down">
+						</mpf-input>
+						<ul class="g-error">
+							<li ng-show="frmInsured.nNroDocumento.$viewValue && (frmInsured.nNroDocumento.$error.onlyNumber || frmInsured.nNroDocumento.$error.maxlength) && !frmInsured.nNroDocumento.$pristine">* Nro de documento incorrecto</li>
+							<li ng-show="frmInsured.nNroDocumento.$invalid && frmInsured.nNroDocumento.$error.required && !frmInsured.nNroDocumento.$pristine">* Ingrese un nro de documento</li>
+						</ul>
+					</div>
+					<div class="col-md-4 mb-xs-2">
+						<mpf-input
+							label="{label: 'Sueldo S/.', required: false}"
+							name="nSueldo"
+							ng-model="$ctrl.data.mSueldo"
+							mpf-validation="onlyNumberDecimal"
+							ng-required="false"
+							ng-disabled="(!$ctrl.segurityActTrabajador && $ctrl.IS_INVOICED_INSURED) || $ctrl.STATE_INSURED.down"></mpf-input>
+						<ul class="g-error">
+							<li ng-show="frmInsured.nSueldo.$invalid && !frmInsured.nSueldo.$pristine">* Ingrese un sueldo</li>
+						</ul>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-md-4 mb-xs-2">
+						<mpf-input
+							label="{label: 'Apellido Paterno', required: false}"
+							name="nApePaterno"
+							ng-model="$ctrl.data.mApePaterno"
+							ng-required="false"
+							ng-disabled="$ctrl.STATE_INSURED.down">
+						</mpf-input>
+						<ul class="g-error">
+							<li ng-show="frmInsured.nApePaterno.$invalid && !frmInsured.nApePaterno.$pristine">* Ingrese un apellido paterno</li>
+						</ul>
+					</div>
+					<div class="col-md-4 mb-xs-2">
+						<mpf-input
+							label="{label: 'Apellido Materno', required: false}"
+							name="nApeMaterno"
+							ng-model="$ctrl.data.mApeMaterno"
+							ng-required="false"
+							ng-disabled="$ctrl.STATE_INSURED.down">
+						</mpf-input>
+						<ul class="g-error">
+							<li ng-show="frmInsured.nApeMaterno.$invalid && !frmInsured.nApeMaterno.$pristine">* Ingrese un apellido materno</li>
+						</ul>
+					</div>
+					<div class="col-md-4 mb-xs-2">
+						<mpf-input
+							label="{label: 'Nombre', required: false}"
+							name="nNombre"
+							ng-model="$ctrl.data.mNombre"
+							ng-required="false"
+							ng-disabled="$ctrl.STATE_INSURED.down">
+						</mpf-input>
+						<ul class="g-error">
+							<li ng-show="frmInsured.nNombre.$invalid && !frmInsured.nNombre.$pristine">* Ingrese un nombre</li>
+						</ul>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-md-8 mb-xs-2">
+						<mpf-input
+							label="{label: 'Nombre Completo', required: false}"
+							name="nNombreCompleto"
+							ng-model="$ctrl.data.mNombreCompleto"
+							ng-required="false"
+							ng-disabled="$ctrl.STATE_INSURED.down">
+						</mpf-input>
+						<ul class="g-error">
+							<li ng-show="frmInsured.nNombreCompleto.$invalid && !frmInsured.nNombreCompleto.$pristine">* Ingrese el nombre completo</li>
+						</ul>
+					</div>
+					<div class="col-md-4 mb-xs-2">
+						<div ng-if="$ctrl.showSelects == false || !$ctrl.IS_MODULE.mining">
+							<div class="input-group g-date-picker" ng-disabled="$ctrl.STATE_INSURED.down">
+								<label class="g-placeholder animated">Fecha Nacimiento</label>
+								<input
+									type="text"
+									class="form-control"
+									name="nFechaNacimiento"
+									ng-model="$ctrl.data.mFechaNacimiento.model"
+									model-view-value="true"
+									datepicker-options="$ctrl.data.mFechaNacimiento.options"
+									is-open="$ctrl.data.mFechaNacimiento.open"
+									close-text="Close"
+									uib-datepicker-popup="{{$ctrl.data.mFechaNacimiento.FORMAT_DATE}}"
+									alt-input-formats="$ctrl.data.mFechaNacimiento.ALT_INPUT_FORMATS"
+									ui-mask="{{$ctrl.data.mFechaNacimiento.FORMAT_MASK}}"
+									ng-pattern="$ctrl.data.mFechaNacimiento.FORMAT_PATTERN"
+									ng-required="false"
+									ng-disabled="$ctrl.STATE_INSURED.down"
+									mpf-validate-date="$ctrl.data.mFechaNacimiento.validate"/>
+								<span class="input-group-btn"></span>
+							</div>
+							<ul class="g-error">
+								<li ng-show="!frmInsured.nFechaNacimiento.$error.required && frmInsured.nFechaNacimiento.$invalid && !frmInsured.nFechaNacimiento.$pristine">* Fecha incorrecta</li>
+								<li ng-show="frmInsured.nFechaNacimiento.$invalid && frmInsured.nFechaNacimiento.$error.required && !frmInsured.nFechaNacimiento.$pristine">* Ingrese una fecha de nacimiento</li>
+							</ul>
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div
+						class="col-md-8 mb-xs-2"
+						ng-if="$ctrl.IS_MODULE.lifeLaw">
+						<mpf-input
+							label="{label: 'Ocupación', required: false}"
+							name="nOcupacion"
+							ng-model="$ctrl.data.mOcupacion"
+							ng-required="false"
+							ng-disabled="$ctrl.STATE_INSURED.down">
+						</mpf-input>
+						<ul class="g-error">
+							<li ng-show="frmInsured.nOcupacion.$invalid && !frmInsured.nOcupacion.$pristine">* Ingrese una ocupación</li>
+						</ul>
+					</div>
+				</div>
+
+
+				<div class="row mt-xs-2">
+					<div class="col-md-4 col-md-offset-2 mb-xs-1 no-mb-md">
+						<a
+							href="javascript:void(0)"
+							class="g-btn g-btn-transparent block"
+							ng-click="$ctrl.fnCancelModal()">
+							Cancelar
+						</a>
+					</div>
+					<div class="col-md-4">
+					<!--ng-disabled = "!$ctrl.SHOW_BUTTON_STATE || $ctrl.STATE_INSURED.down"-->
+						<button
+							class="g-btn g-btn-verde block"
+							ng-click="fnActionButton(1)"
+							ng-if="$ctrl.segurityActualizar">
+							Actualizar
+						</button>
+					</div>
+				</div>
+
+				<div class="row" ng-if="!$ctrl.segurityActTrabajador && $ctrl.IS_INVOICED_INSURED">
+					<div class="col-md-12 pt-xs-1">
+						<span class="g-comment">* El trabajador ya esta facturado, no se puede dar de baja.</span>
+					</div>
+				</div>
+
+			</div>
+	  </div>
+
+	</form>
+
+</section>

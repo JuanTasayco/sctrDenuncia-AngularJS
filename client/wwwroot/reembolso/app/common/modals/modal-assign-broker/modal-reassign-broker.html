@@ -1,0 +1,49 @@
+<section class="g-page-popup g-reembolso-popup">
+  <button type="button" class="close g-close-modal" ng-click="closeModal()">
+    <span class=" ico-mapfre_231_cancelaroff"></span>
+  </button>
+  <form name="frmBroker">
+    <div class="container g-modal-header g-text-uppercase">
+      <div class="col-xs-12">
+        <div class="row">
+          <div class="col-md-12 mb-xs-1">
+            <h2 class="gH3"><b>Reasignar Ejecutivo a filas seleccionadas</b></h2>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="container g-modal-body pt-xs-2 pb-xs-2">
+      <div class="col-xs-12">
+        <div class="row">
+          <div class="col-xs-12 col-sm-6">
+            <mp-data-seeker
+              behavior="{label:'', placeholder:'Código Ejecutivo', matchField:'description'}"
+              m-data-source="ejecutivoAutocomplete($inputNeed)"
+              ng-model="ejecutivo"
+              name="nEjecutivo"
+              ng-required="true"
+              ng-change="">
+              <div ng-bind-html="$item.executiveCode + ' - ' + $item.description | highlight: $select.search">
+              </div>
+            </mp-data-seeker>
+            <div
+              class="g-error"
+              ng-show="frmBroker.nEjecutivo.$error.required && !frmBroker.nEjecutivo.$pristine">
+              * Busque y seleccione un ejecutivo
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="container g-modal-footer pt-xs-2">
+      <div class="col-md-4 col-md-offset-4 mb-xs-1 no-mb-md">
+        <a
+          href="javascript:void(0)"
+          class="g-btn g-btn-verde block"
+          ng-click="reassignBroker()">
+          Aceptar
+        </a>
+      </div>
+    </div>
+  </form>
+</section>

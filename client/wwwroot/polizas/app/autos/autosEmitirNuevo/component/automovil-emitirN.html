@@ -1,0 +1,571 @@
+<style>
+  .loading:after {
+    z-index: 10;
+    border: solid rgba(9, 62, 78, 0.2);
+    border-top-color: #189dc8;
+    -webkit-border-radius: 50%;
+    -moz-border-radius: 50%;
+    border-radius: 50%;
+    -webkit-animation: spin 1s infinite linear;
+    -moz-animation: spin 1s infinite linear;
+    animation: spin 1s infinite linear;
+    content: '';
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 40px;
+    height: 40px;
+    margin: -20px 0 0 -20px;
+    border-width: 5px;
+  }
+</style>
+
+<section class="g-page page-automovil-emitir" ng-init="$parent.hidePolizas=true">
+  <page-title info="{title: 'Emisión póliza auto nuevo'}"></page-title>
+
+			<!-- NUEVO -->
+			<div class="emitir-nuevo">
+
+					<div class="g-section">
+						<div class="container">
+							<div class="row">
+								<div class="col-md-4">
+									<div class="row" ng-show="currentStep==1">
+											<div class="col-md-12">
+
+												<div >
+													<form name="frmAgent" action="">
+														<span ><h2>Agente: {{formData.selectedAgent.codigoAgente}} - {{formData.selectedAgent.codigoNombre}}</h2></span>
+													</form>
+														<div class="g-error" ng-show="frmAgent.nAgent.$error.uiSelectRequired==true">* Seleccione un agente</div>
+												</div>
+											</div>
+									</div>
+
+								</div>
+							</div>
+						</div>
+					</div>
+					<!-- Steps -->
+					<div class="g-steps mb-md-3 h-myd-mb--0">
+						<wizard-stairs
+						stairs="{steps: [{description:'Datos de la póliza'},
+                     {description:'Datos del contratante'},
+                     {description:'Datos de financiamiento'},
+										 {description:'Emitir póliza'}],
+										 stateName:'.steps', stateParameter: 'step'}"
+    					current-Step="currentStep"
+						steping="_steping($stepToGo)"></wizard-Stairs>
+					</div>
+					<div class="g-sec-information mt-sm-3 mt-md-0">
+						<!-- newSectionInformation -->
+						<div class="sec-item">
+							<div class="container">
+								<ul class="row cnt-title">
+									<li class="col-xs-12 item-title g-myd-subtitle">Nro de cotización: {{quotation.numeroDocumento}}</li>
+								</ul>
+								<ul class="row cnt-title">
+									<li class="col-xs-6 item-title g-myd-subtitle">Datos del auto</li>
+								</ul>
+								<ul class="row">
+									<li class="col-md-4 clearfix cnt-item h-myd-p--0">
+										<div class="col-sm-5 item-label">
+											<span class="ico-mapfre_82_circle ico-bullet"></span>Producto:
+										</div>
+										<div class="col-sm-7 item-dato">{{quotation.vehiculo.productoVehiculo.nombreProducto}}</div>
+									</li>
+									<li class="col-md-4 clearfix cnt-item h-myd-p--0">
+										<div class="col-sm-5 item-label">
+											<span class="ico-mapfre_82_circle ico-bullet"></span>Tipo de uso:
+										</div>
+										<div class="col-sm-7 item-dato">{{quotation.vehiculo.nombreUso}}</div>
+									</li>
+									<li class="col-md-4 clearfix cnt-item h-myd-p--0">
+										<div class="col-sm-5 item-label"><span class="ico-mapfre_82_circle ico-bullet"></span>Prima Neta:</div>
+										<div class="col-sm-7 item-dato">{{quotation.primaNeta | currency:'$'}}</div>
+									</li>
+								</ul>
+								<ul class="row">
+									<li class="col-md-4 clearfix cnt-item h-myd-p--0">
+										<div class="col-sm-5 item-label">
+											<span class="ico-mapfre_82_circle ico-bullet"></span>Auto:
+										</div>
+										<div class="col-sm-7 item-dato g-text-uppercase">{{quotation.vehiculo.nombreMarca}} {{quotation.vehiculo.nombreModelo}}
+										{{quotation.vehiculo.version}}
+										{{quotation.vehiculo.anioFabricacion}},
+
+												<span ng-show="quotation.vehiculo.mcanuevo==labelGral[0].id">NUEVO</span>
+												<span ng-show="quotation.vehiculo.mcanuevo==labelGral[1].id">USADO</span></div>
+									</li>
+									<li class="col-md-4 clearfix cnt-item h-myd-p--0">
+										<div class="col-sm-5 item-label">
+											<span class="ico-mapfre_82_circle ico-bullet"></span>Valor del auto:
+										</div>
+										<div class="col-sm-7 item-dato">{{quotation.vehiculo.valorComercial | currency:'$'}}</div>
+									</li>
+									<li class="col-md-4 clearfix cnt-item h-myd-p--0">
+										<div class="col-sm-5 item-label"><span class="ico-mapfre_82_circle ico-bullet"></span>Circulación:</div>
+										<div class="col-sm-7 item-dato">{{quotation.vehiculo.ubigeo.nombreDepartamento}}, {{quotation.vehiculo.ubigeo.nombreProvincia}}, {{quotation.vehiculo.ubigeo.nombreDistrito}}</div>
+									</li>
+								</ul>
+								<ul class="row">
+									<li class="col-md-4 clearfix cnt-item h-myd-p--0">
+										<div class="col-sm-5 item-label">
+											<span class="ico-mapfre_82_circle ico-bullet"></span>Prima pactada:
+										</div>
+										<div class="col-sm-7 item-dato">{{quotation.primaPactada | currency:'$'}}</div>
+                  </li>
+                  <li class="col-md-4 clearfix cnt-item">
+                    <div class="col-sm-5 item-label">
+                      <span class="ico-mapfre_82_circle ico-bullet"></span>Dcto. Integralidad
+                    </div>
+                    <div class="col-sm-7 item-dato">{{ quotation.porDctoIntgPlaza }} %</div>
+                  </li>
+								</ul>
+                <ul
+                  class="row cnt-title"
+                  ng-if="quotation.vehiculo.tipoTransmision && quotation.vehiculo.tipoTransmision.codigo && quotation.vehiculo.anioFabricacion"
+                >
+									<li class="col-xs-6 item-title g-myd-subtitle">Datos adicionales del auto</li>
+								</ul>
+                <ul class="row" ng-if="quotation.vehiculo.tipoTransmision && quotation.vehiculo.tipoTransmision.codigo && quotation.vehiculo.anioFabricacion">
+									<li class="col-md-4 clearfix cnt-item h-myd-p--0">
+										<div class="col-sm-5 item-label">
+											<span class="ico-mapfre_82_circle ico-bullet"></span>Transmisión:
+										</div>
+										<div class="col-sm-7 item-dato">{{ quotation.vehiculo.tipoTransmision.descripcion }}</div>
+                  </li>
+                  <li class="col-md-4 clearfix cnt-item">
+                    <div class="col-sm-5 item-label">
+                      <span class="ico-mapfre_82_circle ico-bullet"></span>Año Fabricación:
+                    </div>
+                    <div class="col-sm-7 item-dato">{{ quotation.vehiculo.anioFabricacion }}</div>
+                  </li>
+								</ul>
+							</div>
+						</div>
+
+						<div class="sec-item" ng-show="currentStep>1">
+							<div class="container">
+								<ul class="row cnt-title h-myd-mb--20">
+									<li class="col-xs-6 col-sm-6 item-title g-myd-subtitle">Datos de la póliza</li>
+									<li class="col-xs-6 col-sm-6 item-edit">
+										<a class="h-myd--none" href="" ng-click="editPoliza();" ui-sref="newEmit.steps({step: 1})">
+											<span class="ico-mapfre_43_editar ico-edit"></span>
+											Editar datos de la póliza
+										</a>
+										<a class="h-myd--show h-oim-none" href="" ng-click="editPoliza();" ui-sref="newEmit.steps({step: 1})">
+											<i class="ico-mapfre_345_myd-edit ico-edit"></i>
+											<span>Editar</span>
+										</a>
+									</li>
+								</ul>
+								<ul class="row">
+									<li class="col-md-4 clearfix cnt-item h-myd-p--0">
+										<div class="col-sm-5 item-label">
+											<span class="ico-mapfre_82_circle ico-bullet"></span>Nro. placa:
+										</div>
+										<div class="col-sm-7 item-dato">{{formData.mPlaca}}</div>
+									</li>
+									<li class="col-md-4 clearfix cnt-item h-myd-p--0">
+										<div class="col-sm-5 item-label">
+											<span class="ico-mapfre_82_circle ico-bullet"></span>Nro. chasis:
+										</div>
+										<div class="col-sm-7 item-dato">{{formData.mNumeroChasis}}</div>
+									</li>
+									<li class="col-md-4 clearfix cnt-item h-myd-p--0">
+										<div class="col-sm-5 item-label"><span class="ico-mapfre_82_circle ico-bullet"></span>Nro. motor:</div>
+										<div class="col-sm-7 item-dato">{{formData.mNumeroMotor}}</div>
+									</li>
+								</ul>
+								<ul class="row">
+									<li class="col-md-4 clearfix cnt-item h-myd-p--0">
+										<div class="col-sm-5 item-label">
+											<span class="ico-mapfre_82_circle ico-bullet"></span>Color:
+										</div>
+										<div class="col-sm-7 item-dato">{{formData.mColor.descripcion}}</div>
+									</li>
+									<li class="col-md-4 clearfix cnt-item h-myd-p--0">
+										<div class="col-sm-5 item-label">
+											<span class="ico-mapfre_82_circle ico-bullet"></span>Periodo de vigencia:
+										</div>
+										<div class="col-sm-7 item-dato g-text-uppercase">{{formData.dt | date : format}} - {{formData.finVigencia | date : format}}</div>
+									</li>
+									<li class="col-md-4 clearfix cnt-item h-myd-p--0">
+										<div class="col-sm-5 item-label">
+											<span class="ico-mapfre_82_circle ico-bullet"></span>Póliza de grupo:
+										</div>
+										<div class="col-sm-7 item-dato g-text-uppercase">{{formData.grupoPoliza.groupPolizeDescription}}</div>
+									</li>
+								</ul>
+							</div>
+						</div>
+
+						<div class="sec-item" ng-show="currentStep>2">
+							<div class="container">
+								<ul class="row cnt-title h-myd-mb--20">
+									<li class="col-xs-6 col-sm-6 item-title g-myd-subtitle">Datos del contratante</li>
+									<li class="col-xs-6 col-sm-6 item-edit">
+										<a class="h-myd--none" href="" ng-click="editPoliza();" ui-sref="newEmit.steps({step: 2})">
+											<span class="ico-mapfre_43_editar ico-edit"></span>
+											Editar datos del contratante
+										</a>
+										<a class="h-myd--show h-oim-none" href="" ng-click="editPoliza();" ui-sref="newEmit.steps({step: 2})">
+											<i class="ico-mapfre_345_myd-edit ico-edit"></i>
+											<span>Editar</span>
+										</a>
+									</li>
+								</ul>
+								<ul class="row">
+									<li class="col-md-4 clearfix cnt-item h-myd-p--0">
+										<div class="col-sm-5 item-label">
+											<span class="ico-mapfre_82_circle ico-bullet"></span>Tipo Documento:
+										</div>
+										<div class="col-sm-7 item-dato">{{formData.contractor.mTipoDocumento.Codigo}}</div>
+									</li>
+									<li class="col-md-4 clearfix cnt-item h-myd-p--0">
+										<div class="col-sm-5 item-label">
+											<span class="ico-mapfre_82_circle ico-bullet"></span>Nro Documento:
+										</div>
+										<div class="col-sm-7 item-dato">{{formData.contractor.mNumeroDocumento}}</div>
+									</li>
+								</ul>
+								<ul class="row" ng-show="!isCompany(formData.contractor)">
+									<li class="col-md-4 clearfix cnt-item h-myd-p--0">
+										<div class="col-sm-5 item-label">
+											<span class="ico-mapfre_82_circle ico-bullet"></span>Nombre:
+										</div>
+										<div class="col-sm-7 item-dato">{{formData.contractor.mNomContratante}}</div>
+									</li>
+									<li class="col-md-4 clearfix cnt-item h-myd-p--0">
+										<div class="col-sm-5 item-label">
+											<span class="ico-mapfre_82_circle ico-bullet"></span>Apellido Paterno:
+										</div>
+										<div class="col-sm-7 item-dato">{{formData.contractor.mApePatContratante}}</div>
+									</li>
+									<li class="col-md-4 clearfix cnt-item h-myd-p--0">
+										<div class="col-sm-5 item-label">
+											<span class="ico-mapfre_82_circle ico-bullet"></span>Apellido Materno:
+										</div>
+										<div class="col-sm-7 item-dato">{{formData.contractor.mApeMatContratante}}</div>
+									</li>
+								</ul>
+								<ul class="row" ng-show="!isCompany(formData.contractor)">
+									<li class="col-md-4 clearfix cnt-item h-myd-p--0">
+										<div class="col-sm-5 item-label">
+											<span class="ico-mapfre_82_circle ico-bullet"></span>Fecha Nacimiento:
+										</div>
+										<div class="col-sm-7 item-dato">{{formData.contractor.mYear.id}}/{{formData.contractor.mMonth.id}}/{{formData.contractor.mDay.id}}</div>
+									</li>
+									<li class="col-md-4 clearfix cnt-item h-myd-p--0">
+										<div class="col-sm-5 item-label">
+											<span class="ico-mapfre_82_circle ico-bullet"></span>Genero:
+										</div>
+										<div class="col-sm-7 item-dato">{{formData.contractor.mSexo == "H" ? "MASCULINO" : "FEMENINO" }}</div>
+									</li>
+									<li class="col-md-4 clearfix cnt-item h-myd-p--0">
+										<div class="col-sm-5 item-label">
+											<span class="ico-mapfre_82_circle ico-bullet"></span>Profesion:
+										</div>
+										<div class="col-sm-7 item-dato">{{formData.contractor.mProfesion.Descripcion}}</div>
+									</li>
+								</ul>
+								<ul class="row" ng-show="isCompany(formData.contractor)">
+									<li class="col-md-4 clearfix cnt-item h-myd-p--0">
+										<div class="col-sm-5 item-label">
+											<span class="ico-mapfre_82_circle ico-bullet"></span>Razon Social:
+										</div>
+										<div class="col-sm-7 item-dato  g-text-uppercase">{{formData.contractor.mRazonSocial}}</div>
+									</li>
+									<li class="col-md-4 clearfix cnt-item h-myd-p--0">
+										<div class="col-sm-5 item-label">
+											<span class="ico-mapfre_82_circle ico-bullet"></span>Actividad Economica:
+										</div>
+										<div class="col-sm-7 item-dato">{{formData.contractor.mActividadEconomica.Descripcion}}</div>
+									</li>
+								</ul>
+								<ul class="row">
+									<li class="col-md-4 clearfix cnt-item h-myd-p--0">
+										<div class="col-sm-5 item-label">
+											<span class="ico-mapfre_82_circle ico-bullet"></span>Teléfono fijo:
+										</div>
+										<div class="col-sm-7 item-dato">{{formData.contractor.mTelefonoFijo}}</div>
+									</li>
+									<li class="col-md-4 clearfix cnt-item h-myd-p--0">
+										<div class="col-sm-5 item-label">
+											<span class="ico-mapfre_82_circle ico-bullet"></span>Teléfono móvil:
+										</div>
+										<div class="col-sm-7 item-dato">{{formData.contractor.mTelefonoCelular}}</div>
+									</li>
+									<li class="col-md-4 clearfix cnt-item h-myd-p--0">
+										<div class="col-sm-5 item-label">
+											<span class="ico-mapfre_82_circle ico-bullet"></span>Correo electrónico:
+										</div>
+										<div class="col-sm-7 item-dato g-text-uppercase">{{formData.contractor.mCorreoElectronico}}</div>
+									</li>
+								</ul>
+								<ul class="row">
+									<li class="col-md-4 clearfix cnt-item h-myd-p--0">
+										<div class="col-sm-5 item-label">
+											<span class="ico-mapfre_82_circle ico-bullet"></span>Departamento:
+										</div>
+										<div class="col-sm-7 item-dato">{{formData.addressContractor.ubigeoData.mDepartamento.Codigo ? formData.addressContractor.ubigeoData.mDepartamento.Descripcion: ''}}</div>
+									</li>
+									<li class="col-md-4 clearfix cnt-item h-myd-p--0">
+										<div class="col-sm-5 item-label">
+											<span class="ico-mapfre_82_circle ico-bullet"></span>Provincia:
+										</div>
+										<div class="col-sm-7 item-dato">{{formData.addressContractor.ubigeoData.mProvincia.Codigo ? formData.addressContractor.ubigeoData.mProvincia.Descripcion: ''}}</div>
+									</li>
+									<li class="col-md-4 clearfix cnt-item h-myd-p--0">
+										<div class="col-sm-5 item-label">
+											<span class="ico-mapfre_82_circle ico-bullet"></span>Distrito:
+										</div>
+										<div class="col-sm-7 item-dato">{{formData.addressContractor.ubigeoData.mDistrito.Codigo ? formData.addressContractor.ubigeoData.mDistrito.Descripcion: ''}}</div>
+									</li>
+								</ul>
+								<ul class="row">
+									<li class="col-md-4 clearfix cnt-item h-myd-p--0">
+										<div class="col-sm-5 item-label">
+											<span class="ico-mapfre_82_circle ico-bullet"></span>Via:
+										</div>
+										<div class="col-sm-7 item-dato g-text-uppercase">{{formData.addressContractor.mTipoVia.Descripcion}} {{formData.addressContractor.mNombreVia}}</div>
+									</li>
+									<li class="col-md-4 clearfix cnt-item h-myd-p--0">
+										<div class="col-sm-5 item-label">
+											<span class="ico-mapfre_82_circle ico-bullet"></span>Enumeración:
+										</div>
+										<div class="col-sm-7 item-dato g-text-uppercase">{{formData.addressContractor.mTipoNumero.Descripcion}} {{formData.addressContractor.mNumeroDireccion}}</div>
+									</li>
+									<li class="col-md-4 clearfix cnt-item h-myd-p--0">
+										<div class="col-sm-5 item-label">
+											<span class="ico-mapfre_82_circle ico-bullet"></span>Enumeración Interior:
+										</div>
+										<div class="col-sm-7 item-dato g-text-uppercase">{{formData.addressContractor.mTipoInterior.Descripcion}} {{formData.addressContractor.mNumeroInterior}}</div>
+									</li>
+								</ul>
+								<ul class="row">
+									<li class="col-md-4 clearfix cnt-item h-myd-p--0">
+										<div class="col-sm-5 item-label">
+											<span class="ico-mapfre_82_circle ico-bullet"></span>Zona:
+										</div>
+										<div class="col-sm-7 item-dato g-text-uppercase">{{formData.addressContractor.mTipoZona.Descripcion}} {{formData.addressContractor.mNombreZona}}</div>
+									</li>
+									<li class="col-md-4 clearfix cnt-item h-myd-p--0">
+										<div class="col-sm-5 item-label">
+											<span class="ico-mapfre_82_circle ico-bullet"></span>Referencia:
+										</div>
+										<div class="col-sm-7 item-dato g-text-uppercase">{{formData.addressContractor.mDirReferencias}}</div>
+									</li>
+								</ul>
+                <ul class="row">
+									<li
+                    class="col-md-4 clearfix cnt-item h-myd-p--0"
+                    ng-if="quotation.contratante.estadoCivil && quotation.contratante.estadoCivil.codigo"
+                  >
+										<div class="col-sm-5 item-label">
+											<span class="ico-mapfre_82_circle ico-bullet"></span>Estado Civil:
+										</div>
+										<div class="col-sm-7 item-dato g-text-uppercase">{{quotation.contratante.estadoCivil.descripcion}}</div>
+									</li>
+									<li class="col-md-4 clearfix cnt-item h-myd-p--0" ng-if="quotation.contratante.fechaExpedicion">
+										<div class="col-sm-5 item-label">
+											<span class="ico-mapfre_82_circle ico-bullet"></span>Fecha Expedición Brevete:
+										</div>
+										<div class="col-sm-7 item-dato g-text-uppercase">{{quotation.contratante.fechaExpedicion}}</div>
+									</li>
+                  <li class="col-md-4 clearfix cnt-item h-myd-p--0" ng-if="quotation.vehiculo.scoreMorosidad">
+										<div class="col-sm-5 item-label">
+											<span class="ico-mapfre_82_circle ico-bullet"></span>Score (Morosidad):
+										</div>
+										<div class="col-sm-7 item-dato g-text-uppercase">{{quotation.vehiculo.scoreMorosidad}}</div>
+									</li>
+								</ul>
+							</div>
+						</div>
+
+						<div class="sec-item" ng-show="currentStep>2 && !formData.aseguradoFlag">
+							<div class="container">
+								<ul class="row cnt-title">
+									<li class="col-xs-6 col-sm-6 item-title g-myd-subtitle">Datos del asegurado</li>
+									<li class="col-xs-6 col-sm-6 item-edit">
+										<a class="h-myd--none" href="" ng-click="editPoliza();" ui-sref="newEmit.steps({step: 2})">
+											<span class="ico-mapfre_43_editar ico-edit"></span>
+											Editar datos del asegurado
+										</a>
+										<a class="h-myd--show h-oim-none" href="" ng-click="editPoliza();" ui-sref="newEmit.steps({step: 2})">
+											<i class="ico-mapfre_345_myd-edit ico-edit"></i>
+											<span>Editar</span>
+										</a>
+									</li>
+								</ul>
+								<ul class="row">
+									<li class="col-md-4 clearfix cnt-item h-myd-p--0">
+										<div class="col-sm-5 item-label">
+											<span class="ico-mapfre_82_circle ico-bullet"></span>Tipo Documento:
+										</div>
+										<div class="col-sm-7 item-dato">{{formData.contractor2.mTipoDocumento.Codigo}}</div>
+									</li>
+									<li class="col-md-4 clearfix cnt-item h-myd-p--0">
+										<div class="col-sm-5 item-label">
+											<span class="ico-mapfre_82_circle ico-bullet"></span>Nro Documento:
+										</div>
+										<div class="col-sm-7 item-dato">{{formData.contractor2.mNumeroDocumento}}</div>
+									</li>
+								</ul>
+								<ul class="row" ng-show="!isCompany(formData.contractor2)">
+									<li class="col-md-4 clearfix cnt-item h-myd-p--0">
+										<div class="col-sm-5 item-label">
+											<span class="ico-mapfre_82_circle ico-bullet"></span>Nombre:
+										</div>
+										<div class="col-sm-7 item-dato">{{formData.contractor2.mNomContratante | uppercase}}</div>
+									</li>
+									<li class="col-md-4 clearfix cnt-item h-myd-p--0">
+										<div class="col-sm-5 item-label">
+											<span class="ico-mapfre_82_circle ico-bullet"></span>Apellido Paterno:
+										</div>
+										<div class="col-sm-7 item-dato">{{formData.contractor2.mApePatContratante | uppercase}}</div>
+									</li>
+									<li class="col-md-4 clearfix cnt-item h-myd-p--0">
+										<div class="col-sm-5 item-label">
+											<span class="ico-mapfre_82_circle ico-bullet"></span>Apellido Materno:
+										</div>
+										<div class="col-sm-7 item-dato">{{formData.contractor2.mApeMatContratante | uppercase}}</div>
+									</li>
+								</ul>
+								<ul class="row" ng-show="!isCompany(formData.contractor2)">
+									<li class="col-md-4 clearfix cnt-item h-myd-p--0">
+										<div class="col-sm-5 item-label">
+											<span class="ico-mapfre_82_circle ico-bullet"></span>Fecha Nacimiento:
+										</div>
+										<div class="col-sm-7 item-dato">{{formData.contractor2.mYear.id}}/{{formData.contractor2.mMonth.id}}/{{formData.contractor2.mDay.id}}</div>
+									</li>
+									<li class="col-md-4 clearfix cnt-item h-myd-p--0">
+										<div class="col-sm-5 item-label">
+											<span class="ico-mapfre_82_circle ico-bullet"></span>Genero:
+										</div>
+										<div class="col-sm-7 item-dato">{{formData.contractor2.mSexo == "H" ? "MASCULINO" : "FEMENINO" }}</div>
+									</li>
+									<li class="col-md-4 clearfix cnt-item h-myd-p--0">
+										<div class="col-sm-5 item-label">
+											<span class="ico-mapfre_82_circle ico-bullet"></span>Profesion:
+										</div>
+										<div class="col-sm-7 item-dato">{{formData.contractor2.mProfesion.Descripcion}}</div>
+									</li>
+								</ul>
+								<ul class="row" ng-show="isCompany(formData.contractor2)">
+									<li class="col-md-4 clearfix cnt-item h-myd-p--0">
+										<div class="col-sm-5 item-label">
+											<span class="ico-mapfre_82_circle ico-bullet"></span>Razon Social:
+										</div>
+										<div class="col-sm-7 item-dato g-text-uppercase">{{formData.contractor2.mRazonSocial}}</div>
+									</li>
+									<li class="col-md-4 clearfix cnt-item h-myd-p--0">
+										<div class="col-sm-5 item-label">
+											<span class="ico-mapfre_82_circle ico-bullet"></span>Actividad Economica:
+										</div>
+										<div class="col-sm-7 item-dato">{{formData.contractor2.mActividadEconomica.Descripcion}}</div>
+									</li>
+								</ul>
+								<ul class="row">
+									<li class="col-md-4 clearfix cnt-item h-myd-p--0">
+										<div class="col-sm-5 item-label">
+											<span class="ico-mapfre_82_circle ico-bullet"></span>Teléfono fijo:
+										</div>
+										<div class="col-sm-7 item-dato">{{formData.contractor2.mTelefonoFijo}}</div>
+									</li>
+									<li class="col-md-4 clearfix cnt-item h-myd-p--0">
+										<div class="col-sm-5 item-label">
+											<span class="ico-mapfre_82_circle ico-bullet"></span>Teléfono móvil:
+										</div>
+										<div class="col-sm-7 item-dato">{{formData.contractor2.mTelefonoCelular}}</div>
+									</li>
+									<li class="col-md-4 clearfix cnt-item h-myd-p--0">
+										<div class="col-sm-5 item-label">
+											<span class="ico-mapfre_82_circle ico-bullet"></span>Correo electrónico:
+										</div>
+										<div class="col-sm-7 item-dato  g-text-uppercase">{{formData.contractor2.mCorreoElectronico}}</div>
+									</li>
+								</ul>
+								<ul class="row">
+									<li class="col-md-4 clearfix cnt-item h-myd-p--0">
+										<div class="col-sm-5 item-label">
+											<span class="ico-mapfre_82_circle ico-bullet"></span>Departamento:
+										</div>
+										<div class="col-sm-7 item-dato">{{formData.addressContractor2.ubigeoData.mDepartamento.Codigo ? formData.addressContractor2.ubigeoData.mDepartamento.Descripcion: ''}}</div>
+									</li>
+									<li class="col-md-4 clearfix cnt-item h-myd-p--0">
+										<div class="col-sm-5 item-label">
+											<span class="ico-mapfre_82_circle ico-bullet"></span>Provincia:
+										</div>
+										<div class="col-sm-7 item-dato">{{formData.addressContractor2.ubigeoData.mProvincia.Codigo ? formData.addressContractor2.ubigeoData.mProvincia.Descripcion: ''}}</div>
+									</li>
+									<li class="col-md-4 clearfix cnt-item h-myd-p--0">
+										<div class="col-sm-5 item-label">
+											<span class="ico-mapfre_82_circle ico-bullet"></span>Distrito:
+										</div>
+										<div class="col-sm-7 item-dato">{{formData.addressContractor2.ubigeoData.mDistrito.Codigo ? formData.addressContractor2.ubigeoData.mDistrito.Descripcion: ''}}</div>
+									</li>
+								</ul>
+								<ul class="row">
+									<li class="col-md-4 clearfix cnt-item h-myd-p--0">
+										<div class="col-sm-5 item-label">
+											<span class="ico-mapfre_82_circle ico-bullet"></span>Via:
+										</div>
+										<div class="col-sm-7 item-dato g-text-uppercase">{{formData.addressContractor2.mTipoVia.Descripcion}} {{formData.addressContractor2.mNombreVia}}</div>
+									</li>
+									<li class="col-md-4 clearfix cnt-item h-myd-p--0">
+										<div class="col-sm-5 item-label">
+											<span class="ico-mapfre_82_circle ico-bullet"></span>Enumeración:
+										</div>
+										<div class="col-sm-7 item-dato g-text-uppercase">{{formData.addressContractor2.mTipoNumero.Descripcion}} {{formData.addressContractor2.mNumeroDireccion}}</div>
+									</li>
+									<li class="col-md-4 clearfix cnt-item h-myd-p--0">
+										<div class="col-sm-5 item-label">
+											<span class="ico-mapfre_82_circle ico-bullet"></span>Enumeración Interior:
+										</div>
+										<div class="col-sm-7 item-dato g-text-uppercase">{{formData.addressContractor2.mTipoInterior.Descripcion}} {{formData.addressContractor2.mNumeroInterior}}</div>
+									</li>
+								</ul>
+								<ul class="row">
+									<li class="col-md-4 clearfix cnt-item h-myd-p--0">
+										<div class="col-sm-5 item-label">
+											<span class="ico-mapfre_82_circle ico-bullet"></span>Zona:
+										</div>
+										<div class="col-sm-7 item-dato g-text-uppercase">{{formData.addressContractor2.mTipoZona.Descripcion}} {{formData.addressContractor2.mNombreZona}}</div>
+									</li>
+									<li class="col-md-4 clearfix cnt-item h-myd-p--0">
+										<div class="col-sm-5 item-label">
+											<span class="ico-mapfre_82_circle ico-bullet"></span>Referencia:
+										</div>
+										<div class="col-sm-7 item-dato g-text-uppercase">{{formData.addressContractor2.mDirReferencias}}</div>
+									</li>
+								</ul>
+							</div>
+            </div>
+            <div class="sec-item" ng-show="currentStep > 3">
+              <div class="container">
+                <ul class="row cnt-title">
+                  <li class="col-sm-6 item-title">Datos de Financiamiento</li>
+                </ul>
+                <ul class="row">
+                  <li class="col-md-4 clearfix cnt-item">
+                    <div class="col-sm-5 item-label">
+                      <span class="ico-mapfre_82_circle ico-bullet"></span>Financiamiento:
+                    </div>
+                    <div class="col-sm-7 item-dato">{{formData.tipoFinanciamiento.descripcion | uppercase}}</div>
+                  </li>
+                  <li class="col-md-4 clearfix cnt-item">
+                    <div class="col-sm-5 item-label"><span class="ico-mapfre_82_circle ico-bullet"></span>Endosatario:</div>
+                    <div class="col-sm-7 item-dato" ng-show="!formData.mEndosario || !formData.mEndosario.codigo">NO USAR ENDOSATARIO</div>
+                    <div class="col-sm-7 item-dato" ng-show="formData.mEndosario">{{formData.mEndosario.codigo | uppercase}} {{formData.mEndosario.descripcion | uppercase}}</div>
+                  </li>
+                </ul>
+              </div>
+            </div>
+					</div>
+					<div id="form-views" ui-view=""></div>
+			</div>
+
+  <!-- FIN NUEVO -->
+</section>

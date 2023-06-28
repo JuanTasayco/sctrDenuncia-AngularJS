@@ -1,0 +1,27 @@
+<div class="col-md-4">
+<!-- 	<mpf-input class="g-polizagrupo-input" label="$ctrl.info" ng-model="$ctrl.info.model" validate="{{$ctrl.info.validate}}" disabled="{{$ctrl.info.disabled}}"></mpf-input> -->
+	<mpf-input label="{label: $ctrl.info.label, required: true}" name="nPolizaGrupo" ng-model="$ctrl.info.model" mpf-validation="onlyNumber" ng-required="true"></mpf-input>
+<!-- 	<div error-input>
+		<div class="g-input-design">
+			<label class="g-placeholder" ng-class="{animated: focused || model}">{{$ctrl.info.label}}  <span ng-show="$ctrl.info.required">(*)</span></label>
+			<input type="text" ng-model="model" ng-init="focused = false" ng-focus="focused = true" ng-blur="focused = false; errorDeafualt = error()" ng-disabled="{{disabled}}" class="{{validate}}" enter-key="$ctrl.showPolizaGrupoNombre($ctrl.info.model)">
+		</div>
+		<div class="g-error" ng-show="errorDeafualt">
+			<p>{{$ctrl.info.error1}}</p>
+		</div>
+	</div> -->
+
+	<a class="g-btn g-btn-transparent g-btn-mini" ng-click="$ctrl.showPolizaGrupoNombre($ctrl.info.model)"><span class="ico-mapfre_30_buscar"></span> Buscar código</a>
+</div>
+<div class="col-md-4" ng-show="$ctrl.bDatosPolizaGrupo==2">
+	<div class="g-polizagrupo-error">
+		<span><span class="ico-mapfre_37_informacion g-polizagrupo-error-ico"></span>El código que ingresaste no existe<span class="ico-mapfre_48_cerrar ico-cerrar"" ng-click="$ctrl.limpiarDatosPolizaGrupo()"></span></span>
+	</div>
+</div>
+	
+</div>
+<div class="col-md-6 g-polizagrupo-resultado" ng-show="$ctrl.bDatosPolizaGrupo==1">
+		<span class="g-label">{{$ctrl.info.label.label}}</span>
+		<span>{{formData.mPolizaGrupoResult}}</span>
+		<span class="ico-mapfre_48_cerrar ico-cerrar" ng-click="$ctrl.limpiarDatosPolizaGrupo()"></span>
+</div>

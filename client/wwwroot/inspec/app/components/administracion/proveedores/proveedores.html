@@ -1,0 +1,191 @@
+<section class="g-page page-inspeccion-autos page-inspeccion-autos__programaciones g-ui-view">
+  <div fixed-section class="g-title" ng-class="{'fixed-section': boolChangeClass}">
+    <div class="container">
+      <div class="row">
+        <div class="col-xs-10 col-sm-5 col-md-9 no-mb-sm">
+          <h1>Proveedores</h1>
+        </div>
+        <div class="col-md-3 col-xs-12 mt-xs-1 mt-md-0">
+          <a href class="g-btn g-btn-verde second-design block" ng-click="$ctrl.showModal()">NUEVO PROVEEDOR</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="g-section mt-xs-3">
+    <!-- busqueda -->
+    <form action="" name="frmDocuments">
+      <div class="container">
+        <div
+          show-filter
+          class="clearfix g-col-filter g-box-md gBgcGray5-md gBgcWhite1 g-myd-box"
+          ng-class="{'show': isFilterVisible}"
+        >
+          <div class="col-md-12">
+            <div class="clearfix gH4 gCGray1 mb-xs-1-5">
+              <h2 class="hidden-xs hidden-sm"><b>Opciones de Búsqueda</b></h2>
+              <div
+                id="show-filter"
+                class="row pt-xs-2 pb-xs-2 gBgcGray5 g-border-bottom-xs hidden-md hidden-lg"
+                ng-click="toggleFilter();"
+              >
+                <div class="col-xs-10">
+                  <h2><b>Busqueda</b></h2>
+                </div>
+                <div class="col-xs-2 g-text-right-xs">
+                  <span class="glyphicon glyphicon-chevron-down" ng-if="isFilterVisible"></span>
+                  <span class="glyphicon glyphicon-chevron-up" ng-if="!isFilterVisible"></span>
+                </div>
+                <div class="clearfix"></div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-4 mb-xs-2">
+                <mpf-select
+                  label="{label: 'Tipo documento', required: false}"
+                  name="nTipoDocumento"
+                  ng-model="$ctrl.query.mTipoDocumento"
+                  m-data-source="$ctrl.documentTypeData"
+                  text-field="Descripcion"
+                  value-field="Codigo"
+                  m-Empty-Option="{enterData:true}"
+                ></mpf-select>
+              </div>
+              <div class="col-md-4 mb-xs-2">
+                <mpf-input
+                  label="{label: 'Nro. documento', required: false}"
+                  name="nNroDocumento"
+                  ng-model="$ctrl.query.mNroDocumento"
+                  ng-disabled="!$ctrl.query.mTipoDocumento.Codigo"
+                  mpf-validate="required"
+                ></mpf-input>
+              </div>
+              <div class="col-md-4 mb-xs-2">
+                <mpf-input
+                  label="{label: 'Razón social', required: true}"
+                  name="nRazSocial"
+                  ng-model="$ctrl.query.mRazSocial"
+                ></mpf-input>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-offset-8 col-md-2 mb-xs-1 no-mb-md">
+                <a href class="g-btn g-btn-verde second-design block" ng-click="$ctrl.filter()">Buscar</a>
+              </div>
+              <div class="col-md-2">
+                <a href class="col-xs-12 g-btn g-btn-white second-design block" ng-click="$ctrl.clearData()">Limpiar</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+
+    <!-- Resultados -->
+    <div class="container">
+      <div class="row">
+        <!-- Mensaje de error si no hay resultados -->
+        <div class="col-md-12 text-center g-box-noresult ng-scope" ng-if="$ctrl.noResult">
+          <div class="row">
+            <div class="col-md-12 g-box-noresult-ico gCRed1">
+              <span class="ico-mapfre_302_error"></span>
+            </div>
+            <div class="col-md-12 g-box-noresult-text">
+              No hay resultados para los filtros escogidos.<br />Intente nuevamente.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="container" ng-if="!$ctrl.noResult">
+      <div class="row">
+        <div class="col-md-12 pt-xs-3">
+          <div
+            class="clearfix g-list-md g-box gBgcGray5 pt-xs-1 g-row-fz12 mb-xs-1 ng-scope"
+            ng-repeat="provider in $ctrl.providers"
+          >
+            <!-- header -->
+            <div class="col-md-11 g-col-md middle">
+              <ul class="row">
+                <li class="col-md-4 clearfix cnt-item">
+                  <div class="col-xs-5 item-label">
+                    Tipo documento:
+                  </div>
+                  <div class="col-xs-7 item-dato g-text-uppercase">
+                    {{ provider.tiP_DOCUM }}
+                  </div>
+                </li>
+                <li class="col-md-4 clearfix cnt-item">
+                  <div class="col-xs-5 item-label">
+                    Raz. Social / Nombres:
+                  </div>
+                  <div class="col-xs-7 item-dato g-text-uppercase">
+                    {{ provider.rscl }}
+                  </div>
+                </li>
+                <li class="col-md-4 clearfix cnt-item">
+                  <div class="col-xs-5 item-label">
+                    Fecha Creación:
+                  </div>
+                  <div class="col-xs-7 item-dato g-text-uppercase">
+                    <!-- 11/02/2016 10:58:24 a.m -->
+                    {{ provider.feC_CRE | date: 'dd/MM/yyyy hh:mm:ss a' }}
+                  </div>
+                </li>
+              </ul>
+              <ul class="row">
+                <li class="col-md-4 clearfix cnt-item">
+                  <div class="col-xs-5 item-label">
+                    Nro. documento:
+                  </div>
+                  <div class="col-xs-7 item-dato g-text-uppercase">
+                    {{ provider.coD_DOCUM }}
+                  </div>
+                </li>
+                <li class="col-md-4 clearfix cnt-item">
+                  <div class="col-xs-5 item-label">
+                    Usuario creación:
+                  </div>
+                  <div class="col-xs-7 item-dato g-text-uppercase">
+                    {{ provider.usR_CRE }}
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="col-md-1 g-col-md middle gCGray3 g-text-center-xs">
+              <div class="row g-row">
+                <div class="col-xs-4 g-col-xs middle cnt-item add-border-left">
+                  <a class="h-myd--none" href ng-click="$ctrl.deleteProvider(provider.coD_DOCUM, provider.tiP_DOCUM)"
+                    ><span class="gnIcon-md ico-mapfre_307_tacho"></span
+                  ></a>
+                  <a
+                    class="ico-mapfre-363-myd-eliminar ico-mapfre h-myd--show h-oim-none h-myd-color--green h-myd-ico--large"
+                    ng-click="$ctrl.removeAccessory($index)"
+                  ></a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Fin: Resultados -->
+      </div>
+    </div>
+
+    <div class="container">
+      <div class="row" ng-if="$ctrl.pagination.totalRecords > $ctrl.pagination.maxSize && !$ctrl.noResult">
+        <div class="col-md-12">
+          <ul
+            uib-pagination
+            class="g-pagination"
+            ng-model="$ctrl.pagination.currentPage"
+            max-size="$ctrl.pagination.maxSize"
+            total-items="$ctrl.pagination.totalRecords"
+            ng-change="$ctrl.pageChanged()"
+            boundary-link-numbers="true"
+          ></ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

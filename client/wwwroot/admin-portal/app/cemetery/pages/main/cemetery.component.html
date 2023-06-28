@@ -1,0 +1,50 @@
+ <div class="g-page">
+    <div class="g-title g-border-bottom">
+        <navbar-cemetery active="true" show-button="false"></navbar-cemetery>
+    </div>
+    <div class="g-section">
+        <div class="g-title">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-6">
+                        <h1 class="title">Camposantos</h1>
+                    </div>
+                    <div class="col-md-3 col-md-offset-3 col-sm-offset-2 col-sm-6">
+                        <a class="g-btn g-btn-white block" ng-click="$ctrl.newCemetery()">
+                        <span class="glyphicon glyphicon-plus"></span> Crear Camposanto
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="g-section">
+            <div class="g-section-inner">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-sm-12 col-md-4 mb-xs-2" data-ng-repeat="cemetery in $ctrl.cemeteries">
+                            <div class="g-border pr-xs-2 pl-xs-2 pb-xs-2 pt-xs-2">
+                                <div class="pt-md-2 pb-md-2 pl-md-4 pr-md-4">
+                                    <div class="g-center-flex pb-md-2">
+                                        <h3>{{cemetery.nombre  | capitalize }}</h3>
+                                    </div>
+                                    <a class="g-btn g-btn-green-border second-design block" href="" data-ui-sref="cemeteryInfo({cemeteryId : cemetery.idCamposanto })">
+                                        Administrar
+                                    </a>
+                                    <div class="c-toggle g-center-flex pt-xs-1 pt-md-1">
+                                        <mpf-checkbox-toggle
+                                        ng-model="cemetery.estadoVisualizacion"
+                                        ng-true-value="'1'"
+                                        ng-false-value="'0'"
+                                        data-nodrag
+                                        ng-change="$ctrl.updateCemetery(cemetery)"
+                                    ></mpf-checkbox-toggle>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>  

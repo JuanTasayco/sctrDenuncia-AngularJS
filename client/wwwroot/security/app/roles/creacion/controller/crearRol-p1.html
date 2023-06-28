@@ -1,0 +1,78 @@
+<div ng-show="!showMessage" ng-form="frmCreateRole">
+    <div class="row view-1 mb-xs-4">
+        <div class="form-group clearfix">
+            <div class="row">
+                <div class="col-xs-12">
+            <div class="col-xs-12 col-sm-6 col-md-4">
+                <mpf-input label="{label: 'Código'}" name="nCodigo" ng-model="role.codRol" ng-required="true" mpf-validation="alfanumerico" ng-maxlength="20"></mpf-input>
+                <ul class="g-error">
+                    <li ng-show="frmCreateRole.nCodigo.$error.required && !frmCreateRole.nCodigo.$pristine">* Este campo es obligatorio</li>
+                    <li ng-show="!validateMinLength(role.codRol, 2) && !frmCreateRole.nCodigo.$pristine">* Mínimo de 2 carácteres</li>
+                </ul>
+            </div>
+            <div class="col-xs-12 col-sm-6 col-md-4">
+                <mpf-input label="{label: 'Nombre largo'}" name="nNombreL" ng-model="role.nomLargo" ng-required="true" mpf-validation="onlyLetterNumberGuion" ng-maxlength="150"></mpf-input>
+                <ul class="g-error">
+                    <li ng-show="frmCreateRole.nNombreL.$error.required && !frmCreateRole.nNombreL.$pristine">* Este campo es obligatorio</li>
+                    <li ng-show="!validateMinLength(role.nomLargo, 2) && !frmCreateRole.nNombreL.$pristine">* Mínimo de 2 carácteres</li>
+                </ul>
+                </ul>
+            </div>
+            <div class="col-xs-12 col-sm-6 col-md-4">
+                <mpf-input label="{label: 'Nombre corto'}" name="nNombreC" ng-model="role.nomCorto" ng-required="false" mpf-validation="onlyLetterNumberGuion" ng-maxlength="50"></mpf-input>
+            </div>
+            </div>
+        </div>
+<div class="row">
+            <div class="col-xs-12">
+            <div class="col-xs-12 col-sm-6 col-md-4">
+                <mpf-select label="{label: 'Tipo de usuario', required: false}" name="nNumTipoUsuario" ng-model="tipoGrupo" m-data-source="userTypes"
+                    text-field="descripcion" value-field="codigo" m-Empty-Option="{enterData:true}" ng-required="true" ng-change="updateTypesRole(tipoGrupo.codigo)"></mpf-select>
+                <ul class="g-error">
+                    <li ng-show="frmCreateRole.nNumTipoUsuario.$error.required && !frmCreateRole.nNumTipoUsuario.$pristine">* Este campo es obligatorio</li>
+                </ul>
+            </div>
+</div>
+        </div>
+        </div>
+    </div>
+    <div class="row mb-xs-4">
+        <div class="col-md-4 col-md-offset-4 col-sm-6 col-sm-offset-3">
+            <a class="g-btn g-btn-verde second-design block" ng-click="createS1.saveRole(false, {cancel : false, step: 2})">
+                {{saveButtonText}}
+            </a>
+        </div>
+    </div>
+</div>
+
+<div class="container g-section-exito" ng-show="showMessage">
+    <div class="g-section">
+        <div class="container">
+            <div class="row text-center">
+                <div class="col-xs-12 mb-xs-3">
+                    <span class="ico-mapfre_142_sucess gnIcon-bg gCGreen7"></span>
+                </div>
+                <div class="col-xs-12">
+                    <span class="gH3">
+                        <b>EL ROL SE {{saveMessageText}} CON ÉXITO</b>
+                    </span>
+                </div>
+                <div class="col-xs-12">
+                    <span class="gH4">Puedes continuar para asignar aplicaciones y roles.</span>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2">
+                    <div class="clearfix g-box-content mb-xs-3 mt-xs-3">
+                        <div class="col-sm-5 col-sm-offset-1 mb-xs-2 mb-sm-0">
+                            <a class="g-btn g-btn-white block" ng-click="exitCurrentStep()">Salir</a>
+                        </div>
+                        <div class="col-sm-5">
+                            <a class="g-btn g-btn-verde block" ng-click="continueNextStep()">Continuar</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

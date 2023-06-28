@@ -1,0 +1,65 @@
+<section class="g-page page-web-proc-bandeja mb-md-4">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-6">
+        <h2 class="g-sub-title">Talleres</h2>
+      </div>
+      <div class="col-md-6 g-text-right-md">
+        <div class="col-md-10 col-lg-7 u-float-align u-ph-0">
+          <a
+            class="g-btn block second-design g-btn-white"
+            data-ng-click="$ctrl.ingresoTallerManual()"
+          >
+            <span class="g-icon">
+              <span>Ingresar taller manualmente</span>
+              <span class="icon ico-mapfre_311_arrowRight"></span>
+            </span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="consulta-cotizaciones mb-md-2">
+    <div class="g-section">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-3">
+            <wp-filtro-taller
+              data-bind-filtro-frm="$ctrl.bindFiltroFrm"
+              data-frm-by-default="$ctrl.filtroByDefault"
+              data-on-filtrar-frm="$ctrl.filtrarTalleres($event)"
+            >
+            </wp-filtro-taller>
+          </div>
+          <div class="col-md-9">
+            <wp-taller
+              data-datos="$ctrl.tallerSeleccionado"
+              data-seleccionado="$ctrl.tallerSeleccionado"
+              data-ng-if="$ctrl.tallerSeleccionado"
+              data-on-deseleccionar="$ctrl.deseleccionarTaller()"
+            >
+            </wp-taller>
+            <div data-ng-repeat="item in $ctrl.lstTalleres">
+              <wp-taller
+                data-datos="item"
+                data-id-seleccion="$ctrl.idTallerSeleccionado"
+                data-on-seleccionar="$ctrl.seleccionarTaller(item)"
+                data-on-deseleccionar="$ctrl.deseleccionarTaller()"
+              >
+              </wp-taller>
+            </div>
+            <mx-paginador
+              data-datos="$ctrl.lstTalleres"
+              data-items-x-page="$ctrl.itemsXPagina"
+              data-msg-vacio="$ctrl.msgVacio"
+              data-on-paginar="$ctrl.filtrarTalleres($event)"
+              data-pagina-actual="$ctrl.currentPage"
+              data-total-items="$ctrl.totalTalleres"
+            >
+            </mx-paginador>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

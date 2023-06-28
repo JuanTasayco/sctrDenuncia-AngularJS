@@ -1,0 +1,119 @@
+<div class="cleaner">
+  <div class="col-xs-12" data-ng-if="::$ctrl.origen">
+    <div class="register-progress-block u-bg--grey u-br-5 re">
+      <div class="col-md-3 pro-summary-box--left">
+        <div class="reg-step reg-step--summary">
+          <span class="reg-step__circle"> 1 </span>
+          <span class="register-step__title">ORIGEN</span>
+        </div>
+      </div>
+      <div  class="col-md-8 pro-summary-box--right animate-show"
+            data-ng-show="$ctrl.listShow[1]">
+        <div class="pro-summary__txt col-md-4">
+          <div>
+            Tipo de emergencia
+          </div>
+          <p class="u-color-verde u-txt-frmt">
+            <b>{{::$ctrl.origen.origenReferencia.nombre}}</b>
+          </p>
+        </div>
+        <div class="pro-summary__txt col-md-8">
+          <div>Centro médico de origen</div>
+          <p class="u-color-verde u-txt-frmt">
+            <b>
+              {{::$ctrl.origen.centro}}
+              <span class="u-ml-10 u-color-gray">
+                {{::$ctrl.origen.departamento.nombre}} - {{::$ctrl.origen.provincia.nombre}}
+              </span>
+            </b>
+          </p>
+        </div>
+      </div>
+      <div class="pro-summary__options">
+        <a class="" ui-sref="referencia.panel.registro.origen({estado: 'upd'})">
+          <span class="register-progress-block__btn--title reg-summary--edit">Modificar</span>
+          <span class="lista-title__ico ico-mapfre_43_editar"></span>
+        </a>
+        <a  class="c-mf-collapse c-mf-collapse--summary"
+            data-ng-class="{'c-mf-collapse--open': $ctrl.listShow[1]}"
+            data-ng-click="$ctrl.collapse(1)">
+          <span class="ico-mapfre_76_chevrondown c-mf-collapse__ico"></span>
+        </a>
+      </div>
+    </div>
+  </div>
+  <div class="col-xs-12" data-ng-if="::$ctrl.paciente.asegurado">
+    <div class="register-progress-block u-bg--grey u-br-5 re">
+      <div class="col-md-3 pro-summary-box--left">
+        <div class="reg-step reg-step--summary">
+          <span class="reg-step__circle"> 2 </span>
+          <span class="register-step__title">PACIENTE</span>
+        </div>
+      </div>
+      <div  class="col-md-9 pro-summary-box--right animate-show"
+            data-ng-show="$ctrl.listShow[2]">
+        <div class="pro-summary__txt col-md-12">
+          <div>
+            Asegurado
+          </div>
+          <p class="u-color-verde u-txt-frmt">
+            <b>{{::$ctrl.paciente.asegurado.name}}</b>
+          </p>
+        </div>
+        <div class="pro-summary__txt col-md-12">
+          <ul class="u-mt-10 u-fx-as">
+            <li class="lista-body__item col-xs-12 col-sm-6 col-md-3">
+              <span>{{::$ctrl.paciente.asegurado.tipodocumento}}: {{::$ctrl.paciente.asegurado.dni}}</span>
+            </li>
+            <li class="lista-body__item col-xs-12 col-sm-6 col-md-3">
+              <span>Fecha de nacimiento: {{::$ctrl.paciente.asegurado.fnac | date:'dd/MM/yyyy'}}</span>
+            </li>
+            <li class="lista-body__item col-xs-12 col-sm-6 col-md-3">
+              <span>Género: {{::$ctrl.paciente.asegurado.gen}}</span>
+            </li>
+            <li class="lista-body__item col-xs-12 col-sm-6 col-md-3">
+              <span>Parentesco: {{::$ctrl.paciente.asegurado.parentesco}}</span>
+            </li>
+            <li class="lista-body__item col-xs-12 col-sm-6 col-md-3">
+              <span>Empresa: {{::$ctrl.paciente.asegurado.company}}</span>
+            </li>
+            <li class="lista-body__item col-xs-12 col-sm-6 col-md-3">
+              <span>Producto: {{::$ctrl.paciente.asegurado.producto}}</span>
+            </li>
+            <li class="lista-body__item col-xs-12 col-sm-6 col-md-3">
+              <span>Estado: {{::$ctrl.paciente.asegurado.estado}}</span>
+            </li>
+            <li class="lista-body__item col-xs-12 col-sm-6 col-md-3">
+              <a  class="panel__link-more u-arrow-right"
+                  data-ng-click="$ctrl.openClientProveedoresDetailModal($ctrl.paciente, 'asegurado')">Ver detalle</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div class="pro-summary__options">
+        <a class="" ui-sref="referencia.panel.registro.paciente({estado: 'upd'})">
+          <span class="register-progress-block__btn--title reg-summary--edit">Modificar</span>
+          <span class="lista-title__ico ico-mapfre_43_editar"></span>
+        </a>
+        <a  class="c-mf-collapse c-mf-collapse--summary"
+            data-ng-class="{'c-mf-collapse--open': $ctrl.listShow[2]}"
+            data-ng-click="$ctrl.collapse(2)">
+          <span class="ico-mapfre_76_chevrondown c-mf-collapse__ico"></span>
+        </a>
+      </div>
+      <div  class="register-destination col-xs-12 u-ph-0 reg-summary-data-extra animate-show"
+            data-ng-show="$ctrl.listShow[2]">
+        <div class="register-destination__data lista-body__wp cleaner">
+          <div class="col-md-9 col-md-offset-3">
+            <p class="">
+              Diagnóstico Presuntivo:
+              <span class="u-mr-5">{{::$ctrl.paciente.diagnostico}}</span>
+              <span class="u-ml-5 u-mr-5">|</span>
+              <span class="u-mr-5">Condición del paciente: {{::$ctrl.paciente.condicion}}</span>
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

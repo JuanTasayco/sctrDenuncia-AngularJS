@@ -1,0 +1,61 @@
+<div class="box-dsh">
+  <div
+    class="clearfix titular"
+    ng-class="{'bc-rojo': $ctrl.countRecords> $ctrl.toleranceMax, 'bc-verde': $ctrl.countRecords <= $ctrl.toleranceMax}"
+  >
+    <div class="col-xs-12">
+      <span class="num">{{$ctrl.countRecords}}</span>
+      <span class="text">POR ASIGNAR</span>
+    </div>
+  </div>
+  <div class="tabla-dsh">
+    <div class="clearfix cabezara pt-xs-1">
+      <div class="col-md-12">
+        <div class="row">
+          <div class="col-xs-2 text-center">
+            <span>TIPO</span>
+          </div>
+          <div class="col-xs-7 g-cut-text">
+            <span>SOLICITANTE Y OPERADOR</span>
+          </div>
+          <div class="col-xs-3 text-center">
+            <span>ESPERA</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="contenido">
+      <div class="clearfix list" ng-repeat="item in $ctrl.objectValue">
+        <div class="col-md-12">
+          <div class="row">
+            <div class="col-xs-2 no-padding-xs">
+              <div class="ico" ng-class="{'c-rojo': item.currentDurationSeconds > item.waitMax}">
+                <span class="{{item.icon}}"></span>
+              </div>
+            </div>
+            <div class="col-xs-7">
+              <div class="datos" ng-if="item.supplierCode!='00001'">
+                <span class="g-cut-text">S: {{item.requestorShortName || item.requestorName}}</span>
+                <span class="oper g-cut-text">O: {{item.ownerName}}</span>
+              </div>
+              <div class="datos" ng-if="item.supplierCode=='00001'">
+                  <span class="g-cut-text"></span>
+                  <span class="oper g-cut-text">{{item.supplierName}}</span>
+              </div>
+            </div>
+            <div class="col-xs-3 no-padding-xs">
+              <div class="tiempo bc-griss" ng-class="{'c-rojo': item.currentDurationSeconds > item.waitMax}">
+                <span dash-timer="item.currentDurationSeconds"></span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="clearfix mt-xs-1" ng-if="!$ctrl.objectOptions.isTvUser">
+      <div class="col-xs-12 pb-xs-1">
+        <a class="g-btn g-btn-transparent block" ui-sref="dashbyassign">Ver detalle de solicitudes pendientes</a>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,524 @@
+<div class="container page-consultar-reembolso">
+  <div class="row mb-xs-2">
+    <div class="container">
+      <form name="$ctrl.frmConsult">
+        <div class="clearfix gBgcGray5 pt-xs-3 pb-xs-3 pl-xs-2 pr-xs-2 content-filter">
+          <div class="row mb-xs-2">
+            <div class="col-xs-12 col-sm-3 mb-xs-2 mb-sm-0">
+              <mpf-select
+                label="{label: 'Empresa', required: true}"
+                name="nCompany"
+                ng-model="$ctrl.consultData.company"
+                m-data-source="$ctrl.companiesList"
+                text-field="companyName"
+                value-field="idCompany"
+                m-Empty-Option="{enterData:true}"
+                ng-change="$ctrl.changeCompany()"
+              >
+              </mpf-select>
+              <div
+                class="g-error"
+                ng-show="$ctrl.frmConsult.nCompany.$error.required && !$ctrl.frmConsult.nCompany.$pristine">
+                * Seleccione la empresa
+              </div>
+            </div>
+            <div class="col-xs-12 col-sm-3 mb-xs-2 mb-sm-0">
+              <mpf-select
+                label="{label: 'Producto', required: true}"
+                name="nProductType"
+                ng-model="$ctrl.consultData.productType"
+                m-data-source="$ctrl.productType"
+                text-field="productDescription"
+                value-field="productCode"
+                ng-required="false"
+                m-Empty-Option="{enterData:true}"
+              >
+              </mpf-select>
+              <div
+                class="g-error"
+                ng-show="$ctrl.frmConsult.nProductType.$error.required && !$ctrl.frmConsult.nProductType.$pristine">
+                * Seleccione un producto
+              </div>
+            </div>
+            <div class="col-xs-12 col-sm-3 mb-xs-2 mb-sm-0">
+              <mpf-select
+                label="{label: 'Estado', required: false}"
+                name="nState"
+                ng-model="$ctrl.consultData.state"
+                m-data-source="$ctrl.states"
+                text-field="description"
+                value-field="code"
+                ng-required="false"
+                m-Empty-Option="{enterData:true}"
+              >
+              </mpf-select>
+              <div
+                class="g-error"
+                ng-show="$ctrl.frmConsult.nState.$error.required && !$ctrl.frmConsult.nState.$pristine">
+                * Seleccione un parentesco
+              </div>
+            </div>
+            <div class="col-xs-12 col-sm-3 mb-xs-2 mb-sm-0">
+              <mp-data-seeker
+                behavior="{label:'', placeholder:'Asegurado', matchField:'fullName'}"
+                m-data-source="$ctrl.searchAfiliate($inputNeed)"
+                ng-model="$ctrl.consultData.asegurado"
+                name="nAsegurado"
+                ng-required="false"
+                ng-disabled=""
+                ng-change="">
+                <div ng-bind-html="$item.fullName | highlight: $select.search"></div>
+              </mp-data-seeker>
+            </div>
+          </div>
+          <div class="row mb-xs-2">
+            <div class="col-xs-12 col-sm-3">
+              <mpf-input
+                label="{label: 'Número de placa', required: false}"
+                name="nPlaca"
+                ng-model="$ctrl.consultData.placa">
+              </mpf-input>
+              <div
+                class="g-error"
+                ng-show="$ctrl.frmStepOne.nPlaca.$invalid && !$ctrl.frmStepOne.nPlaca.$pristine">
+                * Ingrese una placa
+              </div>
+            </div>
+            <div class="col-xs-12 col-sm-3">
+              <div class="g-input-design row">
+                <label class="g-placeholder" ng-class="{animated: focused || !isEmpty()}">
+                  Liquidación Power
+                </label>
+                <div style="width: 12%; float: left">
+                  <input
+                    type="text"
+                    ng-model="$ctrl.consultData.liquidationPowerYear"
+                    ui-mask="99 - "
+                  />
+                </div>
+                <div style="width: 50%; float: left">
+                  <input
+                    type="text"
+                    ng-model="$ctrl.consultData.liquidationPowerNumber"
+                    ng-Maxlength="10"
+                    maxlength="10"
+                    placeholder="__________"
+                  />
+                </div>
+              </div>
+            </div>
+            <div class="col-xs-12 col-sm-3 mb-xs-2 mb-sm-0">
+              <div class="input-group g-date-picker">
+                <label class="g-placeholder animated ng-binding">Desde:</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  name="nConsultaDesde"
+                  uib-datepicker-popup="{{$ctrl.consultData.fromDate.FORMAT_DATE}}"
+                  ng-model="$ctrl.consultData.fromDate.model"
+                  is-open="$ctrl.consultData.fromDate.open"
+                  datepicker-options="$ctrl.consultData.fromDate.options"
+                  data-ng-required="true"
+                  alt-input-formats="$ctrl.consultData.fromDate.ALT_INPUT_FORMATS"
+                  ui-mask="{{$ctrl.consultData.fromDate.FORMAT_MASK}}"
+                  ng-pattern="$ctrl.consultData.fromDate.FORMAT_PATTERN"
+                  model-view-value="true"
+                  close-text="Close"
+                />
+                <span class="input-group-btn">
+                  <button
+                    class="btn btn-default"
+                    ng-click="$ctrl.consultData.fromDate.setOpen(true)"
+                    prevent-default
+                  >
+                    <i class="glyphicon glyphicon-calendar"></i>
+                  </button>
+                </span>
+              </div>
+              <ul class="g-error">
+                <li ng-show="$ctrl.frmConsult.nConsultaDesde.$error.required && !$ctrl.frmConsult.nConsultaDesde.$pristine">* Este campo es necesario</li>
+              </ul>
+            </div>
+            <div class="col-xs-12 col-sm-3 mb-xs-2 mb-sm-0">
+              <div class="input-group g-date-picker">
+                <label class="g-placeholder animated ng-binding">Hasta:</label>
+                <input
+                  type="text"
+                  name="nConsultaHasta"
+                  class="form-control"
+                  uib-datepicker-popup="{{$ctrl.consultData.toDate.FORMAT_DATE}}"
+                  ng-model="$ctrl.consultData.toDate.model"
+                  is-open="$ctrl.consultData.toDate.open"
+                  datepicker-options="$ctrl.consultData.toDate.options"
+                  data-ng-required="true"
+                  alt-input-formats="$ctrl.consultData.toDate.ALT_INPUT_FORMATS"
+                  ui-mask="{{$ctrl.consultData.toDate.FORMAT_MASK}}"
+                  ng-pattern="$ctrl.consultData.toDate.FORMAT_PATTERN"
+                  model-view-value="true"
+                  close-text="Close"
+                />
+                <span class="input-group-btn">
+                  <button
+                    class="btn btn-default"
+                    ng-click="$ctrl.consultData.toDate.setOpen(true)"
+                    prevent-default
+                  >
+                    <i class="glyphicon glyphicon-calendar"></i>
+                  </button>
+                </span>
+              </div>
+              <ul class="g-error">
+                <li ng-show="$ctrl.frmConsult.nConsultaHasta.$error.required && !$ctrl.frmConsult.nConsultaHasta.$pristine">* Este campo es necesario</li>
+              </ul>
+            </div>
+          </div>
+          <div class="row mb-xs-6">
+            <div class="col-xs-12 col-sm-3 mb-xs-2 mb-sm-0">
+              <mp-data-seeker
+                behavior="{label:'', placeholder:'Médico', matchField:'userName'}"
+                m-data-source="$ctrl.searchMedic($inputNeed)"
+                ng-model="$ctrl.consultData.medic"
+                name="nMedic"
+                ng-required="false"
+                ng-disabled="$ctrl.isADoctor()"
+                ng-change="">
+                <div ng-bind-html="$item.userName + ' - ' + $item.userCode | highlight: $select.search"></div>
+              </mp-data-seeker>
+            </div>
+            <div class="col-xs-12 col-sm-3 mb-xs-2 mb-sm-0" ng-if="$ctrl.showFiltroBroker()">
+              <mpf-data-seeker-placeholder
+                behavior="{label:'', placeholder:'Bróker', matchField:'businessName'}"
+                m-data-source="$ctrl.searchBroker($inputNeed)"
+                ng-model="$ctrl.consultData.broker"
+                name="nBroker"
+                ng-required="false"
+                ng-disabled=""
+                ng-change="">
+                <div ng-bind-html="$item.businessName | highlight: $select.search"></div>
+              </mpf-data-seeker-placeholder>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-xs-12 no-padding-xs">
+              <div class="col-xs-12 col-sm-4 col-md-2 col-sm-offset-2 col-md-offset-4 mb-xs-1 no-mb-sm" ng-click="$ctrl.clean()">
+                <a class="g-btn g-btn-white block" title="Limpiar">Limpiar</a>
+              </div>
+              <div class="col-xs-12 col-sm-4 col-md-2" ng-click="$ctrl.searchDocuments()">
+                <a class="g-btn g-btn-verde block" title="Buscar">Buscar</a>
+              </div>
+              <div
+                class="col-xs-12 col-sm-4 col-md-3 col-sm-offset-1 mt-xs-1 g-text-right-xs"
+                ng-click="$ctrl.downloadExcel()"
+              >
+                <span class="g-icon">
+                  <span class="gnIcon-sm gCGreen1 ico-mapfre_139_excel g-u-cursor--pointer"></span>
+                  <span class="gCGreen1 ml-xs-0-5 g-link">DESCARGAR REPORTE</span>
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+  <div class="row mb-xs-2">
+    <div class="col-xs-12">
+      <div class="clearfix" ng-if="$ctrl.documents.length > 0">
+        <div tbl-oim class="col-xs-12 g-tbl-wrapper pl-xs-0 tbl-consultar-reembolsos">
+          <div class="tbl-main">
+            <ul height-row class="tbl-header clearfix">
+              <li class="title col-3-dktp text-center g-text-uppercase">Ind.</li>
+              <li class="title col-10-dktp text-center g-text-uppercase">Estado</li>
+              <li class="title col-7-dktp text-center g-text-uppercase">Liquidación de Power</li>
+              <li class="title col-7-dktp text-center g-text-uppercase">Fecha de solicitud</li>
+              <li class="title col-9-dktp text-center g-text-uppercase">Número de póliza</li>
+              <li class="title col-10-dktp text-center g-text-uppercase">Número de siniestro</li>
+              <li class="title col-10-dktp text-center g-text-uppercase">Asegurado</li>
+              <li class="title col-10-dktp text-center g-text-uppercase">Bróker</li>
+              <li class="title col-6-dktp text-center g-text-uppercase">Importe Total</li>
+              <li class="title col-8-dktp text-center g-text-uppercase">Pendiente Usuario</li>
+              <li class="title col-8-dktp text-center g-text-uppercase">Canal de solicitud</li>
+              <li class="title col-14-dktp"></li>
+              <li class="title col-6-dktp"></li>
+            </ul>
+            <ul class="tbl-body clearfix">
+              <li ng-repeat="item in $ctrl.documents" >
+                <ul
+                  height-row
+                  class="tbl-row clearfix g-u-cursor--pointer"
+                  ng-click="$ctrl.goToDetail(item)"
+                >
+                  <li class="cell text-center g-text-uppercase col-3-dktp">
+                    <div class="g-content-outer">
+                      <div class="g-content-inner">
+                        <!-- <span
+                          class="cell-label indicador"
+                          ng-class="{
+                            'rePreliquidada': item.documentStatusDescription === 'PRE LIQUIDADO',
+                            'reObservada': item.documentStatusDescription === 'OBSERVADO',
+                            'reObsLevantada': item.documentStatusDescription === 'OBSERVACIÓN LEVANTADA',
+                            'reLiquidado': item.documentStatusDescription === 'LIQUIDADO',
+                            'reRechazado': item.documentStatusDescription === 'RECHAZADO'
+                            }">
+                        </span> -->
+                        <span
+                          class="cell-label indicador"
+                          ng-class="{
+                            'reObservada': item.indicator === 'N',
+                            'reObsLevantada': item.indicator === 'V',
+                            'reRechazado': item.indicator === 'R'
+                          }"
+                        >
+                        </span>
+                      </div>
+                    </div>
+                  </li>
+                  <li class="cell text-center g-text-uppercase col-10-dktp">
+                    <div class="g-content-outer">
+                      <div class="g-content-inner">
+                        <span
+                          class="g-box-label etiqueta g-text-uppercase ml-xs-1-5 ml-md-0"
+                          ng-class="{
+                            'reObservada': item.documentStatusCode === 'OBSE',
+                            'reObsLevantada': item.documentStatusCode === 'OBLE',
+                            'reLiquidado': item.documentStatusCode === 'LIQU',
+                            'reRechazado': item.documentStatusCode === 'RECH',
+                            'reProcesoAuditoria': item.documentStatusCode === 'ENPA',
+                            'rePagado': item.documentStatusCode === 'PAID',
+                            'rePreliquidada': item.documentStatusCode === 'PRLQ'
+                          }">
+                          {{item.documentStatusDescription}}
+                        </span>
+                        <!-- <span
+                          class="g-box-label etiqueta g-text-uppercase ml-xs-1-5 ml-md-0"
+                          style="color: #4c4c4c"
+                        >
+                          {{item.documentStatusDescription}}
+                        </span> -->
+                      </div>
+                    </div>
+                  </li>
+                  <li class="cell text-center g-text-uppercase col-7-dktp">
+                    <div class="g-content-outer">
+                      <div class="g-content-inner">
+                        <span class="cell-label g-cut-text">
+                          <span class="cell-data">{{item.liquidationPower}}</span>
+                        </span>
+                      </div>
+                    </div>
+                  </li>
+                  <li class="cell text-center g-text-uppercase col-7-dktp">
+                    <div class="g-content-outer">
+                      <div class="g-content-inner">
+                        <span class="cell-label g-cut-text">
+                          <span class="cell-data">{{item.creationDate | date:'dd/MM/yyyy'}}</span>
+                        </span>
+                      </div>
+                    </div>
+                  </li>
+                  <li class="cell text-center g-text-uppercase col-9-dktp">
+                    <div class="g-content-outer">
+                      <div class="g-content-inner">
+                        <span class="cell-label">
+                          <span class="cell-data">{{item.policyNumber}}</span>
+                        </span>
+                        <span class="cell-label" ng-if="item.refundOrderStatus !== 3 && $ctrl.showAplicarGiro()">
+                          <span class="cell-data" ng-if="item.refundOrderStatus === 2">
+                            APLICAR GIRO:
+                            <span class="gnIcon-sm gCRed1 ico-mapfre_144_error" ng-click="$ctrl.aplicarGiro($index, item, 0); $event.stopPropagation();">
+                            </span>
+                            <span class="gnIcon-sm gCGreen1 ico-mapfre_142_sucess" ng-click="$ctrl.aplicarGiro($index, item, 1); $event.stopPropagation();">
+                            </span>
+                          </span>
+                          <span class="cell-data">
+                              <span class="gnIcon-sm gCRed1 ico-mapfre_144_error"  ng-if="item.refundOrderStatus === 0" ng-click="$ctrl.aplicarGiro($index, item, 0); $event.stopPropagation();">
+                            </span>
+                             <span class="gnIcon-sm gCGreen1 ico-mapfre_184_circleCheck"  ng-if="item.refundOrderStatus === 1" ng-click="$ctrl.aplicarGiro($index, item, 1); $event.stopPropagation();">
+                            </span>
+                          </span>
+                        </span>
+                      </div>
+                    </div>
+                  </li>
+                  <li class="cell text-center g-text-uppercase col-10-dktp">
+                    <div class="g-content-outer">
+                      <div class="g-content-inner">
+                        <span class="cell-label">
+                          <span class="cell-data">{{item.sinisterNumber}}</span>
+                        </span>
+                        <span class="cell-label" ng-if="item.licensePlate">
+                          <span class="cell-data">PLACA: {{item.licensePlate}}</span>
+                        </span>
+                      </div>
+                    </div>
+                  </li>
+                  <li class="cell text-center g-text-uppercase col-10-dktp">
+                    <div class="g-content-outer">
+                      <div class="g-content-inner">
+                        <span class="cell-label">
+                          <span class="cell-data">{{item.affiliateFullName}}</span>
+                        </span>
+                      </div>
+                    </div>
+                  </li>
+                  <li class="cell text-center g-text-uppercase col-10-dktp">
+                    <div class="g-content-outer">
+                      <div class="g-content-inner">
+                        <span class="cell-label">
+                          <span class="cell-data">{{item.brokerDescription}}</span>
+                        </span>
+                      </div>
+                    </div>
+                  </li>
+                  <li class="cell text-center g-text-uppercase col-6-dktp">
+                    <div class="g-content-outer">
+                      <div class="g-content-inner">
+                        <span class="cell-label">
+                          <span class="cell-data">{{item.amountDocumentProvider | currency: 'S/ '}}</span>
+                        </span>
+                      </div>
+                    </div>
+                  </li>
+                  <li class="cell text-center g-text-uppercase col-8-dktp">
+                    <div class="g-content-outer">
+                      <div class="g-content-inner">
+                        <span class="cell-label">
+                          <span class="cell-data">{{ item.powerEpsExecutive }}</span>
+                        </span>
+                      </div>
+                    </div>
+                  </li>
+                  <li class="cell text-center g-text-uppercase col-8-dktp">
+                    <div class="g-content-outer">
+                      <div class="g-content-inner">
+                        <span class="cell-label">
+                          <span class="cell-data">{{ item.channelDescription }}</span>
+                        </span>
+                      </div>
+                    </div>
+                  </li>
+                  <!--<li class="cell text-center g-text-uppercase col-8-dktp">-->
+                  <li class="cell text-center g-text-uppercase col-14-dktp">
+                    <div class="g-content-outer">
+                      <div class="g-content-inner">
+                        <div
+                          ng-if="item.compensationUpFlag"
+                          class="col-xs-4 text-center doc-pendiente"
+                          ng-class="{'g-border-dotted': !item.hasSignedDocument}">
+                          <label for="">
+                            <i
+                              class="gnIcon-md gCGreen1 ico-mapfre_314_archivos"
+                              ng-if="!item.hasSignedDocument">
+                            </i>
+                            <i
+                              class="gnIcon-md gCGreen1 ico-mapfre_306_importar"
+                              ng-if="item.hasSignedDocument" ng-click="$ctrl.downloadFiniquitoFirmado(item); $event.stopPropagation();">
+                            </i>
+                            <span ng-if="!item.hasSignedDocument">
+                              <span ng-if="item.productCode === 'O'">Subir finiquito firmado</span>
+                              <span ng-if="item.productCode !== 'O'">Subir liquidación firmada</span>
+                            </span>
+                            <span
+                              ng-if="item.hasSignedDocument"
+                              ng-click="$ctrl.deleteFiniquito(item); $event.stopPropagation();">
+                              <i
+                                class="gnIcon-md gCRed1 ico-mapfre_48_cerrar">
+                              </i>
+                            </span>
+                          </label>
+                          <input
+                            ng-if="!item.hasSignedDocument"
+                            type="file"
+                            accept="{{$ctrl.mediaExtensions}}"
+                            ng-click="$ctrl.setPropertyData(item); $event.stopPropagation();"
+                            re-file-on-change="$ctrl.onChangeFile"
+                            class="input__file"/>
+                        </div>
+
+                        <div ng-if="item.documentStatusDescription === 'OBSERVADO'">
+                          <span
+                            ng-click="$ctrl.showDetail(item); $event.stopPropagation();"
+                            class="gnIcon-sm gCGreen1 ico-mapfre_228_editar">
+                          </span>
+                        </div>
+                        <div
+                          ng-if="item.compensationFlag && item.productCode === 'O'"
+                          class="col-xs-4 text-center doc-info">
+                          <i
+                            class="gnIcon-md gCGreen1 ico-mapfre_158_pdf"
+                            ng-click="$ctrl.downloadFiniquito(item); $event.stopPropagation();">
+                          </i>
+                          <p class="doc-pendiente-text">
+                            Finiquito sin firmar
+                            <span
+                              class="gnIcon-xm gCGreen1 ico-mapfre_141_notisiniestro"
+                              popover-placement="left"
+                              uib-popover-html="$ctrl.getPopoverContent()" popover-trigger="'mouseenter'">
+                            </span>
+                          </p>
+                        </div>
+                        <div
+                        ng-if="item.compensationFlag && item.productCode !== 'O'"
+                        class="col-xs-4 text-center doc-info">
+                        <i
+                          class="gnIcon-md gCGreen1 ico-mapfre_158_pdf" ng-click="$ctrl.downloadProfitLiquidation(item); $event.stopPropagation();">
+                        </i>
+                        <p class="doc-pendiente-text">
+                          Liquidación de beneficios
+                        </p>
+                      </div>
+                      </div>
+                    </div>
+                  </li>
+                  <li class="cell text-center g-text-uppercase col-6-dktp">
+                    <div class="g-content-outer">
+                      <div class="g-content-inner">
+
+                        <div
+                          ng-if="item.letterType === 'OO' ||
+                            item.letterType === 'RT' ||
+                            item.letterType === 'OT' ||
+                            item.letterType === 'RO'
+                          "
+                          class="col-xs-4 text-center doc-info">
+                          <i
+                            class="gnIcon-md gCGreen1 ico-mapfre_158_pdf"
+                            ng-click="$ctrl.downloadLetter(item); $event.stopPropagation();">
+                          </i>
+                          <p class="doc-pendiente-text">CARTA</p>
+                        </div>
+                      </div>
+                    </div>
+                  </li>
+                </ul>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-12 text-center g-box-noresult" ng-if="$ctrl.noResult">
+        <div class="row">
+          <div class="col-md-12 g-box-noresult-ico gCRed1"><span class="ico-mapfre_302_error"></span></div>
+          <div class="col-md-12 g-box-noresult-text">No hay resultados para los filtros escogidos.<br>Intente nuevamente.</div>
+        </div>
+      </div>
+
+      <div class="clearfix">
+        <div class="col-md-12" ng-if="$ctrl.documents.length > 0">
+          <ul
+            uib-pagination
+            class="g-pagination"
+            ng-model="$ctrl.mPagination"
+            max-size="10"
+            total-items="$ctrl.totalRows"
+            items-per-page="$ctrl.pageSize"
+            ng-change="$ctrl.pageChanged($ctrl.mPagination)"
+            boundary-link-numbers="true"
+          >
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

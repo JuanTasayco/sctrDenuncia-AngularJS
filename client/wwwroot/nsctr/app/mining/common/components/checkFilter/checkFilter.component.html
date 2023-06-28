@@ -1,0 +1,39 @@
+<div tbl-oim-topbar
+  class="clearfix g-tbl-topbar width-filtro mb-xs-1 checkFilter">
+  <div class="g-row-icons__box visible-xs visible-sm">
+    <a ng-click="showFilterTopbar = !showFilterTopbar"
+      uib-popover="Filtro"
+      popover-trigger="'mouseenter'">
+      <span class="g-icon-box g-icon-box-md">
+        <span class="ico-mapfre ico-mapfre_203_filtro ico-filter"></span>
+      </span>
+    </a>
+  </div>
+  <div class="g-row-filter__box box_right height-xs height-sm"
+    ng-class="{'filter__show': showFilterTopbar}">
+    <form class="clearfix">
+      <div class="row">
+        <div class="col-xs-12 text-left">
+          <p><b>Mostrar:</b></p>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-xs-12">
+          <ul class="gnChecksList text-left clearfix">
+            <li ng-repeat="item in $ctrl.data.checkList">
+              <label class="g-checkbox fw-normal"
+                ng-class="{active : item.model}">
+                <span class="ico-checkbox"></span>
+                <input type="checkbox"
+                  name="nCheck{{$index}}"
+                  ng-model="item.model"
+                  ng-click="fnCheck(item)">
+                <span class="checkbox-label">{{item.value}}</span>
+              </label>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>

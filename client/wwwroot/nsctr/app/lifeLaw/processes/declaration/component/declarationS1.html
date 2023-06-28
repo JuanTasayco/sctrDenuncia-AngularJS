@@ -1,0 +1,68 @@
+<div class="firstStep">
+
+	<form
+		action=""
+		name="frmFirstStep">
+
+
+		<div class="g-section-inner">
+			<nsctr-type-load
+				data="dataS1"
+				with-number-workers="data.SHOW_RISKS_LIST">
+			</nsctr-type-load>
+		</div>
+		<div class="g-section">
+			<div class="container">
+				<div class="row">
+					<div class="col-md-4 col-sm-6 col-md-offset-4 col-sm-offset-3">
+						<a class="g-btn g-btn-verde block" ng-click="fnProcessExcell()">
+							Procesar
+						</a>
+					</div>
+				</div>
+			</div>
+		</div>
+		<nsctr-workers-list trabajadores="dataS1.FIRST_PARAMS_DI.data.employeesList" risk="dataS1.FIRST_PARAMS_DI.riskInsuredList" ></nsctr-workers-list>
+		<div
+			class="g-section-inner"
+			ng-if="data.SHOW_RISKS_LIST == false">
+			<div class="container">
+				<div class="row">
+					<div class="col-md-12">
+						<h2 class="g-sub-title c-red">Información de Declaración</h2>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-md-8 mb-xs-2">
+						<mpf-textarea
+							label="{label: 'Datos de Obra o Centro de Trabajo', required: false}"
+							name="nDatosObra"
+							ng-model="dataS1.mDatosObra"
+							ng-required="false">
+						</mpf-textarea>
+						<ul class="g-error">
+							<li ng-show="frmFirstStep.nDatosObra.$invalid && !frmFirstStep.nDatosObra.$pristine">* Ingrese centro de trabajo</li>
+						</ul>
+						<div class="gH7 mt-xs-1">Completa los datos de obra o centro de trabajo</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="g-section">
+			<div class="container">
+				<div class="row mb-md-1">
+					<div class="col-md-4 col-sm-6 col-md-offset-4 col-sm-offset-3">
+						<a
+							class="g-btn g-btn-verde block"
+							ng-click="fnActionButton(dataS1.FIRST_PARAMS_DI)">
+							{{(data.SHOW_RISKS_LIST) ? 'Siguiente' : 'Generar'}}
+						</a>
+					</div>
+				</div>
+			</div>
+		</div>
+
+	</form>
+
+</div>

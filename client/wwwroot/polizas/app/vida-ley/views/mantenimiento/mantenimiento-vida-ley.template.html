@@ -1,0 +1,233 @@
+<div class="g-page mant-tasa">
+	<div class="container">
+		<div class="g-title">
+			<h1 class="ng-binding">Mantenimientos</h1>
+		</div>
+
+		<div class="g-tap-mobile g-section g-section-tabs">
+			<div class="clearfix">
+				<uib-tabset active="activeJustified" justified="true">
+			    <uib-tab index="0">
+				    <uib-tab-heading>SUSCRIPTOR</uib-tab-heading>
+            <div class="row">
+                <div class="col-md-4 col-md-offset-8 mb-xs-2 ">
+                  <a href="" class="g-btn g-btn-verde block" ng-click="vm.nuevoSuscriptor();">NUEVO SUSCRIPTOR</a>
+                </div>
+            </div>
+            <div class="row">
+              <div class="col-md-3 mb-xs-2">
+                <div
+                  show-filter
+                  class="clearfix g-col-filter g-myd-box g-myd-box--filter"
+                  ng-class="{'show': isFilterVisible}"
+                >
+                  <div class="col-md-12 mb-xs-3 gH4 gCGray1">
+                    <h2 class="pb-xs-1 g-border-bottom-xs hidden-xs hidden-sm"><b>Filtro</b></h2>
+                    <div id="show-filter" class="row pt-xs-2 pb-xs-2 hidden-md hidden-lg" ng-click="toggleFilter();">
+                      <div class="col-xs-10"><h2 class="cnt-title">Filtro</h2></div>
+                      <div class="col-xs-2">
+                        <span class="glyphicon glyphicon-chevron-down" ng-if="isFilterVisible"></span>
+                        <span class="glyphicon glyphicon-chevron-up" ng-if="!isFilterVisible"></span>
+                      </div>
+                      <div class="clearfix"></div>
+                    </div>
+                  </div>
+                  <div class="g-col-filter__box">
+                    <div class="col-md-12 mb-xs-2">
+                      <mpf-input
+                        label="{label: 'Nombres y Apellidos:', required: false}"
+                        name="nCodigoFilter"
+                        ng-model="vm.model.Nombres"
+                      ></mpf-input>
+                    </div>
+                    <div class="col-md-12 mb-xs-2">
+                      <mpf-input
+                        label="{label: 'Usuario OIM:', required: false}"
+                        name="nValorFilter"
+                        ng-model="vm.model.Usuario"
+                      ></mpf-input>
+                    </div>
+                    <div class="col-md-12 mb-xs-2">
+                      <mpf-select
+                        label="{label: 'Estado', required: false}"
+                        name="nEstado"
+                        text-field="Descripcion"
+                        value-field="Valor1"
+                        ng-model="vm.model.Estado"
+                        m-data-source="vm.listEstados"
+                        m-Empty-Option="{enterData:true}"
+                      ></mpf-select>
+                     
+
+                    </div>
+                    <div class="col-md-12 mb-xs-1">
+                      <a href="" class="g-btn g-btn-verde block" ng-click="vm.filtrarSuscriptor();">Filtrar</a>
+                    </div>
+                    <div class="col-md-12">
+                      <a href="" class="g-btn g-btn-transparent block" ng-click="vm.limpiarSuscriptor()">Limpiar</a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+      
+
+              <div class="col-md-9" ng-if="!vm.pagination.noResult">
+                <div class="clearfix g-box sec-design g-box-white" ng-repeat="item in vm.suscriptorList">
+                  <div class="row">
+                    <div class="col-md-10 g-text-uppercase no-pr-md">
+                      <ul class="row g-list">
+                        <li class="col-md-5 cnt-item mb-md-0 no-pr-md">
+                          <div class="col-md-3 col-xs-5 no-pr-md item-label">USUARIO: &nbsp;</div>
+                          <div class="col-md-9 col-xs-7 item-dato">{{ item.CodigoUsuario }}</div>
+                          <div class="clearfix"></div>
+                          <div class="col-md-3 col-xs-5 no-pr-md item-label">EMAIL:&nbsp;</div>
+                          <div class="col-md-9 col-xs-7  item-dato g-cut-text">
+                            {{ item.Correo }}
+                          </div>
+                        </li>
+                        <li class="col-md-7 cnt-item mb-md-0 ">
+                          <div class="col-md-5 col-xs-5 no-pr-md item-label">NOMBRES Y APELLIDOS:&nbsp;</div>
+                          <div class="col-md-7 col-xs-7 no-pl-md item-dato"> {{ item.Nombres }}  {{ item.ApellidoPaterno }} {{ item.ApellidoMaterno }}</div>
+                          <div class="clearfix"></div>
+                          <div class="col-md-5 col-xs-5 no-pr-md item-label">ESTADO:&nbsp;</div> 
+                          <div class="col-md-7 col-xs-7 no-pl-md  item-dato" ng-if="item.Estado==1"> VIGENTE </div>
+                          <div class="col-md-7 col-xs-7 no-pl-md  item-dato" ng-if="item.Estado==2"> NO VIGENTE </div>
+                        </li>
+                      </ul>
+                    </div>
+                    <div class="col-md-2 no-pl-md pt-xs-2 pt-md-0">
+                      <ul class="row g-list second-design h-myd-mt--5">
+                        <li class="col-xs-6  cnt-item add-border-left no-pr-md no-pl-md text-center mb-md-0">
+                          <a href="" ng-click="vm.showModalEditSuscriptor(item)">
+                            <span class="ico-mapfre_43_editar ico-edit h-myd--none"></span>
+                            <span
+                              class="ico-mapfre_345_myd-edit ico-edit h-myd--show h-oim-none h-myd-color--green h-myd-ico--mediun"
+                            ></span>
+                          </a>
+                        </li>
+                        <li class="col-xs-6 cnt-item no-pl-md text-center mb-md-0">
+                          <a href="" ng-click="vm.showModalAsignacion(item)">
+                            <span class="ico-mapfre_56_visitasalmedico ico-edit h-myd--none"></span>
+                            <span
+                              class="ico-mapfre_337_deletePerfil ico-edit h-myd--show h-oim-none h-myd-color--green h-myd-ico--mediun"
+                            ></span>
+                          </a>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-9 col-md-offset-3" ng-if="!vm.pagination.noResult">
+                <div class="row" ng-if="!vm.pagination.noResult">
+                  <div class="col-md-12">
+                    <ul uib-pagination class="g-pagination" ng-model="vm.pagination.currentPage"
+                    items-per-page="vm.pagination.maxSize" total-items="vm.pagination.totalItems"
+                    ng-change="vm.pageChanged(vm.pagination.currentPage)" boundary-link-numbers="true"></ul>
+                  </div>
+                </div>
+              </div>	
+
+
+              <div class="col-md-9 g-text-center-xs g-box-noresult" ng-if="vm.pagination.noResult">
+                <div class="row">
+                  <div class="col-md-12 g-box-noresult-ico"><span class="ico-mapfre_119_wrong ico-wrong"></span></div>
+                  <div class="col-md-12 g-box-noresult-text">
+                    No hay resultados para los datos ingresados en la busqueda.<br />
+                    Intente nuevamente
+                  </div>
+                </div>
+              </div>
+            </div>
+					</uib-tab>
+    			
+    			<uib-tab index="1">
+    				<uib-tab-heading>CLAUSULA</uib-tab-heading>
+						  <sctr-mng-sub-activities></sctr-mng-sub-activities>
+              <div class="row">
+                <div class="col-md-4 col-md-offset-8 mb-xs-2">
+                  <a href="" class="g-btn g-btn-verde block" ng-click="vm.showModalActividad();">BUSCA Y SELECCIONA UNA ACTIVIDAD</a>
+                </div>
+              
+              </div>
+              <div class="row">
+              <div class="col-md-3">
+                  <div class=" mb-xs-2">
+                    <div
+                      show-filter
+                      class="clearfix g-col-filter g-myd-box g-myd-box--filter"
+                      ng-class="{'show': isFilterVisible}"
+                    >
+                      <div class="col-md-12 mb-xs-3 gH4 gCGray1">
+                        <h2 class="pb-xs-1 g-border-bottom-xs hidden-xs hidden-sm"><b>Filtro</b></h2>
+                        <div id="show-filter" class="row pt-xs-2 pb-xs-2 hidden-md hidden-lg" ng-click="toggleFilter();">
+                          <div class="col-xs-10"><h2 class="cnt-title">Filtro</h2></div>
+                          <div class="col-xs-2">
+                            <span class="glyphicon glyphicon-chevron-down" ng-if="isFilterVisible"></span>
+                            <span class="glyphicon glyphicon-chevron-up" ng-if="!isFilterVisible"></span>
+                          </div>
+                          <div class="clearfix"></div>
+                        </div>
+                      </div>
+                      <div class="g-col-filter__box">
+                        <div class="col-md-12 mb-xs-2">
+                          <mpf-input
+                            label="{label: 'Código o descripcion de la actividad:', required: false}"
+                            name="nCodigoFilter"
+                            ng-model="vm.model.codigoActividad"
+                          ></mpf-input>
+                        </div>
+  
+                       
+                        <div class="col-md-12 mb-xs-1">
+                          <a href="" class="g-btn g-btn-verde block" ng-disabled="vm.model.codigoActividad==null" ng-click="vm.filtrarClausula();">Filtrar</a>
+                        </div>
+                        <div class="col-md-12">
+                          <a href="" class="g-btn g-btn-transparent block" ng-click="vm.limpiarClausula();">Limpiar</a>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+              </div>
+              <div class="col-md-9">
+                  <div class="clearfix g-box g-overflow-hidden-xs mb-xs-2 ng-scope" ng-repeat="item in vm.clausulaList" >
+                    <div class="row g-box-content mb-xs-1 mt-xs-1" >
+                        <ul class="clearfix g-list" >
+                          <li class="col-md-4 clearfix cnt-item">
+                            <div class="col-sm-4 item-label">Codigo </div>
+                            <div class="col-sm-7 item-dato g-text-uppercase">{{item.CIIU}}</div>
+                          </li>
+                          <li class="col-md-6 clearfix cnt-item">
+                            <div class="col-sm-5 item-label">Descripcion:</div>
+                            <div class="col-sm-7 item-dato g-text-uppercase">{{item.Detalle}}</div>
+                          </li>
+                          
+                          <li class="col-md-1 cnt-item">
+                            <a ng-click="vm.showClausula(item,'edit')"><p class="gH6 g-text-uppercase no-margin-xs"><span class="gnIcon-xsm ico-mapfre_228_editar mr-xs-2"></span></p></a>
+                          </li>
+                          <li class="col-md-1 cnt-item ">
+                            <a ng-click="vm.eliminarClausula(item.IdClausula)"><p class="gH6 g-text-uppercase no-margin-xs"><span class="gnIcon-xsm ico-mapfre_337_deletePerfil mr-xs-2"></span></p></a>
+                          </li>
+                        </ul>
+                    </div>
+          
+                  </div>
+              </div>
+              <div class="col-md-9 g-text-center-xs g-box-noresult" ng-if="vm.clausulaList.length==0">
+                <div class="row">
+                  <div class="col-md-12 g-box-noresult-ico"><span class="ico-mapfre_119_wrong ico-wrong"></span></div>
+                  <div class="col-md-12 g-box-noresult-text">
+                    No hay resultados para los datos ingresados en la busqueda.<br />
+                    Intente nuevamente
+                  </div>
+                </div>
+              </div>
+              </div>       
+    			</uib-tab>
+          
+   			</uib-tabset>
+
+			</div>
+		</div>
+	</div>
+</div>

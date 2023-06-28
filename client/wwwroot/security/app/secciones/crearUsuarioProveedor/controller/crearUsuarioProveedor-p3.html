@@ -1,0 +1,190 @@
+<div class="g-section" ng-show="!successUser.successUser">
+  <div class="container">
+    <div class="clearfix g-box g-overflow-hidden-xs mb-xs-2">
+      <div class="row pt-xs-1 pb-xs-1 gBgcGray5">
+        <ul class="clearfix g-list-sm">
+          <li class="col-md-9 col-sm-9">
+            <div class="gH5 pl-xs-1-5">
+              <b>Datos Empresa</b>
+            </div>
+          </li>
+          <li class="col-md-3 col-sm-3 clearfix">
+            <div class="pr-xs-1-5 text-right"></div>
+          </li>
+        </ul>
+      </div>
+      <div class="row g-box-content">
+        <ul class="clearfix g-list-sm">
+          <li class="col-md-5 col-sm-6 clearfix cnt-item">
+            <div class="col-xs-3 item-label">Razón Social: </div>
+            <div class="col-xs-9 item-dato g-text-uppercase">{{created.step2.provider.usuario.nombre}}</div>
+          </li>
+          <li class="col-md-3 col-sm-6 clearfix cnt-item">
+            <div class="col-xs-3 item-label">RUC: </div>
+            <div class="col-xs-9 item-dato g-text-uppercase">{{created.step2.provider.usuario.documento}}</div>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div class="clearfix g-box g-overflow-hidden-xs mb-xs-2">
+      <div class="row pt-xs-1 pb-xs-1 gBgcGray5">
+        <ul class="clearfix g-list-sm">
+          <li class="col-xs-9 col-md-9 col-sm-9">
+            <div class="gH5 pl-xs-1-5">
+              <b>Datos Usuario</b>
+            </div>
+          </li>
+          <li class="col-xs-3 col-md-3 col-sm-3 clearfix">
+            <div class="pr-xs-1-5 text-right">
+              <span class="ico-mapfre_228_editar gnIcon-xsm gCGray3 g-u-cursor--pointer" ui-sref="crearUsuarioProveedor.steps({step: 2})"></span>
+            </div>
+          </li>
+        </ul>
+      </div>
+      <div class="row g-box-content">
+        <ul class="clearfix g-list-sm">
+          <li class="col-md-5 col-sm-6 clearfix cnt-item">
+            <div class="col-xs-3 item-label">Nombres: </div>
+            <div class="col-xs-9 item-dato g-text-uppercase">{{created.step3.user.details.nombres}} {{created.step3.user.details.apellidoPaterno}} {{created.step3.user.details.apellidoMaterno}}</div>
+          </li>
+          <li class="col-md-3 col-sm-6 clearfix cnt-item">
+            <div class="col-xs-3 item-label">{{created.step3.user.details.nombreTipoDocumento}}: </div>
+            <div class="col-xs-9 item-dato g-text-uppercase">{{created.step3.user.details.numeroDocumento}}</div>
+          </li>
+          <li class="col-md-4 col-sm-6 clearfix cnt-item">
+            <div class="col-xs-3 item-label">Correo: </div>
+            <div class="col-xs-9 item-dato g-text-uppercase g-cut-text" uib-popover="{{created.step3.user.details.correo}}" popover-trigger="'mouseenter'">{{created.step3.user.details.correo}}</div>
+          </li>
+        </ul>
+        <ul class="clearfix g-list-sm">
+          <li class="col-md-5 col-sm-6 clearfix cnt-item">
+            <div class="col-xs-3 item-label">Cargo: </div>
+            <div class="col-xs-9 item-dato g-text-uppercase">{{created.step3.user.details.nombreCargo}}</div>
+          </li>
+          <li class="col-md-3 col-sm-6 clearfix cnt-item">
+            <div class="col-xs-3 item-label">Teléfono: </div>
+            <div class="col-xs-9 item-dato g-text-uppercase">{{created.step3.user.details.telefono}}</div>
+          </li>
+          <li class="col-md-4 col-sm-6 clearfix cnt-item">
+            <div class="col-xs-3 item-label">Celular: </div>
+            <div class="col-xs-9 item-dato g-text-uppercase">{{created.step3.user.details.celular}}</div>
+          </li>
+        </ul>
+        <!--<ul class="clearfix g-list-sm">
+          <li class="col-md-4 col-sm-6 clearfix cnt-item">
+            <div class="col-xs-3 item-label">Estado: </div>
+            <div class="col-xs-9 item-dato g-text-uppercase">
+              <span class="g-box-label g-text-uppercase ml-md-0"
+                    ng-class="{
+                    'secuFondoGrisOscuro': user.numEstadoUsuario === 2,
+                    'secuFondoVerde': user.numEstadoUsuario === 1
+                  }"
+              >{{user.nombreEstadoUsuario}}</span>
+            </div>
+          </li>
+        </ul>-->
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="g-section mb-xs-2" ng-show="!successUser.successUser">
+  <div class="container">
+    <div class="row mb-xs-2">
+      <div class="col-xs-12">
+        <h2 class="gH4 gCGray1">
+          <b class="ng-binding">Asignación de
+            <span ng-if="isUserAdmin">Roles y </span>Accesos a aplicaciones</b>
+        </h2>
+      </div>
+    </div>
+    <div ng-if="showRoleAccess">
+      <asig-rol 
+      is-create="isCreate" 
+      type-group="typeGroup" 
+      type-user="typeUser" 
+      num-user="numUser" 
+      code-user="codeUser" 
+      exist-role="existRole"
+      ></asig-rol>
+      <div ng-if="existRole || (typeUser==1)">
+        <asig-acceso 
+        type-user="typeUser"
+        num-user="numUser" 
+        code-user="codeUser" 
+        exist-role="existRole" 
+        is-finalizar="isFinalizar"
+        email="email" 
+        person="person" 
+        success-user="successUser.successUser" 
+        type-group="typeGroup"
+        create = "create"
+        ></asig-acceso>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Bloque de Creacion Usuario Exito -->
+<div class="container" ng-show="successUser.successUser">
+  <div class="g-section">
+    <div class="container">
+      <div class="row text-center">
+        <div class="col-xs-12">
+          <span class="ico-mapfre_142_sucess gnIcon-bg gCGreen7"></span>
+        </div>
+        <div class="col-xs-12">
+          <span class="gH3">
+            <b>EL USUARIO SE CREÓ CON ÉXITO</b>
+          </span>
+        </div>
+        <div class="col-xs-12">
+          <span class="gH4">Se ha enviado un correo electrónico con un enlace para completar el registro de usuario.</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="g-section mb-xs-3">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2">
+          <div class="clearfix g-box g-overflow-hidden-xs mb-xs-2">
+            <div class="row pt-xs-2 pb-xs-2 gBgcGray5 text-center">
+              <span class="gH4">
+                <b>Datos usuario</b>
+              </span>
+            </div>
+            <div class="clearfix g-box-content mt-xs-2 mb-xs-1">
+              <div class="col-sm-10 col-sm-offset-1 col-md-8 col-md-offset-2 gH5">
+                <div class="row">
+                  <div class="col-xs-3">
+                    <b>Nombres: </b>
+                  </div>
+                  <div class="col-xs-9">{{created.step3.user.details.nombres}} {{created.step3.user.details.apellidoPaterno}} {{created.step3.user.details.apellidoMaterno}}</div>
+                </div>
+                <div class="row">
+                  <div class="col-xs-3">
+                    <b>Usuario: </b>
+                  </div>
+                  <div class="col-xs-9">{{created.step3.user.details.codUsuario}}</div>
+                </div>
+                <div class="row">
+                  <div class="col-xs-3">
+                    <b>Correo: </b>
+                  </div>
+                  <div class="col-xs-9 g-cut-text" uib-popover="{{created.step3.user.details.correo}}" popover-trigger="'mouseenter'">{{created.step3.user.details.correo}}</div>
+                </div>
+              </div>
+            </div>
+            <div class="clearfix g-box-content mb-xs-3 mt-xs-3">
+              <div class="col-sm-4 col-sm-offset-4 mb-xs-2 mb-sm-0">
+                <a class="g-btn g-btn-white block" ui-sref="usuarios">Salir</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,504 @@
+<div class="page-sctr-emitir-step4 g-section-inner">
+	<!-- Datos de la empresa -->
+	<div class="container">
+		<div class="row">
+			<div class="col-md-12">
+				<uib-accordion close-others="oneAtATime">
+					<div uib-accordion-group class="g-acordeon" is-open="status.open">
+			      <uib-accordion-heading>
+			        Datos de la empresa
+			        <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': status.open, 'glyphicon-chevron-right': !status.open}"></i>
+			        <div class="msn-acordeon pull-right mr-xs-1" ng-show="isDeficitario()">
+			        	<span class="ico-mapfre_316_exclamacion ico-md ico-medium ico-excl ico-naranja"></span>
+			        	<span class="cont-text" >Cliente Deficitario</span>
+			      	</div>
+			      </uib-accordion-heading>
+		      	<div class="g-sec-information">
+							<div class="">
+								<div class="container">
+									<ul class="row">
+										<li class="col-md-4 clearfix cnt-item">
+											<div class="col-sm-6 item-label">
+												<span class="ico-mapfre_82_circle ico-bullet"></span>Tipo de documento:
+											</div>
+											<div class="col-sm-6 item-dato">{{formData.mTipoDocumento.Codigo}}</div>
+										</li>
+										<li class="col-md-4 clearfix cnt-item">
+											<div class="col-sm-5 item-label">
+												<span class="ico-mapfre_82_circle ico-bullet"></span>Nro. Documento:
+											</div>
+											<div class="col-sm-7 item-dato">{{formData.mNumeroDocumento}}</div>
+										</li>
+										<li class="col-md-4 clearfix cnt-item">
+											<div class="col-sm-6 item-label">
+												<span class="ico-mapfre_82_circle ico-bullet"></span>Razón Social:
+											</div>
+											<div class="col-sm-6 item-dato g-text-uppercase">{{formData.mRazonSocial}}</div>
+										</li>
+									</ul>
+									<ul class="row">
+										<li class="col-md-4 clearfix cnt-item" ng-show="formData.mActivSunat.codigo">
+											<div class="col-sm-6 item-label">
+												<span class="ico-mapfre_82_circle ico-bullet"></span>Actividad SUNAT:
+											</div>
+											<div class="col-sm-6 item-dato">{{formData.mActivSunat.codigo}} :: {{formData.mActivSunat.descripcion}}</div>
+										</li>
+										<li class="col-md-4 clearfix cnt-item">
+											<div class="col-sm-5 item-label">
+												<span class="ico-mapfre_82_circle ico-bullet"></span>Dirección:
+											</div>
+											<div class="col-sm-7 item-dato g-text-uppercase">{{formData.contractorAddress.mNombreVia}} {{formData.contractorAddress.mNumeroDireccion}},
+												{{formData.contractorAddress.ubigeoData.mDistrito.Descripcion}}
+												{{formData.contractorAddress.ubigeoData.mProvincia.Descripcion}}
+												{{formData.contractorAddress.ubigeoData.mDepartamento.Descripcion}}</div>
+										</li>
+										<li class="col-md-4 clearfix cnt-item">
+											<div class="col-sm-6 item-label">
+												<span class="ico-mapfre_82_circle ico-bullet"></span>Teléfono:
+											</div>
+											<div class="col-sm-6 item-dato">{{formData.dataContractor2.Telefono}}</div>
+										</li>
+									</ul>
+									<ul class="row">
+										<li class="col-md-4 clearfix cnt-item">
+											<div class="col-sm-6 item-label">
+												<span class="ico-mapfre_82_circle ico-bullet"></span>Correo electrónico:
+											</div>
+											<div class="col-sm-6 item-dato g-text-uppercase">
+												<div class="g-cut-text" uib-popover="{{formData.dataContractor2.EmailUsuario}}" popover-trigger="'mouseenter'">{{formData.dataContractor2.EmailUsuario}}</div>
+											</div>
+										</li>
+										<li class="col-md-4 clearfix cnt-item">
+											<div class="col-sm-5 item-label">
+												<span class="ico-mapfre_82_circle ico-bullet"></span>Representante:
+											</div>
+											<div class="col-sm-7 item-dato g-text-uppercase">{{formData.mRepresentante}}</div>
+										</li>
+										<li class="col-md-4 clearfix cnt-item">
+											<div class="col-sm-6 item-label">
+												<span class="ico-mapfre_82_circle ico-bullet"></span>Cargo representante:
+											</div>
+											<div class="col-sm-6 item-dato">{{formData.mRepresentanteCargo.Descripcion}}</div>
+										</li>
+									</ul>
+								</div>
+							</div>
+						</div>
+		    	</div>
+				</uib-accordion>
+			</div>
+		</div>
+	</div>
+	<!-- Datos de la poliza -->
+	<div class="container">
+		<div class="row">
+			<div class="col-md-12">
+				<uib-accordion close-others="oneAtATime">
+					<div uib-accordion-group class="g-acordeon" is-open="status.open">
+			      <uib-accordion-heading>
+			        Datos de la póliza<i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': status.open, 'glyphicon-chevron-right': !status.open}"></i>
+			      </uib-accordion-heading>
+		      	<div class="g-sec-information">
+							<div class="">
+								<div class="container">
+									<ul class="row">
+										<li class="col-md-4 clearfix cnt-item">
+											<div class="col-sm-5 item-label">
+												<span class="ico-mapfre_82_circle ico-bullet"></span>Actividad:
+											</div>
+											<div class="col-sm-7 item-dato">{{formData.mActEco.CodigoCiiuEmp}} : {{formData.mActEco.DescripcionCiiuEmp}}</div>
+										</li>
+										<li class="col-md-4 clearfix cnt-item">
+											<div class="col-sm-5 item-label">
+												<span class="ico-mapfre_82_circle ico-bullet"></span>Subactividad:
+											</div>
+											<div class="col-sm-7 item-dato g-text-uppercase">
+											{{formData.subactividad ? formData.subactividad.Descripcion : ''}}</div>
+										</li>
+										<li class="col-md-4 clearfix cnt-item">
+											<div class="col-sm-5 item-label">
+												<span class="ico-mapfre_82_circle ico-bullet"></span>Frecuencia:
+											</div>
+											<div class="col-sm-7 item-dato">{{formData.mFrecDeclaracion.Descripcion}}</div>
+										</li>
+									</ul>
+									<ul class="row">
+										<li class="col-md-4 clearfix cnt-item">
+											<div class="col-sm-5 item-label">
+												<span class="ico-mapfre_82_circle ico-bullet"></span>Inicio de Vigencia:
+											</div>
+											<div class="col-sm-7 item-dato">{{formData.desde}}</div>
+										</li>
+										<li class="col-md-4 clearfix cnt-item">
+											<div class="col-sm-5 item-label">
+												<span class="ico-mapfre_82_circle ico-bullet"></span>Fin de Vigencia:
+											</div>
+											<div class="col-sm-7 item-dato">{{formData.hasta}}</div>
+										</li>
+										<li class="col-md-4 clearfix cnt-item">
+											<div class="col-sm-5 item-label">
+												<span class="ico-mapfre_82_circle ico-bullet"></span>Centro de riesgos:
+											</div>
+											<div class="col-sm-7 item-dato g-text-uppercase">{{formData.mCentroRiesgo}}</div>
+										</li>
+									</ul>
+								</div>
+							</div>
+						</div>
+		    	</div>
+				</uib-accordion>
+			</div>
+		</div>
+	</div>
+	<!-- Datos del riesgo -->
+	<div class="container">
+		<div class="row">
+			<div class="col-md-12">
+				<uib-accordion close-others="oneAtATime">
+					<div uib-accordion-group class="g-acordeon" is-open="status.open">
+			      <uib-accordion-heading>
+			        Datos del riesgo<i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': status.open, 'glyphicon-chevron-right': !status.open}"></i>
+			      </uib-accordion-heading>
+		      	<div class="g-sec-information">
+							<div class="">
+								<div class="container">
+									<ul ng-show="formData.pension" class="row">
+										<li class="col-xs-12 clearfix mb-xs-1 h-myd-p--0">
+											<h3 class="h-myd-ml--5"><b>Mapfre pensión</b></h3>
+										</li>
+										<li class="col-md-4 clearfix cnt-item">
+											<div class="col-sm-7 item-label">
+												<span class="ico-mapfre_82_circle ico-bullet"></span>Nro de trabajadores:
+											</div>
+											<div class="col-sm-5 item-dato">{{formData.mNroTrabajadores}}</div>
+										</li>
+										<li class="col-md-4 clearfix cnt-item">
+											<div class="col-sm-7 item-label">
+												<span class="ico-mapfre_82_circle ico-bullet"></span>Importe planilla:
+											</div>
+											<div class="col-sm-5 item-dato">{{formData.mImportePlanillaPension | currency: 'S/.'}}</div>
+										</li>
+										<li class="col-md-4 clearfix cnt-item">
+											<div class="col-sm-7 item-label">
+												<span class="ico-mapfre_82_circle ico-bullet"></span>Tasa %:
+											</div>
+											<div class="col-sm-5 item-dato">{{formData.mTasaPension}} %</div>
+										</li>
+									</ul>
+									<ul ng-show="formData.pension" class="row">
+										<li class="col-md-4 clearfix cnt-item">
+											<div class="col-sm-7 item-label">
+												<span class="ico-mapfre_82_circle ico-bullet"></span>Subtotal:
+											</div>
+											<div class="col-sm-5 item-dato">{{formData.subTotalPension | currency: 'S/.'}}</div>
+										</li>
+										<li class="col-md-4 clearfix cnt-item">
+											<div class="col-sm-7 item-label">
+												<span class="ico-mapfre_82_circle ico-bullet"></span>Prima Neta:
+											</div>
+											<div class="col-sm-5 item-dato">{{formData.primaNetaPension | currency: 'S/.'}}</div>
+										</li>
+										<li class="col-md-4 clearfix cnt-item">
+											<div class="col-sm-7 item-label">
+												<span class="ico-mapfre_82_circle ico-bullet"></span>Factor:
+											</div>
+											<div class="col-sm-5 item-dato">{{formData.factorPension}}</div>
+										</li>
+									</ul>
+									<ul ng-show="formData.pension" class="row">
+										<li class="col-md-4 clearfix cnt-item">
+											<div class="col-sm-7 item-label">
+												<span class="ico-mapfre_82_circle ico-bullet"></span>Prima total:
+											</div>
+											<div class="col-sm-5 item-dato">{{formData.primaTotalPension | currency: 'S/.'}}</div>
+										</li>
+									</ul>
+
+									<ul ng-show="formData.salud" class="row">
+										<li class="col-xs-12 clearfix mb-xs-1 h-myd-p--0">
+											<h3 class="h-myd-ml--5"><b>Mapfre salud</b></h3>
+										</li>
+										<li class="col-md-4 clearfix cnt-item">
+											<div class="col-sm-7 item-label">
+												<span class="ico-mapfre_82_circle ico-bullet"></span>Nro de trabajadores:
+											</div>
+											<div class="col-sm-5 item-dato">{{formData.mNroTrabajadores}}</div>
+										</li>
+										<li class="col-md-4 clearfix cnt-item">
+											<div class="col-sm-7 item-label">
+												<span class="ico-mapfre_82_circle ico-bullet"></span>Importe planilla:
+											</div>
+											<div class="col-sm-5 item-dato">{{formData.mImportePlanillaSalud | currency: 'S/.'}}</div>
+										</li>
+										<li class="col-md-4 clearfix cnt-item">
+											<div class="col-sm-7 item-label">
+												<span class="ico-mapfre_82_circle ico-bullet"></span>Tasa %:
+											</div>
+											<div class="col-sm-5 item-dato">{{formData.mTasaSalud}} %</div>
+										</li>
+									</ul>
+									<ul ng-show="formData.salud" class="row">
+										<li class="col-md-4 clearfix cnt-item">
+											<div class="col-sm-7 item-label">
+												<span class="ico-mapfre_82_circle ico-bullet"></span>Subtotal:
+											</div>
+											<div class="col-sm-5 item-dato">{{formData.subTotalSalud | currency: 'S/.'}}</div>
+										</li>
+										<li class="col-md-4 clearfix cnt-item">
+											<div class="col-sm-7 item-label">
+												<span class="ico-mapfre_82_circle ico-bullet"></span>Prima Neta:
+											</div>
+											<div class="col-sm-5 item-dato">{{formData.primaNetaSalud | currency: 'S/.'}}</div>
+										</li>
+										<li class="col-md-4 clearfix cnt-item">
+											<div class="col-sm-7 item-label">
+												<span class="ico-mapfre_82_circle ico-bullet"></span>Factor:
+											</div>
+											<div class="col-sm-5 item-dato">{{formData.factorSalud}}</div>
+										</li>
+									</ul>
+									<ul ng-show="formData.salud" class="row">
+										<li class="col-md-4 clearfix cnt-item">
+											<div class="col-sm-7 item-label">
+												<span class="ico-mapfre_82_circle ico-bullet"></span>Prima total:
+											</div>
+											<div class="col-sm-5 item-dato">{{formData.primaTotalSalud | currency: 'S/.'}}</div>
+										</li>
+									</ul>
+								</div>
+							</div>
+						</div>
+		    	</div>
+				</uib-accordion>
+			</div>
+		</div>
+	</div>
+	<!-- Datos de los asegurados - Grid -->
+	<div class="g-section">
+		<div class="container">
+			<div class="row">
+				<div class="col-md-8"><h2 class="g-sub-title g-myd-subtitle">Datos de los asegurados</h2></div>
+				<div class=" col-sm-4 col-xs-12 text-right mt-md-1">
+					<a class="g-link green" ng-click="getPlantilla()">Descargar planilla excel</a>
+				</div>
+			</div>
+		</div>
+		<div class="container g-payroll">
+			<div class="row pt-xs-1" ng-show="sinCargar">
+				<div class="col-md-12 text-center">
+					<span class="g-comment">No se ha cargado ninguna planilla</span>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- Button -->
+  <form name="frmPlanillaFile" id="frmPlanillaFile">
+    <div class="g-section">
+      <div class="container text-center">
+        <div class="row mb-md-1 g-file-box">
+          <div class="col-sm-offset-4 col-sm-4 col-xs-12 mb-xs-3">
+            <input
+              type="file"
+              file-model="planilla"
+              accept=".xls,.xlsx, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/vnd.ms-excel"
+              id="file-upload"
+              class="inputfile"/>
+            <label
+              class="g-btn g-btn-green-border block g-myd-center-margin"
+              for="file-upload"
+              ng-click="uploadPlantilla()"
+              ng-if="formData.errorFile === 2">
+              IMPORTAR PLANILLA
+            </label>
+            <div
+              class="g-file-success-box mt-xs-3"
+              data-ng-show="erroresLength > 0">
+              <h2 class="mt-xs-2 mb-xs-3 u-txt--18 u-txt--bold">Hay {{erroresLength}} errores</h2>
+              <div class="u-scroll-h">
+                <div class="clearfix">
+                  <div class="col-xs-12 u-w--930 pl-xs-0 pr-xs-0 g-text-left-xs g-header">
+                    <div class="clearfix">
+                      <div class="col-xs-4 u-txt--18 u-txt--bold">
+                        Error
+                      </div>
+                      <div class="col-xs-3 u-txt--18 u-txt--bold">
+                        Campo
+                      </div>
+                      <div class="col-xs-2 u-txt--18 u-txt--bold">
+                        Fila
+                      </div>
+                      <div class="col-xs-3 u-txt--18 u-txt--bold">
+                        Sugerencia
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="clearfix">
+                  <div class="u-scroll-v--200 col-xs-12 u-w--930 pl-xs-0 pr-xs-0 sctr-table__body">
+                    <div
+                      class="clearfix pt-xs-1 pb-xs-1 g-text-left-xs u-txt--0 sctr-table__row"
+                      data-ng-repeat="item in aseguradosError">
+                      <div class="col-xs-4 u-txt--14">
+                        {{item.Error}}
+                      </div>
+                      <div class="col-xs-3 u-txt--14">
+                        {{item.Campo}}
+                      </div>
+                      <div class="col-xs-2 u-txt--14">
+                        {{item.Fila}}
+                      </div>
+                      <div class="col-xs-3 u-txt--14">
+                        {{item.Sugerencia}}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div
+                class="mt-xs-3 mb-xs-2">
+                <input
+                  type="file"
+                  file-model="planilla"
+                  accept=".xls,.xlsx, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/vnd.ms-excel"
+                  id="file-upload"
+                  class="inputfile"/>
+                <label
+                  class="g-btn g-btn-green-border block u-max-w--370 g-myd-center-margin"
+                  for="file-upload"
+                  ng-click="resetPlanilla(); uploadPlantilla()">
+                  Volver a subir planilla
+                </label>
+              </div>
+            </div>
+            <div
+              class="g-file-success-box clearfix"
+              data-ng-if="erroresLength === 0 && codeOperation !== 200 && !show600">
+              <div
+                class="col-md-12 text-center"
+                data-ng-show="formData.errorFile == 1">
+                <ul class="gErrorIco">
+                  <li><span class="ico-mapfre-347-myd-error sctr-emit__ico-msg-xls"></span>
+                    {{msgResponse}}
+                  </li>
+                </ul>
+                <div
+                  class="mt-xs-3 mb-xs-2">
+                  <input
+                    type="file"
+                    file-model="planilla"
+                    accept=".xls,.xlsx, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/vnd.ms-excel"
+                    id="file-upload"
+                    class="inputfile"/>
+                  <label
+                    class="g-btn g-btn-green-border block u-max-w--370 g-myd-center-margin"
+                    for="file-upload"
+                    ng-click="resetPlanilla(); uploadPlantilla()">
+                    Volver a subir planilla
+                  </label>
+                </div>
+              </div>
+            </div>
+            <div
+              class="row g-file-success-box"
+              data-ng-if="formData.errorFile === 0 && archivoCargado">
+              <div
+                class="col-md-12 text-center">
+                <span class="ico-mapfre_139_excel file-ico sctr-emit__ico-xls"></span>
+              </div>
+              <div class="col-md-12 text-center">
+                <span class="file-name">{{planilla['0'].name}}</span>
+              </div>
+              <div
+                class="col-md-12 text-center"
+                data-ng-show="formData.errorFile === 0">
+                <span class="file-message">Planilla cargada exitosamente</span>
+              </div>
+            </div>
+            <div
+              class="mt-xs-3"
+              data-ng-if="formData.errorFile === 0 && archivoCargado">
+              <a
+                class="g-link green"
+                for="file-upload"
+                data-ng-click="resetPlanilla(); uploadPlantilla()">
+                Volver a cargar la planilla
+              </a>
+            </div>
+          </div>
+          <div class="col-sm-offset-4 col-sm-4 col-xs-12" data-ng-show="formData.errorFile === 0 || codeOperation === 200">
+            <label class="g-btn g-btn-verde block"
+            ng-click="irAEmitir()" ng-hide="hideButtonEmit">EMITIR PÓLIZA</label>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+
+	<form id="cotiza-form" action="" name="frmSCTR4Comment" ng-show="formData.pNormal && (formData.esCliente || formData.esAgente || (formData.esAdminSus && !formData.esAdmin))">
+		<div class="g-section">
+			<div class="container">
+				<div class="row">
+					<div class="col-md-12">
+						<h2 class="g-sub-title c-black h-myd--fz18">Comentarios ({{formData.mensajes.length}})</h2>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-md-12 g-comment-box" ng-repeat="msj in formData.mensajes" >
+						<ul class="row">
+							<li class="col-md-1 col-xs-3 g-comment-box-ico"><span class="ico-mapfre_305_user"></span></li>
+							<li class="col-md-11 col-xs-9 g-comment-box-data">
+								<ul>
+									<li class="data-name">{{msj.RolRemitente}} : {{msj.NombreUsuario}}</li>
+									<li class="data-text">{{msj.DescripcionMensaje}}</li>
+									<li class="data-text"><a href="" ng-click="getAdjunto(msj.ArchivoAdjunto)">{{msj.ArchivoAdjunto}}</a></li>
+								</ul>
+							</li>
+						</ul>
+					</div>
+				</div>
+				<!-- Dirección del contratante -->
+				<div class="g-section" ng-hide="true">
+					<div class="container">
+						<mpf-contractor-address data="formData.contractorAddress"  is-Valid="addressValid" setter-Ubigeo="setterUbigeo" clean-Ubigeo="cleanUbigeo"></mpf-contractor-address>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-md-12 g-comment-input">
+						<ul class="row">
+							<li class="col-md-1 col-xs-3 g-comment-box-ico comentario"><span class="ico-mapfre_305_user"></span></li>
+							<li class="col-md-11 col-xs-9 g-comment-box-data">
+								<div class="row">
+									<div class="col-md-12 pb-xs-2">
+										<mpf-textarea label="{label:'', required: false}" ng-model="mComment" name="nComment" validate="validate[required]" ng-required="true" ng-Maxlength="250"></mpf-textarea>
+										<div class="g-error" ng-show="frmSCTR4Comment.nComment.$error.required && !frmSCTR4Comment.nComment.$pristine">* Ingrese mensaje</div>
+									</div>
+									<div class="col-md-4" ng-repeat="file in myFile" ng-if="myFile">
+										<ul class="box-attachment">
+											<li class="col-md-1 box-ico"><span class="ico-mapfre_92_emitir"></span></li>
+											<li class="col-md-9 box-text">{{file.name}}</li>
+											<li class="col-md-2 box-ico"><a href="" ng-click="deleteFile($index)"><span class="ico-mapfre_46_cancelaroff"></span></a></li>
+										</ul>
+									</div>
+									<div class="col-xs-9 col-md-6 col-md-offset-5 text-right">
+										<div class="row">
+											<div class="col-md-6 col-xs-12 pull-right">
+												<a class="g-btn g-btn-verde block" ng-click="uploadFile()">Guardar</a>
+											</div>
+										</div>
+									</div>
+									<div class="col-md-1 col-xs-3">
+										<label class="g-btn g-btn-transparent g-btn-attach block"><input type="file" file-model="myFile" multiple class="inputfile"/>
+										<span class="ico-mapfre_306_importar"></span></label>
+									</div>
+								</div>
+							</li>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+	</form>
+	<form id="frmDownloadADJ" name="frmDownloadADJ" action="{{adjURL}}" method="post" target="_blank">
+		<input type="hidden" name="json" value='{{adjData}}'>
+	</form>
+</div>

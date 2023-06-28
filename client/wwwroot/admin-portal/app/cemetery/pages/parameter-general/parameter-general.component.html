@@ -1,0 +1,179 @@
+<div class="g-page">
+    <div class="g-title pb-0">
+      <navbar-cemetery data-active="false" data-show-button="true" data-is-disabled="frmRegister.$invalid" data-on-update="$ctrl.updateParameters()"></navbar-cemetery>
+    </div>
+    <div class="g-menu-main__box c-menu-main__box">
+      <tab-cemetery data-tabs="$ctrl.tabs"></tab-cemetery>
+    </div>
+  
+    <div class="g-section mt-xs-1">
+          <form name="frmRegister">
+            <div class="container c-bg-gray pb-md-6">
+                <div class="row">
+                  <!--========== IMAGE ==========-->
+                  <section class="c-section pt-xs-3 pt-md-3" id="image">
+                    <banner-cemetery 
+                      data-form="$ctrl.form"
+                      data-format="$ctrl.format"
+                      data-component="$ctrl.component"
+                      data-on-upload-banner-one="$ctrl.uploadBannerOne($event)"
+                      data-on-upload-banner-two="$ctrl.uploadBannerTwo($event)"
+                      data-on-upload-banner-three="$ctrl.uploadBannerThree($event)">
+                    </banner-cemetery>
+                  </section>
+                  <!--========== INPUT  ==========-->
+                  <section class="c-section">
+                    <div class="row">
+                      <div class="col-md-2">
+                          <div class="c-input__content-title">
+                            <h3 class="c-section__title d-inline-block mr-md-2 mr-xs-2">Cintillo</h3>
+                            <div class="c-toggle d-inline-block">
+                              <mpf-checkbox-toggle 
+                                data-ng-model="$ctrl.form.cintillo.valor3" 
+                                ng-true-value="'1'"
+                                ng-false-value="'0'" 
+                                data-nodrag>
+                              </mpf-checkbox-toggle>
+                            </div>
+                          </div>
+                      </div>
+                      <div class="col-md-10">
+                          <div class="c-input__content-input">
+                              <input type="text" name="nCintillo"  ng-required="true" maxlength="500"  ng-max-length="500" class="c-input__text" ng-model="$ctrl.form.cintillo.valor1">
+                              <ul class="g-error">
+                                  <li ng-show="frmRegister.nCintillo.$invalid && !frmRegister.nCintillo.$pristine">
+                                      Ingrese Cintillo
+                                  </li>
+                              </ul>
+                          </div>
+                      </div>
+                    </div>
+                  </section>
+                  <section class="c-section">
+                    <div class="row">
+                      <div class="col-md-2">
+                          <div class="c-input__content-title">
+                              <h3 class="c-section__title">Titular</h3>
+                          </div>
+                      </div>
+                      <div class="col-md-10">
+                          <div class="c-input__content-input">
+                              <input type="text" name="nTitular"  ng-required="true" maxlength="500"  ng-max-length="500" class="c-input__text" ng-model="$ctrl.form.titular.valor1">
+                              <ul class="g-error">
+                                  <li ng-show="frmRegister.nTitular.$invalid && !frmRegister.nTitular.$pristine">
+                                      Ingrese Titular
+                                  </li>
+                              </ul>
+                          </div>
+                      </div>
+                    </div>
+                  </section>
+                  <section class="c-section">
+                    <div class="row">
+                      <div class="col-md-2">
+                          <div class="c-input__content-title">
+                              <h3 class="c-section__title">Contenido</h3>
+                          </div>
+                      </div>
+                      <div class="col-md-10">
+                          <div class="c-input__content-input">
+                            <ng-quill-editor class="c-quill-editor" name="nContenido" ng-required="true"  max-length="1500"  ng-model="$ctrl.form.contenido.valor3" placeholder="''"><toolbar></toolbar></ng-quill-editor>
+                            <div class="c-message__container">
+                              <ul class="g-error no-margin-xs no-margin-md">
+                                <li ng-show="frmRegister.nContenido.$invalid && !frmRegister.nContenido.$pristine && !frmRegister.nContenido.$error.maxlength">
+                                  Ingrese Contenido
+                                </li>
+                                <li ng-if="frmRegister.nContenido.$error.maxlength">
+                                  Ingrese 1500 caracteres
+                                </li>
+                              </ul>
+                              <div class="g-text-right-xs g-text-right-md">
+                                <span class="c-message__character">Máximo 1500 caracteres</span>
+                              </div>
+                            </div>
+                          </div>
+                      </div>
+                    </div>
+                  </section>
+                  <section class="c-section">
+                    <div class="row">
+                      <div class="col-md-2">
+                          <div class="c-input__content-title">
+                              <h3 class="c-section__title">Whatsapp</h3>
+                          </div>
+                      </div>
+                      <div class="col-md-10">
+                          <div class="c-input__content-input">
+                              <input type="text" name="nWhatsapp"  ng-required="true" maxlength="500"  ng-max-length="500" class="c-input__text"  ng-model="$ctrl.form.whatsapp.valor1">
+                              <ul class="g-error">
+                                  <li ng-show="frmRegister.nWhatsapp.$invalid && !frmRegister.nWhatsapp.$pristine">
+                                      Ingrese Whatsapp
+                                  </li>
+                              </ul>
+                          </div>
+                      </div>
+                    </div>
+                  </section>
+                  <!--========== SERVICES CAROUSEL ==========-->
+                  <section class="c-section" id="service-carousel">
+                    <service-carousel-cemetery 
+                      data-format="$ctrl.format.serviceCarousel" 
+                      data-carousels="$ctrl.form.carousels" 
+                      data-show-switch="false" 
+                      data-show-button="true" 
+                      data-on-upload-carousel="$ctrl.uploadCarousel($event)">
+                    </service-carousel-cemetery>
+                  </section>
+                  <!--========== ADDITIONAL SERVICES  ==========-->
+                  <section class="c-section" id="additional-service">
+                    <additional-service-cemetery 
+                      data-format="$ctrl.format.aditionalService" 
+                      data-services="$ctrl.form.services" 
+                      data-show-switch="false" 
+                      data-show-button="true">
+                    </additional-service-cemetery>
+                  </section>
+                  <!--========== INPUT  ==========-->
+                  <section class="c-section">
+                    <div class="row">
+                      <div class="col-md-2">
+                          <div class="c-input__content-title">
+                              <h3 class="c-section__title">Cláusula de protección de datos</h3>
+                          </div>
+                      </div>
+                      <div class="col-md-10">
+                          <div class="c-input__content-input">
+                              <input type="text" name="nClausula"  ng-required="true"  maxlength="500"  ng-max-length="500" class="c-input__text" ng-model="$ctrl.form.clausula.valor1">
+                              <ul class="g-error">
+                                  <li ng-show="frmRegister.nClausula.$invalid && !frmRegister.nClausula.$pristine">
+                                      Ingrese Cláusula de protección de datos
+                                  </li>
+                              </ul>
+                          </div>
+                      </div>
+                    </div>
+                  </section>
+                  <section class="c-section">
+                    <div class="row">
+                      <div class="col-md-2">
+                          <div class="c-input__content-title">
+                              <h3 class="c-section__title">Libro de reclamaciones</h3>
+                          </div>
+                      </div>
+                      <div class="col-md-10">
+                          <div class="c-input__content-input">
+                              <input type="text" name="nLibro"  ng-required="true" maxlength="500"  ng-max-length="500" class="c-input__text" ng-model="$ctrl.form.libro.valor1">
+                              <ul class="g-error">
+                                  <li ng-show="frmRegister.nLibro.$invalid && !frmRegister.nLibro.$pristine">
+                                      Ingrese Libro de reclamaciones
+                                  </li>
+                              </ul>
+                          </div>
+                      </div>
+                    </div>
+                  </section>
+                </div>
+            </div>
+          </form>
+    </div>
+</div>

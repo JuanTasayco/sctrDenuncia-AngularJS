@@ -1,0 +1,396 @@
+<!-- Step 2 -->
+<form action="" name="frmProductData">
+
+	<!-- newSecInformation -->
+	<div class="g-sec-information">
+		<div class="sec-item h-myd-bg--gray4">
+			<div class="container">
+				<ul class="row cnt-title">
+					<li class="col-xs-6 item-title g-myd-subtitle">Datos del auto</li>
+					<li class="col-xs-6 item-edit">
+						<a class="h-myd--none" href="" ui-sref="autosQuote.steps({step: 1})" ng-hide="$ctrl.usuarioAdmin" ng-click="gotoStep1()">
+							<span class="ico-mapfre_43_editar ico-edit"></span>
+							Editar datos del auto
+						</a>
+						<a class="h-myd--show h-oim-none" href="" ui-sref="autosQuote.steps({step: 1})" ng-hide="$ctrl.usuarioAdmin" ng-click="gotoStep1()">
+							<i class="ico-mapfre_345_myd-edit ico-edit"></i>
+							<span>Editar</span>
+						</a>
+					</li>
+				</ul>
+
+				<ul class="row h-myd-mt--30">
+					<li class="col-md-4 clearfix cnt-item h-myd-pl--0">
+						<div class="col-sm-5 col-md-4 item-label">
+							<span class="ico-mapfre_82_circle ico-bullet"></span>Auto:
+						</div>
+						<div class="col-sm-7 col-md-8 item-dato">
+							{{formData.ModeloMarca.marcaModelo}} {{formData.mYearFabric.Descripcion}}
+							<span ng-show="!edoVehiculoNew && !(mYearFabric | isEmpty)">, USADO</span>
+							<span ng-show="edoVehiculoNew">
+								<span ng-if="optRadio==1">, NUEVO</span>
+								<span ng-if="optRadio==2">, USADO</span>
+							</span>
+						</div>
+					</li>
+					<li class="col-md-4 clearfix cnt-item h-myd-pl--0">
+						<div class="col-sm-5 item-label"><span class="ico-mapfre_82_circle ico-bullet"></span>Valor del auto:</div>
+						<div class="col-sm-7 item-dato">{{formData.valorVehiculo | currency: '$'}}</div>
+					</li>
+					<li class="col-md-4 clearfix cnt-item h-myd-pl--0">
+						<div class="col-sm-5 col-md-4 item-label"><span class="ico-mapfre_82_circle ico-bullet"></span>Circulación:</div>
+						<div class="col-sm-7 col-md-8 item-dato">{{formData.Ubigeo.mDepartamento.Descripcion}}, {{formData.Ubigeo.mProvincia.Descripcion}}, {{formData.Ubigeo.mDistrito.Descripcion}}</div>
+					</li>
+				</ul>
+
+			</div>
+		</div>
+	</div>
+
+	<div class="g-section mt-xs-2">
+		<div class="container">
+			<div class="row"><div class="col-md-12"><h2 class="g-sub-title g-myd-subtitle mb-md-1">Elige el producto que deseas cotizar </h2></div></div>
+
+			<div class="row">
+				<div class="col-md-4 mb-xs-2">
+					<mpf-select ng-model="formData.mProducto" name="nProducto" label="{label: gLblProducto.label,required: true}"
+						m-data-source="productos" text-field="NombreProducto" value-field="CodigoProducto"
+						m-Empty-Option="{text:'Elige producto'}" mpf-validation="required"
+						ng-change="getFuctionsProducto(formData.mProducto);loadTypeUse()"></mpf-select>
+
+					<div class="g-error"
+						ng-show="frmProductData.nProducto.$error.required && !frmProductData.nProducto.$pristine">
+						* Seleccione un producto
+					</div>
+
+					<ul class="gErrorIco firstDesign">
+						<li ng-show="sinProductos"><span class="ico-mapfre_37_informacion ico"></span>No hay productos para cotizar
+							con el agente actual.</li>
+					</ul>
+
+				</div>
+				<div class="col-md-4 mb-xs-2">
+
+					<div class="row">
+						<div class="col-md-12">
+							<mpf-select ng-model="formData.mUsoRiesgo" name="nUsoRiesgo"
+								label="{label: gLblUsoRiesgo.label,required: true}" m-data-source="usoRiesgos" text-field="Descripcion"
+								value-field="Codigo" m-Empty-Option="{text:'Elige tipo de uso'}" mpf-validation="required"
+								ng-change="loadListDescuentoProducto(formData.mUsoRiesgo)"></mpf-select>
+
+							<div class="g-error"
+								ng-show="frmProductData.nUsoRiesgo.$error.required && !frmProductData.nUsoRiesgo.$pristine">* Seleccione
+								un tipo de uso</div>
+
+							<ul class="gErrorIco firstDesign">
+								<li ng-show="sinUsoRiesgo"><span class="ico-mapfre_37_informacion ico"></span>No hay tipos de uso para
+									este producto. Seleccionar otro producto</li>
+							</ul>
+
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- Vigencia de la póliza -->
+	<div class="g-section-inner" ng-if="showVigencia() || formData.mProducto.McaVigencia === 'S'">
+		<div class="container">
+			<div class="row"><div class="col-md-12"><h2 class="g-sub-title g-myd-subtitle mb-1">Vigencia de la póliza</h2></div></div>
+			<div class="row">
+				<div class="col-md-12 mb-1">
+					<div class="row">
+						<div class="col-md-4 mb-xs-2 no-mb-md">
+							<div class="input-group g-date-picker">
+								<label class="g-placeholder animated"><span>*</span>Inicio Vigencia:</label>
+								<input type="text" class="form-control"
+									ng-change="changeDate(formData.inicioVigencia, formData.finVigencia)"
+									uib-datepicker-popup="{{format}}" ng-model="formData.inicioVigencia" is-open="popup1.opened"
+									datepicker-options="dateOptions" ng-required="true" close-text="Close"
+									alt-input-formats="altInputFormats" readonly="readonly" />
+								<span class="input-group-btn">
+									<button type="button" class="btn btn-default" ng-click="open1()"><i
+											class="glyphicon glyphicon-calendar"></i></button>
+								</span>
+							</div>
+						</div>
+						<div class="col-md-4">
+							<div class="input-group g-date-picker">
+								<label class="g-placeholder animated"><span>*</span>Fin Vigencia:</label>
+								<input type="text" class="form-control"
+									ng-change="changeDate(formData.inicioVigencia, formData.finVigencia)"
+									uib-datepicker-popup="{{format}}" ng-model="formData.finVigencia" 
+									datepicker-options="dateOptions" ng-required="true" close-text="Close"
+									alt-input-formats="altInputFormats" readonly="readonly" ng-disabled="disabled" />
+								<span class="input-group-btn">
+									<button type="button" class="btn btn-default"></button><i
+											class="glyphicon glyphicon-calendar"></i></button>
+								</span>
+							</div>
+							<div class="g-polizagrupo-error" ng-show="false">
+								<span><span class="ico-mapfre_37_informacion g-polizagrupo-error-ico"></span>Elige una fecha no mayor a
+									30 días calendarios a partir de hoy</span>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- Poliza de grupo -->
+	<div class="g-section-inner">
+		<div class="container">
+			<div class="row"><div class="col-md-12"><h2 class="g-sub-title g-myd-subtitle mb-1">Póliza de grupo</h2></div></div>
+			<div class="row">
+				<div class="col-md-12 mb-1">
+					<div class="row">
+
+						<mpf-group-polize data="formData.mPolizaGrupo"></mpf-group-polize>
+
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- Datos del canal -->
+	<div class="g-section-inner" ng-hide="!isBancaSeg()">
+		<div class="container">
+			<div class="row"><div class="col-md-12"><h2 class="g-sub-title g-myd-subtitle mb-1">Datos del canal</h2></div></div>
+			<div class="row">
+				<div class="col-md-12 mb-1">
+					<div class="row">
+
+						<div class="col-md-4 mb-xs-2">
+							<mpf-input label="{label: 'Nro. Solicitud', required: false}" name="nNroSolic"
+								ng-model="formData.mNroSolic" mpf-validation="onlyNumber"></mpf-input>
+							<ul class="g-error">
+								<li ng-show="false">* Ingrese un número de documento</li>
+							</ul>
+						</div>
+						<div class="col-md-4 mb-xs-2">
+							<m-numeric-textbox ng-model="formData.mPrimaPactada" options="" name="nPrimaPactada"
+								label="{label: 'Prima pactada',required: false}" ng-required="false"></m-numeric-textbox>
+							<ul class="g-error">
+								<li ng-show="false">* Ingrese prima</li>
+							</ul>
+						</div>
+
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<hr>
+
+	<div class="container">
+		<div class="row">
+			<div class="col-md-12">
+				<h2 class="g-sub-title g-myd-subtitle">Datos del contratante</h2>
+			</div>
+		</div>
+	</div>
+
+	<mpf-person-component
+		person-data="formData.contractor"
+    document-number="documentNumber"
+    document-type="documentType"
+		name="contractor"
+		app-code="{{ appCode }}"
+		form-code="{{ formCodeCN }}"
+		codigo-compania="companyCode"
+		outdata="documentsChange(data)"
+    hidden-fields="hiddenFields"
+	valid-blacklist-numdoc="true"
+  >
+	</mpf-person-component>
+
+	<div class="g-section" ng-show="formData.mTipoDocumento && formData.mNumeroDocumento && formData.showNaturalPerson">
+		<div class="container">
+      <div class="row h-myd-mt--20 h-myd--flex h-myd--flex-wrap h-myd--flex-alg-center" ng-show="formData.opcionesContratante.Codigo == '1'">
+        <div class="col-md-3 mb-xs-2">
+          ¿Quieres imprimir saldo MAPFRE dólar en la cotización?
+        </div>
+        <div class="col-sm-1 col-md-1 mb-xs-2 h-myd--flex h-myd-m--0">
+          <mpf-radio ng-model="formData.optMostrarMDolar" label="gLblSi" info="si"></mpf-radio>
+        </div>
+        <div class="col-sm-1 col-md-1 mb-xs-2 h-myd--flex h-myd-m--0">
+          <mpf-radio ng-model="formData.optMostrarMDolar" label="gLblNo" info="no"></mpf-radio>
+        </div>
+        <div class="col-xs-12 col-sm-10 col-md-7 mb-xs-2 h-myd-m--0" ng-if="formData.optMostrarMDolar == '1'">
+          <div class="myd-mapfre-dolar">
+            <div class="col-xs-12 col-sm-7 col-md-6">
+              <a href="" class="g-btn g-btn-mini g-btn-transparent g-btn-myd-full" ng-click="showMapfreDolares(formData.mTipoDocumento.Codigo, formData.mNumeroDocumento)">Consultar MAPFRE dólares</a>
+            </div>
+            <div class="col-xs-12 col-sm-5 col-md-6 h-myd-p--0 h-myd-mt--20 myd-mapfre-dolar-text">
+              <!-- No existe contratante -->
+              <div class="row" ng-show="bDatosContratante==2">
+                <div class="col-md-12 mb-xs-2 no-mb-md gCRed1-md mt-xs-1 h-myd-mt--0">
+                  <p>No existe el cliente en la base de datos</p>
+                </div>
+              </div>
+
+              <div class="row" ng-show="formData.ImporteMapfreDolar">
+                <div class="col-md-12">
+                  <strong>MAPFRE dólares: </strong>{{formData.ImporteMapfreDolar}}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+	</div>
+
+  <div class="g-section" ng-show="formData.mTipoDocumento && formData.mNumeroDocumento">
+    <div class="container">
+			<div class="row">
+				<div class="col-md-4 mb-xs-1">
+					<mpf-Checkbox
+						ng-model="formData.DctoIntegralidad"
+						label="Aplicar % del ratio de integralidad"
+						ng-change="obtenerDctontegralidad()">
+					</mpf-Checkbox><br />
+					<span ng-show="formData.DctoIntegralidad">Descuento de integralidad {{formData.PorDctoIntgPlaza}}% </span>
+				</div>
+				<div class="col-md-4"></div>
+			</div>
+		</div>
+	</div>
+
+  <div class="g-section" ng-if="formData.isEmblem">
+		<div class="container">
+      <p class="item-title mt-xs-1 gH3">Información adicional</p>
+			<div class="row">
+        <div class="col-md-4 mb-xs-2">
+          <mpf-input
+            label="{label: 'Score (Morosidad) ', required: true}"
+            name="nScore"
+            ng-model="formData.score"
+            disabled-view-model="true"
+            ng-disabled="true"
+          >
+          </mpf-input>
+        </div>
+				<div class="col-md-4 mb-xs-2">
+          <div class="relive">
+            <label class="g-placeholder animated">Fecha de Expedición Brevete <span>*</span></label>
+          </div>
+          <div class="row">
+            <div class="col-xs-3">
+              <mpf-select
+                label="{
+                  label: '',
+                  required: true
+                }"
+                name="day"
+                ng-model="formData.day"
+                text-field="Descripcion"
+                value-field="Codigo"
+                ng-required="true"
+                m-data-source="daySource"
+                m-empty-option="{ text: 'Día' }"
+                ng-disabled="">
+              </mpf-select>
+            </div>
+            <div class="col-xs-4">
+              <mpf-select
+                label="{
+                  label: '',
+                  required: true
+                }"
+                name="month"
+                ng-model="formData.month"
+                text-field="Descripcion"
+                value-field="Codigo"
+                ng-required="true"
+                m-data-source="monthSource"
+                m-empty-option="{ text: 'Mes' }"
+                ng-disabled="">
+              </mpf-select>
+            </div>
+            <div class="col-xs-3">
+              <mpf-select
+                label="{
+                  label: '',
+                  required: true
+                }"
+                name="year"
+                ng-model="formData.year"
+                text-field="Descripcion"
+                value-field="Codigo"
+                ng-required="true"
+                m-data-source="yearSource"
+                m-empty-option="{ text: 'Año' }"
+                ng-disabled="">
+              </mpf-select>
+            </div>
+          </div>
+          <div
+            class="g-error"
+            ng-if="
+              frmProductData.day.$error.required && (!frmProductData.day.$pristine || frmProductData.$submitted) ||
+              frmProductData.month.$error.required && (!frmProductData.month.$pristine || frmProductData.$submitted) ||
+              frmProductData.year.$error.required && (!frmProductData.year.$pristine || frmProductData.$submitted)
+            "
+          >
+            * El campo Fecha de Expedición Brevete es requerido
+          </div>
+        </div>
+			</div>
+		</div>
+	</div>
+
+  <div class="g-section-inner" ng-if="formData.isEmblem">
+		<div class="container">
+			<div class="row">
+        <div class="col-md-12">
+          <h2 class="g-sub-title g-myd-subtitle mb-1">Datos adicionales del auto</h2>
+        </div>
+      </div>
+			<div class="row">
+				<div class="col-md-12 mb-1">
+					<div class="row">
+            <div class="col-xs-3">
+              <mpf-select
+                label="{
+                  label: 'Transmisión del vehículo ',
+                  required: true
+                }"
+                name="nVehicleTransmission"
+                ng-model="formData.VehicleTransmission"
+                text-field="Descripcion"
+                value-field="Codigo"
+                ng-required="true"
+                m-data-source="transmissionTypeList"
+                m-empty-option="{ text: 'Seleccione' }"
+                mpf-validation="required"
+              >
+              </mpf-select>
+              <div class="g-error" ng-show="frmProductData.nVehicleTransmission.$invalid && !frmProductData.nVehicleTransmission.$pristine">
+                * Ingrese una transmisión
+              </div>
+            </div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="g-section">
+		<div class="container">
+			<div class="row">
+				<div class="col-xs-12 mb-xs-3">
+					<span class="g-comment">*Campos obligatorios</span>
+				</div>
+				<div class="col-md-4 col-md-offset-4">
+					<a class="g-btn g-btn-verde block" ng-click="guardarPaso2()">Siguiente</a>
+				</div>
+			</div>
+		</div>
+	</div>
+
+</form>

@@ -1,0 +1,131 @@
+<section class="g-page page-inspeccion-autos page-inspeccion-autos__reportes g-ui-view">
+  <div fixed-section class="g-title">
+    <div class="container">
+      <div class="row">
+        <div class="col-xs-10 col-sm-5 col-md-9 no-mb-sm">
+          <h1>Gestión de tiempos</h1>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="g-section-inner">
+    <form action="" name="frmDocuments">
+      <div class="container">
+        <div
+          show-filter
+          class="clearfix g-col-filter g-box-md gBgcGray5-md gBgcWhite1 g-myd-box"
+          ng-class="{'show': isFilterVisible}"
+        >
+          <div class="col-md-12">
+            <div class="clearfix gH4 gCGray1 mb-xs-1-5">
+              <h2 class="hidden-xs hidden-sm">
+                <b>Buscar</b>
+              </h2>
+              <div
+                id="show-filter"
+                class="row pt-xs-2 pb-xs-2 gBgcGray5 g-border-bottom-xs hidden-md hidden-lg"
+                ng-click="toggleFilter();"
+              >
+                <div class="col-xs-10">
+                  <h2><b>Buscar</b></h2>
+                </div>
+                <div class="col-xs-2 g-text-right-xs">
+                  <span class="glyphicon glyphicon-chevron-down" ng-if="isFilterVisible"></span>
+                  <span class="glyphicon glyphicon-chevron-up" ng-if="!isFilterVisible"></span>
+                </div>
+                <div class="clearfix"></div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-4 mb-xs-2">
+                <mpf-select
+                  label="{label: 'Tipo', required: false}"
+                  name="nType"
+                  ng-model="$ctrl.query.mType"
+                  m-data-source="$ctrl.types"
+                  ng-change="$ctrl.setReportFields()"
+                ></mpf-select>
+              </div>
+              <div class="col-md-4 mb-xs-2">
+                <mpf-select
+                  label="{label: 'Inspector', required: false}"
+                  name="nInspector"
+                  ng-model="$ctrl.query.mInspector"
+                  m-data-source="$ctrl.inspectors"
+                  text-Field="fullName"
+                  value-Field="inspectorId"
+                  m-Empty-Option="{enterData:true}"
+                  ng-required="true"
+                ></mpf-select>
+              </div>
+              <div class="col-md-4 mb-xs-2">
+                <mp-data-seeker
+                  behavior="{label:'Agente ', matchField:'CodigoNombre', placeholder: 'Ingresa nombre o código de agente'}"
+                  m-data-source="$ctrl.getAgents($inputNeed)"
+                  ng-model="$ctrl.query.mAgent"
+                  name="nAgent"
+                >
+                  <div ng-bind-html="$item.CodigoNombre | highlight: $select.search"></div>
+                </mp-data-seeker>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-2 col-sm-6 col-xs-6 mb-xs-2">
+                <mpf-input
+                  label="{label: 'Periodo del', required: false}"
+                  name="nFromYear"
+                  ng-model="$ctrl.query.mFromYear"
+                  mpf-validation="number"
+                  ng-maxLength="4"
+                ></mpf-input>
+              </div>
+              <div class="col-md-2 col-sm-6 col-xs-6 mb-xs-2">
+                <mpf-select
+                  label="{label: '', required: false}"
+                  name="nFromMonth"
+                  ng-model="$ctrl.query.mFromMonth"
+                  m-data-source="$ctrl.months"
+                ></mpf-select>
+              </div>
+              <div class="col-md-2 col-sm-6 col-xs-6 mb-xs-2">
+                <mpf-input
+                  label="{label: 'Al', required: false}"
+                  name="nTo"
+                  ng-model="$ctrl.query.mToYear"
+                  mpf-validation="number"
+                  ng-maxLength="4"
+                ></mpf-input>
+              </div>
+              <div class="col-md-2 col-sm-6 col-xs-6 mb-xs-2">
+                <mpf-select
+                  label="{label: '', required: false}"
+                  name="nToMonth"
+                  ng-model="$ctrl.query.mToMonth"
+                  m-data-source="$ctrl.months"
+                ></mpf-select>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-offset-8 col-md-2 mb-xs-1 no-mb-md">
+                <a href class="g-btn g-btn-verde second-design block" ng-click="$ctrl.queryReport()">Buscar</a>
+              </div>
+              <div class="col-md-2">
+                <a href class="g-btn g-btn-white second-design block" ng-click="$ctrl.clearValues()">Limpiar</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+
+    <inspec-report-results
+      report-properties="$ctrl.reportProperties"
+      ng-if="$ctrl.reportProperties.reportData"
+      group-by="'periodo'"
+      main-row="'tipoRegistro'"
+      on-export="$ctrl.generateReport($event)"
+      no-header="true"
+    ></inspec-report-results>
+    <!-- Resultados -->
+  </div>
+</section>

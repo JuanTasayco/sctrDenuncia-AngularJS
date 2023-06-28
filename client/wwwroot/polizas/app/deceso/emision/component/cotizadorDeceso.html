@@ -1,0 +1,317 @@
+<section ng-form="formVida" class="g-page">
+
+	<page-title info="{title: gLblTitle}"></page-title>
+
+	<div class="g-section-inner">
+		<div class="container">
+			<div class="row">
+				<div class="col-md-12">
+					<h2 class="g-sub-title g-myd-subtitle">Datos de la póliza</h2>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-4 mb-xs-2">
+					<mpf-select label="{label: 'Producto', required: true}" name="nProducto" ng-model="data.producto" ng-change="onProductChange()" m-data-source="productos"
+						text-field="NombreRamoComercial" value-field="NombreRamoComercial" m-Empty-Option="{enterData:true}" ng-required="true" add-messages ng-disabled="disabledProductos" >
+					</mpf-select>
+					<ul class="g-error">
+						<li ng-show="formVida.nProducto.$invalid && !formVida.nProducto.$pristine">* Este campo es obligatorio</li>
+					</ul>
+				</div>
+				<div class="col-md-4 mb-xs-2">
+					<mpf-select label="{label: 'Poliza Grupo', required: true}" name="nPoliza" ng-model="data.polizaGrupo" ng-change="onFinanciamientoChange(true)" m-data-source="polizasGrupo"
+						text-field="NombrePolizaGrupoComercial" value-field="NombrePolizaGrupoComercial" m-Empty-Option="{enterData:true}" ng-required="true" add-messages ng-disabled="disabledPolizasGrupo">
+					</mpf-select>
+					<ul class="g-error">
+						<li ng-show="formVida.nPoliza.$invalid && !formVida.nPoliza.$pristine">* Este campo es obligatorio</li>
+					</ul>
+				</div>
+				<div class="col-md-4 mb-xs-2">
+					<mpf-select label="{label: 'Modalidad', required: true}" name="nModalidad" ng-model="data.modalidad" ng-change="onFinanciamientoChange(true)" m-data-source="modalidades"
+						text-field="NombreModalidadComercial" value-field="NombreModalidadComercial" m-Empty-Option="{enterData:true}" ng-required="true" add-messages ng-disabled="disabledModalidades">
+					</mpf-select>
+					<ul class="g-error">
+						<li ng-show="formVida.nModalidad.$invalid && !formVida.nModalidad.$pristine">* Este campo es obligatorio</li>
+					</ul>
+				</div>
+				<div class="col-md-4 mb-xs-2">
+					<mpf-select label="{label: 'Financiamiento', required: true}" name="nFinanciamiento" ng-model="data.financiamiento" m-data-source="financiamientos"
+						text-field="Descripcion" value-field="Codigo" m-Empty-Option="{enterData:true}" ng-required="true" add-messages ng-disabled="disabledFinanciamientos">
+					</mpf-select>
+					<ul class="g-error">
+						<li ng-show="formVida.nFinanciamiento.$invalid && !formVida.nFinanciamiento.$pristine">* Este campo es obligatorio</li>
+					</ul>
+				</div>
+				<div class="col-md-4 mb-xs-2">
+					<mpf-datepicker label="{label: 'Fecha de inicio vigencia', required: true}" ng-model="data.fechaActual" format="format" name="nFechaActual"
+						ng-change="onFechaActualChanged(data.fechaActual)" ng-click="openModal()" ng-required="true"  nomargin="true" ng-disabled="insuredsList.length">
+					</mpf-datepicker>
+					<ul class="g-error">
+						<li ng-show="formVida.nFechaActual.$invalid && !formVida.nFechaActual.$pristine">* Este campo es obligatorio</li>
+					</ul>
+				</div>
+				<div class="col-md-4 mb-xs-2">
+					<mpf-datepicker label="{label: 'Fecha fin vigencia', required: true}" ng-model="data.fechaVencimiento" ng-disabled="true" format="format" name="nFechaUnAno"
+						ng-change="onFechaVencimientoChanged()" ng-required="true"  nomargin="true">
+					</mpf-datepicker>
+					<ul class="g-error">
+						<li ng-show="formVida.nFechaVencimiento.$invalid && !formVida.nFechaVencimiento.$pristine">* Este campo es obligatorio</li>
+					</ul>
+				</div>												
+			</div>
+			<div class="row">
+				<div class="col-md-4 mb-xs-2">
+					<mpf-input ng-if="!validate('AUTOCOMPLETE AGENTE')" label="{label:'Para cotizar una póliza debes elegir un agente'}" ng-disabled="true" name="valueAgente" ng-model="data.mAgente.codigoNombre"> </mpf-input>
+					<mp-data-seeker ng-if="validate('AUTOCOMPLETE AGENTE')"
+						behavior="{label:'Para cotizar una póliza debes elegir un agente', placeholder:'Busque o seleccione un agente ...', matchField:'codigoNombre'}"
+						m-data-source="findAgent"
+						ng-model="data.mAgente"
+					>
+						<div
+						ng-bind-html="$item.codigoNombre | highlight: $select.search"
+						></div>
+					</mp-data-seeker>
+				</div>
+				<div class="col-md-4 mb-xs-2">
+					<mpf-select label="{label: 'Medio de Pago', required: true}" name="nMedioPago" ng-model="data.medioPago"  m-data-source="medioPagos"
+						text-field="Descripcion" value-field="Descripcion" m-Empty-Option="{enterData:true}" ng-required="true" add-messages>
+					</mpf-select>
+					<ul class="g-error">
+						<li ng-show="formVida.nMedioPago.$invalid && !formVida.nMedioPago.$pristine">* Este campo es obligatorio</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="g-section-inner">
+		<div class="container">
+			<div class="row">
+				<div class="col-md-12">
+					<h2 class="g-sub-title g-myd-subtitle">Datos del contratante</h2>
+				</div>
+				<div class="col-xs-12 panel2">
+					<mpf-person-component 
+						name="datosContratante"
+						person-data="data.ContratantePerson"
+						app-code="{{ appCode }}"
+						form-code="{{ formCodeCN }}"
+						editable="true">
+				  	</mpf-person-component>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="g-section-inner">
+		<div class="container">
+			<div class="row">
+				<div class="col-md-12">
+					<h2 class="g-sub-title g-myd-subtitle">Asegurados</h2>
+				</div>
+			</div>
+			<div class="row" ng-show="!showInsuredForm && !insuredsList.length > 0 ">
+				<div class="col-md-12">
+					<div class="g-box fz14 gBgcGray5 pt-xs-2 pb-xs-2">
+						<div class="clearfix">
+							<div class="col-md-4 col-md-offset-4">
+								<a class="g-btn g-btn-white second-design block" ng-click="onShowInsuredForm()" href="javascript:void(0)">
+									<span class="g-icon">
+										<span class="icon icon-plus ico-mapfre_56_visitasalmedico"></span>
+										<span>Agregar asegurado</span>
+									</span>
+								</a>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			
+
+			<div class="clearfix" ng-show="showInsuredResumen">
+				<div class="g-list-md g-box gBgcGray5 pt-xs-1 g-row-fz12 mb-xs-1 h-myd-pt--20 h-myd-pb--20" ng-repeat="insured in insuredsList track by $index">
+					<div class="col-md-11 g-col-md middle">
+						<ul class="row h-myd-mb--10">
+							<li class="col-md-4 clearfix cnt-item">
+								<div class="col-xs-5 item-label">
+								Nombres:
+								</div>
+								<div class="col-xs-7 item-dato g-text-uppercase">
+								{{insured.Nombre}}
+								</div>
+							</li>
+							<li class="col-md-4 clearfix cnt-item">
+								<div class="col-xs-5 item-label">
+									Apellido paterno:
+								</div>
+								<div class="col-xs-7 item-dato g-text-uppercase">
+                  					{{insured.ApellidoPaterno}}
+								</div>
+							</li>													
+							<li class="col-md-4 clearfix cnt-item">
+								<div class="col-xs-5 item-label">
+								Apellido materno:
+								</div>
+								<div class="col-xs-7 item-dato g-text-uppercase">
+								{{insured.ApellidoMaterno}}
+								</div>
+							</li>
+						</ul>
+						<ul class="row h-myd-mb--10">
+							<li class="col-md-4 clearfix cnt-item">
+								<div class="col-xs-5 item-label">
+									Tipo:
+								</div>
+								<div class="col-xs-7 item-dato g-text-uppercase">
+									{{insured.TipoAsegurado.Descripcion}}
+								</div>
+							</li>	
+							<li class="col-md-4 clearfix cnt-item">
+								<div class="col-xs-5 item-label">
+									Fecha de nacimiento:
+								</div>
+								<div class="col-xs-7 item-dato g-text-uppercase">
+									{{insured.FechaNacimiento}}
+								</div>
+							</li>
+							<li class="col-md-4 clearfix cnt-item">
+								<div class="col-xs-5 item-label">
+									Edad:
+								</div>
+								<div class="col-xs-7 item-dato g-text-uppercase">
+									{{insured.Edad}}
+								</div>
+							</li>
+						</ul>
+						<ul class="row">
+							<li class="col-md-4 clearfix cnt-item h-myd-mb--0">
+								<div class="col-xs-5 item-label">
+									Tipo de documento:
+								</div>
+								<div class="col-xs-7 item-dato g-text-uppercase">
+									{{insured.TipoDocumento.Codigo}}
+								</div>
+							</li>
+							<li class="col-md-4 clearfix cnt-item h-myd-mb--0">
+								<div class="col-xs-5 item-label">
+									Número de documento:
+								</div>
+								<div class="col-xs-7 item-dato g-text-uppercase">
+									{{insured.NumeroDocumento}}
+								</div>
+							</li>
+							<li class="col-md-4 clearfix cnt-item">
+								<div class="col-xs-5 item-label">
+									Sexo:
+								</div>
+								<div class="col-xs-7 item-dato g-text-uppercase">
+									{{insured.Sexo.Descripcion}}
+								</div>
+							</li>
+						</ul>
+						<div class="col-sm-12 mb-sm-2 mt-xs-2 mt-sm-2" >
+							<mpf-checkbox ng-disabled="true" ng-model="insured.cobertura"  label="Incluir la cobertura adicional de Accidentes personales."></mpf-checkbox>
+						</div>
+
+					</div>
+					<div class="col-md-1 g-col-md middle gCGray3 g-text-center-xs">
+						<a href="" ng-click="onDeleteRowInsuredResumen($index)" href="javascript:void(0)">
+						<span class="gnIcon-md ico-mapfre_307_tacho h-myd--none"></span>
+						<span class="gnIcon-md ico-mapfre-363-myd-eliminar h-myd-color--green h-myd--show h-oim-none"></span>
+						</a>
+					</div>
+        		</div>
+
+					<div class="clearfix" ng-show="!showInsuredForm && insuredsList.length > 0">
+					<div class="col-md-3 col-md-offset-9 no-padding-xs">
+						<a class="g-btn g-btn-verde second-design block" ng-click="onShowInsuredForm()" href="javascript:void(0)">agregar asegurado</a>
+					</div>
+				</div>
+			</div>
+
+			<div class="row" ng-form="data.formInsured" ng-if="showInsuredForm">
+				<div class="col-md-12">
+					<div class="clearfix g-box g-visible fz14 gBgcGray5 pt-xs-2 pb-xs-2">
+						<div class="col-sm-12 mb-xs-2">
+							<h2 class="hidden-xs hidden-sm text-center">
+								<b>AGREGANDO ASEGURADO</b>
+							</h2>
+            			</div>
+						<div class="col-sm-12 mb-xs-2 mb-sm-2 mt-xs-2 mt-sm-2" style="color: red !important;" ng-if="data.tipoPersona.Codigo == 'TI'" >
+							<mpf-checkbox ng-model="valcheck.val" label="Los datos del titular son los mismos que los del contratante"></mpf-checkbox>
+						</div>						
+						<div class="col-md-4">
+							<mpf-select
+							  label="{
+								label: 'Tipo',
+								required: true
+							  }"
+							  name="tipoPersona"
+							  ng-model="data.tipoPersona"
+							  m-data-source="tiposPersonas"
+							  text-field="Descripcion"
+							  value-field="Codigo"
+							  m-Empty-Option="{ enterData: true }"
+							  ng-change="onTipoPersonaChange()"
+							  ng-disabled="true"
+							  ng-required="true" add-messages>
+							</mpf-select>
+							<ul class="g-error">
+								<li ng-show="formVida.tipoPersona.$invalid && !formVida.tipoPersona.$pristine">* Este campo es obligatorio</li>
+							</ul>
+						</div>						
+
+						<mpf-person-component ng-if="data.tipoPersona.Codigo == 'TI'"
+						name="compAsegurado1"
+						person-data="data.TitularPerson"
+						text-clean="ASEGURADO"
+						app-code="{{ appCode }}"
+						no-button="data.noButton"
+						block-all="data.blockAll"
+						form-code="{{ formCodeTI }}">
+						</mpf-person-component>
+
+						<mpf-person-component ng-if="data.tipoPersona.Codigo == 'IN'"
+						name="compAsegurado2"
+						person-data="data.IntegrantePerson"
+						text-clean="ASEGURADO"
+						app-code="{{ appCode }}"
+						form-code="{{ formCodeIN }}"
+						editable="true"
+						>
+						</mpf-person-component>
+
+						<div class="col-sm-12 mb-xs-2 mb-sm-2 mt-xs-2 mt-sm-2" ng-if="data.tipoPersona.Codigo == 'IN'">
+							<mpf-checkbox value="-1" ng-model="data.cobertura" label="Incluir la cobertura adicional de Accidentes personales."></mpf-checkbox>
+						</div>
+
+						<div class="clearfix">
+							<div class="col-md-3 col-md-offset-3 mt-xs-1">
+								<a class="g-btn g-btn-white second-design block" ng-click="onHiddenInsuredForm()" href="javascript:void(0)">CANCELAR</a>
+							</div>
+							<div class="col-md-3 mt-xs-1" ng-if="!data.showInsuredFormEdit" >
+								<a class="g-btn g-btn-verde second-design block" ng-click="onAddInsuredData()" href="javascript:void(0)">AGREGAR ASEGURADO</a>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+	<div class="g-section">
+		<div class="container">
+			<div class="row">
+				<div class="col-md-4 col-md-offset-4" ng-if="validate('COTIZAR')" >
+          <a class="g-btn g-btn-verde second-design block"
+          ga-click ga-category="'Emisa - Salud'" ga-action="'MPF - Cotización'" ga-label="'Botón: Cotizar'" ng-click="validationFormQuote()"
+           href="javascript:void(0)">cotizar</a>
+				</div>
+			</div>
+		</div>
+	</div>
+
+</section>
+<form id="frmAttachFileQuote" name="frmAttachFileQuote" action="{{attachFileQuoteURL}}" method="get" target="_blank" >
+</form>

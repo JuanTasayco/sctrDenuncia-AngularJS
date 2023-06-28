@@ -1,0 +1,366 @@
+<div class="g-title" style="border-bottom-style: solid; border-width: 1px; border-color: #d5d5d5; ">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-9 col-xs-9 col-sm-9 col-md-9 col-lg-9 pr-xs-0 pr-md-1 mt-1 title-box">
+        <h1>{{ pharmacy.description }}</h1>
+      </div>
+      <div class="col-md-3">
+        <div class="g-toggle l-height-0" ng-class="{'g-toggle__withOutLabel': !labelData}">
+            <span class="g-toggle__label">{{ pharmacy.status.description }}</span>
+            <input type="checkbox" 
+              id="chkEnabledPharmacy"
+              ng-model="pharmacy.status.enabled"
+              ng-checked="{{pharmacy.status.enabled}}"
+              ng-change="enabledPharmacy()"
+              class="cbx hidden"/>
+            <label for="chkEnabledPharmacy" class="lbl"></label>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="dashboard-body">
+  <div class="g-section-inner g-dashboard-section">
+    <div class="container">
+
+      <div class="row" style="margin-bottom: 15px;" ng-if="!keyEditPharmacy">
+        <h1><strong>Datos de la farmacia aliada</strong></h1>
+      </div>
+
+      <div class="row" ng-if="!keyEditPharmacy">
+        <div class="clearfix mb-xs-2">
+          <div class="col-md-12 g-list-md g-box gBgcGray5 pt-xs-1 mb-xs-1 ng-scope">
+            <div class="row">
+              <div class="col-md-10">
+                <div class="row">
+                  <ul class="row g-list-sm" >
+                    <li class="col-md-12 col-sm-12 col-xs-12  clearfix mb-xs-1 mt-xs-1">
+                      <div class="col-sm-12 col-xs-6 item-label">{{ pharmacy.description }}</div>
+                    </li>
+                  </ul>
+                </div>
+                <div class="row">
+                  <ul class="row g-list-sm" >
+                    <li class="col-md-12 col-sm-12 col-xs-12  clearfix mb-xs-1 mt-xs-1">
+                      <div class="col-sm-12 col-xs-6 item-dato">Aplica para: {{ pharmacy.deliveryIndicator.description }}</div>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+              <div class="col-md-1 col-md-offset-1">
+                <div class="row">
+                  <ul class="row g-list-sm" >
+                    <li class="col-md-12 col-sm-12 col-xs-12 clearfix mb-xs-12 mt-xs-12 gH4">
+                      <div class="col-sm-12 col-xs-12">
+                        <a href="" class="pull-right" ng-click="editPharmacy()" title="Editar">
+                          <!-- <i class="glyphicon glyphicon-pencil nvt-btn-crud"></i> -->
+                          <i class="ico-mapfre_228_editar g-link no-underline gnIcon-sm gCGray3"></i>
+                        </a>
+                      </div>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div  class="row" ng-if="keyEditPharmacy">
+        <div class="col-md-12 g-list-md g-boxRb pt-xs-2 mb-xs-2 ng-scope">
+          <div class="row">
+            <div class="col-md-11" style="font-size:18px">
+              Datos de la farmacia
+            </div>
+          </div>
+          <form action="" name="frmPharmacy">
+            <div class="row g-list-sm clearfix" >
+              <div class="col-md-4 clearfix mb-xs-2 mt-xs-2" style="margin-bottom: 50px;">
+                <mpf-input
+                  ng-model="frm.description"
+                  ng-required="true"
+                  ng-maxlength="60"
+                  label="{label: 'Nombre', required: true}"
+                  name="nPharmacy">
+                </mpf-input>
+                <div class="g-error" data-ng-show="frmPharmacy.nPharmacy.$invalid && !frmPharmacy.nPharmacy.$pristine">
+                  * Ingrese una descripción
+                </div>
+              </div>
+              <div class="col-md-4 clearfix mb-xs-2 mt-xs-2">
+                <div class="col-xs-6" style="padding-top: 34px;">
+                  <mpf-checkbox
+                    ng-model="frm.itsDelivery"
+                    ng-change="changeItsDelivery(frm.itsDelivery)"
+                    ng-required="frm.requiredDelivery"
+                    class="fw-normal"
+                    label="Aplica para delivery"
+                    name="nDelivery"></mpf-checkbox>
+                </div>
+                <div class="col-xs-6" style="padding-top: 34px;">
+                  <mpf-checkbox
+                    ng-model="frm.itsCollect"
+                    ng-change="changeItsCollect(frm.itsCollect)"
+                    ng-required="frm.requiredCollect"
+                    class="fw-normal"
+                    label="Aplica para recojo"
+                    name="nCollect"></mpf-checkbox>
+                </div>
+              </div>
+              <div class="col-md-12 clearfix mb-xs-2 mt-xs-2" style="text-align: right;">
+                <a class="g-btn second-design g-btn-transparent" ng-click="cancelEditPharmacy()">CANCELAR</a>
+                <a class="g-btn second-design g-btn-verde"
+                  ng-class="{disabled: !frmPharmacy.$valid}"
+                  ng-click="saveEditPharmacy()">GUARDAR</a>
+              </div>
+            </div>
+          </form>
+          
+        </div>
+      </div>
+      
+
+      <div class="row">
+        <div class="col-md-4">
+          <h1><strong>Locales registrados</strong></h1>
+        </div>
+        <div class="col-md-8">
+          <div class="col-md-12 clearfix mb-xs-2 mt-xs-2" style="text-align: right;">
+            <a class="g-btn second-design g-btn-verde" ng-click="addLocal()">
+              <i class="glyphicon glyphicon-plus nvt-btn-crud"></i>
+              NUEVO LOCAL</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-3">
+          <filter-local-pharmacy on-search="search($arg)" on-clean="cleanSearch()"></filter-local-pharmacy>
+        </div>
+        <div class="col-md-9">
+          <div class="col-md-12 text-center g-box-noresult ng-scope" ng-if="$ctrl.noResultInfoPharmacyLocales">
+            <div class="row"><div class="col-md-12 g-box-noresult-ico gCBlue2"><span class="ico-mapfre_303_informacion"></span></div>
+              <div class="col-md-12 g-box-noresult-text">Realiza una búsqueda para obtener resultados.</div></div>
+          </div><!-- end ngIf: noResultInfo --><!-- ngIf: noResult --><!-- ngRepeat: item in items --><!-- ngIf: !noResult && totalItems > 10 -->
+          <!-- ngIf: noResultInfo --><!-- ngIf: noResult -->
+          <div class="col-md-12 text-center g-box-noresult ng-scope" ng-if="$ctrl.noResultLocales">
+            <div class="row">
+              <div class="col-md-12 g-box-noresult-ico gCRed1"><span class="ico-mapfre_302_error"></span></div>
+              <div class="col-md-12 g-box-noresult-text">No hay resultados para los filtros escogidos.<br>Intenta de nuevo.</div>
+            </div>
+          </div><!-- end ngIf: noResult --><!-- ngRepeat: item in items --><!-- ngIf: !noResult && totalItems > 10 -->
+
+          <div class="clearfix g-box mb-xs-2" ng-repeat="local in locales">
+
+            <div class="headReg clearfix g-box-content" ng-if="!local.keyEdit">
+              <div class="col-md-12">
+                <b>{{ local.description }}</b>
+                <a href="" class="pull-right" ng-click="editLocal(local)">
+                  <!-- <i class="glyphicon glyphicon-pencil nvt-btn-crud"></i> -->
+                  <i class="ico-mapfre_228_editar g-link no-underline gnIcon-sm gCGray3"></i>
+                </a>
+                <div class="pull-right">
+                  <div class="g-toggle l-height-0" ng-class="{'g-toggle__withOutLabel': !{{ local.status.description }} }">
+                    <span class="g-toggle__label" style="margin-right: 60px;">{{ local.status.description }}</span>
+                    <input type="checkbox" id="chk-{{ local.id }}"
+                           ng-checked="{{local.status.enabled}}"
+                           ng-change="changeCheckedLocal(local)"
+                           class="cbx hidden" ng-model="local.status.enabled"
+                           ng-click="_click($event)" ng-disabled="isDisabled()"/>
+                    <label for="chk-{{ local.id }}" class="lbl" style="margin-left: 80px;"></label>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="clearfix g-box-content gBgcGray5" ng-if="!local.keyEdit">
+              <ul class="row g-list-sm">
+                <li class="col-md-4 clearfix cnt-item">
+                  <div class="col-sm-4 col-xs-6 item-label">
+                    Dirección
+                  </div>
+                  <div class="col-sm-8 col-xs-6 item-dato">{{ local.address.description }}</div>
+                </li>
+              </ul>
+              <ul class="row g-list-sm">
+                <li class="col-md-4 clearfix cnt-item">
+                  <div class="col-sm-4 col-xs-6 item-label">
+                    Departamento
+                  </div>
+                  <div class="col-sm-8 col-xs-6 item-dato">{{ local.address.department.description }}</div>
+                </li>
+                <li class="col-md-4 clearfix cnt-item">
+                  <div class="col-sm-4 col-xs-6 item-label">
+                    Provincia
+                  </div>
+                  <div class="col-sm-8 col-xs-6 item-dato">{{ local.address.province.description }}</div>
+                </li>
+                <li class="col-md-4 clearfix cnt-item">
+                  <div class="col-sm-4 col-xs-6 col-xs-6 item-label">
+                    Distrito
+                  </div>
+                  <div class="col-sm-8 col-xs-6 item-dato">{{ local.address.district.description }}</div>
+                </li>
+              </ul>
+              <ul class="row g-list-sm">
+                <li class="col-md-4 clearfix cnt-item">
+                  <div class="col-sm-4 col-xs-6 item-label">
+                    Correo electrónico
+                  </div>
+                  <div class="col-sm-8 col-xs-6 item-dato">{{ local.email }}</div>
+                </li>
+                <li class="col-md-4 clearfix cnt-item">
+                  <div class="col-sm-4 col-xs-6 item-label">
+                    Teléfono
+                  </div>
+                  <div class="col-sm-8 col-xs-6 item-dato">
+                    {{ local.phoneNumber }}
+                  </div>
+                </li>
+              </ul>
+            </div>
+
+            <div class="headReg clearfix g-box-content" ng-if="local.keyEdit">
+              <div class="col-dm-12">
+                <b>Editar Local</b>
+                <div class="pull-right">
+                  <div class="g-toggle l-height-0" ng-class="{'g-toggle__withOutLabel': !{{ local.status.description }} }">
+                    <span class="g-toggle__label" style="margin-right: 60px;">{{ local.status.description }}</span>
+                    <input type="checkbox" id="chk-{{ local.id }}"
+                           ng-checked="{{local.status.enabled}}"
+                           ng-change="changeChecked(local)"
+                           class="cbx hidden" ng-model="local.status.enabled"
+                           ng-click="_click($event)" ng-disabled="isDisabled()"/>
+                    <label for="chk-{{ local.id }}" class="lbl" style="margin-left: 80px;"></label>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <form name="frmDetailPremises" action="" ng-if="local.keyEdit">
+              <div class="headReg clearfix g-box-content">
+                <div class="col-dm-12">
+                  <div class="col-md-4">
+                    <mpf-input
+                      data-ng-model="local.frm.description"
+                      ng-required="true"
+                      ng-maxlength="100"
+                      mpf-validation="onlyLetterNumberGuion"
+                      label="{label: 'Nombre', required: true}"
+                      name="nPremisesName">
+                    </mpf-input>
+                    <div class="g-error" data-ng-show="frmDetailPremises.nPremisesName.$invalid && !frmDetailPremises.nPremisesName.$pristine">
+                      * Ingrese una descripción
+                    </div>
+                  </div>
+                  <div class="col-md-4">
+                    <mpf-input
+                      data-ng-model="local.frm.email"
+                      ng-required="true"
+                      ng-maxlength="200"
+                      data-mpf-validation="email"
+                      label="{label: 'Correo electrónico', required: true}"
+                      name="nPremisesEmail">
+                    </mpf-input>
+                    <div class="g-error" data-ng-show="frmDetailPremises.nPremisesEmail.$invalid && !frmDetailPremises.nPremisesEmail.$pristine">
+                      * Ingrese un correo válido
+                    </div>
+                  </div>
+                  <div class="col-md-4">
+                    <mpf-input
+                      data-ng-model="local.frm.phoneNumber"
+                      mpf-validation="onlyNumber"
+                      ng-maxlength="9"
+                      label="{label: 'Teléfono', required: false}"
+                      name="nPhoneNumber"
+                      ng-required="false">
+                    </mpf-input>
+                  </div>
+                </div>
+                <div class="col-dm-12">
+                  <div class="col-md-12">
+                    <mpf-input
+                      data-ng-model="local.frm.address.description"
+                      mpf-validation="onlyLetterNumberGuion"
+                      ng-required="true"
+                      ng-maxlength="200"
+                      label="{label: 'Dirección', required: true}"
+                      name="nPremisesAddress">
+                    </mpf-input>
+                    <div class="g-error" data-ng-show="frmDetailPremises.nPremisesAddress.$invalid && !frmDetailPremises.nPremisesAddress.$pristine">
+                      * Ingrese una dirección de recojo
+                    </div>
+                  </div>
+                </div>
+                <div class="col-dm-12">
+                  <div class="col-md-4">
+                    <mpf-select
+                      data-m-data-source="departments"
+                      data-ng-model="local.frm.address.department"
+                      data-text-field="description"
+                      data-value-field="id"
+                      ng-change="changeDepartment(local.frm, local.frm.address.department.id)"
+                      ng-required="true"
+                      label="{label: 'Departamento', required: true}"
+                      m-Empty-Option = "{enterData : true}"
+                      name="nDepartment">
+                    </mpf-select>
+                    <div class="g-error" data-ng-show="frmDetailPremises.nDepartment.$invalid && !frmDetailPremises.nDepartment.$pristine">
+                      * Seleccione un departamento
+                    </div>
+                  </div>
+                  <div class="col-md-4">
+                    <mpf-select
+                      data-m-data-source="local.frm.provinces"
+                      data-ng-model="local.frm.address.province"
+                      data-text-field="description"
+                      data-value-field="id"
+                      ng-change="changeProvince(local.frm, local.frm.address.province.id)"
+                      ng-required="true"
+                      label="{label: 'Provincia ', required: true}"
+                      m-Empty-Option = "{enterData : true}"
+                      name="nProvince">
+                    </mpf-select>
+                    <div class="g-error" data-ng-show="frmDetailPremises.nProvince.$invalid && !frmDetailPremises.nProvince.$pristine">
+                      * Seleccione una provincia
+                    </div>
+                  </div>
+                  <div class="col-md-4">
+                    <mpf-select
+                      data-m-data-source="local.frm.districts"
+                      data-ng-model="local.frm.address.district"
+                      data-text-field="description"
+                      data-value-field="id"
+                      ng-required="true"
+                      label="{label: 'Distrito ', required: true}"
+                      m-Empty-Option = "{enterData : true}"
+                      name="nDistrict">
+                    </mpf-select>
+                    <div class="g-error" data-ng-show="frmDetailPremises.nDistrict.$invalid && !frmDetailPremises.nDistrict.$pristine">
+                      * Seleccione un distrito
+                    </div>
+                  </div>
+  
+                  <div class="col-md-12 clearfix mb-xs-2 mt-xs-2" style="text-align: right;">
+                    <a class="g-btn second-design g-btn-transparent" ng-click="cancel(local)">CANCELAR</a>
+                    <a class="g-btn second-design g-btn-verde"
+                      ng-class="{disabled: !frmDetailPremises.$valid}"
+                      ng-click="editSave(local.frm)"
+                    >GUARDAR</a>
+                  </div>
+                </div>
+              </div>
+            </form>
+            
+          </div>
+
+          <div class="row">
+            <div class="col-md-12">
+              <ul uib-pagination class="g-pagination" ng-model="pagination.currentPage" max-size="pagination.maxSize" total-items="pagination.totalRecords" ng-change="pageChanged()" items-per-page="pagination.sizePerPage" boundary-link-numbers="true"></ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

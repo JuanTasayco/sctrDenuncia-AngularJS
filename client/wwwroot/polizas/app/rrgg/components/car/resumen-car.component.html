@@ -1,0 +1,104 @@
+<contratante contratante="$ctrl.resumen"></contratante>
+<div class="g-list-md g-box gBgcGray5 pt-xs-2 pb-xs-2 pl-xs-2 pr-xs-2">
+  <ul class="row page-rrgg__table-list">
+    <li class="col-sm-12 clearfix mb-xs-1">
+      <div class="item-label">Datos del contrato u obra</div>
+    </li>
+    <li class="col-sm-4 clearfix mb-xs-2 page-rrgg__table-list-item">
+      <div class="col-xs-4 item-label"><span class="ico-mapfre_82_circle ico-bullet"></span>Monto de la obra</div>
+      <div class="col-xs-8 item-dato ng-binding"> {{$ctrl.resumen.MontoObra | currency:
+        $ctrl.currencyType($ctrl.resumen.Moneda.Codigo)}}</div>
+    </li>
+    <li ng-if="$ctrl.resumen.Moneda.Codigo === 2" class="col-sm-4 clearfix mb-xs-2 page-rrgg__table-list-item">
+      <div class="col-xs-4 item-label"><span class="ico-mapfre_82_circle ico-bullet"></span>Tipo de cambio</div>
+      <div class="col-xs-4 item-dato ng-binding">{{$ctrl.resumen.TipoCambio | currency: $ctrl.currencyType(1)}}</div>
+    </li>
+    <li class="col-sm-4 clearfix mb-xs-2 page-rrgg__table-list-item">
+      <div class="col-xs-4 item-label"><span class="ico-mapfre_82_circle ico-bullet"></span>Tipo de proyecto
+      </div>
+      <div class="col-xs-8 item-dato ng-binding">{{$ctrl.resumen.TipoProyecto.Descripcion}}</div>
+    </li>
+    <li class="col-sm-4 clearfix mb-xs-2 page-rrgg__table-list-item">
+      <div class="col-xs-4 item-label"><span class="ico-mapfre_82_circle ico-bullet"></span>Obra</div>
+      <div class="col-xs-8 item-dato ng-binding">{{$ctrl.resumen.Obra}}</div>
+    </li>
+    <li class="col-sm-4 clearfix mb-xs-2 page-rrgg__table-list-item">
+      <div class="col-xs-4 item-label"><span class="ico-mapfre_82_circle ico-bullet"></span>Ubicación</div>
+      <div class="col-xs-8 item-dato ng-binding">{{$ctrl.resumen.Lugar}}</div>
+    </li>
+    <li class="col-sm-4 clearfix mb-xs-2 page-rrgg__table-list-item">
+      <div class="col-xs-4 item-label"><span class="ico-mapfre_82_circle ico-bullet"></span>Fecha validez hasta</div>
+      <div class="col-xs-8 item-dato ng-binding">{{$ctrl.resumen.FechaVigenciaHasta | date:"dd/MM/yyyy"}}</div>
+    </li>
+  </ul>
+</div>
+<div class="row mt-xs-1">
+  <div class="col-md-12">
+    <h2 class="g-sub-title g-myd-subtitle gCBlack1 fwBold">Coberturas básicas</h2>
+  </div>
+</div>
+<div class="g-box gBgcGray5 pt-xs-2 pb-xs-2 pl-xs-2 pr-xs-2 mb-xs-2">
+  <div class="row">
+    <div class="col-xs-12 mb-xs-1">
+      <div class="row gBgcWhite1 no-margin-xs pt-xs-2 pb-xs-2 pl-xs-2 pr-xs-2">
+        <div class="col-xs-12 show-md no-padding-sm">
+          <div class="row mb-xs-2">
+            <div class="col-sm-4">
+              <p class="text-sm mb-xs-0"><b>Coberturas</b></p>
+            </div>
+            <div class="col-sm-4">
+              <p class="text-sm mb-xs-0"><b>Suma Asegurada</b></p>
+            </div>
+            <div class="col-sm-4 g-text-right-md">
+              <p class="text-sm mb-xs-0"><b>Deducibles</b></p>
+            </div>
+          </div>
+        </div>
+        <div class="col-xs-12 pl-sm-0 pr-sm-0">
+          <div ng-repeat="item in $ctrl.resumen.CoberturasBasicas"
+            class="row mb-xs-1 mb-md-2 pb-xs-1 pb-sm-0 row-border">
+            <div class="col-sm-4 mb-xs-1 mb-sm-0">
+              <p class="text-sm mb-xs-0"><b>{{item.Cobertura }}</b></p>
+              <p class="text-xs mb-xs-0">{{item.DetalleCobertura}}</p>
+            </div>
+            <div class="col-sm-4 mb-xs-1 mb-sm-0">
+              <p class="text-xs mb-xs-0">{{item.SumaAsegurada | currency:
+                $ctrl.currencyType($ctrl.resumen.Moneda.Codigo)}}</p>
+                <p class="text-xs mb-xs-0">{{item.DetalleSumaAsegurada}}</p>
+            </div>
+            <div class="col-sm-4 g-text-right-md">
+              <p class="text-sm mb-xs-0 show-sm"><b>Deducibles</b></p>
+              <p class="text-xs mb-xs-0">{{item.DeducibleDetalle}}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <ul class="row g-list-md page-rrgg__table-list">
+    <li class="col-sm-4 clearfix mb-xs-2 page-rrgg__table-list-item">
+      <div class="col-xs-4 item-label"><span class="ico-mapfre_82_circle ico-bullet"></span>Tasa Neta</div>
+      <div class="col-xs-8 item-dato ng-binding">{{$ctrl.resumen.TasaNeta | currency : ''}}% (por mil)</div>
+    </li>
+    <li class="col-sm-4 clearfix mb-xs-2 page-rrgg__table-list-item">
+      <div class="col-xs-4 item-label"><span class="ico-mapfre_82_circle ico-bullet"></span>Prima Comercial por el
+        Período</div>
+      <div class="col-xs-4 item-dato ng-binding">{{$ctrl.resumen.PrimaComercialPeriodo | currency:
+        $ctrl.currencyType($ctrl.resumen.Moneda.Codigo)}}</div>
+    </li>
+    <li class="col-sm-4 clearfix mb-xs-2 page-rrgg__table-list-item">
+      <div class="col-xs-4 item-label"><span class="ico-mapfre_82_circle ico-bullet"></span>Prima Comercial mas IGV
+        por el Período</div>
+      <div class="col-xs-8 item-dato ng-binding">{{$ctrl.resumen.PrimaComercialPeriodoIGV | currency:
+        $ctrl.currencyType($ctrl.resumen.Moneda.Codigo)}}</div>
+    </li>
+    <li ng-if="$ctrl.resumen.Grupo === $ctrl.constantsRrgg.GRUPO.CAR"
+      class="col-sm-6 clearfix mb-xs-2 page-rrgg__table-list-item">
+      <div class="col-xs-3 item-label"><span class="ico-mapfre_82_circle ico-bullet"></span>Comisión de agenciamiento
+      </div>
+      <div class="col-xs-9 item-dato ng-binding pl-md-0">comisión estándar del producto
+        <b>{{$ctrl.resumen.ComisionAseguramiento}}% sujeto a colocación de carta de fianza</b>
+      </div>
+    </li>
+  </ul>
+</div>

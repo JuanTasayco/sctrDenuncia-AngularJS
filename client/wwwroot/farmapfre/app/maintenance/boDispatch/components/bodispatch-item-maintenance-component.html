@@ -1,0 +1,59 @@
+<form name="frmbodispatchItemMaintenance" action="">
+    <div class="col-md-12 g-list-md g-boxRb pt-xs-2 mb-xs-2 ng-scope">
+        <div class="row">
+            <div class="col-md-11" style="font-size:18px">
+                {{$ctrl.title}}
+            </div>
+            <div class="col-md-1 gH4" ng-if="$ctrl.type===2">
+                <a href="" class="pull-right" ng-click="$ctrl.delete($ctrl.bodispatch)" title="Eliminar">
+                    <i class="glyphicon glyphicon-trash nvt-btn-crud"></i>
+                </a>
+            </div>  
+        </div>
+        <div class="row g-list-sm clearfix" >
+            <div class="col-md-4 clearfix mb-xs-2 mt-xs-2">
+                <mpf-input
+                    data-ng-model="$ctrl.frm.name"
+                    ng-minlength="5"
+                    ng-maxlength="50"
+                    mpf-validation="onlyLetterNumberGuion"
+                    label="{label: 'Nombre ', required: true}"
+                    name="nName"
+                    ng-required="true">
+                </mpf-input>
+            </div>
+            <div class="col-md-4 clearfix mb-xs-2 mt-xs-2">
+                <mpf-select
+                    data-m-data-source="$ctrl.branchOffices"
+                    data-ng-model="$ctrl.frm.branchOffice"
+                    data-text-field="description"
+                    data-value-field="id"
+                    label="{label: 'Sede ', required: true}"
+                    m-Empty-Option = "{enterData : true}"
+                    name="nbranchOffice"
+                    ng-required="true"
+                    ng-change="$ctrl.changeBranchOffice($ctrl.frm.branchOffice.id)">
+                </mpf-select>
+            </div>
+            <div class="col-md-4 clearfix mb-xs-2 mt-xs-2">
+                <mpf-select
+                    data-m-data-source="$ctrl.warehouses"
+                    data-ng-model="$ctrl.frm.warehouse"
+                    data-text-field="description"
+                    data-value-field="id"
+                    label="{label: 'Almacén ', required: true}"
+                    m-Empty-Option = "{enterData : true}"
+                    ng-required="true"
+                    name="nWarehouse">
+                </mpf-select>
+            </div> 
+            <div class="col-md-12 clearfix mb-xs-2 mt-xs-2" style="text-align: right;">
+                <a class="g-btn second-design g-btn-transparent" ng-click="$ctrl.cancel()">CANCELAR</a>  
+                <a class="g-btn second-design g-btn-verde" 
+                    ng-class="{disabled: !frmbodispatchItemMaintenance.$valid}" 
+                    ng-click="$ctrl.save()"
+                >{{$ctrl.action}}</a>
+            </div>
+        </div>
+    </div>
+</form>

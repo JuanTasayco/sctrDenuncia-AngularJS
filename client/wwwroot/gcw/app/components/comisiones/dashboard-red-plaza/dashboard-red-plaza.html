@@ -1,0 +1,335 @@
+<div class="consultaGestion">
+
+  <div class="container" ng-show="vm.empty && !vm.loadManager">
+    <div class="row mb-xs-2">
+      <div class="col-md-12 text-center g-box-noresult">
+        <div class="row">
+          <div class="col-md-12 g-box-noresult-ico gCRed1 gCBlue2">
+            <span class="ico-mapfre_303_informacion"></span>
+          </div>
+          <div class="col-md-12 g-box-noresult-text">
+            Selecciona una red y un gestor para ver los resultados.
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="container" ng-show="vm.empty && vm.loadManager">
+    <div class="row mb-xs-2">
+      <div class="col-md-12 text-center g-box-noresult">
+        <div class="row">
+          <div class="col-md-12 g-box-noresult-ico gCRed1">
+            <span class="ico-mapfre_302_error"></span>
+          </div>
+          <div class="col-md-12 g-box-noresult-text">
+           No se encontraron resultados para los filtros ingresados.
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="container" ng-show="!vm.empty && vm.loadManager">
+
+    <div class="row mt-xs-1 g-block-vertical g-div-bottom">
+      <div class="vertical-xs col-xs-12 col-sm-4 col-md-3 mb-xs-2 mb-sm-0">
+        <mp-data-seeker
+          behavior="{label:'Buscar por oficina', placeholder:'Todas las oficinas', require: true, matchField:'fullName'}"
+          m-data-source="vm.getListOffices($inputNeed)"
+          ng-model="vm.mOficinas"
+          name="nOficinas"
+          ng-required="true"">
+          <div ng-bind-html="$item.fullName | highlight: $select.fullName"></div>
+        </mp-data-seeker>
+      </div>
+      <div class="vertical-xs col-xs-12 col-sm-4 col-md-2 mb-xs-2 mb-sm-0">
+        <div class="input-group g-date-picker">
+          <label class="g-placeholder animated">Desde:</label>
+          <input
+            type="text"
+            class="form-control"
+            name="nFechaDesde"
+            uib-datepicker-popup="{{vm.format}}"
+            ng-model="vm.mFechaDesde"
+            is-open="vm.popupDatePickerDesde.opened"
+            datepicker-options="vm.dateOptions"
+            ng-required="true"
+            close-text="Close"
+            alt-input-formats="altInputFormats"
+            readonly="readonly"/>
+          <span class="input-group-btn">
+            <button type="button" class="btn btn-default" ng-click="vm.openPopupDataPickerDesde()"><i class="glyphicon glyphicon-calendar"></i></button>
+          </span>
+        </div>
+      </div>
+      <div class="vertical-xs col-xs-12 col-sm-4 col-md-2 mb-xs-2 mb-sm-0">
+        <div class="input-group g-date-picker">
+          <label class="g-placeholder animated">Hasta:</label>
+          <input
+            type="text"
+            class="form-control"
+            name="nFechaHasta"
+            uib-datepicker-popup="{{vm.format}}"
+            ng-model="vm.mFechaHasta"
+            is-open="vm.popupDatePickerHasta.opened"
+            datepicker-options="vm.dateOptions"
+            ng-required="true"
+            close-text="Close"
+            alt-input-formats="altInputFormats"
+            readonly="readonly"
+          />
+          <span class="input-group-btn">
+            <button type="button" class="btn btn-default" ng-click="vm.openPopupDataPickerHasta()"><i class="glyphicon glyphicon-calendar"></i></button>
+          </span>
+        </div>
+      </div>
+      <div class="vertical-xs col-xs-12 col-md-2 mt-sm-2 mb-xs-2 mb-sm-0">
+        <a class="g-btn g-btn-white second-design block mb-xs-1" ng-click="vm.fnClear()">Limpiar</a>
+        <a class="g-btn g-btn-verde second-design block"
+          ga-click
+          ga-category="'CG - Comisiones'"
+          ga-action="'MPF - Dashboard red plaza - Buscar'"
+          ga-label="'Botón: Filtrar'"
+          ng-click="vm.updateDashboard()">Filtrar</a>
+      </div>
+      <div class="vertical-xs col-xs-12 col-sm-12 col-md-3 mt-xs-0 mt-sm-2 mt-md-0 text-right">
+        Mostrar:
+        <a ng-class="{'gCGreen2 fwBold': vm.classView == 0, '': vm.classView == 1}" ng-click="vm.fnLoadDates(0)">Mensual</a> |
+        <a ng-class="{'gCGreen2 fwBold': vm.classView == 1, '': vm.classView == 0}" ng-click="vm.fnLoadDates(1)">Anual</a>
+      </div>
+    </div>
+
+    <div class="row mt-xs-3 mb-xs-3">
+
+      <div class="col-xs-12 col-sm-8 mb-xs-2 mb-sm-0">
+        <div class="g-box g-new-box g-new-box-shadow">
+          <div class="row mb-xs-2 gH5">
+            <div class="col-xs-12 col-sm-7 fwBold gH3">
+              <strong>Índice de integralidad</strong><br>
+              <span class="fwNormal gH5">Periodo: {{vm.policyIndicatorSection.periodSince}} - {{vm.policyIndicatorSection.periodUntil}}</span>
+            </div>
+            <div class="col-xs-12 col-sm-5 fz16 text-right">
+              NRO DE CLIENTES: <strong>{{vm.nroClientes}}</strong>
+            </div>
+          </div>
+          <div class="row pb-xs-1-5">
+            <div class="col-xs-12">
+              <canvas class="chart-red-plaza" id="indiceDeIntegridad"></canvas>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-xs-12 col-sm-4">
+
+        <div class="clearfix g-box g-new-box-info g-new-box-shadow g-div-bottom g-bock-vertical mb-xs-2">
+          <div class="col-xs-8 col-sm-12 col-md-8 mb-xs-0 mb-sm-1 mb-md-0">
+            <span class="gH4 fwBold"><i class="ico-mapfre_104_auto_front gH2 fwNormal"></i> Autos</span><br>
+            <span>Periodo: {{vm.policyIndicatorSection.periodSince}} - {{vm.policyIndicatorSection.periodUntil}}</span>
+          </div>
+          <div class="col-xs-4 col-sm-12 col-md-4 pr-xs-0 gH1 fwBold g-lheight-1">
+            {{vm.policyIndicatorSection.totalCarPolicy}}
+            <span
+            ng-if="vm.checkValue(vm.policyIndicatorSection.totalCarPolicyBefore, vm.policyIndicatorSection.totalCarPolicy) !==''"
+            class="gH6"
+            ng-class = "{'gCRed1': vm.checkValue(vm.policyIndicatorSection.totalCarPolicyBefore, vm.policyIndicatorSection.totalCarPolicy), 'gCGreen2' : (!vm.checkValue(vm.policyIndicatorSection.totalCarPolicyBefore, vm.policyIndicatorSection.totalCarPolicy) && (vm.policyIndicatorSection.totalCarPolicy - vm.policyIndicatorSection.totalCarPolicyBefore < 0))}">
+              {{ vm.checkValue(vm.policyIndicatorSection.totalCarPolicyBefore, vm.policyIndicatorSection.totalCarPolicy) ? '' : vm.plus}}  {{vm.policyIndicatorSection.totalCarPolicy - vm.policyIndicatorSection.totalCarPolicyBefore}}
+            </span>
+          </div>
+        </div>
+
+        <div class="clearfix g-box g-new-box-info g-new-box-shadow g-div-bottom g-bock-vertical mb-xs-2">
+          <div class="col-xs-8 col-sm-12 col-md-8 mb-xs-0 mb-sm-1 mb-md-0">
+            <span class="gH4 fwBold"><i class="ico-mapfre_219_salud gH2 fwNormal"></i> Salud</span><br>
+            <span>Periodo: {{vm.policyIndicatorSection.periodSince}} - {{vm.policyIndicatorSection.periodUntil}}</span>
+          </div>
+          <div class="col-xs-4 col-sm-12 col-md-4 pr-xs-0 gH1 fwBold g-lheight-1">
+            {{vm.policyIndicatorSection.totalHealthPolicy}}
+            <span
+            ng-if="vm.checkValue(vm.policyIndicatorSection.totalHealthPolicyBefore, vm.policyIndicatorSection.totalHealthPolicy) !==''"
+            class="gH6"
+            ng-class = "{'gCRed1': vm.checkValue(vm.policyIndicatorSection.totalHealthPolicyBefore, vm.policyIndicatorSection.totalHealthPolicy), 'gCGreen2' : (!vm.checkValue(vm.policyIndicatorSection.totalHealthPolicyBefore, vm.policyIndicatorSection.totalHealthPolicy) && (vm.policyIndicatorSection.totalHealthPolicy - vm.policyIndicatorSection.totalHealthPolicyBefore < 0))}">
+              {{ vm.checkValue(vm.policyIndicatorSection.totalHealthPolicyBefore, vm.policyIndicatorSection.totalHealthPolicy) ? '' : vm.plus}}  {{vm.policyIndicatorSection.totalHealthPolicy - vm.policyIndicatorSection.totalHealthPolicyBefore}}
+            </span>
+          </div>
+        </div>
+
+        <div class="clearfix g-box g-new-box-info g-new-box-shadow g-div-bottom g-bock-vertical mb-xs-2">
+          <div class="col-xs-8 col-sm-12 col-md-8 mb-xs-0 mb-sm-1 mb-md-0">
+            <span class="gH4 fwBold"><i class="ico-mapfre_216_hogar gH2 fwNormal"></i> Hogar</span><br>
+            <span>Periodo: {{vm.policyIndicatorSection.periodSince}} - {{vm.policyIndicatorSection.periodUntil}}</span>
+          </div>
+          <div class="col-xs-4 col-sm-12 col-md-4 pr-xs-0 gH1 fwBold g-lheight-1">
+            {{vm.policyIndicatorSection.totalHomePolicy}}
+            <span
+            ng-if="vm.checkValue(vm.policyIndicatorSection.totalHomePolicyBefore, vm.policyIndicatorSection.totalHomePolicy) !==''"
+            class="gH6"
+            ng-class = "{'gCRed1': vm.checkValue(vm.policyIndicatorSection.totalHomePolicyBefore, vm.policyIndicatorSection.totalHomePolicy), 'gCGreen2' : (!vm.checkValue(vm.policyIndicatorSection.totalHomePolicyBefore, vm.policyIndicatorSection.totalHomePolicy) && (vm.policyIndicatorSection.totalHomePolicy - vm.policyIndicatorSection.totalHomePolicyBefore < 0))}">
+              {{ vm.checkValue(vm.policyIndicatorSection.totalHomePolicyBefore, vm.policyIndicatorSection.totalHomePolicy) ? '' : vm.plus}}  {{vm.policyIndicatorSection.totalHomePolicy - vm.policyIndicatorSection.totalHomePolicyBefore}}
+            </span>
+          </div>
+        </div>
+
+        <div class="clearfix g-box g-new-box-info g-new-box-shadow g-div-bottom g-bock-vertical">
+          <div class="col-xs-8 col-sm-12 col-md-8 mb-xs-0 mb-sm-1 mb-md-0">
+            <span class="gH4 fwBold"><i class="ico-mapfre_218_vida gH2 fwNormal"></i> Vida</span><br>
+            <span>Periodo: {{vm.policyIndicatorSection.periodSince}} - {{vm.policyIndicatorSection.periodUntil}}</span>
+          </div>
+          <div class="col-xs-4 col-sm-12 col-md-4 pr-xs-0 gH1 fwBold g-lheight-1">
+            {{vm.policyIndicatorSection.totalLifePolicy}}
+            <span
+            ng-if="vm.checkValue(vm.policyIndicatorSection.totalLifePolicyBefore, vm.policyIndicatorSection.totalLifePolicy) !==''"
+            class="gH6"
+            ng-class = "{'gCRed1': vm.checkValue(vm.policyIndicatorSection.totalLifePolicyBefore, vm.policyIndicatorSection.totalLifePolicy), 'gCGreen2' : (!vm.checkValue(vm.policyIndicatorSection.totalLifePolicyBefore, vm.policyIndicatorSection.totalLifePolicy) && (vm.policyIndicatorSection.totalLifePolicy - vm.policyIndicatorSection.totalLifePolicyBefore < 0))}">
+              {{ vm.checkValue(vm.policyIndicatorSection.totalLifePolicyBefore, vm.policyIndicatorSection.totalLifePolicy) ? '' : vm.plus}}  {{vm.policyIndicatorSection.totalLifePolicy - vm.policyIndicatorSection.totalLifePolicyBefore}}
+            </span>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
+    <div class="row mb-xs-3" ng-show="vm.agentDetailSection.length > 0">
+      <div class="col-xs-12 text-right gH1 gCGreen2">
+        <a>
+          <span class="h-myd--none ico-mapfre ico-mapfre_124_download ico-download" ng-click="vm.downloadReport()"></span>
+          <span class="h-myd--block h-oim-none ico-mapfre ico-mapfre-359-myd-download ico-download" ng-click="vm.downloadReport()"></span>
+        </a>
+      </div>
+    </div>
+
+    <div class="row mb-xs-2">
+
+      <div class="col-xs-12 col-sm-6 col-md-4 mb-xs-2 mb-md-0">
+        <div class="g-tbl-wrapper g-new-tbl-wrapper g-new-tbl-wrapper-fixed">
+          <div class="tbl-main tbl-fixed" ng-style="{'min-width': vm.tblFixed}">
+            <ul class="tbl-header clearfix gBgcGray5">
+              <li class="title col-40-fixed text-center">#</li>
+              <li class="title col-170-fixed">Agente</li>
+              <li class="title col-80-fixed text-center" ng-repeat="lbl in vm.labels">{{lbl}}</li>
+            </ul>
+            <ul class="tbl-body clearfix">
+              <li data-ng-repeat="agente in vm.agentDetailSection track by $index">
+                <ul height-row class="tbl-row clearfix g-u-cursor--pointer">
+                  <li class="cell col-40-fixed text-center">
+                    {{$index + 1}}
+                  </li>
+                  <li class="cell col-170-fixed">
+                    {{agente.agentId}} - {{agente.fullName}}
+                  </li>
+                  <li data-ng-repeat="integrality in vm.data track by $index" class="cell col-80-fixed text-center">
+                    {{integrality | number: 2}}
+                  </li>
+                </ul>
+              </li>
+            </ul>
+            <ul class="tbl-footer clearfix gBgcGray5">
+              <li class="cell col-210-fixed g-text-uppercase">Promedio</li>
+              <li class="cell col-80-fixed text-center" ng-repeat="item in vm.integralitySummary track by $index">{{item.integrality | number: 2 }}</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-xs-12 col-sm-6 col-md-4 mb-xs-2 mb-sm-0">
+        <div tbl-oim class="g-tbl-wrapper g-new-tbl-wrapper g-new-tbl-wrapper-fixed">
+          <div class="tbl-main withOutOverflow">
+            <ul class="tbl-header clearfix gBgcGray5">
+              <li class="title col-20-dktp text-center">Autos</li>
+              <li class="title col-20-dktp text-center">Salud</li>
+              <li class="title col-20-dktp text-center">Hogar</li>
+              <li class="title col-20-dktp text-center">Vida</li>
+              <li class="title col-20-dktp text-center">Suma</li>
+            </ul>
+            <ul class="tbl-body clearfix">
+              <li data-ng-repeat="item in vm.agentDetailSection">
+                <ul height-row class="tbl-row tbl-row-withTotal clearfix g-u-cursor--pointer">
+                  <li class="clearfix cell col-20-dktp text-center">
+                    {{item.totalCarPolicy}}<br>
+                    <span class="gH6" ng-class="{'gCRed1': vm.checkValue(item.totalCarPolicyBefore, item.totalCarPolicy), 'gCGreen2' : (!vm.checkValue(item.totalCarPolicyBefore, item.totalCarPolicy) && (item.totalCarPolicy - item.totalCarPolicyBefore < 0))}">{{ vm.checkValue(item.totalCarPolicyBefore, item.totalCarPolicy) ? '' : vm.plus}}
+                      {{item.totalCarPolicy - item.totalCarPolicyBefore}}
+                    </span>
+                  </li>
+                  <li class="clearfix cell col-20-dktp text-center">
+                    {{item.totalHealthPolicy}}<br>
+                    <span class="gH6" ng-class="{'gCRed1': vm.checkValue(item.totalHealthPolicyBefore, item.totalHealthPolicy), 'gCGreen2': (!vm.checkValue(item.totalHealthPolicyBefore, item.totalHealthPolicy) && (item.totalHealthPolicy - item.totalHealthPolicyBefore < 0)) }">
+                      {{ vm.checkValue(item.totalHealthPolicyBefore, item.totalHealthPolicy) ? '' : vm.plus}}
+                      {{item.totalHealthPolicy - item.totalHealthPolicyBefore}}</span>
+                  </li>
+                  <li class="clearfix cell col-20-dktp text-center">
+                    {{item.totalHomePolicy}}<br>
+                    <span class="gH6" ng-class="{'gCRed1': vm.checkValue(item.totalHomePolicyBefore, item.totalHomePolicy), 'gCGreen2': (!vm.checkValue(item.totalHomePolicyBefore, item.totalHomePolicy) && (item.totalHomePolicy - item.totalHomePolicyBefore < 0))}">
+                      {{ vm.checkValue(item.totalHomePolicyBefore, item.totalHomePolicy) ? '' : vm.plus}}
+                      {{item.totalHomePolicy - item.totalHomePolicyBefore}}</span>
+                  </li>
+                  <li class="clearfix cell col-20-dktp text-center">
+                    {{item.totalLifePolicy}}<br>
+                    <span class="gH6" ng-class="{'gCRed1': vm.checkValue(item.totalLifePolicyBefore, item.totalLifePolicy), 'gCGreen2': (!vm.checkValue(item.totalLifePolicyBefore, item.totalLifePolicy) && (item.totalLifePolicy - item.totalLifePolicyBefore < 0))}">
+                      {{ vm.checkValue(item.totalLifePolicyBefore, item.totalLifePolicy) ? '' : vm.plus}}
+                      {{item.totalLifePolicy - item.totalLifePolicyBefore}}</span>
+                  </li>
+                  <li class="clearfix cell col-20-dktp text-center fwBold gBgcGray5">
+                    {{item.totalCarPolicy + item.totalHealthPolicy + item.totalHomePolicy + item.totalLifePolicy}}<br>
+                    <span class="gH6" ng-class="{'gCGreen2': vm.fnCheckValueAll(item), 'gCRed1': !vm.fnCheckValueAll(item) && (vm.fnDiffPeriods(item) != 0)}">
+                      {{ vm.checkValue((item.totalCarPolicyBefore + item.totalHealthPolicyBefore + item.totalHomePolicyBefore + item.totalLifePolicyBefore), (item.totalCarPolicy + item.totalHealthPolicy + item.totalHomePolicy + item.totalLifePolicy)) ? '' : vm.plus}}{{vm.fnDiffPeriods(item)}} </span>
+                  </li>
+                </ul>
+              </li>
+            </ul>
+            <ul class="tbl-footer clearfix gBgcGray5">
+              <li class="cell col-20-dktp text-center">{{vm.policyTypeSummary.totalCarPolicy | number: 2 }}</li>
+              <li class="cell col-20-dktp text-center">{{vm.policyTypeSummary.totalHomePolicy | number: 2 }}</li>
+              <li class="cell col-20-dktp text-center">{{vm.policyTypeSummary.totalHealthPolicy | number: 2 }}</li>
+              <li class="cell col-20-dktp text-center">{{vm.policyTypeSummary.totalLifePolicy | number: 2 }}</li>
+              <li class="cell col-20-dktp text-center"></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-xs-12 col-sm-12 col-md-4" ng-if="vm.agentDetailSection.length > 0">
+        <div tbl-oim class="g-tbl-wrapper g-new-tbl-wrapper g-new-tbl-wrapper-fixed">
+          <div class="tbl-main withOutOverflow">
+            <ul class="tbl-header clearfix gBgcGray5">
+              <li class="title col-50-dktp text-center">Supervisor</li>
+              <li class="title col-50-dktp text-center">Oficina</li>
+            </ul>
+            <ul class="tbl-body clearfix">
+              <li data-ng-repeat="agente in vm.agentDetailSection">
+                <ul height-row class="tbl-row clearfix g-u-cursor--pointer">
+                  <li class="cell col-50-dktp text-center">
+                    <span class="g-block mt-xs-1">{{agente.supervisorName}}</span>
+                  </li>
+                  <li class="cell col-50-dktp text-center">
+                    <span class="g-block mt-xs-1">{{agente.officeName}}</span>
+                  </li>
+                </ul>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="row" ng-show="vm.totalPages > 1">
+      <div class="col-md-12">
+        <ul uib-pagination class="g-pagination"
+          total-items="vm.totalRows"
+          class="g-pagination"
+          ng-model="vm.currentPage"
+          items-per-page="vm.itemsPerPage"
+          ng-change="vm.pageChanged(vm.currentPage)"
+          num-pages="vm.totalPages"
+          boundary-link-numbers = "true"
+          rotate="true"
+          max-size="10"
+        ></ul>
+      </div>
+    </div>
+
+  </div>
+
+</div>

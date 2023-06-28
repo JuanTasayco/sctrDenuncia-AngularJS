@@ -1,0 +1,59 @@
+<section class="g-relative">
+    <button type="button" class="close g-close-modal" ng-click="closeModal()">
+      <span class="ico-mapfre_231_cancelaroff"></span>
+    </button>
+    <form name="frm">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-12">
+            <h2 class="g-sub-title g-myd-subtitle">{{titulo}}</h2>
+          </div>
+        </div>
+        <div class="row mb-xs-1">
+          <div class="col-md-12">
+            <div class="g-list-md g-box gBgcGray5 pt-xs-1 mb-xs-1 pr-xs-1 pl-xs-1">
+              <ul class="row g-list-md mb-xs-1 mt-xs-1">
+                <li class="col-md-12 clearfix cnt-item">
+                  <div class="col-md-2 col-xs-12 item-label">
+                    <span class="ico-mapfre_82_circle ico-bullet"></span>Solicitante
+                  </div>
+                  <div class="col-md-10 col-xs-12 item-dato g-text-uppercase">
+                    {{solicitante}}
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-12">
+            <p><b>Seleccione motivo de {{subtitulo}}</b></p>
+          </div>
+        </div>
+        <div class="row mb-xs-2">
+            <m-radio ng-disabled="!isEditable" class="col-md-12 col-xs-12 mb-xs-1" label="{label: item.Descripcion}" name="nMotivo" ng-model="model.motivo" value="{{item.Codigo}}" ng-repeat="item in listMotivos" ng-change="changeMotivo();"></m-radio>
+            <ul class="g-error col-md-12 mb-xs-1">
+              <li ng-show="msjerrorMotivo">{{msjerrorMotivo}}</li>
+            </ul>
+        </div>
+        <div class="row">
+          <div class="col-md-12 mb-xs-3">
+            <mpf-textarea  ng-disabled="!isEditableComentario" label="{label: 'Ingrese comentario adicional'}" id="txtComentario" name="txtComentario" ng-model="model.comentario" ng-required="true" ng-Maxlength="1000"></mpf-textarea>
+            <ul class="g-error">
+              <li ng-show="msjerrorComentario">{{msjerrorComentario}}</li>
+            </ul>
+          </div>
+          <div class="col-md-12" ng-if="isEditable">
+            <p style="color: crimson;" ng-if="titulo==='RECHAZAR'" >Si el contrato se rechaza no podrá reactivarlo.</p>
+            <p style="color: crimson;" ng-if="titulo==='CERRAR'">Si el contrato se cierra no podrá reactivarlo.</p>
+          </div>
+        </div>
+        <div class="row mt-xs-2">
+          <div class="col-md-4 col-md-offset-4">
+            <button class="g-btn g-btn-verde block" ng-click="guardar()"  ng-disabled="!isEditable">GUARDAR</button>
+          </div>
+        </div>
+      </div>
+    </form>
+  </section>
+  

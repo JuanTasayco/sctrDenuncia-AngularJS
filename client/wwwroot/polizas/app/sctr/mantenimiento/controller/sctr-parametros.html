@@ -1,0 +1,133 @@
+	<section class="g-page">
+	
+	<div class="g-title">
+		<div class="container">
+			<div class="row">
+				<div class="col-sm-9 mb-xs-2 no-mb-sm">
+					<h1>Mantenimiento de Parámetros</h1>
+				</div>
+				<div class="col-sm-3 mb-xs-2">
+					<a class="g-btn g-btn-verde block"  ng-click="showModalNuevoDatosGrupoParametros();">Nuevo parámetro</a>
+				</div>
+		<!-- 		<div class="col-sm-3 mb-xs-2">
+					<a class="g-btn g-btn-verde block" ng-click="showModalNuevoDetalleDatosGrupoParametros();">Nuevo detalle</a>
+				</div> -->
+			</div>
+		</div>
+	</div>
+
+ <!-- Sección Agente -->
+  <div class="g-section" ng-hide="true">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-5">
+        
+         <span ng-show="!userRoot"><h2>Agente: {{formData.claims.codigoAgente}} - {{formData.claims.nombreAgente}}</h2></span>		         
+          <mp-data-seeker ng-show="userRoot" behavior="{label:'Para cotizar una póliza debes elegir un agente', placeholder:'Busque o seleccione un agente ...', matchField:'codigoNombre'}" m-data-source="'proxyAgente.buscarAgente'" ng-model="mAgente" ng-change="saveAgent(mAgente)">
+              <div ng-bind-html="$item.codigoNombre | highlight: $select.search"></div>
+          </mp-data-seeker>
+
+        </div>
+      </div>
+
+      <div class="row" ng-show="currentStep!=1">
+        <div class="col-md-5">
+          <span ><h2>Agente: {{mAgente.codigoNombre}}</h2></span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+	<div class="g-section-inner">
+		<div class="container">
+			<div class="row">
+				<div class="col-md-12 mb-xs-2">
+					<div class="clearfix g-col-filter g-box-gray1 g-border g-border-color1">
+						<div class="col-md-12">
+							<h2 class="cnt-title">Filtro</h2>
+						</div>
+						<div class="col-md-8 mb-xs-2">
+							<mpf-input label="{label: 'Descripción:', required: false}" name="nDescrip" ng-model="formData.mDescrip"></mpf-input>
+						</div>
+						<div class="col-md-4">
+							<div class="col-sm-6 mb-xs-2"><a href="" class="g-btn g-btn-verde block" ng-click="filter(formData.mDescrip)">Filtrar</a></div>
+							<div class="col-sm-6"><a href="" class="g-btn g-btn-transparent block" ng-click="clearFilter()">Limpiar</a></div>
+						</div>
+							
+					</div>
+				</div>
+
+				<div class="col-md-12">
+					<div class="clearfix g-box sec-design g-box-white" ng-repeat="param in formData.parametros">
+						<div class="row">
+							<div class="col-md-10  mb-xs-2 g-text-uppercase">
+								<ul class="row g-list">
+									<li class="col-xs-2 col-md-1 cnt-item text-center mb-md-2">
+										<a href=""><span class="ico-mapfre_43_editar ico-edit" ng-click="showModalDatosGrupoParametros(param);"></span></a>
+									</li>
+									<li class="col-xs-10 col-md-7 cnt-item mb-md-0 g-border-right g-border-color1">
+										<div class="col-xs-3 no-pr-md item-label">CÓDIGO:&nbsp;</div>
+										<div class="col-xs-9 item-dato">{{param.CodigoGrupo}}</div>
+										<div class="col-sm-3 item-label">DESCRIPCIÓN:&nbsp;</div>
+										<div class="col-sm-9 item-dato">{{param.Descripcion}}</div>
+									</li>
+									<li class="col-xs-10 col-md-4 cnt-item mb-md-0 g-border-noborder">
+										<div class="col-xs-3 col-md-4 no-pr-md item-label">ESTADO:&nbsp;</div>
+										<div class="col-xs-9 col-md-8 no-pl-md item-dato">{{param.DescripcionEstado}}</div>
+									</li>
+								</ul>
+							</div>
+							<div class="col-md-2 ">
+								<ul class="g-list second-design">
+									<li class="col-sm-6 col-sm-offset-3 col-md-12 col-md-offset-0 cnt-item no-pl-md text-center mb-md-0">
+										<a href="" class="g-btn g-btn-transparent block" ng-click="showMore(param.CodigoGrupo, param)">Ver detalle</a>
+									</li>
+								</ul>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<!-- Mensaje de error si no hay resultados de la busqueda -->
+				<div class="col-md-12 g-text-center-xs g-box-noresult" ng-if="formData.noResult">
+					<div class="row">
+						<div class="col-md-12 g-box-noresult-ico"><span class="ico-mapfre_119_wrong ico-wrong"></span></div>
+						<div class="col-md-12 g-box-noresult-text">No hay resultados para los datos ingresados en la busqueda.<br>
+						Intente nuevamente</div>
+					</div>
+				</div>
+
+			</div>
+
+
+			<!-- Inicio: Paginacion -->
+			<!-- <div class="col-md-12 mb-md-2" ng-show="showPages && showCotizaciones"> -->							
+			<!-- <div class="col-md-12 mb-md-2"> -->
+				<!-- <div class="row">
+					<div class="col-md-6 col-md-offset-3">
+						<ul class="g-pages">
+							<li class="g-pages-item"><a ng-click="consultaDocumentosPrev(mContratante, searchOptions.pageActive.number -1 )"><span class="ico-mapfre_78_chevronleft"></span></a></li>
+
+							<li class="g-pages-item" ng-repeat="pageGrid in getNumber(CantidadTotalPaginas) track by $index" ng-class="{active:pageGrid.active, disabled:!pageGrid.active}">
+								<a ng-click="listarCotizacionesVigentes(mContratante, $index+1)">{{$index+1}}</a>
+							</li>
+
+							<li class="g-pages-item"><a ng-click="consultaDocumentosNext(mContratante,searchOptions.pageActive.number)"><span class="ico-mapfre_79_chevroneright"></span></a></li>
+						</ul>
+					</div>
+				</div> -->
+			<!-- </div>  -->
+
+			<!-- PAGINATION -->
+			<!-- <div class="row" ng-if="!noResult">
+				<div class="col-md-9 col-md-offset-3">
+					<ul uib-pagination class="g-pagination" ng-model="mainStep.mPagination" max-size="10" total-items="totalItems" ng-change="pageChanged(mainStep.mPagination)" boundary-link-numbers="true"></ul>
+				</div>
+			</div>
+ -->
+		</div>
+	</div>
+
+
+
+</section>

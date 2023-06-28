@@ -1,0 +1,164 @@
+<section class="g-relative">
+  <button type="button" class="close g-close-modal" ng-click="closeModal()">
+    <span class="ico-mapfre_231_cancelaroff"></span>
+  </button>
+  <form name="frm">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12">
+          <h2 class="g-sub-title g-myd-subtitle">Tipo de producto</h2>
+        </div>
+      </div>
+    </div>
+    <div class="container">
+      <div class="col-md-12 g-box g-box-gray1 g-box-md-body mb-md-2 mb-xs-2">
+        <div class="gH4 gCGray1 mb-xs-1-5">
+          <h2><b>Buscar cobertura</b></h2>
+          </div>
+          <div class="row">
+            <div class="col-md-2 mb-xs-2">
+              <mpf-select label="{label: 'Ramo',required: true}" name="ramo" ng-model="model.ramo" m-data-source="ramo"
+              text-field="Text" value-field="Codigo" m-Empty-Option="{text:'--Seleccione--'}"
+              mpf-validation="required" ng-required="true" ng-change=""></mpf-select>
+              <div class="g-error" ng-show="validControlForm('ramo')">
+                {{cntsSepelios.SMS_ERROR.REQUERIDO}}
+              </div>
+            </div>
+            <div class="col-md-3 mb-xs-2">
+              <mpf-input label="{label: 'Camposanto'}" id="txtCodRamo" name="txtCodRamo" ng-model="model.camposanto"
+              ng-blur="" ng-disabled="">
+              </mpf-input>
+            </div>
+            <div class="col-md-2 mb-xs-2">
+            <mpf-input label="{label: 'Codigo producto'}" id="txtProducto" name="txtProducto"
+              ng-model="model.codProducto" ng-blur="" ng-disabled="">
+              </mpf-input>
+            </div>
+            <div class="col-md-3 mb-xs-2">
+              <mpf-input label="{label: 'Producto'}" id="txtProducto" name="txtProducto" ng-model="model.producto"
+              ng-blur="" ng-disabled="">
+              </mpf-input>
+            </div>
+            <div class="col-md-2 mb-xs-2">
+            <mpf-select label="{label: 'Categoria'}" name="nCategproa" ng-model="model.categoria"
+              m-data-source="categoria" text-field="Descripcion" value-field="Descripcion"
+              m-Empty-Option="{text:'--Seleccione--'}" ng-required="" ng-change=""></mpf-select>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-offset-8 col-md-2 mb-xs-1 no-mb-md">
+              <a href="" class="g-btn g-btn-verde second-design block" ng-click="Buscar()">
+                Buscar
+              </a>
+            </div>
+            <div class="col-md-2">
+              <a href="" class="g-btn g-btn-white second-design block" ng-click="Limpiar()">Limpiar</a>
+            </div>
+          </div>
+        </div>
+      <div class="clearfix mb-xs-4">
+        <div tbl-oim class="col-xs-12 g-tbl-wrapper pl-xs-0">
+          <div class="tbl-main">
+            <ul height-row class="tbl-header clearfix">
+              <li class="title col-14-dktp">Ramo</li>
+              <li class="title col-14-dktp">Nombre de camposanto</li>
+              <li class="title col-14-dktp">Tipo de contrato</li>
+              <li class="title col-14-dktp">Modalidad</li>
+              <li class="title col-15-dktp">Producto</li>
+              <li class="title col-10-dktp">Precio</li>
+              <li class="title col-12-dktp">Categoría</li>
+            </ul>
+            
+            <ul class="tbl-body clearfix" style="overflow-y: clip !important">
+              <li ng-repeat="x in tipoProductoList">
+                <ul height-row class="tbl-row clearfix g-u-cursor--pointer">
+                  <li class="cell col-14-dktp">
+                    <span class="cell-label">
+                      <span class="cell-data" ng-if="x.CodRamo==400"> {{ "Necesidad Inmediata" | uppercase }}</span>
+                      <span class="cell-data" ng-if="x.CodRamo==401"> {{ "Necesidad Futura" | uppercase }}</span>
+                    </span>
+                  </li>
+                  <li class="cell col-14-dktp">
+                    <span class="cell-label"><span class="cell-data">{{x.NombreCampoSanto}}</span></span>
+                  </li>
+                  <li class="cell col-14-dktp">
+                    <span class="cell-label"><span class="cell-data">{{x.NombreTipoContrato}}</span></span>
+                  </li>
+                  <li class="cell col-14-dktp">
+                    <span class="cell-label"><span class="cell-data">{{x.NombreModalidad}}</span></span>
+                  </li>
+                  <li class="cell col-15-dktp">
+                    <span class="cell-label"><span class="cell-data">{{x.NombreProducto}}</span></span>
+                  </li>
+                  <li class="cell col-10-dktp" ng-if="x.Precio">
+                    <span class="cell-label"><span class="cell-data">{{x.Precio | currency : "S/." : 2 }}</span></span>
+                  </li>
+                  <li class="cell col-10-dktp" ng-if="!x.Precio">
+                    <span class="cell-label"><span class="cell-data">{{ '  -  ' }}</span></span>
+                  </li>
+                  <li class="cell col-12-dktp">
+                    <span class="cell-label"><span class="cell-data"> {{x.NombreCategoria}} </span></span>
+                  </li>
+                </ul>
+              </li>
+            </ul>
+            <div class="row" ng-if="pagination.noResult">
+              <div class="col-md-12 mb-xs-1 mt-xs-2 ">
+                <h2 class="g-sub-title g-myd-subtitle" style="margin-left: 30%;"> No existen registros </h2>
+              </div>
+            </div>
+            <div class="row" ng-if="pagination.noSearch">
+              <div class="col-md-12 text-center g-box-noresult">
+                  <div class="row">
+                      <div class="col-md-12 g-box-noresult-ico gCBlue2">
+                          <span class="ico-mapfre_303_informacion"></span>
+                      </div>
+                      <div class="col-md-12 g-box-noresult-text">
+                          Realiza una búsqueda para obtener resultados.
+                      </div>
+                  </div>
+              </div>
+          </div>
+          </div>
+        </div>
+        <div class="row" ng-if="pagination.totalItems > 6">
+            <ul uib-pagination class="g-pagination pr-md-2 pl-md-2" ng-model="pagination.currentPage" max-size="pagination.maxSize"
+              total-items="pagination.totalItems" ng-change="pageChanged(pagination.currentPage)" boundary-link-numbers="true">
+            </ul>
+        </div>
+        
+      </div>
+      <div class="row">
+        <div class="col-md-12">
+          <h2 class="g-sub-title g-myd-subtitle">Tipología de financiamiento</h2>
+        </div>
+      </div>
+      <div class="clearfix">
+        <div tbl-oim class="col-xs-12 g-tbl-wrapper pl-xs-0">
+          <div class="tbl-main" style="min-width: 100%;">
+            <ul height-row class="tbl-header clearfix">
+              <li class="title col-xs-4">Tipología</li>
+              <li class="title col-xs-4">Característica</li>
+              <li class="title col-xs-4">Financiamiento</li>
+            </ul>
+            <ul class="tbl-body clearfix">
+              <li ng-repeat="x in tipologiaFinanciamientoList">
+                <ul height-row class="tbl-row clearfix g-u-cursor--pointer">
+                  <li class="cell col-xs-4">
+                    <span class="cell-label"><span class="cell-data">{{x.Codigo}}</span></span>
+                  </li>
+                  <li class="cell col-xs-4">
+                    <span class="cell-label"><span class="cell-data">{{x.Caracteristica}}</span></span>
+                  </li>
+                  <li class="cell col-xs-4">
+                    <span class="cell-label"><span class="cell-data">{{x.Financiamiento}}</span></span>
+                  </li>
+                </ul>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+</section>

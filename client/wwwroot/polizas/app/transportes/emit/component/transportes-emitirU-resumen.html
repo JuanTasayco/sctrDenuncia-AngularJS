@@ -1,0 +1,601 @@
+<div class="fifth-step">
+	<!-- Resumen datos del riesgo -->
+	<div class="g-sec-information mt-xs-1">
+		<div class="sec-item">
+			<div class="container">
+				<ul class="row cnt-title">
+					<li class="col-xs-6 item-title">Resumen datos del riesgo</li>
+					<li class="col-xs-6 g-text-right-sm hidden-sm hidden-xs">
+						<a href="" ui-sref=".({step: 2})">
+							<span class="g-icon gCGray3">
+								<span class="ico-mapfre_228_editar ico-edit"></span>
+								<span class="g-link">Editar datos del riesgo</span>
+							</span>
+						</a>
+					</li>
+				</ul>
+				<ul class="row">
+					<li class="col-md-4 clearfix cnt-item">
+						<div class="col-xs-5 item-label">
+							<span class="ico-mapfre_82_circle ico-bullet"></span>Tipo de materia asegurada:
+						</div>
+						<div class="col-xs-7 item-dato g-text-uppercase">{{$parent.secondStep.materiaAsegurada.Descripcion}}</div>
+					</li>
+					<li class="col-md-4 clearfix cnt-item">
+						<div class="col-xs-5 item-label">
+							<span class="ico-mapfre_82_circle ico-bullet"></span>Tasa mercadería:
+						</div>
+						<div class="col-xs-7 item-dato g-text-uppercase">{{$parent.secondStep.tasaMercaderia}}</div>
+					</li>
+					<li class="col-md-4 clearfix cnt-item">
+						<div class="col-xs-5 item-label">
+							<span class="ico-mapfre_82_circle ico-bullet"></span>Origen:
+						</div>
+						<div class="col-xs-7 item-dato g-text-uppercase">{{$parent.secondStep.pais.Descripcion}}</div>
+					</li>
+				</ul>
+				<ul class="row">
+					<li class="col-md-4 clearfix cnt-item">
+						<div class="col-xs-5 item-label">
+							<span class="ico-mapfre_82_circle ico-bullet"></span>Destino:
+						</div>
+						<div class="col-xs-7 item-dato g-text-uppercase">{{$parent.secondStep.paisDestino.Descripcion}}</div>
+					</li>
+					<li class="col-md-4 clearfix cnt-item">
+						<div class="col-xs-5 item-label">
+							<span class="ico-mapfre_82_circle ico-bullet"></span>Factura guía:
+						</div>
+						<div class="col-xs-7 item-dato g-text-uppercase">{{$parent.secondStep.facturaGuia}}</div>
+					</li>
+					<li class="col-md-4 clearfix cnt-item">
+						<div class="col-xs-5 item-label">
+							<span class="ico-mapfre_82_circle ico-bullet"></span>Compañía de transporte:
+						</div>
+						<div class="col-xs-7 item-dato g-text-uppercase">{{$parent.secondStep.companniaTransporte}}</div>
+					</li>
+				</ul>
+				<ul class="row">
+					<li class="col-md-4 clearfix cnt-item">
+						<div class="col-xs-5 item-label">
+							<span class="ico-mapfre_82_circle ico-bullet"></span>Nombre del proveedor:
+						</div>
+						<div class="col-xs-7 item-dato g-text-uppercase">{{$parent.secondStep.nombreProveedor}}</div>
+					</li>
+				</ul>
+			</div>
+		</div>
+	</div>
+	<!-- Resumen datos del contratante -->
+	<div class="g-sec-information mt-xs-1">
+		<div class="sec-item">
+			<div class="container">
+				<ul class="row cnt-title">
+					<li class="col-xs-6 item-title">Resumen datos del contratante</li>
+					<li class="col-xs-6 item-edit">
+					<li class="col-xs-6 g-text-right-sm hidden-sm hidden-xs">
+						<a href="" ui-sref=".({step: 4})">
+							<span class="g-icon gCGray3">
+								<span class="ico-mapfre_228_editar ico-edit"></span>
+								<span class="g-link">Editar datos del contratante</span>
+							</span>
+						</a>
+					</li>
+				</ul>
+				<ul class="row">
+					<li class="col-md-4 clearfix cnt-item">
+						<div class="col-xs-5 item-label">
+							<span class="ico-mapfre_82_circle ico-bullet"></span>Documento:
+						</div>
+						<div class="col-xs-7 item-dato g-text-uppercase">{{$parent.fourthStep.contractor.TipoDocumento}}: {{$parent.fourthStep.contractor.CodigoDocumento}}</div>
+					</li>
+					<li class="col-md-4 clearfix cnt-item">
+						<div class="col-xs-5 item-label">
+							<span class="ico-mapfre_82_circle ico-bullet"></span>Nombre / Razón Social:
+						</div>
+						<div class="col-xs-7 g-text-uppercase">
+							<span class="item-title" ng-show="$parent.fourthStep.contractor.showNaturalRucPerson">
+							{{$parent.fourthStep.contractor.Nombre}} {{$parent.fourthStep.contractor.ApellidoPaterno}} {{$parent.fourthStep.contractor.ApellidoMaterno}}
+							</span>
+							<span class="item-title" ng-show="!$parent.fourthStep.contractor.showNaturalRucPerson">
+							{{$parent.fourthStep.contractor.mRazonSocial}}
+							</span>
+						</div>
+					</li>
+					<li class="col-md-4 clearfix cnt-item"  ng-show="$parent.fourthStep.contractor.showNaturalRucPerson">
+						<div class="col-xs-5 item-label">
+							<span class="ico-mapfre_82_circle ico-bullet"></span>Fecha de nacimiento:
+						</div>
+						<div class="col-xs-7 item-dato g-text-uppercase">{{$parent.fourthStep.contractor.day.Codigo + "/" + $parent.fourthStep.contractor.month.Codigo + "/" + $parent.fourthStep.contractor.year.Codigo}}</div>
+					</li>
+				</ul>
+				<ul class="row"  ng-show="!$parent.fourthStep.contractor.showNaturalRucPerson">
+					<li class="col-md-4 clearfix cnt-item">
+						<div class="col-xs-5 item-label">
+							<span class="ico-mapfre_82_circle ico-bullet"></span>Actividad económica:
+						</div>
+						<div class="col-xs-7 item-dato g-text-uppercase">{{$parent.fourthStep.contractor.mActividadEconomica.Descripcion}}</div>
+					</li>
+					<li class="col-md-4 clearfix cnt-item">
+						<div class="col-xs-5 item-label">
+							<span class="ico-mapfre_82_circle ico-bullet"></span>Tel&eacute;fono fijo:
+						</div>
+						<div class="col-xs-7 item-dato g-text-uppercase">{{$parent.fourthStep.contractor.Telefono}}</div>
+					</li>
+				</ul>
+				<ul class="row" ng-show="$parent.fourthStep.contractor.showNaturalRucPerson">
+					<li class="col-md-4 clearfix cnt-item">
+						<div class="col-xs-5 item-label">
+							<span class="ico-mapfre_82_circle ico-bullet"></span>Sexo:
+						</div>
+						<div class="col-xs-7 item-dato g-text-uppercase">{{ $parent.fourthStep.contractor.Sexo === '1' ? 'H' : 'M'}}</div>
+					</li>
+					<li class="col-md-4 clearfix cnt-item">
+						<div class="col-xs-5 item-label">
+							<span class="ico-mapfre_82_circle ico-bullet"></span>Profesi&oacute;n:
+						</div>
+						<div class="col-xs-7 item-dato g-text-uppercase">{{$parent.fourthStep.contractor.Profesion.Descripcion}}</div>
+					</li>
+					<li class="col-md-4 clearfix cnt-item">
+						<div class="col-xs-5 item-label">
+							<span class="ico-mapfre_82_circle ico-bullet"></span>Tel&eacute;fono fijo:
+						</div>
+						<div class="col-xs-7 item-dato g-text-uppercase">{{$parent.fourthStep.contractor.Telefono}}</div>
+					</li>
+				</ul>
+				<ul class="row">
+					<li class="col-md-4 clearfix cnt-item">
+						<div class="col-xs-5 item-label">
+							<span class="ico-mapfre_82_circle ico-bullet"></span>Tel&eacute;fono m&oacute;vil:
+						</div>
+						<div class="col-xs-7 item-dato g-text-uppercase">{{$parent.fourthStep.contractor.Telefono2}}</div>
+					</li>
+					<li class="col-md-4 clearfix cnt-item">
+						<div class="col-xs-5 item-label">
+							<span class="ico-mapfre_82_circle ico-bullet"></span>Correo electr&oacute;nico:
+						</div>
+						<div class="col-xs-7 item-dato g-text-uppercase">{{$parent.fourthStep.contractor.CorreoElectronico}}</div>
+					</li>
+				</ul>
+				<ul class="row">
+					<li class="col-md-4 clearfix cnt-item">
+						<div class="col-xs-5 item-label">
+							<span class="ico-mapfre_82_circle ico-bullet"></span>Departamento:
+						</div>
+						<div class="col-xs-7 item-dato g-text-uppercase">{{$parent.fourthStep.contractorAddress.ubigeoData.mDepartamento.Descripcion | uppercase}}</div>
+					</li>
+					<li class="col-md-4 clearfix cnt-item">
+						<div class="col-xs-5 item-label">
+							<span class="ico-mapfre_82_circle ico-bullet"></span>Provincia:
+						</div>
+						<div class="col-xs-7 item-dato g-text-uppercase">{{$parent.fourthStep.contractorAddress.ubigeoData.mProvincia.Descripcion | uppercase}}</div>
+					</li>
+					<li class="col-md-4 clearfix cnt-item">
+						<div class="col-xs-5 item-label">
+							<span class="ico-mapfre_82_circle ico-bullet"></span>Distrito:
+						</div>
+						<div class="col-xs-7 item-dato g-text-uppercase">{{$parent.fourthStep.contractorAddress.ubigeoData.mDistrito.Descripcion | uppercase}}</div>
+					</li>
+				</ul>
+				<ul class="row">
+					<li class="col-md-4 clearfix cnt-item">
+						<div class="col-xs-5 item-label">
+							<span class="ico-mapfre_82_circle ico-bullet"></span>Via:
+						</div>
+						<div class="col-xs-7 item-dato g-text-uppercase">{{$parent.fourthStep.contractorAddress.mTipoVia.Descripcion | uppercase}} {{$parent.fourthStep.contractorAddress.mNombreVia | uppercase}}</div>
+					</li>
+					<li class="col-md-4 clearfix cnt-item">
+						<div class="col-xs-5 item-label">
+							<span class="ico-mapfre_82_circle ico-bullet"></span>Enumeración:
+						</div>
+						<div class="col-xs-7 item-dato g-text-uppercase">{{$parent.fourthStep.contractorAddress.mTipoNumero.Descripcion | uppercase}} {{$parent.fourthStep.contractorAddress.mNumeroDireccion | uppercase}}</div>
+					</li>
+					<li class="col-md-4 clearfix cnt-item">
+						<div class="col-xs-5 item-label">
+							<span class="ico-mapfre_82_circle ico-bullet"></span>Enumeración Interior:
+						</div>
+						<div class="col-xs-7 item-dato g-text-uppercase">{{$parent.fourthStep.contractorAddress.mTipoInterior.Descripcion | uppercase}} {{$parent.fourthStep.contractorAddress.mNumeroInterior | uppercase}}</div>
+					</li>
+				</ul>
+				<ul class="row">
+					<li class="col-md-4 clearfix cnt-item">
+						<div class="col-xs-5 item-label">
+							<span class="ico-mapfre_82_circle ico-bullet"></span>Zona:
+						</div>
+						<div class="col-xs-7 item-dato g-text-uppercase">{{$parent.fourthStep.contractorAddress.mNombreZona | uppercase}}</div>
+					</li>
+					<li class="col-md-4 clearfix cnt-item">
+						<div class="col-xs-5 item-label">
+							<span class="ico-mapfre_82_circle ico-bullet"></span>Referencia:
+						</div>
+						<div class="col-xs-7 item-dato g-text-uppercase">{{$parent.fourthStep.contractorAddress.mDirReferencias | uppercase}}</div>
+					</li>
+				</ul>
+			</div>
+		</div>
+	</div>
+	<!-- Endosatario -->
+	<div class="g-sec-information mt-xs-1" ng-show="$parent.fourthStep.endosatario.Codigo != null">
+		<div class="sec-item">
+			<div class="container">
+				<ul class="row cnt-title" >
+					<li class="col-xs-6 item-title">Endosatario</li>
+				</ul>
+				<ul class="row">
+					<li class="col-md-4 clearfix cnt-item">
+						<div class="col-xs-5  item-label">
+							<span class="ico-mapfre_82_circle ico-bullet"></span>Endosatario:
+						</div>
+						<div class="col-xs-7 item-dato g-text-uppercase">{{$parent.fourthStep.endosatario.Descripcion}}</div>
+					</li>
+					<li class="col-md-4 clearfix cnt-item">
+						<div class="col-xs-5 item-label">
+							<span class="ico-mapfre_82_circle ico-bullet"></span>Suma a endosar:
+						</div>
+						<div class="col-xs-7 item-dato g-text-uppercase">$ {{$parent.thirdStep.valorMercaderia | number}}</div>
+					</li>
+				</ul>
+			</div>
+		</div>
+	</div>
+	<!-- Resumen Prima -->
+	<div class="g-section-inner">
+		<div class="container">
+			<!-- Título -->
+			<div class="row">
+				<div class="col-md-12">
+			  	<h2 class="g-sub-title">Resumen Prima</h2>
+			  </div>
+			</div>
+		</div>
+		<div class="container">
+			<div class="col-md-12 g-box g-calcular-prima">
+				<div class="row gBgcGray5 pb-xs-0-5 pt-xs-0-5 g-list-md">
+					<div class="col-md-6 col-md-offset-3 clearfix">
+						<div class="col-xs-7 item-label">
+							<span class="ico-mapfre_82_circle ico-bullet"></span>Importe Sobreseguro $:
+						</div>
+						<div class="col-xs-5 item-dato g-text-uppercase text-right">{{($parent.thirdStep.calculo.ImporteSobreSeguro | number) || '-'}}</div>
+					</div>
+				</div>
+				<div class="row pb-xs-0-5 pt-xs-0-5 g-list-md">
+					<div class="col-md-6 col-md-offset-3 clearfix">
+						<div class="col-xs-7 item-label">
+							<span class="ico-mapfre_82_circle ico-bullet"></span>Importe asegurador mercader&iacute;a $:
+						</div>
+						<div class="col-xs-5 item-dato g-text-uppercase text-right">{{($parent.thirdStep.calculo.ImporteAsegurado | number) || '-'}}</div>
+					</div>
+				</div>
+				<div class="row gBgcGray5 pb-xs-0-5 pt-xs-0-5 g-list-md">
+					<div class="col-md-6 col-md-offset-3 clearfix">
+						<div class="col-xs-7 item-label">
+							<span class="ico-mapfre_82_circle ico-bullet"></span>Importe derecho de aduana $:
+						</div>
+						<div class="col-xs-5 item-dato g-text-uppercase text-right">{{($parent.thirdStep.calculo.ImporteDerechoAduana | number) || '-'}}</div>
+					</div>
+				</div>
+				<div class="row pb-xs-0-5 pt-xs-0-5 g-list-md">
+					<div class="col-md-6 col-md-offset-3 clearfix">
+						<div class="col-xs-7 item-label">
+							<span class="ico-mapfre_82_circle ico-bullet"></span>Importe asegurado $:
+						</div>
+						<div class="col-xs-5 item-dato g-text-uppercase text-right">{{($parent.thirdStep.calculo.TotalImporteAsegurado | number) || '-'}}</div>
+					</div>
+				</div>
+				<div class="row gBgcGray5 pb-xs-0-5 pt-xs-0-5 g-list-md">
+					<div class="col-md-6 col-md-offset-3 clearfix">
+						<div class="col-xs-7 item-label">
+							<span class="ico-mapfre_82_circle ico-bullet"></span>Importe Prima $:
+						</div>
+						<div class="col-xs-5 item-dato g-text-uppercase text-right">{{($parent.thirdStep.calculo.PrimaNeta | number) || '-'}}</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- Button -->
+	<div class="g-section">
+		<div class="container">
+			<div class="row">
+				<div class="col-md-4 col-md-offset-4">
+					<a class="g-btn g-btn-verde block" ng-click="onEmitirConfirmacion()">EMITIR POLIZA</a>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+<!-- <div class="paso5">
+	<div class="g-sec-information mt-xs-1">
+		<div class="sec-item">
+			<div class="container">
+				<ul class="row cnt-title">
+					<li class="col-xs-6 item-title">Resumen datos del riesgo</li>
+					<li class="col-xs-6 item-edit">
+						<a href="" ui-sref=".({step: 2})"><span class="ico-mapfre_43_editar ico-edit"></span>Editar datos del riesgo</a>
+					</li>
+				</ul>
+				<ul class="row">
+					<li class="col-md-4 clearfix cnt-item">
+						<div class="col-xs-5 item-label">
+							<span class="ico-mapfre_82_circle ico-bullet"></span>Tipo de materia asegurada:
+						</div>
+						<div class="col-xs-7 item-dato g-text-uppercase">{{$parent.secondStep.materiaAsegurada.Descripcion}}</div>
+					</li>
+
+					<li class="col-md-4 clearfix cnt-item">
+						<div class="col-xs-5 item-label">
+							<span class="ico-mapfre_82_circle ico-bullet"></span>Tasa mercadería:
+						</div>
+						<div class="col-xs-7 item-dato g-text-uppercase">{{$parent.secondStep.tasaMercaderia}}</div>
+					</li>
+
+					<li class="col-md-4 clearfix cnt-item">
+						<div class="col-xs-5 item-label">
+							<span class="ico-mapfre_82_circle ico-bullet"></span>Origen:
+						</div>
+						<div class="col-xs-7 item-dato g-text-uppercase">{{$parent.secondStep.pais.Descripcion}}</div>
+					</li>
+				</ul>
+				<ul class="row">
+					<li class="col-md-4 clearfix cnt-item">
+						<div class="col-xs-5 item-label">
+							<span class="ico-mapfre_82_circle ico-bullet"></span>Destino:
+						</div>
+						<div class="col-xs-7 item-dato g-text-uppercase">{{$parent.secondStep.paisDestino.Descripcion}}</div>
+					</li>
+
+					<li class="col-md-4 clearfix cnt-item">
+						<div class="col-xs-5 item-label">
+							<span class="ico-mapfre_82_circle ico-bullet"></span>Factura guía:
+						</div>
+						<div class="col-xs-7 item-dato g-text-uppercase">{{$parent.secondStep.facturaGuia}}</div>
+					</li>
+
+					<li class="col-md-4 clearfix cnt-item">
+						<div class="col-xs-5 item-label">
+							<span class="ico-mapfre_82_circle ico-bullet"></span>Compañía de transporte:
+						</div>
+						<div class="col-xs-7 item-dato g-text-uppercase">{{$parent.secondStep.companniaTransporte}}</div>
+					</li>
+				</ul>
+				<ul class="row">
+					<li class="col-md-4 clearfix cnt-item">
+						<div class="col-xs-5 item-label">
+							<span class="ico-mapfre_82_circle ico-bullet"></span>Nombre del proveedor:
+						</div>
+						<div class="col-xs-7 item-dato g-text-uppercase">{{$parent.secondStep.nombreProveedor}}</div>
+					</li>
+				</ul>
+			</div>
+		</div>
+	</div>
+
+	<div class="g-sec-information mt-xs-1">
+		<div class="sec-item">
+			<div class="container">
+				<ul class="row cnt-title">
+					<li class="col-xs-6 item-title">Resumen datos del contratante</li>
+					<li class="col-xs-6 item-edit">
+						<a href="" ui-sref=".({step: 4})"><span class="ico-mapfre_43_editar ico-edit"></span>Editar datos del contratante</a>
+					</li>
+				</ul>
+				<ul class="row">
+					<li class="col-md-4 clearfix cnt-item">
+						<div class="col-xs-5 item-label">
+							<span class="ico-mapfre_82_circle ico-bullet"></span>Documento:
+						</div>
+						<div class="col-xs-7 item-dato g-text-uppercase">{{$parent.fourthStep.contractor.mTipoDocumento.Codigo}}: {{$parent.fourthStep.contractor.mNumeroDocumento}}</div>
+					</li>
+
+					<li class="col-md-4 clearfix cnt-item">
+						<div class="col-xs-5 item-label">
+							<span class="ico-mapfre_82_circle ico-bullet"></span>Nombre / Razón Social:
+						</div>
+						<div class="col-xs-7 g-text-uppercase">
+							<span class="item-title" ng-show="$parent.fourthStep.contractor.mTipoDocumento.Codigo !== 'RUC'">
+							{{$parent.fourthStep.contractor.mNomContratante}}
+							</span>
+							<span class="item-title" ng-show="$parent.fourthStep.contractor.mTipoDocumento.Codigo === 'RUC'">
+							{{$parent.fourthStep.contractor.mRazonSocial}}
+							</span>
+						</div>
+					</li>
+
+					<li class="col-md-4 clearfix cnt-item"  ng-show="$parent.fourthStep.contractor.mTipoDocumento.Codigo !== 'RUC'">
+						<div class="col-xs-5 item-label">
+							<span class="ico-mapfre_82_circle ico-bullet"></span>Fecha de nacimiento:
+						</div>
+						<div class="col-xs-7 item-dato g-text-uppercase">{{$parent.fourthStep.contractor.mDay.id + "-" + $parent.fourthStep.contractor.mMonth.id + "-" + $parent.fourthStep.contractor.mYear.id}}</div>
+					</li>
+				</ul>
+				<ul class="row"  ng-show="$parent.fourthStep.contractor.mTipoDocumento.Codigo === 'RUC'">
+					<li class="col-md-4 clearfix cnt-item">
+						<div class="col-xs-5 item-label">
+							<span class="ico-mapfre_82_circle ico-bullet"></span>Actividad económica:
+						</div>
+						<div class="col-xs-7 item-dato g-text-uppercase">{{$parent.fourthStep.contractor.mActividadEconomica.Descripcion}}</div>
+					</li>
+					<li class="col-md-4 clearfix cnt-item">
+						<div class="col-xs-5 item-label">
+							<span class="ico-mapfre_82_circle ico-bullet"></span>Tel&eacute;fono fijo:
+						</div>
+						<div class="col-xs-7 item-dato g-text-uppercase">{{$parent.fourthStep.contractor.mTelefonoFijo}}</div>
+					</li>
+				</ul>
+				<ul class="row" ng-show="$parent.fourthStep.contractor.mTipoDocumento.Codigo !== 'RUC'">
+					<li class="col-md-4 clearfix cnt-item">
+						<div class="col-xs-5 item-label">
+							<span class="ico-mapfre_82_circle ico-bullet"></span>Sexo:
+						</div>
+						<div class="col-xs-7 item-dato g-text-uppercase">{{$parent.fourthStep.contractor.mSexo}}</div>
+					</li>
+					<li class="col-md-4 clearfix cnt-item">
+						<div class="col-xs-5 item-label">
+							<span class="ico-mapfre_82_circle ico-bullet"></span>Profesi&oacute;n:
+						</div>
+						<div class="col-xs-7 item-dato g-text-uppercase">{{$parent.fourthStep.contractor.mProfesion.Descripcion}}</div>
+					</li>
+					<li class="col-md-4 clearfix cnt-item">
+						<div class="col-xs-5 item-label">
+							<span class="ico-mapfre_82_circle ico-bullet"></span>Tel&eacute;fono fijo:
+						</div>
+						<div class="col-xs-7 item-dato g-text-uppercase">{{$parent.fourthStep.contractor.mTelefonoFijo}}</div>
+					</li>
+				</ul>
+				<ul class="row">
+					<li class="col-md-4 clearfix cnt-item">
+						<div class="col-xs-5 item-label">
+							<span class="ico-mapfre_82_circle ico-bullet"></span>Tel&eacute;fono m&oacute;vil:
+						</div>
+						<div class="col-xs-7 item-dato g-text-uppercase">{{$parent.fourthStep.contractor.mTelefonoCelular}}</div>
+					</li>
+					<li class="col-md-4 clearfix cnt-item">
+						<div class="col-xs-5 item-label">
+							<span class="ico-mapfre_82_circle ico-bullet"></span>Correo electr&oacute;nico:
+						</div>
+						<div class="col-xs-7 item-dato g-text-uppercase">{{$parent.fourthStep.contractor.mCorreoElectronico}}</div>
+					</li>
+				</ul>
+				<ul class="row">
+					<li class="col-md-4 clearfix cnt-item">
+						<div class="col-xs-5 item-label">
+							<span class="ico-mapfre_82_circle ico-bullet"></span>Departamento:
+						</div>
+						<div class="col-xs-7 item-dato g-text-uppercase">{{$parent.fourthStep.contractorAddress.ubigeoData.mDepartamento.Descripcion | uppercase}}</div>
+					</li>
+					<li class="col-md-4 clearfix cnt-item">
+						<div class="col-xs-5 item-label">
+							<span class="ico-mapfre_82_circle ico-bullet"></span>Provincia:
+						</div>
+						<div class="col-xs-7 item-dato g-text-uppercase">{{$parent.fourthStep.contractorAddress.ubigeoData.mProvincia.Descripcion | uppercase}}</div>
+					</li>
+					<li class="col-md-4 clearfix cnt-item">
+						<div class="col-xs-5 item-label">
+							<span class="ico-mapfre_82_circle ico-bullet"></span>Distrito:
+						</div>
+						<div class="col-xs-7 item-dato g-text-uppercase">{{$parent.fourthStep.contractorAddress.ubigeoData.mDistrito.Descripcion | uppercase}}</div>
+					</li>
+				</ul>
+				<ul class="row">
+					<li class="col-md-4 clearfix cnt-item">
+						<div class="col-xs-5 item-label">
+							<span class="ico-mapfre_82_circle ico-bullet"></span>Via:
+						</div>
+						<div class="col-xs-7 item-dato g-text-uppercase">{{$parent.fourthStep.contractorAddress.mTipoVia.Descripcion | uppercase}} {{$parent.fourthStep.contractorAddress.mNombreVia | uppercase}}</div>
+					</li>
+					<li class="col-md-4 clearfix cnt-item">
+						<div class="col-xs-5 item-label">
+							<span class="ico-mapfre_82_circle ico-bullet"></span>Enumeración:
+						</div>
+						<div class="col-xs-7 item-dato g-text-uppercase">{{$parent.fourthStep.contractorAddress.mTipoNumero.Descripcion | uppercase}} {{$parent.fourthStep.contractorAddress.mNumeroDireccion | uppercase}}</div>
+					</li>
+					<li class="col-md-4 clearfix cnt-item">
+						<div class="col-xs-5 item-label">
+							<span class="ico-mapfre_82_circle ico-bullet"></span>Enumeración Interior:
+						</div>
+						<div class="col-xs-7 item-dato g-text-uppercase">{{$parent.fourthStep.contractorAddress.mTipoInterior.Descripcion | uppercase}} {{$parent.fourthStep.contractorAddress.mNumeroInterior | uppercase}}</div>
+					</li>
+				</ul>
+				<ul class="row">
+					<li class="col-md-4 clearfix cnt-item">
+						<div class="col-xs-5 item-label">
+							<span class="ico-mapfre_82_circle ico-bullet"></span>Zona:
+						</div>
+						<div class="col-xs-7 item-dato g-text-uppercase">{{$parent.fourthStep.contractorAddress.mNombreZona | uppercase}}</div>
+					</li>
+					<li class="col-md-4 clearfix cnt-item">
+						<div class="col-xs-5 item-label">
+							<span class="ico-mapfre_82_circle ico-bullet"></span>Referencia:
+						</div>
+						<div class="col-xs-7 item-dato g-text-uppercase">{{$parent.fourthStep.contractorAddress.mDirReferencias | uppercase}}</div>
+					</li>
+				</ul>
+			</div>
+		</div>
+	</div>
+
+	<div class="g-sec-information mt-xs-1" ng-show="$parent.fourthStep.endosatario.Codigo != null">
+		<div class="sec-item">
+			<div class="container">
+				<ul class="row cnt-title" >
+					<li class="col-xs-6 item-title">Endosatario</li>
+				</ul>
+				<ul class="row">
+					<li class="col-md-4 clearfix cnt-item">
+						<div class="col-sm-5 item-label">
+							<span class="ico-mapfre_82_circle ico-bullet"></span>Endosatario:
+						</div>
+						<div class="col-xs-7 item-dato g-text-uppercase">{{$parent.fourthStep.endosatario.Descripcion}}</div>
+					</li>
+
+					<li class="col-md-4 clearfix cnt-item">
+						<div class="col-sm-5 item-label">
+							<span class="ico-mapfre_82_circle ico-bullet"></span>Suma a endosar:
+						</div>
+						<div class="col-xs-7 item-dato g-text-uppercase">$ {{$parent.thirdStep.valorMercaderia | number}}</div>
+					</li>
+				</ul>
+			</div>
+		</div>
+	</div>
+
+	<div class="container calcularPrima mt-md-3">
+		<div class="row">
+			<div class="col-md-3 col-sm-4 col-xs-6">
+				<span class="ico-mapfre_82_circle g-datastep-info-dot"></span>
+				Importe Sobreseguro $:
+			</div>
+			<div class="col-md-9 col-sm-8 col-xs-6">
+				{{($parent.thirdStep.calculo.ImporteSobreSeguro | number) || '-'}}
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-3 col-sm-4 col-xs-6">
+				<span class="ico-mapfre_82_circle g-datastep-info-dot"></span>
+				Importe asegurador mercader&iacute;a $:
+			</div>
+			<div class="col-md-9 col-sm-8 col-xs-6">
+				{{($parent.thirdStep.calculo.ImporteAsegurado | number) || '-'}}
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-3 col-sm-4 col-xs-6">
+				<span class="ico-mapfre_82_circle g-datastep-info-dot"></span>
+				Importe derecho de aduana $:
+			</div>
+			<div class="col-md-9 col-sm-8 col-xs-6">
+				{{($parent.thirdStep.calculo.ImporteDerechoAduana | number) || '-'}}
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-3 col-sm-4 col-xs-6">
+				<span class="ico-mapfre_82_circle g-datastep-info-dot"></span>
+				Importe asegurado $:
+			</div>
+			<div class="col-md-9 col-sm-8 col-xs-6">
+				{{($parent.thirdStep.calculo.TotalImporteAsegurado | number) || '-'}}
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-3 col-sm-4 col-xs-6">
+				<span class="ico-mapfre_82_circle g-datastep-info-dot"></span>
+				Importe Prima $:
+			</div>
+			<div class="col-md-9 col-sm-8 col-xs-6">
+				{{($parent.thirdStep.calculo.PrimaNeta | number) || '-'}}
+			</div>
+		</div>
+	</div>
+
+	<div class="g-section">
+		<div class="container">
+			<div class="row">
+				<div class="col-md-4 col-md-offset-4">
+					<a class="g-btn g-btn-verde block" ng-click="onEmitirConfirmacion()">EMITIR POLIZA</a>
+				</div>
+			</div>
+		</div>
+	</div>
+
+</div> -->

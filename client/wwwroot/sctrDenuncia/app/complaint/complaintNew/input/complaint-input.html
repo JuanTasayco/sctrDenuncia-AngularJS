@@ -1,0 +1,403 @@
+<div id="form-views" class="g-complaint-detail">
+    <form name="frmComplaintDetail">
+        <div class="sec-auto g-section-inner">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12 mb-1">
+                        <h2 class="g-sub-title">Datos del Asegurado</h2>
+                    </div>
+                    <div class="col-md-4 mb-xs-2" ng-show="$ctrl.isNewAfiliado">
+                        <mpf-input 
+                            label="{label: 'DNI / Nombres y Apellidos', required: false}" 
+                            ng-model="$ctrl.data.asured.fulltext"
+                            ng-disabled="true" 
+                            name="nAseguradoNuevo"></mpf-input>
+                    </div>
+                    <div class="col-md-4 mb-xs-2" ng-show="!$ctrl.isNewAfiliado">
+                        <mp-data-seeker 
+                            name="nAsegurado" 
+                            ng-required="true"
+                            behavior="{label:'DNI / Nombres y Apellidos', matchField:'fulltext', placeholder: 'Ingresa DNI o nombres y/o apellidos'}"
+                            m-data-source="$ctrl.seekAsured($inputNeed)" 
+                            ng-model="$ctrl.data.asured"
+                            ng-change=" $ctrl.searchBlist(); $ctrl.treatmentComplaint(); $ctrl.changeSearchPoliza()">
+                            {{$item.documentNumber}} -<div ng-bind-html="$item.fullname | highlight: $select.search"></div>
+                        </mp-data-seeker>
+
+                        <div class="g-error" ng-if="$ctrl.observed != null && $ctrl.observed != 'N'">
+                            <span class="gH5">* {{$ctrl.observed}}</span></div>
+                        <div class="g-error"
+                            ng-show="frmComplaintDetail.nAsegurado.$error.required && !frmComplaintDetail.nAsegurado.$pristine">
+                            * Seleccione un asegurado</div>
+                    </div>
+                    <div class="col-xs-2 col-md-1 mt-md-2 mb-md-2 mt-xs-1 mb-xs-1" ng-show="$ctrl.showNewAfiliado">
+                        <a ng-click="$ctrl.showModalNewAfiliate()" uib-tooltip="Nuevo afiliado"
+                            class="g-btn g-btn-white second-design block glyphicon glyphicon-plus"></a>
+                    </div>
+                    <div class="col-md-2 mb-xs-2">
+                        <mpf-input label="{label: 'Sexo', required: false}" ng-model="$ctrl.genero"
+                            ng-disabled="true" name="nNameComplete"></mpf-input>
+                    </div>
+                    <div class="col-md-2 mb-xs-2">
+                        <mpf-datepicker label="{label: 'Fecha de nacimiento', required: false}" name="nFecnacimiento"
+                            format="'dd/MM/yyyy'" data-maxDate="$ctrl.currentDate"
+                            ng-model="$ctrl.data.asured.fechaNacimiento" ng-disabled="true" nomargin="true">
+                        </mpf-datepicker>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12 mb-1">
+                        <h3 class="g-sub-title c-black denuncia">Datos de contacto</h3>
+                    </div>
+                    <div class="col-md-2 mb-xs-2">
+                        <mpf-input label="{label: 'Télefono denuncia', required: false}"
+                            ng-model="$ctrl.data.asured.telefono" ng-disabled="false" name="nTelefono"
+                            ng-model-options="{allowInvalid: true}" ng-minlength="7" ng-maxlength="9" mpf-validation="onlyNumberNoSpace"></mpf-input>
+                        <div class="g-error"
+                            ng-show="(frmComplaintDetail.nTelefono.$invalid && !frmComplaintDetail.nTelefono.$pristine)">
+                            * El número de teléfono debe tener mínimo 7 dígitos
+                        </div>
+                    </div>
+                    <div class="col-md-4 mb-xs-2">
+                        <mpf-input label="{label: 'Correo electrónico denuncia', required: false}"
+                            ng-model="$ctrl.data.asured.correo" ng-disabled="false" name="nMailDenuncia" 
+                            mpf-validation="email" ng-model-options="{allowInvalid: true}"></mpf-input>
+                        <div class="g-error" 
+                            ng-show="(frmComplaintDetail.nMailDenuncia.$invalid && !frmComplaintDetail.nMailDenuncia.$pristine)">
+                            * Ingresar un formato válido de correo electrónico
+                        </div>
+                    </div>
+                    <div class="col-md-2 mb-xs-2">
+                        <mpf-datepicker label="{label: 'Fecha y hora de accidente', required: false}"
+                            name="nFecAccidente" format="'dd/MM/yyyy'" data-maxDate="$ctrl.currentDate"
+                            ng-model="$ctrl.data.fecAccidente" ng-required="true" nomargin="true"
+                            ng-change="$ctrl.treatmentComplaint(); $ctrl.changeSearchPoliza();">
+                        </mpf-datepicker>
+                        <div class="g-error"
+                            ng-show="frmComplaintDetail.nFecAccidente.$error.required && !frmComplaintDetail.nFecAccidente.$pristine">
+                            * Ingrese fecha de accidente</div>
+                    </div>
+                    <div class="col-md-2 mb-xs-2">
+                        <div uib-timepicker 
+                            ng-model="$ctrl.data.fecAccidente" 
+                            ng-required="true" 
+                            name="nHoraAcc" 
+                            ng-disabled="!$ctrl.data.fecAccidente">
+                        </div>
+                        <div class="g-error"
+                            ng-show="frmComplaintDetail.nHoraAcc.$error.required && !frmComplaintDetail.nHoraAcc.$pristine">
+                            * Ingresa hora de accidente</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- orden regular -->
+        <div class="sec-auto g-section-inner" ng-show="!$ctrl.isNewAfiliado">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-12 mb-1">
+                            <h2 class="g-sub-title">Datos de la Póliza</h2>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div ng-show="($ctrl.polizas && $ctrl.polizas.length>0)"
+                            class="col-md-12 g-box3 g-managment-alert">
+                            <div ng-repeat="_poliza in $ctrl.polizas" class="item">
+
+                                <div class="row">
+                                <div class="col-md-1">
+                                        <label class="g-checkbox" ng-class="{active : _poliza.checked}">
+                                            <span class="ico-checkbox"></span>
+                                            <input type="checkbox" ng-model="_poliza.checked"
+                                                ng-change="$ctrl.selectPoliza(_poliza)" />
+                                            <span class="checkbox-label">{{labelData}}</span>
+                                        </label>
+                                    </div>
+                                <div class="row col-md-11">
+                                    <div class="col-md-3">
+                                        <span>Tipo de póliza: {{ _poliza.tipoPoliza }}</span> </br>
+
+                                    </div>
+                                    <div class="col-md-3">
+                                        <span>Nro. de póliza: {{ _poliza.nroPoliza }}</span>
+                                    </div>
+                                    <div class="col-md-3">
+                                        Vigencia: {{ _poliza.fecIniVig | date: 'dd/MM/yyyy'  }} al
+                                        {{ _poliza.fecFinVig | date: 'dd/MM/yyyy'  }}
+                                    </div>
+                                    <div class="col-md-3">
+                                        <span>Cliente: {{ _poliza.rznSocialCliente }}</span>
+                                    </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="col-md-12" ng-show="!($ctrl.polizas && $ctrl.polizas.length>0)">
+                            <complaint-list-empty
+                            text-Empty="$ctrl.polizas == undefined? 'Seleccione un asegurado y cliente para mostrar pólizas': ($ctrl.polizas.length==0? 'No se encontraron pólizas vigentes, favor de continuar con el registro de la denuncia': '')">
+                            </complaint-list-empty>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        <!-- end orden regular -->
+
+            <div class="sec-auto g-section-inner">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-12 mb-1">
+                            <h2 class="g-sub-title">Datos del Cliente</h2>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6 mb-xs-2">
+                            <mp-data-seeker name="nCliente" ng-required="true" ng-disabled="!!$ctrl.clientDefault"
+                                behavior="{label:'RUC / Nombre o Razón social', matchField:'fulltext', placeholder: 'Ingresa el RUC o Razón Social'}"
+                                m-data-source="$ctrl.seekCompany($inputNeed)" ng-model="$ctrl.data.client"
+                                ng-change="$ctrl.changeSearchPoliza(); $ctrl.searchVip();">
+                            {{$item.documentNumber}} - <div ng-bind-html="$item.fullname | highlight: $select.search">
+                                </div>
+                            </mp-data-seeker>
+                            <div class="g-error" ng-if="$ctrl.vip != null && $ctrl.vip != 'N'">
+                            <span class="gH5"> * {{$ctrl.vip}}</span></div>
+                            <div class="g-error"
+                                ng-show="frmComplaintDetail.nCliente.$error.required && !frmComplaintDetail.nCliente.$pristine">
+                                * Seleccione un cliente</div>
+                        </div>
+
+                        <div class="col-md-2 mb-xs-2">
+                            <mpf-input label="{label: 'Teléfono', required: false}"
+                                ng-model="$ctrl.data.client.telefonoCliente" ng-disabled="false" ng-required="false"
+                            name="nTelefonoCliente" ng-model-options="{allowInvalid: true}" ng-minlength="7" ng-maxlength="9" mpf-validation="onlyNumberNoSpace"></mpf-input>
+                        <div class="g-error"
+                            ng-show="(frmComplaintDetail.nTelefonoCliente.$invalid && !frmComplaintDetail.nTelefonoCliente.$pristine)">
+                            * El número de teléfono debe tener mínimo 7 dígitos
+                        </div>
+                        </div>
+                        <div class="col-md-4 mb-xs-2">
+                            <mpf-input label="{label: 'Correo electrónico denuncia', required: false}"
+                                ng-model="$ctrl.data.client.correoCliente" ng-disabled="false" ng-required="false"
+                            name="nEmailDenuncia" mpf-validation="email" ng-model-options="{allowInvalid: true}"></mpf-input>
+                        <div class="g-error" ng-show="(frmComplaintDetail.nEmailDenuncia.$invalid && !frmComplaintDetail.nEmailDenuncia.$pristine)">* Ingresar un formato válido de correo electrónico</div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4 mb-xs-2">
+                            <mpf-input
+                                label="{label: 'Nombre del representante que suscribe el documento', required: false}"
+                            ng-model="$ctrl.data.nombreRepresentante" name="nNombreRepreSusDoc" ng-required="false">
+                            </mpf-input>
+                        </div>
+                        <div class="col-md-4 mb-xs-2">
+                            <mpf-input label="{label: 'Cargo', required: false}"
+                            ng-model="$ctrl.data.cargoRepresentante" name="nCargo" ng-required="false"></mpf-input>
+                        </div>
+                    </div>
+            </div>
+
+        <!-- orden secundario -->
+        <div class="sec-auto g-section-inner" ng-show="$ctrl.isNewAfiliado">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-12 mb-1">
+                            <h2 class="g-sub-title">Datos de la Póliza</h2>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div ng-show="($ctrl.polizas && $ctrl.polizas.length>0)"
+                            class="col-md-12 g-box3 g-managment-alert">
+                            <div ng-repeat="_poliza in $ctrl.polizas" class="item">
+
+                                <div class="row">
+                                <div class="col-md-1">
+                                        <label class="g-checkbox" ng-class="{active : _poliza.checked}">
+                                            <span class="ico-checkbox"></span>
+                                            <input type="checkbox" ng-model="_poliza.checked"
+                                                ng-change="$ctrl.selectPoliza(_poliza)" />
+                                            <span class="checkbox-label">{{labelData}}</span>
+                                        </label>
+                                    </div>
+                                <div class="row col-md-11">
+                                    <div class="col-md-3">
+                                        <span>Tipo de póliza: {{ _poliza.tipoPoliza }}</span> </br>
+
+                                    </div>
+                                    <div class="col-md-3">
+                                        <span>Nro. de póliza: {{ _poliza.nroPoliza }}</span>
+                                    </div>
+                                    <div class="col-md-3">
+                                        Vigencia: {{ _poliza.fecIniVig | date: 'dd/MM/yyyy'  }} al
+                                        {{ _poliza.fecFinVig | date: 'dd/MM/yyyy'  }}
+                                    </div>
+                                    <div class="col-md-3">
+                                        <span>Cliente: {{ _poliza.rznSocialCliente }}</span>
+                                    </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="col-md-12" ng-show="!($ctrl.polizas && $ctrl.polizas.length>0)">
+                            <complaint-list-empty
+                            text-Empty="$ctrl.polizas == undefined? 'Seleccione un asegurado y cliente para mostrar pólizas': ($ctrl.polizas.length==0? 'No se encontraron pólizas vigentes': '')">
+                            </complaint-list-empty>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        <!-- end orden secundario -->
+
+        <div class="sec-auto g-section-inner">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12 mb-1">
+                        <h2 class="g-sub-title">Datos del Siniestro</h2>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4 mb-xs-2">
+                        <mpf-input label="{label: 'No de Denuncia', required: false}" ng-model="$ctrl.nroSiniestro"
+                            ng-disabled="true" ng-required="false" name="nNoDenuncia"></mpf-input>
+                    </div>
+                    <div class="col-md-4 mb-xs-2">
+                        <div class="col-md-12 mb-xs-2">
+                            <b>Denuncia provisional</b>
+                        </div>
+                        <div class="col-md-4 mb-xs-2 indi-container">
+                            <m-radio label="{label: 'Si'}" name="mDenunciaProvisional" ng-model="$ctrl.denunciaProvisional"
+                                ng-disabled="true" value="S" ng-required="false">
+                            </m-radio>
+                        </div>
+                        <div class="col-md-4 mb-xs-2 indi-container">
+                            <m-radio label="{label: 'No'}" name="mDenunciaProvisional" ng-model="$ctrl.denunciaProvisional"
+                                ng-disabled="true" value="N" ng-required="false">
+                            </m-radio>
+                        </div>
+                    </div>
+                    <div class="col-md-4 mb-xs-2">
+                        <div class="col-md-12 mb-xs-2">
+                            <b>¿Ocurrió dentro del trabajo?</b>
+                        </div>
+                        <div class="col-md-4 mb-xs-2 indi-container">
+                            <m-radio label="{label: 'Sí'}" value="S" name="mOcurrioTrabajo"
+                                ng-model="$ctrl.data.rbOcurrioTrabajo" value="true" ng-required="true" selected>
+                            </m-radio>
+                        </div>
+                        <div class="col-md-4 mb-xs-2 indi-container">
+                            <m-radio label="{label: 'No'}" value="N" name="mOcurrioTrabajo"
+                                ng-model="$ctrl.data.rbOcurrioTrabajo" value="false" ng-required="true"></m-radio>
+                        </div>
+                        <div class="col-md-12 mb-xs-12">
+                            <div class="g-error"
+                                ng-show="frmComplaintDetail.mOcurrioTrabajo.$error.required && !frmComplaintDetail.mTrabajoHabitual.$pristine">
+                                * Seleccione una opción de ocurrio en el trabajo</div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="row">
+                    <div class="col-md-8 mb-xs-2">
+                        <mp-data-seeker name="nClinica" ng-required="true" 
+                            behavior="{label:'Clinica', matchField:'fulltext', placeholder: 'Ingresa la Clinica'}"
+                            m-data-source="$ctrl.seekClinic($inputNeed)" ng-model="$ctrl.data.clinic"
+                            ng-change="$ctrl.changeSearchBeneficio();">
+                        {{$item.ndidntdd}} - {{$item.rsabrvda}} - {{$item.dscrsl}} <div ng-bind-html=" $item.rsaynmbrs  | highlight: $select.search">
+                            </div>
+                        </mp-data-seeker> 
+                        <div class="g-error"
+                            ng-show="frmComplaintDetail.nClinica.$error.required && !frmComplaintDetail.nClinica.$pristine">
+                            * Seleccione una clinica</div>
+                    </div>
+                    <div class="col-md-4 mb-xs-2">
+                        <mpf-Select text-field="deS_CBNFCO" value-field="cbnfco"
+                            label="{label: 'Beneficio', required: false}"
+                            m-data-source="$ctrl.beneficio" 
+                            ng-model="$ctrl.data.benefit"
+                            ng-required="true"  
+                            name="mBeneficio" 
+                            m-Empty-Option="{enterData:true}">
+                        </mpf-Select>
+                        <div class="g-error"
+                            ng-show="frmComplaintDetail.mBeneficio.$error.required && !frmComplaintDetail.mBeneficio.$pristine">
+                            * Seleccione beneficio</div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4 mb-xs-2">
+                        <mpf-input label="{label: 'Lugar de ocurrencia', required: false}"
+                            ng-model="$ctrl.data.lugarOcurrencia" ng-required="true" name="nLugarOcurrencia">
+                        </mpf-input>
+                        <div class="g-error"
+                            ng-show="frmComplaintDetail.nLugarOcurrencia.$error.required && !frmComplaintDetail.nLugarOcurrencia.$pristine">
+                            * Ingrese lugar de ocurrencia</div>
+                    </div>
+                    <div class="col-md-4 mb-xs-2">
+                        <mpf-Select text-field="descripcion" value-field="codigo"
+                            label="{label: 'Forma del Accidente', required: false}"
+                            m-data-source="$ctrl.formaAccidentes" ng-model="$ctrl.data.formaAccidente"
+                            ng-required="true" name="mFormaAccidente" m-Empty-Option="{enterData:true}"></mpf-Select>
+                        <div class="g-error"
+                            ng-show="frmComplaintDetail.mFormaAccidente.$error.required && !frmComplaintDetail.mFormaAccidente.$pristine">
+                            * Seleccione forma de accidente</div>
+                    </div>
+                    <div class="col-md-4 mb-xs-2">
+                        <mpf-Select text-field="descripcion" value-field="codigo"
+                            label="{label: 'Parte del cuerpo lesionada', required: false}"
+                            m-data-source="$ctrl.partesCuerpoLesionado" ng-model="$ctrl.data.parteCuerpo"
+                            ng-required="true" name="mCuerpoLesionada" m-Empty-Option="{enterData:true}"></mpf-Select>
+                        <div class="g-error"
+                            ng-show="frmComplaintDetail.mCuerpoLesionada.$error.required && !frmComplaintDetail.mCuerpoLesionada.$pristine">
+                            * Seleccione parte del cuerpo</div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4 mb-xs-2">
+                        <mpf-Select text-field="descripcion" value-field="codigo"
+                            label="{label: 'Naturaleza de la lesión', required: false}"
+                            m-data-source="$ctrl.naturalezaLesiones" ng-model="$ctrl.data.naturalezaLesion"
+                            ng-required="true" name="mNaturalezaLesion" m-Empty-Option="{enterData:true}"></mpf-Select>
+                        <div class="g-error"
+                            ng-show="frmComplaintDetail.mNaturalezaLesion.$error.required && !frmComplaintDetail.mNaturalezaLesion.$pristine">
+                            * Seleccione naturaleza de la lesión</div>
+
+                    </div>
+                    <div class="col-md-4 mb-xs-2">
+                        <mpf-Select text-field="descripcion" value-field="codigo"
+                            label="{label: 'Agente causante', required: false}" m-data-source="$ctrl.agentesCausantes"
+                            ng-model="$ctrl.data.agenteCausante" ng-required="true" name="mAgenteCausante"
+                            m-Empty-Option="{enterData:true}"></mpf-Select>
+                        <div class="g-error"
+                            ng-show="frmComplaintDetail.mAgenteCausante.$error.required && !frmComplaintDetail.mAgenteCausante.$pristine">
+                            * Seleccione agente causante</div>
+
+                    </div>
+                    <div class="col-md-4 mb-xs-2">
+                        <mpf-Select text-field="descripcion" value-field="codigo"
+                            label="{label: 'Consecuencia', required: false}" m-data-source="$ctrl.consecuencias"
+                            ng-model="$ctrl.data.consecuencia" ng-required="true" name="mConsecuencia"
+                            m-Empty-Option="{enterData:true}"></mpf-Select>
+                        <div class="g-error"
+                            ng-show="frmComplaintDetail.mConsecuencia.$error.required && !frmComplaintDetail.mConsecuencia.$pristine">
+                            * Seleccione una consecuencia</div>
+
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12 mb-xs-2">
+                        <mpf-textarea label="{label: 'Descripción del accidente', required: false}"
+                            ng-model="$ctrl.data.descripcion" ng-required="true" name="mDescripcionAccidente">
+
+                        </mpf-textarea>
+                        <div class="g-error"
+                            ng-show="frmComplaintDetail.mDescripcionAccidente.$error.required && !frmComplaintDetail.mDescripcionAccidente.$pristine">
+                            * Ingrese descripción del accidente</div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </form>
+</div>

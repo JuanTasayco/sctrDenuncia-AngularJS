@@ -1,0 +1,55 @@
+<div class="g-section-inner">
+
+  <div class="row mb-xs-2">
+    <div class="col-md-12">
+      <h2 class="gCGray1 gH4"><b>Comentarios</b></h2>
+    </div>
+  </div>
+
+  <div class="row mb-xs-3">
+    <form id="frmComment" action="" name="frmComment">
+      <div class="col-sm-9">
+        <span class="g-block g-span-top gper-comment__input-box">
+          <span class="gper-comment__input-ico ico-mapfre_157_chat gnIcon-md pr-xs-1"></span>
+          <span class="gper-comment__input-text">
+            <mpf-textarea label="{label:'Agregar un comentario', required: true}" ng-model="$ctrl.mComment" name="nComment" ng-required="true" ng-Maxlength="4000"></mpf-textarea>
+          </span>
+        </span>
+      </div>
+      <div class="col-sm-3 mt-xs-2" ng-click="$ctrl.sendComment($ctrl.mComment)">
+        <a class="g-btn g-btn-verde second-design block">Enviar</a>
+      </div>
+    </form>
+  </div>
+
+  <div class="clearfix mb-xs-4" ng-if="$ctrl.comentariosList.length>0">
+    <div class="col-md-12 g-box gBgcGray5 pt-xs-2 pb-xs-2 gper-comment__list">
+      <div class="row gper-comment__item" ng-repeat="item in $ctrl.comentariosList">
+        <!--<comentario info="{{item}}"></comentario>-->
+
+        <div class="col-md-12">
+          <span class="gper-comment__item-info g-span-middle">
+            <span class="info__ico ico-mapfre_126_employee gCGreen2 pr-xs-1" ng-show="false"></span>
+            <span class="info__ico ico-mapfre_193_auxiliomecanico gCGreen2 pr-xs-1" ng-show="true"></span>
+            <span class="info-box g-span-middle">
+              <span class="info__user gH4 pr-xs-2"><b>{{item.userName}}</b></span>
+              <span class="info__hour gH5">{{item.dateRegistry | date:'dd/MM/yyyy hh:mm:ss a'}} <span ng-show="true">({{item.showHT}})</span></span>
+            </span>
+          </span>
+                </div>
+                <div class="col-md-12 mt-xs-1">
+          <span class="gper-comment__item-data g-span-top">
+            <span class="data__line"><span class="data__line-connector g-border-left g-border-bottom"></span></span>
+            <span class="data__box g-span-top g-border-bottom">
+              <span class="data__ico ico-mapfre_157_chat gnIcon-md gCGray4 pr-xs-1"></span>
+              <span class="data__text gH5">{{item.commentary}}</span>
+            </span>
+          </span>
+        </div>
+
+
+      </div>
+    </div>
+  </div>
+
+</div>

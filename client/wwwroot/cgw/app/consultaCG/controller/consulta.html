@@ -1,0 +1,552 @@
+<section class="g-page g-page-documents">
+	<div class="consulta-cotizaciones">
+		<div class="g-title">
+			<div class="container">
+				<div class="row">
+					<div class="col-sm-9 mb-xs-2 no-mb-md">
+						<span class="ico-mapfre_84_circleleft ico-title"></span><h1>Cartas de Garantía</h1><h1 data-ng-show="vm.totalItems>0"> ({{vm.totalItems}})</h1>
+					</div>
+					<div class="col-sm-3" ng-if="vm.rolSupervisor() || vm.rolEjecutivo() || vm.rolBroker()">
+						<button class="g-btn g-btn-verde second-design block" ng-disabled="vm.disabledButton" data-ng-click="vm.downloadLetterAll()" prevent-default>Descargar reporte</button>
+					</div>
+				</div>
+			</div>
+		</div>
+    <!-- Tabs aun no se va mostrar -->
+    <div class="g-section g-section-tabs g-overflow-hidden-xs tabs-responsive" ng-class="{'showTabs': showTabs}">
+      <div class="container">
+        <span class="tabs__more glyphicon glyphicon-chevron-down hidden-sm hidden-md hidden-lg" ng-click="showTabs = !showTabs"></span>
+        <uib-tabset justified="true">
+          <uib-tab index="0">
+            <uib-tab-heading><span ng-click="tabsFalse();vm.setTab(0)">Consultar Cartas</span></uib-tab-heading>
+            <div class="row">
+              <div class="col-xs-12 mb-xs-2 mt-xs-2" data-ng-show="!vm.showColSearch">
+                <form action="" name="formData.frmDocuments">
+                  <div show-filter class="clearfix g-col-filter fz14 gBgcWhite1" ng-class="{'show': isFilterVisible}">
+                    <div class="col-md-12 mb-ms-0 mb-xs-3 gH4 gCGray1">
+                      <div id="show-filter" class="row pt-xs-2 pb-xs-2 gBgcGray5 g-border-bottom-xs hidden-md hidden-lg" ng-click="toggleFilter();">
+                        <div class="col-xs-10"><h2><b>Filtro</b></h2></div>
+                        <div class="col-xs-2 g-text-right-xs">
+                          <span class="glyphicon glyphicon-chevron-down" ng-if="isFilterVisible"></span>
+                          <span class="glyphicon glyphicon-chevron-up" ng-if="!isFilterVisible"></span>
+                        </div>
+                        <div class="clearfix"></div>
+                      </div>
+                    </div>
+                    <div class="g-col-filter__box">
+                      <div class="clearfix">
+                        <div class="col-md-12">
+                          <div class="row">
+                            <div class="col-md-3 mb-xs-2">
+                              <mpf-select data-ng-model="formData.mEmpresa"
+                                name="nEmpresa"
+                                label="{label: 'Empresa', required: false}"
+                                m-data-source="vm.empresas"
+                                text-field="description"
+                                value-field="code"
+                                ng-change="vm.loadProducts(formData.mEmpresa.id)"
+                                m-Empty-Option="{enterData:false}"
+                                mpf-validation="required"></mpf-select>
+                            </div>
+                            <div class="col-md-3 mb-xs-2">
+                              <mpf-select
+                                data-ng-model="formData.mProducto"
+                                name="nProducto"
+                                label="{label: 'Producto', required: false}"
+                                m-data-source="vm.productosCGW"
+                                text-field="productDescription"
+                                value-field="productCode"
+                                m-Empty-Option="{enterData:true}"
+                                mpf-validation="required"></mpf-select>
+                            </div>
+                            <div class="col-md-3 mb-xs-2">
+                              <div class="input-group g-date-picker">
+                                <label class="g-placeholder animated ng-binding">Desde:</label>
+                                <input  type="text"
+                                        class="form-control"
+                                        uib-datepicker-popup="{{vm.format}}"
+                                        data-ng-model="formData.mConsultaDesde"
+                                        is-open="vm.popup1.opened"
+                                        datepicker-options="vm.dateOptions"
+                                        data-ng-required="true"
+                                        close-text="Close"/>
+                                <span class="input-group-btn">
+                                  <button class="btn btn-default"
+                                          data-ng-click="vm.open1()" prevent-default>
+                                    <i class="glyphicon glyphicon-calendar"></i>
+                                  </button>
+                                </span>
+                              </div>
+                            </div>
+                            <div class="col-md-3 mb-xs-2">
+                              <div class="input-group g-date-picker">
+                                <label class="g-placeholder animated ng-binding">Hasta:<span ng-show="false" class="ng-hide">*</span></label>
+                                <input  type="text"
+                                        class="form-control"
+                                        uib-datepicker-popup="{{vm.format}}"
+                                        data-ng-model="formData.mConsultaHasta"
+                                        is-open="vm.popup2.opened"
+                                        datepicker-options="vm.dateOptions2"
+                                        data-ng-required="true"
+                                        close-text="Close" />
+                                <span class="input-group-btn">
+                                  <button class="btn btn-default"
+                                          data-ng-click="vm.open2()" prevent-default>
+                                    <i class="glyphicon glyphicon-calendar"></i>
+                                  </button>
+                                </span>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="row">
+                            <div class="col-md-3 mb-xs-2">
+                              <mpf-select data-ng-model="formData.mEstadoCarta" name="nEstadoCarta" label="{label: 'Estado de Carta', required: false}" m-data-source="vm.estadoCartas" text-field="description" value-field="code" m-Empty-Option="{enterData:true}"></mpf-select>
+                            </div>
+                            <div class="col-md-3 mb-xs-2">
+                              <mpf-input  label="{label: 'Nro. de Carta', required: false}" name="nNroCarta" data-ng-model="formData.mNroCarta" mpf-validation="onlyNumber" data-ng-required="false"></mpf-input>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="clearfix">
+                        <div class="col-md-3 col-md-offset-3 mb-xs-1">
+                          <button class="g-btn g-btn-white block" data-ng-click="vm.limpiar()" ng-disabled="vm.activeButton" prevent-default>Limpiar</button>
+                        </div>
+                        <div class="col-md-3">
+                          <button class="g-btn g-btn-verde block" data-ng-click="vm.filtrar()" ng-disabled="vm.activeButton" prevent-default>Filtrar</button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </uib-tab>
+          <uib-tab index="1">
+            <uib-tab-heading><span ng-click="tabsFalse();vm.setTab(1)">Consultar Pacientes</span></uib-tab-heading>
+            <div class="row">
+              <div class="col-xs-12 mb-xs-2 mt-xs-2" data-ng-show="!vm.showColSearch">
+                <form action="" name="formData.frmDocuments">
+                  <div show-filter class="clearfix g-col-filter fz14 gBgcWhite1" ng-class="{'show': isFilterVisible}">
+                    <div class="col-md-12 mb-ms-0 mb-xs-3 gH4 gCGray1">
+                      <div id="show-filter" class="row pt-xs-2 pb-xs-2 gBgcGray5 g-border-bottom-xs hidden-md hidden-lg" ng-click="toggleFilter();">
+                        <div class="col-xs-10"><h2><b>Filtro</b></h2></div>
+                        <div class="col-xs-2 g-text-right-xs">
+                          <span class="glyphicon glyphicon-chevron-down" ng-if="isFilterVisible"></span>
+                          <span class="glyphicon glyphicon-chevron-up" ng-if="!isFilterVisible"></span>
+                        </div>
+                        <div class="clearfix"></div>
+                      </div>
+                    </div>
+                    <div class="g-col-filter__box">
+                      <div class="clearfix">
+                        <div class="col-md-12">
+                          <div class="row">
+                            <div class="col-md-3 mb-xs-2">
+                              <mpf-select
+                                data-ng-model="formData.mEmpresa"
+                                name="nEmpresa"
+                                label="{label: 'Empresa', required: false}"
+                                m-data-source="vm.empresas"
+                                text-field="description"
+                                value-field="code"
+                                ng-change="vm.loadProducts(formData.mEmpresa.id)"
+                                m-Empty-Option="{enterData:false}"
+                                mpf-validation="required"></mpf-select>
+                            </div>
+                            <div class="col-md-3 mb-xs-2">
+                              <mpf-select
+                                data-ng-model="formData.mProducto"
+                                name="nProducto"
+                                label="{label: 'Producto', required: false}"
+                                m-data-source="vm.productosCGW"
+                                text-field="productDescription"
+                                value-field="productCode"
+                                m-Empty-Option="{enterData:true}"
+                                mpf-validation="required"></mpf-select>
+                            </div>
+                            <div class="col-md-3 mb-xs-2">
+                              <div class="input-group g-date-picker">
+                                <label class="g-placeholder animated ng-binding">Desde:</label>
+                                <input type="text" class="form-control" uib-datepicker-popup="{{vm.format}}" data-ng-model="formData.mConsultaDesde" is-open="vm.popup1.opened" datepicker-options="vm.dateOptions" data-ng-required="true" close-text="Close" placeholder="Desde"/>
+                                <span class="input-group-btn">
+                                  <button type="button" class="btn btn-default" data-ng-click="vm.open1()">
+                                    <i class="glyphicon glyphicon-calendar"></i>
+                                  </button>
+                                </span>
+                              </div>
+                            </div>
+                            <div class="col-md-3 mb-xs-2">
+                              <div class="input-group g-date-picker">
+                                <label class="g-placeholder animated ng-binding">Hasta:<span ng-show="false" class="ng-hide">*</span></label>
+                                <input type="text" class="form-control" uib-datepicker-popup="{{vm.format}}" data-ng-model="formData.mConsultaHasta" is-open="vm.popup2.opened" datepicker-options="vm.dateOptions2" data-ng-required="true" close-text="Close" placeholder="Hasta" />
+                                <span class="input-group-btn">
+                                  <button type="button" class="btn btn-default" data-ng-click="vm.open2()">
+                                    <i class="glyphicon glyphicon-calendar"></i>
+                                  </button>
+                                </span>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="row">
+                            <div class="col-md-3 mb-xs-2">
+                              <mpf-input label="{label: 'Apellido Paterno', required: false}" name="nApePaterno" data-ng-model="formData.mApePaterno" mpf-validation="onlyLetter" data-ng-required="false"></mpf-input>
+                            </div>
+                            <div class="col-md-3 mb-xs-2">
+                              <mpf-input label="{label: 'Apellido Materno', required: false}" name="nApeMaterno" mpf-validation="onlyLetter" data-ng-model="formData.mApeMaterno" data-ng-required="false"></mpf-input>
+                            </div>
+                            <div class="col-md-3 mb-xs-2">
+                              <mpf-input  label="{label: 'Nombres', required: false}" name="nNombre" mpf-validation="onlyLetter" data-ng-model="formData.mNombre" data-ng-required="false"></mpf-input>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="clearfix">
+                        <div class="col-md-3 col-md-offset-3 mb-xs-1">
+                          <button class="g-btn g-btn-white block" data-ng-click="vm.limpiar()" ng-disabled="vm.activeButton" prevent-default>Limpiar</button>
+                        </div>
+                        <div class="col-md-3">
+                          <button class="g-btn g-btn-verde block" data-ng-click="vm.filtrar()" ng-disabled="vm.activeButton" prevent-default>Filtrar</button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </uib-tab>
+          <uib-tab index="2">
+            <uib-tab-heading><span ng-click="tabsFalse();vm.setTab(2)">Búsqueda Avanzada</span></uib-tab-heading>
+            <div class="row">
+              <div class="col-xs-12 mb-xs-2 mt-xs-2" data-ng-show="!vm.showColSearch">
+                <form action="" name="formData.frmDocuments">
+                  <div show-filter class="clearfix g-col-filter fz14 gBgcWhite1" ng-class="{'show': isFilterVisible}">
+                    <div class="col-md-12 mb-ms-0 mb-xs-3 gH4 gCGray1">
+                      <div id="show-filter" class="row pt-xs-2 pb-xs-2 gBgcGray5 g-border-bottom-xs hidden-md hidden-lg" ng-click="toggleFilter();">
+                        <div class="col-xs-10"><h2><b>Filtro</b></h2></div>
+                        <div class="col-xs-2 g-text-right-xs">
+                          <span class="glyphicon glyphicon-chevron-down" ng-if="isFilterVisible"></span>
+                          <span class="glyphicon glyphicon-chevron-up" ng-if="!isFilterVisible"></span>
+                        </div>
+                        <div class="clearfix"></div>
+                      </div>
+                    </div>
+                    <div class="g-col-filter__box">
+                      <div class="clearfix">
+                        <div class="col-md-12">
+                          <div class="row">
+                            <div class="col-md-3 mb-xs-2">
+                              <mpf-select
+                                data-ng-model="formData.mEmpresa"
+                                name="nEmpresa"
+                                label="{label: 'Empresa', required: false}"
+                                m-data-source="vm.empresas"
+                                text-field="description"
+                                value-field="code"
+                                ng-change="vm.loadProducts(formData.mEmpresa.id)"
+                                m-Empty-Option="{enterData:false}"
+                                mpf-validation="required"></mpf-select>
+                            </div>
+                            <div class="col-md-3 mb-xs-2">
+                              <mpf-select
+                                data-ng-model="formData.mProducto"
+                                name="nProducto"
+                                label="{label: 'Producto', required: false}"
+                                m-data-source="vm.productosCGW"
+                                text-field="productDescription"
+                                value-field="productCode"
+                                m-Empty-Option="{enterData:true}"
+                                ng-change = "vm.changeProducto()"
+                                mpf-validation="required"></mpf-select>
+                            </div>
+                            <div class="col-md-3 mb-xs-2">
+                              <div class="input-group g-date-picker">
+                                <label class="g-placeholder animated ng-binding">Desde:</label>
+                                <input type="text" class="form-control" uib-datepicker-popup="{{vm.format}}" data-ng-model="formData.mConsultaDesde" is-open="vm.popup1.opened" datepicker-options="vm.dateOptions" data-ng-required="true" close-text="Close" placeholder="Desde"/>
+                                <span class="input-group-btn">
+                                  <button type="button" class="btn btn-default" data-ng-click="vm.open1()">
+                                    <i class="glyphicon glyphicon-calendar"></i>
+                                  </button>
+                                </span>
+                              </div>
+                            </div>
+                            <div class="col-md-3 mb-xs-2">
+                              <div class="input-group g-date-picker">
+                                <label class="g-placeholder animated ng-binding">Hasta:<span ng-show="false" class="ng-hide">*</span></label>
+                                <input type="text" class="form-control" uib-datepicker-popup="{{vm.format}}" data-ng-model="formData.mConsultaHasta" is-open="vm.popup2.opened" datepicker-options="vm.dateOptions2" data-ng-required="true" close-text="Close" placeholder="Hasta" />
+                                <span class="input-group-btn">
+                                  <button type="button" class="btn btn-default" data-ng-click="vm.open2()">
+                                    <i class="glyphicon glyphicon-calendar"></i>
+                                  </button>
+                                </span>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="row">
+                            <div class="col-md-3 mb-xs-2">
+                              <mpf-select data-ng-model="formData.mEstadoCarta" name="nEstadoCarta" label="{label: 'Estado de Carta', required: false}" m-data-source="vm.estadoCartas" text-field="description" value-field="code" m-Empty-Option="{enterData:true}"></mpf-select>
+                            </div>
+                            <div class="col-md-3 mb-xs-2">
+                              <mpf-input  label="{label: 'Nro. de Carta', required: false}" name="nNroCarta" data-ng-model="formData.mNroCarta" mpf-validation="onlyNumber" data-ng-required="false"></mpf-input>
+                            </div>
+                            <div class="col-md-3 mb-xs-2">
+                              <mpf-input label="{label: 'Nro. Afiliado', required: false}" name="nNroAfiliado" data-ng-model="formData.mNroAfiliado" data-ng-required="false" mpf-validation="onlyNumber"></mpf-input>
+                            </div>
+                            <div class="col-md-3 mb-xs-2">
+                              <label class="g-placeholder animated ng-binding pl-xs-1-5">Diagnóstico:<span ng-show="false" class="ng-hide">*</span></label>
+                              <m-radio class="mt-xs-4 mr-xs-2" label="{label: 'Todos'}" name="nTipoBusqueda" ng-model="formData.mTipoBusqueda" value="T" data-ng-required="true"></m-radio>
+                              <m-radio class="" label="{label: 'Urgentes'}" name="nTipoBusqueda" ng-model="formData.mTipoBusqueda" value="U" data-ng-required="true"></m-radio>
+                            </div>
+                          <!--   <div class="col-md-2 mb-xs-2">
+                                <label class="g-placeholder animated ng-binding pl-xs-1-5">Diagnóstico:<span ng-show="false" class="ng-hide" style="">*</span></label>
+                                <m-radio class="mt-xs-3" label="{label: 'Todos'}" name="nTipoBusqueda" ng-model="formData.mTipoBusqueda" value="1" data-ng-required="true"></m-radio> <br>
+                                <m-radio class="" label="{label: 'Urgentes'}" name="nTipoBusqueda" ng-model="formData.mTipoBusqueda" value="2" data-ng-required="true"></m-radio>
+                            </div> -->
+                          </div>
+                          <div class="row">
+                            <div class="col-md-3 mb-xs-2">
+                              <mpf-input  label="{label: 'Nombres', required: false}" name="nNombre" mpf-validation="onlyLetter" data-ng-model="formData.mNombre" data-ng-required="false"></mpf-input>
+                            </div>
+                            <div class="col-md-3 mb-xs-2">
+                              <mpf-input label="{label: 'Apellido Paterno', required: false}" name="nApePaterno" data-ng-model="formData.mApePaterno" mpf-validation="onlyLetter" data-ng-required="false"></mpf-input>
+                            </div>
+                            <div class="col-md-3 mb-xs-2">
+                              <mpf-input label="{label: 'Apellido Materno', required: false}" name="nApeMaterno" mpf-validation="onlyLetter" data-ng-model="formData.mApeMaterno" data-ng-required="false"></mpf-input>
+                            </div>
+                        <!--      <div class="col-md-3 mb-xs-2">
+                              <mp-data-seeker behavior="{label:'Médico Tratante: *', placeholder:'Ingresa código o nombre del médico', matchField:'doctorFullName'}" m-data-source="vm.getListDoctor($inputNeed)" ng-model="formData.mMedicoTratante" name="nMedicoTratante" ng-required="true" ng-change="">
+                                <div ng-bind-html="$item.doctorFullName | highlight: $select.search"></div>
+                              </mp-data-seeker>
+                            </div> -->
+                            <div class="col-md-3 mb-xs-2">
+                              <mpf-input label="{label: 'Nro. Afiliado', required: false}" name="nNroAfiliado" data-ng-model="formData.mNroAfiliado" data-ng-required="false" mpf-validation="onlyNumber"></mpf-input>
+                            </div>
+                          </div>
+                          <div class="row">
+                            <div class="col-md-3 mb-xs-2" ng-hide="vm.esClinica">
+                              <mp-data-seeker behavior="{label:'Clínica', placeholder:'Ingresa nombre de la clínica...', matchField:'description'}" m-data-source="vm.getListClinic($inputNeed)" ng-model="formData.mClinica" name="nClinica" ng-required="false" ng-change="vm.saveClinic(mClinica)">
+                                <div ng-bind-html="$item.description | highlight: $select.search"></div>
+                              </mp-data-seeker>
+                            </div>
+                            <div class="col-md-3 mb-xs-2">
+                              <mpf-select data-ng-model="formData.mEjecutivo" name="nEjecutivo" label="{label: 'Ejecutivo', required: false}" m-data-source="vm.ejecutivos" text-field="name" value-field="name" m-Empty-Option="{enterData:false}"></mpf-select>
+                            </div>
+                            <div class="col-md-3 mb-xs-2">
+                              <mpf-select
+                                data-ng-model="formData.mEjecutivoAsignado"
+                                name="nEjecutivoAsignado"
+                                label="{label: 'Ejecutivo Asignado', required: false}"
+                                m-data-source="vm.ejecutivosAsignados"
+                                text-field="fullname"
+                                value-field="cod_usuario"
+                                m-Empty-Option="{enterData:true}"></mpf-select>
+                            </div>
+                              <div class="col-md-3 mb-xs-2" ng-show="vm.showAuditorExt()">
+                              <mpf-select
+                                label="{label: 'Médico auditor:', required: false}"
+                                name="nAuditorExterno"
+                                ng-model="formData.mMedicoTratante"
+                                text-field="fullName"
+                                value-field="code"
+                                m-Empty-Option="{enterData:true}"
+                                ng-disabled="auditado"
+                                m-data-source="vm.auditores">
+                              </mpf-select>
+                            </div>
+                            <div class="col-md-3 mb-xs-2" ng-show="vm.showInputPlaca()">
+                              <mpf-input
+                                label="{label: 'Placa', required: false}"
+                                name="nPlaca"
+                                ng-model="formData.mPlaca"
+                                trn-Length="6"
+                                mpf-validation="onlyLetterNumber"
+                                ng-required="false">
+                              </mpf-input>
+                            </div>
+                            <div class="col-md-3 mb-xs-2" ng-show="vm.showInputPoliza()">
+                              <mpf-input
+                                label="{label: 'Póliza', required: false}"
+                                name="nPoliza"
+                                ng-model="formData.mPoliza"
+                                trn-Length="20"
+                                mpf-validation="onlyNumberNoSpace"
+                                ng-required="false">
+                              </mpf-input>
+                            </div>
+                            <div class="col-md-3 mb-xs-2" ng-show="vm.showInputSiniestro()">
+                              <mpf-input
+                                label="{label: 'Nro Siniestro', required: false}"
+                                name="nNroSiniestro"
+                                ng-model="formData.mNroSinestro"
+                                trn-length="15"
+                                mpf-validation="onlyNumberNoSpace"
+                                ng-required="false">
+                              </mpf-input>
+                            </div>
+                          </div>
+                          <div class="row">
+                            <div class="col-md-3 mb-xs-2">
+                              <div class="input-group g-date-picker">
+                                <label class="g-placeholder animated ng-binding">Fecha de Accidente Desde:</label>
+                                <input type="text" class="form-control" uib-datepicker-popup="{{vm.format}}" data-ng-model="formData.mConsultaAccidenteDesde" is-open="vm.popup1Accidente.opened" datepicker-options="vm.dateOptionsAccidente" data-ng-required="true" close-text="Close" placeholder="Desde"/>
+                                <span class="input-group-btn">
+                                  <button type="button" class="btn btn-default" data-ng-click="vm.open1Accidente()">
+                                    <i class="glyphicon glyphicon-calendar"></i>
+                                  </button>
+                                </span>
+                        </div>
+                      </div>
+                            <div class="col-md-3 mb-xs-2">
+                              <div class="input-group g-date-picker">
+                                <label class="g-placeholder animated ng-binding">Fecha de Accidente Hasta:<span ng-show="false" class="ng-hide">*</span></label>
+                                <input type="text" class="form-control" uib-datepicker-popup="{{vm.format}}" data-ng-model="formData.mConsultaAccidenteHasta" is-open="vm.popup2Accidente.opened" datepicker-options="vm.dateOptions2Accidente" data-ng-required="true" close-text="Close" placeholder="Hasta" />
+                                <span class="input-group-btn">
+                                  <button type="button" class="btn btn-default" data-ng-click="vm.open2Accidente()">
+                                    <i class="glyphicon glyphicon-calendar"></i>
+                                  </button>
+                                </span>
+                              </div>
+                            </div>
+                            <div class="col-md-3 mb-xs-2">
+                              <label class="g-placeholder animated ng-binding pl-xs-1-5">Amputación:<span ng-show="false" class="ng-hide">*</span></label>
+                              <m-radio class="mt-xs-4 mr-xs-2" label="{label: 'Si'}" name="nAmputacion" ng-model="formData.mAmputacion" value="S" data-ng-required="true"></m-radio>
+                              <m-radio class="" label="{label: 'No'}" name="nAmputacion" ng-model="formData.mAmputacion" value="N" data-ng-required="true"></m-radio>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="clearfix">
+                        <div class="col-md-3 col-md-offset-3 mb-xs-1">
+                          <button class="g-btn g-btn-white block" data-ng-click="vm.limpiar()" ng-disabled="vm.activeButton" prevent-default>Limpiar</button>
+                        </div>
+                        <div class="col-md-3">
+                          <button class="g-btn g-btn-verde block" data-ng-click="vm.filtrar()" ng-disabled="vm.activeButton" prevent-default>Filtrar</button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </uib-tab>
+        </uib-tabset>
+
+        <div class="row">
+          <div class="clearfix">
+            <div class="col-md-12">
+              <div class="clearfix g-tbl-wrapper pt-xs-4 g-border-top-xs">
+                <div class="clearfix table__1400">
+                  <ul height-row class="g-row-fz12 g-tbl-row gBgcGray5 pt-xs-1">
+                    <li class="g-col g-col-xs col-3-dktp tbl-item item-title"></li>
+                    <li class="g-col g-col-xs col-1-dktp tbl-item item-title"></li>
+                    <li class="g-col g-col-xs col-7-dktp tbl-item item-title">CARTAS</li>
+                    <li class="g-col g-col-xs col-9-dktp tbl-item item-title">ESTADO</li>
+                    <!-- <li class="g-col g-col-xs col-5-dktp tbl-item item-title">AÑO</li>
+                    <li class="g-col g-col-xs col-7-dktp tbl-item item-title text-center">VERSION</li> -->
+                    <li class="g-col g-col-xs col-6-dktp tbl-item item-title text-center">MONTO (S/)</li>
+                    <li class="g-col g-col-xs col-7-dktp tbl-item item-title">INGRESO</li>
+                    <li class="g-col g-col-xs col-10-dktp tbl-item item-title">CONTRATANTE</li>
+                    <li class="g-col g-col-xs col-11-dktp tbl-item item-title">CLINICA</li>
+                    <li class="g-col g-col-xs col-11-dktp tbl-item item-title">PACIENTE</li>
+                    <li class="g-col g-col-xs col-7-dktp tbl-item item-title" ng-show="vm.tab != 0">STS. AUD. EXT.</li>
+                    <li class="g-col g-col-xs col-9-dktp tbl-item item-title" ng-show="vm.tab == 0">USUARIO ENVIO RECHAZO</li>
+                    <li class="g-col g-col-xs col-9-dktp tbl-item item-title" ng-show="vm.tab == 2">EJECUTIVO ASIGNADO</li>
+                    <li class="g-col g-col-xs col-9-dktp tbl-item item-title"></li>
+                  </ul>
+                  <div class="mb-xs-1">
+                    <ul height-row class="g-row-fz12 g-tbl-row pt-xs-1 g-border-bottom-xs" data-ng-repeat="reporte in vm.cartas" data-ng-class="{'solicitud_row-red': vm.getTransparent(reporte)}">
+                      <li class="g-col g-col-xs col-3-dktp tbl-item gCGray3 text-center">
+                        <a href="" ng-click="vm.verDetalle(reporte)" ng-if="!vm.rolBroker()">
+                          <span class="gnIcon-md ico-mapfre_311_arrowRight"></span>
+                        </a>
+                      </li>
+
+                      <li class="g-col g-col-xs col-1-dktp tbl-item u-bg--rojo-primario" ng-show="{{reporte.isDiagnosticPriority}} == 1"><span class="est-diag"></span></li>
+
+                      <li class="g-col g-col-xs col-1-dktp tbl-item" ng-style="{'background-color': reporte.colorDiagnosticC}" ng-show="{{reporte.isDiagnosticPriority}} == 0 && {{reporte.isDiagnosticC}} == 1"><span class="est-diag"></span></li>
+
+                      <li class="g-col g-col-xs col-1-dktp tbl-item" ng-hide="{{reporte.isDiagnosticPriority}} == 1 || {{reporte.isDiagnosticC}} == 1"><span class="est-diag"></span></li>
+
+                      <li class="g-col g-col-xs col-7-dktp tbl-item">
+                      <span class="cgw_report-label">{{reporte.year}}-{{reporte.number}}-{{reporte.version}}<br>{{reporte.productName}}</span><br>
+
+                        <!--  <span class="mb-xs-1 mb-md-0 c-tag u-bg--rojo-primario" ng-show="{{reporte.isDiagnosticPriority}} == 0">URGENTE</span> -->
+                      </li>
+                      <li class="g-col g-col-xs col-9-dktp tbl-item">
+                        <span class="u-block text-center u-pv-8" data-ng-class="{'c-tag u-bg--rojo-primario': vm.getRojo(reporte), 'c-tag u-bg--verde-2': vm.getVerde(reporte), 'c-tag u-bg--yellow-2': vm.getAmarillo(reporte), 'c-tag u-bg--blue-3': vm.getAzul(reporte), 'c-tag u-bg--transparente': vm.getTransparent(reporte), 'c-tag u-bg--white-1': vm.getBlanco(reporte)}">{{reporte.statusLetter}}</span>
+                      </li>
+                      <!--  <li class="g-col g-col-xs col-5-dktp tbl-item text-center"><span class="cgw_report-label">{{reporte.year}}</span></li>
+                      <li class="g-col g-col-xs col-7-dktp tbl-item text-center"><span class="cgw_report-label">{{reporte.version}}</span></li> -->
+                      <li class="g-col g-col-xs col-6-dktp tbl-item text-right"><span class="cgw_report-label">{{reporte.requestedAmount}}</span></li>
+                      <li class="g-col g-col-xs col-7-dktp tbl-item"><span class="cgw_report-label">{{reporte.dateRequested}}</span></li>
+                      <li class="g-col g-col-xs col-10-dktp tbl-item"><span class="cgw_report-label">{{reporte.client}}</span><br>
+                      <span class="mb-xs-1 mb-md-0 c-tag u-bg--yellow-2" ng-show="{{reporte.isClientPriority}} == 1">PRIORITARIO</span></li>
+                      <li class="g-col g-col-xs col-11-dktp tbl-item"><span class="cgw_report-label">{{reporte.clinicName}}</span></li>
+                      <li class="g-col g-col-xs col-11-dktp tbl-item"><span class="cgw_report-label">{{reporte.patientFullName}}</span>
+                      </li>
+                      <li class="g-col g-col-xs col-7-dktp tbl-item" ng-show="vm.tab != 0">
+                        <span class="cgw_report-label">{{reporte.statusExternalAudit}}</span>
+                      </li>
+                      <li class="g-col g-col-xs col-9-dktp tbl-item" ng-show="vm.tab == 0">
+                        <span class="cgw_report-label">{{reporte.letterSenderUser}}</span>
+                      </li>
+                      <li class="g-col g-col-xs col-9-dktp tbl-item" ng-show="vm.tab == 2">
+                        <span class="cgw_report-label">{{reporte.assignedUser}}</span>
+                      </li>
+                      <li class="g-col g-col-xs col-9-dktp tbl-item text-center gCGray3">
+                        <div class="row g-row">
+                          <div class="col-xs-5 middle cnt-item" ng-show="vm.showDownloadLetter(reporte)">
+                            <a href="" data-ng-click="vm.downloadLetter(reporte)"><span class="gnIcon-md ico-mapfre_128_printer"></span></a>
+                          </div>
+                          <div class="col-xs-6 middle cnt-item" ng-show="vm.isRechazada(reporte) && reporte.flagSentToClient != '1' && (!vm.rolConsulta() && !vm.rolBroker())">
+                            <a href="" ng-click="vm.enviarCarta(reporte)"><span class="gnIcon-md ico-mapfre_123_envelop"></span></a>
+                          </div>
+                          <div class="col-xs-4 middle cnt-item" ng-show="reporte.flagSentToClient == '1'">
+                            <a ><span class="ico-mapfre_317_messageArrow gnIcon-md gCBlue2"></span></a>
+                          </div>
+                        </div>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+              <div class="row g-text-center-xs g-box-noresult" ng-if="false">
+                <div class="col-md-12 g-box-noresult-ico gCBlue2">
+                  <span class="ico-mapfre_303_informacion"></span>
+                </div>
+                <div class="col-md-12 g-box-noresult-text">
+                  Realiza una búsqueda para obtener resultados.
+                </div>
+              </div>
+              <div class="col-md-12 text-center g-box-noresult" ng-if="vm.noResult">
+                <div class="row">
+                  <div class="col-md-12 g-box-noresult-ico gCRed1"><span class="ico-mapfre_302_error"></span></div>
+                  <div class="col-md-12 g-box-noresult-text">No hay resultados para los filtros escogidos.<br>Intente nuevamente.</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="clearfix">
+            <div class="col-md-12" ng-if="!vm.noResult">
+              <ul uib-pagination class="g-pagination" ng-model="vm.mPagination" max-size="10" total-items="vm.totalItems" items-per-page="vm.pageSize" ng-change="vm.pageChanged(vm.mPagination)" boundary-link-numbers="true"></ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+    <form id="frmDownloadAll" name="vm.frmDownloadAll">
+      <input type="hidden" name="json" value='{{vm.allData}}'>
+    </form>
+		<form id="frmDownloadExcel" name="vm.frmDownloadExcel" action="{{vm.excelURL}}" method="post" target="_blank">
+			<input type="hidden" name="json" value='{{vm.excelData}}'>
+		</form>
+		<form id="frmDownloadPDF" name="frmDownloadPDF" action="{{vm.pdfURL}}" method="post" target="_blank">
+			<input type="hidden" name="json" value='{{vm.pdfData}}'>
+		</form>
+		<form id="frmDownloadLetter" name="frmDownloadLetter" action="{{vm.pdfLetterURL}}" method="get" target="_blank">
+		</form>
+	</div>
+</section>

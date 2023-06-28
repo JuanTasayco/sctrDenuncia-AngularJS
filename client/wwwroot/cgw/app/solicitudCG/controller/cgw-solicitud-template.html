@@ -1,0 +1,952 @@
+<section class="g-page page-garantias-aplicar garantias">
+  <div class="g-title">
+    <div class="container">
+      <div class="row">
+        <div class="col-sm-9 mb-xs-2 no-mb-md">
+          <span class="ico-mapfre_84_circleleft ico-title"></span>
+          <h1>Solicitud de Carta de Garantía</h1>
+        </div>
+        <div class="col-sm-3 mb-xs-2 no-mb-md text-right">
+          <label class="g-sub-title" ng-show="formData.flagIsMinsa === 1" name="titleMinsa">HOSPITAL MINSA</label>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="aplicacion-trans g-seccdtion-inner">
+    <form action="" id="frmSolicitudCgw" name="frmSolicitudCgw">
+      <div class="g-section">
+        <div class="container">
+          <div class="row">
+            <div class="col-md-4 mb-xs-2" ng-show="currentStep==1 && formData.flagClinic==0">
+              <mp-data-seeker
+                behavior="{label:'Para solicitar una carta debes elegir una Clínica', placeholder:'Ingresa nombre de la clínica...', matchField:'description'}"
+                m-data-source="getListClinic($inputNeed)"
+                ng-model="mClinica"
+                name="nClinica"
+                ng-required="true"
+                ng-change="saveClinic(mClinica)">
+                <div ng-bind-html="$item.description | highlight: $select.search"></div>
+              </mp-data-seeker>
+              <div class="g-error" data-ng-show="sinClinica">* Busque y seleccione una clínica
+              </div>
+              <div class="g-error" data-ng-show="sinResultados" ng-click="cleanFieldClinica()"><span>* 0 resultados para los términos ingresados</span>
+              </div>
+            </div>
+
+            <div class="col-md-4" ng-show="currentStep==1 && formData.flagClinic==1">
+              <h2>Clínica: <strong>{{mClinica.description}}</strong></h2>
+            </div>
+            <div class="col-xs-12" data-ng-if="currentStep !== '1'">
+              <h2 class="g-sub-title c-black u-inline pr-xs-2">
+                Clínica: <strong>{{mClinica.description}}</strong>
+              </h2>
+              <!--<a  class="g-link gCGreen1"-->
+                  <!--data-ng-click="showModalConfirmation()" data-ng-show="formData.flagClinic==0">-->
+                <!--<b>Cambiar clínica</b>-->
+              <!--</a>-->
+            </div>
+
+            <div class="col-md-4 mb-xs-2">
+              <mpf-select
+                ng-model="formData.mEmpresaInit"
+                name="nEmpresa"
+                label="{label: 'Empresa', required: true}"
+                m-data-source="empresasCGW"
+                text-field="companyName"
+                value-field="idCompany"
+                m-Empty-Option="{enterData:true}"
+                ng-change="loadProducts(formData.mEmpresaInit.idCompany)"
+                ng-disabled="saveInitData"
+                mpf-validation="required"></mpf-select>
+              <div class="g-error"
+                   data-ng-show="frmSolicitudCgw.nEmpresa.$error.required && !frmSolicitudCgw.nEmpresa.$pristine">* Seleccione una empresa
+              </div>
+            </div>
+
+            <div class="col-md-4 mb-xs-2">
+              <mpf-select
+                ng-model="formData.mProducto"
+                name="nProducto"
+                label="{label: 'Producto', required: true}"
+                m-data-source="productosCGW"
+                text-field="productDescription"
+                value-field="productCode"
+                m-Empty-Option="{enterData:true}"
+                ng-change="nav.go(1, formData.mProducto.productCode, currentStep)"
+                ng-disabled="saveInitData"
+                mpf-validation="required"></mpf-select>
+              <div class="g-error"
+                   data-ng-show="frmSolicitudCgw.nProducto.$error.required && !frmSolicitudCgw.nProducto.$pristine">* Seleccione un producto
+              </div>
+            </div>
+
+
+
+            <div class="col-xs-12" ng-if="formData.mEmpresaInit.idCompany===3 && formData.mProducto.productCode==='R' && formData.showComplaintRequiredSection">
+              <div  class="clearfix g-list-md g-box pt-xs-1 pb-xs-1 g-row-fz12 mb-xs-1 ng-scope" style="background: #E0F1FF;">
+                <div class="col-md-12 g-col-md middle">
+                  <style>.swal2-info:before { font-size: 30px !important;} .swal2-modal { overflow-x:inherit; overflow-y:inherit }</style>
+                  <div role="dialog" aria-modal="true" 
+                    aria-labelledby="swal2-title" aria-describedby="swal2-content" 
+                    class="swal2-modal swal2-show" tabindex="-1" 
+                    style="display: block;">
+                    <div class="swal2-icon swal2-info" style="display: block; float: left; width: 40px; height: 0px; line-height: 0px;">
+                      i
+                    </div>
+                    <div style="float: left; color: #008aff;">
+                      <h2 class="gH5">
+                        <b>
+                          Recordamos que es obligatorio el ingreso de la denuncia SCTR para continuar con el proceso de CG y liquidaci&oacuten de facturas.
+                        </b>
+                      </h2>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+
+
+          </div>
+
+          <div class="row" ng-show="formData.mProducto.productCode && !(formData.mProducto.productCode === 'S' || formData.mProducto.productCode === 'R') && !saveInitData">
+
+            <div class="col-md-4" ng-hide="formData.mProducto.productCode === 'A'">
+              <mpf-input
+                label="{label: 'Placa', required: true}"
+                name="nPlaca"
+                ng-model="formData.mPlaca"
+                ng-pattern="'(^[a-zA-Z0-9]+$)'"
+                ng-Minlength="5"
+                ng-Maxlength="8"
+                trn-Length="8"
+                mpf-validation="onlyLetterNumber"
+                ng-blur="buscarPolizaPlaca(formData.mPlaca)"
+                ng-keydown="buscarPoliza($event, formData.mPlaca)"
+                ng-required="true">
+              </mpf-input>
+              <div class="g-error"
+                   data-ng-show="frmSolicitudCgw.nPlaca.$error.required && !frmSolicitudCgw.nPlaca.$pristine">* Ingrese placa
+              </div>
+              <div class="g-error" data-ng-show="polizaError"><span>{{polizaMessageError}}</span>
+              </div>
+            </div>
+
+            <div class="col-md-4 mb-xs-2" ng-hide="formData.mProducto.productCode === 'O' || formData.mProducto.productCode === 'U'">
+              <mpf-input
+                label="{label: 'Póliza', required: false}"
+                name="nPoliza"
+                ng-model="formData.mPoliza"
+                mpf-validation=""
+                ng-minlength=""
+                ng-maxlength=""
+                mpf-validation="onlyLetterNumber"
+                ng-blur="buscarPolizaPlaca(formData.mPoliza)"
+                ng-keydown="buscarPoliza($event, formData.mPoliza)"
+                ng-required="true">
+              </mpf-input>
+              <div class="g-error"
+                   data-ng-show="frmSolicitudCgw.nPoliza.$error.required && !frmSolicitudCgw.nPoliza.$pristine">* Ingrese póliza
+              </div>
+              <div class="g-error" data-ng-show="polizaError"><span>{{polizaMessageError}}</span>
+              </div>
+            </div>
+
+            <div class="col-md-4 mb-xs-2">
+                <div class="input-group g-date-picker">
+                  <label class="g-placeholder animated">Fecha de accidente/siniestro</label>
+                  <input  type="text"
+                          class="form-control"
+                          uib-datepicker-popup="{{format}}"
+                          name="nFechaAccidente"
+                          data-ng-model="formData.mFechaAccidente"
+                          is-open="popup.opened"
+                          datepicker-options="dateOptions"
+                          data-ng-required="true"
+                          data-ng-click="openCalendar()"
+                          close-text="Close" />
+                  <span class="input-group-btn">
+                      <button class="btn btn-default"
+                              data-ng-click="openCalendar()" prevent-default>
+                        <i class="glyphicon glyphicon-calendar"></i>
+                      </button>
+                    </span>
+                </div>
+                <div class="g-error"
+                     data-ng-show="frmSolicitudCgw.nFechaAccidente.$error.required && !frmSolicitudCgw.nFechaAccidente.$pristine">* Seleccione una fecha
+                </div>
+                <div class="g-error"
+                     data-ng-show="fechaMayor">* La fecha no puede ser anterior a la fecha inicio de la póliza seleccionada
+                </div>
+
+              </div>
+
+            <div class="col-md-4 mb-xs-2">
+              <mpf-input
+                label="{label: 'Afiliado', required: true}"
+                name="afiliadoSeleccionado"
+                ng-model="formData.afiliadoSeleccionado"
+                mpf-validation=""
+                ng-minlength="2"
+                ng-maxlength="50"
+                ng-click="fnOpenModalAfiliado()" 
+                ng-disabled="true"
+                ng-required="true">
+              </mpf-input>
+              <!--<span class="u-txt-50 gCGray3 ico-mapfre_30_buscar" ng-click="fnShowModal()"></span>-->
+              <div class="g-error"
+                   data-ng-show="frmSolicitudCgw.afiliadoSeleccionado.$error.required && !frmSolicitudCgw.afiliadoSeleccionado.$pristine">* Ingresa un afiliado
+              </div>
+            </div>
+          </div>
+
+          <div class="row" ng-show="formData.mProducto.productCode && !(formData.mProducto.productCode === 'S' || formData.mProducto.productCode === 'R') && !saveInitData">
+
+            <div class="col-md-4" ng-hide="formData.mProducto.productCode === 'A' || formData.mProducto.productCode === 'U'">
+              <mpf-select
+                ng-model="formData.mCausa"
+                name="nCausa"
+                label="{label: 'Causas', required: false}"
+                m-data-source="causasCGW"
+                text-field="description"
+                value-field="idCause"
+                m-Empty-Option="{enterData:true}"
+                mpf-validation="required"></mpf-select>
+              <div class="g-error"
+                   data-ng-show="frmSolicitudCgw.nCausa.$error.required && !frmSolicitudCgw.nCausa.$pristine">* Seleccione una causa
+              </div>
+            </div>
+
+            <div class="col-md-4 mb-xs-2" ng-show="formData.mProducto.productCode === 'U' || formData.mProducto.productCode === 'S'">
+              <mpf-input
+                label="{label: 'Póliza', required: false}"
+                name="nPoliza"
+                ng-model="formData.mPoliza"
+                mpf-validation=""
+                ng-minlength=""
+                ng-maxlength=""
+                mpf-validation="onlyLetterNumber"
+                ng-keydown="buscarPoliza($event, formData.mPoliza)"
+                ng-required="true">
+              </mpf-input>
+              <div class="g-error"
+                   data-ng-show="frmSolicitudCgw.nPoliza.$error.required && !frmSolicitudCgw.nPoliza.$pristine">* Ingrese póliza
+              </div>
+            </div>
+
+            <!--Tabla de resultados por poliza/placa-->
+            <div class="row" ng-show="formData.polizasArray.length>0">
+            <div class="col-xs-12 mt-xs-4 g-tbl-wrapper">
+              <div class="tbl-main">
+                <ul height-row class="tbl-header clearfix">
+                  <li class="title col-13-dktp text-center">Póliza</li>
+                  <li class="title col-11-dktp text-center" >Suplemento</li>
+                  <li class="title col-10-dktp text-center">Fecha Inicio</li>
+                  <li class="title col-12-dktp text-center">Fecha Fin</li>
+                  <li class="title col-20-dktp text-center">Cliente</li>
+                  <li class="title col-14-dktp text-center">Tipo de documento</li>
+                  <li class="title col-19-dktp text-center">Nro de Documento</li>
+                </ul>
+                <ul class="tbl-body clearfix">
+                  <li ng-repeat="x in formData.polizasArray" ng-click="seletedPoliza(x,$index)">
+                    <ul height-row  ng-class="{'gBgcGray4':$index == selectedRow}" class="tbl-row clearfix g-u-cursor--pointer">
+                      <li class="cell col-13-dktp text-center">
+                        <span class="cell-label"><span class="cell-data">{{x.policyNumber}}</span></span>
+                      </li>
+                      <li class="cell col-11-dktp text-center">
+                        <span class="cell-label"><span class="cell-data">{{x.supplementNumber}}</span></span>
+                      </li>
+                      <li class="cell col-10-dktp text-center">
+                        <span class="cell-label"><span class="cell-data">{{x.effectivePolicyDate}}</span></span>
+                      </li>
+                      <li class="cell col-12-dktp text-center">
+                        <span class="cell-label"><span class="cell-data">{{x.expirationPolicyDate}}</span></span>
+                      </li>
+                      <li class="cell col-20-dktp text-center">
+                        <span class="cell-label"><span class="cell-data">{{x.thirdName}}</span></span>
+                      </li>
+                      <li class="cell col-14-dktp text-center">
+                        <span class="cell-label"><span class="cell-data">{{x.documentType}}</span></span>
+                      </li>
+                      <li class="cell col-19-dktp text-center">
+                        <span class="cell-label"><span class="cell-data">{{x.documentNumber}}</span></span>
+                      </li>
+                    </ul>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+            <div class="row" ng-show="formData.seletedPoliza && !polizaError">
+            <div class="col-md-4 col-lg-2 col-lg-offset-5 col-md-offset-4 mt-xs-4">
+              <a class="g-btn g-btn-verde block" ng-click="showPaso1()">Continuar</a>
+            </div>
+          </div>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+  
+    <!-- Inicio: Modal Buscar Afiliado -->
+    <script type="text/ng-template" id="tplModal.html">
+      <section class="">
+        <button type="button" class="close g-close-modal" ng-click="closeModal(afiliadoSeleccionado)">
+          <span class="ico-mapfre_231_cancelaroff"></span>
+        </button>
+        <form name="frm">
+          <div class="container">
+            <div class="col-md-12 mb-xs-2">
+              <h2 class="gH4">Búsqueda de afiliado</h2>
+            </div>
+          </div>
+          <div class="container">
+            <div class="col-md-12">
+              <div class="row">
+                <div class="col-sm-7 mb-xs-1 clearfix">
+                    <mpf-input
+                      label="{label: 'Número de documento o nombre', required: false}"
+                      name="nNombreAfiliado"
+                      ng-model="mNombreAfiliado"
+                      mpf-validation=""
+                      ng-minlength="2"
+                      ng-maxlength="50"
+                      ng-keydown="buscarPersona($event, mNombreAfiliado, mApellidoPaterno, mApellidoMaterno)"
+                      ng-required="true">
+                    </mpf-input>
+                   <div class="g-error"
+                       data-ng-show="">* Ingresa un número de documento o nombre
+                   </div>
+                </div>
+                <div class="col-sm-6 mb-xs-1 clearfix" ng-show="isString">
+                  <mpf-input
+                    label="{label: 'Apellido Paterno', required: false}"
+                    name="nApellidoPaterno"
+                    ng-model="mApellidoPaterno"
+                    mpf-validation="onlyLetter"
+                    ng-minlength="2"
+                    ng-maxlength="50"
+                    ng-keydown="buscarPersona($event, mNombreAfiliado, mApellidoPaterno, mApellidoMaterno)"
+                    ng-required="isString && !mApellidoMaterno">
+                  </mpf-input>
+                  <div class="g-error"
+                       data-ng-show="">* Ingresa apellido paterno
+                  </div>
+                </div>
+                <div class="col-sm-6 mb-xs-1 clearfix" ng-show="isString">
+                  <mpf-input
+                    label="{label: 'Apellido Materno', required: false}"
+                    name="nApellidoMaterno"
+                    ng-model="mApellidoMaterno"
+                    mpf-validation="onlyLetter"
+                    ng-minlength="2"
+                    ng-maxlength="50"
+                    ng-keydown="buscarPersona($event, mNombreAfiliado, mApellidoPaterno, mApellidoMaterno)"
+                    ng-required="isString && !mApellidoMaterno">
+                  </mpf-input>
+                  <div class="g-error"
+                       data-ng-show="">* Ingresa apellido materno
+                  </div>
+                </div>
+                <div class="col-sm-6 col-sm-offset-3" ng-click="searchAffiliatePowerEPS(mNombreAfiliado, mApellidoPaterno, mApellidoMaterno)" ng-show="isString">
+                  <a class="g-btn g-btn-transparent block">Buscar</a>
+                </div>
+
+                <div class="col-sm-5 mt-xs-2" ng-click="searchAffiliatePowerEPS(mNombreAfiliado, mApellidoPaterno, mApellidoMaterno)" ng-hide="isString">
+                  <a class="g-btn g-btn-transparent block">Buscar</a>
+                </div>
+
+              </div>
+              <div class="row">
+                <div class="col-xs-12">
+                  <div class="mt-xs-2 mb-xs-2 pt-xs-2 pb-xs-2 modal-body__static-scroll">
+                    <div class="col-xs-12 text-center">
+                      <!--<span class="u-txt-50 gCGray3 ico-mapfre_30_buscar"></span>-->
+                      <div class="clearfix" ng-hide="affiliatePowerEPS.length>0">
+                        <div ng-show = "noExisteAfiliadoMensaje">
+                            <div class="g-box-noresult-ico gCRed1">
+                                <span class="ico-mapfre_302_error"></span>
+                              </div>
+                              <div class="g-box-noresult-text gCGray3 mb-xs-1">El afiliado no ha sido encontrado o no existe<br>Puede crear un nuevo afiliado en unos simples pasos</div>
+
+                        </div>
+
+                        <div class="col-sm-8 col-sm-offset-2">
+                          <a class="g-btn g-btn-verde second-design block" ng-click="closeModal(afiliadoSeleccionado); fnShowModalCrearAfiliado()">Crear afiliado</a>
+                        </div>
+                      </div>
+                      <ul class="clearfix text-left" ng-show="affiliatePowerEPS.length>0">
+                        <li class="clearfix pt-xs-1 pb-xs-1 mb-xs-1 g-box">
+                          <div class="col-xs-3">
+                            <b>Número de documento</b>
+
+                          </div>
+                          <div class="col-xs-6 g-text-uppercase">
+                            <b>Nombre</b>
+
+                          </div>
+                          <div class="col-xs-3 g-text-uppercase">
+                            <b>Fecha de Nacimiento</b>
+
+                          </div>
+                        </li>
+                      </ul>
+                      <ul class="clearfix text-left" ng-repeat="afiliadoPowerEPS in affiliatePowerEPS">
+                        <li ng-click="selectedAffiliatePowerEPS(afiliadoPowerEPS,$index)" ng-class="{'gBgcGray4 clearfix pt-xs-1 pb-xs-1 mb-xs-1 g-box g-u-cursor--pointer':$index == selectedRowAffilate,'clearfix pt-xs-1 pb-xs-1 mb-xs-1 g-box g-u-cursor--pointer cgw-radio__wp':$index != selectedRowAffilate}">
+                          <div class="col-xs-3">
+                            {{afiliadoPowerEPS.documentNumber}}
+                          </div>
+                          <div class="col-xs-6 g-text-uppercase">
+                            {{afiliadoPowerEPS.fullName}}
+                          </div>
+                          <div class="col-xs-3 g-text-uppercase">
+                            {{afiliadoPowerEPS.birthdate}}
+                          </div>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-4 col-md-offset-4 mb-xs-1 no-mb-md">
+                  <a class="g-btn g-btn-transparent block" ng-click="closeModal(afiliadoSeleccionado)" ng-show="affiliatePowerEPS.length>0">Aceptar</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </form>
+      </section>
+    </script>
+    <!-- Fin: Modal Buscar Afiliado -->
+
+    <!-- Inicio: Modal Crear Nuevo Afiliado -->
+    <script type="text/ng-template" id="modalCrearNuevoAfiliado.html">
+      <section class="">
+        <button type="button" class="close g-close-modal" ng-click="closeModal()">
+          <span class="ico-mapfre_231_cancelaroff"></span>
+        </button>
+        <form action="" id="frmCrearAfiliado" name="frmCrearAfiliado">
+          <div class="container">
+            <div class="col-md-12 mb-xs-2">
+              <h2 class="gH4">Crear Nuevo Afiliado</h2>
+            </div>
+          </div>
+          <div class="container">
+            <div class="col-md-12">
+              <div class="row">
+                <div class="col-xs-12 mt-xs-2 mb-xs-2">
+                  <div class="container g-border-xs pt-xs-2 pb-xs-2 modal-body__static-scroll">
+                    <div class="row">
+                      <div class="col-sm-6 mb-xs-2">
+                        <mpf-select
+                          ng-model="mTipoDocPowerEPS"
+                          name="nTipoDocPowerEPS"
+                          label="{label: 'Tipo de documento', required: false}"
+                          m-data-source="typeDocsPowerEPS"
+                          text-field="description"
+                          value-field="idDocumentType"
+                          m-Empty-Option="{enterData:true}"
+                          ng-required="true"
+                          ng-change="showNaturalPerson(mTipoDocPowerEPS);"
+                          mpf-validation="required"></mpf-select>
+                        <div class="g-error"
+                             data-ng-show="frmCrearAfiliado.nTipoDocPowerEPS.$error.required && !frmCrearAfiliado.nTipoDocPowerEPS.$pristine">* Seleccione un tipo de documento
+                        </div>
+                      </div>
+                      <div class="col-sm-6 mb-xs-2">
+                        <mpf-input
+                          label="{label: 'Número de documento', required: false}"
+                          name="nNroDoc"
+                          ng-model="mNewNroDoc"
+                          mpf-validation="onlyNumber"
+                          ng-required="true"
+                          ng-keydown="buscarPersonaJNE($event, mTipoDocPowerEPS, mNewNroDoc)"
+                          ng-maxlength="docNumMaxLength"
+                          ng-minlength="docNumMinLength" ></mpf-input>
+                        <div class="g-error"
+                             data-ng-show="frmCrearAfiliado.nNroDoc.$error.required && !frmCrearAfiliado.nNroDoc.$pristine">* Ingrese número de documento
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="row">
+                      <div class="col-sm-6 mb-xs-2">
+                        <mpf-input
+                          label="{label: 'Apellido paterno', required: false}"
+                          name="nApelPat"
+                          ng-model="mApelPat"
+                          mpf-validation="onlyLetter"
+                          ng-minlength="2"
+                          ng-maxlength="50"
+                          ng-required="false">
+                        </mpf-input>
+                        <div class="g-error"
+                             data-ng-show="frmCrearAfiliado.nApelPat.$error.required && !frmCrearAfiliado.nApelPat.$pristine">* Ingrese apellido paterno
+                        </div>
+                      </div>
+                      <div class="col-sm-6 mb-xs-2">
+                        <mpf-input
+                          label="{label: 'Apellido materno', required: false}"
+                          name="nApelMat"
+                          ng-model="mApelMat"
+                          mpf-validation="onlyLetter"
+                          ng-minlength="2"
+                          ng-maxlength="50"
+                          ng-required="false">
+                        </mpf-input>
+                        <div class="g-error"
+                             data-ng-show="frmCrearAfiliado.nApelMat.$error.required && !frmCrearAfiliado.nApelMat.$pristine">* Ingrese apellido materno
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="row">
+                      <div class="col-sm-6 mb-xs-2">
+                        <mpf-input
+                          label="{label: 'Nombres', required: false}"
+                          name="nNombres"
+                          ng-model="mNombres"
+                          mpf-validation="onlyLetter"
+                          ng-minlength="2"
+                          ng-maxlength="50"
+                          ng-required="true">
+                        </mpf-input>
+                        <div class="g-error"
+                             data-ng-show="frmCrearAfiliado.nNombres.$error.required && !frmCrearAfiliado.nNombres.$pristine">* Ingrese nombres
+                        </div>
+                      </div>
+                      <div class="col-sm-6 mb-xs-2">
+                        <mpf-select
+                          ng-model="mSexoPowerEPS"
+                          name="nSexoPowerEPS"
+                          label="{label: 'Sexo', required: false}"
+                          m-data-source="sexPowerEPS"
+                          text-field="value"
+                          value-field="key"
+                          m-Empty-Option="{enterData:true}"
+                          ng-required="true"
+                          mpf-validation="required"></mpf-select>
+                        <div class="g-error"
+                             data-ng-show="frmCrearAfiliado.nSexoPowerEPS.$error.required && !frmCrearAfiliado.nSexoPowerEPS.$pristine">* Seleccione un sexo
+                        </div>
+                      </div>
+                      <div class="col-sm-6 mb-xs-2">
+                        <div class="input-group g-date-picker">
+                          <label class="g-placeholder animated">Fecha de nacimiento</label>
+                          <input  type="text"
+                                  class="form-control"
+                                  uib-datepicker-popup="{{format}}"
+                                  name="nFechaNacNew"
+                                  data-ng-model="formData.mFechaNacNew"
+                                  is-open="popupNew.opened"
+                                  datepicker-options="dateOptions"
+                                  data-ng-required="true"
+                                  close-text="Close"/>
+                          <span class="input-group-btn">
+                            <button type="button" class="btn btn-default" ng-click="openNew()">
+                              <i class="glyphicon glyphicon-calendar"></i>
+                            </button>
+                          </span>
+                        </div>
+                        <div class="g-error"
+                             data-ng-show="frmCrearAfiliado.nFechaNacNew.$error.required && !frmCrearAfiliado.nFechaNacNew.$pristine">* Seleccione una fecha
+                        </div>
+                      </div>
+                    </div>
+
+                  </div>
+                </div>
+              </div>
+              <!--<div class="row">-->
+              <!---->
+              <!--</div>-->
+              <div class="row">
+                <div class="col-md-4 col-md-offset-4 mb-xs-1 no-mb-md">
+                  <a href="" class="g-btn g-btn-transparent block" ng-click="closeModal(); fnShowModalAfiliadoCreado(mTipoDocPowerEPS, mNewNroDoc, mApelPat, mApelMat, mNombres, formData.mFechaNacNew, mSexoPowerEPS)">Crear</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </form>
+      </section>
+    </script>
+    <!-- Fin: Modal Crear Nuevo Afiliado -->
+
+    <!-- Inicio: Modal Editar datos del paciente -->
+    <script type="text/ng-template" id="modalEditarDatosPaciente.html">
+      <section class="">
+        <button type="button" class="close g-close-modal" ng-click="closeModal()">
+          <span class="ico-mapfre_231_cancelaroff"></span>
+        </button>
+        <form name="frm">
+          <div class="container">
+            <div class="col-md-12 mb-xs-2">
+              <h2 class="gH4">Datos del Paciente</h2>
+            </div>
+          </div>
+          <div class="container">
+            <div class="col-md-12">
+              <div class="row">
+                <div class="col-xs-12 mt-xs-2 mb-xs-2">
+                  <div class="container g-border-xs pt-xs-2 pb-xs-2 modal-body__static-scroll">
+                    <div class="row">
+                      <div class="col-sm-6 mb-xs-2">
+                        <mpf-input
+                          label="{label: 'Afiliado', required: true}"
+                          name="afiliadoSeleccionado"
+                          ng-model="formData.afiliadoSeleccionado"
+                          mpf-validation=""
+                          ng-minlength="2"
+                          ng-maxlength="50"
+                          ng-click="fnShowModal(); closeModal();"
+                          ng-disabled="true"
+                          ng-required="true">
+                        </mpf-input>
+                        <!--<span class="u-txt-50 gCGray3 ico-mapfre_30_buscar" ng-click="fnShowModal()"></span>-->
+                        <div class="g-error"
+                             data-ng-show="frmSolicitudCgw.afiliadoSeleccionado.$error.required && !frmSolicitudCgw.afiliadoSeleccionado.$pristine">* Ingresa un afiliado
+                        </div>
+                      </div>
+                      <div class="col-sm-6 mb-xs-2">
+                        <mpf-input
+                          label="{label: 'Placa', required: false}"
+                          name="nPlaca"
+                          ng-model="formData.mPlaca"
+                          ng-pattern="'(^[a-zA-Z0-9]+$)'"
+                          ng-Minlength="5"
+                          ng-Maxlength="8"
+                          trn-Length="8"
+                          mpf-validation="onlyLetterNumber"
+                          ng-keydown="buscarPoliza($event, formData.mPlaca)"
+                          ng-required="true">
+                        </mpf-input>
+                        <div class="g-error"
+                             data-ng-show="frmSolicitudCgw.nPlaca.$error.required && !frmSolicitudCgw.nPlaca.$pristine">* Ingrese placa
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="row">
+                      <div class="col-sm-6 mb-xs-2">
+                        <div class="input-group g-date-picker">
+                          <label class="g-placeholder animated">Fecha del accidente/siniestro</label>
+                          <input type="text"
+                            class="form-control"
+                            name="nFechaAccidenteEdit"
+                            ng-model="nFechaAccidenteEdit"
+                            uib-datepicker-popup=""
+                            is-open=""
+                            datepicker-options=""
+                            close-text="Close"
+                            alt-input-formats=""
+                            ui-mask=""
+                            ng-pattern=""
+                            model-view-value="true"
+                            ng-required=""
+                            ng-disabled="false"
+                            ng-change="fnChangeDate()"/>
+                          <span class="input-group-btn">
+                            <button type="button" class="btn btn-default" ng-click="open()">
+                              <i class="glyphicon glyphicon-calendar"></i>
+                            </button>
+                          </span>
+                        </div>
+                        <div class="g-error"
+                             data-ng-show="frmSolicitudCgw.nFechaAccidenteEdit.$error.required && !frmSolicitudCgw.nFechaAccidenteEdit.$pristine">* Seleccione una fecha
+                        </div>
+                      </div>
+                      <div class="col-sm-6 mb-xs-2">
+                        <mpf-input
+                          label="{label: 'Póliza', required: false}"
+                          name="nPoliza"
+                          ng-model="mPoliza"
+                          mpf-validation=""
+                          ng-minlength=""
+                          ng-maxlength=""
+                          ng-required="">
+                        </mpf-input>
+                        <div class="g-error"
+                          data-ng-show="">* Ingrese póliza
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="row">
+                      <div class="col-sm-6 mb-xs-2">
+                        <mpf-select
+                          ng-model="formData.mCausa"
+                          name="nCausa"
+                          label="{label: 'Causas', required: false}"
+                          m-data-source="causasCGW"
+                          text-field="description"
+                          value-field="idCause"
+                          m-Empty-Option="{enterData:true}"
+                          mpf-validation="required"></mpf-select>
+                        <div class="g-error"
+                             data-ng-show="frmSolicitudCgw.nCausa.$error.required && !frmSolicitudCgw.nCausa.$pristine">* Seleccione una causa
+                        </div>
+                      </div>
+                    </div>
+
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-4 col-md-offset-4 mb-xs-1 no-mb-md" ng-click="closeModal()">
+                  <a href="" class="g-btn g-btn-verde block">Aceptar</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </form>
+      </section>
+    </script>
+    <!-- Fin: Modal Editar datos del paciente -->
+
+    <!-- Inicio: Modal Editar datos del titular -->
+    <script type="text/ng-template" id="modalEditarDatosTitular.html">
+      <section class="">
+        <button type="button" class="close g-close-modal" ng-click="closeModal()">
+          <span class="ico-mapfre_231_cancelaroff"></span>
+        </button>
+        <form name="frm">
+          <div class="container">
+            <div class="col-md-12 mb-xs-2">
+              <h2 class="gH4">Datos del Titular</h2>
+            </div>
+          </div>
+          <div class="container">
+            <div class="col-md-12">
+              <div class="row">
+                <div class="col-xs-12 mt-xs-2 mb-xs-2">
+                  <div class="container g-border-xs pt-xs-2 pb-xs-2 modal-body__static-scroll">
+                    <div class="row">
+                      <div class="col-sm-6 mb-xs-2">
+                        <mp-data-seeker
+                          behavior="{label:'Afiliado', placeholder:''}"
+                          m-data-source="getListClinic($inputNeed)"
+                          ng-model=""
+                          name=""
+                          ng-required=""
+                          ng-change="">
+                          <div ng-bind-html="$item.codeName | highlight: $select.search"></div>
+                        </mp-data-seeker>
+                        <div class="g-error"
+                          data-ng-show="">* Ingrese un afiliado
+                        </div>
+                      </div>
+                      <div class="col-sm-6 mb-xs-2">
+                        <mpf-input
+                          label="{label: 'Placa', required: false}"
+                          name="nPlaca"
+                          ng-model="mPlaca"
+                          mpf-validation=""
+                          ng-minlength=""
+                          ng-maxlength=""
+                          ng-required="">
+                        </mpf-input>
+                        <div class="g-error"
+                          data-ng-show="">* Dato no válido
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="row">
+                      <div class="col-sm-6 mb-xs-2">
+                        <div class="input-group g-date-picker">
+                          <label class="g-placeholder animated">Fecha del accidente/siniestro</label>
+                          <input  type="text"
+                                  class="form-control"
+                                  uib-datepicker-popup="{{format}}"
+                                  name="nFechaAccidenteEdit"
+                                  data-ng-model="formData.mFechaAccidenteEdit"
+                                  is-open="popup.opened"
+                                  datepicker-options="dateOptions"
+                                  data-ng-required="true"
+                                  close-text="Close" />
+                          <span class="input-group-btn">
+                            <button type="button" class="btn btn-default" ng-click="open()">
+                              <i class="glyphicon glyphicon-calendar"></i>
+                            </button>
+                          </span>
+                        </div>
+                        <div class="g-error"
+                             data-ng-show="frmSolicitudCgw.nFechaAccidenteEdit.$error.required && !frmSolicitudCgw.nFechaAccidenteEdit.$pristine">* Seleccione una fecha
+                        </div>
+                      </div>
+                      <div class="col-sm-6 mb-xs-2">
+                        <mpf-input
+                          label="{label: 'Póliza', required: false}"
+                          name="nPoliza"
+                          ng-model="mPoliza"
+                          mpf-validation=""
+                          ng-minlength=""
+                          ng-maxlength=""
+                          ng-required="">
+                        </mpf-input>
+                        <div class="g-error"
+                          data-ng-show="">* Dato no válido
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="row">
+                      <div class="col-sm-6 mb-xs-2">
+                        <mpf-select
+                          ng-model="formData.mCausa"
+                          name="nCausa"
+                          label="{label: 'Causas', required: false}"
+                          m-data-source="causasCGW"
+                          text-field="description"
+                          value-field="idCause"
+                          m-Empty-Option="{enterData:true}"
+                          mpf-validation="required"></mpf-select>
+                        <div class="g-error"
+                             data-ng-show="frmSolicitudCgw.nCausa.$error.required && !frmSolicitudCgw.nCausa.$pristine">* Seleccione una causa
+                        </div>
+                      </div>
+                    </div>
+
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-4 col-md-offset-4 mb-xs-1 no-mb-md" ng-click="closeModal()">
+                  <a href="" class="g-btn g-btn-verde block">Aceptar</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </form>
+      </section>
+    </script>
+    <!-- Fin: Modal Editar datos del titular -->
+
+    <!-- Inicio: Modal Editar Diagnóstico -->
+    <script type="text/ng-template" id="modalEditarDiagnostico.html">
+      <section class="">
+        <button type="button" class="close g-close-modal" ng-click="closeModal()">
+          <span class="ico-mapfre_231_cancelaroff"></span>
+        </button>
+        <form name="frm">
+          <div class="container">
+            <div class="col-md-12 mb-xs-2">
+              <h2 class="gH4">Diagnóstico principal</h2>
+            </div>
+          </div>
+          <div class="container">
+            <div class="col-md-12">
+              <div class="row">
+                <div class="col-xs-12 mt-xs-2 mb-xs-2">
+                  <div class="container g-border-xs pt-xs-2 pb-xs-2 modal-body__static-scroll">
+                    <div class="row">
+                      <div class="col-sm-6 mb-xs-2">
+                        <mp-data-seeker
+                          behavior="{label:'Código de diagnóstico', placeholder:''}"
+                          m-data-source="getListClinic($inputNeed)"
+                          ng-model=""
+                          name=""
+                          ng-required=""
+                          ng-change="">
+                          <div ng-bind-html="$item.codeName | highlight: $select.search"></div>
+                        </mp-data-seeker>
+                        <div class="g-error"
+                          data-ng-show="">* Ingrese un diagnóstico
+                        </div>
+                      </div>
+                      <div class="col-sm-6 mb-xs-2">
+                        <mp-data-seeker
+                          behavior="{label:'Médico tratante', placeholder:''}"
+                          m-data-source="getListClinic($inputNeed)"
+                          ng-model=""
+                          name=""
+                          ng-required=""
+                          ng-change="">
+                          <div ng-bind-html="$item.codeName | highlight: $select.search"></div>
+                        </mp-data-seeker>
+                        <div class="g-error"
+                          data-ng-show="">* Ingrese un médico tratante
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-sm-12 mb-xs-2">
+                        <mpf-input
+                          label="{label: 'Observaciones', required: false}"
+                          name="nObervaciones"
+                          ng-model="mObservaciones"
+                          mpf-validation=""
+                          ng-minlength=""
+                          ng-maxlength=""
+                          ng-required="">
+                        </mpf-input>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-4 col-md-offset-4 mb-xs-1 no-mb-md" ng-click="closeModal()">
+                  <a href="" class="g-btn g-btn-verde block">Aceptar</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </form>
+      </section>
+    </script>
+    <!-- Fin: Modal Editar Diagnóstico -->
+
+    <wizard-stairs ng-show="formData.mProducto.productCode === 'S' || formData.mProducto.productCode === 'R'"
+      stairs="{
+          steps: [
+            {description:'Seleccionar afiliado'},
+            {description:'Cobertura'},
+            {description: 'Diagnóstico Principal y Beneficio/Copago'},
+            {description: 'Presupuesto'}
+          ],
+          stateName:'.steps',
+          stateParameter: 'step'}"
+      current-Step="currentStep"
+      steping="nav.go($stepToGo, formData.mProducto.productCode)">
+    </wizard-stairs>
+    <div ng-if="formData.mProducto.productCode === 'S' || formData.mProducto.productCode === 'R'">
+      <div id="form-views" ui-view=""></div>
+    </div>
+
+    <wizard-stairs ng-show="(formData.mProducto.productCode === 'O') && saveInitData"
+      stairs="{
+      steps: [
+        {description:'Ubigeo del accidente'},
+        {description: 'Diagnóstico y Beneficio'},
+        {description:'Cobertura'},
+        {description: 'Presupuesto'}
+      ],
+      stateName:'.stepsSoat',
+      stateParameter: 'step'}"
+      current-Step="currentStep"
+      steping="nav.go($stepToGo, formData.mProducto.productCode, currentStep)">
+    </wizard-stairs>
+    <div ng-if="(formData.mProducto.productCode === 'O') && saveInitData">
+      <div id="form-viewsSOAT" ui-view=""></div>
+    </div>
+
+    <wizard-stairs ng-show="formData.mProducto.productCode === 'A' && saveInitData|| formData.mProducto.productCode === 'U' && saveInitData"
+                   stairs="{
+        steps: [
+          {description:'Contacto'},
+          {description: 'Diagnóstico y Beneficio'},
+          {description:'Cobertura'},
+          {description: 'Presupuesto'}
+        ],
+        stateName:'.stepsSoat',
+        stateParameter: 'step'}"
+                   current-Step="currentStep"
+                   steping="nav.go($stepToGo, formData.mProducto.productCode, currentStep)">
+    </wizard-stairs>
+    <div ng-if="(formData.mProducto.productCode === 'A' || formData.mProducto.productCode === 'U') && saveInitData">
+      <div id="form-viewsAAPPAutos" ui-view=""></div>
+    </div>
+  </div>
+</section>

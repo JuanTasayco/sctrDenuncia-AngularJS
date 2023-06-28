@@ -1,0 +1,44 @@
+<section class="g-page page-empresa-cotizar">
+
+	<!-- <page-title info="{title: 'Cotización póliza de empresa'}" ng-if="currentStep<3"></page-title> -->
+	<page-title info="{title: 'Cotización póliza de empresa'}"></page-title>
+
+	<!-- Sección Agente -->
+	<!-- <div class="g-section" ng-show="currentStep<2"> -->
+	<div class="g-section">
+		<div class="container">
+			<!-- <div class="row">
+				<div class="col-md-12"><h2 class="g-sub-title">Para cotizar una póliza debes elegir un agente</h2></div>
+			</div> -->
+			<div class="row" ng-form="frmMain" ng-show="currentStep==1">
+				<div class="col-md-4">
+					<!-- <mpf-input ng-model="inputAgent" label="{label:'Ingresa nombre o código de agente'}" ng-blur="searchAgent()"> </mpf-input>	 -->
+					  <span ng-show="!isAdmin"><h2>Agente: {{data.agent.codigoAgente}}  {{data.agent.codigoNombre}}</h2></span>
+						<div ng-show="isAdmin">
+							<mp-Data-Seeker 
+								behavior="{
+									label: 'Para cotizar una póliza debes elegir un agente',
+									placeholder: 'Busque o seleccione un agente ...', 
+									showTitle: false,
+									matchField: 'codigoNombre'
+								}" 
+								m-data-source="'proxyAgente.buscarAgente'" 
+								ng-model="data.agent" 
+								required name="nAgent"
+								>
+								<div ng-bind-html="$item.codigoNombre | highlight: $select.search"></div>
+							</mp-Data-Seeker>
+							
+							<div class="g-error" ng-show="frmMain.nAgent.$error.required">* Seleccione un agente</div>
+						</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<wizard-stairs stairs="{steps: [{description:'Datos de la póliza'},{description:'Datos del Riesgo'}, {description:'Calcular Prima'}], stateName:'.steps', stateParameter: 'step'}" 
+    current-Step="currentStep" steping="_steping($stepToGo)"></wizard-Stairs>
+
+  <div id="form-views" ui-view=""></div>
+
+</section>

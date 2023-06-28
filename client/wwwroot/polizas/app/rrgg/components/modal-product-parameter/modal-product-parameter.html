@@ -1,0 +1,177 @@
+<div class="clearfix page-rrgg__modal">
+  <button type="button" class="close g-close-modal" ng-click="$ctrl.close()">
+    <span class="ico-mapfre_231_cancelaroff"></span>
+  </button>
+  <div class="row no-margin-xs">
+    <div class="col-md-12 mb-xs-2 border-bottom pb-xs-2 pl-xs-0 pr-xs-0">
+      <h2 class="gH3"><b>{{$ctrl.title}}</b></h2>
+    </div>
+    <div class="col-xs-12 pr-xs-0 pl-xs-0">
+      <div class="page-rrgg__lists">
+        <uib-tabset active="riesgo.tipo" justified="true" class="page-rrgg__tabs">
+          <uib-tab ng-repeat="cabecera in $ctrl.data.tab " class="page-rrgg__tabs-item"
+            ng-click="$ctrl.getDataParametro(cabecera)">
+            <uib-tab-heading class="g-ellipsis-lg g-ellipsis-xs" title="{{cabecera.Descripcion}}">
+              {{cabecera.Descripcion}}
+            </uib-tab-heading>
+            <div class="row" ng-if="cabecera.TipoParametro === $ctrl.constantsRrgg.PARAMETROS.TIPO_LISTA">
+              <div class="col-md-12">
+                <div class="page-rrgg__tabs-content">
+                  <p ng-if="item.Descripcion">{{item.Descripcion}}</p>
+                  <p ng-if="cabecera.CodigoProducto === $ctrl.constantsRrgg.CAB_VALID.DESCUENTOSHDR">Solo giros (d,e y
+                    f). Demás giros revisar otros descuentos.</p>
+                  <ul class="page-rrgg__tabs-content-list">
+                    <li ng-repeat="list in $ctrl.data.dataParametro">
+                      <span>{{list.Descripcion}} </span>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+
+            <div
+              ng-if="$ctrl.arrayHeaders.type === 1 && cabecera.TipoParametro ===  $ctrl.constantsRrgg.PARAMETROS.TIPO_TABLA"
+              class="page-rrgg__table">
+              <div class="row row--padding no-margin-xs pt-xs-1 pb-xs-1 bg-dark">
+                <div class="col-xs-4 fwBold no-padding-md">Valor del contrato <br>o Suma Asegurada</div>
+                <div class="col-xs-2 fwBold no-padding-md">Tasa neta anual</div>
+                <div class="col-xs-2 fwBold pl-xs-0-5 col--flex"><span>Mínimo</span> <span>(*)</span>
+                </div>
+                <div class="col-xs-4 fwBold pl-xs-1 pr-md-0 show-md">Tasa neta anual <br>Deshonestidad
+                </div>
+              </div>
+              <div class="row row--padding no-margin-xs pt-xs-1 pb-xs-1 bg-light">
+                <div class="col-xs-4 no-padding-md">
+                  <div class="row pl-xs-0">
+                    <div class="col-xs-6 fwBold">Desde</div>
+                    <div class="col-xs-6 fwBold pl-sm-0">Hasta</div>
+                  </div>
+                </div>
+              </div>
+              <div ng-repeat="item in $ctrl.arrayHeaders.headerHorizontal">
+                <div class="row row--padding no-margin-xs pt-xs-1 pb-xs-1 row--flex g-relative"
+                  ng-class="item.cssClassColor">
+                  <p class="text-rotate no-margin-md mb-xs-1 mt-xs-0 pb-xs-1" ng-class="item.cssClassMargin"
+                    ng-bind-html="item.header"></p>
+                  <div class="col-xs-12">
+                    <div ng-repeat="item in $ctrl.data.dataTableParametro[item.id]" class="row row--inner">
+                      <div class="col-xs-4 pl-xs-0">
+                        <div class="row">
+                          <div class="col-xs-6 pl-xs-0">{{item[0].Dato | currency:'' }}</div>
+                          <div class="col-xs-6">{{item[1].Dato | currency: ''}}</div>
+                        </div>
+                      </div>
+                      <div class="col-xs-8 pr-xs-0">
+                        <div class="row">
+                          <div class="col-xs-4">
+                            {{item[2].Dato | currency: ''}}
+                          </div>
+                          <div class="col-xs-4">
+                            {{item[3].Dato | currency: '' }}
+                          </div>
+                          <div class="col-xs-4">
+                            {{item[4].Dato }}%
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div
+              ng-if="$ctrl.arrayHeaders.type === 2 && cabecera.TipoParametro ===  $ctrl.constantsRrgg.PARAMETROS.TIPO_TABLA"
+              ng-repeat="data in $ctrl.arrayHeaders.headerVertical" class="page-rrgg__table mb-xs-3 mb-md-5">
+              <div class="row no-margin-xs  g-center-flex  pt-xs-1 pb-xs-1 bg-dark">
+                <div class="col-xs-8 fwBold g-text-center-xs">{{data.headerGeneral}}</div>
+              </div>
+              <div class="row no-margin-xs bg-light g-center-flex g-text-center-xs">
+                <div class="col-xs-4 fwBold" ng-repeat="item in data.headers">{{item.header}}</div>
+              </div>
+              <div ng-repeat="item in $ctrl.data.dataTableParametro[data.id]"
+                class="row no-margin-xs  g-center-flex  pt-xs-1 pb-xs-1 bg-gray-dark g-text-center-xs">
+                <div class="col-xs-4">
+                  {{item[0].Dato | currency: '' }}
+                </div>
+                <div class="col-xs-4">
+                  {{item[1].Dato | currency: '' }}
+                </div>
+                <div class="col-xs-4">
+                  {{item[2].Dato }}
+                </div>
+                <div class="col-xs-4">
+                  {{item[3].Dato }}
+                </div>
+                <div class="col-xs-4">
+                  {{item[4].Dato }}
+                </div>
+                <div class="col-xs-4">
+                  {{item[5].Dato }}
+                </div>
+                <div class="col-xs-4">
+                  {{item[6].Dato }}
+                </div>
+                <div class="col-xs-4">
+                  {{item[7].Dato }}
+                </div>
+              </div>
+            </div>
+
+            <div
+              ng-if="$ctrl.arrayHeaders.type === 3 && cabecera.TipoParametro ===  $ctrl.constantsRrgg.PARAMETROS.TIPO_TABLA"
+              ng-repeat="item in $ctrl.arrayHeaders.children" class="page-rrgg__table">
+              <div class="row no-margin-xs  g-center-flex  pt-xs-1 pb-xs-1 bg-dark">
+                <div class="col-xs-8 fwBold g-text-center-xs" ng-bind-html="item.headerGeneral"></div>
+              </div>
+              <div class="mb-xs-3 mb-md-5">
+                <div ng-repeat="data in item.headerHorizontal "
+                  class="row row--padding no-margin-xs pt-xs-3 pb-xs-3 row--flex g-relative"
+                  ng-class="data.cssClassColor">
+                  <p class="text-rotate no-margin-md mb-xs-1 mt-xs-0 pb-xs-1" ng-class="data.cssClassMargin"
+                    ng-bind-html="data.header"></p>
+                  <div class="col-xs-12  ">
+                    <div ng-repeat="item in data.data track by $index"
+                      class="row no-margin-xs g-center-flex  g-text-center-xs  pt-xs-1 pb-xs-1 ">
+                      <div ng-repeat="subItem in item track by $index" class="col-xs-4">
+                        {{subItem.Dato | currency:'' }}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- INFO: Hardcode text to 'Descuento por volumen' -->
+            <div 
+              ng-if="cabecera.CodigoProducto == 60"
+              class="mb-xs-1"
+            >
+              El producto considera un descuento en función al número de personas aseguradas. Este descuento ya se encuentra considerado en la prima que calcula el slip.
+            </div>
+            <!-- -->
+            <div
+            ng-repeat="header in $ctrl.arrayHeaders"
+            ng-if="header.type === 4 && cabecera.TipoParametro ===  $ctrl.constantsRrgg.PARAMETROS.TIPO_TABLA"
+            class="page-rrgg__table mb-xs-4">
+              <div class="row no-margin-xs  g-center-flex  pt-xs-1 pb-xs-1 bg-dark">
+                <div class="col-xs-8 fwBold g-text-center-xs">{{header.headerGeneral}}</div>
+              </div>
+              <div class="row no-margin-xs  g-center-flex  pt-xs-1 pb-xs-1 bg-dark" ng-if="header.tipeMoney" style="border-top: solid 1px #703025" >
+                <div class="col-xs-8 fwBold g-text-center-xs">{{header.tipeMoney}}</div>
+              </div>
+              <div class="row no-margin-xs bg-light g-center-flex g-text-center-xs">
+                <div class="col-xs-4 fwBold" ng-repeat="item in header.headers">{{item.header}}</div>
+              </div>
+              <div ng-repeat="item in header.data track by $index"
+                class="row no-margin-xs  g-center-flex  pt-xs-1 pb-xs-1 bg-gray-dark g-text-center-xs">
+                <div class="col-xs-4" ng-repeat="data in item track by $index">
+                  {{data.toString()}}
+                </div>
+              </div>
+            </div>
+          </uib-tab>
+        </uib-tabset>
+      </div>
+    </div>
+  </div>
+</div>

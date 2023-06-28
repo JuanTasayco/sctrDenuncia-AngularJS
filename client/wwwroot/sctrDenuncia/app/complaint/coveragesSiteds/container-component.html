@@ -1,0 +1,276 @@
+<div class="coverages-siteds">
+    <div class="container">
+        <div class="row">
+            <div class="clearfix g-table">
+                <div class="col-xs-12 col-md-12 g-cell-middle pl-xs-0 pr-xs-0">
+                    <div class="denuncia-edit-title">
+                        <div class="container">
+                            <div class="row">
+                                <div class="col-xs-12">
+                                    <h2> <a ui-sref="complaint.item({periodo: $ctrl.periodo, nrodenuncia:$ctrl.nrodenuncia, codasegurado:$ctrl.codasegurado})"><i class="glyphicon glyphicon-remove close-redirect"></i></a> {{ $ctrl.dataview.nombres }} {{ $ctrl.dataview.apellidoPaterno }} {{ $ctrl.dataview.apellidoMaterno }} DNI {{ $ctrl.dataview.nroDocAsegurado }} (COD. {{ $ctrl.codasegurado }})</h2>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+    
+    <div  ng-show="$ctrl.pacienteData && $ctrl.titularData" class="g-section g-section-tabs relive row u-pt-xs-0 u-pb-0">
+        <div class="container">
+            <div class="tabs-box-list main-tabs pb-xs-2 wp-tabs-detalle__wp relive u-bg--white maxWidth">
+      
+                <uib-tabset justified="true" active="$ctrl.activeTab">
+                    <uib-tab classes="tabs-box-list__tab" index="0">
+                        <uib-tab-heading>
+                            <i class="glyphicon glyphicon-ok" ng-show="$ctrl.dataItem.itsSavedDet"></i>
+                            DATOS DEL ASEGURADO
+                        </uib-tab-heading>        
+                        <div>
+                            <div class="container sec-auto g-section-inner ng-scope">
+                <div class="searchComplaint clearfix g-col-filter g-box-md gBgcWhite1">
+                    <div class="col-md-12 mb-xs-1-5 gH4 gCGray1">
+                        <h2 class="pb-xs-1 g-border-bottom-xs hidden-xs hidden-sm">
+                            <b>Datos Paciente</b>
+                        </h2>
+                    </div>
+                    <div class="container">
+                        <ul class="row">
+                            <li class="col-md-3 clearfix cnt-item">
+                                <div class="col-sm-6 col-md-4 item-label">
+                                    <span class="ico-mapfre_82_circle ico-bullet"></span>
+                                    Parentesco
+                                </div>
+                                <div class="col-sm-6 col-md-8 item-dato ng-binding">
+                                    {{ $ctrl.getParentesco($ctrl.pacienteData.parantesco)  }}
+                                </div>
+                            </li>
+                            <li class="col-md-3 clearfix cnt-item">
+                                <div class="col-sm-6 col-md-4 item-label">
+                                    <span class="ico-mapfre_82_circle ico-bullet"></span>
+                                    Sexo
+                                </div>
+                                <div class="col-sm-6 col-md-8 item-dato ng-binding">
+                                        {{ $ctrl.pacienteData.sexoPaciente =="1"? "M": "F" }}
+                                </div>
+                            </li>
+                            <li class="col-md-3 clearfix cnt-item">
+                                <div class="col-sm-6 col-md-4 item-label">
+                                    <span class="ico-mapfre_82_circle ico-bullet"></span>
+                                    Edad
+                                </div>
+                                <div class="col-sm-6 col-md-8 item-dato ng-binding">
+                                    {{ $ctrl.calcEge($ctrl.pacienteData.fecNacimientoPaciente) }}
+                                </div>
+                            </li>
+                            <li class="col-md-3 clearfix cnt-item">
+                                <div class="col-sm-6 col-md-4 item-label">
+                                    <span class="ico-mapfre_82_circle ico-bullet"></span>
+                                    Doc. Iden
+                                </div>
+                                <div class="col-sm-6 col-md-8 item-dato ng-binding">
+                                    {{ $ctrl.pacienteData.documentoIdentidadPaciente }}
+                                </div>
+                            </li>
+                        </ul>
+                        <ul class="row">
+                                <li class="col-md-3 clearfix cnt-item">
+                                    <div class="col-sm-6 col-md-4 item-label">
+                                        <span class="ico-mapfre_82_circle ico-bullet"></span>
+                                        Vigencia
+                                    </div>
+                                    <div class="col-sm-6 col-md-8 item-dato ng-binding">
+                                        {{ $ctrl.pacienteData.inicioVigenciaPaciente | date :"dd/MM/yyyy"}} - {{ $ctrl.pacienteData.finVigenciaPaciente | date :"dd/MM/yyyy"}} 
+                                    </div>
+                                </li>
+                                <li class="col-md-3 clearfix cnt-item">
+                                    <div class="col-sm-6 col-md-4 item-label">
+                                        <span class="ico-mapfre_82_circle ico-bullet"></span>
+                                        Estado
+                                    </div>
+                                    <div class="col-sm-6 col-md-8 item-dato ng-binding">
+                                        {{ $ctrl.getEstado($ctrl.pacienteData.estadoPaciente)  }}
+                                    </div>
+                                </li>
+                                <li class="col-md-3 clearfix cnt-item">
+                                    <div class="col-sm-6 col-md-4 item-label">
+                                        <span class="ico-mapfre_82_circle ico-bullet"></span>
+                                        Fecha Nac.
+                                    </div>
+                                    <div class="col-sm-6 col-md-8 item-dato ng-binding">
+                                        {{ $ctrl.pacienteData.fecNacimientoPaciente | date :"dd/MM/yyyy"}}
+                                    </div>
+                                </li>
+                                <li class="col-md-3 clearfix cnt-item">
+                                    <div class="col-sm-6 col-md-4 item-label">
+                                        <span class="ico-mapfre_82_circle ico-bullet"></span>
+                                        No Carnet
+                                    </div>
+                                    <div class="col-sm-6 col-md-8 item-dato ng-binding">
+                                        {{ $ctrl.pacienteData.nroCarnet}}
+                                    </div>
+                                </li>
+                        </ul>
+                    </div>
+                </div>
+                <br />
+                <div class="searchComplaint clearfix g-col-filter g-box-md gBgcWhite1">
+                    <div class="col-md-12 mb-xs-1-5 gH4 gCGray1">
+                        <h2 class="pb-xs-1 g-border-bottom-xs hidden-xs hidden-sm">
+                            <b>Datos Titular</b>
+                        </h2>
+                    </div>
+                    <div class="container">
+                            <ul class="row">
+                                <li class="col-md-3 clearfix cnt-item">
+                                    <div class="col-sm-6 col-md-4 item-label">
+                                        <span class="ico-mapfre_82_circle ico-bullet"></span>
+                                        Nombres
+                                    </div>
+                                    <div class="col-sm-6 col-md-8 item-dato ng-binding">
+                                        {{ $ctrl.titularData.nombreContratante }} {{ $ctrl.titularData.apellidoPaternoContratante }} {{ $ctrl.titularData.apellidoMaternoContratante }}
+                                    </div>
+                                </li>
+                                <li class="col-md-3 clearfix cnt-item">
+                                    <div class="col-sm-6 col-md-4 item-label">
+                                        <span class="ico-mapfre_82_circle ico-bullet"></span>
+                                        Contrato
+                                    </div>
+                                    <div class="col-sm-6 col-md-8 item-dato ng-binding">
+                                        {{ $ctrl.titularData.nroContrato }}
+                                    </div>
+                                </li>
+                                <li class="col-md-3 clearfix cnt-item">
+                                    <div class="col-sm-6 col-md-4 item-label">
+                                        <span class="ico-mapfre_82_circle ico-bullet"></span>
+                                        Empresa
+                                    </div>
+                                    <div class="col-sm-6 col-md-8 item-dato ng-binding">
+                                        {{ $ctrl.titularData.nombreEmpresa }}
+                                    </div>
+                                </li>
+                                <li class="col-md-3 clearfix cnt-item">
+                                    <div class="col-sm-6 col-md-4 item-label">
+                                        <span class="ico-mapfre_82_circle ico-bullet"></span>
+                                        RUC
+                                    </div>
+                                    <div class="col-sm-6 col-md-8 item-dato ng-binding">
+                                        {{ $ctrl.titularData.ruc }}
+                                    </div>
+                                </li>
+                                
+                            </ul>
+                            <ul class="row">
+                                    <li class="col-md-3 clearfix cnt-item">
+                                        <div class="col-sm-6 col-md-4 item-label">
+                                            <span class="ico-mapfre_82_circle ico-bullet"></span>
+                                            Producto
+                                        </div>
+                                        <div class="col-sm-6 col-md-8 item-dato ng-binding">
+                                             {{ $ctrl.titularData.tipoAfiliado }}  
+                                        </div>
+                                    </li>
+                                    <li class="col-md-3 clearfix cnt-item">
+                                        <div class="col-sm-6 col-md-4 item-label">
+                                            <span class="ico-mapfre_82_circle ico-bullet"></span>
+                                            Moneda
+                                        </div>
+                                        <div class="col-sm-6 col-md-8 item-dato ng-binding">
+                                            {{ $ctrl.titularData.moneda ==1 ? 'SOLES': 'DOLARES' }}
+                                        </div>
+                                    </li>
+                                    <li class="col-md-3 clearfix cnt-item">
+                                        <div class="col-sm-6 col-md-4 item-label">
+                                            <span class="ico-mapfre_82_circle ico-bullet"></span>
+                                            Inc. EPS
+                                        </div>
+                                        <div class="col-sm-6 col-md-8 item-dato ng-binding">
+                                                {{ $ctrl.titularData.inclusionEps | date: "dd/MM/yyyy" }}
+                                        </div>
+                                    </li>
+                                    <li class="col-md-3 clearfix cnt-item">
+                                        <div class="col-sm-6 col-md-4 item-label">
+                                            
+                                        </div>
+                                        <div class="col-sm-6 col-md-8 item-dato ng-binding">
+                                            
+                                        </div>
+                                    </li>
+                                    
+                                </ul>
+                        </div>
+                </div>
+                <br />
+        </div>
+    </div>
+                    </uib-tab>
+                    <uib-tab classes="tabs-box-list__tab" index="1">
+                        <uib-tab-heading>
+                            RECIBOS
+                        </uib-tab-heading> 
+                        <div class="container sec-auto g-section-inner">
+
+                            <div class="g-history">
+                                <div ng-repeat="receipt in $ctrl.reciboData" class="row">
+                                    <div class="col-md-12 mb-xs-2 item">
+                                        <div class="clearfix g-box g-overflow-hidden-xs mb-xs-2">
+                                            <div class="row g-box-content part">
+                                                <ul class="clearfix g-list second-design detail-data">
+                                                    <li class="col-xs-12 col-sm-12">
+                                                        <span class="item-label label-lateral-state">No</span>
+                                                        <span class="item-label label-lateral-state">{{ receipt.numRecibo }}</span>
+                                                    </li>
+                                                </ul>
+                                                <li class="col-xs-12 col-sm-12">
+                                                    <span class="item-label label-lateral-state">   {{ receipt.numPoliza  ? receipt.numPoliza :0}} - {{ receipt.numSpto ? receipt.numSpto :0  }} - {{ receipt.numApli  ? receipt.numApli :0 }} -  {{ receipt.numSptoApli  ? receipt.numSptoApli :0 }}</span>
+                                                </li>
+                                            </div> 
+                                            <div class="row pt-xs-1 gBgcGray5 part">
+                                                <div class="col-md-2">
+                                                    <span class="sc-title" >Situación</span></br>
+                                                    <span class="sc-data">{{ receipt.tipSituacion }}</span>
+                                                </div>
+                                                <div class="col-md-2">
+                                                    <span class="sc-title" >Fecha Efecto</span> </br>
+                                                    <span class="sc-data" >{{ receipt.fecEfecRecibo | date: "dd/MM/yyyy"}}</span>
+                                                </div>
+                                                <div class="col-md-2">
+                                                    <span class="sc-title" > Fecha Vencimiento</span> </br>
+                                                    <span class="sc-data" >{{ receipt.fecVctoRecibo | date: "dd/MM/yyyy"}}</span>
+                                                </div>
+                                                <div class="col-md-2">
+                                                    <span class="sc-title" > Tipo Gestor </span> </br>
+                                                    <span class="sc-data" >{{ receipt.tipGestor }}</span>
+                                                </div>
+                                                <div class="col-md-2">
+                                                    <span class="sc-title" >Código de gestor</span></br>
+                                                    <span class="sc-data">{{ receipt.codGestor }}</span>
+                                                </div>
+                                                <div class="col-md-2">
+                                                    <span class="sc-title" >Importe de recibo</span></br>
+                                                    <span class="sc-data">{{ receipt.impRecibo }}</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>                              
+                    </uib-tab>
+                </uib-tabset>
+            </div>        
+        </div>
+    </div>
+
+    <coverages-search-filter on-search="$ctrl.onsearch($filters)" dataview="$ctrl.dataview" on-clean="$ctrl.onClean()"></coverages-search-filter>
+    <div ng-show="$ctrl.isSearched">
+        <coverages-search-result ng-show="$ctrl.coveragesClinc && $ctrl.coveragesClinc.length >0" on-selected-item="$ctrl.onSelectedItem($titular, $paciente, $recibo)" coverages="$ctrl.coveragesClinc" dataview="$ctrl.dataview" emit-methods="$ctrl.emitMethodsResult($fn)"></coverages-search-result>
+        <div class="col-md-12 pb-xs-3">
+            <complaint-list-empty    ng-show="!($ctrl.coveragesClinc && $ctrl.coveragesClinc.length >0)"></complaint-list-empty>
+        </div>
+    </div>
+    
+</div>
+   

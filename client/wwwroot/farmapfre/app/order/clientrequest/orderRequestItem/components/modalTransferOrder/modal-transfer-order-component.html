@@ -1,0 +1,45 @@
+<form name="frmTransferOrder">
+    <button type="button" class="close g-close-modal" ng-click="$ctrl.close()" prevent-default>
+      <span class="ico-mapfre_231_cancelaroff"></span>
+    </button>
+    <div class="clearfix">
+      <div class="col-md-12 mb-xs-1-5 gH4 gCGray1">
+        <h2 class="pb-xs-1 g-border-bottom-xs">
+          <b>¿Deseas transferir el pedido</b><b> No. {{$ctrl.data.id}}?</b>
+        </h2>
+      </div>
+      <div class="g-col-filter__box">
+        <div class="col-md-12 mb-xs-1">
+          <div class="col-md-12 mb-xs-3">
+            <p style="font-size: 16px; margin: 15px 0 30px 0; display: inline-block; width: 100%;">
+                Selecciona el BackOffice Despacho donde desee transferir e ingresa un comentario (opcional).
+            </p>
+            <mpf-select
+              data-m-data-source="$ctrl.data.boDispatchs"
+              data-ng-model="$ctrl.frm.boDispacth"
+              data-text-field="description"
+              data-value-field="id"
+              label="{label: 'BO Despacho', required: true}"
+              m-Empty-Option = "{enterData : true}"
+              ng-required="true"
+              name="nBODispatch">
+            </mpf-select>
+          </div>
+          <div class="col-md-12 mb-xs-3">
+            <!-- ng-keyup="$ctrl.countChars($ctrl.frm.comment)" -->
+            <mpf-textarea label="{label:'Comentarios', required: false}"
+              ng-model="$ctrl.frm.comment"
+              name="nTransferComment"
+              ng-Maxlength="160">
+            </mpf-textarea>
+          </div>
+          <div class="col-md-12">
+            <a class="g-btn g-btn-rojo block"
+               ng-class="{disabled: !frmTransferOrder.$valid}"
+               data-ng-click="$ctrl.transferOrder()">Transferir</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+  

@@ -1,0 +1,215 @@
+<!-- <gcw-header
+  data="{title: 'Constancia de detracción', type: 1}"
+></gcw-header> -->
+
+<div class="consultaGestion">
+  <div class="container">
+    <div show-filter class="clearfix g-col-filter g-box-md gBgcGray5-md gBgcWhite1 g-myd-box" ng-class="{'show': isFilterVisible}">
+      <div class="col-xs-12">
+        <div class="clearfix gH4 gCGray1 mb-xs-1-5">
+          <h2 class="hidden-xs hidden-sm"><b>Opciones de Búsqueda</b></h2>
+          <div id="show-filter" class="row pt-xs-2 pb-xs-2 gBgcGray5 g-border-bottom-xs hidden-md hidden-lg" ng-click="toggleFilter();">
+            <div class="col-xs-10"><h2><b>Opciones de Búsqueda</b></h2></div>
+            <div class="col-xs-2 g-text-right-xs">
+              <!-- ngIf: isFilterVisible --><span class="glyphicon glyphicon-chevron-down ng-scope" ng-if="isFilterVisible"></span><!-- end ngIf: isFilterVisible -->
+              <!-- ngIf: !isFilterVisible --><span class="glyphicon glyphicon-chevron-up ng-scope" ng-if="!isFilterVisible"></span><!-- end ngIf: !isFilterVisible -->
+            </div>
+            <div class="clearfix"></div>
+          </div>
+        </div>
+        <form class="clearfix" name="frmDetraccion">
+          <div class="row mb-xs-2">
+            <div class="col-xs-12 col-md-3">
+              <m-radio label="{label: 'Nro. Documento de Pago'}" name="nTipoBusqueda" ng-model="vm.formDetraccion.mTipoBusqueda" value="1" data-ng-required="true"></m-radio>
+            </div>
+            <div class="col-xs-12 col-md-2">
+              <m-radio label="{label: 'Nro. Constancia'}" name="nTipoBusqueda" ng-model="vm.formDetraccion.mTipoBusqueda" value="2" data-ng-required="true"></m-radio>
+              <!-- <div class="g-error" data-ng-show="frmDetraccion.nTipoBusqueda.$error.required && !frmDetraccion.nTipoBusqueda.$pristine">* Seleccione una opción.</div> -->
+            </div>
+            <!-- <div class="col-xs-12 col-md-2">
+              <m-radio label="{label: 'Compañía'}" name="nTipoBusqueda" ng-model="vm.formDetraccion.mTipoBusqueda" value="3" data-ng-required="true"></m-radio>
+            </div> -->
+            <div ng-show="vm.formDetraccion.mTipoBusqueda == 1" class="col-xs-12 mt-xs-1 no-padding-xs">
+              <div class="col-xs-12 col-md-3 mb-xs-2 mb-md-0">
+                <mpf-select
+                  ng-model="vm.formDetraccion.mTipoDoc"
+                  name="nTipoDoc"
+                  label="{label: 'Tipo de Doc.', required: false}"
+                  text-field="description"
+                  value-field="code"
+                  m-data-source="vm.lstTipoDoc"
+                  m-Empty-Option="{text:'Seleccionar'}" >
+                </mpf-select>
+              </div>
+              <div class="col-xs-3 col-md-1">
+                <mpf-input label="{label: 'Serie', required: false}" name="nSerieDoc" ng-model="vm.formDetraccion.mSerieDoc"></mpf-input>
+              </div>
+              <div class="col-xs-9 col-md-2 pl-xs-0">
+                <mpf-input label="{label: 'Número', required: false}" name="nNumeroDoc" ng-model="vm.formDetraccion.mNumeroDoc"></mpf-input>
+              </div>
+            </div>
+            <div ng-show="vm.formDetraccion.mTipoBusqueda == 2" class="col-xs-12 mt-xs-1 no-padding-xs">
+              <div class="col-xs-12 col-md-3">
+                <mpf-input label="{label: 'Nro. Constancia', required: false}" name="nNroConstancia" ng-model="vm.formDetraccion.mNroConstancia"></mpf-input>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-offset-8 col-md-2 mb-xs-1 no-mb-md">
+              <a class="g-btn g-btn-verde second-design block"
+                ga-click
+                ga-category="'CG - Comisiones'"
+                ga-action="'MPF - Constancia detracción - Buscar'"
+                ga-label="'Botón: Buscar'"
+                ng-click="vm.buscar()">
+                Buscar
+              </a>
+            </div>
+            <div class="col-md-2"><a class="g-btn g-btn-white second-design block" ng-click="vm.limpiar()">Limpiar</a></div>
+          </div>
+        </form>
+      </div>
+
+    </div>
+    <!-- Top bar: Filtro e iconos -->
+    <div tbl-oim-topbar class="clearfix g-tbl-topbar mt-md-2 mb-md-2 mt-xs-1 width-filtro">
+
+      <div class="g-row-filter__box box_right height-xs height-sm" ng-class="{'filter__show': showFilterTopbar}">
+        <form class="clearfix">
+          <div class="g-filter-col">
+
+            <mpf-select-horz
+              ng-model="vm.formDetraccion.mCompania"
+              name="nCompania"
+              label="{label: 'Compañía', required: false}"
+              m-data-source="vm.lstCompanias"
+              text-field="Description"
+              value-field="Value"
+              m-Empty-Option="{text:'Seleccionar'}"
+              mpf-validation="required">
+            </mpf-select>
+          </div>
+          <div class="g-filter-col">
+            <mpf-datepicker-horz
+              ng-model="vm.formDetraccion.mFechaDesde"
+              label="{label: 'Desde:', required: false}"
+              format="vm.format"
+              name="nfechaDesde"
+              ng-required="false"
+              mpf-validate="required"
+              maxDate="">
+            </mpf-datepicker-horz>
+          </div>
+          <div class="g-filter-col">
+            <mpf-datepicker-horz
+              ng-model="vm.formDetraccion.mFechaHasta"
+              label="{label: 'Hasta:', required: false}"
+              format="vm.format"
+              name="nfechaHasta"
+              ng-required="false"
+              mpf-validate="required"
+              maxDate="">
+            </mpf-datepicker-horz>
+          </div>
+          <div class="g-filter-col col__buttons hidden-xs hidden-sm">
+            <a class="g-btn g-btn-white block second-design "  
+            ga-click
+            ga-category="'CG - Comisiones'"
+            ga-action="'MPF - Constancia detracción - Aplicar Filtros'"
+            ga-label="'Botón: Aplicar Filtros'" ng-click="vm.buscar()">Aplicar Filtros</a>
+          </div>
+          <div class="col__buttons visible-xs mt-xs-2">
+            <a class="g-btn g-btn-white block second-design " 
+            ga-click
+            ga-category="'CG - Comisiones'"
+            ga-action="'MPF - Constancia detracción - Aplicar Filtros'"
+            ga-label="'Botón: Aplicar Filtros'" ng-click="vm.buscar()">Aplicar Filtros</a>
+            <a ng-click="showFilterTopbar = !showFilterTopbar" class="g-btn g-btn-white block second-design ">Cerrar</a>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <div class="clearfix" ng-show="vm.totalRows >= 1">
+      <div tbl-oim class="col-xs-12 g-tbl-wrapper pl-xs-0">
+        <div class="tbl-main table__1640" style="width: 1600px;">
+          <ul class="tbl-header clearfix">
+            <li class="title col-5-dktp">CIA</li>
+            <li class="title col-9-dktp">Nro. Constancia</li>
+            <li class="title col-6-dktp text-right">Importe</li>
+            <li class="title col-8-dktp">Fecha pago Detracción</li>
+            <li class="title col-8-dktp">Estado Detracción</li>
+            <li class="title col-7-dktp">Tipo doc. Pago</li>
+            <li class="title col-7-dktp">Nro. doc. Pago</li>
+            <li class="title col-8-dktp">RUC Provedor</li>
+            <li class="title col-10-dktp">Razón Social Provedor</li>
+            <li class="title col-12-dktp">Tipo Operación</li>
+            <li class="title col-12-dktp">Bien o Servicio</li>
+            <li class="title col-8-dktp">CTA Detración (BCO Nación)</li>
+          </ul>
+          <ul class="tbl-body clearfix">
+            <li data-ng-click="showConstDep(item)" ng-repeat="item in vm.detracciones">
+              <ul height-row class="tbl-row clearfix">
+                <li class="cell col-5-dktp">
+                  <span class="cell-label"><span class="cell-data">{{item.companyId}}</span></span>
+                </li>
+                <li class="cell col-9-dktp">
+                  <span class="cell-label"><span class="cell-data">{{item.constancyNumber}}</span></span>
+                </li>
+                <li class="cell col-6-dktp text-right">
+                  <span class="cell-label"><span class="cell-data">{{item.amount | number:2}}</span></span>
+                </li>
+                <li class="cell col-8-dktp">
+                  <span class="cell-label"><span class="cell-data">{{item.paymentDate}}</span></span>
+                </li>
+                <li class="cell col-8-dktp">
+                  <span class="cell-label"><span class="cell-data">{{item.stateDetraction}}</span></span>
+                </li>
+                <li class="cell col-7-dktp">
+                  <span class="cell-label"><span class="cell-data">{{item.documentType}}</span></span>
+                </li>
+                <li class="cell col-7-dktp">
+                  <span class="cell-label"><span class="cell-data">{{item.documentNumber}}</span></span>
+                </li>
+                <li class="cell col-8-dktp">
+                  <span class="cell-label"><span class="cell-data">{{item.rucSupplier}}</span></span>
+                </li>
+                <li class="cell col-10-dktp">
+                  <span class="cell-label"><span class="cell-data">{{item.nameSupplier}}</span></span>
+                </li>
+                <li class="cell col-12-dktp">
+                  <span class="cell-label"><span class="cell-data">{{item.detractionOperation}}</span></span>
+                </li>
+                <li class="cell col-12-dktp">
+                  <span class="cell-label"><span class="cell-data">{{item.detractionService}}</span></span>
+                </li>
+                <li class="cell col-8-dktp">
+                  <span class="cell-label"><span class="cell-data">{{item.checkingAccountNumber}}</span></span>
+                </li>
+              </ul>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="clearfix" ng-show="vm.totalRows == 0 && !vm.firstSearch">
+      <div class="col-md-12 text-center g-box-noresult">
+        <div class="row">
+          <div class="col-md-12 g-box-noresult-ico gCRed1">
+            <span class="ico-mapfre_302_error"></span>
+          </div>
+          <div class="col-md-12 g-box-noresult-text">
+            No hay resultados para la búsqueda realizada.<br/>Intenta nuevamente
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="clearfix" ng-show="vm.totalPages > 1">
+      <div class="col-md-12">
+        <ul uib-pagination class="g-pagination" ng-model="mPagination" max-size="10" total-items="vm.totalRows" ng-change="vm.pageChanged(mPagination)" boundary-link-numbers="true"></ul>
+      </div>
+    </div>
+  </div>
+</div>

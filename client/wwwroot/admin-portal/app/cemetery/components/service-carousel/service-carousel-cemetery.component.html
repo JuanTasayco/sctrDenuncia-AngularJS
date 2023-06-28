@@ -1,0 +1,36 @@
+<div class="c-section__information">
+    <h3 class="c-section__title">Carrusel de servicios</h3>
+    <p class="c-section__subtitle">{{$ctrl.format.valor1}}</p>
+</div>
+<div class="row">
+    <div class="col-md-2" data-ng-repeat="carousel in $ctrl.carousels">
+        <div class="c-carousel__content" >
+            <div class="c-carousel__image" ng-class="{'c-image__container-dark': !$ctrl.showSwitch || carousel.srcImg == '' , 'c-image__container-ligth': $ctrl.showSwitch && carousel.srcImg != ''} ">
+                <img ng-src="/admin-portal/assets/img/c-img-small-default.png" alt="" class="c-image-opacity" data-ng-if="carousel.srcImg == ''">
+                <img ng-src="{{carousel.srcImg}}" alt="" class="c-image-opacity"   ng-style="$ctrl.showSwitch && {'opacity': 1}" data-ng-if="carousel.srcImg != ''">
+                <div class="c-button__upload-small" ng-if="$ctrl.showButton">
+                    <upload-button-cemetery
+                        data-is-light="true"
+                        data-is-icon="false"
+                        data-label="'Cargar imagen'"
+                        data-title-button="'+ SELECCIONAR ARCHIVO'"
+                        data-img-width="$ctrl.format.valor2"
+                        data-img-height="$ctrl.format.valor3"
+                        data-on-upload="$ctrl.handleUploadCarousel($event, carousel)">
+                    </upload-button-cemetery>
+                </div>
+            </div>
+            <div class="c-carousel__title">
+                <p>{{carousel.valor1}}</p>
+            </div>
+            <div class="c-toggle g-center-flex"  ng-if="$ctrl.showSwitch">
+                  <mpf-checkbox-toggle
+                  ng-model="carousel.activo"
+                  ng-true-value="'1'"
+                  ng-false-value="'0'"
+                  data-nodrag
+                ></mpf-checkbox-toggle>
+            </div>
+        </div>
+    </div>
+</div>

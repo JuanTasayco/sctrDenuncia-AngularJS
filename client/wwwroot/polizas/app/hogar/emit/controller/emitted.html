@@ -1,0 +1,235 @@
+<section class="g-page">
+  <div class="g-title">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-8 col-sm-8 mb-xs-2 no-mb-sm">
+          <h1>Póliza emitida de hogar</h1>
+        </div>
+        <div class="col-md-4 col-sm-4 mb-xs-1 no-mb-sm">
+          <a class="g-btn g-btn-verde second-design block" ui-sref="hogarQuote.steps({step: 1})">Emitir nueva póliza hogar</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="g-section">
+    <div class="container">
+      <div class="col-md-12 g-box fz14 pt-xs-2 pb-xs-2">
+        <div class="row gH4">
+          <div class="col-sm-6 mb-sm-2 mb-xs-1">
+            <h2 class="gCGray1 g-text-uppercase"><b>Póliza de Hogar</b></h2>
+          </div>
+          <div class="col-sm-6 mb-xs-2 g-text-right-sm">
+            <b>Nro. Póliza: {{mainStep.emissionData.NumeroDocumento}}</b>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-12 mb-xs-1">
+            <h2 class="gH4 gCGray1 g-border-bottom-xs"><b>Prima</b></h2>
+          </div>
+        </div>
+        <ul class="row g-list second-design">
+          <li class="col-md-4 clearfix cnt-item">
+            <div class="col-xs-5 item-label">
+              <span class="ico-mapfre_82_circle ico-bullet"></span>Prima neta:
+            </div>
+            <div class="col-xs-7 item-dato">
+              {{{mainStep.emissionData.DatosPrimaAdicional.PrimaNeta | currency:constants.currencyType}}
+            </div>
+          </li>
+        </ul>
+        <ul class="row g-list second-design">
+          <li class="col-md-4 clearfix cnt-item">
+            <div class="col-xs-5 item-label">
+              <span class="ico-mapfre_82_circle ico-bullet"></span>Derecho de emisión:
+            </div>
+            <div class="col-xs-7 item-dato">
+              {{mainStep.emissionData.DatosPrimaAdicional.DerechoEmision | currency:constants.currencyType}}
+            </div>
+          </li>
+        </ul>
+        <ul class="row g-list second-design">
+          <li class="col-md-4 clearfix cnt-item">
+            <div class="col-xs-5 item-label">
+              <span class="ico-mapfre_82_circle ico-bullet"></span>IGV:
+            </div>
+            <div class="col-xs-7 item-dato">
+              {{mainStep.emissionData.DatosPrimaAdicional.DerechoEmision | currency:constants.currencyType}}{{mainStep.emissionData.DatosPrimaAdicional.Igv | currency:constants.currencyType}}
+            </div>
+          </li>
+        </ul>
+
+        <div class="row">
+          <div class="col-md-12 mb-xs-1">
+            <h2 class="gH4 gCGray1 g-border-bottom-xs">Datos de la póliza</h2>
+          </div>
+        </div>
+        <ul class="row g-list second-design">
+          <li class="col-md-4 clearfix cnt-item">
+            <div class="col-sm-5 item-label">
+              <span class="ico-mapfre_82_circle ico-bullet"></span>Producto:
+            </div>
+            <div class="col-sm-7 item-dato">
+              {{mainStep.emissionData.Hogar.NombreModalidad}}
+            </div>
+          </li>
+        </ul>
+
+        <div class="row">
+          <div class="col-md-12 mb-xs-1">
+            <h2 class="gH4 gCGray1 g-border-bottom-xs">Datos del riesgo</h2>
+          </div>
+        </div>
+        <ul class="row g-list second-design">
+          <li class="col-md-4 clearfix cnt-item">
+            <div class="col-sm-5 item-label">
+              <span class="ico-mapfre_82_circle ico-bullet"></span>Ubicación del inmueble:
+            </div>
+            <div class="col-sm-7 item-dato">
+              {{mainStep.emissionData.Hogar.Ubigeo.NombreDepartamento}}, {{mainStep.emissionData.Hogar.Ubigeo.NombreProvincia}}, {{mainStep.emissionData.Hogar.Ubigeo.NombreDistrito}}
+            </div>
+          </li>
+          <li class="col-md-4 clearfix cnt-item">
+            <div class="col-sm-5 item-label">
+              <span class="ico-mapfre_82_circle ico-bullet"></span>Año de construcción:
+            </div>
+            <div class="col-sm-7 item-dato">
+              {{mainStep.emissionData.Hogar.AnioInmueble}}
+            </div>
+          </li>
+          <li class="col-md-4 clearfix cnt-item">
+            <div class="col-sm-5 item-label">
+              <span class="ico-mapfre_82_circle ico-bullet"></span>Categoría:
+            </div>
+            <div class="col-sm-7 item-dato g-text-uppercase">
+              {{mainStep.emissionData.Hogar.NombreCategoria}}
+            </div>
+          </li>
+        </ul>
+        <ul class="row g-list second-design">
+          <li class="col-md-4 clearfix cnt-item">
+            <div class="col-sm-5 item-label">
+              <span class="ico-mapfre_82_circle ico-bullet"></span>Cobertura de aseguramiento:
+            </div>
+            <div class="col-sm-7 item-dato">
+              {{mainStep.emissionData.Hogar.FlagEdificacionValor == 'S' ? 'EDIFICACIÓN' : ''}}, {{mainStep.emissionData.Hogar.FlagContenidoValor == 'S' ? 'CONTENIDO' : ''}}
+            </div>
+          </li>
+          <li class="col-md-4 clearfix cnt-item">
+            <div class="col-sm-5 item-label">
+              <span class="ico-mapfre_82_circle ico-bullet"></span>Valor del inmueble:
+            </div>
+            <div class="col-sm-7 item-dato">
+              {{mainStep.emissionData.Hogar.ValorEdificacion | currency:constants.currencyType}} - {{mainStep.emissionData.Hogar.ValorContenido | currency:constants.currencyType}}
+            </div>
+          </li>
+          <li class="col-md-4 clearfix cnt-item">
+            <div class="col-sm-5 item-label">
+              <span class="ico-mapfre_82_circle ico-bullet"></span>Servicio opcional:
+            </div>
+            <div class="col-sm-7 item-dato">
+              {{mainStep.emissionData.Hogar.NombreAlarmaMonitoreo}}
+            </div>
+          </li>
+        </ul>
+        <ul class="row g-list second-design">
+          <li class="col-md-4 clearfix cnt-item">
+            <div class="col-sm-5 item-label">
+              <span class="ico-mapfre_82_circle ico-bullet"></span>Dirección:
+            </div>
+            <div class="col-sm-7 item-dato g-text-uppercase">
+              {{mainStep.emissionData.Hogar.DireccionInmueble}}
+            </div>
+          </li>
+          <li class="col-md-4 clearfix cnt-item">
+            <div class="col-sm-5 item-label">
+              <span class="ico-mapfre_82_circle ico-bullet"></span>Tipo:
+            </div>
+            <div class="col-sm-7 item-dato">
+              {{mainStep.emissionData.Hogar.NombreTipoInmueble}}
+            </div>
+          </li>
+          <li class="col-md-4 clearfix cnt-item">
+            <div class="col-sm-5 item-label">
+              <span class="ico-mapfre_82_circle ico-bullet"></span>Pisos:
+            </div>
+            <div class="col-sm-7 item-dato">
+              {{mainStep.emissionData.Hogar.NumeroPisosPredio}}
+            </div>
+          </li>
+        </ul>
+        <ul class="row g-list second-design">
+          <li class="col-md-4 clearfix cnt-item">
+            <div class="col-sm-5 item-label">
+              <span class="ico-mapfre_82_circle ico-bullet"></span>Sótanos:
+            </div>
+            <div class="col-sm-7 item-dato">
+              {{mainStep.emissionData.Hogar.NumeroSotanosPredio}}
+            </div>
+          </li>
+          <li class="col-md-4 clearfix cnt-item">
+            <div class="col-sm-5 item-label">
+              <span class="ico-mapfre_82_circle ico-bullet"></span>Material:
+            </div>
+            <div class="col-sm-7 item-dato">
+              {{mainStep.emissionData.Hogar.NombreMaterialConstruccion}}
+            </div>
+          </li>
+        </ul>
+        <div class="row">
+          <div class="col-md-12 mb-xs-1">
+            <h2 class="gH4 gCGray1 g-border-bottom-xs">Datos del contratante</h2>
+          </div>
+        </div>
+        <ul class="row g-list second-design">
+          <li class="col-md-4 clearfix cnt-item">
+            <div class="col-sm-5 item-label">
+              <span class="ico-mapfre_82_circle ico-bullet"></span>Documento:
+            </div>
+            <div class="col-sm-7 item-dato">
+              {{mainStep.emissionData.Contratante.TipoDocumento}} {{mainStep.emissionData.Contratante.CodigoDocumento}}
+            </div>
+          </li>
+          <li class="col-md-4 clearfix cnt-item">
+            <div class="col-sm-5 item-label">
+              <span class="ico-mapfre_82_circle ico-bullet"></span>Nombre:
+            </div>
+            <div class="col-sm-7 item-dato">
+              {{mainStep.emissionData.Contratante.Nombre}} {{mainStep.emissionData.Contratante.ApellidoPaterno}} {{mainStep.emissionData.Contratante.ApellidoMaterno}}
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+    <!-- Button -->
+    <div class="g-section">
+        <div class="container">
+
+           <!-- Firma -->
+           <div ng-if="isMyDream && isMobile" class="row h-myd--show h-oim-none">
+              <signature-panel
+                label="emisión"
+                params-signature="{{ getParamsSignature(mainStep.emissionData.NumeroDocumento) }}"
+                params-pdf="{{ getParamsPdf(mainStep.emissionData.NumeroDocumento) }}"
+                document-number="{{ mainStep.emissionData.NumeroDocumento }}"
+                onEnd="onSignature($event)">
+              </signature-panel>
+            </div>
+            <div class="row">
+                <div class="col-md-4 col-sm-offset-2 mb-xs-1 no-mb-md">
+                  <a class="g-btn g-btn-transparent block" ng-click="sendEmail()">
+                    <span class="ico-mapfre_123_envelop ico-email"></span> Enviar por correo
+                  </a>
+                </div>
+                <div ng-if="!isMobile" class="col-md-4">
+                  <a class="g-btn g-btn-transparent block" ng-click="downloadPDF()">
+                    <span class="ico-mapfre_124_download ico-download"></span> Descargar
+                  </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</section>

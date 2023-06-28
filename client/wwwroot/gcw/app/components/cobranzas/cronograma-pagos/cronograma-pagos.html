@@ -1,0 +1,363 @@
+<div class="consultaGestion page-consultas-gestion-cobranzas page__cronograma-pagos">
+  <div class="container">
+    <div
+      show-filter
+      class="clearfix g-col-filter g-box-md gBgcGray5-md gBgcWhite1 g-myd-box h-zi--1030"
+      ng-class="{'show': isFilterVisible}"
+    >
+      <div class="col-xs-12">
+        <div class="clearfix gH4 gCGray1 mb-xs-1-5">
+          <h2 class="hidden-xs hidden-sm"><b>Opciones de Búsqueda</b></h2>
+          <div
+            id="show-filter"
+            class="row pt-xs-2 pb-xs-2 gBgcGray5 g-border-bottom-xs hidden-md hidden-lg"
+            ng-click="toggleFilter();"
+          >
+            <div class="col-xs-10">
+              <h2><b>Opciones de Búsqueda</b></h2>
+            </div>
+            <div class="col-xs-2 g-text-right-xs">
+              <!-- ngIf: isFilterVisible --><span
+                class="glyphicon glyphicon-chevron-down ng-scope"
+                ng-if="isFilterVisible"
+              ></span
+              ><!-- end ngIf: isFilterVisible -->
+              <!-- ngIf: !isFilterVisible --><span
+                class="glyphicon glyphicon-chevron-up ng-scope"
+                ng-if="!isFilterVisible"
+              ></span
+              ><!-- end ngIf: !isFilterVisible -->
+            </div>
+            <div class="clearfix"></div>
+          </div>
+        </div>
+        <form class="clearfix" name="frmCobranzaCronograma">
+          <div class="row mb-xs-2">
+            <div class="col-md-5 col-xs-12">
+              <div class="row">
+                <div class="col-md-6 pr-xs-0">
+                  <m-radio
+                    label="{label: 'Vigencia Actual'}"
+                    name="nTipoFecha"
+                    ng-model="vm.formDataCronPagos.mTipoFecha"
+                    value="1"
+                    data-ng-required="true"
+                  ></m-radio>
+                </div>
+                <div class="col-md-6 pr-xs-0">
+                  <m-radio
+                    label="{label: 'Histórico'}"
+                    name="nTipoFecha"
+                    ng-model="vm.formDataCronPagos.mTipoFecha"
+                    value="2"
+                    data-ng-required="true"
+                  ></m-radio>
+                </div>
+              </div>
+              <div class="row" ng-show="vm.formDataCronPagos.mTipoFecha == '1'"></div>
+              <div class="row" ng-show="vm.formDataCronPagos.mTipoFecha == '2'">
+                <div class="col-md-6 mt-xs-2 mt-md-4 h-myd-mt--20">
+                  <mpf-datepicker-horz
+                    ng-model="vm.fechaSiniestro"
+                    label="{label: 'Desde:', required: false}"
+                    format="vm.format"
+                    name="nfechaDesde"
+                    ng-required="false"
+                    ng-change=""
+                    mpf-validate="required"
+                    maxDate=""
+                  >
+                  </mpf-datepicker-horz>
+                </div>
+                <div class="col-md-6 mt-xs-2 mt-md-4 h-myd-mt--20">
+                  <mpf-datepicker-horz
+                    ng-model="vm.fechaSiniestroFin"
+                    label="{label: 'Hasta:', required: false}"
+                    format="vm.format"
+                    name="nfechaHasta"
+                    ng-required="false"
+                    ng-change=""
+                    mpf-validation="required"
+                    maxDate=""
+                  >
+                  </mpf-datepicker-horz>
+                </div>
+                <div class="col-md-6 mt-xs-2 mt-md-4">
+                  <mpf-select
+                    label="{label: 'Ramos', required: false}"
+                    name="nRamo"
+                    ng-model="vm.ramo"
+                    m-data-source="vm.listRamos"
+                    text-field="ramoDescription"
+                    value-field="ramoId"
+                    m-Empty-Option="{enterData:true}"
+                    ng-required="false"
+                    is-horz="false"
+                  ></mpf-select>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-md-7 col-xs-12 mt-xs-2 mt-md-0 g-border-left">
+              <div class="row">
+                <div class="col-md-3 col-xs-12 pr-xs-0">
+                  <m-radio
+                    label="{label: 'Por póliza'}"
+                    name="nTipoBusqueda"
+                    ng-model="vm.formDataCronPagos.optRadioTap1"
+                    value="2"
+                    data-ng-required="true"
+                    ng-click="vm.resetFiltro()"
+                  ></m-radio>
+                  <div
+                    class="g-error"
+                    data-ng-show="frmCobranzaCronograma.nTipoBusqueda.$error.required && !frmCobranzaCronograma.nTipoBusqueda.$pristine"
+                  >
+                    * Seleccione una opción
+                  </div>
+                </div>
+                <div class="col-md-3 col-xs-12 pr-xs-0">
+                  <m-radio
+                    label="{label: 'Por cliente'}"
+                    name="nTipoBusqueda"
+                    ng-model="vm.formDataCronPagos.optRadioTap1"
+                    value="1"
+                    data-ng-required="true"
+                  ></m-radio>
+                </div>
+                <div class="col-xs-12 mt-md-1  no-padding-xs">
+                  <div class="col-xs-12 col-md-4 h-myd-mt--10" ng-show="vm.formDataCronPagos.optRadioTap1 == '2'">
+                    <mpf-input
+                      label="{label: 'No. Póliza', required: true}"
+                      name="nNumPoliza"
+                      ng-model="vm.formDataCronPagos.mNumPoliza"
+                      data-ng-required="true"
+                      mpf-validation="onlyNumber"
+                      minLength="12"
+                      maxLength="15"
+                      required="true"
+                    ></mpf-input>
+                    <div
+                      class="g-error"
+                      data-ng-show="frmCobranzaAnulada.nNumPoliza.$error.required && !frmCobranzaAnulada.nNumPoliza.$pristine"
+                    >
+                      * Ingrese número de póliza
+                    </div>
+                  </div>
+                  <!-- Buscar Cliente -->
+                  <div ng-show="vm.formDataCronPagos.optRadioTap1 == '1'" class="col-xs-12 no-padding-xs">
+                    <gcw-cliente data="vm.formDataCronPagos.Cliente"></gcw-cliente>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-xs-12 mt-xs-3 mt-md-1">
+              <div class="row">
+                <div class="col-md-4 col-md-offset-8">
+                  <div class="row">
+                    <div class="col-xs-6"></div>
+                    <div class="col-xs-6"></div>
+                    <div class="col-xs-6"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-offset-8 col-md-2 mb-xs-1 no-mb-md">
+              <a
+                class="g-btn g-btn-verde second-design block hidden-md hidden-lg"
+                ga-click
+                ga-category="'CG - Cobranzas'"
+                ga-action="'MPF - Cronograma de pagos - Buscar'"
+                ga-label="'Botón: Buscar'"
+                ng-click="vm.buscar(); vm.buscarAnuladas(); toggleFilter();"
+                >Buscar</a>
+              <a
+                class="g-btn g-btn-verde second-design block hidden-xs hidden-sm"
+                ga-click
+                ga-category="'CG - Cobranzas'"
+                ga-action="'MPF - Cronograma de pagos - Buscar'"
+                ga-label="'Botón: Buscar'"
+                ng-click="vm.buscar(); vm.buscarAnuladas()"
+                >Buscar</a>
+            </div>
+            <div class="col-md-2">
+              <a class="g-btn g-btn-white second-design block" ng-click="vm.limpiar()">Limpiar</a>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <div class="row mb-xs-2" ng-show="vm.totalRows >= 1">
+      <div class="col-xs-12 mt-md-2 camp-docPagar">
+        <div class="cont">
+          <span><b>Cliente:</b></span> <span>{{ vm.clientName }}</span>
+        </div>
+        <div class="cont separador-text">
+          <span class=""><b>Segmento comercial:</b></span> <span>{{ vm.commercialSegment }}</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Top bar: Filtro e iconos -->
+    <div tbl-oim-topbar class="clearfix g-tbl-topbar mt-md-2 mb-md-2 width-filtro" ng-show="vm.verFiltro">
+      <div class="row">
+        <div class="g-row-icons__box visible-xs visible-sm" ng-show="vm.totalRows >= 1">
+          <a
+          data-ng-click="exportar()"
+          uib-popover="Exportar"
+          popover-trigger="'mouseenter'">
+            <span class="g-icon-box g-icon-box-md"><span class="ico-mapfre ico-mapfre_124_download ico-download"></span></span>
+          </a>
+        </div>
+        <div class="g-row-filter__box g-row-icons__box box_left hidden-xs hidden-sm" ng-show="vm.totalRows >= 1">
+          <a
+          data-ng-click="exportar()"
+          uib-popover="Exportar"
+          popover-trigger="'mouseenter'">
+            <span class="g-icon-box g-icon-box-md"><span class="ico-mapfre ico-mapfre_124_download ico-download"></span></span>
+          </a>
+        </div>
+        <div class="col-sm-3" ng-if="vm.showCheckAndButton()">
+          <a class="g-btn g-btn-white second-design block" ng-click="vm.modalEnvioMail()">
+            <span>Enviar documentos</span>
+          </a>
+        </div>
+        <fex-consult></fex-consult>
+      </div>
+    </div>
+
+    <!-- Tabla -->
+    <div class="clearfix" ng-show="vm.totalRows >= 1">
+      <div tbl-oim class="col-xs-12 g-tbl-wrapper pl-xs-0">
+        <div class="tbl-main">
+          <ul class="tbl-header clearfix">
+            <li class="title col-3-dktp" ng-if="vm.showCheckAndButton()">
+              <mpf-checkbox
+                label=""
+                name="nCheckAll"
+                ng-model="vm.mCheckAll"
+                ng-checked="mCheckAllValue"
+                ng-click="vm.selectAll(vm.mCheckAll);"
+              ></mpf-checkbox>
+            </li>
+            <li class="title col-15-dktp">Producto</li>
+            <li class="title col-11-dktp">Póliza</li>
+            <li class="title col-6-dktp">Tipo Doc</li>
+            <li class="title col-8-dktp">Nro. Doc</li>
+            <li class="title col-9-dktp">Vencimiento</li>
+            <li class="title col-9-dktp">Fecha Pago</li>
+            <li class="title col-7-dktp text-right">Importe</li>
+            <li class="title col-7-dktp">Moneda</li>
+            <li class="title col-9-dktp">Medio Cobro</li>
+            <li class="title col-8-dktp">Compañía</li>
+            <li class="title col-8-dktp">Cobrador</li>
+          </ul>
+          <ul class="tbl-body clearfix">
+            <li ng-repeat="item in vm.historial">
+              <ul height-row class="tbl-row clearfix g-u-cursor--pointer"
+                ga-click
+                ga-category="'CG - Cobranzas'"
+                ga-action="'MPF - Cronograma de pagos - Click en fila de resultado'"
+                ga-label="'Click: en fila de resultado'">
+                <li class="cell col-3-dktp" ng-if="vm.showCheckAndButton() && vm.historial.length>0">
+                  <mpf-checkbox
+                    label=""
+                    ng-if="item"
+                    name="nSelectDoc"
+                    ng-model="item.selected"
+                    ng-click="vm.selectDoc($index, item.selected)"
+                    >{{ item.selected }}</mpf-checkbox
+                  >
+                </li>
+                <li class="cell col-15-dktp" data-ng-click="vm.validarAccion(item, $event)">
+                  <span class="cell-title">{{ item.ramo.description }}</span>
+                </li>
+                <li class="cell col-11-dktp" data-ng-click="vm.validarAccion(item, $event)">
+                  <span class="cell-label"
+                    ><span class="cell-data">{{ item.policyNumber }}</span></span
+                  >
+                </li>
+                <li class="cell col-6-dktp" data-ng-click="vm.validarAccion(item, $event)">
+                  <span class="cell-label">
+                    <span class="cell-data" ng-show="item.voucherPayment != ''">
+                      {{ item.voucherPayment.split(' ')[0] }}
+                    </span>
+                    <span class="cell-data" ng-show="item.voucherPayment == ''">
+                      {{ item.documentType }}
+                    </span>
+                  </span>
+                </li>
+                <li class="cell col-8-dktp" data-ng-click="vm.validarAccion(item, $event)">
+                  <span class="cell-label">
+                    <span class="cell-data" ng-show="item.voucherPayment != ''">
+                      {{ item.voucherPayment.split(' ')[1] }}
+                    </span>
+                    <span class="cell-data" ng-show="item.voucherPayment == ''">
+                      {{ item.documentNumber }}
+                    </span>
+                  </span>
+                </li>
+                <li class="cell col-9-dktp" data-ng-click="vm.validarAccion(item, $event)">
+                  <span class="cell-label"
+                    ><span class="cell-data">{{ item.dateEffect }}</span></span
+                  >
+                </li>
+                <li class="cell col-9-dktp" data-ng-click="vm.validarAccion(item, $event)">
+                  <span class="cell-label"
+                    ><span class="cell-data">{{ item.datePayment }}</span></span
+                  >
+                </li>
+                <li class="cell col-7-dktp text-right" data-ng-click="vm.validarAccion(item, $event)">
+                  <span class="cell-label"
+                    ><span class="cell-data">{{ item.amount | number: 2 }}</span></span
+                  >
+                </li>
+                <li class="cell col-7-dktp" data-ng-click="vm.validarAccion(item, $event)">
+                  <span class="cell-label"
+                    ><span class="cell-data">{{ item.coinDescription }}</span></span
+                  >
+                </li>
+                <li class="cell col-9-dktp" data-ng-click="vm.validarAccion(item, $event)">
+                  <span class="cell-label"
+                    ><span class="cell-data">{{ item.collectionMethod.abbreviation }}</span></span
+                  >
+                </li>
+                <li class="cell col-8-dktp" data-ng-click="vm.validarAccion(item, $event)">
+                  <span class="cell-label"
+                    ><span class="cell-data">{{ item.ramo.companyName }}</span></span
+                  >
+                </li>
+                <li class="cell col-8-dktp" data-ng-click="vm.validarAccion(item, $event)">
+                  <span class="cell-label"
+                    ><span class="cell-data">{{ item.collectionsManagerName }}</span></span
+                  >
+                </li>
+              </ul>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <mx-paginador
+      data-datos="vm.historial"
+      data-items-x-page="vm.itemsXPagina"
+      data-msg-vacio="vm.msgVacio"
+      data-on-paginar="vm.pageChanged($event)"
+      data-pagina-actual="vm.currentPage"
+      data-total-items="vm.totalRows"
+    >
+    </mx-paginador>
+  </div>
+</div>
+
+<form id="frmDescargarDoc" name="frmDescargarDoc" action="{{ vm.descargarDocURL }}" method="post" target="_blank">
+  <input type="hidden" name="json" value="{{ vm.downloadFile2 }}" />
+</form>
+
+<form id="frmExport" name="frmExport" action="{{ vm.exportURL }}" method="post" target="_blank">
+  <input type="hidden" name="json" value="{{ vm.downloadFile }}" />
+</form>

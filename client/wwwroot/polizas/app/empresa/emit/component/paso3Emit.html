@@ -1,0 +1,47 @@
+<section class="thirdStep">
+
+	<form name="frmThirdStep">
+
+		<div class="g-section">
+			<div class="container">
+				<div class="row">
+					<div class="col-md-12">
+						<h2 class="g-sub-title red g-myd-subtitle">Datos del contratante</h2>
+					</div>
+				</div>
+			</div>
+		</div>
+
+    <mpf-person-component ng-if="!emitS3.endFirstSearch"
+      document-type="emit.step.Contratante.TipoDocumento.Codigo"
+      document-number="emit.step.Contratante.NumeroDocumento" habilitar-validacion-telefonos="true"
+			name="contratante"
+			codigo-compania="companyCode"
+			app-code="{{ appCode }}"
+      form-code="{{ formCodeCN }}"
+      outdata="documentsChange(data)">
+    </mpf-person-component>
+
+    <mpf-person-component ng-if="emitS3.endFirstSearch"
+      person-data="emit.step.Contratante" habilitar-validacion-telefonos="true"
+			name="contratante"
+			codigo-compania="companyCode"
+			app-code="{{ appCode }}"
+      form-code="{{ formCodeCN }}">
+		</mpf-person-component>
+
+		<div class="g-section">
+			<div class="container">
+				<div class="row">
+					<div class="col-md-4 mb-xs-1">
+						<span class="g-comment">*Campos obligatorios</span>
+					</div>
+					<div class="col-md-4">
+						<a class="g-btn g-btn-verde block" ng-click="emitS3.fnNextStep(true, {cancel: false, step: 4})">Siguiente</a>
+					</div>
+				</div>
+			</div>
+		</div>
+
+	</form>
+</section>

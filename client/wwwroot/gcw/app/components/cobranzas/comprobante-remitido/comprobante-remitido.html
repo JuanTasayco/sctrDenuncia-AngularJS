@@ -1,0 +1,171 @@
+<div class="consultaGestion">
+	<div class="container">
+		<div show-filter class="clearfix g-col-filter g-box-md gBgcGray5-md gBgcWhite1 g-myd-box" ng-class="{'show': isFilterVisible}">
+			<div class="col-xs-12">
+				<div class="clearfix gH4 gCGray1 mb-xs-1-5">
+					<h2 class="hidden-xs hidden-sm"><b>Opciones de Búsqueda</b></h2>
+					<div id="show-filter" class="row pt-xs-2 pb-xs-2 gBgcGray5 g-border-bottom-xs hidden-md hidden-lg" ng-click="toggleFilter();">
+						<div class="col-xs-10"><h2><b>Opciones de Búsqueda</b></h2></div>
+						<div class="col-xs-2 g-text-right-xs">
+							<!-- ngIf: isFilterVisible --><span class="glyphicon glyphicon-chevron-down ng-scope" ng-if="isFilterVisible"></span><!-- end ngIf: isFilterVisible -->
+							<!-- ngIf: !isFilterVisible --><span class="glyphicon glyphicon-chevron-up ng-scope" ng-if="!isFilterVisible"></span><!-- end ngIf: !isFilterVisible -->
+						</div>
+						<div class="clearfix"></div>
+					</div>
+				</div>
+				<form class="clearfix" name="frmComprobanteRemitido">
+					<div class="row mb-xs-2">
+						<div class="col-md-3">
+							<div class="input-group g-date-picker">
+								<label class="g-placeholder animated">Inicio<span></span></label>
+								<input type="text" class="form-control" ng-change="changeDate()" uib-datepicker-popup="{{formatDate}}" ng-model="vm.frmComprobanteRemitido.mInicio" is-open="popupInicio.opened" datepicker-options="dateOptionsInicio" ng-required="true" close-text="Close" alt-input-formats="altInputFormats" readonly/>
+								<span class="input-group-btn">
+									<button type="button" class="btn btn-default" ng-click="openInicio()"><i class="glyphicon glyphicon-calendar"></i></button>
+								</span>
+							</div>
+						</div>
+						<div class="col-md-3 mt-xs-1 mt-md-0">
+							<div class="input-group g-date-picker">
+								<label class="g-placeholder animated">Fin<span></span></label>
+								<input type="text" class="form-control" ng-change="changeDate()" uib-datepicker-popup="{{formatDate}}" ng-model="vm.frmComprobanteRemitido.mFin" is-open="popupFin.opened" datepicker-options="dateOptionsFin" ng-required="true" close-text="Close" alt-input-formats="altInputFormats" readonly/>
+								<span class="input-group-btn">
+									<button type="button" class="btn btn-default" ng-click="openFin()"><i class="glyphicon glyphicon-calendar"></i></button>
+								</span>
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-offset-10 col-md-2 mb-xs-1 no-mb-md">
+							<a class="col-xs-12 g-btn g-btn-verde second-design"
+								ga-click
+								ga-category="'CG - Cobranzas'"
+								ga-action="'MPF - Comprobante remitido - Consultar'"
+								ga-label="'Botón: Consultar'"
+								ng-click="vm.buscar()">
+								Consultar
+							</a>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+
+		<!-- Top bar: Filtro e iconos -->
+	  <div tbl-oim-topbar class="clearfix g-tbl-topbar mt-md-2 mb-md-2 width-filtro" ng-show="vm.totalRows >= 1">
+      <div class="row">
+        <div class="g-row-filter__box g-row-icons__box box_left hidden-xs hidden-sm">
+          <a 
+		  	ga-click
+			ga-category="'CG - Cobranzas'"
+			ga-action="'MPF - Comprobante remitido - Exportar'"
+			ga-label="'Botón: exportar'"
+		  	data-ng-click="exportar()" uib-popover="Exportar" popover-trigger="'mouseenter'">
+			<span class="g-icon-box g-icon-box-md">
+				<span class="ico-mapfre ico-mapfre_124_download ico-download h-myd--none"></span>
+			  	<span class="ico-mapfre ico-mapfre-360-myd-export ico-download h-myd-ico--mediun h-myd--show h-oim-none"></span>
+			</span>
+		</a>
+        </div>
+        <div class="g-row-filter__box box_right height-xs height-sm" ng-class="{'filter__show': showFilterTopbar}"></div>
+				<fex-consult></fex-consult>
+      </div>
+	  </div>
+
+		<!-- Tabla -->
+		<div class="clearfix" ng-show="vm.totalRows > 0">
+			<div tbl-oim class="col-xs-12 g-tbl-wrapper pl-xs-0">
+				<div class="tbl-main" style="width: 2000px">
+					<ul class="tbl-header clearfix">
+						<li class="title col-6-dktp g-text-uppercase">Pre factura</li>
+						<li class="title col-6-dktp g-text-uppercase">Contrato</li>
+						<li class="title col-6-dktp g-text-uppercase">Tipo Documento</li>
+						<li class="title col-6-dktp g-text-uppercase">Cod Documento</li>
+						<li class="title col-6-dktp g-text-uppercase">Cliente</li>
+						<li class="title col-4-dktp g-text-uppercase">Tipo</li>
+						<li class="title col-6-dktp g-text-uppercase">Cod Emisor</li>
+						<li class="title col-6-dktp g-text-uppercase">Num Docto</li>
+						<li class="title col-6-dktp g-text-uppercase">Moneda</li>
+						<li class="title col-6-dktp g-text-uppercase">Fecha emisión</li>
+						<li class="title col-6-dktp g-text-uppercase text-right">Imp Neto</li>
+						<li class="title col-6-dktp g-text-uppercase text-right">IGV</li>
+						<li class="title col-6-dktp g-text-uppercase text-right">Imp Total</li>
+						<li class="title col-6-dktp g-text-uppercase">Agente</li>
+						<li class="title col-6-dktp g-text-uppercase text-right">Imp Comisión</li>
+						<li class="title col-6-dktp g-text-uppercase">Estado</li>
+						<li class="title col-6-dktp g-text-uppercase">Usuario</li>
+					</ul>
+					<ul class="tbl-body clearfix">
+						<li data-ng-repeat="comprobante in vm.comprobantes">
+							<ul height-row class="tbl-row clearfix g-u-cursor--pointer">
+								<li class="cell col-6-dktp">
+									<span class="cell-label"><span class="cell-data">{{comprobante.preInvoice}}</span></span>
+								</li>
+								<li class="cell col-6-dktp">
+									<span class="cell-label"><span class="cell-data">{{comprobante.contract}}</span></span>
+								</li>
+								<li class="cell col-6-dktp">
+									<span class="cell-label"><span class="cell-data">{{comprobante.client.documentType}}</span></span>
+								</li>
+								<li class="cell col-6-dktp">
+									<span class="cell-label"><span class="cell-data">{{comprobante.client.documentNumber}}</span></span>
+								</li>
+								<li class="cell col-6-dktp">
+									<span class="cell-label"><span class="cell-data">{{comprobante.client.name}}</span></span>
+								</li>
+								<li class="cell col-4-dktp">
+									<span class="cell-label"><span class="cell-data">{{comprobante.voucherType}}</span></span>
+								</li>
+								<li class="cell col-6-dktp">
+									<span class="cell-label"><span class="cell-data">{{comprobante.issueCode}}</span></span>
+								</li>
+								<li class="cell col-6-dktp">
+									<span class="cell-label"><span class="cell-data">{{comprobante.documentNumber}}</span></span>
+								</li>
+								<li class="cell col-6-dktp">
+									<span class="cell-label"><span class="cell-data">{{comprobante.coinDescription}}</span></span>
+								</li>
+								<li class="cell col-6-dktp">
+									<span class="cell-label"><span class="cell-data">{{comprobante.issueDate}}</span></span>
+								</li>
+								<li class="cell col-6-dktp text-right">
+									<span class="cell-label"><span class="cell-data">{{comprobante.netAmount}}</span></span>
+								</li>
+								<li class="cell col-6-dktp text-right">
+									<span class="cell-label"><span class="cell-data">{{comprobante.tax}}</span></span>
+								</li>
+								<li class="cell col-6-dktp text-right">
+									<span class="cell-label"><span class="cell-data">{{comprobante.amount}}</span></span>
+								</li>
+								<li class="cell col-6-dktp">
+									<span class="cell-label"><span class="cell-data">{{comprobante.agentFull}}</span></span>
+								</li>
+								<li class="cell col-6-dktp text-right">
+									<span class="cell-label"><span class="cell-data">{{comprobante.commissionAmount}}</span></span>
+								</li>
+								<li class="cell col-6-dktp">
+									<span class="cell-label"><span class="cell-data">{{comprobante.state}}</span></span>
+								</li>
+								<li class="cell col-6-dktp">
+									<span class="cell-label"><span class="cell-data">{{comprobante.userCode}}</span></span>
+								</li>
+							</ul>
+						</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+
+		<mx-paginador
+			data-datos="vm.comprobantes"
+			data-items-x-page="vm.itemsXPagina"
+			data-msg-vacio="vm.msgVacio"
+			data-on-paginar="vm.pageChanged($event)"
+			data-pagina-actual="vm.currentPage"
+			data-total-items="vm.totalRows"
+		>
+		</mx-paginador>
+	</div>
+</div>
+<form id="frmExport" name="frmExport" action="{{vm.exportURL}}" method="post" target="_blank">
+	<input type="hidden" name="json" value='{{vm.downloadFile}}'>
+</form>

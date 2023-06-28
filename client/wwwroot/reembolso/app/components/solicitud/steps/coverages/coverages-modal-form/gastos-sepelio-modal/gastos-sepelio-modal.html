@@ -1,0 +1,186 @@
+<section class="g-page-popup g-reembolso-popup body-pasos">
+  <button type="button" class="close g-close-modal" ng-click="$ctrl.cerrar()">
+    <span class=" ico-mapfre_231_cancelaroff"></span>
+  </button>
+  <form name="$ctrl.frmModal">
+    <div class="container g-modal-header g-text-uppercase">
+      <div class="col-xs-12">
+        <div class="row">
+          <div class="col-md-12 mb-xs-1">
+            <h2 class="gH3"><b>Gastos Sepelio</b></h2>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="container g-modal-body pt-xs-2 pb-xs-2">
+      <div class="col-xs-12">
+        <div class="container g-modal-body pt-xs-2 pb-xs-2">
+          <div class="col-xs-12">
+            <div class="row">
+              <div class="col-xs-12 g-box box-search-afiliado box-search-afiliado--no-height">
+                <div class="row">
+                  <div class="col-xs-12">
+                    <uib-accordion close-others="planCtrl.oneAtATime">
+                      <div uib-accordion-group class="panel-default acordion no-hidden" is-open="true">
+                        <uib-accordion-heading>
+                          <div ng-click="planCtrl.Acordion1()">
+                            Datos del beneficiario
+                            <i
+                              class="pull-right i-acordion"
+                              ng-class="{'ico-mapfre_309_arrowUp': planCtrl.status.open1,'ico-mapfre_308_arrowDown': !planCtrl.status.open1}">
+                            </i>
+                          </div>
+                        </uib-accordion-heading>
+                        <div class="col-xs-12 panel1">
+                          <div class="row">
+                            <div class="col-xs-12 col-sm-3 mt-xs-1 mt-sm-0">
+                              <mpf-select
+                                label="{label: 'Tipo persona', required: true}"
+                                name="nKindOfPerson"
+                                ng-model="$ctrl.frmCoverage.kindPerson"
+                                m-data-source="$ctrl.kindPersonList"
+                                text-field="valueField"
+                                value-field="codeField"
+                                ng-required="true"
+                                m-Empty-Option="{enterData:true}">
+                              </mpf-select>
+                              <div
+                                class="g-error"
+                                ng-show="$ctrl.frmModal.nKindOfPerson.$error.required && !$ctrl.frmModal.nKindOfPerson.$pristine">
+                                * Seleccione un parentesco
+                              </div>
+                            </div>
+                            <div class="col-xs-12 col-sm-3 mt-xs-1 mt-sm-0">
+                              <mpf-select
+                                label="{label: 'Tipo de documento', required: true}"
+                                name="nDocumentType"
+                                ng-model="$ctrl.frmCoverage.documentType"
+                                m-data-source="$ctrl.documentTypeList"
+                                text-field="valueField"
+                                value-field="codeField"
+                                ng-required="true"
+                                ng-change="$ctrl.showNaturalPerson($ctrl.frmCoverage.documentType)"
+                                m-Empty-Option="{enterData:true}">
+                              </mpf-select>
+                              <div
+                                class="g-error"
+                                ng-show="$ctrl.frmModal.nDocumentType.$error.required && !$ctrl.frmModal.nDocumentType.$pristine">
+                                * Seleccione un parentesco
+                              </div>
+                            </div>
+                            <div class="col-xs-12 col-sm-3 mt-xs-1 mt-sm-0">
+                              <mpf-input
+                                label="{label: 'Número de documento', required: false}"
+                                name="nDocumentNumber"
+                                ng-model="$ctrl.frmCoverage.documentNumber"
+                                ng-maxlength="$ctrl.docNumMaxLength"
+                                ng-minlength="$ctrl.docNumMaxLength"
+                                mpf-validation="onlyNumber"
+                                ng-required="true">
+                              </mpf-input>
+                              <div
+                                class="g-error"
+                                ng-show="$ctrl.frmModal.nDocumentNumber.$error.required && !$ctrl.frmModal.nDocumentNumber.$pristine">
+                                * Campo requerido
+                              </div>
+                            </div>
+                            <div class="col-xs-12 col-sm-3 mt-xs-1 mt-sm-0">
+                              <mpf-select
+                                label="{label: 'Tipo de liquidación', required: true}"
+                                name="nParentescoBeneficiario"
+                                ng-model="$ctrl.frmCoverage.liquidationType"
+                                m-data-source="$ctrl.liquidationTypeList"
+                                text-field="valueField"
+                                value-field="codeField"
+                                ng-required="true"
+                                ng-disabled="true"
+                                m-Empty-Option="{enterData:true}">
+                              </mpf-select>
+                              <div
+                                class="g-error"
+                                ng-show="$ctrl.frmModal.nParentescoBeneficiario.$error.required && !$ctrl.frmModal.nParentescoBeneficiario.$pristine">
+                                * Seleccione un parentesco
+                              </div>
+                            </div>
+                          </div>
+                          <div class="row mt-xs-2">
+                            <div class="col-xs-12 col-sm-3 mt-xs-1 mt-sm-0">
+                              <mpf-input
+                                label="{label: 'Apellido Paterno ', required: true}"
+                                name="nLastName"
+                                ng-model="$ctrl.frmCoverage.lastName"
+                                ng-required="true"
+                                ng-blur="$ctrl.setDestinatario()">
+                              </mpf-input>
+                              <div
+                                class="g-error"
+                                ng-show="$ctrl.frmModal.nLastName.$error.required && !$ctrl.frmModal.nLastName.$pristine">
+                                * Campo requerido
+                              </div>
+                            </div>
+                            <div class="col-xs-12 col-sm-3 mt-xs-1 mt-sm-0">
+                              <mpf-input
+                                label="{label: 'Apellido Materno ', required: true}"
+                                name="nSecondLastName"
+                                ng-model="$ctrl.frmCoverage.motherLastName"
+                                ng-required="true"
+                                ng-blur="$ctrl.setDestinatario()">
+                              </mpf-input>
+                              <div
+                                class="g-error"
+                                ng-show="$ctrl.frmModal.nSecondLastName.$error.required && !$ctrl.frmModal.nSecondLastName.$pristine">
+                                * Campo requerido
+                              </div>
+                            </div>
+                            <div class="col-xs-12 col-sm-3 mt-xs-1 mt-sm-0">
+                              <mpf-input
+                                label="{label: 'Nombres ', required: true}"
+                                name="nNames"
+                                ng-model="$ctrl.frmCoverage.names"
+                                ng-required="true"
+                                ng-blur="$ctrl.setDestinatario()">
+                              </mpf-input>
+                              <div
+                                class="g-error"
+                                ng-show="$ctrl.frmModal.nNames.$error.required && !$ctrl.frmModal.nNames.$pristine">
+                                * Campo requerido
+                              </div>
+                            </div>
+                            <div class="col-xs-12 col-sm-3 mt-xs-1 mt-sm-0">
+                              <mpf-input
+                                label="{label: 'Destinatario del cheque', required: false}"
+                                name="nDestinatario"
+                                ng-model="$ctrl.frmCoverage.destinatario"
+                                ng-required="true"
+                                ng-disabled="true">
+                              </mpf-input>
+                              <div
+                                class="g-error"
+                                ng-show="$ctrl.frmModal.nDestinatario.$error.required && !$ctrl.frmModal.nDestinatario.$pristine">
+                                * Campo requerido
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </uib-accordion>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="container g-modal-footer pt-xs-2">
+      <div class="col-md-4 col-md-offset-4 mb-xs-1 no-mb-md">
+        <a
+          href="javascript:void(0)"
+          class="g-btn g-btn-verde block"
+          ng-click="$ctrl.aceptar()">
+          Aceptar
+        </a>
+      </div>
+    </div>
+  </form>
+</section>

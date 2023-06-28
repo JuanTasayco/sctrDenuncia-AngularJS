@@ -1,0 +1,133 @@
+<section class="g-page g-page-documents pageSearchClient g-ui-view">
+  <div class="g-title">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-9 col-sm-11 col-xs-10">
+          <h1>Clientes</h1>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="g-section-inner">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-3 mb-xs-2">
+          <nsctr-col-filter data="$ctrl.data.colFilter"> </nsctr-col-filter>
+        </div>
+
+        <div class="col-md-9">
+          <nsctr-no-result-filter
+            no-result-info="$ctrl.noResultFilter.noResultInfo"
+            no-result="$ctrl.noResultFilter.noResult" message="$ctrl.message"
+          >
+          </nsctr-no-result-filter>
+
+          <div class="row" ng-if="$ctrl.data.dataList.list.length > 0">
+            <div class="col-md-12 gH4 gCGray3 g-text-right-md mb-xs-1">
+              Total Clientes: {{ $ctrl.data.dataList.totalRows | formatZeroBefore }}
+            </div>
+          </div>
+
+          <div class="clearfix g-box g-overflow-hidden-xs mb-xs-2" ng-repeat="item in $ctrl.data.dataList.list">
+            <div class="row pt-xs-1 gBgcGray5">
+              <ul class="clearfix g-list-sm">
+                <li class="col-md-9 col-sm-9">
+                  <ul class="row">
+                    <li class="col-sm-6 clearfix cnt-item">
+                      <div class="col-sm-5 col-xs-4 item-label">{{ item.documentType }}:</div>
+                      <div class="col-sm-7 col-xs-8 item-dato g-text-uppercase">
+                        {{ item.documentNumber }}
+                      </div>
+                    </li>
+                    <li class="col-sm-6 clearfix cnt-item">
+                      <div class="col-sm-5 col-xs-4 item-label">
+                        {{ fnShowNaturalRucPerson(item) ? 'Nombre:' : 'Razón Social:' }}
+                      </div>
+                      <div class="col-sm-7 col-xs-8 item-dato g-text-uppercase">
+                        {{ item.clientName }}
+                      </div>
+                    </li>
+                  </ul>
+                </li>
+                <li class="col-md-3 col-sm-3 clearfix">
+                  <div class="col-md-12 cnt-item">
+                    <a class="g-btn g-btn-white block second-design" ng-click="$ctrl.fnGoToClient(item)">
+                      <span class="g-icon">
+                        <span>Seleccionar</span>
+                        <span class="icon ico-mapfre_311_arrowRight"></span>
+                      </span>
+                    </a>
+                  </div>
+                </li>
+              </ul>
+            </div>
+
+            <div class="row g-box-content">
+              <ul class="clearfix g-list-sm">
+                <li class="col-md-6 col-sm-6 clearfix cnt-item">
+                  <div class="col-sm-5 col-xs-4 item-label">
+                    Actividad SUNAT:
+                  </div>
+                  <div class="col-sm-7 col-xs-8 item-dato g-text-uppercase">
+                    {{ item.economicActivity }}
+                  </div>
+                </li>
+                <li class="col-md-6 col-sm-6 clearfix cnt-item">
+                  <div class="col-sm-5 col-xs-4 item-label">
+                    Representante:
+                  </div>
+                  <div class="col-sm-7 col-xs-8 item-dato g-text-uppercase">
+                    {{ item.contactName }}
+                  </div>
+                </li>
+              </ul>
+              <ul class="clearfix g-list-sm">
+                <li class="col-md-6 col-sm-6 clearfix cnt-item">
+                  <div class="col-sm-5 col-xs-4 item-label">
+                    Teléfono fijo:
+                  </div>
+                  <div class="col-sm-7 col-xs-8 item-dato g-text-uppercase">
+                    {{ item.phoneNumber }}
+                  </div>
+                </li>
+                <li class="col-md-6 col-sm-6 clearfix cnt-item">
+                  <div class="col-sm-5 col-xs-4 item-label">
+                    Correo electrónico:
+                  </div>
+                  <div class="col-sm-7 col-xs-8 item-dato g-text-uppercase g-cut-text" title="{{ item.email }}">
+                    {{ item.email }}
+                  </div>
+                </li>
+              </ul>
+              <ul class="clearfix g-list-sm">
+                <li class="col-md-6 col-sm-6 clearfix cnt-item">
+                  <div class="col-sm-5 col-xs-4 item-label">
+                    Agente:
+                  </div>
+                  <div class="col-sm-7 col-xs-8 item-dato g-text-uppercase">
+                    {{ item.agentId + ' - ' + item.agentName }}
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="row" ng-if="$ctrl.data.dataList.showPagination">
+            <div class="col-md-12">
+              <ul
+                uib-pagination
+                class="g-pagination"
+                ng-model="$ctrl.data.mPagination.currentPage"
+                max-size="$ctrl.data.mPagination.maxSize"
+                total-items="$ctrl.data.mPagination.totalItems"
+                ng-change="$ctrl.fnChangePage()"
+                boundary-link-numbers="true"
+              ></ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

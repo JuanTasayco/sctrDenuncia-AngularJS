@@ -1,0 +1,107 @@
+<div class="clearfix mb-xs-3">
+  <div class="col-md-12 mb-xs-1" ng-if="$ctrl.question.parentQuestion">
+    <div>
+      <b>{{ $ctrl.question.parentQuestion }}</b>
+    </div>
+  </div>
+  <!-- TIPO:1 OPTIONS -->
+  <div ng-if="$ctrl.question.TIPO == 1" class="clearfix">
+    <div class="col-md-12 mb-xs-1">
+      <span ng-if="!$ctrl.question.parentQuestion">
+        {{ ($ctrl.questionType == 'parent' ? $ctrl.question.index + 1 + '. ' : '') + $ctrl.question.DSCRPCN }}
+      </span>
+      <span ng-if="$ctrl.question.parentQuestion">{{ $ctrl.question.DSCRPCN }}</span>
+    </div>
+    <div ng-class="$ctrl.questionType == 'parent' ? 'col-md-4' : 'col-md-12'">
+      <ul class="row">
+        <li class="col-md-6" ng-class="{'mb-xs-1 no-mb-md' : !$last}" ng-repeat="option in $ctrl.question.OPCIONES">
+          <m-radio
+            label="{label: option.NOMBRE}"
+            name="question.nRadio"
+            ng-model="$ctrl.question.value"
+            value="{{ option.CODIGO }}"
+            ng-change="$ctrl.onChange($ctrl.question)"
+            ng-required="true"
+          ></m-radio>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- TIPO:2 INPUT_TEXT - TEXT -->
+  <div ng-class="$ctrl.questionType === 'parent' ? 'col-md-4' : 'col-md-12'" ng-if="$ctrl.question.TIPO == 2">
+    <mpf-input
+      label="{label: $ctrl.question.DSCRPCN, required: false}"
+      name="question.nInputText"
+      ng-model="$ctrl.question.value"
+      ng-required="true"
+    >
+    </mpf-input>
+  </div>
+
+  <!-- TIPO:3 INPUT_TEXT - NUMBER -->
+  <div ng-class="$ctrl.questionType === 'parent' ? 'col-md-4' : 'col-md-12'" ng-if="$ctrl.question.TIPO == 3">
+    <mpf-input
+      label="{label: $ctrl.question.DSCRPCN, required: false}"
+      name="question.nInputTextNumber"
+      ng-model="$ctrl.question.value"
+      mpf-validation="onlyNumberDecimal"
+      ng-required="true"
+    >
+    </mpf-input>
+  </div>
+
+  <!-- TIPO:4 DATEPICKER -->
+  <div ng-class="$ctrl.questionType === 'parent' ? 'col-md-4' : 'col-md-12'" ng-if="$ctrl.question.TIPO == 4">
+    <div class="input-group g-date-picker">
+      <label class="g-placeholder animated">{{ $ctrl.question.DSCRPCN }}</label>
+      <input
+        type="text"
+        class="form-control"
+        ng-model="$ctrl.question.value"
+        ng-change="$ctrl.fnChangeDatePicker(question)"
+        uib-datepicker-popup="{{ $ctrl.FORMAT_DATE }}"
+        is-open="$ctrl.popupDatePicker.opened"
+        datepicker-options="$ctrl.dateOptions"
+        close-text="Close"
+        alt-input-formats="$ctrl.ALT_INPUT_FORMATS"
+        ui-mask="{{ $ctrl.FORMAT_MASK }}"
+        ng-pattern="$ctrl.FORMAT_PATTERN"
+        model-view-value="true"
+        ng-required="true"
+      />
+      <span class="input-group-btn">
+        <button type="button" class="btn btn-default" ng-click="$ctrl.fnOpenDatePicker()">
+          <i class="glyphicon glyphicon-calendar"></i>
+        </button>
+      </span>
+    </div>
+  </div>
+
+  <!-- TIPO:7 SELECT -->
+  <div ng-class="$ctrl.questionType === 'parent' ? 'col-md-4' : 'col-md-12'" ng-if="$ctrl.question.TIPO == 7">
+    <mpf-select
+      label="{label: $ctrl.question.DSCRPCN, required: true}"
+      name="question.nSelect"
+      ng-model="$ctrl.question.value"
+      m-data-source="$ctrl.question.OPCIONES"
+      text-field="NOMBRE"
+      value-field="CODIGO"
+      m-Empty-Option="{enterData:true}"
+      ng-required="true"
+      ng-change="$ctrl.onChange(question)"
+    >
+    </mpf-select>
+  </div>
+
+  <!-- TIPO:9 TEXT_AREA -->
+  <div class="col-md-12" ng-if="$ctrl.question.TIPO == 9">
+    <mpf-textarea
+      label="{label: $ctrl.question.DSCRPCN, required: $ctrl.isRequired($ctrl.question)}"
+      name="question.nTextArea"
+      ng-model="$ctrl.question.value"
+      ng-required="$ctrl.isRequired($ctrl.question)"
+    >
+    </mpf-textarea>
+  </div>
+</div>

@@ -1,0 +1,65 @@
+<inspec-applicant anchor="'anchor-1'" data="$ctrl.formData.applicantData" from-no-quotation="true" inspection-type="2"></inspec-applicant>   
+<!-- DATOS DEL VEHÍCULO -->
+<div class="g-section-inner" id="anchor-2">
+  <div class="row">
+      <div class="pt-xs-2 ng-scope" ng-show="$ctrl.noSubmodels">
+        <div class="container">
+        <div class="row">
+          <div class="col-md-12">
+            <div class="g-box gBgcGray5 pt-xs-1 pb-xs-1 pl-xs-1">
+               <span class="ico-mapfre_222_informacion gCBlue2 gnIcon-xsm g-cell-middle"></span> 
+               <span class="g-cell-middle pl-xs-1">El vehiculo ingresado no esta configurado para cotizar</span>
+            </div> 
+          </div>
+        </div>
+      </div>
+     </div>
+  </div>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12">
+        <h2 class="g-sub-title">Datos del vehículo</h2>
+      </div>
+    </div>
+    <div class="row">
+     <!-- Tipo de vehículo -->
+      <div class="col-md-4 mb-xs-2">
+        <mpf-select ng-model="$ctrl.formData.mTipoVehiculo" name="nTipoVehiculo" label="{label: 'Tipo de vehículo', required: false}" m-data-source="$ctrl.tipoVehiculo" text-field="NombreTipo" value-field="CodigoTipo" m-Empty-Option="{enterData:true}" mpf-validation="required"
+        ng-change="$ctrl.loadMarca()" ng-required="true"></mpf-select>
+
+        <div class="g-error" ng-show="formData.nTipoVehiculo.$error.required && !formData.nTipoVehiculo.$pristine">* Seleccione tipo de vehículo</div>
+      </div>
+      <div class="col-md-4 mb-xs-2">
+        <mp-data-seeker behavior="{label:'Marca y Modelo *', placeholder:'Ingrese marca/modelo', matchField:'marcaModelo'}" m-data-source="$ctrl.searchMarcaModelo($inputNeed)" ng-model="$ctrl.formData.ModeloMarca" ng-change="$ctrl.getFunctionsModeloMarca($ctrl.formData.ModeloMarca)" name="nModeloMarca" ng-required="true">
+          <div ng-bind-html="$item.marcaModelo | highlight: $select.search"></div>
+        </mp-data-seeker>
+        <div class="g-error" ng-show="$ctrl.formData.nModeloMarca.$error.required && !$ctrl.formData.nModeloMarca.$pristine">* Ingrese marca / modelo</div>
+      </div>
+      <div class="col-md-2 mb-xs-2">      
+         <mpf-input class="g-valorauto-input" label="{label: 'Versión', required: false}" name="nVersion" ng-model="$ctrl.formData.mVersion" ng-required="false" ng-Maxlength="30" ></mpf-input>
+      </div> 
+      <div class="col-md-2 mb-xs-2">
+        <mpf-select ng-model="$ctrl.formData.mYearFabric" name="nYearFabric" label="{label: 'Año de fabricación:', required: true}" m-data-source="$ctrl.years" text-field="Descripcion" value-field="Codigo" m-Empty-Option="{text:'Elige año de fabricación'}" mpf-validation="required" ng-change="$ctrl.getFuctionsYearFabric($ctrl.formData.mYearFabric);"></mpf-select>
+        <div class="g-error" ng-show="$ctrl.formData.nYearFabric.$error.required && !$ctrl.formData.nYearFabric.$pristine">* Seleccione un año</div>
+        <ul class="gErrorIco firstDesign">
+          <li ng-show="$ctrl.noYear"><span class="ico-mapfre_37_informacion ico"></span>No hay año configurado para este auto</li>
+        </ul>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-4">
+        <mpf-input label="{label: 'Placa', required: true}" name="nPlaca" ng-model="$ctrl.formData.mPlaca" ng-minLength="6" ng-maxLength="6" mpf-validation="placas,required"></mpf-input>
+        <div class="g-error" ng-show="$ctrl.formData.nPlaca.$error.required && !$ctrl.formData.nPlaca.$pristine">* Ingrese una placa</div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="g-section">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4 col-md-offset-4">
+                <a class="g-btn g-btn-verde block" ng-click="$ctrl.goToNextStep()">siguiente</a>
+            </div>
+        </div>
+    </div>
+</div>

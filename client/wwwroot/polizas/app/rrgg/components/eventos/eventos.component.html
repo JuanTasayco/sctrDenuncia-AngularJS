@@ -1,0 +1,133 @@
+<div class="row">
+  <div class="col-md-12">
+    <h2 class="g-sub-title g-myd-subtitle">Datos del contratante</h2>
+  </div>
+</div>
+<div class="row">
+  <div class="col-sm-6 col-md-3 mb-xs-2">
+    <mpf-input label="{label: 'Nombre del contratante', required: true}" name="nombreContratante" ng-maxlength="100"
+      ng-model="$ctrl.producto.modelo.NombreContratante" m-Empty-Option="{enterData:false}"
+      mpf-validation="onlyLetterNumCaracteres" ng-required="true">
+    </mpf-input>
+    <div class="g-error" ng-show="$ctrl.validControlForm('nombreContratante')">
+      {{$ctrl.constantsRrgg.SMS_ERROR.REQUERIDO}}
+    </div>
+  </div>
+  <div class="col-sm-6 col-md-3 mb-xs-2">
+    <mpf-input label="{label: 'Asegurado', required: true}" name="asegurado" mpf-validation="onlyLetterNumCaracteres" ng-maxlength="100"
+      ng-model="$ctrl.producto.modelo.NombreAsegurado" ng-required="true">
+    </mpf-input>
+    <div class="g-error" ng-show="$ctrl.validControlForm('asegurado')">
+      {{$ctrl.constantsRrgg.SMS_ERROR.REQUERIDO}}
+    </div>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-md-12">
+    <h2 class="g-sub-title g-myd-subtitle">Datos del evento</h2>
+  </div>
+</div>
+<div class="row">
+  <div class="col-sm-6 col-md-3 mb-xs-2">
+    <mpf-select ng-model="$ctrl.producto.modelo.Ramo" name="trabajoContratar" label="{label: 'Ramo',required: false}"
+      m-data-source="$ctrl.ramo" text-field="Descripcion" value-field="Codigo" m-Empty-Option="{enterData:false}"
+      mpf-validation="required" ng-required="false">
+    </mpf-select>
+    <div class="g-error" ng-show="$ctrl.validControlForm('trabajoContratar')">
+      {{$ctrl.constantsRrgg.SMS_ERROR.REQUERIDO}}
+    </div>
+  </div>
+
+  <div class="col-sm-6 col-md-3 mb-xs-2">
+    <mpf-select ng-model="$ctrl.producto.modelo.Moneda" name="moneda" label="{label: 'Moneda',required: true}"
+      m-data-source="$ctrl.monedas" text-field="Descripcion" value-field="Codigo" m-Empty-Option="{enterData:true}"
+      mpf-validation="required" ng-required="true">
+    </mpf-select>
+    <div class="g-error" ng-show="$ctrl.validControlForm('moneda')">
+      {{$ctrl.constantsRrgg.SMS_ERROR.REQUERIDO}}
+    </div>
+  </div>
+  <div
+    class="col-sm-6 col-md-3 mb-xs-2">
+    <mpf-input label="{label: 'Tipo de cambio (referencial)', required: false}" ng-disabled="true" name="tipoCambio"
+      ng-model="$ctrl.producto.modelo.tipoCambio" ng-required="false"></mpf-input>
+    <div class="g-error" >
+    </div>
+  </div>
+  <div ng-click="$ctrl.OpenParametros()" class="col-sm-6 col-md-3 mb-xs-2">
+    <a href="" class="page-rrgg__link fwMedium"> <span class="ico-mapfre_222_informacion page-rrgg__link-icon"></span>
+      Ver parámetros <span class="ico-mapfre_79_chevroneright page-rrgg__link-icon"></span></a>
+  </div>
+</div>
+
+<div class="row mb-xs-3 mb-md-2">
+  <div class="col-xs-12 mb-xs-2">
+    <p class="fwMedium mb-xs-0">Duración del evento</p>
+  </div>
+  <div class="col-md-3">
+    <div class="row">
+      <div class="col-sm-6 mb-xs-2">
+        <mpf-datepicker  ng-change="$ctrl.changeDesdeEvento();" label="{label: 'Desde', required: true}" ng-model="$ctrl.producto.modelo.FechaEventoDesde"
+          format="$ctrl.format" name="nFechaInicialDuracion" ng-required="true" ng-disabled="disabled" readonly="false">
+        </mpf-datepicker>
+        <div class="g-error" ng-show="$ctrl.validControlForm('nFechaInicialDuracion')">
+          {{$ctrl.constantsRrgg.SMS_ERROR.REQUERIDO}}
+        </div>
+      </div>
+      <div class="col-sm-6 mb-xs-2">
+        <mpf-datepicker ng-change="$ctrl.validateEventos()" label="{label: 'Hasta',required: true}"  ng-model="$ctrl.producto.modelo.FechaEventoHasta"
+         format="$ctrl.format" name="mFechaFinalDuracion" ng-required="true" ng-disabled="disabled" readonly="false">
+        </mpf-datepicker>
+        <div class="g-error" ng-show="$ctrl.validControlForm('mFechaFinalDuracion')">
+          {{$ctrl.constantsRrgg.SMS_ERROR.REQUERIDO}}
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-sm-6 col-md-3 mb-xs-2 mb-md-0">
+    <mpf-input label="{label: 'Ubicación del riesgo', required: true}" name="Ubicacion" ng-maxlength="150"
+      mpf-validation="onlyLetterNumCaracteres" ng-model="$ctrl.producto.modelo.Ubicacion" ng-required="true">
+    </mpf-input>
+    <div class="g-error" ng-show="$ctrl.validControlForm('Ubicacion')">
+      {{$ctrl.constantsRrgg.SMS_ERROR.REQUERIDO}}
+    </div>
+  </div>
+  <div class="col-sm-6 col-md-3 mb-xs-2 mb-md-0">
+    <mpf-input label="{label: 'Evento', required: true}" name="evento" mpf-validation="onlyLetterNumCaracteres" ng-maxlength="150"
+      ng-model="$ctrl.producto.modelo.ObraRealizar" ng-required="true">
+    </mpf-input>
+    <div class="g-error" ng-show="$ctrl.validControlForm('evento')">
+      {{$ctrl.constantsRrgg.SMS_ERROR.REQUERIDO}}
+    </div>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-sm-6 col-md-3 mb-xs-2">
+    <mpf-input label="{label: 'Aforo (Nro. personas)', required: true}" name="Aforo" mpf-validation="onlyNumber"
+      ng-model="$ctrl.producto.modelo.Aforo" ng-required="false">
+    </mpf-input>
+    <div class="g-error" ng-show="$ctrl.validControlForm('Aforo')">
+      {{$ctrl.constantsRrgg.SMS_ERROR.REQUERIDO}}
+    </div>
+  </div>
+  <div class="col-sm-6 col-md-3 mb-xs-2">
+    <mpf-input label="{label: 'Seguridad', required: true}" name="Seguridad"  mpf-validation="onlyLetterNumCaracteres" ng-maxlength="4000"
+      ng-model="$ctrl.producto.modelo.Seguridad" ng-required="true">
+    </mpf-input>
+    <div class="g-error" ng-show="$ctrl.validControlForm('Seguridad')">
+      {{$ctrl.constantsRrgg.SMS_ERROR.REQUERIDO}}
+    </div>
+  </div>
+  <div class="col-sm-6 col-md-3 mb-xs-2">
+    <mpf-input ng-blur="$ctrl.validateMonto($ctrl.producto.modelo.SumaAsegurada)"
+      label="{label: 'Suma asegurada', required: true}" name="SumaAsegurada" mpf-validation="onlyDecimal" m-input-currency
+      ng-model="$ctrl.producto.modelo.SumaAsegurada" ng-required="true">
+    </mpf-input>
+    <div class="g-error" ng-show="$ctrl.validControlForm('SumaAsegurada')">
+      {{$ctrl.constantsRrgg.SMS_ERROR.REQUERIDO}}
+    </div>
+  </div>
+</div>

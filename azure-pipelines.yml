@@ -1,0 +1,30 @@
+# Node.js with Grunt
+
+# Build a Node.js project using the Grunt task runner.
+# Add steps that analyze code, save build artifacts, deploy, and more:
+# https://docs.microsoft.com/azure/devops/pipelines/languages/javascript
+
+trigger:
+- master
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+steps:
+- task: NodeTool@0
+  inputs:
+    versionSpec: '10.x'
+  displayName: 'Install Node.js'
+
+
+- task: Grunt@0
+  inputs:
+    gruntFile: 'client/gruntFile.js'
+    targets: 'grunt build:dev'
+    gruntCli: 'node_modules/grunt-cli/bin/grunt'
+
+
+# - script: |
+#     npm install
+#     grunt --gruntfile Gruntfile.js
+#   displayName: 'npm install and run grunt'

@@ -1,0 +1,214 @@
+<section class="g-page pageSearchInsured g-ui-view">
+  <page-title info="{title: 'Búsqueda de Asegurados'}"> </page-title>
+
+  <div class="g-section-inner">
+    <form action="" name="frmSearchInsured">
+      <div class="container">
+        <div
+          show-filter
+          class="clearfix g-col-filter g-box-md gBgcGray5-md gBgcWhite1 mb-md-3 g-myd-box"
+          ng-class="{'show': isFilterVisible}"
+        >
+          <div class="col-md-12">
+            <div class="clearfix gH4 gCGray1 mb-xs-1-5">
+              <h2 class="hidden-xs hidden-sm"><b>Buscar asegurado</b></h2>
+              <div
+                id="show-filter"
+                class="row pt-xs-2 pb-xs-2 gBgcGray5 g-border-bottom-xs hidden-md hidden-lg"
+                ng-click="toggleFilter();"
+              >
+                <div class="col-xs-10">
+                  <h2><b>Buscar asegurado</b></h2>
+                </div>
+                <div class="col-xs-2 g-text-right-xs">
+                  <span class="glyphicon glyphicon-chevron-down" ng-if="isFilterVisible"></span>
+                  <span class="glyphicon glyphicon-chevron-up" ng-if="!isFilterVisible"></span>
+                </div>
+                <div class="clearfix"></div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-2 mb-xs-2 no-mb-md">
+                <mpf-select
+                  label="{label: 'Tipo de Doc.', required: false}"
+                  name="nTipoDoc"
+                  ng-model="$ctrl.data.mTipoDoc"
+                  m-data-source="$ctrl.data.documentTypeData"
+                  text-field="typeDescription"
+                  value-field="typeId"
+                  m-Empty-Option="{enterData:true}"
+                  ng-required="false"
+                  ng-required="$ctrl.data.mNroDocumento.model && $ctrl.data.mNroDocumento.model !== ''"
+                  ng-change="$ctrl.fnChangeDocumentType($ctrl.data.mTipoDoc)"
+                >
+                </mpf-select>
+                <ul class="g-error">
+                  <li ng-show="frmSearchInsured.nTipoDoc.$invalid && !frmSearchInsured.nTipoDoc.$pristine">
+                    * Seleccione un tipo de documento
+                  </li>
+                </ul>
+              </div>
+              <div class="col-md-2 mb-xs-2 no-mb-md">
+                <mpf-input
+                  label="{label: 'Nro. Documento', required: false}"
+                  name="nNroDocumento"
+                  ng-model="$ctrl.data.mNroDocumento.model"
+                  mpf-validation="{{ $ctrl.data.mNroDocumento.FIELD_TYPE }}"
+                  mpf-validation-disabled="{{ $ctrl.data.mNroDocumento.FIELD_TYPE_DISABLED }}"
+                  ng-maxlength="$ctrl.data.mNroDocumento.MAX_LENGTH"
+                  ng-required="$ctrl.data.mTipoDoc.typeId !== null"
+                >
+                </mpf-input>
+                <ul class="g-error">
+                  <li
+                    ng-show="frmSearchInsured.nNroDocumento.$viewValue && (frmSearchInsured.nNroDocumento.$error.onlyNumber || frmSearchInsured.nNroDocumento.$error.maxlength) && !frmSearchInsured.nNroDocumento.$pristine"
+                  >
+                    * Nro de documento incorrecto
+                  </li>
+                  <li
+                    ng-show="frmSearchInsured.nNroDocumento.$invalid && frmSearchInsured.nNroDocumento.$error.required && !frmSearchInsured.nNroDocumento.$pristine"
+                  >
+                    * Ingrese un nro de documento
+                  </li>
+                </ul>
+              </div>
+              <div class="col-md-3 mb-xs-2 no-mb-md">
+                <mpf-input
+                  label="{label: 'Nombre y Apellido del asegurado', required: false}"
+                  name="nNomApeAsegurado"
+                  ng-model="$ctrl.data.mNomApeAsegurado"
+                  ng-required="false"
+                >
+                </mpf-input>
+                <ul class="g-error">
+                  <li
+                    ng-show="frmSearchInsured.nNomApeAsegurado.$invalid && !frmSearchInsured.nNomApeAsegurado.$pristine"
+                  >
+                    * Este campo es obligatorio
+                  </li>
+                </ul>
+              </div>
+              <div class="col-md-offset-1 col-md-2 pt-md-2-7 mb-xs-1 no-mb-md">
+                <a
+                  href="javascript:void(0)"
+                  class="g-btn g-btn-verde second-design block"
+                  ng-click="$ctrl.fnSearchInsured(); toggleFilter()"
+                >
+                  Buscar
+                </a>
+              </div>
+              <div class="col-md-2 pt-md-2-7">
+                <a
+                  href="javascript:void(0)"
+                  class="g-btn g-btn-white second-design block"
+                  ng-click="$ctrl.fnClearSearchInsured(); toggleFilter()"
+                >
+                  Limpiar
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+
+    <div class="container">
+      <nsctr-no-result-filter
+        type="search"
+        no-result-info="$ctrl.noResultFilter.noResultInfo"
+        no-result="$ctrl.noResultFilter.noResult" message="$ctrl.message"
+      >
+      </nsctr-no-result-filter>
+
+      <div class="row" ng-if="$ctrl.data.dataList.list.length > 0">
+        <div class="col-md-12 mb-xs-2">
+          <h2 class="gH3">Lista de Asegurados:</h2>
+        </div>
+      </div>
+
+      <div class="col-md-12 g-list-md g-box gBgcGray5 pt-xs-1 mb-xs-1" ng-repeat="item in $ctrl.data.dataList.list">
+        <div class="row g-row-fz12">
+          <div class="col-md-3 g-col-md top h-myd-p--0">
+            <ul class="row">
+              <li class="col-md-12 clearfix cnt-item no-border-left">
+                <div class="col-xs-12 item-dato">
+                  <span class="gH4 gCGray1">{{ item.fullName | capitalize }}</span>
+                </div>
+              </li>
+              <li class="col-md-12 clearfix cnt-item no-border-left">
+                <div class="col-md-4 col-xs-5 item-label">{{ item.documentType | uppercase }}:</div>
+                <div class="col-md-8 col-xs-7 item-dato g-text-uppercase">
+                  {{ item.documentNumber }}
+                </div>
+              </li>
+            </ul>
+          </div>
+          <div class="col-md-4 g-col-md middle h-myd-p--0">
+            <ul class="row">
+              <li class="col-md-12 clearfix cnt-item add-border-left">
+                <div class="col-xs-5 item-label">
+                  Nombre:
+                </div>
+                <div class="col-xs-7 item-dato g-text-uppercase">
+                  {{ item.name }}
+                </div>
+              </li>
+              <li class="col-md-12 clearfix cnt-item">
+                <div class="col-xs-5 item-label">
+                  Apellido Paterno:
+                </div>
+                <div class="col-xs-7 item-dato g-text-uppercase">
+                  {{ item.lastName }}
+                </div>
+              </li>
+              <li class="col-md-12 clearfix cnt-item">
+                <div class="col-xs-5 item-label">
+                  Apellido Materno:
+                </div>
+                <div class="col-xs-7 item-dato g-text-uppercase">
+                  {{ item.lastMotherName }}
+                </div>
+              </li>
+            </ul>
+          </div>
+          <div class="col-md-3 col-sm-6 g-col-sm middle cnt-item no-border-left h-myd-p--0">
+            <div class="pl-xs-1-5 pr-xs-1-5 no-pl-md no-pr-md">
+              <a href="javascript:void(0)" ng-click="$ctrl.fnShowModalInsured(item)" ng-if="$ctrl.segurityUpdate">
+                <span class="g-icon gCGreen1">
+                  <span class="ico-mapfre_228_editar icon"></span>
+                  <span class="g-link gH5"><b>Actualizar datos del asegurado</b></span>
+                </span>
+              </a>
+            </div>
+          </div>
+          <div class="col-md-2 col-sm-6 g-col-sm middle cnt-item no-border-left clearfix">
+            <div class="pl-xs-1-5 pr-xs-1-5 no-pl-md no-pr-md">
+              <a
+                href="javascript:void(0)"
+                class="g-btn g-btn-white second-design block"
+                ng-click="$ctrl.fnGoInsuredMovements(item)"
+                ng-if="$ctrl.segurityMovement"
+              >
+                Ver Movimientos
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row" ng-if="$ctrl.data.dataList.showPagination">
+        <div class="col-md-8 col-md-offset-2">
+          <ul
+            uib-pagination
+            class="g-pagination"
+            ng-model="$ctrl.data.mPagination.currentPage"
+            max-size="$ctrl.data.mPagination.maxSize"
+            total-items="$ctrl.data.mPagination.totalItems"
+            ng-change="$ctrl.fnChangePage()"
+            boundary-link-numbers="true"
+          ></ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

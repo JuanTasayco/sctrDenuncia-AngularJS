@@ -1,0 +1,204 @@
+<section class="g-page pageProvisionalCoverage">
+  <div class="g-title">
+    <div class="container">
+      <div class="row g-row">
+        <div class="col-md-8 g-col-md middle col-sm-11 col-xs-10">
+          <h1>Cobertura Provisional</h1>
+        </div>
+        <div class="col-md-4 g-col-md middle g-text-right-md hidden-sm hidden-xs">
+          <a href="javascript:void(0)" ng-click="$ctrl.fnGoSearchProvisionalCoverage()">
+            <span class="g-icon gCGray3">
+              <span class="icon ico-mapfre_310_arrowLeft"></span>
+              <span class="g-link"><b>Volver a la Bandeja de Coberturas</b></span>
+            </span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div ng-form name="frmProvisionalCoverage">
+    <div class="g-section-inner border-top">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-12">
+            <h2 class="g-sub-title red g-myd-subtitle">Datos de la cobertura</h2>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-md-4 mb-xs-2">
+            <mpf-select
+              label="{label: 'Tipo de Documento', required: true}"
+              name="nTipoDocumento"
+              ng-model="$ctrl.data.mTipoDocumento"
+              m-data-source="$ctrl.data.documentTypeData"
+              text-field="typeDescription"
+              value-field="typeId"
+              m-Empty-Option="{enterData:true}"
+              ng-required="true"
+              ng-change="$ctrl.fnChangeDocumentType($ctrl.data.mTipoDocumento)"
+            >
+            </mpf-select>
+            <ul class="g-error">
+              <li
+                ng-show="frmProvisionalCoverage.nTipoDocumento.$invalid && !frmProvisionalCoverage.nTipoDocumento.$pristine"
+              >
+                * Seleccione un tipo de documento
+              </li>
+            </ul>
+          </div>
+          <div class="col-md-4 mb-xs-2">
+            <mpf-input
+              label="{label: 'Nro. Documento', required: true}"
+              name="nNroDocumento"
+              ng-model="$ctrl.data.mNroDocumento.model"
+              mpf-validation="{{ $ctrl.data.mNroDocumento.FIELD_TYPE }}"
+              mpf-validation-disabled="{{ $ctrl.data.mNroDocumento.FIELD_TYPE_DISABLED }}"
+              ng-maxlength="$ctrl.data.mNroDocumento.MAX_LENGTH"
+              ng-required="true"
+            >
+            </mpf-input>
+            <ul class="g-error">
+              <li
+                ng-show="frmProvisionalCoverage.nNroDocumento.$viewValue && (frmProvisionalCoverage.nNroDocumento.$error.onlyNumber || frmProvisionalCoverage.nNroDocumento.$error.maxlength) && !frmProvisionalCoverage.nNroDocumento.$pristine"
+              >
+                * Nro de documento incorrecto
+              </li>
+              <li
+                ng-show="frmProvisionalCoverage.nNroDocumento.$invalid && frmProvisionalCoverage.nNroDocumento.$error.required && !frmProvisionalCoverage.nNroDocumento.$pristine"
+              >
+                * Ingrese nro de documento
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-8 mb-xs-2">
+            <mpf-input
+              label="{label: 'Nombre / Razón Social', required: true}"
+              name="nClientName"
+              ng-model="$ctrl.data.mClientName"
+              ng-required="true"
+            >
+            </mpf-input>
+            <ul class="g-error">
+              <li
+                ng-show="frmProvisionalCoverage.nClientName.$invalid && !frmProvisionalCoverage.nClientName.$pristine"
+              >
+                * Este campo es obligatorio
+              </li>
+            </ul>
+          </div>
+          <div class="col-md-2 mb-xs-2">
+            <div class="input-group g-date-picker">
+              <label class="g-placeholder animated">
+                Inicio Cobertura<span>*</span>:
+              </label>
+              <input
+                type="text"
+                class="form-control"
+                name="nInicioCobertura"
+                ng-model="$ctrl.data.mInicioCobertura.model"
+                uib-datepicker-popup="{{ $ctrl.data.mInicioCobertura.FORMAT_DATE }}"
+                is-open="$ctrl.data.mInicioCobertura.open"
+                datepicker-options="$ctrl.data.mInicioCobertura.options"
+                close-text="Close"
+                alt-input-formats="$ctrl.data.mInicioCobertura.ALT_INPUT_FORMATS"
+                ui-mask="{{ $ctrl.data.mInicioCobertura.FORMAT_MASK }}"
+                ng-pattern="$ctrl.data.mInicioCobertura.FORMAT_PATTERN"
+                model-view-value="true"
+                ng-required="true"
+                ng-disabled="false"
+                ng-change="$ctrl.fnChangeCalendar()"
+              />
+              <span class="input-group-btn">
+                <button type="button" class="btn btn-default" ng-click="$ctrl.data.mInicioCobertura.setOpen(true)">
+                  <i class="glyphicon glyphicon-calendar"></i>
+                </button>
+              </span>
+            </div>
+            <ul class="g-error">
+              <li
+                ng-show="frmProvisionalCoverage.nInicioCobertura.$error.pattern && !frmProvisionalCoverage.nInicioCobertura.$pristine"
+              >
+                * Fecha incorrecto
+              </li>
+              <li
+                ng-show="frmProvisionalCoverage.nInicioCobertura.$invalid && !frmProvisionalCoverage.nInicioCobertura.$pristine"
+              >
+                * Este campo es obligatorio
+              </li>
+            </ul>
+          </div>
+          <div class="col-md-2 mb-xs-2">
+            <div class="input-group g-date-picker">
+              <label class="g-placeholder animated">
+                Fin Cobertura<span>*</span>:
+              </label>
+              <input
+                type="text"
+                class="form-control"
+                name="nFinCobertura"
+                ng-model="$ctrl.data.mFinCobertura.model"
+                uib-datepicker-popup="{{ $ctrl.data.mFinCobertura.FORMAT_DATE }}"
+                is-open="$ctrl.data.mFinCobertura.open"
+                datepicker-options="$ctrl.data.mFinCobertura.options"
+                close-text="Close"
+                alt-input-formats="$ctrl.data.mFinCobertura.ALT_INPUT_FORMATS"
+                ui-mask="{{ $ctrl.data.mFinCobertura.FORMAT_MASK }}"
+                ng-pattern="$ctrl.data.mFinCobertura.FORMAT_PATTERN"
+                model-view-value="true"
+                ng-required="true"
+                ng-disabled="false"
+                ng-change="$ctrl.fnChangeCalendar()"
+              />
+              <span class="input-group-btn">
+                <button type="button" class="btn btn-default" ng-click="$ctrl.data.mFinCobertura.setOpen(true)">
+                  <i class="glyphicon glyphicon-calendar"></i>
+                </button>
+              </span>
+            </div>
+            <ul class="g-error">
+              <li
+                ng-show="frmProvisionalCoverage.nFinCobertura.$error.pattern && !frmProvisionalCoverage.nFinCobertura.$pristine"
+              >
+                * Fecha incorrecto
+              </li>
+              <li
+                ng-show="frmProvisionalCoverage.nFinCobertura.$invalid && !frmProvisionalCoverage.nFinCobertura.$pristine"
+              >
+                * Este campo es obligatorio
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+    <nsctr-type-load data="$ctrl.data" with-number-workers="false"> </nsctr-type-load>
+		<div class="g-section">
+			<div class="container">
+				<div class="row">
+					<div class="col-md-4 col-sm-6 col-md-offset-4 col-sm-offset-3">
+						<a class="g-btn g-btn-verde block" ng-click="$ctrl.fnProcessExcell()">
+							Procesar
+						</a>
+					</div>
+				</div>
+			</div>
+		</div>
+     <nsctr-workers-list trabajadores="$ctrl.dataS1.data.employee" risk="$ctrl.dataS1.riskInsuredList"></nsctr-workers-list>
+    
+    <div class="g-section">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-4 col-sm-6 col-md-offset-4 col-sm-offset-3 mb-xs-1 no-mb-md">
+            <a href="javascript:void(0)" class="g-btn g-btn-verde block" ng-click="$ctrl.fnSave()">
+              Guardar
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

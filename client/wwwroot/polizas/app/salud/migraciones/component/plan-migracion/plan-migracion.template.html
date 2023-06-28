@@ -1,0 +1,163 @@
+<form name="frmPlanMigracion" ng-submit="generarCotizacion(frmPlanMigracion)">
+  <div class="row">
+    <div class="col-md-12"><h2 class="g-sub-title mt-xs-3">Plan de migración</h2></div>
+  </div>
+  <div class="row">
+    <div class="col-md-3 mb-xs-2">
+      <mpf-select
+        label="{label: 'Contrato al que migra', required: true}"
+        name="nContratoMigracion"
+        ng-model="searchProvisionalCoverage.mContratoMigracion" m-data-source="contratos"
+        text-field="nombreContratoMigracion"
+        value-field="numeroContrato"
+        m-Empty-Option="{enterData:true}"
+        ng-required="true"
+        ng-change="buscarSubContratos(searchProvisionalCoverage.mContratoMigracion)">
+      </mpf-select>
+      <ul class="g-error">
+        <li ng-show="frmPlanMigracion.nContratoMigracion.$invalid && !frmPlanMigracion.nContratoMigracion.$pristine">* Seleccione contrato al que migra</li>
+      </ul>
+    </div>
+    <div class="col-md-3 mb-xs-2">
+      <mpf-select
+        label="{label: 'Subcontrato al que migra', required: true}"
+        name="nSubContratoMigracion"
+        ng-model="searchProvisionalCoverage.mSubContratoMigracion" m-data-source="subContratos"
+        text-field="nombreSubContratoMigracion"
+        value-field="numeroSubContrato"
+        m-Empty-Option="{enterData:false}"
+        ng-required="true"
+        ng-disabled="true">
+      </mpf-select>
+      <ul class="g-error">
+        <li ng-show="frmPlanMigracion.nSubContratoMigracion.$invalid && !frmPlanMigracion.nSubContratoMigracion.$pristine">* Seleccione contrato al que migra</li>
+      </ul>
+    </div>
+    <div class="col-md-3 mb-xs-2">
+      <div class="input-group g-date-picker">
+        <label class="g-placeholder animated">Inicio vigencia de migración<span></span>:</label>
+        <input
+          ng-disabled="true"
+          type="text" class="form-control"
+          name="nInicioMigracion"
+          ng-model="searchProvisionalCoverage.mInicioMigracion"
+          uib-datepicker-popup="{{format}}"
+          is-open="popup1.opened"
+          datepicker-options="dateOptions"
+          close-text="Close"
+          model-view-value="true"
+          alt-input-formats="altInputFormats"
+          ng-required="true"
+          ng-change="fnChangeDate()"/>
+      </div>
+      <ul class="g-error">
+        <li ng-show="frmPlanMigracion.nInicioMigracion.$invalid && !frmPlanMigracion.nInicioMigracion.$pristine">* Este campo es obligatorio</li>
+        <li ng-show="frmPlanMigracion.nInicioMigracion.$viewValue && frmPlanMigracion.nInicioMigracion.$invalid">* Fecha erronea</li>
+      </ul>
+    </div>
+    <div class="col-md-3 mb-xs-2">
+      <div class="input-group g-date-picker">
+        <label class="g-placeholder animated">Fin vigencia de migración<span></span>:</label>
+        <input
+          ng-disabled="true"
+          type="text" class="form-control"
+          name="nFinMigracion"
+          ng-model="searchProvisionalCoverage.mFinMigracion"
+          uib-datepicker-popup="{{format}}"
+          is-open="popup2.opened"
+          datepicker-options="dateOptions2"
+          close-text="Close"
+          model-view-value="true"
+          alt-input-formats="altInputFormats"
+          ng-required="true"
+          ng-change="fnChangeDate()"/>
+      </div>
+      <ul class="g-error">
+        <li ng-show="frmPlanMigracion.nFinMigracion.$invalid && !frmPlanMigracion.nFinMigracion.$pristine">* Este campo es obligatorio</li>
+        <li ng-show="frmPlanMigracion.nFinMigracion.$viewValue && frmPlanMigracion.nFinMigracion.$invalid">* Fecha erronea</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-3 mb-xs-2">
+      <mpf-select
+        label="{label: 'Financiamiento', required: true}"
+        name="nFinanciamiento"
+        ng-model="searchProvisionalCoverage.mFinanciamiento" m-data-source="fraccionamientos"
+        text-field="Descripcion"
+        value-field="Codigo"
+        m-Empty-Option="{enterData:true}"
+        ng-required="true">
+      </mpf-select>
+      <ul class="g-error">
+        <li ng-show="frmPlanMigracion.nFinanciamiento.$invalid && !frmPlanMigracion.nFinanciamiento.$pristine">* Seleccione el financiamiento</li>
+      </ul>
+    </div>
+    <div class="col-md-3 mb-xs-2">
+      <mpf-input
+        label="{label: 'Mapfre dólares disponibles', required: false}"
+        name="nDolaresDisponibles"
+        ng-model="searchProvisionalCoverage.Contratante.SaldoMapfreDolar"
+        ng-required="true"
+        ng-disabled="searchProvisionalCoverage.Contratante.SaldoMapfreDolar > 0 ? false : true">
+      </mpf-input>
+      <ul class="g-error">
+        <li ng-show="false">* Este campo es obligatorio</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-3 mb-xs-2">
+      <div class="row">
+        <div class="col-md-12 mb-xs-2">
+          <label class="g-placeholder block">¿Usará Mapfre Dólares?</label>
+        </div>
+        <div class="col-xs-6">
+          <m-radio
+            ng-disabled="searchProvisionalCoverage.Contratante.SaldoMapfreDolar > 0 ? false : true"
+            label="{label: 'Si'}"
+            name="nUsarDolares"
+            ng-model="searchProvisionalCoverage.mUsarDolares"
+            value="1"
+            data-ng-required="false"></m-radio>
+        </div>
+        <div class="col-xs-6">
+          <m-radio
+            ng-disabled="searchProvisionalCoverage.Contratante.SaldoMapfreDolar > 0 ? false : true"
+            label="{label: 'No'}"
+            name="nUsarDolares"
+            ng-model="searchProvisionalCoverage.mUsarDolares"
+            value="2"
+            data-ng-required="false"
+            ng-change="fnChangeMapfreDolares()"
+            ></m-radio>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-3 mb-xs-2">
+      <mpf-input
+        label="{label: 'Mapfre dólares que usará', required: false}"
+        name="nDolaresAusar"
+        ng-disabled="disabledDolaresUsar()"
+        ng-model="searchProvisionalCoverage.mDolaresAusar"
+        mpf-validation="onlyNumber"
+        ng-required="false">
+      </mpf-input>
+      <ul class="g-error">
+        <li ng-show="false">* Este campo es obligatorio</li>
+      </ul>
+    </div>
+  </div>
+  <div class="g-section mt-xs-5">
+    <div class="row">
+      <div class="col-md-4 mb-xs-1">
+        <span class="gCGray3">*Campos obligatorios</span>
+      </div>
+      <div class="col-md-4">
+        <button type="submit" class="g-btn g-btn-verde block" ng-disabled="frmPlanMigracion.$invalid" ng-class="{'disabled': frmPlanMigracion.$invalid}">GENERAR COTIZACIÓN</button>
+      </div>
+    </div>
+  </div>
+</form>

@@ -1,0 +1,349 @@
+<div class="consultaGestion">
+  <div class="container">
+    <div
+      show-filter
+      class="clearfix g-col-filter g-box-md gBgcGray5-md gBgcWhite1 g-myd-box"
+      ng-class="{'show': isFilterVisible}"
+    >
+      <div class="col-xs-12">
+        <div class="clearfix gH4 gCGray1 mb-xs-1-5">
+          <h2 class="hidden-xs hidden-sm"><b>Opciones de Búsqueda</b></h2>
+          <div
+            id="show-filter"
+            class="row pt-xs-2 pb-xs-2 gBgcGray5 g-border-bottom-xs hidden-md hidden-lg"
+            ng-click="toggleFilter();"
+          >
+            <div class="col-xs-10">
+              <h2><b>Opciones de Búsqueda</b></h2>
+            </div>
+            <div class="col-xs-2 g-text-right-xs">
+              <!-- ngIf: isFilterVisible --><span
+                class="glyphicon glyphicon-chevron-down ng-scope"
+                ng-if="isFilterVisible"
+                style=""
+              ></span
+              ><!-- end ngIf: isFilterVisible -->
+              <!-- ngIf: !isFilterVisible --><span
+                class="glyphicon glyphicon-chevron-up ng-scope"
+                ng-if="!isFilterVisible"
+                style=""
+              ></span
+              ><!-- end ngIf: !isFilterVisible -->
+            </div>
+            <div class="clearfix"></div>
+          </div>
+        </div>
+        <form class="clearfix" name="frmSiniestro">
+          <div class="row">
+            <div class="col-md-3 mt-md-0">
+              <m-radio
+                label="{label: gLblContratanteAsegurado}"
+                name="nOpcionTipoBusqueda"
+                ng-model="vm.formSiniestro.mOpcionTipoBusqueda"
+                value="1"
+                data-ng-required="true"
+                ng-click="resetFiltro()"
+              ></m-radio>
+              <div
+                class="g-error"
+                data-ng-show="frmSiniestro.nOpcionTipoBusqueda.$error.required && !frmSiniestro.nOpcionTipoBusqueda.$pristine"
+              >
+                * Seleccione una opción
+              </div>
+            </div>
+            <div class="col-md-2 pl-md-1 pr-md-0">
+              <m-radio
+                label="{label: gLblPoliza}"
+                name="nOpcionTipoBusqueda"
+                ng-model="vm.formSiniestro.mOpcionTipoBusqueda"
+                value="2"
+                data-ng-required="true"
+                ng-click="resetFiltro()"
+              ></m-radio>
+            </div>
+            <div class="col-md-2 pl-md-1 pr-md-0">
+              <m-radio
+                label="{label: gLblPlaca}"
+                name="nOpcionTipoBusqueda"
+                ng-model="vm.formSiniestro.mOpcionTipoBusqueda"
+                value="3"
+                data-ng-required="true"
+                ng-click="resetFiltro()"
+              ></m-radio>
+            </div>
+            <div class="col-md-2 pl-md-1 pr-md-0">
+              <m-radio
+                label="{label: gLblSiniestro}"
+                name="nOpcionTipoBusqueda"
+                ng-model="vm.formSiniestro.mOpcionTipoBusqueda"
+                value="4"
+                data-ng-required="true"
+                ng-click="resetFiltro()"
+              ></m-radio>
+            </div>
+
+            <div ng-show="vm.formSiniestro.mOpcionTipoBusqueda == '1'" class="col-xs-12 no-padding-xs ng-hide">
+              <!-- Buscar Cliente -->
+              <div class="col-xs-12 col-md-3 mb-xs-2 mb-md-0 h-myd-mt--20">
+                <mpf-select
+                  ng-model="vm.formSiniestro.mTipoCliente"
+                  name="nSector"
+                  label="{label: 'Tipo Cliente', required: false}"
+                  m-data-source="vm.lstTipo"
+                  text-field="description"
+                  value-field="value"
+                  m-Empty-Option="{enterData:false}"
+                  mpf-validation="required"
+                >
+                </mpf-select>
+                <ul class="g-error">
+                  <li ng-show="false">* Seleccione un tipo de cliente</li>
+                </ul>
+              </div>
+            </div>
+
+            <div ng-show="vm.formSiniestro.mOpcionTipoBusqueda == '2'" class="col-xs-12 no-padding-xs mt-md-1">
+              <div class="col-xs-12 col-md-3 mb-xs-2 mb-md-0 h-myd-mt--20">
+                <mpf-input
+                  label="{label: 'Nro. Póliza', required: true}"
+                  name="nNroPoliza"
+                  ng-model="vm.formSiniestro.mNroPoliza"
+                  data-ng-required="true"
+                  mpf-validation="onlyNumber"
+                  minLength="12"
+                  maxLength="15"
+                ></mpf-input>
+                <div
+                  class="g-error"
+                  data-ng-show="vm.formSiniestro.frmSiniestro.nNroPoliza.$error.required && !vm.formSiniestro.frmSiniestro.nNroPoliza.$pristine"
+                >
+                  * Ingrese número de póliza
+                </div>
+              </div>
+            </div>
+
+            <div ng-show="vm.formSiniestro.mOpcionTipoBusqueda == '3'" class="col-xs-12 no-padding-xs mt-md-1 ng-hide">
+              <div class="col-xs-12 col-md-3 mb-xs-2 mb-md-0 h-myd-mt--20">
+                <mpf-input
+                  label="{label: 'Nro. Placa', required: true}"
+                  name="nNroPlaca"
+                  ng-model="vm.formSiniestro.mNroPlaca"
+                  data-ng-required="true"
+                  mpf-validation=""
+                  minLength="6"
+                  maxLength="15"
+                ></mpf-input>
+                <div
+                  class="g-error"
+                  data-ng-show="vm.formSiniestro.frmSiniestro.nNroPlaca.$error.required && !vm.formSiniestro.frmSiniestro.nNroPlaca.$pristine"
+                >
+                  * Ingrese número de placa
+                </div>
+              </div>
+            </div>
+
+            <div ng-show="vm.formSiniestro.mOpcionTipoBusqueda == '4'" class="col-xs-12 no-padding-xs mt-md-1 ng-hide">
+              <div class="col-xs-12 col-md-3 mb-xs-2 mb-md-0 h-myd-mt--20">
+                <mpf-input
+                  label="{label: 'Nro. Siniestro', required: true}"
+                  name="nNroSiniestro"
+                  ng-model="vm.formSiniestro.mNroSiniestro"
+                  data-ng-required="true"
+                  mpf-validation=""
+                  minLength="6"
+                  maxLength="15"
+                ></mpf-input>
+                <div
+                  class="g-error"
+                  data-ng-show="vm.formSiniestro.frmSiniestro.nNroSiniestro.$error.required && !vm.formSiniestro.frmSiniestro.nNroSiniestro.$pristine"
+                >
+                  * Ingrese número de siniestro
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row mt-xs-2 mt-md-1">
+            <div class="col-md-offset-8 col-md-2 mb-xs-1 no-mb-md">
+              <div class="clearfix">
+                <a class="col-xs-12 g-btn g-btn-verde second-design"
+                  ga-click
+                  ga-category="'CG - Siniestros'"
+                  ga-action="'MPF - Siniestros Autos - Buscar'"
+                  ga-label="'Botón: Buscar'"
+                  ng-click="vm.buscar()">Buscar</a>
+              </div>
+            </div>
+            <div class="col-md-2">
+              <div class="clearfix">
+                <a class="col-xs-12 g-btn g-btn-white second-design" ng-click="vm.limpiar()">Limpiar</a>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- Top bar: Filtro e iconos -->
+    <div tbl-oim-topbar class="clearfix g-tbl-topbar mt-md-2 mb-md-2 mt-xs-1 width-filtro">
+      <div class="g-row-icons__box visible-xs visible-sm" ng-show="vm.totalRows >= 1">
+        <a ng-click="showFilterTopbar = !showFilterTopbar" uib-popover="Filtro" popover-trigger="'mouseenter'">
+          <span class="g-icon-box g-icon-box-md">
+            <span class="ico-mapfre ico-mapfre_203_filtro ico-filter h-myd--none"></span>
+            <span
+              class="ico-mapfre ico-mapfre-362-myd-filter ico-filter h-myd-ico--mediun h-myd--show h-oim-none"
+            ></span>
+          </span>
+        </a>
+        <a data-ng-click="exportar()" uib-popover="Exportar" popover-trigger="'mouseenter'">
+          <span class="g-icon-box g-icon-box-md">
+            <span class="ico-mapfre ico-mapfre_124_download ico-download h-myd--none"></span>
+            <span
+              class="ico-mapfre ico-mapfre-360-myd-export ico-download h-myd-ico--mediun h-myd--show h-oim-none"
+            ></span>
+          </span>
+        </a>
+      </div>
+      <div class="g-row-filter__box g-row-icons__box box_left hidden-xs hidden-sm" ng-show="vm.totalRows >= 1">
+        <a data-ng-click="exportar()" uib-popover="Exportar" popover-trigger="'mouseenter'">
+          <span class="ico-mapfre ico-mapfre_124_download ico-download h-myd--none"></span>
+          <span
+            class="ico-mapfre ico-mapfre-360-myd-export ico-download h-myd-ico--mediun h-myd--show h-oim-none"
+          ></span>
+        </a>
+      </div>
+      <div class="g-row-filter__box box_right height-xs height-sm" ng-class="{'filter__show': showFilterTopbar}">
+        <form class="clearfix">
+          <div class="g-filter-col">
+            <mpf-select-horz
+              ng-model="vm.formSiniestro.Estado"
+              name="nEstado"
+              label="{label: 'Estado: ', required: false}"
+              m-data-source="vm.lstEstado"
+              text-field="description"
+              value-field="value"
+              m-Empty-Option="{text:'todos'}"
+            >
+            </mpf-select-horz>
+          </div>
+          <div class="g-filter-col">
+            <mpf-datepicker-horz
+              ng-model="vm.formSiniestro.mFechaDesde"
+              label="{label: 'Desde: ', required: false}"
+              format="vm.format"
+              name="nfechaDesde"
+              ng-required="false"
+              mpf-validate="required"
+              maxDate=""
+            >
+            </mpf-datepicker-horz>
+          </div>
+          <div class="g-filter-col">
+            <mpf-datepicker-horz
+              ng-model="vm.formSiniestro.mFechaHasta"
+              label="{label: 'Hasta: ', required: false}"
+              format="vm.format"
+              name="nfechaHasta"
+              ng-required="false"
+              mpf-validate="required"
+              maxDate=""
+            >
+            </mpf-datepicker-horz>
+          </div>
+          <div class="g-filter-col col__buttons hidden-xs hidden-sm">
+            <a class="g-btn g-btn-white block second-design" ng-click="vm.buscar()">Aplicar Filtros</a>
+          </div>
+          <div class="col__buttons visible-xs mt-xs-2">
+            <a class="g-btn g-btn-white block second-design" ng-click="vm.buscar()">Aplicar Filtros</a>
+            <a
+              ng-click="showFilterTopbar = !showFilterTopbar"
+              class="g-btn g-btn-white block second-design h-myd-mt--10"
+              >Cerrar</a
+            >
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <div class="clearfix" ng-show="vm.totalRows >= 1">
+      <div tbl-oim class="col-xs-12 g-tbl-wrapper pl-xs-0">
+        <div class="tbl-main">
+          <ul class="tbl-header clearfix">
+            <li class="title col-16-dktp">Siniestro</li>
+            <li class="title col-8-dktp">Segmento Comercial</li>
+            <li class="title col-13-dktp">Póliza</li>
+            <li class="title col-17-dktp">Contratante</li>
+            <li class="title col-17-dktp">Asegurado</li>
+            <li class="title col-9-dktp">Fecha Ocurrencia</li>
+            <li class="title col-9-dktp">Fecha Denuncia</li>
+            <li class="title col-9-dktp">Estado Taller</li>
+          </ul>
+          <ul class="tbl-body clearfix">
+            <li data-ng-repeat="item in vm.siniestros">
+              <a ng-click="vm.irDetalleSiniestro(item)"
+                ga-click
+                ga-category="'CG - Siniestros'"
+                ga-action="'MPF - Siniestros Autos - Click Fila Resultados'"
+                ga-label="'Click: Fila Resultados'">
+                <ul height-row class="tbl-row clearfix">
+                  <li class="cell col-16-dktp">
+                    <span class="cell-title">{{item.sinisterNumber}}</span>
+
+                  </li>
+                  <li class="cell col-8-dktp">
+                    <span class="cell-label"
+                      ><span class="cell-data">{{ item.commercialSegment }}</span></span
+                    >
+                  </li>
+                  <li class="cell col-13-dktp">
+                    <span class="cell-label"
+                      ><span class="cell-data">{{ item.policyNumber }}</span></span
+                    >
+                  </li>
+                  <li class="cell col-17-dktp">
+                    <span class="cell-label"
+                      ><span class="cell-data">{{ item.contractorName }}</span></span
+                    >
+                  </li>
+                  <li class="cell col-17-dktp">
+                    <span class="cell-label"
+                      ><span class="cell-data">{{ item.insuredName }}</span></span
+                    >
+                  </li>
+                  <li class="cell col-9-dktp">
+                    <span class="cell-label"
+                      ><span class="cell-data">{{ item.occurrenceDate }}</span></span
+                    >
+                  </li>
+                  <li class="cell col-9-dktp">
+                    <span class="cell-label"
+                      ><span class="cell-data">{{ item.complaintDate }}</span></span
+                    >
+                  </li>
+                  <li class="cell col-9-dktp">
+                    <span class="cell-label"
+                      ><span class="cell-data">{{ item.situation }}</span></span
+                    >
+                  </li>
+                </ul>
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <mx-paginador
+      data-datos="vm.siniestros"
+      data-items-x-page="vm.itemsXPagina"
+      data-msg-vacio="vm.msgVacio"
+      data-on-paginar="vm.pageChanged($event)"
+      data-pagina-actual="vm.currentPage"
+      data-total-items="vm.totalRows"
+    >
+    </mx-paginador>
+  </div>
+</div>
+
+<form id="frmExport" name="frmExport" action="{{ vm.exportURL }}" method="post" target="_blank">
+  <input type="hidden" name="json" value="{{ vm.downloadFile }}" />
+</form>

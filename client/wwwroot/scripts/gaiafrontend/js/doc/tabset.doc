@@ -1,0 +1,202 @@
+@doc-component directive
+@name uiBootstrap.directive.tabset
+@param {expression} vertical Expression to evaluate. The result of the expression will be used as a value in a ngClass map expression to the generated `ul`.
+@param {expression} justified Expression to evaluate. The result of the expression will be suffixed to 'nav-' string to be added as class to the generated `ul`.
+@param {expression} type Expression to evaluate. The result of the expression will be used as a value in a ngClass map expression to the generated `ul`.
+@description
+The `tabset` directive allows you to display tabs.
+
+We can control the look of out tabs by using `vertical`, `justified` and `type` attributes.
+
+**IMPORTANT!** Example is not working as intended. It's being compiled twice.
+@example
+<doc:example>
+    <doc:source>
+    script
+        function TabsCtrl($scope) {
+            $scope.tabs = [{
+                title: "Dynamic Title 1",
+                content: "Dynamic Content 1"
+            }, {
+                title: "Dynamic Title 2",
+                content: "Dynamic Content 2",
+                disabled: true
+            }];
+
+            $scope.alertMe = function() {
+                setTimeout(function() {
+                    window.alert("You've selected the alert tab!");
+                });
+            };
+        }
+        TabsCtrl.$inject = ['$scope'];
+    div(ng-controller="TabsCtrl")
+        div(tabset)
+            div(tab, heading="Static title")
+                p Static content
+            div(tab, ng-repeat="tab in tabs", heading="{{tab.title}}", active="tab.active", disabled="tab.disabled")
+                p {{tab.content}}
+            div(tab, select="alertMe()")
+                div(tab-heading) Alert!
+                p I have a calback when activated!
+        .btn-group-form
+                    button.btn.btn-default(ng-click="tabs[0].active = true") Select second tab
+                    button.btn.btn-default(ng-click="tabs[1].active = true") Select third tab
+                    button.btn.btn-default(ng-click="tabs[1].disabled = ! tabs[1].disabled") Toggle third tab
+    div(tabset, vertical="true")
+        div(tab, heading="Vertical Tab Heading 1")
+            p Vertical Tab Content 1
+        div(tab, heading="Vertical Tab Heading 2")
+            p Vertical Tab Content 2
+    div(tabset, vertical="true", type="navType")
+        div(tab, heading="Pills Tab Heading 1")
+            p Pills Tab Content 1
+        div(tab, heading="Pills Tab Heading 2")
+            p Pills Tab Content 2
+    div(tabset, justified="true")
+        div(tab, heading="Justified Tab Heading")
+            p Justified Tab Content
+        div(tab, heading="Justified Tab Loooooooooooooong Heading")
+            p Justified Tab Loooooooooooooong Content
+        div(tab, heading="Just. Tab Short")
+            p Just. Tab Short Content
+    </doc:source>
+</doc:example>
+
+@doc-component directive
+@name uiBootstrap.directive.tabset.tab
+@param {string=} heading Heading text.
+@param {expression=} active Expresion to evaluate. If the result of the expression is truthy the tab will be currently selected.
+@param {expression=} tab-disabled Expresion to evaluate. If the result of the expression is truthy the tab will not be clickable and cannot be activated.
+@param {expression=} select Expresion to evaluate. The result of the expression will be called when the tab is activated.
+@param {expression=} deselect Expresion to evaluate. The result of the expression will be called when the tab is deactivated.
+@param {boolean=} closeable If this attribute is defined on the tab it will display a button at the top-right corner. When clicked the directive will perform a "hard" close of the tab that may casue problems if tabs dynamic (defined with `ng-repeat` directive. Use this attribute if your tabs are static but may be closed at any time.
+@param {expression=} close If this attribute is defined on the tab it will display a button at the top-right corner. Expression to evaluate that will be called when clicking on the close button. It is recommended to use this attribute when used with `ng-repeat` directive.
+@description
+This directive requires `tabset` directive to be its parent.
+
+The `tab` directive transclude its content as tab content. If a `tab-heading` directive is part of the `tab` content it will not be transcluded as tab content, it will be transcluded as tab heading.
+
+When active expression result changes, the tab will be activated/deactivated.
+
+When disabled expression result changes, the tab will be disabled/enabled.
+
+Use `closeable` attribute when tabs are static but can be closed at any time. You can use `close` attribute in conjunction with `closeable` if you want to perform an extra action when closing the tab.
+
+DO NOT use `closeable` attribute when tabs are dynamic (when used with `ng-repeat` directive). Use just `close` attribute. `close` attribute value has to be an expression performing the appropiate action to manage tab removal.
+
+**IMPORTANT!** Example is not working as intended. It's being compiled twice.
+@example
+<doc:example>
+    <doc:source>
+    script
+        function TabsCtrl($scope) {
+            $scope.tabs = [{
+                title: "Dynamic Title 1",
+                content: "Dynamic Content 1"
+            }, {
+                title: "Dynamic Title 2",
+                content: "Dynamic Content 2",
+                disabled: true
+            }];
+
+            $scope.alertMe = function() {
+                setTimeout(function() {
+                    window.alert("You've selected the alert tab!");
+                });
+            };
+        }
+        TabsCtrl.$inject = ['$scope'];
+    div(ng-controller="TabsCtrl")
+        div(tabset)
+            div(tab, heading="Static title")
+                p Static content
+            div(tab, ng-repeat="tab in tabs", heading="{{tab.title}}", active="tab.active", disabled="tab.disabled")
+                p {{tab.content}}
+            div(tab, select="alertMe()")
+                div(tab-heading) Alert!
+                p I have a calback when activated!
+        .btn-group-form
+                    button.btn.btn-default(ng-click="tabs[0].active = true") Select second tab
+                    button.btn.btn-default(ng-click="tabs[1].active = true") Select third tab
+                    button.btn.btn-default(ng-click="tabs[1].disabled = ! tabs[1].disabled") Toggle third tab
+    div(tabset, vertical="true")
+        div(tab, heading="Vertical Tab Heading 1")
+            p Vertical Tab Content 1
+        div(tab, heading="Vertical Tab Heading 2")
+            p Vertical Tab Content 2
+    div(tabset, vertical="true", type="navType")
+        div(tab, heading="Pills Tab Heading 1")
+            p Pills Tab Content 1
+        div(tab, heading="Pills Tab Heading 2")
+            p Pills Tab Content 2
+    div(tabset, justified="true")
+        div(tab, heading="Justified Tab Heading")
+            p Justified Tab Content
+        div(tab, heading="Justified Tab Loooooooooooooong Heading")
+            p Justified Tab Loooooooooooooong Content
+        div(tab, heading="Just. Tab Short")
+            p Just. Tab Short Content
+    </doc:source>
+</doc:example>
+@doc-component directive
+@name uiBootstrap.directive.tabset.tab.tabHeading
+@description
+This directive requires `tab` directive to be its parent.
+
+The `tab-heading` directive transclude its content as the tab heading.
+
+**IMPORTANT!** Example is not working as intended. It's being compiled twice.
+@example
+<doc:example>
+    <doc:source>
+    script
+        function TabsCtrl($scope) {
+            $scope.tabs = [{
+                title: "Dynamic Title 1",
+                content: "Dynamic Content 1"
+            }, {
+                title: "Dynamic Title 2",
+                content: "Dynamic Content 2",
+                disabled: true
+            }];
+
+            $scope.alertMe = function() {
+                setTimeout(function() {
+                    window.alert("You've selected the alert tab!");
+                });
+            };
+        }
+        TabsCtrl.$inject = ['$scope'];
+    div(ng-controller="TabsCtrl")
+        div(tabset)
+            div(tab, heading="Static title")
+                p Static content
+            div(tab, ng-repeat="tab in tabs", heading="{{tab.title}}", active="tab.active", disabled="tab.disabled")
+                p {{tab.content}}
+            div(tab, select="alertMe()")
+                div(tab-heading) Alert!
+                p I have a calback when activated!
+        .btn-group-form
+                    button.btn.btn-default(ng-click="tabs[0].active = true") Select second tab
+                    button.btn.btn-default(ng-click="tabs[1].active = true") Select third tab
+                    button.btn.btn-default(ng-click="tabs[1].disabled = ! tabs[1].disabled") Toggle third tab
+    div(tabset, vertical="true")
+        div(tab, heading="Vertical Tab Heading 1")
+            p Vertical Tab Content 1
+        div(tab, heading="Vertical Tab Heading 2")
+            p Vertical Tab Content 2
+    div(tabset, vertical="true", type="navType")
+        div(tab, heading="Pills Tab Heading 1")
+            p Pills Tab Content 1
+        div(tab, heading="Pills Tab Heading 2")
+            p Pills Tab Content 2
+    div(tabset, justified="true")
+        div(tab, heading="Justified Tab Heading")
+            p Justified Tab Content
+        div(tab, heading="Justified Tab Loooooooooooooong Heading")
+            p Justified Tab Loooooooooooooong Content
+        div(tab, heading="Just. Tab Short")
+            p Just. Tab Short Content
+    </doc:source>
+</doc:example>

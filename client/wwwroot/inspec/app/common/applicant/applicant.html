@@ -1,0 +1,78 @@
+<!-- INFORMACIÓN DEL SOLICITANTE -->
+<div ng-form name="frmApplicant">
+  <div class="g-section h-myd-mt--30 mt-xs-2" id="{{ $ctrl.anchor }}">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12">
+          <h2 class="g-sub-title g-myd-subtitle">Información del solicitante</h2>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-4 mb-xs-2" ng-if="$ctrl.fromQuotation">
+          <mpf-input
+            label="{label: 'Agente solicitante*'}"
+            ng-model="$ctrl.data.agentRequest.nombre"
+            ng-disabled="true"
+          ></mpf-input>
+        </div>
+        <div class="col-md-4 mb-xs-2" ng-if="!$ctrl.fromNoQuotation">
+          <mpf-select
+            ng-if="!$ctrl.fromQuotation"
+            label="{label: 'Tipo de inspección', required: false}"
+            name="nInspectionType"
+            ng-model="$ctrl.data.mInspectionType"
+            m-data-source="$ctrl.inspectionTypes"
+            ng-required="true"
+            text-Field="description"
+            value-Field="parameterId"
+          ></mpf-select>
+          <mpf-input
+            ng-if="$ctrl.fromQuotation"
+            label="{label: 'Tipo de inspección', required: true}"
+            name="nInspectionType"
+            ng-model="$ctrl.data.mInspectionType.description"
+            ng-required="true"
+            ng-disabled="true"
+          ></mpf-input>
+        </div>
+        <div class="col-md-4 mb-xs-2" ng-if="$ctrl.fromNoQuotation">
+          <mpf-input
+            label="{label: 'Tipo de inspección', required: true}"
+            name="nInspectionType"
+            ng-model="$ctrl.data.mInspectionType.description"
+            ng-required="true"
+            ng-disabled="true"
+          ></mpf-input>
+        </div>
+        <div class="col-md-4 mb-xs-2">
+          <mpf-input
+            mpf-validation="email"
+            label="{label: 'Email de confirmación', required: true}"
+            name="nConfirmationEmail"
+            ng-model="$ctrl.data.mConfirmationEmail"
+            ng-required="true"
+          ></mpf-input>
+          <div
+            class="g-error"
+            ng-show="frmApplicant.nConfirmationEmail.$invalid && !frmApplicant.nConfirmationEmail.$pristine"
+          >
+            * Ingrese un email
+          </div>
+        </div>
+        <div class="col-md-4">
+          <mpf-input
+            mpf-validation="moreOneEmail"
+            label="{label: 'Email copia'}"
+            name="nCopyEmail"
+            ng-model="$ctrl.data.mCopyEmail"
+            disabled-View-Model="true"
+          ></mpf-input>
+          <span class="g-comment">(Para ingresar más de un correo separar con coma "," y sin espacios)</span>
+          <div class="g-error" ng-show="frmApplicant.nCopyEmail.$invalid && !frmApplicant.nCopyEmail.$pristine">
+            * Ingrese un email
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,89 @@
+<gcw-header data="{type: 5}" title="vm.formDataLiqDetail.Preliquidacion"></gcw-header>
+
+<div class="container">
+  <div tbl-oim-topbar class="clearfix g-tbl-topbar mt-md-2 mb-md-2 width-filtro" ng-show="vm.totalRows >= 1">
+    <div class="g-row-filter__box g-row-icons__box box_left">
+      <a data-ng-click="exportar()" uib-popover="Exportar" popover-trigger="'mouseenter'">
+        <span class="g-icon-box g-icon-box-md">
+          <span class="ico-mapfre ico-mapfre_124_download ico-download h-myd--none"></span>
+          <span
+            class="ico-mapfre ico-mapfre-360-myd-export ico-download h-myd-ico--mediun h-myd--show h-oim-none"
+          ></span>
+        </span>
+      </a>
+    </div>
+  </div>
+
+  <div class=" mb-xs-2 mt-md-1">
+    <div class="clearfix g-box solicitudes h-myd-mb--20" data-ng-repeat="item in vm.preliquidaciones">
+      <div class="row g-box-content list-liquiSoat">
+        <ul class="clearfix g-list second-design">
+          <li class="col-md-4 col-xs-12 pr-xs-0 cnt-item">
+            <div class="col-md-4 col-xs-12 item-label g-text-uppercase">USUARIO:</div>
+            <div class="col-md-8 col-xs-12 item-dato">{{ item.contractorFull }}</div>
+          </li>
+          <li class="col-md-3 col-xs-12 pr-xs-0 cnt-item">
+            <div class="col-md-7 col-xs-12 item-label g-text-uppercase">FECHA GENERACIÓN:</div>
+            <div class="col-md-5 col-xs-12 item-dato">{{ item.issueDate }}</div>
+          </li>
+          <li class="col-md-3 col-xs-12 pr-xs-0 cnt-item">
+            <div class="col-md-6 col-xs-12 item-label g-text-uppercase">MONTO:</div>
+            <div class="col-md-6 col-xs-12 item-dato">{{ item.netPremium | number: 2 }}</div>
+          </li>
+          <li class="col-md-2 pr-xs-0 cnt-item no-bl ico-liquiSoat">
+            <a
+              class="col-md-6 ng-pristine ng-untouched ng-valid ng-empty text-right ico-gris ico-md"
+              ng-model="preliq.download"
+              ng-click="downloadImpresion(item)"
+            >
+              <span class="ico-md ico-mapfre_128_printer h-myd--none"></span>
+              <span class="ico-md ico-mapfre-359-myd-download h-myd-ico--mediun h-myd--show h-oim-none"></span>
+            </a>
+            <span ng-if="item.state == 'PENDIENTE'">
+              <a class="col-md-6 ng-pristine ng-untouched ng-valid ng-empty ico-gris ico-md">
+                <span
+                  class="ico-md ico-mapfre_181_eliminar h-myd--none"
+                  ng-click="vm.anularPre(item.preSettlement)"
+                ></span>
+                <span
+                  class="ico-md ico-mapfre-363-myd-eliminar h-myd-ico--mediun h-myd--show h-oim-none"
+                  ng-click="vm.anularPre(item.preSettlement)"
+                ></span>
+              </a>
+            </span>
+          </li>
+          <li class="col-md-4 col-xs-12 pr-xs-0 cnt-item">
+            <div class="col-md-4 col-xs-12 item-label g-text-uppercase">PRE LIQUIDACIÓN:</div>
+            <div class="col-md-8 col-xs-12 item-dato">{{ item.preSettlement }}</div>
+          </li>
+          <li class="col-md-3 col-xs-12 pr-xs-0 cnt-item">
+            <div class="col-md-7 col-xs-12 item-label g-text-uppercase">MONEDA:</div>
+            <div class="col-md-5 col-xs-12 item-dato">{{ item.coinDescription }}</div>
+          </li>
+          <li class="col-md-3 col-xs-12 pr-xs-0 cnt-item">
+            <div class="col-md-6 col-xs-12 item-label g-text-uppercase">ESTADO:</div>
+            <div class="col-md-6 col-xs-12 item-dato">{{ item.state }}</div>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <mx-paginador
+    data-datos="vm.preliquidaciones"
+    data-items-x-page="vm.itemsXPagina"
+    data-msg-vacio="vm.msgVacio"
+    data-on-paginar="vm.pageChanged($event)"
+    data-pagina-actual="vm.currentPage"
+    data-total-items="vm.totalRows"
+  >
+  </mx-paginador>
+</div>
+
+<form id="frmExport" name="frmExport" action="{{ vm.exportURL }}" method="post" target="_blank">
+  <input type="hidden" name="json" value="{{ vm.downloadFile }}" />
+</form>
+
+<form id="frmExportDetalle" name="frmExport" action="{{ vm.exportURLDetalle }}" method="post" target="_blank">
+  <input type="hidden" name="json" value="{{ vm.downloadFile2 }}" />
+</form>

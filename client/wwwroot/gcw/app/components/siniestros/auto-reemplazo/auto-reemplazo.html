@@ -1,0 +1,383 @@
+<div class="consultaGestion">
+  <div class="container">
+    <div class="row mb-xs-2">
+      <div class="col-sm-2 col-md-2 col-md-offset-8 mb-xs-1 mb-sm-0">
+        <a
+          class="g-btn g-btn-verde second-design block"
+          ui-sref="consulta.autoReemplazoProveedor"
+          ui-sref-opts="{ reload: false, inherit: false }"
+          >Proveedor</a
+        >
+      </div>
+      <div class="col-sm-2 col-md-2">
+        <a class="g-btn g-btn-verde second-design block" ui-sref="consulta.autoReemplazoPlanilla">Planilla</a>
+      </div>
+    </div>
+    <div
+      show-filter
+      class="clearfix g-col-filter g-box-md gBgcGray5-md gBgcWhite1 g-myd-box"
+      ng-class="{'show': isFilterVisible}"
+    >
+      <div class="col-xs-12">
+        <div class="clearfix gH4 gCGray1 mb-xs-1-5">
+          <h2 class="hidden-xs hidden-sm">
+            <b>Opciones de Búsqueda</b>
+          </h2>
+          <div
+            id="show-filter"
+            class="row pt-xs-2 pb-xs-2 gBgcGray5 g-border-bottom-xs hidden-md hidden-lg"
+            ng-click="toggleFilter();"
+          >
+            <div class="col-xs-10">
+              <h2>
+                <b>Opciones de Búsqueda</b>
+              </h2>
+            </div>
+            <div class="col-xs-2 g-text-right-xs">
+              <!-- ngIf: isFilterVisible -->
+              <span class="glyphicon glyphicon-chevron-down ng-scope" ng-if="isFilterVisible"></span>
+              <!-- end ngIf: isFilterVisible -->
+              <!-- ngIf: !isFilterVisible -->
+              <span class="glyphicon glyphicon-chevron-up ng-scope" ng-if="!isFilterVisible"></span>
+              <!-- end ngIf: !isFilterVisible -->
+            </div>
+            <div class="clearfix"></div>
+          </div>
+        </div>
+        <form class="clearfix" name="frmEdoRecibos">
+          <div class="row">
+            <div class="col-md-2 col-xs-12 pl-xs-1 pr-xs-0">
+              <m-radio
+                label="{label: 'Nro. Siniestro'}"
+                name="nTipoBusqueda"
+                ng-model="$ctrl.formAutoReemplazo.mTipoBusqueda"
+                value="1"
+                data-ng-required="true"
+              ></m-radio>
+              <!-- <div class="g-error" data-ng-show="frmEdoRecibos.nTipoBusqueda.$error.required && !frmEdoRecibos.nTipoBusqueda.$pristine">* Seleccione una opción</div> -->
+            </div>
+            <div class="col-md-2 col-xs-12 pl-xs-1 pr-xs-0">
+              <m-radio
+                label="{label: 'Nro. Solicitud'}"
+                name="nTipoBusqueda"
+                ng-model="$ctrl.formAutoReemplazo.mTipoBusqueda"
+                value="2"
+                data-ng-required="true"
+              ></m-radio>
+            </div>
+            <div class="col-md-2 col-xs-12 pl-xs-1 pr-xs-0">
+              <m-radio
+                label="{label: 'Nro. Póliza'}"
+                name="nTipoBusqueda"
+                ng-model="$ctrl.formAutoReemplazo.mTipoBusqueda"
+                value="3"
+                data-ng-required="true"
+              ></m-radio>
+            </div>
+            <div class="col-md-2 col-xs-12 pl-xs-1 pr-xs-0">
+              <m-radio
+                label="{label: 'Nro. Placa'}"
+                name="nTipoBusqueda"
+                ng-model="$ctrl.formAutoReemplazo.mTipoBusqueda"
+                value="4"
+                data-ng-required="true"
+              ></m-radio>
+            </div>
+            <div class="col-md-3 col-xs-12 pl-xs-1 pr-xs-0">
+              <m-radio
+                label="{label: 'Por contratante/Asegurado'}"
+                name="nTipoBusqueda"
+                ng-model="$ctrl.formAutoReemplazo.mTipoBusqueda"
+                value="5"
+                data-ng-required="true"
+              ></m-radio>
+            </div>
+
+            <div ng-show="$ctrl.formAutoReemplazo.mTipoBusqueda == 1" class="col-xs-12 no-padding-xs mt-xs-1">
+              <div class="col-xs-12 col-md-3">
+                <mpf-input
+                  label="{label: 'Nro. Siniestro', required: false}"
+                  name="nNroSiniestro"
+                  ng-model="$ctrl.formAutoReemplazo.mNroSiniestro"
+                ></mpf-input>
+              </div>
+            </div>
+
+            <div ng-show="$ctrl.formAutoReemplazo.mTipoBusqueda == 2" class="col-xs-12 no-padding-xs mt-xs-1">
+              <div class="col-xs-12 col-md-3">
+                <mpf-input
+                  label="{label: 'Nro. Solicitud', required: false}"
+                  name="nNroSolic"
+                  ng-model="$ctrl.formAutoReemplazo.mNroSolic"
+                ></mpf-input>
+              </div>
+            </div>
+
+            <div ng-show="$ctrl.formAutoReemplazo.mTipoBusqueda == 3" class="col-xs-12 no-padding-xs mt-xs-1">
+              <div class="col-xs-12 col-md-3">
+                <mpf-input
+                  label="{label: 'Nro. Póliza', required: false}"
+                  name="nNroPoliza"
+                  ng-model="$ctrl.formAutoReemplazo.mNroPoliza"
+                ></mpf-input>
+              </div>
+            </div>
+
+            <div ng-show="$ctrl.formAutoReemplazo.mTipoBusqueda == 4" class="col-xs-12 no-padding-xs mt-xs-1">
+              <div class="col-xs-12 col-md-3">
+                <mpf-input
+                  label="{label: 'Nro. Placa', required: false}"
+                  name="nNroPlaca"
+                  ng-model="$ctrl.formAutoReemplazo.mNroPlaca"
+                ></mpf-input>
+              </div>
+            </div>
+
+            <div ng-show="$ctrl.formAutoReemplazo.mTipoBusqueda == 5" class="clearfix">
+              <div class="col-xs-12 col-md-8 no-padding-xs">
+                <gcw-cliente data="$ctrl.formAutoReemplazo.mCliente"></gcw-cliente>
+              </div>
+            </div>
+          </div>
+          <div class="row mt-xs-2">
+            <div class="col-md-offset-8 col-md-2 mb-xs-1 no-mb-md">
+              <a class="g-btn g-btn-verde second-design block" ng-click="$ctrl.searchReplacementCar()">Buscar</a>
+            </div>
+            <div class="col-md-2">
+              <a class="g-btn g-btn-white second-design block" ng-click="$ctrl.cleanSearch()">Limpiar</a>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- Top bar: Filtro e iconos -->
+    <div tbl-oim-topbar class="clearfix g-tbl-topbar mt-md-2 mb-md-2 mt-xs-1 width-filtro">
+      <div class="g-row-icons__box visible-xs visible-sm">
+        <a ng-click="showFilterTopbar = !showFilterTopbar" uib-popover="Filtro" popover-trigger="'mouseenter'">
+          <span class="g-icon-box g-icon-box-md">
+            <span class="ico-mapfre ico-mapfre_203_filtro ico-filter h-myd--none"></span>
+            <span
+              class="ico-mapfre ico-mapfre-362-myd-filter ico-filter h-myd-ico--mediun h-myd--show h-oim-none"
+            ></span>
+          </span>
+        </a>
+        <a
+          ng-if="$ctrl.autoReemplazo.length"
+          data-ng-click="exportar()"
+          uib-popover="Exportar"
+          popover-trigger="'mouseenter'"
+        >
+          <span class="g-icon-box g-icon-box-md">
+            <span class="ico-mapfre ico-mapfre_124_download ico-download h-myd--none"></span>
+            <span
+              class="ico-mapfre ico-mapfre-360-myd-export ico-download h-myd-ico--mediun h-myd--show h-oim-none"
+            ></span>
+          </span>
+        </a>
+      </div>
+      <div class="g-row-filter__box g-row-icons__box box_left hidden-xs hidden-sm">
+        <a
+          ng-if="$ctrl.autoReemplazo.length"
+          data-ng-click="exportar()"
+          uib-popover="Exportar"
+          popover-trigger="'mouseenter'"
+        >
+          <span class="g-icon-box g-icon-box-md">
+            <span class="ico-mapfre ico-mapfre_124_download ico-download h-myd--none"></span>
+            <span
+              class="ico-mapfre ico-mapfre-360-myd-export ico-download h-myd-ico--mediun h-myd--show h-oim-none"
+            ></span>
+          </span>
+        </a>
+      </div>
+      <div class="g-row-filter__box box_right height-xs height-sm" ng-class="{'filter__show': showFilterTopbar}">
+        <form class="clearfix">
+          <div class="g-filter-col">
+            <gcw-cbo-tipo-cliente data="$ctrl.formAutoReemplazo.mTipoCliente"></gcw-cbo-tipo-cliente>
+          </div>
+          <div class="g-filter-col">
+            <gcw-cbo-estados-reemplazo data="$ctrl.formAutoReemplazo.mEstadoSolicitud"> </gcw-cbo-estados-reemplazo>
+          </div>
+          <div class="g-filter-col">
+            <gcw-cbo-proveedores data="$ctrl.formAutoReemplazo.mProveedor"> </gcw-cbo-proveedores>
+          </div>
+          <div class="g-filter-col">
+            <mpf-datepicker-horz
+              ng-model="$ctrl.mFechaDesde"
+              label="{label: 'Desde:', required: false}"
+              format="$ctrl.format"
+              name="nFechaDesde"
+              ng-required="false"
+              mpf-validate="required"
+              mindate="$ctrl.minDate"
+              maxdate="$ctrl.currentDate"
+            >
+            </mpf-datepicker-horz>
+          </div>
+          <div class="g-filter-col">
+            <mpf-datepicker-horz
+              ng-model="$ctrl.mFechaHasta"
+              label="{label: 'Hasta:', required: false}"
+              format="$ctrl.format"
+              name="nFechaHasta"
+              ng-required="false"
+              mpf-validate="required"
+              maxdate="$ctrl.currentDate"
+            >
+            </mpf-datepicker-horz>
+          </div>
+          <div class="g-filter-col col__buttons hidden-xs hidden-sm">
+            <a class="g-btn g-btn-white block second-design" ng-click="$ctrl.searchReplacementCar()">Aplicar Filtros</a>
+          </div>
+          <div class="col__buttons visible-xs mt-xs-2">
+            <a class="g-btn g-btn-white block second-design" ng-click="$ctrl.searchReplacementCar()">Aplicar Filtros</a>
+            <a
+              class="g-btn g-btn-white block second-design h-myd-mt--10"
+              ng-click="showFilterTopbar = !showFilterTopbar"
+              >Cerrar</a
+            >
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- Tag SIN ACTIVAR -->
+    <div class="clearfix g-box g-overflow-hidden-xs mb-xs-2 g-myd-result" ng-repeat="entry in $ctrl.autoReemplazo">
+      <div class="row pt-xs-1 gBgcGray5">
+        <ul class="clearfix g-list-sm">
+          <li class="col-md-8 col-sm-9">
+            <ul class="row">
+              <li class="col-sm-6 clearfix cnt-item">
+                <!-- <div class="col-md-12 col-sm-6 item-label g-text-uppercase">Nro. AR/2017/0000017</div> -->
+                <div class="col-md-12 col-sm-6 item-label g-text-uppencase">Nro. {{ entry.requestid }}</div>
+                <div class="col-md-5 col-sm-6 item-dato g-text-uppercase">
+                  <span class="c-tag mb-xs-1" ng-class="{'gris35': entry.requeststatuscode === 1}">{{
+                    entry.requeststatus
+                  }}</span>
+                </div>
+              </li>
+              <li class="col-sm-6 clearfix cnt-item">
+                <div class="col-sm-5 col-xs-4 item-label">
+                  NRO. SINIESTRO:
+                </div>
+                <div class="col-sm-7 col-xs-8 item-dato g-text-uppercase">
+                  {{ entry.sinisterid }}
+                </div>
+              </li>
+              <li class="col-sm-6 clearfix cnt-item">
+                <div class="col-sm-5 col-xs-4 item-label">
+                  NRO. PÓLIZA:
+                </div>
+                <div class="col-sm-7 col-xs-8 item-dato g-text-uppercase">
+                  {{ entry.policyid }}
+                </div>
+              </li>
+            </ul>
+          </li>
+          <li class="col-md-4 col-sm-3">
+            <div class="col-md-12 cnt-item">
+              <a ng-click="$ctrl.showDetail(entry)" class="g-btn g-btn-white block second-design">
+                <span class="g-icon">
+                  <span>Ver detalle</span>
+                  <span class="h-myd--none icon ico-mapfre_311_arrowRight"></span>
+                </span>
+              </a>
+            </div>
+          </li>
+        </ul>
+      </div>
+      <div class="row g-box-content">
+        <ul class="clearfix g-list-sm">
+          <li class="col-md-4 col-sm-6 clearfix cnt-item">
+            <div class="col-sm-5 col-xs-4 item-label">
+              PLACA:
+            </div>
+            <div class="col-sm-7 col-xs-8 item-dato g-text-uppercase">
+              {{ entry.licenseplate || '-' }}
+            </div>
+          </li>
+          <li class="col-md-4 col-sm-6 clearfix cnt-item">
+            <div class="col-sm-5 col-xs-4 item-label">
+              FECHA/HORA ESTADO:
+            </div>
+            <div class="col-sm-7 col-xs-8 item-dato g-text-uppercase">
+              {{ entry.sinisterdate }}<br />{{ entry.sinistertime }}
+            </div>
+          </li>
+          <li class="col-md-4 col-sm-6 clearfix cnt-item">
+            <div class="col-sm-5 col-xs-4 item-label">
+              ESTADO SINIESTRO:
+            </div>
+            <div class="col-sm-7 col-xs-8 item-dato g-text-uppercase">
+              {{ entry.sinisterstatus }}
+            </div>
+          </li>
+        </ul>
+        <ul class="clearfix g-list-sm">
+          <li class="col-md-4 col-sm-6 clearfix cnt-item">
+            <div class="col-sm-5 col-xs-4 item-label">
+              PROVEEDOR:
+            </div>
+            <div class="col-sm-7 col-xs-8 item-dato g-text-uppercase">
+              {{ entry.providername || '-' }}
+            </div>
+          </li>
+          <li class="col-md-4 col-sm-6 clearfix cnt-item">
+            <div class="col-sm-5 col-xs-4 item-label">
+              AGENTE:
+            </div>
+            <div class="col-sm-7 col-xs-8 item-dato g-text-uppercase">
+              {{ entry.agent || '-' }}
+            </div>
+          </li>
+          <li class="col-md-4 col-sm-6 clearfix cnt-item">
+            <div class="col-sm-5 col-xs-4 item-label">
+              EJECUTIVO SINIESTRO:
+            </div>
+            <div class="col-sm-7 col-xs-8 item-dato g-text-uppercase">
+              {{ entry.executivecode }}
+            </div>
+          </li>
+        </ul>
+        <ul class="clearfix g-list-sm">
+          <li class="col-md-4 col-sm-6 clearfix cnt-item">
+            <div class="col-sm-5 col-xs-4 item-label">
+              FECHA/HORA SOLICITUD:
+            </div>
+            <div class="col-sm-7 col-xs-8 item-dato g-text-uppercase">
+              {{ entry.requestdate || '-' }}
+            </div>
+          </li>
+          <li class="col-md-4 col-sm-6 clearfix cnt-item">
+            <div class="col-sm-5 col-xs-4 item-label">
+              CLIENTE:
+            </div>
+            <div class="col-sm-7 col-xs-8 item-dato g-text-uppercase">
+              {{ entry.client || '-' }}
+            </div>
+          </li>
+          <li class="col-md-4 col-sm-6 clearfix cnt-item">
+            <div class="col-sm-5 col-xs-4 item-label">
+              USUARIO:
+            </div>
+            <div class="col-sm-7 col-xs-8 item-dato g-text-uppercase">
+              {{ entry.usercode || '-' }}
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <mx-paginador
+      ng-if="$ctrl.hasBeenQueried"
+      data-datos="$ctrl.autoReemplazo"
+      data-items-x-page="$ctrl.itemsXPagina"
+      data-msg-vacio="$ctrl.msgVacio"
+      data-on-paginar="$ctrl.pageChanged($event)"
+      data-pagina-actual="$ctrl.currentPage"
+      data-total-items="$ctrl.totalItems"
+    >
+    </mx-paginador>
+  </div>
+</div>

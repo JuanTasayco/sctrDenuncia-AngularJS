@@ -1,0 +1,179 @@
+<!-- Step 2 -->
+<form action="" name="frmSolicitudCgwPowerEPS_2">
+  <div class="g-section">
+    <div class="container">
+      <div class="u-bs-gris g-overflow-hidden-xs clearfix">
+        <div class="clearfix">
+          <div class="col-xs-12 u-bb-gris-5">
+            <h2 class="gH4 gCGray1 pt-xs-2 pb-xs-2 c-mf-collapse__head" data-ng-click="collapse3 = !collapse3;">
+              <b>Búsqueda de diagnóstico</b>
+              <a class="c-mf-collapse g-pull-right-xs" data-ng-class="{'c-mf-collapse--open': collapse3}">
+                <span class="ico-mapfre_76_chevrondown c-mf-collapse__ico"></span>
+              </a>
+            </h2>
+          </div>
+        </div>
+        <div class="row u-bg--gris-10 u-animate-show" data-ng-show="!collapse3">
+          <div class="col-xs-12 pt-xs-2">
+            <div class="col-md-4 mb-xs-3">
+                <mp-data-seeker
+                  behavior="{label:'Código del Diagnóstico: ', placeholder:'Ingresa código o nombre del diagnóstico', matchField:'codeName'}"
+                  m-data-source="getListDiagnosticPowerEPS($inputNeed)"
+                  ng-model="diagnosticoPowerEPS"
+                  name="nCodDiagnosticoPowerEPS"
+                  ng-required="true"
+                  ng-change="">
+                  <div ng-bind-html="$item.codeName | highlight: $select.search"></div>
+                </mp-data-seeker>
+                <div class="g-error" ng-show="frmSolicitudCgwPowerEPS_2.nCodDiagnosticoPowerEPS.$error.required && !frmSolicitudCgwPowerEPS_2.nCodDiagnosticoPowerEPS.$pristine">* Busque y seleccione un diagnóstico
+                </div>
+            </div>
+            <div class="col-md-4 mb-xs-3">
+              <div data-ng-if="isVisibleInput">
+                <mp-data-seeker
+                  behavior="{label:'Médico Tratante: *', placeholder:'Ingresa código o nombre del médico', matchField:'doctorFullName'}"
+                  m-data-source="getListDoctor($inputNeed)"
+                  ng-model="formData.mMedicoTratante"
+                  name="nMedicoTratante"
+                  ng-required="true"
+                  ng-change="">
+                  <div ng-bind-html="$item.doctorFullName | highlight: $select.search"></div>
+                </mp-data-seeker>
+
+                <div class="g-error" ng-show="frmSolicitudCgwPowerEPS_2.nMedicoTratante.$error.required && !frmSolicitudCgwPowerEPS_2.nMedicoTratante.$pristine">* Busque y seleccione un médico
+                </div>
+                <div class="g-text-right-xs mt-xs-1">
+                  <p class="mb-xs-1 gCGray3">¿No encuentras el médico tratante?</p>
+                  <a  class="g-link gCGreen1"
+                      data-ng-click="mostrarInputMedico()"><b>Ingresar médico manualmente</b></a>
+                </div>
+              </div>
+              <div data-ng-if="!isVisibleInput">
+                <mpf-input
+                  label="{label: 'Médico Tratante no registrado:', required: true}"
+                  name="nMedicoTratante"
+                  ng-model="formData.mMedicoTratante"
+                  ng-required='true'
+                  mpf-validation="onlyLetter"
+                  ng-Minlength="3"
+                  ng-Maxlength="77"></mpf-input>
+                <div class="g-error"
+                     ng-show="frmSolicitudCgwPowerEPS_2.nMedicoTratante.$error.required && !frmSolicitudCgwPowerEPS_2.nMedicoTratante.$pristine">
+                  * Ingresar Médico Tratante
+                </div>
+                <div class="g-text-right-xs mt-xs-1">
+                  <a  class="g-link green cgw-msg-med__link"
+                      data-ng-click="mostrarInputMedico()">Volver a ver médicos registrados</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+        <div class="row u-bg--gris-10 u-animate-show" data-ng-show="!collapse3">
+          <div class="col-xs-12">
+            <div class="col-md-8 mb-xs-3">
+              <mpf-textarea
+                label="{label: 'Observaciones Médico Tratante', required: true}"
+                name="nObservacionesPowerEPS"
+                ng-model="mObservacionesPowerEPS"
+                ng-required="true"
+                ng-Minlength="2"
+                ng-Maxlength="4000"></mpf-textarea>
+              <div class="g-error"
+                   ng-show="frmSolicitudCgwPowerEPS_2.nObservacionesPowerEPS.$error.required && !frmSolicitudCgwPowerEPS_2.nObservacionesPowerEPS.$pristine">* Ingresar observaciones
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="u-bs-gris g-overflow-hidden-xs clearfix mt-xs-3">
+        <div class="clearfix">
+          <div class="col-xs-12 u-bb-gris-5">
+            <h2 class="gH4 gCGray1 pt-xs-2 pb-xs-2 c-mf-collapse__head" data-ng-click="collapse4 = !collapse4;">
+              <b>Beneficio</b>
+              <a class="c-mf-collapse g-pull-right-xs" data-ng-class="{'c-mf-collapse--open': collapse4}">
+                <span class="ico-mapfre_76_chevrondown c-mf-collapse__ico"></span>
+              </a>
+            </h2>
+          </div>
+        </div>
+        <div class="row u-bg--gris-10 u-animate-show" data-ng-show="!collapse4">
+          <div class="col-xs-12 pt-xs-2">
+            <div class="col-md-4 mb-xs-2">
+              <mpf-select
+                label="{label: 'Tipo de Atención:', required: true}"
+                name="nTipoAtencion"
+                ng-model="mTipoAtencion"
+                text-field="description"
+                value-field="code"
+                m-data-source="listaTipoAtencion" ng-change="callAmountAttentionType()">
+              </mpf-select>
+            </div>
+            <div class="col-md-4 mb-xs-2" ng-if="mTipoAtencion.id!=1">
+              <mpf-input
+                label="{label: 'Días de hospitalización', required: true}"
+                name="nDiasHospitalizacion"
+                ng-model="formData.mDiasHospitalizacion"
+                mpf-validation="onlyNumber"
+                ng-required="true"
+                ng-Maxlength="3">
+              </mpf-input>
+            </div>
+            <div class="col-md-4 mb-xs-2" ng-if="mTipoAtencion.id==1">
+              <mpf-input
+                label="{label: 'Días de hospitalización', required: true}"
+                name="nDiasHospitalizacion"
+                ng-model="formData.mDiasHospitalizacion"
+                mpf-validation="onlyNumber"
+                ng-required="false"
+                ng-Maxlength="3" ng-disabled="true"  ng-if="mTipoAtencion.id==1">
+              </mpf-input>
+              <div  class="g-error"
+                    ng-show="frmSolicitudCgwPowerEPS_2.nDiasHospitalizacion.$error.required && !frmSolicitudCgwPowerEPS_2.nDiasHospitalizacion.$pristine">
+                * Ingresar días de hospitalización
+              </div>
+            </div>
+            <div class="col-md-4 mb-xs-2" ng-show="formData.flagIsMinsa === 1 && formData.mEmpresaInit.idCompany === 1 && formData.mProducto.productCode === 'O'">
+              <mpf-input  
+                label="{label: 'Monto Tipo de Atención:'}"
+                name="nAmountUITMinsa" 
+                ng-model="mAmountUITMinsa" 
+                ng-required="false" 
+                ng-disabled="true">
+              </mpf-input>
+            </div>
+          </div>
+          <div class="col-xs-12 pt-xs-2">
+            <div class="col-md-4 mb-xs-2">
+              <label class="g-placeholder animated pl-xs-1-5">Resonancia magnética *</label><br><br>
+              <m-radio 
+                label="{label: 'Si'}" 
+                name="nResonanciaMagnetica"
+                ng-model="formData.mResonanciaMagnetica" 
+                value="S"
+                ng-required="true"></m-radio>
+              <m-radio label="{label: 'No'}" 
+                name="nResonanciaMagnetica"
+                ng-model="formData.mResonanciaMagnetica" 
+                value="N"
+                ng-required="true"
+                class="ml-xs-3"></m-radio>
+                <div class="g-error" ng-show="frmSolicitudCgwPowerEPS_2.nResonanciaMagnetica.$error.required && !frmSolicitudCgwPowerEPS_2.nResonanciaMagnetica.$pristine">* Elija una opción</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-4 col-md-offset-4 col-lg-2 col-lg-offset-5 mt-xs-4">
+          <a class="g-btn g-btn-verde block" ng-click="guardarPaso2()">Continuar</a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</form>

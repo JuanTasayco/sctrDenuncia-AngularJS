@@ -1,0 +1,150 @@
+<div class="consultaGestion">
+  <div class="container">
+    <!-- Top bar: Filtro e iconos -->
+    <div tbl-oim-topbar class="clearfix g-tbl-topbar mt-md-2 mb-md-2 mt-xs-1 width-filtro">
+      <div class="g-row-icons__box visible-xs visible-sm">
+        <a ng-click="showFilterTopbar = !showFilterTopbar" uib-popover="Filtro" popover-trigger="'mouseenter'">
+          <span class="g-icon-box g-icon-box-md">
+            <span class="ico-mapfre ico-mapfre_203_filtro ico-filter h-myd--none"></span>
+            <span
+              class="ico-mapfre ico-mapfre-362-myd-filter ico-filter h-myd-ico--mediun h-myd--show h-oim-none"
+            ></span>
+          </span>
+        </a>
+        <a ng-show="vm.totalRows >= 1" data-ng-click="exportar()" uib-popover="Exportar" popover-trigger="'mouseenter'"
+              ga-click
+              ga-category="'CG - Comisiones'"
+              ga-action="'MPF - Por ganar - Exportar'"
+              ga-label="'Botón: Exportar'">
+          <span class="g-icon-box g-icon-box-md">
+            <span class="ico-mapfre ico-mapfre_124_download ico-download h-myd--none"></span>
+            <span
+              class="ico-mapfre ico-mapfre-360-myd-export ico-download h-myd-ico--mediun h-myd--show h-oim-none"
+            ></span>
+          </span>
+        </a>
+      </div>
+      <div class="g-row-filter__box g-row-icons__box box_left hidden-xs hidden-sm">
+        <a ng-show="vm.totalRows >= 1" data-ng-click="exportar()" uib-popover="Exportar" popover-trigger="'mouseenter'"
+              ga-click
+              ga-category="'CG - Comisiones'"
+              ga-action="'MPF - Por ganar - Exportar'"
+              ga-label="'Botón: Exportar'">
+          <span class="g-icon-box g-icon-box-md">
+            <span class="ico-mapfre ico-mapfre_124_download ico-download h-myd--none"></span>
+            <span
+              class="ico-mapfre ico-mapfre-360-myd-export ico-download h-myd-ico--mediun h-myd--show h-oim-none"
+            ></span>
+          </span>
+        </a>
+      </div>
+      <div class="g-row-filter__box box_right height-xs height-sm" ng-class="{'filter__show': showFilterTopbar}">
+        <form class="clearfix" name="frmPorGanar">
+          <div class="g-filter-col select_150">
+            <mpf-select-horz
+              ng-model="vm.formPorGanar.mTipoMoneda"
+              name="nTipoMoneda"
+              m-data-source="vm.lstTipoMoneda"
+              label="{label: 'Moneda', required: false}"
+              text-field="description"
+              value-field="value"
+              m-Empty-Option="{text:'todos'}"
+              mpf-validation="required"
+            ></mpf-select-horz>
+          </div>
+          <div class="g-filter-col col__buttons hidden-xs hidden-sm">
+            <a class="g-btn g-btn-white block second-design"
+              ga-click
+              ga-category="'CG - Comisiones'"
+              ga-action="'MPF - Por ganar - Aplicar Filtros'"
+              ga-label="'Botón: Aplicar Filtros'"
+              ng-click="vm.buscar()">Aplicar Filtros</a>
+          </div>
+          <div class="col__buttons visible-xs visible-sm mt-xs-2">
+            <a class="g-btn g-btn-white block second-design mb-xs-2 mb-md-0" ng-click="vm.buscar()">Aplicar Filtros</a>
+            <a
+              ng-click="showFilterTopbar = !showFilterTopbar"
+              class="g-btn g-btn-white block second-design"
+              >Cerrar</a
+            >
+          </div>
+        </form>
+      </div>
+    </div>
+    <!-- tabla -->
+    <div class="clearfix" ng-show="vm.totalRows >= 1">
+      <div tbl-oim class="col-xs-12 g-tbl-wrapper pl-xs-0 pr-xs-0">
+        <div class="tbl-main table__1024">
+          <ul class="tbl-header clearfix">
+            <li class="title col-22-dktp">Detalles</li>
+            <li class="title col-15-dktp">Ramo</li>
+            <li class="title col-12-dktp">Fecha Venc. Recibo</li>
+            <li class="title col-10-dktp">Moneda</li>
+            <li class="title col-12-dktp text-right">Prima Neta</li>
+            <li class="title col-12-dktp text-right">% Comisión</li>
+            <li class="title col-15-dktp text-right">Importe Comisión</li>
+          </ul>
+          <ul class="tbl-body clearfix">
+            <li ng-repeat="comision in vm.comisionesPorGanar">
+              <ul height-row class="tbl-row clearfix">
+                <li class="cell col-22-dktp">
+                  <span class="cell-title">{{ comision.contractorNameFull }}</span>
+                  <span class="cell-label"
+                    >Póliza:&nbsp;<span class="cell-data">{{ comision.policyNumber }}</span></span
+                  >
+                  <span class="cell-label"
+                    >Recibo:&nbsp;<span class="cell-data">{{ comision.receiptNumber }}</span></span
+                  >
+                </li>
+                <li class="cell col-15-dktp g-text-uppercase">
+                  <span class="cell-label"
+                    ><span class="cell-data">{{ comision.branchName }}</span></span
+                  >
+                </li>
+                <li class="cell col-12-dktp">
+                  <span class="cell-label"
+                    ><span class="cell-data">{{ comision.movementDate }}</span></span
+                  >
+                </li>
+                <li class="cell col-10-dktp g-text-uppercase">
+                  <span class="cell-label"
+                    ><span class="cell-data">{{ comision.coinCode }}</span></span
+                  >
+                </li>
+                <li class="cell col-12-dktp text-right">
+                  <span class="cell-label"
+                    ><span class="cell-data">{{ comision.netPremium | number: 2 }}</span></span
+                  >
+                </li>
+                <li class="cell col-12-dktp text-right">
+                  <span class="cell-label"
+                    ><span class="cell-data">{{ comision.rate | number: 2 }}%</span></span
+                  >
+                </li>
+                <li class="cell col-15-dktp text-right">
+                  <span class="cell-label"
+                    ><span class="cell-data">{{ comision.movementAmount | number: 2 }}</span></span
+                  >
+                </li>
+              </ul>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <mx-paginador
+      data-datos="vm.comisionesPorGanar"
+      data-items-x-page="vm.itemsXPagina"
+      data-msg-vacio="vm.msgVacio"
+      data-on-paginar="vm.pageChanged($event)"
+      data-pagina-actual="vm.currentPage"
+      data-total-items="vm.totalRows"
+    >
+    </mx-paginador>
+  </div>
+</div>
+
+<form id="frmExport" name="frmExport" action="{{ vm.exportURL }}" method="post" target="_blank">
+  <input type="hidden" name="json" value="{{ vm.downloadFile }}" />
+</form>

@@ -1,0 +1,112 @@
+<section class="g-page page-modal page-modal__nueva-inspeccion">
+
+	<button type="button" class="close g-close-modal" ng-click="$ctrl.closeModal()">
+		<span class="ico-mapfre_46_cancelaroff"></span>
+	</button>
+
+	<form name="$ctrl.frmProgram">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12 g-text-center-xs mb-xs-2">
+          <h2 ng-if="!$ctrl.isEditing" class="gH3" id="modal-title"><b>AGREGAR NO DISPONIBILIDAD</b></h2>
+          <h2 ng-if="$ctrl.isEditing" class="gH3" id="modal-title"><b>EDITAR BLOQUEO</b></h2>
+        </div>
+      </div>
+    </div>
+		<div class="container">
+			<div class="col-md-12">
+				<div class="modal-body" id="automas">
+					<div class="row">
+						<div class="col-md-6 mb-xs-2">
+							<mpf-select label="{label: 'Provedor', required: true}" name="nProvedor" ng-model="$ctrl.formData.mProvedor" m-data-source="$ctrl.providers" text-field="name" value-field="name" m-Empty-Option="{text:'TODOS'}" ng-change="$ctrl.selectProvider($ctrl.formData.mProvedor)"></mpf-select>
+						</div>
+						<div class="col-md-6 mb-xs-2">
+              <mpf-select label="{label: 'Inspector', required: true}" name="nInspector" ng-model="$ctrl.formData.mInspector" m-data-source="$ctrl.inspectors" text-field="fullName" value-field="inspectorId" m-Empty-Option="{enterData:true}" ng-required="true"></mpf-select>
+              <div class="g-error" ng-show="$ctrl.frmProgram.nInspector.$invalid && !$ctrl.frmProgram.nInspector.$pristine">* Seleccione un inspector</div>
+						</div>
+          </div>
+          <div class="row">
+						<div class="col-md-6 mb-xs-2">
+              <mpf-select label="{label: 'Motivo', required: true}" name="nMotivo" ng-model="$ctrl.formData.mMotivo" m-data-source="$ctrl.permissions" text-field="description" value-field="parameterId" ng-required="true"></mpf-select>
+              <div class="g-error" ng-show="$ctrl.frmProgram.nMotivo.$invalid && !$ctrl.frmProgram.nMotivo.$pristine">* Seleccione un motivo</div>
+						</div>
+					</div>
+					<div class="row" ng-if="!$ctrl.hideDates">
+            <div class="col-md-3 mb-xs-2">
+              <mpf-datepicker label="{label: 'Fecha inicio', required: true}" format="'dd/MM/yyyy'" ng-model="$ctrl.formData.mFechaInicio" name="nFechaInicio" ng-required="true" data-minDate="$ctrl.formData.mFechaInicio" ></mpf-datepicker>
+              <div class="g-error" ng-show="$ctrl.frmProgram.nFechaInicio.$invalid && !$ctrl.frmProgram.nFechaInicio.$pristine">* Ingrese fecha inicio</div>
+            </div>
+            <div class="col-md-3">
+              <div class="">
+                <mpf-timepicker label-data="{label: 'Hora inicio', required: true}" modelo="$ctrl.formData.mFechaInicio" requerido="true" is-read-only="false"></mpf-timepicker>
+              </div>
+            </div>
+            <div class="col-md-3 mb-xs-2">
+              <mpf-datepicker label="{label: 'Fecha fin', required: true}" format="'dd/MM/yyyy'" ng-model="$ctrl.formData.mFechaFin" name="nFechaFin" ng-required="true" data-minDate="$ctrl.formData.mFechaInicio"></mpf-datepicker>
+              <div class="g-error" ng-show="$ctrl.frmProgram.nFechaFin.$invalid && !$ctrl.frmProgram.nFechaFin.$pristine">* Ingrese fecha fin</div>
+            </div>
+            <div class="col-md-3">
+              <div class="">
+                <mpf-timepicker label-data="{label: 'Hora fin', required: true}" modelo="$ctrl.formData.mFechaFin" requerido="true" is-read-only="false"></mpf-timepicker>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-12 mb-xs-2 g-error" ng-show="$ctrl.hasError">* {{ $ctrl.hasError }}</div>
+          </div>
+          <div class="row">
+            <div class="col-md-12 mb-xs-2">
+              <mpf-input label="{label: 'Observaciones', required: true}" name="mObservaciones" ng-model="$ctrl.formData.mObsevaciones" ng-required="true"></mpf-input>
+              <div class="g-error" ng-show="$ctrl.frmProgram.mObservaciones.$invalid && !$ctrl.frmProgram.mObservaciones.$pristine">* Ingrese unas observaciones</div>
+            </div>
+          </div>
+
+          <div class="row" ng-if="$ctrl.currentAgentPermissions.length">
+            <div class="col-md-12 mb-xs-1 mt-xs-2 clearfix">
+              <h2 class="g-border-bottom-xs pb-xs-1"><b>Permisos</b></h2>
+            </div>
+          </div>
+
+          <div class="row" ng-if="$ctrl.currentAgentPermissions.length">
+            <div class="col-md-12">
+              <div class="clearfix g-tbl-wrapper">
+                <div class="clearfix">
+                  <ul height-row class="g-row-fz12 g-tbl-row gBgcGray5 pt-xs-1">
+                    <li class="g-col g-col-xs col-14-dktp tbl-item item-title">MOTIVO</li>
+                    <li class="g-col g-col-xs col-30-dktp tbl-item item-title">OBSERVACIONES</li>
+                    <li class="g-col g-col-xs col-20-dktp tbl-item item-title">FECHA INICIO</li>
+                    <li class="g-col g-col-xs col-20-dktp tbl-item item-title">FECHA FIN</li>
+                    <li class="g-col g-col-xs col-8-dktp tbl-item item-title"></li>
+                    <li class="g-col g-col-xs col-8-dktp tbl-item item-title"></li>
+                  </ul>
+                  <div class="mb-xs-1 gnContentAuto-bg">
+                    <ul height-row class="g-row-fz12 g-tbl-row pt-xs-1 g-border-bottom-xs" ng-repeat="permission in $ctrl.currentAgentPermissions">
+                      <li class="g-col g-col-xs col-14-dktp tbl-item item-title">{{ permission.reasonId === 1 ? 'PERMISO' : 'VACACIONES' }}</li>
+                      <li class="g-col g-col-xs col-30-dktp tbl-item item-title">{{ permission.observations || '-' }}</li>
+                      <li class="g-col g-col-xs col-20-dktp tbl-item item-title">{{ permission.startDate || '-' | date: 'd/MM/yyyy hh:mm a' }}</li>
+                      <li class="g-col g-col-xs col-20-dktp tbl-item item-title">{{ permission.endDate || '-' | date: 'd/MM/yyyy hh:mm a' }}</li>
+                      <li class="g-col g-col-xs col-8-dktp g-text-center-xs tbl-item">
+                        <a ng-click="$ctrl.editPermission(permission); $event.stopPropagation()"><span class="ico-mapfre_43_editar gnIcon-md  gCGray3"></span></a>
+                      </li>
+                      <li class="g-col g-col-xs col-8-dktp g-text-center-xs tbl-item">
+                        <a ng-click="$ctrl.removePermission(permission); $event.stopPropagation();"><span class="ico-mapfre_29_eliminar gnIcon-md  gCGray3"></span></a>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-md-4 col-md-offset-4 mt-xs-2">
+              <a class="g-btn g-btn-verde add-ico block" ng-click="$ctrl.savePermission()" ng-if="!$ctrl.isEditing">Bloquear&nbsp;</a>
+              <a class="g-btn g-btn-verde add-ico block" ng-click="$ctrl.updatePermission()" ng-if="$ctrl.isEditing">Guardar&nbsp;</a>
+            </div>
+          </div>
+        </div>
+			</div>
+		</div>
+	</form>
+
+</section>

@@ -1,0 +1,98 @@
+@doc-component service
+@name uiBootstrap.service.$modal
+@description
+The `$modal` service quickly creates AngularJS-powered modal windows. Creating custom modals is straightforward: create a partial view, its controller and reference them when using the service.
+
+**IMPORTANT!** Example is not working as intended. Styles are currently conflicting.
+
+@example
+<doc:example>
+    <doc:source>
+    script(id="/modal-content.html", type="text/ng-template")
+        .modal-container
+            .modal-body
+                .grouper.clearfix
+                    ul
+                        li(ng-repeat="item in items")
+                            a(ng-click="selected.item = item") {{item}}
+                    p Selected: 
+                        strong {{selected.item}}
+            .modal-footer
+                button.btn.btn-navigation.pull-left(ng-click="cancel()") Cancel
+                button.btn.btn-navigation(ng-click="ok()") Ok
+
+    script
+        function ModalInstanceCtrl($scope, $modalInstance, items) {
+            $scope.items = items;
+
+            $scope.selected = {
+                item: $scope.items[0]
+            };
+
+            $scope.ok = function() {
+                $modalInstance.close($scope.selected.item);
+            };
+
+            $scope.cancel = function() {
+                $modalInstance.dismiss('cancel');
+            };
+        }
+        ModalInstanceCtrl.$inject = ['$scope', '$modalInstance', 'items'];
+
+        function ModalsCtrl($scope, $modal, $log) {
+            $scope.items = ['item1', 'item2', 'item3'];
+
+            $scope.open = function() {
+                var modalInstance = $modal.open({
+                    templateUrl: '/modal-content.html',
+                    controller: ModalInstanceCtrl,
+                    resolve: {
+                        items: function() {
+                            return $scope.items;
+                        }
+                    }
+                });
+
+                modalInstance.result
+                    .then(function(selectedItem) {
+                        $scope.selected = selectedItem;
+                    }, function() {
+                        $log.info('Modal dismissed at: ' + new Date());
+                    });
+            };
+
+        }
+        ModalsCtrl.$inject = ['$scope', '$modal', '$log'];
+    div(ng-controller="ModalsCtrl")
+        p
+            button.btn.btn-default(ng-click="open()") Open me!
+        p(ng-if="selected") Selected value: {{selected}}
+    </doc:source>
+</doc:example>
+
+
+@doc-component method
+@methodOf uiBootstrap.service.$modal
+@name uiBootstrap.service.$modal#open
+@param {object} options Options object. Available options are like follows:
+
+- `templateUrl`: a path to a template representing modal's content.
+- `template`: inline template representing the modal's content.
+- `scope` - a scope instance to be used for the modal's content (actually the $modal service is going to create a child scope of a provided scope). Defaults to $rootScope.
+- `controller`: a controller for a modal instance - it can initialize scope used by modal. Accepts the "controller-as" syntax, and - can be injected with $modalInstance.
+- `resolve`: members that will be resolved and passed to the controller as locals; it is equivalent of the resolve property for AngularJS routes.
+- `backdrop`: controls presence of a backdrop. Allowed values: true (default), false (no backdrop), 'static' - backdrop is present - but modal window is not closed when clicking outside of the modal window.
+- `keyboard`: indicates whether the dialog should be closable by hitting the ESC key, defaults to true.
+- `windowClass`: additional CSS class(es) to be added to a modal window template.
+- `windowTemplateUrl`: a path to a template overriding modal's window template.
+- `size`: optional size of modal window. Allowed values: 'sm' (small) or 'lg' (large).
+
+@return {object} Modal instance, an object with the following properties:
+
+- `close(result)`: a method that can be used to close a modal, passing a result.
+- `dismiss(reason)`: a method that can be used to dismiss a modal, passing a reason.
+- `result`: a promise that is resolved when a modal is closed and rejected when a modal is dismissed.
+- `opened`: a promise that is resolved when a modal gets opened after downloading content's template and resolving all variables.
+
+@description
+The `open` method returns a modal instance.

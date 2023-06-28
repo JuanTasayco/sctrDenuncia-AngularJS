@@ -1,0 +1,71 @@
+<div class="gSweetModal">
+    <button type="button" class="close g-close-modal" ng-click="closeModal()">
+        <span class="ico-mapfre_231_cancelaroff"></span>
+    </button>
+    <div class="cntContent container" ng-form="formDataModal">
+        <div class="row mb-xs-3">
+            <div class="col-xs-12">
+                <h2 class="gCGray2 gH3 g-text-uppercase">Resumen de preguntas</h2>
+            </div>
+        </div>
+        <div class="row mb-xs-2">
+            <div class="col-xs-12">
+                <mpf-select label="{label: 'Preguntas contestadas ', required: false}"
+                    name="nPreguntas"
+                    ng-model="preguntaSeleccionadaModal"
+                    text-field="ordenYDescripcion"
+                    value-field="COD_PRGNTA"
+                    m-data-source="preguntasModal"
+                    ng-required="false"
+                    ng-change="onChangePregunta(preguntaSeleccionada)">
+                </mpf-select>
+            </div>
+        </div>
+        <div class="row mb-xs-2">
+            <div class="col-xs-12">
+                <mpf-select label="{label: 'Dependientes ', required: false}"
+                    name="nDependientes"
+                    ng-model="dependienteSeleccionado"
+                    m-data-source="dependientesModal"
+                    text-field="nombreCompleto"
+                    value-field="NumeroDocumento"
+                    ng-required="false">
+                </mpf-select>
+            </div>
+        </div>
+        <div class="row" ng-repeat="grupo in preguntaSeleccionadaModal.hijosOrdenHtml">
+            <div ng-repeat="hijo in grupo">
+              <div class="col-xs-12 mb-xs-2" ng-class="{'col-sm-6 col-md-4': hijo.TIPO == questionType.input || hijo.TIPO == questionType.date  || hijo.TIPO == questionType.select}">
+                <question
+                  data="hijo"
+                  with-index="2"
+                  form="formDataModal"
+                  m-question="preguntaSeleccionadaModal.cuestionarios[dependienteSeleccionado.NumeroDocumento].respuestas[hijo.COD_PRGNTA]">
+                </question>
+              </div>
+                <div
+                  class="col-xs-12"
+                  ng-if="hijo.TIPO == questionType.input || (hijo.TIPO == questionType.radio && preguntaSeleccionadaModal.cuestionarios[dependienteSeleccionado.NumeroDocumento].respuestas[hijo.COD_PRGNTA] === answer.yes)"
+                  ng-repeat="grupoSubHijo in hijo.hijosOrdenHtml">
+                    <div class="row" ng-repeat="subHijo in grupoSubHijo">
+                        <div class="col-xs-12 mb-xs-2"
+                          ng-class="{'col-sm-6 col-md-4': subHijo.TIPO == questionType.input || subHijo.TIPO == questionType.date  || subHijo.TIPO == questionType.select}">
+                          <question
+                            data="subHijo"
+                            with-index="2"
+                            dep-order="dependienteSeleccionado.NumeroDocumento"
+                            form="formDataModal"
+                            m-question="preguntaSeleccionadaModal.cuestionarios[dependienteSeleccionado.NumeroDocumento].respuestas[subHijo.COD_PRGNTA]">
+                          </question>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-4 col-md-offset-4">
+                <a class="g-btn g-btn-verde block" ng-click="guardarCuestionarioModal()">Guardar</a>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,43 @@
+<div class="col-md-12">
+  <div class="g-list-md g-box gBgcGray5 pt-xs-1 mb-xs-1 pl-xs-1 pr-xs-1">
+    <ul class="row g-list-md">
+      <li class="col-md-12 clearfix cnt-item">
+        <div class="col-xs-5 col-md-3 item-label">
+          <span class="ico-mapfre_82_circle ico-bullet"></span>Mapfre dólares aplicados:
+        </div>
+        <div class="col-xs-7 item-dato g-text-uppercase">
+          {{vm.migracion.mDolaresAusar ? vm.migracion.mDolaresAusar : 0.0}}
+        </div>
+      </li>
+      <li class="col-md-12 clearfix cnt-item">
+        <div class="col-xs-5 col-md-3 item-label">
+          <span class="ico-mapfre_82_circle ico-bullet"></span>Importe Final:
+        </div>
+        <div class="col-xs-7 item-dato g-text-uppercase">
+          {{vm.data.ImporteTotal | currency:'S/'}}
+        </div>
+      </li>
+      <li class="col-md-12 clearfix cnt-item">
+        <div class="col-xs-5 col-md-3 item-label">
+          <span class="ico-mapfre_82_circle ico-bullet"></span>Nro. de recibos:
+        </div>
+        <div class="col-xs-7 item-dato g-text-uppercase">
+          {{vm.data.Cuotas ? vm.data.Cuotas.length : 0}}
+        </div>
+      </li>
+      <li class="col-md-12 clearfix cnt-item">
+        <div class="col-xs-5 col-md-3 item-label">
+          <span class="ico-mapfre_82_circle ico-bullet"></span>Importe por recibo:
+        </div>
+        <div class="col-xs-7 item-dato g-text-uppercase">
+          <span ng-if="vm.data.Cuotas && vm.data.Cuotas.length > 0">
+            {{vm.data.Cuotas[0].PrimaTotal | currency:'S/'}}
+          </span>
+          <span ng-if="!vm.data.Cuotas || vm.data.Cuotas.length === 0">
+            {{0 | currency:'S/'}}
+          </span>
+        </div>
+      </li>
+    </ul>
+  </div>
+</div>

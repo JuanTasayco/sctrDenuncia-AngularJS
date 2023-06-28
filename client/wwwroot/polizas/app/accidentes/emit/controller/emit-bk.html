@@ -1,0 +1,164 @@
+<section class="g-page page-accidentes-emit">
+
+  <page-title info="{title: 'Emisión póliza accidentes'}"></page-title>
+  <!-- Sección Agente -->
+<!--   <div class="g-section">
+    <div class="container">
+      <div class="row" ng-show="currentStep==1">
+        <div class="col-md-5">
+           <span ng-show="!userRoot"><h2>Agente: {{formData.claims.codigoAgente}} - {{formData.claims.nombreAgente}}</h2></span>
+
+          <mp-data-seeker ng-show="userRoot" behavior="{label:'Para cotizar una póliza debes elegir un agente', placeholder:'Busque o seleccione un agente ...', matchField:'codigoNombre'}" m-data-source="'proxyAgente.buscarAgente'" ng-model="mAgente" ng-change="saveAgent(mAgente)">
+              <div ng-bind-html="$item.codigoNombre | highlight: $select.search"></div>
+          </mp-data-seeker>
+        </div>
+      </div>
+
+      <div class="row" ng-show="currentStep!=1">
+        <div class="col-md-5">
+          <span ><h2>Agente: {{mAgente.codigoAgente}} - {{mAgente.codigoNombre}}</h2></span>
+        </div>
+      </div>
+    </div>
+  </div> -->
+  <!-- Fin Sección Agente -->
+  <!-- Steps -->
+  <wizard-stairs stairs="{steps: [{description:'Datos del contratante'},{description:'Cargar asegurados'}], stateName:'.steps', stateParameter: 'step'}" current-Step="currentStep" steping="nav.go($stepToGo)"></wizard-stairs>
+
+
+  <!--  -->
+  <div class="g-inner-section g-gray-step init-data mb-xs-3">
+    <div class="container g-datastep">
+      <div class="row">
+        <div class="col-md-12">
+          <div class="row mb-md-1">
+            <div class="col-md-8">
+              <span class="g-datastep-info-label">Nro. de cotización: </span>
+              <span class="g-datastep-info-dato">{{formData.quotationNumber}}</span>
+            </div>
+           <!--  <div class="col-md-4">
+              <span class="g-datastep-info-label">Agente: </span>
+              <span class="g-datastep-info-dato">{{formData.codigoUsuario}}</span>
+            </div> -->
+          </div>
+          <div class="row mb-md-1">
+            <div class="col-md-4 g-datastep-info">
+              <span class="g-datastep-info-label"><span class="ico-mapfre_82_circle g-datastep-info-dot"></span>Inicio vigencia: </span>
+              <span class="g-datastep-info-dato">{{formData.inicioVigencia}}</span>
+            </div>
+            <div class="col-md-4 g-datastep-info">
+              <span class="g-datastep-info-label"><span class="ico-mapfre_82_circle g-datastep-info-dot"></span>Fin vigencia: </span>
+              <span class="g-datastep-info-dato">{{formData.finVigencia}}</span>
+            </div>
+          </div>
+          <div class="row mb-md-1" ng-if="currentStep>1">
+            <div class="col-md-4 g-datastep-info">
+              <span class="g-datastep-info-label"><span class="ico-mapfre_82_circle g-datastep-info-dot"></span>Prima neta total: </span>
+              <span class="g-datastep-info-dato">{{formData.PrimaNeta | number : 2}}</span>
+            </div>
+            <div class="col-md-4 g-datastep-info">
+              <span class="g-datastep-info-label"><span class="ico-mapfre_82_circle g-datastep-info-dot"></span>Prima total (incluye IGV): </span>
+              <span class="g-datastep-info-dato">{{formData.PrimaTotal | number : 2}}</span>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+
+    <!-- Grid -->
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12">
+          <h2 class="g-sub-title red">Riesgos agregados</h2>
+        </div>
+      </div>
+    </div>
+
+    <div class=" g-summary-grid bg-white pt-xs-1 pb-xs-1 mb-xs-1" ng-repeat="riesgo in formData.riesgos">
+      <div class="container">
+        <div class="row">
+
+          <div class="col-sm-4">
+            <ul>
+              <li><span>Riesgo Nro. {{riesgo.nroRiesgo}}</span></li>
+            </ul>
+          </div>
+          <div class="col-sm-4">
+            <ul>
+              <li class="add-border">Actividad: <span>{{riesgo.actividad}}</span></li>
+              <li>Nro. de asegurados: <span>{{riesgo.numeroAseg}}</span></li>
+            </ul>
+          </div>
+          <div class="col-sm-4">
+            <ul>
+              <li class="add-border">
+                <div class="row">
+                  <div class="col-sm-7 col-xs-6">Prima net x asegurado:</div>
+                  <div class="col-sm-5 col-xs-6 text-right"><span>{{riesgo.primaNetaAseg}}</span></div>
+                </div>
+              </li>
+              <li>
+                <div class="row">
+                  <div class="col-sm-7 col-xs-6">Prima neta total:</div>
+                  <div class="col-sm-5 col-xs-6 text-right"><span>{{riesgo.primaNetaTotal}}</span></div>
+                </div>
+              </li>
+              <li class="del-border">
+                <div class="row">
+                  <div class="col-sm-7 col-xs-6"><span> Prima total (incluye IGV):</span></div>
+                  <div class="col-sm-5 col-xs-6 text-right"><span>{{riesgo.primaTotal}}</span></div>
+                </div>
+              </li>
+            </ul>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <div class="g-summary-grid bg-gray pt-xs-1 pb-xs-1">
+      <div class="container">
+        <div class="row">
+
+          <div class="col-sm-4 col-sm-offset-4">
+            <h2 class="g-sub-title green text-right">Total del período</h2>
+          </div>
+          <div class="col-sm-4">
+            <ul>
+              <li>
+                <div class="row">
+                  <div class="col-sm-7 col-xs-6">Prima neta x asegurado:</div>
+                  <div class="col-sm-5 col-xs-6 text-right"><span>{{formData.PrimaNetaIndividual | number : 2}}</span></div>
+                </div>
+              </li>
+              <li class="del-border">
+                <div class="row">
+                  <div class="col-sm-7 col-xs-6">Prima neta total:</div>
+                  <div class="col-sm-5 col-xs-6 text-right"><span>{{formData.PrimaNeta | number : 2}}</span></div>
+                </div>
+              </li>
+              <li class="del-border">
+                <div class="row">
+                  <div class="col-sm-7 col-xs-6"><span> Prima total (incluye IGV):</span></div>
+                  <div class="col-sm-5 col-xs-6 text-right"><span>{{formData.PrimaTotal | number : 2}}</span></div>
+                </div>
+              </li>
+            </ul>
+          </div>
+
+        </div>
+      </div>
+    </div>
+    <!--  -->
+
+  </div>
+
+  <form>
+    <!-- STEPS -->
+    <div id="form-views" ui-view=""></div>
+  </form>
+</section>
+
+

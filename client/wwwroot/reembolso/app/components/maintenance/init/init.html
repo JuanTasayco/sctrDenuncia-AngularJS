@@ -1,0 +1,76 @@
+<div class="container page-ejecutivo-reembolso">
+  <div class="row mt-xs-2">
+    <div class="col-xs-12 no-padding-xs">
+      <div class="col-xs-12 col-sm-4 col-md-2 col-md-offset-8 mb-xs-1 no-mb-sm">
+        <a
+          href="javascript:void(0)"
+          class="g-btn g-btn-white block"
+          ng-class="{'disabled': $ctrl.executivesListChecked.length < 1}"
+          title="Limpiar"
+          ng-click="$ctrl.onDeactivateGroup()"
+        >
+          Desactivar grupo
+        </a>
+      </div>
+      <div class="col-xs-12 col-sm-4 col-md-2">
+        <a
+          href="javascript:void(0)"
+          class="g-btn g-btn-verde block"
+          title="Buscar"
+          ng-click="$ctrl.onCreateExecutive()"
+        >
+          + Nuevo ejecutivo
+        </a>
+      </div>
+    </div>
+  </div>
+  <div
+    class="g-section-tabs tabs-responsive pt-xs-3 pb-xs-3"
+    ng-class="{'showTabs': showTabs, 'wt1200': changeTabWidth}"
+  >
+    <div class="container">
+      <span
+        class="tabs__more glyphicon glyphicon-chevron-down hidden-sm hidden-md hidden-lg"
+        ng-click="showTabs = !showTabs">
+      </span>
+      <uib-tabset justified="true">
+        <uib-tab index="0" data-ng-click="mainData.tabSelected(0)" select="$ctrl.onSelectTab(0)">
+          <uib-tab-heading><span ng-click="tabsFalse()">Ejecutivo soat</span></uib-tab-heading>
+          <div class="content-tab">
+            <div class="pt-xs-4 reembolso-maintenance">
+              <re-grid-maintenance
+                executives-list="$ctrl.soatExecutivesList"
+                on-check-callback="$ctrl.onCheckExecutive"
+                on-change-state-callback="$ctrl.onChangeExecutiveState"
+                on-edit-callback="$ctrl.onEditExecutive"
+                fn-modal="$ctrl.fnModalSoatExecutive"
+                header-table="$ctrl.headerSoatExecutiveGrid"
+                is-soat="true"
+              >
+              </re-grid-maintenance>
+            </div>
+          </div>
+        </uib-tab>
+        <uib-tab index="1" data-ng-click="mainData.tabSelected(1)" select="$ctrl.onSelectTab(1)">
+          <uib-tab-heading><span ng-click="tabsFalse()">Ejecutivo</span></uib-tab-heading>
+          <div class="content-tab">
+            <div class="pt-xs-4 reembolso-maintenance">
+              <re-grid-maintenance
+                executives-list="$ctrl.executivesList"
+                on-check-callback="$ctrl.onCheckExecutive"
+                on-change-state-callback="$ctrl.onChangeExecutiveState"
+                on-edit-callback="$ctrl.onEditExecutive"
+                fn-modal="$ctrl.fnModalExecutive"
+                header-table="$ctrl.headerExecutiveGrid"
+                is-soat="false"
+              >
+              </re-grid-maintenance>
+            </div>
+          </div>
+        </uib-tab>
+      </uib-tabset>
+    </div>
+  </div>
+</div>
+
+

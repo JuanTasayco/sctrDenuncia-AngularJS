@@ -1,0 +1,128 @@
+<section>
+
+    <div class="g-title">
+        <a class="col-md-1 gCGray3 glyphicon glyphicon-remove" style="float: right;" ng-click="$ctrl.cerrar()"></a>
+        <div class="container">
+            <div class="col-md-12">
+
+            </div>
+            <div class="row ">
+                <div class="clearfix g-list-lg">
+                    <div class="col-sm-12 clearfix cnt-item">
+
+                        <div class="col-md-2">
+                            <span style=" font-size: 30px;" class=" gCGray3 glyphicon glyphicon-user"></span>
+                        </div>
+                        <div class="col-md-8 col-xs-12 item-dato g-text-capitalize">
+                            <span style="font-weight: bold; margin-left: -90px; color: red;">
+                                {{$ctrl.data.nombre}} {{$ctrl.data.apellidoP}} {{$ctrl.data.apellidoM}}
+                                {{$ctrl.data.tipDoc}}: {{$ctrl.data.numDoc}} </span> <br>
+                            <span style="font-weight: bold; margin-left: -90px;">
+                                {{$ctrl.data.oSiteds.nomDep}} <span ng-hide="$ctrl.data.oSiteds.nomDep == null"> -
+                                </span> {{$ctrl.data.oSiteds.nomProv}}
+                            </span>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <br>
+            <div class="col-md-3  col-xs-12 clearfix">
+                <span style="font-weight: bold">Datos del asegurado</span>
+            </div>
+
+            <div class="col-md-12  col-sm-12 clearfix cnt-item g-box-content">
+                <div class=" row clearfix g-list-md">
+                    <div class="col-md-2 col-xs-12 item-label g-text-capitalize">
+                        <span class="gCGray3">parentesco</span> </br>
+                        <span style="font-weight: Bold;">
+                            {{$ctrl.data.parentesco}}</span>
+                    </div>
+                    <div class="col-md-2 col-xs-12 item-label g-text-capitalize">
+                        <span class="gCGray3">compañía</span> </br>
+                        <span style="font-weight: Bold;">
+                            {{$ctrl.data.nomCompania}}</span>
+                    </div>
+                    <div class="col-md-2 col-xs-12 item-label g-text-capitalize">
+                        <span class="gCGray3">género</span> </br>
+                        <span style="font-weight: Bold;">
+                            {{$ctrl.data.genero}}</span>
+                    </div>
+                    <div class="col-md-3 col-xs-12 item-label g-text-capitalize">
+                        <span class="gCGray3">Producto</span> </br>
+                        <span style="font-weight: Bold;">
+                            {{$ctrl.data.producto}}</span>
+                    </div>
+                    <div class="col-md-3 col-xs-12 item-label ">
+                        <span class="gCGray3">Estado</span> </br>
+                        <span style="font-weight: Bold;">
+                            {{$ctrl.data.estado}}</span>
+                    </div>
+                </div>
+                </br>
+                <div class="row clearfix g-list-md" ng-show="$ctrl.ramo == '114' || $ctrl.ramo == '115' || $ctrl.ramo == '116'">
+                    <div class="col-md-3 col-xs-12 item-label g-text-capitalize">
+                        <span class="gCGray3">{{ $ctrl.ramo == '116' ? 'Contrato' : 'Producto Salud' }}</span> </br>
+                        <span style="font-weight: Bold;">
+                            {{$ctrl.obtenerProductoContrato()}}</span>
+                    </div>
+                    <div class="col-md-3 col-xs-12 item-label g-text-capitalize">
+                        <span class="gCGray3">{{ $ctrl.ramo == '116' ? 'Sub-Contrato' : 'Sub-Producto Salud' }}</span> </br>
+                        <span style="font-weight: Bold;">
+                            {{$ctrl.obtenerSubProductoSubContrato()}}</span>
+                    </div>
+                </div>
+                </br>
+                </br>
+            </div>
+            <br>
+            <br>
+            <div class="col-md-3  col-xs-12 clearfix">
+                <span style="font-weight: bold">Datos del titular</span>
+            </div>
+
+            <div class="col-md-12  col-sm-12 clearfix cnt-item g-box-content">
+                <div class=" row clearfix g-list-md">
+                    <div class="col-md-4 col-xs-12 item-label ">
+                        <span class="gCGray3">Nombre</span> </br>
+                        <span style="font-weight: Bold;">
+                            {{$ctrl.data.nombre}} {{$ctrl.data.apellidoP}} {{$ctrl.data.apellidoM}}</span>
+                    </div>
+                    <div class="col-md-3 col-xs-12 item-label ">
+                        <span class="gCGray3">Fecha de afiliación</span> </br>
+                        <span style="font-weight: Bold;">
+                            {{$ctrl.data.oTitular.fechAfiliacion | date : "dd/MM/y"}}</span>
+                    </div>
+                    <div class="col-md-5 col-xs-12 item-label ">
+                        <span class="gCGray3">Tipo de afiliación</span> </br>
+                        <span style="font-weight: Bold;">{{$ctrl.data.oTitular.tipoAfiliacion}} </span>
+                    </div>
+
+                </div>
+                </br>
+            </div>
+            <div class="col-md-12  col-sm-12 clearfix cnt-item g-box-content">
+                <div class=" row clearfix g-list-md">
+                    <div class="col-md-6 col-xs-12 item-label ">
+                        <span class="gCGray3">Contratante</span> </br>
+                        <span style="font-weight: Bold;">
+                            {{$ctrl.data.oTitular.contratante}}</span>
+                    </div>
+                    <div class="col-md-3 col-xs-12 item-label ">
+                        <span class="gCGray3">{{$ctrl.data.oTitular.tipDocCont}}</span> </br>
+                        <span style="font-weight: Bold;">{{$ctrl.data.oTitular.numDocCont}}
+                        </span>
+                    </div>
+                    <div class="col-md-3 col-xs-12 item-label ">
+                        <span class="gCGray3">No. de contrato</span> </br>
+                        <span style="font-weight: Bold;">{{$parent.modalDetallep.numContrato}}
+                        </span>
+                    </div>
+
+                </div>
+                </br>
+            </div>
+        </div>
+    </div>
+
+</section>

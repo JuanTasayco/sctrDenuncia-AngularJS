@@ -1,0 +1,71 @@
+<div class="clearfix g-box g-overflow-hidden-xs mb-xs-2 ng-scope">
+  <div class="row pt-xs-1 gBgcGray5">
+    <ul class="clearfix g-list-sm">
+      <li class="col-md-8 col-sm-9">
+        <ul class="row">
+          <li class="col-sm-6 clearfix cnt-item">
+            <div class="col-sm-5 col-xs-4 item-label">Nro solicitud:</div>
+            <div class="col-sm-7 col-xs-8 item-dato g-text-uppercase">{{vm.documento.NumeroDocumento}}</div>
+          </li>
+          <li class="col-sm-6 clearfix cnt-item">
+            <div class="col-sm-5 col-xs-4 item-label">Fecha registro:</div>
+            <div class="col-sm-7 col-xs-8 item-dato g-text-uppercase">{{vm.documento.FechaRegistro}}</div>
+          </li>
+        </ul>
+      </li>
+      <li class="col-md-4 clearfix">
+        <div class="col-md-12 cnt-item" ng-if="vm.documento.Estado != 'EXPIRADO'">
+          <a class="g-btn g-btn-white block second-design" ng-click="vm.verCotizacion()">Ver</a>
+        </div>
+      </li>
+    </ul>
+  </div>
+  <div class="row g-box-content">
+    <ul class="clearfix g-list">
+      <li class="col-md-4 clearfix cnt-item">
+        <div class="col-sm-5 item-label">Contratante:</div>
+        <div class="col-sm-7 item-dato g-text-uppercase">{{vm.documento.Contratante}}</div>
+      </li>
+      <li class="col-md-4 clearfix cnt-item">
+        <div class="col-sm-5 item-label">Estado:</div>
+        <div class="col-sm-7 item-dato g-text-uppercase">
+          <label
+            ng-if="vm.documento.Estado === 'COTIZADO'"
+            class="text-center item-label label-state-fola bg-state-fola-cotizado"
+            >{{vm.documento.Estado}}</label
+          >
+          <label
+            ng-if="vm.documento.Estado === 'EXPIRADO'"
+            class="text-center item-label label-state-fola bg-state-fola-expirado"
+            >{{vm.documento.Estado}}</label
+          >
+          <label
+            ng-if="vm.documento.Estado === 'EMITIDO'"
+            class="text-center item-label label-state-fola bg-state-fola-emitido"
+            >{{vm.documento.Estado}}</label
+          >
+        </div>
+      </li>
+    </ul>
+
+    <ul class="learfix g-list">
+      <li class="col-md-4 clearfix cnt-item">
+        <div class="col-sm-5 item-label">Agente:</div>
+        <div class="col-sm-7 item-dato g-text-uppercase">{{vm.documento.Usuario}}</div>
+      </li>
+      <li class="col-md-8 clearfix cnt-item" ng-if="vm.isConsultaDocumento && vm.documento.Estado === 'EMITIDO'">
+        <div class="col-sm-2 item-label">Observaciones:</div>
+        <div class="col-sm-4 item-dato g-text-uppercase">
+          <ul>
+            <li ng-if="vm.cantidadPolizaGenerada > 0" class="list-observaciones color-emitido fw-700">
+              {{vm.labelPolizaGenerada}}
+            </li>
+            <li ng-if="vm.cantidadPolizaNoEmitida > 0" class="list-observaciones color-cotizado fw-700">
+              {{vm.labelPolizaNoEmitida}}
+            </li>
+          </ul>
+        </div>
+      </li>
+    </ul>
+  </div>
+</div>

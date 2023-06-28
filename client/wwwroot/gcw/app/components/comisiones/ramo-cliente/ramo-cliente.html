@@ -1,0 +1,298 @@
+<div class="consultaGestion">
+  <div class="container">
+    <div
+      show-filter
+      class="clearfix g-col-filter g-box-md gBgcGray5-md gBgcWhite1 g-myd-box"
+      ng-class="{'show': isFilterVisible}"
+    >
+      <div class="col-xs-12">
+        <div class="clearfix gH4 gCGray1 mb-xs-1-5">
+          <h2 class="hidden-xs hidden-sm"><b>Opciones de Búsqueda</b></h2>
+          <div
+            id="show-filter"
+            class="row pt-xs-2 pb-xs-2 gBgcGray5 g-border-bottom-xs hidden-md hidden-lg"
+            ng-click="toggleFilter();"
+          >
+            <div class="col-xs-10">
+              <h2><b>Opciones de Búsqueda</b></h2>
+            </div>
+            <div class="col-xs-2 g-text-right-xs">
+              <!-- ngIf: isFilterVisible --><span
+                class="glyphicon glyphicon-chevron-down ng-scope"
+                ng-if="isFilterVisible"
+              ></span
+              ><!-- end ngIf: isFilterVisible -->
+              <!-- ngIf: !isFilterVisible --><span
+                class="glyphicon glyphicon-chevron-up ng-scope"
+                ng-if="!isFilterVisible"
+              ></span
+              ><!-- end ngIf: !isFilterVisible -->
+            </div>
+            <div class="clearfix"></div>
+          </div>
+        </div>
+        <form class="clearfix" name="frmRamoCliente">
+          <div class="row h-myd--flex h-myd--flex-wrap h-myd--flex-alg-end mb-xs-2">
+            <div class="col-xs-12 col-md-3 mt-md-0 mt-xs-2 h-myd-mt--20">
+              <mpf-select
+                ng-model="vm.formRamoCliente.mCompania"
+                name="nCompania"
+                m-data-source="vm.lstCompanias"
+                label="{label: 'Compañía', required: false}"
+                text-field="Description"
+                value-field="Value"
+                m-Empty-Option="{text:'Seleccionar'}"
+                mpf-validation="required"
+              >
+              </mpf-select>
+            </div>
+            <div class="col-xs-12 col-md-3 mt-md-0 mt-xs-2 h-myd-mt--20">
+              <mpf-select
+                ng-model="vm.formRamoCliente.mRamo"
+                name="nRamo"
+                m-data-source="vm.lstRamoPorCompania"
+                label="{label: 'Ramo', required: false}"
+                text-field="ramoDescription"
+                value-field="ramoId"
+                m-Empty-Option="{text:'Seleccionar'}"
+                mpf-validation="required"
+              >
+              </mpf-select>
+            </div>
+            <div class="col-xs-12 col-md-6 mt-xs-1 mt-sm-0 no-padding-xs">
+              <gcw-cliente data="vm.formRamoCliente.Cliente"></gcw-cliente>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-offset-8 col-md-2 mb-xs-1 no-mb-md">
+              <a class="g-btn g-btn-verde second-design block"
+                ga-click
+                ga-category="'CG - Comisiones'"
+                ga-action="'MPF - Por ramo y/o cliente - Buscar'"
+                ga-label="'Botón: Buscar'"
+                ng-click="vm.buscar()">Buscar</a>
+            </div>
+            <div class="col-md-2">
+              <a class="g-btn g-btn-white second-design block" ng-click="vm.limpiar()">Limpiar</a>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- Top bar: Filtro e iconos -->
+    <div tbl-oim-topbar class="clearfix g-tbl-topbar mt-md-2 mb-md-2 mt-xs-2 mb-xs-2 width-filtro">
+      <div class="g-row-icons__box visible-xs visible-sm" ng-show="vm.totalRows >= 1">
+        <a ng-click="showFilterTopbar = !showFilterTopbar" uib-popover="Filtro" popover-trigger="'mouseenter'">
+          <span class="g-icon-box g-icon-box-md">
+            <span class="ico-mapfre ico-mapfre_203_filtro ico-filter h-myd--none"></span>
+            <span
+              class="ico-mapfre ico-mapfre-362-myd-filter ico-filter h-myd-ico--mediun h-myd--show h-oim-none"
+            ></span>
+          </span>
+        </a>
+        <a data-ng-click="exportar()" uib-popover="Exportar" popover-trigger="'mouseenter'"
+            ga-click
+            ga-category="'CG - Comisiones'"
+            ga-action="'MPF - Por ramo y/o cliente - exportar'"
+            ga-label="'Botón: exportar'">
+          <span class="g-icon-box g-icon-box-md">
+            <span class="ico-mapfre ico-mapfre_124_download ico-download h-myd--none"></span>
+            <span
+              class="ico-mapfre ico-mapfre-360-myd-export ico-download h-myd-ico--mediun h-myd--show h-oim-none"
+            ></span>
+          </span>
+        </a>
+      </div>
+      <div class="g-row-filter__box g-row-icons__box box_left hidden-xs hidden-sm" ng-show="vm.totalRows >= 1">
+        <a data-ng-click="exportar()" uib-popover="Exportar" popover-trigger="'mouseenter'"
+            ga-click
+            ga-category="'CG - Comisiones'"
+            ga-action="'MPF - Por ramo y/o cliente - exportar'"
+            ga-label="'Botón: exportar'">
+          <span class="g-icon-box g-icon-box-md">
+            <span class="ico-mapfre ico-mapfre_124_download ico-download h-myd--none"></span>
+            <span
+              class="ico-mapfre ico-mapfre-360-myd-export ico-download h-myd-ico--mediun h-myd--show h-oim-none"
+            ></span>
+          </span>
+        </a>
+      </div>
+      <div class="g-row-filter__box box_right height-xs height-sm" ng-class="{'filter__show': showFilterTopbar}">
+        <form class="clearfix" name="frmFilterRamoCliente">
+          <div class="g-filter-col g-myd-input-fetch">
+            <div class="g-inlineblock">
+              <mpf-select-horz
+                ng-model="vm.formFilterRamoCliente.desdeA"
+                name="nDesdeAnio"
+                label="{label: 'Desde', required: false}"
+                m-data-source="vm.lstAnios"
+                text-field="description"
+                value-field="value"
+                m-Empty-Option="{enterData:false}"
+              >
+              </mpf-select-horz>
+            </div>
+            <div class="g-inlineblock">
+              <mpf-select-horz
+                ng-model="vm.formFilterRamoCliente.desdeM"
+                name="nDesdeMes"
+                label="{label: '', required: false}"
+                m-data-source="vm.lstMeses"
+                text-field="description"
+                value-field="value"
+                m-Empty-Option="{enterData:false}"
+              >
+              </mpf-select-horz>
+            </div>
+          </div>
+          <div class="g-filter-col g-myd-input-fetch">
+            <div class="g-inlineblock">
+              <mpf-select-horz
+                ng-model="vm.formFilterRamoCliente.hastaA"
+                name="nHastaAnio"
+                label="{label: 'Hasta', required: false}"
+                m-data-source="vm.lstAnios"
+                text-field="description"
+                value-field="value"
+                m-Empty-Option="{enterData:false}"
+              >
+              </mpf-select-horz>
+            </div>
+            <div class="g-inlineblock">
+              <mpf-select-horz
+                ng-model="vm.formFilterRamoCliente.hastaM"
+                name="nHastaMes"
+                label="{label: '', required: false}"
+                m-data-source="vm.lstMeses"
+                text-field="description"
+                value-field="value"
+                m-Empty-Option="{enterData:false}"
+              >
+              </mpf-select-horz>
+            </div>
+          </div>
+          <div class="g-filter-col col__buttons hidden-xs hidden-sm">
+            <a class="g-btn g-btn-white block second-design " 
+            ga-click
+            ga-category="'CG - Comisiones'"
+            ga-action="'MPF - Por ramo y/o cliente - Aplicar Filtros'"
+            ga-label="'Botón: Aplicar Filtros'" ng-click="vm.buscar()">Aplicar Filtros</a>
+          </div>
+          <div class="col__buttons visible-xs visible-sm mt-xs-2">
+            <a class="g-btn g-btn-white block second-design mb-xs-2 mb-sm-0" 
+            ga-click
+            ga-category="'CG - Comisiones'"
+            ga-action="'MPF - Por ramo y/o cliente - Aplicar Filtros'"
+            ga-label="'Botón: Aplicar Filtros'" ng-click="vm.buscar()">Aplicar Filtros</a>
+            <a
+              ng-click="showFilterTopbar = !showFilterTopbar"
+              class="g-btn g-btn-white block second-design"
+              >Cerrar</a
+            >
+          </div>
+        </form>
+      </div>
+    </div>
+    <!-- Tabla -->
+
+    <div class="clearfix" ng-show="vm.totalRows >= 1">
+      <div tbl-oim class="col-xs-12 g-tbl-wrapper pl-xs-0">
+        <div class="tbl-main table__1640">
+          <ul class="tbl-header clearfix">
+            <li class="title col-14-dktp">Detalles</li>
+            <li class="title col-12-dktp">Cliente</li>
+            <li class="title col-10-dktp">Fecha de pago de OP.</li>
+            <li class="title col-7-dktp">Moneda</li>
+            <li class="title col-8-dktp text-right">Prima Neta</li>
+            <li class="title col-8-dktp text-right">% Comison</li>
+            <li class="title col-8-dktp text-right">Importe Comisión</li>
+            <li class="title col-8-dktp">Factura</li>
+            <li class="title col-8-dktp">Recibo</li>
+            <li class="title col-7-dktp">Estado</li>
+            <li class="title col-10-dktp">Fecha mov del recibo</li>
+          </ul>
+          <ul class="tbl-body clearfix">
+            <li ng-repeat="item in vm.comisionesRamoCliente">
+              <ul height-row class="tbl-row clearfix">
+                <li class="cell col-14-dktp">
+                  <span class="cell-title">{{ item.companyName }}</span>
+                  <span class="cell-label"
+                    >Nro OP :&nbsp;<span class="cell-data">{{ item.orderPayment }}</span></span
+                  >
+                  <span class="cell-label"
+                    >Póliza:&nbsp;<span class="cell-data">{{ item.policyNumber }}</span></span
+                  >
+                </li>
+                <li class="cell col-12-dktp g-text-uppercase">
+                  <span class="cell-label"
+                    ><span class="cell-data">{{ item.branchClientName }}</span></span
+                  >
+                </li>
+                <li class="cell col-10-dktp">
+                  <span class="cell-label"
+                    ><span class="cell-data">{{ item.datePaymentOperation }}</span></span
+                  >
+                </li>
+                <li class="cell col-7-dktp">
+                  <span class="cell-label"
+                    ><span class="cell-data">{{ item.coin }}</span></span
+                  >
+                </li>
+                <li class="cell col-8-dktp text-right">
+                  <span class="cell-label"
+                    ><span class="cell-data">{{ item.netPremium | number: 2 }}</span></span
+                  >
+                </li>
+                <li class="cell col-8-dktp text-right">
+                  <span class="cell-label"
+                    ><span class="cell-data">{{ item.rate }}%</span></span
+                  >
+                </li>
+                <li class="cell col-8-dktp text-right">
+                  <span class="cell-label"
+                    ><span class="cell-data">{{ item.amountMovement | number: 2 }}</span></span
+                  >
+                </li>
+                <li class="cell col-8-dktp">
+                  <span class="cell-label"
+                    ><span class="cell-data">{{ item.numberInvoice }}</span></span
+                  >
+                </li>
+                <li class="cell col-8-dktp">
+                  <span class="cell-label"
+                    ><span class="cell-data">{{ item.receiptNumber }}</span></span
+                  >
+                </li>
+                <li class="cell col-7-dktp">
+                  <span class="cell-label"
+                    ><span class="cell-data">{{ item.typeSituation }}</span></span
+                  >
+                </li>
+                <li class="cell col-10-dktp">
+                  <span class="cell-label"
+                    ><span class="cell-data">{{ item.dateMovement }}</span></span
+                  >
+                </li>
+              </ul>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <mx-paginador
+      data-datos="vm.comisionesRamoCliente"
+      data-items-x-page="vm.itemsXPagina"
+      data-msg-vacio="vm.msgVacio"
+      data-on-paginar="vm.pageChanged($event)"
+      data-pagina-actual="vm.currentPage"
+      data-total-items="vm.totalRows"
+    >
+    </mx-paginador>
+  </div>
+</div>
+
+<form id="frmExport" name="frmExport" action="{{ vm.exportURL }}" method="post" target="_blank">
+  <input type="hidden" name="JSON" value="{{ vm.downloadFile }}" />
+</form>

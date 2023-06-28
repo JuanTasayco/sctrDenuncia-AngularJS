@@ -1,0 +1,560 @@
+<section class="g-security-configuraciones">
+  <menu-security></menu-security>
+  <div class="g-title">
+    <div class="container">
+      <div class="row">
+        <div class="col-xs-12">
+          <h1>Configuraciones</h1>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Inicio Acordiones -->
+  <div class="configuraciones-body">
+    <div class="container">
+      <div class="row mb-xs-4">
+        <div class="col-xs-12" ng-form="ngFrmConfig">
+          <uib-accordion close-others="oneAtATime">
+            <div uib-accordion-group class="panel-default acordion">
+              <uib-accordion-heading>
+                <div ng-click="Acordion1()">
+                  Criterios de Seguridad<i class="pull-right i-acordion" ng-class="{'ico-mapfre_309_arrowUp': status.open1, 'ico-mapfre_308_arrowDown': !status.open1}"></i>
+                </div>
+              </uib-accordion-heading>
+              <div class="col-xs-12 panel1">
+                <div class="row row-panel-aling">
+                  <div class="col-xs-12 col-sm-8">
+                    <div class="content-outer">
+                      <div class="content-inner-middle">
+                        Rango de tiempo de actividades recientes
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-xs-12 col-sm-4">
+                    <mpf-select
+                    label="{label: 'Rango', required: false}"
+                    name="nRango"
+                    ng-model="frmConfig.mRango"
+                    m-data-source="rangoFechaData"
+                    text-field="descripcion"
+                    value-field="codigo"
+                    m-Empty-Option="{enterData: false}"
+                    ></mpf-select>
+                  </div>
+                </div>
+                <div class="row row-panel-aling">
+                  <div class="col-xs-12 col-sm-8">
+                    <div class="content-outer">
+                      <div class="content-inner-middle">
+                        Tiempo de vigencia de enlace de confirmación de cuentas
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-xs-8 col-sm-2">
+                    <mpf-input
+                    label="{label: '', required: true}"
+                    name="nNroHoras"
+                    ng-model="frmConfig.mNroHoras"
+                    ng-required="true"
+                    mpf-validation = "onlyNumber"
+                    maxlength = "frmConfig.mMaxLength"
+                    ></mpf-input>
+                    <ul class="g-error">
+                      <li ng-show="
+                      ngFrmConfig.nNroHoras.$error.required &&
+                      !ngFrmConfig.nNroHoras.$pristine"
+                      >* Este campo es obligatorio</li>
+                      <li ng-show="frmConfig.mNroHoras < 24
+                      && !ngFrmConfig.nNroHoras.$error.required"
+                      >* Debe ser mayor a 23</li>
+                    </ul>
+                  </div>
+                  <div class="col-xs-4 col-sm-2 g-col-md text-left">
+                    <div class="content-outer">
+                      <div class="content-inner-bottom">
+                        Horas
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div uib-accordion-group class="panel-default acordion" >
+              <uib-accordion-heading>
+                  <div ng-click="Acordion2()">
+                    Procesos automáticos<i class="pull-right i-acordion" ng-class="{'ico-mapfre_309_arrowUp': status.open2, 'ico-mapfre_308_arrowDown': !status.open2}"></i>
+                  </div>
+              </uib-accordion-heading>
+              <div class="col-xs-12 panel2">
+                <div class="row">
+                  <div class="col-xs-12 col-sm-8 col-md-8">
+                    <div class="row content-procesos">
+                      <div class="col-xs-3 col-sm-2 col-xs-offset-9 col-sm-offset-10 text-center">
+                        Activar
+                      </div>
+                    </div>
+                    <div class="row content-procesos">
+                      <div class="col-xs-9 col-sm-10 text-left">
+                        <p>Tiempo de baja de usuarios inactivo (Regulares: Proveedor y corredor)</p>
+                      </div>
+                      <div class="col-xs-3 col-sm-2 cont-checkbox">
+                        <mpf-checkbox
+                        name="nCheckP1"
+                        ng-model="frmConfig.mCheckP1"
+                        label=""
+                        ></mpf-checkbox>
+                      </div>
+                    </div>
+                    <div class="row content-procesos">
+                      <div class="col-xs-9 col-sm-10 text-left">
+                        <p>Creación de Cliente Persona</p>
+                      </div>
+                      <div class="col-xs-3 col-sm-2 cont-checkbox">
+                        <mpf-checkbox
+                        name="nCheckP2"
+                        ng-model="frmConfig.mCheckP2"
+                        label=""
+                        ></mpf-checkbox>
+                      </div>
+                    </div>
+                    <div class="row content-procesos">
+                      <div class="col-xs-9 col-sm-10 text-left">
+                        <p>Creación de Corredor (Administrador)</p>
+                      </div>
+                      <div class="col-xs-3 col-sm-2 cont-checkbox">
+                        <mpf-checkbox
+                        name="nCheckP3"
+                        ng-model="frmConfig.mCheckP3"
+                        label=""
+                        ></mpf-checkbox>
+                      </div>
+                    </div>
+                    <div class="row content-procesos">
+                      <div class="col-xs-9 col-sm-10 text-left">
+                        <p>Creación de Proveedor (Administrador)</p>
+                      </div>
+                      <div class="col-xs-3 col-sm-2 cont-checkbox">
+                        <mpf-checkbox
+                        name="nCheckP7"
+                        ng-model="frmConfig.mCheckP7"
+                        label=""
+                        ></mpf-checkbox>
+                      </div>
+                    </div>
+                    <div class="row content-procesos">
+                      <div class="col-xs-9 col-sm-10 text-left">
+                        <p>Creación de Cliente Empresa (Administrador)</p>
+                      </div>
+                      <div class="col-xs-3 col-sm-2 cont-checkbox">
+                        <mpf-checkbox
+                        name="nCheckP4"
+                        ng-model="frmConfig.mCheckP4"
+                        label=""
+                        ></mpf-checkbox>
+                      </div>
+                    </div>
+                    <div class="row content-procesos">
+                      <div class="col-xs-9 col-sm-10 text-left">
+                        <p>Baja de Corredor (Regular)</p>
+                      </div>
+                      <div class="col-xs-3 col-sm-2 cont-checkbox">
+                        <mpf-checkbox
+                        name="nCheckP5"
+                        ng-model="frmConfig.mCheckP5"
+                        label=""
+                        ></mpf-checkbox>
+                      </div>
+                    </div>
+                    <div class="row content-procesos">
+                      <div class="col-xs-9 col-sm-10 text-left">
+                        <p>Baja de Proveedor (Regular)</p>
+                      </div>
+                      <div class="col-xs-3 col-sm-2 cont-checkbox">
+                        <mpf-checkbox
+                        name="nCheckP6"
+                        ng-model="frmConfig.mCheckP6"
+                        label=""
+                        ></mpf-checkbox>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-xs-12 col-sm-4 col-md-4 cont-meses">
+                    <div class="col-xs-8" ng-if="!frmConfig.mCheckP1">
+                      <mpf-input
+                      label=""
+                      name="nNroMeses"
+                      ng-model="frmConfig.mNroMeses"
+                      ng-required="false"
+                      mpf-validation = "onlyNumber"
+                      maxlength="frmConfig.mMaxLength"
+                      ></mpf-input>
+                      <ul class="g-error">
+                        <li ng-show="frmConfig.mNroMeses >= 1
+                        && !frmConfig.mCheckP1
+                        && !ngFrmConfig.nCheckP1.$pristine"
+                        >* Debe marcar la casilla de verificación</li>
+                      </ul>
+                    </div>
+                    <div class="col-xs-8" ng-if="frmConfig.mCheckP1">
+                      <mpf-input
+                      label=""
+                      name="nNroMeses"
+                      ng-model="frmConfig.mNroMeses"
+                      ng-required="true"
+                      mpf-validation = "onlyNumber"
+                      maxlength = "frmConfig.mMaxLength"
+                      ></mpf-input>
+                      <ul class="g-error">
+                        <li ng-show="ngFrmConfig.nNroMeses.$error.required
+                        && !ngFrmConfig.nNroHoras.$pristine"
+                        >* Este campo es obligatorio</li>
+                        <li ng-show="frmConfig.mNroMeses <= 0
+                        && !ngFrmConfig.nNroMeses.$pristine"
+                        >* Debe ingresar un valor mayor a cero</li>
+                      </ul>
+                    </div>
+                    <div class="col-xs-4 text-center cont-meses-inner">
+                      <div class="content-outer">
+                        <div class="content-inner-bottom">
+                          Meses
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div uib-accordion-group class="panel-default acordion">
+              <uib-accordion-heading>
+                <div ng-click="Acordion3()">
+                  Distribución de mensajeria<i class="pull-right i-acordion" ng-class="{'ico-mapfre_309_arrowUp': status.open3, 'ico-mapfre_308_arrowDown': !status.open3}"></i>
+                </div>
+              </uib-accordion-heading>
+              <div class="col-xs-12 panel3">
+                <div class="row">
+                  <div class="col-xs-12 col-sm-12 col-md-12">
+                    <div class="row content-mensajeria">
+                      <div class="col-xs-3 col-sm-2 col-xs-offset-9 col-sm-offset-7 text-center">
+                        Activar
+                      </div>
+                      <div class="col-xs-3 col-sm-3 text-center hidden-xs">
+                        Correo
+                      </div>
+                    </div>
+                    <div class="row content-mensajeria">
+                      <div class="row">
+                        <div class="col-xs-12">
+                          <h3>Altas</h3>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="col-xs-9 col-sm-7 text-left mt-sm-25">
+                          <p>Emails destino (separados por comas)</p>
+                        </div>
+                        <div class="col-xs-3 col-sm-2 cont-checkbox mt-sm-25">
+                          <mpf-checkbox
+                          name="nCheckM1"
+                          ng-model="frmConfig.mCheckM1"
+                          label=""
+                          ></mpf-checkbox>
+                        </div>
+                        <div class="col-xs-12 col-sm-3 cont-input">
+                          <span for="nCorreoM1">Correo</span>
+                          <mpf-textarea
+                          label="{label: ''}"
+                          name="nCorreoM1"
+                          ng-model="frmConfig.mCorreoM1"
+                          mpf-validation = "moreOneEmail"
+                          ng-required = "frmConfig.mCheckM1"
+                          ></mpf-textarea>
+                          <ul class="g-error" ng-if="frmConfig.mCheckM1">
+                            <li ng-show="ngFrmConfig.nCorreoM1.$error.required
+                            && !ngFrmConfig.nCorreoM1.$pristine"
+                            >* Este campo es obligatorio</li>
+                            <li ng-show="ngFrmConfig.nCorreoM1.$error.moreOneEmail
+                            && !ngFrmConfig.nCorreoM1.$pristine"
+                            >* Correo inválido</li>
+                          </ul>
+                          <ul class="g-error" ng-if="!frmConfig.mCheckM1">
+                            <li ng-show="frmConfig.mCorreoM1 != ''"
+                            >* Debe activar la casilla</li>
+                          </ul>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="col-xs-9 col-sm-7 text-left mt-sm-25">
+                          <p>Emails con copia (separados por comas)</p>
+                        </div>
+                        <div class="col-xs-3 col-sm-2 cont-checkbox mt-sm-25">
+                          <mpf-checkbox
+                          name="nCheckM2"
+                          ng-model="frmConfig.mCheckM2"
+                          label=""
+                          ></mpf-checkbox>
+                        </div>
+                        <div class="col-xs-12 col-sm-3 cont-input">
+                          <span for="nCorreoM2">Correo</span>
+                          <mpf-textarea
+                          label="{label: ''}"
+                          name="nCorreoM2"
+                          ng-model="frmConfig.mCorreoM2"
+                          mpf-validation = "moreOneEmail"
+                          ng-required = "frmConfig.mCheckM2"
+                          ></mpf-textarea>
+                          <ul class="g-error" ng-if="frmConfig.mCheckM2">
+                            <li ng-show="ngFrmConfig.nCorreoM2.$error.required
+                            && !ngFrmConfig.nCorreoM2.$pristine"
+                            >* Este campo es obligatorio</li>
+                            <li ng-show="ngFrmConfig.nCorreoM2.$error.moreOneEmail
+                            && !ngFrmConfig.nCorreoM2.$pristine"
+                            >* Correo inválido</li>
+                          </ul>
+                          <ul class="g-error" ng-if="!frmConfig.mCheckM2">
+                            <li ng-show="frmConfig.mCorreoM2 != ''"
+                            >* Debe activar la casilla</li>
+                          </ul>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row content-mensajeria">
+                      <div class="row">
+                        <div class="col-xs-12">
+                          <h3>Modificaciones</h3>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="col-xs-9 col-sm-7 text-left mt-sm-25">
+                          <p>Emails destino (separados por comas)</p>
+                        </div>
+                        <div class="col-xs-3 col-sm-2 cont-checkbox mt-sm-25">
+                          <mpf-checkbox
+                          name="nCheckM3"
+                          ng-model="frmConfig.mCheckM3"
+                          label=""
+                          ></mpf-checkbox>
+                        </div>
+                        <div class="col-xs-12 col-sm-3 cont-input">
+                          <span for="nCorreoM3">Correo</span>
+                          <mpf-textarea
+                          label="{label: '', required:false}"
+                          name="nCorreoM3"
+                          ng-model="frmConfig.mCorreoM3"
+                          mpf-validation = "moreOneEmail"
+                          ng-required = "frmConfig.mCheckM3"
+                          ></mpf-textarea>
+                          <ul class="g-error" ng-if="frmConfig.mCheckM3">
+                            <li ng-show="ngFrmConfig.nCorreoM3.$error.required
+                            && !ngFrmConfig.nCorreoM3.$pristine"
+                            >* Este campo es obligatorio</li>
+                            <li ng-show="ngFrmConfig.nCorreoM3.$error.moreOneEmail
+                            && !ngFrmConfig.nCorreoM3.$pristine"
+                            >* Correo inválido</li>
+                          </ul>
+                          <ul class="g-error" ng-if="!frmConfig.mCheckM3">
+                            <li ng-show="frmConfig.mCorreoM3 != ''"
+                            >* Debe activar la casilla</li>
+                          </ul>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="col-xs-9 col-sm-7 text-left mt-sm-25">
+                          <p>Emails con copia (separados por comas)</p>
+                        </div>
+                        <div class="col-xs-3 col-sm-2 cont-checkbox mt-sm-25">
+                          <mpf-checkbox
+                          name="nCheckM4"
+                          ng-model="frmConfig.mCheckM4"
+                          label=""
+                          ></mpf-checkbox>
+                        </div>
+                        <div class="col-xs-12 col-sm-3 cont-input">
+                          <span for="nCorreoM4">Correo</span>
+                          <mpf-textarea
+                          label="{label: ''}"
+                          name="nCorreoM4"
+                          ng-model="frmConfig.mCorreoM4"
+                          mpf-validation = "moreOneEmail"
+                          ng-required = "frmConfig.mCheckM4"
+                          ></mpf-textarea>
+                          <ul class="g-error" ng-if="frmConfig.mCheckM4">
+                            <li ng-show="ngFrmConfig.nCorreoM4.$error.required
+                            && !ngFrmConfig.nCorreoM4.$pristine"
+                            >* Este campo es obligatorio</li>
+                            <li ng-show="ngFrmConfig.nCorreoM4.$error.moreOneEmail
+                            && !ngFrmConfig.nCorreoM4.$pristine"
+                            >* Correo inválido</li>
+                          </ul>
+                          <ul class="g-error" ng-if="!frmConfig.mCheckM4">
+                            <li ng-show="frmConfig.mCorreoM4 != ''"
+                            >* Debe activar la casilla</li>
+                          </ul>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row content-mensajeria">
+                      <div class="row">
+                        <div class="col-xs-12">
+                          <h3>Bajas</h3>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="col-xs-9 col-sm-7 text-left mt-sm-25">
+                          <p>Emails destino (separados por comas)</p>
+                        </div>
+                        <div class="col-xs-3 col-sm-2 cont-checkbox mt-sm-25">
+                          <mpf-checkbox
+                          name="nCheckM5"
+                          ng-model="frmConfig.mCheckM5"
+                          label=""
+                          ></mpf-checkbox>
+                        </div>
+                        <div class="col-xs-12 col-sm-3 cont-input">
+                          <span for="nCorreoM5">Correo</span>
+                          <mpf-textarea
+                          label="{label: ''}"
+                          name="nCorreoM5"
+                          ng-model="frmConfig.mCorreoM5"
+                          mpf-validation = "moreOneEmail"
+                          ng-required = "frmConfig.mCheckM5"
+                          ></mpf-textarea>
+                          <ul class="g-error" ng-if="frmConfig.mCheckM5">
+                            <li ng-show="ngFrmConfig.nCorreoM5.$error.required
+                            && !ngFrmConfig.nCorreoM5.$pristine"
+                            >* Este campo es obligatorio</li>
+                            <li ng-show="ngFrmConfig.nCorreoM5.$error.moreOneEmail
+                            && !ngFrmConfig.nCorreoM5.$pristine"
+                            >* Correo inválido</li>
+                          </ul>
+                          <ul class="g-error" ng-if="!frmConfig.mCheckM5">
+                            <li ng-show="frmConfig.mCorreoM5 != ''"
+                            >* Debe activar la casilla</li>
+                          </ul>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="col-xs-9 col-sm-7 text-left mt-sm-25">
+                          <p>Emails con copia (separados por comas)</p>
+                        </div>
+                        <div class="col-xs-3 col-sm-2 cont-checkbox mt-sm-25">
+                          <mpf-checkbox
+                          name="nCheckM6"
+                          ng-model="frmConfig.mCheckM6"
+                          label=""
+                          ></mpf-checkbox>
+                        </div>
+                        <div class="col-xs-12 col-sm-3 cont-input">
+                          <span for="nCorreoM6">Correo</span>
+                          <mpf-textarea
+                          label="{label: ''}"
+                          name="nCorreoM6"
+                          ng-model="frmConfig.mCorreoM6"
+                          mpf-validation = "moreOneEmail"
+                          ng-required = "frmConfig.mCheckM6"
+                          ></mpf-textarea>
+                          <ul class="g-error" ng-if="frmConfig.mCheckM6">
+                            <li ng-show="ngFrmConfig.nCorreoM6.$error.required
+                            && !ngFrmConfig.nCorreoM6.$pristine"
+                            >* Este campo es obligatorio</li>
+                            <li ng-show="ngFrmConfig.nCorreoM6.$error.moreOneEmail
+                            && !ngFrmConfig.nCorreoM6.$pristine"
+                            >* Correo inválido</li>
+                          </ul>
+                          <ul class="g-error" ng-if="!frmConfig.mCheckM6">
+                            <li ng-show="frmConfig.mCorreoM6 != ''"
+                            >* Debe activar la casilla</li>
+                          </ul>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row content-mensajeria">
+                      <div class="row">
+                        <div class="col-xs-12">
+                          <h3>Cambio de contraseña</h3>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="col-xs-9 col-sm-7 text-left mt-sm-25">
+                          <p>Emails destino (separados por comas)</p>
+                        </div>
+                        <div class="col-xs-3 col-sm-2 cont-checkbox mt-sm-25">
+                          <mpf-checkbox
+                          name="nCheckM7"
+                          ng-model="frmConfig.mCheckM7"
+                          label=""
+                          ></mpf-checkbox>
+                        </div>
+                        <div class="col-xs-12 col-sm-3 cont-input">
+                          <span for="nCorreoM7">Correo</span>
+                          <mpf-textarea
+                          label="{label: ''}"
+                          name="nCorreoM7"
+                          ng-model="frmConfig.mCorreoM7"
+                          mpf-validation = "moreOneEmail"
+                          ng-required = "frmConfig.mCheckM7"
+                          ></mpf-textarea>
+                          <ul class="g-error" ng-if="frmConfig.mCheckM7">
+                            <li ng-show="ngFrmConfig.nCorreoM7.$error.required
+                            && !ngFrmConfig.nCorreoM7.$pristine"
+                            >* Este campo es obligatorio</li>
+                            <li ng-show="ngFrmConfig.nCorreoM7.$error.moreOneEmail
+                            && !ngFrmConfig.nCorreoM7.$pristine"
+                            >* Correo inválido</li>
+                          </ul>
+                          <ul class="g-error" ng-if="!frmConfig.mCheckM7">
+                            <li ng-show="frmConfig.mCorreoM7 != ''"
+                            >* Debe activar la casilla</li>
+                          </ul>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="col-xs-9 col-sm-7 text-left mt-sm-25">
+                          <p>Emails con copia (separados por comas)</p>
+                        </div>
+                        <div class="col-xs-3 col-sm-2 cont-checkbox mt-sm-25">
+                          <mpf-checkbox
+                          name="nCheckM8"
+                          ng-model="frmConfig.mCheckM8"
+                          label=""
+                          ></mpf-checkbox>
+                        </div>
+                        <div class="col-xs-12 col-sm-3 cont-input">
+                          <span for="nCorreoM8">Correo</span>
+                          <mpf-textarea
+                          label="{label: ''}"
+                          name="nCorreoM8"
+                          ng-model="frmConfig.mCorreoM8"
+                          mpf-validation = "moreOneEmail"
+                          ng-required = "frmConfig.mCheckM8"
+                          ></mpf-textarea>
+                          <ul class="g-error" ng-if="frmConfig.mCheckM8">
+                            <li ng-show="ngFrmConfig.nCorreoM8.$error.required
+                            && !ngFrmConfig.nCorreoM8.$pristine"
+                            >* Este campo es obligatorio</li>
+                            <li ng-show="ngFrmConfig.nCorreoM8.$error.moreOneEmail
+                            && !ngFrmConfig.nCorreoM8.$pristine"
+                            >* Correo inválido</li>
+                          </ul>
+                          <ul class="g-error" ng-if="!frmConfig.mCheckM8">
+                            <li ng-show="frmConfig.mCorreoM8 != ''"
+                            >* Debe activar la casilla</li>
+                          </ul>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </uib-accordion>
+        </div>
+      </div>
+      <div class="row mb-xs-4">
+        <div class="col-md-4 col-md-offset-4 col-sm-6 col-sm-offset-3">
+          <a class="g-btn g-btn-verde second-design block" ng-click="fnSaveConfig()">
+            Guardar cambios
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,160 @@
+<title-section title="Renovación"></title-section>
+<div class="container">
+    <div class="g-title g-border-bottom">
+      <div class="row h-myd--flex h-myd--flex-alg-center h-myd--flex-wrap">
+        <div class="col-xs-12 col-sm-8">
+          <h1 class="ng-binding">Consulta de Póliza Renovación</h1>
+        </div>
+        <div class="col-xs-12 col-sm-4 g-text-right-sm hidden-sm hidden-xs">
+          <a href="/#/">
+            <span class="g-link gCGray3">
+              <i class="icon ico-mapfre_310_arrowLeft"></i>
+              <b>Volver a OIM</b>
+            </span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+<div class="g-section-inner" ng-class="{'fixed-margin': boolChangeClass}">
+    <div class="container">
+        <div class="row">
+            <!-- Filtro -->
+            <div class="col-md-3 mb-md-2">
+                    <mpf-filtro-renovacion ng-load="vm.obtenerPolizas($event)" ng-limpiar="vm.limpiarResultados()"></mpf-filtro-renovacion>
+            </div>
+            <!-- Resultados -->
+            <div class="col-md-9 mb-xs-2">
+                <!-- Si hay data vacía en el request -->
+                <div class="row">
+                    <div class="col-md-9 renovacion__title">
+                        <h1>Pólizas</h1>
+                        <p> {{vm.total}} resultados</p>
+                    </div>
+                </div>
+               
+                <div  ng-if="vm.polizas" class="clearfix">
+                    <!-- header -->
+                    <div ng-repeat="poliza in vm.polizas" class="clearfix g-box g-overflow-hidden-xs pb-xs-1 tag-solicitudes gBgcGray5 pt-xs-1 mt-xs-2">
+                        <ul class="clearfix g-list-sm">
+                            <li class="col-xs-12 col-sm-4 clearfix cnt-item h-myd-mt--10">
+                                <div class="row">
+                                    <div>
+                                        <div class="col-sm-7 pt-xs-1 pb-xs-1 item-label gH4 h-myd--fz13">Póliza:</div>
+                                        <div class="col-sm-5 pt-xs-1 pb-xs-1 h-myd-mb--5">
+                                            <span class="">{{poliza.numPoliza}}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div>
+                                        <div class="col-sm-7 pt-xs-1 pb-xs-1 item-label gH4 h-myd--fz13">Fec Efecto:
+                                        </div>
+                                        <div class="col-sm-5 pt-xs-1 pb-xs-1 h-myd-mb--5">
+                                            <span class="">{{poliza.fecEfecPoliza}}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div>
+                                        <div class="col-sm-7 pt-xs-1 pb-xs-1 item-label gH4 h-myd--fz13">Estado Póliza:
+                                        </div>
+                                        <div class="col-sm-5 pt-xs-1 pb-xs-1 h-myd-mb--5">
+                                            <span  ng-class="{'renovacion__vigente': poliza.estadoPoliza == 'VIGENTE',
+                                            'renovacion__pendienteRenovar':  poliza.estadoPoliza == 'PDE_RNV',
+                                            'renovacion__preRenovar': poliza.estadoPoliza == 'PRE_RNVD',
+                                            'renovacion__renovar': poliza.estadoPoliza == 'RENOVADA',
+                                            'renovacion__ninguno': (poliza.estadoPoliza != 'PDE_RNV' && poliza.estadoPoliza != 'PRE_RNVD' && poliza.estadoPoliza != 'RENOVADA' && poliza.estadoPoliza != 'VIGENTE')}">{{poliza.estadoPoliza}}</span>
+                                    
+                                            <span ng-if="poliza.mcaProvisional == 'S'">(Prov.)</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="col-xs-12 col-sm-4 clearfix cnt-item h-myd-mt--10">
+                                <div class="row">
+                                    <div>
+                                        <div class="col-sm-7 pt-xs-1 pb-xs-1 item-label gH4 h-myd--fz13">Agente:</div>
+                                        <div class="col-sm-5 pt-xs-1 pb-xs-1 h-myd-mb--5">
+                                            <span class="">{{poliza.nombreCompletoAgente}}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div>
+                                        <div class="col-sm-7 pt-xs-1 pb-xs-1 item-label gH4 h-myd--fz13">Fec Vcto:</div>
+                                        <div class="col-sm-5 pt-xs-1 pb-xs-1 h-myd-mb--5">
+                                            <span class="">{{poliza.fecVctoPoliza}}</span>
+                                            
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div>
+                                        <div class="col-sm-7 pt-xs-1 pb-xs-1 item-label gH4 h-myd--fz13">Est.
+                                            renovación:</div>
+                                        <div class="col-sm-5 pt-xs-1 pb-xs-1 h-myd-mb--5">
+                                            <span  ng-class="{'renovacion__vigente': poliza.codEstadoRenovacion == 'VIGENTE',
+                                            'renovacion__pendienteRenovar':  poliza.codEstadoRenovacion == 'PDE_RNV',
+                                            'renovacion__preRenovar': poliza.codEstadoRenovacion == 'PRE_RNVD',
+                                            'renovacion__renovar': poliza.codEstadoRenovacion == 'RENOVADA',
+                                            'renovacion__ninguno': (poliza.codEstadoRenovacion != 'PDE_RNV' && poliza.codEstadoRenovacion != 'PRE_RNVD' && poliza.codEstadoRenovacion != 'RENOVADA' && poliza.codEstadoRenovacion != 'VIGENTE')}">{{poliza.codEstadoRenovacion}}</span>
+                                            
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="col-xs-12 col-sm-4 clearfix cnt-item h-myd-mt--10">
+                                <div class="row">
+                                    <div>
+                                        <div class="col-sm-7 pt-xs-1 pb-xs-1 item-label gH4 h-myd--fz13">Cliente:</div>
+                                        <div class="col-sm-5 pt-xs-1 pb-xs-1 h-myd-mb--5">
+                                            <span class="">{{poliza.cliente}}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div>
+                                        <div class="col-sm-7 pt-xs-1 pb-xs-1 item-label gH4 h-myd--fz13">Segmento:</div>
+                                        <div class="col-sm-5 pt-xs-1 pb-xs-1 h-myd-mb--5">
+                                            <span class="">{{poliza.segmentoCliente}}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div>
+                                        <div class="col-sm-7 pt-xs-1 pb-xs-1 item-label gH4 h-myd--fz13">Días Vcto:
+                                        </div>
+                                        <div class="col-sm-5 pt-xs-1 pb-xs-1 h-myd-mb--5">
+                                            <span class="">{{poliza.numDiasVencimiento}}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                        <div class="row ml-xs-2 mr-xs-2 mb-xs-2">
+                            <div class="col-md-4 grid-elegido-btns-box">
+                                <a 
+                                ng-class ="{'disabled':!vm.validarSegmento(poliza.segmentoCliente)}"
+                                style="width: 100%;" ng-click="vm.goToProcesar(poliza)" class="g-btn g-btn-verde">Procesar</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row grid-pagination" ng-if="vm.total > vm.paginacion.cantidadPorPagina">
+        <div class="col-md-6 col-md-offset-3">
+          <ul
+            uib-pagination
+            class="g-pagination"
+            ng-model="vm.paginaActual"
+            max-size="10"
+            total-items="vm.total"
+            ng-change="vm.changePage(vm.paginaActual)"
+            boundary-link-numbers="true"
+          ></ul>
+        </div>
+      </div>
+</div>

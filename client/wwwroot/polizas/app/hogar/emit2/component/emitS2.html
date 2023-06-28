@@ -1,0 +1,281 @@
+<div class="g-page">
+  <div>
+    <page-title info="{title: 'Emisión póliza hogar'}" class="ng-isolate-scope"></page-title>
+    <wizard-stairs
+      stairs="{steps: [{description:'Datos de la póliza'},{description:'Datos del contratante'},{description:'Emitir póliza'}], stateName:'.steps', stateParameter: 'step'}"
+      current-Step="2"
+      steping="_steping($stepToGo)"
+    ></wizard-stairs>
+  </div>
+
+  <div class="second-step">
+    <div class="g-sec-information">
+      <div class="sec-item h-myd-pt--30 h-myd-pb--30 h-myd-bg--gray4">
+        <div class="container">
+          <!-- Producto -->
+          <ul class="row cnt-title h-myd-mb--20">
+            <li class="col-xs-12 item-title g-myd-subtitle gH4 mb-xs-1">
+              Nro. Cotización {{ secondStep.dataStepOne.NumeroDocumento }}
+            </li>
+          </ul>
+          <!-- Datos de la cotización -->
+          <ul class="row cnt-title h-myd-mb--20">
+            <li class="col-xs-12 item-title g-myd-subtitle g-border-bottom-xs gH4 h-myd-border--bottom-0">
+              Datos de la cotización
+            </li>
+          </ul>
+          <ul class="row h-myd-mb--20 mb-xs-1">
+            <li class="col-md-4 clearfix cnt-item h-myd-pl--0">
+              <div class="col-xs-6 item-label">
+                <span class="ico-mapfre_82_circle ico-bullet"></span>Ubicación del inmueble:
+              </div>
+              <div class="col-xs-6 item-dato g-text-uppercase">
+                {{
+                  secondStep.dataStepOne.Contratante.Ubigeo.NombreDepartamento +
+                    ', ' +
+                    secondStep.dataStepOne.Contratante.Ubigeo.NombreProvincia +
+                    ', ' +
+                    secondStep.dataStepOne.Contratante.Ubigeo.NombreDistrito
+                }}
+              </div>
+            </li>
+            <li class="col-md-4 clearfix cnt-item h-myd-pl--0">
+              <div class="col-xs-6 item-label">
+                <span class="ico-mapfre_82_circle ico-bullet"></span>Año de construcción:
+              </div>
+              <div class="col-xs-6 item-dato g-text-uppercase">{{ secondStep.dataStepOne.Hogar.AnioInmueble }}</div>
+            </li>
+            <li class="col-md-4 clearfix cnt-item h-myd-pl--0">
+              <div class="col-xs-6 item-label"><span class="ico-mapfre_82_circle ico-bullet"></span>Categoría:</div>
+              <div class="col-xs-6 item-dato g-text-uppercase">{{ secondStep.dataStepOne.Hogar.NombreCategoria }}</div>
+            </li>
+          </ul>
+          <ul class="row h-myd-mb--20 mb-xs-1" ng-if="secondStep.dataStepOne.Hogar.CodigoModalidad == 31">
+            <li class="col-md-4 clearfix cnt-item h-myd-pl--0">
+              <div class="col-xs-6 item-label">
+                <span class="ico-mapfre_82_circle ico-bullet"></span>Cobertura de aseguramiento:
+              </div>
+              <div class="col-xs-6 item-dato g-text-uppercase">
+                {{
+                  'Edificación' +
+                    (secondStep.dataStepOne.Hogar.ValoresDeclarados.ValorContenido > 0 ? ', Contenido' : '') +
+                    (secondStep.dataStepOne.Hogar.ValoresDeclarados.ValorObjetosValiosos > 0 ? ', Obj Valiosos' : '')
+                }}
+              </div>
+            </li>
+            <li class="col-md-4 clearfix cnt-item h-myd-pl--0">
+              <div class="col-xs-6 item-label">
+                <span class="ico-mapfre_82_circle ico-bullet"></span>Valor del inmueble:
+              </div>
+              <div class="col-xs-6 item-dato g-text-uppercase">
+                {{
+                  secondStep.dataStepOne.Hogar.ValoresDeclarados.ValorContenido +
+                    secondStep.dataStepOne.Hogar.ValoresDeclarados.ValorEdificacion +
+                    secondStep.dataStepOne.Hogar.ValoresDeclarados.ValorObjetosValiosos +
+                    secondStep.dataStepOne.Hogar.ValoresDeclarados.ImporteContenidoRobo +
+                    secondStep.dataStepOne.Hogar.ValoresDeclarados.ImporteObjetosValiososRobo
+                    | currency: (secondStep.dataStepOne.CodigoMoneda == '1' ? 'S/ ' : '$ ')
+                }}
+              </div>
+            </li>
+            <li class="col-md-4 clearfix cnt-item">
+              <div class="col-sm-5 item-label">
+                <span class="ico-mapfre_82_circle ico-bullet"></span>Dcto. Integralidad
+              </div>
+              <div class="col-sm-7 item-dato">{{ secondStep.dataStepOne.PorDctoIntgPlaza }} %</div>
+            </li>
+          </ul>
+          <!-- Datos de la Alarma -->
+          <ul class="row cnt-title h-myd-mb--20">
+            <li class="col-xs-12 item-title g-myd-subtitle g-border-bottom-xs gH4 h-myd-border--bottom-0">
+              Datos de la alarma
+            </li>
+          </ul>
+          <ul class="row">
+            <li class="col-md-4 clearfix cnt-item h-myd-pl--0">
+              <div class="col-xs-6 item-label">
+                <span class="ico-mapfre_82_circle ico-bullet"></span>Servicio de alarma y monitoreo:
+              </div>
+              <div class="col-xs-6 item-dato g-text-uppercase">
+                {{ secondStep.dataStepOne.Hogar.FlagAlarmaMonitoreo == 'S' ? 'Si' : 'No' }}
+              </div>
+            </li>
+            <li class="col-md-4 clearfix cnt-item h-myd-pl--0">
+              <div class="col-xs-6 item-label">
+                <span class="ico-mapfre_82_circle ico-bullet"></span>Marca Kit Smart:
+              </div>
+              <div class="col-xs-6 item-dato g-text-uppercase">
+                {{ secondStep.dataStepOne.Hogar.McaKitSmart == 'S' ? 'Si' : 'No' }}
+              </div>
+            </li>
+            <li class="col-md-4 clearfix cnt-item h-myd-pl--0">
+              <div class="col-xs-6 item-label">
+                <span class="ico-mapfre_82_circle ico-bullet"></span>Tipo de comunicación:
+              </div>
+              <div class="col-xs-6 item-dato g-text-uppercase">
+                {{
+                  secondStep.dataStepOne.Hogar.FlagTipoComunicacion
+                    ? secondStep.dataStepOne.Hogar.NombreTipoComunicacion
+                    : 'No'
+                }}
+              </div>
+            </li>
+          </ul>
+          <ul class="row h-myd-mb--20 mb-xs-1">
+            <li class="col-md-4 clearfix cnt-item h-myd-pl--0">
+              <div class="col-xs-6 item-label">
+                <span class="ico-mapfre_82_circle ico-bullet"></span>Marca Video Web:
+              </div>
+              <div class="col-xs-6 item-dato g-text-uppercase">
+                {{ secondStep.dataStepOne.Hogar.FlagVideoWeb == 'S' ? 'Si' : 'No' }}
+              </div>
+            </li>
+            <li class="col-md-4 clearfix cnt-item h-myd-pl--0">
+              <div class="col-xs-6 item-label">
+                <span class="ico-mapfre_82_circle ico-bullet"></span>LLavero médico/Imagen plus:
+              </div>
+              <div class="col-xs-6 item-dato g-text-uppercase">
+                {{ secondStep.dataStepOne.Hogar.FlagPulsadorMedico == 'S' ? 'Si' : 'No' }}
+              </div>
+            </li>
+          </ul>
+          <!-- Datos de la prima -->
+          <ul class="row cnt-title h-myd-mb--20">
+            <li class="col-xs-12 item-title g-myd-subtitle g-border-bottom-xs gH4 h-myd-border--bottom-0">
+              Datos de la prima
+            </li>
+          </ul>
+          <ul class="row">
+            <li class="col-md-4 clearfix cnt-item h-myd-pl--0">
+              <div class="col-xs-6 item-label"><span class="ico-mapfre_82_circle ico-bullet"></span>Prima neta:</div>
+              <div class="col-xs-6 item-dato g-text-uppercase">
+                {{
+                  secondStep.dataStepOne.Hogar.ImporteNeta + secondStep.dataStepOne.Hogar.ImporteRecargo
+                    | currency: (secondStep.dataStepOne.CodigoMoneda == '1' ? 'S/ ' : '$ ')
+                }}
+              </div>
+            </li>
+            <li class="col-md-4 clearfix cnt-item h-myd-pl--0">
+              <div class="col-xs-6 item-label">
+                <span class="ico-mapfre_82_circle ico-bullet"></span>Derecho emisión:
+              </div>
+              <div class="col-xs-6 item-dato g-text-uppercase">
+                {{
+                  secondStep.dataStepOne.Hogar.ImporteNeta * 0.03
+                    | currency: (secondStep.dataStepOne.CodigoMoneda == '1' ? 'S/ ' : '$ ')
+                }}
+              </div>
+            </li>
+            <li class="col-md-4 clearfix cnt-item h-myd-pl--0">
+              <div class="col-xs-6 item-label"><span class="ico-mapfre_82_circle ico-bullet"></span>IGV:</div>
+              <div class="col-xs-6 item-dato g-text-uppercase">
+                {{
+                  secondStep.dataStepOne.Hogar.ImporteImpuesto
+                    | currency: (secondStep.dataStepOne.CodigoMoneda == '1' ? 'S/ ' : '$ ')
+                }}
+              </div>
+            </li>
+          </ul>
+          <ul class="row h-myd-mb--20 mb-xs-1">
+            <li class="col-md-4 clearfix cnt-item h-myd-pl--0">
+              <div class="col-xs-6 item-label"><span class="ico-mapfre_82_circle ico-bullet"></span><b>Total:</b></div>
+              <div class="col-xs-6 item-dato g-text-uppercase">
+                <b>{{
+                  secondStep.dataStepOne.Hogar.ImporteTotal
+                    | currency: (secondStep.dataStepOne.CodigoMoneda == '1' ? 'S/ ' : '$ ')
+                }}</b>
+              </div>
+            </li>
+          </ul>
+          <!-- Datos de la Póliza Grupo -->
+          <ul class="row cnt-title h-myd-mb--20">
+            <li class="col-xs-12 item-title g-myd-subtitle g-border-bottom-xs gH4 h-myd-border--bottom-0">
+              Póliza Grupo
+            </li>
+          </ul>
+          <ul class="row" ng-show="secondStep.dataStepOne.PolizaGrupo.length > 0">
+            <li class="col-md-4 clearfix cnt-item h-myd-pl--0">
+              <div class="col-xs-6 item-label"><span class="ico-mapfre_82_circle ico-bullet"></span>Póliza Grupo:</div>
+              <div class="col-xs-6 item-dato g-text-uppercase">{{ secondStep.dataStepOne.PolizaGrupo }}</div>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+  <form action="" name="frmSecondStep">
+
+    <div class="container">
+      <div class="row">
+        <div class="col-xs-12 mt-xs-3">
+          <h2 class="g-sub-title red g-myd-subtitle">Datos del contratante</h2>
+        </div>
+      </div>
+    </div>
+
+    <mpf-person-component
+      name="datosPoliza"
+      habilitar-validacion-telefonos="true"
+      habilitar-validacion-listanegra-datos-contacto="true"
+      document-type="secondStep.dataStepOne.Contratante.TipoDocumento"
+      document-number="secondStep.dataStepOne.Contratante.CodigoDocumento"
+      app-code="{{ appCode }}"
+      form-code="{{ formCode }}"
+      codigo-compania="companyCode"
+      outdata="getContractorData(data)">
+    </mpf-person-component>
+
+    <div class="g-section-inner">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-12"><h2 class="g-sub-title">Otros</h2></div>
+        </div>
+        <div class="row">
+          <div class="col-md-4">
+            <mpf-Checkbox
+              ng-model="secondStep.DctoIntegralidad"
+              label="Aplicar % del ratio de integralidad"
+              ng-click="obtenerDctontegralidad()"
+            >
+            </mpf-Checkbox><br />
+            <span ng-show="secondStep.DctoIntegralidad">Descuento de integralidad {{secondStep.PorDctoIntgPlaza}}% </span>
+          </div>
+          <div class="col-md-4">
+            <mpf-input
+              label="{label: 'Abonado', required: true}"
+              name="nAbonado"
+              ng-model="formData.contractorData.mAbonado"
+              ng-required="true"
+              mpf-validation="onlyNumber"
+              ng-maxlength="4"
+              ng-minlength="4"
+            ></mpf-input>
+            <ul class="g-error">
+              <li ng-show="frmSecondStep.nAbonado.$invalid && !frmSecondStep.nAbonado.$pristine">
+                * Este campo es obligatorio
+              </li>
+            </ul>
+            <ul class="gErrorIco firstDesign">
+              <li ng-show="errorDescCommercial">
+                <span class="ico-mapfre_37_informacion ico"></span>Descuento comercial no debe superar el valor de 10
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Button -->
+    <div class="g-section">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-4 mb-xs-1">
+            <span class="g-comment">*Campos obligatorios</span>
+          </div>
+          <div class="col-md-4">
+            <a class="g-btn g-btn-verde block" ng-click="nextStep()">Siguiente</a>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>

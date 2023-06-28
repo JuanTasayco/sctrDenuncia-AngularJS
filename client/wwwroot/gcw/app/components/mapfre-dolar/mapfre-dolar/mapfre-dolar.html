@@ -1,0 +1,262 @@
+<div class="consultaGestion">
+  <div class="container">
+    <div
+      show-filter
+      class="clearfix g-col-filter g-box-md gBgcGray5-md gBgcWhite1 g-myd-box"
+      ng-class="{'show': isFilterVisible}"
+    >
+      <div class="col-xs-12">
+        <div class="clearfix gH4 gCGray1 mb-xs-1-5">
+          <h2 class="hidden-xs hidden-sm"><b>Opciones de Búsqueda</b></h2>
+          <div
+            id="show-filter"
+            class="row pt-xs-2 pb-xs-2 gBgcGray5 g-border-bottom-xs hidden-md hidden-lg"
+            ng-click="toggleFilter();"
+          >
+            <div class="col-xs-10">
+              <h2><b>Opciones de Búsqueda</b></h2>
+            </div>
+            <div class="col-xs-2 g-text-right-xs">
+              <!-- ngIf: isFilterVisible --><span
+                class="glyphicon glyphicon-chevron-down ng-scope"
+                ng-if="isFilterVisible"
+              ></span
+              ><!-- end ngIf: isFilterVisible -->
+              <!-- ngIf: !isFilterVisible --><span
+                class="glyphicon glyphicon-chevron-up ng-scope"
+                ng-if="!isFilterVisible"
+              ></span
+              ><!-- end ngIf: !isFilterVisible -->
+            </div>
+            <div class="clearfix"></div>
+          </div>
+        </div>
+        <form class="clearfix" name="frmMDolar" ng-model="vm.formMDolar">
+          <div class="row mb-xs-2">
+            <div class="col-xs-12 col-md-2">
+              <m-radio
+                label="{label: 'Por cartera'}"
+                name="nMapDolar"
+                ng-model="vm.optRadio1"
+                value="1"
+                data-ng-required="true"
+              ></m-radio>
+            </div>
+            <div class="col-xs-12 col-md-3">
+              <m-radio
+                label="{label: 'Nro.doc por cliente'}"
+                name="nMapDolar"
+                ng-model="vm.optRadio1"
+                value="2"
+                data-ng-required="true"
+              ></m-radio>
+            </div>
+            <div class="col-xs-12 mt-md-1 mt-xs-2" ng-show="vm.optRadio1 == '1'">
+              <div class="row">
+                <div class="col-md-3 mt-xs-2">
+                  <mpf-select
+                    ng-model="vm.formMDolar.mSegmento"
+                    name="nSegmento"
+                    focuss-me="true"
+                    label="{label: 'Tipo:', required: true}"
+                    m-data-source="vm.lstSegmentos"
+                    text-field="description"
+                    value-field="code"
+                    m-Empty-Option="{text: 'Seleccionar'}"
+                  >
+                  </mpf-select>
+                </div>
+                <div class="col-md-3 mt-xs-2">
+                  <mpf-select
+                    ng-model="vm.formMDolar.mMes"
+                    name="nMes"
+                    label="{label: 'Mes aniversario:', required: true}"
+                    m-data-source="vm.lstMeses"
+                    text-field="description"
+                    value-field="value"
+                    m-Empty-Option="{text: 'Seleccionar'}"
+                  >
+                  </mpf-select>
+                </div>
+                <div class="col-md-2 mt-xs-2">
+                  <mpf-input
+                    label="{label: 'M$ Ganado mínimo:', required: true}"
+                    name="nGanadoMin"
+                    ng-model="vm.formMDolar.mGanadoMin"
+                    mpf-validation="onlyNumber"
+                  ></mpf-input>
+                </div>
+                <div class="col-md-2 mt-xs-2">
+                  <mpf-input
+                    label="{label: 'M$ Ganado máximo:', required: true}"
+                    name="nGandaMax"
+                    ng-model="vm.formMDolar.mGanadoMax"
+                    mpf-validation="onlyNumber"
+                  ></mpf-input>
+                </div>
+              </div>
+            </div>
+            <div class="col-xs-12 mt-md-1 no-padding-xs" ng-show="vm.optRadio1 == '2'">
+              <div class="col-md-3 mt-xs-2">
+                <gcw-cbo-tipo-doc-entidad data="vm.formMDolar.mTipoDoc"></gcw-cbo-tipo-doc-entidad>
+              </div>
+              <div class="col-md-3 mt-xs-2">
+                <mpf-input
+                  label="{label: 'Nro. de documento:', required: true}"
+                  focuss-me="true"
+                  name="nNumeroDocumento"
+                  ng-model="vm.formMDolar.mNumeroDocumento"
+                  mpf-validation="onlyNumber"
+                  ng-maxlength="vm.docNumMaxLength"
+                  ng-minlength="vm.docNumMinLength"
+                ></mpf-input>
+                <div
+                  class="g-error"
+                  ng-show="vm.formMDolar.frmMDolar.nNumeroDocumento.$invalid && !vm.formMDolar.frmMDolar.nNumeroDocumento.$pristine"
+                >
+                  * Ingrese un número de documento
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-offset-8 col-md-2 mb-xs-1 no-mb-md">
+              <a class="g-btn g-btn-verde second-design block"
+                ga-click
+                ga-category="'CG - Mapfre dolar'"
+                ga-action="'MPF - Mapfre dolar - Buscar'"
+                ga-label="'Botón: Buscar'"
+                ng-click="vm.buscar()">Buscar</a>
+            </div>
+            <div class="col-md-2">
+              <a class="g-btn g-btn-white second-design block" ng-click="vm.limpiar()">Limpiar</a>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- Top bar: Filtro e iconos -->
+    <div tbl-oim-topbar class="clearfix g-tbl-topbar mt-md-2 mb-md-2 mt-xs-1 width-filtro" ng-show="vm.totalRows >= 1">
+      <div class="g-row-icons__box visible-xs visible-sm">
+        <a ng-click="exportar()" uib-popover="Exportar" popover-trigger="'mouseenter'"
+          ><span class="g-icon-box g-icon-box-md">
+            <span class="ico-mapfre ico-mapfre_124_download ico-download h-myd--none"></span>
+            <span
+              class="ico-mapfre ico-mapfre-360-myd-export ico-download h-myd-ico--mediun h-myd--show h-oim-none"
+            ></span>
+          </span>
+        </a>
+      </div>
+      <div class="g-row-filter__box g-row-icons__box box_left hidden-xs hidden-sm">
+        <a ng-click="exportar()" uib-popover="Exportar" popover-trigger="'mouseenter'"
+          ><span class="g-icon-box g-icon-box-md">
+            <span class="ico-mapfre ico-mapfre_124_download ico-download h-myd--none"></span>
+            <span
+              class="ico-mapfre ico-mapfre-360-myd-export ico-download h-myd-ico--mediun h-myd--show h-oim-none"
+            ></span>
+          </span>
+        </a>
+      </div>
+    </div>
+    <!-- Tabla -->
+    <div class="clearfix" ng-show="vm.totalRows >= 1">
+      <div tbl-oim class="col-xs-12 g-tbl-wrapper pl-xs-0">
+        <div class="tbl-main">
+          <ul class="tbl-header clearfix">
+            <li class="title col-6-dktp">Mes</li>
+            <li class="title col-14-dktp">Nombre y Apellido</li>
+            <li class="title col-10-dktp text-center">Segmento Comercial</li>
+            <li class="title col-12-dktp">Mapfre Dolares</li>
+            <li class="title col-10-dktp text-center">Estado</li>
+            <li class="title col-12-dktp">Fecha Cambio</li>
+            <li class="title col-12-dktp">Poliza prox. Renovación</li>
+            <li class="title col-12-dktp">Ramo prox. Renovación</li>
+            <li class="title col-12-dktp">Fecha Renovación</li>
+          </ul>
+          <ul class="tbl-body clearfix">
+            <li ng-repeat="item in vm.mapfred">
+              <ul height-row class="tbl-row clearfix" 
+                  ga-click
+                  ga-category="'CG - Mapfre dolar'"
+                  ga-action="'MPF - Mapfre dolar - Click Fila'"
+                  ga-label="'Click Fila'"
+                  ng-click="descargarPDF(item)">
+                <li class="cell col-6-dktp">
+                  <span class="cell-title">{{ item.monthProcess }}</span>
+                </li>
+                <li class="cell col-14-dktp">
+                  <span class="cell-label"
+                    ><span class="cell-data g-text-uppercase"
+                      >{{ item.lastName }} {{ item.surName }} {{ item.name }}</span
+                    ></span
+                  >
+                </li>
+                <li class="cell col-10-dktp text-center">
+                  <span class="cell-label"
+                    ><span class="cell-data g-text-uppercase">{{ item.commercialSegment }}</span></span
+                  >
+                </li>
+                <li class="cell col-12-dktp">
+                  <span class="cell-label">
+                    <span class="cell-data listMapDol">
+                      <span class="titleMapDol">Generados</span
+                      ><span class="numMapDol">{{ item.amountGenerated | number: 2 }}</span>
+                      <span class="titleMapDol">Utilizados</span
+                      ><span class="numMapDol">{{ item.amountUsed | number: 2 }}</span>
+                      <span class="titleMapDol">Vencidos</span
+                      ><span class="numMapDol">{{ item.amountLosers | number: 2 }}</span>
+                      <span class="titleMapDol g-border-top">Disponibles</span
+                      ><span class="numMapDol g-border-top">{{ item.amountAvailable | number: 2 }}</span>
+                    </span>
+                  </span>
+                </li>
+                <li class="cell col-10-dktp text-center">
+                  <span class="cell-label"
+                    ><span class="cell-data g-text-uppercase">{{ item.state }}</span></span
+                  >
+                </li>
+                <li class="cell col-12-dktp">
+                  <span class="cell-label"
+                    ><span class="cell-data g-text-uppercase">{{ item.changeDate }}</span></span
+                  >
+                </li>
+                <li class="cell col-12-dktp">
+                  <span class="cell-label"
+                    ><span class="cell-data g-text-uppercase"></span>{{ item.policyNumberRenovation }}</span
+                  >
+                </li>
+                <li class="cell col-12-dktp">
+                  <span class="cell-label"><span class="cell-data g-text-uppercase"></span>{{ item.branchName }}</span>
+                </li>
+                <li class="cell col-12-dktp">
+                  <span class="cell-label"
+                    ><span class="cell-data g-text-uppercase"></span>{{ item.renovationDate }}</span
+                  >
+                </li>
+              </ul>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <mx-paginador
+      data-datos="vm.mapfred"
+      data-items-x-page="vm.itemsXPagina"
+      data-msg-vacio="vm.msgVacio"
+      data-on-paginar="vm.pageChanged($event)"
+      data-pagina-actual="vm.currentPage"
+      data-total-items="vm.totalRows"
+    >
+    </mx-paginador>
+  </div>
+</div>
+
+<form id="frmExport" name="frmExport" action="{{ vm.exportURL }}" method="post" target="_blank">
+  <input type="hidden" name="json" value="{{ vm.downloadFile }}" />
+</form>
+
+<form id="frmDescargar" name="frmDescargar" action="{{ vm.descargarURL }}" method="post" target="_blank">
+  <input type="hidden" name="json" value="{{ vm.downloadFile2 }}" />
+</form>

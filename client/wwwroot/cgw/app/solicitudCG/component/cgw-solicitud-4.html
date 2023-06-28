@@ -1,0 +1,130 @@
+<form id="garantia-form" action="" name="frmSolicitudCgw4">
+  <div>
+    <mf-summary data="toSummary" current-step="4"></mf-summary>
+    <div class="g-section-inner">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-12">
+            <h2 class="g-sub-title">Presupuesto</h2>
+          </div>
+        </div>
+        <div  class="container mb-xs-2"
+              data-ng-repeat="item in formData.procedimientos">
+          <div class="row u-ph-15 mb-xs-1">
+            <div class="item g-border-xs clearfix">
+              <div class="col-sm-2 gBgcGray5 g-text-center-xs u-pvh-15 cgw-presupuesto__icon-wp">
+                <span class="{{item.icon}} cgw-presupuesto__icon"></span>
+              </div>
+              <div class="col-sm-6 col-md-6 info cgw-presupuesto__info">
+                <a  class="gCGray3"
+                    data-ng-click="cargarPresupuesto(item.code)"><span class="g-link"><b>{{item.description}}</b></span></a>
+              </div>
+              <div class="col-sm-4 col-md-4 u-pvh-15 cgw-presupuesto__price-wp text-right">
+                <span><b>{{item.price | currency: 'S/.'}}</b></span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="clearfix">
+          <div class="col-xs-12 mt-xs-2 mb-xs-2">
+            <div class="col-md-4 col-xs-12 gBgcGray5 g-box gBgcGray5 pt-xs-1 pull-right">
+              <p class="clearfix u-txt-weight">
+                <span class="col-xs-5">Subtotal</span>
+                <span class="col-xs-7 text-right">{{formData.subtotal | currency: 'S/.'}}</span>
+              </p>
+              <p class="clearfix u-txt-weight">
+                <span class="col-xs-5">IGV {{formData.valorIGV}}%</span>
+                <span class="col-xs-7 text-right">{{formData.montoIGV | currency: 'S/.'}}</span>
+              </p>
+              <p class="clearfix u-txt-weight">
+                <span class="col-xs-5">Total</span>
+                <span class="col-xs-7 text-right">{{formData.total | currency: 'S/.'}}</span>
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="g-section-inner">
+      <div class="container cgw-inline-files">
+        <div class="row">
+          <div class="col-md-12">
+            <h2 class="g-sub-title">Adjuntar Archivo</h2>
+          </div>
+        </div>
+        <div class="container container__attach mb-xs-3">
+          <div class="cgw-attach__main_box">
+            <div class="col-sm-2 cgw-attach__wp">
+              <label class="cgw-attach__box g-text-center-xs">
+                <div class="cgw-attach__box-body">
+                  <p class="u-txt-weight">Adjuntar archivo</p>
+                  <span class="ico-mapfre_170_archivos cgw-attach__icon u-color--gris-8"></span>
+                  <input type="file" file-model="myFile" ng-model="files" multiple class="input__file" accept=".jpg, .bmp, .gif, .jpeg, .txt, .zip, .rar, .doc, .docx, .xls, .xlsx, .zip, application/x-rar-compressed,application/zip,application/x-zip,application/x-zip-compressed, application/pdf,application/msword, application/vnd.openxmlformats-officedocument.wordprocessingml.document, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/vnd.ms-excel"/>
+                </div>
+              </label>
+            </div>
+            <div class="col-sm-2 cgw-attach__wp" ng-repeat="file in filesCgw track by $index" ng-if="filesCgw">
+              <label class="cgw-attach__box g-text-center-xs">
+                <span class="ico-mapfre_119_wrong u-color--gris-8 style-x-arch" ng-click="deleteFile($index, filesCgw)"></span>
+                <div class="cgw-attach__box-body" uib-tooltip="{{file.name}}">
+                  <span class="ico-mapfre_170_archivos cgw-attach__icon u-color--gris-8"></span>
+                  <p class="u-txt-weight mb-xs-0 mt-xs-1 g-cut-text">{{file.name}}</p>
+                </div>
+              </label>
+            </div>
+          </div>
+        </div>
+
+        <div class="g-error" ng-show="sinArchivos">Ingrese archivo
+        </div>
+
+      </div>
+    </div>
+    <div class="g-section-inner" ng-show="showPatologicAnatomy">
+      <div class="container cgw-inline-files">
+        <div class="row">
+          <div class="col-md-12">
+            <h2 class="g-sub-title">Anatomía Patológica</h2>
+          </div>
+        </div>
+        <div class="container container__attach mb-xs-3">
+          <div class="cgw-attach__main_box">
+            <div class="col-sm-2 cgw-attach__wp">
+              <label class="cgw-attach__box g-text-center-xs">
+                <div class="cgw-attach__box-body">
+                  <p class="u-txt-weight">Adjuntar archivo</p>
+                  <span class="ico-mapfre_170_archivos cgw-attach__icon u-color--gris-8"></span>
+                  <input type="file" file-model="myFileExtra" ng-model="filesExtra" multiple class="input__file" accept=".jpg, .bmp, .gif, .jpeg, .txt, .zip, .rar, .doc, .docx, .xls, .xlsx, .zip, application/x-rar-compressed,application/zip,application/x-zip,application/x-zip-compressed, application/pdf,application/msword, application/vnd.openxmlformats-officedocument.wordprocessingml.document, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/vnd.ms-excel"/>
+                </div>
+              </label>
+            </div>
+            <div class="col-sm-2 cgw-attach__wp" ng-repeat="file in filesPatologico track by $index" ng-if="filesPatologico">
+              <label class="cgw-attach__box g-text-center-xs">
+                <span class="ico-mapfre_119_wrong u-color--gris-8 style-x-arch" ng-click="deleteFile2($index, filesPatologico)"></span>
+                <div class="cgw-attach__box-body" uib-tooltip="{{file.name}}">
+                  <span class="ico-mapfre_170_archivos cgw-attach__icon u-color--gris-8"></span>
+                  <p class="u-txt-weight mb-xs-0 mt-xs-1 g-cut-text">{{file.name}}</p>
+                </div>
+              </label>
+            </div>
+          </div>
+        </div>
+
+        <div class="g-error" ng-show="sinArchivosPatologico">Ingrese archivo</div>
+      </div>
+    </div>
+    <div class="g-section g-step-action">
+      <div class="container">
+        <div class="row">
+          <span class="col-md-3 g-comment">Campos obligatorios *</span>
+          <div class="col-md-4 col-md-offset-1">
+            <a  class="g-btn g-btn-verde block"
+                ng-click="grabarCarta()" disabled-link="disabledButton">
+              REGISTRAR CARTA DE GARANTÍA
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>

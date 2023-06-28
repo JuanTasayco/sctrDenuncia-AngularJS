@@ -1,0 +1,328 @@
+<div class="g-section-inner">
+    <div class="row">
+      <div class="col-xs-12 mb-xs-1">
+        <h2 class="gH4 gCGray1"><b class="ng-binding">Datos Empresa</b></h2>
+      </div>
+    </div>
+    <div class="row mb-xs-2">
+      <div class="col-xs-12">
+        <div class="clearfix g-box pt-xs-2 pb-xs-2">
+          <div class="col-sm-4"><b>Razón Social: </b>{{data.razonSocial}}</div>
+          <div class="col-sm-4"><b>RUC: </b>{{data.ruc}}</div>
+          <div class="col-sm-4" ng-show="mTipoUsuario === 'EjecutivoMapfre'">
+            <mpf-select
+              label="{label: 'Póliza: ', required: false}" 
+              name="nPoliza"
+              ng-model="mPoliza" 
+              m-data-source="polizaData"
+              text-field="text" 
+              value-field="value" 
+              m-Empty-Option="{enterData:false}" 
+              ng-required="false" 
+              ng-change=""
+            ></mpf-select>
+            <ul class="g-error">
+              <li ng-show="
+              frmDetailUser.nPoliza.$error.required &&
+              !frmDetailUser.nPoliza.$pristine"
+              >* Este campo es obligatorio</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+</div>
+
+<div class="g-section-inner">
+    <div class="row">
+      <div class="col-xs-9 mb-xs-1">
+        <h2 class="gH4 gCGray1"><b class="ng-binding">Datos Personales</b></h2>
+      </div>
+      <div class="col-xs-3 mb-xs-1">
+        <span class="ico-mapfre_228_editar g-link no-underline gnIcon-sm gCGray3" ng-click="showSelect = !showSelect"></span>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-sm-4 mb-xs-1">
+        <mpf-select
+          label="{label: 'Tipo de documento: ', required: true}" 
+          name="nTipoDoc" 
+          ng-model="frmPersonales.mTipoDoc" 
+          m-data-source="tipoDocData"
+          text-field="descripcion" 
+          value-field="codigo" 
+          m-Empty-Option="{enterData:true}" 
+          ng-required="true" 
+          ng-change=""
+          ng-Disabled="true"
+        ></mpf-select>
+        <ul class="g-error">
+          <li ng-show="
+          frmDetailUser.nTipoDoc.$error.required &&
+          !frmDetailUser.nTipoDoc.$pristine"
+          >* Este campo es obligatorio</li>
+        </ul>
+      </div>
+      <div class="col-sm-4 mb-xs-1">
+        <mpf-input 
+        label="{label: 'Nro. de documento', required: true}" 
+        name="nNumDoc" 
+        ng-model="frmPersonales.mNumDoc"
+        ng-required = "true"
+        ng-disabled = "true"
+        ></mpf-input>
+        <ul class="g-error">
+          <li ng-show="
+          frmDetailUser.nNumDoc.$error.required &&
+          !frmDetailUser.nNumDoc.$pristine"
+          >* Este campo es obligatorio</li>
+        </ul>
+      </div>
+      <div class="col-sm-4 mb-xs-1">
+        <mpf-input 
+        ng-if="!showSelect"
+        label="{label: 'Tipo de usuario', required: true}" 
+        name="nTipoUsuario" 
+        ng-model="frmPersonales.mNombreTipoUsuario"
+        ng-required = "true"
+        ng-disabled = "true"
+        ></mpf-input>
+        <mpf-select 
+            ng-if="showSelect"
+            label="{label: 'Tipo de usuario: ', required: true}" 
+            name="nTipoUsuario" 
+            ng-model="frmPersonales.mNombreTipoUsuario" 
+            m-data-source="usuariosData"
+            text-field="descripcion" 
+            value-field="codigo" 
+            m-Empty-Option="{enterData:true}" 
+            ng-required="true" 
+            ng-change="userTypeChange(data.numUsuario)"
+          ></mpf-select>
+          <ul class="g-error">
+            <li ng-show="
+            frmDetailUser.nTipoUsuario.$error.required &&
+            !frmDetailUser.nTipoUsuario.$pristine"
+            >* Este campo es obligatorio</li>
+          </ul>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-sm-4 mb-xs-1">
+        <mpf-input 
+        label="{label: 'Nombres', required: true}" 
+        name="nNombre" 
+        ng-pattern="doubleSpace" 
+        ng-model="frmPersonales.mNombre"
+        ng-required = "true"
+        ng-maxlength="100"
+        ></mpf-input>
+        <ul class="g-error">
+          <li ng-show="
+          frmDetailUser.nNombre.$error.required &&
+          !frmDetailUser.nNombre.$pristine"
+          >* Este campo es obligatorio</li>
+        </ul>
+      </div>
+      <div class="col-sm-4 mb-xs-1">
+        <mpf-input 
+        label="{label: 'Apellido Paterno', required: true}" 
+        name="nApellidoPaterno" 
+        ng-pattern="doubleSpace" 
+        ng-model="frmPersonales.mApellidoPaterno"
+        ng-required = "true"
+        ng-maxlength="100"
+        ></mpf-input>
+        <ul class="g-error">
+          <li ng-show="
+          frmDetailUser.nApellidoPaterno.$error.required &&
+          !frmDetailUser.nApellidoPaterno.$pristine"
+          >* Este campo es obligatorio</li>
+        </ul>
+      </div>
+      <div class="col-sm-4 mb-xs-1">
+        <mpf-input 
+        label="{label: 'Apellido Materno', required: true}" 
+        name="nApellidoMaterno" 
+        ng-pattern="doubleSpace" 
+        ng-model="frmPersonales.mApellidoMaterno"
+        ng-required = "true"
+        ng-maxlength="100"
+        ></mpf-input>
+        <ul class="g-error">
+          <li ng-show="
+          frmDetailUser.nApellidoMaterno.$error.required &&
+          !frmDetailUser.nApellidoMaterno.$pristine"
+          >* Este campo es obligatorio</li>
+        </ul>
+      </div>
+    </div>
+</div>
+
+<div class="g-section-inner">
+    <div class="row">
+      <div class="col-xs-12 mb-xs-1">
+        <h2 class="gH4 gCGray1"><b class="ng-binding">Datos Contacto</b></h2>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-sm-4 mb-xs-1">
+        <mpf-select
+          label="{label: 'Cargo: ', required: false}" 
+          name="nCargo" 
+          ng-model="frmContacto.mCargo" 
+          m-data-source="cargoData"
+          text-field="descripcion" 
+          value-field="codigo" 
+          m-Empty-Option="{enterData: true}" 
+          ng-required="false" 
+        ></mpf-select>
+        <ul class="g-error">
+          <li ng-show="
+          frmDetailUser.nCargo.$error.required &&
+          !frmDetailUser.nCargo.$pristine"
+          >* Este campo es obligatorio</li>
+        </ul>
+      </div>
+      <div class="col-sm-4 mb-xs-1">
+        <mpf-input 
+        label="{label: 'Teléfono', required: false}" 
+        name="nTelefono" 
+        ng-model="frmContacto.mTelefono"
+        ng-maxlength = "10"
+        mpf-validation = "onlyNumber"                  
+        ></mpf-input>
+      </div>
+      <div class="col-sm-4 mb-xs-1">
+        <mpf-input 
+        label="{label: 'Celular', required: false}" 
+        name="nCelular" 
+        ng-model="frmContacto.mCelular"
+        ng-maxlength = "9"
+        mpf-validation = "onlyNumber"                  
+        ></mpf-input>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-sm-4">
+        <mpf-input 
+        label="{label: 'Correo electrónico', required: true}" 
+        name="nEmail" 
+        ng-model="frmContacto.mEmail"
+        ng-required = "true"
+        mpf-validation = "email"
+        ></mpf-input>
+        <ul class="g-error">
+          <li ng-show="frmDetailUser.nEmail.$error.required && !frmDetailUser.nEmail.$pristine">* Este campo es obligatorio</li>
+          <li ng-show="frmDetailUser.nEmail.$error.email && !frmDetailUser.nEmail.$pristine">* Correo inválido</li>
+        </ul>
+      </div>
+    </div>
+</div>
+
+<div class="g-section-inner">
+    <div class="row">
+      <div class="col-xs-12 mb-xs-1">
+        <h2 class="gH4 gCGray1"><b class="ng-binding">Características Usuario</b></h2>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-sm-4" ng-if="isCorredor">
+        <mpf-select
+          label="{label: 'Productor: ', required: false}" 
+          name="nProductor" 
+          ng-model="frmCaracteristicas.mProductor" 
+          m-data-source="productorData"
+          text-field="idName" 
+          value-field="id" 
+          m-Empty-Option="{enterData:true}" 
+          ng-required="false" 
+        ></mpf-select>
+        <ul class="g-error">
+          <li ng-show="
+          frmDetailUser.nProductor.$error.required &&
+          !frmDetailUser.nProductor.$pristine"
+          >* Este campo es obligatorio</li>
+        </ul>
+      </div>
+      <div class="col-sm-4" ng-if="frmCaracteristicas.mEstadoUsuario.codigo==1 || frmCaracteristicas.mEstadoUsuario.codigo==2">
+        <mpf-select
+          label="{label: 'Estado del Usuario: ', required: true}" 
+          name="nEstadoUsuario" 
+          ng-model="frmCaracteristicas.mEstadoUsuario" 
+          m-data-source="estadoUsuarioData"
+          text-field="descripcion" 
+          value-field="codigo" 
+          m-Empty-Option="{enterData: false}" 
+          ng-required="true" 
+        ></mpf-select>
+        <ul class="g-error">
+          <li ng-show="
+          frmDetailUser.nEstadoUsuario.$error.required &&
+          !frmDetailUser.nEstadoUsuario.$pristine"
+          >* Este campo es obligatorio</li>
+        </ul>
+      </div>
+      <div class="col-sm-4" ng-if="isCorredor">
+        <div ng-if="!showInput">
+          <mp-data-seeker
+            behavior="{
+              label:'Sede: ', 
+              placeholder:'Ingresa código o nombre de la sede', 
+              matchField:'codigoDescripcion'}"
+            m-data-source="getListSede($inputNeed)"
+            ng-model="frmCaracteristicas.sede"
+            name="sede"
+            ng-change="">
+            <div ng-bind-html="$item.codigoDescripcion | highlight: $select.search"></div>
+          </mp-data-seeker>
+          <div class="g-text-right-xs mt-xs-1">
+            <p class="mb-xs-1 gCGray3">¿No encuentras la sede?</p>
+            <a class="g-link gCGreen1" ng-click="toggleInput()">
+              <b>Ingresar la sede manualmente</b>
+            </a>
+          </div>
+        </div>
+        <div ng-if="showInput">
+          <mpf-input
+            label="{label: 'Sede:', required: false}"
+            name="sede"
+            ng-change="getListSede($inputNeed)"
+            ng-model="frmCaracteristicas.sede"
+            ng-Minlength="3"
+            ng-Maxlength="77"></mpf-input>
+          <div class="g-text-right-xs mt-xs-1">
+            <a class="g-link green cgw-msg-med__link" ng-click="toggleInput()">Volver a ver sedes registradas</a>
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-4" ng-if="false">
+        <mpf-select
+          label="{label: 'Usuario: ', required: false}" 
+          name="nUsuario" 
+          ng-model="frmCaracteristicas.mUsuario" 
+          m-data-source="usuarioData"
+          text-field="descripcion" 
+          value-field="codigo" 
+          m-Empty-Option="{enterData:true}" 
+          ng-required="false" 
+          ng-change=""
+        ></mpf-select>
+        <ul class="g-error">
+          <li ng-show="
+          frmDetailUser.nUsuario.$error.required &&
+          !frmDetailUser.nUsuario.$pristine"
+          >* Este campo es obligatorio</li>
+        </ul>
+      </div>
+    </div>
+</div>
+
+
+<div class="mt-xs-6">
+  <div class="col-md-4 col-md-offset-4">
+    <a class="g-btn g-btn-verde block"
+    ng-click="fnGuardarCambios()"
+    >Guardar cambios</a>
+  </div>
+</div>

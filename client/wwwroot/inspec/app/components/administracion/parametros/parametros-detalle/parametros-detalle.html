@@ -1,0 +1,134 @@
+<section class="g-page page-inspeccion-autos page-inspeccion-autos__programaciones">
+  <div fixed-section class="g-title" ng-class="{'fixed-section': boolChangeClass}">
+    <div class="container">
+      <div class="row">
+        <div class="col-xs-10 col-sm-5 col-md-9 no-mb-sm mt-md-3">
+          <h1>Parámetros - Detalle de parámetro</h1>
+        </div>
+        <div class="col-md-3 col-xs-12 mt-xs-1 mt-md-0 text-right">
+          <a ui-sref="administracionParametro">
+            <span class="g-icon gCGray3">
+              <span class="icon ico-mapfre_310_arrowLeft"></span>
+              <span class="g-link"><b>Seleccionar otro parámetro</b></span>
+            </span>
+          </a>
+          <a class="g-btn g-btn-verde second-design block mt-xs-1" ng-click="$ctrl.showModal()">NUEVO DETALLE</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="g-section-inner">
+    <div class="g-sec-information mb-xs-3">
+      <div class="sec-item h-myd-bg--gray4">
+        <div class="container">
+          <ul class="row">
+            <li class="col-md-4 clearfix cnt-item h-myd-p--0">
+              <div class="col-xs-5 item-label"><span class="ico-mapfre_82_circle ico-bullet"></span>Código:</div>
+              <div class="col-xs-7 item-dato g-text-uppercase">
+                {{ $ctrl.parameter.groupParameterId }}
+              </div>
+            </li>
+            <li class="col-md-4 clearfix cnt-item h-myd-p--0">
+              <div class="col-xs-5 item-label"><span class="ico-mapfre_82_circle ico-bullet"></span>Estado:</div>
+              <div class="col-xs-7 item-dato g-text-uppercase">
+                {{ $ctrl.parameter.statusCode === 'V' ? 'ACTIVO' : 'INACTIVO' }}
+              </div>
+            </li>
+            <li class="col-md-4 clearfix cnt-item h-myd-p--0">
+              <div class="col-xs-5 item-label"><span class="ico-mapfre_82_circle ico-bullet"></span>Descripción</div>
+              <div class="col-xs-7 item-dato g-text-uppercase">
+                {{ $ctrl.parameter.description }}
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- Resultados -->
+    <div class="container">
+      <div class="row">
+        <inspec-empty-data
+          data-length="$ctrl.details.length"
+          first-query-completed="$ctrl.firstQueryCompleted"
+        ></inspec-empty-data>
+      </div>
+    </div>
+
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12 mb-xs-2 mt-md-3">
+          <div
+            class="clearfix g-list-md g-box gBgcGray5 pt-xs-1 g-row-fz12 mb-xs-1 ng-scope"
+            ng-repeat="detail in $ctrl.details"
+          >
+            <!-- header -->
+            <div class="col-md-1 g-col-md middle">
+              <div class="row g-row">
+                <div class="col-sm-4 col-xs-12 g-col-xs middle cnt-item g-text-center-xs">
+                  <a href="" ng-click="$ctrl.showModal(detail)">
+                    <span
+                      class="gnIcon-md ico-mapfre_228_editar h-myd--none"
+                      ng-click="$parent.showAddTitleParametro = false; $parent.showAddGuardar = false ;showParametro()"
+                    ></span>
+                    <span
+                      class="ico-mapfre_345_myd-edit ico-mapfre h-myd--show h-oim-none h-myd-color--green h-myd-ico--mediun"
+                      ng-click="$parent.showAddTitleParametro = false; $parent.showAddGuardar = false ;showParametro()"
+                    ></span>
+                  </a>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-11 g-col-md middle">
+              <ul class="row">
+                <li class="col-md-4 clearfix cnt-item add-border-left">
+                  <div class="col-xs-5 item-label">
+                    Descripción:
+                  </div>
+                  <div class="col-xs-7 item-dato g-text-uppercase">
+                    {{ detail.description }}
+                  </div>
+                </li>
+                <li class="col-md-4 clearfix cnt-item">
+                  <div class="col-xs-5 item-label">
+                    Valor 2:
+                  </div>
+                  <div class="col-xs-7 item-dato g-text-uppercase">
+                    {{ detail.secondValue || '-' }}
+                  </div>
+                </li>
+                <li class="col-md-4 clearfix cnt-item">
+                  <div class="col-xs-5 item-label">
+                    Estado:
+                  </div>
+                  <div class="col-xs-7 item-dato g-text-uppercase">
+                    {{ detail.statusCode === 'V' ? 'ACTIVO' : 'INACTIVO' }}
+                  </div>
+                </li>
+              </ul>
+              <ul class="row">
+                <li class="col-md-4 clearfix cnt-item add-border-left">
+                  <div class="col-xs-5 item-label">
+                    Valor 1:
+                  </div>
+                  <div class="col-xs-7 item-dato g-text-uppercase">
+                    {{ detail.firstValue || '-' }}
+                  </div>
+                </li>
+                <li class="col-md-4 clearfix cnt-item">
+                  <div class="col-xs-5 item-label">
+                    Valor 3:
+                  </div>
+                  <div class="col-xs-7 item-dato g-text-uppercase">
+                    {{ detail.thirdValue || '-' }}
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

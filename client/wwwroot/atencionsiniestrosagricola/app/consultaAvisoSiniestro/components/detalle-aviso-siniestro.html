@@ -1,0 +1,1551 @@
+<div class="g-title g-border-bottom">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-2">
+                <h1 class="ng-binding">Aviso {{ objAvisoDatosGenerales.codAviso }}</h1>
+            </div>
+            <div class="col-md-2 pt-xs-0-5">
+                <span class="g-box-label ml-xs-1-5 ml-md-0 estadoEstilo" ng-class="{
+                    'estadoRojo': objAvisoDatosGenerales.codEstado === '1',
+                    'estadoNaranja': objAvisoDatosGenerales.codEstado === '2',
+                    'estadoTurqueza': objAvisoDatosGenerales.codEstado === '3',
+                    'estadoPlomo': objAvisoDatosGenerales.codEstado === '4'
+                    }">{{ objAvisoDatosGenerales.nomEstado }}</span>
+            </div>
+            <div class="col-md-8 g-text-right-md g-span-middle">
+                <span class="mr-md-2" ng-click="descargaExcel();">
+                    <a class="g-btn g-btn-white block second-design pl-md-2 pr-md-2">
+                        <span class="g-icon">
+                            <span class="ico-mapfre_124_download gnIcon-sm"></span>
+                        </span>
+                    </a>
+                </span>
+                <a  ng-hide="objAvisoDatosGenerales.reapertura>0"  class="g-btn g-btn-transparent pl-md-2 pr-md-2" ng-click="saveAllStep();">GUARDAR</a>
+                <span  ng-show="idRol== 'ADMINISTRADOR' &&(objAvisoDatosGenerales.reapertura>0) " class="mr-md-4">
+                    <a  class="g-btn btn-verde-trn block second-design mr-md-1" ng-click="descargarLogReapertura()">
+                        <span class="col-md-1 ico-mapfre_244_descargar gnIcon-xsm gCWhite3">
+                        </span>LOG DE REAPERTURA
+                    </a>
+                </span>
+                <span  ng-show="idRol== 'ADMINISTRADOR' &&(codEstado== 3 || codEstado ==4)" class="mr-md-4">
+                    <a  class="g-btn g-btn-rojo block second-design mr-md-1" ng-click="showModalReapertura()">
+                        <span class="col-md-1 ico-mapfre_183_refresh gnIcon-xsm gCWhite3">
+                        </span>REAPERTURAR AVISO
+                    </a>
+                </span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="dashboard-body">
+    <div class="g-section-inner g-dashboard-section">
+        <div class="container">
+
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="clearfix g-box mb-xs-2">
+                        <div
+                            class="clearfix g-box no-bbl-radius no-bbr-radius g-border-noborder pt-xs-1 pb-xs-1 gBgcGray5">
+                            <ul class="row g-list-sm">
+                                <li class="col-md-12 col-sm-12">
+                                    <div class="item-label">
+                                        <ul class="clearfix">
+                                            <li class="col-md-11 gH4">
+                                                <b>Datos Generales</b>
+                                            </li>
+                                            <li class="col-md-1 g-text-right-md">
+                                                <span class="glyphicon glyphicon-chevron-down" ng-show="upGeneral"
+                                                    ng-click="clickChevronGeneral(false);"></span>
+                                                <span class="glyphicon glyphicon-chevron-up" ng-show="!upGeneral"
+                                                    ng-click="clickChevronGeneral(true);"></span>
+                                            </li>
+                                        </ul>
+                                        <ul class="clearfix" ng-show="!upGeneral">
+                                            <li class="col-md-3 pt-xs-1">
+                                                <b>Campaña: </b>{{ objAvisoDatosGenerales.nomCampania }}
+                                            </li>
+                                            <li class="col-md-3 pt-xs-1">
+                                                <b>Tipo de pérdida: </b>{{ objAvisoDatosGenerales.nomTipPerdidaSuprfc}}
+                                            </li>
+                                            <li class="col-md-3 pt-xs-1">
+                                                <b>Sector estadístico: </b>{{ objAvisoDatosGenerales.nomSectorEst }}
+                                            </li>
+                                            <li class="col-md-3 pt-xs-1">
+                                                <b>Cultivo: </b>{{ objAvisoDatosGenerales.nomCultivo }}
+                                            </li>
+                                            <li class="col-md-3 pt-xs-1">
+                                                <b>Superficie asegurada:
+                                                </b>{{ objAvisoDatosGenerales.superficieAsegurada }}
+                                            </li>
+                                            <li class="col-md-3 pt-xs-1">
+                                                <b>Monto Asegurado por hectarea:
+                                                </b>{{ objAvisoDatosGenerales.montoAseguradoHA }}
+                                            </li>
+                                            <li class="col-md-3 pt-xs-1">
+                                                <b>Monto asegurado total:
+                                                </b>{{ objAvisoDatosGenerales.montoSeguraTotal }}
+                                            </li>
+                                            <li class="col-md-3 pt-xs-1">
+                                                <b>Rendimiento promedio:
+                                                </b>{{ objAvisoDatosGenerales.rendimientoPromedio }}
+                                            </li>
+                                            <li class="col-md-3 pt-xs-1">
+                                                <b>Redimiento asegurado:
+                                                </b>{{ objAvisoDatosGenerales.rendimientoAsegurado }}
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="text-center mb-md-2" ng-show="showBtAjuste">
+                        <a class="g-btn g-btn-verde wd-30" ng-click="showAjuste();">INICIAR AJUSTE</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-12" ng-show="iniciarAjuste">
+
+                    <div class="clearfix g-box-md mb-md-2 gBgcGray5" ng-show="step1save">
+                        <div class="g-col-filter__box">
+                            <div class="col-md-12">
+                                <div class="row">
+                                    <div class="col-md-9 mt-md-2 mb-md-2">
+                                        <span class="badgeIconGreen glyphicon glyphicon-ok"></span>
+                                        <label class="titleBadge c-black">Datos del ajuste</label>
+                                    </div>
+                                    <div class="col-md-2 mt-md-1 text-right">
+                                        <a class="g-btn g-btn-transparent block" ng-click="continueStep1();"
+                                            ng-show="showBtEditar">EDITAR</a>
+                                    </div>
+                                    <div class="col-md-1 mt-md-1 g-text-right-md">
+                                        <span class="glyphicon glyphicon-chevron-down" ng-show="upDatosAjuste"
+                                            ng-click="clickChevronDatosAjuste(false);"></span>
+                                        <span class="glyphicon glyphicon-chevron-up" ng-show="!upDatosAjuste"
+                                            ng-click="clickChevronDatosAjuste(true);"></span>
+                                    </div>
+                                </div>
+                                <div class="row" ng-show="!upDatosAjuste">
+                                    <div class="col-md-12 mb-md-1">
+                                        <label class="g-placeholder animated ng-binding pl-xs-1-5">Ajuste</label>
+                                    </div>
+                                    <div class="col-md-12 mt-md-2 mb-md-2">
+                                        <ul class="clearfix">
+                                            <li class="col-md-3">
+                                                <b>Especialista asignado: </b>{{ajusteDetalle.especialistaAsignado}}
+                                            </li>
+                                            <li class="col-md-3">
+                                                <b>Acta de inspección: </b>{{ajusteDetalle.nroActaInspeccion}}
+                                            </li>
+                                            <li class="col-md-3">
+                                                <b>Fecha de inspección: </b>{{ajusteDetalle.fecInspeccion}}
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <div class="col-md-12 mb-md-1">
+                                        <label class="g-placeholder animated ng-binding pl-xs-1-5">Participante de
+                                            inspección</label>
+                                    </div>
+                                    <div class="col-md-12 mt-md-2 mb-md-2">
+                                        <ul class="clearfix">
+                                            <li class="col-md-3">
+                                                <b>Tipo de participante:
+                                                </b>{{ajusteDetalle.participante1.nomTipPrsona}}
+                                            </li>
+                                            <li class="col-md-3">
+                                                <b>Tipo de documento: </b>{{ajusteDetalle.participante1.nomTipDocum}}
+                                            </li>
+                                            <li class="col-md-3">
+                                                <b>Número de documento: </b>{{ajusteDetalle.participante1.codDocum}}
+                                            </li>
+                                        </ul>
+                                        <ul class="clearfix">
+                                            <li class="col-md-3">
+                                                <b>Nombre: </b>{{ajusteDetalle.participante1.nombre}}
+                                            </li>
+                                            <li class="col-md-3">
+                                                <b>Apellido paterno: </b>{{ajusteDetalle.participante1.apepatrno}}
+                                            </li>
+                                            <li class="col-md-3">
+                                                <b>Apellido materno: </b>{{ajusteDetalle.participante1.apematrno}}
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <form name="frmAjuste1">
+                        <div class="clearfix g-box-md mb-md-2 gBgcWhite1" ng-show="!step1save">
+                            <div class="g-col-filter__box">
+                                <div class="col-md-12">
+                                    <div class="row">
+                                        <div class="col-md-10 mt-md-2 mb-md-3">
+                                            <span class="badgeNumberGreen">1</span>
+                                            <label class="titleBadge c-green">Datos del ajuste</label>
+                                        </div>
+                                        <div class="col-md-12 mb-md-1">
+                                            <label class="g-placeholder animated ng-binding pl-xs-1-5">Ajuste</label>
+                                        </div>
+                                        <div class="col-md-12 mt-md-2 mb-md-2">
+                                            <div class="col-md-2">
+                                                <mpf-input label="{label: 'Especialista asignado'}" name="nEspeAsignado"
+                                                    ng-model="mEspeAsignado" ng-maxlength="100"
+                                                    mpf-validation="onlyLetter" ng-required="true"></mpf-input>
+                                                <div class="g-error"
+                                                    data-ng-show="frmAjuste1.nEspeAsignado.$error.required && !frmAjuste1.nEspeAsignado.$pristine">
+                                                    * Ingrese especialista
+                                                </div>
+                                            </div>
+                                            <div class="col-md-2">
+                                                <mpf-input label="{label: 'Acta de inspección'}" name="nActaInspec"
+                                                    ng-model="mActaInspec" ng-minlength="2" ng-maxlength="15"
+                                                    mpf-validation="onlyLetterNumberGuion" ng-required="true">
+                                                </mpf-input>
+                                                <div class="g-error"
+                                                    data-ng-show="frmAjuste1.nActaInspec.$error.required && !frmAjuste1.nActaInspec.$pristine">
+                                                    * Ingrese acta de inspección
+                                                </div>
+                                            </div>
+                                            <div class="col-md-2">
+                                                <mpf-datepicker nomargin="true" label="{label: 'Fecha de inspección:'}"
+                                                    data-format="'dd/MM/yyyy'" ng-model="mFechaInspec"
+                                                    name="nFechaInspec" data-ng-required="true"
+                                                    maxDate="maxDateFecActual">
+                                                </mpf-datepicker>
+                                                <div class="g-error"
+                                                    data-ng-show="frmAjuste1.nFechaInspec.$error.required && !frmAjuste1.nFechaInspec.$pristine">
+                                                    *Ingrese fecha de inspección
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12 mb-md-1">
+                                            <label class="g-placeholder animated ng-binding pl-xs-1-5">Participante de
+                                                inspección</label>
+                                        </div>
+                                        <div class="col-md-12 mt-md-2 mb-md-2">
+                                            <div class="col-md-2">
+                                                <mpf-select label="{label: 'Tipo de participante'}" name="nTipoPart"
+                                                    ng-model="mTipoPart" m-data-source="dsTipoPart" value-field="codigo"
+                                                    text-field="descripcion" m-Empty-Option="{enterData:true}"
+                                                    ng-required="true">
+                                                </mpf-select>
+                                                <div class="g-error"
+                                                    data-ng-show="frmAjuste1.nTipoPart.$error.required && !frmAjuste1.nTipoPart.$pristine">
+                                                    *Ingrese tipo de participante
+                                                </div>
+                                            </div>
+                                            <div class="col-md-2">
+                                                <mpf-select label="{label: 'Tipo de documento'}" name="nTipoDocument"
+                                                    ng-model="mTipoDocument" m-data-source="dsTipoDocument"
+                                                    value-field="codigo" text-field="descripcion"
+                                                    m-Empty-Option="{enterData:true}" ng-required="true"
+                                                    ng-change="changeTipoDoc('step1');">
+                                                </mpf-select>
+                                                <div class="g-error"
+                                                    data-ng-show="frmAjuste1.nTipoDocument.$error.required && !frmAjuste1.nTipoDocument.$pristine">
+                                                    *Ingresar tipo de documento
+                                                </div>
+                                            </div>
+                                            <div class="col-md-2">
+                                                <mpf-input label="{label: 'Número de documento'}" name="nNumDocument"
+                                                    ng-model="mNumDocument" ng-maxlength="maxLengthDoc"
+                                                    ng-required="true" mpf-validation="onlyLetterNumber"
+                                                    ng-blur="consultPerson('step1');">
+                                                </mpf-input>
+                                                <div class="g-error" data-ng-show="noResultParticipant">
+                                                    <span>(!) No se encontró resultados</span>
+                                                </div>
+                                                <div class="g-error"
+                                                    data-ng-show="frmAjuste1.nNumDocument.$error.required && !frmAjuste1.nNumDocument.$pristine">
+                                                    *Ingrese número de documento
+                                                </div>
+                                            </div>
+                                            <div class="col-md-2">
+                                                <mpf-input label="{label: 'Nombre'}" name="nNombre" ng-model="mNombre"
+                                                    ng-maxlength="50" mpf-validation="onlyLetter" ng-required="true">
+                                                </mpf-input>
+                                                <div class="g-error"
+                                                    data-ng-show="frmAjuste1.nNombre.$error.required && !frmAjuste1.nNombre.$pristine">
+                                                    *Ingrese nombre
+                                                </div>
+                                            </div>
+                                            <div class="col-md-2">
+                                                <mpf-input label="{label: 'Apellido paterno'}" name="nApellidoPat"
+                                                    ng-model="mApellidoPat" ng-maxlength="50"
+                                                    mpf-validation="onlyLetter" ng-required="true">
+                                                </mpf-input>
+                                                <div class="g-error"
+                                                    data-ng-show="frmAjuste1.nApellidoPat.$error.required && !frmAjuste1.nApellidoPat.$pristine">
+                                                    *Ingrese apellido paterno
+                                                </div>
+                                            </div>
+                                            <div class="col-md-2">
+                                                <mpf-input label="{label: 'Apellido materno'}" name="nApellidoMat"
+                                                    ng-model="mApellidoMat" ng-maxlength="50"
+                                                    mpf-validation="onlyLetter" ng-required="true">
+                                                </mpf-input>
+                                                <div class="g-error"
+                                                    data-ng-show="frmAjuste1.nApellidoMat.$error.required && !frmAjuste1.nApellidoMat.$pristine">
+                                                    *Ingrese apellido materno
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12 mb-md-1">
+                                            <label class="g-placeholder animated ng-binding pl-xs-1-5">¿Según la
+                                                evaluación, qué se requiere?</label>
+                                        </div>
+                                        <div class="col-md-12 mb-md-2">
+                                            <div class="col-md-6 mt-md-2">
+                                                <label ng-repeat="item in dsEvaluaRequerida" class="mr-md-2">
+                                                    <input type="radio" name="nEvaluaRequerida"
+                                                        ng-model="mEvaluaRequerida" ng-value="item.codigo"
+                                                        data-ng-required="true"
+                                                        ng-click="showCrtlEval(item.codigo);">{{item.descripcion | uppercase}}
+                                                </label>
+                                                <div class="g-error" data-ng-show="!validEvaluaRequerida">
+                                                    *Seleccione una evaluación requerida
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12 mb-md-2">
+                                            <div class="col-md-6" ng-show="step1Eval2">
+                                                <mpf-textarea label="{label: 'Observación:'}" name="nObservacionEvalua"
+                                                    ng-model="mObservacionEvalua" ng-maxlength="500"></mpf-textarea>
+                                            </div>
+                                            <div class="col-md-2" ng-show="step1Eval3">
+                                                <mpf-datepicker nomargin="true" format="format"
+                                                    label="{label: 'Diferir hasta:'}" ng-model="mFechaDiferir"
+                                                    name="nFechaDiferir" readonly="true">
+                                                </mpf-datepicker>
+                                                <div class="g-error" data-ng-show="!validDiferirFecha">
+                                                    *Ingrese fecha de diferimiento
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-10 mb-md-2">
+                                        </div>
+                                        <div class="col-md-2 mb-md-2 text-right">
+                                            <a class="g-btn g-btn-verde block" ng-click="saveStep1();">CONTINUAR</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+
+                    <div class="clearfix g-box-md mb-md-2 gBgcGray5"
+                        ng-show="mEvaluaRequerida == '1' && step2save && showCrtlTrabajoCampo">
+                        <div class="g-col-filter__box">
+                            <div class="col-md-12">
+                                <div class="row">
+                                    <div class="col-md-9 mt-md-2 mb-md-2">
+                                        <span class="badgeIconGreen glyphicon glyphicon-ok"></span>
+                                        <label class="titleBadge c-black">Datos de campo</label>
+                                    </div>
+                                    <div class="col-md-2 mt-md-1 text-right">
+                                        <a class="g-btn g-btn-transparent block" ng-click="continueStep2();"
+                                            ng-show="showBtEditar">EDITAR</a>
+                                    </div>
+                                    <div class="col-md-1 mt-md-1 g-text-right-md">
+                                        <span class="glyphicon glyphicon-chevron-down" ng-show="upDatosCampo"
+                                            ng-click="clickChevronDatosCampo(false);"></span>
+                                        <span class="glyphicon glyphicon-chevron-up" ng-show="!upDatosCampo"
+                                            ng-click="clickChevronDatosCampo(true);"></span>
+                                    </div>
+                                </div>
+                                <div class="row" ng-show="!upDatosCampo">
+                                    <div class="col-md-12 mt-md-2 mb-md-2">
+                                        <ul class="clearfix">
+                                            <li class="col-md-3">
+                                                <b>Declaración: </b>{{ajusteDetalle.nomTipDictamen}}
+                                            </li>
+                                            <li class="col-md-3">
+                                                <b>Fecha programada de ajuste: </b>{{ajusteDetalle.fecProgAjuste}}
+                                            </li>
+                                            <li class="col-md-3">
+                                                <b>Acta de ajuste: </b>{{ajusteDetalle.nroActaAjuste}}
+                                            </li>
+                                            <li class="col-md-3">
+                                                <b>Fecha de ajuste: </b>{{ajusteDetalle.fecAjusteCampo}}
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <div class="col-md-12 mb-md-1">
+                                        <label class="g-placeholder animated ng-binding pl-xs-1-5">Participante en
+                                            ajuste</label>
+                                    </div>
+                                    <div class="col-md-12 mt-md-2 mb-md-2">
+                                        <ul class="clearfix">
+                                            <li class="col-md-3">
+                                                <b>Tipo de participante:
+                                                </b>{{ajusteDetalle.participante2.nomTipPrsona}}
+                                            </li>
+                                            <li class="col-md-3">
+                                                <b>Tipo de documento: </b>{{ajusteDetalle.participante2.nomTipDocum}}
+                                            </li>
+                                            <li class="col-md-3">
+                                                <b>Número de documento: </b>{{ajusteDetalle.participante2.codDocum}}
+                                            </li>
+                                        </ul>
+                                        <ul class="clearfix">
+                                            <li class="col-md-3">
+                                                <b>Nombre: </b>{{ajusteDetalle.participante2.nombre}}
+                                            </li>
+                                            <li class="col-md-3">
+                                                <b>Apellido paterno: </b>{{ajusteDetalle.participante2.apepatrno}}
+                                            </li>
+                                            <li class="col-md-3">
+                                                <b>Apellido materno: </b>{{ajusteDetalle.participante2.apematrno}}
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <form name="frmAjuste2" ng-show="showCrtlTrabajoCampo">
+                        <div class="clearfix g-box-md mb-md-2 gBgcWhite1" ng-show="prevFormStep2">
+                            <div class="g-col-filter__box">
+                                <div class="col-md-12">
+                                    <div class="row">
+                                        <div class="col-md-10 mt-md-2 mb-md-2">
+                                            <span class="badgeNumberGris">2</span>
+                                            <label class="titleBadge c-gris">
+                                                Datos de campo</label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="clearfix g-box-md mb-md-2 gBgcWhite1" ng-show="!step2save && !prevFormStep2">
+                            <div class="g-col-filter__box">
+                                <div class="col-md-12">
+                                    <div class="row">
+                                        <div class="col-md-10 mt-md-2 mb-md-3">
+                                            <span class="badgeNumberGreen">2</span>
+                                            <label class="titleBadge c-green">Datos de campo</label>
+                                        </div>
+                                        <div class="col-md-12 mt-md-2 mb-md-2">
+                                            <div class="col-md-2">
+                                                <mpf-select label="{label: 'Declaración'}" name="nDeclaracion"
+                                                    ng-model="mDeclaracion" m-data-source="dsDeclaracion"
+                                                    value-field="codigo" text-field="descripcion" ng-required="true"
+                                                    m-Empty-Option="{enterData:true}">
+                                                </mpf-select>
+                                                <div class="g-error"
+                                                    data-ng-show="frmAjuste2.nDeclaracion.$error.required && !frmAjuste2.nDeclaracion.$pristine">
+                                                    *Ingrese declaración
+                                                </div>
+                                            </div>
+                                            <div class="col-md-2">
+                                                <mpf-datepicker nomargin="true"
+                                                    label="{label: 'Fecha programada de ajuste:'}"
+                                                    name="nFechaProgAjuste" readonly="true" format="format"
+                                                    mpf-validate="required" ng-required="true"
+                                                    ng-model="mFechaProgAjuste">
+                                                </mpf-datepicker>
+                                                <div class="g-error"
+                                                    data-ng-show="frmAjuste2.nFechaProgAjuste.$error.required && !frmAjuste2.nFechaProgAjuste.$pristine">
+                                                    *Ingrese fecha programada de ajuste
+                                                </div>
+                                            </div>
+                                            <div class="col-md-2">
+                                                <mpf-input label="{label: 'Acta de ajuste'}" name="nActaAjuste"
+                                                    ng-model="mActaAjuste" ng-maxlength="15"
+                                                    mpf-validation="onlyLetterNumberGuion" ng-required="true">
+                                                </mpf-input>
+                                                <div class="g-error"
+                                                    data-ng-show="frmAjuste2.nActaAjuste.$error.required && !frmAjuste2.nActaAjuste.$pristine">
+                                                    *Ingrese acta de ajuste
+                                                </div>
+                                            </div>
+                                            <div class="col-md-2">
+                                                <mpf-datepicker nomargin="true" label="{label: 'Fecha de ajuste:'}"
+                                                    ng-model="mFechaAjuste" name="nFechaAjuste" mpf-validate="required"
+                                                    ng-required="true" readonly="true" format="format">
+                                                </mpf-datepicker>
+                                                <div class="g-error"
+                                                    data-ng-show="frmAjuste2.nFechaAjuste.$error.required && !frmAjuste2.nFechaAjuste.$pristine">
+                                                    *Ingrese fecha de ajuste
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12 mb-md-1">
+                                            <label class="g-placeholder animated ng-binding pl-xs-1-5">Participante en
+                                                ajuste</label>
+                                        </div>
+                                        <div class="col-md-12 mt-md-2 mb-md-2">
+                                            <div class="col-md-2">
+                                                <mpf-select label="{label: 'Tipo de participante'}" name="nTipoPart2"
+                                                    ng-model="mTipoPart2" m-data-source="dsTipoPart2"
+                                                    value-field="codigo" text-field="descripcion"
+                                                    m-Empty-Option="{enterData:true}" ng-required="true">
+                                                </mpf-select>
+                                                <div class="g-error"
+                                                    data-ng-show="frmAjuste2.nTipoPart2.$error.required && !frmAjuste2.nTipoPart2.$pristine">
+                                                    *Ingrese tipo de participante
+                                                </div>
+                                            </div>
+                                            <div class="col-md-2">
+                                                <mpf-select label="{label: 'Tipo de documento'}" name="nTipoDocument2"
+                                                    ng-model="mTipoDocument2" m-data-source="dsTipoDocument2"
+                                                    value-field="codigo" text-field="descripcion"
+                                                    ng-change="changeTipoDoc('step2');"
+                                                    m-Empty-Option=" {enterData:true}" ng-required="true">
+                                                </mpf-select>
+                                                <div class="g-error"
+                                                    data-ng-show="frmAjuste2.nTipoDocument2.$error.required && !frmAjuste2.nTipoDocument2.$pristine">
+                                                    *Ingrese tipo de documento
+                                                </div>
+                                            </div>
+                                            <div class="col-md-2">
+                                                <mpf-input label="{label: 'Número de documento'}" name="nNumDocument2"
+                                                    ng-model="mNumDocument2" ng-maxlength="maxLengthDoc2"
+                                                    ng-required="true" mpf-validation="onlyLetterNumber"
+                                                    ng-blur="consultPerson('step2');">
+                                                </mpf-input>
+                                                <div class="g-error" data-ng-show="noResultParticipant2">
+                                                    <span>(!) No se encontró resultados</span>
+                                                </div>
+                                                <div class="g-error"
+                                                    data-ng-show="frmAjuste2.nNumDocument2.$error.required && !frmAjuste2.nNumDocument2.$pristine">
+                                                    *Ingrese número de documento
+                                                </div>
+                                            </div>
+                                            <div class="col-md-2">
+                                                <mpf-input label="{label: 'Nombre'}" name="nNombre2" ng-model="mNombre2"
+                                                    ng-maxlength="20" mpf-validation="onlyLetter" ng-required="true">
+                                                </mpf-input>
+                                                <div class="g-error"
+                                                    data-ng-show="frmAjuste2.nNombre2.$error.required && !frmAjuste2.nNombre2.$pristine">
+                                                    *Ingrese nombre
+                                                </div>
+                                            </div>
+                                            <div class="col-md-2">
+                                                <mpf-input label="{label: 'Apellido paterno'}" name="nApellidoPat2"
+                                                    ng-model="mApellidoPat2" ng-maxlength="20"
+                                                    mpf-validation="onlyLetter" ng-required="true">
+                                                </mpf-input>
+                                                <div class="g-error"
+                                                    data-ng-show="frmAjuste2.nApellidoPat2.$error.required && !frmAjuste2.nApellidoPat2.$pristine">
+                                                    *Ingrese apellido paterno
+                                                </div>
+                                            </div>
+                                            <div class="col-md-2">
+                                                <mpf-input label="{label: 'Apellido materno'}" name="nApellidoMat2"
+                                                    ng-model="mApellidoMat2" ng-maxlength="20"
+                                                    mpf-validation="onlyLetter" ng-required="true">
+                                                </mpf-input>
+                                                <div class="g-error"
+                                                    data-ng-show="frmAjuste2.nApellidoMat2.$error.required && !frmAjuste2.nApellidoMat2.$pristine">
+                                                    *Ingrese apellido materno
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-10"></div>
+                                        <div class="col-md-2 mb-md-2 text-right">
+                                            <a class="g-btn g-btn-verde block" ng-click="saveStep2();">CONTINUAR</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+
+                    <div class="clearfix g-box-md mb-md-2 gBgcGray5"
+                        ng-show="mEvaluaRequerida == '1' && step3save && showCrtlTrabajoCampo">
+                        <div class="g-col-filter__box">
+                            <div class="col-md-12">
+                                <div class="row">
+                                    <div class="col-md-9 mt-md-2 mb-md-2">
+                                        <span class="badgeIconGreen glyphicon glyphicon-ok"></span>
+                                        <label class="titleBadge c-black">Lote</label>
+                                    </div>
+                                    <div class="col-md-2 mt-md-1 text-right">
+                                        <a class="g-btn g-btn-transparent block" ng-click="continueStep3();"
+                                            ng-show="showBtEditar">EDITAR</a>
+                                    </div>
+                                    <div class="col-md-1 mt-md-1 g-text-right-md">
+                                        <span class="glyphicon glyphicon-chevron-down" ng-show="upLote"
+                                            ng-click="clickChevronLote(false);"></span>
+                                        <span class="glyphicon glyphicon-chevron-up" ng-show="!upLote"
+                                            ng-click="clickChevronLote(true);"></span>
+                                    </div>
+                                </div>
+                                <div class="row mg-bot-10" ng-show="!upLote">
+                                    <div class="col-md-3 mb-md-2">
+                                        <div class="col-md-10">
+                                        <label class="g-placeholder animated ng-binding pl-xs-1-5">Total de
+                                            superficie sembrada:</label>
+                                    </div>
+                                        <div class="col-md-2 mg-top-5m">
+                                            <span class="styleIndicator centered"
+                                                style="display:inline-block">{{ loteCalculo.totalSuperSembrada | dosDecimales}}
+                                        </span>
+                                    </div>
+                                    </div>
+                                    <div class="col-md-3 md-md-2">
+                                        <div class="col-md-10">
+                                        <label class="g-placeholder animated ng-binding pl-xs-1-5">Total de
+                                                producción obtenida:</label></div>
+                                        <div class="col-md-2">
+                                            <span class="styleIndicator centered mg-top-5m"
+                                                style="display:inline-block">{{ loteCalculo.totalProducObtenida | dosDecimales }}
+                                            </span></div>
+                                    </div>
+                                    <div class="col-md-3 mb-md-2">
+                                        <div class="col-md-8"> <label
+                                                class="g-placeholder animated ng-binding pl-xs-1-5">Sector
+                                                estadístico:</label></div>
+                                        <div class="col-md-4">
+                                            <span class="styleIndicator centered mg-top-5m"
+                                                style="display:inline-block">{{ objAvisoDatosGenerales.nomSectorEst }}
+                                            </span>
+                                        </div>
+
+                                    </div>
+                                    <div class="col-md-3 mb-md-2">
+                                        <div class="col-md-4">
+                                            <label class="g-placeholder animated ng-binding pl-xs-1-5">Cultivo:</label>
+                                        </div>
+                                        <div class="col-md-8">
+                                            <span class="styleIndicator centered mg-top-5m"
+                                                style="display:inline-block">{{ objAvisoDatosGenerales.nomCultivo }}
+                                    </div>
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="clearfix g-box mb-md-2" ng-repeat="(key, item) in listaLotes"
+                                    ng-show="!upLote">
+                                    <div
+                                        class="clearfix g-box no-bbl-radius no-bbr-radius g-border-noborder pt-xs-1 pb-xs-1 gBgcGray5">
+                                        <ul class="row g-list-sm">
+                                            <li class="col-md-3">
+                                                <div class="item-label">
+                                                    <ul class="clearfix">
+                                                        <li class="col-xs-12">
+                                                            <b>Número de lote: {{ $index + 1 }}</b>
+                                                        </li>
+                                                        <li class="col-xs-12">
+                                                            <b>Comunidad: </b>{{ item.nombrecomunidad }}
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                            </li>
+                                            <li class="col-md-7"></li>
+                                        </ul>
+                                    </div>
+                                    <div class="clearfix g-box-content gBgcWhite1">
+                                        <ul class="row g-list-sm">
+                                            <li class="col-md-2 clearfix cnt-item">
+                                                <div class="col-xs-12">
+                                                    <b>Latitud: </b>{{ item.latitud }}
+                                                </div>
+                                            </li>
+                                            <li class="col-md-2 clearfix cnt-item">
+                                                <div class="col-xs-12">
+                                                    <b>Longitud: </b>{{ item.longitud }}
+                                                </div>
+                                            </li>
+                                            <li class="col-md-2 clearfix cnt-item">
+                                                <div class="col-xs-12">
+                                                    <b>Superficie sembrada (ha): </b>{{ item.superficiesembrada }}
+                                                </div>
+                                            </li>
+                                            <li class="col-md-2 clearfix cnt-item">
+                                                <div class="col-xs-12">
+                                                    <b>Rendimiento obtenido (ha): </b>{{ item.rendimientoobtenidoha }}
+                                                </div>
+                                            </li>
+                                            <li class="col-md-2 clearfix cnt-item">
+                                                <div class="col-xs-12">
+                                                    <b>Producción lote: </b>{{ item.produccionobtenidolote }}
+                                                </div>
+                                            </li>
+                                            <li class="col-md-2 clearfix cnt-item">
+                                                <div class="col-xs-12">
+                                                    <b>Fecha ocurrencia: </b>{{ item.fechaocurrencia }}
+                                                </div>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <form name="frmAjuste3" ng-show="showCrtlTrabajoCampo">
+                        <div class="clearfix g-box-md mb-md-2 gBgcWhite1" ng-show="prevFormStep3">
+                            <div class="g-col-filter__box">
+                                <div class="col-md-12">
+                                    <div class="row">
+                                        <div class="col-md-10 mt-md-2 mb-md-2">
+                                            <span class="badgeNumberGris">3</span>
+                                            <label class="titleBadge c-gris">
+                                                Lote</label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="clearfix g-box-md mb-md-2 gBgcWhite1" ng-show="!step3save && !prevFormStep3">
+                            <div class="g-col-filter__box">
+                                <div class="col-md-12">
+                                    <div class="row">
+                                        <div class="col-md-10 mt-md-2 mb-md-3">
+                                            <span class="badgeNumberGreen">3</span>
+                                            <label class="titleBadge c-green">Lote</label>
+                                        </div>
+                                    </div>
+
+                                   
+                                <div class="row mg-bot-10">
+                                    <div class="col-md-3 mb-md-2">
+                                        <div class="col-md-10">
+                                            <label class="g-placeholder animated ng-binding pl-xs-1-5">Total de
+                                                superficie sembrada:</label>
+                                        </div>
+                                        <div class="col-md-2 mg-top-5m">
+                                                <span class="styleIndicator centered"
+                                                    style="display:inline-block">{{ loteCalculo.totalSuperSembrada | dosDecimales }}
+                                            </span>
+                                        </div>
+                                        </div>
+                                    <div class="col-md-3 md-md-2">
+                                        <div class="col-md-10">
+                                            <label class="g-placeholder animated ng-binding pl-xs-1-5">Total de
+                                                    producción obtenida:</label></div>
+                                        <div class="col-md-2">
+                                                <span class="styleIndicator centered mg-top-5m"
+                                                    style="display:inline-block">{{ loteCalculo.totalProducObtenida | dosDecimales }}
+                                                </span></div>
+                                        </div>
+                                    <div class="col-md-3 mb-md-2">
+                                        <div class="col-md-8"> <label
+                                                    class="g-placeholder animated ng-binding pl-xs-1-5">Sector
+                                                    estadístico:</label></div>
+                                        <div class="col-md-4">
+                                                <span class="styleIndicator centered mg-top-5m"
+                                                    style="display:inline-block">{{ objAvisoDatosGenerales.nomSectorEst }}
+                                                </span>
+                                            </div>
+
+                                        </div>
+                                    <div class="col-md-3 mb-md-2">
+                                        <div class="col-md-4">
+                                                <label
+                                                    class="g-placeholder animated ng-binding pl-xs-1-5">Cultivo:</label>
+                                            </div>
+                                        <div class="col-md-8">
+                                                <span class="styleIndicator centered mg-top-5m"
+                                                    style="display:inline-block">{{ objAvisoDatosGenerales.nomCultivo }}
+                                        </div>
+                                            </span>
+                                        </div>
+                                    </div>
+
+                                    <div class="clearfix g-box mb-md-2" ng-repeat="(key, item) in listaLotes">
+                                        <div
+                                            class="clearfix g-box no-bbl-radius no-bbr-radius g-border-noborder pt-xs-1 pb-xs-1 gBgcGray5">
+                                            <ul class="row g-list-sm">
+                                                <li class="col-md-3">
+                                                    <div class="item-label">
+                                                        <ul class="clearfix">
+                                                            <li class="col-xs-12">
+                                                                <b>Número de lote: {{ $index + 1 }}</b>{{item.tipDocum}}
+                                                            </li>
+                                                            <li class="col-xs-12">
+                                                                <b>Comunidad: </b>{{ item.nombrecomunidad }}
+                                                            </li>
+                                                        </ul>
+                                                    </div>
+                                                </li>
+                                                <li class="col-md-7"></li>
+                                                <li class="col-md-1">
+                                                    <span class="ico-mapfre_181_eliminar gnIcon-xsm gCGray3 float-right"
+                                                        ng-click="loteDeleteStep3(key);"></span>
+                                                </li>
+                                                <li class="col-md-1">
+                                                    <span class="ico-mapfre_228_editar gnIcon-xsm gCGray3"
+                                                        ng-click="loteEditViewStep3(item, key);"></span>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                        <div class="clearfix g-box-content gBgcWhite1">
+                                            <ul class="row g-list-sm">
+                                                <li class="col-md-2 clearfix cnt-item">
+                                                    <div class="col-xs-12">
+                                                        <b>Latitud: </b>{{ item.latitud }}
+                                                    </div>
+                                                </li>
+                                                <li class="col-md-2 clearfix cnt-item">
+                                                    <div class="col-xs-12">
+                                                        <b>Longitud: </b>{{ item.longitud }}
+                                                    </div>
+                                                </li>
+                                                <li class="col-md-2 clearfix cnt-item">
+                                                    <div class="col-xs-12">
+                                                        <b>Superficie sembrada (ha): </b>{{ item.superficiesembrada}}
+                                                    </div>
+                                                </li>
+                                                <li class="col-md-2 clearfix cnt-item">
+                                                    <div class="col-xs-12">
+                                                        <b>Rendimiento obtenido (ha):
+                                                        </b>{{ item.rendimientoobtenidoha}}
+                                                    </div>
+                                                </li>
+                                                <li class="col-md-2 clearfix cnt-item">
+                                                    <div class="col-xs-12">
+                                                        <b>Producción lote: </b>{{ item.produccionobtenidolote }}
+                                                    </div>
+                                                </li>
+                                                <li class="col-md-2 clearfix cnt-item">
+                                                    <div class="col-xs-12">
+                                                        <b>Fecha ocurrencia:
+                                                        </b>{{ item.fechaocurrencia | date:"dd/MM/yyyy" }}
+                                                    </div>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+
+                                    <div class="clearfix g-box-md mb-md-2 gBgcWhite1" ng-show="nuevoLote">
+                                        <div class="g-col-filter__box">
+                                            <div class="col-md-12">
+                                                <div class="row">
+                                                    <div class="col-md-12 mb-md-2 mt-md-1 ml-md-2">
+                                                        <label class="g-placeholder animated ng-binding pl-xs-1-5">
+                                                            Lote
+                                                        </label>
+                                                    </div>
+                                                    <div class="col-md-12 mb-md-2 mt-md-1">
+                                                        <label class="g-placeholder animated ng-binding pl-xs-1-5">
+                                                            Productor
+                                                        </label>
+                                                    </div>
+                                                    <div class="row mb-md-2 mt-md-2 ml-md-2">
+                                                        <div class="col-md-2">
+                                                            <mpf-select label="{label: 'Tipo de documento'}"
+                                                                name="nTipoDocument3" ng-model="mTipoDocument3"
+                                                                m-data-source="dsTipoDocument" value-field="codigo"
+                                                                text-field="descripcion"
+                                                                m-Empty-Option="{enterData:true}" ng-required="false"
+                                                                ng-change="changeTipoDoc('step3');">
+                                                            </mpf-select>
+                                                            <div class="g-error"
+                                                                data-ng-show="frmAjuste3.nTipoDocument3.$error.required && !frmAjuste3.nTipoDocument3.$pristine">
+                                                                *Ingresar tipo de documento
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-2">
+                                                            <mpf-input label="{label: 'Número de documento'}"
+                                                                name="nNumDocument3" ng-model="mNumDocument3"
+                                                                ng-required="false" ng-maxlength="maxLengthDoc3"
+                                                                mpf-validation="onlyLetterNumber"
+                                                                ng-blur="consultPerson('step3');" ng-required="true">
+                                                            </mpf-input>
+                                                            <div class="g-error" data-ng-show="noResultParticipant3">
+                                                                <span>(!) No se encontró resultados</span>
+                                                            </div>
+                                                            <div class="g-error"
+                                                                data-ng-show="frmAjuste3.nNumDocument3.$error.required && !frmAjuste2.nNumDocument3.$pristine">
+                                                                *Ingrese número de documento
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-2">
+                                                            <mpf-input label="{label: 'Nombre'}" name="nNombre3"
+                                                                ng-model="mNombre3" ng-maxlength="20"
+                                                                mpf-validation="onlyLetter" ng-required="false">
+                                                            </mpf-input>
+                                                            <div class="g-error"
+                                                                data-ng-show="frmAjuste3.nNombre3.$error.required && !frmAjuste3.nNombre3.$pristine">
+                                                                *Ingrese nombre
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-2">
+                                                            <mpf-input label="{label: 'Apellido paterno'}"
+                                                                name="nApellidoPat3" ng-model="mApellidoPat3"
+                                                                ng-maxlength="20" mpf-validation="onlyLetter"
+                                                                ng-required="false">
+                                                            </mpf-input>
+                                                            <div class="g-error"
+                                                                data-ng-show="frmAjuste3.nApellidoPat3.$error.required && !frmAjuste3.nApellidoPat3.$pristine">
+                                                                *Ingrese apellido paterno
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-2">
+                                                            <mpf-input label="{label: 'Apellido materno'}"
+                                                                name="nApellidoMat3" ng-model="mApellidoMat3"
+                                                                ng-maxlength="20" mpf-validation="onlyLetter"
+                                                                ng-required="false">
+                                                            </mpf-input>
+                                                            <div class="g-error"
+                                                                data-ng-show="frmAjuste3.nApellidoMat3.$error.required && !frmAjuste3.nApellidoMat3.$pristine">
+                                                                *Ingrese apellido materno
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-12 mb-md-2 mt-md-1">
+                                                        <label class="g-placeholder animated ng-binding pl-xs-1-5">
+                                                            Comunidad
+                                                        </label>
+                                                    </div>
+                                                    <div class="row md-md-2 mt-md-2 ml-md-2">
+                                                        <div class="col-md-2">
+                                                            <mpf-input label="{label: 'Nombre de comunidad'}"
+                                                                name="nNombreComuni" ng-model="mNombreComuni"
+                                                                ng-required="true" ng-maxlength="50"
+                                                                mpf-validation="onlyLetter">
+                                                            </mpf-input>
+                                                            <div class="g-error"
+                                                                data-ng-show="frmAjuste3.nNombreComuni.$error.required && !frmAjuste3.nNombreComuni.$pristine">
+                                                                *Ingrese nombre de comunidad
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-2">
+                                                            <mpf-select
+                                                                label="{label: 'Fecha de siembra', required: false}"
+                                                                m-Empty-Option="{enterData: true}" name="nFechaSiembra"
+                                                                text-field="descripcion" value-field="codigo"
+                                                                ng-model="mFechaSiembra" ng-required="true"
+                                                                m-data-source="listaFechaSiembra">
+                                                            </mpf-select>
+                                                            <div class="g-error"
+                                                                data-ng-show="frmAjuste3.nFechaSiembra.$error.required && !frmAjuste3.nFechaSiembra.$pristine">
+                                                                *Ingrese fecha de siembra
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-2">
+                                                            <mpf-select label="{label: 'Estado fenológico'}"
+                                                                name="nEstadoFenelog" ng-model="mEstadoFenelog"
+                                                                text-field="descripcion" value-field="codigo"
+                                                                m-data-source="listaEstadoFenologico" ng-required="true"
+                                                                m-Empty-Option="{enterData:true}"></mpf-select>
+                                                            <div class="g-error"
+                                                                data-ng-show="frmAjuste3.nEstadoFenelog.$error.required && !frmAjuste3.nEstadoFenelog.$pristine">
+                                                                *Seleccione estado fenológico
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-2">
+                                                            <mpf-datepicker nomargin="true"
+                                                                label="{label: 'Fecha de ocurrencia'}"
+                                                                name="nFechaOcurrencia" ng-model="mFechaOcurrencia"
+                                                                ng-required="true" format="format"
+                                                                mpf-validate="required" readonly="true"
+                                                                maxDate="dateOption.maxDate"></mpf-datepicker>
+                                                            <div class="g-error"
+                                                                data-ng-show="frmAjuste3.nFechaOcurrencia.$error.required && !frmAjuste3.nFechaOcurrencia.$pristine">
+                                                                *Ingrese fecha de ocurrencia
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-2">
+                                                            <mpf-select label="{label: 'Tipo siniestro'}"
+                                                                name="nTipoSiniestro" ng-model="mTipoSiniestro"
+                                                                text-field="descripcion" value-field="codigo"
+                                                                m-data-source="listaTipoSiniestro" ng-required="true"
+                                                                m-Empty-Option="{enterData:true}"></mpf-select>
+                                                            <div class="g-error"
+                                                                data-ng-show="frmAjuste3.nTipoSiniestro.$error.required && !frmAjuste3.nTipoSiniestro.$pristine">
+                                                                *Seleccione tipo de siniestro
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row mb-md-2 mt-md-2 ml-md-2">
+                                                        <div class="col-md-2">
+                                                            <mpf-input label="{label: 'Latitud'}" name="nLatitud"
+                                                                ng-model="mLatitud" ng-maxlength="10"
+                                                                ng-change="changeGeoposition('mLatitud');"
+                                                                ng-required="false">
+                                                            </mpf-input>
+                                                            <div class="g-error" data-ng-show="!validLatitud">
+                                                                *Latitud Incorrecta
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-2">
+                                                            <mpf-input label="{label: 'Longitud'}" name="nLongitud"
+                                                                ng-model="mLongitud" ng-maxlength="10"
+                                                                ng-change="changeGeoposition('mLongitud');"
+                                                                ng-required="false">
+                                                            </mpf-input>
+                                                            <div class="g-error" data-ng-show="!validLongitud">
+                                                                *Longitud Incorrecta
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-2">
+                                                            <m-Numeric-Textbox
+                                                                label="{label: 'Superficie sembrada (ha)'}"
+                                                                name="nSuperSembra" ng-model="mSuperSembra"
+                                                                ng-required="true" ng-change="calcProdObtenida();">
+                                                            </m-Numeric-Textbox>
+                                                            <div class="g-error"
+                                                                data-ng-show="frmAjuste3.nSuperSembra.$error.required && !frmAjuste3.nSuperSembra.$pristine">
+                                                                *Ingrese superficie sembrada (ha)
+                                                            </div>
+                                                            <div class="g-error" ng-show="!validSuperficie">
+                                                                *La Superficie sembrada (ha), no debe ser mayor a 10
+                                                                digitos
+                                                            </div>
+                                                            <div class="g-error"
+                                                                ng-show="!frmAjuste3.nSuperSembra.$error.required && !frmAjuste3.nSuperSembra.$pristine && !validSuperficieCero">
+                                                                *La Superficie sembrada (ha) debe ser mayor a 0.
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-2">
+                                                            <m-Numeric-Textbox
+                                                                label="{label: 'Rendimiento obtenido/ha'}"
+                                                                name="nRendObten" ng-model="mRendObten"
+                                                                ng-required="true" ng-change="calcProdObtenida();">
+                                                            </m-Numeric-Textbox>
+                                                            <div class="g-error"
+                                                                data-ng-show="frmAjuste3.nRendObten.$error.required && !frmAjuste3.nRendObten.$pristine">
+                                                                *Ingrese rendimiento obtenido/ha
+                                                            </div>
+                                                            <div class="g-error" ng-show="!validRendimiento">
+                                                                *La Rendimiento obtenido/ha, no debe ser mayor a 10
+                                                                digitos
+                                                            </div>
+                                                            <!--
+                                                            <div class="g-error"
+                                                                ng-show="!frmAjuste3.nRendObten.$error.required && !frmAjuste3.nRendObten.$pristine && !validRendimientoCero">
+                                                                * El Rendimiento obtenido/ha debe ser mayor a 0.
+                                                            </div>
+                                                            -->
+                                                        </div>
+                                                        <div class="col-md-2">
+                                                            <div class="col-md-12">
+                                                                <label class="g-placeholder animated">Producción
+                                                                    obtenida de lote</label>
+                                                            </div>
+                                                            <div class="col-md-12 mt-md-4">
+                                                                <spam class="font-1-4 pt-md-3 ml_-_15">{{mProdObten}}
+                                                                </spam>
+                                                            </div>
+                                                            <div class="g-error" ng-show="!validProduccion">
+                                                                *La Producción obtenida de lote, no debe ser mayor a 10
+                                                                digitos
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-md-8"></div>
+                                                    <div class="col-md-2 mb-md-2 text-right" ng-show="nuevoLote">
+                                                        <a class="g-btn g-btn-blanco block"
+                                                            ng-click="cancelarNuevoLote();">CANCELAR</a>
+                                                    </div>
+                                                    <div class="col-md-2 mb-md-2 text-right" ng-show="nuevoLote">
+                                                        <a class="g-btn g-btn-gris block"
+                                                            ng-click="saveFinishLote();">GRABAR</a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-md-2 mb-md-2 text-left" ng-click="openNewLote();"
+                                            ng-show="abrirNuevoLote">
+                                            <span class="glyphicon glyphicon-plus c-green"></span>
+                                            <label class="c-green des-title">Agregar lote</label>
+                                        </div>
+                                        <div class="col-md-8"></div>
+                                        <div class="col-md-2 mb-md-2 text-right" ng-show="continuarStep3">
+                                            <a class="g-btn g-btn-verde block" ng-click="saveStep3();">CONTINUAR</a>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+
+                    <div class="clearfix g-box-md mb-md-2 gBgcGray5"
+                        ng-show="mEvaluaRequerida == '1' && step4save && showCrtlTrabajoCampo">
+                        <div class="g-col-filter__box">
+                            <div class="col-md-12">
+                                <div class="row">
+                                    <div class="col-md-9 mt-md-2 mb-md-2">
+                                        <span class="badgeIconGreen glyphicon glyphicon-ok"></span>
+                                        <label class="titleBadge c-black">Datos finales</label>
+                                    </div>
+                                    <div class="col-md-2 mt-md-1 text-right">
+                                        <a class="g-btn g-btn-transparent block" ng-click="continueStep4();"
+                                            ng-show="showBtEditar">EDITAR</a>
+                                    </div>
+                                    <div class="col-md-1 mt-md-1 g-text-right-md">
+                                        <span class="glyphicon glyphicon-chevron-down" ng-show="upDatosFinales"
+                                            ng-click="clickChevronDatosFinales(false);"></span>
+                                        <span class="glyphicon glyphicon-chevron-up" ng-show="!upDatosFinales"
+                                            ng-click="clickChevronDatosFinales(true);"></span>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 clearfix g-box-md mb-md-2 gBgcWhite1" ng-show="!upDatosFinales">
+                                    <div class="g-col-filter__box">
+                                        <div class="col-md-12">
+                                            <div class="row mt-md-1 mb-md-1">
+                                                <div class="col-md-6">
+                                                    <b>Causa real de siniestro: </b>{{listaStep4.causa}}
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <b>Dictamen de ajuste: </b>{{listaStep4.dictamen}}
+                                                </div>
+                                            </div>
+                                            <div class="row mt-md-1 mb-md-1">
+                                                <div class="col-md-6">
+                                                    <b>Fenología de cultivo: </b>{{listaStep4.fenologia}}
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <b>Fecha de siembra: </b>{{listaStep4.fechaSiembra}}
+                                                </div>
+                                            </div>
+                                            <div class="row mt-md-1 mb-md-1">
+                                                <div class="col-md-6">
+                                                    <b>Producción obtenida total: </b>{{listaStep4.produccionTotal}}
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <b>Total de la superficie ajuste:
+                                                    </b>{{listaStep4.totalSuperficie}}
+                                                </div>
+                                            </div>
+                                            <div class="row mt-md-1 mb-md-1">
+                                                <div class="col-md-6">
+                                                    <b>Rendimiento obtenido: </b>{{listaStep4.redimiento}}
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <b>Monto a indemnizar: </b>{{listaStep4.montoIndemniza}}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6" ng-show="!upDatosFinales">
+                                    <div class="col-md-12 mb-md-2">
+                                        <ul class="clearfix">
+                                            <li class="col-md-12">
+                                                <b>Superficie sembrada del sector estadístico:
+                                                </b>{{ajusteDetalle.suprfSembSecEsta}}
+                                            </li>
+                                        </ul>
+                                        <ul class="clearfix">
+                                            <li class="col-md-12 mt-md-2">
+                                                <b>Observaciones:
+                                                </b> {{ajusteDetalle.observacion}}
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <form name="frmAjuste4" ng-show="showCrtlTrabajoCampo">
+                        <div class="clearfix g-box-md mb-md-2 gBgcWhite1" ng-show="prevFormStep4">
+                            <div class="g-col-filter__box">
+                                <div class="col-md-12">
+                                    <div class="row">
+                                        <div class="col-md-10 mt-md-2 mb-md-2">
+                                            <span class="badgeNumberGris">4</span>
+                                            <label class="titleBadge c-gris">Datos finales</label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="clearfix g-box-md mb-md-2 gBgcWhite1" ng-show="!step4save && !prevFormStep4">
+                            <div class="g-col-filter__box">
+                                <div class="col-md-12">
+                                    <div class="row">
+                                        <div class="col-md-10 mt-md-2 mb-md-3">
+                                            <span class="badgeNumberGreen">4</span>
+                                            <label class="titleBadge c-green">Datos finales</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 clearfix g-box-md mb-md-2 gBgcGray5">
+                                        <div class="g-col-filter__box">
+                                            <div class="col-md-12">
+                                                <div class="row mt-md-1 mb-md-1">
+                                                    <div class="col-md-6">
+                                                        <b>Causa real de siniestro: </b>{{listaStep4.causa}}
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <b>Dictamen de ajuste: </b>{{listaStep4.dictamen}}
+                                                    </div>
+                                                </div>
+                                                <div class="row mt-md-1 mb-md-1">
+                                                    <div class="col-md-6">
+                                                        <b>Fenología de cultivo: </b>{{listaStep4.fenologia}}
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <b>Fecha de siembra: </b>{{listaStep4.fechaSiembra}}
+                                                    </div>
+                                                </div>
+                                                <div class="row mt-md-1 mb-md-1">
+                                                    <div class="col-md-6">
+                                                        <b>Producción obtenida total: </b>{{listaStep4.produccionTotal}}
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <b>Total de la superficie ajuste:
+                                                        </b>{{listaStep4.totalSuperficie}}
+                                                    </div>
+                                                </div>
+                                                <div class="row mt-md-1 mb-md-1">
+                                                    <div class="col-md-6">
+                                                        <b>Rendimiento obtenido: </b>{{listaStep4.redimiento}}
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <b>Monto a indemnizar: </b>{{listaStep4.montoIndemniza}}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 mb-md-2">
+                                        <div class="col-md-7">
+                                            <mpf-input label="{label: 'Superficie sembrada del sector estadístico'}"
+                                                name="nSuperEstadis" ng-model="mSuperEstadis"
+                                                mpf-validation="onlyNumberDecimal" ng-blur="calcMontoIndem();"
+                                                ng-required="true">
+                                            </mpf-input>
+                                            <div class="g-error"
+                                                data-ng-show="frmAjuste4.nSuperEstadis.$error.required && !frmAjuste4.nSuperEstadis.$pristine">
+                                                *Ingrese superficie sembrada del sector estadístico
+                                            </div>
+                                        </div>
+                                        <div class="col-md-5"></div>
+                                        <div class="col-md-12 mt-md-1">
+                                            <mpf-input label="{label: 'Observaciones'}" name="nObservaciones"
+                                                ng-model="mObservaciones" ng-maxlength="200">
+                                            </mpf-input>
+                                            <div class="g-error"
+                                                data-ng-show="frmAjuste4.nObservaciones.$error.required && !frmAjuste4.nObservaciones.$pristine">
+                                                *Ingrese observaciones
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row mb-md-2 text-right">
+                                        <div class="col-md-10"></div>
+                                        <div class="col-md-2">
+                                            <a class="g-btn g-btn-verde block" ng-click="saveStep4();">CONTINUAR</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+
+                    <div class="clearfix g-box-md mb-md-2 gBgcGray5" ng-show="step5save">
+                        <div class="g-col-filter__box">
+                            <div class="col-md-12">
+                                <div class="row">
+                                    <div class="col-md-9 mt-md-2 mb-md-2">
+                                        <span class="badgeIconGreen glyphicon glyphicon-ok"></span>
+                                        <label class="titleBadge c-black">Documentos</label>
+                                    </div>
+                                    <div class="col-md-2 mt-md-1 text-right">
+                                        <a class="g-btn g-btn-transparent block" ng-click="continueStep5();"
+                                            ng-show="showBtEditar">EDITAR</a>
+                                    </div>
+                                    <div class="col-md-1 mt-md-1 g-text-right-md">
+                                        <span class="glyphicon glyphicon-chevron-down" ng-show="upDocumentos"
+                                            ng-click="clickChevronDocumentos(false);"></span>
+                                        <span class="glyphicon glyphicon-chevron-up" ng-show="!upDocumentos"
+                                            ng-click="clickChevronDocumentos(true);"></span>
+                                    </div>
+                                </div>
+                                <div class="row" ng-show="!upDocumentos">
+                                    <div class="col-md-3 mb-md-2 mt-md-1" ng-repeat="files in ajusteDetalle.documentos">
+                                        <div class="clearfix g-box g-box-dashed gBgcWhite1 pt-xs-1 pb-xs-1">
+                                            <div class="col-md-12 text-left">
+                                                <label
+                                                    class="g-placeholder animated ng-binding pl-xs-1-5">{{files.tipoArchivo}}</label>
+                                            </div>
+                                            <div class="col-md-12 mt-md-2 text-center">
+                                                <ul class="clearfix">
+                                                    <li class="clearfix g-border-bottom-xs pt-xs-1 pb-xs-1">
+                                                        <div class="text-left"
+                                                            ng-class="{'col-xs-8': objAvisoDatosGenerales.codEstado === '2', 'col-xs-9': objAvisoDatosGenerales.codEstado !== '2'}">
+                                                            <span class="ellipsisLimit">{{files.nomArchivo}}</span>
+                                                        </div>
+                                                        <div class="col-xs-2 g-border-left-xs pl-xs-1">
+                                                            <a>
+                                                                <span class="gH2 gCGreen1 ico-mapfre_124_download"
+                                                                    ng-click="downloadFileDB(files.tipoArchivo, files.nomArchivo)"></span>
+                                                            </a>
+                                                        </div>
+                                                        <div class="col-xs-2 g-border-left-xs pl-xs-1"
+                                                            ng-show="objAvisoDatosGenerales.codEstado === '2'">
+                                                            <a>
+                                                                <span class="gH2 gCGreen1 ico-mapfre_307_tacho"
+                                                                    ng-click="deleteFileDB(files.tipoArchivo)"></span>
+                                                            </a>
+                                                        </div>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <form name="frmAjuste5">
+                        <div class="clearfix g-box-md mb-md-2 gBgcWhite1" ng-show="prevFormStep5">
+                            <div class="g-col-filter__box">
+                                <div class="col-md-12">
+                                    <div class="row">
+                                        <div class="col-md-10 mt-md-2 mb-md-2">
+                                            <span class="badgeNumberGris" ng-show="mEvaluaRequerida == '1'">5</span>
+                                            <span class="badgeNumberGris"
+                                                ng-show="mEvaluaRequerida == '2' || mEvaluaRequerida == '3'">2</span>
+                                            <label class="titleBadge c-gris">Documentos</label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="clearfix g-box-md mb-md-2 gBgcWhite1" ng-show="!step5save && !prevFormStep5">
+                            <div class="g-col-filter__box">
+                                <div class="col-md-12">
+                                    <div class="row">
+                                        <div class="col-md-10 mt-md-2 mb-md-3">
+                                            <span class="badgeNumberGreen" ng-show="mEvaluaRequerida == '1'">5</span>
+                                            <span class="badgeNumberGreen"
+                                                ng-show="mEvaluaRequerida == '2' || mEvaluaRequerida == '3'">2</span>
+                                            <label class="titleBadge c-green">Documentos</label>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-3 mb-md-2"
+                                            ng-show="mEvaluaRequerida == '1' || mEvaluaRequerida == '2'">
+                                            <div class="clearfix g-box g-box-dashed gBgcWhite1 pt-xs-1 pb-xs-1">
+                                                <div class="col-md-12 text-left">
+                                                    <label class="g-placeholder animated ng-binding pl-xs-1-5">Acta de
+                                                        Inspección 1</label>
+                                                </div>
+                                                <div class="col-md-12 mt-md-2 text-center">
+                                                    <ul class="clearfix mb-xs-3">
+                                                        <li class="clearfix g-border-bottom-xs pt-xs-1 pb-xs-1"
+                                                            ng-repeat="file in filesAI1 track by $index"
+                                                            ng-show="filesAI1">
+                                                            <div class="col-xs-2 g-border-right-xs"
+                                                                uib-tooltip="{{file.name}}">
+                                                                <span
+                                                                    class="gH2 gCGray3 ico-mapfre_170_archivos"></span>
+                                                            </div>
+                                                            <div class="col-xs-8 text-left">
+                                                                <span>{{file.name}}</span>
+                                                            </div>
+                                                            <div class="col-xs-2 g-border-left-xs">
+                                                                <a>
+                                                                    <span class="gH2 gCGreen1 ico-mapfre_307_tacho"
+                                                                        ng-click="deleteFile('AI1')"></span>
+                                                                </a>
+                                                            </div>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                                <div class="col-md-12">
+                                                    <label
+                                                        class="g-btn g-btn-white second-design block g-btn-input-file wd-90 font-1-2">
+                                                        <span>Adjuntar archivo</span>
+                                                        <input ng-click="clicFileImport('AI1')" id="AI1" type="file" file-model="fileActa1" ng-model="fileActa1"
+                                                            class="input__file" accept=".jpg, .jpeg, application/pdf" />
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3 mb-md-2" ng-show="mEvaluaRequerida == '3'">
+                                            <div class="clearfix g-box g-box-dashed gBgcWhite1 pt-xs-1 pb-xs-1">
+                                                <div class="col-md-12 text-left">
+                                                    <label class="g-placeholder animated ng-binding pl-xs-1-5">Acta de
+                                                        Inspección 2</label>
+                                                </div>
+                                                <div class="col-md-12 mt-md-2 text-center">
+                                                    <ul class="clearfix mb-xs-3">
+                                                        <li class="clearfix g-border-bottom-xs pt-xs-1 pb-xs-1"
+                                                            ng-repeat="file in filesAI2 track by $index"
+                                                            ng-show="filesAI2">
+                                                            <div class="col-xs-2 g-border-right-xs"
+                                                                uib-tooltip="{{file.name}}">
+                                                                <span
+                                                                    class="gH2 gCGray3 ico-mapfre_170_archivos"></span>
+                                                            </div>
+                                                            <div class="col-xs-8 text-left">
+                                                                <span>{{file.name}}</span>
+                                                            </div>
+                                                            <div class="col-xs-2 g-border-left-xs">
+                                                                <a>
+                                                                    <span class="gH2 gCGreen1 ico-mapfre_307_tacho"
+                                                                        ng-click="deleteFile('AI2')"></span>
+                                                                </a>
+                                                            </div>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                                <div class="col-md-12">
+                                                    <label
+                                                        class="g-btn g-btn-white second-design block g-btn-input-file wd-90 font-1-2">
+                                                        <span>Adjuntar archivo</span>
+                                                        <input type="file" ng-click="clicFileImport('AI2')" id="AI2" file-model="fileActa2" ng-model="fileActa2"
+                                                            class="input__file" accept=".jpg, .jpeg, application/pdf" />
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3 mb-md-2" ng-show="mEvaluaRequerida == '1'">
+                                            <div class="clearfix g-box g-box-dashed gBgcWhite1 pt-xs-1 pb-xs-1">
+                                                <div class="col-md-12 text-left">
+                                                    <label class="g-placeholder animated ng-binding pl-xs-1-5">Acta de
+                                                        ajuste</label>
+                                                </div>
+                                                <div class="col-md-12 mt-md-2 text-center">
+                                                    <ul class="clearfix mb-xs-3">
+                                                        <li class="clearfix g-border-bottom-xs pt-xs-1 pb-xs-1"
+                                                            ng-repeat="file in filesAJU track by $index"
+                                                            ng-show="filesAJU">
+                                                            <div class="col-xs-2 g-border-right-xs"
+                                                                uib-tooltip="{{file.name}}">
+                                                                <span
+                                                                    class="gH2 gCGray3 ico-mapfre_170_archivos"></span>
+                                                            </div>
+                                                            <div class="col-xs-8 text-left">
+                                                                <span>{{file.name}}</span>
+                                                            </div>
+                                                            <div class="col-xs-2 g-border-left-xs">
+                                                                <a>
+                                                                    <span class="gH2 gCGreen1 ico-mapfre_307_tacho"
+                                                                        ng-click="deleteFile('AJU')"></span>
+                                                                </a>
+                                                            </div>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                                <div class="col-md-12">
+                                                    <label
+                                                        class="g-btn g-btn-white second-design block g-btn-input-file wd-90 font-1-2">
+                                                        <span>Adjuntar archivo</span>
+                                                        <input type="file" ng-click="clicFileImport('AJU')" id="AJU" file-model="fileActaAjuste"
+                                                            ng-model="fileActaAjuste" class="input__file"
+                                                            accept=".jpg, .jpeg, application/pdf" />
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3 mb-md-2" ng-show="mEvaluaRequerida == '1'">
+                                            <div class="clearfix g-box g-box-dashed gBgcWhite1 pt-xs-1 pb-xs-1">
+                                                <div class="col-md-12 text-left">
+                                                    <label
+                                                        class="g-placeholder animated ng-binding pl-xs-1-5">Cartografía</label>
+                                                </div>
+                                                <div class="col-md-12 mt-md-2 text-center">
+                                                    <ul class="clearfix mb-xs-3">
+                                                        <li class="clearfix g-border-bottom-xs pt-xs-1 pb-xs-1"
+                                                            ng-repeat="file in filesCAR track by $index"
+                                                            ng-show="filesCAR">
+                                                            <div class="col-xs-2 g-border-right-xs"
+                                                                uib-tooltip="{{file.name}}">
+                                                                <span
+                                                                    class="gH2 gCGray3 ico-mapfre_170_archivos"></span>
+                                                            </div>
+                                                            <div class="col-xs-8 text-left">
+                                                                <span>{{file.name}}</span>
+                                                            </div>
+                                                            <div class="col-xs-2 g-border-left-xs">
+                                                                <a>
+                                                                    <span class="gH2 gCGreen1 ico-mapfre_307_tacho"
+                                                                        ng-click="deleteFile('CAR')"></span>
+                                                                </a>
+                                                            </div>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                                <div class="col-md-12">
+                                                    <label
+                                                        class="g-btn g-btn-white second-design block g-btn-input-file wd-90 font-1-2">
+                                                        <span>Adjuntar archivo</span>
+                                                        <input type="file" ng-click="clicFileImport('CAR')" id="CAR" file-model="fileCartografia"
+                                                            ng-model="fileCartografia" class="input__file"
+                                                            accept=".jpg, .jpeg, application/pdf" />
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-3 mb-md-2"
+                                            ng-show="mEvaluaRequerida == '1' || mEvaluaRequerida == '2'">
+                                            <div class="clearfix g-box g-box-dashed gBgcWhite1 pt-xs-1 pb-xs-1">
+                                                <div class="col-md-12 text-left">
+                                                    <label
+                                                        class="g-placeholder animated ng-binding pl-xs-1-5">Fotografía</label>
+                                                </div>
+                                                <div class="col-md-12 mt-md-2 text-center">
+                                                    <ul class="clearfix mb-xs-3">
+                                                        <li class="clearfix g-border-bottom-xs pt-xs-1 pb-xs-1"
+                                                            ng-repeat="file in filesFOT track by $index"
+                                                            ng-show="filesFOT">
+                                                            <div class="col-xs-2 g-border-right-xs"
+                                                                uib-tooltip="{{file.name}}">
+                                                                <span
+                                                                    class="gH2 gCGray3 ico-mapfre_170_archivos"></span>
+                                                            </div>
+                                                            <div class="col-xs-8 text-left">
+                                                                <span>{{file.name}}</span>
+                                                            </div>
+                                                            <div class="col-xs-2 g-border-left-xs">
+                                                                <a>
+                                                                    <span class="gH2 gCGreen1 ico-mapfre_307_tacho"
+                                                                        ng-click="deleteFile('FOT')"></span>
+                                                                </a>
+                                                            </div>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                                <div class="col-md-12">
+                                                    <label
+                                                        class="g-btn g-btn-white second-design block g-btn-input-file wd-90 font-1-2">
+                                                        <span>Adjuntar archivo</span>
+                                                        <input type="file" file-model="fileFotografia" ng-click="clicFileImport('FOT')" id="FOT"
+                                                            ng-model="fileFotografia" class="input__file"
+                                                            accept=".doc, .docx, .jpg,.pdf,.jpeg, application/msword, application/vnd.openxmlformats-officedocument.wordprocessingml.document" />
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row mb-md-2 text-right">
+                                        <div class="col-md-10"></div>
+                                        <div class="col-md-2">
+                                            <a class="g-btn g-btn-verde block" ng-click="saveStep5();">GRABAR</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+
+                    <div class="row mb-md-2 text-right"
+                        ng-show="ajusteDetalle.paso == 5 && showFinalizar && showBtEditar && ajusteDetalle.requTrasEvaluacion != '3'">
+                        <div class="col-md-10"></div>
+                        <div class="col-md-2">
+                            <a class="g-btn g-btn-verde block" ng-click="finalizarAjuste();">FINALIZAR AJUSTE</a>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

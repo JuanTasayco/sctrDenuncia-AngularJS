@@ -1,0 +1,137 @@
+<section class="g-page page-inspeccion-autos page-inspeccion-autos__reportes g-ui-view">
+  <div fixed-section class="g-title">
+    <div class="container">
+      <div class="row">
+        <div class="col-xs-10 col-sm-5 col-md-9 no-mb-sm">
+          <h1>Listado de Solicitudes</h1>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="g-section-inner">
+    <form action="" name="frmDocuments">
+      <div class="container">
+        <div
+          show-filter
+          class="clearfix g-col-filter g-box-md gBgcGray5-md gBgcWhite1 g-myd-box"
+          ng-class="{'show': isFilterVisible}"
+        >
+          <div class="col-md-12">
+            <div class="clearfix gH4 gCGray1 mb-xs-1-5">
+              <h2 class="hidden-xs hidden-sm">
+                <b>Buscar</b>
+              </h2>
+              <div
+                id="show-filter"
+                class="row pt-xs-2 pb-xs-2 gBgcGray5 g-border-bottom-xs hidden-md hidden-lg"
+                ng-click="toggleFilter();"
+              >
+                <div class="col-xs-10">
+                  <h2><b>Buscar</b></h2>
+                </div>
+                <div class="col-xs-2 g-text-right-xs">
+                  <span class="glyphicon glyphicon-chevron-down" ng-if="isFilterVisible"></span>
+                  <span class="glyphicon glyphicon-chevron-up" ng-if="!isFilterVisible"></span>
+                </div>
+                <div class="clearfix"></div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-3 mb-xs-2">
+                <mpf-select
+                  label="{label: 'Inspector', required: false}"
+                  name="nInspector"
+                  ng-model="$ctrl.query.mInspector"
+                  m-data-source="$ctrl.inspectors"
+                  text-Field="fullName"
+                  value-Field="inspectorId"
+                  m-Empty-Option="{enterData:true}"
+                  ng-required="true"
+                ></mpf-select>
+              </div>
+              <div class="col-md-3 mb-xs-2">
+                <mp-data-seeker
+                  behavior="{label:'Agente ', matchField:'CodigoNombre', placeholder: 'Ingresa nombre o código de agente'}"
+                  m-data-source="$ctrl.getAgents($inputNeed)"
+                  ng-model="$ctrl.query.mAgent"
+                  name="nAgent"
+                >
+                  <div ng-bind-html="$item.CodigoNombre | highlight: $select.search"></div>
+                </mp-data-seeker>
+              </div>
+              <div class="col-md-3 col-xs-12 mb-xs-2">
+                <mpf-datepicker
+                  label="{label: 'Desde', required: false}"
+                  format="'dd/MM/yyyy'"
+                  mpf-validate="required"
+                  maxDate="$ctrl.query.mTo"
+                  ng-model="$ctrl.query.mFrom"
+                  name="nFrom"
+                >
+                </mpf-datepicker>
+              </div>
+              <div class="col-md-3 col-xs-12 mb-xs-2">
+                <mpf-datepicker
+                  label="{label: 'Hasta', required: false}"
+                  format="'dd/MM/yyyy'"
+                  mpf-validate="required"
+                  maxDate="$ctrl.today"
+                  ng-model="$ctrl.query.mTo"
+                  name="nTo"
+                >
+                </mpf-datepicker>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-3 mb-xs-2">
+                <mpf-select
+                  label="{label: 'Estado', required: false}"
+                  name="nStatus"
+                  ng-model="$ctrl.query.mStatus"
+                  m-data-source="$ctrl.statuses"
+                  m-Empty-Option="{text:'TODOS'}"
+                  text-Field="description"
+                  value-Field="parameterId"
+                ></mpf-select>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-offset-8 col-md-2 mb-xs-1 no-mb-md">
+                <a href class="g-btn g-btn-verde second-design block" ng-click="$ctrl.queryReport()">Buscar</a>
+              </div>
+              <div class="col-md-2">
+                <a href class="g-btn g-btn-white second-design block" ng-click="$ctrl.clearValues()">Limpiar</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+
+    <div class="container" ng-if="$ctrl.showResult">
+      <div class="col-md-12 mt-xs-3 g-list-md g-box gBgcGray5 pt-xs-1 mb-xs-1 ng-scope">
+        <div class="row g-row-fz12">
+          <div class="col-md-4 g-col-md top">
+            <div class="col-xs-12 item-dato pt-xs-1">
+              <span class="gH4 gCGray1"><b class="ng-binding">Reporte - Listado de Solicitudes</b></span>
+            </div>
+          </div>
+          <div class="col-md-4 col-sm-6 g-col-sm middle cnt-item no-border-left clearfix">
+            <div class="pl-xs-1-5 pr-xs-1-5 no-pl-md no-pr-md">
+              <a href class="g-btn g-btn-white second-design block" ng-click="$ctrl.generateReport('EXCEL')"
+                >GENERAR EXCEL</a
+              >
+            </div>
+          </div>
+          <div class="col-md-4 col-sm-6 g-col-sm middle cnt-item no-border-left clearfix">
+            <div class="pl-xs-1-5 pr-xs-1-5 no-pl-md no-pr-md">
+              <a href class="g-btn g-btn-white second-design block" ng-click="$ctrl.generateReport('PDF')"
+                >GENERAR PDF</a
+              >
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

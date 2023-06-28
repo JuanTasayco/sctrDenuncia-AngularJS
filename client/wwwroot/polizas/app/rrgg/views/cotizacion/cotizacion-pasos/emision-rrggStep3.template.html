@@ -1,0 +1,33 @@
+<form name="frmEmision" class="mt-xs-2 mt-md-0">
+  <div class="container">
+    <div class="row">
+      <div class="col-sm-12 g-text-right-xs  mt-xs-1">
+        <a ng-click="verResumen()">
+          <span class="g-icon gCGray3">
+            <span class="icon ico-mapfre_310_arrowLeft"></span>
+            <span class="g-link no-underline"><b>Volver a resumen</b></span>
+          </span>
+        </a>
+      </div>
+    </div>
+    <datos-emision ng-if="tramite.TipoEmision === 1" emision="emision" tramite="tramite" form="frmEmision">
+    </datos-emision>
+    <rrgg-suscriptor ng-if="tramite.TipoEmision === 2" emision="emision" tramite="tramite" form="frmEmision">
+    </rrgg-suscriptor>
+    <div class="g-section h-myd-pt--0">
+      <div class="container">
+        <div class="row row-footer">
+          <div class="col-sm-3 mb-xs-2 mb-md-0">
+            <span class="g-comment">*Campos obligatorios</span>
+          </div>
+          <div ng-if="tramite.TipoEmision === 1" class="col-sm-4 col-sm-offset-1" rrgg-step3-btn-confirm>
+            <a class="g-btn g-btn-verde block" ng-click="Emitir()">CONFIRMAR EMISIÓN</a>
+          </div>
+          <div ng-if="tramite.TipoEmision === 2" class="col-sm-4 col-sm-offset-1" rrgg-step3-btn-send>
+            <a class="g-btn g-btn-verde block" ng-click="saveSuscriptor()">ENVIAR</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>

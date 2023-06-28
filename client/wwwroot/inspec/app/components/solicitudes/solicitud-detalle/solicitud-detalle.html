@@ -1,0 +1,237 @@
+<section class="g-page page-inspeccion-autos page-inspeccion-autos__programacion-detalle inspec-alert">
+    <page-title class="hidden-lg hidden-md" info="{title: 'Inspecciones Autos'}"></page-title>
+    <div fixed-section class="g-title" ng-class="{'fixed-section': boolChangeClass}">
+      <div class="container">
+        <div class="row mb-xs-2">
+          <div class="col-xs-12 col-sm-6 mb-xs-1 mb-sm-0">
+            <div class="">
+              <h2 class="ng-binding pr-xs-1">Solicitud #{{ $ctrl.requestId }}</h2>
+              <!-- <span class="g-box-label mt-md-1" ng-class="{'c-purple':$ctrl.request.item.riskStatusCode === '1', 'c-green2': $ctrl.request.item.riskStatusCode === '2', 'c-green5': $ctrl.request.item.riskStatusCode=='3' , 'c-green3': $ctrl.request.item.riskStatusCode=='4', 'c-blue': $ctrl.request.item.riskStatusCode=='5', 'c-gray': $ctrl.request.item.riskStatusCode=='6', 'c-green': $ctrl.request.item.riskStatusCode=='7','c-green4': $ctrl.request.item.riskStatusCode=='8', 'c-orange': $ctrl.request.item.riskStatusCode=='9'}">{{ $ctrl.request.item.riskStatus }}</span> -->
+              <inspec-request-label margin-top="true" request-id="$ctrl.request.item.riskStatusCode" request-text="$ctrl.request.item.riskStatus"></inspec-request-label>
+              <inspec-request-label margin-top="true" request-id="$ctrl.request.idInspecPresencial" request-text="$ctrl.request.inspecPresencial" ng-if="$ctrl.request.idInspecPresencial"></inspec-request-label>
+            </div>
+            <div class="title-details mt-xs-1 mt-md-0">
+              <span>Usuario: <span><b>{{ $ctrl.request.userOwnerCode }}</b></span></span>
+              <span>Fecha creación: <span><b>{{ $ctrl.request.creationDate  | date : 'dd/MM/yyyy' }}</b></span></span>
+            </div>
+          </div>
+          <div class="col-xs-12 col-sm-6" ng-if="$ctrl.newSource">
+            <div class="g-title-btn-row mt-xs-1">
+              <div class="g-title-btn-col mb-xs-1" ng-if="$ctrl.user.isAPermittedObject('PROGRA') && $ctrl.request.item.riskStatusCode === '1' && !$ctrl.programming">
+                <a class="g-btn g-btn-transparent block" ng-click="$ctrl.doProgram(); $event.stopPropagation();">programar</a>
+              </div>
+              <div class="g-title-btn-col mb-xs-1" ng-if="$ctrl.user.isAPermittedObject('REPINS') && $ctrl.request.item.riskStatusCode === '2'">
+                <a class="g-btn g-btn-transparent block" ng-click="$ctrl.showReprogram(); $event.stopPropagation();">reprogramar</a>
+              </div>
+              <div class="g-title-btn-col mb-xs-1" ng-if="$ctrl.user.isAPermittedObject('FRUINS') && $ctrl.request.item.riskStatusCode === '2'">
+                <a class="g-btn g-btn-transparent block" ng-click="$ctrl.showFrustrate(); $event.stopPropagation();">frustrar</a>
+              </div>
+              <div class="g-title-btn-col mb-xs-1" ng-if="$ctrl.user.isAPermittedObject('REGINS') && $ctrl.request.item.riskStatusCode === '2'">
+                <a class="g-btn g-btn-transparent block" ng-click="$ctrl.doCreateInspection(); $event.stopPropagation();">registrar inspección</a>
+              </div>
+              <div class="g-title-btn-col mb-xs-1" ng-if="$ctrl.request.item.riskStatusCode === '3' || $ctrl.request.item.riskStatusCode === '4' || $ctrl.request.item.riskStatusCode === '5' || $ctrl.request.item.riskStatusCode === '7'
+                || $ctrl.request.item.riskStatusCode === '9'">
+                  <a class="g-btn g-btn-transparent block" ng-click="$ctrl.goToInspection(); $event.stopPropagation();">ver inspección</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="g-sec-information mt-xs-1" ng-if="$ctrl.request.item.riskStatusCode === '1' || $ctrl.request.item.riskStatusCode === '2'">
+      <div class="sec-item h-myd-bg--gray4">
+        <div class="container">
+          <ul class="row cnt-title">
+            <li class="col-xs-6 item-title  g-myd-subtitle">Contacto</li>
+            <li class="col-xs-6 item-edit">
+              <a  class="h-myd--none" ng-click="$ctrl.showEditContacto($ctrl.request)" ng-if="$ctrl.request.item.riskStatusCode === '1' && $ctrl.programming"><span class="ico-mapfre_43_editar ico-edit"></span>Editar datos del contacto</a>
+              <a class="h-myd--show h-oim-none" ng-click="$ctrl.showEditContacto($ctrl.request)" ng-if="$ctrl.request.item.riskStatusCode === '1' && $ctrl.programming">
+                  <i class="ico-mapfre_345_myd-edit ico-edit"></i>
+                  <span>Editar</span>
+                </a>
+            </li>
+          </ul>
+          <ul class="row h-myd-mt--20">
+            <li class="col-md-4 clearfix cnt-item h-myd-p--0">
+              <div class="col-sm-5 item-label">
+                <span class="ico-mapfre_82_circle ico-bullet"></span>Nombre:&nbsp;
+              </div>
+              <div class="col-sm-7 item-dato g-text-uppercase">{{ $ctrl.request.item.contactName + ' ' + $ctrl.request.item.contactLastName }}</div>
+            </li>
+            <li class="col-md-4 clearfix cnt-item h-myd-p--0">
+              <div class="col-sm-5 item-label">
+                <span class="ico-mapfre_82_circle ico-bullet"></span>Teléfonos:&nbsp;
+              </div>
+              <div ng-if="!$ctrl.isFleet" class="col-sm-7 item-dato g-text-uppercase">{{ ($ctrl.request.item.contactPhone || '-') + ' / ' + ($ctrl.request.item.contactOfficePhone || '-') +  ' / ' + ($ctrl.request.item.contactCelphone || '-') }}</div>
+              <div ng-if="$ctrl.isFleet" class="col-sm-7 item-dato g-text-uppercase">{{ ($ctrl.request.item.contactPhone || '-') + ' / ' + ($ctrl.request.item.contactOfficePhone || '-') }}</div>
+            </li>
+            <li class="col-md-4 clearfix cnt-item h-myd-p--0">
+              <div class="col-sm-5 item-label">
+                <span class="ico-mapfre_82_circle ico-bullet"></span>Email:&nbsp;
+              </div>
+              <div class="col-sm-7 item-dato g-text-uppercase g-cut-text" uib-tooltip="{{ ($ctrl.request.item.contactEmail || '-') + ' / ' + ($ctrl.request.item.contactOfficeEmail || '-') }}">{{ ($ctrl.request.item.contactEmail || '-') + '/' + ($ctrl.request.item.contactOfficeEmail || '-') }}</div>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="g-sec-information mt-xs-1" ng-if="$ctrl.request.item.riskStatusCode === '2'">
+      <div class="sec-item">
+        <div class="container">
+          <ul class="row cnt-title">
+            <li class="col-xs-12 item-title">Datos de la Programación</li>
+          </ul>
+          <ul class="row">
+            <li class="col-md-4 clearfix cnt-item">
+              <div class="col-sm-5 item-label">
+                <span class="ico-mapfre_82_circle ico-bullet"></span>Inspector:&nbsp;
+              </div>
+              <div class="col-sm-7 item-dato g-text-uppercase">{{ $ctrl.request.item.inspectorName }}</div>
+            </li>
+            <li class="col-md-4 clearfix cnt-item">
+              <div class="col-sm-5 item-label">
+                <span class="ico-mapfre_82_circle ico-bullet"></span>Fecha y hora inicio:&nbsp;
+              </div>
+              <div class="col-sm-7 item-dato g-text-uppercase">{{ $ctrl.request.item.scheduleDate | date: 'd/M/yyyy hh:mm a' || '-' }}</div>
+            </li>
+            <li class="col-md-4 clearfix cnt-item">
+              <div class="col-sm-5 item-label">
+                <span class="ico-mapfre_82_circle ico-bullet"></span>Fecha y hora fin:&nbsp;
+              </div>
+              <div class="col-sm-7 item-dato g-text-uppercase">{{ $ctrl.request.item.endScheduleDate | date: 'd/M/yyyy hh:mm a' || '-' }}</div>
+            </li>
+          </ul>
+          <ul class="row">
+            <li class="col-md-4 clearfix cnt-item">
+              <div class="col-sm-5 item-label">
+                <span class="ico-mapfre_82_circle ico-bullet"></span>Teléfono:&nbsp;
+              </div>
+              <div class="col-sm-7 item-dato g-text-uppercase">{{ ($ctrl.request.item.contactPhone || '-') + ' / ' + ($ctrl.request.item.contactOfficePhone || '-') +  ' / ' + ($ctrl.request.item.contactCelphone || '-') }}</div>
+            </li>
+            <li class="col-md-4 clearfix cnt-item">
+              <div class="col-sm-5 item-label">
+                <span class="ico-mapfre_82_circle ico-bullet"></span>Dirección:&nbsp;
+              </div>
+              <div class="col-sm-7 item-dato g-text-uppercase">{{ $ctrl.event.data.address }}<br>{{ $ctrl.request.item.contactAddress || '-' }}</div>
+            </li>
+            <li class="col-md-4 clearfix cnt-item">
+              <div class="col-sm-5 item-label">
+                <span class="ico-mapfre_82_circle ico-bullet"></span>Reprogramado:&nbsp;
+              </div>
+              <div class="col-sm-7 item-dato g-text-uppercase">{{ $ctrl.request.item.reScheduledCode ? 'SI' : 'NO' }}</div>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="g-section g-section-tabs g-overflow-hidden-xs h-myd-mt--30">
+      <div class="container">
+        <uib-tabset active="$ctrl.activeTab" justified="true" ng-if="$ctrl.showTabs">
+          <!-- TAB1 -->
+          <uib-tab index="0" ng-if="$ctrl.newSource">
+            <uib-tab-heading>DATOS DE LA SOLICITUD</uib-tab-heading>
+            <!-- SOLICITUD DE INSPECCION -->
+            <div class="g-section-inner">
+              <div class="container">
+                <div class="row">
+                  <div class="col-md-12">
+                    <h2 class="g-sub-title">Solicitud de Inspección</h2>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-4 mb-xs-2">
+                    <mpf-input label="{label: 'Agente solicitante', required: true}" name="nAgent" ng-model="$ctrl.request.agentRequest" ng-disabled="true"></mpf-input>
+                  </div>
+                  <div class="col-md-4 mb-xs-2">
+                    <mpf-input label="{label: 'Tipo de inspección', required: true}" name="nRequestType" ng-model="$ctrl.formData.inspectionType.description" ng-disabled="true"></mpf-input>
+                    <!-- <mpf-select label="{label: 'Tipo de inspección', required: true}" name="nTipoInspeccion" ng-model="$ctrl.formData.inspectionType" m-data-source="$ctrl.inspectionTypes" ng-required="true" name="nInspectionType" text-Field="description" value-Field="parameterId"></mpf-select> -->
+                  </div>
+                  <div class="col-md-4 mb-xs-2">
+                    <mpf-input label="{label: 'Tipo de registro', required: true}" name="nInspectionType" ng-model="$ctrl.formData.requestType.description" ng-disabled="true"></mpf-input>
+                      <!-- <mpf-select label="{label: 'Tipo de registro', required: true}" name="nTipoRegistro" ng-model="mTipoRegistro"></mpf-select> -->
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-4 mb-xs-2">
+                    <mpf-input label="{label: 'Email de confirmación', required: true}" name="nEmailConfirmacion" ng-model="$ctrl.formData.confirmationEmail" ng-disabled="true"></mpf-input>
+                  </div>
+                  <div class="col-md-4 mb-xs-2">
+                    <mpf-input label="{label: 'Email copia', required: false}" name="nEmailCopia" ng-model="$ctrl.request.copyEmail" ng-disabled="true"></mpf-input>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-4 mb-xs-2">
+                    <mpf-datepicker label="{label: 'Fecha solicitada', required: true}" format="'dd/MM/yyyy'" mpf-validate="required" ng-model="$ctrl.formData.mFechaSolicitud" name="nFechaSolicitud" ng-disabled="true"></mpf-datepicker>
+                  </div>
+                  <div class="col-md-4">
+                      <mpf-input label="{label: 'Hora solicitada', required: true}" name="nFechaSolicitud" ng-model="$ctrl.formData.mFechaSolicitudFormated" ng-disabled="true"></mpf-input>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- DATOS DEL VEHÍCULO -->
+            <div class="g-section-inner">
+              <div class="container">
+                <div class="row">
+                  <div class="col-md-12">
+                    <h2 class="g-sub-title">Datos del vehículo</h2>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-4 mb-xs-2 no-mb-md">
+                    <mpf-input label="{label: 'Auto', required: true}" name="nAuto" ng-model="$ctrl.request.vehicleFull" ng-disabled="true"></mpf-input>
+                  </div>
+                  <div class="col-md-4 mb-xs-2 no-mb-md">
+                    <mpf-input label="{label: 'Placa', required: true}" name="nPlaca" ng-model="$ctrl.request.item.vehicleLicensePlate" ng-disabled="true"></mpf-input>
+                  </div>
+                  <!-- <div class="col-md-4 mb-xs-2 no-mb-md">
+                    <mpf-input label="{label: 'Color', required: true}" name="nColor" ng-model="mColor"></mpf-input>
+                  </div> -->
+                </div>
+              </div>
+            </div>
+            <!-- DATOS DEL CONTRATANTE CONCATO -->
+            <inspec-contractor data="$ctrl.formData.contractorData" origin="$ctrl.originContrator" disabled="true" only-contractor="$ctrl.isFleet"></inspec-contractor>
+          </uib-tab>
+          <!-- TAB2: PROGRAMAR INSPECCIÓN -->
+          <uib-tab index="1" ng-show="($ctrl.request.item.riskStatusCode === '1' && $ctrl.programming) && $ctrl.newSource">
+            <uib-tab-heading>PROGRAMACIÓN DE LA INSPECCIÓN</uib-tab-heading>
+            <!-- SOLICITUD DE INSPECCION -->
+            <div class="g-section-inner" ng-if="$ctrl.activeTab === 1">
+              <inspec-schedule delivery-date= "$ctrl.request.item.deliveryDate" delivery-time="$ctrl.request.item.deliveryTime" is-fleet="$ctrl.isFleet" can-program="true" license-plate="$ctrl.request.item.vehicleLicensePlate" risk-id="$ctrl.request.item.riskId" request-id="$ctrl.request.item.requestId" re-scheduled-code="$ctrl.request.item.reScheduledCode"></inspec-schedule>
+            </div>
+          </uib-tab>
+          <!-- TAB2 -->
+          <uib-tab index="2" ng-show="$ctrl.showProgramTab() && $ctrl.newSource">
+            <uib-tab-heading>PROGRAMACIÓN DE LA INSPECCIÓN</uib-tab-heading>
+            <div class="g-section-inner">
+              <div class="row">
+                <div class="col-md-6">
+                  <mpf-input label="{label: 'Referencia', required: true}" name="nReferencia" ng-model="$ctrl.request.item.contactReference" ng-disabled="true"></mpf-input>
+                </div>
+                <div class="col-md-6">
+                  <mpf-input label="{label: 'Observaciones', required: true}" name="nObservaciones" ng-model="$ctrl.request.item.observations" ng-disabled="true"></mpf-input>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-12 mt-xs-2" ng-if="$ctrl.activeTab === 2">
+                  <inspec-preview-inspection render="$ctrl.activeTab === 2" event="$ctrl.event"></inspec-preview-inspection>
+                  <!-- <inspec-calendar only-one-event="true" inspection-date="$ctrl.request.item.scheduleDate" ></inspec-calendar> -->
+                </div>
+              </div>
+            </div>
+          </uib-tab>
+          <!-- TAB3 -->
+          <uib-tab index="3">
+            <uib-tab-heading>ALERTAS</uib-tab-heading>
+            <inspec-alerts is-fleet="$ctrl.isFleet" risk-id="$ctrl.riskId" request-id="$ctrl.requestId" re-init="$ctrl.activeTab === 3"></inspec-alerts>
+          </uib-tab>
+
+        </uib-tabset>
+      </div>
+    </div>
+    <!-- TAB2 -->
+</section>

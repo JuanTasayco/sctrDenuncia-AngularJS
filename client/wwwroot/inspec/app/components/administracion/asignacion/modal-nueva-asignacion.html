@@ -1,0 +1,59 @@
+<section class="g-page page-modal page-modal__nueva-inspeccion">
+
+	<button type="button" class="close g-close-modal" ng-click="$ctrl.closeModal()">
+		<span class="ico-mapfre_231_cancelaroff"></span>
+	</button>
+
+	<form name="$ctrl.formData">
+		<div class="clearfix">
+			<div class="col-md-12">
+				<div class="container">
+					<div class="row">
+						<div class="col-md-12 g-text-center-xs mb-xs-2">
+							<h2 class="gH3" ng-show="!$ctrl.isEdit"><b>NUEVA ASIGNACIÓN</b></h2>
+							<h2 class="gH3" ng-show="$ctrl.isEdit"><b>EDITAR ASIGNACIÓN</b></h2>
+						</div>
+					</div>
+				</div>
+				<div class="clearfix mt-xs-3">
+					<div class="col-md-4 mb-xs-2">
+            <mpf-select label="{label: 'Proveedor', required: true}" name="nProvider" ng-model="$ctrl.formData.mProvider" mpf-validation="required" m-data-source="$ctrl.providers" m-Empty-Option="{enterData:true}" text-Field="providerName" value-Field="documentCode"></mpf-select>
+            <div class="g-error" ng-show="$ctrl.formData.nProvider.$invalid && !$ctrl.formData.nProvider.$pristine">* Ingrese un proveedor</div>
+					</div>
+					<div class="col-md-4 mb-xs-2">
+            <mp-data-seeker behavior="{label:'Agente*', matchField:'CodigoNombre', placeholder: 'TODOS'}" m-data-source="$ctrl.getAgents($inputNeed)" ng-model="$ctrl.formData.mAgent" name="nAgent">
+              <div ng-bind-html="$item.CodigoNombre | highlight: $select.search"></div>
+            </mp-data-seeker>
+					</div>
+				</div>
+
+				<div class="clearfix">
+					<div class="col-md-12 mb-xs-1">
+						<h2 class="gH4 gCGray1 g-border-bottom-xs"><b>Lugares</b></h2>
+          </div>
+          <inspec-ubigeo data="$ctrl.formData.mUbigeo" not-required="true" all-selected="true"></inspec-ubigeo>
+				</div>
+
+				<div class="clearfix">
+					<div class="col-md-12 mb-xs-1">
+						<h2 class="gH4 gCGray1 g-border-bottom-xs"><b>Estado</b></h2>
+					</div>
+					<div class="col-md-4 mb-xs-2">
+						<mpf-select label="{label: 'Estado', required: false}" name="nEstado" ng-model="$ctrl.formData.mEstado" m-data-source="$ctrl.statuses"></mpf-select>
+					</div>
+				</div>
+
+				<div class="clearfix mt-xs-2">
+					<div class="col-md-4 col-md-offset-2">
+						<a href class="g-btn g-btn-transparent block" ng-click="$ctrl.closeModal()">Cancelar</a>
+					</div>
+					<div class="col-md-4 mt-xs-1 mt-md-0">
+						<a href class="g-btn g-btn-verde block" ng-click="$ctrl.save()" ng-show="$ctrl.isEdit">GUARDAR</a>
+						<a href class="g-btn g-btn-verde block" ng-click="$ctrl.save()" ng-show="!$ctrl.isEdit">ASIGNAR</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</form>
+
+</section>

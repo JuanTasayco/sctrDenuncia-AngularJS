@@ -1,0 +1,153 @@
+<div class="page-empresa-cotizar mt-xs-2 mt-sm-2 mt-md-0">
+  <div ng-form="frmSecondStep">
+    <div class="g-sec-information">
+      <div class="sec-item h-myd-pt--30 h-myd-pb--30 h-myd-bg--gray4">
+        <div class="container">
+          <ul class="row cnt-title h-myd-mb--30">
+            <li class="col-xs-6 item-title g-myd-subtitle">Producto</li>
+            <li class="col-xs-6 item-edit">
+              <a class="h-myd--none" href="" ui-sref="companyquot.steps({step:1})">
+                <span class="g-icon gCGray3">
+                  <span class="icon ico-mapfre_228_editar"></span>
+                  <span class="g-link g-text-none">Editar datos de la póliza</span>
+                </span>
+              </a>
+              <a class="h-myd--show h-oim-none" href="" ui-sref="companyquot.steps({step:1})">
+                <i class="ico-mapfre_345_myd-edit ico-edit"></i>
+                <span>Editar</span>
+              </a>
+            </li>
+          </ul>
+          <ul class="row h-myd-mb--20">
+            <li class="col-md-4 clearfix cnt-item h-myd-pl--0">
+              <div class="col-sm-5 item-label"><span class="ico-mapfre_82_circle ico-bullet"></span>Producto:</div>
+              <div class="col-sm-7 item-dato g-text-uppercase">{{ data.mSelecProd.NombreProducto }}</div>
+            </li>
+          </ul>
+
+          <ul class="row cnt-title h-myd-mb--30">
+            <li class="col-xs-12 item-title g-myd-subtitle">Datos de la empresa</li>
+          </ul>
+          <ul class="row">
+            <li class="col-md-4 clearfix cnt-item h-myd-pl--0">
+              <div class="col-sm-5 item-label">
+                <span class="ico-mapfre_82_circle ico-bullet"></span>Tipo de empresa:
+              </div>
+              <div class="col-sm-7 item-dato g-text-uppercase">{{ data.mTipoEmpresa.Nombre }}</div>
+            </li>
+            <li class="col-md-4 clearfix cnt-item h-myd-pl--0">
+              <div class="col-sm-5 item-label">
+                <span class="ico-mapfre_82_circle ico-bullet"></span>Giro de negocio:
+              </div>
+              <div class="col-sm-7 item-dato g-text-uppercase">{{ data.mGiroNegocio.Nombre }}</div>
+            </li>
+          </ul>
+          <ul class="row h-myd-mb--20">
+            <li class="col-md-4 clearfix cnt-item h-myd-pl--0" ng-if="data.mSelecProd.CodigoRamo == 274">
+              <div class="col-sm-5 item-label"><span class="ico-mapfre_82_circle ico-bullet"></span>Moneda:</div>
+              <div class="col-sm-7 item-dato g-text-uppercase">{{ data.mMoneda.descripcion }}</div>
+            </li>
+          </ul>
+
+          <ul class="row cnt-title h-myd-mb--30">
+            <li class="col-xs-12 item-title g-myd-subtitle">Datos del contratante</li>
+          </ul>
+          <ul class="row h-myd-mb--20" ng-show="!isRuc()">
+            <li class="col-md-4 clearfix cnt-item h-myd-pl--0">
+              <div class="col-sm-5 item-label"><span class="ico-mapfre_82_circle ico-bullet"></span>Nombre:</div>
+              <div class="col-sm-7 item-dato g-text-uppercase">{{ data.mNombre }}</div>
+            </li>
+            <li class="col-md-4 clearfix cnt-item h-myd-pl--0">
+              <div class="col-sm-5 item-label">
+                <span class="ico-mapfre_82_circle ico-bullet"></span>Apellido paterno:
+              </div>
+              <div class="col-sm-7 item-dato g-text-uppercase">{{ data.mApellidoPaterno }}</div>
+            </li>
+            <li class="col-md-4 clearfix cnt-item h-myd-pl--0">
+              <div class="col-sm-5 item-label">
+                <span class="ico-mapfre_82_circle ico-bullet"></span>Apellido materno:
+              </div>
+              <div class="col-sm-7 item-dato g-text-uppercase">{{ data.mApellidoMaterno }}</div>
+            </li>
+          </ul>
+          <ul class="row" ng-show="isRuc()">
+            <li class="col-md-4 clearfix cnt-item h-myd-pl--0">
+              <div class="col-sm-5 item-label"><span class="ico-mapfre_82_circle ico-bullet"></span>Razón Social:</div>
+              <div class="col-sm-7 item-dato g-text-uppercase">{{ data.mNombre }}</div>
+            </li>
+          </ul>
+
+          <ul class="row cnt-title h-myd-mb--30">
+            <li class="col-xs-12 item-title g-myd-subtitle">MAPFRE dólares</li>
+          </ul>
+          <ul class="row h-myd-mb--20">
+            <li class="col-md-4 clearfix cnt-item h-myd-pl--0">
+              <div class="col-sm-5 item-label"><span class="ico-mapfre_82_circle ico-bullet"></span>Aplicados:</div>
+              <div class="col-sm-7 item-dato g-text-uppercase">{{ data.mAplicadosMDolares | currency: '$' }}</div>
+            </li>
+          </ul>
+
+          <ul class="row cnt-title h-myd-mb--30" ng-hide="data.mDsctComercial === 0 || !data.mDsctComercial">
+            <li class="col-xs-12 item-title g-myd-subtitle">Otros:</li>
+          </ul>
+          <ul class="row">
+            <li class="col-md-4 clearfix cnt-item h-myd-pl--0">
+              <div class="col-sm-5 item-label">
+                <span class="ico-mapfre_82_circle ico-bullet"></span>Dsct. Comercial:
+              </div>
+              <div class="col-sm-7 item-dato g-text-uppercase">{{ data.mDsctComercial}}%</div>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <!-- TABS -->
+    <div class="g-section">
+      <div class="">
+        <div ng-show="data.isRisky">CONVENIO II: RIESGO SUJETO A EVALUACIÓN DE SUSCRIPCIÓN</div>
+        <uib-tabset active="active" class="tabs-box container">
+          <uib-tab ng-repeat="risk in data.risks" push-tab="addTab()" max-items="5">
+            <uib-tab-heading>
+              <div class="tab-title">
+                <span class="tabs-box-title">Riesgo {{ $index + 1 }}</span>
+              </div>
+              <span
+                class="ico-close-tab ico-mapfre_231_cancelaroff gnIcon-sm"
+                ng-hide="$index == 0"
+                ng-click="remove($event, $index)"
+              ></span>
+            </uib-tab-heading>
+            <div class="tabs-box-mainview">
+              <div class="col-md-12">
+                <risk-Item
+                  ng-cloak
+                  data="risk"
+                  lookups="lookups"
+                  currency="data.mMoneda.codigo"
+                  product="data.mSelecProd"
+                  giro="data.mGiroNegocio.strCodigo"
+                  is-valid-step1="data.isValidStep1"
+                  addtional-data="getAdditionalData()"
+                  notify-success="calcTotal($companyData, risk)"
+                ></risk-Item>
+              </div>
+            </div>
+          </uib-tab>
+        </uib-tabset>
+      </div>
+    </div>
+    <!-- Button -->
+    <div class="g-section g-step-action">
+      <div class="container">
+        <div class="row mb-md-1">
+          <span class="col-md-4 gCGray3">*Campos obligatorios</span>
+          <div class="col-md-4">
+            <div class="row">
+              <a class="col-md-12 g-btn g-btn-verde" ng-click="irPaso3()">SIGUIENTE</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

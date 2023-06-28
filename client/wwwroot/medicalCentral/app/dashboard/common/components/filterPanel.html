@@ -1,0 +1,187 @@
+<form action="" name="frmReport">
+    
+    <div show-filter class="clearfix g-col-filter g-box-md fz14 gBgcGray5-md gBgcWhite1 u-zi-xs--9999" ng-class="{'show': isFilterVisible}">
+        <div class="col-md-12 mb-xs-3 gH4 gCGray1">
+        <h2 class="pb-xs-1 g-border-bottom-xs hidden-xs hidden-sm"><b>Filtro</b></h2>
+        <div id="show-filter" class="row pt-xs-2 pb-xs-2 gBgcGray5 g-border-bottom-xs hidden-md hidden-lg" ng-click="toggleFilter()">
+            <div class="col-xs-10">
+            <h2 class="cnt-title"><b>Filtro</b></h2>
+            </div>
+            <div class="col-xs-2 g-text-right-xs">
+            <span class="glyphicon glyphicon-chevron-down" ng-if="isFilterVisible"></span>
+            <span class="glyphicon glyphicon-chevron-up" ng-if="!isFilterVisible"></span>
+            </div>
+            <div class="clearfix"></div>
+        </div>
+        </div>
+        <div class="col-md-12 pb-md-1 mb-xs-1">
+            
+            <mpf-select
+                data-m-data-source="$ctrl.dataSedes"
+                data-ng-model="$ctrl.frm.sede"
+                data-text-field="descripcion"
+                data-value-field="codigo"
+                label="{label: 'Sede', required: false}"
+                m-Empty-Option = "{enterData : true}"
+                name="nSede"
+                ng-change="$ctrl.changedSede($ctrl.frm.sede)"
+            >
+            </mpf-select>
+        </div>
+        <div class="col-md-12 pb-md-1 mb-xs-1" ng-show="$ctrl.reportSettings.filterOptions.storage">
+            <mpf-select
+                data-m-data-source="$ctrl.dataStorage"
+                data-ng-model="$ctrl.frm.storage"
+                data-text-field="descripcion"
+                data-value-field="codigo"
+                label="{label: 'Almacén', required: false}"
+                m-Empty-Option = "{text : '-TODOS-'}"
+                name="nStorage"
+            >
+            </mpf-select>
+        </div>
+        <div class="col-md-12 pb-md-1 mb-xs-1" ng-show="$ctrl.reportSettings.filterOptions.movementType">
+            <mpf-select
+                data-m-data-source="$ctrl.dataMovementType"
+                data-ng-model="$ctrl.frm.movement"
+                data-text-field="descripcion"
+                data-value-field="codigo"
+                label="{label: 'Tipo de Movimiento', required: false}"
+                m-Empty-Option = "{text : '-TODOS-'}"
+                name="nMovementType"
+            >
+            </mpf-select>
+        </div>
+        <div class="col-md-12 pb-md-1 mb-xs-1" ng-show="$ctrl.reportSettings.filterOptions.specialty">
+            <mpf-select ng-if="!$ctrl.reportSettings.filterOptions.specialtyMultiple"
+                data-m-data-source="$ctrl.dataSpecialties"
+                data-ng-model="$ctrl.frm.specialty"
+                data-text-field="descripcion"
+                data-value-field="codigo"
+                label="{label: 'Especialidad', required: false}"
+                m-Empty-Option = "{text : '-TODOS-'}"
+                name="nEstado"
+            >
+            </mpf-select>
+            <div class="g-select-desing" ng-if="$ctrl.reportSettings.filterOptions.specialtyMultiple">
+                <label class="g-placeholder animated">Especialidad</label>
+                <div ng-dropdown-multiselect="" options="$ctrl.dataSpecialties" 
+                selected-model="$ctrl.frm.specialties" 
+                extra-settings="$ctrl.specialtySettings" translation-texts="{'checkAll':'TODOS', uncheckAll:'LIMPIAR', buttonDefaultText:'--SELECCIONE--', searchPlaceholder:'BUSCAR...'}">
+                </div>
+            </div>
+        </div>
+        <div class="col-md-12 pb-md-1 mb-xs-1" ng-show="$ctrl.reportSettings.filterOptions.typePeriod">
+            <mpf-select
+                data-m-data-source="$ctrl.dataPeriodTypes"
+                data-ng-model="$ctrl.frm.periodType"
+                data-text-field="descripcion"
+                data-value-field="codigo"
+                label="{label: 'Tipo de Periodo', required: false}"
+                m-Empty-Option = "{enterData : true}"
+                name="nPeriodType"
+            >
+            </mpf-select>
+            
+        </div>
+        <div class="col-md-12 pb-md-1 mb-xs-1" ng-show="$ctrl.reportSettings.filterOptions.detailType">
+            <mpf-select
+                data-m-data-source="$ctrl.dataDetailTypes"
+                data-ng-model="$ctrl.frm.detailType"
+                data-text-field="descripcion"
+                data-value-field="codigo"
+                label="{label: 'Tipo de detalle', required: false}"
+                m-Empty-Option = "{enterData : true}"
+                name="nDetailType"
+            >
+            </mpf-select>
+        </div>
+
+        <div class="col-md-12 pb-md-1 mb-xs-1" ng-show="$ctrl.reportSettings.filterOptions.financial">
+            <mpf-select
+                data-m-data-source="$ctrl.dataFinancials"
+                data-ng-model="$ctrl.frm.financial"
+                data-text-field="descripcion"
+                data-value-field="codigo"
+                label="{label: 'Financiador', required: false}"
+                m-Empty-Option = "{text : '-TODOS-'}"
+                name="nFinancial"
+                ng-change="$ctrl.changedFinancial($ctrl.frm.financial)"
+            >
+            </mpf-select>
+        </div>
+        <div class="col-md-12 pb-md-1 mb-xs-1" ng-show="$ctrl.reportSettings.filterOptions.contractCategory">
+            <div class="g-select-desing" ng-if="$ctrl.reportSettings.filterOptions.contractCategoryMultiple">
+                <label class="g-placeholder animated">Agrupación estadística</label>
+                <div ng-dropdown-multiselect="" options="$ctrl.dataContractCategories" 
+                selected-model="$ctrl.frm.contractCategories" 
+                extra-settings="$ctrl.contractCategorySettings" translation-texts="{'checkAll':'TODOS', uncheckAll:'LIMPIAR', buttonDefaultText:'--SELECCIONE--', searchPlaceholder:'BUSCAR...'}">
+                </div>
+            </div>
+        </div>
+        <div class="col-md-12 pb-md-1 mb-xs-1" ng-show="$ctrl.reportSettings.filterOptions.contract">
+            <mpf-select ng-if="!$ctrl.reportSettings.filterOptions.contractMultiple"
+                data-m-data-source="$ctrl.dataContracts"
+                data-ng-model="$ctrl.frm.contract"
+                data-text-field="descripcion"
+                data-value-field="codigo"
+                label="{label: 'Contrato', required: false}"
+                m-Empty-Option = "{text : '-TODOS-'}"
+                name="nContract"
+            >
+            </mpf-select>
+            <div class="g-select-desing" ng-if="$ctrl.reportSettings.filterOptions.contractMultiple">
+                <label class="g-placeholder animated">Contrato</label>
+                <div ng-dropdown-multiselect="" options="$ctrl.dataContracts" 
+                selected-model="$ctrl.frm.contracts" 
+                extra-settings="$ctrl.contractSettings" translation-texts="{'checkAll':'TODOS', uncheckAll:'LIMPIAR', buttonDefaultText:'TODOS', searchPlaceholder:'BUSCAR...'}">
+                </div>
+            </div>
+        </div>
+        <div class="col-md-12 pb-md-1 mb-xs-1" ng-show="$ctrl.reportSettings.filterOptions.providers">
+            <mpf-input
+                data-ng-model="$ctrl.frm.providers"
+                label="{label: 'Proveedores', required: false}"
+                name="nProviders"
+            >
+            </mpf-input>
+        </div>
+        <div class="col-md-12 pb-md-2 mb-xs-1">
+        <div class="row">
+            <div class="col-md-6 mb-xs-2">
+                <mpf-datepicker
+                    data-format="$ctrl.dateFormat"
+                    data-set-max-today="true"
+                    data-ng-model="$ctrl.frm.fromDate"
+                    data-parsear-to-date="true"
+                    data-ng-required="false"
+                    data-readonly="false"
+                    label="{label: 'Desde:', required: false}"
+                    name="nFechaDesde"
+                >
+                </mpf-datepicker>
+            </div>
+            <div class="col-md-6 mb-xs-2">
+                <mpf-datepicker
+                    data-format="$ctrl.dateFormat"
+                    data-parsear-to-date="true"
+                    data-set-max-today="true"
+                    data-ng-model="$ctrl.frm.toDate"
+                    data-ng-required="false"
+                    data-readonly="false"
+                    label="{label: 'Hasta:', required: false}"
+                    name="nFechaHasta"
+                >
+                </mpf-datepicker>
+            </div>
+        </div>
+        </div>
+        <div class="col-sm-6 col-md-12 pb-md-1 mb-xs-2">
+        <a class="g-btn g-btn-verde block" data-ng-click="$ctrl.search()">Buscar</a>
+        </div>
+        <div class="col-sm-6 col-md-12">
+        <a class="g-btn g-btn-transparent block" data-ng-click="$ctrl.cleanFrm()">Limpiar</a>
+        </div>
+    </div>
+    </form>
+    

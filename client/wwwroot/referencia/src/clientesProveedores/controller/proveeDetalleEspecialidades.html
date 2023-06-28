@@ -1,0 +1,273 @@
+<div class="container">
+  <div class="panel__modular" ng-class="{'right__opened': $ctrl.specialitySelected !== null}">
+    <div class="panel__wrapper u-br-5">
+      <header class="panel__header u-align-v">
+        <span class="panel__title big">Especialidades</span>
+        <!--
+        <div class="select-box">
+          <span class="select__lbl text-uppercase">Mostrar:</span>
+          <select name="visibilityFilter"
+                  class="select text-uppercase"
+                  ng-model="$ctrl.visibilityFilter"
+                  ng-change="$ctrl.unselectSpeciality()">
+            <option value="all">Todas</option>
+            <option value="audited">Auditadas</option>
+            <option value="unaudited">No auditadas</option>
+          </select>
+          <span class="select__ico--arrow ico-mapfre_76_chevrondown ico-select" aria-hidden="true"></span>
+        </div>
+        -->
+      </header>
+    </div>
+    <div class="panel__row">
+      <div class="panel__wrapper panel__gray u-br-5 scroll" ng-class="{'hidden-xs': $ctrl.specialitySelected !== null}">
+        <header class="panel__header">
+          <span class="panel__title u-pb-0">Médicas</span>
+        </header>
+        <ul class="panel__modular__list panel__body">
+          <li class="panel__modular__item panel__card"
+              ng-repeat="speciality in filteredSpecialities = ($ctrl.data.Auditoria.ProductoList | filter: $ctrl.medicalSpecialitiesFilter | filter: $ctrl.specialitiesFilter )"
+              ng-class="{'selected': speciality.idTipoProducto === $ctrl.data.Auditoria.ProductoList[$ctrl.specialitySelected].idTipoProducto, 'hover': hover}"
+              ng-click="$ctrl.selectSpeciality($ctrl.data.Auditoria.ProductoList.indexOf(speciality))"
+              ng-mouseenter="hover = true"
+              ng-mouseleave="hover = false">
+            <div class="card__header">
+              <div class="row">
+                <div ng-class="{'col-md-10': $ctrl.specialitySelected === null, 'col-md-8': $ctrl.specialitySelected !== null}">
+                  <p class="card__title u-pr-40">{{::speciality.descripcion || '--'}}</p>
+                </div>
+                <div class="col-xs-4" ng-class="{'col-sm-2': $ctrl.specialitySelected !== null, 'col-sm-4 col-md-3': $ctrl.specialitySelected === null}">
+                  <span class="card__rating" ng-if="!$ctrl.onAuditMode">
+                    <span class="iconref-estrella u-color-amarillo"></span>
+                    <span class="text">{{ speciality.valoracion.toFixed(0) }}/10</span>
+                  </span>
+                </div>
+                <span class="c-btn btn--icon">
+                  <span class="ico-mapfre_79_chevroneright"></span>
+                </span>
+                <div class="col-xs-8">
+                  <span class="card__state">
+                    <span ng-if="service.auditado" class="u-color-verde"><span class="ico-mapfre_260_checkmark"></span>Auditado</span>
+                  </span>
+                </div>
+              </div>
+            </div>
+            <div class="card__body hidden-xs hidden-sm" ng-if="!$ctrl.onAuditMode">
+              <div class="row">
+                <dl class="card__list"
+                    ng-class="{'col-sm-3': $ctrl.specialitySelected === null, 'col-sm-4': $ctrl.specialitySelected !== null}"
+                    ng-repeat="item in speciality.CaracteristicaList | filter: {idTipoCaracteristica: 1}">
+                  <dt>{{ item.descripcion }}:</dt>
+                  <dd>{{ item.idValor || '--' }}</dd>
+                </dl>
+                <dl class="card__list"
+                    ng-class="{'col-sm-3': $ctrl.specialitySelected === null, 'col-sm-4': $ctrl.specialitySelected !== null}"
+                    ng-repeat="item in speciality.CaracteristicaList | filter: {idTipoCaracteristica: 5}">
+                  <dt>Turnos ambulatorios:</dt>
+                  <dd>
+                    <span ng-if="item.valor" ng-bind="item.valor.split(',').length + '/12'"></span>
+                    <span ng-if="!item.valor">--</span>
+                  </dd>
+                </dl>
+                <dl class="card__list"
+                    ng-class="{'col-sm-3': $ctrl.specialitySelected === null, 'col-sm-4': $ctrl.specialitySelected !== null}"
+                    ng-repeat="item in speciality.CaracteristicaList | filter: {idTipoCaracteristica: 2}">
+                  <dt>Emergencias:</dt>
+                  <dd ng-switch="item.idValor">
+                    <span ng-switch-when="1">GUARDIA</span>
+                    <span ng-switch-when="2">RETEN</span>
+                    <span ng-switch-default>--</span>
+                  </dd>
+                </dl>
+              </div>
+            </div>
+          </li>
+          <li ng-hide="filteredSpecialities.length">
+            <div class="u-p-20">
+              No se encontraron especialidades
+            </div>
+          </li>
+        </ul>
+        <header class="panel__header panel__gray">
+          <span class="panel__title u-pb-0">No médicas</span>
+        </header>
+        <ul class="panel__modular__list panel__body">
+          <li class="panel__modular__item panel__card"
+              ng-repeat="speciality in filteredSpecialities = ($ctrl.data.Auditoria.ProductoList | filter: $ctrl.nonMedicalSpecialitiesFilter | filter: $ctrl.specialitiesFilter )"
+              ng-class="{'selected': speciality.idTipoProducto === $ctrl.data.Auditoria.ProductoList[$ctrl.specialitySelected].idTipoProducto, 'hover': hover}"
+              ng-click="$ctrl.selectSpeciality($ctrl.data.Auditoria.ProductoList.indexOf(speciality))"
+              ng-mouseenter="hover = true"
+              ng-mouseleave="hover = false">
+            <div class="card__header">
+              <div class="row">
+                <div ng-class="{'col-md-10': $ctrl.specialitySelected === null, 'col-md-8': $ctrl.specialitySelected !== null}">
+                  <p class="card__title u-pr-40">{{::speciality.descripcion || '--'}}</p>
+                </div>
+                <div class="col-xs-4" ng-class="{'col-sm-2': $ctrl.specialitySelected === null, 'col-sm-4 col-md-3': $ctrl.specialitySelected !== null}">
+                  <span class="card__rating" ng-if="!$ctrl.onAuditMode">
+                    <span class="iconref-estrella u-color-amarillo"></span>
+                    <span class="text">{{ speciality.valoracion.toFixed(0) }}/10</span>
+                  </span>
+                </div>
+                <span class="c-btn btn--icon">
+                  <span class="ico-mapfre_79_chevroneright"></span>
+                </span>
+                <div class="col-xs-8">
+                  <span class="card__state">
+                    <span ng-if="service.auditado" class="u-color-verde"><span class="ico-mapfre_260_checkmark"></span>Auditado</span>
+                  </span>
+                </div>
+              </div>
+            </div>
+            <div class="card__body hidden-xs hidden-sm" ng-if="!$ctrl.onAuditMode">
+              <div class="row">
+                <dl class="card__list"
+                    ng-class="{'col-sm-3': $ctrl.specialitySelected === null, 'col-sm-4': $ctrl.specialitySelected !== null}"
+                    ng-repeat="item in speciality.CaracteristicaList | filter: {idTipoCaracteristica: 1}">
+                  <dt>{{ item.descripcion }}:</dt>
+                  <dd>{{ item.idValor || '--' }}</dd>
+                </dl>
+                <dl class="card__list"
+                    ng-class="{'col-sm-3': $ctrl.specialitySelected === null, 'col-sm-4': $ctrl.specialitySelected !== null}"
+                    ng-repeat="item in speciality.CaracteristicaList | filter: {idTipoCaracteristica: 5}">
+                  <dt>Turnos ambulatorios:</dt>
+                  <dd>
+                    <span ng-if="item.valor" ng-bind="item.valor.split(',').length + '/12'"></span>
+                    <span ng-if="!item.valor">--</span>
+                  </dd>
+                </dl>
+                <dl class="card__list"
+                    ng-class="{'col-sm-3': $ctrl.specialitySelected === null, 'col-sm-4': $ctrl.specialitySelected !== null}"
+                    ng-repeat="item in speciality.CaracteristicaList | filter: {idTipoCaracteristica: 2}">
+                  <dt>Emergencias:</dt>
+                  <dd ng-switch="item.idValor">
+                    <span ng-switch-when="1">GUARDIA</span>
+                    <span ng-switch-when="2">RETEN</span>
+                    <span ng-switch-default>--</span>
+                  </dd>
+                </dl>
+              </div>
+            </div>
+          </li>
+          <li ng-hide="filteredSpecialities.length">
+            <div class="u-p-20">
+              No se encontraron especialidades
+            </div>
+          </li>
+        </ul>
+      </div>
+      <div class="panel__wrapper panel__gray u-br-5 scroll" ng-if="$ctrl.specialitySelected !== null">
+        <button class="c-btn btn btn--icon btn--close" ng-click="$ctrl.unselectSpeciality()">
+          <span class="ico-mapfre_46_cancelaroff"></span>
+        </button>
+        <header class="panel__header">
+          <span class="panel__title u-bb-gray">{{$ctrl.data.Auditoria.ProductoList[$ctrl.specialitySelected].descripcion}}</span>
+        </header>
+        <div class="panel__body u-pl-20 u-pr-25">
+          <div ng-if="!$ctrl.onAuditMode">
+            <div class="row u-mlr--5">
+              <div class="col-md-3 u-plr-5" ng-repeat="item in $ctrl.data.Auditoria.ProductoList[$ctrl.specialitySelected].CaracteristicaList | filter: {idTipoCaracteristica: 7}">
+                <div class="module__list clearfix">
+                  <dl>
+                    <dt>Cuenta con la especialidad</dt>
+                    <dd ng-switch="item.idValor">
+                      <span ng-switch-when="1">Sí</span>
+                      <span ng-switch-default>No</span>
+                    </dd>
+                  </dl>
+                </div>
+              </div>
+              <div class="col-md-9 u-plr-5"
+                   ng-if="$ctrl.specialitySelectedEnabled">
+                <div class="module__list clearfix">
+
+                  <!-- Profesionales -->
+                  <dl ng-repeat="item in $ctrl.data.Auditoria.ProductoList[$ctrl.specialitySelected].CaracteristicaList | filter: {idTipoCaracteristica: 1}">
+                    <dt>{{ item.descripcion }}</dt>
+                    <dd>{{ item.idValor || '--' }}</dd>
+                  </dl>
+
+                  <!-- Turnos ambulatorios -->
+                  <dl ng-repeat="item in $ctrl.data.Auditoria.ProductoList[$ctrl.specialitySelected].CaracteristicaList | filter: {idTipoCaracteristica: 5}">
+                    <dt>Turnos Ambulatorios</dt>
+                    <dd>
+                      <span ng-if="item.valor" ng-bind="item.valor.split(',').length + '/12'"></span>
+                      <span ng-if="!item.valor">--</span>
+                    </dd>
+                  </dl>
+
+                  <!-- Emergencias -->
+                  <dl ng-repeat="item in $ctrl.data.Auditoria.ProductoList[specialitySelected].CaracteristicaList | filter: {idTipoCaracteristica: 2}">
+                    <dt>Emergencias</dt>
+                    <dd ng-switch="item.idValor" ng-if="$ctrl.specialitySelectedEmergecyEnabled">
+                      <span ng-switch-when="1">GUARDIA</span>
+                      <span ng-switch-when="2">RETEN</span>
+                    </dd>
+                    <dd ng-if="!$ctrl.specialitySelectedEmergecyEnabled">--</dd>
+                  </dl>
+
+                </div>
+              </div>
+            </div>
+
+            <div ng-repeat="item in $ctrl.data.Auditoria.ProductoList[$ctrl.specialitySelected].CaracteristicaList | filter: {idTipoCaracteristica: 5}"
+                 ng-if="$ctrl.specialitySelectedEnabled">
+              <span class="u-bold u-db u-mt-20">Turnos ambulatorios</span>
+              <div class="speciality__shifts">
+                <dl ng-if="$ctrl.hasAMShifts(item.valor.split(','))">
+                  <dt>AM:</dt>
+                  <dd ng-if="item.valor.split(',').includes('1')">LUN</dd>
+                  <dd ng-if="item.valor.split(',').includes('3')">MAR</dd>
+                  <dd ng-if="item.valor.split(',').includes('5')">MIE</dd>
+                  <dd ng-if="item.valor.split(',').includes('7')">JUE</dd>
+                  <dd ng-if="item.valor.split(',').includes('9')">VIE</dd>
+                  <dd ng-if="item.valor.split(',').includes('11')">SAB</dd>
+                </dl>
+                <dl ng-if="$ctrl.hasPMShifts(item.valor.split(','))">
+                  <dt>PM:</dt>
+                  <dd ng-if="item.valor.split(',').includes('2')">LUN</dd>
+                  <dd ng-if="item.valor.split(',').includes('4')">MAR</dd>
+                  <dd ng-if="item.valor.split(',').includes('6')">MIE</dd>
+                  <dd ng-if="item.valor.split(',').includes('8')">JUE</dd>
+                  <dd ng-if="item.valor.split(',').includes('10')">VIE</dd>
+                  <dd ng-if="item.valor.split(',').includes('12')">SAB</dd>
+                </dl>
+              </div>
+            </div>
+
+            <!-- Comentarios -->
+            <dl class="module__comments u-mt-20"
+                ng-repeat="item in $ctrl.data.Auditoria.ProductoList[$ctrl.specialitySelected].CaracteristicaList | filter: {idTipoCaracteristica: 6}"
+                ng-if="item.valor">
+              <dt>{{ item.descripcion }}</dt>
+              <dd>{{ item.valor }}</dd>
+            </dl>
+
+          </div>
+          <div ng-if="$ctrl.onAuditMode">
+            <div class="panel__body-section"
+                 ng-repeat="item in $ctrl.data.Auditoria.ProductoList[$ctrl.specialitySelected].CaracteristicaList | orderBy: 'orden'"
+                 ng-if="($ctrl.specialitySelectedEnabled || item.idTipoCaracteristica === 7) && ($ctrl.specialitySelectedEmergecyEnabled || item.idTipoCaracteristica !== 2)">
+              <cp-producto-item item="item"
+                                on-product-change="$ctrl.specialityChanged()"
+                                on-product-enable="$ctrl.enableSpeciality($ctrl.specialitySelected)"
+                                on-product-disable="$ctrl.disableSpeciality($ctrl.specialitySelected)"
+                                on-emergency-enable="$ctrl.enableEmergency($ctrl.specialitySelected)"
+                                on-emergency-disable="$ctrl.disableEmergency($ctrl.specialitySelected)">
+              </cp-producto-item>
+            </div>
+            <p class="text-right">
+              <button class="btn c-btn btn--secundary text-uppercase"
+                      ng-click="$ctrl.saveAudit()"
+                      ng-disabled="$ctrl.auditSaved || $ctrl.auditSaving">
+                <span ng-if="!$ctrl.auditSaved && !$ctrl.auditSaving">Guardar especialidad</span>
+                <span ng-if="$ctrl.auditSaved && !$ctrl.auditSaving">Especialidad guardada</span>
+                <span ng-if="$ctrl.auditSaving">Guardando especialidad…</span>
+              </button>
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,219 @@
+<!-- DATOS DEL CONTRATANTE CONCATO -->
+<div ng-form name="frmContractor">
+  <div class="g-section-inner" id="anchor-1" ng-if="!$ctrl.onlyContact">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-6">
+          <h2 class="g-sub-title g-myd-subtitle">Datos del contratante / contacto</h2>
+        </div>
+      </div>
+      <div class="row h-myd--flex h-myd--flex-wrap h-myd--flex-alg-end">
+        <div class="col-xs-12 col-md-4 mb-xs-2">
+          <mpf-select label="{label: 'Tipo documento', required: true}" name="nTipoDocumento" ng-model="$ctrl.data.mTipoDocumento" m-data-source="$ctrl.documentTypeData" text-field="Descripcion" value-field="Codigo" m-Empty-Option="{enterData:true}" mpf-validation="required" ng-change="$ctrl.inferData()" ng-disabled="$ctrl.disabled"></mpf-select>
+          <div class="g-error" ng-show="frmContractor.nTipoDocumento.$invalid && !frmContractor.nTipoDocumento.$pristine">* Seleccione un tipo de documento</div>
+        </div>
+        <div class="col-xs-12 col-md-4 mb-xs-2">
+          <mpf-input label="{label: 'Nro. documento', required: true}" name="nNroDocumento" ng-model="$ctrl.data.mNroDocumento" ng-maxlength="$ctrl.docMaxLength" mpf-validation="required,number" ng-blur="$ctrl.inferData()" ng-disabled="$ctrl.disabled"></mpf-input>
+          <div class="g-error" ng-show="frmContractor.nNroDocumento.$invalid && !frmContractor.nNroDocumento.$pristine">* Ingrese un numero de documento</div>
+        </div>
+        <div class="col-xs-12 col-md-4 mt-xs-3 h-myd-mt--0 h-myd-mb--20">
+          <a class="g-btn g-btn-white second-design" ng-click="$ctrl.clean()">Limpiar contratante</a>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-6">
+          <h3 class="gH3 mb-xs-2">Datos principales</h3>
+        </div>
+      </div>
+      <div class="row" ng-if="!$ctrl.naturalPerson">
+        <div class="col-md-8 mb-xs-2">
+          <mpf-input label="{label: 'Razón social', required: true}" name="nRazonSocial" ng-model="$ctrl.data.mRazonSocial" ng-required="!$ctrl.naturalPerson" ng-maxlength="65" ng-disabled="$ctrl.disabled"></mpf-input>
+          <div class="g-error" ng-show="frmContractor.nRazonSocial.$invalid && !frmContractor.nRazonSocial.$pristine">* Ingrese una razón social</div>
+        </div>
+      </div>
+      <div class="row" ng-if="$ctrl.naturalPerson">
+        <div class="col-md-4 mb-xs-2">
+          <mpf-input label="{label: 'Nombres', required: true}" name="nNomContratante" ng-model="$ctrl.data.mNomContratante" ng-required="$ctrl.naturalPerson" ng-maxlegth="65" ng-disabled="$ctrl.disabled"></mpf-input>
+          <div class="g-error"  ng-show="frmContractor.nNomContratante.$invalid && !frmContractor.nNomContratante.$pristine">* Ingrese un nombre</div>
+        </div>
+        <div class="col-md-4 mb-xs-2">
+          <mpf-input label="{label: 'Apellido paterno', required: true}" name="nApePatContratante" ng-model="$ctrl.data.mApePatContratante" mpf-validation="onlyLetter" ng-required="$ctrl.naturalPerson" ng-maxlength="28" ng-disabled="$ctrl.disabled"></mpf-input>
+          <div class="g-error" ng-show="frmContractor.nApePatContratante.$invalid && !frmContractor.nApePatContratante.$pristine">* Ingrese un apellido paterno</div>
+        </div>
+        <div class="col-md-4 mb-xs-2">
+          <mpf-input label="{label: 'Apellido materno', required: true}" name="nApeMatContratante" ng-model="$ctrl.data.mApeMatContratante" mpf-validation="onlyLetter" ng-required="$ctrl.naturalPerson" ng-maxlength="28" ng-disabled="$ctrl.disabled"></mpf-input>
+          <div class="g-error" ng-show="frmContractor.nApeMatContratante.$invalid && !frmContractor.nApeMatContratante.$pristine">* Ingrese un apellido materno</div>
+        </div>
+      </div>
+      <div class="row" ng-if="$ctrl.naturalPerson">
+        <div class="col-md-4 mb-xs-2">
+          <mpf-datepicker label="{label: 'Fecha nacimiento', required: true}" format="'dd/MM/yyyy'" ng-model="$ctrl.data.mFechaNacimiento" name="nFechaNacimiento" ng-required="true" ng-disabled="$ctrl.disabled" nomargin="{nomargin: true}"></mpf-datepicker>
+          <div class="g-error" ng-show="frmContractor.nFechaNacimiento.$error.required && !frmContractor.nFechaNacimiento.$pristine">* Ingrese una fecha de nacimiento</div>
+        </div>
+
+        <div class="col-md-4 mb-xs-2">
+          <mpf-select label="{label: 'Estado civil*', required: false}" name="nEstadoCivil" ng-model="$ctrl.data.mEstadoCivil" m-data-source="$ctrl.civilStatusData" text-field="NombreEstadoCivil" value-field="CodigoEstadoCivil" m-Empty-Option="{enterData:true}" ng-required="$ctrl.naturalPerson" ng-disabled="$ctrl.disabled"></mpf-select>
+          <div class="g-error" ng-show="frmContractor.nEstadoCivil.$invalid && !frmContractor.nEstadoCivil.$pristine">* Seleccione un estado civil</div>
+        </div>
+      </div>
+      <div class="row" ng-if="$ctrl.naturalPerson">
+        <div class="col-md-6">
+          <h3 class="gH3 mb-xs-2">Caraterísticas personales</h3>
+        </div>
+      </div>
+      <div class="row" ng-if="$ctrl.naturalPerson">
+        <div class="col-md-4 mb-xs-2">
+          <span class="g-label mb-xs-2 h-myd-mb--10">Sexo*</span>
+          <div class="row">
+            <div class="col-xs-6">
+              <m-radio label="{label: 'Masculino'}" name="nSexo" ng-model="$ctrl.data.mSexo" value="M" ng-required="true" ng-disabled="$ctrl.disabled"></m-radio>
+            </div>
+            <div class="col-xs-6">
+              <m-radio label="{label: 'Femenino'}" name="nSexo" ng-model="$ctrl.data.mSexo" value="F" ng-required="true" ng-disabled="$ctrl.disabled"></m-radio>
+            </div>
+            <ul class="col-md-12 g-error">
+              <li ng-show="frmContractor.nSexo.$invalid && !frmContractor.nSexo.$pristine">* Seleccione un sexo</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="row" ng-if="$ctrl.naturalPerson">
+        <div class="col-md-6">
+          <h3 class="gH3 mb-xs-2">Datos laborales</h3>
+        </div>
+      </div>
+      <div class="row" ng-if="$ctrl.naturalPerson">
+        <div class="col-md-4 mb-xs-2">
+          <mpf-select label="{label: 'Profesión', required: true}" name="nProfesion" ng-model="$ctrl.data.mProfesion" m-data-source="$ctrl.profesionsData" text-field="Descripcion" value-field="Codigo" m-Empty-Option="{enterData:true}" mpf-validation="required" ng-disabled="$ctrl.disabled"></mpf-select>
+          <div class="g-error" ng-show="frmContractor.nProfesion.$invalid && !frmContractor.nProfesion.$pristine">* Seleccione una profesión</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- CONTACTO -->
+  <div ng-if="!$ctrl.onlyContractor || $ctrl.onlyContact" ng-id="{{ $ctrl.onlyContact ? '' : 'anchor-3' }}" ng-class="{'g-section-inner' : !$ctrl.onlyContact}">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12">
+          <h2 class="g-sub-title g-myd-subtitle">Contacto</h2>
+        </div>
+      </div>
+      <div class="row" ng-if="$ctrl.onlyContact">
+        <div class="col-md-4 mb-xs-2">
+          <mpf-input label="{label: 'Nombre Contacto', required: true}" name="nContactName" mpf-validation="required" ng-model="$ctrl.data.mContactName" ng-disabled="$ctrl.disabled"></mpf-input>
+          <div class="g-error" ng-show="frmContractor.nContactName.$invalid && !frmContractor.nContactName.$pristine">* Ingrese un contratante</div>
+        </div>
+        <div class="col-md-4 mb-xs-2">
+          <mpf-input label="{label: 'Apellido de Contacto', required: true}" name="nApePatContratante" mpf-validation="required" ng-model="$ctrl.data.mApePatContratante" ng-disabled="$ctrl.disabled"></mpf-input>
+          <div class="g-error" ng-show="frmContractor.nApePatContratante.$invalid && !frmContractor.nApePatContratante.$pristine">* Ingrese un contratante</div>
+        </div>
+        <div class="col-md-4 mb-xs-2">
+          <mpf-input label="{label: 'Celular', required: true}" name="nCelular" ng-model="$ctrl.data.mCelular" mpf-validation="required,number" ng-minLength="7" ng-maxLength="9" ng-disabled="$ctrl.disabled"></mpf-input>
+          <div class="g-error" ng-show="frmContractor.nCelular.$invalid && !frmContractor.nCelular.$pristine">* Ingrese un celular</div>
+        </div>
+      </div>
+      <div class="row" ng-if="$ctrl.onlyContact">
+        <div class="col-md-4 mb-xs-2">
+          <mpf-input label="{label: 'Teléfono Personal', required: true}" name="nTelfPersonal" ng-model="$ctrl.data.mTelfPersonal" mpf-validation="required,number" ng-minLength="7" ng-maxLength="9" ng-disabled="$ctrl.disabled"></mpf-input>
+          <div class="g-error" ng-show="frmContractor.nTelfPersonal.$invalid && !frmContractor.nTelfPersonal.$pristine">* Ingrese un teléfono</div>
+        </div>
+        <div class="col-md-4 mb-xs-2">
+          <mpf-input label="{label: 'Email personal', required: true}" name="nEmailPersonal" ng-model="$ctrl.data.mEmailPersonal" mpf-validation="required,email" ng-maxLength="100" ng-disabled="$ctrl.disabled"></mpf-input>
+          <div class="g-error" ng-show="frmContractor.nEmailPersonal.$invalid && !frmContractor.nEmailPersonal.$pristine">* Ingrese un email</div>
+        </div>
+        <div class="col-md-4 mb-xs-2">
+          <mpf-input label="{label: 'Email oficina', required: false}" name="nEmailOficina" ng-model="$ctrl.data.mEmailOficina" mpf-validation="email" ng-maxLength="100" ng-disabled="$ctrl.disabled"></mpf-input>
+          <div class="g-error" ng-show="frmContractor.nEmailOficina.$invalid && !frmContractor.nEmailOficina.$pristine">* Ingrese un email</div>
+        </div>
+      </div>
+      <div class="row" ng-if="!$ctrl.onlyContact">
+        <div class="col-md-4 mb-xs-2" ng-if="!$ctrl.naturalPerson">
+          <mpf-input label="{label: 'Nombre Contacto', required: true}" name="nContactName" mpf-validation="required" ng-model="$ctrl.data.mContactName" ng-disabled="$ctrl.disabled"></mpf-input>
+          <div class="g-error" ng-show="frmContractor.nContactName.$invalid && !frmContractor.nContactName.$pristine">* Ingrese un contratante</div>
+        </div>
+        <div class="col-md-4 mb-xs-2">
+          <mpf-input label="{label: 'Teléfono Personal', required: true}" name="nTelfPersonal" ng-model="$ctrl.data.mTelfPersonal" mpf-validation="required,number" ng-minLength="7" ng-maxLength="9" ng-disabled="$ctrl.disabled"></mpf-input>
+          <div class="g-error" ng-show="frmContractor.nTelfPersonal.$invalid && !frmContractor.nTelfPersonal.$pristine">* Ingrese un teléfono</div>
+        </div>
+        <div class="col-md-4 mb-xs-2">
+          <mpf-input label="{label: 'Teléfono Oficina', required: false}" name="nTOficina" ng-model="$ctrl.data.mTelfOficina" mpf-validation="fono3,onlyNumber" ng-maxLength="9" ng-disabled="$ctrl.disabled" ng-required="false"></mpf-input>
+          <div class="g-error" ng-show="frmContractor.nTOficina.$invalid && !frmContractor.nTOficina.$pristine">* Ingrese un teléfono</div>
+        </div>
+        <div class="col-md-4 mb-xs-2" ng-if="$ctrl.naturalPerson">
+          <mpf-input label="{label: 'Celular', required: true}" name="nCelular" ng-model="$ctrl.data.mCelular" mpf-validation="required,number" ng-minLength="7" ng-maxLength="9" ng-disabled="$ctrl.disabled"></mpf-input>
+          <div class="g-error" ng-show="frmContractor.nCelular.$invalid && !frmContractor.nCelular.$pristine">* Ingrese un celular</div>
+        </div>
+      </div>
+      <div class="row" ng-if="!$ctrl.onlyContact">
+        <div class="col-md-4 mb-xs-2" ng-if="!$ctrl.naturalPerson">
+          <mpf-input label="{label: 'Celular', required: true}" name="nCelular" ng-model="$ctrl.data.mCelular" mpf-validation="required,number" ng-minLength="7" ng-maxLength="9" ng-disabled="$ctrl.disabled"></mpf-input>
+          <div class="g-error" ng-show="frmContractor.nCelular.$invalid && !frmContractor.nCelular.$pristine">* Ingrese un celular</div>
+        </div>
+        <div class="col-md-4 mb-xs-2">
+          <mpf-input label="{label: 'Email personal', required: true}" name="nEmailPersonal" ng-model="$ctrl.data.mEmailPersonal" mpf-validation="required,email" ng-maxLength="100" ng-disabled="$ctrl.disabled"></mpf-input>
+          <div class="g-error" ng-show="frmContractor.nEmailPersonal.$invalid && !frmContractor.nEmailPersonal.$pristine">* Ingrese un email</div>
+        </div>
+        <div class="col-md-4">
+          <mpf-input label="{label: 'Email oficina', required: false}" name="nEmailOficina" ng-model="$ctrl.data.mEmailOficina" mpf-validation="email" ng-maxLength="100" ng-disabled="$ctrl.disabled"></mpf-input>
+          <div class="g-error" ng-show="frmContractor.nEmailOficina.$invalid && !frmContractor.nEmailOficina.$pristine">* Ingrese un email</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- UBIGEO -->
+  <div class="g-section-inner" id="anchor-2" ng-if="!$ctrl.onlyContact">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12">
+          <h3 class="g-sub-title g-myd-subtitle">Dirección</h3>
+        </div>
+      </div>
+      <div class="row" ng-if="$ctrl.naturalPerson">
+        <div class="col-md-4 mb-xs-2">
+          <mpf-select label="{label: 'Nacionalidad', required: true}" name="nNacionalidad" ng-model="$ctrl.data.mNacionalidad" m-data-source="$ctrl.nacionalitiesData" text-field="Descripcion" value-field="Codigo" m-Empty-Option="{enterData:true}" mpf-validation="required" ng-disabled="$ctrl.disabled"></mpf-select>
+          <div class="g-error" ng-show="frmContractor.nNacionalidad.$invalid && !frmContractor.nNacionalidad.$pristine">* Seleccione una nacionalidad</div>
+        </div>
+      </div>
+      <div class="row">
+        <inspec-ubigeo data="$ctrl.data"></inspec-ubigeo>
+      </div>
+      <div class="row">
+        <div class="col-md-1 mb-xs-2">
+          <mpf-select label="{label: 'Vía', required: !$ctrl.onlyUbigeo}" name="nSelectVia" ng-model="$ctrl.data.mSelectVia" m-data-source="$ctrl.typesData" text-field="Descripcion" value-field="Codigo" m-Empty-Option="{enterData:true}" ng-required="!$ctrl.onlyUbigeo" ng-disabled="$ctrl.disabled"></mpf-select>
+          <div class="g-error" ng-show="frmContractor.nSelectVia.$invalid && !frmContractor.nSelectVia.$pristine">* Seleccione una vía</div>
+        </div>
+        <div class="col-md-3 mb-xs-2">
+          <mpf-input label="{label: '', required: false}" name="nVia" ng-model="$ctrl.data.mVia" ng-required="!$ctrl.onlyUbigeo"></mpf-input>
+          <div class="g-error" ng-show="frmContractor.nVia.$invalid && !frmContractor.nVia.$pristine">* Ingrese una vía</div>
+        </div>
+        <div class="col-md-1 mb-xs-2">
+          <mpf-select label="{label: 'Número', required: !$ctrl.onlyUbigeo}" name="nSelectNumero" ng-model="$ctrl.data.mSelectNumero" m-data-source="$ctrl.numerationsData" text-field="Descripcion" value-field="Codigo" m-Empty-Option="{enterData:true}" ng-required="!$ctrl.onlyUbigeo" ng-disabled="$ctrl.disabled"></mpf-select>
+          <div class="g-error" ng-show="frmContractor.nSelectNumero.$invalid && !frmContractor.nSelectNumero.$pristine">* Seleccione un número</div>
+        </div>
+        <div class="col-md-3 mb-xs-2">
+          <mpf-input label="{label: '', required: false}" name="nNumero" ng-model="$ctrl.data.mNumero" ng-required="!$ctrl.onlyUbigeo" ng-disabled="$ctrl.disabled"></mpf-input>
+          <div class="g-error" ng-show="frmContractor.nNumero.$invalid && !frmContractor.nNumero.$pristine">* Ingrese un número</div>
+        </div>
+        <div class="col-md-1 mb-xs-2">
+          <mpf-select label="{label: 'Interior', required: false}" name="nSelectInterior" ng-model="$ctrl.data.mSelectInterior" m-data-source="$ctrl.interiorsData" text-field="Descripcion" value-field="Codigo" m-Empty-Option="{enterData:true}" ng-required="$ctrl.data.mInterior.length > 0" ng-disabled="$ctrl.disabled"></mpf-select>
+          <div class="g-error" ng-show="frmContractor.nSelectInterior.$invalid && !frmContractor.nSelectInterior.$pristine">* Seleccione un interior</div>
+        </div>
+        <div class="col-md-3 mb-xs-2">
+          <mpf-input label="{label: '', required: false}" name="nInterior" ng-model="$ctrl.data.mInterior" ng-disabled="$ctrl.disabled"></mpf-input>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-1 mb-xs-2">
+          <mpf-select label="{label: 'Zona', required: false}" name="nSelectZona" ng-model="$ctrl.data.mSelectZona" m-data-source="$ctrl.zonesData" text-field="Descripcion" value-field="Codigo"m-Empty-Option="{enterData:true}" ng-required="$ctrl.data.mZona.length > 0" ng-disabled="$ctrl.disabled"></mpf-select>
+          <div class="g-error" ng-show="frmContractor.nSelectZona.$invalid && !frmContractor.nSelectZona.$pristine">* Seleccione una zona</div>
+        </div>
+        <div class="col-md-3 mb-xs-2">
+          <mpf-input label="{label: '', required: false}" name="nZona" ng-model="$ctrl.data.mZona" ng-disabled="$ctrl.disabled"></mpf-input>
+        </div>
+        <div class="col-md-8">
+          <mpf-input label="{label: 'Referencia', required: false}" name="nReferencias" ng-model="$ctrl.data.mReferencias" ng-disabled="$ctrl.disabled"></mpf-input>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

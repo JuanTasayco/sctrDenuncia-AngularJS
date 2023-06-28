@@ -1,0 +1,35 @@
+<section>
+  <tab-products on-select="selectProduct($product)"></tab-products>
+  <div class="g-title">
+    <div class="container">
+      <div class="row g-row">
+        <div class="col-md-8 middle">
+          <h1>Siniestros de {{product.dscrpcn}}</h1>
+        </div>
+        <div class="col-md-2 col-md-offset-2 kpi-dashboard__download-report">
+          <a class="g-btn second-design g-btn-verde block" ng-show="!showFilters2 && charts.length != 0" ng-click="downloadResumenReport()">DESCARGAR REPORTE</a>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="g-section g-border-top h-myd-border--top-0">
+    <form-filters ng-show="showFilters2" dashboard="dashboard" product="product" range-search-date="config.rangeSearchDate" masters="masters" filter-apply="applyFilters($filters, $indicators, $todosIndicadores)" reload-masters="reloadFiltersData($search, $params, $showLoad)" update-product="refreshByIndicators($indicadores)"></form-filters>
+    <list-filters ng-show="!showFilters2" filters="listSelectedFilters" filter-list-name="listNameFilters" show-modal-filter="showModalFilters()" dashboard="dashboard" product="product" reload-filters="reloadFiltersSelected($removed)"></list-filters>
+    <div ng-show="!showFilters2 && !showErrorComun" class="kpi-dashboard__indicator-container container">
+      <div class="row" ng-if="loadCharts">
+        <div class="col-md-6 col-sm-6" ng-repeat="chartData in charts">
+          <chart-component chart-data="chartData" show-modal-data="showModalData($title, $subtitle, $table, $data, $chart, $file)" download-report="downloadReport($chart, $data, $title, $subtitle, $table, $file)"></chart-component>
+        </div>
+      </div>
+    </div>
+    <div class="container kpi-filtros__container" ng-show="!showFilters2 && showErrorComun">
+      <div class="row">
+        <div class="col-xs-12">
+          <div class="clearfix g-box kpi-filtros__list-container">
+            No existen indicadores para la forma de reclamo seleccionada
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

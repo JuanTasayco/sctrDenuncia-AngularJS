@@ -1,0 +1,79 @@
+<section class="g-page g-home-inner-polizas">
+  <div class="g-title">
+    <div class="container">
+      <div class="row">
+        <div class="clearfix g-div-bottom">
+          <div class="col-xs-12 col-sm-2 col-md-3 mb-xs-0 mb-sm-2 mb-md-0 vertical-polizas">
+            <h1 class="ng-binding">Pólizas</h1>
+          </div>
+          <div class="col-xs-12 col-sm-2 col-md-3 mb-xs-2 mb-sm-0 vertical-polizas">
+            <div class="clearfix g-div-bottom" ng-show="showInputReferidos">
+              <div class="input-referido">
+                <form>
+                  <mpf-input
+                    label="{label: 'Número de Referido:', required: false}"
+                    id="referidoInput"
+                    name="nNroReferido"
+                    ng-maxlength="20"
+                    mpf-validation="onlyNumber"
+                    ng-model="mNroReferido"
+                    ng-blur="inputDisabled = checkInput(mNroReferido); saveReferido(mNroReferido)"
+                    ng-disabled="inputDisabled == true"
+                    ng-required="true"
+                  ></mpf-input>
+                </form>
+              </div>
+              <div class="icon-referido g-text-right-xs g-text-center-sm" ng-show="inputDisabled == true">
+                <button class="btn gBgcTransparent">
+                  <span
+                    class="icon ico-mapfre_245_soat gCGray6 gH2"
+                    ng-click="inputDisabled = false"
+                    focus-referido-input
+                  ></span>
+                </button>
+              </div>
+            </div>
+          </div>
+          <div class="col-xs-12 col-sm-2 col-md-2 mb-xs-1 mb-sm-0 vertical-polizas">
+              <a href="" class="g-btn g-btn-verde second-design block" ui-sref="sendNotification" ng-show="isBtnPaymentTypeVisible">
+                Envío de notificaciones
+              </a>
+            </div>
+          <div class="col-xs-12 col-sm-2 col-md-2 mb-xs-1 mb-sm-0 vertical-polizas" ng-show="isVisibleBtnPaymentType">
+            <a href="" class="g-btn g-btn-verde second-design block" ui-sref="paymentType">
+              Modalidades de Pago
+            </a>
+          </div>
+          <div class="col-xs-12 col-sm-2 col-md-2 vertical-polizas" ng-show="isBtnDocumentsTypeVisible">
+            <a href="" class="g-btn g-btn-verde second-design block" ui-sref="documentos">
+              <span class="ico-mapfre_288_emitir"></span> Documentos
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+    <div class="g-sec-menu mt-xs-1" ng-class="{'second-design': secondDesign}">
+        <div class="container">
+            <ul height-row class="clearfix grid-menu">
+                <li class="col-sm-4 col-xs-6" ng-repeat="item in items">
+                    <a ng-if="!item.href" class="row cnt-link" ng-click="checkPolicy(item)">
+                        <span class="cnt-box">
+                        <span class="cnt-ico" ng-if="isOIM" ng-class="item.cssIcon"></span>
+                        <span class="cnt-ico" ng-if="isMYD" ng-class="item.iconMYD"></span>
+                        <span class="cnt-label">{{item.description}}</span>
+                        </span>
+                    </a>
+                    <a ng-if="item.href" class="row cnt-link" ng-click="checkPolicy(item)" target="_blank">
+                        <span class="cnt-box">
+                        <span class="cnt-ico" ng-if="isOIM" ng-class="item.cssIcon"></span>
+                        <span class="cnt-ico" ng-if="isMYD" ng-class="item.iconMYD"></span>
+                        <span class="cnt-label">{{item.description}}</span>
+                        </span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</section>

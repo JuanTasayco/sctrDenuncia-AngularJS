@@ -1,0 +1,38 @@
+<div class="u-mb-50 u-data-to-load hidden-xs">
+  <div class="c-txt-w-icon col-xs-12 col-sm-6 col-md-7">
+    <span class="ico-mapfre_34_salud bar-volver__ico c-txt-w-icon__ico"></span>
+    <span class="u-t-2">Nombre de la empresa</span>
+  </div>
+  <div class="c-txt-w-icon col-xs-12 col-sm-3 col-md-3">
+    <span class="ico-mapfre_13_miperfil bar-volver__ico c-txt-w-icon__ico"></span>
+    <span class="u-t-2">Asegurados</span>
+  </div>
+</div>
+<ul class="lista-group u-data-to-load u-br-5">
+  <li class="lista__item lista__item--card ref-show-hide"
+      data-ng-repeat="item in $ctrl.pageData track by item.id"
+      data-ng-show="$ctrl.isLoadedPage">
+    <div class="lista__header">
+      <div class="lista-header__col col-xs-12 col-sm-7 col-md-8">
+        <p class="lista-title__txt">{{item.name}}</p>
+      </div>
+      <div class="lista-header__col col-xs-12 col-sm-2 col-md-2">
+        <p class="lista-title__txt">{{item.asegurados_total}} <span class="hidden-sm hidden-md hidden-lg">asegurados</span></p>
+      </div>
+      <div class="lista-header__col col-xs-12 col-sm-3 col-md-2">
+        <a data-ng-click="$ctrl.verAsegurados(item)" class="panel__link-more u-arrow-right">Ver asegurados</a>
+      </div>
+    </div>
+  </li>
+</ul>
+<h2 class="u-txt-center panel__title"
+    data-ng-if="$ctrl.isEmptySearchResult()">No se encontraron resultados para tu búsqueda</h2>
+<div  class="paginator u-data-to-load"
+      data-ng-if="$ctrl.totalItems > 0">
+  <div uib-pager
+    data-ng-change="$ctrl.pageChanged()"
+    total-items="$ctrl.totalItems"
+    data-ng-model="$ctrl.currentPage"
+    template-url="/referencia/app/panel/controller/referenciaPager.html"
+    items-per-page="::$ctrl.itemsPerPage"></div>
+</div>

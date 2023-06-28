@@ -1,0 +1,342 @@
+<div class="consultaGestion">
+  <div class="container">
+    <div show-filter class="clearfix g-col-filter g-box-md gBgcGray5-md gBgcWhite1 g-myd-box" ng-class="{'show': isFilterVisible}">
+      <div class="col-xs-12">
+        <div class="clearfix gH4 gCGray1 mb-xs-1-5">
+          <h2 class="hidden-xs hidden-sm"><b>Opciones de Búsqueda</b></h2>
+          <div id="show-filter" class="row pt-xs-2 pb-xs-2 gBgcGray5 g-border-bottom-xs hidden-md hidden-lg" ng-click="toggleFilter();">
+            <div class="col-xs-10"><h2><b>Opciones de Búsqueda</b></h2></div>
+            <div class="col-xs-2 g-text-right-xs">
+              <!-- ngIf: isFilterVisible --><span class="glyphicon glyphicon-chevron-down ng-scope" ng-if="isFilterVisible"></span><!-- end ngIf: isFilterVisible -->
+              <!-- ngIf: !isFilterVisible --><span class="glyphicon glyphicon-chevron-up ng-scope" ng-if="!isFilterVisible"></span><!-- end ngIf: !isFilterVisible -->
+            </div>
+            <div class="clearfix"></div>
+          </div>
+        </div>
+        <form class="clearfix">
+          <div class="row">
+            <div class="col-md-12 col-xs-12">
+              <div class="row">
+                <div class="col-xs-12 col-md-2">
+                  <m-radio label="{label: 'Vencimiento y Cliente'}" name="nOpcionTipoBusqueda" ng-model="vm.formRenovaciones.mOpcionTipoBusqueda" value="1"></m-radio>
+                </div>
+                <div class="col-xs-12 col-md-2">
+                  <m-radio label="{label: 'Nro. Póliza'}" name="nOpcionTipoBusqueda" ng-model="vm.formRenovaciones.mOpcionTipoBusqueda" value="2"></m-radio>
+                 </div>
+                <div class="col-xs-12 col-md-2">
+                  <m-radio label="{label: 'Nro. Placa'}" name="nOpcionTipoBusqueda" ng-model="vm.formRenovaciones.mOpcionTipoBusqueda" value="3"></m-radio>
+                </div>
+              </div>
+              <div class="row h-myd--flex h-myd--flex-wrap h-myd--flex-alg-end mb-xs-2" ng-show="vm.formRenovaciones.mOpcionTipoBusqueda == '1'">
+                <div class="col-xs-12 col-md-4">
+                  <div class="row">
+                    <div class="col-md-6 mt-xs-2 mt-md-3 h-myd-mt--20 g-myd-input-fetch">
+                      <div class="g-inlineblock">
+                        <mpf-select-horz
+                          ng-model="vm.formRenovaciones.mConsultaDesdeA"
+                          name="nDesdeAnio"
+                          label="{label: 'Desde', required: false}"
+                          m-data-source="vm.lstAnios"
+                          text-field="description"
+                          value-field="value"
+                          m-Empty-Option="{enterData:false}">
+                        </mpf-select-horz>
+                      </div>
+                      <div class="g-inlineblock">
+                        <mpf-select-horz
+                          ng-model="vm.formRenovaciones.mConsultaDesdeM"
+                          name="nDesdeMes"
+                          label="{label: '', required: false}"
+                          m-data-source="vm.lstMeses"
+                          text-field="description"
+                          value-field="value"
+                          m-Empty-Option="{enterData:false}">
+                        </mpf-select-horz>
+                      </div>
+                    </div>
+                    <div class="col-md-6 mt-xs-2 mt-md-3 h-myd-mt--20 g-myd-input-fetch">
+                      <div class="g-inlineblock">
+                        <mpf-select-horz
+                          ng-model="vm.formRenovaciones.mConsultaHastaA"
+                          name="nHastaAnio"
+                          label="{label: 'Hasta', required: false}"
+                          m-data-source="vm.lstAnios"
+                          text-field="description"
+                          value-field="value"
+                          m-Empty-Option="{enterData:false}">
+                        </mpf-select-horz>
+                      </div>
+                      <div class="g-inlineblock">
+                        <mpf-select-horz
+                          ng-model="vm.formRenovaciones.mConsultaHastaM"
+                          name="nHastaMes"
+                          label="{label: '', required: false}"
+                          m-data-source="vm.lstMeses"
+                          text-field="description"
+                          value-field="value"
+                          m-Empty-Option="{enterData:false}">
+                        </mpf-select-horz>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-xs-12 col-md-8 no-padding-xs">
+                  <gcw-cliente data="vm.formRenovaciones.Cliente"></gcw-cliente>
+                </div>
+
+              </div>
+              <div class="row" ng-show="vm.formRenovaciones.mOpcionTipoBusqueda == '2'">
+                <div class="col-md-4 mt-md-1">
+                  <mpf-input label="{label: 'Nro. Póliza', required: true}" name="nNumPoliza" ng-model="vm.formRenovaciones.mNumPoliza" data-ng-required="true" mpf-validation="onlyNumber"></mpf-input>
+                   <div class="g-error"
+                     data-ng-show="frmRenovaciones.nNumPoliza.$error.required && !frmRenovaciones.nNumPoliza.$pristine">* Ingrese número de póliza
+                  </div>
+                </div>
+              </div>
+              <div class="row" ng-show="vm.formRenovaciones.mOpcionTipoBusqueda  == '3'">
+                <div class="col-md-4 mt-md-1">
+                  <mpf-input label="{label: 'Nro. Placa', required: true}" name="nNumPlaca" ng-model="vm.formRenovaciones.mNumPlaca" data-ng-required="true"></mpf-input>
+                   <div class="g-error"
+                     data-ng-show="frmRenovaciones.nNumPoliza.$error.required && !frmRenovaciones.nNumPoliza.$pristine">* Ingrese número de placa
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row mt-xs-2">
+            <div class="col-md-offset-8 col-md-2 mb-xs-1 no-mb-md">
+              <a class="g-btn g-btn-verde second-design block"
+                ga-click
+                ga-category="'CG - Renovaciones'"
+                ga-action="'MPF - Lista renovación - Buscar'"
+                ga-label="'Botón: Buscar'"
+                ng-click="vm.buscar()">Buscar</a>
+            </div>
+            <div class="col-md-2"><a class="g-btn g-btn-white second-design block" ng-click="vm.limpiar()">Limpiar</a></div>
+          </div>
+        </form>
+      </div>
+    </div>
+
+     <!-- Top bar: Filtro e iconos -->
+    <div tbl-oim-topbar class="clearfix g-tbl-topbar mt-md-2 mb-md-2 mt-xs-1 width-filtro">
+      <div class="g-row-icons__box visible-xs visible-sm" ng-show="vm.totalRows >= 1">
+        <a ng-click="showFilterTopbar = !showFilterTopbar" uib-popover="Filtro" popover-trigger="'mouseenter'">
+          <span class="g-icon-box g-icon-box-md">
+            <span class="ico-mapfre ico-mapfre_203_filtro ico-filter h-myd--none"></span>
+            <span class="ico-mapfre ico-mapfre-362-myd-filter ico-filter h-myd-ico--mediun h-myd--show h-oim-none"></span>
+          </span>
+        </a>
+        <a data-ng-click="exportar()" uib-popover="Exportar" popover-trigger="'mouseenter'">
+          <span class="g-icon-box g-icon-box-md">
+            <span class="ico-mapfre ico-mapfre_124_download ico-download h-myd--none"></span>
+            <span class="ico-mapfre ico-mapfre-360-myd-export ico-download h-myd-ico--mediun h-myd--show h-oim-none"></span>
+          </span>
+        </a>
+        <a data-ng-click="enviarPolizas()" uib-popover="Enviar P&oacute;lizas" popover-trigger="'mouseenter'">
+          <span class="ico-mapfre ico-mapfre_123_envelop gnIcon-xsm gCGray3 h-myd--none"></span>
+          <span class="ico-mapfre ico-mapfre-361-myd-mail ico-md h-myd-ico--mediun h-myd--show h-oim-none"></span>
+        </a>
+      </div>
+      <div class="g-row-filter__box g-row-icons__box box_left hidden-xs hidden-sm" ng-show="vm.totalRows >= 1">
+        <a data-ng-click="exportar()" uib-popover="Exportar" popover-trigger="'mouseenter'">
+          <span class="ico-mapfre ico-mapfre_124_download ico-download h-myd--none"></span>
+          <span class="ico-mapfre ico-mapfre-360-myd-export ico-download h-myd-ico--mediun h-myd--show h-oim-none"></span>
+        </a>
+        <a data-ng-click="enviarPolizas()" uib-popover="Enviar P&oacute;lizas" popover-trigger="'mouseenter'">
+          <span class="ico-mapfre ico-mapfre_123_envelop gnIcon-xsm gCGray3 h-myd--none"></span>
+          <span class="ico-mapfre ico-mapfre-361-myd-mail ico-md h-myd-ico--mediun h-myd--show h-oim-none"></span>
+        </a>
+      </div>
+      <div class="g-row-filter__box box_right height-xs height-sm" ng-class="{'filter__show': showFilterTopbar}">
+        <form class="clearfix" name="vm.formFilterRenovaciones.frmRenovaciones">
+          <div class="g-filter-col pt-xs-1 mt-md-0">
+            <mpf-select-horz
+              ng-model="vm.formFilterRenovaciones.Sector"
+              name="nSector"
+              label="{label: 'Sector', required: false}"
+              m-data-source="vm.lstSectores"
+              text-field="description"
+              value-field="code"
+              m-Empty-Option="{text:'todos'}"
+              mpf-validation="required">
+            </mpf-select>
+          </div>
+          <div class="g-filter-col pt-xs-1 mt-md-0">
+            <mpf-select-horz
+              ng-model="vm.formFilterRenovaciones.SubSector"
+              name="nSubSector"
+              label="{label: 'Sub-Sector', required: false}"
+              m-data-source="vm.lstSubSectores"
+              text-field="description"
+              value-field="codeInt"
+              m-Empty-Option="{text:'todos'}"
+              mpf-validation="required">
+            </mpf-select>
+          </div>
+
+          <div class="g-filter-col pt-xs-1 mt-md-0">
+            <mpf-select-horz
+              ng-model="vm.formFilterRenovaciones.Ramo"
+              name="nRamo"
+              label="{label: 'Ramo', required: false}"
+              m-data-source="vm.lstRamos"
+              text-field="ramoDescription"
+              value-field="identifierId"
+              m-Empty-Option="{text:'todos'}"
+              mpf-validation="required">
+            </mpf-select>
+          </div>
+          <div class="g-filter-col pt-xs-1 mt-md-0">
+            <mpf-select-horz
+              ng-model="vm.formFilterRenovaciones.Renovacion"
+              name="nRamo"
+              label="{label: 'Situaci&oacute;n', required: false}"
+              m-data-source="vm.lstRenovacion"
+              text-field="description"
+              value-field="code"
+              m-Empty-Option="{text:'todos'}"
+              mpf-validation="required">
+            </mpf-select>
+          </div>
+          <div class="g-filter-col pt-xs-1 mt-md-0" ng-show="vm.formFilterRenovaciones.Renovacion.code == 'CCC'">
+            <mpf-select-horz
+              ng-model="vm.formFilterRenovaciones.Estado"
+              name="nSector"
+              label="{label: 'Estado CCC:', required: false}"
+              m-data-source="vm.lstEstados"
+              text-field="description"
+              value-field="code"
+              m-Empty-Option="{text:'todos'}"
+              mpf-validation="required">
+            </mpf-select>
+          </div>
+          <div class="g-filter-col pt-xs-1 mt-md-0">
+            <mpf-select-horz
+              ng-model="vm.formFilterRenovaciones.Segmentation"
+              name="nRamo"
+              label="{label: 'Segmentaci&oacute;n', required: false}"
+              m-data-source="vm.lstSegmentation"
+              text-field="description"
+              value-field="code"
+              m-Empty-Option="{text:'todos'}"
+              mpf-validation="required">
+            </mpf-select>
+          </div>
+          <div class="g-filter-col col__buttons hidden-xs hidden-sm pt-sm-1">
+            <a class="g-btn g-btn-white block second-design " ng-click="vm.buscar()">Aplicar Filtros</a>
+          </div>
+          <div class="col__buttons visible-xs visible-sm mt-xs-2">
+            <a class="g-btn g-btn-white block second-design mb-xs-2" ng-click="vm.buscar()">Aplicar Filtros</a>
+            <a ng-click="showFilterTopbar = !showFilterTopbar" class="g-btn g-btn-white block second-design h-myd-mt--10">Cerrar</a>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <div class="clearfix" ng-show="vm.totalRows >= 1">
+      <div tbl-oim class="col-xs-12 g-tbl-wrapper pl-xs-0">
+        <div class="table__1440 tbl-main">
+          <ul class="tbl-header clearfix">
+            <li class="title col-3-dktp">
+              <!-- ng-checked="mCheckAllValuePE"  -->
+              <mpf-checkbox label="" name="nCheckAllPE" ng-model="vm.mCheckAllPE" ng-click="vm.selectAllPE(vm.mCheckAllPE);"></mpf-checkbox>
+            </li>
+            <li class="title col-10-dktp">Póliza</li>
+            <li class="title col-8-dktp">Ramo - Modalidad</li>
+            <li class="title col-6-dktp">Vencimiento</li>
+            <li class="title col-10-dktp">Cliente</li>
+            <li class="title col-8-dktp">Segmento Comercial</li>
+            <li class="title col-5-dktp">Moneda</li>
+            <li class="title col-8-dktp text-right">Prima Vigente</li>
+            <li class="title col-8-dktp text-right">Prima  pre renov.</li>
+            <li class="title col-8-dktp text-right">Prima renov.</li>
+            <li class="title col-8-dktp">Fecha max estado</li>
+            <li class="title col-7-dktp">Segmentaci&oacute;n</li>
+            <li class="title col-6-dktp text-right">Mapfre Dolar</li>
+            <li class="title col-5-dktp text-right">Env&iacute;o P&oacute;liza Electr&oacute;ica</li>
+          </ul>
+          <!-- NO TRAMITADA -->
+          <ul class="tbl-body clearfix">
+            <li ng-repeat="item in vm.renovaciones">
+              <ul height-row class="tbl-row clearfix" 
+                  ga-click
+                  ga-category="'CG - Renovaciones'"
+                  ga-action="'MPF - Lista renovación - Fila'"
+                  ga-label="'Click Fila'"
+                  ng-click="vm.evaluarAccion(item)">
+
+                <li class="cell col-3-dktp" ng-click="vm.stopPropagation($event)">
+                  <mpf-checkbox 
+                    label="" 
+                    name="nSelectPolizaPE" 
+                    ng-model="item.selected" 
+                    ng-click="vm.selectPolizaPE($index, item.selected)" >{{poliza.selected}}</mpf-checkbox>
+                </li>
+
+                <li class="cell col-10-dktp">
+                  <span class="cell-title">{{item.policyNumber}}</span>
+                  <span class="c-tag mb-xs-1 gBgcRed1"
+                      data-ng-class="{'gBgcRed1': item.situation == 'NO TRAMITADA', 'gBgcGreen1': item.situation == 'RENOVADA', 'gBgcYellow1': item.situation == 'AJUSTADA'}">{{item.situation}}
+                  </span>
+                </li>
+                <li class="cell col-8-dktp g-break-word">
+                  <span class="cell-label"><span class="cell-data g-text-uppercase">{{item.branchName}} - {{item.modalityName}}</span></span>
+                </li>
+                <li class="cell col-6-dktp">
+                  <span class="cell-label"><span class="cell-data g-text-uppercase">{{item.expirationDate}}</span></span>
+                </li>
+                <li class="cell col-10-dktp g-break-word">
+                  <span class="cell-label"><span class="cell-data g-text-uppercase">{{item.clientName}}</span></span>
+                </li>
+                <li class="cell col-8-dktp">
+                  <span class="cell-label"><span class="cell-data g-text-uppercase">{{item.businessSegment}}</span></span>
+                </li>
+                <li class="cell col-5-dktp">
+                  <span class="cell-label"><span class="cell-data g-text-uppercase">{{item.coinDescription}}</span></span>
+                </li>
+                <li class="cell col-8-dktp text-right">
+                  <span class="cell-label"><span class="cell-data g-text-uppercase">{{item.balanceCurrent | number:2}}</span></span>
+                </li>
+                <li class="cell col-8-dktp text-right">
+                  <span class="cell-label"><span class="cell-data g-text-uppercase">{{item.balancePreRenovation | number:2}}</span></span>
+                </li>
+                <li class="cell col-8-dktp text-right">
+                  <span class="cell-label"><span class="cell-data g-text-uppercase">{{item.balanceRenovation | number:2}}</span></span>
+                </li>
+                <li class="cell col-8-dktp">
+                  <span class="cell-label"><span class="cell-data g-text-uppercase">{{item.limit}}</span></span>
+                </li>
+                <li class="cell col-7-dktp">
+                  <span class="cell-label"><span class="cell-data g-text-uppercase">{{item.segmentation}}</span></span>
+                </li>
+                <li class="cell col-6-dktp text-right">
+                  <span class="cell-label"><span class="cell-data g-text-uppercase">{{item.mapfreDollar | number:2}}</span></span>
+                </li>
+                <li class="cell col-5-dktp">
+                  <span class="cell-label"><span class="cell-data g-text-uppercase">{{item.policyElectronicIsSent}}</span></span>
+                </li>
+              </ul>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <mx-paginador
+      data-datos="vm.renovaciones"
+      data-items-x-page="vm.itemsXPagina"
+      data-msg-vacio="vm.msgVacio"
+      data-on-paginar="vm.pageChanged($event)"
+      data-pagina-actual="vm.currentPage"
+      data-total-items="vm.totalRows"
+    >
+    </mx-paginador>
+
+  </div>
+</div>
+
+<form id="frmExport" name="frmExport" action="{{vm.exportURL}}" method="post" target="_blank">
+  <input type="hidden" name="json" value='{{vm.downloadFile}}'>
+</form>

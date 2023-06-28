@@ -1,0 +1,279 @@
+<section class="g-page page-automovil-cotizar g-ui-view mantenimiento">
+    <div class="container">
+      <div class="g-title g-border-bottom">
+        <div class="row h-myd--flex h-myd--flex-alg-center h-myd--flex-wrap">
+          <div class="col-xs-12 col-sm-8">
+            <h1 class="ng-binding">Mantenimiento</h1>
+          </div>
+          <div class="col-xs-12 col-sm-4 g-text-right-sm hidden-sm hidden-xs">
+            <a href="#/eps-empresa/home">
+              <span class="g-link gCGray3">
+                <i class="icon ico-mapfre_310_arrowLeft"></i>
+                <b>Volver a EPS Empresa</b>
+              </span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <section class="filter">
+        <div class="g-title g-border-bottom filter-title">
+          <div class="container-fluid">
+              <div class="row h-myd--flex h-myd--flex-alg-center h-myd--flex-wrap">
+                <div class="col-xs-12 titles">
+                  <h2>PARAMETROS GENERALES</h2>
+                </div>
+              </div>
+              <div class="row h-myd--flex h-myd--flex-alg-center h-myd--flex-wrap">
+                <div class="col-xs-12 sub-titles">
+                  <h2>Criterios de consulta</h2>
+                </div>
+              </div>
+          </div>
+        </div>
+        <form name="frmParametro">
+          <div class="row inputs">
+            <div class="col-xs-12">
+              <div class="row">
+                <div class="col-xs-2">
+                  <mpf-select 
+                      ng-model="vm.filter_parametros.mTipoParametro"
+                      name="nTipoParametro"
+                      label="{label: 'Tipo de parametro', required: false}"
+                      m-data-source="vm.grupos" 
+                      text-field="descripcion" 
+                      value-field="valor"
+                      m-Empty-Option="{enterData:true}" 
+                      ng-change="vm.cambioTipoParametro(vm.filter_parametros.mTipoParametro)"
+                      mpf-validation="required"
+                      disabled-view-model="true">
+                  </mpf-select>
+                </div>
+                <div class="col-xs-3 col-xs-offset-7 new">
+                    <a class="g-btn g-btn-verde block" ng-click="showModalAddParameter()">Nuevo</a>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row mensaje">
+            <div class="col-xs-12">
+              <!--<span class="error">Error al guardar</span>-->
+              <span class="error" ng-show="vm.mensajeError !== ''">{{vm.mensajeError}}</span>
+              <span class="exito" ng-show="vm.mensajeExito !== ''">{{vm.mensajeExito}}</span>
+            </div>
+          </div>
+        </form>
+    </section>
+    <div class="row grid-bandeja">
+        <div class="col-md-12">
+          <div class="row grid-title">
+              <div class="col-xs-1 column">
+                  <span>Nro</span>
+              </div>
+              <div class="col-xs-2 column">
+                  <span>Tipo de parámetro</span>
+              </div>
+              <div class="col-xs-2 column">
+                  <span>Descripción</span>
+              </div>
+              <div class="col-xs-1 column">
+                  <span>Valor numérico</span>
+              </div>
+              <div class="col-xs-2 column">
+                  <span>Valor texto</span>
+              </div>
+              <div class="col-xs-1 column">
+                  <span>Orden</span>
+              </div>
+              <div class="col-xs-1 column">
+                  <span>Fecha de registro</span>
+              </div>
+              <div class="col-xs-1 column">
+                  <span>Estado</span>
+              </div>
+              <div class="col-xs-1 column">
+                  <span><span class="icon ico-mapfre_228_editar icon-eps"></span>Editar</span>
+              </div>
+          </div>
+          <div class="row grid-body">
+              <div class="col-md-12">
+                  <div class="row grid-body-row" ng-repeat="item in vm.mantenimiento_parametros track by $index" >
+                      <div class="col-md-12 line"></div>
+                      <div class="col-xs-1 column">
+                        <span>{{($index +1) + (vm.showNumberRows*(vm.paginaActualParametros - 1))}}</span>
+                      </div>
+                      <div class="col-xs-2 column">
+                          <span>{{item.grupo}}</span>
+                      </div>
+                      <div class="col-xs-2 column">
+                          <span>{{item.descripcion}}</span>
+                      </div>
+                      <div class="col-xs-1 column">
+                          <span>{{item.valorNumerico}}</span>
+                      </div>
+                      <div class="col-xs-2 column">
+                          <span>{{item.valorTexto}}</span>
+                      </div>
+                      <div class="col-xs-1 column">
+                          <span>{{item.orden}}</span>
+                      </div>
+                      <div class="col-xs-1 column">
+                          <span>{{item.fechaCreacion}}</span>
+                      </div>
+                      <div class="col-xs-1 column">
+                          <span>{{item.activo === 1 ? 'Habilitado' : (item.activo === 2 ? 'Deshabilitado' : 'Eliminado')}}</span>
+                      </div>
+                      <div class="col-xs-1 column">
+                          <span class="accion-button"><a ng-click="showModalEditParameter(item.idParametro)"><span class="icon ico-mapfre_228_editar icon-eps accion-button"></span>Editar</a></span>
+                      </div>
+                  </div>
+              </div>
+          </div>
+          <div class="row grid-footer">
+          </div>
+        </div>
+    </div>
+    <!-- PAGINATION -->
+    <div class="row grid-pagination" ng-if="vm.totalParametros > vm.showNumberRows">
+        <div class="col-md-6 col-md-offset-3">
+        <ul
+            uib-pagination
+            class="g-pagination"
+            ng-model="vm.paginaActualParametros"
+            max-size="10"
+            total-items="vm.totalParametros"
+            ng-change="vm.changePageParametros(vm.paginaActualParametros)"
+            boundary-link-numbers="true"
+        ></ul>
+        </div>
+    </div>
+    <section class="filter">
+        <div class="g-title g-border-bottom filter-title">
+          <div class="container-fluid">
+              <div class="row h-myd--flex h-myd--flex-alg-center h-myd--flex-wrap">
+                <div class="col-xs-12 sub-titles">
+                  <h2>RANGO ETARIO Y TARIFA</h2>
+                </div>
+              </div>
+          </div>
+        </div>
+        <form name="frmRango">
+          <div class="row inputs">
+            <div class="col-xs-12">
+              <div class="row">
+                <div class="col-xs-2">
+                    <mpf-input 
+                        ng-model="vm.form_rangos.desde"
+                        name="nDesde" 
+                        label="{label: 'Desde', required: false}"
+                        mpf-validation="onlyNumber" 
+                        ng-required="true"
+                        disabled-view-model="true"
+                        ng-maxlength="38">
+                    </mpf-input>
+                </div>
+                <div class="col-xs-2">
+                    <mpf-input 
+                        ng-model="vm.form_rangos.hasta"
+                        name="nHasta" 
+                        label="{label: 'Hasta', required: false}"
+                        mpf-validation="onlyNumber" 
+                        ng-required="true"
+                        disabled-view-model="true"
+                        ng-maxlength="38">
+                    </mpf-input>
+                </div>
+                <div class="col-xs-2">
+                    <mpf-input 
+                        ng-model="vm.form_rangos.tarifaPersona"
+                        name="nTarifaPersona" 
+                        label="{label: 'Tarifa a persona', required: false}"
+                        mpf-validation="onlyNumber" 
+                        ng-required="true"
+                        disabled-view-model="true"
+                        ng-maxlength="9">
+                    </mpf-input>
+                </div>
+                <div class="col-xs-3 col-xs-offset-3 new">
+                    <a class="g-btn g-btn-verde block" ng-class="{'disabled': !vm.activeBotonGuardar()}" ng-click="vm.guardarTarifa()">Agregar</a>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row mensaje">
+            <div class="col-xs-12">
+              <!--<span class="error">Error al guardar</span>-->
+              <span class="error" ng-show="vm.mensajeErrorTarifa !== ''">{{vm.mensajeErrorTarifa}}</span>
+              <span class="exito" ng-show="vm.mensajeExitoTarifa !== ''">{{vm.mensajeExitoTarifa}}</span>
+            </div>
+          </div>
+        </form>
+    </section>
+    <div class="row grid-bandeja">
+        <div class="col-md-12">
+          <div class="row grid-title">
+              <div class="col-xs-3 column">
+                  <span>Desde</span>
+              </div>
+              <div class="col-xs-3 column">
+                  <span>Hasta</span>
+              </div>
+              <div class="col-xs-3 column">
+                  <span>Tarifa por persona</span>
+              </div>
+              <div class="col-xs-3 column">
+                <div class="row">
+                    <div class="col-xs-6">
+                        <span><span class="icon ico-mapfre_228_editar icon-eps"></span>Editar</span>
+                    </div>
+                    <div class="col-xs-6">
+                        <span><span class="ico-mapfre_29_eliminar icon-eps"></span>Eliminar</span>
+                    </div>
+                </div>  
+              </div>
+          </div>
+          <div class="row grid-body">
+              <div class="col-md-12">
+                  <div class="row grid-body-row" ng-repeat="item in vm.mantenimiento_rangos track by $index" >
+                      <div class="col-md-12 line"></div>
+                      <div class="col-xs-3 column">
+                          <span>{{item.desde}}</span>
+                      </div>
+                      <div class="col-xs-3 column">
+                          <span>{{item.hasta}}</span>
+                      </div>
+                      <div class="col-xs-3 column">
+                          <span>{{item.tarifa}}</span>
+                      </div>
+                      <div class="col-xs-3 column">
+                        <div class="row">
+                            <div class="col-xs-6">
+                                <span class="accion-button"><a ng-click="showModalEditTarifa(item.id)"><span class="icon ico-mapfre_228_editar icon-eps accion-button"></span>Editar</a></span>
+                            </div>
+                            <div class="col-xs-6">
+                                <span class="accion-button"><a ng-click="vm.eliminarTarifa(item.id)"><span class="ico-mapfre_29_eliminar icon-eps accion-button"></span>Eliminar</a></span>
+                            </div>
+                        </div>  
+                      </div>
+                  </div>
+              </div>
+          </div>
+          <div class="row grid-footer">
+          </div>
+        </div>
+    </div>
+    <!-- PAGINATION -->
+    <div class="row grid-pagination" ng-if="vm.totalRangos > vm.showNumberRows">
+        <div class="col-md-6 col-md-offset-3">
+        <ul
+            uib-pagination
+            class="g-pagination"
+            ng-model="vm.paginaActualRangos"
+            max-size="10"
+            total-items="vm.totalRangos"
+            ng-change="vm.changePageTarifas(vm.paginaActualRangos)"
+            boundary-link-numbers="true"
+        ></ul>
+        </div>
+    </div>
+</section>

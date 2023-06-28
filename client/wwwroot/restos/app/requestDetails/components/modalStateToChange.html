@@ -1,0 +1,109 @@
+<section>
+
+  <button type="button" class="close g-close-modal" ng-click="closeModal()">
+    <span class="ico-mapfre_231_cancelaroff"></span>
+  </button>
+
+
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12 g-text-center-xs mb-xs-2">
+        <h2 class="gH3">
+          La solicitud cambiará de estado a {{state.description }}
+        </h2>
+      </div>
+    </div>
+  </div>
+
+  <div class="container">
+    <div class="col-md-12">
+      <form ng-if="state.code === 5"
+            id="adjudicatarioData"
+            name="adjudicatarioData"
+            ng-submit="update()"
+            novalidate>
+        <div class="row">
+          <div class="col-md-6 mb-xs-2">
+            <div class="g-select-desing">
+              <label class="g-placeholder animated">Tipo de documento*</label>
+              <select ng-model="adjudicatario.TIP_DOC_ADJUDICA"
+                      name="rTIP_DOC_ADJUDICA"
+                      ng-change="setDocPattern(adjudicatario.TIP_DOC_ADJUDICA)"
+                      required>
+                <option value="" disabled>-- SELECCIONA --</option>
+                <option ng-repeat="option in params.idTypes"
+                        ng-value="option.CODIGO">{{option.NOMBRE}}</option>
+              </select>
+              <span class="ico-mapfre_308_arrowDown ico-select"></span>
+            </div>
+            <ul class="g-error">
+              <li ng-show="adjudicatarioData.rTIP_DOC_ADJUDICA.$error.required && adjudicatarioData.rTIP_DOC_ADJUDICA.$dirty">Este campo es obligatorio</li>
+            </ul>
+          </div>
+          <div class="col-md-6 mb-xs-2">
+            <div class="g-input-design">
+              <label class="g-placeholder"
+                     ng-class="{animated: adjudicatarioData.rNUM_DOC_ADJUDICA.$focused || adjudicatarioData.rNUM_DOC_ADJUDICA.$viewValue}">
+                Nro. de documento*
+              </label>
+              <input type="text"
+                     name="rNUM_DOC_ADJUDICA"
+                     ng-model="adjudicatario.NUM_DOC_ADJUDICA"
+                     ng-focus="adjudicatarioData.rNUM_DOC_ADJUDICA.$focused = true"
+                     ng-blur="adjudicatarioData.rNUM_DOC_ADJUDICA.$focused = false"
+                     ng-pattern="docPattern"
+                     required>
+            </div>
+            <ul class="g-error">
+              <li ng-show="adjudicatarioData.rNUM_DOC_ADJUDICA.$error.required && adjudicatarioData.rNUM_DOC_ADJUDICA.$dirty">Este campo es obligatorio</li>
+              <li ng-show="adjudicatarioData.rNUM_DOC_ADJUDICA.$error.pattern && adjudicatarioData.rNUM_DOC_ADJUDICA.$touched">Este campo no tiene el formato correcto</li>
+            </ul>
+          </div>
+          <div class="col-md-6 mb-xs-2">
+            <div class="g-input-design">
+              <label class="g-placeholder"
+                     ng-class="{animated: adjudicatarioData.rNOM_ADJUDICA.$focused || adjudicatarioData.rNOM_ADJUDICA.$viewValue}">
+                Nombre completo*
+              </label>
+              <input type="text"
+                     name="rNOM_ADJUDICA"
+                     ng-model="adjudicatario.NOM_ADJUDICA"
+                     ng-focus="adjudicatarioData.rNOM_ADJUDICA.$focused = true"
+                     ng-blur="adjudicatarioData.rNOM_ADJUDICA.$focused = false"
+                     required>
+            </div>
+            <ul class="g-error">
+              <li ng-show="adjudicatarioData.rNOM_ADJUDICA.$error.required && adjudicatarioData.rNOM_ADJUDICA.$dirty">Este campo es obligatorio</li>
+            </ul>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-4 col-md-offset-2">
+            <button class="g-btn g-btn-transparent block" ng-click="closeModal()">Cancelar</button>
+          </div>
+          <div class="col-md-4">
+            <button
+              type="submit"
+              form="adjudicatarioData"
+              class="g-btn g-btn-verde block"
+              ng-disabled="adjudicatarioData.$invalid">
+              Aceptar
+            </button>
+          </div>
+        </div>
+      </form>
+      <div class="row" ng-if="state.code !== 5">
+        <div class="col-md-4 col-md-offset-2">
+          <button class="g-btn g-btn-transparent block" ng-click="closeModal()">Cancelar</button>
+        </div>
+        <div class="col-md-4">
+          <button class="g-btn g-btn-verde block"
+            ng-click="update()">
+            Aceptar
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</section>

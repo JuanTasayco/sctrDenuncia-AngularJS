@@ -1,0 +1,68 @@
+<form id="cotiza-form" action="" name="frmPoliData">
+<section class="g-page page-automovil-variacion"  ng-init="$parent.hidePolizas=true">
+	<page-title info="{title: 'Solicitar creación de auto'}"></page-title>																		
+		<div class="container">
+			<form action="" name="frmNewAuto">	
+				<div class="row mb-md-2">
+					<div class="col-md-12">
+						<h2 class="g-sub-title g-myd-subtitle">¿Cuál es la marca del auto que quieres crear?</h2>
+					</div>
+					<div class="col-md-4">				
+						<div class="col-md-12"><label class="g-placeholder animated ng-binding">Marca<span ng-show="true" class="">*</span></label><br class="hidden-xs hidden-sm"></div>
+		           
+		      	<mp-data-seeker behavior="{label:'', placeholder:'Busque o seleccione una marca ...', matchField:'descripcion'}" m-data-source="'proxyAutomovil.GetListMarcaAutocomplete'" ng-model="mAcMarcaNew" ng-change="$ctrl.getFunctionsMarca(mAcMarcaNew)" name="nMarca" ng-required="true" >
+            	<div ng-bind-html="$item.descripcion | highlight: $select.search"></div>
+        		</mp-data-seeker>
+
+
+		        <div class="g-error" ng-show="frmPoliData.nMarca.$error.required && !frmPoliData.nMarca.$pristine">*  Busque y seleccione una marca</div>
+					</div>
+					<div class="col-md-4">
+						<mpf-input label="$ctrl.gLblModelo" info="$ctrl.modelo" ng-model="mModeloNew" validate="validate[required]" name="nModeloNew" ng-required="true"></mpf-input>
+
+						 <div class="g-error" ng-show="frmPoliData.nModeloNew.$error.required && !frmPoliData.nModeloNew.$pristine">* Ingrese un modelo</div>
+					</div>
+					<div class="col-md-4">
+						<mpf-input label="$ctrl.gLblSubModelo" info="$ctrl.submodelo" ng-model="mSubModeloNew" validate="validate[required]" name="nSubModeloNew" ng-required="true"></mpf-input>
+						<div class="g-error" ng-show="frmPoliData.nSubModeloNew.$error.required && !frmPoliData.nSubModeloNew.$pristine">* Ingrese un submodelo</div>
+					</div>
+				</div>
+				<div class="row mb-md-1">
+				<div class="col-md-4">
+						<mpf-input label="$ctrl.gLblYearFabric" info="$ctrl.yearFabric" ng-model="mYearFabricNew" name="nYearFabricNew" mpf-validation="onlyNumber" ng-required="true" ng-Minlength="4" ng-Maxlength="4" trn-Length="4"></mpf-input>
+
+						 <div class="g-error" ng-show="frmPoliData.nYearFabricNew.$error.required && !frmPoliData.nYearFabricNew.$pristine">* Ingrese año de fabricación</div>
+            <!--   <span ng-show="frmNewAuto.nYearFabricNew.$error.pattern" style="color:red">Ingrese un año válido no mayor al actual: Ej. 2016</span> -->
+				</div>
+					<div class="col-md-4">
+						<mpf-input label="$ctrl.gLblValorVehiculoVariacion" info="$ctrl.valorVehiculo" ng-model="mValorVehiculoNew" mpf-validation="onlyNumber" ng-required="true" name="nValorVehiculoNew" ></mpf-input>
+
+						 <div class="g-error" ng-show="frmPoliData.nValorVehiculoNew.$error.required && !frmPoliData.nValorVehiculoNew.$pristine">* Ingrese valor sugerido</div>
+					</div>
+					<div class="col-md-4">
+						<mpf-select ng-model="mTipoVehiculoNew" name="nTipoVehiculoNew" label="{label: $ctrl.gLblTipoVehiculo.label, required: true}" m-data-source="tipoVehiculo" text-field="Descripcion" value-field="Codigo" m-Empty-Option="{enterData:true}" mpf-validation="required" ng-required="true"></mpf-select>	
+
+						<div class="g-error" ng-show="frmPoliData.nTipoVehiculoNew.$error.required && !frmPoliData.nTipoVehiculoNew.$pristine">* Seleccione tipo de auto</div>								
+					</div>
+				</div>
+				<div class="row mb-md-5">
+					<div class="col-md-4">
+						<mpf-select ng-model="mProductoNew" name="nProductoNew" label="{label: $ctrl.gLblProductoVariacion.label, required: true}" m-data-source="productos" text-field="NombreProducto" value-field="CodigoProducto" m-Empty-Option="{enterData:true}" mpf-validation="required" ng-required="true" ></mpf-select>
+
+						 <div class="g-error" ng-show="frmPoliData.nProductoNew.$error.required && !frmPoliData.nProductoNew.$pristine">* Seleccione tipo de producto/div>
+					</div>
+				</div>
+				<div class="row envio-btns">
+					<div class="col-md-12 text-center gCGray3 mb-md-1 h-myd-mt--30 h-myd-mb--30">*Campos obligatorios</div>
+					<div class="col-md-12 mt-2 mb-2 text-center">
+						<div class="col-md-2"></div>						
+						<a href="" class="col-md-3 g-btn g-btn-verde" ng-click="$ctrl.regresar()">Regresar</a>
+						<div class="col-md-2"></div>
+						<a href="" class="col-md-3 g-btn g-btn-verde" ng-click="$ctrl.crearRiesgo(mModeloNew, mSubModeloNew, mYearFabricNew, mTipoVehiculoNew, mValorVehiculoNew, mProductoNew)">Enviar solicitud de creación</a>
+						<div class="col-md-2"></div>
+					</div>
+				</div>
+			</form>	
+		</div>						
+</section>
+</form>

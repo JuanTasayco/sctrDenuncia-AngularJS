@@ -1,0 +1,171 @@
+<section class="g-page pageEvaluation mining">
+
+	<div class="g-title">
+		<div class="container">
+			<div class="row g-row">
+				<div class="col-md-9 g-col-md middle col-sm-11 col-xs-10">
+					<h1>Evaluaciones</h1>
+				</div>
+				<div class="col-md-3 g-col-md middle col-sm-4 col-xs-12 mt-xs-2 no-mt-md" ng-if="segurityAdd">
+					<a
+						href="javascript:void(0)"
+						class="g-btn g-btn-white second-design block"
+						ng-click="fnGoAddEvaluation()">
+						Agregar evaluación
+					</a>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="g-section-inner">
+
+		<form
+			action=""
+			name="frmSearchEvaluation">
+			<div class="container">
+
+				<div
+					show-filter
+					class="clearfix g-col-filter g-box-md gBgcGray5-md gBgcWhite1 mb-md-3"
+					ng-class="{'show': isFilterVisible}">
+					<div class="col-md-12">
+
+						<div class="clearfix gH4 gCGray1 mb-xs-1-5">
+							<h2 class="hidden-xs hidden-sm"><b>Buscar</b></h2>
+							<div
+								id="show-filter"
+								class="row pt-xs-2 pb-xs-2 gBgcGray5 g-border-bottom-xs hidden-md hidden-lg"
+								ng-click="toggleFilter();">
+								<div class="col-xs-10"><h2><b>Buscar</b></h2></div>
+								<div class="col-xs-2 g-text-right-xs">
+									<span class="glyphicon glyphicon-chevron-down" ng-if="isFilterVisible"></span>
+									<span class="glyphicon glyphicon-chevron-up" ng-if="!isFilterVisible"></span>
+								</div>
+								<div class="clearfix"></div>
+							</div>
+						</div>
+
+						<div class="row">
+							<div class="col-md-4 mb-xs-2 no-mb-md">
+								<mpf-select
+									label="{label: 'Médico', required: true}"
+									name="nMedico"
+									ng-model="data.mMedico"
+									m-data-source="data.doctorData"
+									text-field="value"
+									value-field="code"
+									m-Empty-Option="{enterData:true}"
+									ng-required="true">
+								</mpf-select>
+								<ul class="g-error">
+									<li ng-show="frmSearchEvaluation.nMedico.$invalid && !frmSearchEvaluation.nMedico.$pristine">* Este campo es obligatorio</li>
+								</ul>
+							</div>
+							<div class="col-md-offset-4 col-md-2 pt-md-2-7 mb-xs-1 no-mb-md">
+								<a  ng-if="seguritySearch"
+									href="javascript:void(0)"
+									class="g-btn g-btn-verde second-design block"
+									ng-click="fnSearchEvaluation(); toggleFilter()">
+									Buscar
+								</a>
+							</div>
+							<div class="col-md-2 pt-md-2-7">
+								<a
+									href="javascript:void(0)"
+									class="g-btn g-btn-white second-design block"
+									ng-click="fnClearEvaluation(); toggleFilter()">
+									Limpiar
+								</a>
+							</div>
+						</div>
+
+					</div>
+				</div>
+
+			</div>
+		</form>
+
+		<div class="sec-list">
+			<div class="container">
+
+				<nsctr-no-result-filter
+					type="search"
+					no-result-info="noResultFilter.noResultInfo"
+					no-result="noResultFilter.noResult" >
+				</nsctr-no-result-filter>
+
+				<div
+					class="clearfix g-box gBgcGray5 pt-xs-1 mb-xs-1"
+					ng-repeat="item in data.dataList.list">
+					<div class="row g-row-fz12">
+						<div class="col-md-10 col-sm-9 g-col-sm middle">
+							<ul class="row g-list-sm">
+								<li class="col-sm-4 clearfix cnt-item">
+									<div class="col-xs-12 item-label">
+										<b>{{item.fileDescription}}</b><br>
+										<span class="g-box-label gBgcGreen1  g-text-uppercase">{{item.stateDescription}}</span>
+									</div>
+								</li>
+								<li class="col-sm-4 clearfix cnt-item">
+									<div class="col-sm-4 col-ms-2 col-xs-3 item-label">
+										Carga:
+									</div>
+									<div class="col-sm-8 col-ms-10 col-xs-9 item-dato g-text-uppercase">
+										{{item.uploadDate}}
+									</div>
+								</li>
+								<li class="col-sm-4 clearfix cnt-item">
+									<div class="col-sm-4 col-ms-2 col-xs-3 item-label">
+										ID:
+									</div>
+									<div class="col-sm-8 col-ms-10 col-xs-9 tem-dato g-text-uppercase">
+										{{item.fileId}}
+									</div>
+								</li>
+							</ul>
+						</div>
+						<div class="col-md-2 col-sm-3 g-col-sm middle gCGray3 g-text-center-xs">
+							<ul class="row g-list">
+								<li class="col-xs-6 clearfix cnt-item">
+									<a
+										href="javascript:void(0)"
+										ng-click="fnDeleteEvaluation(item)">
+										<span class="gnIcon-md ico-mapfre_307_tacho"></span>
+									</a>
+								</li>
+								<li class="col-xs-6 clearfix cnt-item">
+									<a
+										href="javascript:void(0)"
+										ng-click="fnDetailEvaluation(item)">
+										<span class="gnIcon-md ico-mapfre_298_buscar"></span>
+									</a>
+								</li>
+							</ul>
+						</div>
+					</div>
+				</div>
+
+				<div
+					class="row"
+					ng-if="data.dataList.showPagination">
+					<div class="col-md-8 col-md-offset-2">
+						<ul
+							uib-pagination
+							class="g-pagination"
+							ng-model="data.mPagination.currentPage"
+							max-size="data.mPagination.maxSize"
+							total-items="data.mPagination.totalItems"
+							ng-change="fnChangePage()"
+							boundary-link-numbers="true">
+						</ul>
+					</div>
+				</div>
+
+			</div>
+		</div>
+
+	</div>
+
+
+</section>

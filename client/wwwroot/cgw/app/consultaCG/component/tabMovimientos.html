@@ -1,0 +1,241 @@
+<div class="row pt-xs-2 pb-xs-2">
+  <div class="g-section-inner">
+    <div class="clearfix mb-xs-3">
+      <div class="col-xs-12 mb-xs-2">
+        <h2 class="gCRed1 gH4"><b>Movimientos</b></h2>
+      </div>
+      <div class="col-sm-6 col-xs-12">
+        <div class="row">
+          <div class="col-md-6">
+            <!-- <div class="g-datepicker-horz">
+              <label class="g-placeholder">Desde</label>
+              <div class="g-date-picker">
+                <div class="input-group">
+                  <input  type="text"
+                          class="form-control"
+                          uib-datepicker-popup="{{format}}"
+                          ng-model="formData.mConsultaDesdeM"
+                          is-open="popup1.opened"
+                          datepicker-options="dateOptionsM"
+                          ng-required="true"
+                          close-text="Close"
+                          alt-input-formats="altInputFormats"
+                          placeholder="Desde"/>
+                  <span class="input-group-btn">
+                    <button type="button"
+                            class="btn btn-default"
+                            ng-click="open1()">
+                      <i class="glyphicon glyphicon-calendar"></i>
+                    </button>
+                  </span>
+                </div>
+              </div>
+            </div> -->
+
+            <div class="g-input-design__wp--pt-0">
+              <label class="g-placeholder block">Desde</label>
+              <div class="input-group g-date-picker no-label">
+                <input  type="text"
+                        class="form-control"
+                        uib-datepicker-popup="{{format}}"
+                        ng-model="formData.mConsultaDesdeM"
+                        is-open="popup1.opened"
+                        datepicker-options="dateOptionsM"
+                        ng-required="true"
+                        close-text="Close"
+                        alt-input-formats="altInputFormats"
+                        placeholder="Desde" />
+                <span class="input-group-btn">
+                  <button type="button"
+                          class="btn btn-default"
+                          ng-click="open1()">
+                    <i class="glyphicon glyphicon-calendar"></i>
+                  </button>
+                </span>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <!-- <div class="g-datepicker-horz">
+              <label class="g-placeholder">Hasta</label>
+              <div class="g-date-picker">
+                <div class="input-group">
+                  <input  type="text"
+                          class="form-control"
+                          uib-datepicker-popup="{{format}}"
+                          ng-model="formData.mConsultaHastaM"
+                          is-open="popup2.opened"
+                          datepicker-options="dateOptionsM2"
+                          ng-required="true"
+                          close-text="Close"
+                          alt-input-formats="altInputFormats"
+                          placeholder="Hasta"/>
+                  <span class="input-group-btn">
+                    <button type="button"
+                            class="btn btn-default"
+                            ng-click="open2()">
+                      <i class="glyphicon glyphicon-calendar"></i>
+                    </button>
+                  </span>
+                </div>
+              </div>
+            </div> -->
+
+            <div class="g-input-design__wp--pt-0">
+              <label class="g-placeholder block">Hasta</label>
+              <div class="input-group g-date-picker no-label">
+                <input  type="text"
+                        class="form-control"
+                        uib-datepicker-popup="{{format}}"
+                        ng-model="formData.mConsultaHastaM"
+                        is-open="popup2.opened"
+                        datepicker-options="dateOptionsM2"
+                        ng-required="true"
+                        close-text="Close"
+                        alt-input-formats="altInputFormats"
+                        placeholder="Hasta" />
+                <span class="input-group-btn">
+                  <button type="button"
+                          class="btn btn-default"
+                          ng-click="open2()">
+                    <i class="glyphicon glyphicon-calendar"></i>
+                  </button>
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-6 col-xs-12 mt-md-1 mt-xs-2 mb-xs-2 text-right" ng-click="downloadMovimientos()">
+        <a data-ng-click="" ng-disabled="disabledButton">
+          <span class="g-icon gCGray3">
+            <span class="ico-mapfre_128_printer icon"></span>
+            <span class="g-link"><b>Imprimir movimientos</b></span>
+          </span>
+        </a>
+      </div>
+    </div>
+
+    <div class="col-xs-12 mt-xs-3" ng-repeat="item in movimientos">
+      <div class="row">
+        <div class="col-xs-12 clearfix gH6 g-box-header">
+          <div class="c-mf-collapse__title">
+            <div class="clearfix g-list gBgcGray3 pt-xs-1 pb-xs-1">
+              <div class="col-md-2 col-xs-4 gCWhite1">
+                <b>Versión:</b> {{item.version}}
+              </div>
+              <div class="col-md-2 col-xs-4 gCWhite1">
+                <b>Nro:</b> {{item.number}}
+              </div>
+              <div class="col-md-2 col-xs-4 gCWhite1">
+                <b>Año:</b> {{item.year}}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="clearfix g-tbl-wrapper">
+        <div class="tbl-main">
+          <ul height-row class="tbl-header clearfix hidden-xs">
+            <li class="title col-14-dktp text-center">Fecha de movimiento</li>
+            <li class="title col-12-dktp text-center">Estado</li>
+            <li class="title col-14-dktp text-center">Estado Auditoria Externa</li>
+            <li class="title col-12-dktp text-center">Código Diagnóstico</li>
+            <li class="title col-12-dktp text-center">Importe Movimiento</li>
+            <li class="title col-12-dktp text-center">Importe Solicitado</li>
+            <li class="title col-12-dktp text-center">Importe Aprobado</li>
+            <li class="title col-12-dktp text-center">Usuario</li>
+          </ul>
+          <ul class="tbl-body clearfix hidden-xs">
+            <li ng-class="{'g-border-bottom-xs' : !$last}" data-ng-repeat="subItem in item.details">
+              <ul height-row class="tbl-row clearfix g-u-cursor--pointer">
+                <li class="cell col-14-dktp text-center">
+                  <span class="cell-label"><span class="cell-data">{{subItem.dateRequested}}</span></span>
+                </li>
+                <li class="cell col-12-dktp text-center">
+                  <span class="cell-label"><span class="cell-data">{{subItem.statusLetter}}</span></span>
+                </li>
+                <li class="cell col-14-dktp text-center">
+                  <span class="cell-label"><span class="cell-data">{{subItem.statusExternalAudit}}</span></span>
+                </li>
+                <li class="cell col-12-dktp text-center">
+                  <span class="cell-label"><span class="cell-data">{{subItem.diagnosticCode}}</span></span>
+                </li>
+                <li class="cell col-12-dktp text-center">
+                  <span class="cell-label"><span class="cell-data">{{subItem.numberMovement}}</span></span>
+                </li>
+                <li class="cell col-12-dktp text-center">
+                  <span class="cell-label"><span class="cell-data">{{subItem.requestedAmount}}</span></span>
+                </li>
+                <li class="cell col-12-dktp text-center">
+                  <span class="cell-label"><span class="cell-data">{{subItem.approvedAmount}}</span></span>
+                </li>
+                <li class="cell col-12-dktp text-center">
+                  <span class="cell-label"><span class="cell-data">{{subItem.userUpdate}}</span></span>
+                </li>
+              </ul>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="row visible-xs">
+        <div class="col-md-12">
+          <div class="clearfix g-overflow-hidden-xs g-border-bottom-xs">
+            <div class="col-md-12 cnt-content g-list-sm pt-xs-1 gnContentAuto-md">
+              <div class="clearfix" ng-class="{'g-border-bottom-xs mb-xs-1' : !$last}" data-ng-repeat="subItem in item.details">
+                <ul class="clearfix ">
+                  <li class="cnt-item clearfix">
+                    <div class="col-ms-5 item-label">Fecha de movimiento:</div>
+                    <div class="col-ms-7 item-dato g-text-uppercase">{{subItem.dateRequested}}</div>
+                  </li>
+                  <li class="cnt-item clearfix">
+                    <div class="col-ms-5 item-label">Estado:</div>
+                    <div class="col-ms-7 item-dato g-text-uppercase">{{subItem.statusLetter}}</div>
+                  </li>
+                  <li class="cnt-item clearfix">
+                    <div class="col-ms-5 item-label">Estado Auditoria Externa:</div>
+                    <div class="col-ms-7 item-dato g-text-uppercase">{{subItem.statusExternalAudit}}</div>
+                  </li>
+                  <li class="cnt-item clearfix">
+                    <div class="col-ms-5 item-label">Código Diagnóstico:</div>
+                    <div class="col-ms-7 item-dato g-text-uppercase">{{subItem.diagnosticCode}}</div>
+                  </li>
+                  <li class="cnt-item clearfix">
+                    <div class="col-ms-5 item-label">Importe Movimiento:</div>
+                    <div class="col-ms-7 item-dato g-text-uppercase">{{subItem.numberMovement}}</div>
+                  </li>
+                  <li class="cnt-item clearfix">
+                    <div class="col-ms-5 item-label">Importe Solicitado:</div>
+                    <div class="col-ms-7 item-dato g-text-uppercase">{{subItem.requestedAmount}}</div>
+                  </li>
+                  <li class="cnt-item clearfix">
+                    <div class="col-ms-5 item-label">Importe Aprobado:</div>
+                    <div class="col-ms-7 item-dato g-text-uppercase">{{subItem.approvedAmount}}</div>
+                  </li>
+                  <li class="cnt-item clearfix">
+                    <div class="col-ms-5 item-label">Usuario:</div>
+                    <div class="col-ms-7 item-dato g-text-uppercase">{{subItem.userUpdate}}</div>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-12 text-center g-box-noresult" data-ng-if="!movimientos.length>0">
+      <div class="row">
+        <div class="col-md-12 g-box-noresult-ico gCRed1"><span class="ico-mapfre_302_error"></span></div>
+        <div class="col-md-12 g-box-noresult-text">No hay resultados para los filtros escogidos.<br>Intente nuevamente.</div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<form id="frmMovimientosCGW" name="frmMovimientosCGW" action="{{movimientosFileCGWURL}}" method="post" target="_blank">
+  <input type="hidden" name="json" value='{{downloadAtachFile}}'>
+</form>

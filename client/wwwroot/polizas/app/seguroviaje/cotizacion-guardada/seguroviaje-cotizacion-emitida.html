@@ -1,0 +1,198 @@
+<section class="g-page page-segurviaje-cotizacion-guardada">
+	<page-title info="{title: 'Emitir Póliza Segurviaje'}"></page-title>
+	<div class="container">
+		<div class="g-box gBgcGray5 mt-sm-3 pt-xs-1 pr-xs-3 pb-xs-2 pl-xs-3">
+			<div class="row g-border-bottom-xs mt-xs-1 mb-xs-1">
+				<div class="col-sm-9">
+					<h2 class="gH2 mt-xs-1-5">
+					GRACIAS POR LA SOLICITUD
+				</h2>
+				</div>
+				<div class="col-sm-3 pr-xs-0">
+					<p class="mb-xs-0 g-border-bottom-xs"><strong>{{vm.emission.product.planName}}</strong></p>
+					<p><strong>Num. de póliza:</strong> {{vm.emission.policyNumber}}</p>
+				</div>
+			</div>
+			<p class="gH4 gCGreen1">Su póliza se ha emitido correctamente</p>
+			<p class="gH4">Datos de la póliza</p>
+			<ul class="row g-list-md">
+				<li class="col-sm-4 clearfix cnt-item">
+					<div class="col-xs-5 item-label">
+						<span class="ico-mapfre_82_circle ico-bullet"></span>Destino:
+					</div>
+					<div class="col-xs-7 item-dato g-text-uppercase">
+						{{vm.emission.policyData.destination}}
+					</div>
+				</li>
+				<li class="col-sm-4 clearfix cnt-item">
+					<div class="col-xs-5 item-label">
+						<span class="ico-mapfre_82_circle ico-bullet"></span>Inicio de Vigencia:
+					</div>
+					<div class="col-xs-7 item-dato g-text-uppercase">
+						{{vm.emission.policyData.dateDeparture}}
+					</div>
+				</li>
+				</li>
+				<li class="col-sm-4 clearfix cnt-item">
+					<div class="col-xs-5 item-label">
+						<span class="ico-mapfre_82_circle ico-bullet"></span>Fin de Vigencia:
+					</div>
+					<div class="col-xs-7 item-dato g-text-uppercase">
+						{{vm.emission.policyData.dateArrival}}
+					</div>
+				</li>
+			</ul>
+			<ul class="row g-list-md">
+				<li class="col-sm-4 clearfix cnt-item">
+					<div class="col-xs-5 item-label">
+						<span class="ico-mapfre_82_circle ico-bullet"></span>Num. viajeros:
+					</div>
+					<div class="col-xs-7 item-dato g-text-uppercase">
+						{{vm.emission.travelers.length}}
+					</div>
+				</li>
+				<li class="col-sm-4 clearfix cnt-item">
+					<div class="col-xs-5 item-label">
+						<span class="ico-mapfre_82_circle ico-bullet"></span>Edad. viajeros:
+					</div>
+					<div class="col-xs-7 item-dato g-text-uppercase">
+						<span ng-repeat="traveler in vm.emission.travelers">
+							{{ !$first ?  ' - ' + traveler.age : traveler.age }}
+						</span>
+					</div>
+				</li>
+				<li class="col-sm-4 clearfix cnt-item">
+					<div class="col-xs-5 item-label">
+						<span class="ico-mapfre_82_circle ico-bullet"></span>Motivo del viaje:
+					</div>
+					<div class="col-xs-7 item-dato g-text-uppercase">
+						{{vm.emission.policyData.travelReason}}
+					</div>
+				</li>
+			</ul>
+			<ul class="row g-list-md mb-xs-2">
+				<li class="col-sm-4 clearfix cnt-item">
+					<div class="col-xs-5 item-label">
+						<span class="ico-mapfre_82_circle ico-bullet"></span>Producto:
+					</div>
+					<div class="col-xs-7 item-dato g-text-uppercase">
+						{{vm.emission.policyData.policyGroupName}}
+					</div>
+				</li>
+				<li class="col-sm-4 clearfix cnt-item">
+					<div class="col-xs-5 item-label">
+						<span class="ico-mapfre_82_circle ico-bullet"></span>Plan:
+					</div>
+					<div class="col-xs-7 item-dato g-text-uppercase">
+						{{vm.emission.product.planName}}
+					</div>
+				</li>
+			</ul>
+			<hr class="g-border-bottom-xs">
+			<p class="gH4">Datos del contratante</p>
+			<ul class="row g-list-md">
+				<li class="col-md-4 clearfix cnt-item">
+					<div class="col-xs-5 item-label">
+						<span class="ico-mapfre_82_circle ico-bullet"></span>Contratante:
+					</div>
+					<div class="col-xs-7 item-dato g-text-uppercase">
+						{{ vm.emission.contractor.name + ' ' + vm.emission.contractor.firstLastName}}
+					</div>
+				</li>
+				<li class="col-sm-4 clearfix cnt-item">
+					<div class="col-xs-5 item-label">
+						<span class="ico-mapfre_82_circle ico-bullet"></span>Email:
+					</div>
+					<div class="col-xs-7 item-dato g-text-uppercase">
+						{{vm.emission.contractor.email}}
+					</div>
+				</li>
+				<li class="col-sm-4 clearfix cnt-item">
+					<div class="col-xs-5 item-label">
+						<span class="ico-mapfre_82_circle ico-bullet"></span>{{vm.emission.contractor.documentType.code}}:
+					</div>
+					<div class="col-xs-7 item-dato g-text-uppercase">
+						{{vm.emission.contractor.documentNumber}}
+					</div>
+				</li>
+			</ul>
+			<ul class="row g-list-md mb-sm-2">
+				<li class="col-sm-4 clearfix cnt-item">
+					<div class="col-xs-5 item-label">
+						<span class="ico-mapfre_82_circle ico-bullet"></span>Tipo de persona:
+					</div>
+					<div class="col-xs-7 item-dato g-text-uppercase">
+						PERSONA {{ vm.emission.contractor.personType == 'S' ? 'NATURAL' : 'JURIDICA' }}
+					</div>
+				</li>
+			</ul>
+			<hr class="g-border-bottom-xs">
+			<div ng-repeat="traveler in vm.emission.travelers">
+				<p class="gH4">{{$index + 1}} - Datos del viajero</p>
+				<ul class="row g-list-md">
+					<li class="col-md-4 clearfix cnt-item">
+						<div class="col-xs-5 item-label">
+							<span class="ico-mapfre_82_circle ico-bullet"></span>Nombre:
+						</div>
+						<div class="col-xs-7 item-dato g-text-uppercase">
+							{{ traveler.name + ' ' + traveler.firstLastName}}
+						</div>
+					</li>
+					<li class="col-sm-4 clearfix cnt-item">
+						<div class="col-xs-5 item-label">
+							<span class="ico-mapfre_82_circle ico-bullet"></span>Email:
+						</div>
+						<div class="col-xs-7 item-dato g-text-uppercase">
+							{{ traveler.email }}
+						</div>
+					</li>
+					<li class="col-sm-4 clearfix cnt-item">
+						<div class="col-xs-5 item-label">
+							<span class="ico-mapfre_82_circle ico-bullet"></span>{{ traveler.documentType.code }}:
+						</div>
+						<div class="col-xs-7 item-dato g-text-uppercase">
+							{{ traveler.documentNumber }}
+						</div>
+					</li>
+				</ul>
+				<ul class="row g-list-md mb-sm-2">
+					<li class="col-sm-4 clearfix cnt-item">
+						<div class="col-xs-5 item-label">
+							<span class="ico-mapfre_82_circle ico-bullet"></span>Tipo de persona:
+						</div>
+						<div class="col-xs-7 item-dato g-text-uppercase">
+							PERSONA NATURAL
+						</div>
+					</li>
+					<li class="col-sm-4 clearfix cnt-item">
+						<div class="col-xs-5 item-label">
+							<span class="ico-mapfre_82_circle ico-bullet"></span>Edad:
+						</div>
+						<div class="col-xs-7 item-dato g-text-uppercase">
+							{{ traveler.age }}
+						</div>
+					</li>
+				</ul>
+			</div>
+		</div>
+		<div class="g-section">
+			<div class="container">
+				<div class="row">
+          <div class="col-md-10 pt-xs-1 pb-xs-1 text-right btn-set">
+            <button class="g-btn g-btn-white" ng-click="vm.showSendEmail(true)">
+              <span class="g-btn-ico gnIcon-sm ico-mapfre_123_envelop"></span>
+              <span>ENVIAR POR EMAIL</span>
+            </button>
+            <button id="download" class="g-btn g-btn-white ml-md-1 pt-xs-0" ng-click="vm.getPDF(true)">
+              <span class="g-btn-ico gnIcon-xs ico-mapfre_327_arrow_down"></span>
+              <span>DESCARGAR</span>
+            </button>
+            <button class="g-btn g-btn-verde ml-md-1" ui-sref="homePolizasSeguroviaje">
+              ACEPTAR
+            </button>
+          </div>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>

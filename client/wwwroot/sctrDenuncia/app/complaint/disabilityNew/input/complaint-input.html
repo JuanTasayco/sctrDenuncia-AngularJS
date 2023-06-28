@@ -1,0 +1,383 @@
+<div id="form-views" class="g-complaint-detail">
+    <form name="frmComplaintDetail">
+        <div class="sec-auto g-section-inner">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12 mb-1">
+                        <h2 class="g-sub-title">Datos del Asegurado</h2>
+                    </div>
+                    <div class="col-md-4 mb-xs-2">
+                        <mpf-Select 
+                            text-field="descripcion" 
+                            value-field="codigo"
+                            label="{label: 'Tipo de documento', required: true}"
+                            m-data-source="$ctrl.tiposDocumentos" 
+                            ng-model="$ctrl.data.insured.documentType"
+                            ng-change="$ctrl.documentTypeChange()"
+                            ng-required="true"  
+                            name="mDocumentType"
+                            m-Empty-Option="{enterData:true}"></mpf-Select>
+
+                        <div class="g-error"
+                            ng-show="frmComplaintDetail.mDocumentType.$error.required && !frmComplaintDetail.mDocumentType.$pristine">
+                            * Seleccione un tipo de documento</div>
+                    </div>
+                    <div class="col-md-4 mb-xs-2">
+                        <mpf-input 
+                            label="{label: 'Número de Documento', required: true}" 
+                            ng-model="$ctrl.data.insured.documentNumber"
+                            ng-change="$ctrl.documentNumberChange($ctrl.data.insured.documentType, $ctrl.data.insured.documentNumber)"
+                            ng-minlength="$ctrl.docNumMinLength"
+                            ng-maxlength="$ctrl.docNumMaxLength"
+                            mpf-validation="{{$ctrl.docNumType}}"
+                            mpf-validation-disabled="{{$ctrl.docNumTypeDisabled}}"
+                            name="nDocumentNumber"></mpf-input>
+
+                        <div class="g-error"
+                            ng-show="frmComplaintDetail.nDocumentNumber.$error.required && !frmComplaintDetail.nDocumentNumber.$pristine">
+                            * Ingrese un número de documento</div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12 mb-1">
+                        <h3 class="g-sub-title c-black denuncia">Datos principales</h3>
+                    </div>
+                    <div class="col-md-4 mb-xs-2">
+                        <mpf-input 
+                            label="{label: 'Nombres', required: true}" 
+                            ng-model="$ctrl.data.insured.names"
+                            ng-disabled="true"
+                            name="nNames"></mpf-input>
+                    </div>
+                    <div class="col-md-4 mb-xs-2">
+                        <mpf-input 
+                            label="{label: 'Apellido Paterno', required: true}" 
+                            ng-model="$ctrl.data.insured.lastName"
+                            ng-disabled="true"
+                            name="nLastName"></mpf-input>
+                    </div>
+                    <div class="col-md-4 mb-xs-2">
+                        <mpf-input 
+                            label="{label: 'Apellido Materno', required: true}" 
+                            ng-model="$ctrl.data.insured.motherLastName"
+                            ng-disabled="true"
+                            name="nMotherLastName"></mpf-input>
+                    </div>
+                    <div class="col-md-4 mb-xs-2">
+                        <mpf-datepicker label="{label: 'Fecha de Nacimiento', required: true}"
+                            name="nBirthdate" format="'dd/MM/yyyy'" data-maxDate="$ctrl.currentDate"
+                            ng-model="$ctrl.data.insured.birthDate" ng-required="true" nomargin="true"
+                            ng-disabled="true">
+                        </mpf-datepicker>
+                        <div class="g-error"
+                            ng-show="frmComplaintDetail.nBirthdate.$error.required && !frmComplaintDetail.nBirthdate.$pristine">
+                            * Ingrese fecha de nacimiento</div>
+                    </div>
+                    <div class="col-md-4 mb-xs-2">
+                        <div class="col-md-12 mb-xs-2">
+                            <b>Sexo *</b>
+                        </div>
+                        <div class="col-md-6 mb-xs-2 indi-container">
+                            <m-radio 
+                                label="{label: 'Masculino'}" 
+                                name="mGender" 
+                                ng-model="$ctrl.data.insured.gender"
+                                ng-disabled="true"
+                                value="M"
+                                ng-required="false">
+                            </m-radio>
+                        </div>
+                        <div class="col-md-6 mb-xs-2 indi-container">
+                            <m-radio 
+                                label="{label: 'Femenino'}" 
+                                name="mGender" 
+                                ng-model="$ctrl.data.insured.gender"
+                                ng-disabled="true" 
+                                value="F" 
+                                ng-required="false">
+                            </m-radio>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12 mb-1">
+                        <h3 class="g-sub-title c-black denuncia">Datos de contacto</h3>
+                    </div>
+                    <div class="col-md-3 mb-xs-2">
+                        <mpf-input label="{label: 'Télefono móvil', required: true}" ng-model="$ctrl.data.insured.phone" name="nInsuredPhone"
+                            ng-model-options="{allowInvalid: true}" ng-minlength="7" ng-maxlength="9" mpf-validation="onlyNumberNoSpace"></mpf-input>
+                        <div class="g-error"
+                            ng-show="(frmComplaintDetail.nInsuredPhone.$invalid && !frmComplaintDetail.nInsuredPhone.$pristine)">
+                            * El número de teléfono debe tener mínimo 7 dígitos
+                        </div>
+                    </div>
+                    <div class="col-md-5 mb-xs-2">
+                        <mpf-input label="{label: 'Correo electrónico', required: true}" ng-model="$ctrl.data.insured.email" name="nInsuredEmail" 
+                            mpf-validation="email" ng-model-options="{allowInvalid: true}"></mpf-input>
+                        <div class="g-error" 
+                            ng-show="(frmComplaintDetail.nInsuredEmail.$invalid && !frmComplaintDetail.nInsuredEmail.$pristine)">
+                            * Ingresar un formato válido de correo electrónico
+                        </div>
+                    </div>
+                    <div class="col-md-3 mb-xs-2">
+                        <mpf-datepicker label="{label: 'Fecha de siniestro', required: true}"
+                            name="nSinisterDate" format="'dd/MM/yyyy'" data-maxDate="$ctrl.currentDate"
+                            ng-model="$ctrl.data.insured.sinisterDate" ng-required="true" nomargin="true"
+                            ng-change="$ctrl.changeSearchPoliza();">
+                        </mpf-datepicker>
+                        <div class="g-error"
+                            ng-show="frmComplaintDetail.nSinisterDate.$error.required && !frmComplaintDetail.nSinisterDate.$pristine">
+                            * Ingrese fecha de siniestro</div>
+                    </div>
+
+                    <div class="col-md-12 mb-1">
+                        <h4 class="g-sub-title c-black denuncia">Dirección</h4>
+                    </div>
+                    <div class="col-md-4 mb-xs-2">
+                        <mpf-Select 
+                            text-field="descripcion" 
+                            value-field="codigo"
+                            label="{label: 'Departamento', required: false}"
+                            m-data-source="$ctrl.departamentos" 
+                            ng-model="$ctrl.data.insured.department"
+                            ng-change="$ctrl.selectDepartment($ctrl.data.insured.department)"
+                            name="mDepartment" 
+                            m-Empty-Option="{enterData:true}"></mpf-Select>
+                    </div>
+                    <div class="col-md-4 mb-xs-2">
+                        <mpf-Select 
+                            text-field="descripcion" 
+                            value-field="codigo"
+                            label="{label: 'Provincias', required: false}"
+                            m-data-source="$ctrl.provincias" 
+                            ng-model="$ctrl.data.insured.province"
+                            ng-change="$ctrl.selectProvince($ctrl.data.insured.department, $ctrl.data.insured.province)"
+                            name="mProvince" 
+                            m-Empty-Option="{enterData:true}"></mpf-Select>
+                    </div>
+                    <div class="col-md-4 mb-xs-2">
+                        <mpf-Select 
+                            text-field="descripcion" 
+                            value-field="codigo"
+                            label="{label: 'Distrito', required: false}"
+                            m-data-source="$ctrl.distritos" 
+                            ng-model="$ctrl.data.insured.district"
+                            name="mDistrict" 
+                            m-Empty-Option="{enterData:true}"></mpf-Select>
+                    </div>
+                    <div class="col-md-12 mb-xs-2">
+                        <mpf-input 
+                            label="{label: 'Dirección', required: false}" 
+                            ng-model="$ctrl.data.insured.address"
+                            ng-disabled="false" 
+                            name="nAddress"></mpf-input>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="sec-auto g-section-inner">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12 mb-1">
+                        <h2 class="g-sub-title">Datos de la Póliza</h2>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-2 mb-xs-2">
+                        <mpf-input 
+                            label="{label: 'Tipo de Póliza', required: false}" 
+                            ng-model="$ctrl.data.insured.policyType"
+                            ng-disabled="true"
+                            name="nPolicyType"></mpf-input>
+                    </div>
+                    <div class="col-md-4 mb-xs-2">
+                        <mpf-input 
+                            label="{label: 'No de Póliza', required: false}" 
+                            ng-model="$ctrl.data.insured.policyNumber"
+                            ng-disabled="true"
+                            name="nPolicyNumber"></mpf-input>
+                    </div>
+                    <div class="col-md-4 mb-xs-2">
+                        <mpf-input 
+                            label="{label: 'Vigencia de la Póliza', required: false}" 
+                            ng-model="$ctrl.data.insured.policyTime"
+                            ng-disabled="true"
+                            name="nPolicyTime"></mpf-input>
+                    </div>
+                    <div class="col-md-2 mb-xs-2">
+                        <mpf-input 
+                            label="{label: 'No de Plan', required: false}" 
+                            ng-model="$ctrl.data.insured.planNumber"
+                            ng-disabled="true"
+                            name="nPlanNumber"></mpf-input>
+                    </div>
+                    <div class="col-md-12 mb-xs-2">
+                        <mp-data-seeker name="nClinic" ng-required="true"
+                            behavior="{label:'Clínica', matchField:'fulltext', placeholder: 'Ingresa la clínica'}"
+                            m-data-source="$ctrl.seekClinic($inputNeed)" ng-model="$ctrl.data.clinic">
+                            <div ng-bind-html="$item.fulltext | highlight: $select.search"></div>
+                        </mp-data-seeker>
+                        <div class="g-error"
+                            ng-show="frmComplaintDetail.nClinic.$error.required && !frmComplaintDetail.nClinic.$pristine">
+                            * Seleccione una clínica</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12 mb-1">
+                        <h2 class="g-sub-title">Datos del Cliente</h2>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6 mb-xs-2">
+                        <mpf-input label="{label: 'RUC / Nombre o Razón Social', required: false}"
+                            ng-model="$ctrl.data.client.fullName" ng-disabled="true"
+                            name="nCLientName" ng-model-options="{allowInvalid: true}"></mpf-input>
+                    </div>
+                    <div class="col-md-2 mb-xs-2">
+                        <mpf-input label="{label: 'Teléfono', required: false}"
+                            ng-model="$ctrl.data.client.phone" ng-disabled="true"
+                            name="nClientPhone" ng-model-options="{allowInvalid: true}"></mpf-input>
+                    </div>
+                    <div class="col-md-4 mb-xs-2">
+                        <mpf-input label="{label: 'Correo electrónico', required: false}"
+                            ng-model="$ctrl.data.client.email" ng-disabled="true"
+                            name="nClientEmail" ng-model-options="{allowInvalid: true}"></mpf-input>
+                    </div>
+                </div>
+            </div>
+
+            <div class="container g-managment-documents">
+                <div class="row">
+                    <div class="col-md-12 mb-1">
+                        <h2 class="g-sub-title">Documentos</h2>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4 mb-xs-2">
+                        <mpf-Select text-field="descripcion" 
+                                    value-field="codigo" 
+                                    label="{label: 'Documento Solicitado', required: false}" 
+                                    m-data-source="$ctrl.documentosSolicitados" 
+                                    ng-model="$ctrl.data.documentoSolicitado" 
+                                    name="mDocumentoSolicitado" 
+                                    m-Empty-Option="{enterData:true}"></mpf-Select>
+                        </mpf-Select>
+                    </div>
+                    <div class="col-md-3 mb-xs-2">
+                        <div class="col-xs-9">
+                            <mpf-input label="{label: 'Seleccionar Documento', required: false}" ng-disabled="true" 
+                                ng-model="$ctrl.data.file[0].name" name="nFilename" ></mpf-input>
+                        </div>
+                        <div class="col-xs-3 file-field">
+                            <div class="file-field">
+                                <div class="btn btn-primary float-left">
+                                    <span>Buscar</span>
+                                    <input file-model="$ctrl.data.file" type="file" accept=".jpg, .jpeg, .png, .gif, .bmp, .pdf, .doc, .xls,.docx, .xlsx, .txt" >
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-5 mb-xs-2">
+                        <div class="col-xs-12 col-md-offset-6 col-md-6 mt-md-2 mb-md-2 mt-xs-1 mb-xs-1">
+                            <a class="g-btn g-btn-white second-design block"
+                                ng-click="$ctrl.appendDocument()">Cargar</a>
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <div ng-repeat="doc in $ctrl.documents" class="row item">
+                        <div class="col-md-12 mb-xs-2 clearfix g-box">
+                            <div class="row g-box-content">
+                                <div class="col-md-11">
+                                    <b>{{ doc.nombreTipoDocumento }}</b>
+                                    <br>
+                                    <span>{{ doc.nombreDocumento }}</span>
+                                </div>
+                                <div class="col-md-1 buttons">
+                                    <a title="Borrar archivo" ng-click="$ctrl.deleteDocument($index)">
+                                        <i  class="glyphicon glyphicon-trash"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>            
+
+        <div class="sec-auto g-section-inner">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-10 mb-1">
+                        <h2 class="g-sub-title">Comentarios</h2>
+                    </div>
+                    <div class="col-md-2 mb-xs-2">
+                        <a class="g-btn g-btn-white second-design block"
+                            ng-click="$ctrl.addComment()">Agregar comentario</a>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12 mb-xs-2">
+                        <mpf-textarea 
+                            name="nComment" 
+                            ng-required="false" 
+                            label="{label: 'Observación', required: false}" 
+                            ng-model="$ctrl.data.comment">
+                        </mpf-textarea>
+                    </div>
+                </div>
+                <div class="row mt-xs-4">
+                    <div ng-repeat="comment in $ctrl.comments" class="clearfix g-box g-overflow-hidden-xs mb-xs-2">
+                        <div class="pt-xs-1 pb-xs-1 gBgcGray5">
+                            <ul class="row clearfix g-list second-design">
+                                <li class="col-md-7 clearfix">
+                                    <div class="col-xs-12 ">
+                                        <span>Comentario</span>
+                                    </div>
+                                </li>
+                                <li class="col-md-2 clearfix">
+                                    <div class="col-xs-12 ">
+                                        <span>Usuario</span>
+                                    </div>
+                                </li>
+                                <li class="col-md-2 clearfix">
+                                    <div class="col-xs-12 ">
+                                        <span>Fecha y hora</span>
+                                    </div>
+                                </li>
+                                <li class="col-md-1 clearfix"></li>
+                            </ul>
+                            <ul class="row clearfix g-list second-design">
+                                <li class="col-md-7 clearfix">
+                                    <div class="col-xs-12 ">
+                                        <b>{{ comment.description }}</b>
+                                    </div>
+                                </li>
+                                <li class="col-md-2 clearfix">
+                                    <div class="col-xs-12 ">
+                                        <b>{{ comment.user }}</b>
+                                    </div>
+                                </li>
+                                <li class="col-md-2 clearfix">
+                                    <div class="col-xs-12 ">
+                                        <b>{{ comment.date | date :'dd/MM/yyyy h:mm a' }}</b>
+                                    </div>
+                                </li>
+                                <div class="col-md-1 buttons">
+                                    <a title="Borrar comentario" ng-click="$ctrl.deleteComment($index)">
+                                        <i  class="glyphicon glyphicon-trash"></i>
+                                    </a>
+                                </div>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </form>
+</div>

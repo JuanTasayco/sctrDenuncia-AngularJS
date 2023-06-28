@@ -1,0 +1,153 @@
+<section class="firstStep">
+  <div class="g-section">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12">
+          <div class="g-box gBgcGray5 pt-xs-1 pb-xs-1 pl-xs-1">
+            <span class="ico-mapfre_222_informacion gCBlue2 gnIcon-xsm g-cell-middle"></span>
+            <span class="g-cell-middle pl-xs-1">Se encontraron los datos personales de usuario.</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div ng-form="frmFirstStep">
+    <div class="g-section-inner">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-12">
+            <h2 class="g-sub-title g-myd-subtitle">Vigencia</h2>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-4 mb-xs-2">
+            <div class="input-group g-date-picker">
+              <label class="g-placeholder animated">Inicio de vigencia<span></span>:</label>
+              <input
+                type="text"
+                class="form-control"
+                name="nInicioVigencia"
+                uib-datepicker-popup="{{ emit.FORMAT_DATE }}"
+                ng-model="emitS1.mFechaVigenciaInicio"
+                is-open="emitS1.popupCalendar.opened"
+                datepicker-options="emitS1.dateOptions"
+                ng-required="true"
+                close-text="Close"
+                alt-input-formats="emit.altInputFormats"
+                readonly="true"
+                ng-change="fnChangeDate()"
+              />
+              <span class="input-group-btn">
+                <button type="button" class="btn btn-default" ng-click="fnOpenCalendar()">
+                  <i class="glyphicon glyphicon-calendar"></i>
+                </button>
+              </span>
+            </div>
+            <ul class="g-error">
+              <li ng-show="false" class="ng-hide">* Este campo es obligatorio</li>
+            </ul>
+          </div>
+          <div class="col-md-4 mb-xs-2">
+            <span class="g-placeholder block mb-xs-2">Fin de vigencia</span>
+            <span>{{ emit.step.FechaVigenciaFin | date: emit.FORMAT_DATE }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="g-section-inner">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-12">
+            <h2 class="g-sub-title g-myd-subtitle">Inspección</h2>
+          </div>
+        </div>
+        <div class="row pt-xs-1">
+          <div class="col-md-3 pb-xs-1">
+            ¿La póliza requiere inspección?
+          </div>
+          <div class="col-md-1 pb-xs-1">
+            <!-- ng-model="emit.step.McaInspeccion"  -->
+            <m-radio
+              label="{label: 'Si'}"
+              name="nRequInspec"
+              ng-model="emitS1.McaInspeccion"
+              value="S"
+              ng-click="fnChangeInspection()"
+            >
+            </m-radio>
+          </div>
+          <div class="col-md-1 pb-xs-1">
+            <!-- ng-model="emit.step.McaInspeccion"  -->
+            <m-radio
+              label="{label: 'No'}"
+              name="nRequInspec"
+              ng-model="emitS1.McaInspeccion"
+              value="N"
+              ng-click="fnChangeInspection()"
+            >
+            </m-radio>
+          </div>
+        </div>
+        <div class="row collapse" uib-collapse="emitS1.McaInspeccion == 'S' ? false : true">
+          <div class="col-md-4 mb-xs-1 h-myd-pt--20">
+            <!-- ng-model="emit.step.Categoria" -->
+            <mpf-select
+              label="{label: 'Código de categoría', required: true}"
+              name="nCodCat"
+              ng-model="emitS1.Categoria"
+              m-data-source="categoriaData"
+              value-Field="Codigo"
+              text-Field="Descripcion"
+              ng-required="true"
+              m-Empty-Option="{enterData:true}"
+            ></mpf-select>
+            <ul class="g-error">
+              <li
+                ng-show="
+          frmFirstStep.nCodCat.$error.required &&
+          !frmFirstStep.nCodCat.$pristine"
+              >
+                * Este campo es obligatorio
+              </li>
+            </ul>
+          </div>
+          <div class="col-md-8">
+            <!-- ng-model="emit.step.DescripcionGarantia"  -->
+            <mpf-textarea
+              label="{label:'Texto de garantías', required: true}"
+              name="nTxtGarant"
+              ng-model="emitS1.DescripcionGarantia"
+              ng-required="true"
+            >
+            </mpf-textarea>
+            <ul class="g-error">
+              <li
+                ng-show="
+            frmFirstStep.nTxtGarant.$invalid &&
+            !frmFirstStep.nTxtGarant.$pristine"
+              >
+                * Este campo es obligatorio
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="g-section g-step-action">
+    <div class="container">
+      <div class="row mb-md-1">
+        <span class="col-md-4 gCGray3">*Campos obligatorios</span>
+        <div class="col-md-4">
+          <div class="row">
+            <a class="col-md-12 g-btn g-btn-verde" ng-click="emitS1.fnNextStep(true, {cancel: false, step: 2})"
+              >SIGUIENTE</a
+            >
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

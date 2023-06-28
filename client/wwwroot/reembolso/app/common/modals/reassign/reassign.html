@@ -1,0 +1,140 @@
+<section class="g-page-popup g-reembolso-popup">
+  <button type="button" class="close g-close-modal" ng-click="$ctrl.closeModal()">
+    <span class=" ico-mapfre_231_cancelaroff"></span>
+  </button>
+  <form name="$ctrl.frm">
+    <div class="container g-modal-header g-text-uppercase">
+      <div class="col-xs-12">
+        <div class="row">
+          <div class="col-md-12 mb-xs-1">
+            <h2 class="gH3"><b>{{ $ctrl.title }}</b></h2>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="container g-modal-body pt-xs-2 pb-xs-2">
+      <div class="col-xs-12">
+        <div class="row" ng-if="$ctrl.showDetailExecutive">
+          <div class="col-xs-12">
+            <mpf-checkbox
+              class="fw-normal"
+              name="nCheck"
+              ng-model="$ctrl.data.isDefaultConfiguration"
+              label="Activar configuración por defecto"
+            >
+            </mpf-checkbox>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-xs-12 col-sm-4 mt-xs-2" ng-repeat="seeker in $ctrl.inputSeekersList">
+            <mp-data-seeker
+              behavior="{label:'', placeholder: seeker.placeholder, matchField: 'userCode'}"
+              m-data-source="seeker.source($inputNeed)"
+              ng-model="$ctrl.data[seeker.model]"
+              name="{{seeker.nameInput}}"
+              ng-required="true && !$ctrl.isReassignMasive"
+            >
+              <div ng-bind-html="$item.userCode + ' - ' + $item.userName | highlight: $select.search">
+              </div>
+            </mp-data-seeker>
+            <div
+              class="g-error"
+              ng-show="$ctrl.frm[seeker.nameInput].$error.required && !$ctrl.frm[seeker.nameInput].$pristine">
+              * Campo requerido
+            </div>
+          </div>
+          <div class="col-xs-12 col-sm-4" ng-if="!$ctrl.showDetailExecutive && $ctrl.lastSinisterNumberList.length > 0">
+            <mpf-select
+              label="{label: 'Último dígito', required: false}"
+              name="nSinisterNumber"
+              ng-model="$ctrl.data.digit"
+              m-data-source="$ctrl.lastSinisterNumberList"
+              text-field="lastSinisterNumber"
+              value-field="lastSinisterNumber"
+              m-Empty-Option="{enterData:true}"
+              ng-change="$ctrl.changeCompany()"
+              ng-required="$ctrl.mode !== 'edit'"
+            >
+            </mpf-select>
+            <div
+              class="g-error"
+              ng-show="$ctrl.frm.nSinisterNumber.$error.required && !$ctrl.frm.nSinisterNumber.$pristine">
+              * Campo requerido
+            </div>
+          </div>
+          <div class="col-xs-12 col-sm-4 mt-xs-2" ng-if="$ctrl.showDetailExecutive">
+            <a
+              href="javascript:void(0)"
+              class="g-btn g-btn-white block"
+              title="Agregar"
+              ng-click="$ctrl.onAddHeader()"
+            >
+              + Agregar
+            </a>
+          </div>
+        </div>
+      </div>
+      <div class="col-xs-12" ng-if="$ctrl.showDetailExecutive">
+        <div class="container g-modal-body pt-xs-2 pb-xs-2">
+          <div class="row">
+            <div class="col-xs-12 g-box box-search-afiliado">
+              <div class="row">
+                <div class="col-xs-12">
+                  <div
+                    class="clearfix g-box mb-xs-1 g-u-cursor--pointer content-procedimiento"
+                    ng-repeat="broker in $ctrl.brokersList; track by $index"
+                  >
+                    <div class="col-xs-2"></div>
+                    <div class="col-xs-6 g-cut-text">{{ broker.businessName }}</div>
+                    <div class="col-xs-2">{{ broker.idBroker }}</div>
+                    <div class="col-xs-2">
+                      <span
+                        class="gnIcon-sm gCGreen1 ico-mapfre_307_tacho ml-xs-2"
+                        ng-click="$ctrl.onDeleteBroker(broker)">
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-xs-12" ng-if="$ctrl.showDetailExecutive">
+        <div class="row">
+          <div class="col-xs-6">
+            <mp-data-seeker
+              behavior="{label:'', placeholder: 'Código de broker', matchField: 'businessName'}"
+              m-data-source="$ctrl.onSearchBroker($inputNeed)"
+              ng-model="$ctrl.broker"
+              name="nBroker"
+            >
+              <div ng-bind-html="$item.idBroker + ' - ' + $item.businessName | highlight: $select.search">
+              </div>
+            </mp-data-seeker>
+          </div>
+          <div class="col-xs-6">
+            <a
+              href="javascript:void(0)"
+              class="g-btn g-btn-white block"
+              title="Agregar"
+              ng-click="$ctrl.onAddBroker()"
+            >
+              + Agregar broker
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="container g-modal-footer pt-xs-2">
+      <div class="col-md-4 col-md-offset-4 mb-xs-1 no-mb-md">
+        <a
+          href="javascript:void(0)"
+          class="g-btn g-btn-verde block"
+          ng-click="$ctrl.onAccept()">
+          Aceptar
+        </a>
+      </div>
+    </div>
+  </form>
+</section>

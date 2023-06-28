@@ -1,0 +1,72 @@
+<div class="first-step">
+    <!-- Datos del contratatante -->
+    <mpf-person-component ng-if="!formData.isPersonData"
+      name="datosContratante"
+      document-type="formData.quote.Contratante.TipoDocumento"
+      document-number="formData.quote.Contratante.CodigoDocumento"
+      codigo-compania="companyCode" habilitar-validacion-telefonos="true"
+      app-code="{{ appCode }}"
+      form-code="{{ formCode }}"
+      outdata="getDataContratante(data)">
+    </mpf-person-component>
+    <mpf-person-component ng-if="formData.isPersonData"
+      name="datosContratante" habilitar-validacion-telefonos="true"
+      person-data="formData.personData"
+      codigo-compania="companyCode"
+      app-code="{{ appCode }}"
+      form-code="{{ formCode }}"
+      outdata="getDataContratante(data)">
+    </mpf-person-component>
+
+    <!-- Mapfre dólares -->
+		<div class="g-section-inner" ng-if="formData.dataContractor2.SaldoMapfreDolar>0 || formData.dataContractor.saldoMapfreDolares>0">
+			<div class="container">
+				<div class="row"><div class="col-md-12"><h2 class="g-sub-title">MAPFRE dólares</h2></div></div>
+				<div class="row">
+					<div class="col-md-12 mb-xs-1" ng-if="formData.dataContractor2.SaldoMapfreDolar>0">
+						Tienes <strong>{{formData.dataContractor2.SaldoMapfreDolar > 0 ? formData.dataContractor2.SaldoMapfreDolar : '0.000'}}</strong> MAPFRE dólares
+					</div>
+					<div class="col-md-12 mb-xs-1" ng-if="formData.dataContractor.saldoMapfreDolares>0">
+						Tienes <strong>{{formData.dataContractor.saldoMapfreDolares > 0 ? formData.dataContractor.saldoMapfreDolares : '0.000'}}</strong> MAPFRE dólares
+					</div>
+				</div>
+				<!-- <div class="row collapse" uib-collapse="!formData.dataContractor.saldoMapfreDolares > 0"> -->
+				<div class="row collapse" uib-collapse="false">
+					<div class="col-md-3 pb-xs-1">
+						¿Quieres ingresar MAPFRE dólares?
+					</div>
+					<div class="col-md-1 pb-xs-1">
+						<m-radio label="{label: 'Si'}" name="nOpcionMapfreDolares" ng-model="formData.mOpcionMapfreDolares" value="Si"></m-radio>
+					</div>
+					<div class="col-md-1 pb-xs-1">
+						<m-radio label="{label: 'No'}" name="nOpcionMapfreDolares" ng-model="formData.mOpcionMapfreDolares" value="No" ng-click="clearMapfreDolares()"></m-radio>
+					</div>
+				</div>
+				<div class="row collapse" uib-collapse="formData.mOpcionMapfreDolares == 'Si' ? false : true">
+					<div class="col-md-4 pt-xs-1">
+						<mpf-input label="{label: '¿Cuántos MAPFRE dólares quieres usar?', required: true}" name="nMapfreDolares" ng-model="formData.mMapfreDolares" ng-required="formData.mOpcionMapfreDolares == 'Si' ? true : false"  ng-keydown="setMapfreDolares()" mpf-validation="onlyNumberDecimal" ></mpf-input>
+
+						<span class="g-valorauto-warning g-error pl-xs-0 pr-xs-0" data-ng-if="formData.mMapfreDolares < 0 || (formData.mMapfreDolares > formData.dataContractor2.SaldoMapfreDolar || formData.mMapfreDolares > formData.dataContractor.saldoMapfreDolares)">
+	           	<span class="ico-mapfre_37_informacion g-valorauto-warning-ico"></span>
+	            Valor fuera de rango
+          	</span>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- Button -->
+		<div class="g-section">
+			<div class="container">
+				<div class="row">
+					<div class="col-md-4 mb-xs-1">
+						<span class="gCGray3">*Campos obligatorios</span>
+					</div>
+					<div class="col-md-4">
+						<a class="g-btn g-btn-verde block" ng-click="nextStep()">Siguiente</a>
+					</div>
+				</div>
+			</div>
+		</div>
+
+</div>

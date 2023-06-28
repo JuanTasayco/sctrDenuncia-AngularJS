@@ -1,0 +1,121 @@
+<section class="g-page pageQueriesCensusIndividual mining">
+
+  <div class="g-title">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-9 col-sm-11 col-xs-10">
+          <h1>Búsqueda de padrón</h1>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <div class="g-section-inner">
+    <form
+      action=""
+      name="frmPadronSearcher">
+      <div class="container">
+        <div
+          show-filter
+          class="clearfix g-col-filter g-box-md gBgcGray5-md gBgcWhite1"
+          ng-class="{'show': isFilterVisible}">
+          <div class="col-md-12">
+            <div class="clearfix gH4 gCGray1 mb-xs-1-5">
+              <h2 class="hidden-xs hidden-sm"><b>Buscar</b></h2>
+              <div
+                id="show-filter"
+                class="row pt-xs-2 pb-xs-2 gBgcGray5 g-border-bottom-xs hidden-md hidden-lg"
+                ng-click="toggleFilter();">
+                <div class="col-xs-10"><h2><b>Buscar</b></h2></div>
+                <div class="col-xs-2 g-text-right-xs">
+                  <span class="glyphicon glyphicon-chevron-down" ng-if="isFilterVisible"></span>
+                  <span class="glyphicon glyphicon-chevron-up" ng-if="!isFilterVisible"></span>
+                </div>
+                <div class="clearfix"></div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-2 mb-xs-2">
+                <mpf-select
+                  label="{label: 'Clínica', required: false}"
+                  name="nClinica"
+                  ng-model="data.mClinica"
+                  m-data-source="data.clinicData"
+                  text-field="value"
+                  value-field="code"
+                  m-Empty-Option="{enterData:true}"
+                  ng-required="false">
+                </mpf-select>
+                <ul class="g-error">
+                  <li ng-show="nClinica.$invalid && !nClinica.$pristine">* Seleccione una clínica</li>
+                </ul>
+              </div>
+              <div class="col-md-2 mb-xs-2">
+                <mpf-input
+                  label="{label: 'Nro. Solicitud', required: false}"
+                  name="nNroSolicitud"
+                  ng-model="data.mNroSolicitud"
+                  mpf-validation="onlyNumber"
+                  ng-required="false">
+                </mpf-input>
+                <ul class="g-error">
+                  <li ng-show="nNroSolicitud.$invalid && !nNroSolicitud.$pristine">* Ingrese un nro de solicitud</li>
+                </ul>
+              </div>
+              <div class="col-md-4 mb-xs-2">
+                <mpf-input
+                  label="{label: 'Nro. Documento', required: false}"
+                  name="nNroDoc"
+                  ng-model="data.mNroDoc"
+                  ng-required="false">
+                </mpf-input>
+                <ul class="g-error">
+                  <li ng-show="nNroDoc.$invalid && !nNroDoc.$pristine">* Ingrese un nro de documento</li>
+                </ul>
+              </div>
+              <div class="col-md-4 mb-xs-2">
+                <mpf-input
+                  label="{label: 'Nombre', required: false}"
+                  name="nNombre"
+                  ng-model="data.mNombre"
+                  ng-required="false">
+                </mpf-input>
+                <ul class="g-error">
+                  <li ng-show="nNombre.$invalid && !nNombre.$pristine">* Ingrese un nombre</li>
+                </ul>
+              </div>
+            </div>
+            <div class="row" ng-if="seguritySearch">
+              <div class="col-md-offset-8 col-md-2 mb-xs-1 no-mb-md">
+                <a
+                  href="javascript:void(0)"
+                  class="g-btn g-btn-verde second-design block"
+                  ng-click="fnSearchPadron();toggleFilter()">
+                  Buscar
+                </a>
+              </div>
+              <div class="col-md-2">
+                <a
+                  href="javascript:void(0)"
+                  class="g-btn g-btn-white second-design block"
+                  ng-click="fnClearPadron();toggleFilter()">
+                  Limpiar
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+
+    <div class="sec-list pt-md-3">
+      <div class="container">
+        <mining-searched-census
+          type="I">
+        </mining-searched-census>
+      </div>
+    </div>
+  </div>
+
+</section>

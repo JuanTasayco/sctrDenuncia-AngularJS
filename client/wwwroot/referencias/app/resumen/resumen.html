@@ -1,0 +1,685 @@
+<section>
+    <div class="g-title">
+        <div class="container">
+            <div class="row g-row">
+                <div class="col-md-5 middle">
+                    <a class="g-btn col-xs" style="border: none;" href="#/home">
+                        <span class="glyphicon glyphicon-remove" style="color: red;"></span>
+                    </a>
+                    <h2 style="padding-left: 8px;">
+                        <span>Referencia No. {{getIdReferencia(resumeList.idReferencia)}}</span>
+
+                    </h2>
+                    <span ng-style="getStyle2(resumeList.estado)"
+                        style="font-size: 16px; margin-left: 8px; position: relative; top:10px"
+                        class=" label label-primary mb-xs-6">{{resumeList.estado}}</span>
+
+                </div>
+                <div class="col-md-5 col-md-offset-2">
+                    <div class="row">
+                        <div class="col-md-12 bRevisar">
+                            <div class="col-md-2 col-xs-12" ng-show="resumeList.idEstado == 1">
+                                <a class="g-btn block" ng-click="descargarPdf()" title="Descargar"
+                                    style="border:none; background: transparent; margin-left: 35px;"><span
+                                        class="glyphicon glyphicon-download-alt"></span>
+                                </a>
+                            </div>
+                            <div class="col-md-2 col-xs-12" ng-show="resumeList.idEstado != 1" style="padding-right: 0px;
+                                margin-right: 72px; float: right;">
+                                <a class="g-btn block" ng-click="descargarPdf()" title="Descargar"
+                                    style="border:none; background: transparent;"><span
+                                        class="glyphicon glyphicon-download-alt"></span>
+                                </a>
+                            </div>
+                            <div class="col-md-2 col-xs-12 " ng-show="resumeList.idEstado == 1">
+                                <a class="g-btn block" ng-click="editReferencia()" title="Editar referencia"
+                                    style="border:none; background: transparent; margin-left: 28px;"><span
+                                        class="glyphicon glyphicon-pencil"></span>
+
+                                </a>
+                            </div>
+                            <div class="col-md-2 col-xs-12" ng-show="resumeList.idEstado == 1">
+                                <a class="g-btn block" ng-click="modalAnular(resumeList)" title="Anular"
+                                    style="border:none; background: transparent; margin-left: 18px;"><span
+                                        class="glyphicon glyphicon-ban-circle"></span>
+
+                                </a>
+                            </div>
+                            <div class="col-md-4 col-xs-12 " ng-show="resumeList.idEstado == 1">
+                                <button class="g-btn g-btn-verde second-design block"
+                                    ng-click="showModalRevisar(resumeList)">Revisar</button>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-9-offset-3 container">
+        <!-- Datos de referencia -->
+        <div style="padding: 25px 10px;color: #000000; font-size: 18px;border-top: 1px solid #eee;cursor: pointer;position: relative;"
+            ng-click="showDatos = !showDatos">
+            Datos de la referencia
+            <span ng-class="showDatos ? 'ico-mapfre_77_chevronup' : 'ico-mapfre_76_chevrondown'"
+                style="right: 10px;position: absolute;"></span>
+        </div>
+
+        <div class="clearfix g-box g-overflow-hidden-xs mb-xs-2 gBgcGray5" style="padding: 20px;" ng-show="showDatos">
+            <div style="margin-top: 10px;font-weight: bold;font-size: 14px;color: #000000;">
+                Resumen
+            </div>
+
+            <div class="row">
+                <div class="col-sm-8 clearfix cnt-item g-box-content">
+                    <div class="row gCGray3">
+                        <div class="col-sm-3" style="margin-top: 15px;">
+                            <div>Tipo de referencia</div>
+                            <div style="color: #000000; font-weight: bold;">{{resumeList.tReferencia}}</div>
+                        </div>
+                        <div class="col-sm-3" style="margin-top: 15px;">
+                            <div>Fecha y hora</div>
+                            <div style="color: #000000; font-weight: bold;">
+                                {{resumeList.fechaHora | date:'dd/MM/yyyy h:mm a'}}</div>
+                        </div>
+                        <div class="col-sm-6" style="margin-top: 15px;">
+                            <div>Usuario de creación</div>
+                            <div style="color: #000000;font-weight: bold;">{{resumeList.codUsuCreador}}</div>
+                        </div>
+                    </div>
+                    <div class="row gCGray3">
+                        <div class="col-sm-6" style="margin-top: 15px;">
+                            <div>Paciente</div>
+                            <div style="color: #000000; font-weight: bold;">{{resumeList.asegurado.nombre}}
+                                {{resumeList.asegurado.apellidoP}}
+                                {{resumeList.asegurado.apellidoM}} - {{resumeList.asegurado.tipDoc}}:
+                                {{resumeList.asegurado.numDoc}}</div>
+                        </div>
+                        <div class="col-sm-3" style="margin-top: 15px;">
+                            <div>Condición del paciente</div>
+                            <div style="color: #000000; font-weight: bold;">{{resumeList.condicionIng}}</div>
+                        </div>
+                        <div class="col-sm-3" style="margin-top: 15px;">
+                            <div>Diagnóstico presuntivo</div>
+                            <div style="color: #000000; font-weight: bold;">{{resumeList.diagnosticoIng}}</div>
+                        </div>
+                    </div>
+                    <div class="row gCGray3">
+                        <div class="col-sm-3  " style="margin-top: 15px;">
+                            <div>Medio de traslado</div>
+                            <div style="color: #000000; font-weight: bold;">{{resumeList.proveedorTraslado.meTraslado}}
+                            </div>
+                        </div>
+                        <div class="col-sm-3" style="margin-top: 15px;">
+                            <div>Tipo de traslado</div>
+                            <div style="color: #000000; font-weight: bold;">
+                                {{resumeList.proveedorTraslado.tipMeTraslado}}</div>
+                        </div>
+                        <div class="col-sm-6" style="margin-top: 15px;">
+                            <div>Proveedor de traslado</div>
+                            <div style="color: #000000; font-weight: bold;">{{resumeList.proveedorTraslado.nombre}}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row gCGray3">
+                        <div class="col-sm-6" style="margin-top: 15px; word-break: break-all;">
+                            <div>Observaciones</div>
+                            <div style="color: #000000; font-weight: bold;">
+                                {{resumeList.observacion}}
+                            </div>
+                        </div>
+                        <div class="col-sm-6" style="margin-top: 15px;">
+                            <div>Requerimientos en destino</div>
+                            <span style="color: #000000; font-weight: bold; word-break: break-all;"
+                                ng-repeat="data in resumeList.proveedorDestino.requerimientosCumple">
+                                {{data.nombreRequerimiento}}                                
+                                {{ (resumeList.proveedorDestino.requerimientosCumple.length - 1 > $index ) ? ", " : ""}}
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-4 ContNav1 clearfix cnt-item g-box-content" style="border-left: 1px solid #ddd;">
+                    <div class="row gCGray3">
+                        <div class="col-md-2" style="justify-content: center; margin-top: 15px;">
+                            <div class="Icon Inicio"
+                                style="width: 30px; height:30px; border: 2px #999999 dashed !important;">
+                                <img src="/referencias/assets/IconInicio.svg"
+                                    style="width: 70%; height: 70%;  margin-left: 15%; margin-top: 15%; padding-right: 0;">
+                            </div>
+                            <div class="Linea" style="width: calc(0% - 1px); height: 34px; display: flex; position: relative; 
+                            left: 15px;">
+                                &nbsp;
+                            </div>
+                        </div>
+                        <div class="col-md-10" style="padding-left: 0; margin-top: 15px;">
+                            <div class=" row clearfix g-list-md">
+                                <div class="col-md-6 col-xs-12 item-label gCGray3">
+                                    Origen
+                                </div>
+                                <div class="col-md-10" style="color: #000000; font-weight: bold; width: 90%;  overflow:hidden;
+                                 white-space:nowrap; text-overflow: ellipsis;">
+
+                                    {{resumeList.proveedorOrigen.nombre}}
+                                    <div>
+                                    {{resumeList.proveedorOrigen.departamento}}
+                                    -
+                                    {{resumeList.proveedorOrigen.provincia}}
+                                    </div>
+                                    <div ng-style="getStyle(resumeList.proveedorOrigen.convenio)">
+                                        {{resumeList.proveedorOrigen.convenio}}</div>
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="row gCGray3">
+                            <div class="col-md-2" style="justify-content: center; display: flex;">
+                                <div class="Linea" style="width: calc(0% - 1px); height: 40px; padding-right: 24px;">
+                                    &nbsp;
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="row gCGray3" style="margin-top: 2px;">
+                        <div class="col-md-2" style="justify-content: center; display: flex;">
+                            <div class="Icon Fin" style="width: 30px; height:30px; padding-right: 0;">
+                                <img src="/referencias/assets/IconFin.svg"
+                                    style="width: 70%; height: 70%;  margin-left: 15%; margin-top: 15%;">
+                            </div>
+                        </div>
+
+                        <div class="col-md-10" style="padding-left: 0;">
+                            <div>Destino</div>
+                            <div style="color: #000000; font-weight: bold;">{{resumeList.proveedorDestino.nombre}}
+                            </div>
+                            <div style="color: #000000; font-weight: bold;">
+                                {{resumeList.proveedorDestino.departamento}}
+                                -
+                                {{resumeList.proveedorDestino.provincia}}</div>
+                            <div ng-style="getStyle(resumeList.proveedorDestino.convenio)">
+                                {{resumeList.proveedorDestino.convenio}}</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Paciente asegurado -->
+        <div style="padding: 25px 10px;color: #000000; font-size: 18px;border-top: 1px solid #eee;cursor: pointer;position: relative;"
+            ng-click="showPaciente = !showPaciente">
+            Paciente asegurado
+            <span ng-class="showPaciente ? 'ico-mapfre_77_chevronup' : 'ico-mapfre_76_chevrondown'"
+                style="right: 10px;position: absolute;"></span>
+        </div>
+
+        <div class="clearfix g-box g-overflow-hidden-xs mb-xs-2 gBgcGray5" style="padding: 20px;"
+            ng-show="showPaciente">
+            <div style="padding-bottom: 20px;border-bottom: 1px solid #ddd">
+                <div style="font-weight: bold;font-size: 14px;color: #000000;">
+                    Datos del asegurado
+                </div>
+
+                <div>
+                    <div class="row gCGray3">
+                        <div class="col-sm-6" style="margin-top: 15px;">
+                            <div>Nombre completo</div>
+                            <div style="color: #000000; font-weight: bold;">{{resumeList.asegurado.nombre}}
+                                {{resumeList.asegurado.apellidoP}}
+                                {{resumeList.Aasegurado.apellidoM}}</div>
+                        </div>
+                        <div class="col-sm-2" style="margin-top: 15px;">
+                            <div>Estado</div>
+                            <div style="color: #000000; font-weight: bold;">{{resumeList.asegurado.estado}}</div>
+                        </div>
+                        <div class="col-sm-2" style="margin-top: 15px;">
+                            <div>Parentesco</div>
+                            <div style="color: #000000; font-weight: bold;">{{resumeList.asegurado.parentesco}}
+                            </div>
+                        </div>
+                        <div class="col-sm-2" style="margin-top: 15px;">
+                            <div>Género</div>
+                            <div style="color: #000000; font-weight: bold;">{{resumeList.asegurado.genero}}</div>
+                        </div>
+                    </div>
+                    <div class="row gCGray3">
+                        <div class="col-sm-2" style="margin-top: 15px;">
+                            <div>Fecha de nacimiento</div>
+                            <div style="color: #000000; font-weight: bold;">
+                                {{resumeList.asegurado.fNac | date:'dd/MM/yyyy'}}</div>
+                        </div>
+                        <div class="col-sm-4" style="margin-top: 15px;">
+                            <div>Compañía</div>
+                            <div style="color: #000000; font-weight: bold;">{{resumeList.nomCompania}}</div>
+                        </div>
+                        <div class="col-sm-4" style="margin-top: 15px;">
+                            <div>Producto</div>
+                            <div style="color: #000000; font-weight: bold;">{{resumeList.producto}}</div>
+                        </div>
+                    </div>
+                    <div class="row gCGray3" ng-show="ramo == '114' || ramo == '115' || ramo == '116'">
+                        <div class="col-sm-2" style="margin-top: 15px;">
+                            <div>{{ ramo == '116' ? 'Contrato' : 'Producto Salud' }}</div>
+                            <div style="color: #000000; font-weight: bold;">
+                                {{ obtenerProductoContrato() }}
+                            </div>
+                        </div>
+                        <div class="col-sm-2" style="margin-top: 15px;">
+                            <div>{{ ramo == '116' ? 'Sub-Contrato' : 'Sub-Producto Salud' }}</div>
+                            <div style="color: #000000; font-weight: bold;">
+                                {{ obtenerSubProductoSubContrato() }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div style="padding-top: 20px;">
+                <div style="font-weight: bold;font-size: 14px;color: #000000;">
+                    Datos del titular
+                </div>
+
+                <div>
+                    <div class="row gCGray3">
+                        <div class="col-sm-4" style="margin-top: 15px;">
+                            <div>Nombre completo</div>
+                            <div style="color: #000000; font-weight: bold;">{{resumeList.asegurado.oTitular.nombre}}
+                            </div>
+                        </div>
+                        <div class="col-sm-2" style="margin-top: 15px;">
+                            <div>No. de contrato</div>
+                            <div style="color: #000000; font-weight: bold;">{{resumeList.asegurado.numContrato}}
+                            </div>
+                        </div>
+                        <div class="col-sm-4" style="margin-top: 15px;">
+                            <div>Contratante</div>
+                            <div style="color: #000000; font-weight: bold;">
+                                {{resumeList.asegurado.oTitular.contratante}}</div>
+                        </div>
+                        <div class="col-sm-2" style="margin-top: 15px;">
+                            <div>{{resumeList.asegurado.oTitular.tipDocCont}}</div>
+                            <div style="color: #000000; font-weight: bold;">
+                                {{resumeList.asegurado.oTitular.numDocCont}}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row gCGray3">
+                        <div class="col-sm-4" style="margin-top: 15px;">
+                            <div>Tipo de afiliación</div>
+                            <div style="color: #000000; font-weight: bold;">
+                                {{resumeList.asegurado.oTitular.tipoAfiliacion}}</div>
+                        </div>
+                        <div class="col-sm-2" style="margin-top: 15px;">
+                            <div>Fecha de afiliación</div>
+                            <div style="color: #000000; font-weight: bold;">
+                                {{resumeList.asegurado.oTitular.fechAfiliacion | date:'dd/MM/yyyy'}}</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Origen -->
+        <div style="padding: 25px 10px;color: #000000; font-size: 18px;border-top: 1px solid #eee;cursor: pointer;position: relative;"
+            ng-click="showOrigen = !showOrigen">
+            Origen
+            <span ng-class="showOrigen ? 'ico-mapfre_77_chevronup' : 'ico-mapfre_76_chevrondown'"
+                style="right: 10px;position: absolute;"></span>
+        </div>
+
+        <div class="clearfix g-box g-overflow-hidden-xs mb-xs-2 gBgcGray5" style="padding: 20px;" ng-show="showOrigen">
+            <div style="padding-bottom: 20px;border-bottom: 1px solid #ddd">
+                <div style="font-weight: bold;font-size: 14px;color: #000000;">
+                    Entidad origen
+                </div>
+
+                <div>
+                    <div class="row gCGray3">
+                        <div class="col-sm-6" style="margin-top: 15px;">
+                            <div>Centro de atención médica</div>
+                            <div style="color: #000000; font-weight: bold;">{{resumeList.proveedorOrigen.nombre}}
+                                {{resumeList.proveedorOrigen.departamento}} -
+                                {{resumeList.proveedorOrigen.provincia}}</div>
+                        </div>
+                        <div class="col-sm-6" style="margin-top: 15px;">
+                            <div>Institución</div>
+                            <div style="color: #000000; font-weight: bold;">
+                                {{resumeList.proveedorOrigen.institucion}}
+                                <span
+                                    ng-style="getStyle(resumeList.proveedorOrigen.convenio)">{{resumeList.proveedorOrigen.convenio}}</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row gCGray3">
+                        <div class="col-sm-2" style="margin-top: 15px;">
+                            <div>Tipo de referencia</div>
+                            <div style="color: #000000; font-weight: bold;">{{resumeList.tReferencia}}</div>
+                        </div>
+                        <div class="col-sm-2" style="margin-top: 15px;">
+                            <div>Condición del paciente</div>
+                            <div style="color: #000000; font-weight: bold;">{{resumeList.condicionIng}}</div>
+                        </div>
+                        <div class="col-sm-8" style="margin-top: 15px;">
+                            <div>Diagnóstico presuntivo</div>
+                            <div style="color: #000000; font-weight: bold;">{{resumeList.diagnosticoIng}}</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div style="padding-top: 20px;">
+                <div style="font-weight: bold;font-size: 14px;color: #000000;">
+                    Responsable
+                </div>
+
+                <div class="row gCGray3">
+                    <div class="col-sm-4" style="margin-top: 15px;">
+                        <div>Nombre</div>
+                        <div style="color: #000000; font-weight: bold;">{{resumeList.nomRspnsble}}</div>
+                    </div>
+                    <div class="col-sm-2" style="margin-top: 15px;">
+                        <div>Teléfono</div>
+                        <div style="color: #000000; font-weight: bold;">{{resumeList.telRspnsble}}</div>
+                    </div>
+                    <div class="col-sm-2" style="margin-top: 15px;">
+                        <div>Correo electrónico</div>
+                        <div style="color: #000000; font-weight: bold;">{{resumeList.mailRspnsble}}</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Destino -->
+        <div style="padding: 25px 10px;color: #000000; font-size: 18px;border-top: 1px solid #eee;cursor: pointer;position: relative;"
+            ng-click="showDestino = !showDestino">
+            Destino
+            <span ng-class="showDestino ? 'ico-mapfre_77_chevronup' : 'ico-mapfre_76_chevrondown'"
+                style="right: 10px;position: absolute;"></span>
+        </div>
+
+        <div class="clearfix g-box g-overflow-hidden-xs mb-xs-2 gBgcGray5" style="padding: 20px;" ng-show="showDestino">
+            <div style="padding-bottom: 20px;border-bottom: 1px solid #ddd">
+                <div style="font-weight: bold;font-size: 14px;color: #000000;">
+                    Entidad destino
+                </div>
+
+                <div>
+                    <div class="row gCGray3">
+                        <div class="col-sm-6" style="margin-top: 15px;">
+                            <div>Centro de atención médica</div>
+                            <div style="color: #000000; font-weight: bold;">{{resumeList.proveedorDestino.nombre}}
+                                {{resumeList.proveedorDestino.departamento}} -
+                                {{resumeList.proveedorDestino.provincia}}</div>
+                        </div>
+                        <div class="col-sm-6" style="margin-top: 15px;">
+                            <div>Dirección</div>
+                            <div style="color: #000000; font-weight: bold;">
+                                {{resumeList.proveedorDestino.direccion}}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row gCGray3">
+                        <div class="col-sm-2" style="margin-top: 15px;">
+                            <div>Entidad</div>
+                            <div style="color: #000000; font-weight: bold;">{{resumeList.proveedorDestino.entidad}}
+                            </div>
+                        </div>
+                        <div class="col-sm-4" style="margin-top: 15px;">
+                            <div>Categoría</div>
+                            <div style="color: #000000; font-weight: bold;">
+                                {{resumeList.proveedorDestino.categoria}}
+                            </div>
+                        </div>
+                        <div class="col-sm-4" style="margin-top: 15px;">
+                            <div>Institución</div>
+                            <div style="color: #000000; font-weight: bold;">
+                                {{resumeList.proveedorDestino.institucion}}
+                                <span
+                                    ng-style="getStyle(resumeList.proveedorDestino.convenio)">{{resumeList.proveedorDestino.convenio}}</span>
+                            </div>
+                        </div>
+                        <div class="col-sm-2" style="margin-top: 15px;">
+                            <div>Teléfono</div>
+                            <div style="color: #000000; font-weight: bold;">{{resumeList.proveedorDestino.telefono}}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div style="padding-top: 20px;padding-bottom: 20px;">
+                <div style="font-weight: bold;font-size: 14px;color: #000000;">
+                    Requerimientos médicos
+                </div>
+
+                <div class="row gCGray3">
+                    <div class="col-sm-3" style="margin-top: 15px;">
+                        <div>Servicios</div>
+                        <div style="color: #000000; font-weight: bold;">{{resumeList.servicios}}</div>
+                    </div>
+                    <div class="col-sm-3" style="margin-top: 15px;">
+                        <div>Imageneología</div>
+                        <div style="color: #000000; font-weight: bold;">{{resumeList.imagenes}}</div>
+                    </div>
+                    <div class="col-sm-3" style="margin-top: 15px;">
+                        <div>Emergencias</div>
+                        <div style="color: #000000; font-weight: bold;">{{resumeList.emergencias}}</div>
+                    </div>
+                    <div class="col-sm-3" style="margin-top: 15px;">
+                        <div>Especialidades</div>
+                        <div style="color: #000000; font-weight: bold;">{{resumeList.especialidades}}</div>
+                    </div>
+                </div>
+            </div>
+
+            <div style="padding-top: 20px;padding-bottom: 20px;border-top: 1px solid #ddd;border-bottom: 1px solid #ddd"
+                ng-hide="resumeList.auditoria">
+                <div style="font-weight: bold;font-size: 14px;color: #000000;">
+                    Diagnósticos y tratamientos
+                </div>
+
+                <div ng-show="hasRevisionReferencia">
+                    <div class="row gCGray3">
+                        <div class="col-sm-6" style="margin-top: 15px;">
+                            <div>Diagnóstico de ingreso</div>
+                            <div style="color: #000000; font-weight: bold;">{{resumeList.diagnosticoIng}}</div>
+                        </div>
+                        <div class="col-sm-6" style="margin-top: 15px;">
+                            <div>Diagnóstico de egreso</div>
+                            <div style="color: #000000; font-weight: bold;">{{resumeList.diagnosticoSal}}</div>
+                        </div>
+                        <div class="col-sm-6" style="margin-top: 15px;">
+                            <div>Fecha de ingreso</div>
+                            <div style="color: #000000; font-weight: bold;">
+                                {{resumeList.fechaIngr | date:'dd/MM/yyyy'}}
+                            </div>
+                        </div>
+                        <div class="col-sm-6" style="margin-top: 15px;">
+                            <div>Fecha de egreso</div>
+                            <div style="color: #000000; font-weight: bold;">
+                                {{resumeList.fechaSal | date:'dd/MM/yyyy'}}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row gCGray3">
+                        <div class="col-sm-6" style="margin-top: 15px;">
+                            <div>Procedimientos realizados</div>
+                            <div style="color: #000000; font-weight: bold;">{{resumeList.proceRealizados}}</div>
+                        </div>
+                        <div class="col-sm-6" style="margin-top: 15px;">
+                            <div>Condición de egreso</div>
+                            <div style="color: #000000; font-weight: bold;">{{resumeList.condicionSal}}</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row gCGray3" ng-show="!hasRevisionReferencia">
+                    <div class="col-sm-12" style="margin-top: 15px;color: red;">Referencia pendiente de revisión,
+                        información no disponible</div>
+                </div>
+            </div>
+
+            <div style="padding-top: 20px;" ng-hide="resumeList.auditoria">
+                <div style="font-weight: bold;font-size: 14px;color: #000000;">
+                    Médico responsable
+                </div>
+
+
+                <!-- <p>{{resumeList.Medico | json}}</p> -->
+                <div class="row gCGray3" ng-show="hasRevisionReferencia">
+                    <div class="col-sm-6" style="margin-top: 15px;">
+                        <div>Nombre</div>
+                        <div style="color: #000000; font-weight: bold;">{{resumeList.medico.nombre}}</div>
+                    </div>
+                    <div class="col-sm-4" style="margin-top: 15px;">
+                        <div>Especialidad</div>
+                        <div style="color: #000000; font-weight: bold;">{{resumeList.medico.especialidad}}</div>
+                    </div>
+                    <div class="col-sm-2" style="margin-top: 15px;">
+                        <div>Colegiatura</div>
+                        <div style="color: #000000; font-weight: bold;">{{resumeList.medico.colegiatura}}</div>
+                    </div>
+                </div>
+
+                <div class="row gCGray3" ng-show="!hasRevisionReferencia">
+                    <div class="col-sm-12" style="margin-top: 15px;color: red;">Referencia pendiente de revisión,
+                        información no disponible</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Auditoria -->
+        <div ng-show="resumeList.auditoria">
+            <div style="padding: 25px 10px;color: #000000; font-size: 18px;border-top: 1px solid #eee;cursor: pointer;position: relative;"
+                ng-click="showAuditoria = !showAuditoria">
+                Auditoria
+                <span ng-class="showAuditoria ? 'ico-mapfre_77_chevronup' : 'ico-mapfre_76_chevrondown'"
+                    style="right: 10px;position: absolute;"></span>
+            </div>
+
+            <div class="clearfix g-box g-overflow-hidden-xs mb-xs-2 gBgcGray5" style="padding: 20px;"
+                ng-show="showAuditoria">
+                <div>
+                    <div style="font-weight: bold;font-size: 14px;color: #000000;">
+                        {{resumeList.auditoria.descripcion}}
+                    </div>
+
+                    <div class="row gCGray3">
+                        <div class="col-md-12">
+                            <div class="col-sm-6" style="margin-top: 15px;">
+                                <div>Motivo</div>
+                                <div style="color: #000000; font-weight: bold;">
+                                    {{resumeList.auditoria.motivo}}
+                                </div>
+                            </div>
+                            <div class="col-sm-6" style="margin-top: 15px;">
+                                <div>Observación</div>
+                                <div style="color: #000000; font-weight: bold;">
+                                    {{resumeList.auditoria.observacion}}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Traslado -->
+        <div style="padding: 25px 10px;color: #000000; font-size: 18px;border-top: 1px solid #eee;cursor: pointer;position: relative;"
+            ng-click="showTraslado = !showTraslado">
+            Traslado
+            <span ng-class="showTraslado ? 'ico-mapfre_77_chevronup' : 'ico-mapfre_76_chevrondown'"
+                style="right: 10px;position: absolute;"></span>
+        </div>
+
+        <div class="clearfix g-box g-overflow-hidden-xs mb-xs-2 gBgcGray5" style="padding: 20px;"
+            ng-show="showTraslado">
+            <div style="padding-bottom: 20px;">
+                <div style="font-weight: bold;font-size: 14px;color: #000000;">
+                    Traslado de referencia
+                </div>
+
+                <div class="row gCGray3">
+                    <div class="col-sm-2" style="margin-top: 15px;">
+                        <div>Medio</div>
+                        <div style="color: #000000; font-weight: bold;">{{resumeList.proveedorTraslado.meTraslado}}
+                        </div>
+                    </div>
+                    <div class="col-sm-2" style="margin-top: 15px;">
+                        <div>Tipo</div>
+                        <div style="color: #000000; font-weight: bold;">
+                            {{resumeList.proveedorTraslado.tipMeTraslado}}
+                        </div>
+                    </div>
+                    <div class="col-sm-4" style="margin-top: 15px;">
+                        <div>Proveedor</div>
+                        <div style="color: #000000; font-weight: bold;">{{resumeList.proveedorTraslado.nombre}}
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div style="padding-top: 20px;border-top: 1px solid #ddd" ng-show="false">
+                <div style="font-weight: bold;font-size: 14px;color: #000000;">
+                    Traslado de contrareferencia
+                </div>
+
+                <div class="row gCGray3" ng-show="hasRevisionReferencia">
+                    <div class="col-sm-2" style="margin-top: 15px;">
+                        <div>Medio</div>
+                        <div style="color: #000000; font-weight: bold;">{{resumeList.proveedorTraslado.meTraslado}}
+                        </div>
+                    </div>
+                    <div class="col-sm-2" style="margin-top: 15px;">
+                        <div>Tipo</div>
+                        <div style="color: #000000; font-weight: bold;">
+                            {{resumeList.proveedorTraslado.tipMeTraslado}}
+                        </div>
+                    </div>
+                    <div class="col-sm-4" style="margin-top: 15px;">
+                        <div>Proveedor</div>
+                        <div style="color: #000000; font-weight: bold;">{{resumeList.proveedorTraslado.nombre}}
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row gCGray3" ng-show="!hasRevisionReferencia">
+                    <div class="col-sm-12" style="margin-top: 15px;color: red;">Referencia pendiente de revisión,
+                        información no disponible</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Historial -->
+        <div style="padding: 25px 10px;color: #000000; font-size: 18px;border-top: 1px solid #eee;cursor: pointer;position: relative;"
+            ng-click="showHistorial = !showHistorial">
+            Historial
+            <span ng-class="showHistorial ? 'ico-mapfre_77_chevronup' : 'ico-mapfre_76_chevrondown'"
+                style="right: 10px;position: absolute;"></span>
+        </div>
+
+        <div class="clearfix g-box g-overflow-hidden-xs mb-xs-2 gBgcGray5" style="padding:0px 20px;"
+            ng-show="showHistorial && resumeList.historial.length">
+            <div style="padding: 10px 0px;border-bottom: 1px solid #ddd">
+                <div class="row gCGray3" ng-repeat="item in resumeList.historial" style="padding: 10px 0px;">
+                    <div class="col-sm-2">
+                        <div>Usuario</div>
+                        <div style="color: #000000; font-weight: bold;">{{item.codUsuMAPFRE}}</div>
+                    </div>
+                    <div class="col-sm-2">
+                        <div>Fecha y hora de registro</div>
+                        <div style="color: #000000; font-weight: bold;">
+                            {{item.fechaHora | date:'dd/MM/yyyy h:mm a'}}
+                        </div>
+                    </div>
+                    <div class="col-sm-2">
+                        <div>Estado</div>
+                        <div style="color: #000000; font-weight: bold;">{{item.estado}}</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

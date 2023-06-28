@@ -1,0 +1,57 @@
+<div
+  class="g-photo-box"
+  data-ng-if="($ctrl.photos.length < $ctrl.maxPhotos) && !$ctrl.disabled"
+>
+  <div
+    class="g-photo-close"
+    data-ng-show="$ctrl.hideUploader"
+  >
+    <span class="ico-mapfre_119_wrong"></span>
+  </div>
+  <label class="g-photo-inner-box">
+    <input
+      type="file"
+      file-model="$ctrl.photoFile"
+      accept=".jpg,.bmp,.png,.jpeg"
+      class="input__file"
+    />
+    <div class="g-photo-title">{{$ctrl.label}}</div>
+    <div class="g-photo-img"></div>
+  </label>
+</div>
+<div
+  class="g-photo-box"
+  data-ng-repeat="photo in $ctrl.photos track by $index">
+  <div
+    class="g-photo-close"
+    data-ng-if="!$ctrl.disabled"
+  >
+    <span data-ng-click="$ctrl.removePhoto($index, photo)" class="ico-mapfre_119_wrong"></span>
+  </div>
+  <div class="g-photo-inner-box">
+    <div
+      class="g-photo-img g-text-center-xs relive"
+      data-ng-class="{'u-bg--no': photo.nombreFisico}"
+    >
+      <div class="g-photo-title gCRed2" data-ng-if="!photo.nombreFisico">Archivo dañado <br> Vuelve a cargar la foto</div>
+      <div class="sk-circle" data-ng-if="photo.nombreFisico">
+        <div class="sk-circle1 sk-child"></div>
+        <div class="sk-circle2 sk-child"></div>
+        <div class="sk-circle3 sk-child"></div>
+        <div class="sk-circle4 sk-child"></div>
+        <div class="sk-circle5 sk-child"></div>
+        <div class="sk-circle6 sk-child"></div>
+        <div class="sk-circle7 sk-child"></div>
+        <div class="sk-circle8 sk-child"></div>
+        <div class="sk-circle9 sk-child"></div>
+        <div class="sk-circle10 sk-child"></div>
+        <div class="sk-circle11 sk-child"></div>
+        <div class="sk-circle12 sk-child"></div>
+      </div>
+      <img data-ng-src="{{photo.photoBase64}}" class="u-img--containt" data-ng-if="photo.photoBase64">
+      <img data-ng-src="{{photo.srcImg}}" class="u-img--containt" data-ng-if="!photo.photoBase64">
+    </div>
+  </div>
+  <div class="g-photo-name" data-ng-show="photo.name || photo.nombreImagen">{{photo.name || photo.nombreImagen}}</div>
+</div>
+

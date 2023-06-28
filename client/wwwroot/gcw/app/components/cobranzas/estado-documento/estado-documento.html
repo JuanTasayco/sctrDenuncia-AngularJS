@@ -1,0 +1,287 @@
+<div class="consultaGestion">
+  <div class="container">
+    <div
+      show-filter
+      class="clearfix g-col-filter g-box-md gBgcGray5-md gBgcWhite1 g-myd-box"
+      ng-class="{'show': isFilterVisible}"
+    >
+      <div class="col-xs-12">
+        <div class="clearfix gH4 gCGray1 mb-xs-1-5">
+          <h2 class="hidden-xs hidden-sm"><b>Opciones de Búsqueda</b></h2>
+          <div
+            id="show-filter"
+            class="row pt-xs-2 pb-xs-2 gBgcGray5 g-border-bottom-xs hidden-md hidden-lg"
+            ng-click="toggleFilter();"
+          >
+            <div class="col-xs-10">
+              <h2><b>Opciones de Búsqueda</b></h2>
+            </div>
+            <div class="col-xs-2 g-text-right-xs">
+              <!-- ngIf: isFilterVisible --><span
+                class="glyphicon glyphicon-chevron-down ng-scope"
+                ng-if="isFilterVisible"
+              ></span
+              ><!-- end ngIf: isFilterVisible -->
+              <!-- ngIf: !isFilterVisible --><span
+                class="glyphicon glyphicon-chevron-up ng-scope"
+                ng-if="!isFilterVisible"
+              ></span
+              ><!-- end ngIf: !isFilterVisible -->
+            </div>
+            <div class="clearfix"></div>
+          </div>
+        </div>
+        <form class="clearfix" name="formEdoDoc">
+          <div class="row mb-xs-2">
+            <div class="col-md-3 mt-md-0 mt-xs-2">
+              <gcw-cbo-tipo-doc documento="vm.formEdoDoc.mTipoDoc"></gcw-cbo-tipo-doc>
+            </div>
+            <div class="col-md-3 mt-xs-1 mt-md-0" ng-show="vm.onlyNumber">
+              <mpf-input
+                label="{label: 'Nro. de documento:', required: true}"
+                focuss-me="true"
+                name="nNumeroDocumento"
+                ng-model="vm.formEdoDoc.mNumeroDocumento"
+                mpf-validation="onlyNumber"
+                ng-maxlength="vm.docNumMaxLength"
+                ng-minlength="vm.docNumMinLength"
+                >></mpf-input
+              >
+              <div
+                class="g-error"
+                ng-show="vm.formEdoDoc.frmEdoDoc.nNumeroDocumento.$invalid && !vm.formEdoDoc.frmEdoDoc.nNumeroDocumento.$pristine"
+              >
+                * Ingrese un número de documento
+              </div>
+            </div>
+            <div class="col-md-3 mt-xs-1 mt-md-0" ng-hide="vm.onlyNumber">
+              <mpf-input
+                label="{label: 'Nro. de documento:', required: true}"
+                focuss-me="true"
+                name="nNumeroDocumento"
+                ng-model="vm.formEdoDoc.mNumeroDocumento"
+                ng-maxlength="vm.docNumMaxLength"
+                ng-minlength="vm.docNumMinLength"
+                mpf-validation="onlyNumber"
+              ></mpf-input>
+              <div
+                class="g-error"
+                ng-show="vm.formEdoDoc.frmEdoDoc.nNumeroDocumento.$invalid && !vm.formEdoDoc.frmEdoDoc.nNumeroDocumento.$pristine"
+              >
+                * Ingrese un número de documento
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-offset-8 col-md-2 mb-xs-1 no-mb-md">
+              <a class="g-btn g-btn-verde second-design block"
+                ga-click
+                ga-category="'CG - Cobranzas'"
+                ga-action="'MPF - Estado de documento - Buscar'"
+                ga-label="'Botón: Buscar'"
+                ng-click="vm.buscar()">Buscar</a>
+            </div>
+            <div class="col-md-2">
+              <a class="g-btn g-btn-white second-design block" ng-click="vm.limpiar()">Limpiar</a>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- Top bar: Filtro e iconos -->
+    <div tbl-oim-topbar class="clearfix g-tbl-topbar mt-md-2 mb-md-2 width-filtro" ng-show="vm.totalRows >= 1">
+      <div class="row">
+        <div  
+          ga-click
+          ga-category="'CG - Cobranzas'"
+          ga-action="'MPF - Estado de documento - Click en Descargar Documento'"
+          ga-label="'Click: Descargar Documento'"
+          class="g-row-filter__box g-row-icons__box box_left hidden-xs hidden-sm pull-right">
+          <a data-ng-click="exportar()" uib-popover="Exportar" popover-trigger="'mouseenter'"><span class="g-icon-box g-icon-box-md"><span class="ico-mapfre ico-mapfre_124_download ico-download h-myd--none"></span></span></a>
+        </div>
+
+        <div class="col-sm-3" ng-if="vm.showCheckAndButton()">
+          <a class="g-btn g-btn-white second-design block" ng-click="vm.modalEnvioMail()">
+            <span class="hidden-xs">Enviar documentos</span>
+          </a>
+        </div>
+        <div class="g-row-filter__box box_right height-xs height-sm" ng-class="{'filter__show': showFilterTopbar}"></div>
+        <fex-consult></fex-consult>
+      </div>
+    </div>
+    <!-- Tabla -->
+    <div class="clearfix" ng-show="vm.totalRows >= 1">
+      <div tbl-oim class="col-xs-12 g-tbl-wrapper pl-xs-0">
+        <div class="tbl-main">
+          <ul class="tbl-header clearfix">
+            <li class="title col-3-dktp" ng-if="vm.showCheckAndButton()">
+              <mpf-checkbox
+                label=""
+                name="nCheckAll"
+                ng-model="vm.mCheckAll"
+                ng-checked="mCheckAllValue"
+                ng-click="vm.selectAll(vm.mCheckAll);"
+              ></mpf-checkbox>
+            </li>
+            <li class="title col-12-dktp">Detalles</li>
+            <li class="title col-7-dktp">Estado</li>
+            <li class="title col-9-dktp">Producto</li>
+            <li class="title col-11-dktp">Póliza</li>
+            <li class="title col-5-dktp">Tipo Doc.</li>
+            <li class="title col-9-dktp">Nro. Doc.</li>
+            <li class="title col-7-dktp">Vencimiento</li>
+            <li class="title col-7-dktp">Fecha pago</li>
+            <li class="title col-7-dktp text-right">Imp.</li>
+            <li class="title col-4-dktp">Mon.</li>
+            <li class="title col-7-dktp">Medio de cobro</li>
+            <li class="title col-6-dktp">Compañía</li>
+            <li class="title col-6-dktp">Cobrador</li>
+          </ul>
+          <ul class="tbl-body clearfix">
+            <li data-ng-repeat="item in vm.estados">
+              <ul 
+                ga-click
+                ga-category="'CG - Cobranzas'"
+                ga-action="'MPF - Estado de documento - Click en fila de resultados'"
+                ga-label="'Click: en fila de resultados'"
+                height-row class="tbl-row clearfix">
+                <li class="cell col-3-dktp" ng-if="vm.showCheckAndButton() && vm.estados.length>0">
+                  <mpf-checkbox
+                    label=""
+                    ng-if="item"
+                    name="nSelectDoc"
+                    ng-model="item.selected"
+                    ng-click="vm.selectDoc($index, item.selected)"
+                    >{{ item.selected }}</mpf-checkbox
+                  >
+                </li>
+                <a ng-click="vm.showDocumentoPago(item, $event)">
+                  <li class="cell col-12-dktp">
+                    <span class="cell-title">{{ item.client.name }}</span>
+                    <span ng-if="item.stateDocument.positiveBalance == 'S'">
+                      <span class="g-box-label g-text-uppercase c-green">SALDO A FAVOR</span>
+                    </span>
+                  </li>
+                  <li class="cell col-7-dktp">
+                    <span class="cell-label"
+                      ><span class="cell-data">{{ item.situationType }}</span></span
+                    >
+                  </li>
+                  <li class="cell col-9-dktp">
+                    <span class="cell-label  g-break-word">
+                      <span
+                        class="cell-data"
+                        data-ng-click="item.ramo.description"
+                        uib-popover="{{ item.ramo.description }}"
+                        popover-trigger="'mouseenter'"
+                        >{{ item.ramo.description }}</span
+                      >
+                    </span>
+                  </li>
+                  <li class="cell col-11-dktp">
+                    <span class="cell-label"
+                      ><span class="cell-data">{{ item.policyNumber }}</span></span
+                    >
+                    <span ng-if="item.stateDocument.nextCancel == 'S'">
+                      <span class="g-box-label g-text-uppercase c-red fontz11">PRÓXIMA ANULAR</span>
+                    </span>
+                    <span ng-if="item.status == 'PROXIMA ANULAR'">
+                      <span class="g-box-label g-text-uppercase c-red fontz11">{{ item.status }}</span>
+                    </span>
+                    <span ng-if="item.detailRejectionDescription != ''">
+                      <span class="g-box-label g-text-uppercase c-blue fontz11">Contiene Detalle rechazo</span>
+                    </span>
+                  </li>
+                  <li class="cell col-5-dktp">
+                    <span class="cell-label"
+                      ><span class="cell-data">{{ item.documentType2 }}</span></span
+                    >
+                  </li>
+                  <li class="cell col-9-dktp">
+                    <span class="cell-label"
+                      ><span class="cell-data">{{ item.documentNumber2 }}</span></span
+                    >
+                    <span ng-if="item.advancedInvoiceDescription != ''">
+                      <span class="g-box-label g-text-uppercase c-griss fontz11">Factura adelantada</span>
+                    </span>
+                  </li>
+                  <li class="cell col-7-dktp">
+                    <span class="cell-label"
+                      ><span class="cell-data">{{ item.dateEffect }}</span></span
+                    >
+                  </li>
+                  <li class="cell col-7-dktp">
+                    <span class="cell-label"
+                      ><span class="cell-data">{{ item.datePayment }}</span></span
+                    >
+                  </li>
+                  <li class="cell col-7-dktp text-right">
+                    <span class="cell-label"
+                      ><span class="cell-data">{{ item.amount }}</span></span
+                    >
+                  </li>
+                  <li class="cell col-4-dktp">
+                    <span class="cell-label"
+                      ><span class="cell-data">{{ item.coinDescription }}</span></span
+                    >
+                  </li>
+                  <li class="cell col-7-dktp">
+                    <span class="cell-label"
+                      ><span class="cell-data">{{ item.collectionMethod.abbreviation }}</span></span
+                    >
+                  </li>
+                  <li class="cell col-6-dktp">
+                    <span class="cell-label"
+                      ><span class="cell-data">{{ item.ramo.companyName }}</span></span
+                    >
+                  </li>
+                  <li class="cell col-6-dktp">
+                    <span class="cell-label"
+                      ><span class="cell-data">{{ item.collectionsManagerName }}</span></span
+                    >
+                  </li>
+                </a>
+              </ul>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="clearfix" ng-show="vm.totalRows == 0">
+      <div class="col-md-12 text-center g-box-noresult">
+        <div class="row">
+          <div class="col-md-12 g-box-noresult-ico gCRed1 gCRed1">
+            <span class="ico-mapfre_302_error"></span>
+          </div>
+          <div class="col-md-12 g-box-noresult-text">
+            No hay resultados para la búsqueda realizada.<br />Intenta nuevamente
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row" ng-if="vm.totalPages > 1">
+      <div class="col-md-12">
+        <ul
+          uib-pagination
+          class="g-pagination"
+          ng-model="mPagination"
+          max-size="10"
+          total-items="vm.totalRows"
+          ng-change="vm.pageChanged(mPagination)"
+          boundary-link-numbers="true"
+        ></ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<form id="frmExport" name="frmExport" action="{{ vm.exportURL }}" method="post" target="_blank">
+  <input type="hidden" name="json" value="{{ vm.downloadFile }}" />
+</form>
+
+<form id="frmVerComprobante" name="frmVerComprobante" action="{{ vm.verComprobanteURL }}" method="post" target="_blank">
+  <input type="hidden" name="json" value="{{ vm.downloadFile3 }}" />
+</form>

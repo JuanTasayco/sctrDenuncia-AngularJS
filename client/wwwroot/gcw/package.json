@@ -1,0 +1,58 @@
+{
+  "name": "gcw",
+  "version": "1.0.0",
+  "description": "Modulo GCW de OIM",
+  "main": "package.js",
+  "scripts": {
+    "all": "run-s proxy start",
+    "proxy": "cd ../../ && grunt reBuildProxy",
+    "sass": "cd ../../ && grunt sass",
+    "serve": "cd ../../ && grunt serve:dev",
+    "start": "run-p serve",
+    "client:i": "cd ../../ && npm i && bower install",
+    "commitmsg": "validate-commit-msg",
+    "prepush": "npm run ugli",
+    "ugli": "cd ../../ && grunt uglify:dev --oim=gcw"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://kevinrodbemx@bitbucket.org/mxperu/gcw.git"
+  },
+  "keywords": [
+    "GCW",
+    "OIM",
+    "Multiplica",
+    "Mapfre"
+  ],
+  "author": "@CarlosSanchez, @AndresZ, @Promesa, @Kevinrodbe",
+  "license": "MIT",
+  "devDependencies": {
+    "cz-conventional-changelog": "^2.0.0",
+    "eslint-config-angular": "^0.5.0",
+    "eslint-plugin-angular": "^2.4.0",
+    "husky": "^0.14.3",
+    "npm-run-all": "^4.0.2",
+    "validate-commit-msg": "^2.14.0"
+  },
+  "config": {
+    "commitizen": {
+      "path": "cz-conventional-changelog"
+    },
+    "validate-commit-msg": {
+      "helpMessage": "\nPlease fix your commit message (and consider using http://npm.im/commitizen)\n",
+      "types": [
+        "feat",
+        "fix",
+        "docs",
+        "style",
+        "refactor",
+        "perf",
+        "test",
+        "chore",
+        "revert",
+        "custom"
+      ],
+      "warnOnFail": false
+    }
+  }
+}

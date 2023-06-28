@@ -1,0 +1,55 @@
+<br>
+<div ng-if=" $ctrl.type === '0'" class="col-xs-12 g-box--delete mb-xs-2">
+  <div class="cnt-check">
+    <label class="g-checkbox" ng-class="{'active' : selectedAll.checked}">
+      <span class="ico-checkbox"></span>
+      <input id="selectedAllxs" type="checkbox" name="all" value="{{selectedAll.checked}}" ng-value-true="true"
+        ng-value-false="false" ng-model="selectedAll.checked" ng-disabled="disabled" ng-change="$ctrl.selectedAll()">
+    </label>
+  </div>
+  <div ng-click="$ctrl.btnDeleteAllTrabajador()" ng-if="$ctrl.trabajadores.length > 0" class="g-box--delete">
+    <span class="g-link fwBold mr-xs-0-5">Eliminar</span>
+    <span class="ico-mapfre-363-myd-eliminar ico-medium"></span>
+  </div>
+</div>
+
+<div class="col-xs-12">
+  <ul ng-repeat="trabajador in $ctrl.trabajadores track by $index">
+    <li class="g-box g-box--list-icon">
+      <span ng-click="$ctrl.deleteItemTrabajadores($index)"
+        class="ico-mapfre_231_cancelaroff g-box--list-close"></span>
+      <div class="row mb-xs-2 mb-md-2">
+        <div class="col-md-2 g-box--check-number">
+          <div ng-if=" $ctrl.type === '0'" class="cnt-check mr-xs-1">
+            <label class="g-checkbox" ng-class="{'active' : trabajador.checked}">
+              <span class="ico-checkbox"></span>
+              <input id="nTrabajador{{$index}}xs" type="checkbox" name="nTrabajador{{$index}}" ng-value-true="true"
+                ng-value-false="false" ng-model="trabajador.checked" ng-disabled="disabled">
+            </label>
+          </div>
+          <div class="g-box--list-number">
+            <p class="pr-xs-1 pr-md-0">Nro. Trabajador</p>
+            <p>{{$index + 1}}</p>
+          </div>
+        </div>
+        <div class="col-sm-6 col-md-3 mb-xs-2 mb-sm-0">
+          <mpf-input label="{label: 'Nro. Documento', required: true}" name="nroDocumento{{$index}}"
+            ng-model="trabajador.NroDocumento" mpf-validation="onlyNumber" ng-minlength="trabajador.minNumeroDoc"
+            ng-maxlength="20" ng-disabled="inputDisabled == true" ng-required="true">
+          </mpf-input>
+          <div class="g-error" ng-show="$ctrl.validControlForm('nroDocumento{{$index}}')">
+            {{$ctrl.constantsRrgg.SMS_ERROR.REQUERIDO}}
+          </div>
+        </div>
+        <div class="col-sm-6 col-md-3 mb-xs-2 mb-sm-0">
+          <mpf-input label="{label: 'Nombres Completos', required: true}" name="NombreCompleto{{$index}}" ng-maxlength="50"
+          ng-model="trabajador.NombreCompleto"  mpf-validation="onlyLetterNumCaracteres" ng-disabled="inputDisabled == true" ng-required="true">
+          </mpf-input>
+          <div class="g-error" ng-show="$ctrl.validControlForm('NombreCompleto{{$index}}')">
+            {{$ctrl.constantsRrgg.SMS_ERROR.REQUERIDO}}
+          </div>
+        </div>
+      </div>
+    </li>
+  </ul>
+</div>

@@ -1,0 +1,141 @@
+<section class="g-page page-inspeccion-autos page-inspeccion-autos__nueva-solicitud">
+    <form name="$ctrl.formSolcitud">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <h2 class="g-sub-title">Datos del Asegurado</h2>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6 mb-xs-2">
+                    <mpf-input mpf-validation="onlyLetterNumber" label="{label: 'Nombre', required: true}" name="nNombre"
+                        ng-model="$ctrl.solicitudData.contratante_nombre" ng-required="true" ng-maxLength="150">
+                    </mpf-input>
+                </div>
+                <div class="col-md-6 mb-xs-2">
+                    <mpf-input label="{label: 'Numero de equipos', required: false}" name="nNumero"
+                        ng-model="$ctrl.vehiculosLen" readonly="readonly" ng-disabled="$ctrl.disabled">
+                    </mpf-input>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <h2 class="g-sub-title">Datos de quién tomará la foto</h2>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6 mb-xs-2">
+                    <mpf-input mpf-validation="onlyLetterNumber" label="{label: 'Nombre', required: true}" name="nNombreD"
+                        ng-model="$ctrl.solicitudData.tomador_foto_nombre" ng-required="true" ng-maxLength="150">
+                    </mpf-input>
+                </div>
+                <div class="col-md-6 mb-xs-2">
+                    <mpf-input label="{label: 'Correo', required: true}" name="nCorreo"
+                        ng-model="$ctrl.solicitudData.tomador_foto_correo" mpf-validation="email" ng-required="true">
+                    </mpf-input>
+                    <ul class="g-error">
+                        <li ng-show="$ctrl.formSolcitud.nCorreo.$error.email && !$ctrl.formSolcitud.nCorreo.$pristine">*
+                            Correo inválido</li>
+                    </ul>
+                </div>
+                <div class="col-md-6 mb-xs-2">
+                    <mpf-input mpf-validation="number,required" label="{label: 'DNI', required: true}" name="nDNI"
+                        ng-model="$ctrl.solicitudData.tomador_foto_dni" ng-required="true" ng-minlength="8"
+                        ng-maxLength="8">
+                    </mpf-input>
+                    <div class="g-error"
+                        ng-show="$ctrl.formSolcitud.nDNI.$invalid && !$ctrl.formSolcitud.nDNI.$pristine">
+                        El DNI debe contar con 8 dígitos
+                    </div>
+                </div>
+                <div class="col-md-6 mb-xs-2">
+                    <mpf-input mpf-validation="number,required" label="{label: 'Celular', required: true}"
+                        name="nCelular" ng-model="$ctrl.solicitudData.tomador_foto_celular" ng-required="true"
+                        ng-maxLength="9">
+                    </mpf-input>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6 mt-xs-2 mb-xs-2 float-right">
+                    <a ng-click="$ctrl.showNewInspection(); $event.stopPropagation()"
+                        class="g-btn g-btn-verde block">Agregar
+                        Maquinaria</a>
+                </div>
+
+            </div>
+
+            <div class="row">
+                <div class="g-section-inner">
+                    <div class="container">
+                        <div class="clearfix">
+                            <div tbl-oim class="col-xs-12 g-tbl-wrapper pl-xs-0">
+                                <div class="tbl-main">
+                                    <ul height-row class="tbl-header clearfix">
+                                        <li class="title col-15-dktp">TIPO/CLASE</li>
+                                        <li class="title col-15-dktp">MARCA</li>
+                                        <li class="title col-14-dktp">MODELO</li>
+                                        <li class="title col-19-dktp">N° SERIE MOTOR</li>
+                                        <li class="title col-14-dktp text-center">PLACA</li>
+                                        <li class="title col-10-dktp text-center">AÑO</li>
+                                        <li class="title col-12-dktp text-center">OPCIONES</li>
+                                    </ul>
+                                    <ul class="tbl-body clearfix">
+                                        <li ng-repeat="vehicle in $ctrl.solicitudData.vehiculos track by $index">
+                                            <ul height-row class="tbl-row clearfix g-u-cursor--pointer">
+                                                <li class="cell col-15-dktp">
+                                                    <span class="cell-label"><span
+                                                            class="cell-data">{{vehicle.tipo.toUpperCase()}}</span></span>
+                                                </li>
+                                                <li class="cell col-15-dktp">
+                                                    <span class="cell-label"><span
+                                                            class="cell-data">{{vehicle.marca.toUpperCase()}}</span></span>
+                                                </li>
+                                                <li class="cell col-14-dktp">
+                                                    <span class="cell-label"><span
+                                                            class="cell-data">{{vehicle.modelo.toUpperCase()}}</span></span>
+                                                </li>
+                                                <li class="cell col-19-dktp">
+                                                    <span class="cell-label"><span
+                                                            class="cell-data">{{vehicle.serie_motor.toUpperCase()}}</span></span>
+                                                </li>
+                                                <li class="cell col-14-dktp text-center">
+                                                    <span class="cell-label"><span
+                                                            class="cell-data">{{vehicle.placa.toUpperCase()}}</span></span>
+                                                </li>
+                                                <li class="cell col-10-dktp text-center">
+                                                    <span class="cell-label"><span
+                                                            class="cell-data">{{vehicle.anio_fabricacion}}</span></span>
+                                                </li>
+                                                <li class="cell col-12-dktp text-center gCGreen1">
+                                                    <span
+                                                        class="mr-xs-1 ico-verde ico-click gnIcon-xsm ico-mapfre_228_editar"
+                                                        ng-click="$ctrl.showNewInspection($index)"></span>
+                                                    <span
+                                                        class="mr-xs-1 ico-verde ico-click gnIcon-xsm ico-mapfre_307_tacho"
+                                                        ng-click="$ctrl.removeVehicule($index)"></span>
+                                                </li>
+                                            </ul>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4 col-md-offset-2 mt-xs-2" ng-if="$ctrl.solicitudId == 0">
+                    <a ng-click="$ctrl.createSolicitud()" class="g-btn g-btn-verde add-ico block">Guardar&nbsp;</a>
+                </div>
+                <div class="col-md-4 col-md-offset-2 mt-xs-2" ng-if="$ctrl.solicitudId != 0">
+                    <a ng-click="$ctrl.editarSolicutd()" class="g-btn g-btn-verde add-ico block">Actualizar&nbsp;</a>
+                </div>
+                <div class="col-md-4 mt-xs-2">
+                    <a ng-click="$ctrl.returnNewSolicitudTrec()"
+                        class="g-btn g-btn-transparent add-ico block">Regresar&nbsp;</a>
+                </div>
+
+            </div>
+        </div>
+    </form>
+</section>

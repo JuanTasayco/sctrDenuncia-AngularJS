@@ -1,0 +1,189 @@
+<!-- Datos del cliente -->
+<section class="g-page">
+  <div class="accter">
+    <div class="g-title g-border-bottom mb-xs-2">
+      <div class="container">
+        <div class="row h-myd--flex h-myd--flex-alg-center h-myd--flex-wrap">
+          <div class="col-xs-12 col-sm-8">
+            <h1>{{datosClient.nombreCompleto}}</h1>
+          </div>
+          <div class="col-xs-12 col-sm-4 g-text-right-sm hidden-sm hidden-xs mt-md-1">
+            <a ui-sref="clients">
+              <span class="g-link gCGray3">
+                <i class="icon ico-mapfre_310_arrowLeft"></i>
+                <b>VOLVER AL LISTADO DE CLIENTES</b>
+              </span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div>
+      <form name="frmClient">
+
+        <!-- Datos Personales -->
+        <personal-information countries="countries" form="datosClient" params-form="paramsForm" not-required-fields="notRequiredFields" disabled-fields="disabledFields"></personal-information>
+
+        <div class="g-section-inner h-myd-pb--20">
+          <div class="container">
+            <div class="row mt-3 mb-xs-2">
+              <div class="col-md-12">
+                <h2 class="g-sub-title g-myd-subtitle" id="sectionContact">Contactos</h2>
+              </div>
+            </div>
+            <div ng-repeat="contact in datosClient.contacto">
+              <div ng-show="!contact.isOpen" class="g-box pt-xs-2 pb-xs-2 pl-xs-2 pr-xs-2 mb-xs-2">
+                <div class="row mb-md-2">
+                  <div class="col-md-2 mb-xs-1 mb-md-0">
+                    <div class="box-text g-border-right-md">
+                      <p class="title">Tipo de documento</p>
+                      <p class="info">{{contact.documento.descripcion}}</p>
+                    </div>
+                  </div>
+                  <div class="col-md-2 mb-xs-1 mb-md-0">
+                    <div class="box-text">
+                      <p class="title">Nro. de documento</p>
+                      <p class="info">{{contact.documento.numero}}</p>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-2 mb-xs-1 mb-md-0">
+                    <div class="box-text g-border-right-md">
+                      <p class="title">Nombre</p>
+                      <p class="info g-cut-text g-text-uppercase">{{contact.nombre}}</p>
+                    </div>
+                  </div>
+                  <div class="col-md-2 mb-xs-1 mb-md-0">
+                    <div class="box-text g-border-right-md">
+                      <p class="title">Apellido paterno</p>
+                      <p class="info g-cut-text g-text-uppercase">{{contact.apellidoPaterno}}</p>
+                    </div>
+                  </div>
+                  <div class="col-md-2 mb-xs-1 mb-md-0">
+                    <div class="box-text g-border-right-md">
+                      <p class="title">Apellido materno</p>
+                      <p class="info g-cut-text g-text-uppercase">{{contact.apellidoMaterno}}</p>
+                    </div>
+                  </div>
+                  <div class="col-md-2 mb-xs-1 mb-md-0">
+                    <div class="box-text">
+                      <p class="title">Estado</p>
+                      <p class="info">{{contact.estadoContacto=='N' ? 'Activo' : 'Inactivo'}}</p>
+                    </div>
+                  </div>
+                  <div class="col-md-4 text-right mt-xs-1">
+                    <a class="g-link gCGreen1 h-myd--fz14" ng-click="open(contact,$event)"
+                      href="javascript:void(0);">EDITAR CONTACTO</a>
+                  </div>
+                </div>
+              </div>
+              <contact-form save="updateContact($event.form,$index)" form="contact" update="true" close="closeForm()"
+                params-form="paramsForm" ng-if="contact.isOpen"></contact-form>
+            </div>
+            <div class="clearfix" ng-if="!addContactForm.isOpen">
+              <div class="col-xs-12 g-box3 g-box-add-item-1 box-add-occupant-1 g-myd-box">
+                <a class="col-sm-6 col-sm-offset-3 col-md-4 col-md-offset-4 col-xs-12 g-btn g-btn-white"
+                  ng-click="onShowAddContactForm()" href="javascript:void(0)">
+                  <span class="glyphicon glyphicon-plus"></span>Agregar Contacto
+                </a>
+              </div>
+            </div>
+            <contact-form ng-if="addContactForm.isOpen" save="addContact($event.form)" update="false"
+              params-form="paramsForm" close="closeForm()" form="addContactForm"></contact-form>
+          </div>
+        </div>
+
+        <!-- Datos contacto de la empresa -->
+        <company-contact ng-if="isRuc" form="datosClient.contactoJuridico" params-form="paramsForm" disabled-fields="disabledFields"></company-contact>
+
+        <!-- Datos direccion personal -->
+        <personal-address countries="countries" form="datosClient.direccionPersonal" params-form="paramsForm"
+          hide-form="hideFields" not-required-fields="notRequiredFields">
+        </personal-address>
+
+        <!-- Datos dirección de oficina -->
+        <office-address countries="countries" form="datosClient.direccionOficina" params-form="paramsForm">
+        </office-address>
+
+        <!-- Datos dirección de correspondencia -->
+        <correspondence-address countries="countries" form="datosClient.direccionCorrespondencia"
+          params-form="paramsForm"></correspondence-address>
+
+        <div class="g-section-inner h-myd-pb--20" ng-if="!isRuc">
+          <div class="container">
+            <div class="row mt-3 mb-xs-2">
+              <div class="col-md-12">
+                <h2 class="g-sub-title g-myd-subtitle">Datos del empleador</h2>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-12 mb-1">
+                <div class="row">
+                  <div class="col-md-3 mb-xs-2">
+                    <mpf-input label="{label: 'Centro laboral', required: false}" name="deWorkplace"
+                      ng-model="datosClient.empleador.centroLaboral" ng-maxlength="20">
+                    </mpf-input>
+                  </div>
+                  <div class="col-md-3 mb-xs-2">
+                    <mpf-select label="{label: 'Cargo', required: false}" name="deCharge"
+                      ng-model="datosClient.empleador.cargo" m-Empty-Option="{enterData:true}"
+                      m-data-source="paramsForm.TIP_CARGO" text-field="descripcion" value-field="codigo">
+                    </mpf-select>
+                  </div>
+                  <div class="col-md-3 mb-xs-2">
+                    <mpf-input label="{label: 'Tiempo de servicio', required: false}" name="deServiceTime"
+                      ng-model="datosClient.empleador.tiempoServicio"  mpf-validation="onlyNumber" ng-maxlength="2" trn-length="2">
+                    </mpf-input>
+                  </div>
+                  <div class="col-md-3 mb-xs-2">
+                    <div class="row">
+                      <div class="col-md-12 mb-xs-2">
+                        <label class="g-placeholder block">Tipo de institución</label>
+                      </div>
+                      <div class="col-xs-6">
+                        <mpf-checkbox label="Pública" name="deInstPublica" ng-model="datosClient.empleador.instPublica">
+                        </mpf-checkbox>
+                      </div>
+                      <div class="col-xs-6">
+                        <mpf-checkbox label="PEP" name="deInstPEP" ng-model="datosClient.empleador.instPEP">
+                        </mpf-checkbox>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-3 mb-xs-2">
+                    <div class="row">
+                      <div class="col-md-12 mb-xs-2">
+                        <label class="g-placeholder block">Ingreso promedio</label>
+                      </div>
+                      <div class="col-xs-12" ng-repeat="ingresoProm in paramsForm.INGR_PROM_VAL">
+                        <m-radio label="{label: ingresoProm.descripcion}" name="eAverageIncome"
+                          ng-model="datosClient.empleador.ingresoProm.codigo" value="{{ingresoProm.codigo}}"
+                          ng-click="resetProducto(1)"></m-radio>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="g-section g-step-action">
+          <div class="container">
+            <div class="row mb-xs-4">
+              <span class="col-md-2 g-comment">Campos obligatorios *</span>
+              <div class="col-md-4 mb-xs-1">
+                <a class="g-btn g-btn-white" ui-sref="clients">CANCELAR</a>
+              </div>
+              <div class="col-md-4 mb-xs-1">
+                <a class="g-btn g-btn-verde" ng-click="update()">GUARDAR CAMBIOS</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</section>

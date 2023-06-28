@@ -1,0 +1,78 @@
+<section class="g-page page-modal modal-parametros">
+    <button type="button" class="close g-close-modal" ng-click="closeModal()">
+      <span class="ico-mapfre_46_cancelaroff"></span>
+    </button>
+    <div class="container-fluid">
+      <div class="row title">
+        <div class="col-xs-12">
+          <h2>EDICIÓN DE TARIFA</h2>
+        </div>
+      </div>
+      <form name="frmNuevoTarifa" class="formulario">
+        <div class="row">
+          <div class="col-md-6 mb-xs-2">
+            <mpf-input 
+                ng-model="formEditTarifa.desde"
+                name="nDesde" 
+                label="{label: 'Desde', required: true}"
+                ng-required="true"
+                mpf-validation="onlyNumber"
+                ng-maxlength="38" 
+                >
+            </mpf-input>
+            <ul class="g-error">
+              <li
+                ng-show="frmNuevoTarifa.nDesde.$error.required"
+              >
+                * Este campo es obligatorio
+              </li>
+            </ul>
+          </div>
+          <div class="col-md-6 mb-xs-2">
+              <mpf-input 
+                  ng-model="formEditTarifa.hasta"
+                  name="nHasta" 
+                  label="{label: 'Hasta', required: true}"
+                  ng-required="true"
+                  mpf-validation="onlyNumber"
+                  ng-maxlength="38"
+                  >
+              </mpf-input>
+              <ul class="g-error">
+                <li
+                  ng-show="frmNuevoTarifa.nHasta.$error.required"
+                >
+                  * Este campo es obligatorio
+                </li>
+              </ul>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-12 mb-xs-2">
+            <mpf-input 
+                ng-model="formEditTarifa.tarifaPersona"
+                name="nTarifaPersona" 
+                label="{label: 'Tarifa por persona', required: true}"
+                ng-required="true"
+                mpf-validation="onlyNumber"
+                ng-maxlength="9" 
+                >
+            </mpf-input>
+            <ul class="g-error">
+              <li
+                ng-show="frmNuevoTarifa.nTarifaPersona.$error.required"
+              >
+                * Este campo es obligatorio
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div class="row action">
+            <div class="col-md-8 col-md-offset-2">
+              <a class="g-btn g-btn-verde block" ng-class="{'disabled': !activeBotonGuardar()}"
+                ng-click="guardarTarifa()">GUARDAR</a>
+          </div>
+        </div>
+      </form>
+    </div>
+</section>

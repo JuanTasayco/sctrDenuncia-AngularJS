@@ -1,0 +1,259 @@
+
+<section class="g-page pageReplacePayRoll mining">
+
+	<div class="g-title">
+		<div class="container">
+			<div class="row g-row">
+				<div class="col-md-8 g-col-md middle col-sm-11 col-xs-10">
+					<h1>Reemplazar Planilla</h1>
+				</div>
+				<div class="col-md-4 g-col-md middle g-text-right-md hidden-sm hidden-xs">
+					<a
+						href="javascript:void(0)"
+						ng-click="fnGoProofs()">
+						<span class="g-icon gCGray3">
+							<span class="icon ico-mapfre_310_arrowLeft"></span>
+							<span class="g-link"><b>Volver a Constancias</b></span>
+						</span>
+					</a>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<nsctr-client-information
+		data="data.STATE_PARAMS">
+	</nsctr-client-information>
+
+
+	<div class="g-section-inner no-border-top">
+		<div class="container">
+			<mining-type-register
+				title="'Planilla'"
+				show-button-tabs= "false"
+				data="">
+			</mining-type-register>
+		</div>
+	</div>
+
+	<div class="g-section">
+		<div class="container">
+			<div class="row">
+				<div class="col-md-4 col-sm-6 col-md-offset-4 col-sm-offset-3">
+					<a
+						href="javascript:void(0)"
+						class="g-btn g-btn-verde block"
+						ng-click="fnShowPayroll()">
+						Mostrar Planilla
+					</a>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+	<div
+		id="iPayrollList"
+		class="g-section-inner"
+		ng-show="data.dataList.allList.length > 0">
+
+		<div class="container">
+			<div class="row g-row">
+				<div class="col-md-9 col-sm-8 g-col-sm middle">
+					<h2 class="g-sub-title c-red">Lista de planilla de reemplazo</h2>
+				</div>
+			</div>
+
+			<mining-check-filter
+				ng-show="data.dataList.allList.length > 0"
+				data="data.checkFilter"
+				check-filter="fnCheckFilter(currentCheck)">
+			</mining-check-filter>
+
+			<div class="row">
+				<nsctr-no-result-filter
+					type="filter"
+					no-result-info="data.noResult.filter.noResultInfo"
+					no-result="data.noResult.filter.noResult" >
+				</nsctr-no-result-filter>
+			</div>
+
+			<div
+				class="row"
+				ng-if="data.dataList.list.length > 0">
+				<div class="col-md-12">
+					<div class="clearfix g-tbl-wrapper">
+
+						<div class="clearfix table__1170">
+							<ul
+								height-row
+								class="g-row-fz12 g-tbl-row gBgcGray5 pt-xs-1">
+								<li class="g-col-5pd g-col-xs col-3-dktp tbl-item g-text-center-xs">
+									&nbsp;
+								</li>
+								<li class="g-col-5pd g-col-xs col-5-dktp tbl-item item-title g-text-center-xs">
+									ESTADO
+								</li>
+								<li class="g-col-5pd g-col-xs col-5-dktp tbl-item item-title">
+									TIPO<br>DOC
+								</li>
+								<li class="g-col-5pd g-col-xs col-8-dktp tbl-item item-title">
+									NRO.<br>DOC
+								</li>
+								<li class="g-col-5pd g-col-xs col-9-dktp tbl-item item-title">
+									APE.<br>PATERNO
+								</li>
+								<li class="g-col-5pd g-col-xs col-9-dktp tbl-item item-title">
+									APE.<br>MATERNO
+								</li>
+								<li class="g-col-5pd g-col-xs col-9-dktp tbl-item item-title">
+									NOMBRES
+								</li>
+								<li class="g-col-5pd g-col-xs col-15-dktp tbl-item item-title">
+									NOMBRE<br>COMPLETO
+								</li>
+								<li class="g-col-5pd g-col-xs col-8-dktp tbl-item item-title">
+									FECHA<br>NACIMIENTO
+								</li>
+								<li class="g-col-5pd g-col-xs col-10-dktp tbl-item item-title g-text-right-xs">
+									SALARIO
+								</li>
+								<li class="g-col-5pd g-col-xs col-7-dktp tbl-item item-title">
+									RIESGO<br>SALUD
+								</li>
+								<li class="g-col-5pd g-col-xs col-7-dktp tbl-item item-title">
+									RIESGO<br>PENSIÓN
+								</li>
+								<li class="g-col-5pd g-col-xs col-5-dktp tbl-item item-title g-text-center-xs">
+									VER
+								</li>
+							</ul>
+							<div class="gnContentAuto-bg">
+								<ul
+									height-row
+									class="g-row-fz12 g-tbl-row pt-xs-1 g-border-bottom-xs"
+									ng-repeat="item in data.dataList.list">
+									<li class="g-col-5pd g-col-xs col-3-dktp tbl-item g-text-center-xs">
+										<label class="g-checkbox" ng-class="{active : item.mCheck}">
+											<span class="ico-checkbox"></span>
+											<input
+												type="checkbox"
+												name="nCheck{{$index}}"
+												ng-model="item.mCheck"
+												ng-disabled="item.disabled">
+											<span class="checkbox-label"></span>
+										</label>
+									</li>
+									<li class="g-col-5pd g-col-xs col-5-dktp tbl-item g-text-center-xs">
+										{{item.able | uppercase}}
+									</li>
+									<li class="g-col-5pd g-col-xs col-5-dktp tbl-item">
+										{{item.documentType}}
+									</li>
+									<li class="g-col-5pd g-col-xs col-8-dktp tbl-item">
+										{{item.documentNumber}}
+									</li>
+									<li
+										class="g-col-5pd g-col-xs col-9-dktp tbl-item g-cut-text"
+										title="{{item.fathersSurname | uppercase}}">
+										{{item.fathersSurname | uppercase}}
+									</li>
+									<li
+										class="g-col-5pd g-col-xs col-9-dktp tbl-item g-cut-text"
+										title="{{item.mothersSurname | uppercase}}">
+										{{item.mothersSurname}}
+									</li>
+									<li
+										class="g-col-5pd g-col-xs col-9-dktp tbl-item"
+										title="{{item.name | uppercase}}">
+										{{item.name | uppercase}}
+									</li>
+									<li
+										class="g-col-5pd g-col-xs col-15-dktp tbl-item g-cut-text"
+										title="{{item.fullName | uppercase}}">
+										{{item.fullName | uppercase}}
+									</li>
+									<li class="g-col-5pd g-col-xs col-8-dktp tbl-item">
+										{{item.birthDate}}
+									</li>
+									<li class="g-col-5pd g-col-xs col-10-dktp tbl-item g-text-right-xs">
+										{{item.salary | currency: data.CURRENCY_TYPES.sole.description}}
+									</li>
+									<li class="g-col-5pd g-col-xs col-7-dktp tbl-item">
+										{{item.healthRisk}}
+									</li>
+									<li class="g-col-5pd g-col-xs col-7-dktp tbl-item">
+										{{item.pensionRisk}}
+									</li>
+									<li class="g-col-5pd g-col-xs col-5-dktp tbl-item g-text-center-xs">
+										<a
+											href="javascript:void(0)"
+											ng-click="fnShowModalWorkerData(item)">
+											<span class="ico-mapfre_298_buscar gnIcon-sm gCGray3"></span>
+										</a>
+									</li>
+								</ul>
+							</div>
+						</div>
+
+					</div>
+				</div>
+			</div>
+
+			<div
+				class="row"
+				ng-if="data.dataList.showPagination">
+				<div class="col-md-12">
+					<ul
+						uib-pagination
+						class="g-pagination"
+						ng-model="data.mPagination.currentPage"
+						max-size="data.mPagination.maxSize"
+						total-items="data.mPagination.totalItems"
+						ng-change="fnChangePage()"
+						boundary-link-numbers="true">
+					</ul>
+				</div>
+			</div>
+
+			<div class="row pt-xs-3">
+				<div class="col-md-4 col-sm-6 col-md-offset-4 col-sm-offset-3">
+					<a
+						href="javascript:void(0)"
+						class="g-btn g-btn-verde block"
+						ng-click="fnReplacePayroll()">
+						Reemplazar planilla
+					</a>
+				</div>
+			</div>
+		</div>
+	</div>
+
+</section>
+
+
+
+<script type="text/ng-template" id="tplEmployeeInPayrollList.html">
+	<div class="container">
+		<div class="row">
+			<div class="col-sm-8 col-ms-8 col-sm-offset-2 col-ms-offset-2 mt-xs-2">
+				<div class="clearfix g-box g-overflow-hidden-xs">
+					<ul class="clearfix g-list gBgcGray5 pt-xs-1">
+						<li class="col-md-12 clearfix cnt-item">
+							<b>Tipo / Nro. Documento</b>
+						</li>
+					</ul>
+					<div class="col-md-12 cnt-content g-list gnContentAuto-ms">
+						<div class="clearfix mt-xs-1" ng-class="{'g-border-bottom-xs' : !$last}" ng-repeat="itemList in employeeInPayrollList.list">
+							<ul class="row">
+								<li class="col-md-12 cnt-item item-dato g-text-uppercase">
+									{{itemList}}
+								</li>
+							</ul>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</script>

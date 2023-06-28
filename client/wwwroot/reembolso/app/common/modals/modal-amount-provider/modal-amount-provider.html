@@ -1,0 +1,50 @@
+<section class="g-page-popup g-reembolso-popup">
+  <button type="button" class="close g-close-modal" ng-click="$ctrl.cerrar()">
+    <span class=" ico-mapfre_231_cancelaroff"></span>
+  </button>
+  <form name="$ctrl.frmModalModal">
+    <div class="container g-modal-header g-text-uppercase">
+      <div class="col-xs-12">
+        <div class="row">
+          <div class="col-md-12 mb-xs-1">
+            <h2 class="gH3"><b>Ingresa el importe total de los comprobantes</b></h2>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="container g-modal-body pt-xs-2 pb-xs-2">
+      <div class="col-xs-12">
+        <div class="row mb-xs-2">
+          <div class="col-xs-12">
+            <div class="row">
+              <div class="col-xs-8">
+                <m-Numeric-Textbox
+                  label="{label: 'Importe total', required: true}"
+                  name="nAmountProvider"
+                  ng-model="$ctrl.amountProvider"
+                  ng-required="true"
+                  options="1">
+                </m-Numeric-Textbox>
+                <div
+                  class="g-error"
+                  ng-show="$ctrl.frmModal.nAmountProvider.$error.required && !$ctrl.frmModal.nAmountProvider.$pristine">
+                  * Campo requerido
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="container g-modal-footer pt-xs-2">
+      <div class="col-md-4 col-md-offset-4 mb-xs-1 no-mb-md">
+        <a
+          class="g-btn g-btn-verde block"
+          ng-class="{'disabled': !$ctrl.amountProvider}"
+          ng-click="$ctrl.sendAmountProvider()">
+          Aceptar
+        </a>
+      </div>
+    </div>
+  </form>
+</section>

@@ -1,0 +1,213 @@
+<section class="g-page">
+  <div class="g-section">
+    <div class="g-title">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-12 mb-xs-2 no-mb-sm">
+            <h1>Mantenimientos</h1>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="g-section-inner g-section-tabs g-overflow-hidden-xs" ng-class="{'mpf-tabs-fixed': boolChangeClassTabs, 'wt1200': changeTabWidth}">
+    <div class="container">
+      <uib-tabset justified="true">
+        <uib-tab index="0">
+          <uib-tab-heading>PLANES MIGRADOS</uib-tab-heading>
+          <div class="content-tab">
+            <div class="row">
+              <div class="col-md-9">
+                <h2 class="g-sub-title mt-xs-3">Planes Migrados</h2>
+              </div>
+              <div class="col-md-3">
+                <a href="" ng-click="vm.showModalAgregarPlan()" class="g-btn g-btn-verde block mt-xs-2">NUEVO</a>
+              </div>
+            </div>
+            <div class="row">
+              <!-- Inicio: Filter -->
+              <div class="col-md-3 mb-xs-2">
+                <mpf-filtro-mantenedor-migraciones-salud
+                  ng-buscar="vm.buscarPlanesMigrados($event)"
+                  ng-limpiar="vm.limpiarResultados()"></mpf-filtro-mantenedor-migraciones-salud>
+              </div>
+              <!-- Fin: Filter -->
+              <!-- Inicio: Resultado -->
+              <div class="col-md-9">
+                <!-- Mensaje de realiza una búsqueda -->
+                <div class="col-md-12 text-center g-box-noresult" ng-if="vm.pagination.noSearch">
+                  <div class="row">
+                    <div class="col-md-12 g-box-noresult-ico gCBlue2">
+                      <span class="ico-mapfre_303_informacion"></span>
+                    </div>
+                    <div class="col-md-12 g-box-noresult-text">
+                      Realiza una búsqueda para obtener resultados.
+                    </div>
+                  </div>
+                </div>
+                <!-- FIn -->
+                <!-- Mensaje de error si no hay resultados -->
+                <div class="col-md-12 text-center g-box-noresult" ng-if="vm.pagination.noResult">
+                  <div class="row">
+                    <div class="col-md-12 g-box-noresult-ico gCRed1">
+                      <span class="ico-mapfre_302_error"></span>
+                    </div>
+                    <div class="col-md-12 g-box-noresult-text">No hay resultados para los filtros escogidos.<br>Intente nuevamente.</div>
+                  </div>
+                </div>
+                <!-- FIn -->
+                <!--<div class="row" ng-if="!vm.pagination.noResult">
+                  <div class="col-md-12 gH4 gCGray3 g-text-right-md mb-xs-1">
+                    Total Clientes: {{vm.pagination.totalItems}}
+                  </div>
+                </div>-->
+                <mpf-item-mantenedor-migraciones-salud
+                  ng-repeat="item in vm.pagination.items"
+                  ng-documento="item"
+                  ng-seleccionado="vm.itemSeleccionado($event)"
+                  ng-accion="vm.accionItem($event)"></mpf-item-mantenedor-migraciones-salud>
+                <!-- Inicio: pagination -->
+                <div class="row" ng-if="!vm.pagination.noResult && vm.pagination.totalItems > 10">
+                  <div class="col-md-12 pr-xs-1">
+                    <ul uib-pagination class="g-pagination" ng-model="vm.pagination.currentPage"
+                        max-size="vm.pagination.maxSize" total-items="vm.pagination.totalItems"
+                        ng-change="vm.pageChanged(vm.pagination.currentPage)" boundary-link-numbers="true"></ul>
+                  </div>
+                </div>
+                <!-- Fin: pagination -->
+              </div>
+            </div>
+          </div>
+        </uib-tab>
+        <uib-tab index="1">
+          <uib-tab-heading>REGLAS DE AJUSTE</uib-tab-heading>
+          <div class="content-tab">
+            <!-- Seccion 1 -->
+            <div class="row" ng-if="vm.showReglasAjuste">
+              <div class="col-md-9">
+                <h2 class="g-sub-title mt-xs-3">Reglas de ajuste</h2>
+              </div>
+              <div class="col-md-3">
+                <a href="javascript:void(0);" ng-click="vm.showReglasAjuste = !vm.showReglasAjuste" class="g-btn g-btn-verde block mt-xs-2">NUEVO</a>
+              </div>
+            </div>
+            <div class="row" ng-if="vm.showReglasAjuste">
+              <mpf-filtro-reglas-ajuste-salud ng-buscar="vm.buscarReglasAjuste($event)"
+                                              ng-limpiar="vm.limpiarResultadosReglasAjuste()"></mpf-filtro-reglas-ajuste-salud>
+              <div class="sec-list pt-xs-3">
+                <div class="container">
+                  <!-- Mensaje de realiza una búsqueda -->
+                  <div class="row g-text-center-xs g-box-noresult" ng-if="vm.paginationReglasAjuste.noSearch">
+                    <div class="col-md-12 g-box-noresult-ico gCBlue2">
+                      <span class="ico-mapfre_303_informacion"></span>
+                    </div>
+                    <div class="col-md-12 g-box-noresult-text">
+                      Realiza una búsqueda para obtener resultados.
+                    </div>
+                  </div>
+                  <!-- Mensaje de error si no hay resultados de la búsqueda -->
+                  <div class="row g-text-center-xs g-box-noresult" ng-if="vm.paginationReglasAjuste.noResult">
+                    <div class="col-md-12 g-box-noresult-ico gCRed1">
+                      <span class="ico-mapfre_302_error"></span>
+                    </div>
+                    <div class="col-md-12 g-box-noresult-text">
+                      No hay resultados para los datos ingresados en la búsqueda<br>
+                      Intente nuevamente
+                    </div>
+                  </div>
+                  <mpf-item-reglas-ajuste-salud
+                    ng-repeat="item in vm.paginationReglasAjuste.items"
+                    ng-documento="item"
+                    ng-seleccionado="vm.itemSeleccionadoReglasAjuste($event)"
+                    ng-accion="vm.accionItemReglasAjuste($event)"></mpf-item-reglas-ajuste-salud>
+                  <!-- Inicio: pagination -->
+                  <div class="row" ng-if="!vm.paginationReglasAjuste.noResult && vm.paginationReglasAjuste.totalItems > 10">
+                    <div class="col-md-12 pr-xs-1">
+                      <ul uib-pagination class="g-pagination" ng-model="vm.paginationReglasAjuste.currentPage"
+                          max-size="vm.paginationReglasAjuste.maxSize" total-items="vm.paginationReglasAjuste.totalItems"
+                          ng-change="vm.pageChangedReglasAjuste(vm.paginationReglasAjuste.currentPage)" boundary-link-numbers="true"></ul>
+                    </div>
+                  </div>
+                  <!-- Fin: pagination -->
+                </div>
+              </div>
+            </div>
+
+            <!-- Seccion 2 -->
+            <div class="row mb-xs-2" ng-if="!vm.showReglasAjuste">
+              <div class="col-md-9">
+                <h2 class="g-sub-title mt-xs-3">Reglas de ajuste</h2>
+                <h3 class="hidden-xs hidden-sm"><b>Crear nueva regla de ajuste</b></h3>
+              </div>
+              <div class="col-md-3">
+                <div class="g-icon gCGreen1 mt-xs-3 text-right">
+                  <a class="h-myd--none mb-1" href="{{vm.urlPlantilla}}">
+                    <span class="ico-mapfre-368-myd-xls icon"></span>
+                    <span class="g-link gH5"><b>DESCARGAR FORMATO</b></span>
+                  </a>
+                </div>
+              </div>
+            </div>
+            <div class="row" ng-if="!vm.showReglasAjuste">
+              <div class="col-md-12">
+                <div class="g-box fz14 pt-xs-2 pb-xs-2">
+                  <div class="clearfix g-text-center-xs">
+                    <div class="col-md-4 col-sm-6" ng-if="data.selectLoadFile">
+                      <div class="clearfix g-box fz14 gBgcGray5 pt-xs-2 pb-xs-2">
+                        <div class="col-md-12 mb-xs-1">
+                          <span>Plantilla en Excel</span>
+                        </div>
+                        <div class="col-md-10 col-md-offset-1">
+                          <label class="g-btn g-btn-white second-design block g-btn-input-file">
+                            <span class="g-icon">
+                              <span class="icon icon-plus ico-mapfre_56_visitasalmedico"></span>
+                              <span>Escoger archivo</span>
+                            </span>
+                            <input type="file" data-show-preview="false" id="iLoadFile" name="nLoadFile" file-model="data.fmLoadFile" ng-model="data.mLoadFile" ng-required="false" onchange="angular.element(this).scope().fnChangeLoadFile()">
+                          </label>
+                          <ul class="g-error g-text-left-xs">
+                            <li ng-show="$ctrl.replacePayroll.errorAttachFile">* Este campo es obligatorio</li>
+                          </ul>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-4 col-sm-6" ng-if="!data.selectLoadFile">
+                      <div class="clearfix g-box fz14 gBgcGray5 pt-xs-2 pb-xs-2">
+                        <div class="col-md-12 mb-xs-0-5">
+                          <span class="ico-mapfre_314_archivos gnIcon-lg gCGray3"></span>
+                        </div>
+                        <div class="col-md-12">
+                          <b>{{data.nameLoadFile}}</b>
+                        </div>
+                        <div class="col-md-12 mb-xs-1">
+                          Plantilla cargada exitosamente
+                        </div>
+                        <div class="col-sm-12">
+                          <label class="g-btn-input-file">
+                            <span class="g-icon gCGreen1">
+                              <span class="icon ico-mapfre_311_arrowRight"></span>
+                              <span class="g-link"><b>Volver a cargar documento</b></span>
+                            </span>
+                            <input type="file" data-show-preview="false" id="iLoadFile" name="nLoadFile" file-model="data.fmLoadFile" ng-model="data.mLoadFile" ng-required="false" onchange="angular.element(this).scope().fnChangeLoadFile()">
+                          </label>
+                        </div>
+                      </div>
+                      <a href="" ng-click="vm.aplicar()" class="g-btn g-btn-verde second-design block">
+                        APLICAR
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row mt-xs-2" ng-if="!vm.showReglasAjuste">
+              <div class="col-md-4 col-md-offset-4">
+                <a href="javascript:void(0);" ng-click="vm.showReglasAjuste = !vm.showReglasAjuste; vm.resetPlanilla()" class="g-btn g-btn-white block">CANCELAR</a>
+              </div>
+            </div>
+          </div>
+        </uib-tab>
+      </uib-tabset>
+    </div>
+  </div>
+</section>

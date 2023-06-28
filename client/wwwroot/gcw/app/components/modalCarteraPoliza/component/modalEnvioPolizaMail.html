@@ -1,0 +1,63 @@
+<div class="g-modal-send-email clearfix">
+	<button type="button" class="close g-close-modal" ng-click="close()">
+		<span class="ico-mapfre_231_cancelaroff"></span>
+	</button>
+	<div class="container">
+		<form  name="frmSendMailPolicy">
+			<div class="row">
+				<div class="col-md-12 g-text-center-xs mb-xs-2">
+					<h2 class="gH3"><b>Enviar p&oacute;lizas</b></h2>
+				</div>
+				<div class="col-md-10 mb-md-1 col-md-offset-1">
+					<mpf-input 
+						label="{label: 'Para', required: true}" 
+						name="nTo"
+						ng-model="vm.dataSendPolicy.emails"
+						ng-required="true"
+						ng-maxlength="250"
+						mpf-validation="moreOneEmail"
+						disabled-View-Model="true"
+					></mpf-input>
+					<span class="g-comment">(Para ingresar m&aacute;s de un correo separar con coma "," y sin espacios)</span>
+					<ul class="g-error">
+						<li ng-show="frmSendMailPolicy.nTo.$error.required && !frmSendMailPolicy.nTo.$pristine">* Este campo es obligatorio</li>
+						<li ng-show="frmSendMailPolicy.nTo.$error.moreOneEmail && !frmSendMailPolicy.nTo.$pristine">* Ingrese un correo electr&oacute;nico v&aacute;lido.</li>
+					</ul>
+				</div>
+
+				<div class="col-md-10 mb-md-1 col-md-offset-1">
+					<span class="g-label mb-xs-2">
+						Se enviar&aacute;(n) la(s) siguiente(s) p&oacute;liza(s):
+						<br><br>
+						<span ng-repeat="policy in vm.selectedPolicies">
+							{{policy.policyNumber}} - {{policy.supplement}} - {{policy.application}} - {{policy.applicationSupplement}} 
+							<span ng-if="policy.hasError" style="color: red;">
+								{{ policy.message ? '-> (Error: ' + policy.message + ')' : '' }}
+							</span>
+							<span ng-if="!policy.hasError">
+								{{ policy.message ? '-> (Enviado: ' + policy.message + ')' : '' }}
+							</span>
+							<br>
+						</span>
+					</span>
+				</div>
+
+				<div class="col-md-10 col-md-offset-1 mt-md-2">
+					<a class="g-btn g-btn-verde block" ng-class="{disabled: !frmSendMailPolicy.$valid}" data-ng-click="enviarPolicy()">Enviar</a>
+				</div>
+			</div>
+			<div class="clearfix" ng-if="message">
+				<div class="row mb-xs-2">
+					<div class="col-md-12">
+						<p class="text-center mb-xs-0">El(Los) documento(s) ha(n) sido enviado(s) a <span class="g-text-uppercase">{{vm.dataSendPolicy.emails}}</span></p>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-md-4 col-md-offset-4">
+						<a class="g-btn g-btn-verde block" ng-click="close()">Cerrar</a>
+					</div>
+				</div>
+			</div>
+		</form> 
+	</div>
+</div>

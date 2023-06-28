@@ -1,0 +1,221 @@
+<!-- inicio paso 2 -->
+<div class="cleaner container">
+    <form name="paso2">
+        <div class="col-xs-12">
+            <div class="register-progress-block u-bg--grey u-br-5 re">
+                <div class="col-md-12 pro-summary-box--left">
+                    <div class="col-md-2 reg-step reg-step--summary" ng-show="!$ctrl.edit">
+                        <span class="reg-step__circle glyphicon glyphicon-ok" ng-show="$parent.currentStep != 2"></span>
+                        <span class="reg-step__circle" ng-hide="$parent.currentStep != 2"> 2 </span>
+                        <span class=" register-step__title">ORIGEN</span>
+                    </div>
+                    <div class="col-md-2 reg-step reg-step--summary" ng-hide="!$ctrl.edit"
+                        ng-class="{'steps':$ctrl.step != 2 }">
+                        <span class="reg-step__circle"> 2 </span>
+                        <span class="register-step__title">ORIGEN</span>
+                    </div>
+
+                    <div class="col-md-8 col-xs-6 item-label" style=" margin-top: 10px;" ng-show="!$ctrl.edit">
+                        <span style=" font-weight: bold">{{$ctrl.filters.ac_CentroOrg1.text}}</span>
+                        <span style="font-weight: bold"> -
+                            {{$ctrl.filters.ac_cdprtmntoOrigen.text}} -
+                            {{$ctrl.filters.an_cprvncaOrigen.text}}</span>
+                    </div>
+                    </br>
+                </div>
+
+                <div class="col-md-12 pro-summary-box--right" ng-show="$ctrl.step >= 2 && $ctrl.edit">
+                    <div class="row">
+                        <div class="col-md-6 col-md-6 reg-mapa__wp">
+                            <mapa-mapfre style="width: 100px; height:110px" lugar="$ctrl.mapId"
+                                loadclass="$ctrl.loadCls" mapsvg="$ctrl.mapSvg" openmap="$ctrl.openMap(a,b,c)"
+                                controller-name="MapaRegistroController" enabledmap="$ctrl.enabledMap">
+                            </mapa-mapfre>
+                        </div>
+                        <div class="col-md-6 col-md-6">
+                            <div class="clearfix g-list-lg">
+                                <div class="col-md-12">
+                                    <div class="row">
+                                        <div class="col-sm-12 clearfix cnt-item">
+                                            <div class="col-sm-12 item-label" style="margin-bottom: 25px;">
+                                                <span style="font-weight: bold">Centro de atención médica de
+                                                    origen</span>
+                                            </div>
+
+                                            <div>
+                                                <div class="col-md-6 mb-xs-2">
+                                                    <mpf-select-placeholder
+                                                        label="{label: 'Departamento', required: false}"
+                                                        m-Empty-Option="{enterData: true}" name="nDepartamentoOrigen"
+                                                        text-field="text" value-field="value" ng-required="true"
+                                                        ng-model="$ctrl.filters.ac_cdprtmntoOrigen"
+                                                        m-data-source="$ctrl.masters.departamentos"
+                                                        ng-change="$ctrl.change('dep'); $ctrl.clearCentr();">
+                                                    </mpf-select-placeholder>
+                                                    <div class="g-error">
+                                                        <div
+                                                            ng-show="form2.nDepartamentoOrigen.$invalid && !form2.nDepartamentoOrigen.$pristine">
+                                                            * Seleccione un Departamento
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6 mb-xs-2">
+                                                    <mpf-select-placeholder
+                                                        label="{label: 'Provincia', required: false}"
+                                                        m-Empty-Option="{enterData: true}" name="nProvinciaOrigen"
+                                                        text-field="text" value-field="value" ng-required="true"
+                                                        ng-model="$ctrl.filters.an_cprvncaOrigen"
+                                                        m-data-source="$ctrl.masters.provinciasOrigen"
+                                                        ng-change="$ctrl.change('pro'); $ctrl.clearCentr();">
+                                                    </mpf-select-placeholder>
+                                                    <div class="g-error">
+                                                        <div
+                                                            ng-show="form2.nProvinciaOrigen.$invalid && !form2.nProvinciaOrigen.$pristine">
+                                                            * Seleccione una provincia</div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-12 mb-xs-2">
+                                                    <mpf-data-seeker-X
+                                                        behavior="{label: '', placeholder:'Centro de Origen', matchField:'text'}"
+                                                        name="nCntrOrgn" ng-model="$ctrl.filters.ac_CentroOrg1"
+                                                        ng-required="true"
+                                                        m-data-source="$ctrl.searchCentroOrigen($inputNeed)">
+                                                        <div ng-bind-html="$item.text | highlight: $select.search">
+                                                        </div>
+                                                    </mpf-data-seeker-X>
+                                                </div>
+                                                <div class="col-sm-12 item-label" style="margin-bottom: 25px;">
+                                                    <span style="font-weight: bold">Datos del responsable</span>
+                                                </div>
+
+                                                <div class="col-md-12 mb-xs-2">
+                                                    <mpf-input label="{label: 'Nombre', required: false}" name="nNombre"
+                                                        ng-model="$ctrl.filters.nomRspnsble" ng-required="true">
+                                                    </mpf-input>
+                                                    <!-- <ul class="g-error">
+                                                        <li ng-show="model == ''">* Este campo es obligatorio</li>
+                                                    </ul> -->
+                                                </div>
+                                                <div class="col-md-6 mb-xs-2">
+
+                                                    <mpf-input label="{label: 'Teléfono', required: false}"
+                                                        name="nTelefono" ng-model="$ctrl.filters.telRspnsble"
+                                                        ng-required="true" mpf-validation="onlyNumberNoSpace"
+                                                        ng-model-options="{allowInvalid: true}" ng-minlength="7"
+                                                        ng-maxlength="9">
+                                                    </mpf-input>
+                                                    <div class="g-error"
+                                                        data-ng-show="paso2.nTelefono.$invalid && !paso2.nTelefono.$pristine">
+                                                        * El número de teléfono debe tener mínimo 7 dígitos
+                                                    </div>
+                                                    <div class="g-error" ng-show="$ctrl.filters.telRspnsble == ''">
+                                                        * El número de teléfono es obligatorio
+                                                    </div>
+                                                </div>
+                                                <div class=" col-md-6 mb-xs-2">
+                                                    <mpf-input label="{label: 'Correo electrónico', required: false}"
+                                                        ng-model="$ctrl.filters.mailRspnsble" type="email"
+                                                        mpf-validation="email" ng-model-options="{allowInvalid: true}"
+                                                        ng-minlength="8" ng-maxlength="50" ng-required="true"
+                                                        name="nCorreo" data-mpf-validation="email">
+                                                    </mpf-input>
+                                                    <div class="g-error"
+                                                        data-ng-show="paso2.nCorreo.$invalid && !paso2.nCorreo.$pristine">
+                                                        * Email incorrecto
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-12 item-label" style="margin-bottom: 25px;">
+                                                    <span style="font-weight: bold; ">Tipo de referencia</span>
+                                                </div>
+                                                <div class="col-md-12 mb-xs-2 ">
+                                                    <div class="cleaner">
+                                                        <div class="col-sm-3 reg-origin__r-btn-wp"
+                                                            ng-repeat="item in $ctrl.masters.tipos track by $index">
+                                                            <label style="font-size: 10px; padding: 10px !important"
+                                                                class="register-form__tipo-ref"
+                                                                ng-class="{ 'register-form__tipo-ref--active': $ctrl.filters.tipoReferencia == item.value }">
+                                                                <input ng-model="$ctrl.filters.tipoReferencia"
+                                                                    type="text" name="rTipo" ng-value="value"
+                                                                    ng-click="$ctrl.filters.tipoReferencia = item.value; $ctrl.filters.refSelect=item; $ctrl.filters.tiporeferencianame = item.text"
+                                                                    ng-required="true">{{item.text}}
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6 mb-xs-2">
+                                                    <mpf-select-placeholder
+                                                        label="{label: 'Condición del paciente', required: false}"
+                                                        m-Empty-Option="{enterData: true}" name="nCondicion"
+                                                        text-field="text" value-field="value" ng-required="true"
+                                                        ng-model="$ctrl.filters.ac_Condicion"
+                                                        m-data-source="$ctrl.masters.rCondicion">
+                                                    </mpf-select-placeholder>
+                                                </div>
+                                                <div class="col-md-6 mb-xs-2">
+                                                    <mpf-data-seeker-X
+                                                        behavior="{label: 'Diagnóstico de ingreso', placeholder:'', matchField:'text'}"
+                                                        name="nDiagE" ng-model="$ctrl.filters.ac_Diagnostico"
+                                                        ng-required="true"
+                                                        m-data-source="$ctrl.searchDiagnostico($inputNeed)">
+                                                        <div ng-bind-html="$item.text | highlight: $select.search">
+                                                        </div>
+                                                    </mpf-data-seeker-X>
+                                                </div>
+                                                <div class="col-md-12">
+                                                    <div class="col-md-6 col-md-offset-6">
+                                                        <button class="g-btn g-btn-verde second-design block"
+                                                            ng-click="$ctrl.searchOrigin()"
+                                                            ng-disabled="paso2.$invalid">{{($ctrl.editp2) ?
+                                                        'Actualizar':'Continuar'}}</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- <p>{{$ctrl.filters | json}}</p> -->
+                <!-- resumen de paso 2 -->
+                <div class="col-md-12" ng-show="!$ctrl.edit">
+                    <ul class="row">
+                        <li class="col-md-10 col-md-offset-2 clearfix cnt-item">
+                            <div class="col-md-12 col-sm-12 clearfix cnt-item g-box-content">
+                                <div class=" row clearfix g-list-md">
+                                    <div class="col-md-2 col-xs-12 item-label g-text-">
+                                        <span class="gCGray3">Tipo de referencia</span> </br>
+                                        <span style="font-weight: Bold;">
+                                            {{$parent.data.refSelect.text}}</span>
+                                    </div>
+                                    <div class="col-md-2 col-xs-12 item-label g-text-">
+                                        <span class="gCGray3">Condición</span> </br>
+                                        <span style="font-weight: Bold;">
+                                            {{$ctrl.filters.ac_Condicion.text}}</span>
+                                    </div>
+                                    <div class="col-md-5 col-xs-12 item-label g-text">
+                                        <span class="gCGray3">Diagnóstico presuntivo</span> </br>
+                                        <span style="font-weight: Bold;">
+                                            {{$ctrl.filters.ac_Diagnostico.text}}</span>
+                                    </div>
+                                </div>
+                                </br>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                <!-- fin de resumen paso 2 -->
+
+                <div class="pro-summary__options">
+                    <a ng-show="!$ctrl.edit && $ctrl.showEdit" ng-click="$ctrl.editarOrigen()">
+                        <span class="register-progress-block__btn--title reg-summary--edit">Editar</span>
+                        <span class="lista-title__ico ico-mapfre_43_editar"></span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+<!-- fin paso 2 -->

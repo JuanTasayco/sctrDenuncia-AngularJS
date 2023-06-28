@@ -1,0 +1,65 @@
+<div class="g-section g-border-top">
+        <div>
+            <div class="clearfix">
+                <div class="mb-xs-2">
+                    <div>
+                        <div class="container">
+                            <div class="searchComplaint clearfix g-col-filter g-box-md gBgcGray5-md gBgcWhite1">
+                                <div class="col-md-12 mb-xs-1-5 gH4 gCGray1">
+                                    <h2 class="pb-xs-1 g-border-bottom-xs hidden-xs hidden-sm">
+                                        <b>Búsqueda de clínicas</b>
+                                    </h2>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="row">
+                                        <div class="col-md-9 mb-xs-2" ng-show="$ctrl.isNewAfiliado">
+                                            <mpf-input 
+                                                label="{label: 'N° RUC / Razón Social/ Nombre Comercial' , required: false}" 
+                                                ng-model="$ctrl.frmFilter.company.fulltext"
+                                                ng-disabled="true"  
+                                                name="nAseguradoNuevo"></mpf-input>
+                                        </div>
+                                        <div class="col-md-9 mb-xs-2" ng-show="!$ctrl.isNewAfiliado">
+                                            <mp-data-seeker 
+                                                name="nAsegurado" 
+                                                ng-required="true"
+                                                behavior="{label:'N° RUC / Razón Social / Nombre Comercial', matchField:'fulltext', placeholder: 'Ingresa N° RUC / Razón Social / Nombre Comercial'}"
+                                                m-data-source="$ctrl.seekCompany($inputNeed)" 
+                                                ng-model="$ctrl.frmFilter.company"
+                                                ng-change="$ctrl.validateAsegurado()">
+                                            {{$item.ndidntdd}} - {{$item.dscrsl}}<div ng-bind-html="$item.rsaynmbrs | highlight: $select.search"></div> <div ng-bind-html="$item.rsabrvda | highlight: $select.search"></div>
+                                            </mp-data-seeker>
+                                            <div class="g-error"
+                                                ng-show="$ctrl.aseguradoInvalid">
+                                                * Seleccione un asegurado</div>
+                                        </div>
+                                        <div class="col-md-3 mb-xs-4 mb-xs-4-hs">
+                                            <mpf-input label="{label: 'No. de plan', required: false}" 
+                                            ng-model="$ctrl.dataview.noPlanString"
+                                            ng-disabled="true" 
+                                            name="nNoPlan"></mpf-input>
+                                        </div>
+                                        <div class="g-error"
+                                            ng-show="$ctrl.planInvalid">
+                                            * No se tiene número de plan</div>
+                                    </div>
+                                     <div class="row">
+                                        <div class="col-md-8 mb-xs-4 mb-xs-4-hs">
+
+                                        </div> 
+                                        <div class="col-md-2 mb-xs-4 mb-xs-4-hs">
+                                            <a class="g-btn g-btn-white second-design block" ng-click="$ctrl.clear()">LIMPIAR</a>
+                                        </div>
+                                        <div class="col-md-2 mb-xs-4 mb-xs-4-hs">
+                                            <a ng-click="$ctrl.buscar()" class="g-btn g-btn-verde second-design block">BUSCAR</a>
+                                        </div>
+                                     </div>
+                                </div>
+                                
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>

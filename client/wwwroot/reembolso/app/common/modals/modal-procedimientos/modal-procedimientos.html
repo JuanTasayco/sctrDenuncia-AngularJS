@@ -1,0 +1,91 @@
+<section class="g-page-popup g-reembolso-popup">
+  <button type="button" class="close g-close-modal" ng-click="$ctrl.cerrar()">
+      <span class=" ico-mapfre_231_cancelaroff"></span>
+  </button>
+  <form name="frm">
+    <div class="container g-modal-header g-text-uppercase">
+      <div class="col-xs-12">
+        <div class="row">
+          <div class="col-md-12 mb-xs-1">
+            <h2 class="gH3"><b>Selecciona procedimientos de la factura</b></h2>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="container g-modal-body pt-xs-2 pb-xs-2">
+      <div class="col-xs-12">
+        <div class="row mb-xs-2">
+          <div class="clearfix g-div-bottom">
+            <div class="col-xs-8">
+              <mpf-input
+                label="{label: 'CÓDIGO O NOMBRE', required: true}"
+                name="nCriteria"
+                ng-model="$ctrl.criteria">
+              </mpf-input>
+              <div
+                class="g-error"
+                ng-show="$ctrl.frm.nCriteria.$error.required && !$ctrl.frm.nCriteria.$pristine">
+                * Campo requerido
+              </div>
+            </div>
+            <div class="col-xs-4 pr-xs-0">
+              <a class="g-btn g-btn-white second-design block" ng-click="$ctrl.searchProcedures($ctrl.criteria)">Buscar</a>
+            </div>
+          </div>
+        </div>
+        <div class="row mb-xs-1">
+          <div class="col-xs-12">
+            <div class="tag g-text-uppercase" ng-repeat="tag in $ctrl.proceduresSelected">
+              <div class="clearfix g-div-middle">
+                <div class="fwMedium">{{tag.description}}</div>
+                <div class="g-u-cursor--pointer" ng-click="$ctrl.removeFromTagsList(tag)">
+                  <i class="fwMedium gnIcon-sm ico-mapfre_46_cancelaroff"></i>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-xs-12 g-box box-search-procedimiento">
+            <div class="g-content-outer" ng-if="$ctrl.proceduresList.length === 0">
+              <div class="g-content-inner-middle">
+                <div class="col-xs-12 pt-xs-2 pb-xs-2 g-col-md middle gCGray3 g-text-center-xs">
+                  <div class="row">
+                    <div class="col-xs-12 text-center no-padding-xs">
+                      <span class="gnIcon-lg ico-mapfre_333_searchUser"></span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row" ng-if="$ctrl.proceduresList.length > 0">
+              <div class="col-xs-12">
+                <div
+                  class="clearfix g-box mb-xs-1 content-procedimiento"
+                  ng-repeat="procedure in $ctrl.arrFilterList">
+                  <div class="col-xs-1">
+                    <label class="g-checkbox" ng-class="{active : procedure.selected}">
+                      <span class="ico-checkbox"></span>
+                      <input
+                        type="checkbox"
+                        ng-click="$ctrl.onCheck(procedure)"
+                        data-checklist-model="$ctrl.proceduresSelected"
+                        data-checklist-value="procedure">
+                    </label>
+                  </div>
+                  <div class="gH5 col-xs-1 g-text-uppercase">{{procedure.code}}</div>
+                  <div class="gH5 col-xs-10 g-text-uppercase">{{procedure.description}}</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="container g-modal-footer pt-xs-2">
+      <div class="col-md-4 col-md-offset-4 mb-xs-1 no-mb-md">
+        <a class="g-btn g-btn-verde block" ng-click="$ctrl.showResumen()">Continuar</a>
+      </div>
+    </div>
+  </form>
+</section>

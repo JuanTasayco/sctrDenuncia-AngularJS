@@ -1,0 +1,129 @@
+<!-- Step 1 -->
+<div ng-class="vm.currentStep === '1' ? 'g-section' : ''">
+  <div class="container">
+    <!-- Datos del Viaje-->
+    <div class="col-xs-12 g-list-md g-box gBgcGray5 pt-xs-1 mb-xs-2" ng-hide="vm.currentStep === '1'">
+      <ul class="row cnt-title">
+        <li class="col-xs-6 item-title gH4">Datos del viaje</li>
+        <li class="col-xs-6 item-edit">
+          <a ui-sref="seguroviajeCotizar.initSteps.steps({step: 1})">
+            <span class="ico-mapfre_43_editar ico-edit"></span>
+            Editar datos
+          </a>
+        </li>
+      </ul>
+
+      <ul class="row">
+        <li class="col-sm-4 clearfix cnt-item">
+          <div class="col-xs-5 item-label">
+            <span class="ico-mapfre_82_circle ico-bullet"></span>Número de viajeros:
+          </div>
+          <div class="col-xs-7 item-dato">
+            {{ vm.formData[0].numViajeros }}
+          </div>
+        </li>
+        <li class="col-sm-4 clearfix cnt-item">
+          <div class="col-xs-5 item-label">
+            <span class="ico-mapfre_82_circle ico-bullet"></span>Inicio de Vigencia:
+          </div>
+          <div class="col-xs-7 item-dato">
+            {{ vm.formData[0].fechaInicio | date : 'dd/MM/yyyy' }}
+          </div>
+        </li>
+        <li class="col-sm-4 clearfix cnt-item">
+          <div class="col-xs-5 item-label">
+            <span class="ico-mapfre_82_circle ico-bullet"></span>Fin de Vigencia:
+          </div>
+          <div class="col-xs-7 item-dato">
+            {{ vm.formData[0].fechaFin | date : 'dd/MM/yyyy' }}
+          </div>
+        </li>
+      </ul>
+    </div>
+
+    <div ng-class="vm.currentStep !== '1' ? 'col-xs-12 g-list-md g-box g-visible gBgcGray5 pt-xs-1 mb-xs-2' : '' " ng-show="vm.currentStep === '1'">
+      <form ng-submit="vm.saveForm()" name="stepOneForm">
+        <div ng-class="vm.currentStep === '1' ? 'g-section-inner' : '' ">
+          <div class="container">
+            <div class="row">
+              <!-- Datos del viaje -->
+              <div ng-class="vm.currentStep === '1' ? 'col-md-12 mb-1' : 'row cnt-title' ">
+                <h2 ng-class="vm.currentStep === '1' ? 'g-sub-title' : 'col-xs-6 item-title gH4' " >Datos del viaje</h2>
+              </div>
+              <div class="col-sm-4 mb-xs-2">
+                <span class="g-label">Número de viajeros</span>
+                <div class="row">
+                  <div class="col-sm-4">
+                    <div class="g-select-desing no-label">
+                      <select
+                        id="numViajeros"
+                        name="numViajeros"
+                        class="select"
+                        data-ng-model="vm.formData[0].numViajeros">
+                          <option ng-repeat="value in [1,2,3,4,5]" ng-value="value">{{value}}</option>
+                      </select>
+                      <span class="ico-mapfre_308_arrowDown ico-select"></span>
+                      <div class="g-error" ng-show="stepOneForm.numViajeros.$error.required && !stepOneForm.numViajeros.$pristine && stepOneForm.$submitted">
+                        * Seleccione número de viajeros
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Inicio del viaje -->
+              <div class="col-sm-4 pl-sm-5 pr-sm-5 mb-xs-2">
+                <mpf-datepicker
+                  class="input-no-margin"
+                  label="{label: 'Inicio de vigencia', required: true}"
+                  ng-model="vm.formData[0].fechaInicio"
+                  set-min-today="true"
+                  format="'dd/MM/yyyy'"
+                  name="fechaInicio"
+                  maxDate="vm.formData[0].fechaFin"
+                  data-set-model-by-this-data="vm.formData[0].fechaInicio"
+                  data-parsear-to-date="true"
+                  ng-required="true"
+                  ng-change="vm.onChangeInitDate(vm.formData[0].fechaInicio)">
+                </mpf-datepicker>
+                <div class="g-error" ng-show="stepOneForm.fechaInicio.$error.required && !stepOneForm.fechaInicio.$pristine && stepOneForm.$submitted">
+                  * Seleccione inicio del viaje
+                </div>
+              </div>
+
+              <!-- Fin del viaje -->
+              <div class="col-sm-4 pl-sm-8 mb-xs-2">
+                <mpf-datepicker
+                  class="input-no-margin"
+                  label="{label: 'Fin de vigencia', required: true}"
+                  ng-model="vm.formData[0].fechaFin"
+                  format="'dd/MM/yyyy'"
+                  name="fechaFin"
+                  minDate="vm.minEndDate"
+                  maxDate="vm.maxEndDate"
+                  data-set-model-by-this-data="vm.formData[0].fechaFin"
+                  data-parsear-to-date="true"
+                  ng-required="true"
+                  ng-disabled="!vm.formData[0].fechaInicio">
+                </mpf-datepicker>
+                <div class="g-error" ng-show="stepOneForm.fechaFin.$error.required && !stepOneForm.fechaFin.$pristine && stepOneForm.$submitted">
+                  * Seleccione fin del viaje
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="g-section">
+          <div class="container">
+            <div class="row">
+              <div class="col-sm-4 col-sm-offset-4">
+                <button type="submit" class="g-btn g-btn-verde block">Siguiente</button type="submit">
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,108 @@
+<div class="g-title g-border-bottom">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-2">
+                <h1 class="ng-binding">Campañas</h1>
+            </div>
+            <div class="col-md-8">
+            </div>
+            <div class="col-md-2">
+                <a class="g-btn second-design g-btn-verde block" ng-click="nuevaCampania();">Nueva Campaña</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="dashboard-body">
+    <div class="g-section-inner g-dashboard-section">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-2 ">
+
+                </div>
+                <div class="col-md-10 g-text-right-md g-span-middle">
+                    <span class="col-md-6 mg-bot-15">
+                        <mpf-input label="{label: 'Nombre o código de la Campaña'}" name="nNombreCampania"
+                            ng-model="mNombreCampania"></mpf-input>
+                    </span>
+                    <span class="mr-md-2">
+                        <a class="g-btn btn-verde-trn block second-design pl-md-2 pr-md-2"
+                            ng-click="searchResults();">BUSCAR</a>
+                    </span>
+                    <span class="mr-md-2">
+                        <a class="g-btn g-btn-white block second-design pl-md-2 pr-md-2"
+                            ng-click="limpiarBuscador();">LIMPIAR</a>
+                    </span>
+                </div>
+            </div>
+            <div class="col-md-12 text-center g-box-noresult"
+            ng-show="resultadoConsulta.length === 0 || resultadoConsulta === undefined">
+            <div class="row">
+                <div class="col-md-12 g-box-noresult-ico gCRed1"><span
+                        class="ico-mapfre_302_error gnIcon-bg"></span>
+                </div>
+                <div class="col-md-12 g-box-noresult-text">No se encontró resultados.<br>Realice una
+                    búsqueda nuevamente.</div>
+            </div>
+        </div>
+            <!--Inicio: Resultados-->
+
+            <ul class="row g-list-sm" ng-repeat="item in resultadoConsulta">
+                <div class="clearfix g-box mg-bot-10">
+                    <div class="clearfix g-box no-bbl-radius no-bbr-radius g-border-noborder pt-xs-1 pb-xs-1 gBgcGray5">
+                        <li class="col-md-12 col-sm-12 ">
+                            <div class="item-label">
+                                <ul class="clearfix">
+                                </ul>
+                                <ul class="clearfix">
+                                    <li class="col-md-2 mg-top-10">
+                                        <b>Cód. {{item.codigo}}</b>
+                                    </li>
+                                    <li class="col-md-4">
+                                        <div class="mg-top-10">
+                                            <b>{{item.descripcion}} </b>
+                                            <span ng-if="item.estadoRegistro  == 'A'" 
+                                                class="g-box-label ml-xs-1-5 ml-md-0  estadoEstilo estadoVerde"
+                                                style="width: 30%; top:-8px; position: relative;"
+                                                >ACTIVADO</span>
+                                        </div>
+
+                                    </li>
+                                    <li class="col-md-3 mg-top-10"><b>Vigencia</b> Del {{item.fecIni}} al
+                                        {{item.fecFin}}</li>
+                                    <li class="col-md-2">
+                                        <div class="col-md-8"  ng-if="item.estadoRegistro  == 'I'">
+                                            <div >
+                                                <a class="g-btn btn-verde-trn second-design pl-md-2 pr-md-2"
+                                                    ng-click="activarCampania(item.codigo)">ACTIVAR</a>
+                                            </div>
+                                        </div>
+                                        <li class="col-md-1 pt-xs-1 ">                                      
+                                                <span class="ico-mapfre_228_editar gnIcon-xsm gCGray3" uib-tooltip="Editar"
+                                                ng-click="editarCampania(item);" style="cursor: pointer;"></span>
+                                                <span class="ico-mapfre_311_arrowRight gnIcon-xsm gCGray3" uib-tooltip="Detalle"
+                                                    ng-click="detalleCampania(item);" style="cursor: pointer;">                                            
+                                        </li>                                        
+                                    </li>
+
+                                </ul>
+                            </div>
+                        </li>
+                    </div>
+                </div>
+            </ul>
+            <!--Fin: Resultados-->
+            <!-- Inicio: pagination -->
+            <div class="row">
+                <div class="col-md-12" ng-show="resultadoConsulta.length > 0">
+                    <ul uib-pagination class="g-pagination" ng-model="vm.pagination.currentPage"
+                        max-size="vm.pagination.maxSize" ng-change="vm.pageChanged(vm.pagination.currentPage)"
+                        total-items="vm.pagination.totalRecords" items-per-page="vm.pagination.sizePerPage"
+                        boundary-link-numbers="true"></ul>
+                </div>
+            </div>
+            <!-- Fin: pagination -->
+
+        </div>
+    </div>
+</div>

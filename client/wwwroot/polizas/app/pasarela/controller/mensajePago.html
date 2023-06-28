@@ -1,0 +1,81 @@
+<div class="container">
+  <div class="g-myd-box mt-xs-3 mb-xs-3">
+    <div class="container">
+      <div class="row mt-xs-1 mt-sm-3">
+        <div class="col-xs-12">
+          <img src="../../images/myd-icon-exito.png" alt="" class="img-responsive g-myd-center-margin" />
+        </div>
+      </div>
+
+      <div class="row mt-xs-3">
+        <div class="col-xs-12 text-center">
+          <h2 class="gH2">¡Gracias por tu pago!</h2>
+        </div>
+      </div>
+
+      <div class="row mt-xs-2 mb-xs-3">
+        <div class="col-xs-12 text-center">
+          En instantes enviaremos el comprobante de pago del recibo al correo ingresado
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-xs-12 pl-xs-2 pr-xs-2 pl-sm-5 pr-sm-5">
+          <div class="g-myd-box g-myd-box--email">
+            <div class="email-info-header">
+              <span>Correo electrónico:</span>
+              <span class="g-cut-text">{{ paymentMessagesCtrl.dataSummary.contratante.email | uppercase}}</span>
+            </div>
+
+            <div class="email-info-content">
+              <h4>Detalles del producto</h4>
+
+              <div class="detail">
+                <span>Producto:</span>
+                <span>{{ paymentMessagesCtrl.dataSummary.poliza.nombreProducto }}</span>
+              </div>
+
+              <div class="detail">
+                <span>Documento de contratante:</span>
+                <span
+                  >{{ paymentMessagesCtrl.dataSummary.contratante.tipoDocumento }} -
+                  {{ paymentMessagesCtrl.dataSummary.contratante.numeroDocumento }}</span
+                >
+              </div>
+
+              <div class="detail">
+                <span>Nro. de póliza:</span>
+                <span>{{ paymentMessagesCtrl.dataSummary.poliza.numeroPoliza }}</span>
+              </div>
+
+              <div class="detail">
+                <span>Nro. de recibo:</span>
+                <span>{{ paymentMessagesCtrl.dataSummary.recibo.numeroRecibo }}</span>
+              </div>
+
+              <div class="detail">
+                <span>Cuota:</span>
+                <span ng-if="paymentMessagesCtrl.dataSummary.poliza.numeroCuotas=== 1 ">AL CONTADO </span>
+                <span ng-if="paymentMessagesCtrl.dataSummary.poliza.numeroCuotas!== 1 ">{{ paymentMessagesCtrl.dataSummary.poliza.cuotaPago }} de {{ paymentMessagesCtrl.dataSummary.poliza.numeroCuotas }} </span>
+              </div>
+
+              <div class="detail">
+                <span>Monto pagado:</span>
+                <span
+                  >{{ paymentMessagesCtrl.dataSummary.recibo.simboloMoneda }}
+                  {{ paymentMessagesCtrl.dataSummary.recibo.montoPago }}</span
+                >
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row pt-xs-4 pb-xs-2">
+        <div class="col-md-4 col-md-offset-4">
+          <a class="g-btn g-btn-verde block" ui-sref="emisa">Volver</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

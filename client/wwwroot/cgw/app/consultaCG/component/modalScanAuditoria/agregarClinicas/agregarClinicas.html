@@ -1,0 +1,46 @@
+<div ng-show="addClinics" class="mt-xs-4">
+  <div class="g-box col-xs-12">
+    <div class="row">
+      <div class="col-xs-12 mb-xs-2 mt-xs-2">
+        <h2 class="gH5">
+          <b>{{formData.selectItem.nom_persona1}} {{formData.selectItem.ape_paterno}} {{formData.selectItem.ape_materno}}</b>
+        </h2>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-xs-6 mt-xs-2 mb-xs-2">
+        <span class="u-txt-weight">Seleccione la clínica que requieren scan</span>
+      </div>
+      <div class="col-xs-6 mt-xs-2 mb-xs-2">
+        <label class="g-checkbox" ng-class="{active : formData.checkAllItems}">
+          <span class="ico-checkbox"></span>
+          <input type="checkbox" ng-model="formData.checkAllItems" ng-change="selectAllClinics()">
+          <span class="checkbox-label" style="font-weight: normal;">Todas las clínicas</span>
+        </label>
+      </div>
+    </div>
+    <div class="row">
+      <ul class="g-row-fz12 g-tbl-row">
+        <li class="g-col g-col-xs col-xs-6 mb-xs-2" data-ng-repeat="item in clinicas">
+          <label class="g-checkbox" ng-class="{active : item.checkItem}">
+            <span class="ico-checkbox"></span>
+            <input type="checkbox" ng-model="item.checkItem" name="sClinicas" ng-change="selectClinic()">
+              <span class="checkbox-label" style="font-weight: normal;">{{item.razonSocial}}</span>
+          </label>
+        </li>
+      </ul>
+    </div>
+    <div class="row">
+      <div class="col-xs-12 g-title-btn-row mb-xs-3">
+        <div class="g-title-btn-col mt-xs-1">
+          <button class="g-btn g-btn-white second-design block" 
+            ng-click="hideClinics()">Cancelar</button>
+        </div>
+        <div class="g-title-btn-col mt-xs-1">
+          <button class="g-btn g-btn-verde second-design block" 
+            ng-click="guardarAsignacion()">Guardar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

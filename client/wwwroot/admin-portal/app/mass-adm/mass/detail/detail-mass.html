@@ -1,0 +1,324 @@
+<div class="g-title g-border-bottom">
+    <div class="container">
+        <div class="row">
+			<div class="col-xs-12 col-sm-12 col-md-9 col-lg-12 pr-xs-0 pr-md-1 mt-1 title-box">
+                <a class="g-btn col-xs" style="border: none; padding-left: 12px;" ui-sref="massAdmTray">
+                    <span class="glyphicon glyphicon-remove"></span>
+                </a>
+                <h1>{{title}} {{$ctrl.dataItem.anioIdMisa}}</h1>
+                &nbsp;
+                <span style="text-align:center" class="g-tag g-tag2 mt-xs-1 g-box-label lblNvt"
+                    ng-class="{bgPending: $ctrl.dataItem.estado.codigo == 1, 
+                        bgInAtention: $ctrl.dataItem.estado.codigo == 2, 
+                        bgAttended: $ctrl.dataItem.estado.codigo == 3, 
+                        bgCanceled: $ctrl.dataItem.estado.codigo == 4, 
+                    }">
+                    {{$ctrl.dataItem.estado.valor}}
+                </span>
+                <span class="g-tag g-tag2 ml-xs-1 mt-xs-1 g-box-label lblTimeNvt"
+                    ng-if="$ctrl.dataItem.tiempoTranscurrido || $ctrl.dataItem.tiempoFaltante"
+                    ng-class="{bgTimeLow: $ctrl.dataItem.semaforo == 'V', 
+                        bgTimeHigh: $ctrl.dataItem.semaforo == 'R', 
+                        bgTimeMedium: $ctrl.dataItem.semaforo == 'A'
+                    }">
+                    {{ $ctrl.dataItem.tiempoTranscurrido ? 'Hace ' + $ctrl.dataItem.tiempoTranscurrido : ($ctrl.dataItem.tiempoFaltante ? 'Empieza en ' + $ctrl.dataItem.tiempoFaltante : null) }}
+                </span>
+			</div>
+        </div>
+    </div>
+</div>
+<div class="dashboard-body">
+    <div class="g-section-inner g-dashboard-section">
+      <div class="container">
+        <div class="row">
+          
+             <!-- g-boxRb -->
+             <div class="col-md-12 g-list-md  pt-xs-2 mb-xs-2 ng-scope">
+                <!-- <div class="clearfix g-box g-overflow-hidden-xs mb-xs-2 gBgcGray10" style="padding: 20px;"> -->
+                <div class="container gBgcGray10 mb-xs-2" 
+                    style="padding: 20px;border-radius: 6px;
+                    border: 1px solid #d5d5d5;
+                    background-color: #f1f5f7;">
+                    <div class="row">
+                        <div class="col-md-11 mb-xs-2"  style="font-size:18px">
+                            <b>Datos generales</b>
+                        </div>
+                        <div class="col-md-1" 
+                            style="font-size:18px;text-align: right;" 
+                            ng-if="!$ctrl.dataItem.edit && !$ctrl.readonly">
+                            <a href="" ng-click="$ctrl.handleEdit()" title="Editar">
+                                <i class="glyphicon glyphicon-pencil gH4"></i>
+                            </a>
+                        </div>
+                    </div>
+
+                    <summary-mass-component ng-if="!$ctrl.dataItem.edit" 
+                        data="$ctrl.dataItem">
+                    </summary-mass-component>
+
+                    <form name="frmUpdateMass" action="">
+                        <!-- <div class="clearfix g-box g-overflow-hidden-xs mt-xs-2 gBgcWhite1" ng-if="$ctrl.dataItem.edit" style="padding: 20px;"> -->
+                        <div class="container gBgcWhite1" ng-if="$ctrl.dataItem.edit" 
+                            style="padding: 20px;
+                            border: 1px solid #d5d5d5;
+                            border-radius: 6px;">
+                            <div class="col-md-12">
+                                <div class="row">
+                                    <div class="col-md-12 pb-md-2">
+                                        <div class="row">
+                                            <div class="col-md-3 mb-xs-12">
+                                                <div class="input-group g-date-picker">
+                                                    <label class="g-placeholder animated">Fecha inicio transmisi&oacute;n <span>*</span></label>
+                                                    <input
+                                                        type="text"
+                                                        name="nDate"
+                                                        class="form-control"
+                                                        is-open="popupDateTransmision.opened"
+                                                        close-text="Close"
+                                                        datepicker-options="dateOptionsDateTransmision"
+                                                        alt-input-formats="altInputFormats"
+                                                        model-view-value="true"
+                                                        ui-mask="{{mask}}"
+                                                        uib-datepicker-popup="{{format}}"
+                                                        ng-model="$ctrl.frm.fechaIniTransmision"
+                                                        ng-pattern="pattern"
+                                                        ng-required="true"
+                                                        ng-change="$ctrl.validateDateTimeTransmision($ctrl.frm.fechaIniTransmision, $ctrl.frm.horaIniTransmision) ? $ctrl.frm.fechaIniTransmision : $ctrl.frm.fechaIniTransmision = ''"
+                                                    />
+                                                    <span class="input-group-btn">
+                                                    <button type="button" class="btn btn-default" ng-click="openDate(1)">
+                                                        <i class="glyphicon glyphicon-calendar"></i>
+                                                    </button>
+                                                    </span>
+                                                </div>
+
+                                                <div class="g-error" data-ng-show="frmUpdateMass.nDate.$invalid && !frmUpdateMass.nDate.$pristine">
+                                                    * Ingrese una fecha v&aacute;lida
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3 mb-xs-12">
+                                                <div class="g-input-design">
+                                                    <label 
+                                                        class="g-placeholder ng-binding"
+                                                        ng-class="{animated: true}">
+                                                        Hora inicio transmisi&oacute;n <span>*</span>
+                                                    </label>
+                                                    <input 
+                                                        type="text"
+                                                        name="nHour"
+                                                        placeholder="__:__"
+                                                        ng-model="$ctrl.frm.horaIniTransmision"
+                                                        ng-focus="ngFocus()"
+                                                        ng-required="true"
+                                                        ng-minlength="5"
+                                                        ng-maxlength = "5"
+                                                        ui-mask="99:99"
+                                                        ng-change="$ctrl.validateDateTimeTransmision($ctrl.frm.fechaIniTransmision, $ctrl.frm.horaIniTransmision) ? $ctrl.frm.horaIniTransmision : $ctrl.frm.horaIniTransmision = ''" 
+                                                    >
+                                                </div>
+                                                <div class="g-error" data-ng-show="frmUpdateMass.nHour.$invalid && !frmUpdateMass.nHour.$pristine">
+                                                    * Ingrese una hora v&aacute;lida
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+            
+                                <div class="row">
+                                    <div class="col-md-4 mb-xs-2 mt-xs-2 ">
+                                        <mpf-input
+                                            name="nUrl"
+                                            class="quitUpperCase"
+                                            label="{label: 'ID del video en YouTube ', required: true}"
+                                            ng-model="$ctrl.frm.codigoYouTube"
+                                            ng-required="true"
+                                            ng-maxlength="60"
+                                            ng-pattern="patternUrl"
+                                        >
+                                        </mpf-input>
+                                        <div class="g-error" data-ng-show="frmUpdateMass.nUrl.$invalid && !frmUpdateMass.nUrl.$pristine">
+                                            * Ingrese una descripci&oacute;n
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2 mb-xs-2 mt-xs-2">
+                                        <div class="input-group g-date-picker">
+                                            <label class="g-placeholder animated">Fecha de acceso <span>*</span></label>
+                                            <input
+                                                type="text"
+                                                name="nAccessDate"
+                                                class="form-control"
+                                                is-open="popupAccessDate.opened"
+                                                close-text="Close"
+                                                datepicker-options="dateOptionsAccessDate"
+                                                alt-input-formats="altInputFormats"
+                                                model-view-value="true"
+                                                ui-mask="{{mask}}"
+                                                uib-datepicker-popup="{{format}}"
+                                                ng-model="$ctrl.frm.fechaAcceso"
+                                                ng-pattern="pattern"
+                                                ng-required="true"
+                                                ng-change="$ctrl.validateDateTimeAccess($ctrl.frm.fechaAcceso, $ctrl.frm.horaAcceso) ? $ctrl.frm.fechaAcceso : $ctrl.frm.fechaAcceso = ''"
+                                            />
+                                            <span class="input-group-btn">
+                                            <button type="button" class="btn btn-default" ng-click="openDate(2)">
+                                                <i class="glyphicon glyphicon-calendar"></i>
+                                            </button>
+                                            </span>
+                                        </div>
+                                        <div class="g-error" data-ng-show="frmUpdateMass.nAccessDate.$invalid && !frmUpdateMass.nAccessDate.$pristine">
+                                            * Ingrese una fecha v&aacute;lida
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2 mb-xs-2 mt-xs-2">
+                                        <div class="g-input-design">
+                                            <label class="g-placeholder ng-binding" ng-class="{animated: true}">
+                                                Hora de acceso <span>*</span>
+                                            </label>
+                                            <input 
+                                                type="text"
+                                                name="nAccessTime"
+                                                placeholder="__:__"
+                                                ui-mask="99:99"
+                                                ng-model="$ctrl.frm.horaAcceso"
+                                                ng-focus="ngFocus()"
+                                                ng-required="true"
+                                                ng-minlength="5"
+                                                ng-maxlength = "5"
+                                                ng-change="$ctrl.validateDateTimeAccess($ctrl.frm.fechaAcceso, $ctrl.frm.horaAcceso) ? $ctrl.frm.horaAcceso : $ctrl.frm.horaAcceso = ''"
+                                            >
+                                        </div>
+                                        <div class="g-error" data-ng-show="frmUpdateMass.nAccessTime.$invalid && !frmUpdateMass.nAccessTime.$pristine">
+                                            * Ingrese una hora v&aacute;lida
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2 mb-xs-2 mt-xs-2">
+                                        <div class="input-group g-date-picker">
+                                            <label class="g-placeholder animated">Fecha fin acceso <span>*</span></label>
+                                            <input
+                                                type="text"
+                                                name="nEndAccessDate"
+                                                class="form-control"
+                                                is-open="popupEndAccessDate.opened"
+                                                close-text="Close"
+                                                datepicker-options="dateOptionsEndAccessDate"
+                                                alt-input-formats="altInputFormats"
+                                                model-view-value="true"
+                                                ui-mask="{{mask}}"
+                                                uib-datepicker-popup="{{format}}"
+                                                ng-model="$ctrl.frm.fechaFinAcceso"
+                                                ng-pattern="pattern"
+                                                ng-required="true"
+                                                ng-change="$ctrl.validateDateTimeEndAccess($ctrl.frm.fechaFinAcceso, $ctrl.frm.horaFinAcceso) ? $ctrl.frm.fechaFinAcceso : $ctrl.frm.fechaFinAcceso = ''"
+                                            />
+                                            <span class="input-group-btn">
+                                            <button type="button" class="btn btn-default" ng-click="openDate(3)">
+                                                <i class="glyphicon glyphicon-calendar"></i>
+                                            </button>
+                                            </span>
+                                        </div>
+                                        <div class="g-error" data-ng-show="frmUpdateMass.nEndAccessDate.$invalid && !frmUpdateMass.nEndAccessDate.$pristine">
+                                            * Ingrese una fecha v&aacute;lida
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2 mb-xs-2 mt-xs-2">
+                                        <div class="g-input-design">
+                                            <label class="g-placeholder ng-binding" ng-class="{animated: true}">
+                                                Hora fin acceso <span>*</span>
+                                            </label>
+                                            <input 
+                                                type="text"
+                                                name="nEndAccessTime"
+                                                ng-model="$ctrl.frm.horaFinAcceso"
+                                                ng-blur="ngBlur()" 
+                                                ng-focus="ngFocus()"
+                                                ng-required="true"
+                                                ng-minlength="5"
+                                                ng-maxlength = "5"
+                                                ui-mask="99:99"
+                                                placeholder="__:__"
+                                                ng-change="$ctrl.validateDateTimeEndAccess($ctrl.frm.fechaFinAcceso, $ctrl.frm.horaFinAcceso) ? $ctrl.frm.horaFinAcceso : $ctrl.frm.horaFinAcceso = ''"
+                                            >
+                                        </div>
+                                        <div class="g-error" data-ng-show="frmUpdateMass.nEndAccessTime.$invalid && !frmUpdateMass.nEndAccessTime.$pristine">
+                                            * Ingrese una hora v&aacute;lida
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12 clearfix mb-xs-2 mt-xs-2" style="text-align: right;">
+                                    <a class="g-btn second-design g-btn-transparent pl-md-2 pr-md-2" 
+                                        ng-click="$ctrl.cancelUpdateMisa()">
+                                        CANCELAR
+                                    </a>
+                                    <a class="g-btn second-design g-btn-verde ml-xs-1 pl-md-2 pr-md-2 "
+                                        ng-class="{disabled: !frmUpdateMass.$valid}"
+                                        ng-click="$ctrl.save()">
+                                        GUARDAR
+                                    </a>
+                                </div>
+                            </div> 
+                        </div>
+
+                    </form>
+
+                </div>
+
+                <div class="clearfix g-box g-overflow-hidden-xs mb-xs-2 mt-xs-2 gBgcGray10" style="padding: 20px;">
+                    <div class="row">
+                        <div class="col-md-11 mb-xs-2" style="font-size:18px">
+                            <b>Lista de fallecidos</b>
+                        </div>
+                    </div>
+                    <div ng-repeat="item in $ctrl.dataItem.fallecidos">
+                        <summary-deceased-component ng-if="!item.edit" 
+                            data="item"
+                            on-delete="$ctrl.deleteDeceased($arg)" 
+                            readonly="$ctrl.readonly">
+                        </summary-deceased-component>
+
+                        <add-deceased-component ng-if="item.edit" 
+                            data="item" 
+                            mode="2"
+                            on-save="$ctrl.saveDeceased($arg)">
+                        </add-deceased-component>
+                    </div>
+                </div>
+
+                <add-deceased-component ng-if="$ctrl.showAddDeceased" 
+                    mode="1"
+                    data="$ctrl.newDeceased" 
+                    on-cancel="$ctrl.showDeceased()" 
+                    on-push="$ctrl.addNewDeceased()">
+                </add-deceased-component>
+
+                <div class="row" ng-if="!$ctrl.showAddDeceased">
+                    <div class="col-md-6 pt-xs-2 mb-xs-2">
+                        <a class="g-btn btn-verde-trn second-design pl-md-2 pr-md-2" 
+                            ng-click="$ctrl.showDeceased()"
+                            ng-if="!$ctrl.readonly">
+                            <span class="glyphicon glyphicon-plus"></span> 
+                            AGREGAR FALLECIDO
+                        </a>
+                    </div>
+
+                    <div class="col-md-6 clearfix mb-xs-2 mt-xs-2" style="text-align: right;">
+                        <a class="g-btn second-design g-btn-transparent mr-xs-1 pl-md-2 pr-md-2" 
+                            ng-click="$ctrl.cancel()"
+                            ng-if="!$ctrl.readonly">
+                            CANCELAR
+                        </a>
+                        <a class="g-btn second-design g-btn-rojo pr-xs-2 pl-xs-2"
+                            ng-click="$ctrl.anular()"
+                            ng-if="!$ctrl.readonly">
+                            ANULAR
+                        </a>
+                    </div>
+                </div>
+
+            </div>
+               
+        </div>
+      </div>
+    </div>
+</div>

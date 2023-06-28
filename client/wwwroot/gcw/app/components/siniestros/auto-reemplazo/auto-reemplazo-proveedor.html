@@ -1,0 +1,200 @@
+<div class="consultaGestion">
+  <div class="container">
+    <div class="row h-myd--flex h-myd--flex-wrap h-myd--flex-alg-center mb-xs-2">
+      <div class="col-xs-12 col-sm-6 col-md-9 col-lg-10 g-text-right-xs g-text-left-sm mb-xs-1 mb-sm-0">
+        <a class="g-link no-underline" ui-sref="consulta.33"
+          ><span class="ico-mapfre_78_chevronleft"></span>Volver a Siniestros de Auto de Reemplazo</a
+        >
+      </div>
+      <div class="col-xs-12 col-sm-6 col-md-3 col-lg-2">
+        <a ng-click="$ctrl.showModal()" class="g-btn g-btn-verde second-design block">Nuevo proveedor</a>
+      </div>
+    </div>
+    <div
+      show-filter
+      class="clearfix g-col-filter g-box-md gBgcGray5-md gBgcWhite1 mb-xs-2 g-myd-box"
+      ng-class="{'show': isFilterVisible}"
+    >
+      <div class="col-xs-12">
+        <div class="clearfix gH4 gCGray1 mb-xs-1-5">
+          <h2 class="hidden-xs hidden-sm">
+            <b>Opciones de Búsqueda</b>
+          </h2>
+          <div
+            id="show-filter"
+            class="row pt-xs-2 pb-xs-2 gBgcGray5 g-border-bottom-xs hidden-md hidden-lg"
+            ng-click="toggleFilter();"
+          >
+            <div class="col-xs-10">
+              <h2>
+                <b>Opciones de Búsqueda</b>
+              </h2>
+            </div>
+            <div class="col-xs-2 g-text-right-xs">
+              <!-- ngIf: isFilterVisible -->
+              <span class="glyphicon glyphicon-chevron-down ng-scope" ng-if="isFilterVisible"></span>
+              <!-- end ngIf: isFilterVisible -->
+              <!-- ngIf: !isFilterVisible -->
+              <span class="glyphicon glyphicon-chevron-up ng-scope" ng-if="!isFilterVisible"></span>
+              <!-- end ngIf: !isFilterVisible -->
+            </div>
+            <div class="clearfix"></div>
+          </div>
+        </div>
+        <form class="clearfix" name="frmEdoRecibos">
+          <div class="row">
+            <div class="col-md-3 mt-xs-1 mt-md-0">
+              <mpf-input
+                label="{label: 'RUC:', required: false}"
+                focuss-me="true"
+                name="nInformacionProveedor"
+                ng-model="$ctrl.formProveedor.mInformacionProveedor"
+                mpf-validation="onlyNumber"
+                ng-maxlength="vm.docNumMaxLength"
+                ng-minlength="vm.docNumMinLength"
+                >></mpf-input
+              >
+              <div
+                class="g-error"
+                ng-show="$ctrl.formProveedor.frmEdoDoc.nInformacionProveedor.$invalid && !$ctrl.formProveedor.frmEdoDoc.nInformacionProveedor.$pristine"
+              >
+                * Ingrese un número de documento
+              </div>
+            </div>
+            <div class="col-md-3 mt-xs-1 mt-md-0">
+              <mpf-input
+                label="{label: 'Razón Social:', required: false}"
+                name="nRazonSocial"
+                ng-model="$ctrl.formProveedor.mRazonSocial"
+                ng-maxlength="vm.docNumMaxLength"
+                ng-minlength="vm.docNumMinLength"
+                >></mpf-input
+              >
+              <div
+                class="g-error"
+                ng-show="$ctrl.formProveedor.frmEdoDoc.nRazonSocial.$invalid && !$ctrl.formProveedor.frmEdoDoc.nRazonSocial.$pristine"
+              >
+                * Ingrese un número de documento
+              </div>
+            </div>
+            <div class="col-md-3 mt-xs-1 mt-md-0">
+              <gcw-cbo-estados-general data="$ctrl.formProveedor.mEstado"></gcw-cbo-estados-general>
+              <!-- <mpf-select label="{label: 'Estado', required: false}" name="nEstado" ng-model="$ctrl.formProveedor.mEstado"></mpf-select> -->
+            </div>
+          </div>
+          <div class="row mt-xs-2">
+            <div class="col-md-offset-8 col-md-2 mb-xs-1 no-mb-md">
+              <a ng-click="$ctrl.searchProviders()" class="g-btn g-btn-verde second-design block">Buscar</a>
+            </div>
+            <div class="col-md-2">
+              <a ng-click="$ctrl.cleanProviders(true)" class="g-btn g-btn-white second-design block">Limpiar</a>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <div class="clearfix" ng-if="vm.noResult">
+      <div class="col-md-12 text-center g-box-noresult" ng-if="vm.firstSearch">
+        <div class="row">
+          <div class="col-md-12 g-box-noresult-ico gCRed1">
+            <span class="ico-mapfre_302_error"></span>
+          </div>
+          <div class="col-md-12 g-box-noresult-text">
+            No hay resultados para la búsqueda realizada.
+            <br />Intenta nuevamente
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="clearfix g-list-md g-box gBgcGray5 pt-xs-1 g-row-fz12 mb-xs-1" ng-repeat="provider in $ctrl.providers">
+      <div class="col-md-10 g-col-md middle">
+        <ul class="row">
+          <li class="col-md-4 clearfix cnt-item">
+            <div class="col-xs-5 item-label">
+              RUC:
+            </div>
+            <div class="col-xs-7 item-dato g-text-uppercase">
+              {{ provider.providerdocumentnumber || '-' }}
+            </div>
+          </li>
+          <li class="col-md-4 clearfix cnt-item">
+            <div class="col-xs-5 item-label">
+              TELÉFONO 1:
+            </div>
+            <div class="col-xs-7 item-dato g-text-uppercase">
+              {{ provider.phonE1 }}
+            </div>
+          </li>
+          <li class="col-md-4 clearfix cnt-item">
+            <div class="col-xs-5 item-label">
+              EMAIL:
+            </div>
+            <div class="col-xs-7 item-dato g-text-uppercase">
+              {{ provider.provideremail || '-' }}
+            </div>
+          </li>
+        </ul>
+        <ul class="row">
+          <li class="col-md-4 clearfix cnt-item">
+            <div class="col-xs-5 item-label">
+              RAZÓN SOCIAL:
+            </div>
+            <div class="col-xs-7 item-dato g-text-uppercase">
+              {{ provider.providername || '-' }}
+            </div>
+          </li>
+          <li class="col-md-4 clearfix cnt-item">
+            <div class="col-xs-5 item-label">
+              TELÉFONO 2:
+            </div>
+            <div class="col-xs-7 item-dato g-text-uppercase">
+              {{ provider.phonE2 || '-' }}
+            </div>
+          </li>
+          <li class="col-md-4 clearfix cnt-item">
+            <div class="col-xs-5 item-label">
+              PRECIO DÍA(S):
+            </div>
+            <div class="col-xs-7 item-dato g-text-uppercase">
+              {{ provider.priceday | number: 2 }}
+            </div>
+          </li>
+        </ul>
+        <ul class="row">
+          <li class="col-md-4 clearfix cnt-item">
+            <div class="col-xs-5 item-label">
+              ESTADO:
+            </div>
+            <div class="col-xs-7 item-dato g-text-uppercase">
+              {{ provider.providerstatus }}
+            </div>
+          </li>
+        </ul>
+      </div>
+      <div class="col-md-2 g-col-md middle gCGray3 g-text-center-xs">
+        <div class="row g-row">
+          <div class="col-xs-4 g-col-xs middle cnt-item">
+            <a ng-click="$ctrl.showModal(provider)">
+              <span class="gnIcon-md ico-mapfre_228_editar h-myd-ico--mediun h-myd-color--green"></span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="clearfix" ng-if="!vm.noResult && vm.totalPages>1">
+      <div class="col-md-12">
+        <ul
+          uib-pagination
+          class="g-pagination"
+          ng-model="mPagination"
+          total-items="vm.totalItems"
+          ng-change="vm.pageChanged(mPagination)"
+          boundary-link-numbers="true"
+        ></ul>
+      </div>
+    </div>
+  </div>
+</div>

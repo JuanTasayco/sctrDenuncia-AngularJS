@@ -1,0 +1,117 @@
+<section class="g-page page-automovil-cotizar g-ui-view">
+  <div class="g-title">
+    <div class="container">
+      <div class="row">
+        <div class="col-sm-8">
+          <a href="" ui-sref="bandejaDocumentosFola">
+            <span class="ico-mapfre_78_chevronleft arrow-left size-ico-arrow"></span>
+          </a>
+          <h1 class="ng-binding">Cotización Nro. {{vm.documento.numeroDocumento}}</h1>
+        </div>
+        <div class="col-sm-4 g-text-right-xs no-tablet">
+          <a href="" class="g-link-back" ui-sref="homePolizasFola"
+            ><span class="ico-mapfre_78_chevronleft arrow-left"></span>Volver a FOLA</a
+          >
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="g-section-inner">
+    <div class="container">
+      <div class="row">
+        <div class="clearfix g-box g-overflow-hidden-xs mb-xs-2 ng-scope">
+          <div class="row pt-xs-1 gBgcGray5">
+            <ul class="clearfix g-list-sm">
+              <li class="col-sm-12">
+                <ul class="row">
+                  <li class="col-sm-3 clearfix cnt-item">
+                    <div class="col-sm-5 col-xs-4 item-label">Contratante:</div>
+                    <div class="col-sm-7 col-xs-8 item-dato g-text-uppercase">{{vm.documento.contratante.nombre}}</div>
+                  </li>
+                  <li class="col-sm-3 clearfix cnt-item">
+                    <div class="col-sm-5 col-xs-4 item-label">Ruc:</div>
+                    <div class="col-sm-7 col-xs-8 item-dato g-text-uppercase">
+                      {{vm.documento.contratante.numeroDocumento}}
+                    </div>
+                  </li>
+                  <li class="col-sm-3 clearfix cnt-item">
+                    <div class="col-sm-5 col-xs-4 item-label">Agente:</div>
+                    <div class="col-sm-7 col-xs-8 item-dato g-text-uppercase">{{vm.documento.agente}}</div>
+                  </li>
+                  <li class="col-sm-3 clearfix cnt-item">
+                    <div class="col-sm-5 col-xs-4 item-label">Fraccionamiento:</div>
+                    <div class="col-sm-7 col-xs-8 item-dato g-text-uppercase">
+                      {{vm.documento.nombreFraccionamiento}}
+                    </div>
+                  </li>
+                </ul>
+                <ul class="row">
+                  <li class="col-sm-3 clearfix cnt-item">
+                    <div class="col-sm-5 col-xs-4 item-label">Fecha Inicial:</div>
+                    <div class="col-sm-7 col-xs-8 item-dato g-text-uppercase">{{vm.documento.fechaInicio}}</div>
+                  </li>
+                  <li class="col-sm-3 clearfix cnt-item">
+                    <div class="col-sm-5 col-xs-4 item-label">Fecha Final:</div>
+                    <div class="col-sm-7 col-xs-8 item-dato g-text-uppercase">{{vm.documento.fechaFin}}</div>
+                  </li>
+                </ul>
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="clearfix g-box g-overflow-hidden-xs mb-xs-2 ng-scope">
+          <div class="row h-myd-ml--0 h-myd-mr--0 g-list-md mb-xs-1">
+            <div class="col-md-12">
+              <table class="table">
+                <thead class="gBgcGray5 hgt-80 align-vertical">
+                  <tr>
+                    <th class="text-center item-label align-vertical" scope="col">GRUPO</th>
+                    <th class="text-center item-label align-vertical" scope="col">NRO. DE POLIZA</th>
+                    <th class="text-center item-label align-vertical" scope="col">ACTIVIDAD</th>
+                    <th class="text-center item-label align-vertical" scope="col">PLAN</th>
+                    <th class="text-center item-label align-vertical" scope="col">ESTADO</th>
+                    <th class="text-center item-label align-vertical" scope="col"></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr class="hgt-70" ng-repeat="riesgo in vm.documento.riesgos">
+                    <td class="text-center item-dato align-vertical">{{riesgo.grupo}}</td>
+                    <td class="text-center item-dato align-vertical">{{riesgo.numeroPoliza}}</td>
+                    <td class="text-center item-dato align-vertical">{{riesgo.ocupacion}}</td>
+                    <td class="text-center item-dato align-vertical">{{riesgo.nombrePlan}}</td>
+                    <td class="text-center item-dato align-vertical">
+                      <ul>
+                        <li ng-if="riesgo.estado === 2" class="text-center list-observaciones fw-700 color-emitido">
+                          {{riesgo.condicion}}
+                        </li>
+                      </ul>
+                    </td>
+                    <td class="text-center item-dato align-vertical">
+                      <a
+                        ng-if="riesgo.estado === 1"
+                        class="g-btn g-btn-verde block second-design"
+                        ng-click="vm.emitirPoliza(riesgo)"
+                        target="_blank"
+                      >
+                        EMITIR PÓLIZA
+                      </a>
+                      <a
+                        ng-if="riesgo.estado === 2"
+                        class="ico-verde ico-mapfre_124_download ico-download font-size-icon"
+                        ng-click="vm.descargarPoliza(riesgo)"
+                        target="_blank"
+                      ><span class="font-family-text-icon font-size-text-icon ml-8">DESCARGAR PÓLIZA</span> 
+                        
+                      </a>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

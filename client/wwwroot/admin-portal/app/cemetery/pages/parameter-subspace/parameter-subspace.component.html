@@ -1,0 +1,234 @@
+<div class="g-page">
+	<div class="g-title pb-0">
+		<navbar-cemetery data-active="false" data-show-button="true" data-is-disabled="frmRegister.$invalid" data-on-update="$ctrl.updateAndSaveParameters()"></navbar-cemetery>
+	</div>
+	<div class="g-menu-main__box c-menu-main__box">
+		<tab-cemetery data-tabs="$ctrl.tabs"></tab-cemetery>
+	</div>
+	<div class="g-section">
+		<form name="frmRegister">
+			<div class="container">
+				<div class="row">
+					<div class="col-sm-4 g-text-left-xs no-tablet pl-md-2 pr-md-2 pb-md-2 pt-md-2">
+						<a href="" class="g-link-back" data-ui-sref="parameterSpace({})"><span class="ico-mapfre_78_chevronleft arrow-left mr-md-"></span>Atrás</a>
+					</div>
+				</div>
+			</div>
+			<div class="container c-bg-gray pb-md-6">
+				<div class="row">
+					<section class="c-section pt-xs-3 pt-md-3 pr-md-3 pl-md-3">
+						<div class="row">
+							<div class="col-md-12">
+								<div class="c-subspace__title">
+									<img ng-src="{{$ctrl.section.valor2}}" class="no-margin-xs no-margin-md"  alt="">
+									<span class=" pl-md-1-5 pr-md-1-5 pt-md-1-5 gH3 fwLight no-margin-xs no-margin-md">{{$ctrl.section.valor1 | capitalize}}</span>
+								</div>
+							</div>
+						</div>
+					</section>
+					<!--========== SUBSPACE ==========-->
+					<section class="c-section pb-xs-2 pb-md-3 pr-md-3 pl-md-3">
+						<div class="c-section__information">
+							<h3 class="c-section__title">Espacios</h3>
+							<p class="c-section__subtitle"></p>
+							<a class="g-btn c-btn g-btn-white second-design c-btn__new" ng-click="$ctrl.newParameter('Nuevo espacio','SUBESPACIO')">
+								<span class="glyphicon glyphicon-plus"></span> NUEVO ESPACIO
+							 </a>
+						</div>
+						<div class="row">
+							<div class="col-md-4 mb-xs-2 mb-md-2 "  data-ng-repeat="subspace in $ctrl.subspaces">
+								<div class="c-parameter__content h-320">
+									<div class="col-xs-8 mt-xs-2 mt-md-2">
+										<div class="input__content-input">
+											<input type="text" name="nNombreEspacio{{$index}}"  class="c-input__text" ng-required="true" ng-model="subspace.valor1">
+												<ul class="g-error" >
+												  <li ng-show="frmRegister.nNombreEspacio{{$index}}.$invalid && !frmRegister.nNombreEspacio{{$index}}.$pristine">
+													  Ingrese Nombre
+												  </li>
+											   </ul>
+										</div>
+									</div>
+									<div class="col-xs-4 mt-xs-2 mt-md-2">
+										<div class="g-text-right-xs g-text-right-md h-50">
+											<img ng-src="{{subspace.srcImg}}" class="c-image">
+										</div>
+									</div>
+									<div class="col-sm-12">
+										<div class="pt-xs-1 pb-xs-1 pt-md-1 pb-md-1 g-text-right-xs g-text-right-md">
+											<upload-button-cemetery 
+												data-is-icon="true"
+												data-title-button="'+ Cambiar icono'"
+												data-img-width="$ctrl.format.subspace.valor2"
+												data-img-height="$ctrl.format.subspace.valor3"
+												data-on-upload="$ctrl.handleUploadImage($event, subspace)">
+											</upload-button-cemetery>
+										</div>
+									</div>
+									<div class="col-sm-12">
+										<textarea class="c-textarea__text h-150" name="nDescripcionEspacio{{$index}}" ng-required="true"  maxlength="250"  ng-max-length="250" ng-model="subspace.valor3"></textarea>
+										<div class="c-message__container">
+											<ul class="g-error no-margin-xs no-margin-md">
+												<li ng-show="frmRegister.nDescripcionEspacio{{$index}}.$invalid && !frmRegister.nDescripcionEspacio{{$index}}.$pristine">
+													Ingrese Descripción
+												</li>
+											</ul>
+											<div class="g-text-right-xs g-text-right-md">
+												<span class="c-message__character">Máximo 250 caracteres</span>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</section>
+					<!--========== PLATFORM ==========-->
+					<section class="c-section pb-xs-2 pb-md-3 pr-md-3 pl-md-3">
+						<div class="c-section__information">
+							<h3 class="c-section__title">Plataformas</h3>
+							<p class="c-section__subtitle"></p>
+							<a class="g-btn c-btn g-btn-white second-design c-btn__new" ng-click="$ctrl.newParameter('Nueva plataforma','PLATAFORMA')">
+								<span class="glyphicon glyphicon-plus"></span> NUEVO PLATAFORMA
+							 </a>
+						</div>
+						<div class="row">
+							<div class="col-md-4 mb-xs-1 mb-md-2"  data-ng-repeat="platform in $ctrl.platforms">
+								<div class="c-parameter__content h-370">
+									<div class="col-sm-12 mt-xs-2 mt-md-2">
+										<div class="input__content-input">
+											<input type="text" name="nNombrePlataforma{{$index}}"  class="c-input__text" ng-required="true" ng-model="platform.valor1">
+											<ul class="g-error" >
+												<li ng-show="frmRegister.nNombrePlataforma{{$index}}.$invalid && !frmRegister.nNombrePlataforma{{$index}}.$pristine">
+													Ingrese Nombre
+												</li>
+											 </ul>	
+										</div>
+									</div>
+									<div class="col-sm-12">
+										<div class="c-parameter__content-image" >
+											<div class="c-parameter__image-container" >
+												<img ng-src="{{platform.srcImg}}" alt="" class="c-image-cover">
+											</div>
+										</div>
+									</div>
+									<div class="col-sm-12">
+										<div class="c-button__upload-large c-image-relative">
+											<upload-button-cemetery
+												data-is-light="false"
+												data-is-icon="false"
+												data-label="'Cambiar imagen'"
+												data-title-button="'+ SELECCIONAR ARCHIVO'"
+												data-img-width="$ctrl.format.platform.valor2"
+												data-img-height="$ctrl.format.platform.valor3"
+												data-on-upload="$ctrl.handleUploadImage($event, platform)">
+											</upload-button-cemetery>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</section>
+					<!--========== CAPACITY ==========-->
+					<section class="c-section pb-xs-2 pb-md-3 pr-md-3 pl-md-3">
+						<div class="c-section__information">
+							<h3 class="c-section__title">Capacidades</h3>
+							<p class="c-section__subtitle"></p>
+							<a class="g-btn c-btn g-btn-white second-design c-btn__new" ng-click="$ctrl.newParameter('Nueva capacidad','CAPACIDAD')">
+								<span class="glyphicon glyphicon-plus"></span> NUEVA CAPACIDAD
+							 </a>
+						</div>
+						<div class="row">
+							<div class="col-md-4 mb-xs-1 mb-md-2" data-ng-repeat="capacity in $ctrl.capabilities">
+								<div class="c-parameter__content h-370">
+									<div class="col-sm-12 mt-xs-2 mt-md-2">
+										<div class="input__content-input">
+											<input type="text" name="nNombreCapacidad{{$index}}" class="c-input__text" ng-required="true" ng-model="capacity.valor1">
+											<ul class="g-error" >
+												<li ng-show="frmRegister.nNombreCapacidad{{$index}}.$invalid && !frmRegister.nNombreCapacidad{{$index}}.$pristine">
+													Ingrese Nombre
+												</li>
+											 </ul>	
+										</div>
+									</div>
+									<div class="col-sm-12">
+										<div class="c-parameter__content-image">
+											<div class="c-parameter__image-container" >
+												<img ng-src="{{capacity.srcImg}}" alt="" class="c-image-cover">
+											</div>
+										</div>
+									</div>
+									<div class="col-sm-12">
+										<div class="c-button__upload-large c-image-relative">
+											<upload-button-cemetery
+												data-is-light="false"
+												data-is-icon="false"
+												data-label="'Cambiar imagen'"
+												data-title-button="'+ SELECCIONAR ARCHIVO'"
+												data-img-width="$ctrl.format.capacity.valor2"
+												data-img-height="$ctrl.format.capacity.valor3"
+												data-on-upload="$ctrl.handleUploadImage($event, capacity)">
+											</upload-button-cemetery>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</section>
+					<!--========== LEVEL ==========-->
+					<section class="c-section pb-xs-2 pb-md-3 pr-md-3 pl-md-3">
+						<div class="c-section__information">
+							<h3 class="c-section__title">Niveles</h3>
+							<p class="c-section__subtitle"></p>
+							<a class="g-btn c-btn g-btn-white second-design c-btn__new" ng-click="$ctrl.newParameter('Nuevo nivel','NIVEL')">
+								<span class="glyphicon glyphicon-plus"></span> NUEVO NIVEL
+							 </a>
+						</div>
+						<div class="row">
+							<div class="col-md-4 mb-xs-1 mb-md-2" data-ng-repeat="level in $ctrl.levels">
+								<div class="c-parameter__content h-370">
+									<div class="col-sm-12 mt-xs-2 mt-md-2">
+										<div class="input__content-input">
+											<input type="text" name="nNombreNivel{{$index}}" class="c-input__text" ng-required="true" ng-model="level.valor1">
+											<ul class="g-error" >
+												<li ng-show="frmRegister.nNombreNivel{{$index}}.$invalid && !frmRegister.nNombreNivel{{$index}}.$pristine">
+													Ingrese Nombre
+												</li>
+											 </ul>	
+										</div>
+									</div>
+									<div class="col-sm-12">
+										<div class="c-parameter__content-image">
+											<div class="c-parameter__image-container" >
+												<img ng-src="{{level.srcImg}}" alt=""class="c-image-cover">
+											</div>
+										</div>
+									</div>
+									<div class="col-sm-12">
+										<div class="c-button__upload-large c-image-relative">
+											<upload-button-cemetery
+												data-is-light="false"
+												data-is-icon="false"
+												data-label="'Cambiar imagen'"
+												data-title-button="'+ SELECCIONAR ARCHIVO'"
+												data-img-width="$ctrl.format.level.valor2"
+												data-img-height="$ctrl.format.level.valor3"
+												data-on-upload="$ctrl.handleUploadImage($event, level)">
+											</upload-button-cemetery>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</section>
+					<!--========== GALLERY ==========-->
+					<section class="c-section pb-xs-2 pb-md-3 pr-md-3 pl-md-3" ng-if="$ctrl.section.valor1 === 'CREMACION'">
+						<gallery-cemetery
+							data-format="$ctrl.format.gallery"
+							data-galleries="$ctrl.galleries"
+							data-on-upload-gallery="$ctrl.uploadGallery($event)">
+						</gallery-cemetery>
+					</section>
+				</div>
+			</div>
+		</form>
+	</div>
+</div>

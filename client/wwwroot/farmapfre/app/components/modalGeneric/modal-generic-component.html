@@ -1,0 +1,47 @@
+<form name="frmGeneric">
+  <button type="button" class="close g-close-modal" ng-click="$ctrl.close()" prevent-default>
+    <span class="ico-mapfre_231_cancelaroff"></span>
+  </button>
+  <div class="clearfix">
+    <div class="col-md-12 mb-xs-1-5 gH4 gCGray1">
+      <h2 class="pb-xs-1 g-border-bottom-xs">
+        <b>¿Deseas {{$ctrl.config.type === 4 ? 'auditar' : 'anular'}}  el 
+          {{ $ctrl.idForm === 4 || $ctrl.idForm === 3 || $ctrl.idForm === 4 ? 'pedido' : 'despacho' }} No. {{ itemId }}? </b>
+      </h2>
+    </div>
+    <div class="g-col-filter__box">
+      <div class="col-md-12 mb-xs-1">
+        <div class="col-md-12 mb-xs-3">
+          <p ng-if="$ctrl.config.subtitle" style="font-size: 16px; margin: 15px 0 30px 0; display: inline-block; width: 100%;">
+            {{$ctrl.config.subtitle}}
+          </p>
+          <mpf-select
+            data-m-data-source="$ctrl.listSelect"
+            data-ng-model="$ctrl.frm.objectSelect"
+            data-text-field="description"
+            data-value-field="id"
+            label="{label: $ctrl.config.label1.text || 'Motivo ', required: true}"
+            m-Empty-Option = "{enterData : false}"
+            name="nMotiveCancel">
+          </mpf-select>
+        </div>
+        <div class="col-md-12 mb-xs-3" ng-if="$ctrl.config.comments">
+          <mpf-input
+            data-ng-model="$ctrl.frm.comments"
+            label="{label: 'Ingresa un comentario', required: $ctrl.config.comments.required}"
+            name="nComments"
+            ng-required="$ctrl.config.comments.required"
+          >
+          </mpf-input>
+        </div>
+        <div class="col-md-12">
+          <a class="g-btn g-btn-rojo block"
+             ng-class="{disabled: !frmGeneric.$valid}"
+             data-ng-click="$ctrl.eventClick()">
+             {{ $ctrl.config.button.text }}
+            </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>

@@ -1,0 +1,182 @@
+<section class="g-page pasoFin">
+	<div class="g-title">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-8 col-sm-8 mb-xs-2 no-mb-sm">
+          <h1>Póliza emitida</h1>
+        </div>
+        <div class="col-md-4 col-sm-4 mb-xs-1 no-mb-sm">
+          <a class="g-btn g-btn-verde second-design block" ng-click="$parent.nuevaAplicacion()">Cotizar nueva p&oacute;liza de vida</a>
+        </div>
+      </div>
+    </div>
+  </div>
+	<div class="g-section">
+		<div class="container">
+			<div class="col-md-12 g-box fz14 pt-xs-2 pb-xs-2">
+				<div class="row gH4">
+					<div class="col-sm-6 mb-sm-2 mb-xs-1">
+            <h2 class="gCGray1 g-text-uppercase"><b>P&oacute;liza de vida</b></h2>
+          </div>
+          <div class="col-sm-6 mb-xs-2 g-text-right-sm">
+            <b>Nro. Póliza: {{$parent.mainStep.numeroDeDocumento}}</b>
+          </div>
+				</div>
+				<div class="row">
+					<div class="col-md-12 mb-xs-1">
+						<div class="gH4 gCGray1 g-border-bottom-xs">Datos del contratante</div>
+					</div>
+				</div>
+				<ul class="row g-list second-design">
+          <li class="col-md-4 clearfix cnt-item">
+            <div class="col-xs-5 item-label">
+              <span class="ico-mapfre_82_circle ico-bullet"></span>Nombre:
+            </div>
+            <div class="col-xs-7 item-dato">
+              {{$parent.firstStep.cotizacion.Contratante.Nombre}}
+            </div>
+          </li>
+          <li class="col-md-4 clearfix cnt-item">
+            <div class="col-xs-5 item-label">
+              <span class="ico-mapfre_82_circle ico-bullet"></span>Nro. documento:
+            </div>
+            <div class="col-xs-7 item-dato">
+              {{$parent.firstStep.cotizacion.Contratante.NumeroDocumento}}
+            </div>
+          </li>
+        </ul>
+				<div class="row">
+          <div class="col-md-12 mb-xs-1">
+            <h2 class="gH4 gCGray1 g-border-bottom-xs">Datos del asegurado</h2>
+          </div>
+        </div>
+        <ul class="row g-list second-design">
+          <li class="col-md-4 clearfix cnt-item">
+            <div class="col-xs-5 item-label">
+              <span class="ico-mapfre_82_circle ico-bullet"></span>Nombre:
+            </div>
+            <div class="col-xs-7 item-dato">
+              {{$parent.firstStep.cotizacion.Asegurado.Nombre}}
+            </div>
+          </li>
+          <li class="col-md-4 clearfix cnt-item">
+            <div class="col-xs-5 item-label">
+              <span class="ico-mapfre_82_circle ico-bullet"></span>Fecha de nacimiento:
+            </div>
+            <div class="col-xs-7 item-dato">
+              {{$parent.firstStep.cotizacion.Asegurado.FechaNacimiento}}
+            </div>
+          </li>
+        </ul>
+        <ul class="row g-list second-design">
+          <li class="col-md-4 clearfix cnt-item">
+            <div class="col-xs-5 item-label">
+              <span class="ico-mapfre_82_circle ico-bullet"></span>Edad Actual:
+            </div>
+            <div class="col-xs-7 item-dato">
+              {{$parent.firstStep.cotizacion.Asegurado.FechaNacimiento | calculateAge}}
+            </div>
+          </li>
+          <li class="col-md-4 clearfix cnt-item">
+            <div class="col-xs-5 item-label">
+              <span class="ico-mapfre_82_circle ico-bullet"></span>Sexo:
+            </div>
+            <div class="col-xs-7 item-dato">
+              {{$parent.firstStep.sexoAsegurado == 'H' ? 'MASCULINO' : 'FEMENINO'}}
+            </div>
+          </li>
+        </ul>
+				<div class="row">
+          <div class="col-md-12 mb-xs-1">
+            <h2 class="gH4 gCGray1 g-border-bottom-xs">Características del seguro</h2>
+          </div>
+        </div>
+        <ul class="row g-list second-design">
+          <li class="col-md-4 clearfix cnt-item">
+            <div class="col-xs-5 item-label">
+              <span class="ico-mapfre_82_circle ico-bullet"></span>Modalidad:
+            </div>
+            <div class="col-xs-7 item-dato">
+              {{$parent.firstStep.cotizacion.Producto.NombreProducto}}
+            </div>
+          </li>
+          <li class="col-md-4 clearfix cnt-item">
+            <div class="col-xs-5 item-label">
+              <span class="ico-mapfre_82_circle ico-bullet"></span>Fecha de inicio de vigencia:
+            </div>
+            <div class="col-xs-7 item-dato">
+              {{$parent.firstStep.cotizacion.FechaEfectoInicial}}
+            </div>
+          </li>
+        </ul>
+        <ul class="row g-list second-design">
+          <li class="col-md-4 clearfix cnt-item">
+            <div class="col-xs-5 item-label">
+              <span class="ico-mapfre_82_circle ico-bullet"></span>Vencimiento:
+            </div>
+            <div class="col-xs-7 item-dato">
+              {{$parent.firstStep.cotizacion.FechaEfectoVencimiento}}
+            </div>
+          </li>
+          <li class="col-md-4 clearfix cnt-item">
+            <div class="col-xs-5 item-label">
+              <span class="ico-mapfre_82_circle ico-bullet"></span>Plazo del seguro:
+            </div>
+            <div class="col-xs-7 item-dato">
+              {{$parent.firstStep.cotizacion.DuracionSeguro}}
+            </div>
+          </li>
+        </ul>
+        <ul class="row g-list second-design">
+          <li class="col-md-4 clearfix cnt-item">
+            <div class="col-xs-5 item-label">
+              <span class="ico-mapfre_82_circle ico-bullet"></span>Plazo de pago de primas:
+            </div>
+            <div class="col-xs-7 item-dato">
+              {{$parent.firstStep.cotizacion.DuracionPago}}
+            </div>
+          </li>
+          <li class="col-md-4 clearfix cnt-item">
+            <div class="col-xs-5 item-label">
+              <span class="ico-mapfre_82_circle ico-bullet"></span>Moneda:
+            </div>
+            <div class="col-xs-7 item-dato">
+              {{$parent.firstStep.cotizacion.Producto.CodigoMoneda}}
+            </div>
+          </li>
+        </ul>
+        <ul class="row g-list second-design">
+          <li class="col-md-4 clearfix cnt-item">
+            <div class="col-xs-5 item-label">
+              <span class="ico-mapfre_82_circle ico-bullet"></span>Prima anual:
+            </div>
+            <div class="col-xs-7 item-dato">
+              {{$parent.firstStep.cotizacion.PrimaAnual}}
+            </div>
+          </li>
+          <li class="col-md-4 clearfix cnt-item">
+            <div class="col-xs-5 item-label">
+              <span class="ico-mapfre_82_circle ico-bullet"></span>Mensual:
+            </div>
+            <div class="col-xs-7 item-dato">
+              {{$parent.firstStep.cotizacion.PrimaInicialMensual}}
+            </div>
+          </li>
+        </ul>
+			</div>	
+		</div>
+	</div>
+	<!-- Button -->
+	<div class="g-section">
+		<div class="container">
+			<div class="row">
+				<div class="col-md-4 col-md-offset-4">
+					<a class="g-btn g-btn-white block" ng-click="$parent.reporteVida()" target="_blank">
+						<span class="ico-mapfre_124_download ico-download"></span>Descargar
+					</a>
+				</div>
+			</div>
+		</div>
+	</div>
+
+</section>

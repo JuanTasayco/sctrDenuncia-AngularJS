@@ -1,0 +1,326 @@
+<div id="form-views">
+    <form name="frmMedicalAudit">
+        <div class="sec-auto g-section-inner">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12 mb-1">
+                        <h2 class="g-sub-title">Auditoría Médica</h2>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6 mb-xs-2">
+                        <mpf-input label="{label: 'Médico tratante', required: true}"
+                            ng-model="$ctrl.viewdata.medicoAuditor" 
+                            ng-required="true"
+                            name="nDoctor"
+                            ng-disabled="true">
+                        </mpf-input>
+
+                        <div class="g-error"
+                            ng-show="frmMedicalAudit.nDoctor.$error.required && !frmMedicalAudit.nDoctor.$pristine">
+                            * Seleccione un médico tratante</div>
+                    </div>
+                    <div class="col-md-6 mb-xs-2">
+                        <mp-data-seeker name="nDiagnostic" ng-required="true"
+                            behavior="{label:'Diagnóstico CIE10*', matchField:'codeName', placeholder: 'Ingresa nombre del diagnóstico'}"
+                            m-data-source="$ctrl.getListDiagnostic($inputNeed)" ng-model="$ctrl.data.diagnostic" ng-disabled="$ctrl.showDetail">
+                                <div ng-bind-html="$item.codeName | highlight: $select.search"></div>
+                        </mp-data-seeker>
+
+                        <div class="g-error"
+                            ng-show="frmMedicalAudit.nDiagnostic.$error.required && !frmMedicalAudit.nDiagnostic.$pristine && !$ctrl.cleanForm">
+                            * Seleccione un diagnóstico</div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4 mb-xs-2">
+                        <mpf-Select 
+                            text-field="descripcion" 
+                            value-field="codigo"
+                            label="{label: 'Naturaleza de la incapacidad', required: true}"
+                            m-data-source="$ctrl.natures" 
+                            ng-model="$ctrl.data.nature"
+                            name="mNature" 
+                            ng-required="true"
+                            ng-disabled="$ctrl.showDetail"
+                            m-Empty-Option="{enterData:true}"></mpf-Select>
+
+                        <div class="g-error"
+                            ng-show="frmMedicalAudit.mNature.$error.required && !frmMedicalAudit.mNature.$pristine">
+                            * Seleccione una naturaleza</div>
+                    </div>
+                    <div class="col-md-4 mb-xs-2">
+                        <mpf-Select 
+                            text-field="descripcion" 
+                            value-field="codigo"
+                            label="{label: 'Grado de incapacidad', required: true}"
+                            m-data-source="$ctrl.grades" 
+                            ng-model="$ctrl.data.grade"
+                            name="mGrade" 
+                            ng-required="true"
+                            ng-disabled="$ctrl.showDetail"
+                            m-Empty-Option="{enterData:true}"></mpf-Select>
+
+                        <div class="g-error"
+                            ng-show="frmMedicalAudit.mGrade.$error.required && !frmMedicalAudit.mGrade.$pristine">
+                            * Seleccione un grado de incapacidad</div>
+                    </div>
+                    <div class="col-md-4 mb-xs-2">
+                        <mpf-datepicker label="{label: 'Fecha de inicio de incapacidad', required: true}"
+                            name="nStartDate" format="'dd/MM/yyyy'" data-maxDate="$ctrl.currentDate"
+                            ng-model="$ctrl.data.startDate" ng-required="true" nomargin="true" ng-disabled="$ctrl.showDetail">
+                        </mpf-datepicker>
+
+                        <div class="g-error"
+                            ng-show="frmMedicalAudit.nStartDate.$error.required && !frmMedicalAudit.nStartDate.$pristine">
+                            * Ingrese fecha de inicio de incapacidad</div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12 mb-1">
+                        <h2 class="g-sub-title">Menoscabo</h2>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4 mb-xs-2">
+                        <mpf-input label="{label: 'Menoscabo combinado', required: true}"
+                            ng-model="$ctrl.data.combineMenoscabo" 
+                            ng-required="true"
+                            name="nCombine"
+                            ng-disabled="$ctrl.showDetail"
+                            mpf-validation="onlyNumberNoSpace">
+                        </mpf-input>
+
+                        <div class="g-error"
+                            ng-show="frmMedicalAudit.nCombine.$error.required && !frmMedicalAudit.nCombine.$pristine">
+                            * Ingrese menoscabo combinado</div>
+                    </div>
+                    <div class="col-md-4 mb-xs-2">
+                        <mpf-Select 
+                            text-field="descripcion" 
+                            value-field="codigo"
+                            label="{label: 'Tipo de Actividad', required: true}"
+                            m-data-source="$ctrl.activities" 
+                            ng-model="$ctrl.data.activity"
+                            name="mAcitivty" 
+                            ng-required="true"
+                            m-Empty-Option="{enterData:true}"
+                            ng-disabled="$ctrl.showDetail"></mpf-Select>
+
+                        <div class="g-error"
+                            ng-show="frmMedicalAudit.mAcitivty.$error.required && !frmMedicalAudit.mAcitivty.$pristine">
+                            * Ingrese tipo de actividad</div>
+                    </div>
+                    <div class="col-md-4 mb-xs-2">
+                        <mpf-input label="{label: 'Posibilidad de rehabilitación', required: true}"
+                            ng-model="$ctrl.data.rehability" 
+                            ng-required="true"
+                            name="nRehability"
+                            mpf-validation="onlyNumberDecimal"
+                            ng-disabled="$ctrl.showDetail">
+                        </mpf-input>
+
+                        <div class="g-error"
+                            ng-show="frmMedicalAudit.nRehability.$error.required && !frmMedicalAudit.nRehability.$pristine">
+                            * Ingrese posibilidad de rehabilitación</div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4 mb-xs-2">
+                        <mpf-input label="{label: 'Menoscabo global', required: true}"
+                            ng-model="$ctrl.data.globalMenoscabo" 
+                            ng-required="true"
+                            name="nGlobal"
+                            ng-disabled="$ctrl.showDetail"
+                            mpf-validation="onlyNumberNoSpace">
+                        </mpf-input>
+
+                        <div class="g-error"
+                            ng-show="frmMedicalAudit.nGlobal.$error.required && !frmMedicalAudit.nGlobal.$pristine">
+                            * Ingrese menoscabo global</div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12 mb-1">
+                        <h2 class="g-sub-title">Exámenes</h2>
+                    </div>
+                </div>
+                <div class="row col-xs-12">
+                    <div class="col-xs-12">
+                        <ul class="row gBgcGray3 gCWhite1 pt-xs-1 pb-xs-1 g-border-bottom-xs">
+                          <li class="col-xs-3">Examen</li>
+                          <li class="col-xs-2">Fecha</li>
+                          <li class="col-xs-2">Resultado</li>
+                          <li class="col-xs-3">Adjuntar</li>
+                          <li class="col-xs-2"></li>
+                        </ul>
+                        <div class="mb-xs-1" ng-repeat="item in $ctrl.examens">
+                            <ul class="row g-border-bottom-xs">
+                              <li class="col-xs-3">
+                                <mpf-input label="{label: '', required: false}" ng-model="item.descripcionProcedimiento" name="nProcedure" ng-disabled="true"></mpf-input>
+                              </li>
+                              <li class="col-xs-2">
+                                  <mpf-datepicker label="{label: '', required: false}" name="nFecha" format="'dd/MM/yyyy'" ng-model="item.fechaInforme" 
+                                    nomargin="true" ng-disabled="$ctrl.showDetail && !$ctrl.showEdit" ng-change="$ctrl.editExamen(item)">
+                                  </mpf-datepicker>
+                              </li>
+                              <li class="col-xs-2">
+                                  <mpf-input label="{label: '', required: false}" ng-model="item.descripcionResultado" name="nResultado" 
+                                    ng-disabled="$ctrl.showDetail && !$ctrl.showEdit" ng-change="$ctrl.editExamen(item)"></mpf-input>
+                              </li>
+                              <li class="col-xs-3">
+                                  <div class="row g-managment-documents">
+                                      <div class="col-xs-9">
+                                          <mpf-input label="{label: '', required: false}" ng-disabled="true" txt-placeholder="'Seleccionar Documento'"
+                                              ng-model="item.nombreArchivo" name="nFilename" ></mpf-input>
+                                      </div>
+                                      <div class="col-xs-3 file-field">
+                                          <div class="file-field">
+                                              <div class="btn btn-primary float-left">
+                                                  <span>Buscar</span>
+                                                  <input file-model="$ctrl.data.file2" type="file"
+                                                  ng-disabled="$ctrl.showDetail && !$ctrl.showEdit"
+                                                  ng-change="$ctrl.changeFile(item)"
+                                                  ng-model="$ctrl.data.file2"
+                                                  accept=".jpg, .jpeg, .png, .gif, .bmp, .pdf, .doc, .xls,.docx, .xlsx, .txt" >
+                                              </div>
+                                          </div>
+                                      </div>
+                                  </div>
+                              </li>
+                              <li class="col-xs-2 pt-xs-3 pb-xs-3 text-center">
+                                <a title="Borrar Examen" ng-click="$ctrl.deleteExamen(item, $index)"
+                                    ng-class="$ctrl.showDetail && !$ctrl.showEdit ? 'disabled' : ''"
+                                    ng-disabled="$ctrl.showDetail && !$ctrl.showEdit">
+                                    <i class="glyphicon glyphicon-trash"></i>
+                                </a>
+                              </li>
+                            </ul>
+                        </div>
+                        <div class="mb-xs-1">
+                            <ul class="row g-border-bottom-xs">
+                                <li class="col-xs-3">
+                                    <mp-data-seeker name="nProcedure"
+                                        behavior="{label:'', matchField:'descripcion', placeholder: ''}"
+                                        m-data-source="$ctrl.getListProcedures($inputNeed)" ng-model="$ctrl.data.examen" ng-disabled="$ctrl.showDetail && !$ctrl.showEdit">
+                                            <div ng-bind-html="$item.descripcion | highlight: $select.search"></div>
+                                    </mp-data-seeker>
+                                </li>
+                                <li class="col-xs-2">
+                                    <mpf-datepicker label="{label: '', required: false}" name="nFecha" format="'dd/MM/yyyy'" 
+                                        ng-model="$ctrl.data.fechaExamen" nomargin="true"
+                                        ng-disabled="$ctrl.showDetail && !$ctrl.showEdit">
+                                    </mpf-datepicker>
+                                </li>
+                                <li class="col-xs-2">
+                                    <mpf-input label="{label: '', required: false}" ng-model="$ctrl.data.resultado" name="nResultado"
+                                     ng-disabled="$ctrl.showDetail && !$ctrl.showEdit"></mpf-input>
+                                </li>
+                                <li class="col-xs-3">
+                                    <div class="row g-managment-documents">
+                                        <div class="col-xs-9">
+                                            <mpf-input label="{label: '', required: false}" ng-disabled="true" txt-placeholder="'Seleccionar Documento'"
+                                                ng-model="$ctrl.data.file[0].name" name="nFilename" ></mpf-input>
+                                        </div>
+                                        <div class="col-xs-3 file-field">
+                                            <div class="file-field">
+                                                <div class="btn btn-primary float-left">
+                                                    <span>Buscar</span>
+                                                    <input file-model="$ctrl.data.file" type="file"
+                                                    ng-disabled="$ctrl.showDetail && !$ctrl.showEdit"
+                                                    accept=".jpg, .jpeg, .png, .gif, .bmp, .pdf, .doc, .xls,.docx, .xlsx, .txt" >
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li class="col-xs-2 pt-xs-3 pb-xs-3 text-center">
+                                    <a class="g-btn g-btn-gris second-design"
+                                        ng-class="$ctrl.showDetail && !$ctrl.showEdit ? 'disabled' : ''"
+                                        ng-disabled="$ctrl.showDetail && !$ctrl.showEdit"
+                                        ng-click="$ctrl.registerExamen()">Registrar</a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="row" ng-show="$ctrl.paginationExam.totalRecords > $ctrl.paginationExam.sizePerPage">
+                            <div class="col-md-12">
+                                <ul uib-pagination class="g-pagination" ng-model="$ctrl.paginationExam.currentPage"
+                                    max-size="$ctrl.paginationExam.maxSize" total-items="$ctrl.paginationExam.totalRecords"
+                                    ng-change="$ctrl.pageChangedExams()" items-per-page="$ctrl.paginationExam.sizePerPage"
+                                    boundary-link-numbers="true"></ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row mt-xs-2">
+                    <div class="col-md-12 mt-xs-2 mb-xs-2">
+                        <mpf-textarea 
+                            name="nComment" 
+                            ng-required="false" 
+                            label="{label: 'Comentarios', required: false}" 
+                            ng-model="$ctrl.data.comment"
+                            ng-disabled="$ctrl.showDetail && !$ctrl.showEdit">
+                        </mpf-textarea>
+                    </div>
+                </div>
+                <div class="row mt-xs-2">
+                    <div class="col-md-12 mb-1">
+                        <h2 class="g-sub-title">Historial de Auditorías</h2>
+                    </div>
+                </div>
+                <div>
+                    <div class="col-xs-12">
+                        <ul class="row gBgcGray3 gCWhite1 pt-xs-1 pb-xs-1 g-border-bottom-xs">
+                          <li class="col-xs-5">Diagnóstico</li>
+                          <li class="col-xs-2">Naturaleza Incapacidad</li>
+                          <li class="col-xs-2">Grado Incapacidad</li>
+                          <li class="col-xs-2">Fecha Inicio</li>
+                          <li class="col-xs-1"></li>
+                        </ul>
+                        <div class="mb-xs-1" ng-repeat="audit in $ctrl.audits">
+                          <ul class="row pt-xs-1 pb-xs-1 g-border-bottom-xs">
+                            <li class="col-xs-5 pb-xs-1 pt-xs-1">{{ audit.descriocionDiagnosctico }}</li>
+                            <li class="col-xs-2 pb-xs-1 pt-xs-1">{{ audit.descripcionIncapacidad }}</li>
+                            <li class="col-xs-2 pb-xs-1 pt-xs-1">{{ audit.descripcionGrado }}</li>
+                            <li class="col-xs-2 pb-xs-1 pt-xs-1">{{ audit.fechaInicioIncapacidad | date : 'dd/MM/yyyy' }}</li>
+                            <li class="col-xs-1 text-center">
+                                <a title="Ver detalle" ng-click="$ctrl.showAudit(audit)" style="font-size: 17px; padding-right: 10px;">
+                                    <i class="glyphicon glyphicon-eye-open"></i>
+                                </a>
+                                <a title="Editar" ng-click="$ctrl.editAudit(audit)" style="font-size: 17px; padding-right: 10px;"
+                                    ng-class="$ctrl.showDetail ? 'disabled' : ''"
+                                    ng-disabled="$ctrl.showDetail">
+                                    <i  class="glyphicon glyphicon-pencil"></i>
+                                </a>
+                            </li>
+                          </ul>
+                        </div>
+                        <div class="row" ng-show="$ctrl.paginationAudit.totalRecords > $ctrl.paginationAudit.sizePerPage">
+                            <div class="col-md-12">
+                                <ul uib-pagination class="g-pagination" ng-model="$ctrl.paginationAudit.currentPage"
+                                    max-size="$ctrl.paginationAudit.maxSize" total-items="$ctrl.paginationAudit.totalRecords"
+                                    ng-change="$ctrl.pageChangedAudits()" items-per-page="$ctrl.paginationAudit.sizePerPage"
+                                    boundary-link-numbers="true"></ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-offset-6 col-md-2 mb-xs-2 mt-xs-4">
+                        <a class="g-btn g-btn-verde second-design block" ng-click="$ctrl.clearAuditForm()" 
+                            ng-class="$ctrl.showDetail ? 'disabled' : ''"
+                            ng-disabled="$ctrl.showDetail">NUEVA AUDITORIA</a>
+                    </div>
+                    <div class="col-md-2 mb-xs-2 mt-xs-4">
+                        <a class="g-btn g-btn-verde second-design block" ng-click="$ctrl.registerAudit()"
+                        ng-class="$ctrl.showDetail && !$ctrl.showEdit ? 'disabled' : ''"
+                        ng-disabled="$ctrl.showDetail && !$ctrl.showEdit">GUARDAR</a>
+                    </div>
+                    <div class="col-md-2 mb-xs-2 mt-xs-4">
+                        <a class="g-btn g-btn-white second-design block" ng-click="$ctrl.cancelAudit()">CANCELAR</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>

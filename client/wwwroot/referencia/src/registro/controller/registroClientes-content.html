@@ -1,0 +1,97 @@
+<!-- filtro -->
+<ul class="lista-group u-data-to-load u-br-5">
+  <li class="lista__item lista__item--card"
+      data-ng-repeat="el in $ctrl.data.pageData track by $index">
+    <div class="lista__header">
+      <div class="lista-header__col reg-pac-card__header-info-main u-squash-align-v">
+        <div class="c-txt-w-icon no-icon--xs">
+          <span class="lista-title__ico ico-mapfre_13_miperfil hidden-xs c-txt-w-icon__ico"></span>
+          <span>
+            <p class="lista-title__txt">{{el.asegurado.name}}</p>
+          </span>
+        </div>
+      </div>
+      <div class="lista-header__col-link-more u-align-v reg-paci-result__btn-box">
+        <p  class="panel__link--selected"
+            data-ng-show="$ctrl.itemSelected[$index]">
+          <span class="panel__link--title">
+            <i class="ico-mapfre_81_checkmark panel__link--ico"></i>
+            SELECCIONADO
+          </span>
+          <a class="panel__link--cross" data-ng-click="$ctrl.toggle($index, el)">X</a>
+        </p>
+        <button class="c-btn btn btn--secundary"
+                data-ng-show="!$ctrl.itemSelected[$index]"
+                data-ng-click="$ctrl.toggle($index, el)">
+          <span>SELECCIONAR</span>
+        </button>
+      </div>
+    </div>
+    <div class="lista-body__wp u-mb-15">
+      <ul class="lista__body row">
+        <li class="lista-body__item col-xs-12 col-sm-6 col-md-3 col-lg-2">{{el.asegurado.tipodocumento}}: {{el.asegurado.dni}}</li>
+        <li class="lista-body__item col-xs-12 col-sm-6 col-md-3 col-lg-4">Fecha de nacimiento: {{el.asegurado.fnac | date:'dd/MM/yyyy'}}</li>
+        <li class="lista-body__item col-xs-12 col-sm-6 col-md-3 col-lg-3">Género: {{el.asegurado.gen}}</li>
+        <li class="lista-body__item col-xs-12 col-sm-6 col-md-3 col-lg-3">Parentesco: {{el.asegurado.parentesco}}</li>
+        <li class="lista-body__item col-xs-12 col-sm-6 col-md-3 col-lg-2">Producto: {{el.asegurado.producto}}</li>
+        <li class="lista-body__item col-xs-12 col-sm-6 col-md-3 col-lg-4">Compañía: {{el.asegurado.company}}</li>
+        <li class="lista-body__item col-xs-12 col-sm-6 col-md-3 col-lg-3">Estado: {{el.asegurado.estado}}</li>
+        <li class="lista-body__item col-xs-12 col-sm-6 col-md-3 col-lg-2">
+          <a class="panel__link-more u-arrow-right" data-ng-click="$ctrl.openClientProveedoresDetailModal(el)">Ver detalle</a>
+        </li>
+      </ul>
+    </div>
+    <div class="row" data-ng-show="$ctrl.itemSelected[$index]" data-ng-animate="fade" data-ng-form="pacienteSelectedForm">
+      <div class="col-sm-4 u-mb-30">
+        <mfinput  data-id="diagnostico"
+                  data-valor="$ctrl.diagnostico"
+                  data-tipo="caracter"
+                  data-placeholder="Diagnóstico del paciente"
+                  data-requerido = "true"
+                  data-maxlong = "500"
+                  data-mf-form="pacienteSelectedForm"
+                  data-call-enter="$ctrl.nextStep()"></mfinput>
+      </div>
+      <div class="col-sm-4 u-mb-30">
+        <mfinput  data-id="condicion"
+                  data-valor="$ctrl.condicion"
+                  data-tipo="caracter"
+                  data-placeholder="Condición del paciente"
+                  data-requerido = "true"
+                  data-maxlong = "500"
+                  data-mf-form="pacienteSelectedForm"
+                  data-call-enter="$ctrl.nextStep()"></mfinput>
+      </div>
+      <div class="col-sm-4">
+        <button class="c-btn btn btn--secundary pull-right btn--big u-mb-30" data-ng-click="$ctrl.nextStep()">
+          CONTINUAR
+        </button>
+      </div>
+    </div>
+  </li>
+</ul>
+<h2 class="u-txt-center panel__title"
+    data-ng-if="$ctrl.isEmptySearchResult()">
+      No se encontraron resultados para tu búsqueda
+</h2>
+
+<div  class="paginator u-data-to-load"
+      data-ng-if="$ctrl.totalItems > 0">
+  <div class="paginator__box">
+    <div>
+      <a  data-ng-class="['u-arrow-left']"
+          data-ng-click="$ctrl.prevPage()"
+          data-ng-hide="!$ctrl.canBack()">
+            Anterior
+      </a>
+    </div>
+    <div class="paginator__msg">Pagina {{$ctrl.currentPage}} de {{$ctrl.totalPaginas}} / Total: {{$ctrl.totalItems}}</div>
+    <div>
+      <a  data-ng-class="['u-arrow-right']"
+          data-ng-click="$ctrl.nextPage()"
+          data-ng-hide="!$ctrl.canNext()">
+            Siguiente
+      </a>
+    </div>
+  </div>
+</div>

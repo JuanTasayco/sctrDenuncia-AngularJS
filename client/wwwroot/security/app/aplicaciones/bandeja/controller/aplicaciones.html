@@ -1,0 +1,88 @@
+<section class="g-security-dashboard">
+
+        <menu-security></menu-security>
+    
+        <div class="g-title">
+            <div class="container">
+                <div class="row">
+    
+                    <div class="col-xs-12 mb-xs-2 no-mb-sm">
+                        <h1>Aplicaciones</h1>
+                    </div>
+    
+                </div>
+            </div>
+        </div>
+    
+        <!-- Inicio Dashboard Body -->
+        <div class="g-section">
+            <div class="container">
+                <div class="row mb-xs-3">
+                    <div class="col-md-3">
+                        <a class="g-btn g-btn-gris second-design block" ng-click="showCreateAplicacion()">+ Crear aplicación</a>
+                    </div>
+                    <div class="col-md-5 col-md-offset-4">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <mpf-input label="{label: '', required: false}" txt-placeholder="'Código o nombre de aplicación'" name="nBuscarAplicacion"
+                                    ng-model="mBuscarAplicacion" ng-required="false" is-horz="true" ng-maxlength="150"></mpf-input>
+                            </div>
+                            <div class="col-md-4">
+                                <a class="g-btn g-btn-verde second-design block" ng-click="getAplicationSearch()">Buscar</a>
+                            </div>
+                            <div class="col-md-2">
+                              <span class="btn-download">
+                                <a class="g-btn g-btn-white second-design block h-pt--4 h-pb--5" ng-click="exportExcel()"><span class="ico-mapfre_124_download gnIcon-sm"></span></a>
+                              </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+    
+                <!-- Inicio: Listado de aplicaciones -->
+                <div class="clearfix mb-xs-2">
+                    <div class="col-md-12 g-list-md g-box gBgcGray5 pt-xs-1 mb-xs-1" ng-repeat="item in aplicaciones">
+                        <div class="row g-row-fz12">
+                            <div class="col-md-2 g-col-md middle">
+                                <ul class="row gH5">
+                                    <li class="col-md-12 clearfix cnt-item no-border-left">
+                                        <div class="col-md-5 col-sm-2 col-xs-4 item-label">Código: </div>
+                                        <div class="col-md-7 col-sm-10 col-xs-8 item-dato g-text-uppercase g-cut-text">{{item.codAplicacion}}</div>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="col-md-5 g-col-md middle">
+                                <ul class="row gH5">
+                                    <li class="col-md-12 clearfix cnt-item add-border-left">
+                                        <div class="col-sm-2 col-xs-4 item-label">Nombre: </div>
+                                        <div class="col-sm-10 col-xs-8 item-dato g-text-uppercase g-cut-text">{{item.nomLargo}}</div>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="col-md-3 col-sm-12 g-col-sm middle cnt-item add-border-left g-text-leftr-xs g-text-left-md">
+                                <div class="pl-xs-1-5 pr-xs-1-5 no-pl-md no-pr-md">
+                                    <mpf-checkbox-toggle ng-model="item.codEstado" ng-true-value="ENABLE_STATE" ng-false-value="DISABLED_STATE" label="" ng-change="changeStateAplication(item, $event)"></mpf-checkbox-toggle>
+                                    <span class="" ng-class="{'g-security-habilitado': item.codEstado === ENABLE_STATE, 'g-security-deshabilitado': item.codEstado === DISABLED_STATE }"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-2 col-sm-12 g-col-sm middle cnt-item no-border-left clearfix">
+                                <div class="pl-xs-1-5 pr-xs-1-5 no-pl-md no-pr-md">
+                                    <a href="" class="g-btn g-btn-white second-design block" ng-click="viewDetailAplication(item)">Ver detalle</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Fin: Listado de aplicaciones -->
+    
+                <!-- Inicio: pagination -->
+                <mx-paginador data-datos="aplicaciones" data-items-x-page="itemsXPagina" data-msg-vacio="msgVacio" data-on-paginar="getAplicationsPage($event)"
+                    data-pagina-actual="currentPage" data-total-items="totalItems">
+                </mx-paginador>
+                <!-- Fin: pagination -->
+    
+            </div>
+        </div>
+        <!--Fin Dashboard Body-->
+    
+    </section>

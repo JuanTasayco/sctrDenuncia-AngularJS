@@ -1,0 +1,234 @@
+<div class="third-step">
+  <div class="g-sec-information mb-xs-3">
+    <div class="sec-item h-myd-pt--30 h-myd-pb--30 h-myd-bg--gray4">
+      <div class="container">
+        <!-- Producto -->
+        <ul class="row cnt-title h-myd-mb--20">
+          <li class="col-xs-6 item-title g-myd-subtitle"><b>Producto</b></li>
+          <li class="col-xs-6 item-edit">
+            <a class="h-myd--none" href="" ui-sref="hogarQuote.steps({step:1})">
+              <span class="g-icon gCGray3">
+                <span class="icon ico-mapfre_228_editar"></span>
+                <span class="g-link g-text-none">Editar datos del producto</span>
+              </span>
+            </a>
+            <a class="h-myd--show h-oim-none" href="" ui-sref="hogarQuote.steps({step:1})">
+              <i class="ico-mapfre_345_myd-edit ico-edit"></i>
+              <span>Editar</span>
+            </a>
+          </li>
+        </ul>
+        <ul class="row h-myd-mb--20">
+          <li class="col-md-4 clearfix cnt-item h-myd-pl--0">
+            <div class="col-xs-6 item-label"><span class="ico-mapfre_82_circle ico-bullet"></span>Producto:</div>
+            <div class="col-xs-6 item-dato g-text-uppercase">{{ thirdStep.data.product.Descripcion }}</div>
+          </li>
+        </ul>
+
+        <!-- Datos de la póliza -->
+        <ul class="row cnt-title h-myd-mb--20">
+          <li class="col-xs-12 item-title g-myd-subtitle">Datos de la póliza</li>
+        </ul>
+        <ul class="row h-myd-mb--20">
+          <li class="col-md-4 clearfix cnt-item h-myd-pl--0" ng-show="!thirdStep.data.firstName.length > 0">
+            <div class="col-xs-6 item-label"><span class="ico-mapfre_82_circle ico-bullet"></span>Razón Social:</div>
+            <div class="col-xs-6 item-dato g-text-uppercase">{{ thirdStep.data.companyName }}</div>
+          </li>
+          <li class="col-md-4 clearfix cnt-item h-myd-pl--0" ng-show="thirdStep.data.firstName.length > 0">
+            <div class="col-xs-6 item-label"><span class="ico-mapfre_82_circle ico-bullet"></span>Nombre:</div>
+            <div class="col-xs-6 item-dato g-text-uppercase">{{ thirdStep.data.firstName }}</div>
+          </li>
+          <li class="col-md-4 clearfix cnt-item h-myd-pl--0" ng-show="thirdStep.data.lastName.length > 0">
+            <div class="col-xs-6 item-label">
+              <span class="ico-mapfre_82_circle ico-bullet"></span>Apellido paterno:
+            </div>
+            <div class="col-xs-6 item-dato g-text-uppercase">{{ thirdStep.data.lastName }}</div>
+          </li>
+          <li class="col-md-4 clearfix cnt-item h-myd-pl--0" ng-show="thirdStep.data.motherLastName.length > 0">
+            <div class="col-xs-6 item-label">
+              <span class="ico-mapfre_82_circle ico-bullet"></span>Apellido materno:
+            </div>
+            <div class="col-xs-6 item-dato g-text-uppercase">{{ thirdStep.data.motherLastName }}</div>
+          </li>
+          <li class="col-md-4 clearfix cnt-item h-myd-pl--0">
+            <div class="col-xs-6 item-label"><span class="ico-mapfre_82_circle ico-bullet"></span>Moneda:</div>
+            <div class="col-xs-6 item-dato g-text-uppercase">{{ thirdStep.data.currency }}</div>
+          </li>
+          <li class="col-md-4 clearfix cnt-item">
+            <div class="col-sm-5 item-label">
+              <span class="ico-mapfre_82_circle ico-bullet"></span>Dcto. Integralidad
+            </div>
+            <div class="col-sm-7 item-dato">{{ firstStep.PorDctoIntgPlaza }} %</div>
+          </li>
+        </ul>
+
+        <!-- Datos del inmueble -->
+        <ul class="row cnt-title h-myd-mb--20">
+          <li class="col-xs-12 item-title g-myd-subtitle">Datos del inmueble</li>
+        </ul>
+        <ul class="row">
+          <li class="col-md-4 clearfix cnt-item h-myd-pl--0">
+            <div class="col-xs-6 item-label">
+              <span class="ico-mapfre_82_circle ico-bullet"></span>Ubicación del inmueble:
+            </div>
+            <div class="col-xs-6 item-dato g-text-uppercase">
+              {{
+                thirdStep.data.ubigeo.department.Descripcion +
+                  ', ' +
+                  thirdStep.data.ubigeo.province.Descripcion +
+                  ', ' +
+                  thirdStep.data.ubigeo.district.Descripcion
+              }}
+            </div>
+          </li>
+          <li class="col-md-4 clearfix cnt-item h-myd-pl--0">
+            <div class="col-xs-6 item-label">
+              <span class="ico-mapfre_82_circle ico-bullet"></span>Año de construcción:
+            </div>
+            <div class="col-xs-6 item-dato g-text-uppercase">{{ thirdStep.data.yearConstruction.Codigo }}</div>
+          </li>
+          <li class="col-md-4 clearfix cnt-item h-myd-pl--0">
+            <div class="col-xs-6 item-label"><span class="ico-mapfre_82_circle ico-bullet"></span>Categoría:</div>
+            <div class="col-xs-6 item-dato g-text-uppercase">{{ thirdStep.data.category.Descripcion }}</div>
+          </li>
+        </ul>
+        <ul class="row h-myd-mb--20">
+          <li class="col-md-4 clearfix cnt-item h-myd-pl--0" ng-show="thirdStep.data.floorsNumber">
+            <div class="col-xs-6 item-label"><span class="ico-mapfre_82_circle ico-bullet"></span>Nro. de pisos:</div>
+            <div class="col-xs-6 item-dato g-text-uppercase">{{ thirdStep.data.floorsNumber }}</div>
+          </li>
+          <li class="col-md-4 clearfix cnt-item h-myd-pl--0" ng-show="thirdStep.data.basementsNumber">
+            <div class="col-xs-6 item-label"><span class="ico-mapfre_82_circle ico-bullet"></span>Nro. de sótanos:</div>
+            <div class="col-xs-6 item-dato g-text-uppercase">{{ thirdStep.data.basementsNumber }}</div>
+          </li>
+        </ul>
+
+        <!-- Alarma de monitoreo -->
+        <ul class="row cnt-title h-myd-mb--20">
+          <li class="col-xs-12 item-title g-myd-subtitle">Alarma de monitoreo</li>
+        </ul>
+        <ul class="row">
+          <li class="col-md-4 clearfix cnt-item h-myd-pl--0">
+            <div class="col-xs-6 item-label">
+              <span class="ico-mapfre_82_circle ico-bullet"></span>Servicio de alarma y monitoreo:
+            </div>
+            <div class="col-xs-6 item-dato g-text-uppercase">
+              {{ thirdStep.data.mcaAlarmaMonitoreo == 'S' ? 'Si' : 'No' }}
+            </div>
+          </li>
+          <li class="col-md-4 clearfix cnt-item h-myd-pl--0">
+            <div class="col-xs-6 item-label"><span class="ico-mapfre_82_circle ico-bullet"></span>Marca Kit Smart:</div>
+            <div class="col-xs-6 item-dato g-text-uppercase">{{ thirdStep.data.mcaKitSmart == 'S' ? 'Si' : 'No' }}</div>
+          </li>
+          <li class="col-md-4 clearfix cnt-item h-myd-pl--0">
+            <div class="col-xs-6 item-label">
+              <span class="ico-mapfre_82_circle ico-bullet"></span>Tipo de comunicación:
+            </div>
+            <div class="col-xs-6 item-dato g-text-uppercase">
+              {{ thirdStep.data.comunicationType.Descripcion ? thirdStep.data.comunicationType.Descripcion : 'No' }}
+            </div>
+          </li>
+        </ul>
+        <ul class="row h-myd-mb--20">
+          <li class="col-md-4 clearfix cnt-item h-myd-pl--0">
+            <div class="col-xs-6 item-label"><span class="ico-mapfre_82_circle ico-bullet"></span>Marca Video Web:</div>
+            <div class="col-xs-6 item-dato g-text-uppercase">{{ thirdStep.data.mcaVideoWeb == 'S' ? 'Si' : 'No' }}</div>
+          </li>
+          <li class="col-md-4 clearfix cnt-item h-myd-pl--0">
+            <div class="col-xs-6 item-label">
+              <span class="ico-mapfre_82_circle ico-bullet"></span>LLavero médico/Imagen plus:
+            </div>
+            <div class="col-xs-6 item-dato g-text-uppercase">
+              {{ thirdStep.data.mcaLlaveroMedico == 'S' ? 'Si' : 'No' }}
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="g-section mt-xs-3">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12">
+          <h2 class="g-sub-title red g-myd-subtitle">Cotización</h2>
+        </div>
+      </div>
+
+      <div class="clearfix mb-xs-2">
+        <div class="col-md-12">
+          <div class="row g-box g-overflow-hidden-xs g-myd-box-coti">
+            <div class="col-xs-12 col-md-8 pt-xs-1 g-myd-box-coti--info">
+              <ul class="row g-list-sm pt-xs-1 pb-xs-1 mb-xs-0-1 h-myd-p--0 h-myd-m--0">
+                <li class="col-md-4 cnt-item gH4 h-myd-mt--10">
+                  <div class="row">
+                    <div class="col-md-12 item-labelg-text-uppercase">
+                      <b class="h-myd--fz14">{{ thirdStep.data.product.Descripcion }}</b>
+                    </div>
+                  </div>
+                </li>
+                <li class="col-md-8 cnt-item gH4 h-myd-mt--10">
+                  <div class="row">
+                    <div class="col-md-6 item-labelg-text-uppercase h-myd--fz14">TIPO DE COMUNICACIÓN</div>
+                    <div class="col-md-6 item-dato g-text-right-md h-myd--fz14">
+                      {{ thirdStep.data.comunicationType.Codigo ? thirdStep.data.comunicationType.Descripcion : '-' }}
+                    </div>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="col-md-4 gBgcGray5 ">
+              <ul class="row g-list-sm pt-xs-1 pb-xs-1 mb-xs-0-1">
+                <li class="col-md-12 cnt-item gH4">
+                  <div class="row">
+                    <div class="col-md-6 item-labelg-text-uppercase pr-xs-0">
+                      PRIMA ANUAL {{ firstStep.mProducto.Codigo == '30' ? '(2 años)' : '' }}
+                    </div>
+                    <div class="col-md-6 item-dato text-right">
+                      {{ thirdStep.primaAnual | currency: (firstStep.mMoneda.Codigo == '1' ? 'S/ ' : '$ ') }}
+                    </div>
+                  </div>
+                </li>
+                <li class="col-md-12 cnt-item gH4">
+                  <div class="row">
+                    <div class="col-xs-6 item-labelg-text-uppercase gH3 pr-xs-0 h-myd--fz14">
+                      <b>PRIMA MENSUAL<sup>*</sup></b>
+                    </div>
+                    <div class="col-xs-6 item-dato text-right gH3 h-myd--fz14">
+                      <b>{{ thirdStep.primaMensual | currency: (firstStep.mMoneda.Codigo == '1' ? 'S/ ' : '$ ') }}</b>
+                    </div>
+                  </div>
+                </li>
+                <li class="col-md-12 cnt-item gH4">
+                  <p class="mb-xs-0 mt-xs-1 gH8" ng-if="thirdStep.data.product.Codigo == '31'">
+                    * Se divide en 12 cuotas, incluye intereses.
+                  </p>
+                  <p class="mb-xs-0 mt-xs-1 gH8" ng-if="thirdStep.data.product.Codigo == '6'">
+                    * Se divide en 12 cuotas, no incluye intereses.
+                  </p>
+                  <p class="mb-xs-0 mt-xs-1 gH8" ng-if="thirdStep.data.product.Codigo == '30'">
+                    * Se divide en 24 cuotas.
+                  </p>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Button -->
+  <div class="g-section">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-4 mb-xs-1">
+          <span class="g-comment">*Campos obligatorios</span>
+        </div>
+        <div class="col-md-4">
+          <a class="g-btn g-btn-verde block" ng-click="saveQuotation()">Guardar Cotización</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

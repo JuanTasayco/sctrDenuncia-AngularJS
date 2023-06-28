@@ -1,0 +1,96 @@
+<ul class="lista-group u-br-5">
+  <li class="lista__item lista__item--card u-data-to-load lista__item--prov"
+      data-ng-repeat="item in $ctrl.pageData track by $index">
+    <div class="lista__header register-destination__header">
+      <div class="lista-header__col col-xs-12 col-md-8 u-align-v">
+        <span class="lista-title__ico ico-mapfre_34_salud hidden-xs hidden-sm"></span>
+        <p class="lista-title__txt register-destination__clinic">{{item.nombre}}</p>
+        <p class="panel__caption panel__caption--ubi register-destination--caption">
+          {{item.departamento}} <span data-ng-if="item.provincia">, </span> {{item.provincia}}
+        </p>
+      </div>
+      <div class="lista-header__col col-xs-12 col-md-4 u-align-v">
+        <a  class="u-arrow-right register-destination__link-more"
+            data-ng-click="$ctrl.openClientProveedoresDetailModal(item)"><b>Ver Cobertura</b></a>
+        <div class="reg-card-prov__btn-wp">
+          <p  class="panel__link--selected ng-hide"
+              data-ng-show="$ctrl.itemSelected[item.id]">
+            <span class="panel__link--title">
+              <i class="ico-mapfre_81_checkmark panel__link--ico"></i>
+              SELECCIONADO
+            </span>
+            <a  class="panel__link--cross"
+                data-ng-click="$ctrl.toggle(item.id, item)">X</a>
+          </p>
+          <button class="c-btn btn btn--secundary"
+                  data-ng-show="!$ctrl.itemSelected[item.id]"
+                  data-ng-click="$ctrl.toggle(item.id, item)">
+            <span>SELECCIONAR</span>
+          </button>
+        </div>
+      </div>
+    </div>
+    <div class="lista-body__wp register-destination__content">
+      <ul class="lista__body register-destination__content--list reg-car__info-user">
+        <li class="lista-body__item lista-body__item--prov"
+            data-ng-if="item.categoria">{{item.categoria}}</li>
+        <li class="lista-body__item lista-body__item--prov"
+            data-ng-if="item.entidad">{{item.entidad}}</li>
+        <li class="lista-body__item lista-body__item--prov"
+            data-ng-if="item.convenioStr">{{item.convenioStr}}</li>
+        <li class="lista-body__item lista-body__item--prov"
+            data-ng-if="item.nroCamas">{{item.nroCamas || '0'}} camas</li>
+        <li class="lista-body__item lista-body__item--prov">
+          <a  class=""
+              data-ng-click="$ctrl.verDetalleProveedor(item)">
+            <b>Ver detalle</b>
+          </a>
+        </li>
+      </ul>
+      <ul class="lista__body register-destination__content--list reg-car__info-user u-mb-0">
+        <li class="lista-body__item lista-body__item--prov" data-ng-if="item.telefono_Responsable">
+          {{item.telefono_Responsable}}
+        </li>
+        <li class="lista-body__item lista-body__item--prov" data-ng-if="item.nombre_Responsable">
+          {{item.nombre_Responsable}}
+        </li>
+        <li class="lista-body__item lista-body__item--prov" data-ng-if="item.direccion_Establecimiento">
+          {{item.direccion_Establecimiento}}
+        </li>
+      </ul>
+      <a  class="reg-card__showMap"
+          data-ng-if="item.latitud && item.longitud"
+          data-ng-click="$ctrl.toggleMap(item.id, item)">
+        <b>Ver Mapa</b>
+      </a>
+    </div>
+    <div  class="provee__map animate-show ng-hide"
+          data-ng-show="$ctrl.mapShow[item.id]">
+      <ng-map zoom="15"
+              id="{{item.id}}"
+              center="{{item.latitud}},{{item.longitud}}"
+              class="referencia-map"
+              lazy-init="true">
+        <marker position="{{item.latitud}},{{item.longitud}}"
+          title="{{item.nombre}}"
+          animation="Animation.DROP"
+          centered="true"></marker>
+      </ng-map>
+    </div>
+  </li>
+</ul>
+<h2
+  class="u-txt-center panel__title"
+  data-ng-if="$ctrl.isEmptySearchResult()">
+    No se encontraron resultados para tu búsqueda
+</h2>
+
+<div class="paginator u-data-to-load" data-ng-if="$ctrl.totalItems > 0">
+  <div
+    uib-pager
+    data-ng-change="$ctrl.pageChanged()"
+    total-items="$ctrl.totalItems"
+    data-ng-model="$ctrl.currentPage"
+    template-url="/referencia/app/panel/controller/referenciaPager.html"
+    items-per-page="::$ctrl.itemsPerPage"></div>
+</div>

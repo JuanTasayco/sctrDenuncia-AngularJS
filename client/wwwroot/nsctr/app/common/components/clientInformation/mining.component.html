@@ -1,0 +1,147 @@
+<div class="g-sec-information-md">
+	<div class="sec-item">
+		<div class="container">
+
+ <ul
+				class="row">
+				<li class="col-md-4 clearfix cnt-item">
+					<div class="row">
+						<div class="col-md-12 mb-xs-0-5">
+							<span class="gH4 gCGray1 g-text-uppercase"><b>{{$ctrl.data.client.clientName}}</b></span>
+						</div>
+						<div class="col-md-6 col-sm-4 col-ms-5">
+							<span
+								class="g-box-label block g-text-center-xs"
+								ng-class="($ctrl.data.client.status == $ctrl.data.STATE.valid.description) ? 'gBgcGreen1' : 'gBgcGray3'">{{$ctrl.data.client.status | uppercase}}
+							</span>
+						</div>
+					</div>
+				</li>
+        <li class="col-md-4 clearfix cnt-item">
+          <div class="col-xs-5 item-label">
+            <span class="ico-mapfre_82_circle ico-bullet"></span>{{$ctrl.data.client.documentType}}:
+          </div>
+          <div class="col-xs-7 item-dato g-text-uppercase">
+            {{$ctrl.data.client.documentNumber}}
+          </div>
+        </li>
+        <li class="col-md-4 clearfix cnt-item">
+          <div class="col-xs-5 item-label">
+            <span class="ico-mapfre_82_circle ico-bullet"></span>Código:
+          </div>
+          <div class="col-xs-7 item-dato g-text-uppercase">
+            {{$ctrl.data.client.codEmpresa}}
+          </div>
+        </li>
+			</ul>
+
+      <div class="clearfix" ng-if="$ctrl.design == 1">
+        <ul class="row">
+          <li class="col-md-4 clearfix cnt-item">
+            <div class="col-xs-5 item-label">
+              <span class="ico-mapfre_82_circle ico-bullet"></span>Actividad SUNAT:
+            </div>
+            <div class="col-xs-7 item-dato g-text-uppercase">
+              {{$ctrl.data.client.economicActivity}}
+            </div>
+          </li>
+          <li class="col-md-4 clearfix cnt-item">
+            <div class="col-xs-5 item-label">
+              <span class="ico-mapfre_82_circle ico-bullet"></span>Representante:
+            </div>
+            <div class="col-xs-7 item-dato g-text-uppercase">
+              {{$ctrl.data.client.contactName}}
+            </div>
+          </li>
+          <li class="col-md-4 clearfix cnt-item">
+            <div class="col-xs-5 item-label">
+              <span class="ico-mapfre_82_circle ico-bullet"></span>Teléfono fijo:
+            </div>
+            <div class="col-xs-7 item-dato g-text-uppercase">
+              {{$ctrl.data.client.phoneNumber}}
+            </div>
+          </li>
+        </ul>
+        <ul class="row">
+          <li class="col-md-4 clearfix cnt-item">
+            <div class="col-xs-5 item-label">
+              <span class="ico-mapfre_82_circle ico-bullet"></span>Teléfono móvil:
+            </div>
+            <div class="col-xs-7 item-dato g-text-uppercase">
+              {{$ctrl.data.client.cellphoneNumber}}
+            </div>
+          </li>
+          <li class="col-md-4 clearfix cnt-item">
+            <div class="col-xs-5 item-label">
+              <span class="ico-mapfre_82_circle ico-bullet"></span>Correo electrónico:
+            </div>
+            <div class="col-xs-7 item-dato g-text-uppercase g-cut-text" title="{{$ctrl.data.client.email}}">
+              {{$ctrl.data.client.email}}
+            </div>
+          </li>
+        </ul>
+      </div>
+
+      <div class="clearfix" ng-if="$ctrl.design == 2">
+        <ul class="row">
+          <li class="col-md-4 clearfix cnt-item">
+            <div class="col-xs-5 item-label">
+              <span class="ico-mapfre_82_circle ico-bullet"></span>Colectivo Asegurado:
+            </div>
+            <div class="col-xs-7 item-dato g-text-uppercase">
+              {{$ctrl.data.selectedApplications[0].mainPolicyInsuredCollective}}
+            </div>
+          </li>
+          <li class="col-md-4 clearfix cnt-item">
+            <div class="col-xs-5 item-label">
+              <span class="ico-mapfre_82_circle ico-bullet"></span>Fin Vigencia:
+            </div>
+            <div class="col-xs-7 item-dato g-text-uppercase">
+              {{$ctrl.data.selectedApplicationsPolicies.policyDateEnd}}
+            </div>
+          </li>
+          <li class="col-md-4 clearfix cnt-item">
+            <div class="col-xs-5 item-label">
+              <span class="ico-mapfre_82_circle ico-bullet"></span>Tipo de declaracion:
+            </div>
+            <div class="col-xs-7 item-dato g-text-uppercase">
+              {{$ctrl.data.selectedApplicationsPolicies.declarationType}}
+            </div>
+          </li>
+        </ul>
+        <ul class="row">
+          <li class="col-md-4 clearfix cnt-item">
+            <div class="col-xs-5 item-label">
+              <span class="ico-mapfre_82_circle ico-bullet"></span>Póliza Salud:
+            </div>
+            <div class="col-xs-7 item-dato g-text-uppercase">
+              {{$ctrl.data.selectedApplicationsPolicies.healthPolicyNumber}}
+            </div>
+            <div class="clearfix"></div>
+            <ul class="col-md-12 pt-xs-0-5 gH8 gCGray3">
+              <li
+                ng-repeat="risk in $ctrl.data.selectedApplicationsPolicies.healthRiskList" >
+                {{risk}}
+              </li>
+            </ul>
+          </li>
+          <li class="col-md-4 clearfix cnt-item">
+            <div class="col-xs-5 item-label">
+              <span class="ico-mapfre_82_circle ico-bullet"></span>Póliza Pensión:
+            </div>
+            <div class="col-xs-7 item-dato g-text-uppercase">
+              {{$ctrl.data.selectedApplicationsPolicies.pensionPolicyNumber}}
+            </div>
+            <div class="clearfix"></div>
+            <ul class="col-md-12 pt-xs-0-5 gH8 gCGray3">
+              <li
+                ng-repeat="risk in $ctrl.data.selectedApplicationsPolicies.pensionRiskList" >
+                {{risk}}
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+		</div>
+	</div>
+</div>

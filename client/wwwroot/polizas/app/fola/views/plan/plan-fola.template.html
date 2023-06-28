@@ -1,0 +1,179 @@
+<section class="g-page page-fola-planes g-ui-view">
+  <div class="g-title g-border-bottom">
+    <div class="container">
+      <div class="row">
+        <div class="col-sm-8">
+          <a href="" ui-sref="homePolizasFola">
+            <span class="ico-mapfre_78_chevronleft arrow-left size-ico-arrow"></span>
+          </a>
+          <h1 class="ng-binding">Planes</h1>
+        </div>
+        <div class="col-sm-4 g-text-right-xs no-tablet">
+          <a href="" class="g-link-back" ui-sref="homePolizasFola"
+            ><span class="ico-mapfre_78_chevronleft arrow-left"></span>Volver a FOLA</a
+          >
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="g-title">
+    <div class="container">
+      <div class="clearfix g-box g-overflow-hidden-xs mb-xs-2 ng-scope">
+        <div class="row h-myd-ml--0 h-myd-mr--0 g-list-md mb-xs-1">
+          <div class="col-md-12">
+            <div class="clearfix g-tbl-wrapper align-vertical">
+              <div class="clearfix table__1024 g-tbl-habilitarPlanes">
+                <ul height-row class="g-row-fz12 g-tbl-row gBgcGray5 pt-xs-1">
+                  <li class="text-center g-col g-col-xs col-9-dktp tbl-item item-title">
+                    CÓDIGO DE<br />
+                    CONTRATO
+                  </li>
+                  <li class="text-center g-col g-col-xs col-15-dktp tbl-item item-title">
+                    NOMBRE DE<br />
+                    CONTRATO
+                  </li>
+                  <li class="text-center g-col g-col-xs col-11-dktp tbl-item item-title">
+                    CÓDIGO DE<br />
+                    SUBCONTRATO
+                  </li>
+                  <li class="text-center g-col g-col-xs col-15-dktp tbl-item item-title">
+                    NOMBRE DE<br />
+                    SUBCONTRATO
+                  </li>
+                  <li class="text-center g-col g-col-xs col-15-dktp tbl-item item-title">NOMBRE COMERCIAL</li>
+                  <li class="text-center g-col g-col-xs col-10-dktp tbl-item item-title">
+                    SUBVENCION<br />
+                    MÁXIMA
+                  </li>
+                  <li class="text-center g-col g-col-xs col-15-dktp tbl-item item-title">ESTADO</li>
+                  <li class="g-col g-col-xs col-8-dktp tbl-item item-title"></li>
+                </ul>
+                <div class="mb-xs-1 gnContentAuto-bg">
+                  <ul
+                    height-row
+                    class="g-row-fz12 g-tbl-row pt-xs-1 g-border-bottom-xs"
+                    ng-repeat="contrato in vm.listaContratos"
+                  >
+                    <li class="text-center g-col g-col-xs col-9-dktp tbl-item">{{contrato.numeroContrato}}</li>
+                    <li class="text-center g-col g-col-xs col-15-dktp tbl-item">{{contrato.nombreContrato}}</li>
+                    <li class="text-center g-col g-col-xs col-11-dktp tbl-item">{{contrato.numeroSubcontrato}}</li>
+                    <li class="text-center g-col g-col-xs col-15-dktp tbl-item">{{contrato.nombreSubcontrato}}</li>
+                    <li class="text-center g-col g-col-xs col-15-dktp tbl-item">{{contrato.plan.nombre}}</li>
+                    <li class="text-center g-col g-col-xs col-10-dktp tbl-item">{{vm.convertSubvencion(contrato.plan.subvencion)}}</li>
+                    <li class="text-center g-col g-col-xs col-15-dktp tbl-item">
+                      <mpf-checkbox-toggle
+                        id="{{contrato.plan.id}}"
+                        ng-model="contrato.plan.estado"
+                        ng-true-value="1"
+                        ng-false-value="0"
+                        data-nodrag
+                        ng-if="contrato.plan.id"
+                        ng-click="$event.stopPropagation()"
+                        ng-change="vm.changeStatusPlan(contrato)"
+                      ></mpf-checkbox-toggle>
+                      <span
+                        ng-class="{'g-security-habilitar': contrato.plan.estado === 1, 'g-security-inhabilitar': contrato.plan.estado === false}"
+                      ></span>
+                    </li>
+                    <li class="g-col g-col-xs col-8-dktp tbl-item text-center color-emitido">
+                      <a
+                        class="text-center ico-verde ico-click gnIcon-xsm ico-mapfre_228_editar"
+                        ng-click="vm.fnShowModal(contrato)"
+                        ><span class="font-family-text-icon font-size-text-icon">Editar</span>                        
+                        </a>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Paginador -->
+      <div class="col-md-12 text-center g-box-noresult" ng-if="!vm.listaContratos.length > 0">
+        <div class="row">
+          <div class="col-md-12 g-box-noresult-ico gCRed1"><span class="ico-mapfre_302_error"></span></div>
+          <div class="col-md-12 g-box-noresult-text">
+            No hay resultados para los filtros escogidos.<br />Intente nuevamente.
+          </div>
+        </div>
+      </div>
+
+      <div class="row" ng-if="vm.listaContratos.length > 0">
+        <div class="col-md-12">
+          <ul
+            uib-pagination
+            class="g-pagination"
+            ng-model="vm.mPagination"
+            max-size="10"
+            total-items="vm.totalItems"
+            items-per-page="vm.pageSize"
+            boundary-link-numbers="true"
+            ng-change="vm.pageChanged(vm.mPagination)"
+          ></ul>
+        </div>
+      </div>
+
+      <div class="row" ng-if="vm.listaContratos.length > 0">
+        <div class="col-md-12 text-center">
+          <div class="display-flex content-justify-center pl-25">
+            <div class="col-md-4">
+              <div class="gBgcWhite1 g-file-item bg-content-file-name" ng-show="vm.vFileName">
+                <span class="doc-item g-span-middle">
+                  <span class="doc-item__icon">
+                    <span class="ico-mapfre_315_pdf gnIcon-md"></span>
+                  </span>
+                  <span class="doc-item__name color-emitido fw-900">
+                    <span
+                      class="g-block g-cut-text gH5"
+                      ng-click="vm.downloadCondicionadoGeneral()"
+                      uib-popover="{{vm.vFileName}}"
+                      popover-trigger="'mouseenter'"
+                      >{{vm.vFileName}}</span
+                    >
+                  </span>
+                </span>
+              </div>
+            </div>
+            <div class="gBgcWhite1 g-file-item pt-xs-1 pb-xs-1 pr-xs-1-5" ng-show="vm.vFileName">
+              <span class="doc-item__close">
+                <span class="ico-mapfre_307_tacho gnIcon-xsm" ng-click="vm.deleteCondicionadoGeneral()"></span>
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row" ng-if="vm.listaContratos.length > 0">
+        <div class="col-md-12 text-center">
+          <div class="display-flex content-justify-center">
+            <div class="col-md-4">
+              <div ng-if="vm.loadFileCondicionadoGeneral">
+                <label class="g-btn g-btn-white block g-btn-input-file">
+                  <span class="g-icon">
+                    <span>+ CARGAR CONDICIONADO GENERAL</span>
+                  </span>
+                  <input
+                    type="file"
+                    data-show-preview="false"
+                    name="nSubirCondicionadoGeneral"
+                    accept=".pdf"
+                    file-model="vm.fmSubirCondicionadoGeneral"
+                    ng-model="vm.mSubirCondicionadoGeneral"
+                    ng-required="false"
+                    onchange="angular.element(this).scope().cargarCondicionadoGeneral(this.files)"
+                    class="ng-pristine ng-empty ng-valid ng-valid-required ng-touched"
+                  />
+                </label>
+              </div>
+              <div ng-if="!vm.loadFileCondicionadoGeneral">
+                <a class="g-btn g-btn-verde block second-design" ng-click="vm.uploadCondicionadoGeneral()">Guardar</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

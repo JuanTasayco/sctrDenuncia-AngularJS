@@ -1,0 +1,93 @@
+<!-- Step 1 -->
+<div ng-class="vm.currentStep === '1' ? 'g-section' : ''">
+  <div class="container">
+    <!-- Datos del Viaje-->
+    <div class="col-xs-12 g-list-md g-box gBgcGray5 pt-xs-1 mb-xs-2">
+      <ul class="row cnt-title">
+        <li class="col-xs-6 item-title gH4">Datos de la cotización</li>
+      </ul>
+
+			<ul class="row g-list-md">
+				<li class="col-sm-4 clearfix cnt-item">
+					<div class="col-xs-5 item-label">
+						<span class="ico-mapfre_82_circle ico-bullet"></span>Destino:
+					</div>
+					<div class="col-xs-7 item-dato">
+						{{ vm.formData.policyData.destination }}
+					</div>
+				</li>
+				<li class="col-sm-4 clearfix cnt-item">
+					<div class="col-xs-5 item-label">
+						<span class="ico-mapfre_82_circle ico-bullet"></span>Inicio de Vigencia:
+					</div>
+					<div class="col-xs-7 item-dato">
+						{{ vm.formData.policyData.dateDeparture }}
+					</div>
+				</li>
+				<li class="col-sm-4 clearfix cnt-item">
+					<div class="col-xs-5 item-label">
+						<span class="ico-mapfre_82_circle ico-bullet"></span>Fin de Vigencia:
+					</div>
+					<div class="col-xs-7 item-dato">
+						{{ vm.formData.policyData.dateArrival }}
+					</div>
+				</li>
+				<li class="col-sm-4 clearfix cnt-item">
+					<div class="col-xs-5 item-label">
+						<span class="ico-mapfre_82_circle ico-bullet"></span>Num. viajeros:
+					</div>
+					<div class="col-xs-7 item-dato">
+						{{ vm.formData.travelers.length }}
+					</div>
+				</li>
+				<li class="col-sm-4 clearfix cnt-item">
+					<div class="col-xs-5 item-label">
+						<span class="ico-mapfre_82_circle ico-bullet"></span>Edad. viajeros:
+					</div>
+					<div class="col-xs-7 item-dato" >
+						<span ng-repeat="traveler in vm.formData.travelers">
+							{{ !$first ?  ' - ' + traveler.age : traveler.age }}
+						</span>
+					</div>
+				</li>
+				<li class="col-sm-4 clearfix cnt-item">
+					<div class="col-xs-5 item-label">
+						<span class="ico-mapfre_82_circle ico-bullet"></span>Motivo del viaje:
+					</div>
+					<div class="col-xs-7 item-dato">
+						{{ vm.formData.policyData.travelReason }}
+					</div>
+				</li>
+			</ul>
+			<ul class="row g-list-md mb-sm-2">
+				<li class="col-sm-4 clearfix cnt-item">
+					<div class="col-xs-5 item-label">
+						<span class="ico-mapfre_82_circle ico-bullet"></span>Producto:
+					</div>
+					<div class="col-xs-7 item-dato">
+						{{ vm.formData.policyData.policyGroupName }}
+					</div>
+				</li>
+				<li class="col-sm-4 clearfix cnt-item">
+					<div class="col-xs-5 item-label">
+						<span class="ico-mapfre_82_circle ico-bullet"></span>Plan:
+					</div>
+					<div class="col-xs-7 item-dato">
+						{{ vm.formData.product.planName }}
+					</div>
+				</li>
+			</ul>
+    </div>
+
+    <div class="g-section" ng-show="vm.currentStep == '1'">
+      <div class="container">
+        <div class="row">
+          <div class="col-sm-4 col-sm-offset-4">
+            <button type="button" class="g-btn g-btn-verde block" ui-sref="seguroviajeEmitir.initSteps.steps({step: 2})">Siguiente</button type="submit">
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>

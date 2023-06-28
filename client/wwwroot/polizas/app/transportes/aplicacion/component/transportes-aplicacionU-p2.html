@@ -1,0 +1,249 @@
+<div class="second-step" ng-form="fData">
+
+	<div class="g-section-inner">
+		<div class="container">
+			<div class="row">
+				<div class="col-md-12">
+					<h2 class="g-sub-title">Datos de la aplicaci&oacute;n</h2>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-12 mb-xs-2">
+					Nro. de aplicación: <strong>{{$parent.firstStep.poliza.UltimaAplicacion + 1}}</strong>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-4 mb-xs-2">
+					<mpf-dateselect label="{label: 'Fecha inicio aplicación', required: true}" ng-model="data.fInicioAplicacion" ng-name="fia" ng-required="true">
+					</mpf-dateselect>
+				</div>
+				<div class="col-md-4 mb-xs-2">
+					<mpf-dateselect label="{label: 'Fecha fin aplicación', required: true}" ng-model="data.fFinAplicacion" ng-name="ffa" ng-required="true">
+					</mpf-dateselect>
+				</div>
+				<div class="col-md-4 mb-xs-2">
+					<mpf-dateselect label="{label: 'Fecha embarque aproximado', required: true}" ng-model="data.fEmbarque" ng-name="fea" ng-required="true">
+					</mpf-dateselect>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="g-section-inner">
+		<div class="container">
+			<div class="row">
+				<div class="col-md-12">
+					<h2 class="g-sub-title">Datos del riesgo</h2>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-8 mb-xs-2">
+					<mpf-select name="nRiesgo" ng-model="data.riesgo" label="{label: 'Riesgo', required: true}" m-data-source="tiposRiesgo" text-field="RiesgoMaterial" value-field="NumeroRiesgo" m-Empty-Option="{enterData:true}" mpf-validation="required" ng-change="onRiesgoChanged()"></mpf-select>
+					<ul class="g-error">
+						<li ng-show="fData.nRiesgo.$invalid && !fData.nRiesgo.$pristine">* Este campo es requerido</li>
+					</ul>
+				</div>
+				<div class="col-md-8 mb-xs-2">
+					<mpf-input label="{label: 'Descripci&oacute;n del riesgo', required: true}" ng-model="data.riesgo.RiesgoMaterial" ng-required="true" mpf-validation="required" name="cdRiesgo" ng-disabled="true"></mpf-input>
+					<ul class="g-error">
+						<li ng-show="fData.cdRiesgo.$invalid && !fData.cdRiesgo.$pristine">* Este campo es requerido</li>
+					</ul>
+				{{}}
+				</div>
+				<div class="col-md-8 mb-xs-2">
+					<mpf-select ng-model="data.materiaAsegurada" label="{label: 'Materia asegurada', required: true}" m-data-source="materiasAseguradas" text-field="Descripcion" value-field="Codigo" m-Empty-Option="{enterData:true}" mpf-validation="required" addMessages></mpf-select>
+				</div>
+				<div class="col-md-8 mb-xs-2">
+					<mpf-input label="{label: 'Descripci&oacute;n materia asegurada', required: true}" ng-model="data.descripcionMateriaAsegurada" ng-required="true" mpf-validation="required" add-messages name="cDescripcionMateriaAsegurada" ng-maxlength="80"></mpf-input>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-4 mb-xs-2">
+					<mpf-input label="{label: 'Derecho de aduana', required: false}" ng-model="data.marcoRiesgo.Derechoaduana" ng-required="true" name="cAduana" ng-disabled="true" mpf-validation="required" add-messages></mpf-input>
+				</div>
+				<div class="col-md-4 mb-xs-2">
+					<mpf-input label="{label: 'Embalaje', required: false}" ng-model="data.marcoRiesgo.Embalaje" ng-required="true" name="cEmbalaje" ng-disabled="true" mpf-validation="required, onlyLetter" add-messages></mpf-input>
+				</div>
+				<div class="col-md-4 mb-xs-2">
+					<mpf-input label="{label: 'Medio de transporte', required: false}" name="cTipoTransporte" ng-model="data.marcoRiesgo.Transporte" ng-required="true" mpf-validation="required" ng-disabled="true" add-messages></mpf-input>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="g-section-inner">
+		<div class="container">
+			<div class="row">
+				<div class="col-md-12">
+					<h2 class="g-sub-title">Endosatario</h2>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-8 mb-xs-2">
+					<mpf-select label="{label: 'Seleccionar endosatario de la lista', required: false}" name="fEndosatario" ng-model="data.endosatario" m-data-source="endorseeData" text-field="Descripcion" value-field="Codigo" m-Empty-Option="{enterData:true}" ng-change="onEndorseeChange(data.endosatario)"></mpf-select>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="g-section-inner">
+		<div class="container">
+			<div class="row">
+				<div class="col-md-12">
+					<h2 class="g-sub-title">Informaci&oacute;n del transporte</h2>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-4 mb-xs-2">
+					<mpf-input label="{label: 'Compañia de transporte', required: true}" ng-model="data.companniaTransporte" ng-required="true" name="cCompanniaTransporte" mpf-validation="required, onlyLetter" add-messages></mpf-input>
+				</div>
+				<div class="col-md-4 mb-xs-2">
+					<mpf-input label="{label: 'Nombre nave', required: true}" ng-model="data.nombreNave" ng-required="true" name="cNombreAve" mpf-validation="required" add-messages></mpf-input>
+				</div>
+				<div class="col-md-4 mb-xs-2">
+					<mpf-select ng-model="data.pais" label="{label: 'Pa&iacute;s de origen', required: true}" m-data-source="paises" text-field="Descripcion" value-field="Codigo" m-Empty-Option="{enterData:true}" mpf-validation="required" add-messages name="cPais"></mpf-select>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-4 mb-xs-2">
+					<mpf-input label="{label: 'Nombre del origen', required: true}" ng-model="data.nombreOrigen" ng-required="true" name="cNombreOrigen" mpf-validation="required, onlyLetter" add-messages></mpf-input>
+				</div>
+				<div class="col-md-4 mb-xs-2">
+					<mpf-select ng-model="data.paisDestino" label="{label: 'Pa&iacute;s destino', required: true}" m-data-source="paises" text-field="Descripcion" value-field="Codigo" m-Empty-Option="{enterData:true}" mpf-validation="required" add-messages name="cPaisDestino"></mpf-select>
+				</div>
+				<div class="col-md-4 mb-xs-2">
+					<mpf-input label="{label: 'Nombre del destino', required: true}" ng-model="data.nombreDestino" ng-required="true" name="cNombreDestino" mpf-validation="required, onlyLetter" add-messages></mpf-input>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-4 mb-xs-2">
+					<mpf-input label="{label: 'Factura/Guía', required: false}" ng-model="data.facturaGuia" name="cFacturaGuia" add-messages ng-maxlength="20"></mpf-input>
+				</div>
+				<div class="col-md-4 mb-xs-2">
+					<mpf-input label="{label: 'Nombre del proveedor', required: false}" ng-model="data.nombreProveedor" name="cNombreProveedor" add-messages></mpf-input>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="g-section-inner">
+		<div class="container">
+			<div class="row">
+				<div class="col-md-12">
+					<h2 class="g-sub-title">Informaci&oacute;n del importe</h2>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-4 mb-xs-2">
+					<mpf-select ng-model="data.valuacionMercaderia" label="{label: 'Valuaci&oacute;n mercader&iacute;a', required: true}" m-data-source="valuacionesMercaderia" text-field="NombreValuacion" value-field="CodigoValuacion" m-Empty-Option="{enterData:true}" name="cvaluacionMercaderia" ng-change="onValuacionChanged()" mpf-validation="required" add-messages></mpf-select>
+				</div>
+				<div class="col-md-4 mb-xs-2">
+					<mpf-input label="{label: 'Limite máximo de embarque', required: true}" ng-model="data.marcoRiesgo.LimiteMaximoEmbarque" ng-required="true" name="cLimiteMaximoEmbarque" ng-disabled="true"></mpf-input>
+				</div>
+				<div class="col-md-4 mb-xs-2">
+					<m-Numeric-Textbox label="{label: 'Valor mercadería (FOB)', required: true}" name="cValorMercaderia"  ng-model="data.valorMercaderia" ng-required="true" options="2" m-Range=""></m-Numeric-Textbox>
+					<ul class="g-error">
+						<li ng-show="fData.cValorMercaderia.$invalid && !fData.cValorMercaderia.$pristine">* Este campo es requerido</li>
+					</ul>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-4 mb-xs-2">
+					<m-numeric-textbox label="{label: '% de sobreseguro', required: true}" name="cPorcentajeSobreseguro" ng-model="data.porcentajeSobreseguro" ng-required="true" options="" m-Range="" ></m-numeric-textbox>
+					<ul class="g-error">
+						<li ng-show="fData.cPorcentajeSobreseguro.$invalid && !fData.cPorcentajeSobreseguro.$pristine">* Este campo es requerido</li>
+					</ul>
+				</div>
+				<div class="col-md-4 mb-xs-2">
+					<m-numeric-textbox label="{label: 'Flete', required: false}" name="cFlete" ng-model="data.flete" options="" m-Range="" ng-disabled="!fleteeditable" add-messages></m-numeric-textbox>
+				</div>
+				<div class="col-md-4 mb-xs-2">
+					<!-- <mpf-input label="{label: 'Importe derecho de aduana', required: false}" ng-model="data.importeDerechoAduana" name="cimporteDerechoAduana" mpf-validation="onlyNumber" ng-disabled="diabledImporteDerechoAduana" add-messages></mpf-input> -->
+					<m-numeric-textbox label="{label: 'Importe derecho de aduana', required: false}" name="cimporteDerechoAduana" ng-model="data.importeDerechoAduana" ng-required="false" options="" m-Range="" ng-disabled="diabledImporteDerechoAduana"></m-numeric-textbox>
+				</div>
+			</div>
+			<div class="row" ng-hide="true">
+				<div class="col-md-4 mb-xs-2">
+					<mpf-input label="{label: 'Tasa de derecho de aduana', required: true}" ng-model="data.marcoRiesgo.TasaDerechoAduana" ng-required="true" name="ctasaDerechoAduana" ng-disabled="true"></mpf-input>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="g-section">
+		<div class="container">
+			<div class="col-md-4 col-md-offset-4">
+      		<button type='button' class="g-btn g-btn-verde block mb-md-3" ng-click="onCalcularPrima()">CALCULAR IMPORTE TOTAL</a>
+    	</div>
+		</div>
+	</div>
+
+	<div class="g-section">
+		<div class="container">
+			<div class="col-md-12 g-box g-calcular-prima">
+				<div class="row pb-xs-0-5 pt-xs-0-5 g-list-md">
+					<div class="col-md-6 col-md-offset-3 clearfix">
+						<div class="col-xs-7 item-label">
+							<span class="ico-mapfre_82_circle ico-bullet"></span>Valor mercader&iacute;a $:
+						</div>
+						<div class="col-xs-5 item-dato g-text-uppercase text-right">{{(data.calculoPrima.ValorMercaderiaFOB || '0') | number: cFormatDecimal}}</div>
+					</div>
+				</div>
+				<div class="row pb-xs-0-5 pt-xs-0-5 g-list-md">
+					<div class="col-md-6 col-md-offset-3 clearfix">
+						<div class="col-xs-7 item-label">
+							<span class="ico-mapfre_82_circle ico-bullet"></span>Valor embarque $:
+						</div>
+						<div class="col-xs-5 item-dato g-text-uppercase text-right">{{(data.calculoPrima.ValorEmbarque || '0') | number: cFormatDecimal}}</div>
+					</div>
+				</div>
+				<div class="row pb-xs-0-5 pt-xs-0-5 g-list-md">
+					<div class="col-md-6 col-md-offset-3 clearfix">
+						<div class="col-xs-7 item-label">
+							<span class="ico-mapfre_82_circle ico-bullet"></span>Importe sobreasegurado $:
+						</div>
+						<div class="col-xs-5 item-dato g-text-uppercase text-right">{{(data.calculoPrima.ImporteSobreSeguro || '0') | number: cFormatDecimal}}</div>
+					</div>
+				</div>
+				<div class="row pb-xs-0-5 pt-xs-0-5 g-list-md">
+					<div class="col-md-6 col-md-offset-3 clearfix">
+						<div class="col-xs-7 item-label">
+							<span class="ico-mapfre_82_circle ico-bullet"></span>Importe asegurado mercanc&iacute;a $:
+						</div>
+						<div class="col-xs-5 item-dato g-text-uppercase text-right">{{(data.calculoPrima.ImporteAseguradoMercaderia || '0') | number: cFormatDecimal}}</div>
+					</div>
+				</div>
+				<div class="row pb-xs-0-5 pt-xs-0-5 g-list-md">
+					<div class="col-md-6 col-md-offset-3 clearfix">
+						<div class="col-xs-7 item-label">
+							<span class="ico-mapfre_82_circle ico-bullet"></span>Importe derecho aduana $:
+						</div>
+						<div class="col-xs-5 item-dato g-text-uppercase text-right">{{(data.calculoPrima.ImporteDerechoAduana || '0') | number: cFormatDecimal}}</div>
+					</div>
+				</div>
+				<div class="row pb-xs-0-5 pt-xs-0-5 g-list-md">
+					<div class="col-md-6 col-md-offset-3 clearfix">
+						<div class="col-xs-7 item-label gH4 gCGray1">
+							<span class="ico-mapfre_82_circle ico-bullet"></span>Total importe asegurado $:
+						</div>
+						<div class="col-xs-5 item-dato g-text-uppercase text-right gH4 gCGray1">{{(data.calculoPrima.SumaAsegurada || '0') | number: cFormatDecimal}}</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="g-section">
+		<div class="container">
+			<div class="row">
+				<div class="col-md-4 mb-xs-1">
+					<span class="gCGray3">*Campos obligatorios</span>
+				</div>
+				<div class="col-md-4">
+					<button type='button' class="g-btn g-btn-verde block" ng-click="onEmitirConfirmacion()">CREAR APLICACI&Oacute;N</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+</div>

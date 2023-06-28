@@ -1,0 +1,55 @@
+<div class="container">
+  <div class="row">
+    <div class="col-md-12">
+      <h2 class="g-sub-title g-myd-subtitle mb-1">Duración y declaración del seguro</h2>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-4 mb-xs-2">
+      <mpf-select label="{label: 'Frecuencia de declaración', required: true}" name="nFrecDeclaracion"
+        ng-model="vm.duracion.modelo.mFrecuenciaDuracion" m-data-source="vm.frecuencia"
+        m-Empty-Option="{enterData:true}" mpf-validation="required"
+        ng-change="vm.cambioFrecuenciaDeclaracion(vm.duracion.modelo.mFrecuenciaDuracion)" ng-required="true"
+        text-field="DescripcionRegistro" value-field="CodigoRegistro" ng-disabled="disabled"></mpf-select>
+      <div class="g-error" ng-show="vm.validControlForm('nFrecDeclaracion')">
+        * Este campo es obligatorio
+      </div>
+    </div>
+    <div class="col-md-4 mb-xs-2">
+      <div class="g-date-picker">
+        <label class="g-placeholder animated">Fecha Inicial*<span></span>:</label>
+        <input type="text" class="form-control" uib-datepicker-popup="{{format}}" ng-model="vm.duracion.modelo.mFechaInicial" is-open="popup.opened" datepicker-options="dateOptions" ng-required="true" close-text="Close" alt-input-formats="altInputFormats" readonly="true"/>
+        <span class="input-group-btn" name="nFechaInicial">
+          <button type="button" class="btn btn-default" ng-click="open()"><i class="glyphicon glyphicon-calendar"></i></button>
+        </span>
+      </div>
+      <div class="g-error" ng-show="vm.validControlForm('nFechaInicial')">
+        * Este campo es obligatorio
+      </div>
+    </div>
+    <div class="col-md-4 mb-xs-2">
+      <mpf-select label="{label: 'Duración de la cobertura', required: true}" name="nDuracionCobertura"
+        ng-model="vm.duracion.modelo.mDuracionCobertura" m-data-source="vm.duracionCoberturaData"
+        m-Empty-Option="{enterData:false}" mpf-validation="required" ng-required="true" ng-disabled="disabled">
+      </mpf-select>
+      <div class="g-error" ng-show="vm.validControlForm('nDuracionCobertura')">
+        * Este campo es obligatorio
+      </div>
+    </div>
+
+  </div>
+
+  <div class="row">
+    <div class="col-md-4 mb-xs-2">
+      <mpf-input
+        label="{label: 'Centro de riesgo', required: true}"
+        ng-maxlength="80"
+        name="nCentroRiesgo"
+        ng-model="vm.duracion.modelo.mCentroRiesgo">
+      </mpf-input>
+      <div class="g-error" ng-show="vm.validControlForm('nCentroRiesgo')">
+        * Este campo es obligatorio
+      </div>
+    </div>
+  </div>
+</div>

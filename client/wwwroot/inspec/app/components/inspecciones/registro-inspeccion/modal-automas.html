@@ -1,0 +1,243 @@
+<section class="g-page page-modal page-modal__nueva-inspeccion">
+
+	<button type="button" class="close g-close-modal" ng-click="$ctrl.closeModal()">
+		<span class="ico-mapfre_231_cancelaroff"></span>
+	</button>
+
+	<form name="frmNuevaInspeccionForm">
+    <div class="clearfix">
+      <div class="col-md-12">
+        <div class="col-md-12 g-text-center-xs mb-xs-2">
+          <h3 class="gH3">
+            <b ng-if="!$ctrl.showMore">AUTOMÁS</b>
+            <b ng-if="$ctrl.showMore">AÑOS POR MARCA Y MODELO</b>
+          </h3>
+        </div>
+
+        <div class="modal-body mt-xs-3" id="automas" ng-if="!$ctrl.showMore">
+          <div class="row">
+            <div class="col-md-6 mb-xs-2">
+              <mpf-input label="{label: 'Marca', required: true}" name="nMarca" ng-model="$ctrl.mMarca" ng-disabled="true"></mpf-input>
+            </div>
+            <div class="col-md-6 mb-xs-2">
+              <mpf-input label="{label: 'Modelo', required: true}" name="nModelo" ng-model="$ctrl.mModel" ng-disabled="true"></mpf-input>
+            </div>
+          </div>
+
+          <inspec-empty-data data-length="$ctrl.items.length" first-query-completed="$ctrl.firstQueryCompleted"></inspec-empty-data>
+          <div class="clearfix mt-xs-3">
+            <div class="clearfix g-box g-overflow-hidden-xs mb-xs-2" ng-repeat="item in $ctrl.items.slice((($ctrl.pagination.currentPage-1)*$ctrl.pagination.pageSize), (($ctrl.pagination.currentPage)*$ctrl.pagination.pageSize))">
+              <div class="row pt-xs-1 gBgcGray5">
+                <ul class="clearfix g-list-sm">
+                  <li class="col-md-9 col-sm-9">
+                    <ul class="row">
+                      <li class="col-sm-4 clearfix cnt-item">
+                        <div class="col-sm-5 col-xs-4 item-label">
+                          Marca
+                        </div>
+                        <div class="col-sm-7 col-xs-8 item-dato g-text-uppercase">
+                          {{ item.brand }}
+                        </div>
+                      </li>
+                      <li class="col-sm-4 clearfix cnt-item">
+                        <div class="col-sm-5 col-xs-4 item-label">
+                          Modelo
+                        </div>
+                        <div class="col-sm-7 col-xs-8 item-dato g-text-uppercase">
+                          {{ item.model }}
+                        </div>
+                      </li>
+                    </ul>
+                  </li>
+                  <li class="col-md-3 col-sm-3 clearfix">
+                    <div class="col-md-12 cnt-item">
+                      <a class="g-btn g-btn-white block second-design" ng-click="$ctrl.showAutomasVerMas(item)">
+                        <span class="g-icon">
+                          <span>Ver más</span>
+                          <span class="icon ico-mapfre_311_arrowRight"></span>
+                        </span>
+                      </a>
+                    </div>
+                  </li>
+                </ul>
+              </div>
+
+              <div class="row g-box-content">
+                <ul class="clearfix g-list-sm">
+                  <li class="col-md-3 col-sm-6 clearfix cnt-item">
+                    <div class="col-sm-5 col-xs-4 item-label">
+                      Carroc.:
+                    </div>
+                    <div class="col-sm-7 col-xs-8 item-dato g-text-uppercase">
+                      {{ item.chassis || '-' }}
+                    </div>
+                  </li>
+                  <li class="col-md-3 col-sm-6 clearfix cnt-item">
+                    <div class="col-sm-5 col-xs-4 item-label">
+                      Puertas:
+                    </div>
+                    <div class="col-sm-7 col-xs-8 item-dato g-text-uppercase">
+                      {{ item.doors || '-' }}
+                    </div>
+                  </li>
+                  <li class="col-md-3 col-sm-6 clearfix cnt-item">
+                    <div class="col-sm-5 col-xs-4 item-label">
+                      Asientos:
+                    </div>
+                    <div class="col-sm-7 col-xs-8 item-dato g-text-uppercase">
+                      {{ item.seats || '-' }}
+                    </div>
+                  </li>
+                  <li class="col-md-3 col-sm-6 clearfix cnt-item">
+                    <div class="col-sm-5 col-xs-4 item-label">
+                      Tracción:
+                    </div>
+                    <div class="col-sm-7 col-xs-8 item-dato g-text-uppercase">
+                      {{ item.wheelDrive || '-' }}
+                    </div>
+                  </li>
+                </ul>
+                <ul class="clearfix g-list-sm">
+                  <li class="col-md-3 col-sm-6 clearfix cnt-item">
+                    <div class="col-sm-5 col-xs-4 item-label">
+                      Desplaz.:
+                    </div>
+                    <div class="col-sm-7 col-xs-8 item-dato g-text-uppercase">
+                      {{ item.displacement || '-' }}
+                    </div>
+                  </li>
+                  <li class="col-md-3 col-sm-6 clearfix cnt-item">
+                    <div class="col-sm-5 col-xs-4 item-label">
+                      Potencia:
+                    </div>
+                    <div class="col-sm-7 col-xs-8 item-dato g-text-uppercase g-cut-text">
+                      {{ item.horsePower || '-' }}
+                    </div>
+                  </li>
+                  <li class="col-md-3 col-sm-6 clearfix cnt-item">
+                    <div class="col-sm-5 col-xs-4 item-label">
+                      TM:
+                    </div>
+                    <div class="col-sm-7 col-xs-8 item-dato g-text-uppercase">
+                      {{ item.tm || '-' }}
+                    </div>
+                  </li>
+                  <li class="col-md-3 col-sm-6 clearfix cnt-item">
+                    <div class="col-sm-5 col-xs-4 item-label">
+                      TA:
+                    </div>
+                    <div class="col-sm-7 col-xs-8 item-dato g-text-uppercase g-cut-text">
+                      {{ item.ta || '-' }}
+                    </div>
+                  </li>
+                </ul>
+                <ul class="clearfix g-list-sm">
+                  <li class="col-md-3 col-sm-6 clearfix cnt-item">
+                    <div class="col-sm-5 col-xs-4 item-label">
+                      Peso:
+                    </div>
+                    <div class="col-sm-7 col-xs-8 item-dato g-text-uppercase">
+                      {{ item.weight || '-' }}
+                    </div>
+                  </li>
+                  <li class="col-md-3 col-sm-6 clearfix cnt-item">
+                    <div class="col-sm-5 col-xs-4 item-label">
+                      Carb.:
+                    </div>
+                    <div class="col-sm-7 col-xs-8 item-dato g-text-uppercase g-cut-text">
+                      {{ item.gas || '-' }}
+                    </div>
+                  </li>
+                  <li class="col-md-3 col-sm-6 clearfix cnt-item">
+                    <div class="col-sm-5 col-xs-4 item-label">
+                      Lanz:
+                    </div>
+                    <div class="col-sm-7 col-xs-8 item-dato g-text-uppercase">
+                      {{ item.releaseYear || '-' }}
+                    </div>
+                  </li>
+                  <li class="col-md-3 col-sm-6 clearfix cnt-item">
+                    <div class="col-sm-5 col-xs-4 item-label">
+                      Vig.:
+                    </div>
+                    <div class="col-sm-7 col-xs-8 item-dato g-text-uppercase g-cut-text">
+                      {{ item.vigencyYear || '-' }}
+                    </div>
+                  </li>
+                </ul>
+                <ul class="clearfix g-list-sm">
+                  <li class="col-md-3 col-sm-6 clearfix cnt-item">
+                    <div class="col-sm-5 col-xs-4 item-label">
+                      VRN:
+                    </div>
+                    <div class="col-sm-7 col-xs-8 item-dato g-text-uppercase">
+                      {{ item.nominalValue || '-'}}
+                    </div>
+                  </li>
+                </ul>
+              </div>
+            </div>
+            <div class="row" ng-if="$ctrl.pagination.totalItems > $ctrl.pagination.pageSize">
+              <div class="col-md-12">
+                <ul uib-pagination class="g-pagination" data-ng-model="$ctrl.pagination.currentPage" max-size="$ctrl.pagination.pageSize" total-items="$ctrl.pagination.totalItems" boundary-link-numbers="true"></ul>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="modal-body" id="automas" ng-if="$ctrl.showMore">
+          <div class="mt-xs-1 col-md-12 mb-xs-1">
+            <a class="g-link green" ng-click="$ctrl.hideAutomasVerMas()"><span class="ico-mapfre_78_chevronleft"></span>Volver al listado</a>
+          </div>
+          <div class="col-md-12">
+            <div class="clearfix g-box g-overflow-hidden-xs">
+              <ul class="clearfix g-list-sm gBgcGray5 pt-xs-1 mb-xs-0-1">
+                <li class="col-md-6 col-sm-6 clearfix cnt-item">
+                  <div class="clearfix">
+                    <div class="col-md-6 col-sm-6 item-label">
+                      <span class="ico-mapfre_82_circle ico-bullet"></span>Marca:
+                    </div>
+                    <div class="col-md-6 col-sm-6 item-dato g-text-uppercase">
+                      {{ $ctrl.currentBrand }}
+                    </div>
+                  </div>
+                </li>
+                <li class="col-md-6 col-sm-6 clearfix cnt-item">
+                  <div class="clearfix">
+                    <div class="col-md-5 col-sm-6 item-label">
+                      <span class="ico-mapfre_82_circle ico-bullet"></span>Modelo:
+                    </div>
+                    <div class="col-md-7 col-sm-6 item-dato g-text-uppercase">
+                      {{ $ctrl.currentModel }}
+                    </div>
+                  </div>
+                </li>
+              </ul>
+              <ul class="clearfix g-list gBgcGray5 pt-xs-1 hidden-xs">
+                <li class="cnt-item col-md-6 col-xs-6 text-center">
+                  <b>Año</b>
+                </li>
+                <li class="cnt-item col-md-6 col-xs-6 text-center">
+                  <b>Valor</b>
+                </li>
+              </ul>
+              <div class="col-md-12 cnt-content g-list-sm pt-xs-1 gnContentAuto-md">
+                <div class="clearfix ng-scope g-border-bottom-xs mb-xs-1" ng-repeat="detail in $ctrl.details">
+                  <ul class="row hidden-xs">
+                    <li class="col-md-6 col-xs-6 text-center cnt-item item-dato g-text-uppercase">
+                      {{ detail.releaseYear }}
+                    </li>
+                    <li class="col-md-6 col-xs-6 text-center cnt-item item-dato g-text-uppercase">
+                      {{ detail.nominalValue || '0' }}
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+	</form>
+
+</section>

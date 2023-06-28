@@ -1,0 +1,55 @@
+<section class="g-page g-page-documents">
+  <div class="consulta-cotizaciones">
+    <div class="g-title">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-7 col-lg-8 mb-xs-2 no-mb-md">
+            <span class="ico-mapfre_84_circleleft ico-title"></span>
+            <h1>Cartas de Garantía - Nro. {{letterNumber}}</h1>
+            <div class="title-data mt-xs-1 mb-xs-1">
+              <b>Fecha de Solicitud: </b> {{cartaGarantia.fscgrnta}} &nbsp;
+              <b>Versión: </b> {{letterVersion}}
+            </div>
+            <span class="title-tag mb-xs-1"
+              data-ng-class="{'c-tag u-bg--rojo-primario': getRojo(cartaGarantia), 'c-tag u-bg--verde-2': getVerde(cartaGarantia), 'c-tag u-bg--yellow-2': getAmarillo(cartaGarantia), 'c-tag u-bg--blue-3': getAzul(cartaGarantia), 'c-tag u-bg--transparente': getTransparent(cartaGarantia), 'c-tag u-bg--white-1': getBlanco(cartaGarantia)}">{{cartaGarantia.statusLetter}}
+            </span>
+          </div>
+          <div class="col-md-5 col-lg-4 g-text-right-sm hidden-sm hidden-xs mt-xs-1">
+            <a href="" ui-sref="consultaCgw"
+                ui-sref-opts="{reload: true, inherit: false}">
+              <span class="g-icon gCGray3">
+                <span class="icon ico-mapfre_310_arrowLeft"></span>
+                <span class="g-link"><b>Volver a la busqueda</b></span>
+              </span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="g-section g-section-tabs g-overflow-hidden-xs tabs-responsive" ng-class="{'showTabs': showTabs}">
+      <div class="container">
+        <span class="tabs__more glyphicon glyphicon-chevron-down hidden-sm hidden-md hidden-lg" ng-click="showTabs = !showTabs"></span>
+        <uib-tabset justified="true">
+          <uib-tab index="0" data-ng-click="mainData.tabSelected(0)">
+            <uib-tab-heading><span ng-click="tabsFalse()">Datos paciente</span></uib-tab-heading>
+            <div class="content-tab">
+              <div data-ng-include="tabPaciente"></div>
+            </div>
+          </uib-tab>
+          <uib-tab index="2" data-ng-click="mainData.tabSelected(2); cargarMontos()">
+            <uib-tab-heading><span ng-click="tabsFalse()">Presupuesto</span></uib-tab-heading>
+            <div class="content-tab">
+              <div data-ng-include="tabPresupuesto"></div>
+            </div>
+          </uib-tab>
+          <uib-tab index="3" data-ng-click="mainData.tabSelected(3); cargarMovimientos()">
+            <uib-tab-heading>Movimientos</uib-tab-heading>
+            <div class="content-tab">
+              <div data-ng-include="tabMovimientos"></div>
+            </div>
+          </uib-tab>
+        </uib-tabset>
+      </div>
+    </div>
+  </div>
+</section>

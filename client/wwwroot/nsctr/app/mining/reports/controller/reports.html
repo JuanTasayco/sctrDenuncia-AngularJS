@@ -1,0 +1,409 @@
+<section class="g-page pageReports mining">
+
+	<div class="g-title">
+		<div class="container">
+			<div class="row">
+				<div class="col-md-9 col-sm-11 col-xs-10">
+					<h1>Reporte de evaluación</h1>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="g-section-inner">
+
+		<form
+			action=""
+			name="frmReports">
+			<div class="container">
+
+        <div
+          show-filter
+          class="clearfix g-col-filter g-box-md gBgcGray5-md gBgcWhite1 mb-md-3"
+          ng-class="{'show': isFilterVisible}">
+          <div class="col-md-12">
+
+            <div class="clearfix gH4 gCGray1 mb-xs-1-5">
+              <h2 class="hidden-xs hidden-sm"><b>Buscar</b></h2>
+              <div
+                id="show-filter"
+                class="row pt-xs-2 pb-xs-2 gBgcGray5 g-border-bottom-xs hidden-md hidden-lg"
+                ng-click="toggleFilter();">
+                <div class="col-xs-10"><h2><b>Buscar</b></h2></div>
+                <div class="col-xs-2 g-text-right-xs">
+                  <span class="glyphicon glyphicon-chevron-down" ng-if="isFilterVisible"></span>
+                  <span class="glyphicon glyphicon-chevron-up" ng-if="!isFilterVisible"></span>
+                </div>
+                <div class="clearfix"></div>
+              </div>
+            </div>
+
+            <div class="row g-row-fz12">
+              <div class="col-md-4 g-col-md bottom mb-xs-2">
+                <div
+                  class="row"
+                  ng-if="!data.selectedCompany.documentNumber">
+                  <div class="col-xs-12">
+                    <a
+                      href="javascript:void(0)"
+                      class="g-link gH5 gCGreen1"
+                      ng-click="fnShowModalSearchPopup(CONSTANTS_NSCTR.client.code)"
+                      >
+                      <b>Seleccionar Empresa</b>
+                    </a>
+                  </div>
+                </div>
+                <div
+                  class="row"
+                  ng-if="data.selectedCompany.documentNumber">
+                  <div class="col-md-12">
+                    <div class="row">
+                      <div class="col-xs-12">
+                        <span class="mr-xs-1"><b>Razón Social:</b></span>
+                        {{data.selectedCompany.name || uppercase}}
+                      </div>
+                      <div class="col-xs-12">
+                        <span class="mr-xs-1"><b>RUC:</b></span>
+                        {{data.selectedCompany.documentNumber || uppercase}}
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-md-4 col-sm-2 col-ms-3 col-xs-6">
+                        <a
+                          class="g-link gH5 gCGreen1"
+                          ng-click="fnShowModalSearchPopup(CONSTANTS_NSCTR.client.code)">
+                          <b>Cambiar</b>
+                        </a>
+                      </div>
+                      <div class="col-md-4 col-sm-2 col-ms-3 col-xs-6">
+                        <a
+                          class="g-link gH5 gCGreen1"
+                          ng-click="fnCleanEnterprise()">
+                          <b>Borrar</b>
+                        </a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-4 g-col-md bottom mb-xs-2">
+                <div
+                  class="row"
+                  ng-if="!data.selectedInsured.documentNumber">
+                  <div class="col-xs-12">
+                    <a
+                      href="javascript:void(0)"
+                      class="g-link gH5 gCGreen1"
+                      ng-click="fnShowModalSearchPopup(CONSTANTS_NSCTR.insured.code)"
+                      >
+                      <b>Seleccionar Asegurado</b>
+                    </a>
+                  </div>
+                </div>
+                <div
+                  class="row"
+                  ng-if="data.selectedInsured.documentNumber">
+                  <div class="col-md-12">
+                    <div class="row">
+                      <div class="col-xs-12">
+                        <span class="mr-xs-1"><b>DNI:</b></span>
+                        {{data.selectedInsured.documentNumber || uppercase}}
+                      </div>
+                      <div class="col-xs-12">
+                        <span class="mr-xs-1"><b>NOMBRE:</b></span>
+                        {{data.selectedInsured.name || uppercase}}
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-md-4 col-sm-2 col-ms-3 col-xs-6">
+                        <a
+                          class="g-link gH5 gCGreen1"
+                          ng-click="fnShowModalSearchPopup(CONSTANTS_NSCTR.insured.code)">
+                          <b>Cambiar</b>
+                        </a>
+                      </div>
+                      <div class="col-md-4 col-sm-2 col-ms-3 col-xs-6">
+                        <a
+                          class="g-link gH5 gCGreen1"
+                          ng-click="fnCleanInsured()">
+                          <b>Borrar</b>
+                        </a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-4 mb-xs-2">
+                <mpf-select
+                  label="{label: 'Médico', required: false}"
+                  name="nMedico"
+                  ng-model="data.mMedico"
+                  m-data-source="data.medicList"
+                  text-field="value"
+                  value-field="code"
+                  m-Empty-Option="{enterData:true}"
+                  ng-required="false">
+                </mpf-select>
+                <ul class="g-error">
+                  <li ng-show="frmReports.nMedico.$invalid && !frmReports.nMedico.$pristine">* Seleccione un médico</li>
+                </ul>
+              </div>
+              <div class="col-md-4 mb-xs-2">
+                <mpf-select
+                  label="{label: 'Clínica', required: false}"
+                  name="nClinica"
+                  ng-model="data.mClinica"
+                  m-data-source="data.clinicList"
+                  text-field="value"
+                  value-field="code"
+                  m-Empty-Option="{enterData:true}"
+                  ng-required="false">
+                </mpf-select>
+                <ul class="g-error">
+                  <li ng-show="frmReports.nClinica.$invalid && !frmReports.nClinica.$pristine">* Seleccione una clínica</li>
+                </ul>
+              </div>
+              <div class="col-md-4 mb-xs-2">
+                <mpf-select
+                  label="{label: 'Locación', required: false}"
+                  name="nLocacion"
+                  ng-model="data.mLocacion"
+                  m-data-source="data.locationList"
+                  text-field="value"
+                  value-field="code"
+                  m-Empty-Option="{enterData:true}"
+                  ng-required="false">
+                </mpf-select>
+                <ul class="g-error">
+                  <li ng-show="frmReports.nLocacion.$invalid && !frmReports.nLocacion.$pristine">* Seleccione una locación</li>
+                </ul>
+              </div>
+            </div>
+            <div class="row g-row">
+              <div class="col-md-4 g-col-md bottom mb-xs-2 no-mb-md">
+                <div class="input-group g-date-picker">
+                  <label class="g-placeholder animated">Fecha inicio<span></span>:</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    name="nFechaInicioReporte"
+                    ng-model="data.mFechaInicioReporte.model"
+                    model-view-value="true"
+                    datepicker-options="data.mFechaInicioReporte.options"
+                    is-open="data.mFechaInicioReporte.open"
+                    close-text="Close"
+                    uib-datepicker-popup="{{data.mFechaInicioReporte.FORMAT_DATE}}"
+                    alt-input-formats="data.mFechaInicioReporte.ALT_INPUT_FORMATS"
+                    ui-mask="{{data.mFechaInicioReporte.FORMAT_MASK}}"
+                    ng-pattern="data.mFechaInicioReporte.FORMAT_PATTERN"
+                    ng-required="data.mFechaFinReporte.model"
+                    ng-disabled="false"
+                    ng-change="fnChangeCalendar()"/>
+                  <span class="input-group-btn">
+                    <button
+                      type="button"
+                      class="btn btn-default"
+                      ng-click="data.mFechaInicioReporte.setOpen(true)">
+                      <i class="glyphicon glyphicon-calendar"></i>
+                    </button>
+                  </span>
+                </div>
+                <ul class="g-error">
+                  <li ng-show="frmReports.nFechaInicioReporte.$error.pattern && !frmReports.nFechaInicioReporte.$pristine">* Fecha incorrecta</li>
+                  <li ng-show="frmReports.nFechaInicioReporte.$invalid && frmReports.nFechaInicioReporte.$error.required && !frmReports.nFechaInicioReporte.$pristine">* Este campo es necesario</li>
+                </ul>
+              </div>
+              <div class="col-md-4 g-col-md bottom mb-xs-2 no-mb-md">
+                <div class="input-group g-date-picker">
+                  <label class="g-placeholder animated">Fecha fin<span></span>:</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    name="nFechaFinReporte"
+                    ng-model="data.mFechaFinReporte.model"
+                    model-view-value="true"
+                    datepicker-options="data.mFechaFinReporte.options"
+                    is-open="data.mFechaFinReporte.open"
+                    close-text="Close"
+                    uib-datepicker-popup="{{data.mFechaFinReporte.FORMAT_DATE}}"
+                    alt-input-formats="data.mFechaFinReporte.ALT_INPUT_FORMATS"
+                    ui-mask="{{data.mFechaFinReporte.FORMAT_MASK}}"
+                    ng-pattern="data.mFechaFinReporte.FORMAT_PATTERN"
+                    ng-required="data.mFechaInicioReporte.model"
+                    ng-disabled="false"
+                    ng-change="fnChangeCalendar()"/>
+                  <span class="input-group-btn">
+                    <button
+                      type="button"
+                      class="btn btn-default"
+                      ng-click="data.mFechaFinReporte.setOpen(true)">
+                      <i class="glyphicon glyphicon-calendar"></i>
+                    </button>
+                  </span>
+                </div>
+                <ul class="g-error">
+                  <li ng-show="frmReports.nFechaFinReporte.$error.pattern && !frmReports.nFechaFinReporte.$pristine">* Fecha incorrecta</li>
+                  <li ng-show="frmReports.nFechaFinReporte.$invalid && frmReports.nFechaFinReporte.$error.required && !frmReports.nFechaFinReporte.$pristine">* Este campo es necesario</li>
+                </ul>
+              </div>
+              <div class="col-md-2 g-col-md bottom col-sm-6 col-ms-6 mb-xs-1 no-mb-ms" >
+                <a
+                  href="javascript:void(0)"
+                  class="g-btn g-btn-verde second-design block"
+                  ng-click="fnSeachReports()" ng-if="seguritySearch">
+                  Buscar
+                </a>
+              </div>
+              <div class="col-md-2 g-col-md bottom col-sm-6 col-ms-6" >
+                <a
+                  href="javascript:void(0)"
+                  class="g-btn g-btn-white second-design block"
+                  ng-click="fnCleanAll()" ng-if="seguritySearch">
+                  Limpiar
+                </a>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+			</div>
+		</form>
+
+    <div class="container">
+      <nsctr-no-result-filter
+        type="search"
+        no-result-info="data.noResultFilter.noResultInfo"
+        no-result="data.noResultFilter.noResult" >
+      </nsctr-no-result-filter>
+
+      <div
+        class="row"
+        ng-if="data.dataList.list.length > 0">
+        <div class="col-md-12">
+          <div class="clearfix g-tbl-wrapper">
+            <div class="clearfix table__970">
+              <ul
+                height-row
+                class="g-row-fz12 g-tbl-row gBgcGray5 pt-xs-1">
+                <li class="g-col g-col-xs col-7-dktp tbl-item item-title">TIPO<br>DOC</li>
+                <li class="g-col g-col-xs col-10-dktp tbl-item item-title">NRO.<br>DOC</li>
+                <li class="g-col g-col-xs col-17-dktp tbl-item item-title">NOMBRE</li>
+                <li class="g-col g-col-xs col-10-dktp tbl-item item-title">CONDICIÓN</li>
+                <li class="g-col g-col-xs col-10-dktp tbl-item item-title">FECHA EVALUACIÓN</li>
+                <li class="g-col g-col-xs col-13-dktp tbl-item item-title">RUC EMPRESA</li>
+                <li class="g-col g-col-xs col-17-dktp tbl-item item-title">RAZ. SOCIAL</li>
+                <li class="g-col g-col-xs col-16-dktp tbl-item item-title">MÉDICO</li>
+              </ul>
+              <div class="mb-xs-1">
+                <ul
+                  height-row
+                  class="g-row-fz12 g-tbl-row pt-xs-1 g-border-bottom-xs"
+                  ng-repeat="item in data.dataList.list">
+                  <li class="g-col g-col-xs col-7-dktp tbl-item">
+                    {{item.documentType}}
+                  </li>
+                  <li class="g-col g-col-xs col-10-dktp tbl-item">
+                    {{item.documentNumber}}
+                  </li>
+                  <li
+                    class="g-col g-col-xs col-17-dktp tbl-item g-cut-text"
+                    title="{{item.fullName}}">
+                    {{item.fullName}}
+                  </li>
+                  <li class="g-col g-col-xs col-10-dktp tbl-item">
+                    {{item.apto}}
+                  </li>
+                  <li class="g-col g-col-xs col-10-dktp tbl-item">
+                    {{item.evaluationDate}}
+                  </li>
+                  <li class="g-col g-col-xs col-13-dktp tbl-item">
+                    {{item.enterpriseRuc}}
+                  </li>
+                  <li
+                    class="g-col g-col-xs col-17-dktp tbl-item g-cut-text"
+                    title="{{item.enterpriseSocialReason}}">
+                    {{item.enterpriseSocialReason}}
+                  </li>
+                  <li
+                    class="g-col g-col-xs col-16-dktp tbl-item g-cut-text"
+                    title="{{item.medicFullname}}">
+                    {{item.medicFullname}}
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div
+        class="row"
+        ng-if="data.dataList.showPagination">
+        <div class="col-md-8 col-md-offset-2">
+          <ul
+            uib-pagination
+            class="g-pagination"
+            ng-model="data.mPagination.currentPage"
+            max-size="data.mPagination.maxSize"
+            total-items="data.mPagination.totalItems"
+            ng-change="fnChangePage()"
+            boundary-link-numbers="true">
+          </ul>
+        </div>
+      </div>
+
+      <div
+        class="row mt-xs-2"
+        ng-if="data.dataList.list.length > 0 && segurityGenerate">
+        <div class="col-md-12">
+          <div class="clearfix g-box gBgcGray5 pt-xs-1 pb-xs-1 g-row">
+            <div class="col-sm-3 g-col-sm middle mb-xs-1 no-mb-sm">
+              <b>Reporte - Evaluación</b>
+            </div>
+            <div class="col-sm-3 g-col-sm middle mb-xs-1 no-mb-sm">
+              <a
+                class="g-btn g-btn-white second-design block"
+                ng-click="fnDownloadReports('pdf')">
+                <span class="g-icon">
+                  <span class="icon ico-mapfre_315_pdf"></span>
+                  <span>GENERAR PDF</span>
+                </span>
+              </a>
+            </div>
+            <div class="col-sm-3 g-col-sm middle mb-xs-1 no-mb-sm">
+              <a
+                class="g-btn g-btn-white second-design block"
+                ng-click="fnDownloadReports('excel')">
+                <span class="g-icon">
+                  <span class="icon ico-mapfre_139_excel"></span>
+                  <span>GENERAR EXCEL</span>
+                </span>
+              </a>
+            </div>
+            <div class="col-sm-3 g-col-sm middle mb-xs-1 no-mb-sm">
+              <a
+                class="g-btn g-btn-white second-design block"
+                ng-click="fnDownloadReports('word')">
+                <span class="g-icon">
+                  <span class="icon ico-mapfre_321_doc"></span>
+                  <span>GENERAR WORD</span>
+                </span>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+	</div>
+
+  <form
+		id="iFrmDownloadReport"
+		name="nFrmDownloadReport"
+		method="post">
+		<input type="hidden" name="json" value='{{data.paramsCSServicesDownloadReport}}'>
+	</form>
+
+</section>

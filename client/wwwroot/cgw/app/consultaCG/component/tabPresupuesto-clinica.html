@@ -1,0 +1,77 @@
+<div class="row pt-xs-2 pb-xs-2">
+  <div class="clearfix g-section-inner">
+    <div class="clearfix">
+      <h2 class="col-xs-12 g-sub-title red">Presupuesto</h2>
+    </div>
+    <div class="clearfix mb-xs-2">
+    </div>
+    <div  class="clearfix u-ph-15 mb-xs-1"
+          data-ng-repeat="item in procedimientosSolicitados">
+      <div class="item u-br-gris-4 clearfix">
+        <div class="col-sm-2 u-bg--gris-9 g-text-center-xs u-pvh-15 cgw-presupuesto__icon-wp">
+          <span class="{{item.icon}} cgw-presupuesto__icon"></span>
+        </div>
+        <div class="col-sm-8 info cgw-presupuesto__info">
+          <p  class="g-link green">{{item.descriptionDetail}}</p>
+        </div>
+        <div class="col-sm-2 u-pvh-15 cgw-presupuesto__price-wp">
+          <span><b>{{item.requestedAmount | currency: 'S/.'}}</b></span>
+        </div>
+      </div>
+    </div>
+    <div class="clearfix u-ph-15 mb-xs-4">
+      <div class="col-sm-4 col-md-3 u-bg--gris-9 u-pt-15 cgw-presupuesto__total-box clearfix">
+        <p class="clearfix u-txt-weight">
+          <span class="col-xs-5">Subtotal</span>
+          <span class="col-xs-7">{{subtotal | currency: 'S/.'}}
+        </p>
+        <p class="clearfix u-txt-weight">
+          <span class="col-xs-5">IGV {{valorIGV}}%</span>
+          <span class="col-xs-7">{{montoIGV | currency: 'S/.'}}
+        </p>
+        <p class="clearfix u-txt-weight">
+          <span class="col-xs-5">Total</span>
+          <span class="col-xs-7">{{total | currency: 'S/.'}}</span>
+        </p>
+      </div>
+    </div>
+  </div>
+  <div class="g-section-inner">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12">
+          <h2 class="g-sub-title">Archivos Adjuntos</h2>
+        </div>
+      </div>
+    </div>
+      <div class="clearfix cgw-inline-files">
+        <div class="container container__attach mb-xs-3">
+          <div class="cgw-attach__main_box">
+            <div class="cgw-attach__wp" data-ng-repeat="item in files">
+              <label class="cgw-attach__box g-text-center-xs">
+                <div class="cgw-attach__box-body" uib-tooltip="{{item.fileName}}" data-ng-click="downloadAttachFileCGW(item)">
+                  <span class="ico-mapfre_170_archivos cgw-attach__icon u-color--gris-8"></span>
+                  <p class="u-txt-weight mb-xs-0 mt-xs-1 g-cut-text">{{item.fileName}}</p>
+                </div>
+              </label>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Inicio: Observaciones Externas -->
+      <div class="clearfix g-section-inner">
+        <h2 class="col-xs-12 col-md-6 g-sub-title red">Observaciones Externas</h2>
+      </div>
+      <div class="clearfix mb-md-1">
+        <div class="col-md-8">
+          <mpf-textarea label="{label:'Detalles Autorización Forzada', required: false}" ng-model="cartaGarantia.remark" name="nObsExterna" ng-required="false" ng-disabled="isObservada(cartaGarantia)" ng-Maxlength="400"></mpf-textarea>
+          <div class="g-error" data-ng-show="!cartaGarantia.remark && anuladaFlag">* Ingrese el motivo por el que se anula.</div>
+        </div>
+      </div>
+    <!-- Fin: Observaciones Externas -->
+  </div>
+</div>
+
+<form id="frmAttachFileCLICGW" name="frmAttachFileCLICGW" action="{{attachFileCGWURL}}" method="get" target="_blank">
+</form>

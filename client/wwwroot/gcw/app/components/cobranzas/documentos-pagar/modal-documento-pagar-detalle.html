@@ -1,0 +1,199 @@
+<section class="g-page page-modal page-modal__doc__pago page-consultas-gestion">
+  <button type="button" class="close g-close-modal" ng-click="closeModal()">
+    <span class="ico-mapfre_231_cancelaroff"></span>
+  </button>
+
+  <form name="frmNuevaInspeccionForm">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12 g-text-center-xs mb-xs-2">
+          <h2 class="gH3"><b>Documento de Pago No. {{documento}}</b></h2>
+        </div>
+      </div>
+    </div>
+    <div class="container">
+      <div class="clearfix">
+        <div class="modal-body" id="automas">
+          <div class="row">
+            <div class="col-md-12 mb-xs-1 clearfix">
+              <h2 class="g-border-bottom-xs pb-xs-1"><b>Información de Póliza</b></h2>
+            </div>
+          </div>
+          <ul class="row g-list-md mb-xs-1">
+            <li class="col-md-4 clearfix cnt-item">
+              <div class="col-md-5 col-xs-12 col-sm-6 item-label">
+                <span class="ico-mapfre_82_circle ico-bullet"></span>Póliza:
+              </div>
+              <div class="col-md-7 col-xs-12 col-sm-6 item-dato g-text-uppercase">
+                {{poliza}}
+              </div>
+            </li>
+            <li class="col-md-4 clearfix cnt-item">
+              <div class="col-md-5 col-xs-12 col-sm-6 item-label">
+                <span class="ico-mapfre_82_circle ico-bullet"></span>Contratante:
+              </div>
+              <div class="col-md-7 col-xs-12 col-sm-6 item-dato g-text-uppercase">
+                {{contratante}}
+              </div>
+            </li>
+            <li class="col-md-4 clearfix cnt-item">
+              <div class="col-md-5 col-xs-12 col-sm-6 item-label">
+                <span class="ico-mapfre_82_circle ico-bullet"></span>Producto
+              </div>
+              <div class="col-md-7 col-xs-12 col-sm-6 item-dato g-text-uppercase">
+                {{producto}}
+              </div>
+            </li>
+          </ul>
+          <ul class="row g-list-md mb-xs-1">
+            <li class="col-md-4 clearfix cnt-item">
+              <div class="col-md-5 col-xs-12 col-sm-6 item-label">
+                <span class="ico-mapfre_82_circle ico-bullet"></span>Compañia:
+              </div>
+              <div class="col-md-7 col-xs-12 col-sm-6 item-dato g-text-uppercase">
+                {{compania}}
+              </div>
+            </li>
+          </ul>
+
+          <div class="clearfix">
+            <div class="col-md-12 mb-xs-1 clearfix g-border-bottom-xs pl-xs-0 pr-xs-0 pb-xs-1">
+              <div class="row">
+                <div class="col-xs-12 col-sm-6 col-md-9"> 
+                  <h2 class="pt-xs-1-5"><b>Información de Documento</b></h2>
+                </div>
+                <div class="col-xs-12 col-sm-6 col-md-3 mt-xs-1 mt-xs-1 mt-sm-0">
+                  <button class="g-btn g-btn-white second-design block" 
+                  ga-click
+                  ga-category="'CG - Cobranzas'"
+                  ga-action="'MPF - Documentos por pagar - Ver documento'"
+                  ga-label="'Botón: Ver documento'"
+                  ng-click="verDocumento()">Ver documento</button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <ul class="row g-list-md mb-xs-1">
+            <li class="col-md-4 clearfix cnt-item">
+              <div class="col-md-5 col-xs-12 col-sm-6 item-label">
+                <span class="ico-mapfre_82_circle ico-bullet"></span>Documento:
+              </div>
+              <div class="col-md-7 col-xs-12 col-sm-6 item-dato g-text-uppercase">
+                {{tipoDocumento}} {{documento}}
+              </div>
+            </li>
+            <li class="col-md-4 clearfix cnt-item">
+              <div class="col-md-5 col-xs-12 col-sm-6 item-label">
+                <span class="ico-mapfre_82_circle ico-bullet"></span>Vencimiento:
+              </div>
+              <div class="col-md-7 col-xs-12 col-sm-6 item-dato g-text-uppercase">
+                {{vencimiento}}
+              </div>
+            </li>
+            <li class="col-md-4 clearfix cnt-item">
+              <div class="col-md-5 col-xs-12 col-sm-6 item-label">
+                <span class="ico-mapfre_82_circle ico-bullet"></span>Importe
+              </div>
+              <div class="col-md-7 col-xs-12 col-sm-6 item-dato g-text-uppercase">
+                <span ng-show="moneda == 'SOL'">S/</span><span ng-show="moneda == 'DOL'">$</span> {{importe}}
+              </div>
+            </li>
+          </ul>
+          <ul class="row g-list-md mb-xs-1">
+            <li class="col-md-4 clearfix cnt-item">
+              <div class="col-md-5 col-xs-12 col-sm-6 item-label">
+                <span class="ico-mapfre_82_circle ico-bullet"></span>Medio cobro:
+              </div>
+              <div class="col-md-7 col-xs-12 col-sm-6 item-dato g-text-uppercase">
+                {{medio}}
+              </div>
+            </li>
+          </ul>
+
+          <div ng-if="itemsSaldo > 0">
+            <div class="clearfix">
+              <div class="col-md-12 mb-xs-1 clearfix g-border-bottom-xs pl-xs-0 pr-xs-0 pb-xs-1">
+                <div class="row">
+                  <div class="col-sm-9"> 
+                    <h2 class="pt-xs-1-5"><b>Saldo a favor de cliente</b></h2>
+                  </div>
+                  <div class="col-sm-3">
+                    <button class="g-btn g-btn-white second-design block" ng-click="saldoFavor()">Saldo A Favor</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <ul class="row g-list-md mb-xs-1">
+              <li class="col-md-4 clearfix cnt-item">
+                <div class="col-md-5 col-xs-12 col-sm-6 item-label">
+                  <span class="ico-mapfre_82_circle ico-bullet"></span>Cliente:
+                </div>
+                <div class="col-md-7 col-xs-12 col-sm-6 item-dato g-text-uppercase">
+                  {{cliente}}
+                </div>
+              </li>
+              <li class="col-md-4 clearfix cnt-item">
+                <div class="col-md-5 col-xs-12 col-sm-6 item-label">
+                  <span class="ico-mapfre_82_circle ico-bullet"></span>Documento:
+                </div>
+                <div class="col-md-7 col-xs-12 col-sm-6 item-dato g-text-uppercase">
+                  {{documento2}}
+                </div>
+              </li>
+            </ul>
+
+            <div class="clearfix">
+              <div tbl-oim class="col-xs-12 g-tbl-wrapper pl-xs-0">
+                <div class="tbl-main table__820">
+                  <ul class="tbl-header clearfix">
+                    <li class="title col-15-dktp">DOCUMENTO</li>
+                    <li class="title col-15-dktp">TIPO</li>
+                    <li class="title col-15-dktp">MOVIMIENTO</li>
+                    <li class="title col-15-dktp">IMPORTE</li>
+                    <li class="title col-15-dktp">MON</li>
+                    <li class="title col-15-dktp">FECHA MOV</li>
+                  </ul>
+                  <ul class="tbl-body clearfix">
+                    <li>
+                      <ul height-row class="tbl-row clearfix" data-ng-repeat="saldo in saldos">
+                        <li class="cell col-15-dktp">
+                          <span class="cell-label"><span class="cell-data g-text-uppercase">{{saldo.crossNumber}}</span></span>
+                        </li>
+                        <li class="cell col-15-dktp">
+                          <span class="cell-label"><span class="cell-data g-text-uppercase">{{saldo.typeDescription}}</span></span>
+                        </li>
+                        <li class="cell col-15-dktp">
+                          <span class="cell-label"><span class="cell-data">{{saldo.movementName}}</span></span>
+                        </li>
+                        <li class="cell col-15-dktp">
+                          <span class="cell-label"><span class="cell-data g-text-uppercase">{{saldo.amount}}</span></span>
+                        </li>
+                        <li class="cell col-15-dktp">
+                          <span class="cell-label text-center"><span class="cell-data">{{saldo.coinDescription}}</span></span>
+                        </li>
+                        <li class="cell col-15-dktp">
+                          <span class="cell-label"><span class="cell-data">{{saldo.operationDate}}</span></span>
+                        </li>
+                      </ul>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>            
+
+          </div>
+
+
+        </div>
+      </div>
+    </div>
+  </form>
+</section>
+
+<form id="frmVerDocumento" name="frmVerDocumento" action="{{vm.verDocumentoURL}}" method="post" target="_blank">
+  <input type="hidden" name="json" value='{{vm.downloadFile}}'>
+</form>
+
+<form id="frmSaldoFavor" name="frmSaldoFavor" action="{{vm.saldoFavorURL}}" method="post"  target="_blank">
+  <input type="hidden" name="json" value='{{vm.downloadFile2}}'>
+</form>

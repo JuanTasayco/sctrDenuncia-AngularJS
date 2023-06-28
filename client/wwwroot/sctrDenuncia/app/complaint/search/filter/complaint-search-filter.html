@@ -1,0 +1,84 @@
+<div class="g-section g-border-top">
+    <form name="frmFilterComplaint">
+        <div class="clearfix">
+            <div class="mb-xs-2">
+                <div>
+                    <div class="container">
+                        <div class="searchComplaint clearfix g-col-filter g-box-md gBgcGray5-md gBgcWhite1">
+                            <div class="col-md-12 mb-xs-1-5 gH4 gCGray1">
+                                <h2 class="pb-xs-1 g-border-bottom-xs hidden-xs hidden-sm">
+                                    <b>B&uacute;squeda de Denuncias</b>
+                                </h2>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="row">
+                                    <div class="col-md-6 mb-xs-4">
+                                        <mp-data-seeker
+                                            behavior="{label:'RUC / Nombre o Raz&oacute;n Social', matchField:'fulltext', placeholder: 'Ingresa el RUC o Razón Social'}"
+                                            m-data-source="$ctrl.seekCompany($inputNeed)"
+                                            ng-model="$ctrl.frmFilter.company" ng-change="$ctrl.changeValid()">
+                                            {{$item.documentNumber}} - <div
+                                                ng-bind-html="$item.fullname | highlight: $select.search"></div>
+                                        </mp-data-seeker>
+                                        <div ng-show="$ctrl.invalidAsureClient" class="g-error">* Ingrese un cliente RUC
+                                            / Raz&oacute;n social ó un asegurado DNI / Nombre y apellidos.</div>
+                                    </div>
+                                    <div class="col-md-6 mb-xs-4">
+                                        <mp-data-seeker
+                                            behavior="{label:'DNI / Nombres y Apellidos', matchField:'fulltext', placeholder: 'Ingresa DNI o nombres y/o apellidos'}"
+                                            m-data-source="$ctrl.seekAsured($inputNeed)"
+                                            ng-model="$ctrl.frmFilter.asured" ng-change="$ctrl.changeValid()">
+                                            {{$item.documentNumber}} -<div
+                                                ng-bind-html="$item.fullname | highlight: $select.search"></div>
+                                        </mp-data-seeker>
+                                        <div ng-show="$ctrl.invalidAsureClient" class="g-error">* Ingrese un asegurado
+                                            DNI / Nombre y apellidos ó un cliente RUC / Raz&oacute;n social.</div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-3 mb-xs-2">
+                                        <mpf-datepicker label="{label: 'Fecha ocurrencia desde', required: false}"
+                                            name="nFechaDesde" format="'dd/MM/yyyy'"
+                                            data-maxDate="$ctrl.frmFilter.toDate" ng-model="$ctrl.frmFilter.fromDate"
+                                            ng-required="true"></mpf-datepicker>
+                                        <div class="g-error"
+                                            ng-show="frmFilterComplaint.nFechaDesde.$invalid && !frmFilterComplaint.nFechaDesde.$pristine">
+                                            * Ingrese una fecha ocurrencia desde <br />menor a la fecha hasta </div>
+
+                                    </div>
+                                    <div class="col-md-3 mb-xs-2">
+                                        <mpf-datepicker label="{label: 'Fecha ocurrencia hasta', required: false}"
+                                            name="nFechaHasta" format="'dd/MM/yyyy'" data-maxDate="$ctrl.currentDate"
+                                            ng-model="$ctrl.frmFilter.toDate" ng-required="true"></mpf-datepicker>
+                                        <div class="g-error"
+                                            ng-show="frmFilterComplaint.nFechaHasta.$invalid && !frmFilterComplaint.nFechaHasta.$pristine">
+                                            * Ingrese una fecha ocurrencia hasta <br />mayor a la fecha desde</div>
+
+                                    </div>
+                                    <div class="col-md-2 mb-xs-2 mt-xs-2">
+                                        <mpf-Select 
+                                            text-field="descripcion" 
+                                            value-field="codigo"
+                                            label="{label: 'Denuncia provisional', required: false}"
+                                            m-data-source="$ctrl.opciones" 
+                                            ng-model="$ctrl.frmFilter.marcaProvisional"
+                                            name="mFormaAccidente" 
+                                            m-Empty-Option="{enterData:true, text:'Todos'}"></mpf-Select>
+                                    </div>
+                                    <div class="col-md-2 mb-xs-2 mt-xs-4">
+                                        <a class="g-btn g-btn-white second-design block"
+                                            ng-click="$ctrl.clear()">LIMPIAR</a>
+                                    </div>
+                                    <div class="col-md-2 mb-xs-2 mt-xs-4">
+                                        <a class="g-btn g-btn-verde second-design block" ng-click="$ctrl.search()"><i
+                                                class="glyphicon glyphicon-search"></i> BUSCAR</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>

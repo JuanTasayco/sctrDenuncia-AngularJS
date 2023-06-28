@@ -1,0 +1,94 @@
+<div
+  class="col-md-12 g-box3 g-box-add-item-3 box-add-damage-3"
+  data-ng-form="$ctrl.frmDanho">
+  <div class="row">
+    <div class="col-md-12 mb-xs-2">
+      <h3 class="g-sub-title c-black">{{::$ctrl.frmTitulo}}</h3>
+    </div>
+  </div>
+  <div class="row mb-xs-2">
+    <div class="col-md-3 mb-xs-2">
+      <wp-cbo-zona-danho
+        data-label="{label: 'Zona del daño', required: true}"
+        data-ng-model="$ctrl.frm.cDanho.zonaDanho"
+        data-option-default="{enterData: true}"
+        data-set-model-by-this-key="$ctrl.frm.codigoZonaDanio"
+        name="nZonaDanho"
+      >
+      </wp-cbo-zona-danho>
+      <div
+        class="g-error"
+        data-ng-show="$ctrl.frmDanho.nZonaDanho.$invalid && !$ctrl.frmDanho.nZonaDanho.$pristine">
+        Este campo es obligatorio
+      </div>
+    </div>
+    <div class="col-md-3 mb-xs-2">
+      <wp-cbo-parte-danho
+        data-label="{label: 'Parte', required: true}"
+        data-ng-change="$ctrl.changeParte()"
+        data-ng-model="$ctrl.frm.cDanho.parte"
+        data-option-default="{enterData: true}"
+        data-set-model-by-this-key="$ctrl.frm.codigoParteDanio"
+        data-zona="$ctrl.frm.cDanho.zonaDanho"
+        name="nParteDanho"
+      >
+      </wp-cbo-parte-danho>
+      <div
+        class="g-error"
+        data-ng-show="$ctrl.frmDanho.nParteDanho.$invalid && !$ctrl.frmDanho.nParteDanho.$pristine">
+        Este campo es obligatorio
+      </div>
+      <div
+        class="g-error"
+        data-ng-show="$ctrl.isParteDanhoRepetido">
+        Esta parte dañada ya ha sido ingresada
+      </div>
+    </div>
+    <div class="col-md-3 mb-xs-2">
+      <wp-cbo-nivel-danho
+        data-label="{label: 'Nivel Daño', required: true}"
+        data-ng-model="$ctrl.frm.cDanho.nivel"
+        data-option-default="{enterData: true}"
+        data-set-model-by-this-key="$ctrl.frm.codigoNivelDanio"
+        name="nNivelDanho"
+      >
+      </wp-cbo-nivel-danho>
+      <div
+        class="g-error"
+        data-ng-show="$ctrl.frmDanho.nNivelDanho.$invalid && !$ctrl.frmDanho.nNivelDanho.$pristine">
+        Este campo es obligatorio
+      </div>
+    </div>
+    <div class="col-md-3 mb-xs-2">
+      <wp-cbo-tipo-danho
+        data-label="{label: 'Tipo Daño', required: true}"
+        data-ng-model="$ctrl.frm.cDanho.tipoDanho"
+        data-option-default="{enterData: true}"
+        data-set-model-by-this-key="$ctrl.frm.codigoTipoDanio"
+        name="nTipoDanho"
+      >
+      </wp-cbo-tipo-danho>
+      <div
+        class="g-error"
+        data-ng-show="$ctrl.frmDanho.nTipoDanho.$invalid && !$ctrl.frmDanho.nTipoDanho.$pristine">
+        Este campo es obligatorio
+      </div>
+    </div>
+  </div>
+  <div class="row mt-xs-2">
+    <div class="col-xs-6 col-sm-4 col-sm-offset-1 col-md-3 col-md-offset-3 mb-xs-1">
+      <a
+        class="col-xs-12 g-btn g-btn-white"
+        data-ng-click="$ctrl.cerrarFrm()">
+        Cancelar
+      </a>
+    </div>
+    <div class="col-xs-6 col-sm-4 col-sm-offset-2 col-md-3 col-md-offset-0 mb-xs-1">
+      <a
+        class="col-xs-12 g-btn g-btn-verde"
+        data-ng-click="$ctrl.grabarDanho()">
+        Guardar
+      </a>
+    </div>
+  </div>
+</div>

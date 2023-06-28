@@ -1,0 +1,147 @@
+<div class="g-section mb-xs-4">
+  <div class="container">
+    <div class="clearfix">
+      <h2 class="col-xs-12 gH2 gCGray1 mt-xs-2 mb-xs-1">
+        Reporte Solicitud por Clínica por Carta de Garantía
+      </h2>
+    </div>
+    <form class="clearfix g-box gBgcGray5 gBgcWhite1 pt-xs-2 pb-xs-1" name="frmRepoClinicaCarta">
+      <div class="clearfix">
+        <div class="col-md-4">
+          <div class="mb-xs-2">
+            <mpf-select
+              ng-model="formData.mEmpresa"
+              name="nEmpresaClinicaCarta"
+              label="{label: 'Empresa:', required: false}"
+              m-data-source="empresas"
+              text-field="description"
+              value-field="code"
+              ng-change="loadProducts(formData.mEmpresa.id)"
+              m-Empty-Option="{enterData:false}"
+              mpf-validation="required"></mpf-select>
+            <div  class="g-error"
+                  data-ng-show="frmRepoClinicaCarta.nEmpresaClinicaCarta.$error.required && !frmRepoClinicaCarta.nEmpresaClinicaCarta.$pristine">* Seleccione una empresa
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="mb-xs-2">
+            <mpf-select
+              ng-model="formData.mProducto"
+              name="nProducto"
+              label="{label: 'Producto', required: true}"
+              m-data-source="formData.productosCGW"
+              text-field="productDescription"
+              value-field="productCode"
+              m-Empty-Option="{enterData:true}"
+              mpf-validation="required"></mpf-select>
+            <div class="g-error"
+                 data-ng-show="frmRepoAfiliado.nEmpresa.$error.required && !frmRepoAfiliado.nEmpresa.$pristine">* Seleccione una empresa
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4 mb-xs-2" ng-show="flagClinic != 1">
+           <mp-data-seeker
+              behavior="{label:'Clínica', placeholder:'Ingresa nombre de la clínica...', matchField:'description'}"
+              m-data-source="getListClinic($inputNeed)"
+              ng-model="formData.mClinica"
+              name="nClinica"
+              ng-required="false"
+              ng-change="saveClinic(mClinica)">
+            <div ng-bind-html="$item.description | highlight: $select.search"></div>
+          </mp-data-seeker>
+        </div>
+        <div class="col-md-4 mb-xs-2">
+          <mpf-select data-ng-model="formData.mEstadoCarta"
+            name="nEstadoCarta"
+            label="{label: 'Estado de Carta', required: false}"
+            m-data-source="estadoCartas"
+            text-field="description"
+            value-field="code"
+            m-Empty-Option="{enterData:true}"></mpf-select>
+        </div>
+      </div>
+      <div class="clearfix mb-xs-2">
+        <div class="col-md-4 mb-xs-2">
+          <mpf-select data-ng-model="formData.mEjecutivo"
+              name="nEjecutivo"
+              label="{label: 'Ejecutivo', required: false}"
+              m-data-source="ejecutivos"
+              text-field="name"
+              value-field="name"
+              m-Empty-Option="{enterData:false}"></mpf-select>
+        </div>
+        <div class="col-md-4 mb-xs-2">
+          <div class="col-md-6 mb-xs-2 pl-xs-0 pr-xs-0 u-ph-md-15 pl-md-0 g-input-design--lbl-13">
+           <div class="input-group g-date-picker">
+             <label class="g-placeholder animated ng-binding">Fecha solicitud desde:<span ng-show="false" class="ng-hide" style="">*</span></label>
+              <input  type="text"
+                      class="form-control"
+                      uib-datepicker-popup="{{format}}"
+                      data-ng-model="formData.mConsultaDesde"
+                      is-open="popup1.opened"
+                      datepicker-options="dateOptions"
+                      data-ng-required="false"
+                      close-text="Close"
+                      alt-input-formats="altInputFormats"
+                      placeholder="{{today}}"/>
+              <span class="input-group-btn">
+                <button type="button"
+                        class="btn btn-default"
+                        data-ng-click="open1()">
+                  <i class="glyphicon glyphicon-calendar"></i>
+                </button>
+              </span>
+            </div>
+          </div>
+          <div class="col-md-6 pl-xs-0 pr-xs-0 u-ph-md-15 pr-md-0 g-input-design--lbl-13">
+            <div class="input-group g-date-picker">
+             <label class="g-placeholder animated ng-binding">Fecha solicitud hasta:<span ng-show="false" class="ng-hide" style="">*</span></label>
+              <input  type="text"
+                      class="form-control"
+                      uib-datepicker-popup="{{format}}"
+                      data-ng-model="formData.mConsultaHasta"
+                      is-open="popup2.opened"
+                      datepicker-options="dateOptions2"
+                      data-ng-required="true"
+                      close-text="Close"
+                      alt-input-formats="altInputFormats"
+                      placeholder="{{today}}" />
+              <span class="input-group-btn">
+                <button type="button"
+                        class="btn btn-default"
+                        data-ng-click="open2()">
+                  <i class="glyphicon glyphicon-calendar"></i>
+                </button>
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="clearfix">
+        <div class="col-md-4 col-md-offset-8 u-ph-0">
+          <div class="col-md-4 mb-xs-1" uib-popover="{{descargarLabel}}" popover-trigger="'mouseenter'">
+            <a  class="g-btn g-btn-verde second-design block"
+                data-ng-click="buscarClinicaCarta('EXCEL')">
+                <span class="pr-md-1"></span>
+                Excel</a>
+          </div>
+           <div class="col-md-4 mb-xs-1" uib-popover="{{descargarLabel}}" popover-trigger="'mouseenter'">
+            <a  class="g-btn g-btn-verde second-design block"
+                data-ng-click="buscarClinicaCarta('PDF')">
+                <span class="pr-md-1"></span>
+                PDF</a>
+          </div>
+          <div class="col-md-4 mb-xs-1">
+            <a  class="g-btn g-btn-white second-design block"
+                data-ng-click="limpiarAfiliado()">Limpiar</a>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+
+<form id="frmAttachReportClinica" name="frmAttachReportClinica" action="{{attachFileReportClinicaURL}}" method="post" target="_blank">
+  <input type="hidden" name="json" value='{{downloadAtachFile}}'>
+</form>

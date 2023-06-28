@@ -1,0 +1,157 @@
+<div class="clearfix modal-container modal__wrapper u-fx-ac modal-client-detail" data-ng-class="$ctrl.afiliado.clsIsLoading">
+  <div class="modal-client-detail__header container modal-box-content">
+    <div class="modal-client-detail__info">
+      <span class="modal-client-detail__user-ico ico-mapfre_13_miperfil hidden-xs hidden-sm"></span>
+      <span class="modal-client-detail__user-name">
+        <b>{{$ctrl.afiliado.info.asegurado.name}}</b>
+      </span>
+      <span class="modal-client-detail__state">{{$ctrl.afiliado.info.asegurado.prov}}
+      <span data-ng-show="$ctrl.afiliado.info.asegurado.depa">, </span>
+      {{$ctrl.afiliado.info.asegurado.depa}}</span>
+    </div>
+    <button type="button" class="close modal-client-detail__btn" data-ng-click="$ctrl.close()">
+      <span class="modal-client-detail__btn-txt">Cerrar</span>
+      <span class="modal-client-detail__btn-ico">x</span>
+    </button>
+  </div>
+  <div class="container modal-client-detail__body modal-box-content">
+    <div class="mpi">
+      <div class="col-xs-12">
+        <div class="cleaner">
+          <p class="modal-client-detail__body-title">
+            <b>
+              Datos del asegurado
+            </b>
+          </p>
+          <div class="col-xs-12">
+            <div class="row">
+              <div class="col-sm-2 modal-client-detail__info-block">
+                <div class="row">
+                  <p><span>{{$ctrl.afiliado.info.asegurado.tipodocumento || '--'}}</span>: <span>{{$ctrl.afiliado.info.asegurado.dni || '--'}}</span></p>
+                </div>
+              </div>
+              <div class="col-sm-4 modal-client-detail__info-block">
+                <div class="row">
+                  <p><span>Fecha de nacimiento</span>: <span>{{$ctrl.afiliado.info.asegurado.fnac | date:'dd/MM/yyyy' || '--'}}</span></p>
+                </div>
+              </div>
+              <div class="col-sm-3 modal-client-detail__info-block">
+                <div class="row">
+                  <p><span>Género</span>: <span>{{$ctrl.afiliado.info.asegurado.gen || '--'}}</span></p>
+                </div>
+              </div>
+              <div class="col-sm-3 modal-client-detail__info-block">
+                <div class="row">
+                  <p><span>Parentesco</span>: <span>{{$ctrl.afiliado.info.asegurado.parentesco || '--'}}</span></p>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-sm-6 modal-client-detail__info-block">
+                <div class="row">
+                  <p><span>Compañía</span>: <span>{{$ctrl.afiliado.info.asegurado.company || '--'}}</span></p>
+                </div>
+              </div>
+              <div class="col-sm-3 modal-client-detail__info-block">
+                <div class="row">
+                  <p><span>Producto</span>: <span>{{$ctrl.afiliado.info.asegurado.producto || '--'}}</span></p>
+                </div>
+              </div>
+              <div class="col-sm-3 modal-client-detail__info-block">
+                <div class="row">
+                  <p><span>Estado</span>: <span>{{$ctrl.afiliado.info.asegurado.estado || '--'}}</span></p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="cleaner">
+          <p class="modal-client-detail__body-title">
+            <b>
+              Datos del titular
+            </b>
+          </p>
+          <div class="col-xs-12">
+            <div class="row">
+              <div class="col-sm-6 modal-client-detail__info-block">
+                <div class="row">
+                  <p><span>Nombre</span>: <span>{{$ctrl.afiliado.info.titular.name || '--'}}</span></p>
+                </div>
+              </div>
+              <div class="col-sm-6 modal-client-detail__info-block">
+                <div class="row">
+                  <p>
+                    <span
+                      data-ng-if="$ctrl.afiliado.info.asegurado.companyID === 3">
+                      Número de contrato:
+                    </span>
+                    <span
+                      data-ng-if="$ctrl.afiliado.info.asegurado.companyID === 1">
+                      Número de póliza:
+                    </span>
+                    <span>{{$ctrl.afiliado.info.titular.contrato || '--'}}</span>
+                  </p>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-sm-6 modal-client-detail__info-block">
+                <div class="row">
+                  <p><span>Contratante</span>: <span>{{$ctrl.afiliado.info.titular.empresa || '--'}}</span></p>
+                </div>
+              </div>
+              <div class="col-sm-4 modal-client-detail__info-block">
+                <div class="row">
+                  <p><span>RUC</span>: <span>{{$ctrl.afiliado.info.titular.ruc || '--'}}</span></p>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-sm-6 modal-client-detail__info-block">
+                <div class="row">
+                  <p><span>Tipo de afiliación</span>: <span>{{$ctrl.afiliado.info.titular.tipo_afiliacion || '--'}}</span></p>
+                </div>
+              </div>
+              <div class="col-sm-6 modal-client-detail__info-block">
+                <div class="row">
+                  <p><span>Fecha de afiliación</span>: <span>{{$ctrl.afiliado.info.titular.fec_afiliacion | date:'dd/MM/yyyy' || '--'}}</span></p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="table__body-wrapper">
+          <div  class="cleaner table-responsive modal-client-detail__table-wp"
+                data-ng-if="$ctrl.afiliado.info.cobertura || $ctrl.afiliado.info.cobertura.length > 0">
+            <table class="table modal-client-detail__table">
+              <thead>
+                <th>Cobertura</th>
+                <th>Copago fijo</th>
+                <th>Copago variable</th>
+                <th>Fin carencia</th>
+              </thead>
+              <tbody>
+                <tr data-ng-if="$ctrl.afiliado.info.cobertura.length === 0">
+                  <td colspan="4">
+                      <p  class="modal-client-detail__body-title u-txt-center"
+                          data-ng-if="$ctrl.afiliado.info.cobertura.length === 0">
+                        <b>
+                          No se cuenta con información de cobertura
+                        </b>
+                      </p>
+                  </td>
+                </tr>
+                <tr data-ng-repeat="item in $ctrl.afiliado.info.cobertura track by $index">
+                  <td>{{item.nombre || '--'}}</td>
+                  <td>{{item.copago_fijo || '--'}}</td>
+                  <td>{{item.copago_variable || '--'}}</td>
+                  <td>{{item.fin_carencia || '--'}}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,85 @@
+<form name="frmClinic">
+  <div show-filter class="clearfix g-col-filter g-box-md fz14 gBgcGray5-md gBgcWhite1">
+    <div class="col-md-12 mb-xs-1-5 gH4 gCGray1">
+      <h2 class="pb-xs-1 g-border-bottom-xs hidden-xs hidden-sm">
+        <b>Filtro</b>
+      </h2>
+      <div id="show-filter" class="row pt-xs-2 pb-xs-2 gBgcGray5 g-border-bottom-xs hidden-md hidden-lg" ng-click="toggleFilter()">
+        <div class="col-xs-10">
+          <h2 class="cnt-title"><b>Filtro</b></h2>
+        </div>
+        <div class="col-xs-2 g-text-right-xs">
+          <span class="glyphicon glyphicon-chevron-down" ng-if="isFilterVisible"></span>
+          <span class="glyphicon glyphicon-chevron-up" ng-if="!isFilterVisible"></span>
+        </div>
+        <div class="clearfix"></div>
+      </div>
+    </div>
+    <div class="g-col-filter__box">
+      <div class="col-md-12 mb-xs-3">
+        <div class="row">
+          <div class="col-md-12 mb-xs-2"><label class="g-placeholder block">Estado</label></div>
+          <div class="col-xs-6">
+            <m-radio label="{label: 'Relacionadas'}" name="relation"  ng-model="$ctrl.frm.relation"  value="1" ng-required="true"></m-radio>
+          </div>
+          <div class="col-xs-6">
+            <m-radio label="{label: 'No relacionadas'}" name="noRelation"  ng-model="$ctrl.frm.relation"  value="2" ng-required="true"></m-radio>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-12 mb-xs-3">
+        <mpf-input
+          data-ng-model="$ctrl.frm.filter"
+          label="{label: 'Buscar por nombre o razon social', required: false}"
+          name="nfilterCode"
+        >
+        </mpf-input>
+      </div>
+      <div class="col-md-12 mb-xs-3">
+        <mpf-select
+          data-m-data-source="$ctrl.departments"
+          data-ng-model="$ctrl.frm.department"
+          data-text-field="description"
+          data-value-field="id"
+          label="{label: 'Departamento', required: false}"
+          m-Empty-Option = "{enterData : true}"
+          name="ndepartamentosLocal"
+          ng-change="$ctrl.changeProvinces($ctrl.frm.department.id)"
+        >
+        </mpf-select>
+      </div>
+      <div class="col-md-12 mb-xs-3">
+        <mpf-select
+          data-m-data-source="$ctrl.provinces"
+          data-ng-model="$ctrl.frm.province"
+          data-text-field="description"
+          data-value-field="id"
+          label="{label: 'Provincia', required: false}"
+          m-Empty-Option = "{enterData : true}"
+          name="nprovincia"
+          ng-change="$ctrl.changeDistricts($ctrl.frm.province.id)"
+        >
+        </mpf-select>
+      </div>
+      <div class="col-md-12 mb-xs-3">
+        <mpf-select
+          data-m-data-source="$ctrl.districts"
+          data-ng-model="$ctrl.frm.district"
+          data-text-field="description"
+          data-value-field="id"
+          label="{label: 'Distrito', required: false}"
+          m-Empty-Option = "{enterData : true}"
+          name="ndistrito"
+        >
+        </mpf-select>
+      </div>
+      <div class="col-md-6 mb-xs-1">
+        <a class="g-btn g-btn-transparent block" data-ng-click="$ctrl.clean()">Limpiar</a>
+      </div>
+      <div class="col-md-6 mb-xs-1">
+        <!-- <a class="g-btn g-btn-verde block" data-ng-click="$ctrl.search2(true)">Filtrar</a> -->
+        <a class="g-btn g-btn-verde block" data-ng-click="$ctrl.search()">Filtrar</a>
+      </div>
+    </div>
+  </div>
+</form>

@@ -1,0 +1,123 @@
+<section class="page-modal page-modal__tercerpeaton">
+    <button type="button" class="close g-close-modal" data-ng-click="close()">
+        <span class="ico-mapfre_46_cancelaroff"></span>
+    </button>
+    <form name="frmFiles">
+        <div class="container">
+			<div class="row">
+				<div class="col-md-12 text-center mb-xs-2">
+					<h2 class="gH3 gCGray1 g-text-uppercase"><b>Cargar factura</b></h2>
+                    <h2 class="gH4 mt-xs-1 fwNormal box-text">Cargue su factura en formato PDF y XML</h2>
+				</div>
+			</div>
+		</div>
+        <div class="container content-form mt-xs-1">
+            <div class="col-md-12">
+                <div class="row mb-xs-3">
+
+                    <div class="col-md-6">
+                        <label class="gH4 gCGray1 pt-xs-0-7 pb-xs-0-7">
+                            <b>Factura PDF:</b>
+                        </label>
+                    </div>
+                    <div class="col-md-6">
+                        <div  ng-if="vm.filePdf.attachFile">
+                            <label class="g-btn g-btn-white second-design block g-btn-input-file">
+                                Cargar PDF
+                                <input 
+                                    type="file" 
+                                    accept=".pdf,application/pdf"
+                                    data-show-preview="false" 
+                                    id="uploadFilePdf" 
+                                    name="nUploadFilePdf" 
+                                    file-model="vm.filePdf.fmUploadFile" 
+                                    ng-model="vm.filePdf.mUploadFile" 
+                                    ng-required="true" 
+                                    onchange="angular.element(this).scope().fnChangedAttachedFile('filePdf')">
+                            </label>
+                            <ul class="g-error">
+                                <li ng-show="vm.filePdf.errorAttachFile">* Este campo es obligatorio</li>
+                            </ul>
+                        </div>
+                        <div 
+                            ng-if="!vm.filePdf.attachFile">
+                            <div class="g-border-xs gBgcGray5 mb-xs-1 pl-xs-1">
+                                <div class="g-box-attachment">
+                                    <span class="ico-mapfre_314_archivos box-ico"></span>
+                                    {{vm.filePdf.nameAttachedFile}}
+                                    <a 
+                                    href="javascript:void(0)" 
+                                    class="box-close" 
+                                    ng-click="vm.fnDeleteAttachedFile('filePdf')">
+                                    <span class="ico-mapfre_231_cancelaroff"></span>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                </div>
+                <div class="row mb-xs-3">
+                    <div class="col-md-6">
+                        <label class="gH4 gCGray1 pt-xs-0-7 pb-xs-0-7">
+                            <b>Factura XML:</b>
+                        </label>
+                    </div>
+                    <div class="col-md-6">
+                        <div  ng-if="vm.fileXML.attachFile">
+                            <label class="g-btn g-btn-white second-design block g-btn-input-file">
+                                Cargar XML
+                                <input 
+                                    type="file" 
+                                    accept=".XML, .xml"
+                                    data-show-preview="false" 
+                                    id="uploadFileXML" 
+                                    name="nUploadFileXML" 
+                                    file-model="vm.fileXML.fmUploadFile" 
+                                    ng-model="vm.fileXML.mUploadFile" 
+                                    ng-required="true" 
+                                    onchange="angular.element(this).scope().fnChangedAttachedFile('fileXML')">
+                            </label>
+                            <ul class="g-error">
+                                <li ng-show="vm.fileXML.errorAttachFile">* Este campo es obligatorio</li>
+                            </ul>
+                        </div>
+                        <div 
+                            ng-if="!vm.fileXML.attachFile">
+                            <div class="g-border-xs gBgcGray5 mb-xs-1 pl-xs-1">
+                                <div class="g-box-attachment">
+                                    <span class="ico-mapfre_314_archivos box-ico"></span>
+                                    {{vm.fileXML.nameAttachedFile}}
+                                    <a 
+                                    href="javascript:void(0)" 
+                                    class="box-close" 
+                                    ng-click="vm.fnDeleteAttachedFile('fileXML')">
+                                    <span class="ico-mapfre_231_cancelaroff"></span>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row h-myd-pt--20">
+					<div class="col-md-4 col-md-offset-2 mb-xs-1 no-mb-md">
+						<a 
+							href="javascript:void(0)" 
+							class="g-btn g-btn-transparent block" 
+							ng-click="cancel()">
+							Cancelar
+						</a>
+					</div>
+					<div class="col-md-4">
+						<a 
+						href="javascript:void(0)"
+						class="g-btn g-btn-verde block" 
+						ng-click="uploadFiles()">
+							Guardar
+						</a>
+					</div>
+				</div>
+            </div>
+        </div>
+    </form>
+</section>

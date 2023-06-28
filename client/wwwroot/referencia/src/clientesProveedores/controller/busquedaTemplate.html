@@ -1,0 +1,54 @@
+<mfloader loader="$ctrl.loader"></mfloader>
+<div class="container">
+  <mfbreadcrumb panel="$ctrl.panel"
+              lvl0="$ctrl.lvl0"
+              lvl1="$ctrl.lvl1"
+              lvl2="$ctrl.lvl2"
+              show-lvl1= "$ctrl.showLvl1"
+              show-lvl2= "$ctrl.showLvl2"
+              open-map="$ctrl.openMap(lvl,pl)"
+              lst-dptos= "$ctrl.lstDptos"
+              loader="$ctrl.loader"
+              showcp="$ctrl.showCP"></mfbreadcrumb>
+
+  <h1 class="title-r u-title-divider--up">
+    {{::$ctrl.title}}
+  </h1>
+  <div class="u-bar-volver">
+    <div class="container">
+      <div class="row u-align-v">
+        <div class="col-xs-12 col-md-3 c-link-volver">
+          <a ui-sref="^" class="u-arrow-left">Volver</a>
+        </div>
+        <div class="col-xs-12 col-md-9">
+          <div class="col-xs-12 u-ph-0">
+            <p class="u-mb-0 c-bar__item">
+              <span class="bar-volver__txt">
+                <span data-ng-show="$ctrl.showIconBar" class="ico-mapfre_34_salud bar-volver__ico"></span>
+                <span class="u-m-0"><b>{{$ctrl.totalItems}}</b> resultados para tu búsqueda: </span>
+              </span>
+              <b data-ng-bind="$ctrl.nombreQuery" ></b>
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="containerBusqueda">
+    <div class="row">
+      <div  class="col-xs-12 col-md-3 cli-busqueda__col"
+            data-ng-include="$ctrl.busquedaForm">
+      </div>
+      <div  class="col-xs-12 col-md-9 cli-busqueda__col js-search-content"
+            data-ng-class="$ctrl.clsLoadSearch"
+            data-ng-include="$ctrl.busquedaContent">
+      </div>
+    </div>
+  </div>
+  <mf-btn-filter  are-there-filters="$ctrl.areThereFilters"
+                  apply-filter="$ctrl.applyFilter()"
+                  reset-filter="$ctrl.resetFilter()"
+                  scroll-to="js-search-content"
+                  btn-options="$ctrl.btnOptions"
+  ></mf-btn-filter>
+</div>

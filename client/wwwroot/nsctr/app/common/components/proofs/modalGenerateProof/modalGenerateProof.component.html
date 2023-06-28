@@ -1,0 +1,138 @@
+<section class="gNsctr gNsctrModal modalGenerateProof">
+
+  <button type="button"
+    class="close g-close-modal"
+    ng-click="$ctrl.fnCloseModal()">
+    <span class="ico-mapfre_231_cancelaroff"></span>
+  </button>
+
+
+  <div class="container"
+    ng-form="frmGenerateProof">
+
+    <div class="row">
+      <div class="col-md-12 g-text-center-xs g-text-uppercase mb-xs-2">
+        <h2 class="gH3"><b>Generar Constancia</b></h2>
+      </div>
+    </div>
+
+
+    <div class="row"
+      ng-if="$ctrl.data.IS_MASSIVE">
+      <div class="col-md-12">
+        <div class="row g-row">
+          <div class="col-md-8 col-sm-8 g-col-sm bottom mb-sm-2 mb-xs-1-5">
+            <h2 class="g-sub-title c-red no-pb">Excel de trabajadores</h2>
+          </div>
+        </div>
+
+        <div class="row g-text-center-xs mb-xs-2">
+          <div class="col-sm-6" ng-if="$ctrl.data.selectMassiveLoad">
+            <div class="clearfix g-box fz14 gBgcGray5 pt-xs-2 pb-xs-2">
+              <div class="col-md-12 mb-xs-1">
+                <span>Planilla en Excel</span>
+              </div>
+              <div class="col-md-10 col-md-offset-1">
+                <label class="g-btn g-btn-white second-design block g-btn-input-file">
+                  <span class="g-icon">
+                    <span class="icon icon-plus ico-mapfre_56_visitasalmedico"></span>
+                    <span>Escoger archivo</span>
+                  </span>
+                  <input type="file"
+                    data-show-preview="false"
+                    id="iImportarPlanilla"
+                    name="nImportarPlanilla"
+                    file-model="$ctrl.data.fmImportarPlanilla"
+                    ng-model="$ctrl.data.mImportarPlanilla"
+                    ng-required="false"
+                    onclick="angular.element(this)[0].value=null;"
+                    onchange="angular.element(this).scope().fnChangeLoadFile()">
+                </label>
+                <ul class="g-error g-text-left-xs">
+                  <li ng-show="$ctrl.data.errorAttachFile">* Este campo es obligatorio</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+          <div class="col-sm-6"
+            ng-if="$ctrl.data.selectMassiveLoad == false">
+            <div class="clearfix g-box fz14 gBgcGray5 pt-xs-2 pb-xs-2">
+              <div class="col-md-12 mb-xs-0-5">
+                <span class="ico-mapfre_314_archivos gnIcon-lg gCGray3"></span>
+              </div>
+              <div class="col-md-12 g-cut-text"
+                title="{{$ctrl.data.nameMassiveLoad}}">
+                <b>{{$ctrl.data.nameMassiveLoad}}</b>
+              </div>
+              <div class="col-md-12 mb-xs-1">
+                Planilla cargada exitosamente
+              </div>
+              <div class="col-sm-12">
+                <label class="g-btn-input-file">
+                  <span class="g-icon gCGreen1">
+                    <span class="icon ico-mapfre_311_arrowRight"></span>
+                    <span class="g-link"><b>Volver a cargar documento</b></span>
+                  </span>
+                  <input type="file"
+                    data-show-preview="false"
+                    id="iImportarPlanilla"
+                    name="nImportarPlanilla"
+                    file-model="$ctrl.data.fmImportarPlanilla"
+                    ng-model="$ctrl.data.mImportarPlanilla"
+                    ng-required="false"
+                    onclick="angular.element(this)[0].value=null;"
+                    onchange="angular.element(this).scope().fnChangeLoadFile();">
+                </label>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-12">
+        <mpf-textarea class="mb-xs-1"
+          label="{label: 'Datos de Obra o Centro de Trabajo', required: false}"
+          name="nDatosObra"
+          ng-model="$ctrl.data.mDatosObra"
+          ng-required="false">
+        </mpf-textarea>
+        <span class="gH7">
+          Complete Datos de obra / Centro de trabajo, verifique la información y presione Generar Constancia
+        </span>
+      </div>
+      <div class="col-md-12"  ng-if="$ctrl.data.selectMassiveLoad  || $ctrl.data.selectMassiveLoad == false " >
+        <br>
+        <div class="g-section">
+          <div class="container">
+            <div class="row">
+              <div class="col-md-4 col-sm-6 col-md-offset-4 col-sm-offset-3">
+                <a href="javascript:void(0)" class="g-btn g-btn-verde block" ng-click="$ctrl.fnProcessExcell()">
+                  Procesar
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+        <nsctr-workers-list  trabajadores="$ctrl.dataS1.data.listEmployee" risk="$ctrl.dataS1.riskInsuredList"></nsctr-workers-list>
+      </div>
+      <div class="col-md-12 mt-xs-2">
+        <div class="col-sm-5 col-sm-offset-1 mb-xs-1 no-mb-sm">
+          <a href="javascript:void(0)"
+            class="g-btn g-btn-white second-design block"
+            ng-click="$ctrl.fnCloseModal()">
+            Cancelar
+          </a>
+        </div>
+        <div class="col-sm-5">
+          <a href="javascript:void(0)" class="g-btn g-btn-verde second-design block" ng-click="$ctrl.fnPrintProof()">
+            Generar Constancia
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</section>

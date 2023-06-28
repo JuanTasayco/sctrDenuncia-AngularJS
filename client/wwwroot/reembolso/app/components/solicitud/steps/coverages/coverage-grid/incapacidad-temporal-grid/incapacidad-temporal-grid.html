@@ -1,0 +1,118 @@
+<div class="row" ng-if="$ctrl.compensationList.length > 0">
+  <div class="col-xs-12">
+    <div class="clearfix">
+      <div tbl-oim class="col-xs-12 g-tbl-wrapper pl-xs-0 tbl-reembolsos-comprobantes">
+        <div class="tbl-main">
+          <ul height-row class="tbl-header clearfix">
+            <li class="title col-9-dktp text-center g-text-uppercase">Cobertura</li>
+            <li class="title col-10-dktp text-center g-text-uppercase">Nº Indemnización</li>
+            <li class="title col-9-dktp text-center g-text-uppercase">Inicio beneficio</li>
+            <li class="title col-9-dktp text-center g-text-uppercase">Fin beneficio</li>
+            <li class="title col-9-dktp text-center g-text-uppercase">Días beneficio</li>
+            <li class="title col-9-dktp text-center g-text-uppercase">Sueldo mínimo</li>
+            <li class="title col-9-dktp text-center g-text-uppercase">Valor de la UIT</li>
+            <li class="title col-9-dktp text-center g-text-uppercase">Moneda</li>
+            <li class="title col-9-dktp text-center g-text-uppercase">Importe indemnización</li>
+            <li class="title col-9-dktp text-center g-text-uppercase">Estado indemnización</li>
+            <li class="title col-9-dktp"></li>
+          </ul>
+          <ul class="tbl-body clearfix">
+            <li ng-repeat="item in $ctrl.compensationList">
+              <ul height-row class="tbl-row clearfix g-u-cursor--pointer">
+                <li class="cell text-center g-text-uppercase col-9-dktp">
+                  <span class="cell-label">
+                    <span class="cell-data">{{item.beneficiaryCompensationCode || $ctrl.coverage.code}}</span>
+                  </span>
+                </li>
+                <li class="cell text-center g-text-uppercase col-10-dktp">
+                  <span class="cell-label">
+                    <span class="cell-data">{{item.compensationCorrelativeNumber || item.index}}</span>
+                  </span>
+                </li>
+                <li class="cell text-center g-text-uppercase col-9-dktp">
+                  <span class="cell-label g-cut-text">
+                    <span class="cell-data">{{$ctrl.formatDateToSlash(item.benefitDateStart)}}</span>
+                  </span>
+                </li>
+                <li class="cell text-center g-text-uppercase col-9-dktp">
+                  <span class="cell-label">
+                    <span class="cell-data">{{$ctrl.formatDateToSlash(item.benefitDateEnd)}}</span>
+                  </span>
+                </li>
+                <li class="cell text-center g-text-uppercase col-9-dktp">
+                  <span class="cell-label"><span class="cell-data">{{item.benefitNumberDays}}</span></span>
+                </li>
+                <li class="cell text-center g-text-uppercase col-9-dktp">
+                  <span class="cell-label"><span class="cell-data">{{item.salaryMinimun | currency: 'S/ '}}</span></span>
+                </li>
+                <li class="cell text-center g-text-uppercase col-9-dktp">
+                  <span class="cell-label"><span class="cell-data">{{item.uitValue | currency: 'S/ '}}</span></span>
+                </li>
+                <li class="cell text-center g-text-uppercase col-9-dktp">
+                  <span class="cell-label"><span class="cell-data">{{item.idMoney}}</span></span>
+                </li>
+                <li class="cell text-center g-text-uppercase col-9-dktp">
+                  <span class="cell-label"><span class="cell-data">{{item.compensationAmount | currency: 'S/ '}}</span></span>
+                </li>
+                <li class="cell text-center g-text-uppercase col-9-dktp">
+                  <span class="cell-label"><span class="cell-data"></span></span>
+                </li>
+                <li
+                  class="cell text-center g-text-uppercase col-9-dktp"
+                  ng-if="!$ctrl.readOnly"
+                >
+                  <span class="gnIcon-sm gCGreen1 ico-mapfre_228_editar ml-xs-1" ng-click="$ctrl.editItem(item)"></span>
+                  <span
+                    class="gnIcon-sm gCGreen1 ico-mapfre_307_tacho ml-xs-2"
+                    ng-click="$ctrl.deleteItem(item)"
+                  >
+                  </span>
+                </li>
+              </ul>
+            </li>
+            <li>
+              <ul height-row class="tbl-row clearfix g-u-cursor--pointer">
+                <li class="cell text-center g-text-uppercase col-9-dktp">
+                  <span class="cell-label"><span class="cell-data"><b>TOTALES</b></span></span>
+                </li>
+                <li class="cell text-center g-text-uppercase col-10-dktp">
+                  <span class="cell-label"><span class="cell-data"></span></span>
+                </li>
+                <li class="cell text-center g-text-uppercase col-9-dktp">
+                  <span class="cell-label g-cut-text"><span class="cell-data"></span></span>
+                </li>
+                <li class="cell text-center g-text-uppercase col-9-dktp">
+                  <span class="cell-label"><span class="cell-data"></span></span>
+                </li>
+                <li class="cell text-center g-text-uppercase col-9-dktp">
+                  <span class="cell-label">
+                    <span class="cell-data"><b>{{$ctrl.sumBenefitDays}}</b></span>
+                  </span>
+                </li>
+                <li class="cell text-center g-text-uppercase col-9-dktp">
+                  <span class="cell-label"><span class="cell-data"></span></span>
+                </li>
+                <li class="cell text-center g-text-uppercase col-9-dktp">
+                  <span class="cell-label"><span class="cell-data"></span></span>
+                </li>
+                <li class="cell text-center g-text-uppercase col-9-dktp">
+                  <span class="cell-label"><span class="cell-data"></span></span>
+                </li>
+                <li class="cell text-center g-text-uppercase col-9-dktp">
+                  <span class="cell-label">
+                    <span class="cell-data"><b>{{$ctrl.totalBenefitImport | currency: 'S/ '}}</b></span>
+                  </span>
+                </li>
+                <li class="cell text-center g-text-uppercase col-9-dktp">
+                  <span class="cell-label"><span class="cell-data"></span></span>
+                </li>
+                <li class="cell text-center g-text-uppercase col-9-dktp">
+                </li>
+              </ul>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

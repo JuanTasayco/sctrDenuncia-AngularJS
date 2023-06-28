@@ -1,0 +1,152 @@
+<wp-msg-box data-show-msg-error="$ctrl.isFrmRequire && !$ctrl.frmsValidationStates.siniestro"></wp-msg-box>
+
+<div class="container mb-xs-2 u-ph-0 pt-xs-2" data-ng-show="$ctrl.showMsgIncomplete">
+  <div class="wp-frm-msg-box">
+    <span class="wp-frm-msg-box__ico ico-mapfre_132_alert pr-xs-1"></span>
+    <span class="wp-frm-msg-box__txt">
+      <b style="color:red;">{{$ctrl.msgIncomplete}}</b>
+    </span>
+  </div>
+</div>
+
+<div data-ng-form="$ctrl.frmSiniestroObj" class="pt-xs-2">
+  <div class="container u-ph-0">
+
+    <div class="row">
+      <div class="col-md-12">
+        <h2 class="g-sub-title">Observaciones sobre detalle del siniestro</h2>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-3 mb-xs-2">
+
+
+        <mpf-select label="{label: 'Responsabilidad', required: true}" name="nResponsabilidad"
+          m-option-default="{enterData: true}" text-field="nombreValor" value-field="codigoValor"
+          m-data-source="$ctrl.listaResponsabilidad" data-ng-model="$ctrl.frm.tab5.responsabilidad"
+          data-ng-change="$ctrl.changeResponsabilidad()"></mpf-select>
+
+        <div class="g-error"
+          data-ng-show="$ctrl.frmSiniestroObj.nResponsabilidad.$invalid && !$ctrl.frmSiniestroObj.nResponsabilidad.$pristine">
+          Este campo es obligatorio
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-4 mb-xs-2">
+        <mpf-select label="{label: 'Acuerdo entre conductores', required: false}" name="nAcuerdoConductores"
+          ng-disabled="$ctrl.disabledAcuerdoEntreConductores" m-data-source="$ctrl.listaAcuerdoEntreConductores"
+          data-ng-model="$ctrl.frm.tab5.acuerdoEntreConductores" text-field="nombreValor" value-field="codigoValor"
+          data-ng-change="$ctrl.changeAcuerdoEntreConductores()"></mpf-select>
+      </div>
+
+      <div class="col-md-4 mb-xs-2">
+        <mpf-select label="{label: 'Compañia de seguro:', required: false}" name="nSelectCompaniaSeguro"
+          ng-disabled="$ctrl.disabledCompaniaSeguro" m-data-source="$ctrl.listaCompaniaSeguro"
+          data-ng-model="$ctrl.frm.tab5.acuerdoCompaniaSeguro" text-field="nombreValor" value-field="codigoValor"
+          data-ng-change="$ctrl.changeCompaniaSeguro()"></mpf-select>
+      </div>
+
+      <div class="col-md-4 mb-xs-2">
+        <mpf-select label="{label: 'Placa', required: false}" name="nSelectPlaca" ng-disabled="$ctrl.disabledPlaca"
+          m-data-source="$ctrl.listaPlaca" data-ng-model="$ctrl.frm.tab5.acuerdoPlaca" text-field="nombreValor"
+          value-field="codigoValor" data-ng-change="$ctrl.changePlaca()"></mpf-select>
+
+        <div class="g-error"
+          data-ng-show="$ctrl.frmSiniestroObj.nSelectPlaca.$invalid && !$ctrl.frmSiniestroObj.nSelectPlaca.$pristine">
+          Este campo es obligatorio
+        </div>
+
+      </div>
+    </div>
+    
+    <div class="row">
+      <div class="col-md-12 mb-xs-2">
+        <mpf-textarea data-ng-maxlength="4000" data-ng-model="$ctrl.frm.danioVehiculoAsegurado"
+          label="{label:'Daños del vehículo asegurado', required: false}" name="nDanhosVehiculo">
+        </mpf-textarea>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12 mb-xs-2">
+        <mpf-textarea data-ng-maxlength="4000" data-ng-model="$ctrl.frm.relatoDetaSiniestro"
+          label="{label:'Relato del siniestro', required: false}" name="nRelatoSiniestro">
+        </mpf-textarea>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-6 mb-xs-2">
+        <mpf-textarea data-ng-maxlength="400" data-ng-model="$ctrl.frm.evaluacionGPDetaSiniestro"
+          data-ng-required="false" label="{label:'Evaluación de Gestión Policial', required: false}"
+          name="nEvalGestionPolicial">
+        </mpf-textarea>
+      </div>
+      <div class="col-md-6 mb-xs-2">
+        <mpf-textarea data-ng-maxlength="'400'" data-ng-model="$ctrl.frm.evaluacionCCDetaSiniestro"
+          data-ng-required="false" label="{label:'Evaluación comportamiento del conductor', required: false}"
+          name="nEvalComportamientoConductor">
+        </mpf-textarea>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-6 mb-xs-2">
+        <mpf-textarea data-ng-maxlength="400" data-ng-model="$ctrl.frm.evaluacionCTDetaSiniestro"
+          data-ng-required="false" label="{label:'Evaluación comportamiento tercero', required: false}"
+          name="nEvalComportamientoTercero">
+        </mpf-textarea>
+      </div>
+      <div class="col-md-6 mb-xs-2">
+        <mpf-textarea data-ng-maxlength="2000" data-ng-model="$ctrl.frm.comentarioSiniestro" data-ng-required="false"
+          label="{label:'Observaciones', required: false}" name="nObservacionesSiniestro">
+        </mpf-textarea>
+      </div>
+    </div>
+  </div>
+  <div class="g-border-bottom mt-xs-3 mt-md-5"></div>
+  <div class="container">
+    <div class="row mt-xs-3 mt-md-5">
+      <div class="col-md-12">
+        <h2 class="g-sub-title">Fotos</h2>
+      </div>
+    </div>
+  </div>
+  <div class="g-section-tabs mt-xs-3 mb-xs-4">
+    <div class="container u-ph-0 g-overflow-hidden-xs"
+      data-ng-class="{'u-msk-block': $ctrl.statusBlock.blockByAnulado}">
+      <uib-tabset justified="false">
+        <uib-tab class="col-xs-6 col-sm-4 u-ph-0 wp-tabModal__item" index="0">
+          <uib-tab-heading>
+            <span>Croquis</span>
+          </uib-tab-heading>
+          <div class="content-tab u-bg--gris-9">
+            <div class="g-viewer-photo u-height--auto u-zi-xs--10">
+              <div class="container array-foto-box" data-ng-class="{'u-msk-block': $ctrl.statusBlock.blockByAnulado}">
+                <mx-image-uploader data-can-delete="!$ctrl.statusBlock.blockByAnulado" data-nombre-img="'Croquis'"
+                  data-on-remove="$ctrl.eliminarFotoCroquis($event)" data-on-upload="$ctrl.subirFotosCroquis($event)"
+                  data-photos="$ctrl.fotosCroquis" data-service-photo-modal="$ctrl.servicePhotoModal($event)">
+                </mx-image-uploader>
+              </div>
+            </div>
+          </div>
+        </uib-tab>
+        <uib-tab class="col-xs-6 col-sm-4 u-ph-0 wp-tabModal__item" index="1">
+          <uib-tab-heading>
+            <span>Otros</span>
+          </uib-tab-heading>
+          <div class="content-tab u-bg--gris-9">
+            <div class="g-viewer-photo u-height--auto u-zi-xs--10">
+              <div class="container array-foto-box">
+                <mx-image-uploader data-can-delete="!$ctrl.statusBlock.blockByAnulado" data-nombre-img="'Otros'"
+                  data-on-remove="$ctrl.eliminarFotoOtros($event)" data-on-upload="$ctrl.subirFotosOtros($event)"
+                  data-photos="$ctrl.fotosOtros" data-service-photo-modal="$ctrl.servicePhotoModal($event)">
+                </mx-image-uploader>
+              </div>
+            </div>
+          </div>
+        </uib-tab>
+      </uib-tabset>
+    </div>
+  </div>
+</div>

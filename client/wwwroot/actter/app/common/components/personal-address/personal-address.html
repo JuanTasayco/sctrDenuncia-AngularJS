@@ -1,0 +1,334 @@
+<ng-form name="personalAddressForm">
+    <div class="g-section-inner h-myd-pb--20">
+        <div class="container">
+        <div class="row mt-3 mb-xs-2">
+            <div class="col-md-12">
+            <h2 class="g-sub-title g-myd-subtitle">Dirección personal</h2>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12 mb-1">
+                <div class="row">
+                    <div class="col-md-3 mb-xs-2">
+                        <mpf-select
+                            m-data-source="vm.countries"
+                            ng-model="vm.form.ubigeo.pais"
+                            label="{label: 'País', required: true}"
+                            name="dpCountry"
+                            m-Empty-Option="{enterData:true}" 
+                            mpf-validation="required"
+                            text-field="descripcion"
+                            data-ng-change="vm.getDepartament(vm.form.ubigeo.pais.codigo,true)"
+                            value-field="codigo">
+                        </mpf-select>
+                        <ul class="g-error">
+                            <li ng-show="personalAddressForm.dpCountry.$invalid && !personalAddressForm.dpCountry.$pristine">* Seleccione un país</li>
+                        </ul>
+                    </div>
+                    <div class="col-md-3 mb-xs-2">
+                        <mpf-select
+                            label="{label: 'Departamento', required: true}"
+                            name="dpDepartament"
+                            ng-model="vm.form.ubigeo.departamento"
+                            ng-disabled = "!vm.form.ubigeo.pais.codigo"
+                            m-Empty-Option="{enterData:true}" 
+                            mpf-validation="required"
+                            m-data-source="vm.departaments"
+                            text-field="descripcion"
+                            data-ng-change="vm.getProvinces(vm.form.ubigeo.departamento.codigo,true)"
+                            value-field="codigo">
+                        </mpf-select>
+                        <ul class="g-error">
+                            <li ng-show="personalAddressForm.dpDepartament.$invalid && !personalAddressForm.dpDepartament.$pristine">* Seleccione un departamento</li>
+                        </ul>
+                    </div>
+                    <div class="col-md-3 mb-xs-2">
+                        <mpf-select
+                            label="{label: 'Provincia', required: true}"
+                            name="dpProvince"
+                            ng-model="vm.form.ubigeo.provincia"
+                            ng-disabled = "!vm.form.ubigeo.departamento.codigo"
+                            m-Empty-Option="{enterData:true}" 
+                            mpf-validation="required"
+                            m-data-source="vm.provinces"
+                            data-ng-change="vm.getDistrict(vm.form.ubigeo.provincia.codigo,true)"
+                            text-field="descripcion"
+                            value-field="codigo">
+                        </mpf-select>
+                        <ul class="g-error">
+                            <li ng-show="personalAddressForm.dpProvince.$invalid && !personalAddressForm.dpProvince.$pristine">* Seleccione una provincia</li>
+                        </ul>
+                    </div>
+                    <div class="col-md-3 mb-xs-2">
+                        <mpf-select
+                            label="{label: 'Distrito', required: true}"
+                            name="dpDistrict"
+                            ng-model="vm.form.ubigeo.distrito"
+                            ng-disabled = "!vm.form.ubigeo.provincia.codigo"
+                            m-Empty-Option="{enterData:true}" 
+                            mpf-validation="required"
+                            m-data-source="vm.district"
+                            text-field="descripcion"
+                            value-field="codigo">
+                        </mpf-select>
+                        <ul class="g-error">
+                            <li ng-show="personalAddressForm.dpDistrict.$invalid && !personalAddressForm.dpDistrict.$pristine">* Seleccione un distrito</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-3 mb-xs-2">
+                        <mpf-select
+                            m-data-source="vm.paramsForm.TIP_DOMICILIO"
+                            ng-model="vm.form.ubigeo.tipoDomicilio"
+                            name="dpAddressType"
+                            m-Empty-Option="{enterData:true}"
+                            mpf-validation="required"
+                            label="{label: 'Tipo domicilio', required: true}"
+                            text-field="descripcion"
+                            value-field="codigo">
+                        </mpf-select>
+                        <ul class="g-error">
+                            <li ng-show="personalAddressForm.dpAddressType.$invalid && !personalAddressForm.dpAddressType.$pristine">* Seleccione un tipo de domicilio</li>
+                        </ul>
+                    </div>
+                    <div class="col-md-3 mb-xs-2">
+                        <mpf-input
+                            label="{label: 'Domicilio', required: true}"
+                            name="dpAddress"
+                            ng-model="vm.form.ubigeo.domicilio"
+                            ng-required="true"
+                            ng-maxlength="30">
+                        </mpf-input>
+                        <ul class="g-error">
+                            <li ng-show="personalAddressForm.dpAddress.$invalid && !personalAddressForm.dpAddress.$pristine">* Ingrese un domicilio</li>
+                        </ul>
+                    </div>
+                    <div class="col-md-3 mb-xs-2">
+                        <div class="row">
+                            <div class="col-xs-5">
+                                <mpf-select
+                                    label="{label: 'Número', required: true}"
+                                    name="dpNumberType"
+                                    ng-model="vm.form.ubigeo.tipoNumero"
+                                    m-Empty-Option="{enterData:true}" 
+                                    mpf-validation="required"
+                                    m-data-source="vm.paramsForm.TIP_NUMERO"
+                                    text-field="descripcion"
+                                    value-field="codigo">
+                                </mpf-select>
+                                <ul class="g-error">
+                                    <li ng-show="personalAddressForm.dpNumberType.$invalid && !personalAddressForm.dpNumberType.$pristine">* Seleccione un número</li>
+                                </ul>
+                            </div>
+                            <div class="col-xs-7">
+                                <mpf-input
+                                    label="{label: '', required: true}"
+                                    name="dpNumber"
+                                    ng-model="vm.form.ubigeo.numero"
+                                    ng-required="true"
+                                    ng-maxlength="5">
+                                </mpf-input>
+                                <ul class="g-error">
+                                    <li ng-show="personalAddressForm.dpNumber.$invalid && !personalAddressForm.dpNumber.$pristine">* Ingrese un número</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3 mb-xs-2">
+                        <div class="row">
+                            <div class="col-xs-5">
+                                <mpf-select
+                                    label="{label: 'Interior', required: true}"
+                                    name="dpInteriorType"
+                                    ng-model="vm.form.ubigeo.tipoInterior"
+                                    m-Empty-Option="{enterData:true}" 
+                                    mpf-validation="required"
+                                    m-data-source="vm.paramsForm.TIP_INTERIOR"
+                                    text-field="descripcion"
+                                    value-field="codigo">
+                                </mpf-select>
+                                <ul class="g-error">
+                                    <li ng-show="personalAddressForm.dpInteriorType.$invalid && !personalAddressForm.dpInteriorType.$pristine">* Seleccione un interior</li>
+                                </ul>
+                            </div>
+                            <div class="col-xs-7">
+                                <mpf-input
+                                    label="{label: '', required: true}"
+                                    name="dpInterior"
+                                    ng-model="vm.form.ubigeo.interior"
+                                    ng-required="true"
+                                    ng-maxlength="5">
+                                </mpf-input>
+                                <ul class="g-error">
+                                    <li ng-show="personalAddressForm.dpInterior.$invalid && !personalAddressForm.dpInterior.$pristine">* Ingrese un interior</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-3 mb-xs-2">
+                        <div class="row">
+                            <div class="col-xs-5">
+                                <mpf-select
+                                    label="{label: 'Zona', required: false}"
+                                    name="dpZoneType"
+                                    ng-model="vm.form.ubigeo.tipoZona"
+                                    m-Empty-Option="{enterData:true}" 
+                                    m-data-source="vm.paramsForm.TIP_ZONA"
+                                    text-field="descripcion"
+                                    value-field="codigo">
+                                </mpf-select>
+                            </div>
+                            <div class="col-xs-7">
+                                <mpf-input
+                                    label="{label: '', required: true}"
+                                    name="dpZone"
+                                    ng-model="vm.form.ubigeo.zona"  
+                                    ng-maxlength="30">
+                                </mpf-input>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3 mb-xs-2">
+                        <mpf-input
+                            label="{label: 'Código postal', required: false}"
+                            name="dpPostalCode"
+                            ng-model="vm.form.ubigeo.codigoPostal.descripcion"
+                            mpf-validation="onlyNumber"
+                            ng-maxlength="15"
+                            trn-length="15">
+                        </mpf-input>
+                    </div>
+                    <div class="col-md-3 mb-xs-2">
+                        <mpf-input
+                            label="{label: 'Referencia lugar', required: false}"
+                            name="dpPlaceReference"
+                            ng-model="vm.form.ubigeo.referenciaLugar"
+                            ng-maxlength="250">
+                        </mpf-input>
+                    </div>
+                    <div class="col-md-3 mb-xs-2">
+                        <mpf-input
+                            label="{label: 'Email personal', required: !vm.requiredFieldsForm(vm.fields.EMAIL_PERSONAL)}"
+                            name="dpPersonalEmail"
+                            ng-model="vm.form.email"
+                            mpf-validation="email"
+                            ng-maxlength="60"
+                            ng-required="!vm.requiredFieldsForm(vm.fields.EMAIL_PERSONAL)">
+                        </mpf-input>
+                        <ul class="g-error">
+                            <li ng-show="personalAddressForm.dpPersonalEmail.$invalid && !personalAddressForm.dpPersonalEmail.$pristine">* Ingrese un email válido</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="row" ng-if="!vm.hideFieldsForm(vm.fields.MOVIL)">
+                    <div class="col-md-3 mb-xs-2">
+                        <mpf-select
+                            label="{label: 'Tipo de móvil', required: false}"
+                            name="dpMobileType"
+                            m-Empty-Option="{enterData:true}" 
+                            m-data-source="vm.paramsForm.TIP_MOVIL"
+                            ng-model="vm.form.tipoMovil"
+                            text-field="descripcion"
+                            value-field="codigo">
+                        </mpf-select>
+                    </div>
+                    <div class="col-md-3 mb-xs-2">
+                        <mpf-input
+                            label="{label: 'Número de celular', required: true}"
+                            name="dpMobileNumber"
+                            ng-model="vm.form.movil"
+                            mpf-validation="onlyNumber"
+                            ng-maxlength="12"
+                            trn-length="12"
+                            ng-required="true">
+                        </mpf-input>
+                        <ul class="g-error">
+                            <li ng-show="personalAddressForm.dpMobileNumber.$invalid && !personalAddressForm.dpMobileNumber.$pristine">* Ingrese un número de celular</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-3 mb-xs-2">
+                        <mpf-input
+                            label="{label: 'Teléfono 1: Código país', required: true}"
+                            name="dpCountryCodePhoneOne"
+                            ng-model="vm.form.telPais"
+                            mpf-validation="onlyNumber"
+                            ng-maxlength="3"
+                            trn-length="3"
+                            ng-required="true">
+                        </mpf-input>
+                        <ul class="g-error">
+                            <li ng-show="personalAddressForm.dpCountryCodePhoneOne.$invalid && !personalAddressForm.dpCountryCodePhoneOne.$pristine">* Ingrese un código de país</li>
+                        </ul>
+                    </div>
+                    <div class="col-md-3 mb-xs-2">
+                    <mpf-input
+                        label="{label: 'Teléfono 1: Código área', required: true}"
+                        name="dpCodeAreaPhoneOne"
+                        ng-model="vm.form.telZona"
+                        ng-maxlength="5"
+                        trn-length="5"
+                        mpf-validation="onlyNumber"
+                        ng-required="true">
+                    </mpf-input>
+                    <ul class="g-error">
+                        <li ng-show="personalAddressForm.dpCodeAreaPhoneOne.$invalid && !personalAddressForm.dpCodeAreaPhoneOne.$pristine">* Ingrese un código de área</li>
+                    </ul>
+                    </div>
+                    <div class="col-md-3 mb-xs-2">
+                        <mpf-input
+                            label="{label: 'Teléfono 1', required: true}"
+                            name="dpPhoneOne"
+                            ng-model="vm.form.telefono1"
+                            mpf-validation="onlyNumber"
+                            ng-maxlength="10"
+                            trn-length="10"
+                            ng-required="true">
+                        </mpf-input>
+                        <ul class="g-error">
+                            <li ng-show="personalAddressForm.dpPhoneOne.$invalid && !personalAddressForm.dpPhoneOne.$pristine">* Ingrese un número de teléfono</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="row" ng-if="!vm.hideFieldsForm(vm.fields.PHONE_2)">
+                    <div class="col-md-3 mb-xs-2">
+                        <mpf-input
+                            label="{label: 'Teléfono 2: Código país', required: false}"
+                            name="dpCountryCodePhoneTwo"
+                            ng-model="vm.form.telPais2"
+                            ng-maxlength="3"
+                            trn-length="3"
+                            mpf-validation="onlyNumber">
+                        </mpf-input>
+                    </div>
+                    <div class="col-md-3 mb-xs-2">
+                        <mpf-input
+                            label="{label: 'Teléfono 2: Código área', required: false}"
+                            name="dpCodeAreaPhoneTwo"
+                            ng-model="vm.form.telZona2"
+                            ng-maxlength="5"
+                            trn-length="5"
+                            mpf-validation="onlyNumber">
+                        </mpf-input>
+                    </div>
+                    <div class="col-md-3 mb-xs-2">
+                        <mpf-input
+                            label="{label: 'Teléfono 2', required: false}"
+                            name="dpPhoneTwo"
+                            ng-model="vm.form.telefono2"
+                            ng-maxlength="10"
+                            trn-length="10"
+                            mpf-validation="onlyNumber">
+                        </mpf-input>
+                    </div>
+                </div>
+            </div>
+        </div>
+        </div>
+    </div>
+</ng-form>
+    

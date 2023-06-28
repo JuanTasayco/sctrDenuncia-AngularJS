@@ -1,0 +1,147 @@
+<section class="g-page page-vida-file-interest g-ui-view">
+  <div class="g-title">
+    <div class="container">
+      <div class="row">
+        <div class="col-sm-9 mb-xs-2 no-mb-sm">
+          <h1>Archivos de interés</h1>
+        </div>
+        <div class="col-sm-3">
+          <a ng-show="isAdmin" class="g-btn g-btn-white second-design block" ng-click="showModal('r')">NUEVO ARCHIVO</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="g-section-inner">
+    <div class="container">
+      <div class="row">
+        <!-- Consulta de documentos -->
+        <div class="col-md-3 mb-xs-2">
+          <form action="" name="frmFileInterst">
+            <div
+              show-filter
+              class="clearfix g-col-filter g-box-md fz14 gBgcGray5-md gBgcWhite1 g-myd-box g-myd-box--filter"
+              ng-class="{'show': isFilterVisible}"
+            >
+              <div class="col-md-12 mb-xs-3 gH4 gCGray1">
+                <h2 class="pb-xs-1 g-border-bottom-xs hidden-xs hidden-sm">Filtro</h2>
+                <div
+                  id="show-filter"
+                  class="row pt-xs-2 pb-xs-2 gBgcGray5 g-border-bottom-xs hidden-md hidden-lg"
+                  ng-click="toggleFilter();"
+                >
+                  <div class="col-xs-10">
+                    <h2>Filtro</h2>
+                  </div>
+                  <div class="col-xs-2 g-text-right-xs">
+                    <span class="glyphicon glyphicon-chevron-down" ng-if="isFilterVisible"></span>
+                    <span class="glyphicon glyphicon-chevron-up" ng-if="!isFilterVisible"></span>
+                  </div>
+                  <div class="clearfix"></div>
+                </div>
+              </div>
+              <div class="g-col-filter__box">
+                <div class="col-md-12 mb-xs-2">
+                  <mpf-input
+                    label="{label: 'Buscar por nombre de archivo', required: false}"
+                    name="nArchivoFilter"
+                    ng-model="mainStep.mArchivoFilter"
+                  >
+                  </mpf-input>
+                </div>
+                <div class="col-md-12 mb-xs-2">
+                  <mpf-select
+                    ng-Disabled="disabledStateFilter"
+                    label="{label: 'Estado', required: false}"
+                    name="nEstadoFilter"
+                    ng-model="mainStep.mEstadoFilter"
+                    m-data-source="mainStep.stateFilterData"
+                    text-field="Descripcion"
+                    value-field="Codigo"
+                    m-Empty-Option="{text:'TODOS'}"
+                  ></mpf-select>
+                  <ul class="g-error">
+                    <li
+                      ng-show="frmFileInterst.nEstadoFilter.$error.required && !frmFileInterst.nEstadoFilter.$pristine"
+                    >
+                      * Este campo es obligatorio
+                    </li>
+                  </ul>
+                </div>
+                <div class="col-md-12 mb-xs-1">
+                  <a href="" class="g-btn g-btn-verde block" ng-click="filter('1')">Filtrar</a>
+                </div>
+                <div class="col-md-12">
+                  <a href="" class="g-btn g-btn-white block" ng-click="clearFilter()">Limpiar</a>
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+        <div class="col-md-9" ng-if="!noResult">
+          <!-- <div class="clearfix g-box first-design" ng-repeat="n in [0,1,2,3,4,5,6]"> -->
+          <div class="clearfix g-box g-overflow-hidden-xs mb-xs-2" ng-repeat="item in items">
+            <div class="row pt-xs-1 gBgcGray5 h-myd-bg--white">
+              <ul class="clearfix g-list-sm">
+                <li class="col-md-5 clearfix cnt-item">
+                  <ul class="col-md-12 cnt-edit">
+                    <li class="col-xs-3">
+                      <a ng-show="isAdmin" href="" ng-click="showModal('u', $index)">
+                        <span class="ico-mapfre_43_editar ico-edit gCGray3 h-myd--none"></span>
+                        <span
+                          class="ico-mapfre_345_myd-edit ico-mapfre h-myd--show h-oim-none h-myd-color--green h-myd-ico--mediun"
+                        ></span>
+                      </a>
+                    </li>
+                    <li class="col-xs-8">
+                      <b>{{ item.Nombre }}</b
+                      ><br />
+                      {{ item.Descripcion }}
+                    </li>
+                  </ul>
+                </li>
+                <li class="col-md-3 clearfix cnt-item">
+                  <div class="col-sm-5 item-label">
+                    Estado:
+                  </div>
+                  <div class="col-sm-7 item-dato g-text-uppercase">
+                    {{ item.Estado == 'A' ? 'ACTIVO' : 'INACTIVO' }}
+                  </div>
+                </li>
+                <li class="col-md-4 clearfix cnt-item no-border-left">
+                  <div class="col-md-12">
+                    <a href="" class="g-btn g-btn-white second-design block" ng-click="download($index)">Descargar</a>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <!-- Mensaje de error si no hay resultados de la busqueda -->
+        <div class="col-md-9 g-text-center-xs g-box-noresult" ng-if="noResult">
+          <div class="row">
+            <div class="col-md-12 g-box-noresult-ico"><span class="ico-mapfre_119_wrong ico-wrong"></span></div>
+            <div class="col-md-12 g-box-noresult-text">
+              No hay resultados para los datos ingresados en la busqueda.<br />
+              Intente nuevamente
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- PAGINATION -->
+      <div class="row" ng-if="!noResult && totalItems > 10">
+        <div class="col-md-9 col-md-offset-3">
+          <ul
+            uib-pagination
+            class="g-pagination"
+            ng-model="mainStep.mPagination"
+            max-size="10"
+            total-items="totalItems"
+            ng-change="pageChanged(mainStep.mPagination)"
+            boundary-link-numbers="true"
+          ></ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

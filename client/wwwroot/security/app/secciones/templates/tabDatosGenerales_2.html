@@ -1,0 +1,123 @@
+<div class="g-section-inner">
+    <div class="clearfix g-box g-overflow-hidden-xs mb-xs-2">
+      <div class="row pt-xs-1 pb-xs-1 gBgcGray5">
+        <ul class="clearfix g-list-sm">
+          <li class="col-md-9 col-sm-9">
+            <div class="gH5 pl-xs-1-5"><b>Datos Personales</b></div>
+          </li>
+          <li class="col-md-3 col-sm-3 clearfix">
+            <div class="pr-xs-1-5 text-right"></div>
+          </li>
+        </ul>
+      </div>
+      <div class="row g-box-content">
+        <ul class="clearfix g-list-sm">
+          <li class="col-md-4 col-sm-6 clearfix cnt-item">
+            <div class="col-sm-2 col-xs-4 item-label">{{ data.nombreTipoDocumento }}: </div>
+            <div class="col-sm-10 col-xs-8 item-dato g-text-uppercase">{{data.numeroDocumento}}</div>
+          </li>
+          <li class="col-md-4 col-sm-6 clearfix cnt-item">
+            <div class="col-sm-3 col-xs-4 item-label">Nombres: </div>
+            <div class="col-sm-9 col-xs-8 item-dato g-text-uppercase">{{data.nombres}} {{data.apellidoPaterno}} {{data.apellidoMaterno}}</div>
+          </li>
+          <li class="col-md-4 col-sm-6 clearfix cnt-item">
+            <div class="col-sm-3 col-xs-4 item-label">Correo: </div>
+            <div class="col-sm-9 col-xs-8 item-dato g-text-uppercase g-cut-text" uib-popover="{{data.correo}}" popover-trigger="'mouseenter'">{{data.correo}}</div>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="clearfix g-box g-overflow-hidden-xs mb-xs-2">
+      <div class="row pt-xs-1 pb-xs-1 gBgcGray5">
+        <ul class="clearfix g-list-sm">
+          <li class="col-md-9 col-sm-9">
+            <div class="gH5 pl-xs-1-5"><b>Características del Usuario</b></div>
+          </li>
+          <li class="col-md-3 col-sm-3 clearfix">
+            <div class="pr-xs-1-5 text-right"></div>
+          </li>
+        </ul>
+      </div>
+      <div class="row g-box-content">
+        <ul class="clearfix g-list-sm">
+          <li class="col-md-4 col-sm-6 clearfix cnt-item">
+            <div class="col-sm-2 col-xs-4 item-label">ID: </div>
+            <div class="col-sm-10 col-xs-8 item-dato g-text-uppercase">{{data.codUsuario}}</div>
+          </li>
+          <li class="col-md-4 col-sm-6 clearfix cnt-item">
+            <div class="col-sm-3 col-xs-4 item-label">Tipo de Usuario: </div>
+            <div class="col-sm-9 col-xs-8 item-dato g-text-uppercase">{{data.nombreTipoUsuario}}</div>
+          </li>
+          <li class="col-md-4 col-sm-6 clearfix cnt-item">
+            <div class="col-sm-3 col-xs-4 item-label">Estado: </div>
+            <div class="col-sm-9 col-xs-8 item-dato g-text-uppercase">
+                <span class="g-box-label g-text-uppercase ml-xs-1-5 ml-md-0"
+                      ng-class="{
+                    'secuFondoGrisOscuro': data.nombreEstadoUsuario === 'DESHABILITADO',
+                    'secuFondoVerde': data.nombreEstadoUsuario === 'HABILITADO',
+                    'secuFondoNaranja': data.nombreEstadoUsuario === 'SIN CONFIRMAR',
+                    'secuFondoRojo': data.nombreEstadoUsuario === 'CADUCADO'
+                  }"
+                >{{data.nombreEstadoUsuario}}</span>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-4 mb-xs-1 mb-md-0 g-div-bottom">
+				<div class="col-xs-10 pl-xs-0">
+		      <mp-data-seeker 
+		      behavior="{label:'Cobrador', placeholder:'Código o descripción del Cobrador', matchField:'codigoDescripcion'}" 
+		      m-data-source="getListCollector($inputNeed)" 
+		      ng-model="frmData.mCodCobrador">
+		        <div ng-bind-html="$item.codigoDescripcion | highlight: $select.search"></div>
+		      </mp-data-seeker>
+				</div>
+        <div class="col-xs-2 pr-xs-0 text-center">
+          <span 
+          class="ico-mapfre_337_deletePerfil g-tacho-perfil g-disable g-link no-underline gnIcon-sm gCGray3" 
+          ng-click="fnClearCobrador()"
+          ></span>
+        </div>
+      </div>
+      <div class="col-md-4 mb-xs-1 mb-md-0 g-div-bottom">
+				<div class="col-xs-10 pl-xs-0">
+        	<mp-data-seeker 
+        	behavior="{label:'Productor', placeholder:'Código o descripción del agente', matchField:'codigoDescripcion'}" 
+        	m-data-source="getListProducer($inputNeed)" 
+        	ng-model="frmData.mCodAgente">
+          <div ng-bind-html="$item.codigoDescripcion | highlight: $select.search"></div>
+        	</mp-data-seeker>
+				</div>
+        <div class="col-xs-2 pr-xs-0 text-center">
+          <span 
+          class="ico-mapfre_337_deletePerfil g-tacho-perfil g-disable g-link no-underline gnIcon-sm gCGray3" 
+          ng-click="fnClearAgente()"
+          ></span>
+        </div>
+      </div>
+      <div class="col-md-4 mb-xs-1 mb-md-0 g-div-bottom">
+				<div class="col-xs-10 pl-xs-0">
+          <div ng-hide="frmData.mCodOficina === undefined">
+            <span class="g-placeholder block mb-xs-1">Oficina</span>
+            <span>{{ frmData.mCodOficina.codigoDescripcion }} </span>
+          </div>
+
+          <div ng-show="frmData.mCodOficina === undefined">
+            <span class="g-placeholder block mb-xs-1">Oficina</span>
+            <span>0 - NO ENCONTRADO</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row mt-xs-6">
+      <div class="col-md-4 col-md-offset-4">
+        <a class="g-btn g-btn-verde block" 
+        ng-click="fnGuardarCambios()"
+        >Guardar cambios</a>
+      </div>
+    </div>
+</div>

@@ -1,0 +1,198 @@
+<gcw-header
+  data="{type: 3}"
+  datatanda="vm.tandas"
+  export="vm.paramsLiquidacion"
+>
+</gcw-header>
+
+<div class="consultaGestion">
+  <div class="container">
+    <!-- Top bar: Filtro e iconos -->
+    <div tbl-oim-topbar class="clearfix g-tbl-topbar mt-md-2 mb-md-2 mt-xs-1 width-filtro">
+      <div class="g-row-icons__box visible-xs visible-sm">
+        <a ng-click="showFilterTopbar = !showFilterTopbar" uib-popover="Filtro" popover-trigger="'mouseenter'"><span class="g-icon-box g-icon-box-md"><span class="ico-mapfre ico-mapfre_203_filtro ico-filter"></span></span></a>
+        <a ng-show="vm.totalRows >= 1" data-ng-click="exportar()" uib-popover="Exportar" popover-trigger="'mouseenter'"><span class="g-icon-box g-icon-box-md"><span class="ico-mapfre ico-mapfre_124_download ico-download"></span></span></a>
+      </div>
+      <div class="g-row-filter__box box_right height-xs height-sm" ng-class="{'filter__show': showFilterTopbar}">
+        <form class="clearfix">
+          <div class="g-filter-col">
+            <mpf-select-horz
+              ng-model="vm.tipoPoliza"
+              name="nDesde"
+              m-data-source="vm.lstTipoPoliza"
+              label="{label: 'Tipo Póliza', required: false}"
+              text-field="description"
+              value-field="code"
+              m-Empty-Option="{enterData:false}"
+              mpf-validation="required"></mpf-select-horz>
+          </div>
+          <div class="g-filter-col select_150">
+            <mpf-select-horz
+              ng-model="vm.tipoMoneda"
+              name="nTipoMoneda"
+              m-data-source="vm.lstTipoMoneda"
+              label="{label: 'Moneda', required: false}"
+              text-field="description"
+              value-field="value"
+              m-Empty-Option="{enterData:false}"
+              mpf-validation="required"></mpf-select-horz>
+          </div>
+          <div class="g-filter-col">
+            <mpf-datepicker-horz
+              ng-model="vm.mFechaDesde"
+              label="{label: 'Desde:', required: false}"
+              format="vm.format"
+              name="nfechaDesde"
+              ng-required="false"
+              mpf-validate="required"
+              maxDate="">
+            </mpf-datepicker-horz>
+          </div>
+          <div class="g-filter-col">
+            <mpf-datepicker-horz
+              ng-model="vm.mFechaHasta"
+              label="{label: 'Hasta:', required: false}"
+              format="vm.format"
+              name="nfechaHasta"
+              ng-required="false"
+              mpf-validate="required"
+              maxDate="">
+            </mpf-datepicker-horz>
+          </div>
+          <div class="g-filter-col col__buttons hidden-xs hidden-sm"
+            ga-click
+            ga-category="'CG - Cobranzas'"
+            ga-action="'MPF - Liquidación SOAT - Aplicar Filtros'"
+            ga-label="'Botón: Aplicar Filtros'"
+            ng-click="vm.buscar()"><a class="g-btn g-btn-white block second-design ">Aplicar Filtros</a></div>
+          <div class="col__buttons visible-xs visible-sm mt-xs-2">
+            <a class="g-btn g-btn-white block second-design mb-xs-2" ng-click="vm.buscar()">Aplicar Filtros</a>
+            <a class="g-btn g-btn-white block" ng-click="showFilterTopbar = !showFilterTopbar">Cerrar</a>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <div class="clearfix" ng-show="vm.totalRows >= 1">
+      <div class="col-xs-12 col-md-12 g-text-right-md des-user mt-xs-2 mb-xs-1 g-text-left-xs no-padding-xs">
+        <span class="bold">TOTAL LIQUIDACIÓN:</span> <span>{{vm.totalAmount | number:2}}</span>
+      </div>
+    </div>
+
+    <div class="mb-xs-2 g-myd-box g-myd-box--solicitudes" ng-show="vm.totalRows >= 1">
+      <div  class="clearfix g-box solicitudes pl-xs-1-5 pr-xs-1-5 h-myd-pl--0 h-myd-pr--0" data-ng-repeat="item in vm.liquidaciones">
+        <div class="row">
+          <div class="col-xs-12 col-sm-1">
+            <div class="text-center mt-xs-1 mb-xs-1 h-myd-mt--0">
+              <div class="item-dato g-text-uppercase" ng-if="item.checkEnabled == 'N'">
+                <mpf-checkbox name="nChk" ng-model="item.itemChk" ng-checked="item.itemChk=false" ng-disabled="isDisabled()"></mpf-checkbox>
+              </div>
+              <div class="item-dato g-text-uppercase" ng-if="item.checkEnabled == 'S'" >
+                <!--  <mpf-checkbox name="nChk" ng-model="item.checkSelected" ng-change="vm.reCalculaTotal(item)" ng-true-value="'S'" ng-false-value="'N'"></mpf-checkbox> -->
+                <div class="cnt-check">
+                  <div class="g-cnt-checkbox">
+                    <label class="g-checkbox" ng-class="{'active' : item.checkSelected == 'S'}">
+                      <span class="ico-checkbox"></span>
+                      <input type="checkbox" name="nChk" ng-model="item.checkSelected" ng-change="vm.reCalculaTotal(item)"  ng-true-value="'S'" ng-false-value="'N'">
+                    </label>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-xs-12 col-sm-11 pt-sm-1 h-myd-pt--0">
+            <div class="row g-box-header">
+              <ul class="clearfix g-list second-design">
+                <li class="col-md-8 no-padding-xs">
+                  <ul class="row">
+                    <li class="col-md-6 col-xs-12 clearfix cnt-item no-padding-xs">
+                      <div class="col-md-12 col-xs-12 ">
+                        <div class="col-md-5 col-xs-12 item-label g-text-uppercase">TIPO DE PÓLIZA:</div>
+                        <div class="col-md-7 col-xs-12 item-dato g-text-uppercase">{{item.policyType}}</div>
+                      </div>
+                    </li>
+                    <li class="col-md-6 col-xs-12 clearfix cnt-item no-padding-md">
+                      <div class="col-md-5 col-xs-12 item-label g-text-uppercase">RECIBO:</div>
+                      <div class="col-md-7 col-xs-12 item-dato g-text-uppercase">{{item.receiptNumber}}</div>
+                    </li>
+                  </ul>
+                </li>
+                <li class="col-md-4 col-xs-12 clearfix cnt-item no-padding-xs">
+                  <div class="col-md-5 col-xs-12 item-label g-text-uppercase">PRE LIQUIDACIÓN:</div>
+                  <div class="col-md-7 col-xs-12 item-dato g-text-uppercase">{{item.preSettlement}}</div>
+                </li>
+              </ul>
+              <ul class="clearfix g-list second-design">
+                <li class="col-md-8 col-xs-12 no-padding-xs">
+                  <ul class="row">
+                    <li class="col-md-6 col-xs-12 clearfix cnt-item no-padding-xs">
+                      <div class="col-md-12 col-xs-12">
+                        <div class="col-md-5 col-xs-12 item-label g-text-uppercase">PÓLIZA:</div>
+                        <div class="col-md-7 col-xs-12 item-dato g-text-uppercase">{{item.policyNumber}}</div>
+                      </div>
+                    </li>
+                    <li class="col-md-6 col-xs-12 clearfix cnt-item no-padding-md">
+                      <div class="col-md-5 col-xs-12 item-label g-text-uppercase">MONEDA:</div>
+                      <div class="col-md-7 col-xs-12 item-dato g-text-uppercase" ng-show="item.coinCode == 1">SOLES</div>
+                      <div class="col-md-7 col-xs-12 item-dato g-text-uppercase" ng-show="item.coinCode == 2">DÓLARES</div>
+                    </li>
+                  </ul>
+                </li>
+                <li class="col-md-4 col-xs-12 clearfix cnt-item no-padding-xs">
+                  <div class="col-md-5 col-xs-12 item-label g-text-uppercase">PRIMA TOTAL:</div>
+                  <div class="col-md-7 col-xs-12 item-dato g-text-uppercase">{{item.netPremium | number:2}}</div>
+                </li>
+              </ul>
+            </div>
+            <div class="row g-box-content list-liquiSoat">
+              <ul class="clearfix g-list second-design">
+                <li class="col-md-4 col-xs-12 pr-xs-0 cnt-item no-padding-xs">
+                  <div class="col-md-5 col-xs-12 item-label g-text-uppercase">Certificado:</div>
+                  <div class="col-md-7 col-xs-12 item-dato">-</div>
+                </li>
+                <li class="col-md-4 col-xs-12 pr-xs-0 cnt-item no-padding-xs">
+                  <div class="col-md-5 col-xs-12 item-label g-text-uppercase">Marca:</div>
+                  <div class="col-md-7 col-xs-12 item-dato">{{item.vehicle.make}}</div>
+                </li>
+                <li class="col-md-4 col-xs-12 pr-xs-0 cnt-item no-padding-xs">
+                  <div class="col-md-5 col-xs-12 item-label g-text-uppercase">Uso:</div>
+                  <div class="col-md-7 col-xs-12 item-dato">{{item.vehicle.use}}</div>
+                </li>
+                <li class="col-md-4 col-xs-12 pr-xs-0 cnt-item no-padding-xs">
+                  <div class="col-md-5 col-xs-12 item-label g-text-uppercase">Contratante:</div>
+                  <div class="col-md-7 col-xs-12 item-dato">{{item.contractorFull}}</div>
+                </li>
+                <li class="col-md-4 col-xs-12 pr-xs-0 cnt-item no-padding-xs">
+                  <div class="col-md-5 col-xs-12 item-label g-text-uppercase">Placa:</div>
+                  <div class="col-md-7 col-xs-12 item-dato">{{item.vehicle.plate}}</div>
+                </li>
+                <li class="col-md-4 col-xs-12 pr-xs-0 cnt-item no-padding-xs">
+                  <div class="col-md-5 col-xs-12 item-label g-text-uppercase">Asientos:</div>
+                  <div class="col-md-7 col-xs-12 item-dato">{{item.vehicle.seatNumber}}</div>
+                </li>
+                <li class="col-md-4 col-xs-12 pr-xs-0 cnt-item no-padding-xs">
+                  <div class="col-md-5 col-xs-12 item-label g-text-uppercase">Tipo Vehículo:</div>
+                  <div class="col-md-7 col-xs-12 item-dato">{{item.vehicle.type}}</div>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <mx-paginador
+      data-datos="vm.liquidaciones"
+      data-items-x-page="vm.itemsXPagina"
+      data-msg-vacio="vm.msgVacio"
+      data-on-paginar="vm.pageChanged($event)"
+      data-pagina-actual="vm.currentPage"
+      data-total-items="vm.totalRows"
+    >
+    </mx-paginador>
+  </div>
+</div>
+
+<form id="frmExport" name="frmExport" action="{{vm.exportURL}}" method="post">
+  <input type="hidden" name="json" value="{{vm.downloadFile}}">
+</form>

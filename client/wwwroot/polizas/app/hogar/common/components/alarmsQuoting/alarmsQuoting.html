@@ -1,0 +1,60 @@
+<div class="clearfix mb-xs-2">
+  <div class="col-md-12">
+    <div class="row g-box g-overflow-hidden-xs g-myd-box-coti">
+      <div class="col-xs-12 col-md-1 pt-xs-1 h-myd-pb--20">
+        <mpf-checkbox
+          class="pt-xs-1"
+          name="checked"
+          ng-model="$ctrl.isChecked"
+          label=""
+          ng-change="$ctrl.checkQuote($ctrl.isChecked)"
+        ></mpf-checkbox>
+      </div>
+      <div class="col-xs-12 col-md-7 pt-xs-1 h-myd-pb--10">
+        <hogar-cpnte-alarms-type
+          code-modality="{{ $ctrl.data.producto.codModalidad }}"
+          show-alarms="true"
+          title="{{ $ctrl.data.producto.desModalidad }}"
+        ></hogar-cpnte-alarms-type>
+      </div>
+      <div class="col-xs-12 col-md-4 gBgcGray5 g-myd-box-coti--summary">
+        <ul class="row g-list-sm pt-xs-7 pb-xs-7 mb-xs-0-1">
+          <li class="col-md-12 cnt-item gH4">
+            <div class="row">
+              <div class="col-xs-6 item-labelg-text-uppercase pr-xs-0 h-myd--fz14">PRIMA ANUAL</div>
+              <div class="col-xs-6 item-dato text-right h-myd--fz14">
+                {{ $ctrl.primaAnual | currency: ($ctrl.data.poliza.moneda.codMon == '1' ? 'S/ ' : '$ ') }}
+              </div>
+            </div>
+          </li>
+          <li class="col-md-12 cnt-item gH4">
+            <div class="row">
+              <div class="col-xs-6 item-labelg-text-uppercase gH3 pr-xs-0 h-myd--fz14">
+                <b>PRIMA MENSUAL<sup>*</sup></b>
+              </div>
+              <div class="col-xs-6 item-dato text-right gH3 h-myd--fz14">
+                <b>{{ $ctrl.primaMensual | currency: ($ctrl.data.poliza.moneda.codMon == '1' ? 'S/ ' : '$ ') }}</b>
+              </div>
+            </div>
+          </li>
+          <li class="col-md-12 cnt-item gH4">
+            <p class="mb-xs-0 mt-xs-1 gH8">{{ $ctrl.textCuotas }}</p>
+          </li>
+          <li class="col-md-12 cnt-item gH4">
+            <a
+              class="g-btn__dsctoHogar g-btn-verde"
+              style="padding: 5px; border-radius: 5px; font-size: 14px"
+              ng-click="$ctrl.recalculatePrima()"
+              >Recalcular Prima</a
+            >
+          </li>
+          <li class="col-md-12 cnt-item gH4" ng-if="$ctrl.changeData">
+            <p class="mb-xs-0 mt-xs-1 gH8 g-error">
+              * Se han realizado cambios, por favor recalcula la prima antes de guardar la cotización.
+            </p>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>

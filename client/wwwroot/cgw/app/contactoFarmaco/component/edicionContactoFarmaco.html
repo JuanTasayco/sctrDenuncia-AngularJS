@@ -1,0 +1,47 @@
+<div class="container pb-xs-2 pb-xs-2">
+  <form name="frmEdicionContacto">
+    <div class="row g-box pt-xs-3 pb-xs-3 pl-xs-2 pr-xs-2" style="position: relative;">
+      <button type="button" class="mr-xs-2 mt-xs-2 close g-close-modal" data-ng-click="mostrarEliminarRegistro(item)" prevent-default>
+        <span class="gnIcon-xsm ico-mapfre_29_eliminar"></span>
+      </button>
+      <div class="col-xs-12">
+        <h4><b>Editar contacto</b></h4>
+      </div>
+      <div class="col-xs-12 mt-xs-2">
+        <div class="row">
+          <div class="col-sm-4">
+            <mpf-input label="{label: 'Nombres', required: true}" 
+              name="nNombres" 
+              ng-model="formData.selectItem.nombres" 
+              ng-required="true"></mpf-input>
+            <div class="g-error" ng-show="(frmEdicionContacto.nNombres.$error.required && !frmEdicionContacto.nNombres.$pristine)">* Ingresar Nombres</div>
+          </div>
+          <div class="col-sm-4 mt-xs-2 mt-sm-0">
+            <mpf-input label="{label: 'Apellidos', required: true}" 
+              name="nApellidos" 
+              ng-model="formData.selectItem.apellidos" 
+              ng-required="true"></mpf-input>
+            <div class="g-error" ng-show="(frmEdicionContacto.nApellidos.$error.required && !frmEdicionContacto.nApellidos.$pristine)">* Ingresar Apellidos</div>
+          </div>
+          <div class="col-sm-4 mt-xs-2 mt-sm-0">
+            <mpf-input label="{label: 'Correo electrónico', required: true}" 
+              name="nCorreo"
+              mpf-validation="email"
+              ng-model="formData.selectItem.correo" 
+              ng-required="true"></mpf-input>
+            <div class="g-error" ng-show="(frmEdicionContacto.nCorreo.$error.required && !frmEdicionContacto.nCorreo.$pristine)">* Ingresar Correo electrónico</div>
+            <div class="g-error" ng-show="(frmEdicionContacto.nCorreo.$invalid && !frmEdicionContacto.nCorreo.$pristine)">* Ingresar un formato válido de Correo electrónico</div>
+          </div>
+        </div>
+      </div>
+      <div class="col-xs-12 g-title-btn-row mt-xs-2 mt-sm-0">
+        <div class="g-title-btn-col mt-xs-2">
+          <button class="g-btn g-btn-white second-design block" ng-click="mostrarEditarRegistro(null, false, -1)">Cancelar</button>
+        </div>
+        <div class="g-title-btn-col mt-xs-2">
+          <button class="g-btn g-btn-verde second-design block" ng-click="editarContacto()" ng-disabled="!frmEdicionContacto.$valid">Guardar cambios</button>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>

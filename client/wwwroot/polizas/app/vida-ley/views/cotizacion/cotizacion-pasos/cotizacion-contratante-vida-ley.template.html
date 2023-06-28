@@ -1,0 +1,64 @@
+<form name="frmContratante">
+  <div class="g-section-inner">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12">
+          <h2 class="g-sub-title g-myd-subtitle">Datos del contratante</h2>
+        </div>
+      </div>
+      <mpf-person-component
+        person-data="dataContractor"
+        name="datosContratante"
+        app-code="{{ vm.appCode }}"
+        form-code="{{ vm.formCode }}"
+        habilitar-validacion-telefonos="true"
+        outdata="getDataContractor(data)">
+      </mpf-person-component>
+    </div>
+  </div>
+
+		<div class="g-section g-border-bottom h-myd-mt--20">
+			<div class="container">
+				<div class="row">
+					<div class="col-md-12">
+						<h2 class="g-sub-title g-myd-subtitle">Especifique la actividad</h2>
+					</div>
+          <div ng-hide="mActEco" class="col-md-4 col-md-offset-4 text-center mt-xs-3 h-myd-mt--20">
+            <a ng-click="showModalActivities()" class="g-btn-verde btn-lg"><span>BUSCA Y SELECCIONA UNA ACTIVIDAD</span></a>
+          </div>
+          <div ng-show="mActEco">
+            <div class="col-md-4 mb-xs-2">
+              <div>
+                <div class="actividad-seleccionada">
+                  <h3 class="g-label mb-xs-2 h-myd-mb--5">Actividad</h3>
+                  <span class="cod col-15-dktp">{{mActEco.CodCiiu}}</span>
+                  <span class="descAct col-75-dktp">{{mActEco.Nombre}}</span>
+                  <span ng-click="showModalActivities()" class="ico-opneAct col-6-dktp"><i class="glyphicon glyphicon-edit"></i></span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-12 mb-xs-2" ng-if="!vm.isEmpty(vm.clausulaAutomatica.Detalle)">
+						<h3 class="g-label mb-xs-2">Cláusulas</h3>
+						<div id="clausulas" class="g-summary-box rounded"><p ng-bind-html="vm.clausulaAutomatica.Detalle"></p></div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+  <div class="g-section h-myd-pt--0">
+    <div class="container">
+      <div class="row">
+        <div class="col-xs-12 mb-xs-3">
+          <span class="g-comment">*Campos obligatorios</span>
+        </div>
+        <div class="col-md-4 col-md-offset-4">
+            <a class="g-btn g-btn-verde block"
+            ng-class="{'disabled': false}"
+            ng-click="vm.showModalConfirmation()">Siguiente</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>

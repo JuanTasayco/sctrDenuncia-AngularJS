@@ -1,0 +1,141 @@
+<section class="g-page g-callerDashboard-home">
+
+	<div class="g-section-inner">
+		<div class="container">
+			<div class="row">
+				<!-- MENÚ -->
+				<!-- <div class="col-md-12 hidden-tv text-right">
+					<span class="open-nav hidden">Mostrar menú</span>
+					<span class="open-nav">Ocultar menú</span>
+				</div> -->
+				<div class="col-md-12 hidden-tv">
+					<div class="menu-dash mb-xs-2">
+						<div class="row">
+							<div class="col-md-3 col-xs-6 mt-xs-1">
+								<a class="cont">
+									<div class="col-xs-3 no-padding-xs text-right">
+										<span class="num"></span>
+									</div>
+									<div class="col-xs-9 text">
+										<span></span>
+										<span class="normal mt-xs-1">Dashboard</span>
+										<span class="linea-roja"></span>
+									</div>
+								</a>
+							</div>
+							<div class="col-md-3 col-xs-6 mt-xs-1">
+								<a class="cont active">
+									<div class="col-xs-3 no-padding-xs text-right">
+										<span class="num">4</span>
+									</div>
+									<div class="col-xs-9 text">
+										<span>Solicitudes</span>
+										<span class="normal">por llamar</span>
+										<span class="linea-roja"></span>
+									</div>
+								</a>
+							</div>
+							<div class="col-md-3 col-xs-6 mt-xs-1">
+								<a class="cont">
+									<div class="col-xs-3 no-padding-xs text-right">
+										<span class="num">12</span>
+									</div>
+									<div class="col-xs-9 text">
+										<span>Dasboard</span>
+										<span class="normal">por asignar</span>
+										<span class="linea-roja"></span>
+									</div>
+								</a>
+							</div>
+							<div class="col-md-3 col-xs-6 mt-xs-1">
+								<a class="cont">
+									<div class="col-xs-3 no-padding-xs text-right">
+										<span class="num"></span>
+									</div>
+									<div class="col-xs-9 text">
+										<span>Solicitudes</span>
+										<span class="normal">Asignadas</span>
+										<span class="linea-roja"></span>
+									</div>
+								</a>
+							</div>	
+						</div>
+					</div>
+				</div>
+				<!-- FIN MENÚ -->
+				<!-- TITULO -->
+				<div class="col-md-12">
+					<div class="row">	
+						<div class="col-md-9 col-sm-7">
+							<div class="sub-titlo mt-xs-1">
+								<span>4</span>
+								<div class="cont-title">
+									<span class="num1">Solicitudes</span>
+									<span class="num2">POR LLAMAR</span>
+								</div>
+							</div>
+						</div>
+						<div class="col-md-3 col-sm-5 pb-xs-1">
+							<mpf-select label="{label: 'Ordenar por', required: false}" name="nOrdenar" ng-model="mOrdenar" m-data-source="ordenarPorData"></mpf-select>
+						</div>
+					</div>	
+				</div>
+				<!-- FIN TITULO -->
+				<!-- LISTA -->
+				<div class="col-md-12">
+					<div class="clearfix g-box dashboard" ng-repeat="dashboard in dashboard">
+						<!-- header -->
+						<div class="clearfix g-box-header">
+							<div class="col-md-4 col-sm-6 pb-xs-1">
+								<span class="ico-mapfre_175_ambulancia ico c-rojo"></span>
+								<div class="cont-txt">
+									<span>Solicitud No {{dashboard.numero}}</span>
+									<span>{{dashboard.tipo}}</span>
+								</div>
+							</div>
+							<div class="col-md-5 col-sm-6 pb-xs-1">
+								<span class="ico-mapfre_140_reloj ico c-rojo"></span>
+								<div class="cont-txt">
+									<span>Solicitado: <b>{{dashboard.fechaHora}}</b></span>
+									<span>Duración: <b>{{dashboard.duracion}}</b></span>
+								</div>
+							</div>
+							<div class="col-md-3 pb-xs-1">
+								<a class="g-btn g-btn-white add-ico block" ng-click="showAtender()"><span class="ico-mapfre_176_call"></span>&nbsp;Atender</a>
+							</div>	
+						</div>
+						<!-- content -->
+						<div class="clearfix g-box-content pb-sm-1 pb-xs-0">
+							<div class="col-md-4 col-sm-4 pb-xs-1 pb-sm-0 br">
+								<span class="ico-mapfre_137_cliente-persona ico c-rojo"></span>
+								<div class="cont-txt">
+									<span>{{dashboard.nomUsuario}}</span>
+								</div>
+							</div>
+							<div class="col-md-3 col-sm-4 pb-xs-1 pb-sm-0 br">
+								<div class="cont-txt">
+									<span>CEL: <b>{{dashboard.cel}}</b></span>
+									<span>DNI: <b>{{dashboard.nroDocumento}}</b></span>
+								</div>
+							</div>
+							<div class="col-md-5 col-sm-4 pb-xs-1 pb-sm-0">
+								<div class="cont-txt">
+									<span>{{dashboard.direccion}}</span>
+									<span>Lat.<b> {{dashboard.lat}}</b> | Lon: <b>{{dashboard.lon}}</b></span>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="row" ang-if="!noResult">
+          <div class="col-md-12">
+            <ul uib-pagination class="g-pagination" data-ng-model="mPagination" max-size="10" total-items="totalItems" data-ng-change="pageChanged(mPagination)" boundary-link-numbers="true"></ul>
+          </div>
+        </div>
+        
+				<!-- FIN LISTA -->
+			</div>
+		</div>
+	</div>
+</section>

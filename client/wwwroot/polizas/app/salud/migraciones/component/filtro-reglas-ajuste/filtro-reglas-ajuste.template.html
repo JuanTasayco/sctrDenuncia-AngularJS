@@ -1,0 +1,64 @@
+<form action="" name="frmFiltrosReglasAjuste">
+  <div class="container">
+    <div show-filter class="clearfix g-col-filter g-box-md gBgcWhite1" ng-class="{'show': isFilterVisible}">
+      <div class="col-md-12">
+        <div class="clearfix gH4 gCGray1 mb-xs-1-5">
+          <h2 class="hidden-xs hidden-sm"><b>Buscar por:</b></h2>
+          <div id="show-filter" class="row pt-xs-2 pb-xs-2 gBgcGray5 g-border-bottom-xs hidden-md hidden-lg" ng-click="toggleFilter();">
+            <div class="col-xs-10"><h2><b>Buscar por:</b></h2></div>
+            <div class="col-xs-2 g-text-right-xs">
+              <span class="glyphicon glyphicon-chevron-down" ng-if="isFilterVisible"></span>
+              <span class="glyphicon glyphicon-chevron-up" ng-if="!isFilterVisible"></span>
+            </div>
+            <div class="clearfix"></div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-4 mb-xs-2">
+            <mpf-select
+              label="{label: 'Tipo de contrato', required: false}"
+              name="nTipoContrato"
+              ng-model="vm.filtros.contrato"
+              m-data-source="vm.tiposContrato"
+              text-field="nombreContratoMigracion"
+              value-field="numeroContrato"
+              m-Empty-Option="{enterData:true}"
+              ng-required="false"
+              ng-change="vm.fnChangeContractType(vm.filtros.contrato)"></mpf-select>
+            <ul class="g-error">
+              <li ng-show="frmFiltrosMigraciones.nTipoContrato.$invalid && !frmFiltrosMigraciones.nTipoContrato.$pristine">* Seleccione un tipo de contrato</li>
+            </ul>
+          </div>
+          <div class="col-md-4 mb-xs-2">
+            <mpf-select
+              label="{label: 'Subcontrato', required: false}"
+              name="nTipoSubContrato"
+              ng-model="vm.filtros.subcontrato"
+              m-data-source="vm.tiposSubContrato"
+              text-field="nombreSubContratoMigracion"
+              value-field="numeroSubContrato"
+              m-Empty-Option="{enterData:true}"
+              ng-required="false"></mpf-select>
+            <ul class="g-error">
+              <li ng-show="frmFiltrosMigraciones.nTipoSubContrato.$invalid && !frmFiltrosMigraciones.nTipoSubContrato.$pristine">* Seleccione un tipo de subcontrato</li>
+            </ul>
+          </div>
+          <div class="col-md-2 mb-xs-2 mt-xs-3">
+            <a
+              href="javascript:void(0);"
+              class="g-btn g-btn-verde second-design block"
+              ng-click="vm.buscarReglasAjuste(); toggleFilter()">
+              Buscar
+            </a>
+          </div>
+          <div class="col-md-2 mb-xs-2 mt-xs-3">
+            <a
+              href="javascript:void(0);"
+              class="g-btn g-btn-white second-design block"
+              ng-click="vm.limpiarFiltros(); toggleFilter();">Limpiar</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>

@@ -1,0 +1,300 @@
+<div class="g-section-tabs second-design g-myd-tab--personalizado">
+	<uib-tabset active="$ctrl.activeTab">
+		<uib-tab index="0" ng-if="$ctrl.tabClient">
+			<uib-tab-heading>Cliente</uib-tab-heading>
+			<div class="col-md-12 g-box gBgcGray5 no-btl-radius pt-xs-2 pb-xs-2 mb-xs-3">
+				<div class="row">
+					<form
+						action=""
+						name="$ctrl.data.frmFourthTab">
+						<div class="col-md-2 mb-xs-2 no-mb-md">
+							<mpf-select
+								label="{label: 'Tipo de Doc.', required: false}"
+								name="nTipoDocCT"
+								ng-model="$ctrl.data.mTipoDocCT"
+								m-data-source="$ctrl.data.clientDocumentTypeData"
+								text-field="typeDescription"
+								value-field="typeId"
+								m-Empty-Option="{enterData:true}"
+								ng-required="$ctrl.data.mNroDocumentoCT.model && $ctrl.data.mNroDocumentoCT.model !== ''"
+								ng-change="$ctrl.fnChangeDocumentType($ctrl.data.mTipoDocCT)">
+							</mpf-select>
+							<ul class="g-error">
+								<li ng-show="$ctrl.data.frmFourthTab.nTipoDocCT.$invalid && !$ctrl.data.frmFourthTab.nTipoDocCT.$pristine">* Seleccione un tipo de documento</li>
+							</ul>
+						</div>
+						<div class="col-md-2 mb-xs-2 no-mb-md">
+							<mpf-input
+								label="{label: 'Nro. Documento', required: false}"
+								name="nNroDocumentoCT"
+								ng-model="$ctrl.data.mNroDocumentoCT.model"
+								mpf-validation="{{$ctrl.data.mNroDocumentoCT.FIELD_TYPE}}"
+								mpf-validation-disabled="{{$ctrl.data.mNroDocumentoCT.FIELD_TYPE_DISABLED}}"
+								ng-maxlength="$ctrl.data.mNroDocumentoCT.MAX_LENGTH"
+								ng-required="$ctrl.data.mTipoDocCT.typeId !== null" >
+							</mpf-input>
+							<ul class="g-error">
+								<li ng-show="$ctrl.data.frmFourthTab.nNroDocumentoCT.$viewValue && ($ctrl.data.frmFourthTab.nNroDocumentoCT.$error.onlyNumber || $ctrl.data.frmFourthTab.nNroDocumentoCT.$error.maxlength) && !$ctrl.data.frmFourthTab.nNroDocumentoCT.$pristine">* Nro de documento incorrecto</li>
+								<li ng-show="$ctrl.data.frmFourthTab.nNroDocumentoCT.$invalid && $ctrl.data.frmFourthTab.nNroDocumentoCT.$error.required && !$ctrl.data.frmFourthTab.nNroDocumentoCT.$pristine">* Ingrese un nro de documento</li>
+							</ul>
+						</div>
+						<div class="col-md-3 mb-xs-2 no-mb-md">
+							<mpf-input
+								label="{label: 'Razón Social', required: false}"
+								name="nRazonSocialCT"
+								ng-model="$ctrl.data.mRazonSocialCT"
+								ng-required="false">
+							</mpf-input>
+							<ul class="g-error">
+								<li ng-show="$ctrl.data.frmFourthTab.nRazonSocialCT.$invalid && !$ctrl.data.frmFourthTab.nRazonSocialCT.$pristine">* Ingrese la razón social</li>
+							</ul>
+						</div>
+						<div class="col-md-offset-1 col-md-2 pt-md-2-7 mb-xs-1 no-mb-md h-myd-pt--5">
+							<a
+								href="javascript:void(0)"
+								class="g-btn g-btn-verde second-design block"
+								ng-click="$ctrl.fnSearchProofs()" ng-if="$ctrl.seguritySearch">
+								Buscar
+							</a>
+						</div>
+						<div class="col-md-2 pt-md-2-7 h-myd-pt--5">
+							<a
+								href="javascript:void(0)"
+								class="g-btn g-btn-white second-design block"
+								ng-click="$ctrl.fnClearSearchProofs()">
+								Limpiar
+							</a>
+						</div>
+					</form>
+				</div>
+			</div>
+		</uib-tab>
+		<uib-tab index="1">
+			<uib-tab-heading>Póliza</uib-tab-heading>
+			<div class="col-md-12 g-box gBgcGray5 no-btl-radius pt-xs-2 pb-xs-2 mb-xs-3">
+				<div class="row">
+					<form
+						action=""
+						name="$ctrl.data.frmFirstTab">
+						<div class="col-md-3 mb-xs-2 no-margin-md">
+							<mpf-input
+								label="{label: 'Nro. Póliza', required: false}"
+								name="nNroPolizaPT"
+								ng-model="$ctrl.data.mNroPolizaPT"
+								mpf-validation="onlyNumber"
+								ng-required="false">
+							</mpf-input>
+							<ul class="g-error">
+								<li ng-show="$ctrl.data.frmFirstTab.nNroPolizaPT.$invalid && !$ctrl.data.frmFirstTab.nNroPolizaPT.$pristine">* Ingrese un nro de póliza</li>
+							</ul>
+						</div>
+						<div class="col-md-3 mb-xs-2 no-margin-md">
+							<mpf-input
+								label="{label: 'Nro. Recibo', required: false}"
+								name="nNroReciboPT"
+								ng-model="$ctrl.data.mNroReciboPT"
+								mpf-validation="onlyNumber"
+								ng-required="false">
+							</mpf-input>
+							<ul class="g-error">
+								<li ng-show="$ctrl.data.frmFirstTab.nNroReciboPT.$invalid && !$ctrl.data.frmFirstTab.nNroReciboPT.$pristine">* Ingrese un nro de recibo</li>
+							</ul>
+						</div>
+						<div class="col-md-offset-2 col-md-2 pt-md-2-7 mb-xs-1 no-mb-md h-myd-pt--5">
+							<a
+								href="javascript:void(0)"
+								class="g-btn g-btn-verde second-design block"
+								ng-click="$ctrl.fnSearchProofs()" ng-if="$ctrl.seguritySearch">
+								Buscar
+							</a>
+						</div>
+						<div class="col-md-2 pt-md-2-7 h-myd-pt--5">
+							<a
+								href="javascript:void(0)"
+								class="g-btn g-btn-white second-design block"
+								ng-click="$ctrl.fnClearSearchProofs()">
+								Limpiar
+							</a>
+						</div>
+					</form>
+				</div>
+			</div>
+		</uib-tab>
+		<uib-tab index="2">
+			<uib-tab-heading>Constancia</uib-tab-heading>
+			<div class="col-md-12 g-box gBgcGray5 no-btl-radius pt-xs-2 pb-xs-2 mb-xs-3">
+				<div class="row">
+					<form
+						action=""
+						name="$ctrl.data.frmSecondTab">
+						<div class="col-md-3 mb-xs-2 no-margin-md">
+							<mpf-input
+								label="{label: 'Nro. Constancia', required: false}"
+								name="nNroConstanciaST"
+								ng-model="$ctrl.data.mNroConstanciaST"
+								ng-required="false">
+							</mpf-input>
+							<ul class="g-error">
+								<li ng-show="$ctrl.data.frmSecondTab.nNroConstanciaST.$invalid && !$ctrl.data.frmSecondTab.nNroConstanciaST.$pristine">* Ingrese un nro de constancia</li>
+							</ul>
+						</div>
+						<div class="col-md-2 mb-xs-2 no-margin-md ">
+							<div class="input-group g-date-picker">
+								<label class="g-placeholder animated">Fecha Inicio Emisión<span></span>:</label>
+								<input
+									type="text"
+									class="form-control"
+									name="nFechaInicioVigenciaST"
+									ng-model="$ctrl.data.mFechaInicioVigenciaST.model"
+									uib-datepicker-popup="{{$ctrl.data.mFechaInicioVigenciaST.FORMAT_DATE}}"
+									is-open="$ctrl.data.mFechaInicioVigenciaST.open"
+									datepicker-options="$ctrl.data.mFechaInicioVigenciaST.options"
+									close-text="Close"
+									alt-input-formats="$ctrl.data.mFechaInicioVigenciaST.ALT_INPUT_FORMATS"
+									ui-mask="{{$ctrl.data.mFechaInicioVigenciaST.FORMAT_MASK}}"
+									ng-pattern="$ctrl.data.mFechaInicioVigenciaST.FORMAT_PATTERN"
+									model-view-value="true"
+									ng-required="$ctrl.data.mFechaFinVigenciaST.model"
+									ng-disabled="false"
+									ng-change="$ctrl.fnChangeCalendar()"/>
+								<span class="input-group-btn">
+									<button
+										type="button"
+										class="btn btn-default"
+										ng-disabled = "false"
+										ng-click="$ctrl.data.mFechaInicioVigenciaST.setOpen(true)">
+										<i class="glyphicon glyphicon-calendar"></i>
+									</button>
+								</span>
+							</div>
+							<ul class="g-error">
+								<li ng-show="!$ctrl.data.frmSecondTab.nFechaInicioVigenciaST.$error.required && $ctrl.data.frmSecondTab.nFechaInicioVigenciaST.$invalid && !$ctrl.data.frmSecondTab.nFechaInicioVigenciaST.$pristine">* Fecha incorrecta</li>
+								<li ng-show="$ctrl.data.frmSecondTab.nFechaInicioVigenciaST.$error.required && !$ctrl.data.frmSecondTab.nFechaInicioVigenciaST.$pristine">* Este campo es necesario</li>
+							</ul>
+						</div>
+						<div class="col-md-2 mb-xs-2 no-margin-md ">
+							<div class="input-group g-date-picker">
+								<label class="g-placeholder animated">Fecha Fin Emisión<span></span>:</label>
+								<input
+									type="text"
+									class="form-control"
+									name="nFechaFinVigenciaST"
+									ng-model="$ctrl.data.mFechaFinVigenciaST.model"
+									uib-datepicker-popup="{{$ctrl.data.mFechaFinVigenciaST.FORMAT_DATE}}"
+									is-open="$ctrl.data.mFechaFinVigenciaST.open"
+									datepicker-options="$ctrl.data.mFechaFinVigenciaST.options"
+									close-text="Close"
+									alt-input-formats="$ctrl.data.mFechaFinVigenciaST.ALT_INPUT_FORMATS"
+									ui-mask="{{$ctrl.data.mFechaFinVigenciaST.FORMAT_MASK}}"
+									ng-pattern="$ctrl.data.mFechaFinVigenciaST.FORMAT_PATTERN"
+									model-view-value="true"
+									ng-required="$ctrl.data.mFechaInicioVigenciaST.model"
+									ng-disabled="false"
+									ng-change="$ctrl.fnChangeCalendar()"/>
+								<span class="input-group-btn">
+									<button
+										type="button"
+										class="btn btn-default"
+										ng-disabled = "false"
+										ng-click="$ctrl.data.mFechaFinVigenciaST.setOpen(true)">
+										<i class="glyphicon glyphicon-calendar"></i>
+									</button>
+								</span>
+							</div>
+							<ul class="g-error">
+								<li ng-show="!$ctrl.data.frmSecondTab.nFechaFinVigenciaST.$error.required && $ctrl.data.frmSecondTab.nFechaFinVigenciaST.$invalid && !$ctrl.data.frmSecondTab.nFechaFinVigenciaST.$pristine">* Fecha incorrecta</li>
+								<li ng-show="$ctrl.data.frmSecondTab.nFechaFinVigenciaST.$error.required && !$ctrl.data.frmSecondTab.nFechaFinVigenciaST.$pristine">* Este campo es necesario</li>
+							</ul>
+						</div>
+						<div class="col-md-offset-1 col-md-2 pt-md-2-7 mb-xs-1 no-mb-md h-myd-pt--5">
+							<a
+								href="javascript:void(0)"
+								class="g-btn g-btn-verde second-design block"
+								ng-click="$ctrl.fnSearchProofs()"
+								ng-if="$ctrl.seguritySearch">
+								Buscar
+							</a>
+						</div>
+						<div class="col-md-2 pt-md-2-7 h-myd-pt--5">
+							<a
+								href="javascript:void(0)"
+								class="g-btn g-btn-white second-design block"
+								ng-click="$ctrl.fnClearSearchProofs()">
+								Limpiar
+							</a>
+						</div>
+					</form>
+				</div>
+			</div>
+		</uib-tab>
+		<uib-tab index="3">
+			<uib-tab-heading>Asegurado</uib-tab-heading>
+			<div class="col-md-12 g-box gBgcGray5 no-btl-radius pt-xs-2 pb-xs-2 mb-xs-3">
+				<div class="row">
+					<form action="" name="$ctrl.data.frmThirdTab">
+						<div class="col-md-2 mb-xs-2 no-mb-md">
+							<mpf-select
+								label="{label: 'Tipo de Doc.', required: false}"
+								name="nTipoDocTT"
+								ng-model="$ctrl.data.mTipoDocTT"
+								m-data-source="$ctrl.data.insuredDocumentTypeData"
+								text-field="typeDescription"
+								value-field="typeId"
+								m-Empty-Option="{enterData:true}"
+								ng-required="$ctrl.data.mNroDocumentoTT.model && $ctrl.data.mNroDocumentoTT.model !== ''"
+								ng-change="$ctrl.fnChangeDocumentType($ctrl.data.mTipoDocTT)">
+							</mpf-select>
+							<ul class="g-error">
+								<li ng-show="$ctrl.data.frmThirdTab.nTipoDocTT.$invalid && !$ctrl.data.frmThirdTab.nTipoDocTT.$pristine">* Seleccione un tipo de documento</li>
+							</ul>
+						</div>
+						<div class="col-md-2 mb-xs-2 no-mb-md">
+							<mpf-input
+								label="{label: 'Nro. Documento', required: false}"
+								name="nNroDocumentoTT"
+								ng-model="$ctrl.data.mNroDocumentoTT.model"
+								mpf-validation="{{$ctrl.data.mNroDocumentoTT.FIELD_TYPE}}"
+								mpf-validation-disabled="{{$ctrl.data.mNroDocumentoTT.FIELD_TYPE_DISABLED}}"
+								ng-maxlength="$ctrl.data.mNroDocumentoTT.MAX_LENGTH"
+								ng-required="$ctrl.data.mTipoDocTT.typeId !== null"
+								>
+							</mpf-input>
+							<ul class="g-error">
+								<li ng-show="$ctrl.data.frmThirdTab.nNroDocumentoTT.$viewValue && ($ctrl.data.frmThirdTab.nNroDocumentoTT.$error.onlyNumber || $ctrl.data.frmThirdTab.nNroDocumentoTT.$error.maxlength) && !$ctrl.data.frmThirdTab.nNroDocumentoTT.$pristine">* Nro de documento incorrecto</li>
+								<li ng-show="$ctrl.data.frmThirdTab.nNroDocumentoTT.$invalid && $ctrl.data.frmThirdTab.nNroDocumentoTT.$error.required && !$ctrl.data.frmThirdTab.nNroDocumentoTT.$pristine">* Ingrese un nro de documento</li>
+							</ul>
+						</div>
+						<div class="col-md-3 mb-xs-2 no-mb-md">
+							<mpf-input
+								label="{label: 'Nombre y Apellido del asegurado', required: false}"
+								name="nNomApeAseguradoTT"
+								ng-model="$ctrl.data.mNomApeAseguradoTT"
+                ng-required="false"
+                mpf-validation="onlyLetter">
+							</mpf-input>
+							<ul class="g-error">
+								<li ng-show="$ctrl.data.frmThirdTab.nNomApeAseguradoTT.$invalid && !$ctrl.data.frmThirdTab.nNomApeAseguradoTT.$pristine">* Ingrese al asegurado</li>
+							</ul>
+						</div>
+						<div class="col-md-offset-1 col-md-2 pt-md-2-7 mb-xs-1 no-mb-md h-myd-pt--5">
+							<a
+								href="javascript:void(0)"
+								class="g-btn g-btn-verde second-design block"
+								ng-click="$ctrl.fnSearchProofs()" ng-if="$ctrl.seguritySearch">
+								Buscar
+							</a>
+						</div>
+						<div class="col-md-2 pt-md-2-7 h-myd-pt--5">
+							<a
+								href="javascript:void(0)"
+								class="g-btn g-btn-white second-design block"
+								ng-click="$ctrl.fnClearSearchProofs()">
+								Limpiar
+							</a>
+						</div>
+					</form>
+				</div>
+			</div>
+		</uib-tab>
+	</uib-tabset>
+</div>

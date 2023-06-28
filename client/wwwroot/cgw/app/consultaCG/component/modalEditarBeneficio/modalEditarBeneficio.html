@@ -1,0 +1,224 @@
+<div class="clearfix">
+  <button type="button" class="close g-close-modal" data-ng-click="$ctrl.close(0)" prevent-default>
+    <span class="ico-mapfre_231_cancelaroff"></span>
+  </button>
+  <div class="container">
+    <form name="frmModalBeneficio" class="clearfix">
+      <div class="u-ph-15" ng-if="!$ctrl.message">
+        <div class="clearfix">
+          <div  class="col-md-12 g-text-center-xs mb-xs-2">
+            <h2 class="gH3"><b>Beneficio/Alternativa Copago</b></h2>
+          </div>
+        </div>
+        <div class="row ">
+          <div class="col-md-4 mb-xs-2 clearfix">
+            <div class="col-xs-12 item-label no-pl-xs">
+             <!--  Cobertura registrada: -->
+              <label class="g-placeholder ng-binding animated" ng-class="{animated: focused || !isEmpty()}">Código - Cobertura:</label>
+              <br><br>{{$ctrl.model2}}
+              <!-- <input type="text" ng-model="$ctrl.model2" class="" disabled="disabled"> -->
+
+            </div>
+            <!-- <div class="col-xs-12 item-dato g-text-uppercase">
+              {{$ctrl.carta.CodeBeneficio}} {{$ctrl.carta.Beneficio}}
+            </div> -->
+          </div>
+          <div class="col-md-4 mb-xs-2">
+            <mpf-select
+              label="{label: 'Seleccione cobertura:', required: true}"
+              name="nCoberturas"
+              ng-model="$ctrl.dataBkp.cobertura2"
+              text-field="typeCoverage"
+              value-field="code"
+              m-Empty-Option="{enterData:true}"
+              ng-change="$ctrl.updateCobertura()"
+              m-data-source="$ctrl.carta.Coberturas">
+            </mpf-select>
+          </div>
+          <!-- ++ {{$ctrl.carta.Coberturas}} +++ -->
+          <div class="col-md-4 mb-xs-2">
+            <mpf-select
+              label="{label: 'Tipo de Atención:', required: true}"
+              name="nTipoAtencion"
+              ng-model="$ctrl.dataBkp.typeAttention2"
+              text-field="description"
+              m-Empty-Option="{enterData:true}"
+              value-field="code" ng-change="$ctrl.updateDays()"
+              m-data-source="listaTipoAtencion">
+            </mpf-select>
+          </div>
+        </div>
+        <div class="row mb-md-1">
+          <div class="col-md-4 mb-xs-2" ng-show="$ctrl.dataBkp.typeAttention2.code=='A'">
+            <mpf-input
+              label="{label: 'Días de hospitalización', required: true}"
+              name="nDiasHospitalizacion"
+              ng-model="$ctrl.dataBkp.daysOfHospitalization"
+              mpf-validation="onlyNumber"
+              ng-required="true"
+              ng-Maxlength="3" ng-disabled="$ctrl.dataBkp.typeAttention2.code=='A'">
+            </mpf-input>
+          </div>
+          <div class="col-md-4 mb-xs-2" ng-hide="$ctrl.dataBkp.typeAttention2.code=='A'">
+            <mpf-input
+              label="{label: 'Días de hospitalización', required: true}"
+              name="nDiasHospitalizacion"
+              ng-model="$ctrl.dataBkp.daysOfHospitalization"
+              mpf-validation="onlyNumber"
+              ng-required="true"
+              ng-Maxlength="3">
+            </mpf-input>
+            <div  class="g-error"
+                  ng-show="frmModalBeneficio.nDiasHospitalizacion.$error.required && !frmModalBeneficio.nDiasHospitalizacion.$pristine">
+              * Ingresar días de hospitalización
+            </div>
+          </div>
+          <div class="col-md-4 mb-xs-2">
+            <label class="g-placeholder animated pl-xs-1-5">Resonancia magnética</label><br><br>
+            <m-radio 
+              label="{label: 'Si'}" 
+              name="nResonanciaMagnetica"
+              ng-model="$ctrl.dataBkp.magneticResonance" 
+              value="S"
+              data-ng-required="true"></m-radio>
+            <m-radio label="{label: 'No'}" 
+              name="nResonanciaMagnetica"
+              ng-model="$ctrl.dataBkp.magneticResonance" 
+              value="N"
+              data-ng-required="true"
+              class="ml-xs-3"></m-radio>
+          </div>
+          <!-- <div class="col-md-4 mb-xs-2">
+            <mp-data-seeker
+              behavior="{label:'Código de Beneficio: ', placeholder:'Ingresa código o nombre del beneficio', matchField:'codeName'}"
+              m-data-source="$ctrl.getListBeneficio($inputNeed)"
+              ng-model="$ctrl.dataBkp.benefit"
+              name="nCodBeneficio"
+              ng-required="true"
+              ng-change="">
+              <div ng-bind-html="$item.codeName | highlight: $select.search"></div>
+            </mp-data-seeker>
+          </div> -->
+        </div>
+        <div class="row mb-md-1">
+          <div class="col-md-4 mb-xs-2">
+            <mpf-input
+              label="{label: 'Copago Plan', required: false}"
+              name="nCopagoPlan"
+              ng-model="$ctrl.dataBkp.fixedCopayment"
+              ng-required="true">
+            </mpf-input>
+          </div>
+          <div class="col-md-4 mb-xs-2">
+            <mpf-input
+              label="{label: '', required: false}"
+              name="nCopagoPlan2"
+              ng-model="$ctrl.dataBkp.variableCopayment"
+              ng-required="true">
+          </div>
+          <div class="col-md-4 mb-xs-2">
+            <mpf-input
+              label="{label: '', required: false}"
+              name="nCopagoPlan3"
+              ng-model="$ctrl.dataBkp.percentageCoverage"
+              ng-required="true">
+          </div>
+        </div>
+        <div class="row mb-md-1">
+          <div class="col-md-4 mb-xs-2">
+            <mpf-select
+              label="{label: 'Usuario Forzado:', required: false}"
+              name="nUsuarioForzado"
+              ng-model="$ctrl.dataBkp.userForced"
+              text-field="fullName"
+              value-field="code"
+              m-Empty-Option="{enterData:true}"
+              m-data-source="listaUsuarioForzado">
+            </mpf-select>
+          </div>
+          <div class="col-md-4 mb-xs-2" ng-show="$ctrl.dataBkp.userForced.code">
+            <mpf-input
+              label="{label: 'Copago fijo (s/.)', required: false}"
+              name="nCopagoFijo"
+              ng-model="formData.mCopagoFijo"
+              ng-required="true">
+          </div>
+          <div class="col-md-4 mb-xs-2" ng-show="$ctrl.dataBkp.userForced.code">
+            <mpf-input
+              label="{label: 'Copago Variable', required: false}"
+              name="nCopagoVariable"
+              ng-model="formData.mCopagoVariable"
+              ng-required="true">
+          </div>
+        </div>
+        <div class="row mb-md-1">
+          <div class="col-md-4 mb-xs-2">
+            <mpf-select
+              label="{label: 'Deducible Forzado', required: false}"
+              name="nDeducibleForzado"
+              ng-model="formData.mDeducibleForzado"
+              text-field="name"
+              value-field="id"
+              m-Empty-Option="{enterData:false}"
+              ng-disabled="$ctrl.enabledDeducible()"
+              m-data-source="mDeducibleForzado">
+            </mpf-select>
+          </div>
+          <div class="col-md-4 mb-xs-2">
+            <mpf-input
+              label="{label: '', required: false}"
+              name="nDeducible2"
+              ng-model="formData.mDeducible2" ng-disabled="$ctrl.enabledDeducible()"
+              ng-required="true">
+          </div>
+          <div class="col-md-4 mb-xs-2">
+            <mpf-input
+              label="{label: '', required: false}"
+              name="nDeducible3"
+              ng-model="formData.mDeducible3" ng-disabled="$ctrl.enabledDeducible()"
+              ng-required="true">
+          </div>
+        </div>
+        <div class="row mb-md-1">
+          <div class="col-xs-12 mb-xs-2">
+            <mpf-textarea
+                label="{label:'Detalles Autorización Forzada', required: false}"
+                ng-model="$ctrl.dataBkp.authorizationDetail"
+                name="nDetalleAutorizacionForzada"
+                ng-required="false"
+                ng-Maxlength="400"></mpf-textarea>
+          </div>
+        </div>
+        <div class="col-lg-10 col-lg-offset-1 u-ph-0 g-text-center-xs">
+          <div  class="col-xs-12 col-md-4 u-float-center">
+            <button type="button"
+                    class="g-btn col-xs-12 mt-xs-1 g-btn-transparent"
+                    data-ng-click="$ctrl.close(0)" prevent-default>
+              Cancelar
+            </button>
+          </div>
+          <div class="col-xs-12 col-md-4 u-float-center">
+            <button type="button"
+                    class="g-btn col-xs-12 mt-xs-1 g-btn-verde"
+                    data-ng-click="$ctrl.guardar()" prevent-default>
+              Guardar
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="clearfix" ng-if="$ctrl.message">
+        <div class="row mb-xs-3">
+          <div class="col-md-12">
+            <p class="text-center mb-xs-0">Datos actualizados</p>
+          </div>
+        </div>
+        <div class="row mb-xs-3">
+          <div class="col-md-4 col-md-offset-4">
+            <a class="g-btn g-btn-verde block" ng-click="$ctrl.reload()">Cerrar</a>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>

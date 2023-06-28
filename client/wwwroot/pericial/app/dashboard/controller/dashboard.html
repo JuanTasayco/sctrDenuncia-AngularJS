@@ -1,0 +1,549 @@
+<section>
+  <!-- Inicio: menu  -->
+  <div class="g-menu-main__box menuPericial">
+    <div class="container">
+      <div class="row">
+        <div class="hidden-xs hidden-sm pr-xs-0" ng-class="{'col-md-4':dashboardCtrl.showButtonNewSiniester, 'col-md-6': !dashboardCtrl.showButtonNewSiniester}">
+            <span class="info-usuario" ng-if="dashboardCtrl.isPerito()">
+              <span class="ico-mapfre_126_employee info-usuario__ico"></span>
+              <span class="info-usuario__text"><b>PERITO: {{dashboardCtrl.userName}}</b></span>
+            </span>
+            <span class="info-usuario" ng-if="dashboardCtrl.isTaller()">
+              <span class="ico-mapfre_193_auxiliomecanico info-usuario__ico"></span>
+              <span class="info-usuario__text"><b>TALLER: {{dashboardCtrl.userName}}</b></span>
+            </span>
+        </div>
+        <div top-menu class="col-xs-12 col-md-6">
+          <ul class="g-menu-main hidden-xs hidden-sm">
+              <span ng-if="item.show" ng-repeat="item in dashboardCtrl.menuPericial | limitTo:limiteMenus">
+                <li class="link" ng-class="{'actived':item.actived}" ng-if="!item.isSubMenu"><a data-ui-sref="{{item.state}}">{{item.label}}</a></li>
+                <li class="submenu" ng-if="item.isSubMenu" ng-class="{'active': showSubMenu, 'actived':item.actived}" ng-mouseover="showSubMenu = true" ng-mouseleave="showSubMenu = false">
+                  <a>{{item.label}}</a>
+                  <ul class="sbm-main">
+                    <span ng-if="subitem.show" ng-repeat="subitem in item.menu">
+                       <li class="sbm-link" ng-class="{'actived':subitem.actived}"><a data-ui-sref="{{subitem.state}}">{{subitem.label}}</a></li>
+                    </span>
+                  </ul>
+                </li>
+              </span>
+            <span ng-if="showMoreFlag">
+                <li class="submenu" ng-class="{'active': showSubMenuMore}" ng-mouseover="showSubMenuMore = true" ng-mouseleave="showSubMenuMore = false">
+                  <a>Más opciones</a>
+                  <ul class="sbm-main">
+                    <span ng-repeat="item in dashboardCtrl.menuPericial | limitTo:10:5">
+                      <li class="link" ng-class="{'actived':item.actived}" ng-if="!item.isSubMenu">{{item.label}}</li>
+                      <li class="sbm-link submenu__more" ng-class="{'active': showSub2, 'actived':subitem.actived}" ng-mouseover="showSub2 = true" ng-mouseleave="showSub2 = false">
+                         <a data-ui-sref="{{item.state}}">{{item.label}}</a>
+                        <ul class="sbm-main">
+                          <span ng-repeat="subitem in item.menu">
+                             <li class="sbm-link" ng-class="{'actived':subitem.actived}"><a data-ui-sref="{{subitem.state}}">{{subitem.label}}</a></li>
+                          </span>
+                        </ul>
+                      </li>
+                    </span>
+                  </ul>
+                </li>
+              </span>
+          </ul>
+          <ul id="g-menu-main__responsive" class="g-menu-main g-menu-main__responsive hidden-md hidden-lg" ng-show="isPopupVisible" ng-style="mnStyle">
+              <span ng-repeat="item in dashboardCtrl.menuPericial">
+                <li class="link" ng-class="{'actived':item.actived}" ng-if="!item.isSubMenu"><a data-ui-sref="{{item.state}}">{{item.label}}</a></li>
+                <li class="submenu" ng-if="item.isSubMenu" ng-class="{active: showSubMenu, 'actived':item.actived}" ng-click="showSubMenu = !showSubMenu;" >
+                  <a>{{item.label}}</a>
+                  <ul class="sbm-main">
+                    <span ng-repeat="subitem in item.menu">
+                      <li class="sbm-link" ng-class="{'actived':subitem.actived}"><a data-ui-sref="{{subitem.state}}">{{subitem.label}}</a></li>
+                    </span>
+                  </ul>
+                </li>
+              </span>
+          </ul>
+          <!--<span id="g-menu-main_ico" class="ico-mapfre_95_menuderecha g-menu-main_ico visible-xs visible-sm" ng-click="showTopMenu();" ng-if="dashboardCtrl.showBtnBox"></span>-->
+          <span id="g-menu-main_ico" class="ico-mapfre_95_menuderecha g-menu-main_ico visible-xs visible-sm" ng-click="showTopMenu();"></span>
+        </div>
+        <div class="col-md-2 hidden-xs hidden-sm text-right" ng-if="dashboardCtrl.showBtnBox">
+          <div class="btn-box">
+            <a class="g-btn g-btn-verde second-design block" ng-click="dashboardCtrl.fnShowModal()">Nuevo siniestro</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Fin: menu  -->
+
+  <!--Inicio: Title -->
+  <div class="hidden-md hidden-lg">
+    <page-title info="{title: 'Gestión Pericial - General' }"></page-title>
+  </div>
+  <!--Fin: Title -->
+
+  <div class="g-fixed-box__bottom gBgcWhite1 hidden-md hidden-lg" ng-if="dashboardCtrl.showBtnBox">
+    <div class="col-xs-12 pt-xs-1-5 pb-xs-1-5">
+      <a class="g-btn g-btn-verde second-design block" ng-click="dashboardCtrl.fnShowModal()">Nuevo siniestro</a>
+    </div>
+  </div>
+
+  <!-- Inicio Dashboard Top -->
+
+  <div class="dashboard-top">
+    <!-- Inicio Dashboard Nav -->
+    <div class="container">
+      <div class="">
+        <div class="clearfix g-box pt-xs-1 pb-xs-1 gBgcWhite1-sm mt-xs-1 mb-xs-1">
+          <div class="col-xs-12 col-md-9">
+            <div class="row nav-top">
+              <div class="col-md-4 mb-xs-2 no-mb-md">
+                <div class="input-group g-date-picker">
+                  <label class="g-placeholder animated ng-binding">Desde:</label>
+                  <input  type="text"
+                          class="form-control"
+                          uib-datepicker-popup="{{dashboardCtrl.format}}"
+                          data-ng-model="dashboardCtrl.mConsultaDesde"
+                          is-open="dashboardCtrl.popup1.opened"
+                          datepicker-options="dashboardCtrl.dateOptions"
+                          data-ng-required="true"
+                          close-text="Close"/>
+                  <span class="input-group-btn">
+                    <button class="btn btn-default"
+                            data-ng-click="dashboardCtrl.open1()" prevent-default>
+                      <i class="glyphicon glyphicon-calendar"></i>
+                    </button>
+                  </span>
+                </div>
+              </div>
+              <div class="col-md-4 mb-xs-2 no-mb-md">
+                <div class="input-group g-date-picker">
+                  <label class="g-placeholder animated ng-binding">Hasta:</label>
+                  <input  type="text"
+                          class="form-control"
+                          uib-datepicker-popup="{{dashboardCtrl.format}}"
+                          data-ng-model="dashboardCtrl.mConsultaHasta"
+                          is-open="dashboardCtrl.popup2.opened"
+                          datepicker-options="dashboardCtrl.dateOptions2"
+                          data-ng-required="true"
+                          close-text="Close" />
+                  <span class="input-group-btn">
+                    <button class="btn btn-default"
+                            data-ng-click="dashboardCtrl.open2()" prevent-default>
+                      <i class="glyphicon glyphicon-calendar"></i>
+                    </button>
+                  </span>
+                </div>
+              </div>
+              <div class="col-md-3 mt-xs-2">
+                <a class="g-btn g-btn-white second-design block" ng-click="dashboardCtrl.updateIndicators(); dashboardCtrl.updateGraphs(); dashboardCtrl.updateList();">Aplicar fecha</a>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-3 col-xs-12 mt-xs-2">
+            <a class="g-btn g-btn-verde second-design block" ng-click="dashboardCtrl.goToReport()">Generar Reportes</a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Fin Dashboard Nav -->
+
+    <!-- Inicio Paneles Info -->
+    <div class="container" ng-if="dashboardCtrl.isTaller()">
+      <div class="row">
+        <!--Panel 1-->
+        <div class="col-md-4 mb-xs-2 mb-md-0">
+          <div class="clearfix g-box dashboard-top-panel">
+            <div class="col-md-12 dashboard-top-panel__title">
+              <span>Autos reparados</span>
+            </div>
+            <div class="col-md-12 dashboard-top-panel__body">
+              <div class="row">
+                <div class="col-xs-5 panel__left">
+                  <div class="row">
+                    <div class="col-md-12 panel__val panel__val-up" ng-if="dashboardCtrl.grafico1T.totalUp > 0">
+											<span class="val-ico val-ico__up">
+												<span class="ico-mapfre_326_arrow_up"></span>
+											</span>
+                      <span class="val-text val-text__up">{{dashboardCtrl.grafico1T.totalUp}}</span>
+                    </div>
+                    <div class="col-md-12 panel__val panel__val-down" ng-if="dashboardCtrl.grafico1T.totalDown > 0">
+											<span class="val-ico val-ico__down">
+												<span class="ico-mapfre_327_arrow_down"></span>
+											</span>
+                      <span class="val-text val-text__down">{{dashboardCtrl.grafico1T.totalDown}}</span>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-xs-7 panel__right">
+                  <canvas id="autosReparados"></canvas>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!--Panel 2-->
+        <div class="col-md-4 mb-xs-2 mb-md-0">
+          <div class="clearfix g-box dashboard-top-panel">
+            <div class="col-md-12 dashboard-top-panel__title">
+              <span>Dentro y fuera del plazo</span>
+            </div>
+            <div class="col-md-12 dashboard-top-panel__body">
+              <div class="row">
+								<div class="col-xs-5 panel__left">
+									<div class="row">
+										<div class="col-md-12 panel__val panel__val-up" ng-if="dashboardCtrl.grafico2T.totalUp > 0">
+											<span class="val-ico val-ico__up">
+												<span class="ico-mapfre_326_arrow_up"></span>
+											</span>
+											<span class="val-text val-text__up">{{dashboardCtrl.grafico2T.totalUp}}</span>
+										</div>
+										<div class="col-md-12 panel__val panel__val-down" ng-if="dashboardCtrl.grafico2T.totalDown > 0">
+											<span class="val-ico val-ico__down">
+												<span class="ico-mapfre_327_arrow_down"></span>
+											</span>
+											<span class="val-text val-text__down">{{dashboardCtrl.grafico2T.totalDown}}</span>
+										</div>
+									</div>
+								</div>
+
+                <div class="col-xs-7 panel__right">
+                  <canvas id="plazoAutos"></canvas>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!--Panel 3-->
+        <div class="col-md-4 mb-xs-2 mb-md-0">
+          <div class="clearfix g-box dashboard-top-panel">
+            <div class="col-md-12 dashboard-top-panel__title">
+              <span>Tardanzas por repuestos</span>
+            </div>
+            <div class="col-md-12 dashboard-top-panel__body">
+              <div class="row">
+                <div class="col-xs-5 panel__left">
+                  <div class="row">
+                    <div class="col-md-12 panel__val panel__val-up" ng-if="dashboardCtrl.grafico3T.totalUp > 0">
+											<span class="val-ico val-ico__up">
+												<span class="ico-mapfre_326_arrow_up"></span>
+											</span>
+                      <span class="val-text val-text__up">{{dashboardCtrl.grafico3T.totalUp}}</span>
+                    </div>
+                    <div class="col-md-12 panel__val panel__val-down" ng-if="dashboardCtrl.grafico3T.totalDown > 0">
+											<span class="val-ico val-ico__down">
+												<span class="ico-mapfre_327_arrow_down"></span>
+											</span>
+                      <span class="val-text val-text__down">{{dashboardCtrl.grafico3T.totalDown}}</span>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-xs-7 panel__right">
+                  <canvas id="tardanzasRepuestos"></canvas>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="container" ng-if="dashboardCtrl.isPerito()">
+      <div class="row">
+        <!--Panel 1-->
+        <div class="col-md-4 mb-xs-2 mb-md-0">
+          <div class="clearfix g-box dashboard-top-panel">
+            <div class="col-md-12 dashboard-top-panel__title">
+              <span>Autos peritados</span>
+            </div>
+            <div class="col-md-12 dashboard-top-panel__body">
+              <div class="row">
+
+                <div class="col-xs-6 panel__left">
+                  <div class="row">
+                    <div class="col-md-12 panel__val panel__val-up" ng-if="dashboardCtrl.grafico1.totalUp > 0">
+                      <span class="val-ico val-ico__up">
+                        <span class="ico-mapfre_326_arrow_up"></span>
+                      </span>
+                      <span class="val-text val-text__up">{{dashboardCtrl.grafico1.totalUp}}</span>
+                    </div>
+                    <div class="col-md-12 panel__val panel__val-down" ng-if="dashboardCtrl.grafico1.totalDown > 0">
+                      <span class="val-ico val-ico__down">
+                        <span class="ico-mapfre_327_arrow_down"></span>
+                      </span>
+                      <span class="val-text val-text__down">{{dashboardCtrl.grafico1.totalDown}}</span>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-xs-6 panel__right panel__chart">
+                  <canvas id="autosPeritados"></canvas>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!--Panel 2-->
+        <div class="col-md-4 mb-xs-2 mb-md-0">
+          <div class="clearfix g-box dashboard-top-panel">
+            <div class="col-md-12 dashboard-top-panel__title">
+              <span>Ampliaciones</span>
+            </div>
+            <div class="col-md-12 dashboard-top-panel__body">
+              <div class="row">
+
+                <div class="col-xs-6 panel__left">
+                  <div class="row">
+                    <div class="col-md-12 panel__val panel__val-up" ng-if="dashboardCtrl.grafico2.totalUp > 0">
+                      <span class="val-ico val-ico__up">
+                        <span class="ico-mapfre_326_arrow_up"></span>
+                      </span>
+                      <span class="val-text val-text__up">{{dashboardCtrl.grafico2.totalUp}}</span>
+                    </div>
+                    <div class="col-md-12 panel__val panel__val-down" ng-if="dashboardCtrl.grafico2.totalDown > 0">
+                      <span class="val-ico val-ico__down">
+                        <span class="ico-mapfre_327_arrow_down"></span>
+                      </span>
+                      <span class="val-text val-text__down">{{dashboardCtrl.grafico2.totalDown}}</span>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-xs-6 panel__right panel__chart">
+                  <canvas id="autosAmpliaciones"></canvas>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!--Panel 3-->
+        <div class="col-md-4 mb-xs-2 mb-md-0">
+          <div class="clearfix g-box dashboard-top-panel">
+            <div class="col-md-12 dashboard-top-panel__title">
+              <span>Pérdidas Totales</span>
+            </div>
+            <div class="col-md-12 dashboard-top-panel__body">
+              <div class="row">
+
+                <div class="col-xs-6 panel__left">
+                  <div class="row">
+                    <div class="col-md-12 panel__val panel__val-up" ng-if="dashboardCtrl.grafico3.totalUp">
+                      <span class="val-ico val-ico__up">
+                        <span class="ico-mapfre_326_arrow_up"></span>
+                      </span>
+                      <span class="val-text val-text__up">{{dashboardCtrl.grafico3.totalUp}}</span>
+                    </div>
+                    <div class="col-md-12 panel__val panel__val-down" ng-if="dashboardCtrl.grafico3.totalDown > 0">
+                      <span class="val-ico val-ico__down">
+                        <span class="ico-mapfre_327_arrow_down"></span>
+                      </span>
+                      <span class="val-text val-text__down">{{dashboardCtrl.grafico3.totalDown}}</span>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-xs-6 panel__right panel__chart">
+                  <canvas id="autosPT"></canvas>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!--Fin Paneles Info -->
+  </div>
+  <!-- Fin Dashboard Top-->
+
+  <!-- Inicio Dashboard Body -->
+  <div class="dashboard-body">
+    <div class="container">
+      <!--Inicio Panels Filters -->
+      <div panel-slider active-panel="dashboardCtrl.panelActv" class="row summary-panel-box mt-xs-2 mb-xs-2 " ng-if="dashboardCtrl.isTaller()">
+        <div class="col-xs-2 slide-arrow slide-arrow__left hidden-md hidden-lg">
+          <span class="ico-mapfre_310_arrowLeft"></span>
+        </div>
+        <div class="col-xs-8 col-md-3 slide-content" ng-click="dashboardCtrl.verTipoSiniestro(1, '')">
+          <div class="g-box summary-panel">
+            <span class="panel-item panel-icon"><span class="ico-mapfre_288_emitir"></span></span>
+            <span class="panel-item panel-num">{{dashboardCtrl.dataWorkshopIndicator.countBudgetPending}}</span>
+            <span class="panel-item panel-text">Presupuestos pendientes</span>
+          </div>
+        </div>
+        <div class="col-xs-8 col-md-3 slide-content" ng-click="dashboardCtrl.verTipoSiniestro(3, 6)">
+          <div class="g-box summary-panel">
+            <span class="panel-item panel-icon"><span class="ico-mapfre_189_auxiliomecanico"></span></span>
+            <span class="panel-item panel-num">{{dashboardCtrl.dataWorkshopIndicator.countPendingRepair}}</span>
+            <span class="panel-item panel-text">Pendientes de iniciar reparación</span>
+          </div>
+        </div>
+        <div class="col-xs-8 col-md-3 slide-content" ng-click="dashboardCtrl.verTipoSiniestro(5, '')">
+          <div class="g-box summary-panel">
+            <span class="panel-item panel-icon"><span class="ico-mapfre_195_configuracion"></span></span>
+            <span class="panel-item panel-num">{{dashboardCtrl.dataWorkshopIndicator.countSparePart}}</span>
+            <span class="panel-item panel-text">En espera de repuestos</span>
+          </div>
+        </div>
+        <div class="col-xs-8 col-md-3 slide-content" ng-click="dashboardCtrl.verTipoSiniestro(6, '')">
+          <div class="g-box summary-panel">
+            <span class="panel-item panel-icon"><span class="ico-mapfre_328_autoOK"></span></span>
+            <span class="panel-item panel-num">{{dashboardCtrl.dataWorkshopIndicator.countReadyVehicle}}</span>
+            <span class="panel-item panel-text">Listos para entregar</span>
+          </div>
+        </div>
+        <div class="col-xs-2 slide-arrow slide-arrow__right hidden-md hidden-lg">
+          <span class="ico-mapfre_311_arrowRight"></span>
+        </div>
+      </div>
+      <div panel-slider active-panel="dashboardCtrl.panelActv" class="row summary-panel-box mt-xs-2 mb-xs-2 " ng-if="dashboardCtrl.isPerito()">
+        <div class="col-xs-2 slide-arrow slide-arrow__left hidden-md hidden-lg">
+          <span class="ico-mapfre_310_arrowLeft"></span>
+        </div>
+        <div class="col-xs-8 col-md-3 slide-content" ng-click="dashboardCtrl.verTipoSiniestro(2, '')">
+          <div class="g-box summary-panel">
+            <span class="panel-item panel-icon"><span class="ico-mapfre_288_emitir"></span></span>
+            <span class="panel-item panel-num">{{dashboardCtrl.dataProficientIndicator.countPendingExpertise}}</span>
+            <span class="panel-item panel-text">Por peritar</span>
+          </div>
+        </div>
+        <div class="col-xs-8 col-md-3 slide-content" ng-click="dashboardCtrl.verTipoSiniestro(3, '')">
+          <div class="g-box summary-panel">
+            <span class="panel-item panel-icon"><span class="ico-mapfre_328_autoOK"></span></span>
+            <span class="panel-item panel-num">{{dashboardCtrl.dataProficientIndicator.countExpertise}}</span>
+            <span class="panel-item panel-text">Peritados</span>
+          </div>
+        </div>
+        <div class="col-xs-2 slide-arrow slide-arrow__right hidden-md hidden-lg">
+          <span class="ico-mapfre_311_arrowRight"></span>
+        </div>
+      </div>
+      <!-- Fin Panels Filters -->
+
+      <div class="row pt-xs-2" ng-click="dashboardCtrl.goToServices()">
+        <div class="col-md-12 serv-listado-info">
+          <span>{{dashboardCtrl.servListado }} Últimos servicios</span> <span class="serv-all-link g-green-link">Ver todos</span>
+        </div>
+      </div>
+
+      <!-- Inicio Resultados -->
+      <div class="clearfix results-list pt-xs-2 pb-xs-5">
+        <div class="clearfix g-list-md g-box gBgcGray5 pt-xs-1 mb-xs-1 g-row-fz12" ng-repeat="siniestro in dashboardCtrl.siniestrosPpal | limitTo:5" ng-if="dashboardCtrl.siniestrosPpal">
+          <div class="col-md-1 text-center">
+            <div class="gH5 text-center">{{siniestro.idSinister}}</div>
+            <div class="mt-xs-2" ng-show="siniestro.proficient.flagRequestInformation === 'S'">
+              <span ng-click="dashboardCtrl.goTo(siniestro, $index, 4)" class="ico-mapfre_301_warning gnIcon-md gCYellow1" uib-popover="El perito solicita más información" popover-trigger="'mouseenter'" popover-placement="top-left"></span>
+            </div>
+          </div>
+          <div class="col-md-3 g-col-md top cnt-item">
+            <div class="gH4"><b>Nro. Siniestro: {{siniestro.sinisterNumber}}</b><span ng-show="siniestro.sinisterNumber === 0 && !dashboardCtrl.isTaller()" class="ico-mapfre_228_editar icon" ng-click="dashboardCtrl.changeSiniesterNumber(siniestro)"></span></div>
+            <div>
+              <span
+                class="ico-mapfre_82_circle"
+                ng-class="siniestro.pointColor"
+              ></span>
+              {{siniestro.executiveState}}
+            </div>
+            <div class="g-alerta" ng-class="{'empty': true}">
+              <span class="g-block" ng-show="siniestro.flagTotalLoss || siniestro.idRegisterType == '7'">PÉRDIDA TOTAL POR CARTA</span>
+              <span class="g-block" ng-show="siniestro.proficient.flagTotalLossByBudget">PÉRDIDA TOTAL POR SUMA ASEGURADA</span>
+            </div>
+            <span
+              class="g-box-label mt-xs-1"
+              ng-class="{
+              'gperFondoAmarillo': false,
+              'gperFondoGris': false,
+              'gperFondoMorado': true,
+              'gperFondoNaranja': false,
+              'gperFondoRojo': false,
+              'gperFondoVerde': false
+            }" ng-show="siniestro.version > 1"
+            >{{siniestro.labelNumberAmpliation}}</span>
+              <span
+                 class="g-box-label mt-xs-1"
+                 ng-class="siniestro.labelColor">{{siniestro.sinisterState}}</span>
+          </div>
+          <div class="col-md-4 g-col-md middle">
+            <ul class="row">
+              <li class="col-md-12 clearfix cnt-item add-border-left">
+                <ul class="row">
+                  <li class="col-md-12">
+                    <div class="row">
+                      <div class="col-xs-2 pr-xs-0 pr-md-1-5 item-label"><span class="gnIcon-xsm ico-mapfre_324_placa"></span></div>
+                      <div class="col-xs-10 item-dato g-text-uppercase">{{siniestro.plateNumber}}</div>
+                    </div>
+                  </li>
+                  <li class="col-md-12">
+                    <div class="row">
+                      <div class="col-xs-2 pr-xs-0 pr-md-1-5 item-label"><span class="gnIcon-xsm ico-mapfre_299_auto_front"></span></div>
+                      <div class="col-xs-10 item-dato g-text-uppercase">{{siniestro.brandName}} {{siniestro.modelName}} {{siniestro.submodelName}} {{siniestro.vehYear}}</div>
+                    </div>
+                  </li>
+                  <li class="col-md-12 hidden-xs hidden-sm">
+                    <div class="row">
+                      <div class="col-xs-2 pr-xs-0 pr-md-1-5 item-label"><span class="gnIcon-xsm ico-mapfre_127_calendar3"></span></div>
+                      <div class="col-xs-10 item-dato g-text-uppercase">{{siniestro.admissionDate | date:'dd/MM/yyyy hh:mm:ss a'}}</div>
+                    </div>
+                  </li>
+                  <li class="col-md-12 hidden-xs hidden-sm" ng-show="siniestro.proficient.proficientName">
+                    <div class="row">
+                      <div class="col-xs-2 pr-xs-0 pr-md-1-5 item-label">
+                      <span
+                        class="gnIcon-xsm ico-mapfre_196_agendarchofer"  uib-popover="{{siniestro.dayForAssess}} días(s)" popover-trigger="'mouseenter'" popover-placement="top-left"
+                        ng-class="{
+                          'gperColorVerde': siniestro.flagForAssess === '1',
+                          'gperColorAmarillo': siniestro.flagForAssess === '2',
+                          'gperColorRojo': siniestro.flagForAssess === '3'
+                        }" >
+                      </span>
+                      </div>
+                      <div class="col-xs-10 item-dato g-text-uppercase">{{siniestro.proficient.proficientName}} {{siniestro.proficient.proficientLastName1}} {{siniestro.proficient.proficientLastName2}}</div>
+                    </div>
+                  </li>
+                  <li class="col-md-12 hidden-xs hidden-sm" ng-hide="dashboardCtrl.isTaller()">
+                    <div class="row">
+                      <div class="col-xs-2 pr-xs-0 pr-md-1-5 item-label"><span class="gnIcon-xsm ico-mapfre_193_auxiliomecanico"></span></div>
+                      <div class="col-xs-10 item-dato g-text-uppercase">{{siniestro.workshopName}}</div>
+                    </div>
+                  </li>
+                </ul>
+              </li>
+            </ul>
+          </div>
+          <div class="col-md-4 g-col-md middle gCGray3 g-text-left-xs">
+            <div class="row g-row g-list-md">
+              <div class="col-xs-12 col-md-4 g-col-xs middle cnt-item add-border-left g-text-center-md" ng-click="dashboardCtrl.goTo(siniestro, $index, 4)">
+                <a href="" class="gperMessages g-span-middle">
+                  <span class="mr-xs-1 mr-md-0 gnIcon-md icoState ico-mapfre_157_chat"></span>
+                  <span class="nmbMessages hidden-xs hidden-sm">
+                    <span>{{siniestro.quantityCommentary}}</span>
+                  </span>
+                  <span class="hidden-md hidden-lg">{{siniestro.quantityCommentary}} comentarios</span>
+                </a>
+              </div>
+              <div class="col-xs-12 col-md-8 g-col-xs middle cnt-item add-border-left g-text-center-md">
+                <div class="row g-row g-list-md">
+                  <div class="col-xs-12 col-md-12 g-col-xs middle cnt-item"
+                      ng-show="dashboardCtrl.getLabelBandeja(siniestro, $index) && siniestro.labelBandeja !== 'INICIAR REPARACIÓN'"
+                      ng-click="dashboardCtrl.goTo(siniestro, $index, 0)">
+                      <a href="" class="g-btn g-btn-white second-design block">{{siniestro.labelBandeja}}</a>
+                  </div>
+                  <div class="col-xs-12 col-md-12 g-col-xs middle cnt-item"
+                      ng-show="dashboardCtrl.getLabelBandeja(siniestro, $index) && siniestro.labelBandeja === 'INICIAR REPARACIÓN' && siniestro.idStateConfirmPayFranchise === 1"
+                      ng-click="dashboardCtrl.goTo(siniestro, $index, 0)">
+                      <a href="" class="g-btn g-btn-white second-design block">{{siniestro.labelBandeja}}</a>
+                  </div>
+                  <div class="col-xs-12 col-md-12 g-col-xs middle cnt-item"
+                      ng-show="siniestro.showConfirmacionCliente" 
+                      ng-click="dashboardCtrl.goToConfirmClient(siniestro, $index, 0)">
+                      <a href="" class="g-btn g-btn-white second-design block">PEDIR CONFIRMACIÓN CLIENTE</a>
+                  </div>
+                  <div class="col-xs-12 col-md-12 g-col-xs middle cnt-item"
+                    ng-show="siniestro.showAnular" 
+                    ng-click="dashboardCtrl.goToAnular(siniestro, $index, 0)">
+                    <a href="" class="g-btn g-btn-white second-design block" style="background-color: red; color: white; border: red;" >ANULAR</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+			<!-- Fin Resultados -->
+		</div>
+	</div>
+	<!--Fin Dashboard Body-->
+</section>

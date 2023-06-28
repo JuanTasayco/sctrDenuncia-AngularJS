@@ -1,0 +1,84 @@
+<section class="gNsctr gNsctrModal modalCreateApplication">
+  <button type="button" class="close g-close-modal" ng-click="close()">
+    <span class="ico-mapfre_231_cancelaroff"></span>
+  </button>
+
+  <form name="frmModalChangeState">
+    <div class="container">
+      <div class="col-md-12 g-text-center-xs mb-xs-2">
+        <h2 class="gH3"><b>¿QUE ACCIÓN DESEA REALIZAR?</b></h2>
+      </div>
+      <div class="pl-ms-4 pl-xs-2 pr-ms-4 pr-xs-2">
+        <div class="row mb-xs-1">
+          <div
+            class="col-md-12 mb-xs-1"
+            ng-if="SHOW_RECEIPT.ECR">
+            <m-radio
+              label="{label: 'Solo anular recibos'}"
+              name="nOpcion"
+              ng-model="modalChangeState.mRadioOpcion"
+              value="NA">
+            </m-radio>
+          </div>
+          <div class="col-md-12 mb-xs-1" ng-if="SHOW_RECEIPT.ER == false">
+            <m-radio
+              label="{label: 'Dar de baja a los trabajadores'}"
+              name="nOpcion"
+              ng-model="modalChangeState.mRadioOpcion"
+              value="SI">
+            </m-radio>
+          </div>
+          <div class="col-md-12 mb-xs-1" ng-if="SHOW_RECEIPT.ER == false">
+            <m-radio
+              label="{label: 'Anular la constancia y certificado'}"
+              name="nOpcion"
+              ng-model="modalChangeState.mRadioOpcion"
+              value="NO">
+            </m-radio>
+          </div>
+        </div>
+  
+        <div
+          class="row"
+          ng-if="SHOW_RECEIPT.ECR || SHOW_RECEIPT.ER">
+          <div class="col-md-12 mb-xs-1">
+            <b>Selecciona el recibo a anular:</b>
+          </div>
+          <div class="col-md-12 mb-xs-1">
+            <mpf-checkbox
+              class="fw-normal"
+              ng-model="modalChangeState.mCheckPension"
+              label="Anular recibo">
+            </mpf-checkbox>
+          </div>
+        </div>
+        <div class="col-md-12 mb-xs-2" ng-if="modalChangeState.mCheckPension || modalChangeState.mRadioOpcion=='NO'">
+          <mpf-input
+                label="{label: 'Motivo', required: true}"
+                name="nMotivo"
+                ng-model="modalChangeState.motivo"
+                ng-maxlength="320"
+                ng-required="true">
+              </mpf-input>
+              <ul class="g-error">
+                <li ng-show="frmModalChangeState.nMotivo.$error.required && !frmModalChangeState.nMotivo.$pristine">*Este campo es obligatorio </li>
+              </ul>
+        </div>
+       
+      </div>
+      <div class="row mb-xs-2 mt-xs-3">
+        <div class="col-md-5 col-md-offset-1 mb-xs-1">
+          <a class="g-btn g-btn-white block" ng-click="close()">CANCELAR</a>
+        </div>
+        <div class="col-md-5 mb-xs-1">
+          <input class="g-btn g-btn-verde block" value="ACEPTAR" type="submit" ng-click="send()"/>
+        </div>
+     </div>
+    </div>
+  </form>
+
+</section>
+
+
+
+  

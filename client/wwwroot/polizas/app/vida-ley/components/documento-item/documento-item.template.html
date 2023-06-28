@@ -1,0 +1,69 @@
+<div class="clearfix g-box g-overflow-hidden-xs mb-xs-2 ng-scope">
+  <div class="row pt-xs-1 gBgcGray5">
+    <ul class="clearfix g-list-sm">
+      <li class="col-md-8 col-sm-9">
+        <ul class="row">
+          <li class="col-sm-1 clearfix cnt-item" ng-if="vm.showCheck">
+            <div class="cnt-check">
+              <div class="g-cnt-checkbox ml-xs-1">
+                <mpf-checkbox
+                ng-model="vm.documento.Seleccionado"
+                value="{{vm.documento.NumeroDocumento}}" label=""
+
+                ng-change="vm.updateListArray(vm.documento.Seleccionado, vm.documento.NumeroDocumento)"></mpf-checkbox>
+              </div>
+            </div>
+          </li>
+
+          <li ng-class="{'col-sm-5 ': vm.showCheck, 'col-sm-6 ': !vm.showCheck}"
+              class="clearfix cnt-item">
+            <div class="col-sm-5 col-xs-4 item-label">Nro solicitud:</div>
+            <div class="col-sm-7 col-xs-8 item-dato g-text-uppercase">{{vm.documento.NumeroDocumento}}
+            </div>
+          </li>
+          <li class="col-sm-6 clearfix cnt-item">
+            <div class="col-sm-5 col-xs-4 item-label">Fecha registro:</div>
+            <div class="col-sm-7 col-xs-8 item-dato g-text-uppercase">{{vm.documento.FechaRegistro}}</div>
+          </li>
+        </ul>
+        <ul class="row">
+          <li class="col-sm-1 clearfix cnt-item" ng-if="vm.showCheck"></li>
+          <li class="col-sm-6 clearfix cnt-item">
+            <div class="col-sm-4 col-xs-4 item-label">Estado:</div>
+            <div class="col-sm-8 col-xs-8 item-dato g-text-uppercase">{{vm.documento.Estado}}</div>
+          </li>
+        </ul>
+      </li>
+      <li class="col-md-3 clearfix">
+        <div class="col-md-12 cnt-item" ng-if="vm.showCheck && !vm.hideDetailButton">
+          <a class="g-btn g-btn-white block second-design"
+            ng-click="vm.verCotizacion()" ng-hide="vm.isEmitted(vm.documento.CodigoEstado)">Ver Cotización</a>
+        </div>
+      </li>
+      <li class="col-md-3 clearfix">
+        <div class="col-md-12 cnt-item" ng-if="vm.isEmitted(vm.documento.CodigoEstado)">
+          <a class="g-btn g-btn-white block second-design"
+            ng-click="vm.verEmision()">Ver Emisión</a>
+        </div>
+      </li>
+    </ul>
+  </div>
+  <div class="row g-box-content">
+    <ul class="clearfix g-list">
+
+      <li class="col-md-4 clearfix cnt-item">
+        <div class="col-sm-2" ng-if="vm.showCheck"></div>
+        <div class="col-sm-4 item-label">Contratante:</div>
+        <div class="col-sm-6 item-dato g-text-uppercase">{{vm.documento.Contratante}}</div>
+      </li>
+      <li class="col-md-4 clearfix cnt-item">
+        <div class="col-sm-5 item-label">Agente:</div>
+        <div class="col-sm-7 item-dato g-text-uppercase">{{vm.documento.Agente}}</div>
+      </li>
+      <li class="col-md-4 clearfix cnt-item">
+        <div class="col-sm-5 item-label">Usuario:</div>
+        <div class="col-sm-7 item-dato g-text-uppercase">{{vm.documento.Usuario}}</div>
+      </li>
+    </ul>
+  </div>
+</div>

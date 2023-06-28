@@ -1,0 +1,131 @@
+<mpf-cotizacion-resumen show-contratante="true" show-poliza="true"></mpf-cotizacion-resumen>
+
+<form name="frmSecondStep">
+  <div class="g-section g-sec-information">
+    <div class="container">
+      <div class="row cnt-title h-myd-mb--0 mt-md-2">
+        <div class="col-md-8 mb-xs-1">
+          <h2 class="g-sub-title g-myd-subtitle mb-1">Datos de la cobertura y asegurados</h2>
+        </div>
+        <div class="col-md-4 item-edit mb-xs-1">
+          <a class="h-myd--none mb-1" download ng-href="{{vm.getHrefDescargarFormato()}}">
+            <span class="g-icon gCGray3">
+              <span class="icon ico-mapfre_139_excel"></span>
+              <span class="g-link g-text-none">Descargar formato trabajadores</span>
+            </span>
+          </a>
+          <a class="h-myd--show h-oim-none mb-1" ng-href="{{vm.getHrefDescargarFormato()}}">
+            <i class="ico-mapfre-368-myd-xls ico-edit"></i>
+            <span>Descargar formato trabajadores</span>
+          </a>
+        </div>
+      </div>
+
+      <div class="row" ng-hide="vm.enActualizacion()" ng-repeat="riesgo in vm.cotizacion.riesgos | orderBy: 'numRiesgo' track by $index">
+        <div class="col-xs-12">
+          <div class="g-list">
+            <div class="clearfix">
+              <div class="col-md-4 mb-xs-2">
+                <mpf-select ng-model="riesgo.modelo.mCategoria" name="nCategoria"
+                  label="{label: 'Categoría', required: true}" m-data-source="vm.categorias"
+                  text-field="NomCategoria" value-field="CodCategoria" m-Empty-Option="{text:'Elige categoría'}"
+                  mpf-validation="required" ng-disabled="!vm.isMultiriesgo || vm.stepDisabled()"></mpf-select>
+              </div>
+            </div>
+            <div class="clearfix" >
+              <div class="g-tap-mobile g-section g-section-tabs">
+                <div class="clearfix">
+                  <div class="col-xs-12">
+                    <uib-tabset active="riesgo.tipo" justified="true">
+                      <!-- TAB1 -->
+                      <uib-tab index="0" deselect="vm.cambiarTipoRegistro($event, $selectedIndex, riesgo)">
+                        <uib-tab-heading>REGISTRO MASIVO</uib-tab-heading>
+                        <div class="row">
+                          <div class="col-md-12 mb-md-5 mb-xs-2 pt-md-2 pt-xs-2">
+                            <mpf-asegurado-registro-masivo-vida-ley ng-model="riesgo" index="$index"></mpf-asegurado-registro-masivo-vida-ley>
+                          </div>
+                        </div>
+                      </uib-tab>
+                      <!-- TAB2 -->
+                      <uib-tab index="1" deselect="vm.cambiarTipoRegistro($event, $selectedIndex, riesgo)">
+                        <uib-tab-heading>REGISTRO MANUAL</uib-tab-heading>
+                        <div class="row">
+                          <div class="col-md-12 mb-md-5 mb-xs-2 pt-md-2 pt-xs-2">
+                            <mpf-asegurado-registro-manual-vida-ley ng-model="riesgo"></mpf-asegurado-registro-manual-vida-ley>
+                          </div>
+                        </div>
+                      </uib-tab>
+                    </uib-tabset>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row" ng-if="vm.enActualizacion()">
+        <div class="col-xs-12">
+          <div class="g-list">
+            <div class="clearfix">
+              <div class="col-md-4 mb-xs-2">
+                <mpf-select ng-model="vm.cotizacion.riesgos[0].modelo.mCategoria" name="nCategoria"
+                  label="{label: 'Categoría', required: true}" m-data-source="vm.categorias"
+                  text-field="NomCategoria" value-field="CodCategoria" m-Empty-Option="{text:'Elige categoría'}"
+                  mpf-validation="required" ng-disabled="!vm.isMultiriesgo || vm.stepDisabled()"></mpf-select>
+              </div>
+            </div>
+            <div class="clearfix" >
+              <div class="g-tap-mobile g-section g-section-tabs">
+                <div class="clearfix">
+                  <div class="col-xs-12">
+                    <uib-tabset active="vm.cotizacion.riesgos[0].tipo" justified="true">
+                      <!-- TAB1 -->
+                      <uib-tab index="0" deselect="vm.cambiarTipoRegistro($event, $selectedIndex, vm.cotizacion.riesgos[0])">
+                        <uib-tab-heading>REGISTRO MASIVO</uib-tab-heading>
+                        <div class="row">
+                          <div class="col-md-12 mb-md-5 mb-xs-2 pt-md-2 pt-xs-2">
+                            <mpf-asegurado-registro-masivo-vida-ley ng-model="vm.cotizacion.riesgos[0]" index="$index"></mpf-asegurado-registro-masivo-vida-ley>
+                          </div>
+                        </div>
+                      </uib-tab>
+                      <!-- TAB2 -->
+                      <uib-tab index="1" deselect="vm.cambiarTipoRegistro($event, $selectedIndex, vm.cotizacion.riesgos[0])">
+                        <uib-tab-heading>REGISTRO MANUAL</uib-tab-heading>
+                        <div class="row" ng-repeat="riesgo in vm.cotizacion.riesgos | orderBy: 'numRiesgo' track by $index" ng-hide="vm.enActualizacion()">
+                          <div class="col-md-12 mb-md-5 mb-xs-2 pt-md-2 pt-xs-2">
+                            <mpf-asegurado-registro-manual-vida-ley ng-model="riesgo" update="vm.enActualizacion()"></mpf-asegurado-registro-manual-vida-ley>
+                          </div>
+                        </div>
+                        <div class="row" ng-if="vm.enActualizacion()">
+                          <div class="col-md-12 mb-md-5 mb-xs-2 pt-md-2 pt-xs-2">
+                            <mpf-asegurado-registro-manual-vida-ley ng-model="vm.cotizacion.riesgos" update="vm.enActualizacion()"></mpf-asegurado-registro-manual-vida-ley>
+                          </div>
+                        </div>
+                      </uib-tab>
+                    </uib-tabset>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="g-section h-myd-pt--0">
+    <div class="container">
+      <div class="row">
+        <div class="col-xs-12 mb-xs-3">
+          <span class="g-comment">*Campos obligatorios</span>
+        </div>
+        <div class="col-md-4 col-md-offset-4">
+          <a class="g-btn g-btn-verde block" ng-click="vm.showModalConfirmation()">Siguiente</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</form>
+

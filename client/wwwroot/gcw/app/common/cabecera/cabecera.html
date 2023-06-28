@@ -1,0 +1,39 @@
+<div class="container">
+  <div class="row">
+    <div class="clearfix g-table g-myd-flex-center">
+      <div class="col-xs-12 col-md-6 g-cell-middle pl-xs-0 pr-xs-0">
+        <page-title data-info="{title: $cabecera.title}"></page-title>
+      </div>
+      <div class="col-xs-12 col-md-6" id="box-agente-gestor">
+        <div class="row">
+          <div class="col-xs-12 col-md-6 mt-md-2 mb-md-2 mt-xs-1 mb-xs-1" ng-if="$cabecera.viewNetwork">
+            <span>
+              <mpf-select-horz
+              ng-model="$cabecera.red"
+              name="nRed"
+              label="{label: 'Red', required: true}"
+              m-data-source="$cabecera.network"
+              text-field="description"
+              value-field="networkId"
+              ng-change="$cabecera.updateNetwork()"
+              m-Empty-Option="{enterData: true}">
+              </mpf-select-horz>
+            </span>
+          </div>
+          <div class="col-xs-12 col-md-6 mt-md-2 mb-md-2 mt-xs-1 mb-xs-1" ng-show="$cabecera.viewManager">
+            <span>
+              <gcw-autocomplete-gestor gestor="$cabecera.gestor"></gcw-autocomplete-gestor>
+            </span>
+          </div>
+          <div class="col-xs-12 col-md-6 mt-md-2 mb-md-2 mt-xs-1 mb-xs-1" ng-show="$cabecera.viewAgent">
+            <gcw-autocomplete-agente
+            agente=$cabecera.agente
+            gestor=$cabecera.gestor
+            network="$cabecera.red.networkId"
+            ></gcw-autocomplete-agente>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

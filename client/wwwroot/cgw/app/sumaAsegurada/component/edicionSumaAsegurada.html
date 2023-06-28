@@ -1,0 +1,53 @@
+<div class="container pb-xs-2 pb-xs-2">
+  <form name="frmEdicionSumaAsegurada">
+    <div class="row g-box pt-xs-3 pb-xs-3 pl-xs-2 pr-xs-2" style="position: relative;">
+      <button type="button" class="mr-xs-2 mt-xs-2 close g-close-modal" data-ng-click="mostrarEliminarRegistro(item)" prevent-default>
+        <span class="gnIcon-xsm ico-mapfre_29_eliminar"></span>
+      </button>
+      <div class="col-xs-12">
+        <h4><b>Editar Suma Asegurada</b></h4>
+      </div>
+      <div class="col-xs-12 mt-xs-2">
+        <div class="row">
+          <div class="col-sm-4">
+            <mp-data-seeker
+              behavior="{label:'Cobertura', placeholder:'Agregar cobertura', matchField:'name'}"
+              m-data-source="getListCoverage($inputNeed)"
+              ng-model="formData.selectItem.cobertura"
+              ng-required="false"
+              name="mCobertura">
+              <div ng-bind-html="$item.name | highlight: $select.search"></div>
+            </mp-data-seeker>
+          </div>
+          <div class="col-sm-4 mt-xs-2 mt-sm-0">
+            <mp-data-seeker
+              behavior="{label:'Diagnóstico', placeholder:'Agregar diagnóstico por nombre o CIE10', matchField:'name'}"
+              m-data-source="getListDiagnostic($inputNeed)"
+              ng-model="formData.selectItem.diagnostico"
+              ng-required="false"
+              name="mDiagnostic">
+              <div ng-bind-html="$item.name | highlight: $select.search"></div>
+            </mp-data-seeker>
+          </div>
+          <div class="col-sm-4 mt-xs-2 mt-sm-0">
+            <m-Numeric-Textbox 
+                label="{label: 'Suma Asegurada', required: true}"
+                name="nSumaAsegurada"
+                ng-model="formData.selectItem.sumaAsegurada"
+                options="optionsMoney"
+                ng-required="true">
+            </m-Numeric-Textbox >
+          </div>
+        </div>
+      </div>
+      <div class="col-xs-12 g-title-btn-row mt-xs-2 mt-sm-0">
+        <div class="g-title-btn-col mt-xs-2">
+          <button class="g-btn g-btn-white second-design block" ng-click="mostrarEditarRegistro(null, false, -1)">Cancelar</button>
+        </div>
+        <div class="g-title-btn-col mt-xs-2">
+          <button class="g-btn g-btn-verde second-design block" ng-click="editarSumaAsegurada()" ng-disabled="!frmEdicionSumaAsegurada.$valid">Guardar cambios</button>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>

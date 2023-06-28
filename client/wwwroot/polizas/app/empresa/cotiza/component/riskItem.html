@@ -1,0 +1,1244 @@
+<div id="viewOne">
+  <div ng-form="formDataStep2">
+    <div class="g-section-inner">
+      <div class="row">
+        <div class="col-md-12">
+          <h2 class="g-sub-title g-myd-subtitle">Datos del Local</h2>
+        </div>
+      </div>
+      <!-- Ubigeo -->
+      <div class="row mt-md-2">
+        <div class="col-md-4 mb-xs-2">
+          <mpf-select
+            label="{label: 'Departamento', required: true}"
+            mpf-Validation="required"
+            name="nDepartamento"
+            ng-model="data.mDepartamento"
+            m-data-source="departamentosData"
+            m-Empty-Option="{enterData:true}"
+            text-Field="Nombre"
+            value-Field="Codigo"
+          ></mpf-select>
+          <ul class="g-error">
+            <li ng-show="formDataStep2.nDepartamento.$error.required && data.errors.departamento == 1">* Este campo es obligatorio</li>
+          </ul>
+        </div>
+
+        <div class="col-md-4 mb-xs-2">
+          <mpf-select
+            label="{label: 'Provincia', required: true}"
+            mpf-Validation="required"
+            name="nProvincia"
+            ng-model="data.mProvincia"
+            m-data-source="provinciasData"
+            m-Empty-Option="{enterData:true}"
+            text-Field="Nombre"
+            value-Field="Codigo"
+          ></mpf-select>
+          <ul class="g-error">
+            <li ng-show="formDataStep2.nProvincia.$error.required && data.errors.provincia == 1">* Este campo es obligatorio</li>
+          </ul>
+        </div>
+
+        <div class="col-md-4 mb-xs-2">
+          <mpf-select
+            label="{label: 'Distrito', required: true}"
+            mpf-Validation="required"
+            name="nDistrito"
+            ng-model="data.mDistrito"
+            m-data-source="distritosData"
+            m-Empty-Option="{enterData:true}"
+            text-Field="Nombre"
+            value-Field="Codigo"
+          ></mpf-select>
+          <ul class="g-error">
+            <li ng-show="formDataStep2.nDistrito.$error.required && data.errors.distrito == 1">* Este campo es obligatorio</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Inicio: Datos de local -->
+      <div class="row mt-md-2">
+        <div class="col-md-4 mb-xs-2">
+          <mpf-select
+            label="{label: 'Tipo Local', required: true}"
+            mpf-Validation="required"
+            name="nTipoLocal"
+            ng-model="data.mTipoLocal"
+            m-data-source="tipoLocalData"
+            m-Empty-Option="{enterData:true}"
+            text-Field="Nombre"
+            value-Field="strCodigo"
+            ng-change="localRiesgo(data.mTipoLocal)"
+          ></mpf-select>
+          <ul class="g-error">
+            <li ng-show="formDataStep2.nTipoLocal.$error.required && data.errors.tipo == 1">* Este campo es obligatorio</li>
+          </ul>
+        </div>
+        <div class="col-md-4 mb-xs-2">
+          <mpf-select
+            label="{label: 'Categoría', required: true}"
+            mpf-Validation="required"
+            name="nCategoriaLocal"
+            ng-model="data.mCategoriaLocal"
+            m-data-source="catConstruccionData"
+            m-Empty-Option="{enterData:true}"
+            text-Field="Descripcion"
+            value-Field="Codigo"
+            ng-change="categoriaRiesgo(data.mCategoriaLocal)"
+          ></mpf-select>
+          <ul class="g-error">
+            <li ng-show="formDataStep2.nCategoriaLocal.$error.required && data.errors.categoria == 1">* Este campo es obligatorio</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- Alarma -->
+    <div class="g-section-inner">
+      <div class="row">
+        <div class="col-md-12">
+          <h2 class="g-sub-title g-myd-subtitle">Alarma de monitoreo</h2>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-4 mb-xs-2">
+          <div class="row mb-sm-2 mb-xs-1">
+            <div class="col-md-12">
+              <span class="g-label">¿Servicio alarma y monitoreo?*</span>
+            </div>
+          </div>
+          <div class="row">
+            <div class="pull-left pl-xs-2">
+              <m-radio
+                label="{label: 'Sí'}"
+                name="nServAlarmMonit"
+                ng-model="data.mServAlarmMonit.value"
+                value="S"
+                ng-required="true"
+                ng-disabled="data.mServAlarmMonit.disabled">
+              </m-radio>
+            </div>
+            <div class="pull-left pl-xs-2">
+              <m-radio
+                label="{label: 'No'}"
+                name="nServAlarmMonit"
+                ng-model="data.mServAlarmMonit.value"
+                value="N"
+                ng-required="true"
+                ng-disabled="data.mServAlarmMonit.disabled">
+              </m-radio>
+            </div>
+            <ul class="col-md-12 g-error">
+              <li ng-show="nServAlarmMonit.$invalid && !nServAlarmMonit.$pristine">* Campo obligatorio</li>
+            </ul>
+          </div>
+        </div>
+        <div class="col-md-4 mb-xs-2">
+          <div class="row mb-sm-2 mb-xs-1">
+            <div class="col-md-12">
+              <span class="g-label">Marca Kit Smart*</span>
+            </div>
+          </div>
+          <div class="row">
+            <div class="pull-left pl-xs-2">
+              <m-radio
+                label="{label: 'Sí'}"
+                name="nMarcaKitSmart"
+                ng-model="data.mMarcaKitSmart.value"
+                value="S"
+                ng-required="true"
+                ng-disabled="data.mMarcaKitSmart.disabled">
+              </m-radio>
+            </div>
+            <div class="pull-left pl-xs-2">
+              <m-radio
+                label="{label: 'No'}"
+                name="nMarcaKitSmart"
+                ng-model="data.mMarcaKitSmart.value"
+                value="N"
+                ng-required="true"
+                ng-disabled="data.mMarcaKitSmart.disabled">
+              </m-radio>
+            </div>
+            <ul class="col-md-12 g-error">
+              <li ng-show="nMarcaKitSmart.$invalid && !nMarcaKitSmart.$pristine">* Campo obligatorio</li>
+            </ul>
+          </div>
+        </div>
+        <div class="col-md-4 mb-xs-2">
+          <mpf-select
+            label="{label: 'Marca tipo de comunicación'}"
+            name="nMarcaTipoCom"
+            ng-model="data.mMarcaTipoCom"
+            m-data-source="data.marcaTipoComData"
+            text-Field="Descripcion"
+            value-Field="Codigo"
+            m-Empty-Option="{enterData:true}"
+            ng-required="data.mServAlarmMonit.value == 'S'"
+          ></mpf-select>
+          <ul class="col-md-12 g-error">
+            <li ng-show="formDataStep2.nMarcaTipoCom.$error.required && data.errors.comunicacion">* Este campo es obligatorio</li>
+          </ul>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-4 mb-xs-2">
+          <div class="row mb-sm-2 mb-xs-1">
+            <div class="col-md-12">
+              <span class="g-label">Marca video web*</span>
+            </div>
+          </div>
+          <div class="row">
+            <div class="pull-left pl-xs-2">
+              <m-radio
+                label="{label: 'Sí'}"
+                name="nMarcaVideo"
+                ng-model="data.mMarcaVideo.value"
+                value="S"
+                ng-required="true"
+                ng-disabled="data.mMarcaVideo.disabled">
+              </m-radio>
+            </div>
+            <div class="pull-left pl-xs-2">
+              <m-radio
+                label="{label: 'No'}"
+                name="nMarcaVideo"
+                ng-model="data.mMarcaVideo.value"
+                value="N"
+                ng-required="true"
+                ng-disabled="data.mMarcaVideo.disabled">
+              </m-radio>
+            </div>
+            <ul class="col-md-12 g-error">
+              <li ng-show="nMarcaVideo.$invalid && !nMarcaVideo.$pristine">* Campo obligatorio</li>
+            </ul>
+          </div>
+        </div>
+        <div class="col-md-4 mb-xs-2">
+          <div class="row mb-sm-2 mb-xs-1">
+            <div class="col-md-12">
+              <span class="g-label">Llavero médico/imagen plus*</span>
+            </div>
+          </div>
+          <div class="row">
+            <div class="pull-left pl-xs-2">
+              <m-radio
+                label="{label: 'Sí'}"
+                name="nLlavero"
+                ng-model="data.mLlavero.value"
+                value="S"
+                ng-required="true"
+                ng-disabled="data.mLlavero.disabled">
+              </m-radio>
+            </div>
+            <div class="pull-left pl-xs-2">
+              <m-radio
+                label="{label: 'No'}"
+                name="nLlavero"
+                ng-model="data.mLlavero.value"
+                value="N"
+                ng-required="true"
+                ng-disabled="data.mLlavero.disabled">
+              </m-radio>
+            </div>
+            <ul class="col-md-12 g-error">
+              <li ng-show="nLlavero.$invalid && !nLlavero.$pristine">* Campo obligatorio</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div ng-form="formRisk">
+    <div class="g-section-inner">
+      <div class="row">
+        <div class="col-md-12">
+            <h2 class="g-sub-title g-myd-subtitle">Convenios</h2>
+        </div>
+      </div>
+      <!--Paso 2 Mapfre Empresas-->
+      <div class="row" ng-if="$ctrl.product.CodigoProducto == 57">
+
+        <div uib-accordion class="accordion-box empresa" close-Others='true'>
+
+          <!-- CONVENIO I -->
+          <div uib-accordion-group class="accordion-box-item" >
+            <uib-accordion-heading>
+              <div class="accordion-box-item-title acordion-tablet">
+                <div class="clearfix">
+                  <div class="col-md-12 gBgcGray5 pt-xs-1 pb-xs-1 mb-xs-0-1 g-myd-box--accordion">
+                    <div class="row">
+                      <div class="col-md-10 col-sm-10 col-xs-8 mt-xs-1 h-myd-mt--0">
+                        <b>CONVENIO I - INCENDIO, LÍNEAS ALIADAS Y LUCRO CESANTE</b>
+                        <div class="g-col-xs middle pl-xs-2" ng-show="msgIncendio">
+                          <span class="ico-mapfre_222_informacion gCBlue2 gnIcon-xsm g-cell-middle"></span>
+                          <span class="g-cell-middle pl-xs-1">RIESGO SUJETO A EVALUACIÓN DE SUSCRIPCIÓN</span>
+                        </div>
+                      </div>
+                      <div class="col-md-1 col-sm-1 col-xs-2 pr-xs-0 pt-xs-0-5 text-right">
+                        <span class="ico-mapfre_132_alert gCRed1 gnIcon-xsm g-cell-middle g-inlineblock"
+                              ng-show="conventionErrors.c01.length"></span>
+                      </div>
+                      <div class="col-md-1 col-sm-1 col-xs-2 pl-xs-0 text-center edit-flecha-tablet">
+                        <span class="title-ico"></span>
+                      </div>
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+            </uib-accordion-heading>
+            <div class="clearfix pt-xs-1 pb-xs-1 g-border-bottom">
+              <div class="col-md-4 col-sm-6 col-xs-6 mt-xs-1">
+                Valor Total de Edificación
+              </div>
+              <div class="col-md-1 col-sm-3 col-xs-2 mt-xs-1 text-right">
+                {{params.currencyText}}
+              </div>
+              <div class="col-md-3 col-sm-3 col-xs-4">
+                <m-Numeric-Textbox-horz
+                  ng-model="data.mEdificacion"
+                  name="nValorEdif"
+                  ng-required="true"
+                  warp-control="true"
+                  ></m-Numeric-Textbox-horz>
+                <div
+                class="error-convention"
+                ng-show="!formRisk.nValorEdif.$pristine && errorMax">No puede superar el 100% del valor máximo para el convenio I ({{params.currencyText}} {{params.maxAmountText}})</div>
+                <div
+                class="error-convention"
+                ng-show="!formRisk.nValorEdif.$pristine && errorEdificacion">El Valor Total de Edificación es obligatorio</div>
+              </div>
+            </div>
+            <div class="clearfix pt-xs-1 pb-xs-1 g-border-bottom">
+              <div class="col-md-4 col-sm-6 col-xs-6 mt-xs-1">
+                Maquinaria y Equipo
+              </div>
+              <div class="col-md-1 col-sm-3 col-xs-2 mt-xs-1 text-right">
+                {{params.currencyText}}
+              </div>
+              <div class="col-md-3 col-sm-3 col-xs-4">
+                <m-Numeric-Textbox-horz
+                name="nValorMaqEquipo"
+                ng-model="data.mMaquinaria"
+                ng-required="true"
+                warp-control="true"
+                ></m-Numeric-Textbox-horz>
+              </div>
+            </div>
+            <div class="clearfix pt-xs-1 pb-xs-1 g-border-bottom">
+              <div class="col-md-4 col-sm-6 col-xs-6 mt-xs-1">
+                Valor de Mobiliario
+              </div>
+              <div class="col-md-1 col-sm-3 col-xs-2 mt-xs-1 text-right">
+                {{params.currencyText}}
+              </div>
+              <div class="col-md-3 col-sm-3 col-xs-4">
+                <m-Numeric-Textbox-horz
+                name="nValorMovi"
+                ng-model="data.mMovilidad"
+                ng-required="true"
+                warp-control="true"
+                ></m-Numeric-Textbox-horz>
+              </div>
+            </div>
+            <div class="clearfix pt-xs-1 pb-xs-1 g-border-bottom">
+              <div class="col-md-4 col-sm-6 col-xs-6 mt-xs-1">
+                Valor de Existencias
+              </div>
+              <div class="col-md-1 col-sm-3 col-xs-2 mt-xs-1 text-right">
+                {{params.currencyText}}
+              </div>
+              <div class="col-md-3 col-sm-3 col-xs-4">
+                <m-Numeric-Textbox-horz
+                name="nValorExist"
+                ng-model="data.mExistencias"
+                ng-required="true"
+                warp-control="true"
+                ></m-Numeric-Textbox-horz>
+              </div>
+            </div>
+            <div class="clearfix pt-xs-1 pb-xs-1 g-border-bottom">
+              <div class="col-md-4 col-sm-6 col-xs-6 mt-xs-1">
+                Lucro Cesante - Gastos Estables
+              </div>
+              <div class="col-md-1 col-sm-3 col-xs-2 mt-xs-1 text-right">
+                {{params.currencyText}}
+              </div>
+              <div class="col-md-3 col-sm-3 col-xs-4">
+                <m-Numeric-Textbox-horz
+                name="nValorGastEst"
+                ng-model="data.mEstables"
+                ng-required="true"
+                warp-control="true"
+                ></m-Numeric-Textbox-horz>
+              </div>
+            </div>
+            <div class="clearfix pt-xs-1 pb-xs-1 g-border-bottom">
+              <div class="col-md-5 mt-xs-1">
+                ¿Contrata Terremoto?
+              </div>
+              <div class="col-md-1 col-sm-2 col-xs-3 mt-xs-1 section-radio-btn">
+                <m-radio
+                  label="{label: 'Si'}"
+                  name="nContraTerremoto"
+                  ng-model="data.mTerremoto"
+                  value="S"></m-radio>
+              </div>
+              <div class="col-md-1 col-sm-2 col-xs-3 mt-xs-1 section-radio-btn">
+                <m-radio
+                  label="{label: 'No'}"
+                  name="nContraTerremoto"
+                  ng-model="data.mTerremoto"
+                  value="N"></m-radio>
+              </div>
+            </div>
+            <div class="clearfix pt-xs-1 pb-xs-1">
+              <div class="col-md-5 mt-xs-1">
+                ¿Contrata Terrorismo?
+              </div>
+              <div class="col-md-1 col-sm-2 col-xs-3 mt-xs-1 section-radio-btn">
+                <m-radio
+                  label="{label: 'Si'}"
+                  name="nContraTerrorismo"
+                  ng-model="data.mTerrorismo"
+                  value="S"
+                  ng-disabled="true"></m-radio>
+              </div>
+              <div class="col-md-1 col-sm-2 col-xs-3 mt-xs-1 section-radio-btn">
+                <m-radio
+                  label="{label: 'No'}"
+                  name="nContraTerrorismo"
+                  ng-model="data.mTerrorismo"
+                  value="N"
+                  ng-disabled="true"></m-radio>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-12 gBgcGray5 pt-xs-1 pb-xs-1 mb-xs-0-1 g-myd-box--accordion">
+                <div class="row">
+                  <div class="col-md-4 col-sm-6 col-xs-6">
+                    <span class="gH5">Valor Total Declarado Convenio I</span>
+                  </div>
+                  <div class="col-md-1 col-sm-2 col-xs-2 text-right">
+                    <span class="gH5">{{params.currencyText}}</span>
+                  </div>
+                  <div class="col-md-3 col-sm-4 col-xs-4 text-right">
+                    <span class="gH5">{{data.c01.total | number: 2}}</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- CONVENIO II -->
+          <div uib-accordion-group class="accordion-box-item" >
+            <uib-accordion-heading>
+              <div class="accordion-box-item-title acordion-tablet">
+                <div class="clearfix">
+                  <div class="col-md-12 gBgcGray5 pt-xs-1 pb-xs-1 mb-xs-0-1 g-myd-box--accordion">
+                    <div class="row">
+                      <div class="col-md-10 col-sm-10 col-xs-8 mt-xs-1 h-myd-mt--0">
+                        <b>CONVENIO II - ROBO Y/O ASALTA</b>
+                        <div class="g-col-xs middle pl-xs-2" ng-show="msgRobo">
+                          <span class="ico-mapfre_222_informacion gCBlue2 gnIcon-xsm g-cell-middle"></span>
+                          <span class="g-cell-middle pl-xs-1">RIESGO SUJETO A EVALUACIÓN DE SUSCRIPCIÓN</span>
+                        </div>
+                        <div class="g-col-xs middle pl-xs-2" ng-show="errorVBContenido">
+                          <span class="ico-mapfre_222_informacion gCBlue2 gnIcon-xsm g-cell-middle"></span>
+                          <span class="g-cell-middle pl-xs-1">REQUIERE V°B° DE SUSCRIPCIÓN</span>
+                        </div>
+                      </div>
+
+                      <div class="col-md-1 col-sm-1 col-xs-2 pr-xs-0 pt-xs-0-5 text-right">
+                        <span class="ico-mapfre_132_alert gCRed1 gnIcon-xsm g-cell-middle g-inlineblock"
+                              ng-show="conventionErrors.c02.length"></span>
+                      </div>
+
+                      <div class="col-md-1 col-sm-1 col-xs-2 pl-xs-0 text-center edit-flecha-tablet">
+                        <span class="title-ico"></span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </uib-accordion-heading>
+            <div class="row">
+              <div class="col-md-12 g-border-bottom">
+                <p class="pt-xs-1">No puede exceder en 100% el valor declarado en Convenio I (Maquinaria y Equipo, Ext, etc), máximo en suma {{params.currencyText}} {{params.maxAmountC02Text}}</p>
+              </div>
+            </div>
+            <div class="clearfix pt-xs-1 pb-xs-1 g-border-bottom">
+              <div class="col-md-12 g-border-bottom pb-xs-1">
+                <span class="gH5"><b>TOTAL CONTENIDO</b></span>
+              </div>
+              <div class="col-md-4 col-sm-6 col-xs-6 mt-xs-1">
+                Val. inst. fijas
+              </div>
+              <div class="col-md-1 col-sm-3 col-xs-2 mt-xs-1 text-right">
+                {{params.currencyText}}
+              </div>
+              <div class="col-md-3 col-sm-3 col-xs-4">
+                <m-Numeric-Textbox-horz
+                name="nValorInstFijaTwo"
+                ng-model="data.mValorInstFijaTwo"
+                ng-required="true"
+                warp-control="true"
+                placeholder=""
+                ></m-Numeric-Textbox-horz>
+                <div
+                class="error-convention"
+                ng-show="!formRisk.nValorInstFijaTwo.$pristine && validateInstFijas(data.mValorInstFijaTwo)"
+                >El monto ingresado excede a Instalaciones Fijas del Convenio I</div>
+                <div
+                class="error-convention"
+                ng-show="!formRisk.nValorInstFijaTwo.$pristine && errorFijaEdificacion"
+                >El monto ingresado excede el 20% del Total de Edificación del Convenio I</div>
+              </div>
+            </div>
+            <div class="clearfix pt-xs-1 pb-xs-1 g-border-bottom">
+              <div class="col-md-4 col-sm-6 col-xs-6 mt-xs-1">
+                Maquinaria y equipo
+              </div>
+              <div class="col-md-1 col-sm-3 col-xs-2 mt-xs-1 text-right">
+                {{params.currencyText}}
+              </div>
+              <div class="col-md-3 col-sm-3 col-xs-4">
+                <m-Numeric-Textbox-horz
+                name="nValorMaqEquipTwo"
+                ng-model="data.mValorMaqEquipTwo"
+                ng-required="true"
+                warp-control="true"
+                ></m-Numeric-Textbox-horz>
+                <div
+                class="error-convention"
+                ng-show="!formRisk.nValorMaqEquipTwo.$pristine && errorContenidoMaq"
+                >El monto ingresado excede a Maquinaria y Equipo del Convenio I</div>
+              </div>
+            </div>
+            <div class="clearfix pt-xs-1 pb-xs-1 g-border-bottom">
+              <div class="col-md-4 col-sm-6 col-xs-6 mt-xs-1">
+                Val mobiliario
+              </div>
+              <div class="col-md-1 col-sm-3 col-xs-2 mt-xs-1 text-right">
+                {{params.currencyText}}
+              </div>
+              <div class="col-md-3 col-sm-3 col-xs-4">
+                <m-Numeric-Textbox-horz
+                name="nValorMob"
+                ng-model="data.mValorMob"
+                ng-required="true"
+                warp-control="true"
+                ></m-Numeric-Textbox-horz>
+                <div
+                class="error-convention"
+                ng-show="!formRisk.nValorMob.$pristine && errorContenidoMob"
+                >El monto ingresado excede a Mobiliario del Convenio I</div>
+              </div>
+            </div>
+            <div class="clearfix pt-xs-1 pb-xs-1">
+              <div class="col-md-4 col-sm-6 col-xs-6 mt-xs-1">
+                Val existencias
+              </div>
+              <div class="col-md-1 col-sm-3 col-xs-2 mt-xs-1 text-right">
+                {{params.currencyText}}
+              </div>
+              <div class="col-md-3 col-sm-3 col-xs-4">
+                <m-Numeric-Textbox-horz
+                name="nValorExisTwo"
+                ng-model="data.mValorExisTwo"
+                ng-required="true"
+                warp-control="true"
+                ></m-Numeric-Textbox-horz>
+                <div
+                class="error-convention"
+                ng-show="!formRisk.nValorExisTwo.$pristine && errorContenidoEx"
+                >El monto ingresado excede a Existencias del Convenio I</div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-12 gBgcGray5 pt-xs-1 pb-xs-1">
+                <div class="row">
+                  <div class="col-md-4 col-sm-6 col-xs-6">
+                    <span class="gH5">Valor total de Contenido (Maquinaria y Equipo, Ext., etc.)</span>
+                  </div>
+                  <div class="col-md-1 col-sm-2 col-xs-2 text-right">
+                    <span class="gH5">{{params.currencyText}}</span>
+                  </div>
+                  <div class="col-md-3 col-sm-4 col-xs-4 text-right">
+                    <span class="gH5">{{data.c02.contenido.total | number: 2}}</span>
+                  </div>
+                  <div class="col-md-3 col-sm-12 col-xs-12 text-right">
+                    <span class="gH5">Límite máximo {{params.currencyText}} {{params.maxAmountC02Text}}</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- convenio 2 declarado -->
+            <div class="clearfix pt-xs-1 pb-xs-1 g-border-bottom">
+              <div class="col-md-12 g-border-bottom pb-xs-1">
+                <span class="gH5"><b>TOTAL DINERO</b> </span>
+              </div>
+              <div class="col-md-4 col-sm-6 col-xs-6 mt-xs-1">
+                Límite en Caja Chica
+              </div>
+              <div class="col-md-1 col-sm-3 col-xs-2 mt-xs-1 text-right">
+                {{params.currencyText}}
+              </div>
+              <div class="col-md-3 col-sm-3 col-xs-4">
+                <m-Numeric-Textbox-horz
+                name="nValorCajChica"
+                ng-model="data.mValorCajChica"
+                ng-required="true"
+                warp-control="true"
+                ></m-Numeric-Textbox-horz>
+              </div>
+            </div>
+            <div class="clearfix pt-xs-1 pb-xs-1 g-border-bottom">
+              <div class="col-md-4 col-sm-6 col-xs-6 mt-xs-1">
+                Límite en Caja Fuerte
+              </div>
+              <div class="col-md-1 col-sm-3 col-xs-2 mt-xs-1 text-right">
+                {{params.currencyText}}
+              </div>
+              <div class="col-md-3 col-sm-3 col-xs-4">
+                <m-Numeric-Textbox-horz
+                name="nValorCajFuert"
+                ng-model="data.mValorCajFuert"
+                ng-required="true"
+                warp-control="true"
+                ></m-Numeric-Textbox-horz>
+              </div>
+            </div>
+            <div class="clearfix pt-xs-1 pb-xs-1 g-border-bottom">
+              <div class="col-md-4 col-sm-6 col-xs-6 mt-xs-1">
+                Límite en tránsito a bancos
+              </div>
+              <div class="col-md-1 col-sm-3 col-xs-2 mt-xs-1 text-right">
+                {{params.currencyText}}
+              </div>
+              <div class="col-md-3 col-sm-3 col-xs-4">
+                <m-Numeric-Textbox-horz
+                name = "nValorTransBancos"
+                ng-model = "data.mValorTransBancos"
+                ng-required = "true"
+                warp-control = "true"
+                ></m-Numeric-Textbox-horz>
+              </div>
+            </div>
+            <div class="clearfix pt-xs-1 pb-xs-1">
+              <div class="col-md-4 col-sm-6 col-xs-6 mt-xs-1">
+                Límite en poder de cobradores
+              </div>
+              <div class="col-md-1 col-sm-3 col-xs-2 mt-xs-1 text-right">
+                {{params.currencyText}}
+              </div>
+              <div class="col-md-3 col-sm-3 col-xs-4">
+                <m-Numeric-Textbox-horz
+                name="nValorTotaPoderCobra"
+                ng-model="data.mValorTotaPoderCobra"
+                ng-required="true"
+                warp-control="true"
+                ></m-Numeric-Textbox-horz>
+                <div
+                class="error-convention"
+                ng-show="!data.mValorTotaPoderCobra && data.mValorTotalCobra"
+                >Debe ingresar un monto</div>
+              </div>
+            </div>
+            <div class="clearfix pt-xs-1 pb-xs-1 g-border-bottom">
+              <div class="col-md-4 col-sm-6 col-xs-6 mt-xs-1">
+                Nro. Total de Cobradores
+              </div>
+              <div class="col-md-1 col-sm-3 col-xs-2 mt-xs-1 text-right">
+              </div>
+              <div class="col-md-3 col-sm-3 col-xs-4">
+                <mpf-input-horz
+                name="nValorTotalCobra"
+                ng-model="data.mValorTotalCobra"
+                ng-required="true"
+                warp-control="true"
+                mpf-validation = "onlyNumber"
+                ></mpf-input-horz>
+                <div
+                class="error-convention"
+                ng-show="!data.mValorTotalCobra && data.mValorTotaPoderCobra"
+                >Debe ingresar el numero de cobradores</div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-12 gBgcGray5 pt-xs-1 pb-xs-1 mb-xs-0-1 g-myd-box--accordion">
+                <div class="row">
+                  <div class="col-md-4 col-sm-6 col-xs-6">
+                    <span class="gH5">Suma Total de Dinero</span>
+                  </div>
+                  <div class="col-md-1 col-sm-2 col-xs-2 text-right">
+                    <span class="gH5">{{params.currencyText}}</span>
+                  </div>
+                  <div class="col-md-3 col-sm-4 col-xs-4 text-right">
+                    <span class="gH5">{{data.c02.declarado.totalDinero | number: 2}}</span>
+                  </div>
+                  <div class="col-md-3 col-sm-12 col-xs-12 text-right">
+                    <span class="gH5"></span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-12 gBgcGray5 pt-xs-1 pb-xs-1 mb-xs-0-1">
+                <div class="row">
+                  <div class="col-md-4 col-sm-6 col-xs-6">
+                    <span class="gH5">Valor Total Convenio II</span>
+                  </div>
+                  <div class="col-md-1 col-sm-2 col-xs-2 text-right">
+                    <span class="gH5">{{params.currencyText}}</span>
+                  </div>
+                  <div class="col-md-3 col-sm-4 col-xs-4 text-right">
+                    <span class="gH5">{{data.c02.declarado.total | number: 2}}</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- CONVENIO III -->
+          <div uib-accordion-group class="accordion-box-item" >
+            <uib-accordion-heading>
+              <div class="accordion-box-item-title acordion-tablet">
+                <div class="clearfix">
+                  <div class="col-md-12 gBgcGray5 pt-xs-1 pb-xs-1 mb-xs-0-1 g-myd-box--accordion">
+                    <div class="row">
+                      <div class="col-md-10 col-sm-10 col-xs-8 mt-xs-1 h-myd-mt--0">
+                        <b>CONVENIO III - RESPONSABILIDAD CIVIL</b>
+                      </div>
+
+                      <div class="col-md-1 col-sm-1 col-xs-2 pr-xs-0 pt-xs-0-5 text-right">
+                        <span class="ico-mapfre_132_alert gCRed1 gnIcon-xsm g-cell-middle g-inlineblock"
+                              ng-show="conventionErrors.c03.length"></span>
+                      </div>
+
+                      <div class="col-md-1 col-sm-1 col-xs-2 pl-xs-0 text-center edit-flecha-tablet">
+                        <span class="title-ico"></span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </uib-accordion-heading>
+            <div class="clearfix pt-xs-1 pb-xs-1">
+              <div class="col-md-4 col-sm-6 col-xs-6 mt-xs-1">
+                Suma Asegurada
+              </div>
+              <div class="col-md-1 col-sm-3 col-xs-2 mt-xs-1 text-right">
+                {{params.currencyText}}
+              </div>
+              <div class="col-md-3 col-sm-3 col-xs-4">
+                <m-Numeric-Textbox-horz
+                name="nValorSumAsegResp"
+                ng-model="data.mValorSumAsegResp"
+                ng-required="true"
+                warp-control="true"
+                ></m-Numeric-Textbox-horz>
+                <div
+                class="error-convention"
+                ng-show="!formRisk.nValorSumAsegResp.$pristine && errorMaxAmountC03"
+                >Este valor no debe superar los {{params.currencyText}} {{params.maxAmountC03}}</div>
+                <div
+                class="error-convention"
+                ng-show="!formRisk.nValorSumAsegResp.$pristine && errorMaxConvention01"
+                >Este convenio no debe superar el total del Convenio 1</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- CONVENIO IV -->
+          <div uib-accordion-group class="accordion-box-item" >
+            <uib-accordion-heading>
+              <div class="accordion-box-item-title acordion-tablet">
+                <div class="clearfix">
+                  <div class="col-md-12 gBgcGray5 pt-xs-1 pb-xs-1 mb-xs-0-1 g-myd-box--accordion">
+                    <div class="row">
+                      <div class="col-md-10 col-sm-10 col-xs-8 mt-xs-1 h-myd-mt--0">
+                        <b>CONVENIO IV - ROTURA DE MÁQUINA</b>
+                      </div>
+
+                      <div class="col-md-1 col-sm-1 col-xs-2 pr-xs-0 pt-xs-0-5 text-right">
+                        <span class="ico-mapfre_132_alert gCRed1 gnIcon-xsm g-cell-middle g-inlineblock"
+                              ng-show="conventionErrors.c04.length"></span>
+                      </div>
+
+                      <div class="col-md-1 col-sm-1 col-xs-2 pl-xs-0 text-center edit-flecha-tablet">
+                        <span class="title-ico"></span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </uib-accordion-heading>
+            <div class="row">
+              <div class="col-md-12 g-border-bottom">
+                <p class="pt-xs-1">No puede exceder en 100% el valor declarado en Convenio I (Maquinaria y Equipos), máximo en suma US$ 300 mil o {{params.currencyText}}. 780 mil</p>
+              </div>
+            </div>
+            <div class="clearfix pt-xs-1 pb-xs-1">
+              <div class="col-md-4 col-sm-6 col-xs-6 mt-xs-1">
+                Suma Asegurada
+              </div>
+              <div class="col-md-1 col-sm-3 col-xs-2 mt-xs-1 text-right">
+                {{params.currencyText}}
+              </div>
+              <div class="col-md-3 col-sm-3 col-xs-4">
+                <m-Numeric-Textbox-horz
+                name="nValorSumAsegRot"
+                ng-model="data.mValorSumAsegRot"
+                ng-required="true"
+                warp-control="true"
+                ></m-Numeric-Textbox-horz>
+                <div
+                class="error-convention"
+                ng-show="!formRisk.nValorSumAsegRot.$pristine && errorMaxAmountC04"
+                >Este valor no debe superar los {{params.currencyText}} {{params.maxAmountC04}}</div><br>
+                <div
+                class="error-convention"
+                ng-show="!formRisk.nValorSumAsegRot.$pristine && errorConvenio1Maq"
+                >Este valor no debe superar el monto declarado en Maquinaria y Equipo del Convenio I</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- CONVENIO v -->
+          <div uib-accordion-group class="accordion-box-item" >
+            <uib-accordion-heading>
+              <div class="accordion-box-item-title acordion-tablet">
+                <div class="clearfix">
+                  <div class="col-md-12 gBgcGray5 pt-xs-1 pb-xs-1 mb-xs-0-1 g-myd-box--accordion">
+                    <div class="row">
+                      <div class="col-md-10 col-sm-10 col-xs-9 mt-xs-1">
+                        <b>CONVENIO V - EQUIPO ELECTRÓNICO</b>
+                      </div>
+
+                      <div class="col-md-1 col-sm-1 col-xs-2 pr-xs-0 pt-xs-0-5 text-right">
+                        <span class="ico-mapfre_132_alert gCRed1 gnIcon-xsm g-cell-middle g-inlineblock"
+                              ng-show="conventionErrors.c05.length"></span>
+                      </div>
+
+                      <div class="col-md-1 col-sm-1 col-xs-2 pl-xs-0 text-center edit-flecha-tablet">
+                        <span class="title-ico"></span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </uib-accordion-heading>
+            <div class="row">
+              <div class="col-md-12 g-border-bottom">
+                <p class="pt-xs-1">No puede exceder en 100% el valor declarado en Convenio I (Maquinaria y Equipos)</p>
+              </div>
+            </div>
+            <div class="clearfix pt-xs-1 pb-xs-1 g-border-bottom">
+              <div class="col-md-4 col-sm-6 col-xs-6 mt-xs-1">
+                Límite Único EE SEC I,II, III
+              </div>
+              <div class="col-md-1 col-sm-3 col-xs-2 mt-xs-1 text-right">
+                {{params.currencyText}}
+              </div>
+              <div class="col-md-3 col-sm-3 col-xs-4">
+                <m-Numeric-Textbox-horz
+                name="nValorLimUnic"
+                ng-model="data.mValorLimUnic"
+                ng-required="true"
+                warp-control="true"
+                ></m-Numeric-Textbox-horz>
+                <div
+                class="error-convention"
+                ng-show="!formRisk.nValorLimUnic.$pristine && errorMaxAmountC05"
+                >La suma asegurada de EE no debe superar los {{params.currencyText}} {{params.maxAmountC05}}</div>
+                <div
+                class="error-convention"
+                ng-show="!formRisk.nValorLimUnic.$pristine && errorMaxLimite"
+                >La suma asegurada de EE no debe superar el monto declarado en Maquinaria y Equipo del Convenio I</div>
+              </div>
+            </div>
+            <div class="clearfix">
+              <div class="col-md-12 g-border-bottom pt-xs-1">
+                <span><b>Cobertura Adicional: Equipo Movil</b></span>
+                <div class="g-col-xs middle pl-xs-2" ng-show="warnMaxMovilRiesgo">
+                  <span class="ico-mapfre_222_informacion gCBlue2 gnIcon-xsm g-cell-middle"></span>
+                  <span class="g-cell-middle pl-xs-1">RIESGO SUJETO A EVALUACIÓN DE SUSCRIPCIÓN</span>
+                </div>
+                <p class="pt-xs-1">No puede exceder en 100% el valor declarado en Límite Único y el máximo {{params.currencyText}} {{params.maxMovilText}}</p>
+              </div>
+            </div>
+            <div class="clearfix pt-xs-1 pb-xs-4 g-border-bottom">
+              <div class="col-md-4 col-sm-6 col-xs-6 mt-xs-1">
+                Suma Asegurada de Equipo Móvil
+              </div>
+              <div class="col-md-1 col-sm-3 col-xs-2 mt-xs-1 text-right">
+                {{params.currencyText}}
+              </div>
+              <div class="col-md-3 col-sm-3 col-xs-4">
+                <m-Numeric-Textbox-horz
+                name="nValorAsegEquipMov"
+                ng-model="data.mValorAsegEquipMov"
+                ng-required="true"
+                warp-control="true"
+                ></m-Numeric-Textbox-horz>
+                <div
+                class="error-convention"
+                >
+                  <span ng-show="!data.mValorLimUnic && data.mValorAsegEquipMov || (data.mValorAsegEquipMov > data.mValorLimUnic)">Esta cobertura no puede exceder en 100% el valor declarado en Límite Único </span><br/>
+                  <span ng-show="data.mValorLimUnic && data.mValorAsegEquipMov && (data.mValorAsegEquipMov > params.maxMovil)">Esta cobertura no puede exceder {{params.currencyText}} {{params.maxMovilText}}</span>
+              </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- CONVENIO VI -->
+          <div uib-accordion-group class="accordion-box-item" >
+            <uib-accordion-heading>
+              <div class="accordion-box-item-title acordion-tablet">
+                <div class="clearfix">
+                  <div class="col-md-12 gBgcGray5 pt-xs-1 pb-xs-1 mb-xs-0-1 g-myd-box--accordion">
+                    <div class="row">
+                      <div class="col-md-10 col-sm-10 col-xs-9 mt-xs-1">
+                        <b>CONVENIO VI - ACCIDENTES PERSONALES</b>
+                      </div>
+
+                      <div class="col-md-1 col-sm-1 col-xs-2 pr-xs-0 pt-xs-0-5 text-right">
+                        <span class="ico-mapfre_132_alert gCRed1 gnIcon-xsm g-cell-middle g-inlineblock"
+                              ng-show="conventionErrors.c06.length"></span>
+                      </div>
+
+                      <div class="col-md-1 col-sm-1 col-xs-2 pl-xs-0 text-center edit-flecha-tablet">
+                        <span class="title-ico"></span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </uib-accordion-heading>
+            <div class="clearfix pt-xs-1 pb-xs-1 g-border-bottom">
+              <div class="col-md-4 col-sm-6 col-xs-6 mt-xs-1">
+                Nro. total de asegurados
+              </div>
+              <div class="col-md-1 col-sm-3 col-xs-2 mt-xs-1 text-right">
+
+              </div>
+              <div class="col-md-3 col-sm-3 col-xs-4">
+                <mpf-input-horz
+                  label="{label: '', required: false}"
+                  name="nValorTotAseg"
+                  ng-model="data.mValorTotAseg"
+                  mpf-validation="onlyNumber"
+                ></mpf-input-horz>
+                <div
+                  class="error-convention"
+                  ng-show="errorTotalAseg"
+                  >Ingrese un número de asegurados
+                </div>
+                <div
+                  class="error-convention"
+                  ng-show="!formRisk.nValorTotAseg.$pristine && errorMaxAseg"
+                  >El número de asegurados no debe ser mayor a 10.
+                </div>
+              </div>
+            </div>
+            <div class="clearfix pt-xs-1 pb-xs-1">
+              <div class="col-md-4 col-sm-6 col-xs-6 mt-xs-1">
+                Suma Asegurada
+              </div>
+              <div class="col-md-1 col-sm-3 col-xs-2 mt-xs-1 text-right">
+                {{params.currencyText}}
+              </div>
+              <div class="col-md-3 col-sm-3 col-xs-4">
+                <m-Numeric-Textbox-horz
+                name="nValorSumAsegAcc"
+                ng-model="data.mValorSumAsegAcc"
+                ng-required="true"
+                warp-control="true"
+                ></m-Numeric-Textbox-horz>
+                <div
+                class="error-convention"
+                ng-show="!formRisk.nValorSumAsegAcc.$pristine && errorMaxAmountC06"
+                >Esta cobertura no debe exceder los {{params.currencyText}} {{params.maxAmountC06Text}}</div>
+                <div
+                class="error-convention"
+                ng-show="errorSumaAseg"
+                >Debe ingresar un monto</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- CONVENIO VII -->
+          <div uib-accordion-group class="accordion-box-item" >
+            <uib-accordion-heading>
+              <div class="accordion-box-item-title acordion-tablet">
+                <div class="clearfix">
+                  <div class="col-md-12 gBgcGray5 pt-xs-1 pb-xs-1 mb-xs-0-1 g-myd-box--accordion">
+                    <div class="row">
+                      <div class="col-md-10 col-sm-10 col-xs-9 mt-xs-1">
+                        <b>CONVENIO VII - DESHONESTIDAD DE EMPLEADOS</b>
+                        <div class="g-col-xs middle pl-xs-2" ng-show="errorVBEmpleados || (data.mValorSumAseg && errorVBSumAseg)">
+                          <span class="ico-mapfre_222_informacion gCBlue2 gnIcon-xsm g-cell-middle"></span>
+                          <span class="g-cell-middle pl-xs-1">REQUIERE V°B° DE SUSCRIPCIÓN</span>
+                        </div>
+                      </div>
+
+                      <div class="col-md-1 col-sm-1 col-xs-2 pr-xs-0 pt-xs-0-5 text-right">
+                        <span class="ico-mapfre_132_alert gCRed1 gnIcon-xsm g-cell-middle g-inlineblock"
+                              ng-show="conventionErrors.c07.length"></span>
+                      </div>
+
+                      <div class="col-md-1 col-sm-1 col-xs-2 pl-xs-0 text-center edit-flecha-tablet">
+                        <span class="title-ico"></span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </uib-accordion-heading>
+            <div class="clearfix pt-xs-1 pb-xs-1 g-border-bottom">
+              <div class="col-md-4 col-sm-6 col-xs-6 mt-xs-1">
+                Nro. de empleados
+              </div>
+              <div class="col-md-1 col-sm-3 col-xs-2 mt-xs-1 text-right">
+
+              </div>
+              <div class="col-md-3 col-sm-3 col-xs-4">
+                <mpf-input-horz
+                  label="{label: '', required: false}"
+                  name="nValorNroEmple"
+                  ng-model="data.mValorNroEmple"
+                  mpf-validation="onlyNumber"
+                ></mpf-input-horz>
+                <div
+                  class="error-convention"
+                  ng-show="errorNroEmp"
+                >Ingrese un número de empleados
+                </div>
+              </div>
+            </div>
+            <div class="clearfix pt-xs-1 pb-xs-1">
+              <div class="col-md-4 col-sm-6 col-xs-6 mt-xs-1">
+                Suma Asegurada
+              </div>
+              <div class="col-md-1 col-sm-3 col-xs-2 mt-xs-1 text-right">
+                {{params.currencyText}}
+              </div>
+              <div class="col-md-3 col-sm-3 col-xs-4">
+                <m-Numeric-Textbox-horz
+                name="nValorSumAsegDes"
+                ng-model="data.mValorSumAseg"
+                ng-required="true"
+                warp-control="true"
+                ></m-Numeric-Textbox-horz>
+                <div
+                class="error-convention"
+                ng-show="!formRisk.nValorSumAsegDes.$pristine && errorMaxAmountC07"
+                >Esta cobertura no debe superar el total declarado en el Convenio I</div>
+                <div
+                class="error-convention"
+                ng-show="errorSumaAseg7"
+                >Debe ingresar un monto</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- CONVENIO VIII -->
+          <div uib-accordion-group class="accordion-box-item" >
+            <uib-accordion-heading>
+              <div class="accordion-box-item-title acordion-tablet">
+                <div class="clearfix">
+                  <div class="col-md-12 gBgcGray5 pt-xs-1 pb-xs-1 mb-xs-0-1 g-myd-box--accordion">
+                    <div class="row">
+                      <div class="col-md-10 col-sm-10 col-xs-9 mt-xs-1">
+                        <b>CONVENIO VIII - TREC - TODO RIESGO EQUIPO CONTRATISTA</b>
+                        <div class="g-col-xs middle pl-xs-2" ng-show="data.mValorSumAsegTrec && errorVBTrec">
+                          <span class="ico-mapfre_222_informacion gCBlue2 gnIcon-xsm g-cell-middle"></span>
+                          <span class="g-cell-middle pl-xs-1">REQUIERE V°B° DE SUSCRIPCIÓN</span>
+                        </div>
+                      </div>
+
+                      <div class="col-md-1 col-sm-1 col-xs-2 pr-xs-0 pt-xs-0-5 text-right">
+                        <span class="ico-mapfre_132_alert gCRed1 gnIcon-xsm g-cell-middle g-inlineblock"
+                              ng-show="conventionErrors.c08.length"></span>
+                      </div>
+
+                      <div class="col-md-1 col-sm-1 col-xs-2 pl-xs-0 text-center edit-flecha-tablet">
+                        <span class="title-ico"></span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </uib-accordion-heading>
+            <div class="clearfix pt-xs-1 pb-xs-1">
+              <div class="col-md-4 col-sm-6 col-xs-6 mt-xs-1">
+                Suma Asegurada
+              </div>
+              <div class="col-md-1 col-sm-3 col-xs-2 mt-xs-1 text-right">
+                {{params.currencyText}}
+              </div>
+              <div class="col-md-3 col-sm-3 col-xs-4">
+                <m-Numeric-Textbox-horz
+                name="nValorSumAsegTrec"
+                  ng-model="data.mValorSumAsegTrec"
+                ng-required="true"
+                warp-control="true"
+                ></m-Numeric-Textbox-horz>
+                <div
+                class="error-convention"
+                ng-show="!formRisk.nValorSumAsegTrec.$pristine && errorMaxAmountC08"
+                >Esta cobertura no debe superar el total declarado en el Convenio I</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- CONVENIO IX -->
+          <div uib-accordion-group class="accordion-box-item" >
+            <uib-accordion-heading>
+              <div class="accordion-box-item-title acordion-tablet">
+                <div class="clearfix">
+                  <div class="col-md-12 gBgcGray5 pt-xs-1 pb-xs-1 mb-xs-0-1 g-myd-box--accordion">
+                    <div class="row">
+                      <div class="col-md-10 col-sm-10 col-xs-8 mt-xs-1 h-myd-mt--0">
+                        <b>CONVENIO IX - CAR - TODO RIESGO DE CONTRATISTA</b>
+                        <div class="g-col-xs middle pl-xs-2" ng-show="data.mValorSumAsegCar && errorVBCar">
+                          <span class="ico-mapfre_222_informacion gCBlue2 gnIcon-xsm g-cell-middle"></span>
+                          <span class="g-cell-middle pl-xs-1">REQUIERE V°B° DE SUSCRIPCIÓN</span>
+                        </div>
+                      </div>
+
+                      <div class="col-md-1 col-sm-1 col-xs-2 pr-xs-0 pt-xs-0-5 text-right">
+                        <span class="ico-mapfre_132_alert gCRed1 gnIcon-xsm g-cell-middle g-inlineblock"
+                              ng-show="conventionErrors.c09.length"></span>
+                      </div>
+
+                      <div class="col-md-1 col-sm-1 col-xs-2 pl-xs-0 text-center edit-flecha-tablet">
+                        <span class="title-ico"></span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </uib-accordion-heading>
+            <div class="clearfix pt-xs-1 pb-xs-1">
+              <div class="col-md-4 col-sm-6 col-xs-6 mt-xs-1">
+                Suma Asegurada
+              </div>
+              <div class="col-md-1 col-sm-3 col-xs-2 mt-xs-1 text-right">
+                {{params.currencyText}}
+              </div>
+              <div class="col-md-3 col-sm-3 col-xs-4">
+                <m-Numeric-Textbox-horz
+                name="nValorSumAsegCar"
+                ng-model="data.mValorSumAsegCar"
+                ng-required="true"
+                warp-control="true"
+                ></m-Numeric-Textbox-horz>
+                <div
+                class="error-convention"
+                ng-show="!formRisk.nValorSumAsegCar.$pristine && errorMaxAmountC09"
+                >Esta cobertura no debe superar el total declarado en el Convenio I</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- CONVENIO X -->
+          <div uib-accordion-group class="accordion-box-item" >
+            <uib-accordion-heading>
+              <div class="accordion-box-item-title acordion-tablet">
+                <div class="clearfix">
+                  <div class="col-md-12 gBgcGray5 pt-xs-1 pb-xs-1 mb-xs-0-1 g-myd-box--accordion">
+                    <div class="row">
+                      <div class="col-md-10 col-sm-10 col-xs-8 mt-xs-1 h-myd-mt--0">
+                        <b>CONVENIO X - EAR - TODO RIESGO DE MONTAJE</b>
+                        <div class="g-col-xs middle pl-xs-2" ng-show="data.mValorSumAsegEar && errorVBEar">
+                          <span class="ico-mapfre_222_informacion gCBlue2 gnIcon-xsm g-cell-middle"></span>
+                          <span class="g-cell-middle pl-xs-1">REQUIERE V°B° DE SUSCRIPCIÓN</span>
+                        </div>
+                      </div>
+
+                      <div class="col-md-1 col-sm-1 col-xs-2 pr-xs-0 pt-xs-0-5 text-right">
+                        <span class="ico-mapfre_132_alert gCRed1 gnIcon-xsm g-cell-middle g-inlineblock"
+                              ng-show="conventionErrors.c10.length"></span>
+                      </div>
+
+                      <div class="col-md-1 col-sm-1 col-xs-2 pl-xs-0 text-center edit-flecha-tablet">
+                        <span class="title-ico"></span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </uib-accordion-heading>
+            <div class="clearfix pt-xs-1 pb-xs-1">
+              <div class="col-md-4 col-sm-6 col-xs-6 mt-xs-1">
+                Suma Asegurada
+              </div>
+              <div class="col-md-1 col-sm-3 col-xs-2 mt-xs-1 text-right">
+                {{params.currencyText}}
+              </div>
+              <div class="col-md-3 col-sm-3 col-xs-4">
+                <m-Numeric-Textbox-horz
+                name="nValorSumAsegEar"
+                ng-model="data.mValorSumAsegEar"
+                ng-required="true"
+                warp-control="true"
+                ></m-Numeric-Textbox-horz>
+                <div
+                class="error-convention"
+                ng-show="!formRisk.nValorSumAsegEar.$pristine && errorMaxAmountC10"
+                >Esta cobertura no debe superar el total declarado en el Convenio I</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!--Paso 2 Empresas 24 Horas, Empresas Smart 24 Horas-->
+      <div class="row" ng-if="$ctrl.product.CodigoProducto != 57">
+        <div class="col-md-12">
+          <div class="clearfix g-box mt-xs-1" ng-repeat="item in preConvenios">
+            <ul class="clearfix g-list-sm gBgcGray5 pt-xs-1 mb-xs-0-1">
+              <li class="col-xs clearfix cnt-item gH4">
+                <div class="col-xs-12 item-label">{{item.title}}</div>
+              </li>
+            </ul>
+            <div class="col-md-12 cnt-content g-list-sm pt-xs-1 gnContentAuto-md">
+              <div class="clearfix" ng-repeat="subitem in item.type">
+                <ul class="row">
+                  <li class="col-sm-4 cnt-item item-dato g-text-uppercase">
+                    <p>{{subitem.desc}}</p>
+                  </li>
+                  <li class="col-sm-3 cnt-item item-dato g-text-uppercase g-text-right-xs">
+                    <p>{{subitem.cover | currency: 'S/.'}}</p>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+          <div class="clearfix g-box g-overflow-hidden-xs mt-xs-1">
+            <div class="col-md-12">
+              <ul class="row gH5 g-list-sm gBgcGray5 pt-xs-1">
+                <li class="col-sm-4 col-sm-2 clearfix cnt-item">
+                  <div class="row">
+                    <div class="col-xs-12 item-label">SUMA TOTAL ASEGURADA</div>
+                  </div>
+                </li>
+                <li class="col-sm-3 col-sm-2 clearfix cnt-item g-text-right-sm">
+                  <div class="row">
+                    <div class="col-xs-12 item-dato g-text-uppercase"><b>{{totalPreConvenios | currency: 'S/'}}</b></div>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>

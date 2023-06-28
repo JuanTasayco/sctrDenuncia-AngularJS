@@ -1,0 +1,111 @@
+<div class="g-modal-send-email clearfix">
+  <button type="button" class="close g-close-modal" ng-click="$ctrl.close()">
+    <span class="ico-mapfre_231_cancelaroff"></span>
+  </button>
+  <div class="container">
+    <form ng-submit="$ctrl.sendEmail()" name="frmSendMail">
+      <div class="row" ng-if="!$ctrl.message">
+        <div class="col-md-12 g-text-center-xs mb-xs-2">
+          <h2 class="gH3">
+            <b>¿A qué correo electrónico quieres enviar la {{ $ctrl.modalSendEmail.title }}?</b>
+          </h2>
+        </div>
+
+        <div class="col-md-4 mb-md-1 col-md-offset-1 h-myd-mb--20">
+              <mpf-input
+              label="{label: 'Póliza', required: false}"
+              name="mPoliza"
+              ng-model="$ctrl.mPoliza"
+              ng-required="true"
+              ng-disabled="$ctrl.disabled"
+            ></mpf-input>
+            <ul class="g-error">
+              <li ng-show="frmSendMail.mPoliza.$error.required && !frmSendMail.mPoliza.$pristine">
+                * Este campo es obligatorio
+              </li>
+            </ul>
+        </div>
+        <div class="col-md-4 mb-md-1 col-md-offset-1 h-myd-mb--20">
+              <mpf-input
+              label="{label: 'Suplemento', required: false}"
+              name="mSuplemento"
+              ng-model="$ctrl.mSuplemento"
+              ng-required="true"
+              ng-disabled="$ctrl.disabled"
+            ></mpf-input>
+            <ul class="g-error">
+              <li ng-show="frmSendMail.mSuplemento.$error.required && !frmSendMail.mSuplemento.$pristine">
+                * Este campo es obligatorio
+              </li>
+            </ul>
+        </div>
+        <div class="col-md-4 mb-md-1 col-md-offset-1 h-myd-mb--20">
+              <mpf-input
+              label="{label: 'Aplicación', required: false}"
+              name="mAplicacion"
+              ng-model="$ctrl.mAplicacion"
+              ng-required="true"
+              ng-disabled="$ctrl.disabled"
+            ></mpf-input>
+            <ul class="g-error">
+              <li ng-show="frmSendMail.mAplicacion.$error.required && !frmSendMail.mAplicacion.$pristine">
+                * Este campo es obligatorio
+              </li>
+            </ul>
+        </div>
+        <div class="col-md-4 mb-md-1 col-md-offset-1 h-myd-mb--20">
+              <mpf-input
+              label="{label: 'Suplemento aplicación', required: false}"
+              name="mSuplementoAplicacion"
+              ng-model="$ctrl.mSuplementoAplicacion"
+              ng-required="true"
+              ng-disabled="$ctrl.disabled"
+            ></mpf-input>
+            <ul class="g-error">
+              <li ng-show="frmSendMail.mSuplementoAplicacion.$error.required && !frmSendMail.mSuplementoAplicacion.$pristine">
+                * Este campo es obligatorio
+              </li>
+            </ul>
+        </div>
+
+        <div class="col-md-10 mb-md-1 col-md-offset-1 h-myd-mb--20">
+          <mpf-input
+            label="{label: 'Para', required: true}"
+            name="nPara"
+            ng-model="$ctrl.mPara"
+            ng-required="true"
+            mpf-validation="moreOneEmail"
+            disabled-View-Model="true"
+          ></mpf-input>
+          <span class="g-comment">(Para ingresar más de un correo separar </span
+          ><span>con coma "," y sin espacios)</span>
+          <ul class="g-error">
+            <li ng-show="frmSendMail.nPara.$error.required && !frmSendMail.nPara.$pristine">
+              * Este campo es obligatorio
+            </li>
+            <li ng-show="frmSendMail.nPara.$error.moreOneEmail && !frmSendMail.nPara.$pristine">* Correo inválido</li>
+          </ul>
+        </div>
+      
+        <!-- <div class="col-md-12 text-center"> -->
+        <div class="col-md-4 col-md-offset-4 mt-xs-2">
+          <button type="submit" class="g-btn g-btn-verde block" ng-class="{disabled: !validationForm()}">Enviar</button>
+        </div>
+      </div>
+      <div class="clearfix" ng-if="$ctrl.message">
+        <div class="row">
+          <div class="col-md-12 mb-xs-3">
+            <p class="text-center mb-xs-0">
+              {{ $ctrl.messageService }}
+            </p>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-4 col-md-offset-4">
+            <a class="g-btn g-btn-verde block" ng-click="$ctrl.close()">Cerrar</a>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>

@@ -1,0 +1,413 @@
+<div class="g-title" style="border-bottom-style: solid; border-width: 1px; border-color: #d5d5d5;">
+  <div class="container">
+    <div class="row">
+      <div class="col-xs-9 col-sm-9 col-md-9 col-lg-9 pr-xs-0 pr-md-1 mt-1 title-box">
+        <h1>Relación Clínicas - Farmacias Aliadas</h1>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="dashboard-body">
+  <div class="g-section-inner g-dashboard-section">
+    <div class="container">
+
+      <div class="row">
+        <div class="col-md-3">
+          <filter-clinic on-search="search($arg)" on-clean="cleanSearch()"></filter-clinic>
+        </div>
+        <div class="col-md-9">
+          <div class="col-md-12 text-center g-box-noresult ng-scope" ng-if="$ctrl.noResultInfoClinics">
+            <div class="row"><div class="col-md-12 g-box-noresult-ico gCBlue2"><span class="ico-mapfre_303_informacion"></span></div>
+              <div class="col-md-12 g-box-noresult-text">Realiza una búsqueda para obtener resultados.</div></div>
+          </div><!-- end ngIf: noResultInfo --><!-- ngIf: noResult --><!-- ngRepeat: item in items --><!-- ngIf: !noResult && totalItems > 10 -->
+          <!-- ngIf: noResultInfo --><!-- ngIf: noResult -->
+          <div class="col-md-12 text-center g-box-noresult ng-scope" ng-if="$ctrl.noResultClinics">
+            <div class="row">
+              <div class="col-md-12 g-box-noresult-ico gCRed1"><span class="ico-mapfre_302_error"></span></div>
+              <div class="col-md-12 g-box-noresult-text">No hay resultados para los filtros escogidos.<br>Intenta de nuevo.</div>
+            </div>
+          </div><!-- end ngIf: noResult --><!-- ngRepeat: item in items --><!-- ngIf: !noResult && totalItems > 10 -->
+
+          <!-- NOT RELATED -->
+          <div ng-repeat="clinic in clinics" class="clearfix g-box mb-xs-2" ng-if="!arg.itsRelated">
+            <!-- HEADER -->
+            <div class="col-md-12 headReg clearfix g-box-content">
+              <div class="row">
+                <div class="col-md-9">
+                  <div class="row">
+                    <ul class="row g-list-sm" >
+                      <li class="col-md-12 col-sm-12 col-xs-12  clearfix mb-xs-1 mt-xs-1">
+                        <div class="col-sm-12 col-xs-6 item-label">{{ clinic.provider.summaryDescription }}</div>
+                      </li>
+                    </ul>
+                  </div>
+                  <div class="row">
+                    <ul class="row g-list-sm" >
+                      <li class="col-md-12 col-sm-12 col-xs-12  clearfix mb-xs-1 mt-xs-1">
+                        <div class="col-sm-12 col-xs-6 item-dato">
+                          {{ clinic.branchOffice.address.description }} - {{ clinic.branchOffice.address.department.description }} - {{ clinic.branchOffice.address.province.description }} - {{ clinic.branchOffice.address.district.description }}
+                        </div>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+                <div class="col-md-3">
+                  <div class="row">
+                    <ul class="row g-list-sm" >
+                      <li class="col-md-12 col-sm-12 col-xs-12 clearfix mb-xs-12 mt-xs-12 gH4">
+                        <a class="g-btn second-design g-btn-green-border block" ng-click="addRelation(clinic)" ng-if="!clinic.keyRelation">Relacionar</a>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- END HEADER -->
+
+            <!-- DETAIL -->
+            <form name="frmNewRelation" action="">
+              <div class="headReg clearfix g-box-content" ng-if="clinic.keyRelation">
+                <div class="col-md-12" style="font-size:16px">
+                  Nueva Relación
+                </div>
+                <div class="col-md-4 clearfix mb-xs-2 mt-xs-2">
+                  <mpf-select
+                    data-m-data-source="farmacies"
+                    data-ng-model="clinic.pharmacy"
+                    data-text-field="description"
+                    data-value-field="id"
+                    ng-required="true"
+                    ng-change="changeFarmacies(clinic, clinic.provider.id, clinic.branchOffice.id, clinic.pharmacy.id)"
+                    m-Empty-Option = "{enterData : true}"
+                    label="{label: 'Farmacia aliada ', required: true}"
+                    name="nFarmacy">
+                  </mpf-select>
+                  <div class="g-error" data-ng-show="frmNewRelation.nFarmacy.$invalid && !frmNewRelation.nFarmacy.$pristine">
+                    * Seleccione una farmacia
+                  </div>
+                </div>
+                <div class="col-md-4 clearfix mb-xs-2 mt-xs-2">
+                  <mpf-select
+                    data-m-data-source="clinic.premisesList"
+                    data-ng-model="clinic.premises"
+                    data-text-field="description"
+                    data-value-field="id"
+                    ng-required="true"
+                    ng-change="changePremises(clinic.premises)"
+                    m-Empty-Option = "{enterData : true}"
+                    label="{label: 'Local ', required: true}"
+                    name="nPremises">
+                  </mpf-select>
+                  <div class="g-error" data-ng-show="frmNewRelation.nPremises.$invalid && !frmNewRelation.nPremises.$pristine">
+                    * Seleccione un local
+                  </div>
+                </div>
+                <div class="col-md-12 clearfix mb-xs-2 mt-xs-2">
+                  <mpf-input
+                    label="{label: 'Dirección del local', required: false}"
+                    name="nPharmacyAddress"
+                    ng-model="clinic.premises.fullDescription"
+                    ng-disabled="true">
+                  </mpf-input>
+                </div>
+                <div class="col-md-12 clearfix mb-xs-2 mt-xs-2" style="text-align: right;">
+                  <a class="g-btn second-design g-btn-transparent" ng-click="cancel(clinic)">CANCELAR</a>
+                  <a class="g-btn second-design g-btn-verde" 
+                    ng-class="{disabled: !frmNewRelation.$valid}"
+                    ng-click="saveNewRelation(clinic)">GUARDAR</a>
+                </div>
+              </div>
+            </form>
+            
+            <div class="headReg clearfix g-box-content gBgcGray5" ng-repeat="relation in clinic.relationProviderPharmacies" ng-if="clinic.keyRelation">
+              <div class="row">
+                <div class="col-md-4">
+                  <div class="row">
+                    <ul class="row g-list-sm" >
+                      <li class="col-md-12 col-sm-12 col-xs-12  clearfix mb-xs-1 mt-xs-1">
+                        <div class="col-sm-6 col-xs-6 item-label">Farmacia - Local</div>
+                        <div class="col-sm-6 col-xs-6 item-dato">{{ relation.pharmacy.description }} - {{ relation.premises.description }}</div>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+                <div class="col-md-5">
+                  <div class="row">
+                    <ul class="row g-list-sm" >
+                      <li class="col-md-12 col-sm-12 col-xs-12  clearfix mb-xs-1 mt-xs-1">
+                        <div class="col-sm-6 col-xs-6 item-label">Dirección del local</div>
+                        <div class="col-sm-6 col-xs-6 item-dato">
+                          {{ relation.premises.address.description }} - {{ relation.premises.address.department.description }} - {{ relation.premises.address.province.description }} - {{ relation.premises.address.district.description }}
+                        </div>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+                <div class="col-md-3">
+                  <div class="row">
+                    <ul class="row g-list-sm" >
+                      <li class="col-md-12 col-sm-12 col-xs-12 clearfix mb-xs-12 mt-xs-12 gH4">
+                        <div class="col-sm-7 col-xs-7 col-md-offset-3">
+
+                          <div class="g-toggle l-height-0" ng-class="{'g-toggle__withOutLabel': !{{ relation.status.description }} }">
+                            <span class="g-toggle__label" style="margin-right: 60px;">{{ relation.status.description }}</span>
+                            <input type="checkbox" id="chk-{{ relation.id }}"
+                              ng-checked="{{relation.status.enabled}}"
+                              ng-change="changeChecked(relation, clinic)"
+                              class="cbx hidden" ng-model="relation.status.enabled"/>
+                            <label for="chk-{{ relation.id }}" class="lbl" style="margin-left: 30px;"></label>
+                          </div>
+                        </div>
+                        <!-- <div class="col-sm-2 col-xs-2">
+                          <a href="" class="pull-right" ng-click="editRelation(clinic, relation)" title="Edit">
+                            <i class="glyphicon glyphicon-pencil nvt-btn-crud"></i>
+                          </a>
+                        </div> -->
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- END DETAIL -->
+          </div>
+          <!-- NOT END RELATED -->
+
+
+          <!-- RELATED -->        
+          <div class="clearfix g-box mb-xs-2" ng-repeat="clinic in clinics" ng-if="arg.itsRelated">
+
+            <!-- HEADER -->
+            <div class="headReg clearfix g-box-content">
+              <div class="row">
+                <div class="col-md-9">
+                  <div class="row">
+                    <ul class="row g-list-sm" >
+                      <li class="col-md-12 col-sm-12 col-xs-12 clearfix mb-xs-1 mt-xs-1">
+                        <div class="col-sm-12 col-xs-6 item-label">{{ clinic.provider.summaryDescription }}</div>
+                      </li>
+                    </ul>
+                  </div>
+                  <div class="row">
+                    <ul class="row g-list-sm" >
+                      <li class="col-md-12 col-sm-12 col-xs-12  clearfix mb-xs-1 mt-xs-1">
+                        <div class="col-sm-12 col-xs-6 item-dato">
+                          {{ clinic.branchOffice.address.description }} - {{ clinic.branchOffice.address.department.description }} - {{ clinic.branchOffice.address.province.description }} - {{ clinic.branchOffice.address.district.description }}
+                        </div>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+                <div class="col-md-3">
+                  <div class="row">
+                    <ul class="row g-list-sm" >
+                      <li class="col-md-12 col-sm-12 col-xs-12 clearfix mb-xs-12 mt-xs-12 gH4">
+                        <div class="col-sm-7 col-xs-7 col-md-offset-3">
+                          <!--
+                          <div class="g-toggle l-height-0" ng-class="{'g-toggle__withOutLabel': !{{ clinic.itsRelated ? 'HABILITADO' : 'DESHABILITADO' }} }">
+                            <span class="g-toggle__label" style="margin-right: 60px;">{{ clinic.itsRelated ? 'HABILITADO' : 'DESHABILITADO' }}</span>
+                            <input type="checkbox" id="chk-{{ clinic.$$hashKey }}"
+                                   ng-checked="{{clinic.itsRelated }}"
+                                   ng-change="changeCheckedClinic(clinic)"
+                                   class="cbx hidden" ng-model="clinic.itsRelated"/>
+                            <label for="chk-{{ clinic.$$hashKey }}" class="lbl" style="margin-left: 30px;"></label>
+                          </div>
+                          -->
+                        </div>
+                        <div class="col-sm-2 col-xs-2">
+                          <a href="" class="pull-right" ng-click="addRelation(clinic)" title="Add">
+                            <i class="glyphicon glyphicon-plus nvt-btn-crud"></i>
+                          </a>
+                        </div>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+
+              <form name="frmNewRelation2" action="" ng-if="clinic.keyRelation">
+                <div class="row clearfix">
+                  <div class="col-md-12" style="font-size:16px">
+                    Nueva Relación
+                  </div>
+                  <div class="col-md-4 clearfix mb-xs-2 mt-xs-2">
+                    <mpf-select
+                      data-m-data-source="farmacies"
+                      data-ng-model="clinic.frm.pharmacy"
+                      data-text-field="description"
+                      data-value-field="id"
+                      ng-required="true"
+                      ng-change="changeFarmacies(clinic.frm, clinic.provider.id, clinic.branchOffice.id, clinic.frm.pharmacy.id)"
+                      m-Empty-Option = "{enterData : true}"
+                      label="{label: 'Farmacia aliada ', required: true}"
+                      name="nFarmacy">
+                    </mpf-select>
+                    <div class="g-error" data-ng-show="frmNewRelation2.nFarmacy.$invalid && !frmNewRelation2.nFarmacy.$pristine">
+                      * Seleccione una farmacia
+                    </div>
+                  </div>
+                  <div class="col-md-4 clearfix mb-xs-2 mt-xs-2">
+                    <mpf-select
+                      data-m-data-source="clinic.frm.premisesList"
+                      data-ng-model="clinic.frm.premises"
+                      data-text-field="description"
+                      data-value-field="id"
+                      ng-required="true"
+                      ng-change="changePremises(clinic.frm.premises)"
+                      m-Empty-Option = "{enterData : true}"
+                      label="{label: 'Local ', required: true}"
+                      name="nPremises">
+                    </mpf-select>
+                    <div class="g-error" data-ng-show="frmNewRelation2.nPremises.$invalid && !frmNewRelation2.nPremises.$pristine">
+                      * Seleccione un local
+                    </div>
+                  </div>
+                  <div class="col-md-12 clearfix mb-xs-2 mt-xs-2">
+                    <mpf-input
+                      ng-model="clinic.frm.premises.fullDescription"
+                      ng-disabled="true"
+                      label="{label: 'Dirección del local', required: false}"
+                      name="nPharmacyAddress">
+                    </mpf-input>
+                  </div>
+                  <div class="col-md-12 clearfix mb-xs-2 mt-xs-2" style="text-align: right;">
+                    <a class="g-btn second-design g-btn-transparent" ng-click="cancelRelation(clinic)">CANCELAR</a>
+                    <a class="g-btn second-design g-btn-verde" 
+                      ng-class="{disabled: !frmNewRelation2.$valid}"
+                      ng-click="saveNewRelationPremisePharmacy(clinic)">GUARDAR</a>
+                  </div>
+                </div>
+              </form>
+            </div>
+            <!-- END HEADER -->
+
+            <!-- DETAIL -->
+            <div class="clearfix g-box-content" ng-class="{'gBgcGray5': !relation.keyEdit}" ng-repeat="relation in clinic.relationProviderPharmacies">
+              <div class="row" ng-if="!relation.keyEdit">
+                <div class="col-md-4">
+                  <div class="row">
+                    <ul class="row g-list-sm" >
+                      <li class="col-md-12 col-sm-12 col-xs-12  clearfix mb-xs-1 ">
+                        <div class="col-sm-6 col-xs-6 item-label">Farmacia - Local</div>
+                        <div class="col-sm-6 col-xs-6 item-dato">{{ relation.pharmacy.description }} - {{ relation.premises.description }}</div>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+                <div class="col-md-5">
+                  <div class="row">
+                    <ul class="row g-list-sm" >
+                      <li class="col-md-12 col-sm-12 col-xs-12  clearfix mb-xs-1 ">
+                        <div class="col-sm-6 col-xs-6 item-label">Dirección del local</div>
+                        <div class="col-sm-6 col-xs-6 item-dato">
+                          {{ relation.premises.address.description }} - {{ relation.premises.address.department.description }} - {{ relation.premises.address.province.description }} - {{ relation.premises.address.district.description }}
+                        </div>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+                <div class="col-md-3">
+                  <div class="row">
+                    <ul class="row g-list-sm" >
+                      <li class="col-md-12 col-sm-12 col-xs-12 clearfix mb-xs-12 mt-xs-12 gH4">
+                        <div class="col-sm-7 col-xs-7 col-md-offset-3">
+
+                          <div class="g-toggle l-height-0" ng-class="{'g-toggle__withOutLabel': !{{ relation.status.description }} }">
+                            <span class="g-toggle__label" style="margin-right: 60px;">{{ relation.status.description }}</span>
+                            <input type="checkbox" id="chk-{{ relation.id }}"
+                                   ng-checked="{{relation.status.enabled}}"
+                                   ng-change="changeChecked(relation, clinic)"
+                                   class="cbx hidden" ng-model="relation.status.enabled"/>
+                            <label for="chk-{{ relation.id }}" class="lbl" style="margin-left: 30px;"></label>
+                          </div>
+
+                          <!--<div class="g-toggle l-height-0" ng-class="{'g-toggle__withOutLabel': !labelData}">
+                            <span class="g-toggle__label">{{labelData}}</span>
+                            <input type="checkbox" id="{{idToggle}}" class="cbx hidden" ng-model="_ngModel"/>
+                            <label for="{{idToggle}}" class="lbl"></label>
+                          </div>-->
+
+                        </div>
+                        <div class="col-sm-2 col-xs-2">
+                          <a href="" class="pull-right" ng-click="editRelation(clinic, relation)" title="Edit">
+                            <!-- <i class="glyphicon glyphicon-pencil nvt-btn-crud"></i> -->
+                            <i class="ico-mapfre_228_editar g-link no-underline gnIcon-sm gCGray3"></i>
+                          </a>
+                        </div>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+
+              <form name="frmEditRelation" action="" ng-if="relation.keyEdit">
+                <div class="row">
+                  <div class="col-md-12" style="font-size:16px">
+                    Editar Relación
+                  </div>
+                  <div class="col-md-4 clearfix mb-xs-2 mt-xs-2">
+                    <mpf-select
+                      data-m-data-source="farmacies"
+                      data-ng-model="relation.frm.pharmacy"
+                      data-text-field="description"
+                      data-value-field="id"
+                      ng-required="true"
+                      ng-change="changeFarmacies(relation.frm, clinic.provider.id, clinic.branchOffice.id, relation.frm.pharmacy.id)"
+                      m-Empty-Option = "{enterData : true}"
+                      label="{label: 'Farmacia aliada ', required: true}"
+                      name="nFarmacy">
+                    </mpf-select>
+                    <div class="g-error" data-ng-show="frmEditRelation.nFarmacy.$invalid && !frmEditRelation.nFarmacy.$pristine">
+                      * Seleccione una farmacia
+                    </div>
+                  </div>
+                  <div class="col-md-4 clearfix mb-xs-2 mt-xs-2">
+                    <mpf-select
+                      data-m-data-source="relation.frm.premisesList"
+                      data-ng-model="relation.frm.premises"
+                      data-text-field="description"
+                      data-value-field="id"
+                      ng-required="true"
+                      ng-change="changePremises(relation.frm.premises)"
+                      m-Empty-Option = "{enterData : true}"
+                      label="{label: 'Local ', required: true}"
+                      name="nPremises">
+                    </mpf-select>
+                    <div class="g-error" data-ng-show="frmEditRelation.nPremises.$invalid && !frmEditRelation.nPremises.$pristine">
+                      * Seleccione un local
+                    </div>
+                  </div>
+                  <div class="col-md-12 clearfix mb-xs-2 mt-xs-2">
+                    <mpf-input
+                      label="{label: 'Dirección del local', required: false}"
+                      name="nPharmacyAddress"
+                      ng-model="relation.frm.premises.address.description"
+                      ng-disabled="true">
+                    </mpf-input>
+                  </div>
+                  <div class="col-md-12 clearfix mb-xs-2 mt-xs-2" style="text-align: right;">
+                    <a class="g-btn second-design g-btn-transparent" ng-click="cancelEditRelation(relation)">CANCELAR</a>
+                    <a class="g-btn second-design g-btn-verde" 
+                      ng-class="{disabled: !frmEditRelation.$valid}"
+                      ng-click="saveRelation(clinic, relation)">GUARDAR</a>
+                  </div>
+                </div>
+              </form>
+              
+            </div>
+            <!-- END DETAIL -->
+          </div>
+          <!-- END RELATED -->
+
+          <div class="row">
+            <div class="col-md-12">
+              <ul uib-pagination class="g-pagination" ng-model="pagination.currentPage" max-size="pagination.maxSize" total-items="pagination.totalRecords" ng-change="pageChanged()" items-per-page="pagination.sizePerPage" boundary-link-numbers="true"></ul>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>

@@ -1,0 +1,214 @@
+<div class="consultaGestion">
+  <div class="container">
+
+    <div class="row">
+      <div class="col-xs-12 fwBold">
+        <a ng-click="vm.volver()"><span class="ico-mapfre_310_arrowLeft"></span> Volver</a>
+      </div>
+    </div>
+
+    <div class="row mt-xs-2 mb-xs-2" ng-init="showFilter = false">
+      <div class="col-xs-8 col-sm-5 col-md-5 gH2 g-lheight-1 text-left">
+          {{vm.infoAgent.idName}}<br>
+          <span class="gH5 mr-xs-0-5">Agente desde: {{vm.infoAgent.contractDate}}</span>
+          <span class="gH5" ng-show="vm.infoAgent.office">|</span>
+          <span class="ml-xs-0-5 gH5" ng-show="vm.infoAgent.office">Oficina: {{vm.infoAgent.office}}</span>
+      </div>
+      <div class="col-md-offset-5 col-xs-4 col-sm-2 col-md-2">
+        <a class="filter-btn g-btn g-btn-white second-design block" ng-click="vm.showFilter = !vm.showFilter">
+          <span class="filter-btn--text pl-xs-2 pr-xs-2">Filtros</span>
+          <span class="filter-btn--ico ico-mapfre_203_filtro gnIcon-xsm"></span>
+        </a>
+      </div>
+    </div>
+
+    <!--Inicio: Filter box-->
+    <div class="g-box g-box__filter-box no-btl-radius no-btr-radius gBgcWhite1 mb-xs-2 pl-xs-1-5 pr-xs-1-5 pt-xs-2 pb-xs-2" ng-show="vm.showFilter">
+      <div class="row mb-xs-1">
+        <div class="col-xs-12"><h2 class="gH4 fwBold g-text-uppercase">Filtrar por:</h2></div>
+      </div>
+      <div class="row g-block-vertical g-div-bottom">
+        <div class="vertical-xs col-xs-12 col-sm-6 col-md-3 mb-xs-1 mb-sm-0">
+          <mpf-select
+            label="{label: 'Integralidad', required: false}"
+            name="nIngralidad"
+            ng-model="vm.mIntegralidad"
+            m-Empty-Option="{text:'-- TODAS --'}"
+            ng-required="false"
+            ng-change=""
+            m-data-source="vm.integralidadArray"
+            text-field="name"
+            value-field="id"
+          >
+          </mpf-select>
+        </div>
+        <div class="vertical-xs col-xs-12 col-sm-6 col-md-3 mb-xs-1 mb-sm-0">
+          <mpf-select
+            label="{label: 'Tipo de póliza', required: false}"
+            name="nTipoPoliza"
+            ng-model="vm.mTipoPoliza"
+            m-Empty-Option="{text:'-- TODAS --'}"
+            ng-required="false"
+            ng-change=""
+            m-data-source="vm.tPolizaArray"
+            text-field="name"
+            value-field="id"
+          >
+          </mpf-select>
+        </div>
+        <div class="vertical-xs col-xs-12 col-sm-6 col-md-2 mb-xs-1 mb-sm-0">
+          <mpf-select
+            label="{label: 'Vencimiento de pólizas', required: false}"
+            name="nVencimientoPoliza"
+            ng-model="vm.mVencimientoPoliza"
+            m-Empty-Option="{text:'-- SELECCIONE --'}"
+            ng-required="false"
+            ng-change=""
+            m-data-source="vm.vencPolizaArray"
+            text-field="name"
+            value-field="id"
+          >
+          </mpf-select>
+        </div>
+        <div class="vertical-xs col-xs-12 col-sm-6 col-md-2 mb-xs-1 mb-sm-0">
+          <mpf-select
+            label="{label: 'Tiempo de morosidad', required: false}"
+            name="nTiempoMorosidad"
+            ng-model="vm.mTiempoMorosidad"
+            m-Empty-Option="{text:'-- SELECCIONE --'}"
+            ng-required="false"
+            ng-change=""
+            m-data-source="vm.tMorosidadArray"
+            text-field="name"
+            value-field="id"
+          >
+          </mpf-select>
+        </div>
+        <div class="vertical-xs col-xs-12 col-md-2 mt-xs-2 mt-md-0">
+          <a class="g-btn g-btn-white second-design block mb-xs-1" ng-click="vm.fnClear(false)">Limpiar</a>
+          <a class="g-btn g-btn-verde second-design block" ng-click="vm.searchDetailsNetwork(true)">Filtrar</a>
+        </div>
+      </div>
+    </div>
+    <!--Fin: Filter box-->
+
+    <hr>
+
+    <div class="row mb-xs-1-5" ng-if="vm.totalRows > 0">
+      <div class="col-xs-12 col-sm-6 col-md-6 text-left">
+        {{vm.totalRows}} resultado(s)
+      </div>
+      <div class="col-xs-12 col-sm-6 col-md-6 text-right">
+        Mostrar:
+        <a ng-click="vm.fnSetItemsPerPage(5)"><span ng-class="vm.class5">05</span></a> |
+        <a ng-click="vm.fnSetItemsPerPage(25)"><span ng-class="vm.class25">25</span></a> |
+        <a ng-click="vm.fnSetItemsPerPage(50)"><span ng-class="vm.class50">50</span></a>
+      </div>
+    </div>
+
+    <!-- Tabla -->
+    <div class="row mb-xs-2" ng-if="vm.totalRows > 0">
+      <div class="col-xs-12">
+        <div tbl-oim class="g-tbl-wrapper g-new-tbl-wrapper">
+          <div class="tbl-main">
+            <ul class="tbl-header clearfix gBgcGray5">
+              <li class="title col-4-dktp text-center">#</li>
+              <li class="title col-20-dktp">Cliente</li>
+              <li class="title col-10-dktp text-center">Integralidad</li>
+              <li class="title col-10-dktp">Polizas</li>
+              <li class="title col-16-dktp">Fecha de Vencimiento<br><span class="fwNormal gH8">Últimas polizas</span></li>
+              <li class="title col-16-dktp">Morosidad<br><span class="fwNormal gH8">En mayor nro. de días</span></li>
+              <li class="title col-12-dktp text-center">Descargas<br><span class="gCGreen2 fwNormal gH8" ng-click="vm.downloadAllRedPlaza()"><i class="ico-mapfre_124_download mr-xs-0-5 gH5"></i>Todos</span></li>
+              <li class="title col-12-dktp"></li>
+            </ul>
+            <ul class="tbl-body clearfix">
+              <li ng-repeat="cliente in vm.clientes">
+                <ul height-row class="tbl-row clearfix g-u-cursor--pointer">
+                  <li class="cell col-4-dktp text-center g-span-middle">
+                    {{cliente.id}}
+                  </li>
+                  <li class="cell cell-photo col-20-dktp g-div-middle">
+                    <div>
+                      <strong>{{cliente.nombre}}</strong><br>
+                      {{cliente.tipoDoc}}: {{cliente.numDoc}} <span ng-show="cliente.phoneNumber">Celular: {{cliente.phoneNumber}}</span><br />
+                      <span ng-show="cliente.email">Email: {{cliente.email | lowercase}}</span>
+                    </div>
+                  </li>
+                  <li class="cell col-10-dktp text-center g-div-middle">
+                    <span class="gH4 fwBold">{{cliente.integridad}}</span>
+                  </li>
+                  <li class="cell col-10-dktp">
+                    <div ng-repeat="poliza in cliente.polizas">
+                      <span class="gH5 {{poliza.icon}}"></span>
+                      <span>{{poliza.nombre}}</span>
+                    </div>
+                  </li>
+                  <li class="cell col-16-dktp">
+                    <div ng-repeat="poliza in cliente.polizas">
+                      <span class="gH5 {{poliza.icon}}"></span>
+                      <span ng-if="poliza.vencimiento != ''">{{poliza.vencimiento}}</span>
+                      <span ng-if="poliza.vencimiento == ''">---</span>
+                    </div>
+                  </li>
+                  <li class="cell col-16-dktp">
+                    <div ng-repeat="poliza in cliente.polizas">
+                      <span class="gH5 {{poliza.icon}}"></span>
+                      <span ng-if="poliza.morosidad != ''">{{poliza.morosidad}}</span>
+                      <span ng-if="poliza.morosidad == ''">0</span>
+                    </div>
+                  </li>
+                  <li class="cell col-12-dktp g-span-middle text-center">
+                    <span class="ico-mapfre_124_download gCGreen2 gH2" ng-click="vm.downloadDetail(cliente)"
+                    ga-click
+                    ga-category="'CG - Comisiones'"
+                    ga-action="'MPF - Consulta red plaza Detalle - Botón Descargar'"
+                    ga-label="'Botón: Descargar'"></span>
+                  </li>
+                  <li class="cell col-12-dktp text-center">
+                    <a ng-class="{'mt-xs-0-5': cliente.polizas.length > 2}" class="g-btn g-btn-white block second-design" ng-click="vm.verDetalle(cliente)"
+                      ga-click
+                      ga-category="'CG - Comisiones'"
+                      ga-action="'MPF - Consulta red plaza Detalle - Ver detalle'"
+                      ga-label="'Botón: Ver detalle'">Ver detalle</a>
+                  </li>
+                </ul>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row mb-xs-2" ng-if="vm.totalRows == 0">
+        <div class="col-md-12 text-center g-box-noresult">
+          <div class="row">
+            <div class="col-md-12 g-box-noresult-ico gCRed1">
+              <span class="ico-mapfre_302_error"></span>
+            </div>
+            <div class="col-md-12 g-box-noresult-text">
+              No se encontraron resultados para el Agente ingresado.
+            </div>
+          </div>
+        </div>
+      </div>
+
+    <!-- Inicio: pagination -->
+    <div class="row" ng-if="vm.totalPages > 1">
+      <div class="col-md-12">
+        <ul uib-pagination
+        total-items="vm.totalRows"
+        class="g-pagination"
+        ng-model="vm.currentPage"
+        items-per-page="vm.itemsPerPage"
+        ng-change="vm.pageChanged(vm.currentPage)"
+        num-pages="vm.totalPages"
+        boundary-link-numbers = "true"
+        rotate="true"
+        max-size="10"
+        ></ul>
+      </div>
+    </div>
+    <!-- Fin: pagination -->
+
+  </div>
+</div>

@@ -1,0 +1,462 @@
+<!-- Inicio: Col Filter -->
+<div class="g-section-inner" ng-controller="formFiltersController">
+  <div class="container">
+    <div class="row">
+      <!-- Inicio: Filter -->
+      <div class="col-md-3 mb-xs-2">
+        <form action="" name="searchClient.frmNsctrSearchClient">
+          <div show-filter class="clearfix g-col-filter g-box-md fz14 gBgcGray5-md gBgcWhite1"
+            ng-class="{'show': isFilterVisible}">
+            <div class="col-md-12 mb-xs-3 gH4 gCGray1">
+              <h2 class="pb-xs-1 g-border-bottom-xs hidden-xs hidden-sm"><b>Filtros</b></h2>
+              <div id="show-filter" class="row pt-xs-2 pb-xs-2 gBgcGray5 g-border-bottom-xs hidden-md hidden-lg"
+                ng-click="toggleFilter();">
+                <div class="col-xs-10">
+                  <h2><b>Filtros</b></h2>
+                </div>
+                <div class="col-xs-2 g-text-right-xs">
+                  <span class="glyphicon glyphicon-chevron-down" ng-if="isFilterVisible"></span>
+                  <span class="glyphicon glyphicon-chevron-up" ng-if="!isFilterVisible"></span>
+                </div>
+                <div class="clearfix"></div>
+              </div>
+            </div>
+
+
+            <div class="g-col-filter__box">
+              <div class="col-md-12 mb-xs-2">
+                <!-- <span> Paciente</span> -->
+                <mpf-input label="{label: 'Nombre, apellido o documento', required: false}" name="nRazonSocialFilter"
+                  ng-model="$ctrl.filters.NomPaciente" style="margin-top: 10px;" ng-required="false">
+                </mpf-input>
+
+              </div>
+              <div class="col-md-12 mb-xs-2">
+                <!-- fecha -->
+                <div class="input-group g-date-picker">
+                  <label class="g-placeholder animated">Fecha de referencia<span></span>:</label>
+                  <mpf-datepicker data-format="'dd/MM/yyyy'" data-parsear-to-date="true" data-set-max-today="true"
+                    data-ng-model="$ctrl.filters.FechaReferencia" data-ng-required="false" data-readonly="false"
+                    label="{label: '',placeholder:'Seleccione una fecha:', required: false}" name="nFechaReferencia">
+                </div>
+              </div>
+
+              <div class="col-md-12 mb-xs-2">
+                <span style="font-weight: bold;"> Tipo de referencia</span>
+                <mpf-select-placeholder label="{label: '', required: false}" name="nTipoReferencia" text-field="text"
+                  value-field="value" ng-model="$ctrl.filters.CTReferencia" m-data-source="$ctrl.masters.tipos"
+                  m-Empty-Option="{text: 'TODOS'}" style="padding-top: 0; font-weight: bold;">
+                </mpf-select-placeholder>
+              </div>
+              <br>
+              <div class="col-md-12 mb-xs-2">
+                <span style="font-weight: bold;">Usuario creador de la referencia</span>
+                <mpf-data-seeker-placeholder style="padding-top: 0;"
+                  behavior="{label: '', placeholder:'', matchField:'text', required: false}" name="nUsuario"
+                  ng-model="$ctrl.filters.CodUsuMAPFRE" m-data-source="$ctrl.searchUserRef($inputNeed)">
+                  <div ng-bind-html="$item.text | highlight: $select.search"></div>
+                </mpf-data-seeker-placeholder>
+              </div>
+              <br>
+              <div class="col-md-12 mb-xs-2">
+                <li>
+                  <mpf-checkbox name="nCheck" ng-model="$ctrl.filters.FRefeForzada" label="Referencias forzadas">
+                  </mpf-checkbox>
+                </li>
+              </div>
+              <br>
+              <div class="col-md-12" style="padding: 12px 10px;color: #000000; 
+              font-size: 18px;border-top: 1px solid #eee;cursor: pointer;position: relative;"
+                ng-click="showDropdowOrigen = !showDropdowOrigen">
+                Origen de la referencia
+                <span ng-class="showDropdowOrigen ? 'ico-mapfre_77_chevronup' : 'ico-mapfre_76_chevrondown'" style="font-size:
+                    22px; font-weight: bold; right: 17px; position: absolute;"></span>
+              </div>
+
+              <div class="col-md-12 mb-xs-2 " style=" padding-bottom: 10px;" ng-show="showDropdowOrigen">
+                <div class="col-md-12 mb-xs-2">
+                  <span style="font-weight: bold;">Proveedor</span>
+                  <mpf-data-seeker-placeholder style="padding-top: 0;"
+                    behavior="{label: '', placeholder:'', matchField:'text', required: false}" name="nProveedor2"
+                    ng-model="$ctrl.filters.ProveedorOrigenNom" m-data-source="$ctrl.searchProveedorO($inputNeed)">
+                    <div ng-bind-html="$item.text | highlight: $select.search"></div>
+                  </mpf-data-seeker-placeholder>
+                </div>
+                <div class="col-md-12 mb-xs-2">
+                  <mpf-select-placeholder label="{label: 'Departamento', required: false}"
+                    m-Empty-Option="{enterData: true}" name="nDepartamentoOrigen" text-field="text" value-field="value"
+                    ng-model="$ctrl.filters.ProveedorOrigenDept" m-data-source="$ctrl.masters.departamentos"
+                    ng-change="$ctrl.selectDepartamentoOrigen()">
+                  </mpf-select-placeholder>
+                </div>
+                <div class="col-md-12 mb-xs-2">
+                  <mpf-select-placeholder label="{label: 'Provincia', required: false}"
+                    m-Empty-Option="{enterData: true}" name="nProvinciaOrigen" text-field="text" value-field="value"
+                    ng-model="$ctrl.filters.ProveedorOrigenProv" m-data-source="$ctrl.masters.provinciasOrigen">
+                  </mpf-select-placeholder>
+                </div>
+              </div>
+
+
+              <div class="col-md-12" style="padding: 12px 10px;color: #000000;
+               font-size: 18px;border-top: 1px solid #eee;cursor: pointer;position: relative;"
+                ng-click="showDropdowDestino = !showDropdowDestino">
+                Destino de la referencia
+                <span ng-class="showDropdowDestino ? 'ico-mapfre_77_chevronup' : 'ico-mapfre_76_chevrondown'" style="font-size:
+                    22px; font-weight: bold; right: 17px; position: absolute;"></span>
+              </div>
+
+              <div class="col-md-12 mb-xs-2" style=" margin-top: 15px; padding-bottom: 20px;"
+                ng-show="showDropdowDestino">
+                <div class="col-md-12 mb-xs-2">
+                  <span style="font-weight: bold;">Proveedor</span>
+                  <mpf-data-seeker-placeholder style="padding-top: 0;"
+                    behavior="{label: '', placeholder:'', matchField:'text', required: false}" name="nProveedor2"
+                    ng-model="$ctrl.filters.ProveedorDestinonNom" m-data-source="$ctrl.searchProveedorO($inputNeed)">
+                    <div ng-bind-html="$item.text | highlight: $select.search"></div>
+                  </mpf-data-seeker-placeholder>
+                </div>
+                <div class="col-md-12 mb-xs-2">
+                  <mpf-select-placeholder label="{label: 'Departamento', required: false}"
+                    m-Empty-Option="{enterData: true}" name="nDepartamentoDestino" text-field="text" value-field="value"
+                    ng-model="$ctrl.filters.ProveedorDestinoDept" m-data-source="$ctrl.masters.departamentos"
+                    ng-change="$ctrl.selectDepartamentoDestino()">
+                  </mpf-select-placeholder>
+                </div>
+                <div class="col-md-12 mb-xs-2">
+                  <mpf-select-placeholder label="{label: 'Provincia', required: false}"
+                    m-Empty-Option="{enterData: true}" name="nProvinciaDestino" text-field="text" value-field="value"
+                    ng-model="$ctrl.filters.ProveedorDestinoProv" m-data-source="$ctrl.masters.provinciasDestino">
+                  </mpf-select-placeholder>
+                </div>
+              </div>
+
+              <!-- 
+                Botones -->
+              <div class="col-md-6" style="margin-top: 12px;">
+                <a href="" class="g-btn g-btn-white block" ng-click="$ctrl.clean()">Limpiar</a>
+              </div>
+              <div class="col-md-6 mb-xs-1" style="margin-top: 12px;">
+                <a href="" class="g-btn g-btn-verde block" ng-click="$ctrl.apply()">Aplicar</a>
+              </div>
+            </div>
+
+          </div>
+        </form>
+      </div>
+      <!-- Fin: Filter -->
+      <!-- <p>{{$ctrl.Estados | json}}</p> -->
+      <!-- Inicio: Resultado -->
+      <div class="col-md-9" style="padding-bottom: 15px;">
+        <div class=" row">
+          <div class="col-md-1 gCGray3" style="margin-top:8px; font-weight: bold; margin-right: 8px; ">Referencias</div>
+          <div class="col-md-6 ">
+            <ul class="nav navbar-nav" role="tablist">
+              <li><a ng-click="$ctrl.selectEstado(-1)" ng-class="{'navSel': $ctrl.colorState == -1 }"
+                  style="text-decoration: none; color: #000; font-weight: bold; border-radius: 20px 20px 20px 20px;">{{$ctrl.Estados[0].cantidad}}
+                  Todas</a>
+              </li>
+              <li><a ng-click="$ctrl.selectEstado(1)" ng-class="{'navSel': $ctrl.colorState == 1 }"
+                  style="text-decoration: none; color: #000; font-weight: bold; border-radius: 20px 20px 20px 20px;">{{$ctrl.Estados[2].cantidad}}
+                  Por
+                  Revisar </a>
+              </li>
+              <li><a ng-click="$ctrl.selectEstado(2)" ng-class="{'navSel': $ctrl.colorState == 2 }"
+                  style="text-decoration: none; color: #000; font-weight: bold; border-radius: 20px 20px 20px 20px;">{{$ctrl.Estados[3].cantidad}}
+                  Revisadas</a></li>
+              <li><a ng-click="$ctrl.selectEstado(0)" ng-class="{'navSel': $ctrl.colorState == 0 }"
+                  style="text-decoration: none; color: #000; font-weight: bold; border-radius: 20px 20px 20px 20px;">{{$ctrl.Estados[1].cantidad}}
+                  Anuladas</a></li>
+            </ul>
+          </div>
+
+          <div class=" col-md-3 col-md-offset-1" style="margin-left: 142px;">
+            <a class="g-btn g-btn-white second-design block " style="border:none; background: gBgcGray5;"
+              ng-click="$ctrl.downloadExcel()"><span class="u-inline-b">
+                <span>Descargar lista</span> <span class="u-ml-10 ico-mapfre_124_download"></span>
+              </span> </a>
+          </div>
+        </div>
+      </div>
+
+
+      <!-- <p>{{$ctrl.listaRefs | json}}</p> -->
+      <!-- | filter: {'ProveedorOrigen.Departamento': $ctrl.filters.ac_cdprtmntoOrigen} ---- : (allRef.text == 'TODOS') ? '' : allRef.text -->
+
+      <!-- <p>{{$ctrl.filters.ac_tipoReferencia.text}}</p>   -->
+      <div class="col-md-9">
+        <div class="row g-text-center-xs g-box-noresult" style="margin-top: 120px" ng-show="$ctrl.listaRefs == 0">
+          <div class="col-md-12 g-box-noresult-ico gCRed1">
+            <span class="ico-mapfre_302_error"></span>
+          </div>
+          <div class="col-md-12 g-box-noresult-text">
+            No hay resultados para los filtros escogidos.<br>Intenta de nuevo.
+          </div>
+        </div>
+        <div class="clearfix g-box g-overflow-hidden-xs mb-xs-2" ng-repeat="item in $ctrl.listaRefs">
+          <div class=" row pt-xs-1 ">
+            <ul class="clearfix g-list-lg">
+              <li class="col-md-9 col-md-6">
+                <ul class="row">
+                  <li class="col-sm-12 clearfix cnt-item">
+                    <div class="col-sm-8 col-xs-6 item-label">
+                      <span style="font-weight: bold; margin-left: 8px;"> N°
+                        {{$ctrl.getIdReferencia(item.idReferencia)}}</span>
+                      <span class="label label-primary mb-xs-6 ng-binding" style="font-size: 12px; margin-left: 8px;"
+                        ng-style="getStyle2(item.estado)">{{item.estado}}</span>
+                      <span class="u-ml-14 glyphicon glyphicon-cog" title="Referencia Forzada"
+                        ng-show="item.fRefeForzada === true"
+                        style="background: red; color: white; font-size: 18px; top:5px; margin-left: 8px;"> </span>
+                      <span class="u-ml-14 glyphicon glyphicon-star-empty" title="Cliente Importante"
+                        ng-show="item.asegurado.vip != 0" item.asegurado.vip
+                        style="background: yellow; color: white; font-size: 18px; top:5px; margin-left: 8px;">
+                      </span>
+                      <span class="u-ml-14 glyphicon glyphicon-user" title="Lista Negra"
+                        ng-show="item.asegurado.listaNegra != 0"
+                        style="font-size: 18px; top:5px; margin-left: 8px;"></span>
+                      </span>
+                      <span style="font-weight: bold; margin-left: 8px;"
+                        ng-show="item.asegurado.oSiteds.numAutorizacion != null"> Código Siteds:
+                        {{item.asegurado.oSiteds.numAutorizacion}}</span>
+                    </div>
+                    </br>
+                    <div class="col-sm-12 col-xs-12 item-dato g-text" style="margin-top: 10px; margin-bottom: 12px;">
+                      <span class="u-ml-10 glyphicon glyphicon-user"></span><span style="font-weight: bold">
+                        {{item.asegurado.nombre}} - {{item.asegurado.tipDoc}}: {{item.asegurado.numDoc}} </span>
+                    </div>
+                  </li>
+                </ul>
+              </li>
+              <li class="col-md-3 col-sm-3 clearfix">
+                <div class="col-md-4 cnt-item" style="float: right;">
+                  <a class="g-btn g-btn-white block second-design"
+                    style="border:none; background: transparent; color: gray;"
+                    ng-click="$ctrl.goResumen(item.idReferencia)">
+                    <span class=" g-icon">
+                      <span class="icon ico-mapfre_311_arrowRight" title="Detalle de referencia"></span>
+                    </span>
+                  </a>
+
+                </div>
+                <div class="col-md-4 cnt-item" style="float: right;">
+                  <a class="g-btn g-btn-white block second-design"
+                    style="border:none; background: transparent; color: gray;"
+                    ng-click="$ctrl.downloadPdf(item.idReferencia)">
+                    <span class="g-icon">
+                      <span class="glyphicon glyphicon-print" title="Descargar PDF"></span>
+                    </span>
+                  </a>
+                </div>
+              </li>
+            </ul>
+          </div>
+
+          <div class="row gBgcGray5" style="margin-left: 0">
+            <div class="col-md-6 col-sm-4 clearfix cnt-item g-box-content">
+              <div class=" row clearfix g-list-md">
+                <div class="col-md-6 col-xs-6 item-label gCGray3 g-text">
+                  Tipo de referencia
+                </div>
+                <div class="col-md-6 col-xs-6 item-label gCGray3 g-text">
+                  Producto
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-sm-6 col-xs-6 item-dato g-text" style="font-weight: bold;">
+                  {{item.tReferencia}}
+                </div>
+                <div class="col-sm-6 col-xs-6 item-dato g-text" style="font-weight: bold;">
+                  {{item.producto}}
+                </div>
+              </div>
+              </br>
+              <div class=" row clearfix g-list-md">
+                <div class="col-md-6 col-xs-6 gCGray3 item-label g-text">
+                  Tipo de traslado
+                </div>
+                <div class="col-md-6 col-xs-6 gCGray3 item-label g-text">
+                  Medio de traslado
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-sm-6 col-xs-6 item-dato g-text" style="font-weight: bold;">
+                  {{item.proveedorTraslado.meTraslado}}
+                </div>
+                <div class="col-sm-6 col-xs-6 item-dato g-text" style="font-weight: bold;">
+                  {{item.proveedorTraslado.tipMeTraslado}}
+                </div>
+              </div>
+              </br>
+              <div class=" row clearfix g-list-md">
+                <div class="col-md-12 col-xs-6 item-label gCGray3 g-text">
+                  Proveedor de traslado
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-sm-12 col-xs-6 item-dato g-text" style="font-weight: bold;">
+                  {{item.proveedorTraslado.nombre}}
+                </div>
+              </div>
+              </br>
+              <div class=" row clearfix g-list-md">
+                <div class="col-md-12 col-xs-6 item-label gCGray3 g-text">
+                  Fecha y hora
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-sm-12 col-xs-6 item-dato g-text" style="font-weight: bold;">
+                  {{item.fechaHora | date:'dd/MM/yyyy hh:mm a'}}
+                </div>
+              </div>
+            </div>
+
+
+            <div class="container-fluid">
+              <div class="row">
+                <div class="col-md-6 ContNav1" style="padding-left: 10px; border-left: 1px solid #ddd;">
+                  <div class=" row">
+                    <div class="col-md-2" style="justify-content: center; display: flex; margin-top: 10px;">
+                      <div class="Icon Inicio"
+                        style="width: 30px; height:30px;   border: 2px #999999 dashed !important;">
+                        <img src="/referencias/assets/IconInicio.svg"
+                          style="width: 70%; height: 70%;  margin-left: 15%; margin-top: 15%; padding-right: 0;">
+                      </div>
+                      <div class="Linea" style="width: calc(0% - 1px); height: 16px; display: flex; position: relative; 
+                            right: 15px; top: 30px;">
+                        &nbsp;
+                      </div>
+                    </div>
+
+                    <div class="col-md-10" style="padding-left: 0;">
+                      <div class=" row clearfix g-list-md">
+                        <div class="col-md-6 col-xs-12 item-label gCGray3 g-text-capitalize" style="margin-top: 10px; ">
+                          origen
+                        </div>
+                        <div class="col-md-12" style="color: #000; font-weight: bold;width: 90%; overflow:hidden;
+                         white-space:nowrap; text-overflow: ellipsis;">
+                          {{item.proveedorOrigen.nombre}}
+                          <div>{{item.proveedorOrigen.departamento}} -
+                            {{item.proveedorOrigen.provincia}}</div>
+                        </div>
+
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-2" style="justify-content: center; display: flex;">
+                      <div class="Linea" style="width: calc(0% - 1px); height: 70px; padding-right: 30;">
+                        &nbsp;
+                      </div>
+                    </div>
+                    <div class="col-md-10 item-label  g-text-capitalize" style=" padding-left: 0;">
+                      <div class="row clearfix g-list-md">
+                        <div class="col-md-3 col-xs-12 item-label gCGray3 g-text-capitalize">
+                          institución
+                        </div>
+
+                        <div class="col-md-9 col-xs-12 item-label  g-text-capitalize">
+                          <span style="font-weight: bold;">{{item.proveedorOrigen.institucion}}
+                          </span><span ng-style="getStyle(item.proveedorOrigen.convenio)">
+                            {{item.proveedorOrigen.convenio}}</span>
+                        </div>
+
+                      </div>
+                      <div class=" row clearfix g-list-md">
+                        <div class="col-md-3 col-xs-12 item-label gCGray3 g-text-capitalize">
+                          entidad
+                        </div>
+
+                        <div class="col-md-9 col-xs-12 item-label  g-text-capitalize" style="padding-right: 16px;">
+                          <span style="font-weight: bold;">{{item.proveedorOrigen.entidad}}</span>
+                        </div>
+                      </div>
+
+
+                      <div class="row clearfix g-list-md">
+                        <div class=" col-md-3 col-xs-12 gCGray3 item-label g-text-capitalize">
+                          Categoría
+                        </div>
+                        <div class="col-md-9 col-xs-12 item-label  g-text-capitalize">
+                          <span style="font-weight: bold;"> {{item.proveedorOrigen.categoria}}</span>
+                        </div>
+                      </div>
+
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-2" style="justify-content: center; display: flex;">
+                      <div class="Icon Fin" style="width: 30px; height:30px; padding-right: 0;">
+                        <img src="/referencias/assets/IconFin.svg"
+                          style="width: 70%; height: 70%;  margin-left: 15%; margin-top: 15%;">
+                      </div>
+                    </div>
+                    <div class="col-md-10" style="padding-left: 0;">
+                      <div class="row clearfix g-list-md">
+                        <div class="col-md-6 col-xs-12 item-label gCGray3 g-text-capitalize">
+                          destino
+                        </div>
+                        <div class="col-md-12" style="color: #000; font-weight: bold; width: 90%;">
+                          {{item.proveedorDestino.nombre}} -
+                          {{item.proveedorDestino.departamento}} -
+                          {{item.proveedorDestino.provincia}}</div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class=" row">
+                    <div class="col-md-2">
+                      &nbsp
+                    </div>
+                    <div class="col-md-10" style="padding-left: 0;">
+                      <div class="row clearfix g-list-md">
+                        <div class="col-md-3 col-xs-12 item-label gCGray3 g-text-capitalize">
+                          institución
+                        </div>
+
+                        <div class="col-md-9 col-xs-12 item-label  g-text-capitalize" style="font-weight: bold;">
+                          {{item.proveedorDestino.institucion}} <span
+                            ng-style="getStyle(item.proveedorDestino.convenio)">{{item.proveedorDestino.convenio}}</span>
+                        </div>
+                      </div>
+
+                      <div class="row clearfix g-list-md">
+                        <div class="col-md-3 col-xs-12 item-label gCGray3 g-text-capitalize">
+                          entidad
+                        </div>
+
+                        <div class="col-md-9 col-xs-12 item-label  g-text-capitalize">
+                          <span style="font-weight: bold;">{{item.proveedorDestino.entidad}} </span>
+                        </div>
+                      </div>
+
+                      <div class="row clearfix g-list-md" style="margin-bottom: 10px;">
+                        <div class=" col-md-3 col-xs-12 item-label gCGray3 g-text-capitalize">
+                          categoría
+                        </div>
+                        <div class="col-md-9 col-xs-12 item-label  g-text-capitalize" style="font-weight: bold;">
+                          {{item.proveedorDestino.categoria}}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Inicio: pagination -->
+        <div class="row" ng-if="true">
+          <div class="col-md-12 ">
+            <ul uib-pagination class="g-pagination" ng-model="$ctrl.mPagination" items-per-page="$ctrl.itemPerPage"
+              total-items="$ctrl.totalItems" boundary-link-numbers="true" max-size="10"
+              ng-change="$ctrl.referList(true)">
+            </ul>
+          </div>
+        </div>
+        <!-- Fin: pagination -->
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- Fin: Col Filter -->

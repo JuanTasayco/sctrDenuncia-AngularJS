@@ -1,0 +1,62 @@
+<div
+  open-card-filter="$ctrl.isOpen"
+  class="clearfix g-col-filter g-box-md gBgcGray5-md gBgcWhite1 g-myd-box"
+>
+  <div class="col-xs-12">
+    <div class="clearfix gH4 gCGray1 mb-xs-1-5">
+      <h2
+        ng-if="!$ctrl.isSearcherType"
+        class="pb-xs-1 g-border-bottom-xs hidden-xs hidden-sm">
+        {{ $ctrl.title }}
+      </h2>
+      <h2
+        ng-if="$ctrl.isSearcherType"
+        class="hidden-xs hidden-sm">
+        <b>{{ $ctrl.title }}</b>
+      </h2>
+      <div
+        class="row pt-xs-2 pb-xs-2 gBgcGray5 g-border-top-xs g-border-top-xs g-border-bottom-xs hidden-md hidden-lg"
+        ng-click="$ctrl.isOpenToggle()"
+      >
+        <div class="col-xs-10">
+          <h2><b>{{ $ctrl.title }}</b></h2>
+        </div>
+        <div class="col-xs-2 g-text-right-xs">
+          <span
+            class="glyphicon"
+            ng-class="$ctrl.isOpen ? 'glyphicon-chevron-down' : 'glyphicon-chevron-up'"
+          >
+          </span>
+        </div>
+        <div class="clearfix"></div>
+      </div>
+    </div>
+    <div class="g-col-filter__box">
+      <ng-transclude></ng-transclude>
+      <div class="row">
+        <div
+          ng-class="$ctrl.isSearcherType ? ['col-md-2', 'col-md-offset-8', 'mb-md-0', 'mb-xs-1'] : ['col-md-12', 'mb-xs-1']"
+        >
+          <a
+            href="javascript:void(0)"
+            class="g-btn g-btn-verde second-design block"
+            ng-click="$ctrl.filter()"
+          >
+            {{ $ctrl.filterButtonText }}
+          </a>
+        </div>
+        <div
+          ng-class="$ctrl.isSearcherType ? ['col-md-2'] : ['col-md-12']"
+        >
+          <a
+            href="javascript:void(0)"
+            class="g-btn g-btn-white second-design block"
+            ng-click="$ctrl.clear()"
+          >
+            {{ $ctrl.clearButtonText }}
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

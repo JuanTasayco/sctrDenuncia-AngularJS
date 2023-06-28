@@ -1,0 +1,128 @@
+<div class="g-list-md g-box gBgcGray5 pt-xs-2 pb-xs-2 pl-xs-2 pr-xs-2 mb-xs-2">
+  <ul class="row page-rrgg__table-list">
+    <li class="col-sm-12 clearfix mb-xs-1">
+      <div class="item-label">Datos del Contratante</div>
+    </li>
+    <li class="col-sm-4 clearfix mb-xs-2 page-rrgg__table-list-item">
+      <div ng-if="$ctrl.contratante.Grupo === $ctrl.constantsRrgg.GRUPO.EVENTOS || $ctrl.contratante.Grupo === $ctrl.constantsRrgg.GRUPO.DEMOLICIONES" class="col-xs-4 item-label">
+        <span class="ico-mapfre_82_circle ico-bullet"></span>Contratante
+      </div>
+      <div ng-if="$ctrl.contratante.Grupo !== $ctrl.constantsRrgg.GRUPO.EVENTOS && $ctrl.contratante.Grupo !== $ctrl.constantsRrgg.GRUPO.DEMOLICIONES" class="col-xs-4 item-label">
+        <span class="ico-mapfre_82_circle ico-bullet"></span>Asegurado
+      </div>
+
+      <div class="col-xs-8 item-dato g-cut-text ng-binding">{{$ctrl.contratante.NombreContratante ||
+        $ctrl.contratante.NombreCliente}}</div>
+    </li>
+    <li class="col-sm-4 clearfix mb-xs-2 page-rrgg__table-list-item" ng-if="$ctrl.contratante.NombreCorredor">
+      <div class="col-xs-4 item-label"><span class="ico-mapfre_82_circle ico-bullet"></span>Corredor</div>
+      <div class="col-xs-8 item-dato g-cut-text ng-binding">{{$ctrl.contratante.NombreCorredor}}</div>
+    </li>
+    <li class="col-sm-4 clearfix mb-xs-2 page-rrgg__table-list-item" ng-if="$ctrl.contratante.NombreAsegurado && $ctrl.contratante.Grupo !== $ctrl.constantsRrgg.GRUPO.DEMOLICIONES">
+      <div class="col-xs-4 item-label"><span class="ico-mapfre_82_circle ico-bullet"></span>Asegurado</div>
+      <div class="col-xs-8 item-dato g-cut-text ng-binding">{{$ctrl.contratante.NombreAsegurado}}</div>
+    </li>
+    <li ng-if="$ctrl.contratante.Grupo === $ctrl.constantsRrgg.GRUPO.TRAB_ESPECIFICOS"
+      class="col-sm-4 clearfix mb-xs-2 page-rrgg__table-list-item">
+      <div class="col-xs-4 item-label"><span class="ico-mapfre_82_circle ico-bullet"></span>Trabajo u obra a contratar
+      </div>
+      <div class="col-xs-8 item-dato g-cut-text ng-binding">{{$ctrl.contratante.TipoTrabajo.Descripcion}}</div>
+    </li>
+    <li ng-if="$ctrl.contratante.Grupo === $ctrl.constantsRrgg.GRUPO.HIDROCARBURO"
+      class="col-sm-4 clearfix mb-xs-2 page-rrgg__table-list-item">
+      <div class="col-xs-4 item-label"><span class="ico-mapfre_82_circle ico-bullet"></span>Vigencia
+      </div>
+      <div class="col-xs-8 item-dato ng-binding">Anual</div>
+    </li>
+    <li ng-if="$ctrl.contratante.Grupo === $ctrl.constantsRrgg.GRUPO.TRAB_ESPECIFICOS"
+      class="col-sm-4 clearfix mb-xs-2 page-rrgg__table-list-item">
+      <div class="col-xs-4 item-label"><span class="ico-mapfre_82_circle ico-bullet"></span>Detalle del Trabajo u
+        Obra
+      </div>
+      <div class="col-xs-8 item-dato g-cut-text g-break-word ng-binding">{{$ctrl.contratante.ObraRealizar}}</div>
+    </li>
+    <li ng-if="$ctrl.contratante.Grupo === $ctrl.constantsRrgg.GRUPO.VIGLIMP"
+      class="col-sm-4 clearfix mb-xs-2 page-rrgg__table-list-item">
+      <div class="col-xs-4 item-label"><span class="ico-mapfre_82_circle ico-bullet"></span>Nro. Documento</div>
+      <div ng-if="$ctrl.contratante.NumeroDocumento" class="col-xs-8 item-dato ng-binding">{{$ctrl.contratante.NumeroDocumento}}</div>
+      <div ng-if="!$ctrl.contratante.NumeroDocumento" class="col-xs-8 item-dato ng-binding">NO ESPECIFICADO</div>
+    </li>
+    <li
+      ng-if="$ctrl.contratante.Grupo === $ctrl.constantsRrgg.GRUPO.TRAB_ESPECIFICOS || $ctrl.contratante.Grupo === $ctrl.constantsRrgg.GRUPO.HIDROCARBURO
+      || $ctrl.contratante.Grupo === $ctrl.constantsRrgg.GRUPO.VIGLIMP || $ctrl.contratante.Grupo === $ctrl.constantsRrgg.GRUPO.TRANSPORTE"
+      class="col-sm-4 clearfix mb-xs-2 page-rrgg__table-list-item">
+      <div class="col-xs-4 item-label"><span class="ico-mapfre_82_circle ico-bullet"></span>Ramo</div>
+      <div ng-if="$ctrl.contratante.Ramo" class="col-xs-8 item-dato ng-binding">{{$ctrl.contratante.Ramo.Descripcion}}
+      </div>
+    </li>
+    <li ng-if="$ctrl.contratante.Grupo === $ctrl.constantsRrgg.GRUPO.VIGLIMP"
+      class="col-sm-4 clearfix mb-xs-2 page-rrgg__table-list-item">
+      <div class="col-xs-4 item-label"><span class="ico-mapfre_82_circle ico-bullet"></span>Actividad a realizar</div>
+      <div class="col-xs-8 item-dato ng-binding">{{$ctrl.contratante.ActividadRealizar.Descripcion}}</div>
+    </li>
+
+    <li class="col-sm-4 clearfix mb-xs-2 page-rrgg__table-list-item">
+      <div class="col-xs-4 item-label"><span class="ico-mapfre_82_circle ico-bullet"></span>Moneda</div>
+      <div class="col-xs-8 item-dato ng-binding">{{$ctrl.contratante.Moneda.Descripcion}}</div>
+    </li>
+    <li
+      ng-if="$ctrl.contratante.Grupo === $ctrl.constantsRrgg.GRUPO.TREC && $ctrl.resumen.Moneda.Descripcion === $ctrl.constantsRrgg.TEXT_DOLAR"
+      class="col-sm-4 clearfix mb-xs-2 page-rrgg__table-list-item">
+      <div class="col-xs-4 item-label"><span class="ico-mapfre_82_circle ico-bullet"></span>Tipo de cambio</div>
+      <div class="col-xs-8 item-dato ng-binding">{{$ctrl.contratante.TipoCambio}}</div>
+    </li>
+    <li ng-if="$ctrl.contratante.Grupo === $ctrl.constantsRrgg.GRUPO.HIDROCARBURO"
+      class="col-sm-4 clearfix mb-xs-2 page-rrgg__table-list-item">
+      <div class="col-xs-4 item-label"><span class="ico-mapfre_82_circle ico-bullet"></span>Giro del negocio
+      </div>
+      <div class="col-xs-8 item-dato ng-binding">{{$ctrl.contratante.Giro.Descripcion}}</div>
+    </li>
+    <li ng-if="$ctrl.contratante.Grupo === $ctrl.constantsRrgg.GRUPO.TREC"
+      class="col-sm-4 clearfix mb-xs-2 page-rrgg__table-list-item">
+      <div class="col-xs-4 item-label"><span class="ico-mapfre_82_circle ico-bullet"></span>Tipo de trabajo</div>
+      <div class="col-xs-8 item-dato ng-binding">{{$ctrl.contratante.TipoTrabajo.Descripcion}}</div>
+    </li>
+    <li ng-if="$ctrl.contratante.Grupo === $ctrl.constantsRrgg.GRUPO.HIDROCARBURO"
+      class="col-sm-4 clearfix mb-xs-2 page-rrgg__table-list-item">
+      <div class="col-xs-4 item-label"><span class="ico-mapfre_82_circle ico-bullet"></span>Tipo del aseguramiento
+      </div>
+      <div class="col-xs-8 item-dato ng-binding">{{$ctrl.contratante.TipoAseguramiento.Descripcion}}</div>
+    </li>
+    <li ng-if="$ctrl.contratante.Grupo === $ctrl.constantsRrgg.GRUPO.HIDROCARBURO"
+      class="col-sm-4 clearfix mb-xs-2 page-rrgg__table-list-item">
+      <div class="col-xs-4 item-label"><span
+          class="ico-mapfre_82_circle ico-bullet"></span>{{$ctrl.contratante.IsVehiculoOrLocal === '1' ? 'Número de
+        Vehículos' : 'Número de locales ' }}
+      </div>
+      <div class="col-xs-8 item-dato ng-binding">{{$ctrl.contratante.CantidadElementos}}</div>
+    </li>
+    <li ng-if="$ctrl.contratante.Grupo === $ctrl.constantsRrgg.GRUPO.TREC"
+      class="col-sm-4 clearfix mb-xs-2 page-rrgg__table-list-item">
+      <div class="col-xs-4 item-label"><span class="ico-mapfre_82_circle ico-bullet"></span>Trabajo a realizar</div>
+      <div class="col-xs-8 item-dato ng-binding">{{$ctrl.contratante.ObraRealizar}}</div>
+    </li>
+    <li ng-if="$ctrl.contratante.Grupo === $ctrl.constantsRrgg.GRUPO.TREC"
+      class="col-sm-4 clearfix mb-xs-2 page-rrgg__table-list-item">
+      <div class="col-xs-4 item-label"><span class="ico-mapfre_82_circle ico-bullet"></span>Número de equipos</div>
+      <div class="col-xs-8 item-dato ng-binding">{{$ctrl.contratante.CantidadElementos}}</div>
+    </li>
+    <li ng-if="$ctrl.contratante.Grupo === $ctrl.constantsRrgg.GRUPO.TREC && $ctrl.contratante.EndosaDeshonestidad === '1'
+      || ($ctrl.contratante.Grupo === $ctrl.constantsRrgg.GRUPO.CAR && $ctrl.contratante.Endosatorio === '1')"
+      class="col-sm-4 clearfix mb-xs-2 page-rrgg__table-list-item">
+      <div class="col-xs-4 item-label"><span class="ico-mapfre_82_circle ico-bullet"></span>Endosado</div>
+      <div class="col-xs-8 item-dato ng-binding">{{$ctrl.contratante.NombreEndosaDeshonestidad}}
+        {{$ctrl.contratante.EndosadoA}} </div>
+    </li>
+    <li
+      ng-if="$ctrl.contratante.Grupo === $ctrl.constantsRrgg.GRUPO.CAR && $ctrl.contratante.AseguradoAdicional === '1'"
+      class="col-sm-4 clearfix mb-xs-2 page-rrgg__table-list-item">
+      <div class="col-xs-4 item-label"><span class="ico-mapfre_82_circle ico-bullet"></span>Nombre del tercero</div>
+      <div class="col-xs-8 item-dato ng-binding">{{$ctrl.contratante.NombreAseguradoAdicional}}</div>
+    </li>
+    <li ng-if="$ctrl.contratante.Grupo === $ctrl.constantsRrgg.GRUPO.TRANSPORTE"
+      class="col-sm-4 clearfix mb-xs-2 page-rrgg__table-list-item">
+      <div class="col-xs-4 item-label"><span class="ico-mapfre_82_circle ico-bullet"></span>Dirección</div>
+      <div class="col-xs-8 item-dato ng-binding">{{$ctrl.contratante.Direccion}}</div>
+    </li>
+  </ul>
+</div>

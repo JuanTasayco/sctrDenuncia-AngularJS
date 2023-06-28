@@ -1,0 +1,329 @@
+<section>
+  <div class="g-title">
+    <div class="container">
+      <div class="row">
+        <div class="col-sm-9">
+          <h1>Póliza Emitida</h1>
+        </div>
+        <div class="col-md-3 g-text-right-sm hidden-sm hidden-xs">
+          <a
+            ui-sref="hogarQuote.steps({step:1})"
+            ui-sref-opts="{reload: true, inherit: false}"
+            class="g-btn g-btn-white block"
+            >Cotizar Nueva Póliza Hogar</a
+          >
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="g-section g-myd-summary">
+  <div class="container">
+    <div class="col-md-12 g-box fz14 pt-xs-2 pb-xs-2 g-myd-box">
+      <div class="row h-myd-ml--0 h-myd-mr--0 gH4">
+        <div class="col-sm-6 mb-sm-2 mb-xs-1">
+          <h2 class="gCGray1 g-text-uppercase g-myd-title"><b>Póliza de hogar</b></h2>
+        </div>
+        <div class="col-sm-6 mb-xs-2 g-text-right-sm">
+          <b>Nro. Póliza: {{ dataResumen.NumeroPoliza }}</b>
+        </div>
+      </div>
+
+      <div class="row h-myd-ml--0 h-myd-mr--0">
+        <div class="col-md-12 mb-xs-1">
+          <h2 class="gH4 gCGray1 g-border-bottom-xs g-myd-title"><b>Prima</b></h2>
+        </div>
+      </div>
+      <ul class="row h-myd-ml--0 h-myd-mr--0 g-list-md mb-xs-1">
+        <li class="col-md-5 clearfix cnt-item h-myd-p--0">
+          <div class="col-xs-7 item-label"><span class="ico-mapfre_82_circle ico-bullet"></span>Prima neta:</div>
+          <div class="col-xs-5 item-dato g-text-uppercase text-right">
+            {{
+              dataResumen.Hogar.ImporteNeta + dataResumen.Hogar.ImporteRecargo
+                | currency: (dataResumen.CodigoMoneda == '1' ? 'S/ ' : '$ ')
+            }}
+          </div>
+        </li>
+      </ul>
+      <ul class="row h-myd-ml--0 h-myd-mr--0 g-list-md mb-xs-1">
+        <li class="col-md-5 clearfix cnt-item h-myd-p--0">
+          <div class="col-xs-7 item-label">
+            <span class="ico-mapfre_82_circle ico-bullet"></span>Descuento MAPFRE DÓLARES:
+          </div>
+          <div class="col-xs-5 item-dato g-text-uppercase text-right">
+            {{ 0 | currency: (dataResumen.CodigoMoneda == '1' ? 'S/ ' : '$ ') }}
+          </div>
+        </li>
+      </ul>
+      <ul class="row h-myd-ml--0 h-myd-mr--0 g-list-md mb-xs-1">
+        <li class="col-md-5 clearfix cnt-item h-myd-p--0">
+          <div class="col-xs-7 item-label"><span class="ico-mapfre_82_circle ico-bullet"></span>IGV</div>
+          <div class="col-xs-5 item-dato g-text-uppercase text-right">
+            {{ dataResumen.Hogar.ImporteImpuesto | currency: (dataResumen.CodigoMoneda == '1' ? 'S/ ' : '$ ') }}
+          </div>
+        </li>
+      </ul>
+      <ul class="row h-myd-ml--0 h-myd-mr--0 g-list mb-xs-1 h-myd-border--bottom-1 h-myd-pb--10 h-myd-mb--20">
+        <li class="col-md-5 clearfix cnt-item h-myd-p--0">
+          <div class="col-xs-7 item-label"><span class="ico-mapfre_82_circle ico-bullet"></span>Total</div>
+          <div class="col-xs-5 item-dato g-text-uppercase text-right">
+            {{ dataResumen.Hogar.ImporteTotal | currency: (dataResumen.CodigoMoneda == '1' ? 'S/ ' : '$ ') }}
+          </div>
+        </li>
+      </ul>
+
+      <div class="row h-myd-ml--0 h-myd-mr--0">
+        <div class="col-md-12 mb-xs-1">
+          <h2 class="gH4 gCGray1 g-border-bottom-xs g-myd-title"><b>Datos de la póliza</b></h2>
+        </div>
+      </div>
+      <ul class="row h-myd-ml--0 h-myd-mr--0 g-list-md mb-xs-1">
+        <li class="col-md-4 clearfix cnt-item h-myd-p--0">
+          <div class="col-xs-6 item-label"><span class="ico-mapfre_82_circle ico-bullet"></span>Producto:</div>
+          <div class="col-xs-6 item-dato g-text-uppercase">{{ dataResumen.Hogar.NombreModalidad }}</div>
+        </li>
+        <li class="col-md-4 clearfix cnt-item h-myd-p--0">
+          <div class="col-xs-6 item-label"><span class="ico-mapfre_82_circle ico-bullet"></span>Fecha de Inicio:</div>
+          <div class="col-xs-6 item-dato g-text-uppercase">{{ dataResumen.PolizaB.InicioVigencia }}</div>
+        </li>
+        <li class="col-md-4 clearfix cnt-item h-myd-p--0">
+          <div class="col-xs-6 item-label"><span class="ico-mapfre_82_circle ico-bullet"></span>Fecha de término:</div>
+          <div class="col-xs-6 item-dato g-text-uppercase">{{ dataResumen.PolizaB.FinVigencia }}</div>
+        </li>
+      </ul>
+      <ul class="row h-myd-ml--0 h-myd-mr--0 g-list-md mb-xs-1 h-myd-border--bottom-1 h-myd-pb--10 h-myd-mb--20">
+        <li class="col-md-4 clearfix cnt-item h-myd-p--0">
+          <div class="col-xs-6 item-label"><span class="ico-mapfre_82_circle ico-bullet"></span>Póliza de grupo:</div>
+          <div class="col-xs-6 item-dato g-text-uppercase">{{ dataResumen.PolizaGrupo }}</div>
+        </li>
+      </ul>
+
+      <div class="row h-myd-ml--0 h-myd-mr--0">
+        <div class="col-md-12 mb-xs-1">
+          <h2 class="gH4 gCGray1 g-border-bottom-xs g-myd-title"><b>Datos del riesgo</b></h2>
+        </div>
+      </div>
+      <ul class="row h-myd-ml--0 h-myd-mr--0 g-list-md mb-xs-1">
+        <li class="col-md-4 clearfix cnt-item h-myd-p--0">
+          <div class="col-xs-6 item-label">
+            <span class="ico-mapfre_82_circle ico-bullet"></span>Ubicación del inmueble:
+          </div>
+          <div class="col-xs-6 item-dato g-text-uppercase">
+            {{
+              dataResumen.Hogar.Ubigeo.NombreDepartamento +
+                ', ' +
+                dataResumen.Hogar.Ubigeo.NombreProvincia +
+                ', ' +
+                dataResumen.Hogar.Ubigeo.NombreDistrito
+            }}
+          </div>
+        </li>
+        <li class="col-md-4 clearfix cnt-item h-myd-p--0">
+          <div class="col-xs-6 item-label">
+            <span class="ico-mapfre_82_circle ico-bullet"></span>Año de cosntrucción:
+          </div>
+          <div class="col-xs-6 item-dato g-text-uppercase">{{ dataResumen.Hogar.AnioInmueble }}</div>
+        </li>
+        <li class="col-md-4 clearfix cnt-item h-myd-p--0">
+          <div class="col-xs-6 item-label"><span class="ico-mapfre_82_circle ico-bullet"></span>Categoría:</div>
+          <div class="col-xs-6 item-dato g-text-uppercase">{{ dataResumen.Hogar.NombreCategoria }}</div>
+        </li>
+      </ul>
+      <ul class="row h-myd-ml--0 h-myd-mr--0 g-list-md mb-xs-1">
+        <li class="col-md-4 clearfix cnt-item h-myd-p--0">
+          <div class="col-xs-6 item-label">
+            <span class="ico-mapfre_82_circle ico-bullet"></span>Tipo de comunicación:
+          </div>
+          <div class="col-xs-6 item-dato g-text-uppercase">{{ dataResumen.Hogar.NombreTipoComunicacion }}</div>
+        </li>
+      </ul>
+      <ul class="row h-myd-ml--0 h-myd-mr--0 g-list-md mb-xs-1">
+        <li class="col-md-4 clearfix cnt-item h-myd-p--0">
+          <div class="col-xs-6 item-label"><span class="ico-mapfre_82_circle ico-bullet"></span>Dirección:</div>
+          <div class="col-xs-6 item-dato g-text-uppercase">{{ dataResumen.Hogar.DireccionInmueble }}</div>
+        </li>
+        <li class="col-md-4 clearfix cnt-item h-myd-p--0">
+          <div class="col-xs-6 item-label"><span class="ico-mapfre_82_circle ico-bullet"></span>Tipo:</div>
+          <div class="col-xs-6 item-dato g-text-uppercase">{{ dataResumen.Hogar.NombreTipoInmueble }}</div>
+        </li>
+        <li class="col-md-4 clearfix cnt-item h-myd-p--0">
+          <div class="col-xs-6 item-label"><span class="ico-mapfre_82_circle ico-bullet"></span>Pisos:</div>
+          <div class="col-xs-6 item-dato g-text-uppercase">{{ dataResumen.Hogar.NumeroPisoPredio }}</div>
+        </li>
+      </ul>
+      <ul class="row h-myd-ml--0 h-myd-mr--0 g-list mb-xs-1 h-myd-border--bottom-1 h-myd-pb--10 h-myd-mb--20">
+        <li class="col-md-4 clearfix cnt-item h-myd-p--0">
+          <div class="col-xs-6 item-label"><span class="ico-mapfre_82_circle ico-bullet"></span>Sótanos:</div>
+          <div class="col-xs-6 item-dato g-text-uppercase">{{ dataResumen.Hogar.NumeroSotanoPredio }}</div>
+        </li>
+        <li class="col-md-4 clearfix cnt-item h-myd-p--0">
+          <div class="col-xs-6 item-label"><span class="ico-mapfre_82_circle ico-bullet"></span>Material:</div>
+          <div class="col-xs-6 item-dato g-text-uppercase">{{ dataResumen.Hogar.NombreMaterialConstruccion }}</div>
+        </li>
+      </ul>
+
+      <div class="row h-myd-ml--0 h-myd-mr--0">
+        <div class="col-md-12 mb-xs-1">
+          <h2 class="gH4 gCGray1 g-border-bottom-xs g-myd-title"><b>Datos del contratante</b></h2>
+        </div>
+      </div>
+      <ul class="row h-myd-ml--0 h-myd-mr--0 g-list-md mb-xs-1">
+        <li class="col-md-4 clearfix cnt-item h-myd-p--0">
+          <div class="col-xs-6 item-label"><span class="ico-mapfre_82_circle ico-bullet"></span>Tipo de documento:</div>
+          <div class="col-xs-6 item-dato g-text-uppercase">{{ dataResumen.Contratante.TipoDocumento }}</div>
+        </li>
+        <li class="col-md-4 clearfix cnt-item h-myd-p--0">
+          <div class="col-xs-6 item-label"><span class="ico-mapfre_82_circle ico-bullet"></span>Nro. Documento:</div>
+          <div class="col-xs-6 item-dato g-text-uppercase">{{ dataResumen.Contratante.CodigoDocumento }}</div>
+        </li>
+      </ul>
+      <ul class="row h-myd-ml--0 h-myd-mr--0 g-list-md mb-xs-1">
+        <li class="col-md-4 clearfix cnt-item h-myd-p--0">
+          <div class="col-xs-6 item-label"><span class="ico-mapfre_82_circle ico-bullet"></span>Nombre:</div>
+          <div class="col-xs-6 item-dato g-text-uppercase">{{ dataResumen.Contratante.Nombre }}</div>
+        </li>
+        <li class="col-md-4 clearfix cnt-item h-myd-p--0" ng-show="dataResumen.Contratante.TipoDocumento == 'DNI'">
+          <div class="col-xs-6 item-label"><span class="ico-mapfre_82_circle ico-bullet"></span>Apellido paterno:</div>
+          <div class="col-xs-6 item-dato g-text-uppercase">{{ dataResumen.Contratante.ApellidoPaterno }}</div>
+        </li>
+        <li class="col-md-4 clearfix cnt-item h-myd-p--0" ng-show="dataResumen.Contratante.TipoDocumento == 'DNI'">
+          <div class="col-xs-6 item-label"><span class="ico-mapfre_82_circle ico-bullet"></span>Apellido materno:</div>
+          <div class="col-xs-6 item-dato g-text-uppercase">{{ dataResumen.Contratante.ApellidoMaterno }}</div>
+        </li>
+      </ul>
+      <ul
+        class="row h-myd-ml--0 h-myd-mr--0 g-list-md mb-xs-1"
+        ng-show="dataResumen.Contratante.TipoDocumento == 'DNI'"
+      >
+        <li class="col-md-4 clearfix cnt-item h-myd-p--0">
+          <div class="col-xs-6 item-label"><span class="ico-mapfre_82_circle ico-bullet"></span>Fecha Nacimiento:</div>
+          <div class="col-xs-6 item-dato g-text-uppercase">
+            {{ dataResumen.Contratante.FechaNacimiento }}
+          </div>
+        </li>
+        <li class="col-md-4 clearfix cnt-item h-myd-p--0">
+          <div class="col-xs-6 item-label"><span class="ico-mapfre_82_circle ico-bullet"></span>Género:</div>
+          <div class="col-xs-6 item-dato g-text-uppercase">
+            {{ dataResumen.Contratante.Sexo == 'H' ? 'Masculino' : 'Femenino' }}
+          </div>
+        </li>
+        <li class="col-md-4 clearfix cnt-item h-myd-p--0">
+          <div class="col-xs-6 item-label"><span class="ico-mapfre_82_circle ico-bullet"></span>Profesión:</div>
+          <div class="col-xs-6 item-dato g-text-uppercase">{{ dataResumen.Contratante.Profesion.Descripcion }}</div>
+        </li>
+      </ul>
+      <ul class="row h-myd-ml--0 h-myd-mr--0 g-list-md mb-xs-1">
+        <li class="col-md-4 clearfix cnt-item h-myd-p--0">
+          <div class="col-xs-6 item-label"><span class="ico-mapfre_82_circle ico-bullet"></span>Teléfono fijo:</div>
+          <div class="col-xs-6 item-dato g-text-uppercase">{{ dataResumen.Contratante.Telefono }}</div>
+        </li>
+        <li class="col-md-4 clearfix cnt-item h-myd-p--0">
+          <div class="col-xs-6 item-label"><span class="ico-mapfre_82_circle ico-bullet"></span>Teléfono móvil:</div>
+          <div class="col-xs-6 item-dato g-text-uppercase">{{ dataResumen.Contratante.Telefono2 }}</div>
+        </li>
+        <li class="col-md-4 clearfix cnt-item h-myd-p--0">
+          <div class="col-xs-6 item-label">
+            <span class="ico-mapfre_82_circle ico-bullet"></span>Correo electrónico:
+          </div>
+          <div class="col-xs-6 item-dato g-text-uppercase g-cut-text" popover-trigger="'mouseenter'">
+            {{ dataResumen.Contratante.CorreoElectronico }}
+          </div>
+        </li>
+      </ul>
+      <ul class="row h-myd-ml--0 h-myd-mr--0 g-list-md mb-xs-1">
+        <li class="col-md-4 clearfix cnt-item h-myd-p--0">
+          <div class="col-xs-6 item-label"><span class="ico-mapfre_82_circle ico-bullet"></span>Departamento:</div>
+          <div class="col-xs-6 item-dato g-text-uppercase">{{ dataResumen.Hogar.Ubigeo.NombreDepartamento }}</div>
+        </li>
+        <li class="col-md-4 clearfix cnt-item h-myd-p--0">
+          <div class="col-xs-6 item-label"><span class="ico-mapfre_82_circle ico-bullet"></span>Provincia:</div>
+          <div class="col-xs-6 item-dato g-text-uppercase">{{ dataResumen.Hogar.Ubigeo.NombreProvincia }}</div>
+        </li>
+        <li class="col-md-4 clearfix cnt-item h-myd-p--0">
+          <div class="col-xs-6 item-label"><span class="ico-mapfre_82_circle ico-bullet"></span>Distrito:</div>
+          <div class="col-xs-6 item-dato g-text-uppercase">{{ dataResumen.Hogar.Ubigeo.NombreDistrito }}</div>
+        </li>
+      </ul>
+      <ul class="row h-myd-ml--0 h-myd-mr--0 g-list-md mb-xs-1">
+        <li class="col-md-4 clearfix cnt-item h-myd-p--0">
+          <div class="col-xs-6 item-label"><span class="ico-mapfre_82_circle ico-bullet"></span>Vía:</div>
+          <div class="col-xs-6 item-dato g-text-uppercase">{{}}</div>
+        </li>
+        <li class="col-md-4 clearfix cnt-item h-myd-p--0">
+          <div class="col-xs-6 item-label"><span class="ico-mapfre_82_circle ico-bullet"></span>Enumeración:</div>
+          <div class="col-xs-6 item-dato g-text-uppercase">{{ dataResumen.Contratante.Ubigeo.TextoNumero }}</div>
+        </li>
+        <li class="col-md-4 clearfix cnt-item h-myd-p--0">
+          <div class="col-xs-6 item-label">
+            <span class="ico-mapfre_82_circle ico-bullet"></span>Enumeración interior:
+          </div>
+          <div class="col-xs-6 item-dato g-text-uppercase">{{ dataResumen.Contratante.Ubigeo.TextoInterior }}</div>
+        </li>
+      </ul>
+      <ul class="row h-myd-ml--0 h-myd-mr--0 g-list mb-xs-1 h-myd-border--bottom-1 h-myd-pb--10 h-myd-mb--20">
+        <li class="col-md-4 clearfix cnt-item h-myd-p--0">
+          <div class="col-xs-6 item-label"><span class="ico-mapfre_82_circle ico-bullet"></span>Zona:</div>
+          <div class="col-xs-6 item-dato g-text-uppercase">{{ dataResumen.Contratante.Ubigeo.TextoZona }}</div>
+        </li>
+        <li class="col-md-4 clearfix cnt-item h-myd-p--0">
+          <div class="col-xs-6 item-label"><span class="ico-mapfre_82_circle ico-bullet"></span>Referencia:</div>
+          <div class="col-xs-6 item-dato g-text-uppercase">{{ dataResumen.Contratante.Ubigeo.Referencia }}</div>
+        </li>
+      </ul>
+
+      <div class="row h-myd-ml--0 h-myd-mr--0">
+        <div class="col-md-12 mb-xs-1">
+          <h2 class="gH4 gCGray1 g-border-bottom-xs g-myd-title"><b>Datos del financiamiento</b></h2>
+        </div>
+      </div>
+      <ul class="row h-myd-ml--0 h-myd-mr--0 g-list mb-xs-1 h-myd-border--bottom-1 h-myd-pb--10 h-myd-mb--20">
+        <li class="col-md-4 clearfix cnt-item h-myd-p--0">
+          <div class="col-xs-6 item-label">
+            <span class="ico-mapfre_82_circle ico-bullet"></span>Tipo de financiamiento:
+          </div>
+          <div class="col-xs-6 item-dato g-text-uppercase">{{ dataResumen.PolizaB.CodigoFinanciamiento }}</div>
+        </li>
+        <li class="col-md-4 clearfix cnt-item h-myd-p--0">
+          <div class="col-xs-6 item-label"><span class="ico-mapfre_82_circle ico-bullet"></span>Endosatario:</div>
+          <div class="col-xs-6 item-dato g-text-uppercase">{{}}</div>
+        </li>
+      </ul>
+
+      <!-- Firma -->
+      <div ng-if="isMyDream && isMobile" class="row h-myd--show h-oim-none">
+        <signature-panel
+          label="emisión"
+          params-signature="{{ getParamsSignature(dataResumen.NumeroPoliza) }}"
+          params-pdf="{{ getParamsPdf(dataResumen.NumeroPoliza) }}"
+          document-number="{{ dataResumen.NumeroPoliza }}"
+          onEnd="onSignature($event)"
+        >
+        </signature-panel>
+      </div>
+      <!-- Button -->
+      <div class="clearfix h-myd-mt--20">
+        <div class="col-md-4 col-md-offset-2 mb-xs-2 mb-md-0">
+          <a class="g-btn g-btn-white block" ng-click="sendEmail()">Enviar por Correo</a>
+        </div>
+        <div ng-if="!isMobile" class="col-md-4 mb-xs-2 mb-md-0">
+          <a class="g-btn g-btn-white block" ng-click="downloadPDF()">Descargar</a>
+        </div>
+      </div>
+
+      <div class="row h-myd--show h-oim-none h-myd-ml--0 h-myd-mr--0">
+        <div class="col-md-12">
+          <div class="g-summary-box-radius g-myd-box h-myd-mt--20 g-myd-box--pay">
+            <div class="info">
+              <p>Pago de la Póliza</p>
+              <span>¿Deseas realizar el pago de la póliza en estos momentos?</span>
+            </div>
+            <a class="g-btn g-btn-white second-design" ng-click="goToPaymentGateway()">
+              PAGAR
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

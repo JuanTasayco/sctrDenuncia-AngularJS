@@ -1,0 +1,374 @@
+<form action="" id="avisoAgricolaForm" name="avisoAgricolaForm">
+
+  <div class="g-title">
+    <div class="container">
+
+      <!--Datos Campaña-->
+      <div class="row">
+
+        <div ng-show="!$ctrl.mEjecutivo">
+        <div class="clearfix g-box-md mb-md-2 gBgcGray5">
+          <div class="g-col-filter__box">
+            <div class="col-md-12">
+              <div class="row mt-md-1 mb-md-1-5">
+                <div class="col-md-3">
+                  <b>Campaña: {{ $ctrl.itemCampania.descripcion }}</b>
+                </div>
+                <div class="col-md-3">
+                    <div>
+                  <b>Región o departamento: {{ $ctrl.itemCampania.nomDepartamento }}</b>
+                </div>
+                </div>
+                <div class="col-md-3">
+                  <b>Póliza: {{ $ctrl.itemCampania.numPoliza }}</b>
+                </div>
+                <div class="col-md-3">
+                  <b>Vigencia: {{ $ctrl.itemCampania.fecIni }} - {{ $ctrl.itemCampania.fecFin }}</b>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <!--Datos generales-->
+        <div class="row">
+          <div class="col-md-12 atencionsiniestrosagricola-aviso__form">
+
+            <h3 class="pb-xs-12"><b>Datos generales</b></h3>
+            <!--
+          <span>Data Aviso {{ $ctrl.entidadAviso }} </span>
+          <span>Data listaSectorEstadistico {{ $ctrl.listaSectorEstadistico }} </span>          
+        -->
+            <div class="row">
+              <div class="col-md-3 mt-xs-2">
+                <mpf-select-placeholder label="{label: 'Cultivo', required: false}" m-Empty-Option="{enterData: true}"
+                  name="nCultivo" mpf-validation="required" text-field="descripcion" value-field="codigo"
+                  ng-model="$ctrl.entidadAviso.cultivo" m-data-source="$ctrl.listaCultivo"
+                  ng-change="$ctrl.selectCultivo();">
+                </mpf-select-placeholder>
+                <div class="g-error"
+                  data-ng-show="avisoAgricolaForm.nCultivo.$error.required && !avisoAgricolaForm.nCultivo.$pristine">*
+                  Seleccione cultivo
+                </div>
+              </div>
+              <div class="col-md-3 mt-xs-2">
+                  <mpf-select-placeholder label="{label: 'Provincia', required: false}"
+                    m-Empty-Option="{enterData: true}" name="nProvincia" mpf-validation="required"
+                    text-field="descripcion" value-field="codigo" ng-model="$ctrl.entidadAviso.provincia"
+                    m-data-source="$ctrl.listaProvincia" ng-change="$ctrl.selectDistrito();">
+                </mpf-select-placeholder>
+                <div class="g-error"
+                  data-ng-show="avisoAgricolaForm.nProvincia.$error.required && !avisoAgricolaForm.nProvincia.$pristine">
+                  * Seleccione provincia
+                </div>
+              </div>
+              <div class="col-md-3 mt-xs-2">
+                  <mpf-select-placeholder label="{label: 'Distrito', required: false}"
+                    m-Empty-Option="{enterData: true}" name="nDistrito" mpf-validation="required"
+                    text-field="descripcion" value-field="codigo" ng-model="$ctrl.entidadAviso.distrito"
+                    m-data-source="$ctrl.listaDistrito" ng-change="$ctrl.selectSectorEstadistico()">
+                </mpf-select-placeholder>
+                <div class="g-error"
+                    data-ng-show="avisoAgricolaForm.nDistrito.$error.required && !avisoAgricolaForm.nDistrito.$pristine">
+                    *
+                  Seleccione distrito
+                </div>
+              </div>
+              <div class="col-md-3 mt-xs-2">
+                <mpf-select-placeholder label="{label: 'Sector estadístico', required: false}"
+                  m-Empty-Option="{enterData: true}" name="nSectorEstadistico" mpf-validation="required"
+                  text-field="descripcion" value-field="codigo" ng-model="$ctrl.entidadAviso.sectorEstadistico"
+                  m-data-source="$ctrl.listaSectorEstadistico" ng-change="$ctrl.selectSuperficieAsegurada()">
+                </mpf-select-placeholder>
+                <div class="g-error"
+                  data-ng-show="avisoAgricolaForm.nSectorEstadistico.$error.required && !avisoAgricolaForm.nSectorEstadistico.$pristine">
+                  * Seleccione sector estadístico
+                </div>
+              </div>
+
+              <div class="col-md-12 mt-xs-2">
+                <span>Superficie asegurada</span>
+                <div><b> {{ $ctrl.entidadAviso.superficieAsegurada  }} </b></div>
+              </div>
+
+            </div>
+
+          </div>
+
+        </div>
+
+        </div>
+
+        <div ng-show="$ctrl.mEjecutivo">
+          <div class="clearfix g-box-md mb-md-2 gBgcGray5">
+            <div class="g-col-filter__box">
+              <div class="col-md-13">
+                <div class="row mt-md-1 mb-md-1-5">
+                  <div class="col-md-2">
+                  </div>
+                  <div class="col-md-3">
+                    <b>Campaña: {{ $ctrl.itemCampania.descripcion }}</b>
+                  </div>
+                  <div class="col-md-3">
+                    <b>Póliza: {{ $ctrl.itemCampania.numPoliza }}</b>
+                  </div>
+                  <div class="col-md-3">
+                    <b>Vigencia: {{ $ctrl.itemCampania.fecIni }} - {{ $ctrl.itemCampania.fecFin }}</b>
+                  </div>
+                  <div class="col-md-2">
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+          <!--Datos generales-->
+          <div class="row">
+            <div class="col-md-12 atencionsiniestrosagricola-aviso__form">
+
+              <h3 class="pb-xs-12"><b>Datos generales</b></h3>
+              <!--
+            <span>Data Aviso {{ $ctrl.entidadAviso }} </span>
+            <span>Data listaSectorEstadistico {{ $ctrl.listaSectorEstadistico }} </span>          
+          -->
+              <div class="row">
+                <div class="col-md-3 mt-xs-2">
+                  <mpf-select-placeholder label="{label: 'Departamento', required: false}"
+                    m-Empty-Option="{enterData: true}"  mpf-validation="required" name="nDepartamento"
+                    text-field="descripcion" value-field="codigo" ng-model="$ctrl.mDepartamento"
+                    m-data-source="$ctrl.listaDepartamentos" ng-change="$ctrl.selectDepartamento();">
+                  </mpf-select-placeholder>
+                  <div class="g-error"
+                    data-ng-show="avisoAgricolaForm.nDepartamento.$error.required && !avisoAgricolaForm.nDepartamento.$pristine">
+                    * Elija departamento
+                  </div>
+                </div>
+                <div class="col-md-3 mt-xs-2">
+                  <mpf-select-placeholder label="{label: 'Provincia', required: false}"
+                    m-Empty-Option="{enterData: true}" name="nProvincia" mpf-validation="required"
+                    text-field="descripcion" value-field="codigo" ng-model="$ctrl.entidadAviso.provincia"
+                    m-data-source="$ctrl.listaProvincia" ng-change="$ctrl.selectDistrito();">
+                  </mpf-select-placeholder>
+                  <div class="g-error"
+                    data-ng-show="avisoAgricolaForm.nProvincia.$error.required && !avisoAgricolaForm.nProvincia.$pristine">
+                    * Seleccione provincia
+                  </div>
+                </div>
+                <div class="col-md-3 mt-xs-2">
+                  <mpf-select-placeholder label="{label: 'Distrito', required: false}"
+                    m-Empty-Option="{enterData: true}" name="nDistrito" mpf-validation="required"
+                    text-field="descripcion" value-field="codigo" ng-model="$ctrl.entidadAviso.distrito"
+                    m-data-source="$ctrl.listaDistrito" ng-change="$ctrl.selectSectorEstadistico()">
+                  </mpf-select-placeholder>
+                  <div class="g-error"
+                    data-ng-show="avisoAgricolaForm.nDistrito.$error.required && !avisoAgricolaForm.nDistrito.$pristine">
+                    *
+                    Seleccione distrito
+                  </div>
+                </div>
+                <div class="col-md-3 mt-xs-2">
+                  <mpf-select-placeholder label="{label: 'Sector estadístico', required: false}"
+                    m-Empty-Option="{enterData: true}" name="nSectorEstadistico" mpf-validation="required"
+                    text-field="descripcion" value-field="codigo" ng-model="$ctrl.entidadAviso.sectorEstadistico"
+                    m-data-source="$ctrl.listaSectorEstadistico" ng-change="$ctrl.selectSuperficieAsegurada()">
+                  </mpf-select-placeholder>
+                  <div class="g-error"
+                    data-ng-show="avisoAgricolaForm.nSectorEstadistico.$error.required && !avisoAgricolaForm.nSectorEstadistico.$pristine">
+                    * Seleccione sector estadístico
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+
+                  <div class="col-md-3 mt-xs-2">
+                    <mpf-select-placeholder label="{label: 'Cultivo', required: false}"
+                      m-Empty-Option="{enterData: true}" name="nCultivo" mpf-validation="required"
+                      text-field="descripcion" value-field="codigo" ng-model="$ctrl.entidadAviso.cultivo"
+                      m-data-source="$ctrl.listaCultivo" ng-change="$ctrl.selectCultivo();">
+                    </mpf-select-placeholder>
+                    <div class="g-error"
+                      data-ng-show="avisoAgricolaForm.nCultivo.$error.required && !avisoAgricolaForm.nCultivo.$pristine">
+                      *
+                      Seleccione cultivo
+                    </div>
+                  </div>
+                  <div class="col-md-3 mt-xs-2 mg-top-50">
+                    <span>Superficie asegurada</span>
+                    <div><b> {{ $ctrl.entidadAviso.superficieAsegurada  }} </b></div>
+                  
+                </div>
+
+
+            </div>
+            </div>
+
+          </div>
+
+        </div>
+
+        <!--Datos del siniestro-->
+        <div class="row mt-md-2">
+          <div class="col-md-12 atencionsiniestrosagricola-aviso__form">
+
+            <h3 class="pb-xs-12"><b>Datos del siniestro</b></h3>
+            <div class="row">
+              <div class="col-md-3 mt-xs-2">
+                <mpf-select-placeholder label="{label: 'Tipo de siniestro', required: false}"
+                  m-Empty-Option="{enterData: true}" name="nTipoSiniestro" mpf-validation="required"
+                  text-field="descripcion" value-field="codigo" ng-model="$ctrl.entidadAviso.tipoSiniestro"
+                  m-data-source="$ctrl.listaTipoSiniestro">
+                </mpf-select-placeholder>
+                <div class="g-error"
+                  data-ng-show="avisoAgricolaForm.nTipoSiniestro.$error.required && !avisoAgricolaForm.nTipoSiniestro.$pristine">
+                  * Seleccione un tipo de siniestro
+                </div>
+              </div>
+              <div class="col-md-3 mt-xs-2">
+                <mpf-datepicker data-format="'dd/MM/yyyy'" data-ng-model="$ctrl.entidadAviso.fechaSiniestro"
+                  data-ng-required="true" label="{label: 'Fecha de siniestro', required: false}" name="nFechaSiniestro"
+                  data-maxDate="maxDateFecActual" nomargin="true">
+                </mpf-datepicker>
+                <div class="g-error"
+                  data-ng-show="avisoAgricolaForm.nFechaSiniestro.$error.required && !avisoAgricolaForm.nFechaSiniestro.$pristine">
+                  * Seleccione fecha de siniestro
+                </div>
+              </div>
+              <div class="col-md-3 mt-xs-2">
+                <m-Numeric-Textbox ng-model="$ctrl.entidadAviso.superficieSiembraEstimada"
+                  label="{label: 'Superficie de siembra estimada', required: false}" ng-required="true"
+                  name="nSuperficieSiembraEstimada">
+                </m-Numeric-Textbox>
+                <div class="g-error"
+                  data-ng-show="avisoAgricolaForm.nSuperficieSiembraEstimada.$error.required && !avisoAgricolaForm.nSuperficieSiembraEstimada.$pristine">
+                  * Ingrese superficie de siembra estimada
+                </div>
+              </div>
+              <div class="col-md-3 mt-xs-2">
+                <mpf-select-placeholder label="{label: 'Fecha de siembra', required: false}"
+                  m-Empty-Option="{enterData: true}" name="nFechaSiembra" mpf-validation="required"
+                  text-field="descripcion" value-field="codigo" ng-model="$ctrl.entidadAviso.fechaSiembra"
+                  m-data-source="$ctrl.listaFechaSiembra">
+                </mpf-select-placeholder>
+                <div class="g-error"
+                  data-ng-show="avisoAgricolaForm.nFechaSiembra.$error.required && !avisoAgricolaForm.nFechaSiembra.$pristine">
+                  * Seleccione fecha de siembra
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-md-3 mt-xs-2">
+                <mpf-datepicker data-format="'dd/MM/yyyy'" data-ng-model="$ctrl.entidadAviso.fechaCosecha"
+                  data-ng-required="true" label="{label: 'Fecha estimada de cosecha', required: false}"
+                  name="nFechaCosecha" nomargin="true">
+                </mpf-datepicker>
+                <div class="g-error"
+                  data-ng-show="avisoAgricolaForm.nFechaCosecha.$error.required && !avisoAgricolaForm.nFechaCosecha.$pristine">
+                  * Seleccione fecha estimada de cosecha
+                </div>
+              </div>
+              <div class="col-md-3 mt-xs-2">
+                <mpf-select-placeholder label="{label: 'Estado fenológico', required: false}"
+                  m-Empty-Option="{enterData: true}" name="nEstadoFenologico" mpf-validation="required"
+                  text-field="descripcion" value-field="codigo" ng-model="$ctrl.entidadAviso.estadoFenologico"
+                  m-data-source="$ctrl.listaEstadoFenologico">
+                </mpf-select-placeholder>
+                <div class="g-error"
+                  data-ng-show="avisoAgricolaForm.nEstadoFenologico.$error.required && !avisoAgricolaForm.nEstadoFenologico.$pristine">
+                  * Seleccione un estado fenológico
+                </div>
+              </div>
+              <div class="col-md-3 mt-xs-2">
+                <m-Numeric-Textbox ng-model="$ctrl.entidadAviso.superficieAfectadaParcial"
+                  label="{label: 'Pérdida parcial', required: false}" ng-required="true"
+                  name="nSuperficieAfectadaParcial" ng-change="$ctrl.calcularTipoPerdida()">
+                </m-Numeric-Textbox>
+                <div class="g-error"
+                  data-ng-show="avisoAgricolaForm.nSuperficieAfectadaParcial.$error.required && !avisoAgricolaForm.nSuperficieAfectadaParcial.$pristine">
+                  * Ingrese pérdida parcial
+                </div>
+              </div>
+              <div class="col-md-3 mt-xs-2">
+                <m-Numeric-Textbox ng-model="$ctrl.entidadAviso.superficiePerdidaTotal"
+                  label="{label: 'Pérdida total',  required: false}" ng-required="true" name="nSuperficiePerdidaTotal"
+                  ng-change="$ctrl.calcularTipoPerdida()">
+                </m-Numeric-Textbox>
+                <div class="g-error"
+                  data-ng-show="avisoAgricolaForm.nSuperficiePerdidaTotal.$error.required && !avisoAgricolaForm.nSuperficiePerdidaTotal.$pristine">
+                  * Ingrese pérdida total
+                </div>
+              </div>
+              <div class="col-md-12 mt-xs-2">
+                <span>Tipo de pérdida</span>
+                <div><b> {{ $ctrl.entidadAviso.desTipoPerdida  }} </b></div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <!--Datos del contacto-->
+        <div class="row mt-md-2">
+          <div class="col-md-12 atencionsiniestrosagricola-aviso__form">
+            <h3 class="pb-xs-12"><b>Datos del contacto</b></h3>
+            <div class="row">
+              <div class="col-md-3 mt-xs-2">
+                <div class="col-sm-12 agr-filtros__combo-modal"> 
+                  <div class="g-input-design" style="width: 85%; display: inline-block; ">
+                    <label class="g-lbl-int" ng-show="!$ctrl.entidadAviso.contacto">Nombre</label>
+                    <input type="text" ng-model="$ctrl.entidadAviso.contacto" ng-required="true" ng-keydown="pressedKey($event)"
+                      uib-typeahead="contacto as contacto.nombre for contacto in buscarContacto($viewValue)"
+                      ng-change="completarContacto($ctrl.entidadAviso.contacto)" name="nNombre" placeholder=""
+                      typeahead-min-length="3">
+                  </div>
+                  <a ng-show="mMostrarLimpiarContacto" ng-click="limpiarContacto()"
+                    style="width: 20px;cursor: pointer;height: 35px;font-size: 21px;font-weight: 700;color: #888383;">X</a>
+                <div class="g-error"
+                  data-ng-show="avisoAgricolaForm.nNombre.$error.required && !avisoAgricolaForm.nNombre.$pristine">*
+                    Ingrese nombres 
+                </div>
+                </div>
+              </div>
+              <div class="col-md-3 mt-xs-2">
+                <mpf-input ng-model="$ctrl.entidadAviso.telefonoContacto"
+                  label="{label: 'Teléfono celular', required: false}" mpf-validation="onlyNumberNoSpace"
+                  ng-minlength="7" ng-maxlength="9" ng-required="true" name="nCelular">
+                </mpf-input>
+                <div class="g-error"
+                  data-ng-show="avisoAgricolaForm.nCelular.$error.required && !avisoAgricolaForm.nCelular.$pristine">*
+                  Ingrese teléfono celular
+                </div>
+              </div>
+              <div class="col-md-3 mt-xs-2">
+                <mpf-input label="{label: 'Email', required: false}" ng-model="$ctrl.entidadAviso.CorreoContacto"
+                  mpf-validation="email" ng-model-options="{allowInvalid: true}" ng-minlength="8" ng-maxlength="50"
+                  ng-required="true" name="nCorreo" data-mpf-validation="email">
+                </mpf-input>
+                <div class="g-error"
+                  data-ng-show="avisoAgricolaForm.nCorreo.$invalid && !avisoAgricolaForm.nCorreo.$pristine">* Email
+                  incorrecto
+                </div>
+              </div>
+              <div class="col-md-3 mt-xs-2">
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <!--Boton guardar-->
+
+        <div class="row g-row" style="margin-top: 30px;">
+          <div class="col-md-10">
+          </div>
+          <div class="col-md-2">
+            <a class="g-btn second-design g-btn-verde block" ng-click="$ctrl.crearAviso()">GUARDAR AVISO</a>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+</form>

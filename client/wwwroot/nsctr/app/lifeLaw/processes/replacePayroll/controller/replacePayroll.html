@@ -1,0 +1,110 @@
+
+<section class="g-page pageReplacePayRoll lifeLaw">
+
+	<div class="g-title">
+		<div class="container">
+			<div class="row g-row">
+				<div class="col-md-8 g-col-md middle col-sm-11 col-xs-10">
+					<h1>Reemplazar Planilla</h1>
+				</div>
+				<div class="col-md-4 g-col-md middle g-text-right-md hidden-sm hidden-xs">
+					<a
+						href="javascript:void(0)"
+						ng-click="fnGoProofs()">
+						<span class="g-icon gCGray3">
+							<span class="icon ico-mapfre_310_arrowLeft"></span>
+							<span class="g-link"><b>Volver a Constancias</b></span>
+						</span>
+					</a>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<nsctr-client-information
+		data="data.STATE_PARAMS">
+	</nsctr-client-information>
+
+	<div class="g-section-inner no-border-top">
+		<nsctr-type-load
+			data="data"
+			with-number-workers="true">
+		</nsctr-type-load>
+	</div>
+	<div class="g-section">
+		<div class="container">
+			<div class="row">
+				<div class="col-md-4 col-sm-6 col-md-offset-4 col-sm-offset-3">
+					<a
+						class="g-btn g-btn-verde block"
+						ng-click="fnShowPayroll()">
+						Mostrar Planilla
+					</a>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div
+		id="iPayrollList"
+		class="g-section-inner"
+		ng-if="data.payrollList.allList.length > 0">
+
+		<div class="container">
+			<nsctr-workers-list  trabajadores="data.payrollList.list" risk="data.riskInsuredList"></nsctr-workers-list>
+			<div
+				class="row"
+				ng-if="data.payrollList.showPagination">
+				<div class="col-md-12">
+					<ul
+						uib-pagination
+						class="g-pagination"
+						ng-model="data.mPagination.currentPage"
+						max-size="data.mPagination.maxSize"
+						total-items="data.mPagination.totalItems"
+						ng-change="fnChangePage()"
+						boundary-link-numbers="true">
+					</ul>
+				</div>
+			</div>
+
+			<div class="row pt-xs-3">
+				<div class="col-md-4 col-sm-6 col-md-offset-4 col-sm-offset-3">
+					<a
+						href="javascript:void(0)"
+						class="g-btn g-btn-verde block"
+						ng-click="fnReplacePayroll()">
+						Reemplazar planilla
+					</a>
+				</div>
+			</div>
+		</div>
+	</div>
+
+</section>
+
+
+
+<script type="text/ng-template" id="tplEmployeeInPayrollList.html">
+	<div class="container">
+		<div class="row">
+			<div class="col-sm-8 col-ms-8 col-sm-offset-2 col-ms-offset-2 mt-xs-2">
+				<div class="clearfix g-box g-overflow-hidden-xs">
+					<ul class="clearfix g-list gBgcGray5 pt-xs-1">
+						<li class="col-md-12 clearfix cnt-item">
+							<b>Tipo / Nro. Documento</b>
+						</li>
+					</ul>
+					<div class="col-md-12 cnt-content g-list gnContentAuto-ms">
+						<div class="clearfix mt-xs-1" ng-class="{'g-border-bottom-xs' : !$last}" ng-repeat="itemList in employeeInPayrollList.list">
+							<ul class="row">
+								<li class="col-md-12 cnt-item item-dato g-text-uppercase">
+									{{itemList}}
+								</li>
+							</ul>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</script>

@@ -1,0 +1,73 @@
+<section class="g-page page-home">
+
+
+  <div class="g-title">
+    <div class="container">
+      <div class="row g-row">
+        <div class="col-md-8 g-col-md middle">
+          <h1>Home</h1>
+        </div>
+        <div
+          class="col-md-4 col-sm-6 g-col-md middle mt-xs-1 no-mt-md"
+          ng-if="intranetPermissions.access">
+          <a
+            rel="noopener noreferrer"
+            href="http://mac.mapfre.com.pe"
+            target="_blank"
+            class="g-btn g-btn-verde second-design block">
+            MAC: Autoservicio del Colaborador
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <div class="g-sec-menu" ng-class="{'second-design': secondDesign}">
+    <div  class="container">
+      <ul class="clearfix grid-menu mt-xs-1">
+
+        <li class="col-sm-4 col-xs-12" ng-repeat="item in menu">
+          <a class="row cnt-link" ng-click="goApplication(item)">
+            <span class="cnt-ico" ng-class="item.icon"></span>
+            <div class="cnt-label">{{item.description}}</div>
+          </a>
+        </li>
+
+      </ul>
+    </div>
+  </div>
+
+
+  <div class="sec-more-functionalities">
+    <div  class="container">
+
+      <div class="row">
+        <div class="col-md-12">
+          <div class="row mb-xs-4">
+            <div class="col-sm-6 col-sm-offset-3">
+              <div class="search-design">
+                <mpf-input label="{label: 'Buscar otras funcionalidades', required: false}" name="nBuscarFunciones" ng-model="mBuscarFunciones"></mpf-input>
+                <span class="ico-mapfre_30_buscar ico-search"></span>
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-sm-4" ng-repeat="functionality in moreFunctionalities|filter:mBuscarFunciones">
+              <div class="cnt-link">
+                <a href="{{functionality.href}}"
+                  ng-click="goApplication(functionality, $event)">
+                  {{functionality.name}}
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+
+</section>

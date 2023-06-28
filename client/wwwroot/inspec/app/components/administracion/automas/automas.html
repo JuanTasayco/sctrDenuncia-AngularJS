@@ -1,0 +1,171 @@
+<section class="g-page page-inspeccion-autos page-inspeccion-autos__programaciones g-ui-view">
+  <div fixed-section class="g-title" ng-class="{'fixed-section': boolChangeClass}">
+    <div class="container">
+      <div class="row">
+        <div class="col-xs-10 col-sm-5 col-md-9 no-mb-sm">
+          <h1>Automás</h1>
+        </div>
+        <div class="col-md-3 col-xs-12 mt-xs-1 mt-md-0">
+          <a href="" class="g-btn g-btn-verde second-design block" ng-click="$ctrl.loadData()">CARGA MASIVA</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="g-section-inner">
+    <div class="container">
+      <div class="row">
+        <!-- Top bar: Filtro e iconos -->
+        <div class="col-md-12">
+          <div tbl-oim-topbar class="clearfix g-tbl-topbar mt-md-2 mb-md-2">
+            <div class="g-row-icons__box visible-xs visible-sm">
+              <a ng-click="showFilterTopbar = !showFilterTopbar" uib-popover="Filtro" popover-trigger="'mouseenter'">
+                <span class="ico-mapfre ico-mapfre_203_filtro ico-filter h-myd--none"></span>
+                <span class="ico-mapfre ico-mapfre-369-myd-filter ico-filter h-myd--show h-oim-none"></span>
+              </a>
+            </div>
+            <div class="g-row-filter__box height-xs height-sm pull-right" ng-class="{'filter__show': showFilterTopbar}">
+              <form class="clearfix">
+                <div class="g-filter-col h-myd-mb--10">
+                  <mpf-select-horz
+                    label="{label: 'Marca', required: false}"
+                    m-Empty-Option="{text:'TODOS'}"
+                    name="nMarca"
+                    m-data-source="$ctrl.brands"
+                    ng-model="$ctrl.query.mMarca"
+                    text-field="brand"
+                    value-field="brandId"
+                    ng-change="$ctrl.getModel()"
+                  ></mpf-select-horz>
+                </div>
+                <div class="g-filter-col h-myd-mb--10">
+                  <mpf-select-horz
+                    label="{label: 'Modelo', required: false}"
+                    m-Empty-Option="{text:'TODOS'}"
+                    name="nModelo"
+                    m-data-source="$ctrl.models"
+                    ng-model="$ctrl.query.mModelo"
+                    text-field="model"
+                    value-field="modelId"
+                    ng-change="$ctrl.filter()"
+                  ></mpf-select-horz>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+
+        <!-- Resultados -->
+        <div class="col-md-12 mb-xs-2">
+          <!-- Mensaje de error si no hay resultados -->
+          <div class="row">
+            <inspec-empty-data
+              data-length="$ctrl.automas.length"
+              first-query-completed="$ctrl.firstQueryCompleted"
+            ></inspec-empty-data>
+          </div>
+
+          <div
+            class="clearfix g-box g-overflow-hidden-xs mb-xs-2 ng-scope tag-programaciones"
+            ng-repeat="automas in $ctrl.automas"
+          >
+            <!-- header -->
+            <div class="row pt-xs-1 gBgcGray5">
+              <ul class="clearfix g-list-sm">
+                <li class="col-xs-6 col-md-3 clearfix cnt-item">
+                  <div class="col-sm-12 col-md-4 item-label">Marca:</div>
+                  <div class="col-sm-12 col-md-8 item-dato g-text-uppercase">{{ automas.brand }}</div>
+                </li>
+                <li class="col-xs-6 col-md-3 clearfix cnt-item">
+                  <div class="col-sm-12 col-md-4 item-label">Modelo:</div>
+                  <div class="col-sm-12 col-md-8 item-dato g-text-uppercase">{{ automas.model }}</div>
+                </li>
+
+                <li class="col-xs-12 col-md-6 clearfix mb-xs-1">
+                  <ul class="g-text-center-xs clearfix">
+                    <li class="col-md-5 col-md-offset-7">
+                      <a class="g-btn g-btn-white block second-design" ng-click="$ctrl.showModal(automas)"
+                        >ver más&nbsp;<span class="icon ico-mapfre_311_arrowRight"></span
+                      ></a>
+                    </li>
+                  </ul>
+                </li>
+              </ul>
+            </div>
+            <!-- content -->
+            <div class="row g-box-content">
+              <ul height-row class="clearfix g-list second-design">
+                <li class="col-xs-12 col-md-3 clearfix cnt-item">
+                  <div class="col-xs-6 col-sm-4 item-label">Carroc.:</div>
+                  <div class="col-xs-6 col-sm-8 item-dato">{{ automas.chassis || '-' }}</div>
+                </li>
+                <li class="col-xs-12 col-md-3 clearfix cnt-item">
+                  <div class="col-xs-6 col-sm-4 item-label">Puertas:</div>
+                  <div class="col-xs-6 col-sm-8 item-dato">{{ automas.doors || '-' }}</div>
+                </li>
+                <li class="col-xs-12 col-md-3 clearfix cnt-item">
+                  <div class="col-xs-6 col-sm-4 item-label">Asientos:</div>
+                  <div class="col-xs-6 col-sm-8 item-dato">{{ automas.seats || '-' }}</div>
+                </li>
+                <li class="col-xs-12 col-md-3 clearfix cnt-item">
+                  <div class="col-xs-6 col-sm-4 item-label">Tracción:</div>
+                  <div class="col-xs-6 col-sm-8 item-dato">{{ automas.wheelDrive || '-' }}</div>
+                </li>
+                <li class="col-xs-12 col-md-3 clearfix cnt-item">
+                  <div class="col-xs-6 col-sm-4 item-label">Desplaz.:</div>
+                  <div class="col-xs-6 col-sm-8 item-dato">{{ automas.displacement || '-' }}</div>
+                </li>
+                <li class="col-xs-12 col-md-3 clearfix cnt-item">
+                  <div class="col-xs-6 col-sm-4 item-label">Potencia:</div>
+                  <div class="col-xs-6 col-sm-8 item-dato">{{ automas.horsePower || '-' }}</div>
+                </li>
+                <li class="col-xs-12 col-md-3 clearfix cnt-item">
+                  <div class="col-xs-6 col-sm-4 item-label">TM:</div>
+                  <div class="col-xs-6 col-sm-8 item-dato">{{ automas.tm || '-' }}</div>
+                </li>
+                <li class="col-xs-12 col-md-3 clearfix cnt-item">
+                  <div class="col-xs-6 col-sm-4 item-label">TA:</div>
+                  <div class="col-xs-6 col-sm-8 item-dato">{{ automas.ta || '-' }}</div>
+                </li>
+                <li class="col-xs-12 col-md-3 clearfix cnt-item">
+                  <div class="col-xs-6 col-sm-4 item-label">Peso:</div>
+                  <div class="col-xs-6 col-sm-8 item-dato">{{ automas.weight || '-' }}</div>
+                </li>
+                <li class="col-xs-12 col-md-3 clearfix cnt-item">
+                  <div class="col-xs-6 col-sm-4 item-label">Carb.:</div>
+                  <div class="col-xs-6 col-sm-8 item-dato">{{ automas.gas || '-' }}</div>
+                </li>
+                <li class="col-xs-12 col-md-3 clearfix cnt-item">
+                  <div class="col-xs-6 col-sm-4 item-label">Lanz.:</div>
+                  <div class="col-xs-6 col-sm-8 item-dato">{{ automas.releaseYear || '-' }}</div>
+                </li>
+                <li class="col-xs-12 col-md-3 clearfix cnt-item">
+                  <div class="col-xs-6 col-sm-4 item-label">Vig.:</div>
+                  <div class="col-xs-6 col-sm-8 item-dato">{{ automas.vigencyYear || '-' }}</div>
+                </li>
+                <li class="col-xs-12 col-md-3 clearfix cnt-item">
+                  <div class="col-xs-6 col-sm-4 item-label">VRN:</div>
+                  <div class="col-xs-6 col-sm-8 item-dato">{{ automas.nominalValue || '-' }}</div>
+                </li>
+              </ul>
+            </div>
+          </div>
+          <!-- Fin: Resultados -->
+        </div>
+        <div class="clearfix" ng-if="$ctrl.pagination.totalRecords > $ctrl.pagination.maxSize && !$ctrl.noResult">
+          <div class="col-md-12">
+            <ul
+              uib-pagination
+              class="g-pagination"
+              ng-model="$ctrl.pagination.currentPage"
+              max-size="$ctrl.pagination.maxSize"
+              total-items="$ctrl.pagination.totalRecords"
+              ng-change="$ctrl.pageChanged()"
+              boundary-link-numbers="true"
+            ></ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

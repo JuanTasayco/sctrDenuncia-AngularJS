@@ -1,0 +1,60 @@
+<form name="frmFiltrosTasasAjustes">
+    <div show-filter class="clearfix g-col-filter g-box-md fz14 gBgcGray5-md gBgcWhite1" ng-class="{'show': isFilterVisible}">
+      <div class="col-md-12 mb-xs-3 gH4 gCGray1">
+        <h2 class="pb-xs-1 g-border-bottom-xs hidden-xs hidden-sm"><b>Opciones de Búsqueda</b></h2>
+        <div id="show-filter" class="row pt-xs-2 pb-xs-2 gBgcGray5 g-border-bottom-xs hidden-md hidden-lg" ng-click="toggleFilter();">
+          <div class="col-xs-10"><h2><b>Opciones de Búsqueda</b></h2></div>
+          <div class="col-xs-2 g-text-right-xs">
+            <span class="glyphicon glyphicon-chevron-down" ng-if="isFilterVisible"></span>
+            <span class="glyphicon glyphicon-chevron-up" ng-if="!isFilterVisible"></span>
+          </div>
+          <div class="clearfix"></div>
+        </div>
+      </div>
+      <div class="g-col-filter__box">
+        <div class="col-md-12 mb-xs-2">
+          <h2 class="hidden-xs hidden-sm"><b>Buscar por:</b></h2>
+        </div>
+        <div class="col-md-12 mb-xs-2">
+          <mpf-select
+            label="{label: 'Clase', required: false}"
+            name="nClase"
+            ng-model="vm.filtros.clase"
+            m-data-source="vm.clases"
+            text-field="descripcionClase"
+            value-field="descripcionClase"
+            m-Empty-Option="{enterData:true}"
+            ng-required="false"></mpf-select>
+
+          <ul class="g-error">
+            <li ng-show="frmFiltrosTasasAjustes.nTipoContrato.$invalid && !frmFiltrosTasasAjustes.nTipoContrato.$pristine">* Seleccione una clase</li>
+          </ul>
+        </div>
+        <div class="col-md-12 mb-xs-2">
+          <mpf-select
+            label="{label: 'Contrato/subcontrato', required: false}"
+            name="nTipoContrato"
+            ng-model="vm.filtros.contrato"
+            m-data-source="vm.contratos"
+            text-field="NombreProducto"
+            value-field="NumeroSubContrato"
+            m-Empty-Option="{enterData: true}" ng-required="false"></mpf-select>
+
+          <ul class="g-error">
+            <li ng-show="frmFiltrosTasasAjustes.nTipoSubContrato.$invalid && !frmFiltrosTasasAjustes.nTipoSubContrato.$pristine">* Seleccione un contrato / subcontrato</li>
+          </ul>
+        </div>
+        <div class="col-md-12 mb-xs-1">
+          <a
+            class="g-btn g-btn-verde block"
+            ng-click="vm.buscarTasas(); toggleFilter()">BUSCAR</a>
+        </div>
+        <div class="col-md-12">
+          <a
+            class="g-btn g-btn-white block"
+            ng-click="vm.limpiarFiltros(); toggleFilter();">Limpiar</a>
+        </div>
+      </div>
+    </div>
+</form>
+  

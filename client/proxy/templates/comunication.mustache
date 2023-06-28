@@ -1,0 +1,37 @@
+/* eslint-disable */
+(function($root, deps, action){
+    define(deps, action)
+})(this, ['angular', 'constants'], function(angular, constants){
+    var module = angular.module("{{moduleName}}", ['oim.wrap.gaia.httpSrv']);
+    module.constant('{{constantsName}}', {
+        endpoint: constants.system.api.endpoints['{{endpointName}}'],
+    {{#controllers}}
+        controller{{name}}: {
+            actions : {
+                {{#actions}}
+                'method{{methodName}}':{
+                    name:  '{{methodName}}',
+                    path: '{{{path}}}'
+                },
+                {{/actions}}
+            }
+        }{{#comma}},{{/comma}}
+    {{/controllers}}
+    })
+    {{#controllers}}
+
+
+
+     module.factory("proxy{{name}}", ['{{constantsName}}', 'httpData', function({{constantsName}}, httpData){
+        return {
+            {{#actions}}
+                '{{methodName}}' : function({{#parameters}}{{name}}{{#comma}}, {{/comma}}{{/parameters}}{{#wasParameter}},{{/wasParameter}} showSpin){
+                    return httpData['{{httpMethod}}']({{constantsName}}.endpoint + {{^wasQueryParameter}}'{{{path}}}'{{/wasQueryParameter}}{{#wasQueryParameter}}helper.formatNamed('{{{path}}}',
+                                                    { {{#queryParameters}}'{{name}}':{{^isOptional}}{{name}}{{/isOptional}} {{#isOptional}} { value: {{name}}, defaultValue:'{{defaultValue}}'{{#allowSeveralValues}}, allowMultiple:true {{/allowSeveralValues}}{{#isoData}}, isQuery: true{{/isoData}} }{{/isOptional}} {{^_comma}},{{/_comma}}{{/queryParameters}} }){{/wasQueryParameter}},
+                                         {{^wasBodyParameters}}undefined{{/wasBodyParameters}}{{#bodyParameters}}{{name}}{{^_comma}},{{/_comma}}{{/bodyParameters}}, undefined, showSpin)
+                }{{#comma}},{{/comma}}
+            {{/actions}}
+        };
+     }]);
+     {{/controllers}}
+});

@@ -1,0 +1,204 @@
+<!-- Primera vista - Crear Aplicaciones -->
+<div ng-show="!showMessage" ng-form="frmCreateApplication">
+  <div class="row">
+    <div class="col-xs-12 form-group clearfix">
+      <div class="row view-1 mb-md-4 mt-md-2 h-myd-mb--20 h-myd-ph--20">
+        <div class="col-xs-12 col-sm-4 mt-xs-2 mt-sm-0">
+          <mpf-input
+            label="{label: 'Código'}"
+            name="nCodigo"
+            ng-model="application.applicationCode"
+            ng-required="true"
+            mpf-validation="alfanumerico"
+            ng-maxlength="20">
+          </mpf-input>
+          <ul class="g-error">
+            <li ng-show="frmCreateApplication.nCodigo.$error.required && !frmCreateApplication.nCodigo.$pristine">* Este
+              campo es obligatorio</li>
+            <li ng-show="!validateMinLength(application.applicationCode, 2) && !frmCreateApplication.nCodigo.$pristine">
+              * Mínimo de 2 carácteres</li>
+          </ul>
+        </div>
+        <div class="col-xs-12 col-sm-4 mt-xs-2 mt-sm-0">
+          <mpf-input
+            label="{label: 'Nombre largo'}"
+            name="nNombreL"
+            ng-model="application.longName"
+            ng-required="true"
+            mpf-validation="onlyLetterNumberGuion"
+            ng-maxlength="150">
+          </mpf-input>
+          <ul class="g-error">
+            <li ng-show="frmCreateApplication.nNombreL.$error.required && !frmCreateApplication.nNombreL.$pristine">*
+              Este campo es obligatorio</li>
+            <li ng-show="!validateMinLength(application.longName, 2) && !frmCreateApplication.nNombreL.$pristine">*
+              Mínimo de 2 carácteres</li>
+          </ul>
+        </div>
+        <div class="col-xs-12 col-sm-4 mt-xs-2 mt-sm-0">
+            <mpf-input
+              label="{label: 'Nombre corto'}"
+              name="nNombreC"
+              ng-model="application.shortName"
+              ng-required="false"
+              mpf-validation="onlyLetterNumberGuion"
+              ng-maxlength="50">
+            </mpf-input>
+          </div>
+      </div>
+      <div class="row view-1 mt-md-2 h-myd-mb--20 h-myd-ph--20">
+        <div class="col-xs-12 col-sm-4 mt-xs-2 mt-sm-0">
+          <mpf-input
+            label="{label: 'Ruta de Acceso'}"
+            name="nRutaA"
+            ng-model="application.url"
+            ng-required="true"
+            ng-maxlength="200">
+          </mpf-input>
+          <ul class="g-error">
+            <li ng-show="frmCreateApplication.nRutaA.$error.required && !frmCreateApplication.nRutaA.$pristine">* Este
+              campo es obligatorio</li>
+          </ul>
+        </div>
+        <div class="col-xs-12 col-sm-4 mt-xs-2 mt-sm-0">
+            <mpf-input
+            label="{label: 'Descripción'}"
+            name="description"
+            ng-model="application.description"
+            ng-required="false"
+            ng-maxlength="50">
+          </mpf-input>
+        </div>
+        <div class="col-xs-12 col-sm-4 mt-xs-2 mt-sm-0">
+          <mpf-input
+            label="{label: 'Página por defecto'}"
+            name="nPaginaD"
+            ng-model="application.defaultPage"
+            ng-required="false"
+            ng-maxlength="100">
+          </mpf-input>
+        </div>
+      </div>
+      <div class="row view-1 mb-xs-4 h-myd-mb--20 h-myd-ph--20">
+        <div class="col-xs-6 col-sm-2 cont-checkbox">
+          <div class="content-outer">
+            <div class="content-inner">
+              <mpf-checkbox
+                name="nCheckWebMovil"
+                ng-model="application.tipMobApl"
+                label="Web Móvil">
+              </mpf-checkbox>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row view-1 mb-xs-4">
+    <div class="col-md-12">
+      <div class="g-list-md g-box pt-xs-2 pb-xs-2 pl-xs-2 pr-xs-2 mb-xs-1">
+        <div class="row">
+          <div class="col-xs-12 mb-xs-2">
+            <h3 class="g-myd-subtitle gH4 gCGray1"><b>Redirección</b></h3>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-xs-12 col-sm-4 mb-xs-4">
+            <mpf-input
+              class="g-input-design--transform-initial"
+              label="{label: 'Página por defecto', required: createS1.reqDefaultPage}"
+              name="redirectUrl"
+              ng-model="application.redirectUrl"
+              ng-required="createS1.reqDefaultPage"
+              ng-maxlength="100">
+            </mpf-input>
+            <ul class="g-error">
+              <li ng-show="frmCreateApplication.redirectUrl.$error.required
+                            && !frmCreateApplication.redirectUrl.$pristine">* Este campo es obligatorio</li>
+            </ul>
+          </div>
+          <div class="col-xs-12 col-sm-4 mb-xs-4">
+            <mpf-select
+              label="{label: 'Sistema por defecto ', required: createS1.reqDefaultSystem}"
+              name="systemId"
+              ng-model="systemId"
+              m-data-source="systemList"
+              text-field="descripcion"
+              value-field="codigo"
+              m-Empty-Option="{enterData:true}"
+              ng-required="createS1.reqDefaultSystem"
+              ng-change="updateSystemId(systemId)">
+            </mpf-select>
+            <ul class="g-error">
+              <li ng-show="frmCreateApplication.systemId.$error.required
+                            && !frmCreateApplication.systemId.$pristine">* Este campo es obligatorio</li>
+            </ul>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-xs-12">
+            <mpf-select-multiple
+              name="nSystems"
+              ng-model="application.listSystem"
+              label="{label: 'Mostrar la aplicación en los siguientes sistemas', required: createS1.reqSystems}"
+              placeholder="'-- seleccione --'"
+              datasource="systemData"
+              value-field="'codigo'"
+              text-field="'descripcion'"
+              checked-change="systemsChange(checkedItem)">
+            </mpf-select-multiple>
+            <ul class="g-error">
+              <li ng-if="frmCreateApplication.nSystems.$error.required
+                && !frmCreateApplication.nSystems.$pristine">
+                * Este campo es obligatorio
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row mb-xs-4">
+    <div class="col-md-4 col-md-offset-4 col-sm-6 col-sm-offset-3">
+      <a class="g-btn g-btn-verde second-design block"
+        ng-click="createS1.saveApplication(false, true, {cancel : false, step: 2})">
+        {{saveButtonText}}
+      </a>
+    </div>
+  </div>
+</div>
+
+<!-- Bloque de Creacion Usuario Exito -->
+<div class="container g-section-exito" ng-show="showMessage">
+  <div class="g-section">
+    <div class="container">
+      <div class="row text-center">
+        <div class="col-xs-12 mb-xs-3">
+          <span class="ico-mapfre_142_sucess gnIcon-bg gCGreen7"></span>
+        </div>
+        <div class="col-xs-12">
+          <span class="gH3">
+            <b>LA APLICACIÓN SE {{saveMessageText}} CON ÉXITO</b>
+          </span>
+        </div>
+        <div class="col-xs-12">
+          <span class="gH4">Puedes continuar para asignar objetos y perfiles a la aplicación.</span>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2">
+          <div class="clearfix g-box-content mb-xs-3 mt-xs-3">
+            <div class="col-sm-5 col-sm-offset-1 mb-xs-2 mb-sm-0">
+              <a class="g-btn g-btn-white block" ng-click="exitCurrentStep()">Salir</a>
+            </div>
+            <div class="col-sm-5">
+              <a class="g-btn g-btn-verde block" ng-click="continueNextStep()">Continuar</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

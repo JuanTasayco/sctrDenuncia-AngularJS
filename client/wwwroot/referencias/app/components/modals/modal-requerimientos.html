@@ -1,0 +1,114 @@
+<section ng-controller="modalRequerimientosController">
+    <div class="col-md-4">
+        <h2 class="lbl-title" style="font-weight: bold; padding-bottom: 20px; padding-left: 6px;">Requerimientos de
+            destino
+        </h2>
+    </div>
+    <a class="col-md-1 col-md-offset-6 gCGray3 glyphicon glyphicon-remove" style="float: right;"
+        ng-click="$parent.$parent.close2()"></a>
+
+    <div class="col-md-12">
+        <div class="col-md-2" style="margin-bottom: 20px;">
+            <h3 class="lbl-title" style="font-weight: bold;">Servicios</h3>
+        </div>
+
+    </div>
+    <div class="container u-br-5 re">
+
+        <div class="row" style="border-bottom: #bdbebe 1px solid;">
+            <div class="col-md-4"
+                data-ng-repeat="item in $parent.$parent.$parent.$parent.masters.rServicios track by $index">
+                <div class="" role="tabpanel">
+                    <ul class="chk__list">
+                        <li class="chk__item">
+                            <label class="chk__lbl">
+                                <input data-checklist-model="$ctrl.ac_Servicios" ng-model="item.checkTest"
+                                    checklist-change="$ctrl.change('value')" data-checklist-value="text" type="checkbox"
+                                    name="servicios" class="chk__input">
+                                <span class="chk__ico"></span>
+                                <span class="chk__txt g-text-uppercase">{{::item.text}}</span>
+                            </label>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <br>
+
+        <div class="col-md-12" style="margin-bottom: 20px;">
+            <h3 class="lbl-title" style="font-weight: bold;">Imagenología</h3>
+        </div>
+
+        <div class="row" style="border-bottom: #bdbebe 1px solid;">
+            <div class="col-md-4"
+                data-ng-repeat="item in $parent.$parent.$parent.$parent.masters.rImagen track by $index">
+                <div class="" role="tabpanel">
+                    <ul class="chk__list">
+                        <li class="chk__item">
+                            <label class="chk__lbl">
+                                <input data-checklist-model="$ctrl.ac_Imagenologia" ng-model="item.checkTest"
+                                    checklist-change="$ctrl.change('value')" data-checklist-value="text" type="checkbox"
+                                    name="imagenologia" class="chk__input">
+                                <span class="chk__ico"></span>
+                                <span class="chk__txt g-text-uppercase">{{::item.text}}</span>
+                            </label>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <!-- </div>
+
+    <div class="container u-bg--grey u-br-5 re" ng-controller="modalRequerimientosController"> -->
+        <br>
+        <div class="col-md-12" style="margin-bottom: 20px;">
+            <h3 class="lbl-title" style="font-weight: bold;"> Emergencias</h3>
+        </div>
+
+        <div class="row" style="border-bottom: #bdbebe 1px solid;">
+            <div class="col-md-4"
+                data-ng-repeat="item in $parent.$parent.$parent.$parent.masters.rEmergencia track by $index">
+                <div class="" role="tabpanel">
+                    <ul class="chk__list">
+                        <li class="chk__item">
+                            <label class="chk__lbl">
+                                <input data-checklist-model="$ctrl.ac_Emergencia" ng-model="item.checkTest"
+                                    data-checklist-value="text" checklist-change="$ctrl.change('value')" type="checkbox"
+                                    name="emergencias" class="chk__input">
+                                <span class="chk__ico"></span>
+                                <span class="chk__txt g-text-uppercase">{{::item.text}}</span>
+                            </label>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <br>
+        <div class="row">
+            <div class="col-md-4" style="padding-left: 30px;">
+                <h3 class="lbl-title" style="font-weight: bold;">Especialidades</h3>
+                <mpf-data-seeker-x
+                    behavior="{label: '', placeholder:'Agregar especialidad', matchField:'text', required: false}"
+                    name="nUsuario" ng-model="$ctrl.ac_Especialidades" id="esps"
+                    m-data-source="$parent.$parent.$parent.$parent.masters.rEspecialidad"
+                    ng-change="changeDetect($ctrl.ac_Especialidades)">
+                    <div ng-bind-html="$item.text | highlight: $select.search"></div>
+                </mpf-data-seeker-x>
+            </div>
+            <div class="row">
+                <div class="col-md-12" style="margin-top: 30px;">
+                    <div class="chipCore" ng-repeat="item in Especialidad">
+                        <label
+                            style="font-weight: bold; padding: 10px; margin-left: 15px; border-radius: 5px; color: #fff; background: #2C7F8F;">{{item.text}}
+                            <a class="glyphicon glyphicon-remove" ng-click="unEspeciality($index)"></a></label>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <br>
+        <div class=" col-md-3 col-sm-offset-9" style="padding-bottom: 12px;">
+            <button class="g-btn g-btn-verde second-design block" ng-disabled="disabledSelect()"
+                ng-click="$parent.$parent.close($parent.$ctrl)">Continuar</button>
+        </div>
+    </div>
+</section>

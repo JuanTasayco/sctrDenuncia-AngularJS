@@ -1,0 +1,259 @@
+<section class="g-page g-page-documents">
+
+	<div fixed-section class="g-title" ng-class="{'fixed-section': boolChangeClass}">
+		<div class="container">
+			<div class="row">
+				<div class="col-md-6 col-sm-12 mb-xs-2 no-mb-md">
+					<h1>Gestión de Restos Vehiculares</h1>
+				</div>
+        <div class="col-md-6 col-sm-12 mb-xs-2 no-mb-md">
+          <div class="col-sm-4 mb-xs-1 no-mb-sm"
+               ng-class="{
+                'col-md-offset-4': !canDo('PAGO_IMP') || !canDo('NUE_SOL'),
+                'col-md-offset-8': !canDo('PAGO_IMP') && !canDo('NUE_SOL')
+               }"
+               ng-if="canDo('EXPORTA')">
+            <button class="g-btn g-btn-white second-design block" ng-click="exportList()">Exportar</button>
+          </div>
+          <div class="col-sm-4 mb-xs-1 no-mb-sm"
+               ng-class="{
+                'col-md-offset-4': !canDo('EXPORTA') && canDo('NUE_SOL'),
+                'col-md-offset-8': !canDo('EXPORTA') && !canDo('NUE_SOL')
+               }"
+               ng-if="canDo('PAGO_IMP')">
+            <button class="g-btn g-btn-white second-design block"
+                    ng-click="showModalPayTaxes()"
+                    type="button">Pagar impuestos</button>
+          </div>
+          <div class="col-sm-4 mb-xs-1 no-mb-sm"
+               ng-if="canDo('NUE_SOL')"
+               ng-class="{
+                'col-md-offset-8': !canDo('EXPORTA') && !canDo('PAGO_IMP')
+               }">
+            <a class="g-btn g-btn-white second-design block" href="#/nueva-solicitud/1">Nueva solicitud</a>
+          </div>
+        </div>
+			</div>
+		</div>
+	</div>
+	<div class="g-section-inner">
+		<div class="container">
+				<div class="row">
+					<!-- Consulta de documentos -->
+					<div class="col-md-3 mb-xs-2">
+						<div show-filter class="clearfix g-col-filter g-box-md fz14 gBgcGray5-md gBgcWhite1" ng-class="{'show': isFilterVisible}">
+							<form name="filtersForm" ng-submit="applyFilters(filters)">
+								<div class="col-md-12 mb-xs-3 gH4 gCGray1">
+									<h2 class="pb-xs-1 g-border-bottom-xs hidden-xs hidden-sm">Filtro</h2>
+									<div id="show-filter" class="row pt-xs-2 pb-xs-2 gBgcGray5 g-border-bottom-xs hidden-md hidden-lg" ng-click="toggleFilter();">
+										<div class="col-xs-10"><h2 class="cnt-title">Filtro</h2></div>
+										<div class="col-xs-2 g-text-right-xs">
+											<span class="glyphicon glyphicon-chevron-down" ng-if="isFilterVisible"></span>
+											<span class="glyphicon glyphicon-chevron-up" ng-if="!isFilterVisible"></span>
+										</div>
+										<div class="clearfix"></div>
+									</div>
+								</div>
+								<div class="g-col-filter__box">
+									<div class="col-md-12 mb-xs-2">
+                    <div class="g-input-design">
+                      <label class="g-placeholder"
+                             ng-class="{animated: filtersForm.nNroSoli.$focused || filtersForm.nNroSoli.$viewValue}">
+                        Nro. de solicitud
+                      </label>
+                      <input type="text"
+                             name="nNroSoli"
+                             ng-model="filters.CSLCTD"
+                             ng-focus="filtersForm.nNroSoli.$focused = true"
+                             ng-blur="filtersForm.nNroSoli.$focused = false"
+                             ng-pattern="/^\d+$/"
+                             ng-keyup="onlyNumbers(filtersForm.nNroSoli)">
+                    </div>
+                    <ul class="g-error">
+                      <li ng-show="filtersForm.nNroSoli.$error.pattern">Este campo solo admite valores numéricos</li>
+                    </ul>
+									</div>
+									<div class="col-md-12 mb-xs-2">
+                    <div class="g-input-design">
+                      <label class="g-placeholder"
+                             ng-class="{animated: filtersForm.nNroSini.$focused || filtersForm.nNroSini.$viewValue}">
+                        Nro. Siniestro
+                      </label>
+                      <input type="text"
+                             name="nNroSini"
+                             ng-model="filters.NUM_SINI"
+                             ng-focus="filtersForm.nNroSini.$focused = true"
+                             ng-blur="filtersForm.nNroSini.$focused = false"
+                             ng-pattern="/^\d+$/"
+                             ng-keyup="onlyNumbers(filtersForm.nNroSini)">
+                    </div>
+                    <ul class="g-error">
+                      <li ng-show="filtersForm.nNroSini.$error.pattern">Este campo solo admite valores numéricos</li>
+                    </ul>
+									</div>
+									<div class="col-md-12 mb-xs-2">
+										<mpf-input label="{label: 'Nro. Placa', required: false}" name="nNroPlaca" ng-model="filters.NUM_PLACA"></mpf-input>
+									</div>
+									<div class="col-md-12 mb-xs-2" ng-show="allowedStates.length > 1">
+                    <div class="g-select-desing">
+                      <label class="g-placeholder animated">Estado</label>
+                      <select ng-model="filters.ESTDO_SLCTD"
+                              name="nEstado">
+                        <option value="">TODOS</option>
+                        <option ng-repeat="option in allowedStates" ng-value="option.CODIGO">{{option.NOMBRE}}</option>
+                      </select>
+                      <span class="ico-mapfre_308_arrowDown ico-select"></span>
+                    </div>
+									</div>
+									<div class="col-md-12 mb-xs-2">
+										<div class="row">
+											<div class="col-md-6 mt-xs-2">
+                        <div class="input-group g-date-picker">
+                          <label class="g-placeholder ng-binding animated">Desde</label>
+                          <input type="text"
+                                 class="form-control"
+                                 name="rFEC_DESDE"
+                                 uib-datepicker-popup="{{dateFormat}}"
+                                 ng-model="filters.FEC_DESDE"
+                                 is-open="rFEC_DESDE_opened"
+                                 datepicker-options="rFEC_DESDE_options"
+                                 alt-input-formats="['d!/M!/yyyy']">
+                          <span class="input-group-btn">
+                            <button type="button" class="btn btn-default" ng-click="rFEC_DESDE_opened = true"><i class="glyphicon glyphicon-calendar"></i></button>
+                          </span>
+                        </div>
+											</div>
+											<div class="col-md-6 mt-xs-2">
+                        <div class="input-group g-date-picker">
+                          <label class="g-placeholder ng-binding animated">Hasta</label>
+                          <input type="text"
+                                 class="form-control"
+                                 name="rFEC_HASTA"
+                                 uib-datepicker-popup="{{dateFormat}}"
+                                 ng-model="filters.FEC_HASTA"
+                                 is-open="rFEC_HASTA_opened"
+                                 datepicker-options="rFEC_HASTA_options"
+                                 alt-input-formats="['d!/M!/yyyy']">
+                          <span class="input-group-btn">
+                            <button type="button" class="btn btn-default" ng-click="rFEC_HASTA_opened = true"><i class="glyphicon glyphicon-calendar"></i></button>
+                          </span>
+                        </div>
+											</div>
+										</div>
+									</div>
+									<div class="col-md-12 mb-xs-1">
+										<button type="submit" class="g-btn g-btn-verde block">Filtrar</button>
+									</div>
+									<div class="col-md-12">
+										<button type="reset"
+                            class="g-btn g-btn-white block" 
+                            ng-click="filters = {}; reset();">Limpiar</button>
+									</div>
+								</div>
+							</form>
+						</div>
+					</div>
+
+					<div class="col-md-9">
+
+            <!-- Inicio: Resultados -->
+						<div ng-repeat="item in itemsList">
+              <div class="clearfix g-list-md g-box gBgcGray5 pt-xs-1 mb-xs-1 g-row-fz12" ng-if="item.CSLCTD">
+                <div class="col-md-3 g-col-md top cnt-item">
+                  <span class="gH5 mb-xs-1" ng-if="true"><b>Nro. Solicitud {{item.CSLCTD}}</b></span>
+                  <br>
+                  <span class="g-box-label" ng-class="item.state.className">{{item.state.description}}</span>
+                </div>
+                <div class="col-md-6 g-col-md middle">
+                  <ul class="row">
+                    <li class="col-md-6 clearfix cnt-item add-border-left">
+                      <div class="row">
+                        <div class="col-md-12 col-sm-6 item-label">
+                          Nro. Siniestro:
+                        </div>
+                        <div class="col-md-12 col-sm-6 item-dato g-text-uppercase">
+                          {{item.NUM_SINI || '--'}}
+                        </div>
+                      </div>
+                    </li>
+                    <li class="col-md-6 clearfix cnt-item">
+                      <div class="row">
+                        <div class="col-md-12 col-sm-6 item-label">
+                          Nro. Placa:
+                        </div>
+                        <div class="col-md-12 col-sm-6 item-dato g-text-uppercase">
+                          {{item.NUM_PLACA || '--'}}
+                        </div>
+                      </div>
+                    </li>
+                    <li class="col-md-6 clearfix cnt-item">
+                      <div class="row">
+                        <div class="col-md-12 col-sm-6 item-label">
+                          Fecha de ingreso:
+                        </div>
+                        <div class="col-md-12 col-sm-6 item-dato g-text-uppercase">
+                          {{item.FEC_INGRSO || '--'}}
+                        </div>
+                      </div>
+                    </li>
+                  </ul>
+                </div>
+                <div class="col-md-3 g-col-md middle gCGray3 g-text-left-xs">
+                  <div class="row g-row g-list-md">
+                    <div class="col-xs-12 g-col-xs middle cnt-item" ng-if="true">
+                      <a class="g-btn g-btn-white block second-design" href="#/detalles/datos-generales?solicitud={{item.CSLCTD}}">
+                        <span class="g-icon">
+                          <span>Ver detalle</span>
+                          <span class="icon ico-mapfre_311_arrowRight"></span>
+                        </span>
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+						<!-- Fin: Resultados -->
+
+						<!-- Inicio: Paginacion -->
+						<div class="row" ng-show="totalItems > itemsPerPage">
+							<div class="col-md-12">
+								<ul uib-pagination
+                    class="g-pagination"
+                    ng-model="currentPage"
+                    max-size="10"
+                    total-items="totalItems"
+                    boundary-link-numbers="true"
+                    ng-change="pageChanged(currentPage, filters)"></ul>
+							</div>
+						</div>
+            <!-- Fin: Paginacion -->
+
+						<!-- Mensaje de realiza una búsqueda -->
+            <div class="col-md-12 text-center g-box-noresult" ng-if="false">
+              <div class="row">
+                <div class="col-md-12 g-box-noresult-ico gCBlue2">
+                  <span class="ico-mapfre_303_informacion"></span>
+                </div>
+                <div class="col-md-12 g-box-noresult-text">
+                  Realiza una búsqueda para obtener resultados.
+                </div>
+              </div>
+            </div>
+
+            <!-- Mensaje de error si no hay resultados -->
+            <div class="col-md-12 text-center g-box-noresult" ng-if="itemsList && !itemsList.length">
+              <div class="row">
+                <div class="col-md-12 g-box-noresult-ico gCRed1">
+                  <span class="ico-mapfre_302_error"></span>
+                </div>
+                <div class="col-md-12 g-box-noresult-text">No hay resultados para los filtros escogidos.<br>Intente nuevamente.</div>
+              </div>
+            </div>
+
+					</div>
+					<!-- FIN: Resultado de consulta de documentos -->
+				</div>
+		</div>
+	</div>
+
+</section>

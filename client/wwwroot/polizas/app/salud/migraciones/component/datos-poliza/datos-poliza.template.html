@@ -1,0 +1,232 @@
+<form name="frmPolizaMigracion" ng-submit="continuarMigracion(frmPolizaMigracion)">
+  <div class="row">
+    <div class="col-md-12"><h2 class="g-sub-title mt-xs-3">Datos de la póliza actual</h2></div>
+  </div>
+  <div class="row">
+    <div class="col-md-3 mb-xs-2">
+      <mpf-input
+        label="{label: 'Número de póliza', required: true}"
+        name="nNroDocumento"
+        ng-required="true"
+        ng-model="searchProvisionalCoverage.NumeroPoliza"
+        mpf-validation="onlyNumber"
+        ng-disabled="disabledPolize"
+        ng-change="changeNumeroPoliza()">
+      </mpf-input>
+
+      <ul class="g-error">
+        <li ng-show="frmPolizaMigracion.nNroDocumento.$invalid && !frmPolizaMigracion.nNroDocumento.$pristine">* Ingrese número de póliza</li>
+      </ul>
+    </div>
+    <div class="col-md-3 mt-xs-2">
+      <a
+        class="g-btn second-design block"
+        ng-required="true"
+        href=""
+        ng-class="{'disabled': activeBotonBuscar(),
+        'g-btn-green-border': buscar, 'g-btn-white': !buscar}"
+        ng-click="buscarLimpiarPoliza()">
+        {{buscar ? 'BUSCAR' : 'LIMPIAR'}}
+        </a>
+    </div>
+  </div>
+  <div class="row mt-xs-2">
+    <div class="col-md-6 mb-xs-2">
+      <h2 class="gH4 gCGray1">
+        <b>Datos principales</b>
+      </h2>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-3 mb-xs-2">
+      <mpf-input
+        label="{label: 'Nombres', required: false}"
+        name="nNombres"
+        ng-model="searchProvisionalCoverage.Contratante.Nombre"
+        ng-disabled="disabledForm"
+        ng-required="true">
+      </mpf-input>
+      <ul class="g-error">
+        <li ng-show="frmPolizaMigracion.nNombres.$invalid && !frmPolizaMigracion.nNombres.$pristine">* Ingrese nombres</li>
+      </ul>
+    </div>
+    <div class="col-md-3 mb-xs-2">
+      <mpf-input
+        label="{label: 'Apellido paterno', required: false}"
+        name="nApellidoPaterno"
+        ng-disabled="disabledForm"
+        ng-model="searchProvisionalCoverage.Contratante.ApellidoPaterno"
+        ng-required="false">
+      </mpf-input>
+      <ul class="g-error">
+        <li ng-show="frmPolizaMigracion.nApellidoPaterno.$invalid && !frmPolizaMigracion.nApellidoPaterno.$pristine">* Ingrese Apellido Paterno</li>
+      </ul>
+    </div>
+    <div class="col-md-3 mb-xs-2">
+      <mpf-input
+        label="{label: 'Apellido materno', required: false}"
+        name="nApellidoMaterno"
+        ng-model="searchProvisionalCoverage.Contratante.ApellidoMaterno"
+        ng-disabled="disabledForm"
+        ng-required="false">
+      </mpf-input>
+      <ul class="g-error">
+        <li ng-show="frmPolizaMigracion.nApellidoMaterno.$invalid && !frmPolizaMigracion.nApellidoMaterno.$pristine">* Ingrese Apellido Materno</li>
+      </ul>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-3 mb-xs-2">
+      <mpf-input
+        label="{label: 'Contrato', required: false}"
+        name="nContrato"
+        ng-disabled="disabledForm"
+        ng-model="searchProvisionalCoverage.NombreContrato"
+        ng-required="true">
+      </mpf-input>
+      <ul class="g-error">
+        <li ng-show="frmPolizaMigracion.nContrato.$invalid && !frmPolizaMigracion.nContrato.$pristine">* Ingrese Contrato</li>
+      </ul>
+    </div>
+    <div class="col-md-3 mb-xs-2">
+      <mpf-input
+        label="{label: 'Subcontrato', required: false}"
+        name="nSubContrato"
+        ng-disabled="disabledForm"
+        ng-model="searchProvisionalCoverage.NombreSubContrato"
+        ng-required="true">
+      </mpf-input>
+      <ul class="g-error">
+        <li ng-show="frmPolizaMigracion.nSubContrato.$invalid && !frmPolizaMigracion.nSubContrato.$pristine">* Ingrese SubContrato</li>
+      </ul>
+    </div>
+    <div class="col-md-3 mb-xs-2">
+      <mpf-input
+        label="{label: 'Número de suplemento en curso', required: false}"
+        name="nNroSuplemento"
+        ng-disabled="disabledForm"
+        ng-model="searchProvisionalCoverage.NumeroSuplementoCurso"
+        mpf-validation="onlyNumber"
+        ng-required="true">
+      </mpf-input>
+      <ul class="g-error">
+        <li ng-show="frmPolizaMigracion.nNroSuplemento.$invalid && !frmPolizaMigracion.nNroSuplemento.$pristine">* Ingrese Número de Suplemento en curso</li>
+      </ul>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-3 mb-xs-2">
+      <div class="input-group g-date-picker">
+        <label class="g-placeholder animated">Desde periodo de la vigencia<span></span>:</label>
+        <input
+          ng-disabled="disabledForm"
+          type="text" class="form-control"
+          name="nDesdeCobertura"
+          ng-model="searchProvisionalCoverage.mDesdeCobertura"
+          uib-datepicker-popup="{{format}}"
+          is-open="popup1.opened"
+          datepicker-options="dateOptions"
+          close-text="Close"
+          model-view-value="true"
+          alt-input-formats="altInputFormats"
+          ng-required="true"
+          ng-change="fnChangeDate()"/>
+        <span class="input-group-btn">
+          <button type="button" class="btn btn-default" ng-click="open()"><i class="glyphicon glyphicon-calendar"></i></button>
+        </span>
+      </div>
+      <ul class="g-error">
+        <li ng-show="frmPolizaMigracion.nDesdeCobertura.$invalid && !frmPolizaMigracion.nDesdeCobertura.$pristine">* Este campo es obligatorio</li>
+        <li ng-show="frmPolizaMigracion.nDesdeCobertura.$viewValue && frmPolizaMigracion.nDesdeCobertura.$invalid">* Fecha erronea</li>
+      </ul>
+    </div>
+    <div class="col-md-3 mb-xs-2">
+      <div class="input-group g-date-picker">
+        <label class="g-placeholder animated">Hasta periodo de la vigencia<span></span>:</label>
+        <input
+          ng-disabled="disabledForm"
+          type="text" class="form-control"
+          name="nHastaCobertura"
+          ng-model="searchProvisionalCoverage.mHastaCobertura"
+          uib-datepicker-popup="{{format}}"
+          is-open="popup2.opened"
+          datepicker-options="dateOptions2"
+          close-text="Close"
+          model-view-value="true"
+          alt-input-formats="altInputFormats"
+          ng-required="true"
+          ng-change="fnChangeDate()"/>
+        <span class="input-group-btn">
+          <button type="button" class="btn btn-default" ng-click="open2()"><i class="glyphicon glyphicon-calendar"></i></button>
+        </span>
+      </div>
+      <ul class="g-error">
+        <li ng-show="frmPolizaMigracion.nHastaCobertura.$invalid && !frmPolizaMigracion.nHastaCobertura.$pristine">* Este campo es obligatorio</li>
+        <li ng-show="frmPolizaMigracion.nHastaCobertura.$viewValue && frmPolizaMigracion.nHastaCobertura.$invalid">* Fecha erronea</li>
+      </ul>
+    </div>
+    <div class="col-md-3 mb-xs-2">
+      <div class="input-group g-date-picker">
+        <label class="g-placeholder animated">Fecha de último recibo pagado<span></span>:</label>
+        <input
+          ng-disabled="disabledForm"
+          type="text" class="form-control"
+          name="nUltimoCobertura"
+          ng-model="searchProvisionalCoverage.mUltimoCobertura"
+          uib-datepicker-popup="{{format}}"
+          is-open="popup3.opened"
+          datepicker-options="dateOptions3"
+          close-text="Close"
+          model-view-value="true"
+          alt-input-formats="altInputFormats"
+          ng-required="false"
+          ng-change="fnChangeDate()"/>
+        <span class="input-group-btn">
+          <button type="button" class="btn btn-default" ng-click="open3()"><i class="glyphicon glyphicon-calendar"></i></button>
+        </span>
+      </div>
+      <ul class="g-error">
+        <li ng-show="frmPolizaMigracion.nUltimoCobertura.$invalid && !frmPolizaMigracion.nUltimoCobertura.$pristine">* Este campo es obligatorio</li>
+        <li ng-show="frmPolizaMigracion.nUltimoCobertura.$viewValue && frmPolizaMigracion.nUltimoCobertura.$invalid">* Fecha erronea</li>
+      </ul>
+    </div>
+    <div class="col-md-3 mb-xs-2">
+      <mpf-input
+        label="{label: 'Ajuste actual a nivel de póliza', required: false}"
+        name="nAjusteActual"
+        ng-disabled="disabledForm"
+        ng-model="searchProvisionalCoverage.AjusteActualPoliza"
+
+        ng-required="false">
+      </mpf-input>
+      <ul class="g-error">
+        <li ng-show="frmPolizaMigracion.nAjusteActual.$invalid && !frmPolizaMigracion.nAjusteActual.$pristine">* Ingrese Ajuste actual</li>
+      </ul>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-3 mb-xs-2">
+      <mpf-input
+        label="{label: 'Prima anualizada total', required: false}"
+        name="nPrima"
+        ng-disabled="disabledForm"
+        ng-model="searchProvisionalCoverage.PrimaAnualizadaTotal"
+        ng-required="true">
+      </mpf-input>
+      <ul class="g-error">
+        <li ng-show="frmPolizaMigracion.nPrima.$invalid && !frmPolizaMigracion.nPrima.$pristine">* Ingrese Prima anualizada total</li>
+      </ul>
+    </div>
+  </div>
+  <div class="g-section mt-xs-5">
+    <div class="row">
+      <div class="col-md-4 mb-xs-1">
+        <span class="gCGray3">*Campos obligatorios</span>
+      </div>
+      <div class="col-md-4">
+        <button type="submit" class="g-btn g-btn-verde block" ng-class="{'disabled': frmPolizaMigracion.$invalid}">CONTINUAR CON PLAN DE MIGRACIÓN</button>
+      </div>
+    </div>
+  </div>
+
+</form>

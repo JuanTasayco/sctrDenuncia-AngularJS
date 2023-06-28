@@ -1,0 +1,198 @@
+<div class="g-page">
+  <div class="g-title pb-0">
+    <navbar-cemetery data-active="true" data-show-button="true" data-is-disabled="frmRegister.$invalid" data-on-update="$ctrl.updateCemeteryAndGallery()"  ></navbar-cemetery>
+  </div>
+  <div class="g-menu-main__box c-menu-main__box">
+    <tab-cemetery data-tabs="$ctrl.tabs"></tab-cemetery>
+  </div>
+  <div class="g-section mt-xs-1">
+        <form name="frmRegister">
+          <div class="container c-bg-gray pb-md-6">
+              <div class="row">
+                <!--========== BANNER ==========-->
+                <section class="c-section pt-xs-3 pt-md-3">
+                  <banner-cemetery
+                    data-form="$ctrl.form"
+                    data-format="$ctrl.format"
+                    data-component="$ctrl.component"
+                    data-on-upload-banner-one="$ctrl.uploadBannerOne($event)"
+                    data-on-upload-carousel="$ctrl.uploadCarousel($event)">
+                  </banner-cemetery>
+                </section>
+                <!--========== INPUT  ==========-->
+                <section class="c-section">
+                    <div class="row">
+                      <div class="col-md-2">
+                          <div class="c-input__content-title">
+                              <h3 class="c-section__title">Tour interactivo</h3>
+                          </div>
+                      </div>
+                      <div class="col-md-10">
+                          <div class="c-input__content-input">
+                              <input type="text" name="nUrlTourInteractivo"  maxlength="200"  ng-max-length="200" class="c-input__text" ng-model="$ctrl.form.urlTourInteractivo">
+                          </div>
+                      </div>
+                    </div>
+                </section>
+                <section class="c-section">
+                    <div class="row">
+                        <div class="col-md-2">
+                            <div class="c-input__content-title">
+                                <h3 class="c-section__title">Descripción camposantos</h3>
+                            </div>
+                        </div>
+                        <div class="col-md-10">
+                            <div class="c-input__content-input">
+                                <textarea type="text" name="nDescripcionCamposanto" ng-required="true"   maxlength="250"  ng-max-length="250"  ng-model="$ctrl.form.descripcionCamposanto"  class="c-textarea__text"></textarea>
+                                <div class="c-message__container">
+                                  <ul class="g-error no-margin-xs no-margin-md">
+                                    <li ng-show="frmRegister.nDescripcionCamposanto.$invalid && !frmRegister.nDescripcionCamposanto.$pristine">
+                                      Ingrese Descripción camposantos
+                                    </li>
+                                  </ul>
+                                  <div class="g-text-right-xs g-text-right-md">
+                                    <span class="c-message__character">Máximo 250 caracteres</span>
+                                  </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                <section class="c-section">
+                    <div class="row">
+                      <div class="col-md-2">
+                          <div class="c-input__content-title">
+                              <h3 class="c-section__title" >Sección servicios</h3>
+                          </div>
+                      </div>
+                      <div class="col-md-10">
+                          <div class="c-input__content-input">
+                              <input type="text" name="nSeccionServicio"  ng-required="true" maxlength="100"  ng-max-length="100" class="c-input__text" ng-model="$ctrl.form.seccionServicio">
+                              <div class="c-message__container">
+                                <ul class="g-error no-margin-xs no-margin-md">
+                                  <li ng-show="frmRegister.nSeccionServicio.$invalid && !frmRegister.nSeccionServicio.$pristine">
+                                      Ingrese Sección servicio
+                                  </li>
+                                </ul>
+                                <div class="g-text-right-xs g-text-right-md">
+                                  <span class="c-message__character">Máximo 100 caracteres</span>
+                                </div>
+                              </div>
+                          </div>
+                      </div>
+                    </div>
+                </section>
+                <section class="c-section">
+                   <div class="row">
+                      <div class="col-md-2">
+                          <div class="c-input__content-title">
+                              <h3 class="c-section__title">Descripción</h3>
+                          </div>
+                      </div>
+                      <div class="col-md-10">
+                          <div class="c-input__content-input">
+                              <input type="text" name="nDescripcion"  ng-required="true" maxlength="150"  ng-max-length="150" class="c-input__text" ng-model="$ctrl.form.descripcion">
+                              <div class="c-message__container">
+                                <ul class="g-error no-margin-xs no-margin-md">
+                                  <li ng-show="frmRegister.nDescripcion.$invalid && !frmRegister.nDescripcion.$pristine">
+                                      Ingrese Descripción
+                                  </li>
+                                </ul>
+                                <div class="g-text-right-xs g-text-right-md">
+                                  <span class="c-message__character">Máximo 150 caracteres</span>
+                                </div>
+                              </div>
+                          </div>
+                      </div>
+                    </div>
+                </section>
+                <!--========== SERVICES CAROUSEL ==========-->
+                <section class="c-section" id="service-carousel">
+                    <service-carousel-cemetery 
+                      data-format="$ctrl.format" 
+                      data-carousels="$ctrl.form.carousels" 
+                      data-show-switch="true" 
+                      data-show-button="false"
+                      data-on-upload-carousel="$ctrl.uploadCarousel($event)">
+                    </service-carousel-cemetery>
+                </section>
+                <!--========== GALLERY  ==========-->
+                <section class="c-section" id="gallery">
+                    <gallery-cemetery
+                        data-format="$ctrl.format.gallery"
+                        data-galleries="$ctrl.form.galleries"
+                        data-on-upload-gallery="$ctrl.uploadGallery($event)">
+                    </gallery-cemetery>
+                </section>
+                <!--========== ADDITIONAL SERVICES  ==========-->
+                <section class="c-section" id="additional-service">
+                    <additional-service-cemetery 
+                      data-format="$ctrl.format" 
+                      data-services="$ctrl.form.services" 
+                      data-show-switch="true"
+                      data-show-button="false">
+                    </additional-service-cemetery>
+                </section>
+                <!--========== INPUT  ==========-->
+                <section class="c-section">
+                  <div class="row">
+                      <div class="col-md-2">
+                          <div class="c-input__content-title">
+                              <h3 class="c-section__title">Información adicional</h3>
+                          </div>
+                      </div>
+                      <div class="col-md-10">
+                          <div class="c-input__content-input">
+                            <ng-quill-editor class="c-quill-editor" name="nInformacionAdicional" ng-required="true" max-length="250" ng-model="$ctrl.form.informacionAdicional" placeholder="''"><toolbar></toolbar></ng-quill-editor>
+                            <div class="c-message__container">
+                              <ul class="g-error no-margin-xs no-margin-md">
+                                <li ng-if="frmRegister.nInformacionAdicional.$invalid && !frmRegister.nInformacionAdicional.$pristine && !frmRegister.nInformacionAdicional.$error.maxlength">
+                                  Ingrese Información adicional
+                                </li>
+                                <li ng-if="frmRegister.nInformacionAdicional.$error.maxlength">
+                                  Ingrese 250 caracteres
+                                </li>
+                              </ul>
+                              <div class="g-text-right-xs g-text-right-md">
+                                <span class="c-message__character">Máximo 250 caracteres</span>
+                              </div>
+                            </div>
+                          </div>
+                      </div>
+                  </div>
+                </section>
+                <section class="c-section">
+                    <div class="row">
+                        <div class="col-md-2">
+                            <div class="c-input__content-title">
+                                <h3 class="c-section__title">Mapa</h3>
+                            </div>
+                        </div>
+                        <div class="col-md-10">
+                            <div class="c-input__content-input">
+                                <input type="text" name="nUrlMapa" class="c-input__text" ng-required="true" ng-model="$ctrl.form.urlMapa" ng-change="$ctrl.changeUrlMap()" >
+                                <ul class="g-error">
+                                  <li ng-show="frmRegister.nUrlMapa.$invalid && !frmRegister.nUrlMapa.$pristine">
+                                    Ingrese Mapa
+                                  </li>
+                                  <li ng-show="$ctrl.showUrlMapError && $ctrl.form.urlMapa">
+                                    Ingrese una URL válida
+                                  </li>
+                                </ul>
+                              </div>
+                        </div>
+                    </div>
+                </section>
+                <!--========== MAPS  ==========-->
+                <section class="c-section" id="maps">
+                    <div class="row">
+                      <div class="col-md-6 col-md-offset-2">
+                        <iframe ng-src="{{$ctrl.urlMapa}}" class="c-iframe__map" allowfullscreen="" loading="lazy" ng-if="$ctrl.isValidUrlMapa"></iframe>
+                      </div>
+                    </div>
+                </section>
+              </div>
+          </div>
+        </form>
+  </div>
+</div>

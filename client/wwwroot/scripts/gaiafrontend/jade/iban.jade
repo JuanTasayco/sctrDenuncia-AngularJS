@@ -1,0 +1,15 @@
+.iban.form-group(ng-repeat="part in ibanParts", style="margin-right: 0px;")
+    label.sr-only(for="{{mpName}}{{$index}}") {{mpName}}{{$index}}
+    div(ng-if="$index === 0 || ($index === 1 && (mpIbanFormat[0] === 2 || mpIbanFormat[0] === undefined) && mpIbanAutoCalculatedDC)")
+        label(style="margin-top: 5px;")  {{part.value}}
+    div(ng-if="$index > 1 || ($index === 1 && mpIbanFormat[0] === undefined && !mpIbanAutoCalculatedDC) || ($index === 1 && mpIbanFormat[0] === 2 && !mpIbanAutoCalculatedDC) || ($index === 1 && mpIbanFormat[0] === 4)")
+        input.form-control(type="text",
+            numbers-only,
+            id="{{mpName}}{{$index}}",
+            mp-name="{{mpName}}{{$index}}",
+            ng-model="part.value",
+            maxlength="{{part.size}}",
+            placeholder="{{part.placeholder}}",
+            ng-disabled="mpDisabled",
+            class="iban{{part.size}}",
+            style="margin-left: 5px;")

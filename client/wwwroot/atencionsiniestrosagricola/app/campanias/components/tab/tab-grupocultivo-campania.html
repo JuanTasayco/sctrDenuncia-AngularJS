@@ -1,0 +1,405 @@
+<div ng-model="mGrupCultSec" ng-hide="!mGrupCultSec">
+    <div ng-model="mListaGrpCul" ng-hide="!mListaGrpCul">
+        <div class="g-section-inner g-dashboard-section">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-8 g-span-middle">
+                        <span class="col-md-8 mg-bot-15">
+                            <mpf-input label="{label: 'Nombre del grupo cultivo'}" name="nNombreCultivo"
+                                ng-model="mNombreGrpCulBuscar"></mpf-input>
+                        </span>
+                        <span class="mr-md-1">
+                            <a class="g-btn btn-verde-trn block second-design pl-md-2 pr-md-2"
+                                ng-click="searchResults()">BUSCAR</a>
+                        </span>
+                        <span class="mr-md-1">
+                            <a class="g-btn g-btn-white block second-design pl-md-2 pr-md-2"
+                                ng-click="limpiarBuscador()"> LIMPIAR</a>
+                        </span>
+                    </div>
+                    <div class="col-md-4 g-text-right-md g-span-middle mg-top-20">
+                        <span class="mr-md-12">
+                        </span>
+                        <span class="mr-md-12">
+                            <a class="g-btn g-btn-verde block second-design pl-md-12 pr-md-12" ng-if="estadoRegistro  == 'I'"
+                                ng-click="mostrarOperGrpCul()">NUEVO GRUPO DE CULTIVOS</a>
+                        </span>
+                    </div>
+                </div>
+                <div class="col-md-12 text-center g-box-noresult"
+                ng-show="listaGrupCult.length === 0 || listaGrupCult === undefined">
+                <div class="row">
+                    <div class="col-md-12 g-box-noresult-ico gCRed1"><span
+                            class="ico-mapfre_302_error gnIcon-bg"></span>
+                    </div>
+                    <div class="col-md-12 g-box-noresult-text">No se encontró resultados.<br>Realice una
+                        búsqueda nuevamente.</div>
+                </div>
+            </div>
+                <!--Inicio: Resultados-->
+
+                <ul class="row g-list-sm" ng-repeat="item in listaGrupCult">
+                    <div class="clearfix g-box mg-bot-10">
+                        <div
+                            class="clearfix g-box no-bbl-radius no-bbr-radius g-border-noborder pt-xs-1 pb-xs-1 gBgcGray5">
+                            <li class="col-md-12 col-sm-12 ">
+                                <div class="item-label">
+                                    <ul class="clearfix">
+                                    </ul>
+                                    <ul class="clearfix mg-bot-5">
+                                        <li class="col-md-6 pt-xs-1">
+                                            <b>Nombre: </b>{{item.descCultivo}} (Cód {{item.codGrupoCultivo}})
+                                        </li>
+                                        <li class="col-md-3 pt-xs-1">
+                                            <b>Cultivos registrados: </b>{{item.cultReg}}
+                                        </li>
+                                        <li class="col-md-1 pt-xs-1 lft-40">
+                                            <b  class="col-md-6">Habilitado: </b>
+                                        </li>
+                                        <li class="col-md-1 pt-xs-1 lft-40"  ng-if="estadoRegistro  == 'I'">
+                                            <div class="onoffswitch mg-top-5m">
+                                                <input type="checkbox" name="onoffswitch" ng-checked="item.estadoRegistro=='A'" 
+                                                class="onoffswitch-checkbox" id="switchGCultivo{{$index}}"   ng-click="habilitarGrupCul(item.codGrupoCultivo,item.estadoRegistro)">
+                                                <label class="onoffswitch-label" for="switchGCultivo{{$index}}"></label>
+                                            </div>
+                                        </li>
+                                        <li class="col-md-1 pt-xs-1 lft-40"  ng-if="estadoRegistro  == 'A'">
+                                            <div class="onoffswitch mg-top-5m">
+                                                <input disabled type="checkbox" name="onoffswitch" ng-checked="item.estadoRegistro=='A'" 
+                                                class="onoffswitch-checkbox" id="switchGCultivo{{$index}}"   ng-click="habilitarGrupCul(item.codGrupoCultivo,item.estadoRegistro)">
+                                                <label class="onoffswitch-label" for="switchGCultivo{{$index}}"></label>
+                                            </div>
+                                        </li>
+                                        <li class="col-md-1 pt-xs-1 lft-40 mg-top-2m">
+                                            <span class="ico-mapfre_311_arrowRight gnIcon-xsm gCGray3" uib-tooltip="Detalles" 
+                                                ng-click="mostrarCul(item.codGrupoCultivo,item.descCultivo);">
+                                        </li>
+                                    </ul>
+                                </div>
+                            </li>
+                        </div>
+                    </div>
+                </ul>
+                <!--Fin: Resultados-->
+                <!-- Inicio: pagination -->
+                <div class="row">
+                    <div class="col-md-12" ng-show="listaGrupCult.length > 0">
+                        <ul uib-pagination class="g-pagination" ng-model="currentPage" max-size="maxSize"
+                            ng-change="changePage(currentPage,1)" total-items="totalRecords"
+                            items-per-page="sizePerPage" boundary-link-numbers="true"></ul>
+                    </div>
+                </div>
+                <!-- Fin: pagination -->
+
+            </div>
+        </div>
+    </div>
+    <div class="g-section-inner g-dashboard-section" ng-model="mNuevoGrpCul" ng-hide="!mNuevoGrpCul">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-8 col-md-offset-2">
+                    <form name="frmFormGrupCultivo">
+                        <div class="clearfix g-box-md mb-md-2 gBgcWhite1">
+                            <div class="g-col-filter__box">
+                                <div class="col-md-12">
+                                    <div class="row">
+                                        <div class="col-md-12 mb-md-1">
+                                            <span class="col-md-12 mg-top-15">
+                                                <label class="g-placeholder animated ng-binding pl-xs-1-5"><b>Nuevo
+                                                      Grupo Cultivo</b></label>
+                                            </span>
+                                        </div>
+                                        <div class="col-md-12 mt-md-2 mb-md-2 ">
+                                            <div class="col-md-12">
+                                                <mpf-input label="{label: 'Nombre del Grupo cultivo'}" name="nDescCultivo"
+                                                    ng-model="mDescCultivo" ng-maxlength="100" ng-required="true">
+                                                </mpf-input>
+                                                <div class="g-error"
+                                                    data-ng-show="frmFormGrupCultivo.nDescCultivo.$error.required && !frmFormGrupCultivo.nDescCultivo.$pristine">
+                                                    * Ingrese Grupo Cultivo
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12 g-text-right-md g-span-middle mg-bot-10">
+                                            <span class="mr-md-2">
+                                                <a class="g-btn g-btn-transparent block second-design pl-md-2 pr-md-2"
+                                                    ng-click="mostrarListadoGrpC()">CANCELAR</a>
+                                            </span>
+                                            <span class="mr-md-2">
+                                                <button ng-disabled="frmFormGrupCultivo.$invalid"
+                                                    ng-click="procesarGrupCul(mDescCultivo);"
+                                                    class="g-btn g-btn-verde block second-design pl-md-2 pr-md-2">REGISTRAR</button>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div ng-model="mCultivoSec" ng-hide="!mCultivoSec">
+  
+    <div ng-model="mListaCultivo" ng-hide="!mListaCultivo">
+        <div class="g-section-inner g-dashboard-section">
+            <div class="container">
+                <div class="row">
+                    <span class="ico-mapfre_310_arrowLeft gnIcon-xsm gCGray3">
+                        <a class="gCGray3 g-link" style="font-family: 'Roboto', sans-serif; font-size: 12px;" ng-click="volverListaCultivo()"> Volver a la lista de grupo de cultivos</a>
+                </div>
+                <div class="row">
+                    <div class="col-md-12 mb-md-1 mg-top-15 mg-bot-15">
+                        <span class="col-md-12" >
+                            <label class="g-placeholder animated ng-binding pl-xs-1-5">{{lblDescGruCul}}</label>
+                        </span>                                            
+                    </div>
+                </div>
+                
+                <div class="row">
+                    <div class="col-md-8 g-span-middle">
+                        <span class="col-md-8 mg-bot-10">
+                            <div class="g-input-design">
+                                <label class="g-lbl-int" ng-show="!mNombreCultivoBuscar" >Nombre o abreviatura del cultivo</label>
+                                <input type="text" ng-model="mNombreCultivoBuscar" name="nNombreCultivo" placeholder="">
+                              </div>
+                        </span>
+                        <span class="mr-md-1">
+                            <a class="g-btn btn-verde-trn block second-design pl-md-2 pr-md-2"
+                                ng-click="searchResults()">BUSCAR</a>
+                        </span>
+                        <span class="mr-md-1">
+                            <a class="g-btn g-btn-white block second-design pl-md-2 pr-md-2"
+                                ng-click="limpiarBuscador()"> LIMPIAR</a>
+                        </span>
+                    </div>
+                    <div class="col-md-4 g-text-right-md g-span-middle mg-top-20">
+                        <span class="mr-md-12">
+                        </span>
+                        <span class="mr-md-12">
+                            <a class="g-btn g-btn-verde block second-design pl-md-12 pr-md-12" ng-if="estadoRegistro  == 'I'"
+                                ng-click="mostrarOperCultivo()">NUEVO CULTIVO</a>
+                        </span>
+                    </div>
+                </div>
+                              
+                <div class="col-md-12 text-center g-box-noresult"
+                ng-show="listaCultivos.length === 0 || listaCultivos === undefined">
+                <div class="row">
+                    <div class="col-md-12 g-box-noresult-ico gCRed1"><span
+                            class="ico-mapfre_302_error gnIcon-bg"></span>
+                    </div>
+                    <div class="col-md-12 g-box-noresult-text">No se encontró resultados.<br>Realice una
+                        búsqueda nuevamente.</div>
+                </div>
+            </div>
+                <!--Inicio: Resultados-->
+
+                <ul class="row g-list-sm" ng-repeat="item in listaCultivos">
+                    <div class="clearfix g-box mg-bot-10">
+                        <div
+                            class="clearfix g-box no-bbl-radius no-bbr-radius g-border-noborder pt-xs-1 pb-xs-1 gBgcGray5">
+                            <li class="col-md-12 col-sm-12 ">
+                                <div class="item-label">
+                                    <ul class="clearfix">
+                                    </ul>
+                                    <ul class="clearfix mg-bot-5">
+                                        <li class="col-md-3 pt-xs-1">
+                                            {{item.nombreCultivo}} (Cód {{item.codCultivo}})
+                                        </li>
+                                        <li class="col-md-6 pt-xs-1">
+                                            <b>Abreviatura: </b>{{item.abrevCultivo}}
+                                        </li>                                        
+                                        <li class="col-md-1 pt-xs-1 lft-40">
+                                            <b  class="col-md-6">Habilitado: </b>
+                                        </li>
+                                        <li class="col-md-1 pt-xs-1 lft-40" ng-if="estadoRegistro  == 'A'">
+                                            <div class="onoffswitch mg-top-5m">
+                                                <input disabled type="checkbox" name="onoffswitch" ng-checked="item.estadoRegistro=='A'" 
+                                                class="onoffswitch-checkbox" id="switchCultivo{{$index}}" tabindex="0"  ng-click="habilitarCul(item.codCultivo,item.estadoRegistro)">
+                                                <label class="onoffswitch-label" for="switchCultivo{{$index}}"></label>
+                                            </div>
+                                        </li>
+                                        <li class="col-md-1 pt-xs-1 lft-40" ng-if="estadoRegistro  == 'I'">
+                                            <div class="onoffswitch mg-top-5m">
+                                                <input type="checkbox" name="onoffswitch" ng-checked="item.estadoRegistro=='A'" 
+                                                class="onoffswitch-checkbox" id="switchCultivo{{$index}}" tabindex="0"  ng-click="habilitarCul(item.codCultivo,item.estadoRegistro)">
+                                                <label class="onoffswitch-label" for="switchCultivo{{$index}}"></label>
+                                            </div>
+                                        </li>
+                                        <li class="col-md-1 pt-xs-1 lft-40 mg-top-2m">
+                                            <span class="ico-mapfre_228_editar gnIcon-xsm gCGray3" uib-tooltip="Editar" 
+                                            ng-click="mostrarEditarCultivos(item,$index)">
+                                        </li>
+                                    </ul>
+                                </div>
+                            </li>
+                        </div>
+                    </div>
+                    <li>
+                        <div class="g-section-inner g-dashboard-section"
+                            ng-show="flagMostrarEditarCultivo && indexListaCultivo == $index">
+                            <div class="container">
+                                <div class="row">
+                                    <div class="col-md-8 col-md-offset-2">
+                                        <form name="frmFormEditCultivo">
+                                            <div class="clearfix g-box-md mb-md-2 gBgcWhite1">
+                                                <div class="g-col-filter__box">
+                                                    <div class="col-md-12">
+                                                        <div class="row">
+                                                            <div class="col-md-12 mb-md-1 mg-top-15">
+                                                                <span class="col-md-11 ">
+                                                                    <label
+                                                                        class="g-placeholder animated ng-binding pl-xs-1-5"><b>Editar
+                                                                            Cultivo</b></label>
+                                                                </span>
+                                                            </div>
+                                                            <div class="col-md-12 mt-md-2 mb-md-2 ">
+                                                                <div class="col-md-3">
+                                                                    <mpf-input label="{label: 'Código del cultivo'}"
+                                                                        name="nCodCultivoEdit"
+                                                                        ng-model="mCodCultivoEdit[$index]"
+                                                                        mpf-validation="onlyNumber" ng-maxlength="6"
+                                                                        ng-disabled= "true"
+                                                                        ng-required="true">
+                                                                    </mpf-input>
+                                                                    <div class="g-error"
+                                                                        data-ng-show="frmFormEditCultivo.nCodCultivoEdit.$error.required && !frmFormEditCultivo.nCodCultivoEdit.$pristine">
+                                                                        * Ingrese Código de cultivo
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-md-6">
+                                                                    <mpf-input label="{label: 'Nombre del cultivo'}"
+                                                                        name="nNombreCultivoEdit"
+                                                                        ng-model="mNombreCultivoEdit[$index]" ng-maxlength="100"
+                                                                        ng-required="true">
+                                                                    </mpf-input>
+                                                                    <div class="g-error"
+                                                                        data-ng-show="frmFormEditCultivo.nNombreCultivoEdit.$error.required && !frmFormEditCultivo.nNombreCultivoEdit.$pristine">
+                                                                        * Ingrese Cultivo
+                                                                    </div>
+                                                                </div>                                                               
+                                                                <div class="col-md-3">
+                                                                    <mpf-input
+                                                                        label="{label: 'Abreviatura del cultivo'}"
+                                                                        name="nAbrCultivoEdit"
+                                                                        ng-model="mAbrCultivoEdit[$index]" ng-maxlength="4"
+                                                                        ng-required="true">
+                                                                    </mpf-input>
+                                                                    <div class="g-error"
+                                                                        data-ng-show="frmFormEditCultivo.nAbrCultivoEdit.$error.required && !frmFormEditCultivo.nAbrCultivoEdit.$pristine">
+                                                                        * Ingrese Abreviatura
+                                                                    </div>
+                                                                </div>
+
+                                                            </div>
+                                                            <div
+                                                                class="col-md-12 g-text-right-md g-span-middle mg-bot-10">
+                                                                <span class="mr-md-2">
+                                                                    <a class="g-btn g-btn-transparent block second-design pl-md-2 pr-md-2"
+                                                                        ng-click="mostrarEditarCultivos(item,index)">CANCELAR</a>
+                                                                </span>
+                                                                <span class="mr-md-2" ng-if="estadoRegistro  == 'A'">
+                                                                    <button disabled
+                                                                        ng-click=""
+                                                                        class="g-btn g-btn-transparent block second-design pl-md-2 pr-md-2">GUARDAR</button>
+                                                                </span>
+
+                                                                <span class="mr-md-2" ng-if="estadoRegistro  == 'I'">
+                                                                    <button ng-disabled="frmFormEditCultivo.$invalid"
+                                                                        ng-click="procesarCultivo(mNombreCultivoEdit[$index],mCodCultivoEdit[$index],mAbrCultivoEdit[$index],2);"
+                                                                        class="g-btn g-btn-verde block second-design pl-md-2 pr-md-2">GUARDAR</button>
+                                                                </span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+                <!--Fin: Resultados-->
+                <!-- Inicio: pagination -->
+                <div class="row">
+                    <div class="col-md-12" ng-show="listaCultivos.length > 0">
+                        <ul uib-pagination class="g-pagination" ng-model="currentPageCul" max-size="maxSizeCul"
+                            ng-change="changePageCul(currentPageCul)" total-items="totalRecordsCul"
+                            items-per-page="sizePerPageCul" boundary-link-numbers="true"></ul>
+                    </div>
+                </div>
+                <!-- Fin: pagination -->
+
+            </div>
+        </div>
+    </div>
+    <div class="g-section-inner g-dashboard-section" ng-model="mNuevoCultivo" ng-hide="!mNuevoCultivo">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-8 col-md-offset-2">
+                    <form name="frmFormCultivo">
+                        <div class="clearfix g-box-md mb-md-2 gBgcWhite1">
+                            <div class="g-col-filter__box">
+                                <div class="col-md-12">
+                                    <div class="row">
+                                        <div class="col-md-12 mb-md-1">
+                                            <span class="col-md-12 mg-top-15">
+                                                <label class="g-placeholder animated ng-binding pl-xs-1-5"><b>Nuevo
+                                                        Cultivo</b></label>
+                                            </span>
+                                        </div>
+                                        <div class="col-md-12 mt-md-2 mb-md-2 ">
+                                            <div class="col-md-6">
+                                                <mpf-input label="{label: 'Nombre del cultivo'}" name="nNombreCultivo"
+                                                    ng-model="mNombreCultivo" ng-maxlength="100" ng-required="true">
+                                                </mpf-input>
+                                                <div class="g-error"
+                                                    data-ng-show="frmFormCultivo.nNombreCultivo.$error.required && !frmFormCultivo.nNombreCultivo.$pristine">
+                                                    * Ingrese Nombre de cultivo
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <mpf-input label="{label: 'Código del cultivo'}" name="nCodCultivo" mpf-validation="onlyNumber" 
+                                                    ng-model="mCodCultivo" ng-maxlength="6" ng-required="true">
+                                                </mpf-input>
+                                                <div class="g-error"
+                                                    data-ng-show="frmFormCultivo.nCodCultivo.$error.required && !frmFormCultivo.nCodCultivo.$pristine">
+                                                    * Ingrese Código de cultivo
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <mpf-input label="{label: 'Abreviatura del cultivo'}" name="nAbrCultivo"
+                                                    ng-model="mAbrCultivo" ng-maxlength="4" ng-required="true">
+                                                </mpf-input>
+                                                <div class="g-error"
+                                                    data-ng-show="frmFormCultivo.nAbrCultivo.$error.required && !frmFormCultivo.nAbrCultivo.$pristine">
+                                                    * Ingrese Abreviatura
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12 g-text-right-md g-span-middle mg-bot-10">
+                                            <span class="mr-md-2">
+                                                <a class="g-btn g-btn-transparent block second-design pl-md-2 pr-md-2"
+                                                    ng-click="mostrarListadoCul()">CANCELAR</a>
+                                            </span>
+                                            <span class="mr-md-2">
+                                                <button ng-disabled="frmFormCultivo.$invalid"
+                                                    ng-click="procesarCultivo(mNombreCultivo,mCodCultivo,mAbrCultivo,1);"
+                                                    class="g-btn g-btn-verde block second-design pl-md-2 pr-md-2">REGISTRAR</button>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

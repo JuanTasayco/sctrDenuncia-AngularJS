@@ -1,0 +1,328 @@
+<div class="consultaGestion">
+  <div class="container">
+    <div
+      show-filter
+      class="clearfix g-col-filter g-box-md gBgcGray5-md gBgcWhite1 g-myd-box"
+      ng-class="{'show': isFilterVisible}"
+    >
+      <div class="col-xs-12">
+        <div class="clearfix gH4 gCGray1 mb-xs-1-5">
+          <h2 class="hidden-xs hidden-sm"><b>Opciones de Búsqueda</b></h2>
+          <div
+            id="show-filter"
+            class="row pt-xs-2 pb-xs-2 gBgcGray5 g-border-bottom-xs hidden-md hidden-lg"
+            ng-click="toggleFilter();"
+          >
+            <div class="col-xs-10">
+              <h2><b>Opciones de Búsqueda</b></h2>
+            </div>
+            <div class="col-xs-2 g-text-right-xs">
+              <!-- ngIf: isFilterVisible --><span
+                class="glyphicon glyphicon-chevron-down ng-scope"
+                ng-if="isFilterVisible"
+              ></span
+              ><!-- end ngIf: isFilterVisible -->
+              <!-- ngIf: !isFilterVisible --><span
+                class="glyphicon glyphicon-chevron-up ng-scope"
+                ng-if="!isFilterVisible"
+              ></span
+              ><!-- end ngIf: !isFilterVisible -->
+            </div>
+            <div class="clearfix"></div>
+          </div>
+        </div>
+        <form class="clearfix" name="frmDocPagar">
+          <div class="row mb-xs-2">
+            <div class="col-md-12 col-xs-12 mt-xs-2 mt-md-0">
+              <div class="row">
+                <div class="col-md-2 pl-xs-1 pr-xs-0">
+                  <m-radio
+                    label="{label: 'Por cartera'}"
+                    name="nTipoBusqueda"
+                    ng-model="vm.formDocPagar.optRadioTap1"
+                    value="1"
+                    data-ng-required="true"
+                  ></m-radio>
+                </div>
+                <div class="col-md-2 pl-xs-1 pr-xs-0">
+                  <m-radio
+                    label="{label: 'Por póliza'}"
+                    name="nTipoBusqueda"
+                    ng-model="vm.formDocPagar.optRadioTap1"
+                    value="2"
+                    data-ng-required="true"
+                  ></m-radio>
+                  <div
+                    class="g-error"
+                    data-ng-show="frmDocPagar.nTipoBusqueda.$error.required && !frmDocPagar.nTipoBusqueda.$pristine"
+                  >
+                    * Seleccione una opción
+                  </div>
+                </div>
+                <div class="col-md-2 pl-xs-1 pr-xs-0">
+                  <m-radio
+                    label="{label: 'Por cliente'}"
+                    name="nTipoBusqueda"
+                    ng-model="vm.formDocPagar.optRadioTap1"
+                    value="3"
+                    data-ng-required="true"
+                  ></m-radio>
+                </div>
+              </div>
+              <div ng-show="vm.formDocPagar.optRadioTap1 == '1'" class="row">
+                <div class="col-md-4 h-myd-mt--20">
+                  <gcw-cbo-situacion situacion="vm.formDocPagar.Situacion"></gcw-cbo-situacion>
+                </div>
+                <div class="col-md-4 mt-md-3 mt-xs-2 h-myd-mt--20">
+                  <gcw-cbo-ramos ramo="vm.formDocPagar.Ramo"></gcw-cbo-ramos>
+                </div>
+              </div>
+              <div ng-show="vm.formDocPagar.optRadioTap1 == '2'" class="row">
+                <div class="col-md-4 h-myd-mt--20">
+                  <mpf-input
+                    label="{label: 'Nro. Póliza', required: false}"
+                    name="nNumPoliza"
+                    ng-model="vm.formDocPagar.mNumPoliza"
+                  ></mpf-input>
+                </div>
+              </div>
+              <div ng-show="vm.formDocPagar.optRadioTap1 == '3'" class="row">
+                <div class="col-xs-12 col-md-8 no-padding-xs">
+                  <gcw-cliente data="vm.formDocPagar.Cliente"></gcw-cliente>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-2 col-xs-12 mb-xs-1 pull-right">
+              <a class="g-btn g-btn-white second-design block" ng-click="vm.limpiar()">Limpiar</a>
+            </div>
+            <div class="col-md-2 col-xs-12 mb-xs-1 pull-right">
+              <a class="g-btn g-btn-white second-design block" ng-click="estadoDocumento()">estado de cuenta</a>
+            </div>
+            <div class="col-md-2 col-xs-12 pull-right">
+              <a
+                class="g-btn g-btn-verde second-design block"
+                ga-click
+                ga-category="'CG - Cobranzas'"
+                ga-action="'MPF - Documentos por pagar - Buscar'"
+                ga-label="'Botón: Buscar'"
+                ng-click="vm.buscar(); vm.showCols(vm.formDocPagar.optRadioTap1,vm.formDocPagar.Situacion.code);"
+                >Buscar</a
+              >
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <div class="row mb-xs-2" ng-show="vm.totalRows >= 1 && vm.verSegmento">
+      <div class="col-xs-12 mt-md-2 camp-docPagar">
+        <div class="cont">
+          <span><b>Cliente:</b></span> <span>{{ vm.clientName }}</span>
+        </div>
+        <div class="cont separador-text">
+          <span class=""><b>Segmento comercial:</b></span> <span>{{ vm.commercialSegment }}</span>
+        </div>
+      </div>
+    </div>
+    <!-- Top bar: Filtro e iconos -->
+    <div tbl-oim-topbar class="clearfix g-tbl-topbar mt-md-2 mb-md-2 width-filtro" ng-show="vm.totalRows >= 1">
+      <div class="row">
+        <div class="g-row-filter__box g-row-icons__box box_left">
+          <a data-ng-click="exportar()" uib-popover="Exportar" popover-trigger="'mouseenter'">
+            <span class="g-icon-box g-icon-box-md">
+              <span class="ico-mapfre ico-mapfre_124_download ico-download"></span>
+            </span>
+          </a>
+        </div>
+        <div class="col-sm-3" ng-if="vm.showCheckAndButton()">
+          <a class="g-btn g-btn-white second-design block" ng-click="vm.modalEnvioMail()">
+            <span>Enviar documentos</span>
+          </a>
+        </div>
+        <fex-consult></fex-consult>
+      </div>
+    </div>
+
+    <!-- Tabla -->
+    <div class="row">
+      <div class="col-xs-12">
+        <div tbl-oim class="g-tbl-wrapper pl-xs-0" data-ng-if="vm.docs && vm.docs.length">
+          <div class="tbl-main">
+            <ul class="tbl-header clearfix">
+              <li class="title col-3-dktp" ng-if="vm.showCheckAndButton()">
+                <mpf-checkbox
+                  label=""
+                  name="nCheckAll"
+                  ng-model="vm.mCheckAll"
+                  ng-checked="mCheckAllValue"
+                  ng-click="vm.selectAll(vm.mCheckAll);"
+                ></mpf-checkbox>
+              </li>
+              <li
+                class="title"
+                ng-class="{' col-14-dktp':vm.colDktp1 , 'col-11-dktp':vm.colDktp2, 'col-12-dktp':!vm.showColPoliza}"
+                ng-if="vm.showColDetalles"
+              >
+                Detalles
+              </li>
+              <li
+                class="title"
+                ng-class="{' col-11-dktp':vm.colDktp1, 'col-9-dktp':vm.colDktp2, 'col-14-dktp':!vm.showColDetalles, 'col-12-dktp':!vm.showColPoliza}"
+              >
+                Producto
+              </li>
+              <li class="title col-11-dktp pos-relat" ng-show="vm.showColPoliza">Póliza</li>
+              <li class="title col-6-dktp">Tipo Doc</li>
+              <li class="title col-8-dktp">Nro. Doc</li>
+              <li class="title col-7-dktp text-center" data-ng-if="vm.showColDiasVenc">Días Venc.</li>
+              <li class="title col-9-dktp text-center">Vencimiento</li>
+              <li class="title col-7-dktp text-right">Imp.</li>
+              <li class="title col-5-dktp text-center">Moneda</li>
+              <li class="title col-8-dktp text-center">Medio</li>
+              <li class="title col-7-dktp">Compañía</li>
+              <li
+                class="title"
+                ng-class="{' col-11-dktp':vm.colDktp1, 'col-8-dktp':vm.colDktp2, 'col-14-dktp':!vm.showColDetalles, 'col-12-dktp':!vm.showColPoliza}"
+              >
+                Cobrador
+              </li>
+            </ul>
+            <ul class="tbl-body tbl-altoMinimo clearfix">
+              <li data-ng-repeat="item in vm.docs">
+                <ul height-row class="tbl-row clearfix" ng-click="vm.showModalDocPagarDetalle(item, $event)">
+                  <li class="cell col-3-dktp" ng-if="vm.showCheckAndButton() && vm.docs.length>0">
+                    <mpf-checkbox
+                      label=""
+                      ng-if="item"
+                      name="nSelectDoc"
+                      ng-model="item.selected"
+                      ng-click="vm.selectDoc($index, item.selected); $event.stopPropagation();"
+                      >{{ item.selected }}</mpf-checkbox
+                    >
+                  </li>
+                  <li
+                    class="cell"
+                    class="pos-relat"
+                    ng-class="{' col-14-dktp':vm.colDktp1, 'col-11-dktp':vm.colDktp2, 'col-12-dktp':!vm.showColPoliza}"
+                    ng-if="vm.showColDetalles"
+                  >
+                    <span class="cell-title">{{ item.client.name }}</span>
+                    <span ng-if="item.stateDocumentPayment.positiveBalance == 'S'">
+                      <span class="c-tag g-box-label g-text-uppercase c-green">SALDO A FAVOR</span>
+                    </span>
+                    <span ng-if="item.stateDocumentPayment.nextCancel == 'S'" ng-show="!vm.showColPoliza">
+                      <span class="c-tag g-box-label g-text-uppercase c-red fontz11">PRÓXIMA ANULAR</span>
+                    </span>
+                  </li>
+                  <li
+                    class="cell"
+                    ng-class="{'col-11-dktp':vm.colDktp1, 'col-9-dktp':vm.colDktp2, 'col-14-dktp':!vm.showColDetalles, 'col-12-dktp':!vm.showColPoliza}"
+                  >
+                    <span class="cell-label g-break-word">
+                      <span class="cell-data" data-ng-click="item.ramo.description">{{ item.ramo.description }}</span>
+                    </span>
+                    <div ng-show="!vm.showColDetalles">
+                      <span ng-if="item.stateDocumentPayment.positiveBalance == 'S'">
+                        <span class="c-tag g-box-label g-text-uppercase c-green">SALDO A FAVOR</span>
+                      </span>
+                    </div>
+                  </li>
+                  <li class="cell col-11-dktp pos-relat" ng-show="vm.showColPoliza">
+                    <span class="cell-label"
+                      ><span class="cell-data">{{ item.policyNumber }}</span></span
+                    >
+                    <span ng-if="item.stateDocumentPayment.nextCancel == 'S'">
+                      <span class="c-tag g-box-label g-text-uppercase c-red fontz11">PRÓXIMA ANULAR</span>
+                    </span>
+                    <span ng-if="item.detailRejectionDescription != ''">
+                      <span class="g-box-label g-text-uppercase c-blue fontz11">Contiene Detalle rechazo</span>
+                    </span>
+                  </li>
+                  <li class="cell col-6-dktp">
+                    <span class="cell-label"
+                      ><span class="cell-data">{{ item.documentType }}</span></span
+                    >
+                  </li>
+                  <li class="cell col-8-dktp">
+                    <span class="cell-label"
+                      ><span class="cell-data">{{ item.documentNumber }}</span></span
+                    >
+                    <span ng-if="item.advancedInvoiceDescription != ''">
+                      <span class="g-box-label g-text-uppercase c-griss fontz11">Factura adelantada</span>
+                    </span>
+                    <span ng-show="!vm.showColPoliza">
+                      <span ng-if="item.stateDocumentPayment.nextCancel == 'S'">
+                        <span class="g-box-label g-text-uppercase c-red fontz11">PRÓXIMA ANULAR</span>
+                      </span>
+                      <span ng-if="item.detailRejectionDescription != ''">
+                        <span class="g-box-label g-text-uppercase c-blue fontz11">Contiene Detalle rechazo</span>
+                      </span>
+                    </span>
+                  </li>
+                  <li class="cell col-7-dktp text-center" ng-if="vm.showColDiasVenc">
+                    <span class="cell-label"
+                      ><span class="cell-data">{{ item.numberDayExpiration }}</span></span
+                    >
+                  </li>
+                  <li class="cell col-9-dktp text-center">
+                    <span class="cell-label"
+                      ><span class="cell-data">{{ item.dateEffect }}</span></span
+                    >
+                  </li>
+                  <li class="cell col-7-dktp text-right">
+                    <span class="cell-label"
+                      ><span class="cell-data">{{ item.amount }}</span></span
+                    >
+                  </li>
+                  <li class="cell col-5-dktp text-center">
+                    <span class="cell-label"
+                      ><span class="cell-data">{{ item.coinDescription }}</span></span
+                    >
+                  </li>
+                  <li class="cell col-8-dktp text-center">
+                    <span class="cell-label"
+                      ><span class="cell-data">{{ item.collectionMethod.abbreviation }}</span></span
+                    >
+                  </li>
+                  <li class="cell col-7-dktp">
+                    <span class="cell-label"
+                      ><span class="cell-data">{{ item.ramo.companyName }}</span></span
+                    >
+                  </li>
+                  <li
+                    class="cell"
+                    ng-class="{' col-11-dktp':vm.colDktp1, 'col-8-dktp':vm.colDktp2, 'col-14-dktp':!vm.showColDetalles, 'col-12-dktp':!vm.showColPoliza}"
+                  >
+                    <span class="cell-label"
+                      ><span class="cell-data">{{ item.collectionsManagerName }}</span></span
+                    >
+                  </li>
+                </ul>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <mx-paginador
+      data-datos="vm.docs"
+      data-items-x-page="vm.itemsXPagina"
+      data-msg-vacio="vm.msgVacio"
+      data-on-paginar="vm.pageChanged($event)"
+      data-pagina-actual="vm.currentPage"
+      data-total-items="vm.totalRows"
+    >
+    </mx-paginador>
+  </div>
+</div>
+
+<form id="frmExport" name="frmExport" action="{{ vm.exportURL }}" method="post" target="_blank">
+  <input type="hidden" name="json" value="{{ vm.downloadFile }}" />
+</form>
+
+<form id="frmEstado" name="frmEstado">
+  <input type="hidden" name="json" value="{{ vm.downloadFile2 }}" />
+</form>

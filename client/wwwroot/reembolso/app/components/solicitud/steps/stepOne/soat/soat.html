@@ -1,0 +1,514 @@
+<form name="$ctrl.frmStepOne">
+  <div class="row mb-xs-3">
+    <div class="col-xs-12 col-sm-3">
+      <mpf-input
+        label="{label: 'Número de placa', required: false}"
+        name="nNroPlaca"
+        ng-model="$ctrl.stepOne.licensePlate"
+        ng-disabled="!$ctrl.isEditableStepOne"
+        ng-blur="$ctrl.getDataByLicensePlate()">
+      </mpf-input>
+    </div>
+    <div class="col-xs-12 col-sm-3">
+      <mpf-input
+        label="{label: 'Número de póliza', required: false}"
+        name="nNroPoliza"
+        mpf-validation="onlyNumber"
+        ng-disabled="true"
+        ng-model="$ctrl.stepOne.policyNumber">
+      </mpf-input>
+    </div>
+  </div>
+  <div class="row" ng-if="$ctrl.isVisibleSections">
+    <div class="col-xs-12 col-sm-3 mt-xs-1">
+      <div class="col-xs-12 date-timer--wrapper">
+        <label class="date-timer--label">Fecha de siniestro</label>
+        <div class="col-xs-12 mt-xs-2">
+          <div class="input-group g-date-picker">
+            <label class="g-placeholder animated">Días/Mes/Año<span></span>:</label>
+            <input
+              type="text"
+              class="form-control"
+              name="nSinisterDate"
+              ng-model="$ctrl.stepOne.sinister.date.model"
+              uib-datepicker-popup="{{$ctrl.stepOne.sinister.date.FORMAT_DATE}}"
+              is-open="$ctrl.stepOne.sinister.date.open"
+              datepicker-options="$ctrl.stepOne.sinister.date.options"
+              close-text="Close"
+              alt-input-formats="$ctrl.stepOne.sinister.date.ALT_INPUT_FORMATS"
+              ui-mask="{{$ctrl.stepOne.sinister.date.FORMAT_MASK}}"
+              ng-pattern="$ctrl.stepOne.sinister.date.FORMAT_PATTERN"
+              model-view-value="true"
+              ng-required="true"
+              ng-disabled="!$ctrl.isEditableStepOne"
+              ng-change="$ctrl.changeSinisterDate($ctrl.stepOne.sinister.date.model)"/>
+            <span class="input-group-btn">
+              <button
+                type="button"
+                class="btn btn-default"
+                ng-disabled = "false"
+                ng-click="$ctrl.stepOne.sinister.date.setOpen(true)">
+                <i class="glyphicon glyphicon-calendar"></i>
+              </button>
+            </span>
+          </div>
+          <ul class="g-error">
+            <li ng-show="!$ctrl.frmStepOne.nSinisterDate.$error.required && $ctrl.frmStepOne.nSinisterDate.$invalid && !$ctrl.frmStepOne.nSinisterDate.$pristine">* Fecha incorrecta</li>
+            <li ng-show="$ctrl.frmStepOne.nSinisterDate.$error.required && !$ctrl.frmStepOne.nSinisterDate.$pristine">* Este campo es necesario</li>
+          </ul>
+        </div>
+        <div class="col-xs-12 mt-xs-2">
+          <mpf-timepicker
+            is-hh-mm="true"
+            is-read-only="false"
+            label-data="{label: 'Hora del siniestro', required: true}"
+            modelo="$ctrl.stepOne.sinister.hour"
+            requerido="true"
+            ng-disabled="!$ctrl.isEditableStepOne"
+            name="nSinisterHour">
+          </mpf-timepicker>
+          <div
+            class="g-error"
+            data-ng-show="$ctrl.frmStepOne.nSinisterHour.$invalid && !$ctrl.frmStepOne.nSinisterHour.$pristine">
+            Este campo es obligatorio
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-xs-12 col-sm-3 mt-xs-1">
+      <div class="col-xs-12 date-timer--wrapper">
+        <label class="date-timer--label">Fecha de notificación</label>
+        <div class="col-xs-12 mt-xs-2">
+          <div class="input-group g-date-picker">
+            <label class="g-placeholder animated">Días/Mes/Año<span></span>:</label>
+            <input
+              type="text"
+              class="form-control"
+              name="nNotificationDate"
+              ng-model="$ctrl.stepOne.notification.date.model"
+              uib-datepicker-popup="{{$ctrl.stepOne.notification.date.FORMAT_DATE}}"
+              is-open="$ctrl.stepOne.notification.date.open"
+              datepicker-options="$ctrl.stepOne.notification.date.options"
+              close-text="Close"
+              alt-input-formats="$ctrl.stepOne.notification.date.ALT_INPUT_FORMATS"
+              ui-mask="{{$ctrl.stepOne.notification.date.FORMAT_MASK}}"
+              ng-pattern="$ctrl.stepOne.notification.date.FORMAT_PATTERN"
+              model-view-value="true"
+              ng-required="true"
+              ng-disabled="!$ctrl.isActiveNotificationDate || !$ctrl.isEditableStepOne"
+              ng-change="$ctrl.changeNotificationDate($ctrl.stepOne.notification.date.model)"/>
+            <span class="input-group-btn">
+              <button
+                type="button"
+                class="btn btn-default"
+                ng-disabled = "false"
+                ng-click="$ctrl.stepOne.notification.date.setOpen(true)">
+                <i class="glyphicon glyphicon-calendar"></i>
+              </button>
+            </span>
+          </div>
+          <ul class="g-error">
+            <li ng-show="!$ctrl.frmStepOne.nNotificationDate.$error.required && $ctrl.frmStepOne.nNotificationDate.$invalid && !$ctrl.frmStepOne.nNotificationDate.$pristine">* Fecha incorrecta</li>
+            <li ng-show="$ctrl.frmStepOne.nNotificationDate.$error.required && !$ctrl.frmStepOne.nNotificationDate.$pristine">* Este campo es necesario</li>
+          </ul>
+        </div>
+        <div class="col-xs-12 mt-xs-2">
+          <mpf-timepicker
+            is-hh-mm="true"
+            is-read-only="false"
+            label-data="{label: 'Hora de la notificación', required: true}"
+            modelo="$ctrl.stepOne.notification.hour"
+            requerido="true"
+            name="nNotificationHour"
+            ng-disabled="!$ctrl.isActiveNotificationDate || !$ctrl.isEditableStepOne">
+          </mpf-timepicker>
+          <div
+            class="g-error"
+            data-ng-show="$ctrl.frmStepOne.nNotificationHour.$invalid && !$ctrl.frmStepOne.nNotificationHour.$pristine">
+            Este campo es obligatorio
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-xs-12 col-sm-3 mt-xs-1">
+      <div class="col-xs-12 date-timer--wrapper">
+        <label class="date-timer--label">Fecha de denuncia</label>
+        <div class="col-xs-12 mt-xs-2">
+          <div class="input-group g-date-picker">
+            <label class="g-placeholder animated">Día/Mes/Año<span></span>:</label>
+            <input
+              type="text"
+              class="form-control"
+              name="nComplaintDate"
+              ng-model="$ctrl.stepOne.complaint.date.model"
+              uib-datepicker-popup="{{$ctrl.stepOne.complaint.date.FORMAT_DATE}}"
+              is-open="$ctrl.stepOne.complaint.date.open"
+              datepicker-options="$ctrl.stepOne.complaint.date.options"
+              close-text="Close"
+              alt-input-formats="$ctrl.stepOne.complaint.date.ALT_INPUT_FORMATS"
+              ui-mask="{{$ctrl.stepOne.complaint.date.FORMAT_MASK}}"
+              ng-pattern="$ctrl.stepOne.complaint.date.FORMAT_PATTERN"
+              model-view-value="true"
+              ng-required="true"
+              ng-disabled="!$ctrl.isActiveSinisterDate || !$ctrl.isEditableStepOne"
+              ng-change="$ctrl.changeComplaintDate($ctrl.stepOne.complaint.date.model)"/>
+            <span class="input-group-btn">
+              <button
+                type="button"
+                class="btn btn-default"
+                ng-disabled = "false"
+                ng-click="$ctrl.stepOne.complaint.date.setOpen(true)">
+                <i class="glyphicon glyphicon-calendar"></i>
+              </button>
+            </span>
+          </div>
+          <ul class="g-error">
+            <li ng-show="!$ctrl.frmStepOne.nComplaintDate.$error.required && $ctrl.frmStepOne.nComplaintDate.$invalid && !$ctrl.frmStepOne.nComplaintDate.$pristine">* Fecha incorrecta</li>
+            <li ng-show="$ctrl.frmStepOne.nComplaintDate.$error.required && !$ctrl.frmStepOne.nComplaintDate.$pristine">* Este campo es necesario</li>
+          </ul>
+        </div>
+        <div class="col-xs-12 mt-xs-2">
+          <mpf-timepicker
+            is-hh-mm="true"
+            is-read-only="false"
+            label-data="{label: 'Hora de la denuncia', required: true}"
+            modelo="$ctrl.stepOne.complaint.hour"
+            requerido="true"
+            ng-disabled="!$ctrl.isActiveSinisterDate || !$ctrl.isEditableStepOne"
+            name="nComplaintHour">
+          </mpf-timepicker>
+          <div
+            class="g-error"
+            data-ng-show="$ctrl.frmStepOne.nComplaintHour.$invalid && !$ctrl.frmStepOne.nComplaintHour.$pristine">
+            Este campo es obligatorio
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-xs-12 col-sm-3 mt-xs-2 mt-sm-0">
+      <div class="input-group g-date-picker">
+        <label class="g-placeholder animated">Fecha de recepción de documento<span></span>:</label>
+        <input
+          type="text"
+          class="form-control"
+          name="nDocumentsPresentation"
+          ng-model="$ctrl.stepOne.documentsDate.model"
+          uib-datepicker-popup="{{$ctrl.stepOne.documentsDate.FORMAT_DATE}}"
+          is-open="$ctrl.stepOne.documentsDate.open"
+          datepicker-options="$ctrl.stepOne.documentsDate.options"
+          close-text="Close"
+          alt-input-formats="$ctrl.stepOne.documentsDate.ALT_INPUT_FORMATS"
+          ui-mask="{{$ctrl.stepOne.documentsDate.FORMAT_MASK}}"
+          ng-pattern="$ctrl.stepOne.documentsDate.FORMAT_PATTERN"
+          model-view-value="true"
+          ng-required="true"
+          ng-disabled="!$ctrl.isActiveSinisterDate"
+          ng-change="$ctrl.onChangeDocumentDate($ctrl.stepOne.documentsDate.model)"/>
+        <span class="input-group-btn">
+          <button
+            type="button"
+            class="btn btn-default"
+            ng-disabled = "false"
+            ng-click="$ctrl.stepOne.documentsDate.setOpen(true)">
+            <i class="glyphicon glyphicon-calendar"></i>
+          </button>
+        </span>
+      </div>
+      <ul class="g-error">
+        <li ng-show="!$ctrl.frmStepOne.nDocumentsPresentation.$error.required && $ctrl.frmStepOne.nDocumentsPresentation.$invalid && !$ctrl.frmStepOne.nDocumentsPresentation.$pristine">* Fecha incorrecta</li>
+        <li ng-show="$ctrl.frmStepOne.nDocumentsPresentation.$error.required && !$ctrl.frmStepOne.nDocumentsPresentation.$pristine">* Este campo es necesario</li>
+      </ul>
+    </div>
+  </div>
+  <div class="row mt-xs-4 mt-sm-5" ng-if="$ctrl.isVisibleSections">
+    <div class="col-xs-12">
+      <uib-accordion close-others="planCtrl.oneAtATime">
+        <div uib-accordion-group class="panel-default acordion" is-open="true">
+          <uib-accordion-heading>
+            <div ng-click="planCtrl.Acordion1()">
+              Datos del contacto
+              <i
+                class="pull-right i-acordion"
+                ng-class="{'ico-mapfre_309_arrowUp': planCtrl.status.open1,'ico-mapfre_308_arrowDown': !planCtrl.status.open1}">
+              </i>
+            </div>
+          </uib-accordion-heading>
+          <div class="col-xs-12 panel1">
+            <div class="row">
+              <div class="col-xs-12 col-sm-3">
+                <mpf-input
+                  label="{label: 'Correo electrónico ', required: true}"
+                  name="nEmail"
+                  ng-model="$ctrl.stepOne.notification.email"
+                  ng-required="true"
+                  ng-model-options="{allowInvalid: true}"
+                  mpf-validation="email">
+                </mpf-input>
+                <div
+                  class="g-error"
+                  ng-show="$ctrl.frmStepOne.nEmail.$invalid && !$ctrl.frmStepOne.nEmail.$pristine">
+                  * Ingrese un correo
+                </div>
+              </div>
+              <div class="col-xs-12 col-sm-3">
+                <mpf-input
+                  label="{label: 'Número de celular ', required: true}"
+                  name="nCellPhone"
+                  ng-model="$ctrl.stepOne.notification.cellphone"
+                  ng-required="true"
+                  ng-minlength="7"
+                  ng-maxlength="9"
+                  mpf-validation="onlyNumber">
+                </mpf-input>
+                <div
+                  class="g-error"
+                  ng-show="$ctrl.frmStepOne.nCellPhone.$error.required && !$ctrl.frmStepOne.nCellPhone.$pristine">
+                  * Campo requerido
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </uib-accordion>
+    </div>
+  </div>
+  <div class="row mt-xs-4 mt-sm-5" ng-if="$ctrl.isVisibleSections">
+    <div class="col-xs-12">
+      <uib-accordion close-others="planCtrl.oneAtATime">
+        <div uib-accordion-group class="panel-default acordion" is-open="true">
+          <uib-accordion-heading>
+            <div ng-click="planCtrl.Acordion1()">
+              Datos de siniestro
+              <i
+                class="pull-right i-acordion"
+                ng-class="{'ico-mapfre_309_arrowUp': planCtrl.status.open1,'ico-mapfre_308_arrowDown': !planCtrl.status.open1}">
+              </i>
+            </div>
+          </uib-accordion-heading>
+          <div class="col-xs-12 panel1">
+            <div class="row">
+              <div class="col-xs-12 col-sm-3 mt-xs-1 mt-sm-0">
+                <mpf-select
+                  label="{label: 'Causa de siniestro ', required: true}"
+                  name="nCausaSiniestro"
+                  ng-model="$ctrl.stepOne.sinister.causa"
+                  m-data-source="$ctrl.sinisterList"
+                  text-field="description"
+                  value-field="idCause"
+                  ng-required="true"
+                  ng-disabled="!$ctrl.isEditableStepOne"
+                  m-Empty-Option="{enterData:true}">
+                </mpf-select>
+                <div
+                  class="g-error"
+                  ng-show="$ctrl.frmStepOne.nCausaSiniestro.$error.required && !$ctrl.frmStepOne.nCausaSiniestro.$pristine">
+                  * Seleccione una causa
+                </div>
+              </div>
+            </div>
+            <div class="row mt-xs-2">
+              <div class="col-xs-12 col-sm-3 mt-xs-1 mt-sm-0">
+                <mpf-select
+                  label="{label: 'Departamento', required: true}"
+                  name="nDepartment"
+                  ng-model="$ctrl.stepOne.sinister.department"
+                  m-data-source="$ctrl.departmentList"
+                  text-field="departmentName"
+                  value-field="departmentCode"
+                  ng-required="true"
+                  ng-disabled="!$ctrl.isEditableStepOne"
+                  m-Empty-Option="{enterData:true}"
+                  ng-change="$ctrl.changeDepartment()">
+                </mpf-select>
+                <div
+                  class="g-error"
+                  ng-show="$ctrl.frmStepOne.nDepartment.$error.required && !$ctrl.frmStepOne.nDepartment.$pristine">
+                  * Seleccione un departamento
+                </div>
+              </div>
+              <div class="col-xs-12 col-sm-3 mt-xs-1 mt-sm-0">
+                <mpf-select
+                  label="{label: 'Provincia ', required: true}"
+                  name="nProvince"
+                  ng-model="$ctrl.stepOne.sinister.province"
+                  m-data-source="$ctrl.provinceList"
+                  text-field="provinceName"
+                  value-field="idProvince"
+                  ng-required="true"
+                  ng-disabled="!$ctrl.isEditableStepOne"
+                  m-Empty-Option="{enterData:true}"
+                  ng-change="$ctrl.changeProvince()">
+                </mpf-select>
+                <div
+                  class="g-error"
+                  ng-show="$ctrl.frmStepOne.nProvince.$error.required && !$ctrl.frmStepOne.nProvince.$pristine">
+                  * Seleccione una provincia
+                </div>
+              </div>
+              <div class="col-xs-12 col-sm-3 mt-xs-1 mt-sm-0">
+                <mpf-select
+                  label="{label: 'Distrito ', required: true}"
+                  name="nDistrict"
+                  ng-model="$ctrl.stepOne.sinister.district"
+                  m-data-source="$ctrl.districtList"
+                  text-field="districtName"
+                  value-field="idDistrict"
+                  ng-required="true"
+                  ng-disabled="!$ctrl.isEditableStepOne"
+                  m-Empty-Option="{enterData:true}">
+                </mpf-select>
+                <div
+                  class="g-error"
+                  ng-show="$ctrl.frmStepOne.nDistrict.$error.required && !$ctrl.frmStepOne.nDistrict.$pristine">
+                  * Seleccione un distrito
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </uib-accordion>
+    </div>
+  </div>
+  <div class="row mt-xs-4 mt-sm-5" ng-if="$ctrl.isVisibleSections">
+    <div class="col-xs-12">
+      <uib-accordion close-others="planCtrl.oneAtATime">
+        <div uib-accordion-group class="panel-default acordion no-hidden" is-open="true">
+          <uib-accordion-heading>
+            <div ng-click="planCtrl.Acordion1()">
+              Datos de la solicitud
+              <i
+                class="pull-right i-acordion"
+                ng-class="{'ico-mapfre_309_arrowUp': planCtrl.status.open1,'ico-mapfre_308_arrowDown': !planCtrl.status.open1}">
+              </i>
+            </div>
+          </uib-accordion-heading>
+          <div class="col-xs-12 panel1">
+            <div class="row">
+              <div class="col-xs-12 col-sm-3">
+                <mp-data-seeker
+                  behavior="{label:'', placeholder:'Diagnostico', matchField:'codeName'}"
+                  m-data-source="$ctrl.getDiagnosticList($inputNeed)"
+                  ng-model="$ctrl.stepOne.solicitudData.diagnostic"
+                  name="nDiagnostic"
+                  ng-required="true"
+                  ng-disabled=""
+                  ng-change="">
+                  <div ng-bind-html="$item.codeName | highlight: $select.search"></div>
+                </mp-data-seeker>
+                <div
+                  class="g-error"
+                  ng-show="$ctrl.frmStepOne.nDiagnostic.$error.required && !$ctrl.frmStepOne.nDiagnostic.$pristine">
+                  * Busque y seleccione un diagnóstico
+                </div>
+              </div>
+              <div class="col-xs-12 col-sm-3 mt-xs-1 mt-sm-0">
+                <mpf-input
+                  label="{label: 'Producto', required: false}"
+                  name="nProducto"
+                  ng-model="$ctrl.product.name"
+                  ng-disabled="true">
+                </mpf-input>
+              </div>
+            </div>
+            <div class="row mt-xs-2">
+            </div>
+            <div class="row mt-xs-2">
+              <div class="col-xs-12 col-sm-3 mt-xs-1 mt-sm-0">
+                <mpf-input
+                  label="{label: 'Cliente', required: false}"
+                  name="nCliente"
+                  ng-model="$ctrl.stepOne.solicitudData.client.name"
+                  ng-disabled="true">
+                </mpf-input>
+              </div>
+              <div class="col-xs-12 col-sm-3">
+                <div
+                  class="g-autocomplete-desing input-modal"
+                  ng-click="$ctrl.openModalAfiliate()">
+                  <a href="javascript:void(0)">
+                    <div class="input-modal__container">
+                      {{$ctrl.stepOne.afiliate.documentNumber}}
+                      <span ng-if="$ctrl.stepOne.afiliate.documentNumber"> | </span>
+                      {{
+                        $ctrl.stepOne.afiliate.fullName
+                          ? $ctrl.stepOne.afiliate.fullName
+                          : 'Seleccionar Beneficiario'
+                      }}
+                    </div>
+                  </a>
+                </div>
+                <div
+                  class="g-error"
+                  ng-show="!$ctrl.stepOne.afiliate">
+                  * Selecciona un afiliado
+                </div>
+              </div>
+              <div class="col-xs-12 col-sm-3 mt-xs-1 mt-sm-0">
+                <mpf-input
+                  label="{label: 'Plan', required: false}"
+                  name="nPlan"
+                  ng-model="$ctrl.stepOne.solicitudData.plan.name"
+                  ng-disabled="true">
+                </mpf-input>
+              </div>
+              <div class="col-xs-12 col-sm-3 mt-xs-1 mt-sm-0">
+                <mpf-input
+                  label="{label: 'Parentesco', required: false}"
+                  name="nParentezco"
+                  ng-model="$ctrl.stepOne.solicitudData.relationship.description"
+                  ng-disabled="true">
+                </mpf-input>
+              </div>
+            </div>
+            <div class="row mt-xs-2">
+              <div class="col-xs-12 col-sm-3 col-sm-offset-3">
+                <mpf-input
+                  label="{label: 'Afiliado vinculación', required: false}" name="nAfiliadoVinculacion"
+                  ng-model="mAfiliadoVinculacion"
+                  ng-disabled="true">
+                </mpf-input>
+              </div>
+              <div class="col-xs-12 col-sm-3 mt-xs-1 mb-xs-1 mt-sm-0 mb-sm-0">
+                <mpf-input
+                  label="{label: 'Número de contrato', required: false}"
+                  name="nNroContrato"
+                  ng-model="$ctrl.stepOne.solicitudData.contractNumber"
+                  ng-disabled="true">
+                </mpf-input>
+              </div>
+            </div>
+            <div class="row mt-xs-2">
+              <div class="col-xs-12 col-sm-3">
+                <div
+                  class="g-autocomplete-desing input-modal"
+                  ng-click="$ctrl.openModalCobertura()">
+                  <a href="javascript:void(0)">
+                    <div class="input-modal__container">
+                      {{$ctrl.stepOne.coverage.code}}
+                      <span ng-if="$ctrl.stepOne.coverage"> | </span>
+                      {{
+                        $ctrl.stepOne.coverage
+                          ? $ctrl.stepOne.coverage.longDescription
+                          : 'Cobertura'
+                      }}
+                    </div>
+                  </a>
+                </div>
+                <div
+                  class="g-error"
+                  ng-show="!$ctrl.stepOne.coverage.code">
+                  * Selecciona una cobertura
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </uib-accordion>
+    </div>
+  </div>
+  <div class="row mt-xs-4 mb-xs-3" ng-if="$ctrl.isVisibleSections">
+    <div class="col-md-4 col-md-offset-4">
+      <a class="g-btn g-btn-verde block" ng-click="$ctrl.continueToStepTwo()">Continuar</a>
+    </div>
+  </div>
+</form>

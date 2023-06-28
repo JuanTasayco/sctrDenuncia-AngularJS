@@ -1,0 +1,141 @@
+<section class="gNsctr gNsctrModal modalMaintenance">
+
+	<button 
+		type="button" 
+		class="close g-close-modal" 
+		ng-click="$ctrl.fnCancelModal()">
+		<span class="ico-mapfre_231_cancelaroff"></span>
+	</button>
+
+	<form name="frmMaintenance">
+		<div class="container">
+			<div class="row">
+				<div class="col-md-12 g-text-center-xs mb-xs-2">
+          <h2 class="gH3"><b>{{$ctrl.data.title}}</b></h2>
+				</div>
+			</div>
+		</div>
+
+		<div 
+			class="g-sec-information-md mb-xs-3" 
+			ng-show="$ctrl.data.showInformation">
+			<div class="sec-item">
+				<div class="container">
+					<ul class="row">
+						<li class="col-md-6 clearfix cnt-item">
+							<div class="col-xs-5 item-label">
+								<span class="ico-mapfre_82_circle ico-bullet"></span>Usuario ult. actual:
+							</div>
+							<div class="col-xs-7 item-dato g-text-uppercase">
+								{{$ctrl.mainData.item.userId}}
+							</div>
+						</li>
+						<li class="col-md-6 clearfix cnt-item">
+							<div class="col-xs-5 item-label">
+								<span class="ico-mapfre_82_circle ico-bullet"></span>Fecha ult. actual:
+							</div>
+							<div class="col-xs-7 item-dato g-text-uppercase">
+                {{$ctrl.mainData.item.updateDate}}
+							</div>
+						</li>
+					</ul>
+					<ul class="row">
+            <li class="col-md-6 clearfix cnt-item">
+              <div class="col-xs-5 item-label">
+                <span class="ico-mapfre_82_circle ico-bullet"></span>Código:
+              </div>
+              <div class="col-xs-7 item-dato g-text-uppercase">
+                {{$ctrl.mainData.item.id}}
+              </div>
+            </li>
+					</ul>
+				</div>
+			</div>
+		</div>
+
+		<div class="container">
+			<div class="col-md-12">
+				<div class="row">
+          <div class="col-md-6 mb-xs-2">
+            <mpf-select 
+            	label="{label: 'Tipo de Documento', required: true}" 
+            	name="nTipoDocumento" 
+            	ng-model="$ctrl.data.mTipoDocumento" 
+            	m-data-source="$ctrl.data.documentTypeData" 
+            	text-field="typeDescription"
+              value-field="typeId" 
+              m-Empty-Option="{enterData:true}" 
+              ng-required="true" 
+              ng-disabled="$ctrl.data.disabledDocumentType"
+              ng-change="$ctrl.fnChangeDocumentType($ctrl.data.mTipoDocumento)">
+            </mpf-select>
+            <ul class="g-error">
+              <li ng-show="frmMaintenance.nTipoDocumento.$invalid && !frmMaintenance.nTipoDocumento.$pristine">* Seleccione un tipo de documento</li>
+            </ul>
+          </div>
+					<div class="col-md-6 mb-xs-2">
+            <mpf-input 
+            	label="{label: 'Nro. Documento', required: true}" 
+            	name="nNroDocumento" 
+            	ng-model="$ctrl.data.mNroDocumento.model" 
+            	mpf-validation="{{$ctrl.data.mNroDocumento.FIELD_TYPE}}" 
+							mpf-validation-disabled="{{$ctrl.data.mNroDocumento.FIELD_TYPE_DISABLED}}" 
+							ng-maxlength="$ctrl.data.mNroDocumento.MAX_LENGTH" 
+              ng-required="true">
+            </mpf-input>
+						<ul class="g-error">
+							<li ng-show="frmMaintenance.nNroDocumento.$invalid && !frmMaintenance.nNroDocumento.$pristine">* Ingrese un número de documento</li>
+						</ul>
+          </div>
+				</div>
+				<div class="row">
+          <div class="col-md-6 mb-xs-2">
+            <mpf-input 
+            	label="{label: 'Nombre', required: true}" 
+            	name="nNombre" 
+            	ng-model="$ctrl.data.mName" 
+            	ng-required="true" 
+            	mpf-validation="onlyLetter" >
+            </mpf-input>
+            <ul class="g-error">
+              <li ng-show="frmMaintenance.nNombre.$invalid && !frmMaintenance.nNombre.$pristine">* Ingrese un nombre</li>
+            </ul>
+          </div>
+					<div class="col-md-6 mb-xs-2">
+            <mpf-select 
+            	label="{label: 'Estado', required: true}" 
+            	name="nEstado" 
+            	ng-model="$ctrl.data.mEstado" 
+            	m-data-source="$ctrl.data.statusData" 
+            	text-field="value"
+              value-field="code" 
+              m-Empty-Option="{enterData:true}" 
+              ng-required="true">
+            </mpf-select>
+						<ul class="g-error">
+							<li ng-show="frmMaintenance.nEstado.$invalid && !frmMaintenance.nEstado.$pristine">* Seleccione un estado</li>
+						</ul>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-md-4 col-md-offset-2 mb-xs-1 no-mb-md">
+						<a 
+							href="javascript:void(0)" 
+							class="g-btn g-btn-transparent block" 
+							ng-click="$ctrl.fnCancelModal()">
+							Cerrar
+						</a>
+					</div>
+					<div class="col-md-4">
+						<a 
+							href="javascript:void(0)" 
+							class="g-btn g-btn-verde block" 
+							ng-click="$ctrl.fnActionButton()">
+							{{$ctrl.data.textActionButton}}
+						</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</form>
+</section>

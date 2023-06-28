@@ -1,0 +1,27 @@
+<div class="c-section__information">
+    <h3 class="c-section__title">Servicios adicionales</h3>
+    <p class="c-section__subtitle">{{$ctrl.format.valor1}}</p>
+    <a class="g-btn c-btn g-btn-white second-design c-btn__new" ng-click="$ctrl.newParameter()" ng-if="$ctrl.showButton">
+        <span class="glyphicon glyphicon-plus"></span> NUEVO SERVICIO
+     </a>
+</div>
+<div class="row mt-md-4">
+    <div class="col-md-2 g-center-flex" data-ng-repeat="service in $ctrl.services">
+        <div class="c-service__content" ng-class="{'mb-md-3 mb-xs-3': $ctrl.showSwitch}" >
+            <div class="c-service__icon">
+                <img ng-src="{{service.valor2}}" alt="">
+            </div>
+            <div class="c-service__title">
+                <p>{{service.valor1 | capitalize}}</p>
+            </div>
+            <div class="c-toggle g-center-flex" ng-if="$ctrl.showSwitch">
+                  <mpf-checkbox-toggle
+                  ng-model="service.activo"
+                  ng-true-value="'1'"
+                  ng-false-value="'0'"
+                  data-nodrag
+                ></mpf-checkbox-toggle>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,372 @@
+<section>
+  <!-- Inicio: menu  -->
+  <div class="g-menu-main__box menuPericial">
+    <div class="container">
+      <div class="row">
+        <div class="hidden-xs hidden-sm pr-xs-0" ng-class="{'col-md-4':bandejaCtrl.showButtonNewSiniester, 'col-md-6': !bandejaCtrl.showButtonNewSiniester}">
+            <span class="info-usuario" ng-if="bandejaCtrl.isPerito()">
+              <span class="ico-mapfre_126_employee info-usuario__ico"></span>
+              <span class="info-usuario__text"><b>PERITO: {{bandejaCtrl.userName}}</b></span>
+            </span>
+          <span class="info-usuario" ng-if="bandejaCtrl.isTaller()">
+              <span class="ico-mapfre_193_auxiliomecanico info-usuario__ico"></span>
+              <span class="info-usuario__text"><b>TALLER: {{bandejaCtrl.userName}}</b></span>
+            </span>
+        </div>
+        <div top-menu class="col-xs-12 col-md-6">
+          <ul class="g-menu-main hidden-xs hidden-sm">
+              <span ng-if="item.show" ng-repeat="item in bandejaCtrl.menuPericial | limitTo:limiteMenus">
+                <li class="link" ng-class="{'actived':item.actived}" ng-if="!item.isSubMenu"><a data-ui-sref="{{item.state}}">{{item.label}}</a></li>
+                <li class="submenu" ng-if="item.isSubMenu" ng-class="{'active': showSubMenu, 'actived':item.actived}" ng-mouseover="showSubMenu = true" ng-mouseleave="showSubMenu = false">
+                  <a>{{item.label}}</a>
+                  <ul class="sbm-main">
+                    <span ng-if="subitem.show" ng-repeat="subitem in item.menu">
+                       <li class="sbm-link" ng-class="{'actived':subitem.actived}"><a data-ui-sref="{{subitem.state}}">{{subitem.label}}</a></li>
+                    </span>
+                  </ul>
+                </li>
+              </span>
+            <span ng-if="showMoreFlag">
+                <li class="submenu" ng-class="{'active': showSubMenuMore}" ng-mouseover="showSubMenuMore = true" ng-mouseleave="showSubMenuMore = false">
+                  <a>Más opciones</a>
+                  <ul class="sbm-main">
+                    <span ng-repeat="item in bandejaCtrl.menuPericial | limitTo:10:5">
+                      <li class="link" ng-class="{'actived':item.actived}" ng-if="!item.isSubMenu">{{item.label}}</li>
+                      <li class="sbm-link submenu__more" ng-class="{'active': showSub2, 'actived':subitem.actived}" ng-mouseover="showSub2 = true" ng-mouseleave="showSub2 = false">
+                         <a data-ui-sref="{{item.state}}">{{item.label}}</a>
+                        <ul class="sbm-main">
+                          <span ng-repeat="subitem in item.menu">
+                             <li class="sbm-link" ng-class="{'actived':subitem.actived}"><a data-ui-sref="{{subitem.state}}">{{subitem.label}}</a></li>
+                          </span>
+                        </ul>
+                      </li>
+                    </span>
+                  </ul>
+                </li>
+              </span>
+          </ul>
+          <ul id="g-menu-main__responsive" class="g-menu-main g-menu-main__responsive hidden-md hidden-lg" ng-show="isPopupVisible" ng-style="mnStyle">
+              <span ng-repeat="item in bandejaCtrl.menuPericial">
+                <li class="link" ng-class="{'actived':item.actived}" ng-if="!item.isSubMenu"><a data-ui-sref="{{item.state}}">{{item.label}}</a></li>
+                <li class="submenu" ng-if="item.isSubMenu" ng-class="{active: showSubMenu, 'actived':item.actived}" ng-click="showSubMenu = !showSubMenu;" >
+                  <a>{{item.label}}</a>
+                  <ul class="sbm-main">
+                    <span ng-repeat="subitem in item.menu">
+                      <li class="sbm-link" ng-class="{'actived':subitem.actived}"><a data-ui-sref="{{subitem.state}}">{{subitem.label}}</a></li>
+                    </span>
+                  </ul>
+                </li>
+              </span>
+          </ul>
+          <span id="g-menu-main_ico" class="ico-mapfre_95_menuderecha g-menu-main_ico visible-xs visible-sm" ng-click="showTopMenu();" ng-if="bandejaCtrl.showBtnBox"></span>
+        </div>
+        <div class="col-md-2 hidden-xs hidden-sm text-right" ng-if="bandejaCtrl.showBtnBox">
+          <div class="btn-box">
+            <a class="g-btn g-btn-verde second-design block" ng-click="bandejaCtrl.fnShowModal()">Nuevo siniestro</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Fin: menu  -->
+
+  <!--Inicio: Title -->
+  <div class="hidden-md hidden-lg">
+    <page-title info="{title: 'Gestión Pericial - Servicios' }"></page-title>
+  </div>
+  <!--Fin: Title -->
+
+  <div class="g-fixed-box__bottom gBgcWhite1 hidden-md hidden-lg" ng-if="bandejaCtrl.showBtnBox">
+    <div class="col-xs-12 pt-xs-1-5 pb-xs-1-5">
+      <a class="g-btn g-btn-verde second-design block" ng-click="bandejaCtrl.fnShowModal()">Nuevo siniestro</a>
+    </div>
+  </div>
+
+  <div class="g-section">
+    <div class="container">
+      <!-- Inicio Buscador -->
+      <div class="col-md-12 g-box gBgcGray5 pt-xs-2 pb-xs-2">
+        <div class="row">
+          <form name="searchServices">
+            <div class="col-md-2 mb-xs-2 no-mb-md">
+              <mpf-input label="{label: 'Buscar por nro. caso', required: false}" name="nSiniester" ng-model="bandejaCtrl.mSiniester" ng-required="false"></mpf-input>
+              <ul class="g-error">
+                <li ng-show="nSiniester.$invalid && !nSiniester.$pristine">* Este campo es obligatorio</li>
+              </ul>
+            </div>
+            <div class="col-md-2 mb-xs-2 no-mb-md">
+              <mpf-input label="{label: 'Buscar por placa', required: false}" name="nPlaca" ng-model="bandejaCtrl.mPlaca" ng-required="false"></mpf-input>
+              <ul class="g-error">
+                <li ng-show="nPlaca.$invalid && !nPlaca.$pristine">* Este campo es obligatorio</li>
+              </ul>
+            </div>
+            <div class="col-md-4 mb-xs-2 no-mb-md" ng-if="bandejaCtrl.isPerito() || bandejaCtrl.isSupervisor()">
+              <mp-data-seeker behavior="{label:'Taller', placeholder:'Ingrese nombre taller', matchField:'thirdName'}"
+                              ng-change="bandejaCtrl.getFunctionsTaller(bandejaCtrl.mTaller)"
+                              m-data-source="bandejaCtrl.searchTaller($inputNeed)"
+                              ng-model="bandejaCtrl.mTaller"
+                              name="nTaller" ng-required="false" >
+                <div ng-bind-html="$item.thirdName | highlight: $select.search"></div>
+              </mp-data-seeker>
+            </div>
+            <div class="col-md-4 mb-xs-2 no-mb-md" ng-if="bandejaCtrl.isSupervisor()">
+              <mpf-select
+                label="{label: 'Perito', required: false}"
+                name="nPerito"
+                ng-model="bandejaCtrl.mPerito"
+                m-data-source="bandejaCtrl.peritoData"
+                text-field="fullName" value-field="idThird"
+                m-Empty-Option="{text:'-- TODOS --'}"
+                ng-required="false"
+                ng-change=""
+              >
+              </mpf-select>
+            </div>
+            <div class="col-md-2 pt-md-2-7 mb-xs-1 no-mb-md">
+              <a href="" class="g-btn g-btn-verde second-design block" ng-click="bandejaCtrl.getSiniestros()">Buscar</a>
+            </div>
+            <div class="col-md-2 pt-md-2-7">
+              <a class="g-btn g-btn-white second-design block" ng-click="bandejaCtrl.showFilters = !bandejaCtrl.showFilters">Filtros</a>
+            </div>
+            <div class="col-md-2 pt-md-2-7">
+              <a class="g-btn g-btn-white second-design block" ng-click="bandejaCtrl.cleanFilters()">Limpiar</a>
+            </div>
+          </form>
+        </div>
+      </div>
+      <!-- Fin Buscador -->
+
+      <!-- Inicio Filtros -->
+      <div class="col-md-12 g-box pt-xs-2 pb-xs-2 mt-xs-1 mb-xs-2" ng-show="bandejaCtrl.showFilters">
+        <div class="row">
+          <form name="searchServicesFilters">
+            <div class="col-md-3 mb-xs-2 no-mb-md">
+              <div class="btn-group g-dropdown" uib-dropdown auto-close="outsideClick" is-open="status.isopen">
+                <span class="g-label gH5">Estado de reparación</span>
+                <button id="reparacion-dropdown" type="button" class="g-dropdown--btn" uib-dropdown-toggle ng-disabled="disabled">
+                  <span>- Estado de reparación -</span>
+                  <span class="dropdown--icon ico-mapfre_76_chevrondown"></span>
+                </button>
+                <ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="reparacion-dropdown">
+                  <li class="pl-xs-1 pr-xs-1 mt-xs-1 mb-xs-1 gH5 g-text-uppercase fwNormal" role="menuitem">
+                    <mpf-checkbox value="0" label="{{bandejaCtrl.dropdownText}}" ng-model="bandejaCtrl.selectedAll" ng-click="bandejaCtrl.checkAll(bandejaCtrl.selectedAll)"></mpf-checkbox>
+                  </li>
+                  <li class="pl-xs-1 pr-xs-1 mt-xs-1 mb-xs-1 gH5 g-text-uppercase fwNormal" role="menuitem" ng-repeat="item in bandejaCtrl.estadoReparacionData">
+                    <mpf-checkbox ng-model="bandejaCtrl.mEstado[$index]" value="item.id" label="{{item.name}}" ng-change="bandejaCtrl.updateListArray($index, bandejaCtrl.mEstado[$index], item.id); bandejaCtrl.updateConFiltro()"></mpf-checkbox>
+                  </li>
+                </ul>
+              </div>
+            </div>
+            <div class="col-md-3 mb-xs-2 no-mb-md">
+              <mpf-select label="{label: 'Estado de siniestro', required: false}" name="nEstadoSiniestro" ng-model="bandejaCtrl.mEstadoSiniestro" m-data-source="bandejaCtrl.estadoSiniestroData" text-field="name" value-field="id" m-Empty-Option="{text:'-- TODOS --'}" ng-required="false" ng-change=""></mpf-select>
+              <ul class="g-error">
+                <li ng-show="nEstadoSiniestro.$invalid && !nEstadoSiniestro.$pristine">* Este campo es obligatorio</li>
+              </ul>
+            </div>
+            <div class="col-md-2 mb-xs-2 no-mb-md">
+              <div class="input-group g-date-picker">
+                <label class="g-placeholder animated ng-binding">Desde:</label>
+                <input  type="text"
+                        class="form-control"
+                        uib-datepicker-popup="{{bandejaCtrl.format}}"
+                        data-ng-model="bandejaCtrl.mConsultaDesde"
+                        is-open="bandejaCtrl.popup1.opened"
+                        datepicker-options="bandejaCtrl.dateOptions"
+                        data-ng-required="true"
+                        close-text="Close"/>
+                <span class="input-group-btn">
+                  <button class="btn btn-default"
+                          data-ng-click="bandejaCtrl.open1()" prevent-default>
+                    <i class="glyphicon glyphicon-calendar"></i>
+                  </button>
+                </span>
+              </div>
+              <div class="g-error" ng-show="nFechaDesde.$error.required && !nFechaDesde.$pristine">* Seleccione una fecha</div>
+            </div>
+            <div class="col-md-2 mb-xs-2 no-mb-md">
+              <div class="input-group g-date-picker">
+                <label class="g-placeholder animated ng-binding">Hasta:<span ng-show="false" class="ng-hide" style="">*</span></label>
+                <input  type="text"
+                        class="form-control"
+                        uib-datepicker-popup="{{bandejaCtrl.format}}"
+                        data-ng-model="bandejaCtrl.mConsultaHasta"
+                        is-open="bandejaCtrl.popup2.opened"
+                        datepicker-options="bandejaCtrl.dateOptions2"
+                        data-ng-required="true"
+                        close-text="Close" />
+                <span class="input-group-btn">
+                    <button class="btn btn-default"
+                            data-ng-click="bandejaCtrl.open2()" prevent-default>
+                      <i class="glyphicon glyphicon-calendar"></i>
+                    </button>
+                  </span>
+              </div>
+              <div class="g-error" ng-show="nFechaHasta.$error.required && !nFechaHasta.$pristine">* Seleccione una fecha</div>
+            </div>
+            <div class="col-md-2 pt-md-2-7">
+              <a href="" class="g-btn g-btn-white second-design block" ng-click="bandejaCtrl.cleanLocal();bandejaCtrl.getSiniestros()">Aplicar</a>
+            </div>
+          </form>
+        </div>
+      </div>
+      <!-- Fin Filtros -->
+    </div>
+  </div>
+
+  <div class="container">
+    <div class="row pt-xs-2">
+      <div class="col-md-9 serv-listado-info">
+        <span>{{ bandejaCtrl.servListado }} Servicios Listados</span>
+      </div>
+      <div class="col-md-3">
+        <mpf-select-horz
+          ng-model="bandejaCtrl.mOrdenarPor"
+          name="nOrdenarPor"
+          label="{label: 'Ordenar por', required: false}"
+          m-data-source="bandejaCtrl.ordenarPorData"
+          text-field="description"
+          value-field="idParameterDetail"
+          m-Empty-Option="{text:'Seleccione'}"
+          data-ng-change="">
+        </mpf-select-horz>
+      </div>
+    </div>
+
+    <!-- Inicio Resultados -->
+    <div class="clearfix results-list pt-xs-2 pb-xs-5">
+
+      <div class="clearfix g-list-md g-box gBgcGray5 pt-xs-1 mb-xs-1 g-row-fz12" ng-repeat="siniestro in bandejaCtrl.siniestros">
+        <div class="col-md-1 g-text-center-md g-text-left-ms">
+          <h5 class="gH5">{{siniestro.idSinister}}</h5>
+          <div class="mt-xs-2" ng-show="siniestro.proficient.flagRequestInformation === 'S'">
+            <span ng-click="bandejaCtrl.goTo(siniestro, $index, 4)" class="ico-mapfre_301_warning gnIcon-md gCYellow1" uib-popover="El perito solicita más información" popover-trigger="'mouseenter'" popover-placement="top-left"></span>
+          </div>
+        </div>
+        <div class="col-md-3 g-col-md top cnt-item">
+          <div class="gH4"><b>Nro. Siniestro: {{siniestro.sinisterNumber}}</b> <span ng-show="siniestro.sinisterNumber === 0 && !bandejaCtrl.isTaller()" class="ico-mapfre_228_editar icon" ng-click="bandejaCtrl.changeSiniesterNumber(siniestro)"></span></div>
+          <div>
+            <span
+              class="ico-mapfre_82_circle"
+              ng-class="siniestro.pointColor"
+            ></span>
+            {{siniestro.executiveState}}
+          </div>
+          <div class="g-alerta" ng-class="{'empty': true}">
+            <span class="g-block" ng-show="siniestro.flagTotalLoss || siniestro.idRegisterType == '7'">PÉRDIDA TOTAL POR CARTA</span>
+            <span class="g-block" ng-show="siniestro.proficient.flagTotalLossByBudget">PÉRDIDA TOTAL POR SUMA ASEGURADA</span>
+          </div>
+          <span
+            class="g-box-label mt-xs-1"
+            ng-class="{
+              'gperFondoAmarillo': false,
+              'gperFondoGris': false,
+              'gperFondoMorado': true,
+              'gperFondoNaranja': false,
+              'gperFondoRojo': false,
+              'gperFondoVerde': false
+            }" ng-show="siniestro.version > 1"
+          >{{siniestro.labelNumberAmpliation}}</span>
+          <span
+            class="g-box-label mt-xs-1"
+            ng-class="siniestro.labelColor">{{siniestro.sinisterState}}</span>
+        </div>
+        <div class="col-md-4 g-col-md middle">
+          <ul class="row">
+            <li class="col-md-12 clearfix cnt-item add-border-left">
+              <ul class="row">
+                <li class="col-md-12">
+                  <div class="row">
+                    <div class="col-xs-2 pr-xs-0 pr-md-1-5 item-label"><span class="gnIcon-xsm ico-mapfre_324_placa"></span></div>
+                    <div class="col-xs-10 item-dato g-text-uppercase">{{siniestro.plateNumber}}</div>
+                  </div>
+                </li>
+                <li class="col-md-12">
+                  <div class="row">
+                    <div class="col-xs-2 pr-xs-0 pr-md-1-5 item-label"><span class="gnIcon-xsm ico-mapfre_299_auto_front"></span></div>
+                    <div class="col-xs-10 item-dato g-text-uppercase">{{siniestro.brandName}} {{siniestro.modelName}} {{siniestro.submodelName}} {{siniestro.vehYear}}</div>
+                  </div>
+                </li>
+                <li class="col-md-12 hidden-xs hidden-sm">
+                  <div class="row">
+                    <div class="col-xs-2 pr-xs-0 pr-md-1-5 item-label"><span class="gnIcon-xsm ico-mapfre_127_calendar3"></span></div>
+                    <div class="col-xs-10 item-dato g-text-uppercase">{{siniestro.admissionDate | date:'dd/MM/yyyy hh:mm:ss a'}}</div>
+                  </div>
+                </li>
+                <li class="col-md-12 hidden-xs hidden-sm" ng-if="siniestro.proficient.proficientName">
+                  <div class="row">
+                    <div class="col-xs-2 pr-xs-0 pr-md-1-5 item-label">
+                      <span
+                        class="gnIcon-xsm ico-mapfre_196_agendarchofer"  uib-popover="{{siniestro.dayForAssess}} días(s)" popover-trigger="'mouseenter'" popover-placement="top-left"
+                        ng-class="{
+                          'gperColorVerde': siniestro.flagForAssess === '1',
+                          'gperColorAmarillo': siniestro.flagForAssess === '2',
+                          'gperColorRojo': siniestro.flagForAssess === '3'
+                        }" >
+                      </span>
+                    </div>
+                    <div class="col-xs-10 item-dato g-text-uppercase">{{siniestro.proficient.proficientName}} {{siniestro.proficient.proficientLastName1}} {{siniestro.proficient.proficientLastName2}}</div>
+                  </div>
+                </li>
+                <li class="col-md-12" ng-hide="bandejaCtrl.isTaller()">
+                  <div class="row">
+                    <div class="col-xs-2 pr-xs-0 pr-md-1-5 item-label"><span class="gnIcon-xsm ico-mapfre_193_auxiliomecanico"></span></div>
+                    <div class="col-xs-10 item-dato g-text-uppercase">{{siniestro.workshopName}}</div>
+                  </div>
+                </li>
+              </ul>
+            </li>
+          </ul>
+        </div>
+        <div class="col-md-4 g-col-md middle gCGray3 g-text-left-xs">
+          <div class="row g-row g-list-md">
+            <div class="col-xs-12 col-md-4 g-col-xs middle cnt-item add-border-left g-text-center-md"  ng-click="bandejaCtrl.goTo(siniestro, $index, 4)">
+              <a href="" class="gperMessages g-span-middle">
+                <span class="mr-xs-1 mr-md-0 gnIcon-md icoState ico-mapfre_157_chat"></span>
+                <span class="nmbMessages hidden-xs hidden-sm">
+                    <span>{{siniestro.quantityCommentary}}</span>
+                  </span>
+                <span class="hidden-md hidden-lg">{{siniestro.quantityCommentary}} comentarios</span>
+              </a>
+            </div>
+            <div class="col-xs-12 col-md-8 g-col-xs middle cnt-item add-border-left g-text-center-md">
+              <div class="row g-row g-list-md">
+                <div class="col-xs-12 col-md-12 g-col-xs middle cnt-item" ng-show="bandejaCtrl.getLabelBandeja(siniestro, $index) && siniestro.labelBandeja !== 'INICIAR REPARACIÓN'" ng-click="bandejaCtrl.goTo(siniestro, $index, 0)">
+                  <a href="" class="g-btn g-btn-white block second-design">{{siniestro.labelBandeja}}</a>
+                </div>
+                <div class="col-xs-12 col-md-12 g-col-xs middle cnt-item" ng-show="bandejaCtrl.getLabelBandeja(siniestro, $index) && siniestro.labelBandeja === 'INICIAR REPARACIÓN' && siniestro.idStateConfirmPayFranchise === 1" ng-click="bandejaCtrl.goTo(siniestro, $index, 0)">
+                  <a href="" class="g-btn g-btn-white block second-design">{{siniestro.labelBandeja}}</a>
+                </div>
+                <div class="col-xs-12 col-md-12 g-col-xs middle cnt-item" 
+                  ng-show="siniestro.showConfirmacionCliente" 
+                  ng-click="bandejaCtrl.goToConfirmClient(siniestro, $index, 0)">
+                  <a href="" class="g-btn g-btn-white block second-design">PEDIR CONFIRMACIÓN CLIENTE</a>
+                </div>
+                <div class="col-xs-12 col-md-12 g-col-xs middle cnt-item"
+                  ng-show="siniestro.showAnular" 
+                  ng-click="bandejaCtrl.goToAnular(siniestro, $index, 0)">
+                  <a href="" class="g-btn g-btn-white second-design block" style="background-color: red; color: white; border: red;" >ANULAR</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-12 text-center g-box-noresult" ng-if="bandejaCtrl.noResult">
+        <div class="row">
+          <div class="col-md-12 g-box-noresult-ico gCRed1"><span class="ico-mapfre_302_error"></span></div>
+          <div class="col-md-12 g-box-noresult-text">No hay resultados para los filtros escogidos.<br>Intente nuevamente.</div>
+        </div>
+      </div>
+
+      <div class="clearfix">
+        <div class="col-md-12" ng-if="!bandejaCtrl.noResult">
+          <ul uib-pagination class="g-pagination" ng-model="bandejaCtrl.mPagination" max-size="10" total-items="bandejaCtrl.totalItems" items-per-page="bandejaCtrl.pageSize" ng-change="bandejaCtrl.pageChanged(bandejaCtrl.mPagination)" boundary-link-numbers="true"></ul>
+        </div>
+      </div>
+
+    </div>
+    <!-- Fin Resultados -->
+  </div>
+
+</section>

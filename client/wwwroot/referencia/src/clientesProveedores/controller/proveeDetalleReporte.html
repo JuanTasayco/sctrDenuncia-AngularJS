@@ -1,0 +1,69 @@
+<div class="container audit-report">
+  <div class="row">
+    <div class="col-sm-9">
+      <h1>Reporte de auditoría</h1>
+      <p>{{ $ctrl.date }}</p>
+    </div>
+    <div class="col-sm-3">
+      <dl class="report-header">
+        <dt>Total de calificación</dt>
+        <dd>
+          <span class="iconref-estrella u-color-amarillo"></span>
+          {{ ::$ctrl.reporte.indicadorGeneral }}/10
+        </dd>
+      </dl>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-4">
+      <div class="report-module">
+        <dl class="module-header">
+          <dt>Equipamiento</dt>
+          <dd>{{ ::$ctrl.reporte.indicadorEquipamiento }}/10</dd>
+        </dl>
+        <div class="module-body">
+          <dl class="module-item"
+              ng-repeat="item in $ctrl.reporte.equipamientoList">
+            <dt>{{ ::item.descripcion }}</dt>
+            <dd>{{ ::item.sumatoria.toFixed(1) }}</dd>
+          </dl>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="report-module">
+        <dl class="module-header">
+          <dt>Infraestructura</dt>
+          <dd>{{ ::$ctrl.reporte.indicadorInfraestructura }}/10</dd>
+        </dl>
+        <div class="module-body">
+          <dl class="module-item"
+              ng-repeat="item in $ctrl.reporte.infraestructuraList">
+            <dt>{{ ::item.descripcion }}</dt>
+            <dd>{{ ::item.sumatoria.toFixed(1) }}</dd>
+          </dl>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="report-module">
+        <dl class="module-header">
+          <dt>Recursos humanos</dt>
+          <dd>{{ ::$ctrl.reporte.indicadorRecursoHumano }}/10</dd>
+        </dl>
+        <div class="module-body">
+          <dl class="module-item"
+              ng-repeat="item in $ctrl.reporte.recursoHumanoList">
+            <dt>{{ ::item.descripcion }}</dt>
+            <dd>{{ ::item.sumatoria.toFixed(1) }}</dd>
+          </dl>
+        </div>
+      </div>
+    </div>
+  </div>
+  <dl class="report-comment"
+      ng-if="$ctrl.observacion">
+    <dt>Observación</dt>
+    <dd>{{::$ctrl.observacion}}</dd>
+  </dl>
+</div>

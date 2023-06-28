@@ -1,0 +1,232 @@
+<section class="g-page g-enel-bandeja">
+	<div class="g-title">
+		<div class="container">
+			<div class="row">
+				<div class="col-sm-6 mb-xs-2 no-mb-sm">
+					<span class="ico-mapfre_84_circleleft ico-title"></span><h1>Bandeja de Certificados</h1>
+				</div>
+				<div class="col-sm-3 col-sm-offset-3 mb-xs-1 mb-md-0">
+					<a class="g-btn g-btn-verde block" ui-sref="enelFormularioNuevo">CREAR NUEVO CERTIFICADO</a>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<div class="g-section-inner">
+		<div class="container">
+			<div class="row">
+				<!-- INICIO: Filtro -->
+				<div class="col-md-3 mb-xs-2">
+					<form action="" name="frmDocuments">
+						<div show-filter class="clearfix g-col-filter" ng-class="{'show': isFilterVisible}">
+							<div class="col-md-12 mb-xs-3">
+								<h2 class="cnt-title hidden-xs hidden-sm">Filtro</h2>
+								<div id="show-filter" class="row pt-xs-2 pb-xs-2 hidden-md hidden-lg" ng-click="toggleFilter();">
+									<div class="col-xs-10"><h2 class="cnt-title">Filtro</h2></div>
+									<div class="col-xs-2 g-text-right-xs">
+										<span class="glyphicon glyphicon-chevron-down" ng-if="isFilterVisible"></span>
+										<span class="glyphicon glyphicon-chevron-up" ng-if="!isFilterVisible"></span>
+									</div>
+									<div class="clearfix"></div>
+								</div>
+							</div>
+							<div class="g-col-filter__box">
+								<div class="col-md-12 mb-xs-2">
+									<mpf-input label="{label: 'Nro. Certificado', required: false}" name="nNroCertificado" ng-model="mainStep.mNroCertifica"></mpf-input>
+								</div>
+								<div class="col-md-12 mb-xs-2">
+									<mpf-select label="{label: 'Tipo documento', required: false}" name="nTipoDocumento" ng-model="mainStep.mTipoDocumento" m-data-source="mainStep.documentTypeData" text-field="descripcion" value-field="codigo" m-Empty-Option="{text:'TODOS'}" ng-required="mainStep.mNroDocumento && mainStep.mNroDocumento != ''" ng-change="changeDocumentType(mainStep.mTipoDocumento)"></mpf-select>
+									<ul class="g-error">
+										<!-- <li ng-show="frmDocuments.nTipoDocumento.$invalid && !frmDocuments.nTipoDocumento.$pristine">* Seleccione un tipo de documento</li> -->
+										<li ng-show="frmDocuments.nTipoDocumento.$invalid">* Seleccione un tipo de documento</li>
+									</ul>
+								</div>
+								<div class="col-md-12 mb-xs-2">
+									<mpf-input label="{label: 'Nro. documento', required: false}" name="nNroDocumento" ng-model="mainStep.mNroDocumento" mpf-validation="onlyNumber" ng-required="mainStep.mTipoDocumento.codigo != null" ng-disabled="!mainStep.mTipoDocumento || mainStep.mTipoDocumento.codigo == null"></mpf-input>
+									<ul class="g-error">
+										<li ng-show="frmDocuments.nNroDocumento.$invalid && !frmDocuments.nNroDocumento.$pristine">* Ingrese un número de documento</li>
+									</ul>
+								</div>
+								<div class="col-md-12 mb-xs-2">
+									<mpf-input label="{label: 'Nombre de contratante', required: false}" name="nNomContratante" ng-model="mainStep.mNomContratante" ng-disabled="disabledContractor"></mpf-input>
+								</div>
+								<div class="col-md-12 mb-xs-2">
+									<mpf-input label="{label: 'Nro. de suministro', required: false}" name="nNroSuministro" ng-model="mainStep.mNroSuministro"></mpf-input>
+								</div>
+								<div class="col-md-12 mb-xs-2">
+									<mpf-input label="{label: 'Nombre del vendedor', required: false}" name="nNomVendedor" ng-model="mainStep.mNomVendedor"></mpf-input>
+								</div>
+								<div class="col-md-12 mb-xs-2">
+									<mpf-input label="{label: 'Código del vendedor', required: false}" name="nCodVendedor" ng-model="mainStep.mCodVendedor"></mpf-input>
+								</div>
+								<div class="col-md-6 mb-xs-2">
+									<div class="input-group g-date-picker">
+										<label class="g-placeholder animated">Desde<span></span>:</label>
+										<input type="text" class="form-control" ng-change="changeDate()" uib-datepicker-popup="{{mainStep.formatDate}}" ng-model="mainStep.mDesdeFilter" is-open="popupDesdeFilter.opened" datepicker-options="dateOptionsDesdeFilter" close-text="Close" alt-input-formats="altInputFormats" ng-required="false" readonly/>
+
+										<span class="input-group-btn">
+											<button type="button" class="btn btn-default" ng-click="openDesdeFilter()"><i class="glyphicon glyphicon-calendar"></i></button>
+										</span>
+									</div>
+								</div>
+								<div class="col-md-6 mb-xs-2">
+									<div class="input-group g-date-picker">
+										<label class="g-placeholder animated">Hasta<span></span>:</label>
+										<input type="text" class="form-control" ng-change="changeDate()" uib-datepicker-popup="{{mainStep.formatDate}}" ng-model="mainStep.mHastaFilter" is-open="popupHastaFilter.opened" datepicker-options="dateOptionsHastaFilter" close-text="Close" alt-input-formats="altInputFormats" ng-required="false" readonly/>
+										<span class="input-group-btn">
+											<button type="button" class="btn btn-default" ng-click="openHastaFilter()"><i class="glyphicon glyphicon-calendar"></i></button>
+										</span>
+									</div>
+								</div>
+								<!-- Inicio: Botones -->
+								<div class="col-md-12 mb-xs-1">
+									<a href="" class="g-btn g-btn-verde block" ng-click="filter('1', false)">Filtrar</a>
+								</div>
+								<div class="col-md-12">
+									<a href="" class="g-btn g-btn-transparent block" ng-click="clearFilter()">Limpiar</a>
+								</div>
+								<!-- Fin: Botones -->
+							</div>	
+						</div>
+					</form>
+				</div>
+				<!-- FIN: Filtro -->
+
+				<!-- INICIO: Resultado de consulta de documentos -->
+				<div class="col-md-9">
+					<div class="row">
+						<div class="col-md-4 col-md-offset-8 mb-xs-2">
+							<mpf-select label="{label: 'Ordenar por', required: false}" name="nOrdenarPor" ng-model="mainStep.mOrdenarPor" m-data-source="ordenarPorSource" text-field="descripcion" value-field="codigo" m-Empty-Option="{enterData:true}" ng-change="filter('1', false)"></mpf-select>
+								</div>
+						</div>    
+					</div>
+				<div class="col-md-9">
+
+					<!-- Mensaje de realiza una busqueda -->
+					<div class="col-md-12 text-center g-box-noresult" ng-if="noResultInfo">
+						<div class="row">
+							<div class="col-md-12 g-box-noresult-ico c-blue">
+								<span class="ico-mapfre_145_informacion"></span>
+							</div>
+							<div class="col-md-12 g-box-noresult-text">
+								Realiza una búsqueda para obtener resultados.
+							</div>
+						</div>
+					</div>
+					
+					<!-- Mensaje de error si no hay resultados -->
+					<div class="col-md-12 text-center g-box-noresult" ng-if="noResult">
+						<div class="row">
+							<div class="col-md-12 g-box-noresult-ico"><span class="ico-mapfre_119_wrong ico-wrong"></span></div>
+							<div class="col-md-12 g-box-noresult-text">No hay resultados para los filtros escogidos.<br>Intente nuevamente.</div>
+						</div>
+					</div>
+
+					<!-- Inicio: Resultados -->
+					<!-- <div class="clearfix g-box" ng-if="!noResult && !cargando" ng-repeat="item in arrayCertificado" > -->
+					<div class="clearfix g-box" ng-if="!noResult" ng-repeat="item in arrayCertificado" >
+					<!-- <div class="clearfix g-box"> -->
+						<div class="row g-box-header">
+							<ul class="clearfix g-list">
+								<li class="col-md-8">
+									<ul class="row">
+										<li class="col-md-6 clearfix cnt-item">
+											<div class="col-md-12 item-dato">
+												Nro. {{item.certificado}}
+											</div>
+										</li>
+										<li class="col-md-6 clearfix cnt-item">
+											<div class="col-md-5 item-label">
+												Producto:
+											</div>
+											<div class="col-md-7 item-dato g-text-uppercase">
+												{{item.producto_tipo_extendido}}
+											</div>
+										</li>
+									</ul>
+									<ul class="row">
+										<li class="col-md-6 col-md-offset-6 clearfix cnt-item">
+											<div class="col-sm-5 item-label">
+												Fecha de creación:
+											</div>
+											<div class="col-md-7 item-dato g-text-uppercase">
+												{{item.fecha_digitacion | date: 'dd/MM/yyyy'}}
+											</div>
+										</li>
+									</ul>
+								</li>
+								<li class="col-md-4 clearfix">
+									<div class="col-md-12 cnt-item">
+										<a class="g-btn g-btn-white block add-ico" ng-click="verDetalle(item.id_afiliacion_producto)">VER DETALLE</a>
+									</div>
+								</li>
+							</ul>
+						</div>
+						<!-- content -->
+						<div class="row g-box-content">
+							<ul class="clearfix g-list">
+								<li class="col-md-4 clearfix cnt-item">
+									<div class="col-md-5 item-label">
+										Contratante:
+									</div>
+									<div class="col-md-7 item-dato g-text-uppercase">
+										{{item.contratante_nombres_full}}
+									</div>
+								</li>
+								<li class="col-md-4 clearfix cnt-item">
+									<div class="col-sm-5 item-label">
+										Tipo de documento:
+									</div>
+									<div class="col-md-7 item-dato g-text-uppercase">
+										{{item.contratante_tipo_documento_descripcion}}
+									</div>
+								</li>
+								<li class="col-md-4 clearfix cnt-item">
+									<div class="col-md-5 item-label">
+										Nro. de documento
+									</div>
+									<div class="col-md-7 item-dato g-text-uppercase">
+										{{item.contratante_numero_documento}}
+									</div>
+								</li>
+							</ul>
+							<ul class="clearfix g-list">
+								<li class="col-md-4 clearfix cnt-item">
+									<div class="col-md-5 item-label">
+										Nro. de suministro:
+									</div>
+									<div class="col-md-7 item-dato g-text-uppercase">
+										{{item.numero_suministro}}
+									</div>
+								</li>
+								<li class="col-md-4 clearfix cnt-item">
+									<div class="col-md-5 item-label">
+										Vendedor:
+									</div>
+									<div class="col-md-7 item-dato g-text-uppercase">
+										{{item.vendedor_nombres}}
+									</div>
+								</li>
+							</ul>
+						</div>
+					</div>
+					<!-- Fin: Resultados -->
+
+					<!-- Inicio: Paginacion -->
+					<!-- <div class="row" ng-if="!noResult && !cargando"> -->
+					<!-- {{mainStep.totalItems}} -->
+					<div class="row" ng-if="!noResult && mainStep.totalItems > 10">
+						<div class="col-md-12">
+							<ul uib-pagination class="g-pagination" ng-model="mainStep.mPagination" max-size="10" total-items="mainStep.totalItems" ng-change="filter(mainStep.mPagination, false)" boundary-link-numbers="true"></ul>
+							
+						</div>
+					</div>
+					
+					<!-- Fin: Paginacion -->
+				</div>
+				<!-- FIN: Resultado de consulta de documentos -->
+			</div>
+		</div>
+	</div>
+
+</section>

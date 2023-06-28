@@ -1,0 +1,228 @@
+
+<div class="col-xs-12 g-box pt-xs-4 pb-xs-4 mt-xs-2" ng-show="showVoidProfile">
+    <div class="col-xs-12 col-sm-6 col-md-6 col-xs-offset-0 col-sm-offset-3 text-center g-box-noresult-text">
+        <p>No existen perfiles en la aplicación. Crea un nuevo perfil y asígnale los menús a los que tendrá acceso.</p>
+        <div class="col-xs-10 col-sm-8 col-xs-offset-1 col-sm-offset-2 text center mt-xs-2">
+            <a class="g-btn g-btn-white block second-design" ng-click="changeViewCreateProfile('CREATE', null)">Crear perfil</a>
+        </div>
+    </div>
+</div>
+<div class="col-xs-12 g-box pt-xs-2 pb-xs-4 mt-xs-2" ng-show="showCreateProfile" ng-form="frmSaveProfile">
+    <div class="row">
+        <div class="col-xs-10">
+            <h2 class="gH4 gCGray1"><b class="ng-binding">{{profileTitleDesc}}</b></h2>
+        </div>
+        <div class="col-xs-2 text-right"><span class="ico-mapfre_233_cerrar gnIcon-xsm gCGray3 g-u-cursor--pointer" ng-click="cancelCreateProfile()"></span></div>
+    </div>
+    <div class="row mt-xs-2">
+        <div class="form-group clearfix">
+            <div class="col-xs-12 col-sm-6">
+                <mpf-input 
+                label="{label: 'Código', required: true}" 
+                name="nCodigoP" 
+                ng-model="$parent.profile.perfilCode" 
+                ng-required="true" 
+                mpf-validation="onlyLetterNumberGuion"
+                ng-maxlength="maxLengthPerfilCode"
+                ></mpf-input>
+                <ul class="g-error">
+                    <li ng-show="frmSaveProfile.nCodigoP.$error.required 
+                    && !frmSaveProfile.nCodigoP.$pristine">* Este campo es obligatorio</li>
+                    <li ng-show="!frmSaveProfile.nCodigoP.$error.required 
+                    && $parent.profile.perfilCode.length < 2">* Mínimo de 2 carácteres</li>
+                </ul>
+            </div>
+            <div class="col-xs-12 col-sm-6 mt-xs-2 mt-sm-0">
+                <mpf-input 
+                label="{label: 'Descripción', required: true}" 
+                name="nDescripcionP" 
+                ng-model="$parent.profile.txtDescription" 
+                ng-required="true" 
+                mpf-validation="onlyLetterNumberGuion" 
+                ng-maxlength="maxLengthTxtDescription"
+                ></mpf-input>
+                <ul class="g-error">
+                    <li ng-show="frmSaveProfile.nDescripcionP.$error.required 
+                    && !frmSaveProfile.nDescripcionP.$pristine">* Este campo es obligatorio</li>
+                    <li ng-show="!frmSaveProfile.nDescripcionP.$error.required 
+                    && $parent.profile.txtDescription.length < 2">* Mínimo de 2 carácteres</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="row g-tab-perfiles-inner mt-xs-4">
+        <div class="col-xs-12">
+            <h2 class="gH4 gCGray1"><b class="ng-binding">Asignar objetos y perfiles</b></h2>
+        </div>
+        <div class="col-xs-12">
+            <!-- Tabs inner Perfiles -->
+            <!-- g-section-tabs -->
+            <div class="g-section-inner g-section-tabs tabs-responsive g-overflow-hidden-xs" ng-class="{'showTabs': showTabs, 'wt1200': changeTabWidth}">
+                <div class="container">
+                    <span class="tabs__more glyphicon glyphicon-chevron-down hidden-sm hidden-md hidden-lg" ng-click="showTabs = !showTabs"></span>
+                    <uib-tabset justified="true">
+                        <uib-tab index="0">
+                            <uib-tab-heading><span id='obj_update_profile' ng-click="tabsFalse();">Objetos</span></uib-tab-heading>
+                            <div class="content-tab">
+                                <div class="content-tab">
+                                    <div class="pt-xs-4 clearfix" ng-show="!(menuProfiles.length > 0)">
+                                        <div class="col-xs-12 g-box pt-xs-4 pb-xs-4">
+                                            <div class="col-xs-12 col-sm-6 col-md-6 col-xs-offset-0 col-sm-offset-3 text-center g-box-noresult-text">
+                                                <p class="mb-xs-0">La aplicación no tiene objetos creados</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-12 mt-xs-4 g-drag-drop" ng-show="menuProfiles.length > 0">
+                                        <div ui-tree="treeOptions" id="tree-root">
+                                            <ol ui-tree-nodes ng-model="menuProfiles">
+                                                <li ng-repeat="node in menuProfiles" ui-tree-node ng-include="tabNodosObjetoPerfil" class="lista-padre" data-nodrag></li>
+                                            </ol>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </uib-tab>
+                        <uib-tab index="1">
+                            <uib-tab-heading><span id='profile_update_profile'  ng-click="tabsFalse();">Perfiles</span></uib-tab-heading>
+                            <div class="content-tab">
+                                <div class="pt-xs-4 clearfix" ng-show="!(childrensWithoutFilter.length > 0)">
+                                    <div class="col-xs-12 g-box pt-xs-4 pb-xs-4">
+                                        <div class="col-xs-12 col-sm-6 col-md-6 col-xs-offset-0 col-sm-offset-3 text-center g-box-noresult-text">
+                                            <p class="mb-xs-0">La aplicación no tiene perfiles creados</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="pt-xs-2" ng-show="childrensWithoutFilter.length > 0">
+                                    <div class="row">
+                                        <div class="col-md-5 col-md-offset-6">
+                                            <div class="row">
+                                                <div class="col-md-8">
+                                                    <mpf-input label="{label: '', required: false}" txt-placeholder="'Código o nombre del perfil'" name="nBuscarProfileChildren" ng-model="mBuscarProfileChildren"
+                                                        ng-required="false" is-horz="true" ng-maxlength="200"></mpf-input>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <a class="g-btn g-btn-verde second-design block" ng-click="getProfilesSearchChildren(mBuscarProfileChildren)">Buscar</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12 text-center g-box-noresult mt-xs-1 mb-xs-1 ng-scope">
+                                        <div class="row" ng-show="!(ProfilesChildren.length > 0)">
+                                            <div class="col-md-12 g-box-noresult-ico gCBlue2">
+                                                <span class="ico-mapfre_145_informacion"></span>
+                                            </div>
+                                            <div class="col-md-12 g-box-noresult-text ng-binding">No hay resultados para la búsqueda realizada.<br>Intenta nuevamente</div>
+                                        </div>
+                                    </div>
+                                    <div class="row mt-xs-2">
+                                        <div class="col-xs-12 mb-xs-1 pl-xs-1-5 pr-xs-1-5 pl-md-0 pr-md-0" ng-repeat="item in ProfilesChildren.slice(((currentPage-1)*itemsPerPage), ((currentPage)*itemsPerPage))">
+                                            <div class="col-md-10 col-md-offset-1 g-box pt-xs-1 pb-xs-1 pt-sm-0-7 pb-sm-0-7">
+                                                <div class="clearfix g-div-middle">
+                                                    <div class="col-xs-12 col-sm-4 col-md-4 pt-xs-0 mb-xs-1 mb-sm-0 g-cut-text">
+                                                        <span class="gH5">{{item.codPerfil}}</span>
+                                                    </div>
+                                                    <div class="col-xs-12 col-sm-5 col-md-5 mb-xs-1 mb-sm-0 g-cut-text">
+                                                        <span class="gH5 g-text-uppercase">{{item.perfil}}</span>
+                                                    </div>
+                                                    <div class="col-xs-12 col-sm-3 col-md-3">
+                                                        <mpf-checkbox-toggle ng-model="item.codEstado" label="" ng-true-value="$parent.ENABLE_STATE" ng-false-value="$parent.DISABLED_STATE"
+                                                            ng-click=""></mpf-checkbox-toggle>
+                                                        <span class="" ng-class="{'g-security-asignado': item.codEstado === $parent.ENABLE_STATE, 'g-security-sinasignar': item.codEstado === $parent.DISABLED_STATE}"></span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <!-- Inicio: Paginacion -->
+                                        <div class="clearfix" ng-show="totalItemsProfiles > 10">
+                                            <div class="col-md-12">
+                                                <ul 
+                                                uib-pagination 
+                                                class="g-pagination" 
+                                                max-size="10" 
+                                                total-items="totalItemsProfiles" 
+                                                boundary-link-numbers="true"
+                                                ng-model="currentPage" 
+                                                ng-change="pageChanged(currentPage)" 
+                                                ></ul>
+                                            </div>
+                                        </div>
+                                        <!-- Fin: Paginacion -->
+                                    </div>
+                                </div>
+                            </div>
+                        </uib-tab>
+                    </uib-tabset>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-3 col-sm-4 col-xs-offset-0 col-sm-offset-2 col-md-offset-3 mb-xs-1 no-mb-sm">
+            <a class="g-btn g-btn-white second-design block" ng-click="cancelCreateProfile()">Cancelar</a>
+        </div>
+        <div class="col-md-3 col-sm-4">
+            <a class="g-btn g-btn-verde second-design block" ng-click="saveProfile()">{{$parent.saveProfileDesc}} perfil</a>
+        </div>
+    </div>
+</div>
+<div ng-show="showItemsProfiles">
+    <div class="col-xs-12 mt-xs-1 mb-xs-4">
+    <!-- <div class="col-xs-12 mb-xs-4"> -->
+        <div class="row">
+            <div class="col-xs-6 col-sm-8 col-md-9">
+                <h2 class="gH4 gCGray1"><b class="ng-binding">Lista perfiles</b></h2>
+            </div>
+            <div class="col-xs-6 col-sm-4 col-md-3 text-right">
+                <a class="g-btn g-btn-white block second-design" ng-click="changeViewCreateProfile('CREATE', null)">Nuevo perfil</a>
+            </div>
+        </div>
+    </div> 
+    <div class="col-xs-12 g-box pt-xs-2 pb-xs-4">
+
+        <div class="row">
+            <div class="col-md-5 col-md-offset-6">
+                <div class="row">
+                    <div class="col-md-8">
+                        <mpf-input label="{label: '', required: false}" txt-placeholder="'Código o nombre del perfil'" name="nBuscarProfile" ng-model="mBuscarProfile"
+                            ng-required="false" is-horz="true" ng-maxlength="200"></mpf-input>
+                    </div>
+                    <div class="col-md-4">
+                        <a class="g-btn g-btn-verde second-design block" ng-click="getProfilesSearch(mBuscarProfile)">Buscar</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row mt-xs-4">
+            <div class="col-xs-12 mb-xs-1 pl-xs-1-5 pr-xs-1-5 pl-md-0 pr-md-0" ng-repeat="item in Profiles">
+                <div class="col-md-10 col-md-offset-1 g-box pt-xs-1 pb-xs-1 pt-sm-0-7 pb-sm-0-7">
+                    <div class="clearfix g-div-middle">
+                        <div class="col-xs-12 col-sm-3 col-md-3 pt-xs-0 mb-xs-1 mb-sm-0 g-cut-text">
+                            <span class="gH5 g-text-uppercase">{{item.codPerfil}}</span>
+                        </div>
+                        <div class="col-xs-12 col-sm-3 col-md-4 mb-xs-1 mb-sm-0 g-cut-text">
+                            <span class="gH5 g-text-uppercase">{{item.perfil}}</span>
+                        </div>
+                        <div class="col-xs-8 col-sm-4 col-md-3">
+                            <mpf-checkbox-toggle ng-model="item.codEstado" label="" ng-true-value="$parent.ENABLE_STATE" ng-false-value="$parent.DISABLED_STATE"
+                                ng-change="$parent.changeStateProfile(item, $event);"></mpf-checkbox-toggle>
+                            <span class="" ng-class="{'g-security-asignado': item.codEstado === $parent.ENABLE_STATE, 'g-security-sinasignar': item.codEstado === $parent.DISABLED_STATE}"></span>
+                        </div>
+                        <div class="col-xs-2 col-sm-1 col-md-1 text-right pr-xs-0 pl-xs-0 l-height-0">
+                            <span class="ico-mapfre_228_editar g-link no-underline gnIcon-sm gCGray3" ng-click="changeViewCreateProfile('UPDATE', item)"></span>
+                        </div>
+                        <!-- <div class="col-xs-2 col-sm-1 col-md-1 text-right pr-xs-0 l-height-0">
+                                        <span class="ico-mapfre_307_tacho g-link no-underline gnIcon-sm gCGray3" ng-click="deleteProfile(item)"></span>
+                                    </div> -->
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-10 col-md-offset-1">
+            <mx-paginador data-datos="Profiles" data-items-x-page="itemsXPagina" data-msg-vacio="msgVacio" data-on-paginar="getProfilesPage($event)"
+                data-pagina-actual="currentPage" data-total-items="totalItems">
+            </mx-paginador>
+        </div>
+    </div>
+</div>
+

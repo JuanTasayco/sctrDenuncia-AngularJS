@@ -1,0 +1,92 @@
+<div class="clearfix">
+  <button type="button" class="mt-xs-2 close g-close-modal" data-ng-click="$ctrl.close()" prevent-default>
+    <span class="ico-mapfre_231_cancelaroff"></span>
+  </button>
+  <div class="container g-section-tabs tab-modal">
+    <div class="row">
+      <div class="col-md-12 mb-xs-2">
+        <h2 class="gH3"><b>Consulta de tarifas</b></h2>
+      </div>
+    </div>
+    <uib-tabset justified="true">
+      <uib-tab index="0" data-ng-click="setTab(1)">
+        <uib-tab-heading>SERVICIOS</uib-tab-heading>
+        <div class="clearfix" ng-show="results.length > 0">
+          <div class="mt-xs-2">
+            <div class="clearfix g-box mt-xs-1">
+              <div class="clearfix">
+                <ul class="g-row-fz12 g-tbl-row pt-xs-1 pb-xs-1 g-border-bottom-xs">
+                  <li class="g-col g-col-xs col-xs-8 item-title">Concepto</li>
+                  <li class="g-col g-col-xs col-xs-4 item-title">
+                    <div style="width: 100px;text-align: right;">Precio</div>
+                  </li>
+                </ul>
+                <ul class="g-row-fz12 g-tbl-row pt-xs-1 pb-xs-1" 
+                  ng-class="$index != results.length - 1 ? 'g-border-bottom-xs' : ''"
+                  data-ng-repeat="item in results">
+                  <li class="g-col g-col-xs col-xs-8"><span>{{item.description}}</span></li>
+                  <li class="g-col g-col-xs col-xs-4"><div style="width: 100px;text-align: right;">{{item.tariff}}</div></li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="clearfix" ng-show="results.length > 0">
+          <div class="col-md-12">
+            <ul uib-pagination class="g-pagination" ng-model="mPagination" max-size="10" 
+              total-items="totalItems" items-per-page="pageSize" 
+              ng-change="pageChanged(mPagination)" boundary-link-numbers="true">
+            </ul>
+          </div>
+        </div>
+      </uib-tab>
+
+      <uib-tab index="1" data-ng-click="setTab(2)">
+        <uib-tab-heading>PAQUETES</uib-tab-heading>
+        <div class="clearfix" ng-show="results.length > 0">
+          <div class="mt-xs-2">
+            <div class="clearfix g-box mt-xs-1">
+              <div class="clearfix">
+                <ul class="g-row-fz12 g-tbl-row pt-xs-1 pb-xs-1 g-border-bottom-xs">
+                  <li class="g-col g-col-xs col-xs-8 item-title">Concepto</li>
+                  <li class="g-col g-col-xs col-xs-4 item-title">
+                    <div style="width: 100px;text-align: right;">Precio</div>
+                  </li>
+                </ul>
+                <div data-ng-repeat="item in results">
+                  <ul class="g-row-fz12 g-tbl-row pt-xs-1 pb-xs-1" 
+                    ng-class="$index != 0 ? 'g-border-top-xs' : ''"
+                    ng-click=openConceptos(item)>
+                    <li class="g-col g-col-xs col-xs-8"><span>{{item.description}}</span></li>
+                    <li class="g-col g-col-xs col-xs-4">
+                      <div style="width: 100px;text-align: right;display: inline-block;">{{item.tariff}}</div>
+                      <span class="g-pull-right-xs" ng-class="item.show ? 'ico-mapfre_309_arrowUp' : 'ico-mapfre_308_arrowDown'"></span>
+                    </li>
+                  </ul>
+                  <div ng-show="item.show">
+                    <ul class="g-row-fz12 g-tbl-row pt-xs-1 pb-xs-1 g-border-top-xs gBgcGray5">
+                      <li class="g-col g-col-xs col-xs-12 item-title"><span>Servicios incluidos</span></li>
+                    </ul>
+                    <ul class="g-row-fz12 g-tbl-row pt-xs-1 pb-xs-1 g-border-top-xs gBgcGray5" data-ng-repeat="concepto in item.listaConcepto">
+                      <li class="g-col g-col-xs col-xs-12"><span>{{concepto.dprcdmnto}}</span></li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="clearfix" ng-show="results.length > 0">
+          <div class="col-md-12" ng-if="!noResult">
+            <ul uib-pagination class="g-pagination" ng-model="mPagination" max-size="10" 
+              total-items="totalItems" items-per-page="pageSize" 
+              ng-change="pageChanged(mPagination)" boundary-link-numbers="true">
+            </ul>
+          </div>
+        </div>
+      </uib-tab>
+
+    </uib-tabset>
+  </div>
+</div>
+  

@@ -1,0 +1,170 @@
+<form action="" name="frmSolicitudCgw2">
+  <div>
+    <div class="container">
+      <h2 class="g-warning  mb-xs-2 cgw__subtitle row mt-xs-2"
+          ng-show="getEstado(formData.afiliado.estado)">
+        <span class="ico-mapfre_303_informacion gCBlue2 g-warning-ico"></span>
+        El afiliado está inactivo y no se podrá solicitar la carta de garantía
+      </h2>
+    </div>
+    <mf-summary data="toSummary" current-step="2" step-to-activate="1"></mf-summary>
+    <div class="g-section-inner">
+      <div class="container">
+        <div class="row"  ng-show="!getEstado(formData.afiliado.estado) && formData.coverages.length>0">
+          <div class="col-md-12">
+            <h2 class="g-sub-title">Notificación de Aprobación</h2>
+          </div>
+        </div>
+        <div class="row mb-xs-4" ng-show="!getEstado(formData.afiliado.estado) && formData.coverages.length>0">
+          <div class="col-md-4">
+            <mpf-input
+              data-mpf-validation="email"
+              data-ng-maxlength="50"
+              data-ng-minlength="2"
+              data-ng-model="formData.mEmail" 
+              label="{label: emailCboLbl.label, required: false}"
+              name="nEmail"
+            >
+            </mpf-input>
+            <div
+              class="g-error"
+              data-ng-show="frmSolicitudCgw2.nEmail.$invalid && !frmSolicitudCgw2.nEmail.$pristine">
+              Ingrese un correo
+            </div>
+          </div>
+          <div class="col-md-4">
+            <mpf-input
+              ng-model="formData.mCelular"
+              label="{label: celularInputLbl.label, required: celularInputLbl.required}"
+              name="nCelular"
+              mpf-validation="onlyNumber"
+              ng-minlength="7"
+              ng-maxlength="9"
+              ng-required="false"></mpf-input>
+            <div class="g-error"
+              ng-show="frmSolicitudCgw2.nCelular.$error.onlyNumber && !frmSolicitudCgw2.nCelular.$pristine">
+              * Ingrese número de celular
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-12 text-center g-box-noresult"
+              ng-if="!getEstado(formData.afiliado.estado) &&  !(formData.coverages.length > 0) && formData.searchCobertura">
+          <div class="row">
+            <div class="col-md-12 g-box-noresult-ico">
+              <span class="ico-mapfre_119_wrong ico-wrong"></span>
+            </div>
+            <div class="col-md-12 g-box-noresult-text">
+              El paciente seleccionado no cuenta con coberturas
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="g-section-inner" ng-show="!getEstado(formData.afiliado.estado) && formData.coverages.length>0">
+      <div class="container radio-boxes">
+        <div class="row">
+          <div class="col-md-12">
+            <h2 class="g-sub-title">Elegir cobertura *</h2>
+          </div>
+        </div>
+
+        <div ng-click="updateCobertura($index, item)" class="clearfix g-list-md g-box gBgcGray5 pt-xs-1 g-row-fz12 mb-xs-1" data-ng-repeat="item in formData.coverages | startFromGrid: currentPage * pageSize | limitTo: pageSize track by $index" data-ng-class="{ 'cgw-rb-box--active': coberturaSelected[item.code] }"  >
+          <div class="col-sm-4 g-col-md middle">
+            <div class="clearfix mb-xs-1">
+              <div class="col-xs-1 pl-xs-0 pr-xs-0">
+                <label class="u-block">
+                  <input type="radio" name="nCobertura" value="{{item.code}}" ng-model="item.checkSelected" ng-true-value="true" ng-false-value="false"/>
+                </label>
+              </div>
+              <div class="col-xs-11 pl-xs-0 pr-xs-0">
+                <h3 class=" mb-xs-1 gH3"><b>{{item.typeCoverage}}</b></h3>
+                <div class="status inactive"><b>CODIGO:</b> {{item.code}}</div>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-8 g-col-md middle">
+            <ul class="row">
+              <li class="col-md-6 clearfix cnt-item">
+                <div class="col-xs-5 item-label">
+                  Servicios:
+                </div>
+                <div class="col-xs-7 item-dato g-text-uppercase">
+                  {{item.service}}
+                </div>
+              </li>
+              <li class="col-md-6 clearfix cnt-item">
+                <div class="col-xs-5 item-label">
+                  Copago fijo:
+                </div>
+                <div class="col-xs-7 item-dato g-text-uppercase">
+                  {{item.copaymentFixed}}
+                </div>
+              </li>
+            </ul>
+            <ul class="row">
+              <li class="col-md-6 clearfix cnt-item">
+                <div class="col-xs-5 item-label">
+                  Fin de carencia:
+                </div>
+                <div class="col-xs-7 item-dato g-text-uppercase">
+                  {{item.lackDate}}
+                </div>
+              </li>
+              <li class="col-md-6 clearfix cnt-item">
+                <div class="col-xs-5 item-label">
+                  Copago variable:
+                </div>
+                <div class="col-xs-7 item-dato g-text-uppercase">
+                  {{item.copaymentVariable}}
+                </div>
+              </li>
+            </ul>
+            <ul class="row">
+              <li class="col-md-6 clearfix cnt-item">
+                <div class="col-xs-5 item-label">
+                  Observaciones:
+                </div>
+                <div class="col-xs-7 item-dato g-text-uppercase">
+                  {{item.remark}}
+                </div>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Pasos -->
+    <div class="g-section">
+      <div class="container">
+        <div class="col-xs-12" ng-if="formData.pages.length>1">
+          <ul class="g-pagination ng-pristine ng-untouched ng-valid ng-isolate-scope pagination ng-empty">
+            <li class="pagination-prev ng-scope" type="button" ng-hide="currentPage == 0">
+              <a href="" class="ng-binding" ng-click="setPage(currentPage)"></a>
+            </li>
+            <li ng-disabled="currentPage == page.no - 1"  ng-repeat="page in formData.pages" ng-class="{active: currentPage == page.no - 1}">
+              <a href="" ng-click="setPage(page.no)">{{page.no}}</a>
+            </li>
+            <li class="pagination-next ng-scope" ng-hide="currentPage >= formData.coverages.length/pageSize - 1">
+              <a href="" class="ng-binding" ng-click="setPage(currentPage + 2)"></a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <!-- Botones -->
+    <div class="g-section g-step-action" ng-show="!getEstado(formData.afiliado.estado) && formData.coverages.length > 0">
+      <div class="container">
+        <div class="row">
+          <span class="col-md-3 g-comment">Campos obligatorios *</span>
+          <div class="col-md-4 col-md-offset-1">
+            <a  class="g-btn g-btn-verde"
+                ng-click="guardarPaso2()">Siguiente</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>

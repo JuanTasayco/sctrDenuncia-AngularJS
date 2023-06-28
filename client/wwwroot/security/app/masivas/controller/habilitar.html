@@ -1,0 +1,202 @@
+<section class="g-security-crearUsuario">
+
+  <menu-security></menu-security>
+
+  <!--Inicio: Title -->
+  <div class="g-title">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-9 col-sm-8 mb-xs-2 no-mb-sm">
+          <h1>Habilitación de usuarios</h1>
+        </div>
+        <div class="col-md-3 col-sm-4">
+          <a
+          href=""
+          class="g-btn g-btn-white block"
+          ng-click="downloadFormatTypeUser()"
+          >Descargar formato</a>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!--Fin: Title -->
+
+  <div class="g-section" ng-show="!showErrorMessage">
+    <div class="container">
+      <div class="row mb-xs-3">
+        <div class="col-xs-12 pb-xs-2 g-border-bottom">
+          <span class="gH4 fwBold">Sube el archivo Excel con los usuarios que quieres habilitar de forma masiva.</span>
+        </div>
+      </div>
+
+      <div class="clearfix">
+        <div class="col-xs-12 g-box pt-xs-2 pb-xs-2" ng-show="showUploadMassive">
+          <div class="row mb-xs-2" ng-show="typeUserUpload.codigo !== 0">
+            <div class="col-md-4 div col-md-offset-4 text-center">
+              <span class="gH5 fwBold">Cargar documento Excel</span>
+            </div>
+          </div>
+          <div class="row" ng-show="typeUserUpload.codigo !== 0">
+            <div class="col-md-4 col-md-offset-4 text-center">
+                <label class="g-btn g-btn-verde block g-btn-input-file">
+                  + Escoger archivo
+                  <input
+                    accept=".xls,.xlsx, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/vnd.ms-excel"
+                    file-model="fileExcel"
+                    type="file"
+                    />
+                </label>
+            </div>
+          </div>
+        </div>
+        <div class="col-xs-12 g-box pt-xs-2 pb-xs-2" ng-show="!showUploadMassive">
+          <div class="row mb-xs-1">
+            <div class="col-md-4 col-md-offset-4 text-center">
+              <span class="ico-mapfre_333_searchUser gnIcon-xbg gCGray3"></span>
+            </div>
+          </div>
+
+          <div class="row mb-xs-1">
+            <div class="col-md-6 div col-md-offset-3 text-center">
+              <span class="gH5 fwBold g-text-uppercase">Todos los {{massiveResult.cantidadCorrectos}} usuarios tienen los datos correctos</span>
+            </div>
+          </div>
+          <div class="row mb-xs-2">
+            <div class="col-md-8 div col-md-offset-2 text-center">
+              <span class="gH5">Puedes proceder a subir al sistema estos usuarios, para su clonación.</span>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-4 col-md-offset-4 text-center">
+              <a class="g-btn g-btn-verde block" ng-click="uploadUsers(massiveResult.correctos)">Subir usuarios al sistema</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="g-section" ng-show="showErrorMessage">
+    <div class="container">
+      <div class="row mb-xs-2">
+        <div class="col-xs-12">
+          <span class="gH4 fwBold">Lista de usuarios</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="row gBgcGray5 mb-xs-2" ng-show="true">
+      <div class="col-xs-12 g-border-bottom g-border-top pt-xs-1 pb-xs-1">
+        <div class="container">
+          <div class="row">
+            <div class="col-md-7">
+              <span class="g-block gH4 fwBold">SE ENCONTRARON:</span>
+              <span class="g-block">{{massiveResult.cantidadCorrectos}} USUARIOS CON DATOS CORRECTOS puedes subir los usuarios al sistema.</span>
+              <span class="g-block">{{massiveResult.cantidadErrores}} USUARIOS CON ERRORES puedes descargar los errores.</span>
+            </div>
+            <div class="col-md-5">
+              <div class="row mt-xs-1">
+                <div class="col-md-6 mb-xs-1 mb-md-0">
+                    <a class="g-btn g-btn-verde block" ng-click="backUploadFileView()">Volver a cargar excel</a>
+                </div>
+                <div class="col-md-6">
+                  <a class="g-btn g-btn-white block" ng-click="downloadErrors(massiveResult.errores)">Descargar errores</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="container">
+      <div class="row mb-xs-2">
+        <div class="col-md-12">
+          <div class="clearfix g-box g-overflow-hidden-xs">
+            <ul class="clearfix g-list gBgcGray5 pt-xs-1 hidden-xs">
+              <li class="col-md-1 col-sm-1 clearfix cnt-item">
+                <b>Nro. Fila</b>
+              </li>
+              <li class="col-md-2 col-sm-2 clearfix cnt-item">
+                <b>ID Usuario</b>
+              </li>
+              <li class="col-md-4 col-sm-4 clearfix cnt-item">
+                <b ng-if="!isEjecutivoMapfre">Nombres</b>
+                <b ng-if="isEjecutivoMapfre">Grupo de Usuario</b>
+              </li>
+              <li class="col-md-2 col-sm-2 clearfix cnt-item">
+                <b>&nbsp;</b>
+              </li>
+              <li class="col-md-3 col-sm-3 clearfix cnt-item">
+                <b>Observaciones</b>
+              </li>
+            </ul>
+            <div class="col-md-12 cnt-content g-list-sm pt-xs-1">
+              <div class="clearfix" ng-class="{'g-border-bottom-xs mb-xs-1' : !$last}" ng-repeat="usuario in massiveResult.errores">
+                <ul class="row hidden-xs">
+                  <li class="col-md-1 col-sm-1 cnt-item item-dato g-text-uppercase">
+                    {{usuario.posicion}}
+                  </li>
+                  <li class="col-md-2 col-sm-2 cnt-item item-dato g-text-uppercase">
+                    {{isEjecutivoMapfre ? usuario.userCode: usuario.documento}}
+                  </li>
+                  <li class="col-md-4 col-sm-4 cnt-item item-dato g-text-uppercase">
+                    <div ng-show="isEjecutivoMapfre">EJECUTIVO MAPFRE</div>
+                    <div ng-show="!isEjecutivoMapfre">{{usuario.nombres}} {{usuario.apellidoPaterno}} {{usuario.apellidoMaterno}}</div>
+                  </li>
+                  <li class="col-md-2 col-sm-2 cnt-item item-dato g-text-uppercase text-center">
+                    <span class="g-box-label gBgcRed3">ERRORES</span>
+                  </li>
+                  <li class="col-md-3 col-sm-3 cnt-item item-dato g-text-uppercase" >
+                    <div ng-repeat="error in usuario.mensajes"> {{error}} </div>
+                  </li>
+                </ul>
+                <ul class="row visible-xs">
+                  <li class="cnt-item clearfix">
+                    <div class="col-ms-5 item-label">Nro. Fila:</div>
+                    <div class="col-ms-7 item-dato g-text-uppercase">{{usuario.posicion}}</div>
+                  </li>
+                  <li class="cnt-item clearfix">
+                    <div class="col-ms-5 item-label">ID Usuario:</div>
+                    <div class="col-ms-7 item-dato g-text-uppercase">
+                        {{isEjecutivoMapfre ? usuario.userCode: usuario.documento}}
+                    </div>
+                  </li>
+                  <li class="cnt-item clearfix">
+                    <div class="col-ms-5 item-label">{{isEjecutivoMapfre ? 'Grupo de Usuario' : 'Nombres:'}}</div>
+                    <div class="col-ms-7 item-dato g-text-uppercase">
+                      <div ng-show="isEjecutivoMapfre">EJECUTIVO MAPFRE</div>
+                      <div ng-show="!isEjecutivoMapfre">{{usuario.nombres}} {{usuario.apellidoPaterno}} {{usuario.apellidoMaterno}}</div>
+                    </div>
+                  </li>
+                  <li class="cnt-item clearfix">
+                    <div class="col-ms-12 item-dato g-text-uppercase">
+                      <span class="g-box-label gBgcRed3">ERRORES</span>
+                    </div>
+                  </li>
+                  <li class="cnt-item clearfix">
+                    <div class="col-ms-5 item-label">Observaciones:</div>
+                    <div class="col-ms-7 item-dato g-text-uppercase">
+                      <div ng-repeat="error in usuario.mensajes"> {{error}} </div>
+                    </div>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row mb-xs-5">
+        <div class="col-md-4 div col-md-offset-4">
+          <a class="g-btn g-btn-verde block" ng-click="uploadUsers(massiveResult.correctos)">Subir usuarios al sistema</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</section>
+
+<form id="frmExport" name="frmExport" action="{{exportURL}}" method="get" target="_blank">
+    <input type="hidden" name="TipoArchivo" value='9'>
+</form>

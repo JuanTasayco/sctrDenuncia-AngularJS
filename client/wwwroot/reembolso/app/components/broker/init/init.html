@@ -1,0 +1,259 @@
+<div class="container page-broker-reembolso">
+  <div class="row mb-xs-2">
+    <div class="container">
+      <form name="$ctrl.frmBroker">
+        <div class="clearfix gBgcGray5 pt-xs-3 pb-xs-3 pl-xs-2 pr-xs-2 content-filter">
+          <div class="row mb-xs-2">
+            <div class="col-xs-12 col-sm-3">
+              <mpf-select
+                label="{label: 'Empresa', required: false}"
+                name="nCompany"
+                ng-model="$ctrl.consultData.company"
+                m-data-source="$ctrl.companiesList"
+                text-field="companyName"
+                value-field="idCompany"
+                m-Empty-Option="{enterData:true}"
+                ng-change="$ctrl.changeCompany()"
+              >
+              </mpf-select>
+              <div
+                class="g-error"
+                ng-show="$ctrl.frmBroker.nCompany.$error.required && !$ctrl.frmBroker.nCompany.$pristine">
+                * Seleccione la empresa
+              </div>
+            </div>
+            <div class="col-xs-12 col-sm-3">
+              <mpf-select
+                label="{label: 'Producto', required: false}"
+                name="nProductType"
+                ng-model="$ctrl.consultData.productType"
+                m-data-source="$ctrl.productType"
+                text-field="productDescription"
+                value-field="productCode"
+                m-Empty-Option="{enterData:true}"
+              >
+              </mpf-select>
+              <div
+                class="g-error"
+                ng-show="$ctrl.frmBroker.nProductType.$error.required && !$ctrl.frmBroker.nProductType.$pristine">
+                * Seleccione un producto
+              </div>
+            </div>
+            <div class="col-xs-12 col-sm-3">
+              <mpf-select
+                label="{label: 'Estado', required: false}"
+                name="nState"
+                ng-model="$ctrl.consultData.state"
+                m-data-source="$ctrl.states"
+                text-field="documentStatusDescription"
+                value-field="idDocumentStatus"
+                m-Empty-Option="{enterData:true}"
+              >
+              </mpf-select>
+              <div
+                class="g-error"
+                ng-show="$ctrl.frmBroker.nState.$error.required && !$ctrl.frmBroker.nState.$pristine">
+                * Seleccione un parentesco
+              </div>
+            </div>
+            <div class="col-xs-12 col-sm-3">
+              <mp-data-seeker
+                behavior="{label:'', placeholder:'Broker', matchField:'description'}"
+                m-data-source="$ctrl.getBrokerList($inputNeed)"
+                ng-model="$ctrl.consultData.broker"
+                name="nBroker"
+                ng-change="">
+                <div ng-bind-html="$item.description | highlight: $select.search"></div>
+              </mp-data-seeker>
+              <div
+                class="g-error"
+                ng-show="$ctrl.frmBroker.nBroker.$error.required && !$ctrl.frmBroker.nBroker.$pristine">
+                * Busque y seleccione un broker
+              </div>
+            </div>
+          </div>
+          <div class="row mb-xs-2">
+            <div class="col-xs-12 col-sm-3">
+              <mp-data-seeker
+                behavior="{label:'', placeholder:'Código Ejecutivo', matchField:'description'}"
+                m-data-source="$ctrl.getEjecutivoList($inputNeed)"
+                ng-model="$ctrl.consultData.ejecutivo"
+                name="nEjecutivo"
+                ng-change="">
+                <div
+                  ng-bind-html="$item.executiveCode + ' - ' + $item.description | highlight: $select.search"></div>
+              </mp-data-seeker>
+              <div
+                class="g-error"
+                ng-show="$ctrl.frmBroker.nEjecutivo.$error.required && !$ctrl.frmBroker.nEjecutivo.$pristine">
+                * Busque y seleccione un ejecutivo
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-xs-12 no-padding-xs">
+              <div class="col-xs-12 col-sm-4 col-md-2 col-sm-offset-2 col-md-offset-4 mb-xs-1 no-mb-sm">
+                <a
+                  href="javascript:void(0)"
+                  class="g-btn g-btn-white block"
+                  title="Limpiar"
+                  ng-click="$ctrl.cleanForm()">
+                  Limpiar
+                </a>
+              </div>
+              <div class="col-xs-12 col-sm-4 col-md-2">
+                <a
+                  href="javascript:void(0)"
+                  class="g-btn g-btn-verde block"
+                  title="Buscar"
+                  ng-click="$ctrl.search()">
+                  Buscar
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+  <div class="row mb-xs-3" ng-if="$ctrl.dashboardData.length > 0">
+    <div class="col-xs-12">
+      <div class="clearfix">
+        <div tbl-oim class="col-xs-12 g-tbl-wrapper pl-xs-0 tbl-broker-reembolsos">
+          <div class="tbl-main">
+            <ul height-row class="tbl-header clearfix">
+              <li class="title col-10-dktp text-center g-text-uppercase"></li>
+              <li class="title col-16-dktp text-center g-text-uppercase">Estado</li>
+              <li class="title col-22-dktp text-center g-text-uppercase">Broker</li>
+              <li class="title col-20-dktp text-center g-text-uppercase">Compañia</li>
+              <li class="title col-14-dktp text-center g-text-uppercase">Producto</li>
+              <li class="title col-12-dktp text-center g-text-uppercase">Código Ejecutivo</li>
+              <li class="title col-6-dktp"></li>
+            </ul>
+            <ul class="tbl-body clearfix">
+              <li ng-repeat="item in $ctrl.dashboardData">
+                <ul height-row class="tbl-row clearfix g-u-cursor--pointer">
+                  <li class="cell text-center g-text-uppercase col-10-dktp">
+                    <div class="g-content-outer">
+                      <div class="g-content-inner">
+                        <mpf-checkbox
+                          class="fw-normal"
+                          name="nCheck"
+                          ng-model="item.mCheck"
+                          label=""
+                          ng-change="$ctrl.onEnableReassign()">
+                        </mpf-checkbox>
+                      </div>
+                    </div>
+                  </li>
+                  <li class="cell text-center g-text-uppercase col-16-dktp">
+                    <div class="g-content-outer">
+                      <div class="g-content-inner">
+                        <span
+                          class="g-box-label etiqueta g-text-uppercase ml-xs-1-5 ml-md-0"
+                          ng-class="{
+                            'reObservada': item.documentStatusDescription === 'OBSERVADO',
+                            'reObsLevantada': item.documentStatusDescription === 'OBSERVACIÓN LEVANTADA',
+                            'reLiquidado': item.documentStatusDescription === 'LIQUIDADO',
+                            'reRechazado': item.documentStatusDescription === 'RECHAZADO',
+                            'rePreliquidada': (item.documentStatusDescription === 'PRE LIQUIDADO'
+                             ||  item.documentStatusDescription === 'ANULADO'
+                             ||  item.documentStatusDescription === 'LIQUIDADO WEB'
+                             ||  item.documentStatusDescription === 'APERTURADO ANULADO CARTA DE GARANTIA'
+                             ||  item.documentStatusDescription === 'APERTURADO CARTA DE GARANTIA'
+                             ||  item.documentStatusDescription === 'ARCHIVO'
+                             ||  item.documentStatusDescription === 'DEVUELTO CON CARTA AL PROVEEDOR'
+                             ||  item.documentStatusDescription === 'ORDEN DE PAGO GENERADA'
+                             ||  item.documentStatusDescription === 'POR AUTORIZAR'
+                             ||  item.documentStatusDescription === 'RECIBIDO')
+
+                          }">
+                          {{item.documentStatusDescription}}
+                        </span>
+                      </div>
+                    </div>
+                  </li>
+                  <li class="cell text-center g-text-uppercase col-22-dktp">
+                    <span class="cell-label g-cut-text" style="line-height: 28px">
+                      <span class="cell-data">{{item.brokerDescription}}</span>
+                    </span>
+                  </li>
+                  <li class="cell text-center g-text-uppercase col-20-dktp">
+                    <span class="cell-label g-cut-text" style="line-height: 28px">
+                      <span class="cell-data">{{item.companyDescription}}</span>
+                    </span>
+                  </li>
+                  <li class="cell text-center g-text-uppercase col-14-dktp">
+                    <span class="cell-label g-cut-text" style="line-height: 28px">
+                      <span class="cell-data">{{item.productDescription}}</span>
+                    </span>
+                  </li>
+                  <li class="cell text-center g-text-uppercase col-12-dktp">
+                    <span class="cell-label g-cut-text" style="line-height: 28px">
+                      <span class="cell-data">{{item.executiveCode}}</span>
+                    </span>
+                  </li>
+                  <li class="cell text-center g-text-uppercase col-6-dktp">
+                    <div class="g-content-outer">
+                      <div class="g-content-inner">
+                        <span
+                          class="gnIcon-sm gCGreen1 ico-mapfre_228_editar"
+                          ng-click="$ctrl.openModalAssign(item)">
+                        </span>
+                      </div>
+                    </div>
+                  </li>
+                </ul>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div
+    class="col-md-12 text-center g-box-noresult"
+    ng-if="$ctrl.dashboardData &&$ctrl.dashboardData.length === 0">
+    <div class="row">
+      <div class="col-md-12 g-box-noresult-ico gCRed1">
+        <span class="ico-mapfre_302_error"></span>
+      </div>
+      <div class="col-md-12 g-box-noresult-text">
+        No hay resultados para los filtros escogidos.<br>Intente nuevamente.
+      </div>
+    </div>
+  </div>
+  <div class="row" ng-if="$ctrl.pagination.totalRecords > $ctrl.pagination.maxSize">
+    <div class="col-md-12">
+      <ul
+        uib-pagination
+        class="g-pagination"
+        ng-model="$ctrl.pagination.currentPage"
+        max-size="$ctrl.pagination.maxSize"
+        total-items="$ctrl.pagination.totalRecords"
+        ng-change="$ctrl.pageChanged()"
+        boundary-link-numbers="true">
+      </ul>
+    </div>
+  </div>
+  <div class="row mb-xs-8 mt-xs-4">
+    <div class="col-xs-12 col-sm-4 col-sm-offset-8">
+      <a class="g-btn g-btn-white second-design block" ng-click="$ctrl.openModalAssign()">
+        <span class="g-icon">
+          <span class="icon icon-plus ico-mapfre_56_visitasalmedico"></span>
+          <span>Nueva Asignación</span>
+        </span>
+      </a>
+    </div>
+  </div>
+  <div class="row mb-xs-4">
+    <div class="col-md-4 col-md-offset-4">
+      <a
+        class="g-btn g-btn-verde block"
+        ng-class="{'disabled': !$ctrl.isEnableReassignBtn}"
+        ng-click="$ctrl.openModalReassign()">
+        Reasignar
+      </a>
+    </div>
+  </div>
+</div>

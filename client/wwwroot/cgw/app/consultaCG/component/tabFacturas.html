@@ -1,0 +1,236 @@
+<div class="row pt-xs-2 pb-xs-2">
+  <div class="clearfix col-xs-12 mb-xs-3" ng-show="enMora">
+<!--     <h2 class="g-warning u-bg--gris-11 mb-xs-2 cgw__subtitle mt-xs-2 u-block mb-xs-4">
+      <span class="ico-mapfre_132_alert g-warning-ico txt-icono--alert"></span>
+      El cliente está en mora por 6 meses
+    </h2> -->
+  </div>
+  <div class="clearfix col-xs-12 mb-xs-4 u-ph-0">
+    <div class="col-md-6 u-ph-0">
+      <div class="col-md-6 mb-xs-2">
+        <mpf-select ng-model="formData.mEstadoCobranza"
+                    name="nEstadoCobranza"
+                    label="{label: 'Estado de Cobranza', required: false}"
+                    m-data-source="edoCobranza"
+                    text-field="description"
+                    value-field="code" 
+                    ng-change="buscarFacturas()"
+                    m-Empty-Option="{enterData:false}"></mpf-select>
+      </div>
+      <div class="col-md-6 mb-xs-2">
+        <mpf-select ng-model="formData.mProductoCobranza"
+                    name="nProductoCobranza"
+                    label="{label: 'Producto', required: false}"
+                    m-data-source="productos"
+                    text-field="name"
+                    value-field="code"
+                    ng-change="buscarFacturas()"
+                    m-Empty-Option="{enterData:false}"></mpf-select>
+      </div>
+    </div>
+    <div class="col-md-6 u-ph-0">
+      <div class="col-md-4 col-md-offset-4 g-input-design__wp--pt-0">
+        <label class="g-placeholder block">Desde</label>
+        <div class="input-group g-date-picker no-label">          
+          <input  type="text"
+                  class="form-control"
+                  uib-datepicker-popup="{{format}}"
+                  ng-model="formData.mConsultaDesde"
+                  is-open="popup1.opened"
+                  datepicker-options="dateOptions"
+                  ng-required="true"
+                  close-text="Close"
+                  alt-input-formats="altInputFormats"
+                  placeholder="Desde" />
+          <span class="input-group-btn">
+            <button type="button"
+                    class="btn btn-default"
+                    ng-click="open1()">
+              <i class="glyphicon glyphicon-calendar"></i>
+            </button>
+          </span>
+        </div>
+      </div>
+      <div class="col-md-4 g-input-design__wp--pt-0">
+        <label class="g-placeholder block">Hasta</label>
+        <div class="input-group g-date-picker no-label">          
+          <input  type="text"
+                  class="form-control"
+                  uib-datepicker-popup="{{format}}"
+                  ng-model="formData.mConsultaHasta"
+                  is-open="popup2.opened"
+                  datepicker-options="dateOptions2"
+                  ng-required="true"
+                  close-text="Close"
+                  alt-input-formats="altInputFormats"
+                  placeholder="Hasta"/>
+          <span class="input-group-btn">
+            <button type="button"
+                    class="btn btn-default"
+                    ng-click="open2()">
+              <i class="glyphicon glyphicon-calendar"></i>
+            </button>
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-xs-12">
+    <div class="clearfix g-list gBgcGray5 hidden-xs hidden-sm">
+      <div class="col-md-8 u-txt-weight pt-xs-2 pb-xs-1">
+        Detalle Factura
+      </div>
+      <div class="col-md-2 u-txt-weight cnt-item mt-xs-2 u-mb-2 u-pb-0">
+        Prima Neta
+      </div>
+      <div class="col-md-2 u-txt-weight cnt-item mt-xs-2 u-mb-2 u-pb-0">
+        Prima Total
+      </div>
+    </div>
+    <div class="clearfix">
+      <div class="u-scroll-v--450">
+        <div  class="u-br-gris-4 u-pv-15 mb-xs-1"
+              data-ng-repeat="item in facturas">
+          <ul class="clearfix g-list">
+            <li class="col-md-1 col-xs-12 g-text-center-xs clearfix">
+              {{item.afctrcn}}
+            </li>
+            <li class="col-md-3 clearfix">
+              <div class="clearfix">
+                <div class="col-sm-5 col-xs-6">
+                  <span class="ico-mapfre_82_circle ico-bullet"></span>
+                  <strong>Producto:</strong>
+                </div>
+                <div class="col-sm-7 col-xs-6">
+                  {{item.productDescription}}
+                </div>
+              </div>
+              <div class="clearfix">
+                <div class="col-sm-5 col-xs-6">
+                  <span class="ico-mapfre_82_circle ico-bullet"></span>
+                  <strong>Contrato:</strong>
+                </div>
+                <div class="col-sm-7 col-xs-6">
+                  {{item.contractNumber}}
+                </div>
+              </div>
+              <div class="clearfix">
+                <div class="col-sm-5 col-xs-6">
+                  <span class="ico-mapfre_82_circle ico-bullet"></span>
+                  <strong>Póliza:</strong>
+                </div>
+                <div class="col-sm-7 col-xs-6">
+                  {{item.policyNumber}}
+                </div>
+              </div>
+              <div class="clearfix">
+                <div class="col-sm-5 col-xs-6">
+                  <span class="ico-mapfre_82_circle ico-bullet"></span>
+                  <strong>Pre-Factura:</strong>
+                </div>
+                <div class="col-sm-7 col-xs-6">
+                  {{item.billNumber}}
+                </div>
+              </div>
+              <div class="clearfix">
+                <div class="col-sm-5 col-xs-6">
+                  <span class="ico-mapfre_82_circle ico-bullet"></span>
+                  <strong>Vigencia inicio:</strong>
+                </div>
+                <div class="col-sm-7 col-xs-6">
+                  {{item.policyStartDate}}
+                </div>
+              </div>
+              <div class="clearfix">
+                <div class="col-sm-5 col-xs-6">
+                  <span class="ico-mapfre_82_circle ico-bullet"></span>
+                  <strong>Vigencia fin:</strong>
+                </div>
+                <div class="col-sm-7 col-xs-6">
+                  {{item.policyEndDate}}
+                </div>
+              </div>
+            </li>
+            <li class="col-md-4 clearfix cnt-item">
+              <div class="clearfix">
+                <div class="col-sm-5 col-xs-6">
+                  <span class="ico-mapfre_82_circle ico-bullet"></span>
+                  <strong>Tipo y No. Factura:</strong>
+                </div>
+                <div class="col-sm-7 col-xs-6">
+                  {{item.invoiceType}} {{item.billNumber}}
+                </div>
+              </div>
+              <div class="clearfix">
+                <div class="col-sm-5 col-xs-6">
+                  <span class="ico-mapfre_82_circle ico-bullet"></span>
+                  <strong>Fecha factura:</strong>
+                </div>
+                <div class="col-sm-7 col-xs-6">
+                  {{item.billingDate}}
+                </div>
+              </div>
+              <div class="clearfix">
+                <div class="col-sm-5 col-xs-6">
+                  <span class="ico-mapfre_82_circle ico-bullet"></span>
+                  <strong>Status factura:</strong>
+                </div>
+                <div class="col-sm-7 col-xs-6">
+                  {{item.billingStatusName}}
+                </div>
+              </div>
+              <div class="clearfix">
+                <div class="col-sm-5 col-xs-6">
+                  <span class="ico-mapfre_82_circle ico-bullet"></span>
+                  <strong>Status cobranza:</strong>
+                </div>
+                <div class="col-sm-7 col-xs-6">
+                  {{item.collectionStatus}}
+                </div>
+              </div>
+              <div class="clearfix">
+                <div class="col-sm-5 col-xs-6">
+                  <span class="ico-mapfre_82_circle ico-bullet"></span>
+                  <strong>Fecha cobranza:</strong>
+                </div>
+                <div class="col-sm-7 col-xs-6">
+                  {{item.collectionDate}}
+                </div>
+              </div>
+              <div class="clearfix">
+                <div class="col-sm-5 col-xs-6">
+                  <span class="ico-mapfre_82_circle ico-bullet"></span>
+                  <strong>Planilla No. Trabajadores:</strong>
+                </div>
+                <div class="col-sm-7 col-xs-6">
+                  {{item.worksheetNumber}}
+                </div>
+              </div>
+              <div class="clearfix">
+                <div class="col-sm-5 col-xs-6">
+                  <span class="ico-mapfre_82_circle ico-bullet"></span>
+                  <strong>Importe:</strong>
+                </div>
+                <div class="col-sm-7 col-xs-6">
+                  {{item.payrollAmount}}
+                </div>
+              </div>
+            </li>
+            <li class="col-md-2 clearfix cnt-item">
+              {{item.netPremium}}
+            </li>
+            <li class="col-md-2 clearfix">
+              {{item.totalAmount}}
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-12 text-center g-box-noresult" data-ng-if="!facturas.length>0">
+    <div class="row">
+      <div class="col-md-12 g-box-noresult-ico gCRed1"><span class="ico-mapfre_302_error"></span></div>
+      <div class="col-md-12 g-box-noresult-text">No hay resultados para los filtros escogidos.<br>Intente nuevamente.</div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,278 @@
+<form name="frmCamposanto" class="mt-xs-2 mt-md-0">
+    <div class="container" ng-if="showNecesidad">
+        
+        <div class="row">
+            <div class="col-md-12">
+                <h2 class="g-sub-title g-myd-subtitle">Ramo</h2>
+            </div>
+        </div>
+
+        <div class="row mb-xs-3">
+            <div class="col-md-6">
+                <div class="g-box g-center-flex g-text-uppercase fwBold gCBlack1 g-box--tabs g-box--tabs-md"
+                    ng-click="goFormCotizacion(400)">
+                    <span class="ico ico-mapfre-365-myd-calendar gCGray2 mr-xs-1"></span> Necesidad inmediata
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="g-box g-center-flex g-text-uppercase fwBold gCBlack1 g-box--tabs g-box--tabs-md"
+                    ng-click="goFormCotizacion(401)">
+                    <span class="ico ico-mapfre-365-myd-calendar gCGray2 mr-xs-1"></span>Necesidad Futura
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div ng-if="!showNecesidad">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-9">
+                    <h2 class="g-sub-title g-myd-subtitle">Ramo: {{TipoNecesidad}}</h2>
+                </div>
+                <div class="col-md-3 text-right mb-xs-2" ng-click="backSeleccionarRamo()" ng-if="!prospecto">
+                    <span class="g-link gCGray3">
+                        <i class="icon ico-mapfre_310_arrowLeft"></i>
+                        <b>Volver a seleccionar RAMO</b>
+                      </span>
+                </div>
+            </div>
+            <div class="row mb-xs-3">
+                <div class="col-md-3">
+                    <div class="g-box g-center-flex g-text-uppercase fwBold gCBlack1 g-box--tabs g-box--tabs-sm "
+                        ng-class="{active:TipoFinancimiento=='CONTADO'}" ng-click="changeTipoFinanciamiento('CONTADO')">
+                        CONTADO
+                    </div>
+                </div>
+
+                <div class="col-md-3">
+                    <div class="g-box g-center-flex g-text-uppercase fwBold gCBlack1 g-box--tabs g-box--tabs-sm "
+                        ng-class="{active:TipoFinancimiento=='FINANCIADO'}"
+                        ng-click="changeTipoFinanciamiento('FINANCIADO')">
+                        FINANCIADO
+                    </div>
+                </div>
+
+                <div class="col-md-3"  ng-if="userRoot">
+                    <div class="g-box g-center-flex g-text-uppercase fwBold gCBlack1 g-box--tabs g-box--tabs-sm "
+                        ng-class="{active:TipoFinancimiento=='DIRECTO'}" ng-click="changeTipoFinanciamiento('DIRECTO')">
+                        DIRECTO
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <h2 class="g-sub-title g-myd-subtitle">Datos del Producto</h2>
+                </div>
+            </div>
+            <div class="row mb-xs-1">
+                <div class="col-sm-6 col-md-3 mb-xs-2">
+                    <mpf-select ng-model="modelo.camposanto" name="nCamposanto"
+                    label="{label: 'Camposanto', required: true}" m-data-source="combo.camposanto"
+                        ng-change="getProducto()" text-field="Descripcion" value-field="Codigo"
+                        m-Empty-Option="{text:'Elige Camposanto'}" mpf-validation="required" ng-disabled="disabledAll">
+                    </mpf-select>
+                    <ul class="g-error">
+                        <li ng-show="frmCamposanto.nCamposanto.$error.required && !frmCamposanto.nCamposanto.$pristine">
+                            * Este campo es obligatorio</li>
+                    </ul>
+                </div>
+
+                <div class="col-sm-6 col-md-3 mb-xs-2">
+                    <mpf-select ng-model="modelo.tipoContrato" name="nTipoContrato"
+                    label="{label: 'Tipo Contrato', required: true}" m-data-source="combo.tipoContrato"
+                    text-field="Descripcion" value-field="Codigo" m-Empty-Option="{text:'Elige Tipo Contrato'}"
+                    ng-change="isAmpliacion();getProducto();modalidadList();" ng-disabled="disabledAll"
+                        mpf-validation="required"></mpf-select>
+                    <ul class="g-error">
+                        <li
+                            ng-show="frmCamposanto.nTipoContrato.$error.required && !frmCamposanto.nTipoContrato.$pristine">
+                            * Este campo es obligatorio</li>
+                    </ul>
+                </div>
+
+                <div class="col-sm-6 col-md-3 mb-xs-2" ng-if="showContratoRelacionado">
+                    <mpf-input label="{label: 'Número de contrato relacionado', required: true}"
+                        ng-disabled="disabledAll" name="nContratoRelacionado" ng-model="modelo.contratoRelacionado"
+                        mpf-validation="onlyNumber" ng-maxlength="13" ng-blur="getProducto()">
+                    </mpf-input>
+                    <ul class="g-error">
+                        <li
+                            ng-show="frmCamposanto.nContratoRelacionado.$error.required && !frmCamposanto.nContratoRelacionado.$pristine">
+                            * Este campo es obligatorio</li>
+                    </ul>
+                </div>
+
+                <div class="col-sm-6 col-md-3 mb-xs-2">
+                    <mpf-select ng-model="modelo.modalidad" name="nModalidad"
+                        label="{label: 'Modalidad', required: true}" m-data-source="combo.modalidad"
+                        ng-disabled="disabledAll" text-field="Descripcion" value-field="Codigo"
+                        m-Empty-Option="{text:'Elige Modalidad'}" ng-change="getProducto()" mpf-validation="required">
+                    </mpf-select>
+                    <ul class="g-error">
+                        <li ng-show="frmCamposanto.nModalidad.$error.required && !frmCamposanto.nModalidad.$pristine">*
+                            Este campo es obligatorio</li>
+                    </ul>
+                </div>
+                
+
+            </div>
+            <div class="row">
+                <div class="col-sm-6 col-md-3 mb-xs-2"
+                    ng-if="TipoFinancimiento=='FINANCIADO' || TipoFinancimiento=='DIRECTO'">
+                    <mpf-select ng-model="modelo.cuotas" name="nCuotas" label="{label: 'Cuotas', required: true}"
+                        m-data-source="cuotas" ng-change="getProducto()" mpf-validation="required"
+                        ng-disabled="disabledAll" text-field="Descripcion" value-field="Codigo"
+                        m-Empty-Option="{text:'Elige Cuotas'}">
+                    </mpf-select>
+                    <ul class="g-error">
+                        <li ng-show="frmCamposanto.nCuotas.$error.required && !frmCamposanto.nCuotas.$pristine">* Este
+                            campo es obligatorio</li>
+                    </ul>
+                </div>
+                <div class="col-sm-6 col-md-3 mb-xs-2">
+                    <mpf-select ng-model="modelo.producto" name="nProducto" label="{label: 'Producto', required: true}"
+                        m-data-source="combo.producto" text-field="Descripcion" value-field="Codigo"
+                        m-Empty-Option="{text:'Elige Producto'}" ng-change="selectProducto(modelo.producto.Precio)"
+                    mpf-validation="required" ng-disabled="inputProductoDisable || disabledAll"></mpf-select>
+                    <ul class="g-error">
+                        <li ng-show="frmCamposanto.nProducto.$error.required && !frmCamposanto.nProducto.$pristine">*
+                            Este campo es obligatorio</li>
+                    </ul>
+                </div>
+
+                <div class="col-sm-6 col-md-3 mb-xs-2" ng-show="TipoFinancimiento=='CONTADO'">
+                    <m-Numeric-Textbox label="{label: 'Precio Lista', required: false}" name="nPrecioProducto"
+                        ng-model="productoPrecio" ng-disabled="true" options="1" m-Range=""></m-Numeric-Textbox>
+                </div>
+
+                <div class="col-sm-6 col-md-3 mb-xs-2" ng-if="TipoFinancimiento=='CONTADO'">
+                    <m-Numeric-Textbox label="{label: 'Descuento %', required: false}" name="nDescuento"
+                        ng-model="modelo.descuento" ng-disabled="disabledAll" data-ng-keyup="descuentoProducto()">
+                    </m-Numeric-Textbox>
+                    <ul class="g-error">
+                        <li ng-show="frmCamposanto.nDescuento.$error.required && !frmCamposanto.nDescuento.$pristine">*
+                            Este campo es obligatorio</li>
+                    </ul>
+                </div>
+
+                <div class="col-sm-6 col-md-3 mb-xs-2" ng-if="TipoFinancimiento=='CONTADO'">
+                    <m-Numeric-Textbox label="{label: 'Precio Final', required: false}" name="nMontoTotal"
+                        ng-model="productoPrecioDescuento" ng-disabled="true" options="1" m-Range="">
+                    </m-Numeric-Textbox>
+                </div>
+            </div> 
+            <div class="row">
+                <div class="col-md-4 mb-md-2 mb-xs-3 gCGreen7">
+                    <a href="" class="page-rrgg__link fwMedium" ng-disabled="disabledAgrupamiento"
+                        ng-click="showModalAgrupamiento(categoria,productoAgrupamiento,tipologiaFinanciamiento)"> <span
+                            class="ico-mapfre_222_informacion page-rrgg__link-icon">
+                        </span> Agrupamiento de productos y financiamiento <span
+                            class="ico-mapfre_79_chevroneright page-rrgg__link-icon"> </span>
+                        </a>
+                    </div>       
+            </div>
+            <div class="row">
+                <div class="col-md-4 mb-md-5" ng-if="userRoot">
+                    <mp-data-seeker
+                        behavior="{label:'Para cotizar una póliza debes elegir un agente', placeholder:'Busque o seleccione un agente ...', matchField:'codigoNombre'}"
+                        m-data-source="'proxyAgente.buscarAgente'" ng-model="mAgente" ng-change="saveAgent(mAgente)">
+                        <div ng-bind-html="$item.codigoNombre | highlight: $select.search"></div>
+                    </mp-data-seeker>
+                </div>
+            </div>
+            <div class="row mt-xs-3">
+                <div class="col-md-12">
+                    <h2 class="g-sub-title g-myd-subtitle">Datos del Cliente</h2>
+                </div>
+            </div>
+            <div class="row mb-xs-2 row-flex-end">
+                <mpf-person-component person-data="personData" name="contratante" app-code="{{ appCode }}"
+                    form-code="{{ formCode }}" outdata="getDataContratante(data)" age-range="edad" editable="false"
+                    person-edit="personEdit" focus="false" no-button="disabledAll" block-all="disabledAll"
+                    disabled-fecha="!userRoot">
+            </mpf-person-component>
+
+            </div>
+
+            <div class="row" ng-if="validateSection">
+                <div class="col-md-12">
+                    <p class="fwMedium">Otros datos</p>
+                </div>
+            </div>
+            <div class="row" ng-if="validateSection">
+                <div class="col-sm-6 col-md-3 mb-xs-2">
+                    <p class="fwMedium">¿Tiene estudio superior?</p>
+                    <m-radio class="mr-xs-3" label="{label: 'Si'}" name="nEstudioSuperior"
+                        ng-model="modelo.estudioSuperior" value="0" data-ng-required="true" ng-disabled="disabledAll">
+                    </m-radio>
+                    <m-radio label="{label: 'No'}" name="nEstudioSuperior" ng-model="modelo.estudioSuperior" value="1"
+                        data-ng-required="true" ng-disabled="disabledAll">
+                    </m-radio>
+                </div>
+
+                <div class="col-sm-6 col-md-3 mb-xs-2">
+                    <p class="fwMedium">¿Tiene Auto?</p>
+                    <m-radio class="mr-xs-3" label="{label: 'Si'}" name="nCarro" ng-model="modelo.auto" value="0"
+                        data-ng-required="true" ng-disabled="disabledAll">
+                    </m-radio>
+                    <m-radio label="{label: 'No'}" name="nCarro" ng-model="modelo.auto" value="1"
+                        data-ng-required="true" ng-disabled="disabledAll">
+                    </m-radio>
+                </div>
+
+                <div class="col-sm-6 col-md-3 mb-xs-2">
+                    <mpf-select ng-model="modelo.gradoInstruccion" name="nGradoInstruccion"
+                        label="{label: 'Grado de instrucción',required:true}" m-data-source="gradoInstruccion"
+                        text-field="Descripcion" value-field="Codigo" ng-disabled="disabledAll"
+                        m-Empty-Option="{enterData:true}" mpf-validation="required">
+                    </mpf-select>
+                    <ul class="g-error">
+                        <li
+                            ng-show="frmCamposanto.nGradoInstruccion.$error.required && !frmCamposanto.nGradoInstruccion.$pristine">
+                            * Este campo es obligatorio</li>
+                    </ul>
+                </div>
+
+            </div>
+            
+            <div class="row-footer mt-sm-5">
+                <div class="row">
+                <div class="col-sm-12 mb-xs-2">
+                    <span class="g-comment">*Campos obligatorios</span>
+                </div>
+                    </div>
+                <div class="row" ng-show="!disabledAll">
+                    <div class="col-md-3 col-md-offset-3 mb-xs-2 col-xs-12">
+                        <button class="g-btn block" ng-click="guardadoParcial(false, false)"
+                            ng-disabled="btnguardadoParcialDisable">CERRAR Y GUARDAR OPERACIÓN</button>
+                    </div>
+                    <div class="col-md-3 mb-xs-2 col-xs-12" ng-show="TipoFinancimiento=='CONTADO'">
+                        <button class="g-btn g-btn-verde block" ng-click="generarCotizacion()"
+                            ng-disabled="btngenerarCotizacionDisable"> GENERAR COTIZACIÓN</button>
+                    </div>
+                    <div class="col-md-3 mb-xs-2 col-xs-12" ng-show="TipoFinancimiento=='FINANCIADO'">
+                        <button class="g-btn g-btn-verde block" ng-click="generarEvaluacion()"
+                            ng-disabled="btngenerarEvaluacionDisable">GENERAR EVALUACIÓN</button>
+                    </div>
+                    <div class="col-md-3 mb-xs-2 col-xs-12" ng-show="TipoFinancimiento=='DIRECTO'">
+                        <button class="g-btn g-btn-verde block" ng-click="goSimulador('DIRECTO')"
+                            ng-disabled="btngenerarCotizacionDisable">GENERAR SIMULACIÓN</button>
+                    </div>
+                </div>
+                <div class="row" ng-show="disabledAll">
+                    <div class="col-md-3 col-md-offset-3 mb-xs-2 col-xs-12">
+                        <button class="g-btn block" ng-click="guardadoParcial(true, false)"
+                            ng-disabled="btnguardadoParcialDisable">CERRAR Y GUARDAR OPERACIÓN</button>
+                    </div>
+                    <div class="col-md-3 mb-xs-2 col-xs-12">
+                        <button class="g-btn g-btn-verde block" ng-click="goSimulador('')">GENERAR SIMULACIÓN</button>
+                    </div>
+                </div>
+                    </div>
+            </div>
+        </div>
+    <div>
+    </div>
+</form>

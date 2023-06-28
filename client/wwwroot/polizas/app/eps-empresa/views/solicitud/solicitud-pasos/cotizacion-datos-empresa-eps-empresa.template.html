@@ -1,0 +1,173 @@
+<form name="frmDatosEmpresa">
+    <div class="g-section-inner">
+      <div class="container">
+        <div class="row">
+            <div class="col-md-6 mb-xs-2">
+                <mpf-input 
+                    ng-model="vm.datosEmpresa.ruc"
+                    name="nRUC"
+                    label="{label: 'RUC', required: vm.checkRequired('RUC')}" 
+                    ng-blur="vm.buscarRazonSocial()"
+                    mpf-validation="{{vm.validadores.typeNumeroDoc}}"
+                    mpf-validation-disabled="{{vm.validadores.typeNumeroDocDisabled}}"
+                    mpf-generic-validations="{{vm.getValidations('RUC')}}"
+                    disabled-view-model="true"
+                    ng-maxlength="11">
+                </mpf-input>
+            </div>
+            <div class="col-md-6 mb-xs-2">
+                <mpf-input 
+                    ng-model="vm.datosEmpresa.razonSocial"
+                    name="nRazonSocial" 
+                    label="{label: 'Razón social', required: false}"
+                    ng-disabled="true"
+                    disabled-view-model="true">
+                </mpf-input>
+                <ul class="g-error">
+                  <li
+                    ng-show="vm.mensajeSinRazonSocial"
+                  >
+                    * No se encontro la razón social con el ruc ingresado
+                  </li>
+                </ul>
+                <ul class="g-error">
+                  <li
+                    ng-show="vm.mensajeErrorRazonSocial"
+                  >
+                    * Servicio de busqueda de razón social fuera de servicio
+                  </li>
+                </ul>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6 mb-xs-2">
+                <mpf-input 
+                    ng-model="vm.datosEmpresa.razonComercial"
+                    name="nRazonComercial" 
+                    label="{label: 'Razón comercial', required: true}"
+                    mpf-generic-validations="{{vm.getValidations('RAZON_COMERCIAL')}}"
+                    ng-disabled="false"
+                    disabled-view-model="true"
+                    ng-maxlength="200">
+                </mpf-input>
+            </div>
+            <div class="col-md-6 mb-xs-2">
+                <mpf-input
+                    ng-model="vm.datosEmpresa.telefono"
+                    name="nTelefono" 
+                    label="{label: 'Teléfono', required: true}"
+                    mpf-generic-validations="{{vm.getValidations('TELEFONO')}}"
+                    ng-disabled="false"
+                    disabled-view-model="true"
+                    ng-maxlength="20">
+                </mpf-input>
+              </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6 mb-xs-2">
+                <mpf-input 
+                    ng-model="vm.datosEmpresa.direccion"
+                    name="nDireccion" 
+                    label="{label: 'Dirección', required: true}"
+                    mpf-generic-validations="{{vm.getValidations('DIRECCION')}}"
+                    ng-disabled="false"
+                    disabled-view-model="true"
+                    ng-maxlength="500">
+                </mpf-input>
+            </div>
+            <!-- Seleccion de tipos de departamento -->
+            <div class="col-md-3 mb-xs-2">
+                <mpf-select 
+                  ng-model="vm.datosEmpresa.mDepartamento" 
+                  name="nDepartamento"
+                  label="{label: 'Departamento', required: true}"
+                  m-data-source="vm.departamentos" 
+                  text-field="Descripcion" 
+                  value-field="Codigo"
+                  m-Empty-Option="{enterData:true}" 
+                  ng-change="vm.cambioDepartamento(vm.datosEmpresa.mDepartamento)"
+                  mpf-generic-validations="{{vm.getValidations('DEPARTAMENTO')}}"
+                  disabled-view-model="true">
+                </mpf-select>
+            </div>
+            <!-- Seleccion de tipos de provincia -->
+            <div class="col-md-3 mb-xs-2">
+                <mpf-select 
+                  ng-model="vm.datosEmpresa.mProvincia" 
+                  name="nProvincia"
+                  label="{label: 'Provincia', required: true}"
+                  m-data-source="vm.provincias" 
+                  text-field="Descripcion" 
+                  value-field="Codigo"
+                  m-Empty-Option="{enterData:true}" 
+                  ng-change="vm.cambioProvincia(vm.datosEmpresa.mProvincia)"
+                  mpf-generic-validations="{{vm.getValidations('PROVINCIA')}}"
+                  disabled-view-model="true">
+                </mpf-select>
+            </div>
+        </div>
+        <div class="row">
+          <!-- Seleccion de tipos de persona -->
+          <div class="col-md-6 mb-xs-2">
+            <mpf-select 
+              ng-model="vm.datosEmpresa.mDistrito" 
+              name="nDistrito"
+              label="{label: 'Distrito', required: true}"
+              m-data-source="vm.distritos" 
+              text-field="Descripcion" 
+              value-field="Codigo"
+              m-Empty-Option="{enterData:true}" 
+              ng-change="vm.cambioDistrito(vm.datosEmpresa.mDistrito)"
+              mpf-generic-validations="{{vm.getValidations('DISTRITO')}}"
+              disabled-view-model="true">
+            </mpf-select>
+          </div>
+          <div class="col-md-6 mb-xs-2">
+            <mpf-input 
+                ng-model="vm.datosEmpresa.nombreContacto"
+                name="nNombreContacto" 
+                label="{label: 'Nombre de contacto', required: true}"
+                mpf-generic-validations="{{vm.getValidations('NOMBRE_CONTACTO')}}"
+                ng-disabled="false"
+                ng-maxlength="150"
+                disabled-view-model="true">
+            </mpf-input>
+          </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6 mb-xs-2">
+              <mpf-input 
+                ng-model="vm.datosEmpresa.cargoContacto"
+                name="nCargoContacto" 
+                label="{label: 'Cargo de contacto', required: true}"
+                mpf-generic-validations="{{vm.getValidations('CARGO_CONTACTO')}}"
+                ng-disabled="false"
+                disabled-view-model="true"
+                ng-maxlength="200">
+              </mpf-input>
+            </div>
+            <div class="col-md-6 mb-xs-2">
+                <mpf-input
+                    ng-model="vm.datosEmpresa.correoContacto"
+                    name="nCorreoContacto" 
+                    label="{label: 'Correo de contacto', required: true}"
+                    mpf-generic-validations="{{vm.getValidations('CORREO_CONTACTO')}}"
+                    ng-disabled="false"
+                    disabled-view-model="true"
+                    ng-maxlength="100">
+                </mpf-input>
+              </div>
+        </div>
+      </div>
+    </div>
+    <div class="g-section h-myd-pt--0">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-4 col-md-offset-8">
+            <a class="g-btn g-btn-verde block" ng-class="{'disabled': !vm.activeBotonSiguiente()}"
+              ng-click="vm.showModalConfirmation()">Siguiente</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>

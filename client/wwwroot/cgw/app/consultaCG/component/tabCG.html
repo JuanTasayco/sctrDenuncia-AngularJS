@@ -1,0 +1,174 @@
+<div class="row pt-xs-2 pb-xs-2">
+  <div class="g-section-inner">
+    <div class="clearfix">
+      <h2 class="col-xs-12 col-sm-6 col-md-5 col-lg-6 g-sub-title red">Datos de la Carta de Garantía</h2>
+      <span class="mb-xs-3 col-xs-12 col-sm-3 col-lg-3 pull-right" ng-show="showCrearAmpliacion()">
+        <a  class="g-btn g-btn-green-border second-design block" data-ng-click="crearAmpliacion()">Crear Ampliación</a>
+      </span>
+       <span class="mb-xs-3 col-xs-12 col-sm-4 col-lg-3 pull-right" ng-show="showLevantarObservacion()">
+        <a  class="g-btn g-btn-green-border second-design block" data-ng-click="levantarAmpliacion()">Levantar Observaciones</a>
+      </span>
+    </div>
+    <!--<ul class="clearfix g-list-md mb-xs-1">-->
+      <!--<li class="col-md-4 clearfix cnt-item">-->
+        <!--<div class="col-xs-5 item-label">-->
+          <!--<span class="ico-mapfre_82_circle ico-bullet"></span>Nro. Carta:-->
+        <!--</div>-->
+        <!--<div class="col-xs-7 item-dato g-text-uppercase">-->
+          <!--{{yearLetter}}-{{letterNumber}}-->
+        <!--</div>-->
+      <!--</li>-->
+      <!--<li class="col-md-4 clearfix cnt-item">-->
+        <!--<div class="col-xs-5 item-label">-->
+          <!--<span class="ico-mapfre_82_circle ico-bullet"></span>Versión Carta:-->
+        <!--</div>-->
+        <!--<div class="col-xs-7 item-dato g-text-uppercase">-->
+          <!--{{letterVersion}}-->
+        <!--</div>-->
+      <!--</li>-->
+      <!--<li class="col-md-4 clearfix cnt-item">-->
+        <!--<div class="col-xs-5 item-label">-->
+          <!--<span class="ico-mapfre_82_circle ico-bullet"></span>Estado:-->
+        <!--</div>-->
+        <!--<div class="col-xs-7 item-dato g-text-uppercase">-->
+          <!--{{cartaGarantia.statusLetter}}-->
+        <!--</div>-->
+      <!--</li>-->
+    <!--</ul>-->
+    <!--<ul class="clearfix g-list-md mb-xs-1">-->
+      <!--<li class="col-md-4 clearfix cnt-item">-->
+        <!--<div class="col-xs-5 item-label">-->
+          <!--<span class="ico-mapfre_82_circle ico-bullet"></span>Imp. Presupuesto:-->
+        <!--</div>-->
+        <!--<div class="col-xs-7 item-dato g-text-uppercase">-->
+          <!--{{cartaGarantia.requestedAmount | currency: 'S/'}}-->
+        <!--</div>-->
+      <!--</li>-->
+      <!--<li class="col-md-4 clearfix cnt-item">-->
+        <!--<div class="col-xs-5 item-label">-->
+          <!--<span class="ico-mapfre_82_circle ico-bullet"></span>Imp. Aprobado:-->
+        <!--</div>-->
+        <!--<div class="col-xs-7 item-dato g-text-uppercase">-->
+          <!--{{cartaGarantia.approvedAmount | currency: 'S/'}}-->
+        <!--</div>-->
+      <!--</li>-->
+    <!--</ul>-->
+    <!--<div class="col-xs-12 mb-xs-2">-->
+      <!--<mpf-checkbox ng-model="prima" label="Prima pendiente de pago" ng-true-value="'1'" ng-false-value="'0'" ng-init="'0'"></mpf-checkbox>-->
+    <!--</div>-->
+  </div>
+  <div class="clearfix g-section-inner">
+    <div class="clearfix">
+      <h2 class="col-xs-12 col-md-6 g-sub-title red">Diagnóstico Principal</h2>
+      <span class="col-md-6 mb-xs-2 g-icon gCGray3 g-text-right-xs">
+        <a data-ng-click="editarDiagnostico()" ng-hide="hideEditDiagnostico()">
+          <span class="icon ico-mapfre_43_editar"></span>
+          <span class="g-link"><b>Editar Diagnóstico</b>
+          </span>
+        </a>
+      </span>
+    </div>
+    <ul class="clearfix g-list-md mb-xs-1">
+      <li class="col-md-4 clearfix cnt-item">
+        <div class="col-xs-5 item-label">
+          <span class="ico-mapfre_82_circle ico-bullet"></span>Código Diagnóstico:
+        </div>
+        <div class="col-xs-7 item-dato g-text-uppercase">
+          {{cartaGarantia.diagnosticCode}}  {{cartaGarantia.diagnostic}}
+        </div>
+      </li>
+      <li class="col-md-4 clearfix cnt-item">
+        <div class="col-xs-5 item-label">
+          <span class="ico-mapfre_82_circle ico-bullet"></span>Médico Tratante:
+        </div>
+        <div class="col-xs-7 item-dato g-text-uppercase">
+          <span ng-if="cartaGarantia.doctorCode !=='0' ">{{cartaGarantia.doctorCode}}</span>   {{cartaGarantia.doctorFullName}}
+        </div>
+      </li>
+      <li class="col-md-4 clearfix cnt-item">
+        <div class="col-xs-12 item-label">
+          <span class="ico-mapfre_82_circle ico-bullet"></span>Observaciones del médico:
+        </div>
+        <div class="col-xs-12 item-dato g-text-uppercase">
+          {{cartaGarantia.doctorRemark}}
+        </div>
+      </li>
+    </ul>
+  </div>
+  <div class="clearfix g-section-inner">
+    <div class="clearfix">
+      <h2 class="col-xs-12 col-md-6 g-sub-title red">Beneficio/Alternativa Copago</h2>
+      <span class="col-md-6 mb-xs-2 g-icon gCGray3 g-text-right-xs">
+        <a data-ng-click="editarBeneficio(cartaGarantia)" ng-hide="isAnulada(cartaGarantia)">
+          <span class="icon ico-mapfre_43_editar" ></span>
+          <span class="g-link"><b>Editar Beneficio/Copago</b>
+          </span>
+        </a>
+      </span>
+    </div>
+    <ul class="clearfix g-list-md mb-xs-1">
+      <li class="col-md-4 clearfix cnt-item">
+        <div class="col-xs-5 item-label">
+          <span class="ico-mapfre_82_circle ico-bullet"></span>Tipo de Atención:
+        </div>
+        <div class="col-sm-7 tem-dato g-text-uppercase" ng-if="cartaGarantia.typeAttention=='A'">
+          AMBULATORIO
+        </div>
+        <div class="col-sm-7 tem-dato g-text-uppercase" ng-if="cartaGarantia.typeAttention=='P'">
+          PROCEDIMIENTO
+        </div>
+        <div class="col-sm-7 tem-dato g-text-uppercase" ng-if="cartaGarantia.typeAttention=='H'">
+          HOSPITALARIO
+        </div>
+      </li>
+      <li class="col-md-4 clearfix cnt-item">
+        <div class="col-xs-5 item-label">
+          <span class="ico-mapfre_82_circle ico-bullet"></span>Días de Hospitalización:
+        </div>
+        <div class="col-xs-7 item-dato g-text-uppercase">
+          {{cartaGarantia.daysOfHospitalization}}
+        </div>
+      </li>
+      <li class="col-md-4 clearfix cnt-item">
+        <div class="col-xs-5 item-label">
+          <span class="ico-mapfre_82_circle ico-bullet"></span>Beneficio:
+        </div>
+        <div class="col-xs-7 item-dato g-text-uppercase">
+          {{cartaGarantia.benefitCode}}  {{cartaGarantia.benefit}}
+        </div>
+      </li>
+    </ul>
+    <ul class="clearfix g-list-md mb-xs-1">
+      <li class="col-md-4 clearfix cnt-item">
+        <div class="col-sm-5">
+          <span class="ico-mapfre_82_circle ico-bullet"></span>
+          <strong>Detalles Autorización:</strong>
+        </div>
+        <div class="col-sm-7">
+          {{cartaGarantia.authorizationDetail}}
+        </div>
+      </li>
+    </ul>
+  </div>
+  <div class="clearfix g-section-inner" ng-show="isSCTR">
+    <div class="clearfix">
+      <h2 class="col-xs-12 col-md-6 g-sub-title red">Datos de Denuncia</h2>
+    </div>
+    <div class="u-ph-15">
+      <div class="gBgcGray5 g-box g-text-center-xs pt-xs-2">
+        <span class="gH4 gCGray1">No hay ninguna denuncia registrada</span>
+        <div class="clearfix mt-xs-2">
+          <div class="col-md-3 col-md-offset-3 mb-xs-1">
+            <a  class="g-btn g-btn-white block"
+                data-ng-click="agregarDenuncia()">
+                Agregar Denuncia</a>
+          </div>
+          <div class="col-md-3 mb-xs-1">
+            <a  class="g-btn g-btn-green-border block"
+                ng-click="crearDenuncia()">Crear Denuncia</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

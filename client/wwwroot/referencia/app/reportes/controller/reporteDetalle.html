@@ -1,0 +1,427 @@
+<mfloader loader="$ctrl.loader"></mfloader>
+<div class="container">
+  <mfbreadcrumb panel= "$ctrl.panel"
+                lvl0="$ctrl.lvl0"
+                lvl1=""
+                lvl2=""
+                show-lvl1= ""
+                show-lvl2= ""
+                open-map=""
+                loader="$ctrl.loader"
+                lst-dptos=""></mfbreadcrumb>
+
+  <div class="row register-pacient-step">
+    <div class="col-xs-12 col-md-5">
+      <div class="cleaner">
+        <h1 class="title-r u-title-divider--up">
+          <span data-ng-bind="::$ctrl.title"></span>
+          <span class="state-checked" ng-if="$ctrl.item.revisado">
+            <span class="ico-mapfre_184_circleCheck"></span>Revisada
+          </span></h1>
+      </div>
+    </div>
+  </div>
+  <div class="u-bar-volver u-mb-20">
+    <div class="container">
+      <div class="row u-align-v">
+        <div class="col-xs-12 col-md-3">
+          <a ui-sref="referencia.panel.reportes" class="u-arrow-left">Volver</a>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row" id="print">
+    <div class="registro-receip--content col-md-offset-1 col-md-10 col-xs-12">
+      <div class="cleaner">
+        <div class="col-xs-12 u-mb-50 no-print" id="rmSolicitud">
+          <div class="cleaner">
+            <h3 class="text-center registro-receip-request">
+              <span class="registro-receip-request--check ico-mapfre_81_checkmark"></span>
+              <span class="registro-receip-request--title">Detalle de la referencia</span>
+                <form id="frmDownloadPDF"
+                      name="frmDownloadPDF"
+                      action="{{$ctrl.pdfURL}}"
+                      method="post"
+                      target="_blank">
+                  <input type="hidden" name="json" value='{{$ctrl.item}}'>
+                  <button class="c-link"
+                          type="submit">
+                    <span class="u-inline-b">
+                      <span class="">
+                        <span>Descargar PDF</span>
+                      </span>
+                    </span>
+                  </button>
+                </form>
+            </h3>
+          </div>
+        </div>
+        <div class="col-xs-12">
+          <div class="cleaner">
+            <span class="registro-receip__sub-title text-center">DATOS DE LA REFERENCIA</span>
+          </div>
+        </div>
+        <div class="col-xs-12">
+          <div class="cleaner">
+            <div class="register-progress-block lista__item--card u-br-5 u-pvh-20">
+              <ul>
+                <li class="u-mb-10 cleaner">
+                  <span class="col-xs-12 col-sm-4">Nro de referencia: </span>
+                  <span class="col-xs-12 col-sm-8">{{::$ctrl.item.idReferencia}}</span>
+                </li>
+                <li class="u-mb-10 cleaner">
+                  <span class="col-xs-12 col-sm-4">Fecha de creación: </span>
+                  <span class="col-xs-12 col-sm-8">{{::$ctrl.item.fechaCreacion | date:'dd-MM-yyyy HH:mm'}}</span>
+                </li>
+                <li class="u-mb-10 cleaner">
+                  <span class="col-xs-12 col-sm-4">Usuario: </span>
+                  <span class="col-xs-12 col-sm-8">{{::$ctrl.item.usuarioCreacion}}</span>
+                </li>
+                <li class="u-mb-10 cleaner">
+                  <span class="col-xs-12 col-sm-4">Tipo de referencia: </span>
+                  <span class="col-xs-12 col-sm-8">{{::$ctrl.item.origenReferencia}}</span>
+                </li>
+                <li class="u-mb-10 cleaner">
+                  <span class="col-xs-12 col-sm-4">Producto: </span>
+                  <span class="col-xs-12 col-sm-8">{{::$ctrl.item.aseguradoProducto}}</span>
+                </li>
+                <li class="u-mb-10 cleaner">
+                  <span class="col-xs-12 col-sm-4">Diagnóstico Presuntivo: </span>
+                  <span class="col-xs-12 col-sm-8">{{::$ctrl.item.aseguradoDiagnostico}}</span>
+                </li>
+                <li class="u-mb-10 cleaner">
+                  <span class="col-xs-12 col-sm-4">Condición del paciente: </span>
+                  <span class="col-xs-12 col-sm-8">{{::$ctrl.item.aseguradoCondicion}}</span>
+                </li>
+                <li class="u-mb-10 cleaner">
+                  <span class="col-xs-12 col-sm-4">Observaciones: </span>
+                  <span class="col-xs-12 col-sm-8">{{::$ctrl.item.aseguradoObservacion}}</span>
+                </li>
+                <li class="u-mb-0 cleaner">
+                  <span class="col-xs-12 col-sm-4">Requerimientos en destino: </span>
+                  <span class="col-xs-12 col-sm-8">{{::$ctrl.item.aseguradoRequerimientos}}</span>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div class="col-xs-12">
+          <div class="cleaner">
+            <span class="registro-receip__sub-title text-center">DATOS DEL ASEGURADO</span>
+          </div>
+        </div>
+        <div class="col-xs-12">
+          <div class="cleaner">
+            <div  class="register-progress-block lista__item--card u-br-5 lista__item">
+              <div class="register-progress-block-info u-mb-15 u-pt-20">
+                <p class="registro-receip--title">
+                  DATOS DEL TITULAR
+                </p>
+                <span class="u-color-verde">
+                  <b>{{::$ctrl.item.titularNombre}}</b>
+                </span>
+                <ul class="u-mt-10 u-fx-as row">
+                  <li class="lista-body__item col-xs-12 col-sm-6 col-md-3">
+                    <span>Número del contrato: {{::$ctrl.item.titularContrato}}</span>
+                  </li>
+                  <li class="lista-body__item col-xs-12 col-sm-6 col-md-6">
+                    <span>Contratante: {{::$ctrl.item.titularEmpresa}}</span>
+                  </li>
+                  <li class="lista-body__item col-xs-12 col-sm-6 col-md-3">
+                    <span>RUC: {{::$ctrl.item.titularRuc}}</span>
+                  </li>
+                  <li class="lista-body__item col-xs-12 col-sm-6 col-md-3">
+                    <span>Tipo de afiliación: {{::$ctrl.item.tipoAfiliacion}}</span>
+                  </li>
+                  <li class="lista-body__item col-xs-12 col-sm-6 col-md-3">
+                    <span>Fecha de afiliación: {{::$ctrl.item.fechaAfiliacion | date:'dd/MM/yyyy'}}</span>
+                  </li>
+                </ul>
+              </div>
+              <div class="register-progress-block-info">
+                <p class="registro-receip--title">
+                  DATOS DEL ASEGURADO
+                </p>
+                <span class="u-color-verde">
+                  <b>{{::$ctrl.item.aseguradoNombre}}</b>
+                </span>
+                <ul class="u-mt-10 u-fx-as row">
+                  <li class="lista-body__item col-xs-12 col-sm-6 col-md-3">
+                    <span>{{::$ctrl.item.aseguradoTipoDocumento || 'Nro. doc'}}: {{::$ctrl.item.aseguradoDNI}}</span>
+                  </li>
+                  <li class="lista-body__item col-xs-12 col-sm-6 col-md-3">
+                    <span>Fecha de nacimiento: {{::$ctrl.item.aseguradoFecNac | date:'dd/MM/yyyy'}}</span>
+                  </li>
+                  <li class="lista-body__item col-xs-12 col-sm-6 col-md-3">
+                    <span>Género: {{::$ctrl.item.aseguradoGenero}}</span>
+                  </li>
+                  <li class="lista-body__item col-xs-12 col-sm-6 col-md-3">
+                    <span>Parentesco: {{::$ctrl.item.aseguradoParentesco}}</span>
+                  </li>
+                  <li class="lista-body__item col-xs-12 col-sm-6 col-md-6">
+                    <span>Compañía: {{::$ctrl.item.aseguradoEmpresa}}</span>
+                  </li>
+                  <li class="lista-body__item col-xs-12 col-sm-6 col-md-3">
+                    <span>Producto: {{::$ctrl.item.aseguradoProducto}}</span>
+                  </li>
+                  <li class="lista-body__item col-xs-12 col-sm-6 col-md-3">
+                    <span>Estado: {{::$ctrl.item.aseguradoEstado}}</span>
+                  </li>
+                </ul>
+              </div>
+              <div class="registro-receip--border">
+                <ul class="u-mt-10 row">
+                  <li class="lista-body__item col-xs-12">
+                    <span>Diagnóstico Presuntivo: {{::$ctrl.item.aseguradoDiagnostico}}</span>
+                  </li>
+                  <li class="lista-body__item col-xs-12 u-mb-0">
+                    <span>Condición del paciente: {{::$ctrl.item.aseguradoCondicion}}</span>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-xs-12">
+          <div class="cleaner">
+            <span class="registro-receip__sub-title text-center u-mb-20">ENTIDAD DE ORIGEN</span>
+          </div>
+        </div>
+        <div class="col-xs-12">
+          <ul class="lista-group u-br-5 ">
+            <li class="lista__item lista__item--card lista__item--prov">
+              <div class="lista__header reg-receipt__header register-destination__header u-mt-20">
+                <div class="u-align-v">
+                  <span class="lista-title__ico ico-mapfre_34_salud hidden-xs hidden-sm"></span>
+                  <p class="lista-title__txt register-destination__clinic">{{::$ctrl.item.origenCentro}}</p>
+                  <p class="panel__caption panel__caption--ubi register-destination--caption">{{::$ctrl.item.origenProvincia}} - {{::$ctrl.item.origenDepartamento}}</p>
+                </div>
+              </div>
+              <div class="lista-body__wp register-destination__content">
+                <div class="cleaner">
+                  <h4 class="register-preview__sub-title">Responsable de la referencia</h4>
+                  <div class="col-xs-12 col-sm-6 col-md-4 u-mt-10">
+                    <div class="row">
+                      <p class="u-mb-0">Nombre completo</p>
+                      <p>{{::$ctrl.item.origenResponsable}}</p>
+                    </div>
+                  </div>
+                  <div class="col-xs-12 col-sm-6 col-md-4 u-mt-10">
+                    <div class="row">
+                      <p class="u-mb-0">Teléfono</p>
+                      <p>{{::$ctrl.item.origenTelefono}}</p>
+                    </div>
+                  </div>
+                  <div class="col-xs-12 col-sm-6 col-md-4 u-mt-10">
+                    <div class="row">
+                      <p class="u-mb-0">Dirección correo electrónico</p>
+                      <p>{{::$ctrl.item.origenMail}}</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </li>
+          </ul>
+        </div>
+        <div class="col-xs-12" data-ng-if="$ctrl.proveedores.length > 0">
+          <div class="cleaner">
+            <span class="registro-receip__sub-title text-center u-inline-b u-mt-10">ENTIDAD DE DESTINO</span>
+          </div>
+        </div>
+        <div class="col-xs-12">
+          <ul>
+            <li class="lista__item lista__item--card lista__item--prov"
+                data-ng-repeat="item in ::$ctrl.proveedores track by $index"
+                ng-if="!$ctrl.item.revisado || item.idRefProveedor == $ctrl.item.idRefProveedor">
+              <div class="lista__header register-destination__header">
+                <div class="lista-header__col col-xs-12 col-md-8 u-align-v">
+                  <span class="lista-title__ico ico-mapfre_34_salud hidden-xs hidden-sm"></span>
+                  <p class="lista-title__txt register-destination__clinic">{{::item.nombreProveedor}}</p>
+                  <p class="panel__caption panel__caption--ubi register-destination--caption">{{::item.departamento}} <span data-ng-show="item.provincia">, </span> {{::item.provincia}}</p>
+                </div>
+                <div class="lista-header__col col-xs-12 col-md-4 u-align-v no-print">
+                  <button class="c-btn btn btn--secundary btn-block"
+                          type="button"
+                          data-ng-click="$ctrl.openRegisterModal(item)"
+                          ng-if="!$ctrl.item.revisado && ($ctrl.isAdmin || $ctrl.isDoctor)">
+                    Registrar
+                  </button>
+                  <a  class="u-arrow-right register-destination__link-more"
+                      data-ng-click="$ctrl.openClientProveedoresDetailModal(item)"><b>Ver Cobertura</b></a>
+                </div>
+              </div>
+              <div class="lista-body__wp register-destination__content">
+                <ul class="lista__body register-destination__content--list">
+                  <li class="lista-body__item lista-body__item--prov" data-ng-if="item.categoriaProveedor">{{::item.categoriaProveedor}}</li>
+                  <li class="lista-body__item lista-body__item--prov" data-ng-if="item.tipoEntidad">{{::item.tipoEntidad}}</li>
+                  <li class="lista-body__item lista-body__item--prov" data-ng-if="item.convenioStr">{{::item.convenioStr}}</li>
+                  <li class="lista-body__item lista-body__item--prov no-print">
+                    <a  data-ng-click="$ctrl.verDetalleProveedor(item)">
+                      <b>Ver detalle</b>
+                    </a>
+                  </li>
+                </ul>
+                <ul class="lista__body register-destination__content--list reg-car__info-user u-mb-0">
+                  <li class="lista-body__item lista-body__item--prov" data-ng-if="item.telefonoContacto">{{::item.telefonoContacto}}</li>
+                  <li class="lista-body__item lista-body__item--prov" data-ng-if="item.responsable">{{::item.responsable}}</li>
+                  <li class="lista-body__item lista-body__item--prov" data-ng-if="item.direccionProveedor">{{::item.direccionProveedor}}</li>
+                </ul>
+                <a  class="reg-card__showMap no-print" id="rmVerMapa"
+                    data-ng-if="item.latitud && item.longitud"
+                    data-ng-click="$ctrl.toggleMap(item.idRefProveedor, item)">
+                  <b>Ver Mapa</b>
+                </a>
+              </div>
+              <div  class="provee__map animate-show no-print ng-hide" id="rmMapa"
+                    data-ng-show="$ctrl.mapShow[item.idRefProveedor]">
+                <ng-map zoom="15"
+                        id="{{::item.idRefProveedor}}"
+                        center="{{item.latitud}},{{item.longitud}}"
+                        class="referencia-map"
+                        lazy-init="true">
+                  <marker position="{{item.latitud}},{{item.longitud}}"
+                    title="{{::item.nombre}}"
+                    animation="Animation.DROP"
+                    centered="true"></marker>
+                </ng-map>
+              </div>
+              <div class="lista-body__wp register-destination__content" ng-if="$ctrl.item.revisado">
+                <p>DIAGNÓSTICOS Y TRATAMIENTOS</p>
+                <ul class="clearfix">
+                  <li class="col-sm-4" ng-if="$ctrl.item.diagnosticoIngreso">
+                    <p class="u-mb-0">Diagnóstico al ingreso del paciente</p>
+                    <p>{{::$ctrl.item.diagnosticoIngreso}}</p>
+                  </li>
+                  <li class="col-sm-4" ng-if="$ctrl.item.diagnosticoEgreso">
+                    <p class="u-mb-0">Diagnóstico al egreso del paciente</p>
+                    <p>{{::$ctrl.item.diagnosticoEgreso}}</p>
+                  </li>
+                  <li class="col-sm-4" ng-if="$ctrl.item.condicionPaciente">
+                    <p class="u-mb-0">Condición del paciente</p>
+                    <p>{{::$ctrl.item.condicionPaciente}}</p>
+                  </li>
+                </ul>
+                <ul class="clearfix">
+                  <li class="col-sm-4" ng-if="$ctrl.item.procedimiento">
+                    <p class="u-mb-0">Procedimientos realizados</p>
+                    <p>{{::$ctrl.item.procedimiento}}</p>
+                  </li>
+                  <li class="col-sm-4" ng-if="$ctrl.item.procedimiento">
+                    <p class="u-mb-0">Fecha de ingreso</p>
+                    <p>{{::$ctrl.item.FechaIngreso | date:'dd/MM/yyyy'}}</p>
+                  </li>
+                  <li class="col-sm-4" ng-if="$ctrl.item.procedimiento">
+                    <p class="u-mb-0">Fecha de egreso</p>
+                    <p>{{::$ctrl.item.FechaFin | date:'dd/MM/yyyy'}}</p>
+                  </li>
+                  <li class="col-sm-4" ng-if="$ctrl.item.nombreResponsable">
+                    <p class="u-mb-0">Nombre del médico responsable</p>
+                    <p>{{::$ctrl.item.nombreResponsable}}</p>
+                  </li>
+                  <li class="col-sm-4" ng-if="$ctrl.item.especialidadResponsable">
+                    <p class="u-mb-0">Especialidad del médico responsable</p>
+                    <p>{{::$ctrl.item.especialidadResponsable}}</p>
+                  </li>
+                  <li class="col-sm-4" ng-if="$ctrl.item.colegiaturaResponsable">
+                    <p class="u-mb-0">Colegiatura</p>
+                    <p>{{::$ctrl.item.colegiaturaResponsable}}</p>
+                  </li>
+                </ul>
+              </div>
+            </li>
+            <li ng-if="(!$ctrl.item.revisado && ($ctrl.isAdmin || $ctrl.isDoctor)) || ($ctrl.item.revisado && $ctrl.item.descripcionObservacion)"
+                class="lista__item lista__item--card lista__item--prov">
+              <div class="lista__header register-destination__header u-mb-10">
+                <div class="lista-header__col col-xs-12 col-md-8 u-align-v">
+                  <p class="registro-receip--title u-mb-0 u-mt-10">NO SE REGISTRÓ EN NINGUNA ENTIDAD</p>
+                </div>
+                <div class="lista-header__col col-xs-12 col-md-4 u-align-v no-print">
+                  <button class="c-btn btn btn--default btn-block"
+                          type="button"
+                          data-ng-click="$ctrl.openCommentsModal()">
+                    <span class="ico-mapfre_228_editar"></span>
+                    <span ng-if="$ctrl.item.descripcionObservacion">Editar observación</span>
+                    <span ng-if="!$ctrl.item.descripcionObservacion">Escribir observación</span>
+                  </button>
+                </div>
+              </div>
+              <div class="lista-body__wp register-destination__content"
+                   ng-if="$ctrl.item.descripcionObservacion">
+                <p>{{$ctrl.item.descripcionObservacion}}</p>
+              </div>
+            </li>
+          </ul>
+        </div>
+        <div  class="col-xs-12"
+              data-ng-if="::$ctrl.areThereData('filtros')">
+          <span class="registro-receip__sub-title text-center u-mb-20">REQUERIMIENTOS DE DESTINO</span>
+          <ul class="lista-group u-br-5">
+            <li class="lista__item lista__item--card lista__item--prov reg-card-resumen">
+              <div data-ng-if="::$ctrl.areThereData('servicios')">
+                <div class="lista__header reg-resumen__header">
+                  <h4 class="register-preview__block-title">Servicios</h4>
+                </div>
+                <div class="lista-body__wp reg-resumen__box cleaner">
+                  <div  class="col-xs-12 col-sm-6 col-md-4 u-ph-0"
+                        data-ng-repeat="serv in ::$ctrl.servicios track by $index">
+                    <p class="u-mb-0">{{::serv.nombreServicio}}</p>
+                  </div>
+                </div>
+              </div>
+              <div data-ng-if="::$ctrl.areThereData('imagenes')">
+                <div class="lista__header reg-resumen__header">
+                  <h4 class="register-preview__block-title">Imagenología</h4>
+                </div>
+                <div class="lista-body__wp reg-resumen__box cleaner">
+                  <div  class="col-xs-12 col-sm-6 col-md-4 u-ph-0"
+                        data-ng-repeat="serv in ::$ctrl.imagenes track by $index">
+                    <p class="u-mb-0">{{::serv.nombreServicio}}</p>
+                  </div>
+                </div>
+              </div>
+              <div data-ng-if="::$ctrl.areThereData('emergencias')">
+                <div class="lista__header reg-resumen__header">
+                  <h4 class="register-preview__block-title">Emergencias</h4>
+                </div>
+                <div class="lista-body__wp reg-resumen__box cleaner">
+                  <div  class="col-xs-12 col-sm-6 col-md-4 u-ph-0"
+                        data-ng-repeat="serv in ::$ctrl.emergencias track by $index">
+                    <p class="u-mb-0">{{::serv.nombreServicio}}</p>
+                  </div>
+                </div>
+              </div>
+              <div data-ng-if="::$ctrl.areThereData('ambulancias')">
+                <div class="lista__header reg-resumen__header">
+                  <h4 class="register-preview__block-title">Ambulancias</h4>
+                </div>
+                <div class="lista-body__wp reg-resumen__box cleaner">
+                  <div  class="col-xs-12 col-sm-6 col-md-4 u-ph-0"
+                        data-ng-repeat="serv in ::$ctrl.ambulancias track by $index">
+                    <p class="u-mb-0">{{::serv.nombreServicio}}</p>
+                  </div>
+                </div>
+              </div>
+              <div data-ng-if="::$ctrl.areThereData('especialidades')">
+                <div class="lista__header reg-resumen__header">
+                  <h4 class="register-preview__block-title">Especialidades</h4>
+                </div>
+                <div class="lista-body__wp reg-resumen__box cleaner">
+                  <div  class="col-xs-12 col-sm-6 col-md-4 u-ph-0"
+                        data-ng-repeat="serv in ::$ctrl.especialidades track by $index">
+                    <p class="u-mb-0">{{::serv.nombreServicio}}</p>
+                  </div>
+                </div>
+              </div>
+            </li>
+          </ul>
+        </div>
+        <div class="col-xs-12 u-txt-center u-mb-50 no-print" id="rmIrReporte">
+          <a  class="c-btn btn btn--secundary"
+              ui-sref="referencia.panel.reportes">
+            Regresar a reportes de referencias
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

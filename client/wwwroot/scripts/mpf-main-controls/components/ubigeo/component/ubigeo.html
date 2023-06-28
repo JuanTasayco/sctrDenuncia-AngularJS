@@ -1,0 +1,59 @@
+
+<div class="row g-ubigeo-box" ng-form name="frmUbigeo">
+	<div class="col-md-4 mb-xs-2">
+		<mpf-select 
+			label="{label: 'Departamento', required: fieldsRequiredDefault.boolean}"
+			name="nDepartamento" 
+			ng-model="$ctrl.data.mDepartamento" 
+			m-data-source="$ctrl.data.dataDepartamentos" 
+			text-field="Descripcion" 
+			value-field="Codigo" 
+			m-Empty-Option="{enterData:true}" 
+			mpf-validation="{{fieldsRequiredDefault.string}}" 
+			ng-disabled="$ctrl.blockDepartament"
+			ng-change="$ctrl.getProvincias($ctrl.data.mDepartamento)">
+		</mpf-select>
+		<ul class="g-error">
+			<li ng-show="frmUbigeo.nDepartamento.$invalid && !frmUbigeo.nDepartamento.$pristine">
+				* Seleccione un departamento
+			</li>
+		</ul>
+	</div>
+	
+	<div class="col-md-4 mb-xs-2">
+		<mpf-select label="{label: 'Provincia', required: fieldsRequiredDefault.boolean}" 
+			name="nProvincia" 
+			ng-model="$ctrl.data.mProvincia" 
+			m-data-source="$ctrl.data.dataProvincias" 
+			text-field="Descripcion" 
+			value-field="Codigo" 
+			m-Empty-Option="{enterData:true}" 
+			mpf-validation="{{fieldsRequiredDefault.string}}" 
+			ng-change="$ctrl.getDistritos($ctrl.data.mProvincia)" 
+			ng-disabled="$ctrl.blockProvincia">
+		</mpf-select>
+		<ul class="g-error">
+			<li ng-show="frmUbigeo.nProvincia.$invalid && !frmUbigeo.nProvincia.$pristine">
+				* Seleccione una provincia
+			</li>
+		</ul>
+	</div>
+	<div class="col-md-4 mb-xs-2">
+		<mpf-select 
+			label="{label: 'Distrito', required: fieldsRequiredDefault.boolean}" 
+			name="nDistrito" 
+			ng-model="$ctrl.data.mDistrito" 
+			m-data-source="$ctrl.data.dataDistritos" 
+			text-field="Descripcion" 
+			value-field="Codigo" 
+			m-Empty-Option="{enterData:true}" 
+			mpf-validation="{{fieldsRequiredDefault.string}}"
+			ng-disabled="$ctrl.blockDistrito">
+		</mpf-select>
+		<ul class="g-error">
+			<li ng-show="frmUbigeo.nDistrito.$invalid && !frmUbigeo.nDistrito.$pristine">
+				* Seleccione un distrito
+			</li>
+		</ul>
+	</div>
+</div>

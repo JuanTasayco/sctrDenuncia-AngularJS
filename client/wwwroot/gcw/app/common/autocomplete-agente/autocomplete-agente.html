@@ -1,0 +1,25 @@
+<mp-data-seeker-horz
+  ng-if="!$agenteCtrl.isVisibleAgentSelect"
+  behavior="{label:'Agente', placeholder:'', matchField:'idFullName'}"
+  m-data-source="$agenteCtrl.getListAgente($inputNeed)"
+  ng-model="$agenteCtrl.agente"
+  name="nAgente"
+  ng-change="updateAgente($agenteCtrl.agente)"
+  ng-required="true"
+  ng-hide="$agenteCtrl.hideAgente">
+  <div ng-bind-html="$item.idFullName | highlight: $select.search"></div>
+</mp-data-seeker-horz>
+<mpf-select-horz
+  ng-if="$agenteCtrl.isVisibleAgentSelect && $agenteCtrl.listAgent.length > 1"
+  label="{label: 'Agente', required: true}"
+  m-Empty-Option="{enterData: true}"
+  name="nOrigenAuto"
+  text-field="fullName"
+  value-field="id"
+  ng-model="$agenteCtrl.agente"
+  m-data-source="$agenteCtrl.listAgent"
+  ng-change="updateAgente($agenteCtrl.agente)">
+</mpf-select-horz>
+<div class="g-error" data-ng-if="$agenteCtrl.sinResultados" data-ng-click="$agenteCtrl.cleanMsgAdvertencia()">
+  <span>* 0 resultados para los términos ingresados</span>
+</div>

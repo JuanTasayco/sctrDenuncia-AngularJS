@@ -1,0 +1,234 @@
+<div class="consultaGestion">
+  <div class="container">
+    <div
+      show-filter
+      class="clearfix g-col-filter g-box-md gBgcGray5-md gBgcWhite1 g-myd-box"
+      ng-class="{'show': isFilterVisible}"
+    >
+      <div class="col-xs-12">
+        <div class="clearfix gH4 gCGray1 mb-xs-1-5">
+          <h2 class="hidden-xs hidden-sm"><b>Opciones de Búsqueda</b></h2>
+          <div
+            id="show-filter"
+            class="row pt-xs-2 pb-xs-2 gBgcGray5 g-border-bottom-xs hidden-md hidden-lg"
+            ng-click="toggleFilter();"
+          >
+            <div class="col-xs-10">
+              <h2><b>Opciones de Búsqueda</b></h2>
+            </div>
+            <div class="col-xs-2 g-text-right-xs">
+              <!-- ngIf: isFilterVisible --><span
+                class="glyphicon glyphicon-chevron-down ng-scope"
+                ng-if="isFilterVisible"
+              ></span
+              ><!-- end ngIf: isFilterVisible -->
+              <!-- ngIf: !isFilterVisible --><span
+                class="glyphicon glyphicon-chevron-up ng-scope"
+                ng-if="!isFilterVisible"
+              ></span
+              ><!-- end ngIf: !isFilterVisible -->
+            </div>
+            <div class="clearfix"></div>
+          </div>
+        </div>
+        <form class="clearfix" name="vm.formDataCartera.frmCarteraPoliza">
+          <div class="row mb-xs-2">
+            <div class="col-md-12 col-xs-12 mt-xs-2 mt-md-0">
+              <div class="row">
+                <div class="col-md-3 pl-xs-1 pr-xs-0">
+                  <m-radio
+                    label="{label: 'Por mes de anulación'}"
+                    name="nTipoBusqueda"
+                    ng-model="vm.formDataAnul.optRadioTap1"
+                    value="1"
+                    data-ng-required="true"
+                  ></m-radio>
+                  <div
+                    class="g-error"
+                    data-ng-show="frmCobranzaAnulada.nTipoBusqueda.$error.required && !frmCobranzaAnulada.nTipoBusqueda.$pristine"
+                  >
+                    * Seleccione una opción
+                  </div>
+                </div>
+                <div class="col-md-3 pl-xs-1 pr-xs-0">
+                  <m-radio
+                    label="{label: 'Por póliza'}"
+                    name="nTipoBusqueda"
+                    ng-model="vm.formDataAnul.optRadioTap1"
+                    value="2"
+                    data-ng-required="true"
+                  ></m-radio>
+                </div>
+              </div>
+
+              <div ng-show="vm.formDataAnul.optRadioTap1 == '1'" class="row">
+                <div class="col-xs-12 col-md-4 mt-md-1 h-myd-mt--20">
+                  <gcw-cbo-desde desde="vm.formDataAnul.Desde"></gcw-cbo-desde>
+                </div>
+                <div class="col-xs-12 col-md-8 mt-xs-1 mt-sm-0 no-padding-xs">
+                  <!-- Buscar Cliente -->
+                  <gcw-cliente data="vm.formDataAnul.Cliente"></gcw-cliente>
+                </div>
+              </div>
+
+              <div class="row" ng-show="vm.formDataAnul.optRadioTap1 == '2'">
+                <div class="col-md-4 mt-md-1 h-myd-mt--20">
+                  <mpf-input
+                    label="{label: 'No. Póliza', required: true}"
+                    name="nNumPoliza"
+                    ng-model="vm.formDataAnul.mNumPoliza"
+                    data-ng-required="true"
+                    mpf-validation="onlyNumber"
+                    minLength="12"
+                    maxLength="15"
+                    required="true"
+                  ></mpf-input>
+                  <div
+                    class="g-error"
+                    data-ng-show="frmCobranzaAnulada.nNumPoliza.$error.required && !frmCobranzaAnulada.nNumPoliza.$pristine"
+                  >
+                    * Ingrese número de póliza
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-offset-8 col-md-2 mb-xs-1 no-mb-md">
+              <a class="g-btn g-btn-verde second-design block"
+                ga-click
+                ga-category="'CG - Cobranzas'"
+                ga-action="'MPF - Anuladas por deuda - Buscar'"
+                ga-label="'Botón: Buscar'"
+                ng-click="vm.buscarAnuladas()">Buscar</a>
+            </div>
+            <div class="col-md-2">
+              <a class="g-btn g-btn-white second-design block" ng-click="vm.limpiarBusqueda()">Limpiar</a>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- Top bar: Filtro e iconos -->
+    <div tbl-oim-topbar class="clearfix g-tbl-topbar mt-md-2 mb-md-2 width-filtro" ng-show="vm.totalItems >= 1">
+      <div class="g-row-icons__box">
+        <a data-ng-click="exportar()" uib-popover="Exportar" popover-trigger="'mouseenter'"
+          ><span class="g-icon-box g-icon-box-md">
+            <span class="ico-mapfre ico-mapfre_124_download ico-download h-myd--none"></span>
+            <span
+              class="ico-mapfre ico-mapfre-360-myd-export ico-download h-myd-ico--mediun h-myd--show h-oim-none"
+            ></span>
+          </span>
+        </a>
+      </div>
+      <div class="g-pull-right-sm" ng-include="vm.templateFexConsult"></div>
+    </div>
+
+    <!-- Tabla -->
+    <div class="clearfix" ng-show="vm.totalItems >= 1">
+      <div tbl-oim class="col-xs-12 g-tbl-wrapper pl-xs-0">
+        <div class="tbl-main">
+          <ul class="tbl-header clearfix">
+            <li class="title col-13-dktp">Fecha Anulación</li>
+            <li class="title col-14-dktp">Producto</li>
+            <li class="title col-12-dktp">Poliza</li>
+            <li class="title col-16-dktp">Cliente</li>
+            <li class="title col-13-dktp">Efecto anulación</li>
+            <li class="title col-13-dktp">Vencimiento póliza</li>
+            <li class="title col-7-dktp">Mon.</li>
+            <li class="title col-12-dktp text-right">Deuda pendiente</li>
+          </ul>
+          <ul class="tbl-body clearfix">
+            <li data-ng-repeat="anulada in vm.anuladas">
+              <ul height-row class="tbl-row tbl-row-hover clearfix" ng-click="vm.exportarDetail(anulada)">
+                <li class="cell col-13-dktp">
+                  <span class="cell-label"
+                    ><span class="cell-data">{{ anulada.cancellationDate }}</span></span
+                  >
+                </li>
+                <li class="cell col-14-dktp">
+                  <span class="cell-label  g-cut-text"
+                    ><span class="cell-data" uib-tooltip="{{ anulada.ramo.description }}">{{
+                      anulada.ramo.description
+                    }}</span></span
+                  >
+                </li>
+                <li class="cell col-12-dktp">
+                  <span class="cell-label g-cut-text"
+                    ><span class="cell-data" uib-tooltip="{{ anulada.policyNumber }}">{{
+                      anulada.policyNumber
+                    }}</span></span
+                  >
+                  <span>
+                    <span
+                      class="g-box-label g-text-uppercase c-blue fontz11"
+                      ng-show="anulada.detailRejectionDescription != ''"
+                      >Contiene detalle rechazo</span
+                    >
+                  </span>
+                  <span>
+                    <span
+                      class="g-box-label g-text-uppercase c-griss fontz11"
+                      ng-show="anulada.advancedInvoiceDescription != ''"
+                      >Factura adelantada</span
+                    >
+                  </span>
+                  <span>
+                    <span
+                      class="g-box-label g-text-uppercase c-green fontz11"
+                      ng-show="anulada.rehabilitatedPolicyDescription != ''"
+                      >Póliza Rehabilitada</span
+                    >
+                  </span>
+                </li>
+                <li class="cell col-16-dktp">
+                  <span class="cell-label"
+                    ><span class="cell-data">{{ anulada.person.nameClient }}</span></span
+                  >
+                </li>
+                <li class="cell col-13-dktp">
+                  <span class="cell-label"
+                    ><span class="cell-data">{{ anulada.effectSupplementDate }}</span></span
+                  >
+                </li>
+                <li class="cell col-13-dktp">
+                  <span class="cell-label"
+                    ><span class="cell-data">{{ anulada.expirationDate }}</span></span
+                  >
+                </li>
+                <li class="cell col-7-dktp">
+                  <span class="cell-label" ng-if="anulada.coinCode==1"><span class="cell-data">SOL</span></span>
+                  <span class="cell-label" ng-if="anulada.coinCode==2"><span class="cell-data">DOL</span></span>
+                </li>
+                <li class="cell col-12-dktp text-right">
+                  <span class="cell-label"
+                    ><span class="cell-data">{{ anulada.pendingDebt }}</span></span
+                  >
+                </li>
+              </ul>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <mx-paginador
+      data-datos="vm.anuladas"
+      data-items-x-page="vm.itemsXPagina"
+      data-msg-vacio="vm.msgVacio"
+      data-on-paginar="vm.pageChanged($event)"
+      data-pagina-actual="vm.currentPage"
+      data-total-items="vm.totalItems"
+    >
+    </mx-paginador>
+
+    <form id="fmExportAnulada" name="fmExportAnulada" action="{{ vm.exportAnuladaURL }}" method="post" target="_blank">
+      <input type="hidden" name="json" value="{{ vm.exportAnuladaDetail }}" />
+    </form>
+  </div>
+</div>
+
+<form id="frmExport" name="frmExport">
+  <input type="hidden" name="json" value="{{ vm.downloadFile }}" />
+</form>

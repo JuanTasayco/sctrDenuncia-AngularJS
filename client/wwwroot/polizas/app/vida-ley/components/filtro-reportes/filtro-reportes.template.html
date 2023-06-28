@@ -1,0 +1,112 @@
+<form action="" name="frmReports">
+  <div show-filter class="clearfix g-col-filter g-box-md fz14 gBgcGray5-md gBgcWhite1 g-myd-box g-myd-box--filter"
+       ng-class="{'show': isFilterVisible}">
+    <div class="col-md-12 mb-xs-3 gH4 gCGray1">
+      <h2 class="pb-xs-1 g-border-bottom-xs hidden-xs hidden-sm"><b>Opciones de búsqueda</b></h2>
+      <div id="show-filter" class="row pt-xs-2 pb-xs-2 gBgcGray5 g-border-bottom-xs hidden-md hidden-lg"
+           ng-click="toggleFilter();">
+        <div class="col-xs-10">
+          <h2><b>Opciones de búsqueda</b></h2>
+        </div>
+        <div class="col-xs-2 g-text-right-xs">
+          <span class="glyphicon glyphicon-chevron-down" ng-if="isFilterVisible"></span>
+          <span class="glyphicon glyphicon-chevron-up" ng-if="!isFilterVisible"></span>
+        </div>
+        <div class="clearfix"></div>
+      </div>
+    </div>
+    <div class="g-col-filter__box">
+      <div class="col-md-12 mb-xs-2">
+        <span ng-show="!vm.userRoot">
+          <h2>Agente: {{vm.user.codigoAgente}} - {{vm.user.nombreAgente}}</h2>
+        </span>
+        <mp-data-seeker ng-show="vm.userRoot"
+                        behavior="{label:'Agente', placeholder:'Busque o seleccione un agente ...', matchField:'codigoNombre'}"
+                        m-data-source="'proxyAgente.buscarAgente'" ng-model="vm.filtros.agente">
+          <div ng-bind-html="$item.codigoNombre | highlight: $select.search"></div>
+        </mp-data-seeker>
+      </div>
+      <div class="col-md-12 mb-xs-2" ng-show="vm.userRoot">        
+        <mp-data-seeker 
+                        behavior="{label:'Oficina Comercial', placeholder:'Busque o seleccione una oficina comercial ...', matchField:'NombreOficina'}"
+                        m-data-source="vm.searchOficina($inputNeed)" ng-model="vm.filtros.nombreOficinaComercial">
+          <div ng-bind-html="$item.NombreOficina | highlight: $select.search"></div>
+        </mp-data-seeker>
+      </div>
+      <div class="col-md-12 mb-xs-2">
+        <mpf-input label="{label: 'Nro. Documento', required: false}" name="nNroDocumentoFilter"
+                   ng-model="vm.filtros.numeroDocumento" mpf-validation="{{ $ctrl.data.mNroDocumentoFilter.FIELD_TYPE }}"
+                   mpf-validation-disabled="{{ $ctrl.data.mNroDocumentoFilter.FIELD_TYPE_DISABLED }}"
+                   ng-maxlength="$ctrl.data.mNroDocumentoFilter.MAX_LENGTH"
+                   ng-required="false">
+        </mpf-input>
+        <ul class="g-error">
+          <li
+            ng-show="frmReports.nNroDocumentoFilter.$viewValue && (frmReports.nNroDocumentoFilter.$error.onlyNumber || frmReports.nNroDocumentoFilter.$error.maxlength) && !frmReports.nNroDocumentoFilter.$pristine">
+            * Nro de documento incorrecto
+          </li>
+          <li
+            ng-show="frmReports.nNroDocumentoFilter.$invalid && frmReports.nNroDocumentoFilter.$error.required && !frmReports.nNroDocumentoFilter.$pristine">
+            * Ingrese un nro de documento
+          </li>
+        </ul>
+      </div>
+      <div class="col-md-12 mb-xs-2">
+        <mpf-input
+          label="{label: 'Nombre cliente', required: false}"
+          name="nombreCliente"
+          ng-model="vm.filtros.nombreCliente"
+          ng-required="false"
+          mpf-Validation="onlyLetter"
+          ng-Maxlength="100" ></mpf-input>
+      </div>
+      <div class="col-md-12 mb-xs-2">
+        <mpf-input
+          label="{label: 'Usuario', required: false}"
+          name="nombreUsuario"
+          ng-model="vm.filtros.nombreUsuario"
+          ng-required="false"
+          mpf-Validation="onlyLetter"
+          ng-Maxlength="100" ></mpf-input>
+      </div>
+      <div class="col-md-12 mb-xs-2">
+        <mpf-select label="{label: 'Estado', required: false}" name="tipoEstado"
+                    ng-model="vm.filtros.tipoEstado" m-data-source="vm.estados" text-field="Descripcion"
+                    value-field="CodigoParametro" m-Empty-Option="{enterData:true}" ng-required="false">
+        </mpf-select>
+      </div>
+      <div class="col-md-12 mb-xs-2">
+        <mpf-input label="{label: 'Nro. de solicitud', required: false}" name="numeroSolicitud"
+                   ng-model="vm.filtros.numeroSolicitud" ng-required="false"></mpf-input>
+      </div>
+      <div class="col-md-12 mb-xs-2">
+
+        <mpf-select label="{label: 'Periodo', required: false}" name="periodo"
+                    ng-model="vm.filtros.periodo" m-data-source="vm.periodos" text-field="Descripcion"
+                    value-field="CodigoParametro" m-Empty-Option="{enterData:false}" ng-required="false">
+
+      </div>
+      <div class="col-md-6 mb-xs-2">
+        <mpf-datepicker label="{label: 'Fecha inicial', required: true}" ng-model="vm.filtros.fechaInicial"
+                        format="vm.format" name="nFechaInicial" ng-required="true" nomargin="true">
+      </div>
+      <div class="col-md-6 mb-xs-2">
+        <mpf-datepicker label="{label: 'Fecha final', required: true}" ng-model="vm.filtros.fechaFinal"
+                        format="vm.format" name="nFechaFinal" ng-required="true" nomargin="true">
+      </div>
+      <div class="col-md-12 mb-xs-2">
+        <mpf-input label="{label: 'Canal de Origen', required: false}" name="canalOrigen"
+                   ng-model="vm.filtros.canalOrigen"></mpf-input>
+      </div>
+      <div class="clearfix"></div>
+      <div class="col-md-12 mb-xs-1">
+        <a href="javascript:void(0);" class="g-btn g-btn-verde block"
+           ng-click="vm.buscarReportes(); toggleFilter();">Filtrar</a>
+      </div>
+      <div class="col-md-12">
+        <a href="javascript:void(0);" class="g-btn g-btn-white block"
+           ng-click="vm.limpiarFiltros(); toggleFilter();">Limpiar</a>
+      </div>
+    </div>
+  </div>
+</form>

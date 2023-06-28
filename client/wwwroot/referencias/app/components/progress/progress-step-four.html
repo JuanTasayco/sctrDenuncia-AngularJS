@@ -1,0 +1,281 @@
+<!-- inicio paso 4 -->
+<div class="cleaner container">
+  <div class="col-xs-12">
+    <div class="register-progress-block u-bg--grey u-br-5 re">
+      <div class="col-md-12 pro-summary-box--left">
+        <div class="col-md-6 reg-step  reg-step--summary" ng-show="!$ctrl.edit">
+          <span class=" reg-step__circle glyphicon glyphicon-ok" ng-show="$parent.currentStep != 4"></span>
+          <span class="reg-step__circle" ng-hide="$parent.currentStep != 4"> 4 </span>
+          <span class=" register-step__title">DATOS RELEVANTES</span>
+        </div>
+        <div class="col-md-6 reg-step  reg-step--summary" ng-hide="!$ctrl.edit"
+             ng-class="{'steps':$ctrl.step != 4 }">
+          <span class="reg-step__circle"> 4 </span>
+          <span class="register-step__title">DATOS RELEVANTES</span>
+        </div>
+      </div>
+
+      <div class="col-md-12 pro-summary-box--right" ng-show="$ctrl.step >= 4 && $ctrl.edit">
+        <div class="row">
+          <ul class="clearfix g-list-lg">
+            <li class="col-md-12">
+              <ul class="row">
+                <li class="col-sm-12 clearfix cnt-item">
+                  <!--
+                  <div class="col-sm-12 item-label">
+                    <span style="font-weight: bold">Seleccione el paciente asegurado</span>
+                  </div>
+                  </br>
+                  -->
+                  <div style="padding-top: 20px;">
+                    <div class="col-md-12 mb-xs-2">
+                      <mpf-input label="{label: 'Resumen de historia clinica', required: false}"
+                                 name="rRes" value-field="value" ng-model="$ctrl.ResumenHistClinica">
+                      </mpf-input>
+                    </div>
+                    <div class="col-md-6 mb-xs-2">
+                      <mpf-input label="{label: 'Observaciones', required: false}"
+                                 name="rObs" value-field="value" ng-model="$ctrl.observacion">
+                      </mpf-input>
+                    </div>
+                    <div class="col-md-6 mb-xs-2">
+                      <mpf-input label="{label: 'Otros requerimientos', required: false}"
+                                 name="rOther" value-field="value" ng-model="$ctrl.OtroRqmnto">
+                      </mpf-input>
+                    </div>
+                    <div class="col-md-3 col-sm-offset-9" style="padding-bottom: 12px;">
+                      <a class="g-btn g-btn-verde second-design block"
+                         ng-click="$ctrl.editp4 ? $ctrl.updateStep() : $ctrl.generateReferral();$ctrl.dwLoadPDF()"
+                         ng-class="{disabled: $ctrl.editp4 ? false : !$ctrl.validarDatosStep4()}">{{($ctrl.editp4) ? 'Actualizar':'Generar referencia'}}</a>
+                    </div>
+                  </div>
+                </li>
+              </ul>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <!--
+      <div class="col-md-12 pro-summary-box--right" ng-show="$ctrl.step >= 1 && $ctrl.edit">
+        <div class="row">
+          <ul class="clearfix g-list-lg">
+            <li class="col-md-12">
+              <ul class="row">
+                <li class="col-sm-12 clearfix cnt-item">
+                  <div class="col-sm-12 item-label">
+                    <span style="font-weight: bold">Seleccione el paciente asegurado</span>
+                  </div>
+                  </br>
+
+                  <div style="padding-top: 20px;">
+                    <div class="col-md-3 mb-xs-2">
+                      <mpf-select-placeholder label="{label: 'Producto', required: false}"
+                                              m-Empty-Option="{text: 'TODOS'}" name="nProductoP" text-field="text"
+                                              value-field="value" ng-model="$ctrl.filters.ac_Producto"
+                                              m-data-source="$ctrl.masters.rProductos">
+                      </mpf-select-placeholder>
+                    </div>
+                    <div class="col-md-3 mb-xs-2">
+                      <mpf-input label="{label: 'DNI/CE', required: false}" name="rDNI"
+                                 ng-minlength="8" ng-maxlength="15" value-field="value"
+                                 ng-model="$ctrl.NumDoc" ng-disabled="$ctrl.Nombre || $ctrl.Apellido">
+                      </mpf-input>
+                    </div>
+                    <div class="col-md-3 mb-xs-2">
+                      <mpf-input label="{label: 'Nombres', required: false}" name="rNombre"
+                                 value-field="value" ng-model="$ctrl.Nombre" ng-minlength="3"
+                                 ng-disabled="$ctrl.NumDoc" ng-keypress="$ctrl.NumDoc = ''">
+                      </mpf-input>
+                    </div>
+                    <div class="col-md-3 mb-xs-2">
+                      <mpf-input label="{label: 'Apellidos', required: false}" name="rApellido"
+                                 ng-disabled="$ctrl.NumDoc" ng-minlength="3" value-field="value"
+                                 ng-model="$ctrl.Apellido" ng-keypress="$ctrl.NumDoc = ''">
+                      </mpf-input>
+                    </div>
+                    <div class="col-md-3 col-sm-offset-9" style="padding-bottom: 12px;">
+                      <a class="g-btn g-btn-verde second-design block"
+                         ng-click="$ctrl.buscadorPaciente()"
+                         ng-class="{disabled:!$ctrl.validarDatosP()}">Buscar
+                        paciente</a>
+                    </div>
+                  </div>
+                </li>
+              </ul>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div class="col-md-12" ng-show="!$ctrl.edit">
+        <ul class="row">
+          <li class="col-md-10 col-md-offset-2 clearfix cnt-item">
+            <div class="col-md-12 col-sm-12 clearfix cnt-item g-box-content">
+              <div class="row clearfix g-list-md">
+                <div class="col-md-2 col-xs-12 item-label g-text-capitalize">
+                  <span class="gCGray3">parentesco</span> </br>
+                  <span style="font-weight: Bold;">
+                                        {{$ctrl.filters.pacienteSelect.parentesco}}</span>
+                </div>
+                <div class="col-md-2 col-xs-12 item-label g-text-capitalize">
+                  <span class="gCGray3">género</span> </br>
+                  <span style="font-weight: Bold;">
+                                        {{$ctrl.filters.pacienteSelect.genero}}</span>
+                </div>
+                <div class="col-md-2 col-xs-12 item-label g-text-capitalize">
+                  <span class="gCGray3">f. nacimiento</span> </br>
+                  <span style="font-weight: Bold;">
+                                        {{$ctrl.filters.pacienteSelect.fNac | date : "dd/MM/y"}}</span>
+                </div>
+                <div class="col-md-3 col-xs-12 item-label g-text-capitalize">
+                  <span class="gCGray3">Compañía</span> </br>
+                  <span style="font-weight: Bold;">
+                                        {{$ctrl.filters.pacienteSelect.nomCompania}}</span>
+                </div>
+                <div class="col-md-3 col-xs-12 item-label g-text-capitalize"
+                     style="margin-left: -40px;">
+                  <span class="gCGray3">producto</span> </br>
+                  <span style="font-weight: Bold;">
+                                        {{$ctrl.filters.pacienteSelect.producto}}</span>
+                </div>
+              </div>
+              </br>
+            </div>
+          </li>
+        </ul>
+      </div>
+      -->
+      <div class="pro-summary__options">
+        <a ng-show="!$ctrl.edit && $ctrl.showEdit" ng-click="$ctrl.editPaciente()">
+          <span class="register-progress-block__btn--title reg-summary--edit">Editar</span>
+          <span class="lista-title__ico ico-mapfre_43_editar"></span>
+        </a>
+      </div>
+
+    </div>
+  </div>
+</div>
+<!-- fin paso 1 -->
+<!-- Lista de resultados -->
+
+<!--
+<div class="row g-text-center-xs g-box-noresult" ng-show="$ctrl.showemptymsg">
+  <div class="col-md-12 g-box-noresult-ico gCRed1">
+    <span class="ico-mapfre_302_error"></span>
+  </div>
+  <div class="col-md-12 g-box-noresult-text">
+    No hay resultados para los filtros escogidos.<br>Intenta de nuevo.
+  </div>
+</div>
+<div class="cleaner container" ng-hide="$ctrl.showemptymsg">
+  <div class="col-md-12">
+    <div class="gH4 gCGray3 g-text-left-md mb-xs-1" ng-show="$ctrl.showResults">
+      Resultado(s) Encontrado(s): {{$ctrl.pacientList.length}}
+    </div>
+
+    <div class="clearfix g-box g-overflow-hidden-xs mb-xs-2" ng-show="$ctrl.showResults"
+         ng-repeat="item in $ctrl.pacientList">
+      <div class="row ">
+        <div class="col-md-8 pt-xs-2 gBgcGray5">
+          <div class="clearfix g-list-lg">
+            <div class="col-sm-12 clearfix cnt-item">
+              <div class="col-md-10 col-xs-12">
+                                <span style="font-weight: bold">{{item.nombre}} {{item.apellidoP}}
+                                    {{item.apellidoM}}</span>
+                <span style="font-weight: bold"> -
+                                    {{item.tipDoc}} {{item.numDoc}}</span>&nbsp<span
+                style=" border-radius: 5px; font-weight: bold; color:white; font-size: 14px; padding: 4px;"
+                ng-style="getStyle(item.estado)">{{item.estado}}</span>
+
+                <span style="font-weight: bold" ng-show="item.oSiteds.numAutorizacion != null"> Código
+                                    Siteds:
+                                    {{item.oSiteds.numAutorizacion}}</span>
+              </div>
+              <div class="col-md-2 md col-xs-6"><a style="font-weight: bold; float:right"
+                                                   ng-click="$ctrl.showModaldetalleP(item)">
+                Ver Detalle
+                &nbsp<span class=" glyphicon glyphicon-eye-open"
+                           style="font-size: 16px;"></span></a>
+
+              </div>
+              </br>
+
+              <div class="col-md-12 col-sm-12 clearfix cnt-item g-box-content">
+                <div class=" row clearfix g-list-md" style="padding-bottom: 10px;">
+                  <div class="col-md-2 col-xs-6 item-label gCGray3 g-text-capitalize">
+                    parentesco
+                  </div>
+                  <div class="col-md-4" style="font-weight: bold;">
+                    {{item.parentesco}}</div>
+                  <div class="col-md-2 col-xs-6 item-label gCGray3 g-text-capitalize">
+                    compañia
+                  </div>
+                  <div class="col-md-4" style="font-weight: bold;">
+                    {{item.nomCompania}}</div>
+                </div>
+
+                <div class=" row clearfix g-list-md" style="padding-bottom: 10px;">
+                  <div class="col-md-2 col-xs-6 item-label gCGray3 g-text-capitalize">
+                    género
+                  </div>
+                  <div class="col-md-4" style="font-weight: bold;">{{item.genero}}
+                  </div>
+                  <div class="col-md-2 col-xs-6 item-label gCGray3 g-text-capitalize">
+                    producto
+                  </div>
+                  <div class="col-md-4" style="font-weight: bold;">{{item.producto}}
+                  </div>
+                </div>
+
+                <div class="row clearfix g-list-md">
+                  <div class="col-md-2 col-xs-6 item-label gCGray3 g-text-capitalize">
+                    F. Nacimiento
+                  </div>
+                  <div class="col-md-4" style="font-weight: bold;">
+                    {{item.fNac | date : "dd/MM/y"}}</div>
+                </div>
+                </br>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class=" col-md-4">
+          <div class="col-md-12 clearfix cnt-item" style="margin-top:10px;">
+            <div ng-if="item.oSiteds.idClinica">
+              <div class="col-md-2 no">
+                                <span class="glyphicon glyphicon-plus"
+                                      style="font-size: 20px; background: red; color: #ffffff;"></span>
+              </div>
+              <div class="col-md-10 item-dato">
+                                <span class="gCGray3"> Centro de
+                                    atencion medica de
+                                    origen</span> </br>
+                <span style="font-weight: bold;">{{item.oSiteds.nombre}}
+                                    <br>{{item.oSiteds.nomDep}}-
+                                    {{item.oSiteds.nomProv}} </span>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-12">
+            <div class="col-md-10" ng-disabled=" true">
+              <button class="g-btn g-btn-verde second-design block" style="margin-left: 50px;"
+                      ng-show="$ctrl.filters.pacienteSelect.oSiteds.numAutorizacion != null"
+                      ng-disabled="item.estado != 'VIGENTE'"
+                      ng-click="$ctrl.selectResult(item)">Continuar</button>
+            </div>
+            <div class="col-md-10" ng-disabled=" true" style="margin-top: 30px; margin-left: 50px;">
+              <button class="g-btn g-btn-verde second-design block"
+                      ng-show="$ctrl.filters.pacienteSelect.oSiteds.numAutorizacion == null"
+                      ng-disabled="item.estado != 'VIGENTE'"
+                      ng-click="$ctrl.selectResult(item)">Continuar</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+-->
+
+
+<!-- fin de resultados paso 1 -->
