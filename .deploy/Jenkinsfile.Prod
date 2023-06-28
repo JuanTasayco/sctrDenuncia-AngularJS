@@ -362,7 +362,7 @@ pipeline {
 
 def getEnvironment(String branchName) {
 
-    def fileEnv = 'ERROR_UNKNOWN_BRANCH'
+    def fileEnv = 'int'
 
     if (branchName.startsWith('develop')) {
         fileEnv = 'int'
