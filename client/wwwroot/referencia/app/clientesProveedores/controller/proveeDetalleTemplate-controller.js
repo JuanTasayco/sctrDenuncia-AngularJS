@@ -9,12 +9,13 @@ define(['angular', 'moment',
   '/referencia/app/clientesProveedores/component/clienteProveedoresModalFinalizarAuditoria.js'
 ], function(ng, moment) {
   proveeDetalleController.$inject = ['$scope', '$state', 'localStorageService', '$timeout', '$log',
-    'staticData', 'dataProveedor', '$uibModal', 'panelService', 'oimPrincipal', 'oimClaims'];
+    'staticData', 'dataProveedor', '$uibModal', 'panelService', 'oimPrincipal', 'oimClaims', '$window'];
 
   function proveeDetalleController($scope, $state, localStorageService, $timeout, $log,
-    staticData, dataProveedor, $uibModal, panelService, oimPrincipal, oimClaims) {
+    staticData, dataProveedor, $uibModal, panelService, oimPrincipal, oimClaims, $window) {
     var vm = this;
     vm.loader = {};
+    vm.ipLocal = $window.localStorage['clientIp'] ? $window.localStorage['clientIp'] : "0.0.0.0";
 
     vm.isAdmin = oimPrincipal.get_role() === 'ADMREF';
     vm.isDoctor = oimPrincipal.get_role() === 'MEDREF';
@@ -94,7 +95,46 @@ define(['angular', 'moment',
         a.click();
         (window.URL || window.webkitURL).revokeObjectURL(response); // eslint-disable-line
       });
+
+      var filtros = {idProveedor: vm.proveid, idAuditoria: vm.idAudit};
+
+      var obj = {
+        "codigoAplicacion": "REF",
+        "ipOrigen": vm.ipLocal,
+        "tipoRegistro": "O",
+        "codigoObjeto": "PROVEEDORES",
+        "opcionMenu": "Proveedores/busqueda - Ver detalle",
+        "descripcionOperacion": "Click al botón descargar reporte", 
+        "filtros": angular.toJson(filtros),
+        "codigoUsuario": oimPrincipal.getUsername(),
+        "numeroSesion": "",
+        "codigoAgente": 0
+      };
+
+      panelService.saveTracker(obj).then(function(data) {
+        data = data || [];
+      });
     };
+
+    vm.historyAudit = function fnha() {
+      var filtros = {idProveedor: vm.proveid};
+      var obj = {
+        "codigoAplicacion": "REF",
+        "ipOrigen": vm.ipLocal, 
+        "tipoRegistro": "O",
+        "codigoObjeto": "PROVEEDORES",
+        "opcionMenu": "Proveedores/busqueda - Ver detalle",
+        "descripcionOperacion": "Click al botón Historial auditorias",
+        "filtros": angular.toJson(filtros), 
+        "codigoUsuario": oimPrincipal.getUsername(),
+        "numeroSesion": "",
+        "codigoAgente": 0
+    };
+
+      panelService.saveTracker(obj).then(function(data) {
+        data = data || [];
+      });
+    }
 
     panelService.getHistorialAuditorias(vm.proveid).then(function(data) {
       data = data || [];
@@ -204,6 +244,25 @@ define(['angular', 'moment',
       } else {
         vm.retrieveAudit(-1, true);
       }
+
+      var filtros = {idProveedor: vm.proveid};
+
+      var obj = {
+        "codigoAplicacion": "REF",
+        "ipOrigen": vm.ipLocal,
+        "tipoRegistro": "O",
+        "codigoObjeto": "PROVEEDORES",
+        "opcionMenu": "Proveedores/busqueda - Ver detalle",
+        "descripcionOperacion": "Click al botón Iniciar auditorias",
+        "filtros": angular.toJson(filtros),
+        "codigoUsuario": oimPrincipal.getUsername(),
+        "numeroSesion": "",
+        "codigoAgente": 0
+      };
+
+      panelService.saveTracker(obj).then(function(data) {
+        data = data || [];
+      });
     };
 
     function openInitModal() {
@@ -245,6 +304,25 @@ define(['angular', 'moment',
         openEndModal();
       }
       */
+
+      var filtros = {idProveedor: vm.proveid, idAuditoria: vm.idAudit};
+
+      var obj = {
+        "codigoAplicacion": "REF",
+        "ipOrigen": vm.ipLocal,
+        "tipoRegistro": "O",
+        "codigoObjeto": "PROVEEDORES",
+        "opcionMenu": "Proveedores/busqueda - Ver detalle",
+        "descripcionOperacion": "Click al botón finalizar auditorias",
+        "filtros": angular.toJson(filtros),
+        "codigoUsuario": oimPrincipal.getUsername(),
+        "numeroSesion": "",
+        "codigoAgente": 0
+      };
+      
+      panelService.saveTracker(obj).then(function(data) {
+        data = data || [];
+      });
     };
 
     function openEndModal() {
@@ -281,6 +359,25 @@ define(['angular', 'moment',
 
     vm.savingAudit = function() {
       openSaveModal();
+
+      var filtros = {idProveedor: vm.proveid};
+
+      var obj = {
+        "codigoAplicacion": "REF",
+        "ipOrigen": vm.ipLocal,
+        "tipoRegistro": "O",
+        "codigoObjeto": "PROVEEDORES",
+        "opcionMenu": "Proveedores/busqueda - Ver detalle",
+        "descripcionOperacion": "Click al botón guardar auditoria",
+        "filtros": angular.toJson(filtros),
+        "codigoUsuario": oimPrincipal.getUsername(),
+        "numeroSesion": "",
+        "codigoAgente": 0
+      };
+      
+      panelService.saveTracker(obj).then(function(data) {
+        data = data || [];
+      });
     };
 
     function openSaveModal() {
@@ -377,9 +474,9 @@ define(['angular', 'moment',
     }
   }
 
-  detalleInformacionController.$inject = ['$scope', '$state', 'Restangular', 'localStorageService', '$timeout', 'categories', 'dataProveedor', 'panelService', 'oimPrincipal'];
+  detalleInformacionController.$inject = ['$scope', '$state', 'Restangular', 'localStorageService', '$timeout', 'categories', 'dataProveedor', 'panelService', 'oimPrincipal', '$window'];
 
-  function detalleInformacionController($scope, $state, Restangular, localStorageService, $timeout, categories, dataProveedor, panelService, oimPrincipal) {
+  function detalleInformacionController($scope, $state, Restangular, localStorageService, $timeout, categories, dataProveedor, panelService, oimPrincipal, $window) {
     var vm = this;
     vm.loader = {};
     vm.data = $scope.$parent.$ctrl.data;
@@ -405,6 +502,8 @@ define(['angular', 'moment',
     //console.log("navigator-> ",navigator)
     //var apiUrl = '{{{apiUrl}}}';
     //console.log("URL-> ",apiUrl)
+
+    vm.ipLocal = $window.localStorage['clientIp'] ? $window.localStorage['clientIp'] : "0.0.0.0";
 
     /*gtx*/
     vm.$onInit = function oiFn() {
@@ -544,7 +643,7 @@ define(['angular', 'moment',
       if(vm.typeFile) {
         vm.messageAlert = "";
         var file = e.files[0];
-        const reader = new FileReader();
+        var reader = new FileReader();
         reader.readAsDataURL(file);
         reader.onload = function () {
           var obj = {
@@ -611,6 +710,24 @@ define(['angular', 'moment',
         };
       }
 
+      var filtros = {idProveedor: vm.idProveedor, tipoArchivo: vm.typeFile.descFile};
+
+      var obj = {
+        "codigoAplicacion": "REF",
+        "ipOrigen": vm.ipLocal, 
+        "tipoRegistro": "O",
+        "codigoObjeto": "PROVEEDORES",
+        "opcionMenu": "Proveedores/busqueda - Ver detalle",
+        "descripcionOperacion": "Click al botón Adjuntar archivo",
+        "filtros": angular.toJson(filtros), 
+        "codigoUsuario": oimPrincipal.getUsername(),
+        "numeroSesion": "",
+        "codigoAgente": 0
+      };
+
+      panelService.saveTracker(obj).then(function(data) {
+        data = data || [];
+      });
     };
 
     vm.downloadFile = function(item,seccion) {
@@ -678,8 +795,7 @@ define(['angular', 'moment',
           (window.URL || window.webkitURL).revokeObjectURL(data); // eslint-disable-line
         });
 
-        //vm.ipLocal = vm.ipLocal ? vm.ipLocal : "0.0.0.0";
-        vm.ipLocal = "0.0.0.0";
+        var filtros = {idProveedor: vm.idProveedor};
 
         var obj = {
           "codigoAplicacion": "REF",
@@ -688,8 +804,8 @@ define(['angular', 'moment',
           "codigoObjeto": "PROVEEDORES",
           "opcionMenu": "Detalle de Proveedor - descargar archivos",
           "descripcionOperacion": "Descarga de archivo en la sección "+seccion,
-          "filtros": "",
-          "codigoUsuario": "",
+          "filtros": angular.toJson(filtros),
+          "codigoUsuario": oimPrincipal.getUsername(),
           "numeroSesion": "",
           "codigoAgente": 0
         };
@@ -777,9 +893,9 @@ define(['angular', 'moment',
     });
   }
 
-  detalleEspecialidadesController.$inject = ['$scope', '$state'];
+  detalleEspecialidadesController.$inject = ['$scope', '$state', 'panelService', 'oimPrincipal', '$window'];
 
-  function detalleEspecialidadesController($scope, $state) {
+  function detalleEspecialidadesController($scope, $state, panelService, oimPrincipal, $window) {
     var vm = this;
     vm.activeTabIndex = 1;
     $scope.$emit('activeTabIndexChange', { tab: vm.activeTabIndex });
@@ -788,12 +904,15 @@ define(['angular', 'moment',
     vm.auditSaved = true;
     vm.auditSaving = false;
 
+    vm.ipLocal = $window.localStorage['clientIp'] ? $window.localStorage['clientIp'] : "0.0.0.0";
+
     vm.$onInit = function oiFn() {
       vm.data = $scope.$parent.$ctrl.data;
       vm.specialitySelected = null;
       vm.specialitySelectedEnabled = true;
       vm.visibilityFilter = 'all';
       vm.onAuditMode = $state.params.auditando;
+      vm.proveid = $state.params.id || '';
     };
 
     vm.specialitiesFilter = function(item) {
@@ -884,6 +1003,25 @@ define(['angular', 'moment',
       $scope.$emit('saveAudit');
       vm.auditSaved = true;
       vm.auditSaving = true;
+
+      var filtros = {idProveedor: vm.proveid};
+
+      var obj = {
+        "codigoAplicacion": "REF",
+        "ipOrigen": vm.ipLocal, 
+        "tipoRegistro": "O",
+        "codigoObjeto": "PROVEEDORES",
+        "opcionMenu": "Proveedores/busqueda - Ver detalle",
+        "descripcionOperacion": "Click al botón Guardar especialidad",
+        "filtros": angular.toJson(filtros), 
+        "codigoUsuario": oimPrincipal.getUsername(),
+        "numeroSesion": "",
+        "codigoAgente": 0
+      };
+
+      panelService.saveTracker(obj).then(function(data) {
+        data = data || [];
+      });
     };
 
     vm.specialityChanged = function() {
@@ -902,9 +1040,9 @@ define(['angular', 'moment',
     });
   }
 
-  detalleServiciosController.$inject = ['$scope', '$state'];
+  detalleServiciosController.$inject = ['$scope', '$state', 'panelService', 'oimPrincipal', '$window'];
 
-  function detalleServiciosController($scope, $state) {
+  function detalleServiciosController($scope, $state, panelService, oimPrincipal, $window) {
     var vm = this;
     vm.activeTabIndex = 2;
     $scope.$emit('activeTabIndexChange', { tab: vm.activeTabIndex });
@@ -912,12 +1050,15 @@ define(['angular', 'moment',
     vm.auditSaved = true;
     vm.auditSaving = false;
 
+    vm.ipLocal = $window.localStorage['clientIp'] ? $window.localStorage['clientIp'] : "0.0.0.0";
+
     vm.$onInit = function oiFn() {
       vm.data = $scope.$parent.$ctrl.data;
       vm.onAuditMode = $state.params.auditando;
       vm.serviceSelected = null;
       vm.serviceSelectedEnabled = true;
       vm.visibilityFilter = 'all';
+      vm.proveid = $state.params.id || '';
     };
 
     vm.servicesFilter = function(item) {
@@ -978,6 +1119,25 @@ define(['angular', 'moment',
       $scope.$emit('saveAudit');
       vm.auditSaved = true;
       vm.auditSaving = true;
+
+      var filtros = {idProveedor: vm.proveid};
+
+      var obj = {
+        "codigoAplicacion": "REF",
+        "ipOrigen": vm.ipLocal, 
+        "tipoRegistro": "O",
+        "codigoObjeto": "PROVEEDORES",
+        "opcionMenu": "Proveedores/busqueda - Ver detalle",
+        "descripcionOperacion": "Click al botón Guardar servicio",
+        "filtros": angular.toJson(filtros), 
+        "codigoUsuario": oimPrincipal.getUsername(),
+        "numeroSesion": "",
+        "codigoAgente": 0
+      };
+
+      panelService.saveTracker(obj).then(function(data) {
+        data = data || [];
+      });
     };
 
     vm.serviceChanged = function() {

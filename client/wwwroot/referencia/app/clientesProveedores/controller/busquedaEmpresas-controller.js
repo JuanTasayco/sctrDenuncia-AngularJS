@@ -4,14 +4,16 @@ define(['angular', 'paginate', 'lodash'
   var module = ng.module('referenciaApp');
   module.controller('BusquedaEmpresasController', BusquedaEmpresasController);
   BusquedaEmpresasController.$inject = ['$rootScope', '$scope', '$state', 'dataEmpresas',
-    '$log', 'staticData', 'panelService', 'rx', '$timeout'
+    '$log', 'staticData', 'panelService', 'rx', '$timeout', 'oimPrincipal', '$window'
   ];
 
   function BusquedaEmpresasController($rootScope, $scope, $state, dataEmpresas, $log, staticData, panelService, rx,
-    $timeout) {
+    $timeout, oimPrincipal, $window) {
     var vm = this;
     vm.filter = ng.copy($state.params);
     vm.loader = {};
+    vm.ipLocal = $window.localStorage['clientIp'] ? $window.localStorage['clientIp'] : "0.0.0.0";
+
     vm.$onInit = function oiFn() {
       vm.page = 'Busqueda de Clientes';
       vm.title = 'Clientes';
@@ -190,6 +192,23 @@ define(['angular', 'paginate', 'lodash'
       vm.btnOptions.applyFilterText = 'Cargando ...';
 
       $scope.filterData(vm.filter); // eslint-disable-line
+
+      var obj = {
+        "codigoAplicacion": "REF",
+        "ipOrigen": vm.ipLocal,
+        "tipoRegistro": "O",
+        "codigoObjeto": "PROVEEDORES",
+        "opcionMenu": "Búsqueda/empresas - Filtrar empresas",
+        "descripcionOperacion": "Click al botón filtrar",
+        "filtros": angular.toJson(vm.filter),
+        "codigoUsuario": oimPrincipal.getUsername(),
+        "numeroSesion": "",
+        "codigoAgente": 0
+      };
+
+      panelService.saveTracker(obj).then(function(data) {
+        data = data || [];
+      });
     };
 
     vm.resetFilter = function rfFn() {
@@ -218,6 +237,23 @@ define(['angular', 'paginate', 'lodash'
       });
 
       $state.go('referencia.panel.clientes.busqueda', data);
+
+      var obj = {
+        "codigoAplicacion": "REF",
+        "ipOrigen": vm.ipLocal,
+        "tipoRegistro": "O",
+        "codigoObjeto": "PROVEEDORES",
+        "opcionMenu": "Búsqueda/empresas - Ver asegurados",
+        "descripcionOperacion": "Click al ícono ver Asegurados", 
+        "filtros": angular.toJson(entidad), 
+        "codigoUsuario": oimPrincipal.getUsername(),
+        "numeroSesion": "",
+        "codigoAgente": 0
+      };
+
+      panelService.saveTracker(obj).then(function(data) {
+        data = data || [];
+      });
     };
 
     // Pagination

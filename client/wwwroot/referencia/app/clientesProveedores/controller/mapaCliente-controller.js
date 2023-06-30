@@ -3,14 +3,16 @@ define(['angular', 'lodash'], function(ng, _) {
   var module = ng.module('referenciaApp');
   module.controller('mapaClienteController', mapaClienteController);
   mapaClienteController.$inject = ['$rootScope', '$scope', '$state', '$log', 'observeOnScope',
-    'dataClientes', '$timeout', 'panelService', 'staticData', '$location', 'localStorageService'
+    'dataClientes', '$timeout', 'panelService', 'staticData', '$location', 'localStorageService', 'oimPrincipal', '$window'
   ];
 
   function mapaClienteController($rootScope, $scope, $state, log, observeOnScope,
-    dataClientes, $timeout, panelService, staticData, $location, localStorageService) {
+    dataClientes, $timeout, panelService, staticData, $location, localStorageService, oimPrincipal, $window) {
     var vm = this;
     var lstProvs = staticData.provincias;
     vm.loader = {};
+    vm.ipLocal = $window.localStorage['clientIp'] ? $window.localStorage['clientIp'] : "0.0.0.0";
+
     vm.$onInit = function oiFn() {
       vm.showCP = true;
       vm.panel = 'Clientes y Proveedores';
@@ -137,6 +139,28 @@ define(['angular', 'lodash'], function(ng, _) {
       $timeout(function() {
         $state.current.reloadOnSearch = void 0;
       }, 0);
+      if (lvl === 1 || lvl === 2) {
+        var opcionMenu = lvl === 1 ? "Clientes/Perú - Ver departamento" : "Clientes/Perú - Ver distrito";
+        var descripcionOperacion = lvl === 1 ? "Click a un departamento del Perú" : "Click a un distrito del Perú";
+        var filters = lvl === 1 ?  {departamento: vm.lvl1} : {departamento: vm.lvl1, provincia: vm.lvl2};
+
+        var obj = {
+          "codigoAplicacion": "REF",
+          "ipOrigen": vm.ipLocal,
+          "tipoRegistro": "O",
+          "codigoObjeto": "PROVEEDORES",
+          "opcionMenu": opcionMenu,
+          "descripcionOperacion": descripcionOperacion,
+          "filtros":  angular.toJson(filters),
+          "codigoUsuario": oimPrincipal.getUsername(),
+          "numeroSesion": "",
+          "codigoAgente": 0
+        };
+
+        panelService.saveTracker(obj).then(function(data) {
+          data = data || [];
+        });
+      }
       return;
     };
 
@@ -165,6 +189,25 @@ define(['angular', 'lodash'], function(ng, _) {
       vm.loader.loading = true;
       vm.loader.text = 'Estamos cargando la lista de asegurados según tu búsqueda';
       $state.go('referencia.panel.clientes.busqueda', data);
+
+      var filter = {nombres: vm.nombre || '', apellidos: vm.apellidos || '', dni: vm.dni || ''};
+
+      var obj = {
+        "codigoAplicacion": "REF",
+        "ipOrigen": vm.ipLocal, 
+        "tipoRegistro": "O",
+        "codigoObjeto": "PROVEEDORES",
+        "opcionMenu": "Clientes/Perú - Buscar cliente",
+        "descripcionOperacion": "Click al botón Buscar Clientes",
+        "filtros": angular.toJson(filter),
+        "codigoUsuario": oimPrincipal.getUsername(),
+        "numeroSesion": "",
+        "codigoAgente": 0
+      };
+
+      panelService.saveTracker(obj).then(function(data) {
+        data = data || [];
+      });
     };
 
     vm.filtrarPorEntidad = function fpeFn(grupo, unidad) {
@@ -184,6 +227,23 @@ define(['angular', 'lodash'], function(ng, _) {
         data.entidad = 'clientes';
         $state.go('referencia.panel.clientes.busquedaEmpresa', data);
       }
+
+      var obj = {
+        "codigoAplicacion": "REF",
+        "ipOrigen": vm.ipLocal,
+        "tipoRegistro": "O",
+        "codigoObjeto": "PROVEEDORES",
+        "opcionMenu": "Clientes/Perú - ver empresas",
+        "descripcionOperacion": "Click al ícono ver Empresas",
+        "filtros": "",
+        "codigoUsuario": oimPrincipal.getUsername(),
+        "numeroSesion": "",
+        "codigoAgente": 0
+      };
+
+      panelService.saveTracker(obj).then(function(data) {
+        data = data || [];
+      });
     };
 
     vm.tipoEntidad = function tipoEntFn(unidad) {
