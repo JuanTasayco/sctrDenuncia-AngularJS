@@ -2661,14 +2661,18 @@ define([
     $scope.generarReticencia = function() {
       var body = {
         tipoDocumento: $scope.cartaGarantia.typeDocument,
-        codigoDocumento: $scope.cartaGarantia.documentNumber
+        codigoDocumento: $scope.cartaGarantia.documentNumber,
+        anioCarta: $scope.yearLetter,
+        numeroCarta: $scope.letterNumber
       };
 
       mpSpin.start();
       cgwFactory.GenerateReticencia(body).then(function(response) {
         mpSpin.end();
         if(response.status === 200) {
-          mModalAlert.showSuccess('Se registró la solicitud de reticencia con éxito', '');
+          mModalAlert.showSuccess('Se registró la solicitud de reticencia con éxito', '').then(function(response) {
+            $state.reload();
+          });
         } else if(response.status === 204) {
           mModalAlert.showError('No existe información para procesar', 'Error');
         } else {
