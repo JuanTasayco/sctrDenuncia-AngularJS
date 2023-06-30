@@ -70,6 +70,41 @@ pipeline {
                 }
             }
         }
+
+
+        stage('Commit and Tag Promotion') {
+            when {
+                anyOf {
+                    branch 'develop'
+                    branch 'release'
+                    branch 'master'
+                }
+            }
+            environment {
+                PACKAGE_VERSION        = getFieldFromPackage("version")
+                PACKAGE_NAME           = getFieldFromPackage("name")
+
+            }
+            steps {
+                gitFetch()
+                gitCheckout env.BRANCH_NAME
+
+                script {
+                    def msg = 'release'
+                    if (BRANCH_NAME.startsWith('release')) {
+                        msg = 'release candidate'
+                    }                 
+                    gitCommitPackage  "promotion to " + msg + " completed (" + PACKAGE_VERSION + ")"
+                    gitPush()
+                    gitTag(PACKAGE_VERSION,  "New " + msg + " tag " + PACKAGE_VERSION)
+                    gitPushTags()
+                    
+                }
+
+            }
+
+        }
+                
         //This is a security stage that must be executed before building any code or image.
         stage('Security pre-build'){
             steps{
@@ -194,38 +229,6 @@ pipeline {
             }
         }
 
-        stage('Commit and Tag Promotion') {
-            when {
-                anyOf {
-                    branch 'develop'
-                    branch 'release'
-                    branch 'master'
-                }
-            }
-            environment {
-                PACKAGE_VERSION        = getFieldFromPackage("version")
-                PACKAGE_NAME           = getFieldFromPackage("name")
-
-            }
-            steps {
-                gitFetch()
-                gitCheckout env.BRANCH_NAME
-
-                script {
-                    def msg = 'release'
-                    if (BRANCH_NAME.startsWith('release')) {
-                        msg = 'release candidate'
-                    }                 
-                    gitCommitPackage  "promotion to " + msg + " completed (" + PACKAGE_VERSION + ")"
-                    gitPush()
-                    gitTag(PACKAGE_VERSION,  "New " + msg + " tag " + PACKAGE_VERSION)
-                    gitPushTags()
-                    
-                }
-
-            }
-
-        }
 
         stage('Security post-build'){
             steps {
