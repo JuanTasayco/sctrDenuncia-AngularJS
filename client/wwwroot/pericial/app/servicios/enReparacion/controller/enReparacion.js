@@ -305,7 +305,10 @@ define(['angular', 'constants', 'constantsPericial', 'mocksPericial', 'helper', 
         vm.params = {
           idSinisterDetail: $stateParams.id,
           idSinisterState: vm.siniestro.detail.idSinisterState,
-          commentary: (message) ? message.toUpperCase() : ''
+          commentary: (message) ? message.toUpperCase() : '',
+          tracker: {
+            CodigoPerfil: vm.rol
+          }
         };
 
         pericialFactory.comment.AddMovement(vm.params).then(function(response) {
@@ -366,7 +369,10 @@ define(['angular', 'constants', 'constantsPericial', 'mocksPericial', 'helper', 
     function GenerarAmpliacion() {
       mModalConfirm.confirmInfo('¿Está seguro que desea generar una aplicación del siguiente servicio?', 'Generar ampliación', 'Continuar').then(function () {
         console.log('Generar ampliación...');
-        vm.params = { idSinisterDetail: parseInt( $stateParams.id)};
+        vm.params = { idSinisterDetail: parseInt( $stateParams.id),
+          tracker: {
+            CodigoPerfil: vm.rol
+          }};
         pericialFactory.proficient.Resource_Sinister_Workshop_GenerateExtension(vm.params).then(function(response) {
           if (response.operationCode === 200) {
             if (response.data) {

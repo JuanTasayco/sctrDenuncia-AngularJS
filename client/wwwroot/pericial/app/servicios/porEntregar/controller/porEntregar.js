@@ -395,6 +395,9 @@ define(['angular', 'constants', 'constantsPericial', 'mocksPericial', 'helper', 
             flagSparePending: vm.mRepPend,
             detailSparePending: (vm.mDetalleRepPend) ? vm.mDetalleRepPend : '',
             approximateDeliveryDate: (vm.mFechaEntrega) ? vm.mFechaEntrega : ''
+          },
+          tracker: {
+            CodigoPerfil: vm.rol
           }
         };
 
@@ -497,7 +500,10 @@ define(['angular', 'constants', 'constantsPericial', 'mocksPericial', 'helper', 
         vm.params = {
           idSinisterDetail: $stateParams.id,
           idSinisterState: vm.siniestro.detail.idSinisterState,
-          commentary: (message) ? message.toUpperCase() : ''
+          commentary: (message) ? message.toUpperCase() : '',
+          tracker: {
+            CodigoPerfil: vm.rol
+          }
         };
 
         pericialFactory.comment.AddMovement(vm.params).then(function(response) {

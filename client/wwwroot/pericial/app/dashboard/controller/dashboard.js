@@ -305,62 +305,81 @@ define(['angular', 'constants', 'constantsPericial', 'mocksPericial', 'pericialF
         }
       }
 
-      function updateList() {
+      function updateList(flagTracker) {
         vm.siniestrosPpal = [];
         mpSpin.start();
-        pericialFactory.general.monitor(function() {
-          var value = localStorageService.get('fechas');
-          vm.paramsList.dateStart = (vm.mConsultaDesde) ? pericialFactory.general.formatearFecha(vm.mConsultaDesde) : pericialFactory.general.formatearFecha(new Date());//"20/06/2018",//
-          vm.paramsList.dateEnd = (vm.mConsultaHasta) ? pericialFactory.general.formatearFecha(vm.mConsultaHasta) : pericialFactory.general.formatearFecha(new Date());
-          localStorageService.set('fechas', vm.paramsList);
-          return pericialFactory.siniester.GetListSinister(vm.paramsList);
-        }, $scope)
-          .begin()
-          .then(
-            function(response) {
-              mpSpin.end();
-              if(response.operationCode === 200) {
-                if (response.data) {
-                  if (response.data.items.length > 0) {
-                    vm.siniestrosPpal = response.data.items;
-                    vm.totalItems = response.data.totalRows;
-                    vm.servListado = vm.totalItems;
-                    vm.totalPages = response.data.totalPages;
-                    checkConfirmacionCliente(vm.siniestrosPpal)
-                    vm.noResult = false;
-                  } else {
-                    vm.siniestrosPpal = {};
-                    vm.noResult = true;
-                    vm.totalItems = 0;
-                    vm.servListado = 0;
-                    vm.totalPages = 0;
-                  }
-                } else {
+
+        var value = localStorageService.get('fechas');
+        vm.paramsList.dateStart = (vm.mConsultaDesde) ? pericialFactory.general.formatearFecha(vm.mConsultaDesde) : pericialFactory.general.formatearFecha(new Date());//"20/06/2018",//
+        vm.paramsList.dateEnd = (vm.mConsultaHasta) ? pericialFactory.general.formatearFecha(vm.mConsultaHasta) : pericialFactory.general.formatearFecha(new Date());
+        vm.paramsList.flagTracker = flagTracker ? 'S' : 'N',
+        localStorageService.set('fechas', vm.paramsList);
+
+        if (flagTracker)
+        {
+          pericialFactory.siniester.GetListSinister(vm.paramsList).then(
+            function(response){
+              mapResponse(response);
+            }
+          );
+        }else
+        {
+          pericialFactory.general.monitor(function() {
+            return pericialFactory.siniester.GetListSinister(vm.paramsList);
+          }, $scope)
+            .begin()
+            .then(
+              function(response) {
+                mpSpin.end();
+                mapResponse(response);
+              },
+              function(response) {
+                // console.error(response);
+                if(response.status !== 200) {
                   vm.siniestrosPpal = {};
                   vm.noResult = true;
                   vm.totalItems = 0;
+                  vm.servListado = 0;
                   vm.totalPages = 0;
+                  mModalAlert.showError(response.data.data.message, 'Error');
                 }
-              } else {
-                vm.siniestrosPpal = {};
-                vm.noResult = true;
-                vm.totalItems = 0;
-                vm.servListado = 0;
-                vm.totalPages = 0;
               }
-            },
-            function(response) {
-              // console.error(response);
-              if(response.status !== 200) {
-                vm.siniestrosPpal = {};
-                vm.noResult = true;
-                vm.totalItems = 0;
-                vm.servListado = 0;
-                vm.totalPages = 0;
-                mModalAlert.showError(response.data.data.message, 'Error');
-              }
+            );
+        }
+      }
+
+      function mapResponse(response)
+      {
+        vm.paramsList.flagTracker = 'N';
+        if(response.operationCode === 200) {
+          if (response.data) {
+            if (response.data.items.length > 0) {
+              vm.siniestrosPpal = response.data.items;
+              vm.totalItems = response.data.totalRows;
+              vm.servListado = vm.totalItems;
+              vm.totalPages = response.data.totalPages;
+              checkConfirmacionCliente(vm.siniestrosPpal)
+              vm.noResult = false;
+            } else {
+              vm.siniestrosPpal = {};
+              vm.noResult = true;
+              vm.totalItems = 0;
+              vm.servListado = 0;
+              vm.totalPages = 0;
             }
-          );
+          } else {
+            vm.siniestrosPpal = {};
+            vm.noResult = true;
+            vm.totalItems = 0;
+            vm.totalPages = 0;
+          }
+        } else {
+          vm.siniestrosPpal = {};
+          vm.noResult = true;
+          vm.totalItems = 0;
+          vm.servListado = 0;
+          vm.totalPages = 0;
+        }
       }
 
       vm.$onInit = function() {
@@ -430,6 +449,7 @@ define(['angular', 'constants', 'constantsPericial', 'mocksPericial', 'pericialF
           pageSize: vm.pageSize
         };
 
+        saveTracker('INGRESO AL MODULO DE GESTION PERICIAL');
 
         if (isPerito()) {
           pericialFactory.proficient.getTipoPerito().then(function(response) {
@@ -565,6 +585,7 @@ define(['angular', 'constants', 'constantsPericial', 'mocksPericial', 'pericialF
                     if($scope.value) {
                     // if($scope.value || $scope.mTipoRegistro) {
                       $uibModalInstance.close();
+                      saveTracker('INGRESO A NUEVO REGISTRO', 'GPER > Principal > Iniciar registro');
                       // $state.go('nuevoRegistro', {reload: true, inherit: false});
                       $state.go('nuevoRegistro', {
                         idTipoRegistro: $scope.value
@@ -778,7 +799,10 @@ define(['angular', 'constants', 'constantsPericial', 'mocksPericial', 'pericialF
 
             $scope.updateSiniester = function (value) {
               vm.params = {
-                idSinisterDetail: item.idSinisterDetail
+                idSinisterDetail: item.idSinisterDetail,
+                tracker: {
+                  CodigoPerfil: vm.rol
+                }
               };
 
               if (value === 'ready') {
@@ -804,7 +828,11 @@ define(['angular', 'constants', 'constantsPericial', 'mocksPericial', 'pericialF
                   "ordenServicio": '',
                   "dni": !vm.dataUser ? '' : (vm.dataUser.documentType === 'DNI' ? vm.dataUser.documentNumber : ''),
                   "motivo": "AMPLIACIÓN DE SERVICIO"
-                }
+                };
+
+                vm.params.tracker = {
+                  CodigoPerfil: vm.rol
+                };
 
                 pericialFactory.workshop.Resource_Sinister_Workshop_GenerateExtension(vm.params).then(function(response) {
                   if (response.operationCode === 200) {
@@ -1066,6 +1094,9 @@ define(['angular', 'constants', 'constantsPericial', 'mocksPericial', 'pericialF
               "motivo_cancelacion": motivoCancelacion, 
               "ordenServicio": '',
               "dni":  !vm.dataUser ? '' : (vm.dataUser.documentType === 'DNI' ? vm.dataUser.documentNumber : ''),
+            },
+            tracker: {
+              CodigoPerfil: vm.rol
             }
           };
           pericialFactory.general.postData('api/sinister/proficient/cancel', params).then(function (response) {
@@ -1388,6 +1419,23 @@ define(['angular', 'constants', 'constantsPericial', 'mocksPericial', 'pericialF
         //Action after CancelButton Modal
         // console.log("CancelButton");
       });
+    }
+    
+    function saveTracker(descripcionOperacion, opcionMenu){
+      vm.paramTracker = {
+        idSinisterDetail: null,
+        CodigoPerfil: vm.rol,
+        DescripcionOperacion : descripcionOperacion,
+        OpcionMenu : opcionMenu
+      };
+
+      pericialFactory.siniester.SaveTracker(vm.paramTracker).then(function(response) {
+        
+      })
+        .catch(function(err){
+          console.log(err);
+            mModalAlert.showError("Error en SaveTracker", 'Error');
+        });
     }
 
       vm.isSupervisor = isSupervisor;

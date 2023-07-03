@@ -181,6 +181,7 @@ define(['angular', 'constants', 'constantsPericial', 'mocksPericial', 'pericialF
           vm.mConsultaDesde = new Date(vm.paramsList.dateStart.replace( /(\d{2})[-/](\d{2})[-/](\d+)/, "$2/$1/$3") );//new Date(vm.paramsList.dateStart);
           vm.mConsultaHasta = new Date(vm.paramsList.dateEnd.replace( /(\d{2})[-/](\d{2})[-/](\d+)/, "$2/$1/$3") );//new Date(vm.paramsList.dateEnd);
         }
+        vm.paramsList.flagTracker = 'N';
 
         return pericialFactory.siniester.GetListSinister(vm.paramsList);
 
@@ -374,6 +375,7 @@ define(['angular', 'constants', 'constantsPericial', 'mocksPericial', 'pericialF
                   if($scope.value) {
                     $uibModalInstance.close();
                     // $state.go('nuevoRegistro', {reload: true, inherit: false});
+                    saveTracker();
                     $state.go('nuevoRegistro', {
                       idTipoRegistro: $scope.value
                     }, {reload: true, inherit: false});
@@ -485,6 +487,9 @@ define(['angular', 'constants', 'constantsPericial', 'mocksPericial', 'pericialF
             "motivo_cancelacion": motivoCancelacion, 
             "ordenServicio": '',
             "dni":  !vm.dataUser ? '' : (vm.dataUser.documentType === 'DNI' ? vm.dataUser.documentNumber : ''),
+          },
+          tracker: {
+            CodigoPerfil: vm.rol
           }
         };
         pericialFactory.general.postData('api/sinister/proficient/cancel', params).then(function (response) {
@@ -768,7 +773,10 @@ define(['angular', 'constants', 'constantsPericial', 'mocksPericial', 'pericialF
 
             $scope.updateSiniester = function (value) {
               vm.params = {
-                idSinisterDetail: item.idSinisterDetail
+                idSinisterDetail: item.idSinisterDetail,
+                tracker: {
+                  CodigoPerfil: vm.rol
+                }
               };
 
               if (value === 'ready') {
@@ -794,7 +802,11 @@ define(['angular', 'constants', 'constantsPericial', 'mocksPericial', 'pericialF
                   "ordenServicio": '',
                   "dni": !vm.dataUser ? '' : (vm.dataUser.documentType === 'DNI' ? vm.dataUser.documentNumber : ''),
                   "motivo": "AMPLIACIÓN DE SERVICIO"
-                }
+                };
+                
+                vm.params.tracker = {
+                  CodigoPerfil: vm.rol
+                };
 
                 pericialFactory.workshop.Resource_Sinister_Workshop_GenerateExtension(vm.params).then(function(response) {
                   if (response.operationCode === 200) {
@@ -987,7 +999,11 @@ define(['angular', 'constants', 'constantsPericial', 'mocksPericial', 'pericialF
           idWorkshop: (vm.mTaller) ? vm.mTaller.idThird : 0,
           idProficient: (vm.mPerito) ? vm.mPerito.idThird : 0,
           pageNumber: 1,
-          pageSize: vm.pageSize
+          pageSize: vm.pageSize,
+          flagTracker: 'S',
+          tracker: {
+            CodigoPerfil: vm.rol
+          }
         };
         if (vm.mEstadoSiniestro && vm.mEstadoSiniestro.id === 0) {
           vm.paramsList.stateExecutive = 0;
@@ -1003,7 +1019,32 @@ define(['angular', 'constants', 'constantsPericial', 'mocksPericial', 'pericialF
                 vm.proficientCode = response.data.code;
                 vm.paramsList.idProficient = ((vm.proficientCode) ? vm.proficientCode : 0);
 
-                updateList();
+                // updateList();
+                pericialFactory.siniester.GetListSinister(vm.paramsList).then(function(response) {
+                  vm.siniestros = [];
+                  if(response.operationCode === 200) {
+                    if (response.data) {
+                      if (response.data.items.length > 0) {
+                        vm.siniestros = response.data.items;
+                        vm.totalItems = response.data.totalRows;
+                        vm.servListado = vm.totalItems;
+                        vm.totalPages = response.data.totalPages;
+                        checkConfirmacionCliente(vm.siniestros)
+                        vm.noResult = false;
+                      }
+                    }
+                  } else if(response.operationCode === 204) {
+                    vm.siniestros = [];
+                    vm.noResult = true;
+                    vm.totalItems = 0;
+                    vm.servListado = 0;
+                    vm.totalPages = 0;
+                  }
+                })
+                  .catch(function(err){
+                    mModalAlert.showError(err.data.message, 'Error');
+                  });
+
               }
             }
           }).catch(function(err){
@@ -1228,6 +1269,23 @@ define(['angular', 'constants', 'constantsPericial', 'mocksPericial', 'pericialF
         //Action after CancelButton Modal
         // console.log("CancelButton");
       });
+    }
+
+    function saveTracker(){
+      vm.paramTracker = {
+        idSinisterDetail: null,
+        CodigoPerfil: vm.rol,
+        DescripcionOperacion : 'INGRESO A NUEVO REGISTRO',
+        OpcionMenu : 'GPER > Principal > Iniciar registro'
+      };
+
+      pericialFactory.siniester.SaveTracker(vm.paramTracker).then(function(response) {
+        
+      })
+        .catch(function(err){
+          console.log(err);
+            mModalAlert.showError("Error en SaveTracker", 'Error');
+        });
     }
 
   } // end

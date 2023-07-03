@@ -90,7 +90,8 @@ define(['angular', 'lodash', 'constants', 'constantsPericial', 'fileSaver'], fun
         Resource_Sinister_Extension_Get_List: Resource_Sinister_Extension_Get_List,
         SearchSinister: SearchSinister,
         Resource_Workorder_Get_List: Resource_Workorder_Get_List,
-        Resource_Sinister_Workshop_SolveObservation: Resource_Sinister_Workshop_SolveObservation
+        Resource_Sinister_Workshop_SolveObservation: Resource_Sinister_Workshop_SolveObservation,
+        SaveTracker: SaveTracker
       },
       damage: {
         GetListDamage: GetListDamage
@@ -447,6 +448,10 @@ define(['angular', 'lodash', 'constants', 'constantsPericial', 'fileSaver'], fun
 
     function SearchSinister(idTypeInsured, numberCase, plateNumber){
       proxySinister.Resource_Sinister_Search(idTypeInsured, numberCase, plateNumber, true);
+    }
+
+    function SaveTracker(params) {
+      return proxySinister.Resource_Sinister_Save_Tracker(params, true)
     }
 
     function Resource_Workorder_Get_List(sinisterNumber, recordNumber, idWorkshop) {
