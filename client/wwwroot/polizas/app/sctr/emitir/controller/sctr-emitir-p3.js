@@ -211,6 +211,10 @@
 		/* END GIANCARLO: INITIAL DATA */
       (function onLoad(){
 
+		$scope.declarationfrecuency = {
+			"MEN": 1, "BIM": 2, "TRI": 3, "CUA": 4, "SEM": 6, "ANU": 12
+		};
+
       	proxySctr.ValidarAgente().then(function(response){
         if(response.Data && response.Data.Bloqueado === 1){
           $state.go('sctrHome');
@@ -1297,12 +1301,12 @@ console.log(fdata.clausulaAutomatica);
 				brequest.Ramos = [
 					{
 						CodigoRamo: constants.module.polizas.sctr.pension.CodigoRamo,
-						SueldoMedio: isLarge ? fdata.mImportePlanillaPension/ fdata.mNroTrabajadores:0,
+						SueldoMedio: isLarge ? (fdata.mImportePlanillaPension / fdata.mNroTrabajadores) / $scope.declarationfrecuency[fdata.mFrecDeclaracion.Codigo] : 0,
 						CantidadTrabajador: isLarge ? fdata.mNroTrabajadores : 0
 					},
 					{
 						CodigoRamo: constants.module.polizas.sctr.salud.CodigoRamo,
-						SueldoMedio: isLarge ? fdata.mImportePlanillaSalud / fdata.mNroTrabajadores:0,
+						SueldoMedio: isLarge ? (fdata.mImportePlanillaSalud / fdata.mNroTrabajadores) / $scope.declarationfrecuency[fdata.mFrecDeclaracion.Codigo] : 0,
 						CantidadTrabajador: isLarge ? fdata.mNroTrabajadores:0
 					}
 				];
@@ -1452,8 +1456,8 @@ console.log(fdata.clausulaAutomatica);
 							if (!range && fdata["mTasa" + ramoName] !== 0) return;
 
 							fdata["subTotal" + ramoName] = CalcularPrimaMinimaTotal((fdata["mImportePlanilla" + ramoName] * fdata["mTasa" + ramoName])/100);
-							fdata["primaNeta" + ramoName]= (fdata["subTotal" + ramoName] < CalcularPrimaMinimaTotal(fdata["primaMin" + ramoName]))
-																						 ? CalcularPrimaMinimaTotal(fdata["primaMin" + ramoName])
+							fdata["primaNeta" + ramoName]= (fdata["subTotal" + ramoName] < CalcularPrimaMinimaTotal(fdata["primaMin" + ramoName] *  $scope.declarationfrecuency[$scope.formData.mFrecDeclaracion.Codigo]))
+																						 ? CalcularPrimaMinimaTotal(fdata["primaMin" + ramoName]) *  $scope.declarationfrecuency[$scope.formData.mFrecDeclaracion.Codigo]
 																						 : fdata["subTotal" + ramoName];
 							if (fdata.dataContractor2)
 								fdata["isDeficiario" + ramoName] = fdata.dataContractor2["MontoDeficitario" + ramoName] / fdata["primaNeta" + ramoName]>0.65
@@ -1464,6 +1468,8 @@ console.log(fdata.clausulaAutomatica);
 					else{
 						fdata["subTotal" + ramoName] = 0;
 						fdata["primaTotal" + ramoName] = 0
+						fdata["primaNeta" + ramoName] = 0;
+						fdata["mTasa" + ramoName] = 0;
 					}
 
 					return $q.resolve({});
