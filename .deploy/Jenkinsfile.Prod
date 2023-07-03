@@ -104,6 +104,63 @@ pipeline {
             }
 
         }
+
+        stage ('Next Snapshot Promotion develop') {
+            when {
+				expression { return env.BRANCH_NAME == 'master' } 
+            }
+            environment {
+                developBranch = "develop"
+                PACKAGE_VERSION        = getFieldFromPackage("version")
+            }
+            steps {
+                // promotion to snapshot after a release candidate is packaged and deployed
+                // git checkout development
+                gitCheckout developBranch
+
+                gitMergeWithResolveConflicts("master")
+
+               sh "cat .deploy/Jenkinsfile.NoProd > Jenkinsfile"
+
+                container('node') {
+                    promotionNpmPeru(developBranch,PACKAGE_VERSION)
+                }
+
+                // commit next snapshot in development branch
+                gitCommitPackage "promotion to next snapshot completed (" + PACKAGE_VERSION + ")"
+                // push all changes
+                gitPush()
+            }
+
+        }        
+
+        stage ('Next Snapshot Promotion release') {
+            when {
+                expression { return env.BRANCH_NAME == 'master' } 
+            }
+            environment {
+                developBranch = "release"
+                PACKAGE_VERSION        = getFieldFromPackage("version")
+            }
+            steps {
+                // promotion to snapshot after a release candidate is packaged and deployed
+                // git checkout development
+                gitCheckout developBranch
+
+                gitMergeWithResolveConflicts("master")
+
+                sh "cat .deploy/Jenkinsfile.NoProd > Jenkinsfile"
+
+                container('node') {
+                    promotionNpmPeru(developBranch,PACKAGE_VERSION)
+                }
+
+                // commit next snapshot in development branch
+                gitCommitPackage "promotion to next snapshot completed (" + PACKAGE_VERSION + ")"
+                // push all changes
+                gitPush()
+            }
+        }        
                 
         //This is a security stage that must be executed before building any code or image.
         stage('Security pre-build'){
@@ -146,6 +203,8 @@ pipeline {
 						npm install
 						bower i --force
 						grunt -f build:$ENTORNO
+						cp -R dist/ $WORKSPACE
+						npm pack                        
 					""")                    
                 }                
             }
@@ -286,62 +345,7 @@ pipeline {
             }
         }  
 
-        stage ('Next Snapshot Promotion develop') {
-            when {
-				expression { return env.BRANCH_NAME == 'master' } 
-            }
-            environment {
-                developBranch = "develop"
-                PACKAGE_VERSION        = getFieldFromPackage("version")
-            }
-            steps {
-                // promotion to snapshot after a release candidate is packaged and deployed
-                // git checkout development
-                gitCheckout developBranch
 
-                gitMergeWithResolveConflicts("master")
-
-               sh "cat .deploy/Jenkinsfile.NoProd > Jenkinsfile"
-
-                container('node') {
-                    promotionNpmPeru(developBranch,PACKAGE_VERSION)
-                }
-
-                // commit next snapshot in development branch
-                gitCommitPackage "promotion to next snapshot completed (" + PACKAGE_VERSION + ")"
-                // push all changes
-                gitPush()
-            }
-
-        }        
-
-        stage ('Next Snapshot Promotion release') {
-            when {
-                expression { return env.BRANCH_NAME == 'master' } 
-            }
-            environment {
-                developBranch = "release"
-                PACKAGE_VERSION        = getFieldFromPackage("version")
-            }
-            steps {
-                // promotion to snapshot after a release candidate is packaged and deployed
-                // git checkout development
-                gitCheckout developBranch
-
-                gitMergeWithResolveConflicts("master")
-
-                sh "cat .deploy/Jenkinsfile.NoProd > Jenkinsfile"
-
-                container('node') {
-                    promotionNpmPeru(developBranch,PACKAGE_VERSION)
-                }
-
-                // commit next snapshot in development branch
-                gitCommitPackage "promotion to next snapshot completed (" + PACKAGE_VERSION + ")"
-                // push all changes
-                gitPush()
-            }
-        }
        
     }
     post {
