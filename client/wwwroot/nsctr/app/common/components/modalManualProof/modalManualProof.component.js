@@ -1,9 +1,9 @@
 'use strict';
 
 define([
-  'angular', 'constants', 'nsctr_constants',
+  'angular', 'constants', 'nsctr_constants', 'lodash', 
 'nsctrFactoryJs', 'nsctrServiceJs', 'nsctrRolesJs','nsctrWorkersList','nsctrModalReniecListJs',
-], function(angular, constants, nsctr_constants){
+], function(angular, constants, nsctr_constants, _){
 
   var appNsctr = angular.module('appNsctr');
 
@@ -229,8 +229,36 @@ define([
                       });
                     break;
                   case constants.operationCode.code900:
-                    vError = response.data.errorMessages[0];
-                    mModalAlert.showError(vError,'ERROR CONSTANCIA');
+                    
+                    function detail(n){
+                      var res = n.split(" | ");
+                      return {
+                        alertRow: res[0],
+                        alertErrorMessage: res[1]
+                      };
+                    }
+      
+                  _self.reniecList = {
+                    mainData: {
+                      reniecList: _.map(response.data.errorMessages, detail)
+                    },
+                    data: {}
+                  };
+                  var vConfigModal = nsctrService.fnDefaultModalOptions($scope, {
+                    template: '<nsctr-modal-reniec-list main-data="$ctrl.reniecList.mainData" data="$ctrl.reniecList.data"></nsctr-modal-reniec-list>',
+                    windowClass : "g-modal-overlap "
+                  });
+                  vConfigModal.controller = ['$scope', '$uibModalInstance', '$uibModal',
+                    function ($scope, $uibModalInstance, $uibModal) {
+                      $scope.$on('fnActionButton_modalReniecList', function (event, action) {
+                        $uibModalInstance.close();
+                        _self.dataS1 = response.data;
+                        _self.movementNumber = response.data.data.movementNumber
+                        _self.validateProcess= true;
+                      });
+                    }];
+                    $uibModal.open(vConfigModal);
+
                     break;
                   case constants.operationCode.code902:
                     vError = nsctrService.fnHtmlErrorLoadFile(response.data.errorMessages);
