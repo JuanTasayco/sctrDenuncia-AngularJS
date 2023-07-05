@@ -87,6 +87,7 @@ define(['angular', 'constantsPericial', 'mocksPericial', 'helper', 'pericialFact
           pericialFactory.siniester.GetSinister($stateParams.id, false).then(function(response) {
             if (response.data) {
               vm.siniestro = response.data;
+              saveTracker(isTaller());
               $interval(function() {getComentarios()}, 60000);
               if (!isTaller()) {
                 if (vm.siniestro.caseNumber && vm.siniestro.sinisterNumber) {
@@ -309,8 +310,26 @@ define(['angular', 'constantsPericial', 'mocksPericial', 'helper', 'pericialFact
               });
             }
           });
+          
 
         };
+
+     function saveTracker(isTaller){
+       vm.paramTracker = {
+         idSinisterDetail: $stateParams.id,
+         CodigoPerfil: vm.rol,
+         DescripcionOperacion : vm.siniestro.totalLoss === null ? isTaller ? 'ADJUNTAR CARTA Y DAÑOS' : 'VER DETALLE': vm.siniestro.totalLoss.flagConfirmTotalLost != null ? 'VER DETALLE' : isTaller ? 'ADJUNTAR CARTA Y DAÑOS': 'EVALUAR PERDIDA',
+         OpcionMenu : vm.siniestro.totalLoss === null ? isTaller ? 'GPER > Principal > Adjuntar Carta y Daños' : 'GPER > Principal > Ver Detalle': vm.siniestro.totalLoss.flagConfirmTotalLost != null ? 'GPER > Principal > Ver Detalle' : isTaller ? 'GPER > Principal > Adjuntar Carta y Daños': 'GPER > Principal > Evaluar Perdida'
+       };
+ 
+       pericialFactory.siniester.SaveTracker(vm.paramTracker).then(function(response) {
+         
+       })
+         .catch(function(err){
+           console.log(err);
+             mModalAlert.showError("Error en SaveTracker", 'Error');
+         });
+     }
 
       function eventConfirmInfo(){
 
