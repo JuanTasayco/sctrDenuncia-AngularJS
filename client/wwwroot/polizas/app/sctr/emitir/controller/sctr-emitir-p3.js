@@ -1072,6 +1072,7 @@ console.log(fdata.clausulaAutomatica);
 					fdata["primaNeta" + ramoName]= (fdata["subTotal" + ramoName] < CalcularPrimaMinimaTotal(fdata["primaMin" + ramoName] * ($scope.declarationfrecuency[fdata.mFrecDeclaracion.Codigo]))) 
 																				 ? CalcularPrimaMinimaTotal(fdata["primaMin" + ramoName]) * ($scope.declarationfrecuency[fdata.mFrecDeclaracion.Codigo])
 																				 : fdata["subTotal" + ramoName];
+																				 console.log("subt: " + fdata["subTotal" + ramoName] , "prima min.: " + fdata["primaNeta" + ramoName]);
 					if (fdata.dataContractor2)
 						fdata["isDeficiario" + ramoName] = fdata.dataContractor2["MontoDeficitario" + ramoName] / fdata["primaNeta" + ramoName]>0.65
 					fdata["primaTotal" + ramoName] = (fdata["primaNeta" + ramoName] * fdata["factor" + ramoName]).toFixed(2);
