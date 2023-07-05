@@ -210,6 +210,38 @@ define([
           FieldNameHere:        vFile[0]
         };
       }
+
+    function _showModalRows(data){
+        function detail(n){
+            var res = n.split(" | ");
+            return {
+              alertRow: res[0],
+              alertErrorMessage: res[1]
+            };
+          }
+        
+        _self.reniecList = {
+          mainData: {
+            reniecList: _.map(data.errorMessages, detail)
+          },
+          data: {}
+        };
+        var vConfigModal = nsctrService.fnDefaultModalOptions($scope, {
+          template: '<nsctr-modal-reniec-list main-data="$ctrl.reniecList.mainData" data="$ctrl.reniecList.data"></nsctr-modal-reniec-list>',
+          windowClass : "g-modal-overlap "
+        });
+        vConfigModal.controller = ['$scope', '$uibModalInstance', '$uibModal',
+          function ($scope, $uibModalInstance, $uibModal) {
+            $scope.$on('fnActionButton_modalReniecList', function (event, action) {
+              $uibModalInstance.close();
+              _self.dataS1 = data;
+              _self.movementNumber = data.data.movementNumber
+              _self.validateProcess= true;
+            });
+          }];
+          $uibModal.open(vConfigModal);
+      }
+
       _self.fnSave = function() {
         if (_validateForm()) {
           var vParams = _paramsManualProof();
@@ -229,35 +261,7 @@ define([
                       });
                     break;
                   case constants.operationCode.code900:
-                    
-                    function detail(n){
-                      var res = n.split(" | ");
-                      return {
-                        alertRow: res[0],
-                        alertErrorMessage: res[1]
-                      };
-                    }
-      
-                  _self.reniecList = {
-                    mainData: {
-                      reniecList: _.map(response.data.errorMessages, detail)
-                    },
-                    data: {}
-                  };
-                  var vConfigModal = nsctrService.fnDefaultModalOptions($scope, {
-                    template: '<nsctr-modal-reniec-list main-data="$ctrl.reniecList.mainData" data="$ctrl.reniecList.data"></nsctr-modal-reniec-list>',
-                    windowClass : "g-modal-overlap "
-                  });
-                  vConfigModal.controller = ['$scope', '$uibModalInstance', '$uibModal',
-                    function ($scope, $uibModalInstance, $uibModal) {
-                      $scope.$on('fnActionButton_modalReniecList', function (event, action) {
-                        $uibModalInstance.close();
-                        _self.dataS1 = response.data;
-                        _self.movementNumber = response.data.data.movementNumber
-                        _self.validateProcess= true;
-                      });
-                    }];
-                    $uibModal.open(vConfigModal);
+                    _showModalRows(response.data);
 
                     break;
                   case constants.operationCode.code902:
@@ -286,36 +290,7 @@ define([
               _self.validateProcess= true;
               break;
             case constants.operationCode.code900:
-
-              function detail(n){
-                var res = n.split(" | ");
-                return {
-                  alertRow: res[0],
-                  alertErrorMessage: res[1]
-                };
-              }
-
-            _self.reniecList = {
-              mainData: {
-                reniecList: _.map(response.data.errorMessages, detail)
-              },
-              data: {}
-            };
-            var vConfigModal = nsctrService.fnDefaultModalOptions($scope, {
-              template: '<nsctr-modal-reniec-list main-data="$ctrl.reniecList.mainData" data="$ctrl.reniecList.data"></nsctr-modal-reniec-list>',
-              windowClass : "g-modal-overlap "
-            });
-            vConfigModal.controller = ['$scope', '$uibModalInstance', '$uibModal',
-              function ($scope, $uibModalInstance, $uibModal) {
-                $scope.$on('fnActionButton_modalReniecList', function (event, action) {
-                  $uibModalInstance.close();
-                  _self.dataS1 = response.data;
-                  _self.movementNumber = response.data.data.movementNumber
-                  _self.validateProcess= true;
-                });
-              }];
-              $uibModal.open(vConfigModal);
-            
+              _showModalRows(response.data);
             
               break;
             case constants.operationCode.code901:
