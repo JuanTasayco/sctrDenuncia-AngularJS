@@ -312,7 +312,12 @@ define(['angular', 'constants', 'constantsPericial', 'mocksPericial', 'pericialF
         var value = localStorageService.get('fechas');
         vm.paramsList.dateStart = (vm.mConsultaDesde) ? pericialFactory.general.formatearFecha(vm.mConsultaDesde) : pericialFactory.general.formatearFecha(new Date());//"20/06/2018",//
         vm.paramsList.dateEnd = (vm.mConsultaHasta) ? pericialFactory.general.formatearFecha(vm.mConsultaHasta) : pericialFactory.general.formatearFecha(new Date());
-        vm.paramsList.flagTracker = flagTracker ? 'S' : 'N',
+        vm.paramsList.flagTracker = flagTracker ? 'S' : 'N';
+        vm.paramsList.tracker = {
+          CodigoPerfil: vm.rol,
+          DescripcionOperacion: 'GENERAL - APLICAR - FECHA',
+          OpcionMenu: 'GPER >  General > Aplicar fecha'
+        };
         localStorageService.set('fechas', vm.paramsList);
 
         if (flagTracker)

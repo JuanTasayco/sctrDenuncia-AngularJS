@@ -1002,7 +1002,9 @@ define(['angular', 'constants', 'constantsPericial', 'mocksPericial', 'pericialF
           pageSize: vm.pageSize,
           flagTracker: 'S',
           tracker: {
-            CodigoPerfil: vm.rol
+            CodigoPerfil: vm.rol,
+            DescripcionOperacion: 'SERVICIOS - BUSCAR/APLICAR',
+            OpcionMenu: 'GPER > Servicios > Buscar/Aplicar'
           }
         };
         if (vm.mEstadoSiniestro && vm.mEstadoSiniestro.id === 0) {
