@@ -100,6 +100,55 @@ define(['system', 'coreConstants'], function(system, coreConstants) {
     },
     {
       code: '',
+      description: 'Administrador por ramos',
+      name: 'adminPolicySection',
+      parent: 'root',
+      abstract: true,
+      url: '',
+      views: {
+        content: {
+          controller: 'AdminRamoComponent as $ctrl',
+          templateUrl: folder + '/app/admin-policy-section/pages/admin-ramo/admin-ramo.component.html'
+        }
+      },
+      // resolve: {
+      //   products: [
+      //     'SecurityFactory',
+      //     function(SecurityFactory) {
+      //       return SecurityFactory.getProductsOfCarousel().then(SecurityFactory.mapProducts);
+      //     }
+      //   ]
+      // },
+      resolver: [
+        {
+          name: 'adminPolicySection',
+          moduleName: moduleName,
+          files: ['AdminRamoComponent']
+        }
+      ]
+    },
+    {
+      name: 'adminPolicySection.WhatYouWantToDo',
+      code: '',
+      description: 'Seccion Que quieres hacer',
+      url: '/admin-policy-section/what-you-want-to-do',
+      views: {
+        'contenido': {
+          template: '<ap-what-you-want-to-do></ap-what-you-want-to-do>'
+        }
+      },
+      resolver: [
+        {
+          name: 'adminPolicySection.WhatYouWantToDo',
+          moduleName: moduleName,
+          files: [
+            'apWhatYouWantToDo'
+          ]
+        }
+      ]
+    },
+    {
+      code: '',
       description: 'Lista de Carruseles',
       name: 'carouselTray',
       parent: 'root',

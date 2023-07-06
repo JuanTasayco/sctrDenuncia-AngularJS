@@ -11,6 +11,7 @@ define([
   'angular_ocLazyLoad',
   'angular_route',
   'angular_ui_route',
+  'AdminRamoFactory',
   'CarouselTrayFactory',
   'BannerRecordsFactory',
   'CarouselModificationFactory',
@@ -84,6 +85,7 @@ define([
 
   return ng
     .module(coreConstants.ngMainModule, [
+      coreConstants.ngAdminRamoModule,
       coreConstants.ngCarouselTrayModule,
       coreConstants.ngBannerRecordsModule,
       coreConstants.ngCarouselModificationModule,
@@ -115,7 +117,7 @@ define([
       'ui.router',
       'ui.select',
       'ngRaven',
-      'ngQuill',
+      'ngQuill'
     ])
     .config(configFn)
     .run(runFn);

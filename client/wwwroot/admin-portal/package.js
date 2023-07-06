@@ -41,6 +41,30 @@ define(['system'], function(system) {
         name: 'HomeComponent',
         path: folder + '/app/home/pages/main/home.component'
       },
+      apCardSectionHeader: {
+        name: 'apCardSectionHeader',
+        path: folder + '/app/shared/components/card-section-header/card-section-header.component'
+      },
+      apCardSection: {
+        name: 'apCardSection',
+        path: folder + '/app/shared/components/card-section/card-section.component'
+      },
+      apCardItem: {
+        name: 'apCardItem',
+        path: folder + '/app/admin-policy-section/components/card-item/card-item.component'
+      },
+      apCardListRamo: {
+        name: 'apCardListRamo',
+        path: folder + '/app/shared/components/card-list-ramo/card-list-ramo.component'
+      },
+      AdminRamoComponent: {
+        name: 'AdminRamoComponent',
+        path: folder + '/app/admin-policy-section/pages/admin-ramo/admin-ramo.component'
+      },
+      apWhatYouWantToDo: {
+        name: 'apWhatYouWantToDo',
+        path: folder + '/app/admin-policy-section/pages/admin-ramo/what-you-want-to-do/what-you-want-to-do.component'
+      },
       CarouselTrayComponent: {
         name: 'CarouselTrayComponent',
         path: folder + '/app/carousel-tray/pages/main/carousel-tray.component'
@@ -48,6 +72,10 @@ define(['system'], function(system) {
       CarouselModificationComponent: {
         name: 'CarouselModificationComponent',
         path: folder + '/app/carousel-tray/pages/carousel-modification/carousel-modification.component'
+      },
+      AdminRamoFactory: {
+        name: 'AdminRamoFactory',
+        path: folder + '/app/admin-policy-section/factory/admin-ramo.factory'
       },
       CarouselTrayFactory: {
         name: 'CarouselTrayFactory',
@@ -265,11 +293,23 @@ define(['system'], function(system) {
       ngRedux: {
         deps: ['angular', 'redux']
       },
+      AdminRamoComponent: {
+        deps: ['apCardSection', 'apCardListRamo', 'apCardItem']
+      },
       CarouselTrayComponent: {
         deps: ['apTab', 'apCarousel']
       },
       AddBannerComponent: {
         deps: ['apBannerUpload']
+      },
+      // apWhatYouWantToDo: {
+      //   deps: ['apCardSection', 'apCardListRamo', 'apCardItem', 'apCardSectionHeader']
+      // },
+      apCardListRamo: {
+        deps: []
+      },
+      apCardSection: {
+        deps: []
       },
       apBannerUpload: {
         deps: ['apImageUploader']
