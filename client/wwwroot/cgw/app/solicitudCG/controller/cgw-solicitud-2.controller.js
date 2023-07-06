@@ -200,14 +200,13 @@ define([
     };
 
     $scope.guardarPaso2 = function() {
-      if ($scope.formData.cobertura) {
+      $scope.frmSolicitudCgw2.markAsPristine();
+      if ($scope.formData.cobertura && $scope.frmSolicitudCgw2.$valid) {
         if ($scope.formData.cobertura.checkSelected) {
           $scope.formData.mCelular = $scope.frmSolicitudCgw2.nCelular.$error.onlyNumber ? '' : $scope.formData.mCelular;
           $scope.formData.paso2Guardado = true;
           $state.go('.', {step: 3, id: $stateParams.id});
         }
-      } else {
-        $scope.frmSolicitudCgw2.markAsPristine();
       }
     };
 
