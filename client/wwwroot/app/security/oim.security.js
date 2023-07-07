@@ -761,7 +761,7 @@
             password: credentials.password,
             client_Id: constants.system.login.client_id,
             scope: 'encrypt',
-            systemId: "OIM"
+            systemId: "OIM" // SD05445901_MPAMA-348
           };
           var promise = $auth.signup(undefined, {
             method: 'POST',
