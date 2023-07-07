@@ -138,12 +138,11 @@ pipeline {
 
                         def projectKey = getSonarProyectoKey(sonarConfig, env.BRANCH_NAME)
                         def projectName = getSonarProyectoName(sonarConfig, env.BRANCH_NAME)
-                        def $extraParameter = "-Dsonar.projectVersion=${PACKAGE_VERSION}"
+                        def extraParameter = "-Dsonar.projectVersion=${PACKAGE_VERSION}"
 
                         withSonarQubeEnv(installationName: SONAR_ENVIRONMENT, credentialsId: sonarConfig.projectKey, envOnly: true) {
                             println "Executing Sonar Scanner for Project Key ${projectKey}..."
                             println "Extra parameters: $extraParameter"
-                            checkExtraParameter(extraParameter)
                             tee('output-sonar-scanner.log') {
 
                                         def params = "-Dsonar.sourceEncoding=UTF-8 ${Constants.SONAR_DEFAULT_TYPESCRIPT_LCOV_REPORT_PATHS} ${extraParameter}"
