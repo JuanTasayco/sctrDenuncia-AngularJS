@@ -12,10 +12,23 @@
       <div class="container">
         <div class="row"  ng-show="!getEstado(formData.afiliado.estado) && formData.coverages.length>0">
           <div class="col-md-12">
-            <h2 class="g-sub-title">Notificación de Aprobación</h2>
+            <h2 class="g-sub-title">Contacto del paciente</h2>
           </div>
         </div>
         <div class="row mb-xs-4" ng-show="!getEstado(formData.afiliado.estado) && formData.coverages.length>0">
+          <div class="col-md-4">
+            <mpf-input
+              ng-model="formData.mCelular"
+              label="{label: celularInputLbl.label, required: true}"
+              name="nCelular"
+              mpf-validation="onlyNumber"
+              ng-minlength="7"
+              ng-maxlength="9"
+              ng-required="true"></mpf-input>
+            <div class="g-error" ng-show="frmSolicitudCgw2.nCelular.$error.onlyNumber && !frmSolicitudCgw2.nCelular.$pristine && frmSolicitudCgw2.nCelular.$error.required">
+            * Ingrese número de celular
+          </div>
+          </div>
           <div class="col-md-4">
             <mpf-input
               data-mpf-validation="email"
@@ -30,20 +43,6 @@
               class="g-error"
               data-ng-show="frmSolicitudCgw2.nEmail.$invalid && !frmSolicitudCgw2.nEmail.$pristine">
               Ingrese un correo
-            </div>
-          </div>
-          <div class="col-md-4">
-            <mpf-input
-              ng-model="formData.mCelular"
-              label="{label: celularInputLbl.label, required: celularInputLbl.required}"
-              name="nCelular"
-              mpf-validation="onlyNumber"
-              ng-minlength="7"
-              ng-maxlength="9"
-              ng-required="false"></mpf-input>
-            <div class="g-error"
-              ng-show="frmSolicitudCgw2.nCelular.$error.onlyNumber && !frmSolicitudCgw2.nCelular.$pristine">
-              * Ingrese número de celular
             </div>
           </div>
         </div>
