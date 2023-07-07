@@ -136,12 +136,22 @@ pipeline {
 
                         if(sonarConfig.name==null) return
 
-                        def sonarProyectoKey = getSonarProyectoKey(sonarConfig, env.BRANCH_NAME)
-                        def sonarProyectName = getSonarProyectoName(sonarConfig, env.BRANCH_NAME)
-                        def sonarExtraParameters = "-Dsonar.projectVersion=${PACKAGE_VERSION}"
+                        def projectKey = getSonarProyectoKey(sonarConfig, env.BRANCH_NAME)
+                        def projectName = getSonarProyectoName(sonarConfig, env.BRANCH_NAME)
+                        def $extraParameter = "-Dsonar.projectVersion=${PACKAGE_VERSION}"
 
-                        sonarScanner(SONAR_ENVIRONMENT, sonarConfig.projectKey, sonarProyectoKey, sonarProyectName,
-                             SonarScannerType.NPM,sonarExtraParameters)
+                        withSonarQubeEnv(installationName: SONAR_ENVIRONMENT, credentialsId: sonarConfig.projectKey, envOnly: true) {
+                            println "Executing Sonar Scanner for Project Key ${projectKey}..."
+                            println "Extra parameters: $extraParameter"
+                            checkExtraParameter(extraParameter)
+                            tee('output-sonar-scanner.log') {
+
+                                        def params = "-Dsonar.sourceEncoding=UTF-8 ${Constants.SONAR_DEFAULT_TYPESCRIPT_LCOV_REPORT_PATHS} ${extraParameter}"
+                                        scanWithCli("${env.SONAR_HOST_URL}", "${env.SONAR_AUTH_TOKEN}", "${projectKey}", "${projectName}", "${params}")
+                                        break
+                            }
+                            DMSastScan("${env.SONAR_HOST_URL}", "${env.SONAR_AUTH_TOKEN}", "${projectKey}", "${projectName}")
+                        }                             
                      }
                 }
             }
