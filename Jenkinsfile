@@ -71,6 +71,14 @@ pipeline {
             }
         }
 
+        //This is a security stage that must be executed before building any code or image.
+        stage('Security pre-build'){
+            steps{
+                script{
+                    secPreBuild()
+                }
+            }
+        }   
         
         stage('Build Auditoria') {
             steps {
@@ -189,6 +197,55 @@ pipeline {
             }
         }
 
+        stage('Commit and Tag Promotion') {
+            when {
+                anyOf {
+                    branch 'develop'
+                    branch 'release'
+                    branch 'master'
+                }
+            }
+            environment {
+                PACKAGE_VERSION        = getFieldFromPackage("version")
+                PACKAGE_NAME           = getFieldFromPackage("name")
+
+            }
+            steps {
+                gitFetch()
+                gitCheckout env.BRANCH_NAME
+
+                script {
+                    def msg = 'release'
+                    if (BRANCH_NAME.startsWith('release')) {
+                        msg = 'release candidate'
+                    }                 
+                    gitCommitPackage  "promotion to " + msg + " completed (" + PACKAGE_VERSION + ")"
+                    gitPush()
+                    gitTag(PACKAGE_VERSION,  "New " + msg + " tag " + PACKAGE_VERSION)
+                    gitPushTags()
+                    
+                }
+
+            }
+
+        }        
+
+        stage('Security post-build'){
+            steps {
+                script{
+                    secPostBuild()
+                }
+            }
+        }
+
+
+        stage('Security pre-deploy'){
+            steps{
+                script{
+                    secPreDeploy()
+                }
+            }
+        }   
 
         stage('Deploy to Frontal') {
             when {
@@ -221,7 +278,70 @@ pipeline {
             }
         }        
 
+        stage('Security post-deploy'){
+            steps{
+                script{
+                    secPostDeploy()
+                }
+            }
+        }  
 
+        stage ('Next Snapshot Promotion develop') {
+            when {
+				expression { return env.BRANCH_NAME == 'master' } 
+            }
+            environment {
+                developBranch = "develop"
+                PACKAGE_VERSION        = getFieldFromPackage("version")
+            }
+            steps {
+                // promotion to snapshot after a release candidate is packaged and deployed
+                // git checkout development
+                gitCheckout developBranch
+
+                gitMergeWithResolveConflicts("master")
+
+               sh "cat .deploy/Jenkinsfile.NoProd > Jenkinsfile"
+
+                container('node') {
+                    promotionNpmPeru(developBranch,PACKAGE_VERSION)
+                }
+
+                // commit next snapshot in development branch
+                gitCommitPackage "promotion to next snapshot completed (" + PACKAGE_VERSION + ")"
+                // push all changes
+                gitPush()
+            }
+
+        }        
+
+        stage ('Next Snapshot Promotion release') {
+            when {
+                expression { return env.BRANCH_NAME == 'master' } 
+            }
+            environment {
+                developBranch = "release"
+                PACKAGE_VERSION        = getFieldFromPackage("version")
+            }
+            steps {
+                // promotion to snapshot after a release candidate is packaged and deployed
+                // git checkout development
+                gitCheckout developBranch
+
+                gitMergeWithResolveConflicts("master")
+
+                sh "cat .deploy/Jenkinsfile.NoProd > Jenkinsfile"
+
+                container('node') {
+                    promotionNpmPeru(developBranch,PACKAGE_VERSION)
+                }
+
+                // commit next snapshot in development branch
+                gitCommitPackage "promotion to next snapshot completed (" + PACKAGE_VERSION + ")"
+                // push all changes
+                gitPush()
+            }
+        }
        
     }
     post {
