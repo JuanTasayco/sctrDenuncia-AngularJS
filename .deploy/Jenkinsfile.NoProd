@@ -19,7 +19,7 @@ pipeline {
     }
     parameters {
         text(name: 'LISTABRANCHE', defaultValue: '', description: 'Ingrese la lista de branches a integrar')
-    }     
+    }      
     options {
         timeout(time: 25, unit: 'MINUTES')
         timestamps()
@@ -140,24 +140,31 @@ pipeline {
 
                         def projectKey = getSonarProyectoKey(sonarConfig, env.BRANCH_NAME)
                         def projectName = getSonarProyectoName(sonarConfig, env.BRANCH_NAME)
-                        def $extraParameter = "-Dsonar.projectVersion=${PACKAGE_VERSION}"
+                        def extraParameter = "-Dsonar.projectVersion=${PACKAGE_VERSION}"
 
                         withSonarQubeEnv(installationName: SONAR_ENVIRONMENT, credentialsId: sonarConfig.projectKey, envOnly: true) {
                             println "Executing Sonar Scanner for Project Key ${projectKey}..."
                             println "Extra parameters: $extraParameter"
-                            checkExtraParameter(extraParameter)
                             tee('output-sonar-scanner.log') {
 
-                                        def params = "-Dsonar.sourceEncoding=UTF-8 ${Constants.SONAR_DEFAULT_TYPESCRIPT_LCOV_REPORT_PATHS} ${extraParameter}"
-                                        scanWithCli("${env.SONAR_HOST_URL}", "${env.SONAR_AUTH_TOKEN}", "${projectKey}", "${projectName}", "${params}")
-                                        break
+                                        def params = "-Dsonar.sourceEncoding=UTF-8 ${extraParameter}"
+
+                                            sh("""
+                                                sonar-scanner \
+                                                    -Dsonar.host.url='${env.SONAR_HOST_URL}' \
+                                                    -Dsonar.login='${env.SONAR_AUTH_TOKEN}' \
+                                                    -Dsonar.projectKey='${projectKey}' \
+                                                    -Dsonar.projectName='${projectName}' \
+                                                    ${params}
+                                            """)
+    
+                                    
                             }
-                            DMSastScan("${env.SONAR_HOST_URL}", "${env.SONAR_AUTH_TOKEN}", "${projectKey}", "${projectName}")
                         }                             
                      }
                 }
             }
-        }       
+        }                   
 
         stage("Quality Gate"){
             when {

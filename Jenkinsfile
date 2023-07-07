@@ -145,16 +145,24 @@ pipeline {
                             println "Extra parameters: $extraParameter"
                             tee('output-sonar-scanner.log') {
 
-                                        def params = "-Dsonar.sourceEncoding=UTF-8 ${Constants.SONAR_DEFAULT_TYPESCRIPT_LCOV_REPORT_PATHS} ${extraParameter}"
-                                        scanWithCli("${env.SONAR_HOST_URL}", "${env.SONAR_AUTH_TOKEN}", "${projectKey}", "${projectName}", "${params}")
-                                        break
+                                        def params = "-Dsonar.sourceEncoding=UTF-8 ${extraParameter}"
+
+                                            sh("""
+                                                sonar-scanner \
+                                                    -Dsonar.host.url='${env.SONAR_HOST_URL}' \
+                                                    -Dsonar.login='${env.SONAR_AUTH_TOKEN}' \
+                                                    -Dsonar.projectKey='${projectKey}' \
+                                                    -Dsonar.projectName='${projectName}' \
+                                                    ${params}
+                                            """)
+    
+                                    
                             }
-                            DMSastScan("${env.SONAR_HOST_URL}", "${env.SONAR_AUTH_TOKEN}", "${projectKey}", "${projectName}")
                         }                             
                      }
                 }
             }
-        }       
+        }                   
 
         stage("Quality Gate"){
             when {
