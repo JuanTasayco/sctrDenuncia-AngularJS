@@ -294,7 +294,7 @@ define(['system'], function(system) {
         deps: ['angular', 'redux']
       },
       AdminRamoComponent: {
-        deps: ['apCardSection', 'apCardListRamo', 'apCardItem']
+        deps: ['apCardSection', 'apCardListRamo', 'apCardItem', 'apCardSectionHeader']
       },
       CarouselTrayComponent: {
         deps: ['apTab', 'apCarousel']

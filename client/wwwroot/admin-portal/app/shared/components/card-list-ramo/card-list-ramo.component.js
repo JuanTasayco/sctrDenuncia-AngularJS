@@ -4,16 +4,20 @@ define(['angular', 'coreConstants', 'system'], function (ng, coreConstants, syst
     var folder = system.apps.ap.location;
     CardListRamoController.$inject = ['$stateParams'];
     function CardListRamoController($stateParams) {
+
+        var divListRamoScrollIncrement = 66;
         var vm = this;
+        
         vm.$onInit = onInit;
         vm.onPrevius = onPrevius;
         vm.onNext = onNext;
+        vm.onRamoItemClick = onRamoItemClick;
 
-        vm.listRamo = [
+        vm.ramos = [
             {
                 icon: '',
                 name: 'VEHICULAR',
-                selected: false,
+                selected: true,
             },
             {
                 icon: '',
@@ -58,11 +62,17 @@ define(['angular', 'coreConstants', 'system'], function (ng, coreConstants, syst
             console.log("CardListRamoController");
         }
         function onPrevius() {
-            console.log("CardListRamoController");
+            var divListRamos = document.getElementById("divListRamos");
+            divListRamos.scrollLeft = divListRamos.scrollLeft - divListRamoScrollIncrement;
         }
         function onNext() {
             var divListRamos = document.getElementById("divListRamos");
-            divListRamos.scrollTop = 50;
+            divListRamos.scrollLeft = divListRamos.scrollLeft + divListRamoScrollIncrement;
+        }
+
+        function onRamoItemClick(item){
+            vm.ramos.filter(x => x.selected).forEach(x => x.selected = false);
+            item.selected = true;
         }
 
     } // end controller
