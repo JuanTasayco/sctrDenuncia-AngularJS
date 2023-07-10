@@ -11,7 +11,7 @@ define(['angular', 'constants', 'saludFactory'], function(
     var vm = this;
 
     vm.$onInit = function () {
-	  console.log('Version 25/01/23 13:00');
+	  console.log('Version 11/07/23 09:00');
       $scope.formData = $scope.formData || {};
       $scope.isAdmin = isAdmin;
     };
@@ -113,6 +113,12 @@ define(['angular', 'constants', 'saludFactory'], function(
 
             $scope.generarReporte = function () {
               var fechaInicio, fechaFin, tipoFormato;
+
+              if(saludFactory.DiferenciaMeses($scope.mDesdeFilter, $scope.mHastaFilter) > 6) {
+                mModalAlert.showError('El periodo máximo de consulta es de 6 meses', 'Error');
+                return;
+              }
+
               fechaInicio = $filter("date")($scope.mDesdeFilter, "yyyyMMdd");
               fechaFin = $filter("date")($scope.mHastaFilter, "yyyyMMdd");
               tipoFormato = "xlsx";

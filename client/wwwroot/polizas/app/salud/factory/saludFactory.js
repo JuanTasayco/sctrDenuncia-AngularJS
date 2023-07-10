@@ -568,6 +568,14 @@ define(['angular', 'constants', 'lodash'], function(angular, constants, _) {
         });
     }
 
+    function DiferenciaMeses(fecha1, fecha2) {
+      var months;
+      months = (fecha2.getFullYear() - fecha1.getFullYear()) * 12;
+      months -= fecha1.getMonth();
+      months += fecha2.getMonth();
+      return months <= 0 ? 0 : months;
+    }
+
     var factory = {
       spliceListPrimas: spliceListPrimas,
       getProductsByUser: getProductsByUser,
