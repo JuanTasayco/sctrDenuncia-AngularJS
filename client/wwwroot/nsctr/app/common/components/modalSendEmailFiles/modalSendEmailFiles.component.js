@@ -56,6 +56,16 @@ define([
 						if(elem && elem.fileList[key] && elem.fileList[key].contancyNumber){
 							elem.fileList[key].contancyNumber = _self.mainData.constancyNumber;
 						}
+
+						angular.forEach(elem.fileList, function(elemFile, keyFile){
+							if(elemFile.description == 'Poliza'){
+								elemFile.ciaId = _self.data.paramsSendEmail.listPolicy[0].ciaId;
+								elemFile.sptoNumber = _self.data.paramsSendEmail.listPolicy[0].sptoNumber;
+								elemFile.aplicationNumber = _self.data.paramsSendEmail.listPolicy[0].applicationNumber;
+								elemFile.sptoApliNumber = _self.data.paramsSendEmail.listPolicy[0].sptoApliNumber;
+							}
+						});
+
 						vFileDocument = vFileDocument.concat(elem.fileList);
 					});
 					return vFileDocument;
@@ -67,7 +77,8 @@ define([
 						bodyMessage 	: _self.data.mComentario || '',
 						clientName 		: _self.data.paramsSendEmail.clientName || '',
 						fileDocument 	: _getFileDocument(),
-						contancyNumber : _self.mainData.constancyNumber
+						contancyNumber : _self.mainData.constancyNumber,
+						codigoAgente : _self.data.paramsSendEmail.codAgt,
 					}
 				];
 				return vParams;

@@ -10,8 +10,8 @@ define([
   var appNsctr = angular.module('appNsctr');
 
   appNsctr.controller('nsctrSummaryController',
-    ['$scope', 'mainServices', 'nsctrFactory', 'nsctrService', '$state', '$uibModal', 'gaService','$attrs','$stateParams',
-    function($scope, mainServices, nsctrFactory, nsctrService, $state, $uibModal, gaService,$attrs,$stateParams){
+    ['$scope', 'mainServices', 'nsctrFactory', 'nsctrService', '$state', '$uibModal', 'gaService','$attrs','$stateParams','mModalAlert', '$window',
+    function($scope, mainServices, nsctrFactory, nsctrService, $state, $uibModal, gaService,$attrs,$stateParams, mModalAlert, $window){
       /*########################
       # _self
       ########################*/
@@ -53,6 +53,7 @@ define([
         if($attrs.movementType == nsctr_constants.movementType.exclusion.code) {
           _self.title = "Exclusión"
         }
+        _self.profile = JSON.parse($window.localStorage.getItem('profile'));
 
         _self.MODULE = $state.current.module;
         _self.IS_MODULE = nsctrService.fnIsModule(_self.MODULE);
@@ -91,6 +92,8 @@ define([
         if(item.type == "CRT") return nsctrFactory.validation._filterData(segurity.items, "DESCARGAR_CARTA", "nombreCorto");
         if(item.type == "CRG") return nsctrFactory.validation._filterData(segurity.items, "DESCARGAR_CARGO", "nombreCorto");
         
+        if(item.type == "POL" && item.isEnabled == "S") return true;
+        
       };
 
       /*########################
@@ -104,7 +107,9 @@ define([
               proofNumber : _self.data.summary.constancyNumber,
               fileList    : _self.data.summary.listFiles
             }
-          ]
+          ],
+          listPolicy : _self.data.summary.listPolicy,
+          codAgt : _self.profile.codagent
         };
         return vParams;
       }
@@ -140,6 +145,26 @@ define([
         nsctrFactory.common.proxyConstancy.ServicesDownloadConstancy(_self.STATE_PARAMS.idProof,true).then(function (response) {
           mainServices.fnDownloadFileBase64(response.data, "pdf",'Contancia_' + _self.STATE_PARAMS.idProof, false);
         })
+      }
+      _self.fnDescargarPoliza = function(){
+        _self.ParamDescargaPoliza = {
+          codAgt : _self.profile.codagent,
+          codCia : _self.data.summary.listPolicy[0].ciaId,
+          numApli : _self.data.summary.listPolicy[0].applicationNumber,
+          numPoliza : _self.data.summary.listPolicy[0].policyNumber,
+          numSpto : _self.data.summary.listPolicy[0].sptoNumber,
+          numSptoApli : _self.data.summary.listPolicy[0].sptoApliNumber,
+          tipoImpresion: 'S'
+        };
+        nsctrFactory.common.proxyPolicy.Download(_self.ParamDescargaPoliza,true).then(function (response) {
+          if (response.data.documento != ''){
+            mainServices.fnDownloadFileBase64(response.data.documento, "pdf",'Poliza_' + _self.ParamDescargaPoliza.numPoliza, false);
+          }else{
+            mModalAlert.showError(response.data.descError, 'ERROR');
+          }
+        }, function(error){
+          mModalAlert.showError(error, 'ERROR');
+        });
       }
 
   }]).component('nsctrSummary',{
