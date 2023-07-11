@@ -2,8 +2,8 @@
 
 define(['angular', 'coreConstants', 'system'], function (ng, coreConstants, system) {
     var folder = system.apps.ap.location;
-    CardListRamoController.$inject = ['$stateParams'];
-    function CardListRamoController($stateParams) {
+    CardListRamoController.$inject = ['$stateParams', 'AdminRamoFactory'];
+    function CardListRamoController($stateParams, AdminRamoFactory) {
 
         var divListRamoScrollIncrement = 66;
         var vm = this;
@@ -73,6 +73,8 @@ define(['angular', 'coreConstants', 'system'], function (ng, coreConstants, syst
         function onRamoItemClick(item){
             vm.ramos.filter(x => x.selected).forEach(x => x.selected = false);
             item.selected = true;
+
+            AdminRamoFactory.executeChangeRamos(item);
         }
 
     } // end controller
