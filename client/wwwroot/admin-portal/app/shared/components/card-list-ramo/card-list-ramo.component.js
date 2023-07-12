@@ -34,8 +34,7 @@ define(['angular', 'coreConstants', 'system'], function (ng, coreConstants, syst
         function onRamoItemClick(item){
 
             console.log(AdminRamoFactory.getSectionSelected());
-
-            vm.ramos.filter(x => x.selected).forEach(x => x.selected = false);
+            vm.ramos.filter(function (x) { return x.selected === true; }).forEach(function (x) { x.selected = false; });
             item.selected = true;
             AdminRamoFactory.executeChangeRamos(item)
         }

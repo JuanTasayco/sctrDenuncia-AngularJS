@@ -13,7 +13,7 @@ define(['angular', 'coreConstants', 'system'], function (ng, coreConstants, syst
         }
 
         function onSectionItemClick(item){
-            vm.sections.filter(x => x.selected).forEach(x => x.selected = false);
+            vm.sections.filter(function (x) { return x.selected === true; }).forEach(function (x) { x.selected = false; });
             item.selected = true;
             AdminRamoFactory.setSectionSelected(item);
         }
