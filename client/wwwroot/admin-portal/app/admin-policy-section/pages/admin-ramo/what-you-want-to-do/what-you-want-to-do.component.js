@@ -1,14 +1,14 @@
 'use strict';
 
-define(['angular', 'coreConstants','system'], function (ng, coreConstants, system) {
+define(['angular', 'coreConstants','system','lodash'], function (ng, coreConstants, system, _) {
     var folder = system.apps.ap.location;
     WhatYouWantToDoController.$inject = ['$scope', 'AdminRamoFactory', '$stateParams','$uibModal'];
     function WhatYouWantToDoController($scope, AdminRamoFactory, $stateParams,$uibModal) {
         var vm = this;
         vm.$onInit = onInit;
         vm.content = null;
-        vm.idProducto = null;
-        vm.section = 'FFB1218';
+        vm.ramo = null;
+        vm.section = null; ;
         vm.openModal = openModal;
         vm.form
 
@@ -20,15 +20,15 @@ define(['angular', 'coreConstants','system'], function (ng, coreConstants, syste
 
         function changeRamo(item) {
             vm.content = null;
-            console.log("changeRamo",item)
-            vm.idProducto = item.code
-            AdminRamoFactory.GetSectionListContent(vm.section,item.code).then(
+            vm.section = AdminRamoFactory.getSectionSelected();
+            vm.ramo = item
+            AdminRamoFactory.getSectionListContent(vm.section.code,item.code).then(
                 function(data){
                     vm.content = data;
+                    console.log("changeRamo",vm.content)
                 }
             )
         }
-
 
         function openModal() {
             $uibModal.open({

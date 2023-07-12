@@ -10,18 +10,21 @@ define(['angular', 'coreConstants', 'system'], function (ng, coreConstants, syst
         vm.fnCheckBox = fnCheckBox;
 
         function onInit() {
-            console.log("CardSectionHeaderController");
         }
 
         function fnCheckBox(item) {
-            console.log(item)
             var body = {
-                seccionId: vm.section,
+                seccionId: vm.section.code,
                 activo: item.activo
             }
-            AdminRamoFactory.UpdateStatusSection(vm.section,vm.idProducto,body).then(
+            AdminRamoFactory.updateStatusSection(vm.section.code,vm.ramo.code,body).then(
                 function( data ) {
-                    console.log(data)
+                    if(data.codigo === 1001){
+                        item.activo = !item.activo
+                    }
+                },
+                function(){
+                    item.activo = !item.activo
                 }
             )
         }
@@ -36,7 +39,7 @@ define(['angular', 'coreConstants', 'system'], function (ng, coreConstants, syst
             bindings: {
                 card : '=',
                 section: '=',
-                idProducto: '=',
+                ramo: '=',
             }
         });
 });

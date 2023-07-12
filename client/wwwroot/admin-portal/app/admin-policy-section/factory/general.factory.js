@@ -6,16 +6,18 @@ define(['angular', 'coreConstants', 'lodash', 'endpointsConstants'], function (
   _,
   endpointsConstants
 ) {
-  GeneralAdminRamoFactory.$inject = ['httpData', '$stateParams'];
-  function GeneralAdminRamoFactory(httpData, $stateParams) {
+  GeneralAdminRamoFactory.$inject = ['httpData', '$stateParams','CommonFactory'];
+  function GeneralAdminRamoFactory(httpData, $stateParams,CommonFactory) {
     var domain = endpointsConstants.default;
 
     return {
-      GetSectionListContent: GetSectionListContent,
-      UpdateStatusSection: UpdateStatusSection
+      getSectionListContent: getSectionListContent,
+      updateStatusSection: updateStatusSection,
+      updateCardSection: updateCardSection,
+      deleteCardSection: deleteCardSection
     };
 
-    function GetSectionListContent(codeApp, seccionId, idProducto, showSpin) {
+    function getSectionListContent(codeApp, seccionId, idProducto, showSpin) {
       return httpData
         .get(
           domain + 'api/v1/cms/areaPrivada/seccion/' + seccionId + '/contenido',
@@ -34,6 +36,7 @@ define(['angular', 'coreConstants', 'lodash', 'endpointsConstants'], function (
               active: p.activo,
               contentId: p.contenidoId,
               modificationDate: p.fechaModificacion,
+              modificationDateLabel: CommonFactory.getFormatDateLong(p.fechaModificacion),
               idProduct: p.idProducto,
               link: p.link,
               internalLink: p.linkInterno,
@@ -47,10 +50,46 @@ define(['angular', 'coreConstants', 'lodash', 'endpointsConstants'], function (
         });
     }
 
-    function UpdateStatusSection(codeApp, seccionId, idProducto, body, showSpin) {
+    function updateStatusSection(codeApp, seccionId, idProducto, body, showSpin) {
       return httpData
         .put(
           domain + 'api/v1/cms/areaPrivada/seccion/' + seccionId,
+          body,
+          {
+            params: _.assign({
+              codigoApp: codeApp,
+              idProducto: idProducto,
+            })
+          },
+          showSpin
+        )
+        .then(function (res) {
+          return _.assign(res);
+        });
+    }
+
+    function updateCardSection(codeApp, seccionId, idProducto, contenidoId, body, showSpin) {
+      return httpData
+        .put(
+          domain + 'api/v1/cms/areaPrivada/seccion/' + seccionId + '/contenido/'+contenidoId,
+          body,
+          {
+            params: _.assign({
+              codigoApp: codeApp,
+              idProducto: idProducto,
+            })
+          },
+          showSpin
+        )
+        .then(function (res) {
+          return _.assign(res);
+        });
+    }
+
+    function deleteCardSection(codeApp, seccionId, idProducto, contenidoId, showSpin) {
+      return httpData
+        .delete(
+          domain + 'api/v1/cms/areaPrivada/seccion/' + seccionId + '/contenido/'+contenidoId,
           body,
           {
             params: _.assign({

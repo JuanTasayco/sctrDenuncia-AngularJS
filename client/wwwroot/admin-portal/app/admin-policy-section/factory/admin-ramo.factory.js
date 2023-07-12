@@ -15,26 +15,31 @@ define(['angular', 'coreConstants', 'lodash', 'endpointsConstants'], function (
 
         return {
             GetSection: GetSection,
-            GetSectionListContent: GetSectionListContent,
+            getSectionListContent: getSectionListContent,
             executeChangeRamos : executeChangeRamos,
-            UpdateStatusSection : UpdateStatusSection,
+            updateStatusSection : updateStatusSection,
             setSectionSelected : setSectionSelected,
             getSectionSelected : getSectionSelected,
             subsChangeRamo : subsChangeRamo,
             emitComponentsReady : emitComponentsReady,
-            subsComponentsReady : subsComponentsReady
+            subsComponentsReady : subsComponentsReady,
+            updateCardSection: updateCardSection
         };
 
         function GetSection(showSpin) {
             return CommonFactory.GetSection(coreConstants.codigoAppMassAdm,209, showSpin);
         }
 
-        function GetSectionListContent(seccionId, idProducto) {
-            return GeneralAdminRamoFactory.GetSectionListContent(coreConstants.codigoAppMassAdm, seccionId, idProducto, true);
+        function getSectionListContent(seccionId, idProducto) {
+            return GeneralAdminRamoFactory.getSectionListContent(coreConstants.codigoAppMassAdm, seccionId, idProducto, true);
         }
 
-        function UpdateStatusSection(seccionId, idProducto, body) {
-            return GeneralAdminRamoFactory.UpdateStatusSection(coreConstants.codigoAppMassAdm, seccionId, idProducto, body ,true);
+        function updateStatusSection(seccionId, idProducto, body) {
+            return GeneralAdminRamoFactory.updateStatusSection(coreConstants.codigoAppMassAdm, seccionId, idProducto, body ,true);
+        }
+
+        function updateCardSection(seccionId, idProducto, contenidoId, body) {
+            return GeneralAdminRamoFactory.updateCardSection(coreConstants.codigoAppMassAdm, seccionId, idProducto, contenidoId , body ,true);
         }
 
         function setSectionSelected(item){

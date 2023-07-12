@@ -10,6 +10,7 @@ define(['angular', 'coreConstants', 'system'], function (ng, coreConstants, syst
 
         function onInit() {
             vm.sections = vm.items
+            vm.onSectionItemClick(vm.sections[0]);
         }
 
         function onSectionItemClick(item){
