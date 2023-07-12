@@ -17,7 +17,7 @@ define(['angular', 'coreConstants', 'system'], function (ng, coreConstants, syst
         function onInit() {
             vm.ramos = vm.items;
             AdminRamoFactory.subsComponentsReady(function (){ 
-            vm.onRamoItemClick(vm.ramos[0]);
+                vm.onRamoItemClick(vm.ramos[0]); 
             });
         }
         

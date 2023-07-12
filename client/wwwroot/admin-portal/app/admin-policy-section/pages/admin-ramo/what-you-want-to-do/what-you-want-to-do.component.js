@@ -15,7 +15,12 @@ define(['angular', 'coreConstants','system'], function (ng, coreConstants, syste
         function onInit() {
             console.log("WhatYouWantToDoController");
             AdminRamoFactory.subsChangeRamo(changeRamo);
+            AdminRamoFactory.subsClickSectionAdd(onClickSectionAdd)
             AdminRamoFactory.emitComponentsReady();
+        }
+
+        function onClickSectionAdd(item) {
+            console.log(item)
         }
 
         function changeRamo(item) {

@@ -8,9 +8,14 @@ define(['angular', 'coreConstants', 'system'], function (ng, coreConstants, syst
         vm.$onInit = onInit;
         vm.card;
         vm.fnCheckBox = fnCheckBox;
+        vm.onSectionAddclick = onSectionAddclick;
 
         function onInit() {
             console.log("CardSectionHeaderController");
+        }
+
+        function onSectionAddclick(){
+            AdminRamoFactory.emitClickSectionAdd({ aaa : 'eee' });
         }
 
         function fnCheckBox(item) {
