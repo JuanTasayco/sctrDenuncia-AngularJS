@@ -2,8 +2,8 @@
 
 define(['angular', 'coreConstants', 'system'], function (ng, coreConstants, system) {
     var folder = system.apps.ap.location;
-    CardListRamoController.$inject = ['$stateParams','AdminRamoFactory'];
-    function CardListRamoController($stateParams,AdminRamoFactory) {
+    CardListRamoController.$inject = ['$stateParams', 'AdminRamoFactory'];
+    function CardListRamoController($stateParams, AdminRamoFactory) {
 
         var divListRamoScrollIncrement = 66;
         var vm = this;
