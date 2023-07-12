@@ -2,8 +2,8 @@
 
 define(['angular', 'coreConstants', 'system'], function (ng, coreConstants, system) {
     var folder = system.apps.ap.location;
-    CardSectionController.$inject = ['$stateParams'];
-    function CardSectionController($stateParams) {
+    CardSectionController.$inject = ['$stateParams','AdminRamoFactory'];
+    function CardSectionController($stateParams, AdminRamoFactory) {
         var vm = this;
         vm.$onInit = onInit;
         vm.onSectionItemClick = onSectionItemClick;
@@ -15,6 +15,7 @@ define(['angular', 'coreConstants', 'system'], function (ng, coreConstants, syst
         function onSectionItemClick(item){
             vm.sections.filter(x => x.selected).forEach(x => x.selected = false);
             item.selected = true;
+            AdminRamoFactory.setSectionSelected(item);
         }
 
     }

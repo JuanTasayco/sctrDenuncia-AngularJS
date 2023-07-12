@@ -16,19 +16,25 @@ define(['angular', 'coreConstants', 'system'], function (ng, coreConstants, syst
 
         function onInit() {
             vm.ramos = vm.items;
+            AdminRamoFactory.subsComponentsReady(function (){ 
             vm.onRamoItemClick(vm.ramos[0]);
+            });
         }
         
         function onPrevius() {
             var divListRamos = document.getElementById("divListRamos");
             divListRamos.scrollLeft = divListRamos.scrollLeft - divListRamoScrollIncrement;
         }
+
         function onNext() {
             var divListRamos = document.getElementById("divListRamos");
             divListRamos.scrollLeft = divListRamos.scrollLeft + divListRamoScrollIncrement;
         }
 
         function onRamoItemClick(item){
+
+            console.log(AdminRamoFactory.getSectionSelected());
+
             vm.ramos.filter(x => x.selected).forEach(x => x.selected = false);
             item.selected = true;
             AdminRamoFactory.executeChangeRamos(item)

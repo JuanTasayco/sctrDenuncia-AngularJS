@@ -10,13 +10,19 @@ define(['angular', 'coreConstants', 'lodash', 'endpointsConstants'], function (
     function AdminRamoFactory(httpData, $stateParams,CommonFactory, GeneralAdminRamoFactory) {
         var domain = endpointsConstants.default;
         var listSubsChangeRamo = [];
+        var listComponentsReady = [];
+        var itemSectionSelected = null;
 
         return {
             GetSection: GetSection,
             GetSectionListContent: GetSectionListContent,
             executeChangeRamos : executeChangeRamos,
             UpdateStatusSection : UpdateStatusSection,
+            setSectionSelected : setSectionSelected,
+            getSectionSelected : getSectionSelected,
             subsChangeRamo : subsChangeRamo,
+            emitComponentsReady : emitComponentsReady,
+            subsComponentsReady : subsComponentsReady
         };
 
         function GetSection(showSpin) {
@@ -29,6 +35,24 @@ define(['angular', 'coreConstants', 'lodash', 'endpointsConstants'], function (
 
         function UpdateStatusSection(seccionId, idProducto, body) {
             return GeneralAdminRamoFactory.UpdateStatusSection(coreConstants.codigoAppMassAdm, seccionId, idProducto, body ,true);
+        }
+
+        function setSectionSelected(item){
+            itemSectionSelected = item;
+        }
+
+        function getSectionSelected(){
+            return itemSectionSelected;
+        }
+
+        function emitComponentsReady(){
+            for (let index = 0; index < listComponentsReady.length; index++) {
+                listComponentsReady[index]();
+            }
+        }
+
+        function subsComponentsReady(fn){
+            listComponentsReady.push(fn);
         }
 
         function subsChangeRamo(fn){
