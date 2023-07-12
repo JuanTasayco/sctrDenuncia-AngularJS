@@ -8,6 +8,7 @@ define([], function() {
     codigoAppCemetery: 'CPS',
     ngMainModule: 'appAP',
     ngAdminRamoModule: 'appAP.AdminRamoFactory',
+    ngGeneralAdminRamoModule: 'appAP.GeneralAdminRamoFactory',
     ngCarouselTrayModule: 'appAP.CarouselTrayFactory',
     ngBannerRecordsModule: 'appAP.BannerRecordsFactory',
     ngCarouselModificationModule: 'appAP.CarouselModificationFactory',

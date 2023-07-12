@@ -111,14 +111,20 @@ define(['system', 'coreConstants'], function(system, coreConstants) {
           templateUrl: folder + '/app/admin-policy-section/pages/admin-ramo/admin-ramo.component.html'
         }
       },
-      // resolve: {
-      //   products: [
-      //     'SecurityFactory',
-      //     function(SecurityFactory) {
-      //       return SecurityFactory.getProductsOfCarousel().then(SecurityFactory.mapProducts);
-      //     }
-      //   ]
-      // },
+      resolve: {
+        ramo: [
+          'SecurityFactory',
+          function(SecurityFactory) {
+            return SecurityFactory.getProductsOfAdminPolicy().then(SecurityFactory.mapRamo);
+          }
+        ],
+        sections: [
+          "AdminRamoFactory",
+          function(AdminRamoFactory) {
+            return AdminRamoFactory.GetSection(true);
+          }
+        ]
+      },
       resolver: [
         {
           name: 'adminPolicySection',

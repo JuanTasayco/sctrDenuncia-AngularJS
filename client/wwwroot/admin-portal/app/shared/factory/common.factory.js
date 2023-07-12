@@ -12,7 +12,8 @@ define([
     var domain = endpointsConstants.default;
 
     return {
-      GetDocumentType: GetDocumentType
+      GetDocumentType: GetDocumentType,
+      GetSection: GetSection
     };
 
     function GetDocumentType(codeApp, showSpin) {
@@ -29,6 +30,28 @@ define([
         )
         .then(function(res) {
           return _.assign(res, {success: res.codigo === coreConstants.api.successfulCode});
+        });
+    }
+
+
+    function GetSection(codeApp, idSection, showSpin) {
+      return httpData
+        .get(
+          domain + 'api/v1/cms/areaPrivada/secciones/grupoSeccion/'+ idSection,
+          {
+              params: _.assign({
+                  codigoApp: codeApp
+              })
+          },
+          undefined,
+          showSpin
+        )
+        .then(function(res) {
+          var array = _.map(res, function(p, indice) {
+            return { name: p.descripcion, code: p.seccionId , url: p.ruta , selected : !indice};
+          })
+
+          return _.assign(array);
         });
     }
   }

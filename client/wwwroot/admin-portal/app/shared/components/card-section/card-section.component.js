@@ -8,21 +8,8 @@ define(['angular', 'coreConstants', 'system'], function (ng, coreConstants, syst
         vm.$onInit = onInit;
         vm.onSectionItemClick = onSectionItemClick;
 
-        vm.sections = [
-            {
-                name:'¿Que quieres hacer?',
-                selected: true,
-                url:'adminPolicySection.WhatYouWantToDo'
-            },
-            {
-                name:'Seguro por ramos',
-                selected: false,
-                url:''
-            }
-        ];
-
         function onInit() {
-            console.log("CardSectionController");
+            vm.sections = vm.items
         }
 
         function onSectionItemClick(item){
@@ -38,6 +25,7 @@ define(['angular', 'coreConstants', 'system'], function (ng, coreConstants, syst
             templateUrl: folder + '/app/shared/components/card-section/card-section.component.html',            
             controller: 'CardSectionController',
             bindings: {
+                items: '='
             }
         });
 });

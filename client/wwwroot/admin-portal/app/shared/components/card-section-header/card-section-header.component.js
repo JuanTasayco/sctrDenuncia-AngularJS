@@ -2,12 +2,28 @@
 
 define(['angular', 'coreConstants', 'system'], function (ng, coreConstants, system) {
     var folder = system.apps.ap.location;
-    CardSectionHeaderController.$inject = ['$stateParams'];
-    function CardSectionHeaderController($stateParams) {
+    CardSectionHeaderController.$inject = ['$stateParams','AdminRamoFactory'];
+    function CardSectionHeaderController($stateParams,AdminRamoFactory) {
         var vm = this;
         vm.$onInit = onInit;
+        vm.card;
+        vm.fnCheckBox = fnCheckBox;
+
         function onInit() {
             console.log("CardSectionHeaderController");
+        }
+
+        function fnCheckBox(item) {
+            console.log(item)
+            var body = {
+                seccionId: vm.section,
+                activo: item.activo
+            }
+            AdminRamoFactory.UpdateStatusSection(vm.section,vm.idProducto,body).then(
+                function( data ) {
+                    console.log(data)
+                }
+            )
         }
 
     } // end controller
@@ -18,6 +34,9 @@ define(['angular', 'coreConstants', 'system'], function (ng, coreConstants, syst
             templateUrl: folder + '/app/shared/components/card-section-header/card-section-header.component.html',            
             controller: 'CardSectionHeaderController',
             bindings: {
+                card : '=',
+                section: '=',
+                idProducto: '=',
             }
         });
 });

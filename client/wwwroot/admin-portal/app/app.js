@@ -12,6 +12,7 @@ define([
   'angular_route',
   'angular_ui_route',
   'AdminRamoFactory',
+  'GeneralAdminRamoFactory',
   'CarouselTrayFactory',
   'BannerRecordsFactory',
   'CarouselModificationFactory',
@@ -86,6 +87,7 @@ define([
   return ng
     .module(coreConstants.ngMainModule, [
       coreConstants.ngAdminRamoModule,
+      coreConstants.ngGeneralAdminRamoModule,
       coreConstants.ngCarouselTrayModule,
       coreConstants.ngBannerRecordsModule,
       coreConstants.ngCarouselModificationModule,

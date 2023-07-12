@@ -77,6 +77,10 @@ define(['system'], function(system) {
         name: 'AdminRamoFactory',
         path: folder + '/app/admin-policy-section/factory/admin-ramo.factory'
       },
+      GeneralAdminRamoFactory: {
+        name: 'GeneralAdminRamoFactory',
+        path: folder + '/app/admin-policy-section/factory/general.factory'
+      },
       CarouselTrayFactory: {
         name: 'CarouselTrayFactory',
         path: folder + '/app/carousel-tray/factory/carousel-tray.factory'

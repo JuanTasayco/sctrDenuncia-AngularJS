@@ -1,14 +1,14 @@
 'use strict';
 
 define(['angular', 'coreConstants'], function (ng, coreConstants) {
-    AdminRamoComponent.$inject = ['AdminRamoFactory', '$stateParams'];
-    function AdminRamoComponent(AdminRamoFactory, $stateParams) {
+    AdminRamoComponent.$inject = ['AdminRamoFactory', '$stateParams','ramo','sections'];
+    function AdminRamoComponent(AdminRamoFactory, $stateParams,ramo,sections) {
         var vm = this;
         vm.$onInit = onInit;
-        console.log("Init");
-
+        
         function onInit() {
-            console.log("Init");
+            vm.ramos = ramo
+            vm.sections = sections
         }
 
     } // end controller
