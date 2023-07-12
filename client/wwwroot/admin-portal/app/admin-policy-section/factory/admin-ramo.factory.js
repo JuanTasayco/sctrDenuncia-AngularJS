@@ -11,6 +11,7 @@ define(['angular', 'coreConstants', 'lodash', 'endpointsConstants'], function (
         var domain = endpointsConstants.default;
         var listSubsChangeRamo = [];
         var listComponentsReady = [];
+        var listSubsClickSectionAdd = [];
         var itemSectionSelected = null;
 
         return {
@@ -20,6 +21,8 @@ define(['angular', 'coreConstants', 'lodash', 'endpointsConstants'], function (
             updateStatusSection : updateStatusSection,
             setSectionSelected : setSectionSelected,
             getSectionSelected : getSectionSelected,
+            emitClickSectionAdd : emitClickSectionAdd,
+            subsClickSectionAdd : subsClickSectionAdd,
             subsChangeRamo : subsChangeRamo,
             emitComponentsReady : emitComponentsReady,
             subsComponentsReady : subsComponentsReady,
@@ -48,6 +51,16 @@ define(['angular', 'coreConstants', 'lodash', 'endpointsConstants'], function (
 
         function getSectionSelected(){
             return itemSectionSelected;
+        }
+
+        function emitClickSectionAdd(item){
+            for (let index = 0; index < listSubsClickSectionAdd.length; index++) {
+                listSubsClickSectionAdd[index](item);
+            }
+        }
+
+        function subsClickSectionAdd(fn){
+            listSubsClickSectionAdd.push(fn);
         }
 
         function emitComponentsReady(){
