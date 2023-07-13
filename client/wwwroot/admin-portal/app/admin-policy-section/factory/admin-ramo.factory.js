@@ -12,6 +12,8 @@ define(['angular', 'coreConstants', 'lodash', 'endpointsConstants'], function (
         var listSubsChangeRamo = [];
         var listComponentsReady = [];
         var listSubsClickSectionAdd = [];
+        var listSubsClickSectionRemove = [];
+        var listSubsClickSectionOrder = [];
         var itemSectionSelected = null;
 
         return {
@@ -23,10 +25,16 @@ define(['angular', 'coreConstants', 'lodash', 'endpointsConstants'], function (
             getSectionSelected : getSectionSelected,
             emitClickSectionAdd : emitClickSectionAdd,
             subsClickSectionAdd : subsClickSectionAdd,
+            emitClickSectionRemove : emitClickSectionRemove,
+            subsClickSectionRemove : subsClickSectionRemove,
+            emitClickSectionOrder : emitClickSectionOrder,
+            subsClickSectionOrder : subsClickSectionOrder,
             subsChangeRamo : subsChangeRamo,
             emitComponentsReady : emitComponentsReady,
             subsComponentsReady : subsComponentsReady,
-            updateCardSection: updateCardSection
+            updateCardSection: updateCardSection,
+            saveCardSection: saveCardSection,
+            deleteCardSection: deleteCardSection,
         };
 
         function GetSection(showSpin) {
@@ -45,6 +53,14 @@ define(['angular', 'coreConstants', 'lodash', 'endpointsConstants'], function (
             return GeneralAdminRamoFactory.updateCardSection(coreConstants.codigoAppMassAdm, seccionId, idProducto, contenidoId , body ,true);
         }
 
+        function deleteCardSection(seccionId, idProducto, contenidoId) {
+            return GeneralAdminRamoFactory.deleteCardSection(coreConstants.codigoAppMassAdm, seccionId, idProducto, contenidoId  ,true);
+        }
+
+        function saveCardSection(seccionId, idProducto, body) {
+            return GeneralAdminRamoFactory.saveCardSection(coreConstants.codigoAppMassAdm, seccionId, idProducto , body ,true);
+        }
+
         function setSectionSelected(item){
             itemSectionSelected = item;
         }
@@ -61,6 +77,26 @@ define(['angular', 'coreConstants', 'lodash', 'endpointsConstants'], function (
 
         function subsClickSectionAdd(fn){
             listSubsClickSectionAdd.push(fn);
+        }
+
+        function emitClickSectionRemove(item){
+            for (let index = 0; index < listSubsClickSectionRemove.length; index++) {
+                listSubsClickSectionRemove[index](item);
+            }
+        }
+
+        function subsClickSectionRemove(fn){
+            listSubsClickSectionRemove.push(fn);
+        }
+
+        function emitClickSectionOrder(item){
+            for (let index = 0; index < listSubsClickSectionOrder.length; index++) {
+                listSubsClickSectionOrder[index](item);
+            }
+        }
+
+        function subsClickSectionOrder(fn){
+            listSubsClickSectionOrder.push(fn);
         }
 
         function emitComponentsReady(){

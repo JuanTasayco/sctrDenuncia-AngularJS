@@ -14,6 +14,7 @@ define(['angular', 'coreConstants', 'lodash', 'endpointsConstants'], function (
       getSectionListContent: getSectionListContent,
       updateStatusSection: updateStatusSection,
       updateCardSection: updateCardSection,
+      saveCardSection: saveCardSection,
       deleteCardSection: deleteCardSection
     };
 
@@ -31,7 +32,7 @@ define(['angular', 'coreConstants', 'lodash', 'endpointsConstants'], function (
           showSpin
         )
         .then(function (res) {
-          res.contenido = _.map(res.contenido, function (p) {
+          res.contenido = _.map(res.contenido, function (p, indice) {
             return {
               active: p.activo,
               contentId: p.contenidoId,
@@ -42,7 +43,9 @@ define(['angular', 'coreConstants', 'lodash', 'endpointsConstants'], function (
               internalLink: p.linkInterno,
               order: p.orden,
               title: p.titulo,
-              lastModification: p.ultimaModificacion
+              lastModification: p.ultimaModificacion,
+              orderUp: indice === 0 ? false: true,
+              orderDown: indice === (res.contenido.length-1) ? false: true,
             };
           })
 
@@ -86,10 +89,10 @@ define(['angular', 'coreConstants', 'lodash', 'endpointsConstants'], function (
         });
     }
 
-    function deleteCardSection(codeApp, seccionId, idProducto, contenidoId, showSpin) {
+    function saveCardSection(codeApp, seccionId, idProducto, body, showSpin) {
       return httpData
-        .delete(
-          domain + 'api/v1/cms/areaPrivada/seccion/' + seccionId + '/contenido/'+contenidoId,
+        .post(
+          domain + 'api/v1/cms/areaPrivada/seccion/' + seccionId + '/contenido/',
           body,
           {
             params: _.assign({
@@ -97,6 +100,24 @@ define(['angular', 'coreConstants', 'lodash', 'endpointsConstants'], function (
               idProducto: idProducto,
             })
           },
+          showSpin
+        )
+        .then(function (res) {
+          return _.assign(res);
+        });
+    }
+
+    function deleteCardSection(codeApp, seccionId, idProducto, contenidoId, showSpin) {
+      return httpData
+        .delete(
+          domain + 'api/v1/cms/areaPrivada/seccion/' + seccionId + '/contenido/'+contenidoId,
+          {
+            params: _.assign({
+              codigoApp: codeApp,
+              idProducto: idProducto,
+            })
+          },
+          undefined,
           showSpin
         )
         .then(function (res) {

@@ -14,7 +14,7 @@ define(['angular', 'coreConstants', 'system'], function (ng, coreConstants, syst
         }
 
         function onSectionAddclick(){
-            AdminRamoFactory.emitClickSectionAdd({ aaa : 'eee' });
+            AdminRamoFactory.emitClickSectionAdd({ isNew : true , section: vm.section , ramo: vm.ramo });
         }
 
         function fnCheckBox(item) {

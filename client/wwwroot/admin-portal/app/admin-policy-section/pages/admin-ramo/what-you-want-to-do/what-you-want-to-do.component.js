@@ -1,41 +1,69 @@
 'use strict';
 
-define(['angular', 'coreConstants','system','lodash'], function (ng, coreConstants, system, _) {
+define(['angular', 'coreConstants', 'system', 'lodash'], function (ng, coreConstants, system, _) {
     var folder = system.apps.ap.location;
-    WhatYouWantToDoController.$inject = ['$scope', 'AdminRamoFactory', '$stateParams','$uibModal'];
-    function WhatYouWantToDoController($scope, AdminRamoFactory, $stateParams,$uibModal) {
+    WhatYouWantToDoController.$inject = ['$scope', 'AdminRamoFactory', '$stateParams', '$uibModal', 'mModalConfirm', 'mModalAlert'];
+    function WhatYouWantToDoController($scope, AdminRamoFactory, $stateParams, $uibModal, mModalConfirm, mModalAlert) {
         var vm = this;
         vm.$onInit = onInit;
         vm.content = null;
         vm.ramo = null;
-        vm.section = null; ;
+        vm.section = null;;
         vm.openModal = openModal;
-        vm.form
+        vm.form = {}
 
         function onInit() {
-            console.log("WhatYouWantToDoController");
             AdminRamoFactory.subsChangeRamo(changeRamo);
-            AdminRamoFactory.subsClickSectionAdd(onClickSectionAdd)
+            AdminRamoFactory.subsClickSectionAdd(onClickSectionAdd);
+            AdminRamoFactory.subsClickSectionRemove(onClickSectionRemove);
+            AdminRamoFactory.subsClickSectionOrder(onClickSectionOrder);
             AdminRamoFactory.emitComponentsReady();
         }
 
-        function onClickSectionAdd(item) {
-            console.log(item)
+        function onClickSectionRemove(data) {
+            mModalConfirm.confirmInfo(
+                null,
+                '¿Estás seguro de eliminar la etiqueta?',
+                'SI').then(function (response) {
+                    if (response) {
+                        AdminRamoFactory.deleteCardSection(vm.section.code, vm.ramo.code, data.item.contentId).then(
+                            function () {
+                                changeRamo(vm.ramo)
+                            }
+                        ).catch(function (error) {
+                            mModalAlert
+                                .showError('Ocurrió un error al eliminar', 'ERROR');
+                        })
+                    }
+                }).catch(function (error) { });;
+
         }
 
-        function changeRamo(item) {
-            vm.content = null;
-            vm.section = AdminRamoFactory.getSectionSelected();
-            vm.ramo = item
-            AdminRamoFactory.getSectionListContent(vm.section.code,item.code).then(
-                function(data){
-                    vm.content = data;
-                    console.log("changeRamo",vm.content)
+        function onClickSectionOrder(data) {
+            var body = {
+                "orden": data.next ? (data.item.order - 1) : (data.item.order + 1),
+                "accion": "ORDER"
+            }
+
+            AdminRamoFactory.updateCardSection(vm.section.code, vm.ramo.code, data.item.contentId, body).then(
+                function (data) {
+                    changeRamo(vm.ramo)
                 }
             )
         }
 
-        function openModal() {
+        function onClickSectionAdd(data) {
+            if (!data.isNew) {
+                vm.form.title = data.item.title;
+                vm.form.url = data.item.link;
+                vm.form.check = !data.item.internalLink;
+                vm.form.contentId = data.item.contentId;
+                vm.form.active = data.item.active;
+                vm.form.order = data.item.order;
+            } else {
+                vm.form = {}
+            }
+
             $uibModal.open({
                 backdrop: true, // background de fondo
                 backdropClick: true,
@@ -50,16 +78,72 @@ define(['angular', 'coreConstants','system','lodash'], function (ng, coreConstan
                         $uibModalInstance.close();
                     };
 
-
                     $scope.save = function () {
-                        console.log("entro al save",$scope.frmLabel)
                         if (!$scope.frmLabel.$valid) {
                             $scope.frmLabel.markAsPristine();
                             return;
                         }
+                        mModalConfirm.confirmInfo(
+                            null,
+                            '¿Estás seguro de '+ (data.isNew ? 'guardar' : 'modificar') +' la etiqueta?',
+                            'SI').then(function (response) {
+                                if (response) {
+                                    data.isNew ? saveCard(vm.form, $uibModalInstance) : updateCard(vm.form, $uibModalInstance)
+                                }
+                            }).catch(function (error) { });;
                     };
                 }]
             });
+        }
+
+        function updateCard(form, uibModalInstance) {
+            
+            var body = {
+                "titulo": form.title,
+                "link": form.url,
+                "linkInterno": !form.check,
+                "activo": form.active,
+                "orden": form.order,
+                "accion": "UPDATE"
+            }
+
+            AdminRamoFactory.updateCardSection(vm.section.code, vm.ramo.code, vm.form.contentId, body).then(
+                function (data) {
+                    uibModalInstance.close()
+                    changeRamo(vm.ramo)
+                }
+            )
+        }
+
+        function saveCard(form, uibModalInstance) {
+            var body = {
+                "titulo": form.title,
+                "link": form.url,
+                "linkInterno": !form.check,
+                "activo": false
+            }
+
+            AdminRamoFactory.saveCardSection(vm.section.code, vm.ramo.code, body).then(
+                function (data) {
+                    uibModalInstance.close()
+                    changeRamo(vm.ramo)
+                }
+            )
+        }
+
+        function changeRamo(item) {
+            vm.content = null;
+            vm.section = AdminRamoFactory.getSectionSelected();
+            vm.ramo = item
+            AdminRamoFactory.getSectionListContent(vm.section.code, item.code).then(
+                function (data) {
+                    vm.content = data;
+                }
+            )
+        }
+
+        function openModal() {
+
         }
 
     } // end controller
@@ -71,5 +155,5 @@ define(['angular', 'coreConstants','system','lodash'], function (ng, coreConstan
             controller: 'WhatYouWantToDoController',
             bindings: {
             }
-          });;
+        });;
 });

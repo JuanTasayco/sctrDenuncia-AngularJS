@@ -7,12 +7,28 @@ define(['angular', 'coreConstants', 'system'], function (ng, coreConstants, syst
         var vm = this;
         vm.$onInit = onInit;
         vm.fnCheckBox = fnCheckBox;
+        vm.onSectionAddclick = onSectionAddclick;
+        vm.onSectionRemoveclick = onSectionRemoveclick;
+        vm.onSectionOrderclick = onSectionOrderclick;
 
         function onInit() {
         }
 
+        function onSectionAddclick(){
+            AdminRamoFactory.emitClickSectionAdd({ isNew : false , section: vm.section , ramo: vm.ramo, item: vm.card });
+        }
+
+        function onSectionRemoveclick(){
+            AdminRamoFactory.emitClickSectionRemove({section: vm.section , ramo: vm.ramo, item: vm.card });
+        }
+
+        function onSectionOrderclick(next){
+            if((next && vm.card.orderUp) || (!next && vm.card.orderDown)){
+                AdminRamoFactory.emitClickSectionOrder({section: vm.section , ramo: vm.ramo, item: vm.card, next: next });
+            }
+        }
+
         function fnCheckBox(item) {
-            console.log(item)
             var body = {
                 accion: "ACTIVE",
                 activo: item.active
