@@ -65,7 +65,7 @@ define([
                     validateMaximaDuracionCar();
                   }
                   if (!$scope.estadoValidate) {
-                    validateFechaDesdeTEE();
+                    validateFechaDesdeCAL();
                   }
                 }, 200);
 
@@ -255,6 +255,17 @@ define([
     function validateFechaDesdeTEE() {
       var fDesde = $scope.cotizacionResumen.FechaDesde || $scope.cotizacionResumen.DuracionDesde
       riesgosGeneralesService.validacionFecha(riesgosGeneralesFactory.FormatearFechaMes(fDesde)).then(function (response) {
+        if (!$scope.estadoValidate) {
+          if (!response.Data) {
+            $scope.estadoValidate = true;
+            $scope.maximosValidate = true;
+          }
+        }
+      });
+    }
+    function validateFechaDesdeCAL() {
+      var fDesde = $scope.cotizacionResumen.FechaDesde || $scope.cotizacionResumen.DuracionDesde
+      riesgosGeneralesService.validacionFecha(riesgosGeneralesFactory.FormatearFechaMes(fDesde), $scope.cotizacion.IdProducto).then(function (response) {
         if (!$scope.estadoValidate) {
           if (!response.Data) {
             $scope.estadoValidate = true;
