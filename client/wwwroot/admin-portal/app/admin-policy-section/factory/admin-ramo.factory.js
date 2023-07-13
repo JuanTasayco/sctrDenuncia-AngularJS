@@ -70,7 +70,7 @@ define(['angular', 'coreConstants', 'lodash', 'endpointsConstants'], function (
         }
 
         function emitClickSectionAdd(item){
-            for (let index = 0; index < listSubsClickSectionAdd.length; index++) {
+            for (var index = 0; index < listSubsClickSectionAdd.length; index++) {
                 listSubsClickSectionAdd[index](item);
             }
         }
@@ -80,7 +80,7 @@ define(['angular', 'coreConstants', 'lodash', 'endpointsConstants'], function (
         }
 
         function emitClickSectionRemove(item){
-            for (let index = 0; index < listSubsClickSectionRemove.length; index++) {
+            for (var index = 0; index < listSubsClickSectionRemove.length; index++) {
                 listSubsClickSectionRemove[index](item);
             }
         }
@@ -90,7 +90,7 @@ define(['angular', 'coreConstants', 'lodash', 'endpointsConstants'], function (
         }
 
         function emitClickSectionOrder(item){
-            for (let index = 0; index < listSubsClickSectionOrder.length; index++) {
+            for (var index = 0; index < listSubsClickSectionOrder.length; index++) {
                 listSubsClickSectionOrder[index](item);
             }
         }
@@ -100,7 +100,7 @@ define(['angular', 'coreConstants', 'lodash', 'endpointsConstants'], function (
         }
 
         function emitComponentsReady(){
-            for (let index = 0; index < listComponentsReady.length; index++) {
+            for (var index = 0; index < listComponentsReady.length; index++) {
                 listComponentsReady[index]();
             }
         }
@@ -114,7 +114,7 @@ define(['angular', 'coreConstants', 'lodash', 'endpointsConstants'], function (
         }
 
         function executeChangeRamos(item){
-            for (let index = 0; index < listSubsChangeRamo.length; index++) {
+            for (var index = 0; index < listSubsChangeRamo.length; index++) {
                 listSubsChangeRamo[index](item);
             }
         }
