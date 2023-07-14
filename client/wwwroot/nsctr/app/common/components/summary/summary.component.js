@@ -108,7 +108,6 @@ define([
               fileList    : _self.data.summary.listFiles
             }
           ],
-          listPolicy : _self.data.summary.listPolicy,
           codAgt : _self.profile.codagent
         };
         return vParams;
@@ -146,14 +145,14 @@ define([
           mainServices.fnDownloadFileBase64(response.data, "pdf",'Contancia_' + _self.STATE_PARAMS.idProof, false);
         })
       }
-      _self.fnDescargarPoliza = function(){
+      _self.fnDescargarPoliza = function(item){
         _self.ParamDescargaPoliza = {
           codAgt : _self.profile.codagent,
-          codCia : _self.data.summary.listPolicy[0].ciaId,
-          numApli : _self.data.summary.listPolicy[0].applicationNumber,
-          numPoliza : _self.data.summary.listPolicy[0].policyNumber,
-          numSpto : _self.data.summary.listPolicy[0].sptoNumber,
-          numSptoApli : _self.data.summary.listPolicy[0].sptoApliNumber,
+          codCia : item.ciaId,
+          numApli : item.applicationNumber,
+          numPoliza : item.policyNumber,
+          numSpto : item.sptoNumber,
+          numSptoApli : item.sptoApliNumber,
           tipoImpresion: 'S'
         };
         nsctrFactory.common.proxyPolicy.Download(_self.ParamDescargaPoliza,true).then(function (response) {

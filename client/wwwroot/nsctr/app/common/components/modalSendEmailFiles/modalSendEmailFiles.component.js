@@ -57,15 +57,6 @@ define([
 							elem.fileList[key].contancyNumber = _self.mainData.constancyNumber;
 						}
 
-						angular.forEach(elem.fileList, function(elemFile, keyFile){
-							if(elemFile.description == 'Poliza'){
-								elemFile.ciaId = _self.data.paramsSendEmail.listPolicy[0].ciaId;
-								elemFile.sptoNumber = _self.data.paramsSendEmail.listPolicy[0].sptoNumber;
-								elemFile.aplicationNumber = _self.data.paramsSendEmail.listPolicy[0].applicationNumber;
-								elemFile.sptoApliNumber = _self.data.paramsSendEmail.listPolicy[0].sptoApliNumber;
-							}
-						});
-
 						vFileDocument = vFileDocument.concat(elem.fileList);
 					});
 					return vFileDocument;
