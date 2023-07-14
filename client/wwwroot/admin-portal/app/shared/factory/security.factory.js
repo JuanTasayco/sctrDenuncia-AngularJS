@@ -39,7 +39,7 @@ define(['angular', 'lodash', 'coreConstants', 'homeConstants', 'productsConstant
 
     function mapRamo(obj) {
       return _.map(obj.items, function(p) {
-        return { icon :p.iconObjMx , name: p.nombreLargo, code: p.nombreCorto , url: p.ruta , selected : false};
+        return { icon :p.iconObjMx , name: p.nombreLargo, code: p.nombreCorto , url: '/images/ico-ramos/' + p.ruta, selected : false};
       });
     }
 
