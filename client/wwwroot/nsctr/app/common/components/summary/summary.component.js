@@ -150,13 +150,13 @@ define([
           codAgt : _self.profile.codagent,
           codCia : item.ciaId,
           numApli : item.applicationNumber,
-          numPoliza : item.policyNumber,
+          numPoliza : item.number,
           numSpto : item.sptoNumber,
           numSptoApli : item.sptoApliNumber,
           tipoImpresion: 'S'
         };
         nsctrFactory.common.proxyPolicy.Download(_self.ParamDescargaPoliza,true).then(function (response) {
-          if (response.data.documento != ''){
+          if (response.data.documento != null){
             mainServices.fnDownloadFileBase64(response.data.documento, "pdf",'Poliza_' + _self.ParamDescargaPoliza.numPoliza, false);
           }else{
             mModalAlert.showError(response.data.descError, 'ERROR');
