@@ -117,6 +117,7 @@ define(['angular', 'constants', 'constantsPericial', 'mocksPericial', 'helper', 
           }
           //menu
 
+          saveTracker(isTaller());
 
           vm.dataSiniestro.idRegisterType = vm.siniestro.idRegisterType;
           vm.dataSiniestro.idExecutiveState = vm.siniestro.idExecutiveState;
@@ -447,6 +448,23 @@ define(['angular', 'constants', 'constantsPericial', 'mocksPericial', 'helper', 
           });
       }
 
+    }
+
+    function saveTracker(isTaller){
+      vm.paramTracker = {
+        idSinisterDetail: $stateParams.id,
+        CodigoPerfil: vm.rol,
+        DescripcionOperacion : isTaller ?  'INGRESO A ENTREGAR VEHICULO':'INGRESO A DETALLE',
+        OpcionMenu : isTaller ? 'GPER > Servicios > Entregar Vehiculo': 'GPER > Servicios > Ver Detalle'
+      };
+
+      pericialFactory.siniester.SaveTracker(vm.paramTracker).then(function(response) {
+        
+      })
+        .catch(function(err){
+          console.log(err);
+            mModalAlert.showError("Error en SaveTracker", 'Error');
+        });
     }
 
     function Registrado() {
