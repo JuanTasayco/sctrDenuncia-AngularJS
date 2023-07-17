@@ -2,8 +2,8 @@
 
 define(['angular', 'coreConstants', 'system'], function (ng, coreConstants, system) {
     var folder = system.apps.ap.location;
-    CardItemController.$inject = ['$stateParams', 'AdminRamoFactory'];
-    function CardItemController($stateParams, AdminRamoFactory) {
+    CardItemController.$inject = ['$stateParams', 'AdminRamoFactory','mModalConfirm'];
+    function CardItemController($stateParams, AdminRamoFactory,mModalConfirm) {
         var vm = this;
         vm.$onInit = onInit;
         vm.fnCheckBox = fnCheckBox;
@@ -14,35 +14,42 @@ define(['angular', 'coreConstants', 'system'], function (ng, coreConstants, syst
         function onInit() {
         }
 
-        function onSectionAddclick(){
-            AdminRamoFactory.emitClickSectionAdd({ isNew : false , section: vm.section , ramo: vm.ramo, item: vm.card });
+        function onSectionAddclick() {
+            AdminRamoFactory.emitClickSectionAdd({ isNew: false, section: vm.section, ramo: vm.ramo, item: vm.card });
         }
 
-        function onSectionRemoveclick(){
-            AdminRamoFactory.emitClickSectionRemove({section: vm.section , ramo: vm.ramo, item: vm.card });
+        function onSectionRemoveclick() {
+            AdminRamoFactory.emitClickSectionRemove({ section: vm.section, ramo: vm.ramo, item: vm.card });
         }
 
-        function onSectionOrderclick(next){
-            if((next && vm.card.orderUp) || (!next && vm.card.orderDown)){
-                AdminRamoFactory.emitClickSectionOrder({section: vm.section , ramo: vm.ramo, item: vm.card, next: next });
+        function onSectionOrderclick(next) {
+            if ((next && vm.card.orderUp) || (!next && vm.card.orderDown)) {
+                AdminRamoFactory.emitClickSectionOrder({ section: vm.section, ramo: vm.ramo, item: vm.card, next: next });
             }
         }
 
         function fnCheckBox(item) {
-            var body = {
-                accion: "ACTIVE",
-                activo: item.active
-            }
-            AdminRamoFactory.updateCardSection(vm.section.code, vm.ramo.code, item.contentId, body).then(
-                function (data) {
-                    if (data.codigo === 1001) {
-                        item.activo = !item.activo
+            mModalConfirm.confirmInfo(
+                null,
+                '¿Estás seguro de ' + (item.active ? 'habilitar' : 'inhabilitar') + ' el componente?',
+                'SI').then(function (response) {
+                    if (response) {
+                        var body = {
+                            accion: "ACTIVE",
+                            activo: item.active
+                        }
+                        AdminRamoFactory.updateCardSection(vm.section.code, vm.ramo.code, item.contentId, body).then(
+                            function (data) {
+                                if (data.codigo === 1001) {
+                                    item.activo = !item.activo
+                                }
+                            },
+                            function () {
+                                item.activo = !item.activo
+                            }
+                        )
                     }
-                },
-                function () {
-                    item.activo = !item.activo
-                }
-            )
+                }).catch(function (error) {  item.active =!item.active });;
         }
 
     } // end controller
