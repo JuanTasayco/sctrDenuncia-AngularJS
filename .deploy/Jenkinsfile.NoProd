@@ -19,7 +19,7 @@ pipeline {
     }
     parameters {
         text(name: 'LISTABRANCHE', defaultValue: '', description: 'Ingrese la lista de branches a integrar')
-    }      
+    }     
     options {
         timeout(time: 45, unit: 'MINUTES')
         timestamps()
@@ -231,13 +231,17 @@ pipeline {
             }
             steps {
                 gitFetch()
+                gitIgnoreChange()
                 gitCheckout env.BRANCH_NAME
 
                 script {
                     def msg = 'release'
                     if (BRANCH_NAME.startsWith('release')) {
                         msg = 'release candidate'
-                    }                 
+                    }                
+                    container('node') {
+                        promotionNpmPeru(env.BRANCH_NAME, env.PACKAGE_VERSION)
+                    }                    
                     gitCommitPackage  "promotion to " + msg + " completed (" + PACKAGE_VERSION + ")"
                     gitPush()
                     gitTag(PACKAGE_VERSION,  "New " + msg + " tag " + PACKAGE_VERSION)
