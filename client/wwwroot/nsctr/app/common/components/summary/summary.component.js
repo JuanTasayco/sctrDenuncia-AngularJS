@@ -156,7 +156,7 @@ define([
           tipoImpresion: 'S'
         };
         nsctrFactory.common.proxyPolicy.Download(_self.ParamDescargaPoliza,true).then(function (response) {
-          if (response.data.documento != null){
+          if (response.data.documento != ''){
             mainServices.fnDownloadFileBase64(response.data.documento, "pdf",'Poliza_' + _self.ParamDescargaPoliza.numPoliza, false);
           }else{
             mModalAlert.showError(response.data.descError, 'ERROR');
