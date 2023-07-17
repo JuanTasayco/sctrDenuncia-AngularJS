@@ -11,6 +11,7 @@ define(['angular', 'coreConstants', 'system', 'lodash'], function (ng, coreConst
         vm.section = null;;
         vm.openModal = openModal;
         vm.form = {}
+        vm.focusTitle = true
 
         function onInit() {
             AdminRamoFactory.subsChangeRamo(changeRamo);
@@ -60,7 +61,9 @@ define(['angular', 'coreConstants', 'system', 'lodash'], function (ng, coreConst
                 vm.form.contentId = data.item.contentId;
                 vm.form.active = data.item.active;
                 vm.form.order = data.item.order;
+                vm.focusTitle  =  true;
             } else {
+                vm.focusTitle  =  false;
                 vm.form = {}
             }
 
