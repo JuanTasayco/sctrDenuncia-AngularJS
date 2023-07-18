@@ -80,6 +80,9 @@ define([
 
     vm.buscar = buscar;
     vm.limpiar = limpiar;
+    vm.sendEmail = sendEmail;
+    vm.copy = copy;
+
     vm.showModalDocPagarDetalle = showModalDocPagarDetalle;
 
     $scope.$watch('vm.formDocPagar.optRadioTap1', function () {
@@ -165,6 +168,42 @@ define([
           setLstCurrentPage();
         });
     }
+
+    function sendEmail(event,poliza) {
+      if (event) {
+        event.preventDefault();
+        event.stopPropagation();
+      }
+      if(poliza.client.email){
+        mModalConfirm.confirmWarning('¿Está seguro de enviar correo de enlace de Pago a ' + poliza.client.email +'?','','')
+        .then(function () {
+          gcwFactory.getSendLinkPago(gcwFactory.requestDocPagar(poliza)).then(function (response) {
+            mModalAlert.showSuccess("Correo enviado correctamente", "")
+          }).catch(function () {
+            mModalAlert.showError("No es posible enviar un correo. Porfavor, genere un enlace de afiliacion", "")
+          })
+        });
+      }
+      else{
+        mModalAlert.showError("No es posible enviar un correo. Porfavor, genere un enlace de afiliacion", "")
+      }
+    }
+    function copy(event,poliza) {
+      if (event) {
+        event.preventDefault();
+        event.stopPropagation();
+      }
+      
+
+    gcwFactory.getLinkPago(gcwFactory.requestDocPagar(poliza)).then(function (response) {
+      navigator.clipboard.writeText(response.data.url)
+      .then(() => {
+        mModalAlert.showSuccess("El enlace fue copiado en el portapapeles", "")
+        })
+    }).catch(function () {
+      mModalAlert.showError("Error al generar enlace", "")
+    })   
+   }
 
     function setLstCurrentPage() {
       vm.docs = page.getItemsDePagina();
