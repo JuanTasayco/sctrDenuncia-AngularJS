@@ -224,27 +224,25 @@ pipeline {
                     branch 'master'
                 }
             }
-            environment {
-                PACKAGE_VERSION        = getFieldFromPackage("version")
-                PACKAGE_NAME           = getFieldFromPackage("name")
 
-            }
             steps {
                 gitFetch()
                 gitIgnoreChange()
                 gitCheckout env.BRANCH_NAME
 
                 script {
+                    def version = getFieldFromPackage("version")
+
                     def msg = 'release'
                     if (BRANCH_NAME.startsWith('release')) {
                         msg = 'release candidate'
                     }                
                     container('node') {
-                        promotionNpmPeru(env.BRANCH_NAME, env.PACKAGE_VERSION)
+                        promotionNpmPeru(env.BRANCH_NAME, version)
                     }                    
-                    gitCommitPackage  "promotion to " + msg + " completed (" + PACKAGE_VERSION + ")"
+                    gitCommitPackage  "promotion to " + msg + " completed (" + version + ")"
                     gitPush()
-                    gitTag(PACKAGE_VERSION,  "New " + msg + " tag " + PACKAGE_VERSION)
+                    gitTag(version,  "New " + msg + " tag " + version)
                     gitPushTags()
                     
                 }
