@@ -123,7 +123,7 @@ define(['angular', 'coreConstants', 'system', 'lodash'], function (ng, coreConst
                 "titulo": form.title,
                 "link": form.url,
                 "linkInterno": !form.check,
-                "activo": false
+                "activo": true
             }
 
             AdminRamoFactory.saveCardSection(vm.section.code, vm.ramo.code, body).then(
