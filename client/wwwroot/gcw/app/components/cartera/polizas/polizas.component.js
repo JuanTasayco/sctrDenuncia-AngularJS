@@ -3,8 +3,8 @@ define([
   '/gcw/app/factory/gcwFactory.js'
 ], function(ng, constants, _) {
 
-  PolizasController.$inject = ['$scope', 'gcwFactory', 'gaService', '$state', 'mModalAlert', '$rootScope', '$timeout', '$sce', 'MxPaginador', 'accessSupplier', 'CommonCboService'];
-  function PolizasController($scope, gcwFactory, gaService, $state, mModalAlert, $rootScope, $timeout, $sce, MxPaginador, CommonCboService) {
+  PolizasController.$inject = ['$scope', 'gcwFactory', 'gaService', '$state', 'mModalAlert','mModalConfirm', '$rootScope', '$timeout', '$sce', 'MxPaginador', 'accessSupplier', 'CommonCboService'];
+  function PolizasController($scope, gcwFactory, gaService, $state, mModalAlert , mModalConfirm, $rootScope, $timeout, $sce, MxPaginador, CommonCboService) {
     var vm = this;
     var page;
 
@@ -226,7 +226,7 @@ define([
       gcwFactory.getLinkAfiliacion(gcwFactory.requestDocCartera(poliza)).then(function (response) {
         navigator.clipboard.writeText(response.data.url)
           .then(function () {
-            mModalAlert.sashowSuccess("El enlace fue copiado en el portapapeles", "")
+            mModalAlert.showSuccess("El enlace fue copiado en el portapapeles", "")
           })
       }).catch(function () {
         mModalAlert.showError("Error al generar enlace", "")
