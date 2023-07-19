@@ -31,7 +31,7 @@ define(['angular', 'coreConstants', 'system'], function (ng, coreConstants, syst
         function fnCheckBox(item) {
             mModalConfirm.confirmInfo(
                 null,
-                '¿Estás seguro de ' + (item.active ? 'habilitar' : 'inhabilitar') + ' el componente?',
+                'Â¿EstÃ¡s seguro de ' + (item.active ? 'habilitar' : 'inhabilitar') + ' el componente?',
                 'SI').then(function (response) {
                     if (response) {
             var body = {
