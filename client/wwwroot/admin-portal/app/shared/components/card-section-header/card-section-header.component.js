@@ -20,24 +20,24 @@ define(['angular', 'coreConstants', 'system'], function (ng, coreConstants, syst
         function fnCheckBox(item) {
             mModalConfirm.confirmInfo(
                 null,
-                'Â¿EstÃ¡s seguro de ' + (item.activo ? 'habilitar' : 'inhabilitar') + ' toda la secciÃ³n?',
+                '¿Estás seguro de ' + (item.activo ? 'habilitar' : 'inhabilitar') + ' toda la sección?',
                 'SI').then(function (response) {
                     if (response) {
-                        var body = {
-                            seccionId: vm.section.code,
-                            activo: item.activo
-                        }
+            var body = {
+                seccionId: vm.section.code,
+                activo: item.activo
+            }
                         AdminRamoFactory.updateStatusSection(vm.section.code, vm.ramo.code, body).then(
                             function (data) {
                                 if (data.codigo === 1001) {
-                                    item.activo = !item.activo
-                                }
-                            },
-                            function () {
-                                item.activo = !item.activo
-                            }
-                        )
+                        item.activo = !item.activo
                     }
+                },
+                            function () {
+                    item.activo = !item.activo
+                }
+            )
+        }
                 }).catch(function (error) { item.activo = !item.activo });;
         }
 
@@ -46,7 +46,7 @@ define(['angular', 'coreConstants', 'system'], function (ng, coreConstants, syst
     return ng.module(coreConstants.ngMainModule)
         .controller('CardSectionHeaderController', CardSectionHeaderController)
         .component('apCardSectionHeader', {
-            templateUrl: folder + '/app/shared/components/card-section-header/card-section-header.component.html',
+            templateUrl: folder + '/app/shared/components/card-section-header/card-section-header.component.html',            
             controller: 'CardSectionHeaderController',
             bindings: {
                 card: '=',
