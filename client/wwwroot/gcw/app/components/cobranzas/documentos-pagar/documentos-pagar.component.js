@@ -197,7 +197,7 @@ define([
 
     gcwFactory.getLinkPago(gcwFactory.requestDocPagar(poliza)).then(function (response) {
       navigator.clipboard.writeText(response.data.url)
-      .then(() => {
+      .then(function () {
         mModalAlert.showSuccess("El enlace fue copiado en el portapapeles", "")
         })
     }).catch(function () {

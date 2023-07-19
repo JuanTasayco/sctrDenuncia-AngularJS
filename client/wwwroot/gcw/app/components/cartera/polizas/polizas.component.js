@@ -225,8 +225,8 @@ define([
       }
       gcwFactory.getLinkAfiliacion(gcwFactory.requestDocCartera(poliza)).then(function (response) {
         navigator.clipboard.writeText(response.data.url)
-          .then(() => {
-            mModalAlert.showSuccess("El enlace fue copiado en el portapapeles", "")
+          .then(function () {
+            mModalAlert.sashowSuccess("El enlace fue copiado en el portapapeles", "")
           })
       }).catch(function () {
         mModalAlert.showError("Error al generar enlace", "")
