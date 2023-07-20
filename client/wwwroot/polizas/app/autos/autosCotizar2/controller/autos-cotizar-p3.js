@@ -3,11 +3,12 @@
 })(this, ['angular', 'constants', 'lodash',
         '/polizas/app/autos/autosCotizar2/service/autosCotizarFactory.js',
         '/scripts/mpf-main-controls/components/modalConfirmation/component/modalConfirmation.js',
-        '/scripts/mpf-main-controls/components/modalSteps/component/modalSteps.js'
+        '/scripts/mpf-main-controls/components/modalSteps/component/modalSteps.js',
+        '/polizas/app/autos/autosHome/service/autosFactory.js',
     ],
     function(angular, constants, _) {
-        angular.module("appAutos").controller('autosCotizarS3', ['$scope', '$state','$filter', 'autosCotizarFactory', 'mpSpin', '$uibModal', 'mModalAlert', '$rootScope', 'oimPrincipal', 'mModalConfirm', 'mainServices', 'oimAbstractFactory','proxyGeneral',
-            function($scope, $state, $filter, autosCotizarFactory, mpSpin, $uibModal, mModalAlert, $rootScope, oimPrincipal, mModalConfirm, mainServices, oimAbstractFactory, proxyGeneral) {
+        angular.module("appAutos").controller('autosCotizarS3', ['$scope', '$state','$filter', 'autosFactory', 'autosCotizarFactory', 'mpSpin', '$uibModal', 'mModalAlert', '$rootScope', 'oimPrincipal', 'mModalConfirm', 'mainServices', 'oimAbstractFactory','proxyGeneral',
+            function($scope, $state, $filter, autosFactory, autosCotizarFactory, mpSpin, $uibModal, mModalAlert, $rootScope, oimPrincipal, mModalConfirm, mainServices, oimAbstractFactory, proxyGeneral) {
 
             var vm = this;
             vm.$onInit = onInit;
@@ -386,7 +387,9 @@
                       : ""
                     : "",
                   EstadoCivil: $scope.formData.isEmblem && $scope.formData.mEstadoCivil ? { Codigo: $scope.formData.mEstadoCivil.Codigo } : undefined,
-                  FechaExpedicion: $scope.formData.isEmblem ? validateExpirationDate($scope.formData) : undefined
+                  FechaExpedicion: $scope.formData.isEmblem ? validateExpirationDate($scope.formData) : undefined,
+                  TipoDocumento: $scope.formData.mTipoDocumento.Codigo,
+                  CodigoDocumento: $scope.formData.mNumeroDocumento
                 };
                 var vParamsUbigeo = {
                   CodigoDepartamento: $scope.formData.Ubigeo.mDepartamento.Codigo,
@@ -414,10 +417,20 @@
                   ScoreMorosidad: $scope.formData.isEmblem ? $scope.formData.score : undefined
                 };
 
+                var fechaHoraCotizacion;
+                for (var i = 0; i < $scope.formData.DocumentosAsociados.length; i++) {
+                  if ($scope.formData.DocumentosAsociados[i] != null) {
+                    if ($scope.formData.DocumentosAsociados[i].CodigoProducto == tipoProducto.codigoProducto) {
+                      fechaHoraCotizacion = $scope.formData.DocumentosAsociados[i].FechaHora;
+                    }
+                  }
+                }
+
                 var vParams = {
                   PorDctoIntgPlaza: $scope.formData.PorDctoIntgPlaza || 0,
                   MarcaPorDctoIntegralidad: $scope.formData.DctoIntegralidad ? 'S' : 'N',
                   numeroCotizacion: $scope.formData.numeroCotizacion,
+                  fechaHora: fechaHoraCotizacion,
                   CodigoCorredor: $scope.mAgente.codigoAgente,
                   TotalDsctoComision: tipoProducto.TotalDscto,
                   DsctoComision: tipoProducto.DsctoPorComision,
@@ -626,6 +639,7 @@
               var vParams = {
                 PorDctoIntgPlaza: $scope.formData.PorDctoIntgPlaza || 0,
                 MarcaPorDctoIntegralidad: $scope.formData.DctoIntegralidad ? 'S' : 'N',
+                FechaHora: autosFactory.getCotizacionFechaHora(),
                 numeroCotizacion: '',
                 CodigoCorredor: $scope.mAgente.codigoAgente,
                 TotalDsctoComision: 0,
@@ -673,10 +687,13 @@
                     ) {
                       //verificamos si es el prod ppal
 
+                      autosFactory.setCotizacionFechaHora(resultadoPrima.FechaHora);
+
                       $scope.formData.ZonaTarifa = resultadoPrima.Vehiculo.ZonaTarifa;
                       $scope.formData.DocumentosAsociados[key] = {};
 
                       $scope.formData.DocumentosAsociados[key].CodigoPrima = resultadoPrima.NumeroCotizacion;
+                      $scope.formData.DocumentosAsociados[key].FechaHora = resultadoPrima.FechaHora;
                       $scope.formData.DocumentosAsociados[key].CodigoEstado = "1";
                       $scope.formData.DocumentosAsociados[key].CodigoUsuarioRED = $scope.formData.codigoUsuarioRED;
                       $scope.formData.DocumentosAsociados[key].CodigoUsuario = $scope.formData.codigoUsuario;
