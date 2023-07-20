@@ -17,9 +17,14 @@ pipeline {
             yaml getYmlBuildPod('oim')
         }
     }
-   
+    parameters {
+        choice(
+            choices: ['SONARQUBE' ,'DESPLEGAR'],
+            description: 'Indicar la tarea a realizar',
+            name: 'REQUESTED_ACTION')
+    }     
     options {
-        timeout(time: 25, unit: 'MINUTES')
+        timeout(time: 45, unit: 'MINUTES')
         timestamps()
         buildDiscarder(logRotator(daysToKeepStr: '30', numToKeepStr: '30', artifactNumToKeepStr: '30'))
     }
@@ -71,107 +76,26 @@ pipeline {
             }
         }
 
-
-        stage('Commit and Tag Promotion') {
-            when {
-                anyOf {
-                    branch 'develop'
-                    branch 'release'
-                    branch 'master'
-                }
-            }
-            environment {
-                PACKAGE_VERSION        = getFieldFromPackage("version")
-                PACKAGE_NAME           = getFieldFromPackage("name")
-
-            }
-            steps {
-                gitFetch()
-                gitCheckout env.BRANCH_NAME
-
-                script {
-                    def msg = 'release'
-                    if (BRANCH_NAME.startsWith('release')) {
-                        msg = 'release candidate'
-                    }                 
-                    gitCommitPackage  "promotion to " + msg + " completed (" + PACKAGE_VERSION + ")"
-                    gitPush()
-                    gitTag(PACKAGE_VERSION,  "New " + msg + " tag " + PACKAGE_VERSION)
-                    gitPushTags()
-                    
-                }
-
-            }
-
-        }
-
-        stage ('Next Snapshot Promotion develop') {
-            when {
-				expression { return env.BRANCH_NAME == 'master' } 
-            }
-            environment {
-                developBranch = "develop"
-                PACKAGE_VERSION        = getFieldFromPackage("version")
-            }
-            steps {
-                // promotion to snapshot after a release candidate is packaged and deployed
-                // git checkout development
-                gitCheckout developBranch
-
-                gitMergeWithResolveConflicts("master")
-
-               sh "cat .deploy/Jenkinsfile.NoProd > Jenkinsfile"
-
-                container('node') {
-                    promotionNpmPeru(developBranch,PACKAGE_VERSION)
-                }
-
-                // commit next snapshot in development branch
-                gitCommitPackage "promotion to next snapshot completed (" + PACKAGE_VERSION + ")"
-                // push all changes
-                gitPush()
-            }
-
-        }        
-
-        stage ('Next Snapshot Promotion release') {
-            when {
-                expression { return env.BRANCH_NAME == 'master' } 
-            }
-            environment {
-                developBranch = "release"
-                PACKAGE_VERSION        = getFieldFromPackage("version")
-            }
-            steps {
-                // promotion to snapshot after a release candidate is packaged and deployed
-                // git checkout development
-                gitCheckout developBranch
-
-                gitMergeWithResolveConflicts("master")
-
-                sh "cat .deploy/Jenkinsfile.NoProd > Jenkinsfile"
-
-                container('node') {
-                    promotionNpmPeru(developBranch,PACKAGE_VERSION)
-                }
-
-                // commit next snapshot in development branch
-                gitCommitPackage "promotion to next snapshot completed (" + PACKAGE_VERSION + ")"
-                // push all changes
-                gitPush()
-            }
-        }        
-                
         //This is a security stage that must be executed before building any code or image.
         stage('Security pre-build'){
+            when {
+                anyOf {
+                    expression { return params.REQUESTED_ACTION == 'DESPLEGAR'}
+                }                   
+            }                
             steps{
                 script{
                     secPreBuild()
                 }
             }
         }   
-
+        
         stage('Build Auditoria') {
+            when {
+                anyOf {
+                    expression { return params.REQUESTED_ACTION == 'DESPLEGAR'}
+                }      				
+            }            
             steps {
                 container('node') {
                     sh("""
@@ -192,6 +116,11 @@ pipeline {
         }
 
         stage('Build & Unit Test') {
+            when {
+                anyOf {
+                    expression { return params.REQUESTED_ACTION == 'DESPLEGAR'}
+                }      				
+            }             
             steps {
                 container('node') {
                     sh("""
@@ -215,6 +144,9 @@ pipeline {
                 not {
                     branch 'PR*'
                 }
+                anyOf {
+                    expression { return params.REQUESTED_ACTION == 'SONARQUBE'}
+                }                   
             }      
             environment {
                 PACKAGE_VERSION        = getFieldFromPackage("version")
@@ -227,22 +159,42 @@ pipeline {
 
                         if(sonarConfig.name==null) return
 
-                        def sonarProyectoKey = getSonarProyectoKey(sonarConfig, env.BRANCH_NAME)
-                        def sonarProyectName = getSonarProyectoName(sonarConfig, env.BRANCH_NAME)
-                        def sonarExtraParameters = "-Dsonar.projectVersion=${PACKAGE_VERSION}"
+                        def projectKey = getSonarProyectoKey(sonarConfig, env.BRANCH_NAME)
+                        def projectName = getSonarProyectoName(sonarConfig, env.BRANCH_NAME)
+                        def extraParameter = "-Dsonar.projectVersion=${PACKAGE_VERSION}"
 
-                        sonarScanner(SONAR_ENVIRONMENT, sonarConfig.projectKey, sonarProyectoKey, sonarProyectName,
-                             SonarScannerType.NPM,sonarExtraParameters)
+                        withSonarQubeEnv(installationName: SONAR_ENVIRONMENT, credentialsId: sonarConfig.projectKey, envOnly: true) {
+                            println "Executing Sonar Scanner for Project Key ${projectKey}..."
+                            println "Extra parameters: $extraParameter"
+                            tee('output-sonar-scanner.log') {
+
+                                        def params = "-Dsonar.sourceEncoding=UTF-8 ${extraParameter}"
+
+                                            sh("""
+                                                sonar-scanner \
+                                                    -Dsonar.host.url='${env.SONAR_HOST_URL}' \
+                                                    -Dsonar.login='${env.SONAR_AUTH_TOKEN}' \
+                                                    -Dsonar.projectKey='${projectKey}' \
+                                                    -Dsonar.projectName='${projectName}' \
+                                                    ${params}
+                                            """)
+    
+                                    
+                            }
+                        }                             
                      }
                 }
             }
-        }       
+        }                   
 
         stage("Quality Gate"){
             when {
                 not {
                     branch 'PR*'
                 }
+                anyOf {
+                    expression { return params.REQUESTED_ACTION == 'SONARQUBE'}
+                }                   
             }                 
            
             steps {
@@ -278,6 +230,9 @@ pipeline {
                     branch 'release'
                     branch 'master'
                 }
+                anyOf {
+                    expression { return params.REQUESTED_ACTION == 'DESPLEGAR'}
+                }                   
             }
             steps {
                 container('node') {
@@ -288,8 +243,50 @@ pipeline {
             }
         }
 
+        stage('Commit and Tag Promotion') {
+            when {
+                anyOf {
+                    branch 'develop'
+                    branch 'release'
+                    branch 'master'
+                }
+                anyOf {
+                    expression { return params.REQUESTED_ACTION == 'DESPLEGAR'}
+                }                   
+            }
+
+            steps {
+                gitFetch()
+                gitIgnoreChange()
+                gitCheckout env.BRANCH_NAME
+
+                script {
+                    def version = getFieldFromPackage("version")
+
+                    def msg = 'release'
+                    if (BRANCH_NAME.startsWith('release')) {
+                        msg = 'release candidate'
+                    }                
+                    container('node') {
+                        promotionNpmPeru(env.BRANCH_NAME, version)
+                    }                    
+                    gitCommitPackage  "promotion to " + msg + " completed (" + version + ")"
+                    gitPush()
+                    gitTag(version,  "New " + msg + " tag " + version)
+                    gitPushTags()
+                    
+                }
+
+            }
+
+        }        
 
         stage('Security post-build'){
+            when {
+                anyOf {
+                    expression { return params.REQUESTED_ACTION == 'DESPLEGAR'}
+                }                   
+            }                
             steps {
                 script{
                     secPostBuild()
@@ -299,12 +296,17 @@ pipeline {
 
 
         stage('Security pre-deploy'){
+            when {
+                anyOf {
+                    expression { return params.REQUESTED_ACTION == 'DESPLEGAR'}
+                }                   
+            }                
             steps{
                 script{
                     secPreDeploy()
                 }
             }
-        }        
+        }   
 
         stage('Deploy to Frontal') {
             when {
@@ -313,6 +315,9 @@ pipeline {
                     branch 'release'
                     branch 'master'
                 }
+                anyOf {
+                    expression { return params.REQUESTED_ACTION == 'DESPLEGAR'}
+                }                   
             }
             environment {
                 PACKAGE_VERSION        = getFieldFromPackage("version")
@@ -338,6 +343,11 @@ pipeline {
         }        
 
         stage('Security post-deploy'){
+            when {
+                anyOf {
+                    expression { return params.REQUESTED_ACTION == 'DESPLEGAR'}
+                }                   
+            }            
             steps{
                 script{
                     secPostDeploy()
@@ -345,7 +355,68 @@ pipeline {
             }
         }  
 
+        stage ('Next Snapshot Promotion develop') {
+            when {
+				expression { return env.BRANCH_NAME == 'master' } 
+                anyOf {
+                    expression { return params.REQUESTED_ACTION == 'DESPLEGAR'}
+                }                   
+            }
+            environment {
+                developBranch = "develop"
+                PACKAGE_VERSION        = getFieldFromPackage("version")
+            }
+            steps {
+                // promotion to snapshot after a release candidate is packaged and deployed
+                // git checkout development
+                gitCheckout developBranch
 
+                gitMergeWithResolveConflicts("master")
+
+               sh "cat .deploy/Jenkinsfile.NoProd > Jenkinsfile"
+
+                container('node') {
+                    promotionNpmPeru(developBranch,PACKAGE_VERSION)
+                }
+
+                // commit next snapshot in development branch
+                gitCommitPackage "promotion to next snapshot completed (" + PACKAGE_VERSION + ")"
+                // push all changes
+                gitPush()
+            }
+
+        }        
+
+        stage ('Next Snapshot Promotion release') {
+            when {
+                expression { return env.BRANCH_NAME == 'master' } 
+                anyOf {
+                    expression { return params.REQUESTED_ACTION == 'DESPLEGAR'}
+                }                   
+            }
+            environment {
+                developBranch = "release"
+                PACKAGE_VERSION        = getFieldFromPackage("version")
+            }
+            steps {
+                // promotion to snapshot after a release candidate is packaged and deployed
+                // git checkout development
+                gitCheckout developBranch
+
+                gitMergeWithResolveConflicts("master")
+
+                sh "cat .deploy/Jenkinsfile.NoProd > Jenkinsfile"
+
+                container('node') {
+                    promotionNpmPeru(developBranch,PACKAGE_VERSION)
+                }
+
+                // commit next snapshot in development branch
+                gitCommitPackage "promotion to next snapshot completed (" + PACKAGE_VERSION + ")"
+                // push all changes
+                gitPush()
+            }
+        }
        
     }
     post {

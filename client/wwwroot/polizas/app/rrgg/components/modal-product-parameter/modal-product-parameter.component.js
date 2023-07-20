@@ -8,6 +8,7 @@ define([
     //Functions
     vm.getDataParametro = getDataParametro
     vm.data = {}
+    vm.tableFooterNote = "";
     vm.$onInit = function () {
       vm.constantsRrgg = constantsRiesgosGenerales
       vm.PRODUCTS = [
@@ -65,8 +66,14 @@ define([
             },
             {
               CodigoProducto: "25",
-              Activo: true
+              Activo: false
               //Descripcion: "Deducible Simple"
+              
+            },
+            {
+              CodigoProducto: "68",
+              Activo: true
+              //Descripcion: "Deducibles"
               
             },
             {
@@ -368,12 +375,13 @@ define([
             },
             {
               CodigoProducto: "9",
-              Activo: true
+              Activo: true,
               //"Descripcion": "Tasa Netas Anuales",
+              CodigoProductoRef: "67"
             },
             {
               CodigoProducto: "67",
-              Activo: true
+              Activo: false
               //"Descripcion": "Nota Tasas",
             },
             {
@@ -449,12 +457,13 @@ define([
             },
             {
               CodigoProducto: "9",
-              Activo: true
+              Activo: true,
               //"Descripcion": "Tasa Netas Anuales"
+              CodigoProductoRef: "67"
             },
             {
               CodigoProducto: "67",
-              Activo: true
+              Activo: false
               //"Descripcion": "Nota Tasas",
             },
             {
@@ -525,12 +534,13 @@ define([
             },
             {
               CodigoProducto: "9",
-              Activo: true
+              Activo: true,
               //"Descripcion": "Tasa Netas Anuales"
+              CodigoProductoRef: "67"
             },
             {
               CodigoProducto: "67",
-              Activo: true
+              Activo: false
               //"Descripcion": "Nota Tasas",
             },
             {
@@ -796,12 +806,19 @@ define([
       riesgosGeneralesService.parametroCabecera(vm.tramite.idProducto).then(function (response) {
         if (response.OperationCode === constants.operationCode.success) {
           var product = vm.PRODUCTS.filter(function(x) { return x.GRUPO === vm.tramite.Grupo})[0]
-          var data = response.Data.filter(function(x) { 
-                 return product.MENU.filter(function(y) { 
-                   return y.CodigoProducto === x.CodigoProducto && y.Activo}
-                   )[0]})
-          vm.data.tab = data
-          getDataParametro(vm.data.tab[0])
+          var data = _.reduce(response.Data, function(pre, cur) {
+            const m = product.MENU.find(function(y) { 
+              return y.CodigoProducto === cur.CodigoProducto && y.Activo}
+              );
+
+            if (m) {
+              pre.push(Object.assign(cur, m));
+            }
+            
+            return pre;
+          }, []);
+          vm.data.tab = data;
+          getDataParametro(vm.data.tab[0]);
         }
       })
     }
@@ -818,6 +835,7 @@ define([
       return response;
     }
     function getDataParametro(cabecera) {
+      vm.tableFooterNote = "";
       if (cabecera.TipoParametro === vm.constantsRrgg.PARAMETROS.TIPO_LISTA) {
         riesgosGeneralesService.listParametrobyProducto(vm.tramite.idProducto, cabecera.CodigoProducto).then(function (response) {
           if (response.OperationCode === constants.operationCode.success) {
@@ -850,6 +868,14 @@ define([
               _orderTableHorizontal()
           }
         })
+
+        if (!!cabecera.CodigoProductoRef) {
+          riesgosGeneralesService.listParametrobyProducto(vm.tramite.idProducto, cabecera.CodigoProductoRef).then(function (response) {
+            if (response.OperationCode === constants.operationCode.success) {
+              vm.tableFooterNote = response.Data[0].Valor;
+            }
+          })
+        }
       }
     }
     function _tipoTabla(cabecera) {
@@ -898,7 +924,6 @@ define([
           }
           if (vm.tramite.Grupo === vm.constantsRrgg.GRUPO.CAR
             || vm.tramite.Grupo === vm.constantsRrgg.GRUPO.CARLITE
-            || vm.tramite.Grupo === vm.constantsRrgg.GRUPO.VIGLIMP
             || vm.tramite.Grupo === vm.constantsRrgg.GRUPO.DEMOLICIONES) {
             vm.arrayHeaders = [{
               type: 4,
@@ -923,6 +948,16 @@ define([
               );
             }
 
+          }
+          if (vm.tramite.Grupo === vm.constantsRrgg.GRUPO.VIGLIMP) {
+            vm.arrayHeaders = [{
+              type: 5,
+              headerGeneral: "",
+              currency: false,
+              percent: "%",
+              headers: _getCabeceras(vm.data.dataTableParametro[0][1]),
+              data: _getData(vm.data.dataTableParametro[0]),
+            }];
           }
           break;
         case vm.constantsRrgg.CAB_VALID.COBER_SUMAS_A:
