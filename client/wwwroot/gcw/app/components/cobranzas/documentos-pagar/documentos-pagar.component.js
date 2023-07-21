@@ -175,17 +175,17 @@ define([
         event.stopPropagation();
       }
       if(poliza.client.email){
-        mModalConfirm.confirmWarning('¿Está seguro de enviar correo de enlace de Pago a ' + poliza.client.email +'?','','')
+        mModalConfirm.confirmWarning('¿DESEA ENVIAR ENLACE DE PAGO A ' + poliza.client.email.toUpperCase() +'?','','')
         .then(function () {
           gcwFactory.getSendLinkPago(gcwFactory.requestDocPagar(poliza)).then(function (response) {
-            mModalAlert.showSuccess("Correo enviado correctamente", "")
+            mModalAlert.showSuccess("El email ha sido enviado a " + poliza.client.email, "")
           }).catch(function () {
-            mModalAlert.showError("No es posible enviar un correo. Porfavor, genere un enlace de afiliacion", "")
+            mModalAlert.showError("No es posible enviar un correo. Porfavor, genere un enlace de pago", "")
           })
         });
       }
       else{
-        mModalAlert.showError("No es posible enviar un correo. Porfavor, genere un enlace de afiliacion", "")
+        mModalAlert.showError("No es posible enviar un correo. Porfavor, genere un enlace de pago", "")
       }
     }
     function copy(event,poliza) {

@@ -204,10 +204,10 @@ define([
         event.stopPropagation();
       }
       if(poliza.email){
-        mModalConfirm.confirmWarning('¿Está seguro de enviar correo de enlace de Pago a ' + poliza.email +'?','','')
+        mModalConfirm.confirmWarning('¿DESEA ENVIAR ENLACE DE PAGO A ' + poliza.email.toUpperCase() +'?','','')
         .then(function () {
           gcwFactory.getSendLinkAfiliacion(gcwFactory.requestDocCartera(poliza)).then(function (response) {
-            mModalAlert.showSuccess("Correo enviado correctamente", "")
+            mModalAlert.showSuccess("El email ha sido enviado a " + poliza.email, "")
           }).catch(function () {
             mModalAlert.showError("No es posible enviar un correo. Porfavor, genere un enlace de afiliacion", "")
           })
