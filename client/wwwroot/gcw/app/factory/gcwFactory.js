@@ -949,7 +949,7 @@ define([
               "nomTomador": poliza.cliente,
               "codDocumento": poliza.documentCode,
               "tipDocumento": poliza.documentType,
-              "correo" : poliza.email
+              "email" : poliza.email
           },
           "poliza": {
               "compania": poliza.ciaId,
