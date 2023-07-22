@@ -180,12 +180,12 @@ define([
           gcwFactory.getSendLinkPago(gcwFactory.requestDocPagar(poliza)).then(function (response) {
             mModalAlert.showSuccess("El email ha sido enviado a " + poliza.client.email, "")
           }).catch(function () {
-            mModalAlert.showError("No es posible enviar un correo. Porfavor, genere un enlace de pago", "")
+            mModalAlert.showError("No es posible enviar un correo. Por favor, genere un enlace de pago", "")
           })
         });
       }
       else{
-        mModalAlert.showError("No es posible enviar un correo. Porfavor, genere un enlace de pago", "")
+        mModalAlert.showError("No es posible enviar un correo. Por favor, genere un enlace de pago", "")
       }
     }
     function copy(event,poliza) {

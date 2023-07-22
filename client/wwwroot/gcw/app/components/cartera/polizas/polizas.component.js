@@ -209,12 +209,12 @@ define([
           gcwFactory.getSendLinkAfiliacion(gcwFactory.requestDocCartera(poliza)).then(function (response) {
             mModalAlert.showSuccess("El email ha sido enviado a " + poliza.email, "")
           }).catch(function () {
-            mModalAlert.showError("No es posible enviar un correo. Porfavor, genere un enlace de afiliacion", "")
+            mModalAlert.showError("No es posible enviar un correo. Por favor, genere un enlace de afiliación", "")
           })
         });
       }
       else{
-        mModalAlert.showError("No es posible enviar un correo. Porfavor, genere un enlace de afiliacion", "")
+        mModalAlert.showError("No es posible enviar un correo. Por favor, genere un enlace de afiliación", "")
       }
     }
 
