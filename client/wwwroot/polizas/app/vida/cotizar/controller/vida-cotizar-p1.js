@@ -30,6 +30,7 @@
       
       $scope.validaInsuredForm = false;
       $scope.validaContractorForm = false;
+      $scope.activarInputCoberturaSecundaria = false;
       
       $scope.$on('personForm', function(event, data) {
         if (data.contratante) {
@@ -230,6 +231,7 @@
 
       if ($scope.data.producto) {
         _validatePPJ();
+        _validarCoberturasSecundariasPorRamo();
       }
 
       function _validatePPJ(){
@@ -281,6 +283,8 @@
         if ($scope.data.producto.CodigoProducto === 66102 || $scope.data.producto.CodigoProducto === 66101) {
           $scope.data.visibleCodigoPromocion = true;
         }
+
+        _validarCoberturasSecundariasPorRamo();
 
         $scope.optionEdit  = option ? option : 0;
         if ($scope.data.producto && $scope.data.producto.CodigoProducto !== null) {
@@ -548,10 +552,40 @@
         }
 
         $scope.data.coberturas.forEach(function(it) {
-          if (it.MarcaPrincipal == 'N') {
+          if (it.MarcaPrincipal === 'N') {
+            if ($scope.activarInputCoberturaSecundaria) {
+              if (it.MontoCobertura === 0 || it.MontoCobertura > item.MontoCobertura) {
+                it.MontoCobertura = item.MontoCobertura * (it.FactorAsegurado ? it.FactorAsegurado : 1);
+              }
+            } else {
               it.MontoCobertura = item.MontoCobertura * (it.FactorAsegurado ? it.FactorAsegurado : 1);
+            }
           }
         });
+        
+      }
+
+      $scope.onCoberturaSecundariaChange = function(item) {
+        var coberturaPrincipal = _.find($scope.data.coberturas, function (cobertura) { return cobertura.MarcaPrincipal === 'S'; });
+        if (item.MontoCobertura < coberturaPrincipal.ValorMinimoAsegurado) {
+          item.MontoCobertura = coberturaPrincipal.ValorMinimoAsegurado;
+        }
+        if (item.MontoCobertura > coberturaPrincipal.MontoCobertura) {
+          item.MontoCobertura = coberturaPrincipal.MontoCobertura;
+        }        
+      }
+
+      $scope.onCheckCobertura = function (item) {
+        if ($scope.activarInputCoberturaSecundaria) {
+          if (generalConstantVida.codCoberturaExcluyente.find(function (ce) { return ce === item.CodigoCobertura; })) {
+            var excluye = generalConstantVida.codCoberturaExcluyente.filter(function (ce) { return ce !== item.CodigoCobertura });
+            $scope.data.coberturas.forEach(function (co) {
+              if (excluye.find(function (ce) { return ce === co.CodigoCobertura; })) {
+                co.Checked = false;
+              }
+            });
+          }
+        }
       }
 
       $scope.getContractorData = function(data) {
@@ -931,7 +965,8 @@
         $scope.optionEdit = vQuotationNumber > 0 ? 1 : 0;
 
         $scope.data.producto = {
-          CodigoProducto: data.Producto.CodigoProducto //60425
+          CodigoProducto: data.Producto.CodigoProducto, //60425
+          CodigoRamo: data.Producto.CodigoRamo
         };
 
         codigoProductoOriginal = data.Producto.CodigoProducto;
@@ -1328,6 +1363,10 @@
           }]
         });
         */
+      }
+
+      function _validarCoberturasSecundariasPorRamo() {        
+        $scope.activarInputCoberturaSecundaria = _.contains(generalConstantVida.codRamosCoberturasSecundarias, $scope.data.producto.CodigoRamo);
       }
 
   }]);
