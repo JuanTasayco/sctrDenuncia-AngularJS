@@ -204,7 +204,7 @@ define([
         event.stopPropagation();
       }
       if(poliza.email){
-        mModalConfirm.confirmWarning('¿DESEA ENVIAR ENLACE DE AFILIACIÓN A ' + poliza.email.toUpperCase() +'?','','')
+        mModalConfirm.confirmWarning('¿DESEAS ENVIAR EL ENLACE DE AFILIACIÓN A ' + poliza.email.toUpperCase() +'?','','')
         .then(function () {
           gcwFactory.getSendLinkAfiliacion(gcwFactory.requestDocCartera(poliza)).then(function (response) {
             mModalAlert.showSuccess("El email ha sido enviado a " + poliza.email, "")
