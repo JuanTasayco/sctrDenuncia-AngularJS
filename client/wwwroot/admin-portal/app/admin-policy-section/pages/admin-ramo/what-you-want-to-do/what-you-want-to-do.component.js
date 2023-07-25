@@ -12,6 +12,7 @@ define(['angular', 'coreConstants', 'system', 'lodash'], function (ng, coreConst
         vm.openModal = openModal;
         vm.form = {}
         vm.focusTitle = true
+        vm.typeForm = "AGREGAR"
 
         function onInit() {
             AdminRamoFactory.subsChangeRamo(changeRamo);
@@ -62,9 +63,11 @@ define(['angular', 'coreConstants', 'system', 'lodash'], function (ng, coreConst
                 vm.form.active = data.item.active;
                 vm.form.order = data.item.order;
                 vm.focusTitle  =  true;
+                vm.typeForm = "EDITAR"
             } else {
                 vm.focusTitle  =  false;
                 vm.form = {}
+                vm.typeForm = "AGREGAR"
             }
 
             $uibModal.open({
