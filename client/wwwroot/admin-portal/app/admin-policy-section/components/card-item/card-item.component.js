@@ -34,20 +34,20 @@ define(['angular', 'coreConstants', 'system'], function (ng, coreConstants, syst
                 '¿Estás seguro de ' + (item.active ? 'habilitar' : 'inhabilitar') + ' el componente?',
                 'SI').then(function (response) {
                     if (response) {
-                        var body = {
-                            accion: "ACTIVE",
-                            activo: item.active
-                        }
-                        AdminRamoFactory.updateCardSection(vm.section.code, vm.ramo.code, item.contentId, body).then(
-                            function (data) {
-                                if (data.codigo === 1001) {
-                                    item.activo = !item.activo
-                                }
-                            },
-                            function () {
-                                item.activo = !item.activo
-                            }
-                        )
+            var body = {
+                accion: "ACTIVE",
+                activo: item.active
+            }
+            AdminRamoFactory.updateCardSection(vm.section.code, vm.ramo.code, item.contentId, body).then(
+                function (data) {
+                    if (data.codigo === 1001) {
+                        item.activo = !item.activo
+                    }
+                },
+                function () {
+                    item.activo = !item.activo
+                }
+            )
                     }
                 }).catch(function (error) {  item.active =!item.active });;
         }
