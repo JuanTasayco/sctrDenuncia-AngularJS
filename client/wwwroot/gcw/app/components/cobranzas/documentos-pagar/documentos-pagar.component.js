@@ -175,7 +175,7 @@ define([
         event.stopPropagation();
       }
       if(poliza.client.email){
-        mModalConfirm.confirmWarning('¿DESEA ENVIAR ENLACE DE PAGO A ' + poliza.client.email.toUpperCase() +'?','','')
+        mModalConfirm.confirmWarning('¿DESEAS ENVIAR EL ENLACE DE PAGO A ' + poliza.client.email.toUpperCase() +'?','','')
         .then(function () {
           gcwFactory.getSendLinkPago(gcwFactory.requestDocPagar(poliza)).then(function (response) {
             mModalAlert.showSuccess("El email ha sido enviado a " + poliza.client.email, "")
