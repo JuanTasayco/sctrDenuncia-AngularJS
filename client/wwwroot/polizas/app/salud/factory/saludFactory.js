@@ -687,7 +687,8 @@ define(['angular', 'constants', 'lodash'], function(angular, constants, _) {
 
       getListMotivosObservacion: getListMotivosObservacion,
       getListEstadosSolicitud: getListEstadosSolicitud,
-      descargarReporteDiagnostico: descargarReporteDiagnostico
+      descargarReporteDiagnostico: descargarReporteDiagnostico,
+      DiferenciaMeses: DiferenciaMeses
     };
 
     return factory;

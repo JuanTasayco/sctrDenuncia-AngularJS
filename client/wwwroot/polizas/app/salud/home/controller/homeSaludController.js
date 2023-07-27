@@ -11,7 +11,7 @@ define(['angular', 'constants', 'saludFactory'], function(
     var vm = this;
 
     vm.$onInit = function () {
-	  console.log('Version 11/07/23 09:00');
+	  console.log('Version 27/07/23 13:00');
       $scope.formData = $scope.formData || {};
       $scope.isAdmin = isAdmin;
     };
