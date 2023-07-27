@@ -34,7 +34,7 @@ define([], function () {
           nsctr: '@@urlNsctr',
           renovacion: "@@urlRenovacion",
           cgw: '@@urlCgw',
-          grqc: '@@urlGrqc',		  
+          grqc: '@@urlGrqc',
           powereps: '@@urlPowerEPS',
           gcw: '@@urlGcw',
           enel: '@@urlEnel',
@@ -333,8 +333,8 @@ define([], function () {
           companyCode: 1,
           codeCurrency: 1,
           tipoCondicionado: {
-            General: 1, 
-            Particular: 2 
+            General: 1,
+            Particular: 2
           }
         },
         accidentes: {
@@ -671,7 +671,7 @@ define([], function () {
           coordinador: { description: "CDC" },
           broker: { description: "CCB" }
         }
-      },	  
+      },
       inspec: {
         PROD: {
           urlWSRSoatLicensePlate: "https://oim.mapfre.com.pe/WSRSoat/vehicle/{plate}",
@@ -777,6 +777,7 @@ define([], function () {
         bodyClass: '',
         url: "@@urlBase",
         home: "/",
+        mfaCode: '1df288de5ea84eca9517f375b0974ee7',
       },
       myDream: {
         code: 'MYDREAM',
@@ -801,7 +802,7 @@ define([], function () {
     STORAGE_KEYS: {
       profile: 'profile',
       originSystem: 'originSystem'
-    }
+    },
   };
   constants = oim;
   return oim;

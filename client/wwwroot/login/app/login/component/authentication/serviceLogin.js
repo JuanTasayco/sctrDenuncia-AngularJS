@@ -69,7 +69,7 @@ define([
           $this.$controller.isRecurrente = mapfreAuthetication.isRecurrent() && !$this.$controller.tryCancelRecurrent;
           $this.$controller.showMessage = false;
           if ($this.$controller.isRecurrente) $this.setValueRecurrent();
-          
+
 
           $this.$controller.type = $this.get_info().code;
 
@@ -108,13 +108,19 @@ define([
           promise.then(
             function(response) {
               mpSpin.end();
-              if (response.userTypes.length > 1) {
-                var vUrl = _getParamUrl();
-                window.location.href = vUrl
-                  ? '/login?url=' + vUrl + $state.href('authoButtons')
-                  : '/login' + $state.href('authoButtons');
+
+              var vUrl = _getParamUrl();
+              var loginHref= vUrl ? '/login?url=' + vUrl : '/login';
+              var xMfa = !parseInt(response.headers('X-MFA'));
+
+              if (xMfa) {
+                window.location.href = loginHref + $state.href('authVerify');
               } else {
-                $this.finalSignIn(response.userTypes[0]);
+                if (response.userTypes.length > 1) {
+                  window.location.href = loginHref + $state.href('authoButtons');
+                } else {
+                  $this.finalSignIn(response.userTypes[0]);
+                }
               }
             },
             function(response) {

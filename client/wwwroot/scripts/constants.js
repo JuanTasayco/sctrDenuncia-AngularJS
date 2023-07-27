@@ -34,7 +34,7 @@ define([], function () {
           nsctr: 'https://oim.pre.mapfre.com.pe/oim_nsctr/',
           renovacion: "https://oim.pre.mapfre.com.pe/oim_renovacionpoliza/",
           cgw: 'https://oim.pre.mapfre.com.pe/oim_cgw/',
-          grqc: 'https://oim.pre.mapfre.com.pe/oim_cgw/',		  
+          grqc: 'https://oim.pre.mapfre.com.pe/oim_cgw/',
           powereps: 'https://oim.pre.mapfre.com.pe/powereps/',
           gcw: 'https://oim.pre.mapfre.com.pe/oim_gcw/',
           enel: 'https://oim.pre.mapfre.com.pe/oim_enel/',
@@ -333,8 +333,8 @@ define([], function () {
           companyCode: 1,
           codeCurrency: 1,
           tipoCondicionado: {
-            General: 1, 
-            Particular: 2 
+            General: 1,
+            Particular: 2
           }
         },
         accidentes: {
@@ -671,7 +671,7 @@ define([], function () {
           coordinador: { description: "CDC" },
           broker: { description: "CCB" }
         }
-      },	  
+      },
       inspec: {
         PROD: {
           urlWSRSoatLicensePlate: "https://oim.mapfre.com.pe/WSRSoat/vehicle/{plate}",
@@ -777,6 +777,7 @@ define([], function () {
         bodyClass: '',
         url: "https://oim.pre.mapfre.com.pe/",
         home: "/",
+        mfaCode: '1df288de5ea84eca9517f375b0974ee7',
       },
       myDream: {
         code: 'MYDREAM',

@@ -21,8 +21,18 @@
                 name: 'ErrorHandlerService',
                 path: '/login/app/services/errorHandler.service'
             },
-
-
+            AuthVerifyController: {
+              name: 'AuthVerifyController',
+              path: '/login/app/mfa/views/auth-verify/auth-verify.controller'
+            },
+            AuthCodeController: {
+              name: 'AuthCodeController',
+              path: '/login/app/mfa/views/auth-code/auth-code.controller'
+            },
+            MfaFactory: {
+              name: 'MfaFactory',
+              path: '/login/app/mfa/providers/services/mfa.factory'
+            },
         },
         shim: {
             loginTemplates: { deps: ["angular"] }

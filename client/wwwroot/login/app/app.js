@@ -9,7 +9,8 @@ define(['angular',
     'mDirective',
     'helper',
     'oim_security',
-    'loginTemplates'
+    'loginTemplates',
+    'storageManager',
 ], function(require, app_routes, angular_route) {
 
     var baseUrl = "";
@@ -25,7 +26,9 @@ define(['angular',
         'oim.security.authorization',
         'oim.wrap.gaia.httpSrv',
         'oim.wrap.gaia.cookieSrv',
-        'oim.login.templates'
+        'oim.login.templates',
+        'storage.manager',
+        'ngSanitize'
     ]);
 
 

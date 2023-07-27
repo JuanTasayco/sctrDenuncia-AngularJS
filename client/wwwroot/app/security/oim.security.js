@@ -770,7 +770,8 @@
             withCredentials: false
           });
           promise
-            .success(function(response) {
+            .success(function(response, status, headers, config) {
+              response.headers = headers;
               _setLocalStorage(_keyFirstToken, response.access_token);
               delete data.password;
                 _getUserTypes().then(
