@@ -96,9 +96,9 @@ define(['angular', 'moment',
         (window.URL || window.webkitURL).revokeObjectURL(response); // eslint-disable-line
       });
 
-      var filtros = {idProveedor: vm.proveid, idAuditoria: vm.idAudit};
+      const filtros = {idProveedor: vm.proveid, idAuditoria: vm.idAudit};
 
-      var obj = {
+      const obj = {
         "codigoAplicacion": "REF",
         "ipOrigen": vm.ipLocal,
         "tipoRegistro": "O",
@@ -111,14 +111,12 @@ define(['angular', 'moment',
         "codigoAgente": 0
       };
 
-      panelService.saveTracker(obj).then(function(data) {
-        data = data || [];
-      });
+      panelService.saveTracker(obj);
     };
 
     vm.historyAudit = function fnha() {
-      var filtros = {idProveedor: vm.proveid};
-      var obj = {
+      const filtros = {idProveedor: vm.proveid};
+      const obj = {
         "codigoAplicacion": "REF",
         "ipOrigen": vm.ipLocal, 
         "tipoRegistro": "O",
@@ -131,9 +129,7 @@ define(['angular', 'moment',
         "codigoAgente": 0
     };
 
-      panelService.saveTracker(obj).then(function(data) {
-        data = data || [];
-      });
+      panelService.saveTracker(obj);
     }
 
     panelService.getHistorialAuditorias(vm.proveid).then(function(data) {
@@ -245,9 +241,9 @@ define(['angular', 'moment',
         vm.retrieveAudit(-1, true);
       }
 
-      var filtros = {idProveedor: vm.proveid};
+      const filtros = {idProveedor: vm.proveid};
 
-      var obj = {
+      const obj = {
         "codigoAplicacion": "REF",
         "ipOrigen": vm.ipLocal,
         "tipoRegistro": "O",
@@ -260,9 +256,7 @@ define(['angular', 'moment',
         "codigoAgente": 0
       };
 
-      panelService.saveTracker(obj).then(function(data) {
-        data = data || [];
-      });
+      panelService.saveTracker(obj);
     };
 
     function openInitModal() {
@@ -305,9 +299,9 @@ define(['angular', 'moment',
       }
       */
 
-      var filtros = {idProveedor: vm.proveid, idAuditoria: vm.idAudit};
+      const filtros = {idProveedor: vm.proveid, idAuditoria: vm.idAudit};
 
-      var obj = {
+      const obj = {
         "codigoAplicacion": "REF",
         "ipOrigen": vm.ipLocal,
         "tipoRegistro": "O",
@@ -320,9 +314,7 @@ define(['angular', 'moment',
         "codigoAgente": 0
       };
       
-      panelService.saveTracker(obj).then(function(data) {
-        data = data || [];
-      });
+      panelService.saveTracker(obj);
     };
 
     function openEndModal() {
@@ -360,9 +352,9 @@ define(['angular', 'moment',
     vm.savingAudit = function() {
       openSaveModal();
 
-      var filtros = {idProveedor: vm.proveid};
+      const filtros = {idProveedor: vm.proveid};
 
-      var obj = {
+      const obj = {
         "codigoAplicacion": "REF",
         "ipOrigen": vm.ipLocal,
         "tipoRegistro": "O",
@@ -375,9 +367,7 @@ define(['angular', 'moment',
         "codigoAgente": 0
       };
       
-      panelService.saveTracker(obj).then(function(data) {
-        data = data || [];
-      });
+      panelService.saveTracker(obj);
     };
 
     function openSaveModal() {
@@ -643,7 +633,7 @@ define(['angular', 'moment',
       if(vm.typeFile) {
         vm.messageAlert = "";
         var file = e.files[0];
-        var reader = new FileReader();
+        const reader = new FileReader();
         reader.readAsDataURL(file);
         reader.onload = function () {
           var obj = {
@@ -710,9 +700,9 @@ define(['angular', 'moment',
         };
       }
 
-      var filtros = {idProveedor: vm.idProveedor, tipoArchivo: vm.typeFile.descFile};
+      const filtros = {idProveedor: vm.idProveedor, tipoArchivo: vm.typeFile.descFile};
 
-      var obj = {
+      const obj = {
         "codigoAplicacion": "REF",
         "ipOrigen": vm.ipLocal, 
         "tipoRegistro": "O",
@@ -725,9 +715,7 @@ define(['angular', 'moment',
         "codigoAgente": 0
       };
 
-      panelService.saveTracker(obj).then(function(data) {
-        data = data || [];
-      });
+      panelService.saveTracker(obj);
     };
 
     vm.downloadFile = function(item,seccion) {
@@ -795,9 +783,9 @@ define(['angular', 'moment',
           (window.URL || window.webkitURL).revokeObjectURL(data); // eslint-disable-line
         });
 
-        var filtros = {idProveedor: vm.idProveedor};
+        const filtros = {idProveedor: vm.idProveedor};
 
-        var obj = {
+        const obj = {
           "codigoAplicacion": "REF",
           "ipOrigen": vm.ipLocal,
           "tipoRegistro": "O",
@@ -1004,9 +992,9 @@ define(['angular', 'moment',
       vm.auditSaved = true;
       vm.auditSaving = true;
 
-      var filtros = {idProveedor: vm.proveid};
+      const filtros = {idProveedor: vm.proveid};
 
-      var obj = {
+      const obj = {
         "codigoAplicacion": "REF",
         "ipOrigen": vm.ipLocal, 
         "tipoRegistro": "O",
@@ -1019,9 +1007,7 @@ define(['angular', 'moment',
         "codigoAgente": 0
       };
 
-      panelService.saveTracker(obj).then(function(data) {
-        data = data || [];
-      });
+      panelService.saveTracker(obj);
     };
 
     vm.specialityChanged = function() {
@@ -1120,9 +1106,9 @@ define(['angular', 'moment',
       vm.auditSaved = true;
       vm.auditSaving = true;
 
-      var filtros = {idProveedor: vm.proveid};
+      const filtros = {idProveedor: vm.proveid};
 
-      var obj = {
+      const obj = {
         "codigoAplicacion": "REF",
         "ipOrigen": vm.ipLocal, 
         "tipoRegistro": "O",
@@ -1135,9 +1121,7 @@ define(['angular', 'moment',
         "codigoAgente": 0
       };
 
-      panelService.saveTracker(obj).then(function(data) {
-        data = data || [];
-      });
+      panelService.saveTracker(obj);
     };
 
     vm.serviceChanged = function() {

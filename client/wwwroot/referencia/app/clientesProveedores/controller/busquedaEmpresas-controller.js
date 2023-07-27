@@ -193,7 +193,7 @@ define(['angular', 'paginate', 'lodash'
 
       $scope.filterData(vm.filter); // eslint-disable-line
 
-      var obj = {
+      const obj = {
         "codigoAplicacion": "REF",
         "ipOrigen": vm.ipLocal,
         "tipoRegistro": "O",
@@ -206,9 +206,7 @@ define(['angular', 'paginate', 'lodash'
         "codigoAgente": 0
       };
 
-      panelService.saveTracker(obj).then(function(data) {
-        data = data || [];
-      });
+      panelService.saveTracker(obj);
     };
 
     vm.resetFilter = function rfFn() {
@@ -238,7 +236,7 @@ define(['angular', 'paginate', 'lodash'
 
       $state.go('referencia.panel.clientes.busqueda', data);
 
-      var obj = {
+      const obj = {
         "codigoAplicacion": "REF",
         "ipOrigen": vm.ipLocal,
         "tipoRegistro": "O",
@@ -251,9 +249,7 @@ define(['angular', 'paginate', 'lodash'
         "codigoAgente": 0
       };
 
-      panelService.saveTracker(obj).then(function(data) {
-        data = data || [];
-      });
+      panelService.saveTracker(obj);
     };
 
     // Pagination

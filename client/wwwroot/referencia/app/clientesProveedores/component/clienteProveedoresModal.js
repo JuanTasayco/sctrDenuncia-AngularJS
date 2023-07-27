@@ -12,7 +12,7 @@ define(['angular'], function(ng) {
       vm.loader.loading = true;
       vm.close();
 
-      var obj = {
+      const obj = {
         "codigoAplicacion": "REF",
         "ipOrigen": vm.ipLocal, 
         "tipoRegistro": "O",
@@ -25,9 +25,7 @@ define(['angular'], function(ng) {
         "codigoAgente": 0
       };
 
-      panelService.saveTracker(obj).then(function(data) {
-        data = data || [];
-      });
+      panelService.saveTracker(obj);
     };
     vm.openProveedores = function ocFn() {
       $state.go('referencia.panel.proveedores');
@@ -35,7 +33,7 @@ define(['angular'], function(ng) {
       vm.loader.loading = true;
       vm.close();
 
-      var obj = {
+      const obj = {
         "codigoAplicacion": "REF",
         "ipOrigen": vm.ipLocal, 
         "tipoRegistro": "O",
@@ -48,9 +46,7 @@ define(['angular'], function(ng) {
         "codigoAgente": 0
       };
 
-      panelService.saveTracker(obj).then(function(data) {
-        data = data || [];
-      });
+      panelService.saveTracker(obj);
     };
   }]).component('modalcpReferencia', {
     templateUrl: '/referencia/app/clientesProveedores/component/clienteProveedoresModal.html',

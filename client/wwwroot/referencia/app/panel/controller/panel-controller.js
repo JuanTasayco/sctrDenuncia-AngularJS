@@ -16,12 +16,12 @@ define(['angular',
     vm.isAdmin = oimPrincipal.get_role() === 'ADMREF';
     vm.isDoctor = oimPrincipal.get_role() === 'MEDREF';
 
-    console.log("V2023-07-03 0900");
+    console.log("V2023-07-28 0900");
 
     function trackHome() {
-      var ipLocal = $window.localStorage['clientIp'] ? $window.localStorage['clientIp'] : "0.0.0.0";
+      let ipLocal = $window.localStorage['clientIp'] ? $window.localStorage['clientIp'] : "0.0.0.0";
 
-      var obj = {
+      const obj = {
         "codigoAplicacion": "REF",
         "ipOrigen": ipLocal, 
         "tipoRegistro": "O",
@@ -34,9 +34,7 @@ define(['angular',
         "codigoAgente": 0
       };
 
-      panelService.saveTracker(obj).then(function(data) {
-        data = data || [];
-      });
+      panelService.saveTracker(obj);
     };
 
     trackHome();

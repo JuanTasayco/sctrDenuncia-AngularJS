@@ -176,10 +176,10 @@ define(['angular', 'lodash'], function(ng, _) {
       vm.loader.text = 'Estamos cargando la lista de proveedores';
       $state.go('referencia.panel.proveedores.busqueda', data);
 
-      var opcionMenu = vm.showFrmAttr ? "Proveedores/Perú - Buscar proveedor - atributos" : "Proveedores/Perú - Buscar proveedor - nombre";
-      var descripcionOperacion = vm.showFrmAttr ? "Click al botón Buscar Proveedores - atributos" : "Click al botón Buscar Proveedores - nombre";
+      let opcionMenu = vm.showFrmAttr ? "Proveedores/Perú - Buscar proveedor - atributos" : "Proveedores/Perú - Buscar proveedor - nombre";
+      let descripcionOperacion = vm.showFrmAttr ? "Click al botón Buscar Proveedores - atributos" : "Click al botón Buscar Proveedores - nombre";
 
-      var obj = {
+      const obj = {
         "codigoAplicacion": "REF",
         "ipOrigen": vm.ipLocal,
         "tipoRegistro": "O",
@@ -192,9 +192,7 @@ define(['angular', 'lodash'], function(ng, _) {
         "codigoAgente": 0
       };
 
-      panelService.saveTracker(obj).then(function(data) {
-        data = data || [];
-      });
+      panelService.saveTracker(obj);
     };
 
     var unBindChangeMapListener = $scope.$on('changeMapProveedores', function(event, data) {

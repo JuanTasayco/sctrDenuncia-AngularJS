@@ -285,7 +285,7 @@ define(['angular', 'lodash', 'paginate', 'typeahead', 'bloodhound'], function(ng
       vm.toFilter.pagina = 1;
       $scope.filterData(vm.toFilter); // eslint-disable-line
 
-      var obj = {
+      const obj = {
         "codigoAplicacion": "REF",
         "ipOrigen": vm.ipLocal,
         "tipoRegistro": "O",
@@ -298,9 +298,7 @@ define(['angular', 'lodash', 'paginate', 'typeahead', 'bloodhound'], function(ng
         "codigoAgente": 0
       };
 
-      panelService.saveTracker(obj).then(function(data) {
-        data = data || [];
-      });
+      panelService.saveTracker(obj);
     };
 
     vm.resetFilter = function rfFn() {
@@ -319,7 +317,7 @@ define(['angular', 'lodash', 'paginate', 'typeahead', 'bloodhound'], function(ng
 
       $state.go('referencia.panel.proveedores.busqueda.detalle.info', data);
 
-      var obj = {
+      const obj = {
         "codigoAplicacion": "REF",
         "ipOrigen": vm.ipLocal,
         "tipoRegistro": "O",
@@ -332,9 +330,7 @@ define(['angular', 'lodash', 'paginate', 'typeahead', 'bloodhound'], function(ng
         "codigoAgente": 0
       };
 
-      panelService.saveTracker(obj).then(function(data) {
-        data = data || [];
-      });
+      panelService.saveTracker(obj);
     };
 
     var tasUnFn = $scope.$on('typeahead:select', function tasFn() {
