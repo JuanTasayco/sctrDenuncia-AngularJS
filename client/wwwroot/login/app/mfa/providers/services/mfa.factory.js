@@ -1,50 +1,29 @@
 'use strict'
 
-define(['angular', 'constants', 'lodash'], function (angular, constants, lodash) {
-  MfaFactory.$inject = ['proxyMfa', '$q'];
-  function MfaFactory(proxyMfa, $q) {
+define(['angular', 'constants', 'lodash', '/login/app/mfa/providers/services/mocks.js'], function (angular, constants, lodash, mocks) {
+  MfaFactory.$inject = ['proxyMfa', '$q', '$cookies', 'localStorageFactory'];
+  function MfaFactory(proxyMfa, $q, $cookies, localStorageFactory) {
     var modalities = null;
-    var resModalities = {
-      "message": "Process executed successfully",
-      "timestamp": 1690498378127,
-      "operationCode": 200,
-      "data": [
-          {
-              "modalityCode": "79d9b9dfa274440590a62b6357977c46",
-              "detail": [
-                  {
-                      "field": "TXT_CORREO",
-                      "value": "Enviar por <b>correo electrónico</b> a: <br><b>eri**@multiplica.com</b>"
-                  },
-                  {
-                      "field": "TXT_CORREO_VALIDAR",
-                      "value": "Hemos enviado un <b>correo electrónico</b> a: <b>eri**@multiplica.com</b>"
-                  }
-              ]
-          },
-          {
-              "modalityCode": "fe6d97c0288942b491d68f6183d01a8c",
-              "detail": [
-                  {
-                      "field": "TXT_SMS",
-                      "value": "Enviar por <b>mensaje de texto</b> al: <br><b>*******47</b>"
-                  },
-                  {
-                      "field": "TXT_SMS_VALIDAR",
-                      "value": "Hemos enviado un <b>mensaje de texto</b> al: <b>*******47</b>"
-                  }
-              ]
-          }
-      ]
-    };
 
-    function _modalities(applicationSeachModelRequest, showSpin) {
+    function _getReqCommon() {
+      var profile = localStorageFactory.getItem('profile', false);
+
+      return {
+        functionalityCode: '68d25e88b7844e56983850dda4e270e0',
+        applicationCode : constants.ORIGIN_SYSTEMS.oim.mfaCode,
+        deviceCode: $cookies.get('deviceCode'),
+        userName: profile.username
+      };
+    }
+
+    function _modalities(showSpin) {
       if (modalities) {
         return $q.resolve(modalities);
       }
 
-      /*var deferred = $q.defer();
-      proxyMfa.ApplicacionSearchModalities(constants.ORIGIN_SYSTEMS.oim.mfaCode, applicationSeachModelRequest, showSpin)
+      /*var reqCommon = _getReqCommon();
+      var deferred = $q.defer();
+      proxyMfa.ApplicacionSearchModalities(reqCommon.applicationCode, { deviceCode: reqCommon.deviceCode }, showSpin)
         .then(function (res) {
           modalities = res.data;
           deferred.resolve(modalities);
@@ -52,13 +31,15 @@ define(['angular', 'constants', 'lodash'], function (angular, constants, lodash)
           deferred.reject(err.statusText);
         });*/
       var deferred = $q.defer();
-      deferred.resolve(resModalities);
+      modalities = mocks.MODALITIES;
+      deferred.resolve(modalities);
 
       return deferred.promise;
     }
 
-    function _modalityByCode(code, applicationSeachModelRequest) {
-      _modalities(applicationSeachModelRequest, showSpin)
+    function _modalityByCode(code, showSpin) {
+      var deferred = $q.defer();
+      _modalities(showSpin)
         .then(function(resModalities) {
           var modality = _.find(resModalities.data, function(item) { return item.modalityCode === code; });
           deferred.resolve(modality);
@@ -88,10 +69,28 @@ define(['angular', 'constants', 'lodash'], function (angular, constants, lodash)
       };
     }
 
+    function _sendCode(modalityCode, showSpin) {
+      var bodySendCode = Object.assign(_getReqCommon(), {
+        modalityCode: modalityCode
+      });
+
+      return proxyMfa.CreateMessage(bodySendCode, showSpin);
+    }
+
+    function _checkCode(reqCheckCode, showSpin) {
+      var bodyCheckCode = Object.assign(_getReqCommon(), reqCheckCode);
+
+      return proxyMfa.ValidateMessage(bodyCheckCode, showSpin);
+    }
+
+
+
     return {
       modalities: _modalities,
       modalityByCode: _modalityByCode,
       parseModalityByView: _parseModalityByView,
+      sendCode: _sendCode,
+      checkCode: _checkCode
     };
   }
 

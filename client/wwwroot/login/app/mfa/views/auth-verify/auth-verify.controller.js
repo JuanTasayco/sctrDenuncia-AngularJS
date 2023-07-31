@@ -3,25 +3,30 @@ define(['angular', 'constants', 'lodash', 'MfaFactory'], function(angular, const
   AuthVerifyController.$inject = ['$scope', '$state', 'MfaFactory', 'localStorageFactory'];
   function AuthVerifyController($scope, $state, MfaFactory, localStorageFactory) {
     var vm = this;
-    vm.modalities = [];
 
-    vm.$onInit = function() {
-      console.log('AuthVerifyController');
+    vm.modalities = [];
+    vm.$onInit = onInit;
+    vm.onGoTo = onGoTo;
+
+    function onInit() {
       _getModalties();
-    };
+    }
 
     function _getModalties() {
-      const reqModalities = {
-        deviceCode: 'f55d02ddc611421db6f80966b2a9df78'
-      };
-
-      MfaFactory.modalities(reqModalities)
+      MfaFactory.modalities()
         .then(function(resModalities) {
           vm.modalities = _.map(resModalities.data, function(modality) { return MfaFactory.parseModalityByView(modality, 'auth-verify') });
         });
     }
 
-    vm.onVerifyIdentity = function() {};
+    function onGoTo(item) {
+      localStorageFactory.setItem('modalityCode', item.code);
+
+      MfaFactory.sendCode(item.code, true)
+        .then(function() {
+          $state.go('authCode');
+        });
+    }
   }
 
   return angular

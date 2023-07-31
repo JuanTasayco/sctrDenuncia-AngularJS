@@ -581,7 +581,7 @@
 
   angular
     .module('oim.security.authentication',
-      ['satellizer', 'oim.google.analytics', 'origin.system', 'oim.theme.service', 'oim.proxyService.mydream'])
+      ['satellizer', 'oim.google.analytics', 'origin.system', 'oim.theme.service', 'oim.proxyService.mydream', 'ngCookies'])
     .config([
       '$authProvider',
       function($authProvider) {
@@ -612,6 +612,7 @@
         'proxyEncrypt',
         'httpData',
         'proxyLoginRsa',
+        '$cookies',
         function (
           $window,
           $location,
@@ -629,7 +630,8 @@
           proxyHome,
           proxyEncrypt,
           httpData,
-          proxyLoginRsa
+          proxyLoginRsa,
+          $cookies
           ) {
 
           var $this = this;
@@ -747,10 +749,33 @@
                 url: base2 + url,
                 headers: {
                   'Content-Type': 'application/json',
-                  'Authorization': 'Bearer ' + _getLocalStorage(_keyFirstToken)
+                  'Authorization': 'Bearer ' + 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyh_Jfb4Q-Npx7KPnA9kapdISPLbbcBFoLqesZ21H_Ci25xIgXtoHtBpf4Hv308VWQqX6JhBUOMX5Dzp1LZRxG4sUgrhcGdcdrYioBhKmMYKXL0Jq2ylH1eiTG6pbVpy1oTdfYjlFbUK11k_kVCz4481PslchJ61_M9xCVqkFVUhJT3bz2Q7e3DA7mM8TqCC-W8gb0p_9GECp-91R_5cn_RBRFUcNPBCONChz1VHGKPmfJLLvGZz7RM5_UjTUcZ6pETqqrxlfmoepi1IOsyoEhaPMvAGweBsOWX-Kjsvh8_cB31IeXl5iaNz6oD1-LfrFUJKkXw6I0iGMNjJayTz64fRp_yzYxhup_ZdQKjgywQNgJwfAySsUhYp-Y_EDOOaq7pCCkw4UYFXhwGrdQ4LOIfOV6pEOdYcR_GLJ6EoVkMpK4ClFznI89eUaWLekC9O9tIddbL5Z1S7ApOCQzI6g1CxgLW5LI2UtBZB59vn0mXlAF3Kbs5EOpC-Hu4TdrVRCjksPdak_XHnasIv3Fd_Z9J_LDnkwNwpYSCa9dIXsVy4RBx9ndffroIPGmOr1h0H33SJ6kq-D17UEv_PH5aV18It3Xb-e4R7EnjZ1aKZgOtt0bREBbgpD-Po8SkqJbcHY1D0l7Hgb8Y76sL_iWHyvztJ5I-qeGXfmCOVE3YwygdjIggu0oTFQEiErocpnKVFUtbjwlkmDGItPdPgbC8Mm0OLNS0V7LBlX0ETsiVLMx0iSa3HOEudbyl8QRdPrFJiaEZb8_fpnh82HdhLYwR8HQppK4YoRcg1IcuZnugHHiIN0juSURtPxam_zNeRI2xuFPh1FO3l4TUoUs6323VnWpAAwbt2P_KMmWqGvZFI6IP_YlPguTCvufCITQ83TQAzE2ZZ36gO6oGa0PPpfEGOqegkYq4D6gLDVUOCvbCWkCuq-tYFTvCg4FqSJg-dfZF_yx5EWUWT4lWvQIu6Hl2Xin051-njIoyhlqgN8pQvJvbEfrwcOLIxI-KQW8KUeiU_3BTKWKc-g7F1vmifrBXw_IEU1wqiwCXhjCnvnVnhHTw9FFNCZYIyA9GUrHqAi2BO1U9FdAI1lHsslLRVwfFC7NZJY8hco8L1QYzR1jRwVvhZY7-pv3kwpGQ7dOPLe2kOImzUBTVPhbp713rnh4lxf1sp8uRObM18AxFmWI86Rg8LlK9U7JrEZg2kO8gaVQYnPPqjZuFF_d1MzlKBKpI36Wlsztka3Jr-pQBQVC9UsT_pV_YlwkF6VtFn7rY_VDA6NXaYZiviB37TBvZ62cqwsi0UoMKQ9R7nQounPVJkj0mcW65OwhyejaAShex3EZE5pcpVcf6Dh20L9JXTXmw-2mQ3Vr2BjfiaNsiOmn6uDiwrI=.AM'
+                  //_getLocalStorage(_keyFirstToken)
                 }
             });
           return p;
+        }
+
+        function getHeadersSignIn() {
+          var headers = {
+            'Content-Type': 'application/x-www-form-urlencoded'
+          };
+
+          var deviceCode = $cookies.get('deviceCode');
+          if (!deviceCode) {
+            deviceCode = crypto.randomUUID();
+            var today = new Date();
+            var exp = new Date(today);
+            exp.setDate(exp.getDate() + 90);
+            $cookies.put('deviceCode', deviceCode, { expires: exp });
+          }
+
+          var headerMfa = {
+            'X-App-Code': constants.ORIGIN_SYSTEMS.oim.mfaCode,
+            'X-Device-Code': deviceCode
+          };
+
+          return Object.assign(headers, headerMfa);
         }
 
         this.signIn = function(credentials, profile) {
@@ -765,7 +790,8 @@
           };
           var promise = $auth.signup(undefined, {
             method: 'POST',
-            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            headers: getHeadersSignIn(),
+            // headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
             data: $httpParamSerializerJQLike(data),
             withCredentials: false
           });

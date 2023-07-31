@@ -103,7 +103,7 @@ define([
           mpSpin.start('Estamos verificando sus credenciales...');
 
           var credentials = this.get_credentials(),
-            promise = mapfreAuthetication.signIn(credentials);
+            promise = mapfreAuthetication.signIn(credentials, { username: credentials.username });
 
           promise.then(
             function(response) {
@@ -111,7 +111,7 @@ define([
 
               var vUrl = _getParamUrl();
               var loginHref= vUrl ? '/login?url=' + vUrl : '/login';
-              var xMfa = !parseInt(response.headers('X-MFA'));
+              var xMfa = !!parseInt(response.headers('X-MFA'));
 
               if (xMfa) {
                 window.location.href = loginHref + $state.href('authVerify');

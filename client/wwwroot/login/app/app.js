@@ -11,6 +11,7 @@ define(['angular',
     'oim_security',
     'loginTemplates',
     'storageManager',
+    'angular_cookies'
 ], function(require, app_routes, angular_route) {
 
     var baseUrl = "";
@@ -28,7 +29,8 @@ define(['angular',
         'oim.wrap.gaia.cookieSrv',
         'oim.login.templates',
         'storage.manager',
-        'ngSanitize'
+        'ngSanitize',
+        'ngCookies'
     ]);
 
 

@@ -321,7 +321,7 @@
 
                   'angular'
 
-                ] 
+                ]
 
               },
             jquery: { exports: '$' },
@@ -365,7 +365,7 @@
             oim_ocLazyLoad: {deps:['angular_ocLazyLoad', 'angular_ui_route']},
             proxyLogin : { deps: ['wrap_gaia'] },
             proxyTrip : { deps: ['wrap_gaia'] },
-            oim_security : { deps: ['satellizer', 'proxyLogin', 'oimGoogleAnalytics', 'originSystem', 'proxyHome'] },
+            oim_security : { deps: ['satellizer', 'proxyLogin', 'oimGoogleAnalytics', 'originSystem', 'proxyHome', 'angular_cookies'] },
             mxPaginador : { deps: ['mDirective'] },
             lyra: { deps: ['mDirective'] },
             'images-resizer': { deps: ['angular'] },
