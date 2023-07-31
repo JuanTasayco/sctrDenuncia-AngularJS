@@ -802,7 +802,7 @@ define([], function () {
     STORAGE_KEYS: {
       profile: 'profile',
       originSystem: 'originSystem'
-    },
+    }
   };
   constants = oim;
   return oim;

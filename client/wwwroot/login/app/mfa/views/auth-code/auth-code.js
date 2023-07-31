@@ -1,10 +1,20 @@
 'use strict';
-define(['angular', 'system', 'lodash', '/login/app/login/component/authentication/serviceLogin.js', 'MfaFactory'], function(angular, system, _) {
-  AuthCodeController.$inject = ['$scope', '$state', 'MfaFactory', 'localStorageFactory', 'serviceLogin', 'mModalAlert'];
-  function AuthCodeController($scope, $state, MfaFactory, localStorageFactory, serviceLogin, mModalAlert) {
+define([
+  'angular',
+  'system',
+  'lodash',
+  'MfaFactory',
+  '/login/app/login/service/loginFactory.js',
+  '/login/app/login/component/authentication/serviceLogin.js',
+  'InputCodesController'
+], function(angular, system, _) {
+  AuthCodeController.$inject = ['$scope', '$state', 'MfaFactory', 'localStorageFactory', 'serviceLogin', 'mModalAlert', 'mapfreAuthetication'];
+  function AuthCodeController($scope, $state, MfaFactory, localStorageFactory, serviceLogin, mModalAlert, mapfreAuthetication) {
     var vm = this;
 
-    vm.modality = '';
+    vm.modality = {};
+    vm.inputCodesQuantity = 6;
+    vm.mInputCode = {};
     vm.$onInit = onInit;
     vm.onResend = onResend;
     vm.onSumitCode = onSumitCode;
@@ -16,7 +26,7 @@ define(['angular', 'system', 'lodash', '/login/app/login/component/authenticatio
     function _getModalty() {
       var modalityCode = localStorageFactory.getItem('modalityCode');
 
-      MfaFactory.modalityByCode(modalityCode)
+      MfaFactory.getModalityByCode(modalityCode)
         .then(function(resModality) {
           vm.modality = MfaFactory.parseModalityByView(resModality, 'code-verify');
         });
@@ -35,29 +45,32 @@ define(['angular', 'system', 'lodash', '/login/app/login/component/authenticatio
         });
     }
 
-    function _finalSignIn(userOfUserTypes) {
-      var userType = _.find(constants.typeLogin, function(item) { return item.subType == userOfUserTypes.groupType; });
-      var user = Object.assign(userType, userOfUserTypes);
+    function _getCode() {
+      return _.reduce(Object.keys(vm.mInputCode), function(acc, inputCodeKey) {
+        acc = acc + vm.mInputCode[inputCodeKey];
 
-      auth = serviceLogin.resolve(user.code, $scope, vm);
-      auth.finalSignIn(user);
+        return acc;
+      }, '');
+    }
+
+    function _signIn() {
+      var credentials = mapfreAuthetication.getCredentials();
+      var user = localStorageFactory.getItem('profile', false);
+
+      var auth = serviceLogin.resolve(user.code, $scope, { credentials: credentials });
+      auth.signIn();
     }
 
     function onSumitCode() {
       var reqCheckCode = {
         modalityCode: localStorageFactory.getItem('modalityCode'),
-        code: ''
+        code: _getCode()
       };
 
       MfaFactory.checkCode(reqCheckCode, true)
         .then(function(resCheckCode) {
           if (resCheckCode.operationCode ===  constants.operationCode.success) {
-            var userTypes = localStorageFactory.getItem('lsUserTypes');
-            if (userTypes.length > 1) {
-              $state.go('authoButtons');
-            } else {
-              _finalSignIn(userTypes[0]);
-            }
+            _signIn();
           } else {
             mModalAlert.showWarning(resCheckCode.message, 'Opps');
           }
@@ -69,7 +82,7 @@ define(['angular', 'system', 'lodash', '/login/app/login/component/authenticatio
     .module('appLogin')
     .controller('AuthCodeController', AuthCodeController)
     .component('loginAuthCode', {
-      templateUrl: '/login/app/mfa/views/auth-code/auth-code.template.html',
+      templateUrl: '/login/app/mfa/views/auth-code/auth-code.html',
       controller: 'AuthCodeController',
       controllerAs: 'vm'
     });

@@ -365,7 +365,7 @@
             oim_ocLazyLoad: {deps:['angular_ocLazyLoad', 'angular_ui_route']},
             proxyLogin : { deps: ['wrap_gaia'] },
             proxyTrip : { deps: ['wrap_gaia'] },
-            oim_security : { deps: ['satellizer', 'proxyLogin', 'oimGoogleAnalytics', 'originSystem', 'proxyHome', 'angular_cookies'] },
+            oim_security : { deps: ['satellizer', 'proxyLogin', 'oimGoogleAnalytics', 'originSystem', 'proxyHome', 'angular_cookies', 'storageManager'] },
             mxPaginador : { deps: ['mDirective'] },
             lyra: { deps: ['mDirective'] },
             'images-resizer': { deps: ['angular'] },
@@ -377,7 +377,8 @@
             deps : ['uIBootstrap' ],
             'crypto-js': { exports: 'crypto-js' },
             proxyHome : { deps: ['wrap_gaia'] },
-            mpfCardFilter: { deps: ['mDirective'] }
+            mpfCardFilter: { deps: ['mDirective'] },
+            angular_cookies: { deps: ['angular'] }
         },
         packages: {
         }

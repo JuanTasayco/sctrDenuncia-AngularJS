@@ -1,5 +1,5 @@
 'use strict';
-define(['angular', 'constants', 'lodash', 'MfaFactory'], function(angular, constants, _) {
+define(['angular', 'constants', 'lodash', 'MfaFactory', 'CardModalityController'], function(angular, constants, _) {
   AuthVerifyController.$inject = ['$scope', '$state', 'MfaFactory', 'localStorageFactory'];
   function AuthVerifyController($scope, $state, MfaFactory, localStorageFactory) {
     var vm = this;
@@ -13,16 +13,16 @@ define(['angular', 'constants', 'lodash', 'MfaFactory'], function(angular, const
     }
 
     function _getModalties() {
-      MfaFactory.modalities()
+      MfaFactory.getModalities()
         .then(function(resModalities) {
-          vm.modalities = _.map(resModalities.data, function(modality) { return MfaFactory.parseModalityByView(modality, 'auth-verify') });
+          vm.modalities = _.map(resModalities, function(modality) { return MfaFactory.parseModalityByView(modality, 'auth-verify') });
         });
     }
 
-    function onGoTo(item) {
-      localStorageFactory.setItem('modalityCode', item.code);
+    function onGoTo(modality) {
+      localStorageFactory.setItem('modalityCode', modality.code);
 
-      MfaFactory.sendCode(item.code, true)
+      MfaFactory.sendCode(modality.code, true)
         .then(function() {
           $state.go('authCode');
         });
@@ -33,7 +33,7 @@ define(['angular', 'constants', 'lodash', 'MfaFactory'], function(angular, const
     .module('appLogin')
     .controller('AuthVerifyController', AuthVerifyController)
     .component('loginAuthVerify', {
-      templateUrl: '/login/app/mfa/views/auth-verify/auth-verify.template.html',
+      templateUrl: '/login/app/mfa/views/auth-verify/auth-verify.html',
       controller: 'AuthVerifyController',
       controllerAs: 'vm'
     });

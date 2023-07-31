@@ -581,7 +581,7 @@
 
   angular
     .module('oim.security.authentication',
-      ['satellizer', 'oim.google.analytics', 'origin.system', 'oim.theme.service', 'oim.proxyService.mydream', 'ngCookies'])
+      ['satellizer', 'oim.google.analytics', 'origin.system', 'oim.theme.service', 'oim.proxyService.mydream', 'ngCookies', 'storage.manager'])
     .config([
       '$authProvider',
       function($authProvider) {
@@ -613,6 +613,7 @@
         'httpData',
         'proxyLoginRsa',
         '$cookies',
+        'localStorageFactory',
         function (
           $window,
           $location,
@@ -631,7 +632,8 @@
           proxyEncrypt,
           httpData,
           proxyLoginRsa,
-          $cookies
+          $cookies,
+          localStorageFactory
           ) {
 
           var $this = this;
@@ -663,19 +665,6 @@
                   userprofile: response.data[5].value.toUpperCase()
                 };
 
-              function _getUserTypesList() {
-                var defer = $q.defer();
-                var userTypesList = _getLocalStorage(_keyUserTypes, true);
-
-                (userTypesList && userTypesList.length)
-                  ? defer.resolve(userTypesList)
-                  : _getUserTypes().then(function(resUserTypes) {
-                      defer.resolve(resUserTypes.data.data || []);
-                    });
-
-                return defer.promise;
-              }
-
               function _spreadProfile(profile, data) {
                 var userTypeItem = _.find(data, function(value) {
                   return value.groupType === parseInt(profile.userSubType);
@@ -684,13 +673,12 @@
                 return profile;
               }
 
-              _getUserTypesList().then(
-                function(userTypesListRes) {
-                  vProfile = _spreadProfile(vProfile, userTypesListRes);
+              getUserTypes()
+                .then(function(resUserTypes) {
+                  vProfile = _spreadProfile(vProfile, resUserTypes);
                   _set_profile(vProfile);
                   defer.resolve(response);
-                }
-              );
+                });
             },
             function error(response) {
               defer.reject(response);
@@ -741,22 +729,54 @@
             delete $window.localStorage[value];
           });
         }
-        function _getUserTypes() {
-          var url = 'api/person/GetUsers',
-            p = $http(
-              {
-                method: 'POST',
-                url: base2 + url,
-                headers: {
-                  'Content-Type': 'application/json',
-                  'Authorization': 'Bearer ' + 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyh_Jfb4Q-Npx7KPnA9kapdISPLbbcBFoLqesZ21H_Ci25xIgXtoHtBpf4Hv308VWQqX6JhBUOMX5Dzp1LZRxG4sUgrhcGdcdrYioBhKmMYKXL0Jq2ylH1eiTG6pbVpy1oTdfYjlFbUK11k_kVCz4481PslchJ61_M9xCVqkFVUhJT3bz2Q7e3DA7mM8TqCC-W8gb0p_9GECp-91R_5cn_RBRFUcNPBCONChz1VHGKPmfJLLvGZz7RM5_UjTUcZ6pETqqrxlfmoepi1IOsyoEhaPMvAGweBsOWX-Kjsvh8_cB31IeXl5iaNz6oD1-LfrFUJKkXw6I0iGMNjJayTz64fRp_yzYxhup_ZdQKjgywQNgJwfAySsUhYp-Y_EDOOaq7pCCkw4UYFXhwGrdQ4LOIfOV6pEOdYcR_GLJ6EoVkMpK4ClFznI89eUaWLekC9O9tIddbL5Z1S7ApOCQzI6g1CxgLW5LI2UtBZB59vn0mXlAF3Kbs5EOpC-Hu4TdrVRCjksPdak_XHnasIv3Fd_Z9J_LDnkwNwpYSCa9dIXsVy4RBx9ndffroIPGmOr1h0H33SJ6kq-D17UEv_PH5aV18It3Xb-e4R7EnjZ1aKZgOtt0bREBbgpD-Po8SkqJbcHY1D0l7Hgb8Y76sL_iWHyvztJ5I-qeGXfmCOVE3YwygdjIggu0oTFQEiErocpnKVFUtbjwlkmDGItPdPgbC8Mm0OLNS0V7LBlX0ETsiVLMx0iSa3HOEudbyl8QRdPrFJiaEZb8_fpnh82HdhLYwR8HQppK4YoRcg1IcuZnugHHiIN0juSURtPxam_zNeRI2xuFPh1FO3l4TUoUs6323VnWpAAwbt2P_KMmWqGvZFI6IP_YlPguTCvufCITQ83TQAzE2ZZ36gO6oGa0PPpfEGOqegkYq4D6gLDVUOCvbCWkCuq-tYFTvCg4FqSJg-dfZF_yx5EWUWT4lWvQIu6Hl2Xin051-njIoyhlqgN8pQvJvbEfrwcOLIxI-KQW8KUeiU_3BTKWKc-g7F1vmifrBXw_IEU1wqiwCXhjCnvnVnhHTw9FFNCZYIyA9GUrHqAi2BO1U9FdAI1lHsslLRVwfFC7NZJY8hco8L1QYzR1jRwVvhZY7-pv3kwpGQ7dOPLe2kOImzUBTVPhbp713rnh4lxf1sp8uRObM18AxFmWI86Rg8LlK9U7JrEZg2kO8gaVQYnPPqjZuFF_d1MzlKBKpI36Wlsztka3Jr-pQBQVC9UsT_pV_YlwkF6VtFn7rY_VDA6NXaYZiviB37TBvZ62cqwsi0UoMKQ9R7nQounPVJkj0mcW65OwhyejaAShex3EZE5pcpVcf6Dh20L9JXTXmw-2mQ3Vr2BjfiaNsiOmn6uDiwrI=.AM'
-                  //_getLocalStorage(_keyFirstToken)
-                }
-            });
-          return p;
+
+        function setUserTypes(v) {
+          localStorageFactory.setItem(_keyUserTypes, v);
         }
 
-        function getHeadersSignIn() {
+        function _userTypes() {
+          return $http({
+            method: 'POST',
+            url: base2 + 'api/person/GetUsers',
+            headers: {
+              'Content-Type': 'application/json',
+              'Authorization': 'Bearer ' + _getLocalStorage(_keyFirstToken)
+            }
+          });
+        }
+
+        function getUserTypes() {
+          var userTypes = localStorageFactory.getItem(_keyUserTypes);
+          var defer = $q.defer();
+
+          if (userTypes && userTypes.length) {
+            defer.resolve(userTypes);
+          } else {
+            _userTypes().then(function(response) {
+                userTypes = response.data.data || [];
+                setUserTypes(userTypes);
+                defer.resolve(userTypes);
+              }, function(err) {
+                defer.reject(err);
+              });
+          }
+
+          return defer.promise;
+        }
+
+        function setXmfa(v) {
+          localStorageFactory.setItem('X-MFA', v);
+        };
+
+        function getXmfa() {
+          return !!parseInt(localStorageFactory.getItem('X-MFA'));
+        };
+
+        function removeXmfa() {
+          localStorageFactory.removeItem('X-MFA');
+        }
+
+        function _getHeadersSignIn() {
           var headers = {
             'Content-Type': 'application/x-www-form-urlencoded'
           };
@@ -767,7 +787,7 @@
             var today = new Date();
             var exp = new Date(today);
             exp.setDate(exp.getDate() + 90);
-            $cookies.put('deviceCode', deviceCode, { expires: exp });
+            $cookies.put('deviceCode', deviceCode.replaceAll('-', ''), { expires: exp });
           }
 
           var headerMfa = {
@@ -778,8 +798,33 @@
           return Object.assign(headers, headerMfa);
         }
 
-        this.signIn = function(credentials, profile) {
-          var defer = $q.defer();
+        function setCredentials(credentials) {
+          localStorageFactory.setItem('credentials', credentials);
+        }
+
+        function getCredentials() {
+          return localStorageFactory.getItem('credentials');
+        }
+
+        function removeCredentials() {
+          localStorageFactory.removeItem('credentials');
+        }
+
+        function _storagesToFma(xmfa, credentials) {
+          if (!!parseInt(xmfa)) {
+            setXmfa(xmfa);
+            setCredentials(credentials);
+          } else {
+            removeXmfa();
+            removeCredentials();
+          }
+        }
+
+        function getUserTypeSelectedByMfa(userTypes) {
+          return  _.find(userTypes, function(userType) { return !!userType.selectedByMfa });
+        }
+
+        function signIn(credentials, profile) {
           var data = {
             grant_type: constants.system.authenticate.grant_type,
             userName: credentials.username,
@@ -788,36 +833,50 @@
             scope: 'encrypt',
             systemId: "OIM" // SD05445901_MPAMA-348
           };
-          var promise = $auth.signup(undefined, {
+
+          var profileCurrent = _get_profile() || {};
+
+          var defer = $q.defer();
+          $auth.signup(undefined, {
             method: 'POST',
-            headers: getHeadersSignIn(),
-            // headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            headers: _getHeadersSignIn(),
             data: $httpParamSerializerJQLike(data),
             withCredentials: false
-          });
-          promise
+          })
             .success(function(response, status, headers, config) {
-              response.headers = headers;
+              _storagesToFma(headers('X-MFA'), credentials);
               _setLocalStorage(_keyFirstToken, response.access_token);
               delete data.password;
-                _getUserTypes().then(
-                  function(resUserTypes) {
-                    response.userTypes = resUserTypes.data.data || [];
-                    _setLocalStorage(_keyUserTypes, response.userTypes, true);
-                    defer.resolve(response);
-                  },
-                  function(response) {
-                    defer.reject(response);
+              getUserTypes()
+                .then(function(resUserTypes) {
+                  var userTypeSelectedByMfa = getUserTypeSelectedByMfa(resUserTypes);
+                  response.userTypes = userTypeSelectedByMfa ? [userTypeSelectedByMfa] : resUserTypes;
+                  if (response.userTypes.length === 1) {
+                    var userConstantByGroupType = _.find(constants.typeLogin, function(ut) { return ut.subType == response.userTypes[0].groupType; });
+                    _set_profile(_.assign(profileCurrent, userConstantByGroupType, response.userTypes[0]));
                   }
-                )
+                  defer.resolve(response);
+                }, function(errUserTyes) {
+                  defer.reject(errUserTyes);
+                });
             })
             .error(function(response) {
               defer.reject(response);
             });
-            if (profile) _set_profile(profile);
 
-            return defer.promise;
-          }
+          if (profile) _set_profile(_.assign(profileCurrent, profile));
+
+          return defer.promise;
+        }
+
+        this.setUserTypes = setUserTypes;
+        this.getUserTypes = getUserTypes;
+        this.setXmfa = setXmfa;
+        this.getXmfa = getXmfa;
+        this.signIn = signIn;
+        this.setCredentials = setCredentials;
+        this.getCredentials = getCredentials;
+        this.removeCredentials = removeCredentials;
 
           function _parseLoginPromise($promise) {
             var defer = $q.defer();

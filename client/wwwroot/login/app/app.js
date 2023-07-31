@@ -1,6 +1,7 @@
 define(['angular',
     'app_routes',
     'angular_route',
+    'lodash',
     'angular_ocLazyLoad',
     'angular_ui_route',
     'wrap_gaia',
@@ -12,7 +13,7 @@ define(['angular',
     'loginTemplates',
     'storageManager',
     'angular_cookies'
-], function(require, app_routes, angular_route) {
+], function(require, app_routes, angular_route, _) {
 
     var baseUrl = "";
     // create new module appLogin
@@ -105,10 +106,9 @@ define(['angular',
 
             oimProgress.end();
 
-            var stateLogin = 'login',
-                stateUserTypes = 'authoButtons';
+            var stateUserTypes = 'authoButtons';
             $rootScope.welcomeUserTypes = cstate.name == stateUserTypes;
-            $rootScope.showCommonControl = cstate.name !== stateLogin;
+            $rootScope.showCommonControl = !_.contains(['login', 'authVerify', 'authCode'], cstate.name);
 
         });
     }]);

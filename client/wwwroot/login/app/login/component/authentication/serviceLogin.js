@@ -15,6 +15,7 @@ define([
     '$window',
     'mModalConfirm',
     'accessSupplier',
+    'localStorageFactory',
     function(
       loginFactory,
       $httpProvider,
@@ -26,7 +27,8 @@ define([
       mModalAlert,
       $window,
       mModalConfirm,
-      accessSupplier
+      accessSupplier,
+      localStorageFactory
     ) {
       var __extends = helper.__extend();
 
@@ -88,6 +90,7 @@ define([
           }
           return vUrl;
         }
+
         AuthBase.prototype.signIn = function() {
           function isLocalStorageNameSupported() {
             var testKey = 'test',
@@ -102,26 +105,21 @@ define([
           }
           mpSpin.start('Estamos verificando sus credenciales...');
 
-          var credentials = this.get_credentials(),
-            promise = mapfreAuthetication.signIn(credentials, { username: credentials.username });
+          var credentials = this.get_credentials();
 
-          promise.then(
-            function(response) {
-              mpSpin.end();
-
+          mapfreAuthetication.signIn(credentials, { username: credentials.username })
+            .then(function(response) {
               var vUrl = _getParamUrl();
               var loginHref= vUrl ? '/login?url=' + vUrl : '/login';
-              var xMfa = !!parseInt(response.headers('X-MFA'));
 
-              if (xMfa) {
+              if (response.userTypes.length > 1) {
+                window.location.href = loginHref + $state.href('authoButtons');
+              } else if (mapfreAuthetication.getXmfa()) {
                 window.location.href = loginHref + $state.href('authVerify');
               } else {
-                if (response.userTypes.length > 1) {
-                  window.location.href = loginHref + $state.href('authoButtons');
-                } else {
-                  $this.finalSignIn(response.userTypes[0]);
-                }
+                $this.finalSignIn(response.userTypes[0]);
               }
+              mpSpin.end();
             },
             function(response) {
               mpSpin.end();
@@ -136,8 +134,9 @@ define([
               }
               $this.$controller.showMessage = true;
               $this.$controller.messageError = response.error;
-            }
-          );
+            }).finally(function() {
+              mpSpin.end();
+            });
         };
 
         AuthBase.prototype.finalSignIn = function(user){
@@ -264,7 +263,7 @@ define([
         AuthProvider.prototype.get_credentials = function() {
           var _credentials = this.$controller.credentials;
           var credentials = _super.prototype.get_credentials.call();
-          credentials.username = _credentials.documentNumber;
+          credentials.username = _credentials.documentNumber || credentials.username;
           return credentials;
         };
         AuthProvider.prototype.setValueRecurrent = function() {

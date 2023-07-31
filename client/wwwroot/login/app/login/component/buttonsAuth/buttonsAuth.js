@@ -16,24 +16,48 @@ define([
       'serviceLogin',
       '$window',
       'mapfreAuthetication',
-      function($scope, $rootScope, $state, serviceLogin, $window, mapfreAuthetication) {
-        var _self = this,
-          authe;
+      'localStorageFactory',
+      function($scope, $rootScope, $state, serviceLogin, $window, mapfreAuthetication, localStorageFactory) {
+        var vm = this;
 
-        _self.data = _self.data || {};
+        vm.data = vm.data || {};
+        vm.data.userTypes = [];
+        vm.$onInit = onInit;
+        vm.onUserTypeSelect = onUserTypeSelect;
 
-        _self.data.userTypes = angular.fromJson($window.localStorage['lsUserTypes']) || [];
-        if (!_self.data.userTypes.length) $state.go('login');
-
-        _self.fnFinalSignIn = function(item) {
-          var vUserType = _.find(constants.typeLogin, function(value, index) {
-            return value.subType == item.groupType;
-          });
-          var user = _.assign({}, vUserType, item);
-
-          authe = serviceLogin.resolve(user.code, $scope, _self);
-          authe.finalSignIn(user);
+        function onInit() {
+          mapfreAuthetication.getUserTypes()
+            .then(function(resUserTypes) {
+              vm.data.userTypes = resUserTypes;
+              if (!vm.data.userTypes.length) $state.go('login');
+            });
         };
+
+        function _toMfa(user, idx) {
+          var profile = localStorageFactory.getItem('profile', false);
+          localStorageFactory.setItem('profile', _.assign(profile, user), false);
+
+          vm.data.userTypes.splice(idx, 1, _.assign(user, { selectedByMfa: true }));
+          mapfreAuthetication.setUserTypes(vm.data.userTypes);
+
+          $state.go('authVerify');
+        }
+
+        function _finalSignIn(user) {
+          var authe = serviceLogin.resolve(user.code, $scope, vm);
+          authe.finalSignIn(user);
+        }
+
+        function onUserTypeSelect(item, idx) {
+          var userConstantByGroupType = _.find(constants.typeLogin, function(value) { return value.subType == item.groupType; });
+          var user = _.assign({}, userConstantByGroupType, item);
+
+          if (mapfreAuthetication.getXmfa()) {
+            _toMfa(user, idx);
+          } else {
+            _finalSignIn(user);
+          }
+        }
       }
     ])
     .component('buttonsAuth', {

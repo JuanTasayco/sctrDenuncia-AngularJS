@@ -23,16 +23,28 @@
             },
             AuthVerifyController: {
               name: 'AuthVerifyController',
-              path: '/login/app/mfa/views/auth-verify/auth-verify.controller'
+              path: '/login/app/mfa/views/auth-verify/auth-verify'
+            },
+            CardModalityController: {
+              name: 'CardModalityController',
+              path: '/login/app/mfa/features/card-modality/card-modality'
             },
             AuthCodeController: {
               name: 'AuthCodeController',
-              path: '/login/app/mfa/views/auth-code/auth-code.controller'
+              path: '/login/app/mfa/views/auth-code/auth-code'
             },
             MfaFactory: {
               name: 'MfaFactory',
-              path: '/login/app/mfa/providers/services/mfa.factory'
+              path: '/login/app/mfa/providers/services/mfa'
             },
+            InputCodesController: {
+              name: 'InputCodesController',
+              path: '/login/app/mfa/features/input-codes/input-codes'
+            },
+            NextFocusByMaxlengthDirective: {
+              name: 'NextFocusByMaxlengthDirective',
+              path: '/login/app/mfa/features/input-codes/next-focus-by-maxlength'
+            }
         },
         shim: {
             loginTemplates: { deps: ["angular"] }
