@@ -348,6 +348,7 @@
           var filterDate = $filter("date");
           var formatDate = "dd/MM/yyyy";
           var paramsEmit = {
+            NumeroCotizacion: usedCarEmitFactory.getNumCotizacion(),
             PorDctoIntgPlaza: $scope.fourthStep.PorDctoIntgPlaza || 0,
             MarcaPorDctoIntegralidad: $scope.fourthStep.DctoIntegralidad ? "S" : "N",
             NumeroSolicitud: typeof $scope.secondStep.mNroSolic == "undefined" ? "" : $scope.secondStep.mNroSolic,

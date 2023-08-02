@@ -196,7 +196,7 @@
 			function setCalPrima ()
 			{
 				$scope.formData.derechoEmision = $scope.formData.dataPrima.DerechoEmision
-				$scope.primaNeta = $scope.formData.dataPrima.PrimaNeta;
+				$scope.primaNeta = $scope.formData.dataPrima.ImpPnetaBoni;//$scope.formData.dataPrima.PrimaNeta;
 				$scope.formData.dataPrima.PrimaVehicular = $scope.primaNeta;
 				$scope.formData.montoIGV = $scope.formData.dataPrima.MontoIgv;
 				$scope.formData.dataPrima.PorcentajeDerechoEmision =100*$scope.formData.dataPrima.DerechoEmision / $scope.formData.dataPrima.PrimaNeta;
@@ -207,7 +207,8 @@
 				  var val;
 				  setCalPrima();
 
-    			$scope.totalPrima = ($scope.primaNeta + $scope.formData.derechoEmision) + $scope.formData.montoIGV;
+    			//Antes: $scope.totalPrima = ($scope.primaNeta + $scope.formData.derechoEmision) + $scope.formData.montoIGV;
+				$scope.totalPrima = $scope.formData.dataPrima.ImpPnetaBoni + $scope.formData.derechoEmision + $scope.formData.montoIGV;
 
     			if($scope.formData.mapfreDollarTotal){
     				$scope.formData.MCAMapfreDolar = 'S';
@@ -573,9 +574,10 @@
 
 							paramsEmitSOAT.Rol = oimPrincipal.get_role().toUpperCase();
 
-							paramsEmitSOAT.Cotizacion.PrimaNeta = $scope.primaNeta;
+							paramsEmitSOAT.Cotizacion.PrimaNeta = ($scope.totalPrima) ? $scope.totalPrima.toFixed(2) : '0'; //$scope.primaNeta;
 							paramsEmitSOAT.Cotizacion.DerechoEmision = $scope.formData.derechoEmision;
 							paramsEmitSOAT.Cotizacion.MontoIGV = $scope.formData.montoIGV;
+							paramsEmitSOAT.NumeroCotizacion = $scope.formData.dataPrima.NumeroCotizacion;
 
 							paramsEmitSOAT = polizasFactory.setReferidoNumber(paramsEmitSOAT);
 
