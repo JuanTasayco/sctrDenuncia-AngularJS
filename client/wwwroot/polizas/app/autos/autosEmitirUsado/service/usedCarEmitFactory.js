@@ -11,6 +11,15 @@ define([
 
             var base = constants.system.api.endpoints.policy;
             var baseLogin = constants.system.api.endpoints.security;
+            var numCotizacion = '';
+
+            function getNumCotizacion(){
+                return numCotizacion;
+            }
+
+            function setNumCotizacion(value){
+                numCotizacion = value;
+            }
 
             function concatenateUrl(params) {
                 var url = '';
@@ -153,6 +162,8 @@ define([
             }
 
             return {
+                getNumCotizacion: getNumCotizacion,
+                setNumCotizacion: setNumCotizacion,
                 searchCarInspected: searchCarInspected,
                 searchContractor: searchContractor,
                 getCirculation: getCirculation,

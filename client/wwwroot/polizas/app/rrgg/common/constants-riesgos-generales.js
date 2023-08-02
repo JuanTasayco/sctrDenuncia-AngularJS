@@ -134,7 +134,8 @@ define([], function () {
       MAT_ASE: 49,
       VAL_MER: 50,
       TIP_SUC: 51,
-      RC_VEHI_EMP: 59
+      RC_VEHI_EMP: 59,
+      VIGENCIA_COTIZADOR: 62
     },
     GRUPO: {
       TRAB_ESPECIFICOS: "TEE",

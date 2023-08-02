@@ -9,10 +9,10 @@ define([
     .controller('cotizacionRrggStep1Controller', cotizacionRrggStep1Controller);
 
   cotizacionRrggStep1Controller.$inject = ['$scope', '$state', 'mainServices', 'mModalAlert', 'mpSpin', '$uibModal', 'riesgosGeneralesService', 'riesgosGeneralesFactory',
-    '$filter'];
+    'riesgosGeneralesCommonFactory', '$filter'];
 
   function cotizacionRrggStep1Controller($scope, $state, mainServices, mModalAlert, mpSpin, $uibModal, riesgosGeneralesService, riesgosGeneralesFactory,
-    $filter) {
+    riesgosGeneralesCommonFactory, $filter) {
 
     (function load_cotizacionRrggStep1Controller() {
       $scope.constantsRrgg = constantsRiesgosGenerales
@@ -105,12 +105,33 @@ define([
       $scope.cotizacion.producto.modelo = {};
       $scope.cotizacion.tramite = {};
       _listCoberturas(producto)
+      _validateValidaty()
     }
     function _listCoberturas(producto) {
       if (producto.Grupo === constantsRiesgosGenerales.GRUPO.HIDROCARBURO)
         riesgosGeneralesService.getProxyPametros($scope.cotizacion.producto.CodigoRiesgoGeneral, constantsRiesgosGenerales.PARAMETROS.COBERTURAS)
           .then(function (response) {
             $scope.coberturas = response.Data;
+          });
+    }
+    function _validateValidaty() {
+      riesgosGeneralesService.getProxyPametros($scope.cotizacion.producto.CodigoRiesgoGeneral, constantsRiesgosGenerales.PARAMETROS.VIGENCIA_COTIZADOR)
+          .then(function (response) {
+            if (response.Data[0].Valor) {
+              var toDay = new Date();
+              var values = response.Data[0].Valor.split('/');
+              var dateValidaty = new Date(+values[2], +values[1]-1, +values[0]);
+              var days = (dateValidaty - toDay) / (1000 * 3600 * 24);
+              console.log(response.Data[0].Valor, dateValidaty, new Date(), days)
+              if (days <= 5) {
+                if (dateValidaty > toDay) {
+                  mModalAlert.showWarning('Faltan ' + Math.round(Math.abs(days)) + ' días para que este cotizador caduque.' , "Alerta!")
+                } else {
+                  mModalAlert.showWarning('Lo sentimos, pero este cotizador se encuetra desactualizado.<br><br>Recuerda que luego de la fecha de caducidad, todo trámite realizado con el cotizador desactualizado será rechazado automáticamente.', "Alerta!")
+                }
+              }
+              
+            }
           });
     }
     function _validateForm() {
