@@ -149,11 +149,10 @@ define([
         _self.ParamDescargaPoliza = {
           codAgt : _self.profile.codagent,
           codCia : item.ciaId,
-          numApli : item.applicationNumber,
+          numApli : 0,
           numPoliza : item.number,
           numSpto : item.sptoNumber,
-          numSptoApli : item.sptoApliNumber,
-          tipoImpresion: 'S'
+          numSptoApli : 0
         };
         nsctrFactory.common.proxyPolicy.Download(_self.ParamDescargaPoliza,true).then(function (response) {
           if (response.data.documento != ''){
