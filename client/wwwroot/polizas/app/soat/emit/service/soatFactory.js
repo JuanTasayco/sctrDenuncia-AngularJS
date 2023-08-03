@@ -6,8 +6,8 @@ define([
 
   var appSoat = angular.module('appSoat');
 
-  appSoat.factory('soatFactory', ['$http', '$q', '$window', 'proxyClaims', 'proxySoat', 'proxyProducto', 'httpData',
-    function($http, $q, $window, proxyClaims, proxySoat, proxyProducto, httpData){
+  appSoat.factory('soatFactory', ['$http', '$q', '$window', 'proxyClaims', 'proxySoat', 'proxyProducto', 'httpData', 'proxyEmision',
+    function($http, $q, $window, proxyClaims, proxySoat, proxyProducto, httpData, proxyEmision){
 
     var base = constants.system.api.endpoints.policy;
     var CODE_RUBRO = {
@@ -283,6 +283,10 @@ define([
       return proxySoat.GetListPolizaManual(false);
     }
 
+    function validarFormatoPlaca(params){
+      return proxyEmision.validarFormatoPlaca(params, true);
+    }
+
     return {
       addVariableSession: addVariableSession,
       getVariableSession: getVariableSession,
@@ -315,7 +319,8 @@ define([
       getFechaDDMMYYYY: getFechaDDMMYYYY,
       CODE_DELIVERY: CODE_DELIVERY,
       GetProductDescription: GetProductDescription,
-      GetProductPolizaManual: GetProductPolizaManual
+      GetProductPolizaManual: GetProductPolizaManual,
+      validarFormatoPlaca: validarFormatoPlaca
     };
   }]);
 
