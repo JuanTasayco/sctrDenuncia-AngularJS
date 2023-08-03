@@ -38,7 +38,10 @@ define([
       MfaFactory.sendCode(modalityCode, true)
         .then(function(resSendCode) {
           if (resSendCode.operationCode ===  constants.operationCode.success) {
-            mModalAlert.showSuccess(vm.modality.value, 'Se envió el código nuevamente');
+            mModalAlert.showSuccess(vm.modality.value, 'Se envió el código nuevamente', null, null, 'Aceptar')
+              .then(function() {
+                vm.mInputCode = {};
+              });
           } else {
             mModalAlert.showWarning(resSendCode.message, '¡Opps!', null, null, 'Aceptar');
           }
