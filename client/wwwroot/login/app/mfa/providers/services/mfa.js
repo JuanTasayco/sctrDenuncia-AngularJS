@@ -18,7 +18,7 @@ define(['angular', 'constants', 'lodash'], function (angular, constants, _) {
 
       return {
         functionalityCode: '68d25e88b7844e56983850dda4e270e0',
-        applicationCode : constants.ORIGIN_SYSTEMS.oim.mfaCode,
+        applicationCode : '1df288de5ea84eca9517f375b0974ee7', // INFO: Hardcode for problems with the constant 'constants.ORIGIN_SYSTEMS.oim.mfaCode' in deploy
         deviceCode: $cookies.get('deviceCode'),
         userName: profile.username,
         groupType: profile.groupType

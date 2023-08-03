@@ -776,8 +776,8 @@ define([], function () {
         icon: 'favicon.ico',
         bodyClass: '',
         url: "@@urlBase",
-        home: "/",
         mfaCode: '1df288de5ea84eca9517f375b0974ee7',
+        home: "/"
       },
       myDream: {
         code: 'MYDREAM',

@@ -791,7 +791,7 @@
           }
 
           var headerMfa = {
-            'X-App-Code': constants.ORIGIN_SYSTEMS.oim.mfaCode,
+            'X-App-Code': '1df288de5ea84eca9517f375b0974ee7', // INFO: Hardcode for problems with the constant 'constants.ORIGIN_SYSTEMS.oim.mfaCode' in deploy
             'X-Device-Code': deviceCode
           };
 
