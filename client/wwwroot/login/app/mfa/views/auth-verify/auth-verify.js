@@ -8,8 +8,23 @@ define(['angular', 'constants', 'lodash', 'MfaFactory', 'CardModalityController'
     vm.$onInit = onInit;
     vm.onGoTo = onGoTo;
 
+    $scope.$on('$destroy', destroy);
+
     function onInit() {
+      var layoutConfig = {
+        onBack: _onBack
+      };
+      _setLayoutConfig(layoutConfig);
       _getModalties();
+    }
+
+    function _onBack() {
+      var usersByType = localStorageFactory.getItem('lsUserTypes');
+      usersByType && usersByType.length > 1 ?  $state.go('authoButtons') :  $state.go('login');
+    }
+
+    function _setLayoutConfig(config) {
+      $scope.$emit('layoutConfig', config);
     }
 
     function _getModalties() {
@@ -26,6 +41,10 @@ define(['angular', 'constants', 'lodash', 'MfaFactory', 'CardModalityController'
         .then(function() {
           $state.go('authCode');
         });
+    }
+
+    function destroy() {
+      $scope.$emit('layoutConfig', {});
     }
   }
 

@@ -28,7 +28,9 @@ define([
         function onInit() {
           mapfreAuthetication.getUserTypes()
             .then(function(resUserTypes) {
-              vm.data.userTypes = resUserTypes;
+              vm.data.userTypes = _.map(resUserTypes, function(ut) {
+                return _.assign(ut, { selectedByMfa: false });
+              });
               if (!vm.data.userTypes.length) $state.go('login');
             });
         };

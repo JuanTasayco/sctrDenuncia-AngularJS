@@ -19,9 +19,23 @@ define([
     vm.onResend = onResend;
     vm.onSumitCode = onSumitCode;
 
+    $scope.$on('$destroy', destroy);
+
     function onInit() {
+      var layoutConfig = {
+        onBack: _onBack
+      };
+      _setLayoutConfig(layoutConfig);
       _getModalty();
     };
+
+    function _onBack() {
+      $state.go('authVerify');
+    }
+
+    function _setLayoutConfig(config) {
+      $scope.$emit('layoutConfig', config);
+    }
 
     function _getModalty() {
       var modalityCode = localStorageFactory.getItem('modalityCode');
@@ -78,6 +92,10 @@ define([
             mModalAlert.showWarning(resCheckCode.message, '¡Opps!', null, null, 'Aceptar');
           }
         });
+    }
+
+    function destroy() {
+      $scope.$emit('layoutConfig', {});
     }
   }
 

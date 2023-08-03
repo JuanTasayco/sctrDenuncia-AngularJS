@@ -109,8 +109,18 @@ define(['angular',
             var stateUserTypes = 'authoButtons';
             $rootScope.welcomeUserTypes = cstate.name == stateUserTypes;
             $rootScope.showCommonControl = !_.contains(['login', 'authVerify', 'authCode'], cstate.name);
-
         });
+    }]);
+
+    appLogin.controller('LayoutController',
+      ['$scope',
+      function($scope) {
+
+        $scope.$on('layoutConfig', onLayoutConfig);
+
+        function onLayoutConfig(_, config) {
+          $scope.layoutConfig = config;
+        }
     }]);
 
     appLogin.controller('btnHomeController',
