@@ -40,7 +40,7 @@ define([
           if (resSendCode.operationCode ===  constants.operationCode.success) {
             mModalAlert.showSuccess(vm.modality.value, 'Se envió el código nuevamente');
           } else {
-            mModalAlert.showWarning('', resSendCode.message);
+            mModalAlert.showWarning(resSendCode.message, '¡Opps!', null, null, 'Aceptar');
           }
         });
     }
@@ -72,7 +72,7 @@ define([
           if (resCheckCode.operationCode ===  constants.operationCode.success) {
             _signIn();
           } else {
-            mModalAlert.showWarning(resCheckCode.message, 'Opps');
+            mModalAlert.showWarning(resCheckCode.message, '¡Opps!', null, null, 'Aceptar');
           }
         });
     }
