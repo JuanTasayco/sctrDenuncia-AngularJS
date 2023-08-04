@@ -3,15 +3,17 @@ define(['angular', 'lodash'], function(ng, _) {
   var module = ng.module('referenciaApp');
   module.controller('mapaProveedoresController', mapaProveedoresController);
   mapaProveedoresController.$inject = ['$rootScope', '$scope', '$state', '$log', 'observeOnScope',
-    'dataProveedores', '$timeout', 'panelService', 'staticData', '$window', 'coreDataService', 'localStorageService',
-    '$location'
+    'dataProveedores', '$timeout', 'panelService', 'staticData', '$window', 'coreDataService',
+    '$location', 'oimPrincipal'
   ];
 
   function mapaProveedoresController($rootScope, $scope, $state, log, observeOnScope, dataProveedores, $timeout,
-    panelService, staticData, $window, coreDataService, localStorageService, $location) {
+    panelService, staticData, $window, coreDataService, $location, oimPrincipal) {
     var vm = this;
     var lstProvs = staticData.provincias;
     vm.loader = {};
+    vm.ipLocal = $window.localStorage['clientIp'] ? $window.localStorage['clientIp'] : "0.0.0.0";
+
     vm.$onInit = function oiFn() {
       vm.showCP = true;
       vm.panel = 'Clientes y Proveedores';
@@ -173,6 +175,24 @@ define(['angular', 'lodash'], function(ng, _) {
       vm.loader.loading = true;
       vm.loader.text = 'Estamos cargando la lista de proveedores';
       $state.go('referencia.panel.proveedores.busqueda', data);
+
+      let opcionMenu = vm.showFrmAttr ? "Proveedores/Perú - Buscar proveedor - atributos" : "Proveedores/Perú - Buscar proveedor - nombre";
+      let descripcionOperacion = vm.showFrmAttr ? "Click al botón Buscar Proveedores - atributos" : "Click al botón Buscar Proveedores - nombre";
+
+      const obj = {
+        "codigoAplicacion": "REF",
+        "ipOrigen": vm.ipLocal,
+        "tipoRegistro": "O",
+        "codigoObjeto": "PROVEEDORES",
+        "opcionMenu": opcionMenu,
+        "descripcionOperacion": descripcionOperacion, 
+        "filtros": angular.toJson(data),
+        "codigoUsuario": oimPrincipal.getUsername(),
+        "numeroSesion": "",
+        "codigoAgente": 0
+      };
+
+      panelService.saveTracker(obj);
     };
 
     var unBindChangeMapListener = $scope.$on('changeMapProveedores', function(event, data) {

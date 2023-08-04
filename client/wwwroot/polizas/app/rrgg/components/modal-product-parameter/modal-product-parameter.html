@@ -169,6 +169,32 @@
                 </div>
               </div>
             </div>
+            <!-- INFO: Hardcore tabla vigilancia y limpieza Tasas Netas Anuales -->
+            <div
+            ng-repeat="header in $ctrl.arrayHeaders"
+            ng-if="header.type === 5 && cabecera.TipoParametro ===  $ctrl.constantsRrgg.PARAMETROS.TIPO_TABLA"
+            class="page-rrgg__table mb-xs-4">
+
+              <div class="row no-margin-xs  g-center-flex  pt-xs-1 pb-xs-1 bg-dark">
+                <div class="col-xs-4 fwBold g-text-center-xs ng-binding">Suma Asegurado Hasta (*)</div>
+                <div class="col-xs-8 fwBold g-text-center-xs ng-binding">Tasa (%o) por Vigilante / Trabajador</div>
+              </div>
+              <div class="row no-margin-xs bg-light g-center-flex g-text-center-xs">
+                <div class="col-xs-4 fwBold">&nbsp;</div>
+                <div class="col-xs-4 fwBold">RC</div>
+                <div class="col-xs-4 fwBold">Deshonestidad</div>
+              </div>
+
+              <div ng-repeat="item in header.data track by $index"
+                class="row no-margin-xs  g-center-flex  pt-xs-1 pb-xs-1 bg-gray-dark g-text-center-xs">
+                <div class="col-xs-4" ng-repeat="data in item track by $index" ng-show="$index > 0">
+                  {{data.toString()}}
+                </div>
+              </div>
+            </div>
+            <div ng-if="!!$ctrl.tableFooterNote" class="mb-xs-1">
+              {{ $ctrl.tableFooterNote }}
+            </div>
           </uib-tab>
         </uib-tabset>
       </div>

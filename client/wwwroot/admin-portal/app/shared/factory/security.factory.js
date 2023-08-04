@@ -15,8 +15,10 @@ define(['angular', 'lodash', 'coreConstants', 'homeConstants', 'productsConstant
       getMenuHome: getMenuHome,
       getProductsOfCarousel: getProductsOfCarousel,
       getProductsOfForm: getProductsOfForm,
+      getProductsOfAdminPolicy: getProductsOfAdminPolicy,
       mapMenuHome: mapMenuHome,
-      mapProducts: mapProducts
+      mapProducts: mapProducts,
+      mapRamo: mapRamo,
     };
 
     function getMenuHome() {
@@ -29,6 +31,16 @@ define(['angular', 'lodash', 'coreConstants', 'homeConstants', 'productsConstant
 
     function getProductsOfForm() {
       return _getSubMenu().then(_getMainObj.bind(null, 'FORMULARIOS'));
+    }
+
+    function getProductsOfAdminPolicy() {
+      return _getSubMenu().then(_getMainObj.bind(null, 'ADM_RAMO'));
+    }
+
+    function mapRamo(obj) {
+      return _.map(obj.items, function(p) {
+        return { icon :p.iconObjMx , name: p.nombreLargo, code: p.nombreCorto , url: '/images/ico-ramos/' + p.ruta, selected : false};
+      });
     }
 
     function mapProducts(obj) {

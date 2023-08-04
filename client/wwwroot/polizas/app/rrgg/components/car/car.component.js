@@ -89,7 +89,7 @@ define([
       });
     }
     function changeDesde() {
-      riesgosGeneralesService.validacionFecha(riesgosGeneralesFactory.FormatearFechaMes(vm.producto.modelo.DuracionDesde)).then(function (response) {
+      riesgosGeneralesService.validacionFecha(riesgosGeneralesFactory.FormatearFechaMes(vm.producto.modelo.DuracionDesde), vm.cotizacion.producto.CodigoRiesgoGeneral).then(function (response) {
         var nuevaFechaDesde = angular.copy(new Date(vm.producto.modelo.DuracionDesde))
         vm.producto.modelo.DuracionHasta = new Date(nuevaFechaDesde.setDate(nuevaFechaDesde.getDate() + 365))
         if (!response.Data) {

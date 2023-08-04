@@ -28,7 +28,7 @@
                 { code: 'SCTR', cssIcon: 'ico-mapfre_130_SCTR', iconMYD: 'ico-mapfre-375-sctr', uiSref: 'sctrHome', description: 'SCTR' },
                 { code: 'RRGG', cssIcon: 'ico-mapfre-390-rrgg', iconMYD: 'ico-mapfre-390-rrgg', uiSref: 'homePolizasRrgg', description: 'Riesgos Generales' },
                 { code: 'SEGURVIAJES', cssIcon: 'ico-mapfre_339_security-badge', iconMYD: 'ico-mapfre-379-viaje', uiSref: 'homePolizasSeguroviaje', description: 'Segurviaje' },
-                { code: 'DECESO', cssIcon: 'ico-mapfre-392-deceso', iconMYD: 'ico-mapfre-392-deceso', uiSref: 'homePolizasDeceso', description: 'DECESOS' },
+                { code: 'DECESO', cssIcon: 'ico-insurance-life_deceases', iconMYD: 'ico-insurance-life_deceases', uiSref: 'homePolizasDeceso', description: 'DECESOS' },
                 { code: 'clinica Digital', cssIcon: 'ico-mapfre-356-myd-default', iconMYD: 'ico-mapfre-356-myd-default', uiSref: 'homePolizasClinicaDigital', description: 'Clinica Digital' },
                 { code: 'EMISA-CAMPOSANTO', cssIcon: 'ico-mapfre-390-sepelios', iconMYD: 'ico-mapfre-390-sepelios', uiSref: 'homePolizasCampoSanto', description: 'Camposanto' }
             ];

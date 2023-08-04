@@ -359,17 +359,36 @@
               MCAMapfreDolar: $scope.fourthStep.mMapfreDolar > 0 ? "S" : "N", //($scope.firstStep.dataContractor.SaldoMapfreDolar > 0) ? 'S' : 'N',
               ImporteMapfreDolar: $scope.fourthStep.mMapfreDolar, //$scope.firstStep.dataContractor.SaldoMapfreDolar
               EstadoCivil: $scope.secondStep.isEmblem ? { Codigo: $scope.thirdStep.dataContractor.mEstadoCivil.Codigo } : undefined,
-              FechaExpedicion: $scope.secondStep.isEmblem ? validateExpirationDate($scope.thirdStep.dataContractor) : undefined
+              FechaExpedicion: $scope.secondStep.isEmblem ? validateExpirationDate($scope.thirdStep.dataContractor) : undefined,
+              TipoDocumento: $scope.thirdStep.dataContractor.mTipoDocumento.Codigo,
+              CodigoDocumento: $scope.thirdStep.dataContractor.mNumeroDocumento,
+              Sexo: $scope.thirdStep.dataContractor.showNaturalRucPerson
+                ? $scope.thirdStep.dataContractor.mSexo == "H"
+                  ? 1
+                  : 0
+                : "",
+              FechaNacimiento: $scope.thirdStep.dataContractor.showNaturalRucPerson
+                ? $scope.thirdStep.dataContractor.mYear.description +
+                  "-" +
+                  $scope.thirdStep.dataContractor.mMonth.description +
+                  "-" +
+                  $scope.thirdStep.dataContractor.mDay.description
+                : ""
             },
             Ubigeo: {
               CodigoProvincia: $scope.firstStep.dataContractor.Ubigeo.CodigoProvincia, //'128',//$scope.firstStep.dataInspection.Cod_prov,
               CodigoDistrito: $scope.firstStep.dataContractor.Ubigeo.CodigoDistrito //'22',//$scope.firstStep.dataInspection.Cod_dep
-            }
+            },
+            FechaHora: $scope.fechaHora
           };
 
           usedCarEmitFactory.getCalculatePremium(paramsCalculatePremium, true).then(
             function(response) {
               if (response.OperationCode == constants.operationCode.success) {
+
+                usedCarEmitFactory.setNumCotizacion(response.Data.NumeroCotizacion);
+                $scope.fechaHora = response.Data.FechaHora;
+
                 $scope.fourthStep.dataCalculatePremium.netPremium = response.Data.Vehiculo.PrimaVehicular;
                 $scope.fourthStep.dataCalculatePremium.netPremiumReal = response.Data.Vehiculo.PrimaVehicularReal; //nuevo valor que se debe enviar en el grabar
                 $scope.fourthStep.dataCalculatePremium.emissionValuePercent = response.Data.PorDerechoEmision / 100;
