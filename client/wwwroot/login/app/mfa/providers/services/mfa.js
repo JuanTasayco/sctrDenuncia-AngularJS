@@ -38,8 +38,12 @@ define(['angular', 'constants', 'lodash'], function (angular, constants, _) {
         _getConfig(),
         showSpin
       ).then(function (res) {
-        modalities = res.data;
-        deferred.resolve(modalities);
+        if (res.operationCode === constants.operationCode.success) {
+          modalities = res.data;
+          deferred.resolve(modalities);
+        } else {
+          deferred.reject(res);
+        }
       }, function (err) {
         deferred.reject(err.statusText);
       });

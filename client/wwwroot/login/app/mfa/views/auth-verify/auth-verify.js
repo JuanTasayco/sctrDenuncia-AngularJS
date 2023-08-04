@@ -1,7 +1,7 @@
 'use strict';
 define(['angular', 'constants', 'lodash', 'MfaFactory', 'CardModalityController'], function(angular, constants, _) {
-  AuthVerifyController.$inject = ['$scope', '$state', 'MfaFactory', 'localStorageFactory'];
-  function AuthVerifyController($scope, $state, MfaFactory, localStorageFactory) {
+  AuthVerifyController.$inject = ['$scope', '$state', 'MfaFactory', 'localStorageFactory', 'mModalAlert'];
+  function AuthVerifyController($scope, $state, MfaFactory, localStorageFactory, mModalAlert) {
     var vm = this;
 
     vm.modalities = [];
@@ -28,9 +28,16 @@ define(['angular', 'constants', 'lodash', 'MfaFactory', 'CardModalityController'
     }
 
     function _getModalties() {
-      MfaFactory.getModalities()
+      MfaFactory.getModalities(true)
         .then(function(resModalities) {
           vm.modalities = _.map(resModalities, function(modality) { return MfaFactory.parseModalityByView(modality, 'auth-verify') });
+        }, function(errModalities) {
+          if (errModalities.operationCode === 900) {
+            mModalAlert.showWarning(errModalities.message, '¡Opps!', null, null, 'Aceptar')
+              .then(function() {
+                _onBack();
+              });
+          }
         });
     }
 
