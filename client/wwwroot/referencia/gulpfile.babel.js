@@ -236,7 +236,7 @@ gulp.task('clean', () => {
 
 gulp.task('build', ['clean'], (cb) => {
   info('Building Referencia App ....' + myargs.env)
-  compressing = myargs.env === 'prod' ? true : false
+  compressing = false//myargs.env === 'prod' ? true : false
   return runSequence('clean', 'js', 'sass', 'html', cb)
 })
 
