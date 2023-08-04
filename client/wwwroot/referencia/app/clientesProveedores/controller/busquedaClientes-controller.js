@@ -5,16 +5,19 @@ define(['angular', 'paginate', 'lodash',
   var module = ng.module('referenciaApp');
   module.controller('BusquedaClientesController', busquedaClientesCtrl);
   busquedaClientesCtrl.$inject = ['$rootScope', '$scope', '$state', '$uibModal', 'dataAfiliados',
-    '$log', 'staticData', 'panelService', 'rx', '$timeout', 'localStorageService'
+    '$log', 'staticData', 'panelService', 'rx', '$timeout', 'localStorageService', 'oimPrincipal', 
+    '$window'
   ];
 
   function busquedaClientesCtrl($rootScope, $scope, $state, $uibModal,
-    dataAfiliados, $log, staticData, panelService, rx, $timeout, localStorageService) {
+    dataAfiliados, $log, staticData, panelService, rx, $timeout, localStorageService, oimPrincipal, $window) {
     var vm = this;
     vm.filter = ng.copy($state.params);
     vm.loader = {};
     vm.loader.text = 'Estamos cargando tu consulta';
     vm.data = {};
+
+    vm.ipLocal = $window.localStorage['clientIp'] ? $window.localStorage['clientIp'] : "0.0.0.0";
 
     vm.$onInit = function oiFn() {
       vm.page = 'Busqueda de Clientes';
@@ -262,6 +265,21 @@ define(['angular', 'paginate', 'lodash',
       vm.toFilter.esPaginacion = false;
       vm.toFilter.pagina = 1;
       $scope.filterData(vm.toFilter); // eslint-disable-line
+
+      const obj = {
+        "codigoAplicacion": "REF",
+        "ipOrigen": vm.ipLocal,
+        "tipoRegistro": "O",
+        "codigoObjeto": "PROVEEDORES",
+        "opcionMenu": "Búsqueda/asegurado - Filtrar asegurados",
+        "descripcionOperacion": "Click al botón filtrar",
+        "filtros": angular.toJson(vm.filter),
+        "codigoUsuario": oimPrincipal.getUsername(),
+        "numeroSesion": "",
+        "codigoAgente": 0
+      };
+
+      panelService.saveTracker(obj);
     };
 
     vm.resetFilter = function rfFn() {
@@ -293,6 +311,21 @@ define(['angular', 'paginate', 'lodash',
         }]
       });
       modalInstance.result.then(function() {}, function() {});
+
+      const obj = {
+        "codigoAplicacion": "REF",
+        "ipOrigen": vm.ipLocal,
+        "tipoRegistro": "O",
+        "codigoObjeto": "PROVEEDORES",
+        "opcionMenu": "Búsqueda/asegurado - Ver detalle asegurado",
+        "descripcionOperacion": "Click al ícono detalle",
+        "filtros": angular.toJson(afiliado), 
+        "codigoUsuario": oimPrincipal.getUsername(),
+        "numeroSesion": "",
+        "codigoAgente": 0
+      };
+
+      panelService.saveTracker(obj);
     };
 
     // Pagination
