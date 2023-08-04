@@ -8,8 +8,8 @@ define([
   '/login/app/login/component/authentication/serviceLogin.js',
   'InputCodesController'
 ], function(angular, system, _) {
-  AuthCodeController.$inject = ['$scope', '$state', 'MfaFactory', 'localStorageFactory', 'serviceLogin', 'mModalAlert', 'mapfreAuthetication'];
-  function AuthCodeController($scope, $state, MfaFactory, localStorageFactory, serviceLogin, mModalAlert, mapfreAuthetication) {
+  AuthCodeController.$inject = ['$scope', '$state', 'MfaFactory', 'localStorageFactory', 'serviceLogin', 'mModalAlert', 'mapfreAuthetication', '$q'];
+  function AuthCodeController($scope, $state, MfaFactory, localStorageFactory, serviceLogin, mModalAlert, mapfreAuthetication, $q) {
     var vm = this;
 
     vm.modality = {};
@@ -46,13 +46,26 @@ define([
         });
     }
 
+    // INFO: Method is necessary to not losing the 'this'
+    function _modalSuccess(msg, tit, Func, time, textConfirm, customClass) {
+      var deferred = $q.defer();
+      mModalAlert.showSuccess(msg, tit, Func, time, textConfirm, customClass)
+        .then(function(resModalAlert) {
+          deferred.resolve(resModalAlert);
+        }, function(resModalAlert) {
+          deferred.reject(resModalAlert);
+        });
+
+      return deferred.promise;
+    }
+
     function onResend() {
       var modalityCode = localStorageFactory.getItem('modalityCode');
 
       MfaFactory.sendCode(modalityCode, true)
         .then(function(resSendCode) {
           if (resSendCode.operationCode ===  constants.operationCode.success) {
-            mModalAlert.showSuccess(vm.modality.value, 'Se envió el código nuevamente', null, null, 'Aceptar')
+            _modalSuccess(vm.modality.value, 'Se envió el código nuevamente', null, null, 'Aceptar')
               .then(function() {
                 vm.mInputCode = {};
               });
