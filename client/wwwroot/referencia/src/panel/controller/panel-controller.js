@@ -3,9 +3,9 @@ define(['angular',
   '/referencia/app/clientesProveedores/component/clienteProveedoresModal.js'
 ], function(ng) {
 
-  panelRController.$inject = ['$scope', '$state', '$uibModal', 'localStorageService', '$rootScope', 'oimPrincipal', '$window', 'panelService'];
+  panelRController.$inject = ['$scope', '$state', '$uibModal', 'localStorageService', '$rootScope', 'oimPrincipal'];
 
-  function panelRController($scope, $state, $uibModal, localStorageService, $rootScope, oimPrincipal, $window, panelService) {
+  function panelRController($scope, $state, $uibModal, localStorageService, $rootScope, oimPrincipal) {
     var vm = this;
     vm.loader = {};
     vm.animationsEnabled = true;
@@ -16,28 +16,7 @@ define(['angular',
     vm.isAdmin = oimPrincipal.get_role() === 'ADMREF';
     vm.isDoctor = oimPrincipal.get_role() === 'MEDREF';
 
-    console.log("V2023-07-28 0900");
-
-    function trackHome() {
-      let ipLocal = $window.localStorage['clientIp'] ? $window.localStorage['clientIp'] : "0.0.0.0";
-
-      const obj = {
-        "codigoAplicacion": "REF",
-        "ipOrigen": ipLocal, 
-        "tipoRegistro": "O",
-        "codigoObjeto": "PROVEEDORES",
-        "opcionMenu": "Aplicación Proveedor",
-        "descripcionOperacion": "Ingreso a la aplicación",
-        "filtros": "",
-        "codigoUsuario": oimPrincipal.getUsername(),
-        "numeroSesion": "",
-        "codigoAgente": 0
-      };
-
-      panelService.saveTracker(obj);
-    };
-
-    trackHome();
+    console.log("V2022-03-08 0900")
 
     vm.openClientProveedoresModal = function modalCPFn() {
       if ($rootScope.backendError) {
