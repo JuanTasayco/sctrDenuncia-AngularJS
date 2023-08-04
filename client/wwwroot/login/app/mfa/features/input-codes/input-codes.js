@@ -26,14 +26,14 @@ define([
       var clipboardData = event.clipboardData ||
       (event.originalEvent && event.originalEvent.clipboardData ? event.originalEvent.clipboardData : window.clipboardData);
 
-      return clipboardData.getData('text') || clipboard.getData('text/plain');
+      return clipboardData.getData('text') || clipboardData.getData('text/plain');
     }
 
     function onPasteCode(event) {
       var codes = _getPasteValue(event).split('');
 
       angular.forEach(codes, function(code, codeIdx) {
-        vm.mInputCode[codeIdx.toString()] = code;
+        vm.ngModel[codeIdx.toString()] = code;
       });
     }
   }
