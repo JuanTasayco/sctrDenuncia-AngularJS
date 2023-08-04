@@ -67,7 +67,7 @@ const autoprefixerOptions = {
     mangle: false
   };
 
-let compressing = myargs.env === 'prod' ? true : false,
+let compressing = false,//myargs.env === 'prod' ? true : false,
   jsChannel = lazypipe()
   .pipe(eslint)
   .pipe(eslint.format)
