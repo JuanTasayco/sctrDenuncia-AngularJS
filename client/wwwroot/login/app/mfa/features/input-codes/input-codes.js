@@ -32,9 +32,9 @@ define([
     function onPasteCode(event) {
       var codes = _getPasteValue(event).split('');
 
-      angular.forEach(codes, function(code, codeIdx) {
-        vm.ngModel[codeIdx.toString()] = code;
-      });
+      for (var index = 0; index < vm.inputCodesQuantity; index++) {
+        vm.ngModel[index] = codes[index];
+      }
     }
   }
 
