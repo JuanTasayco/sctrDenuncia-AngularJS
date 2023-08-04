@@ -1264,35 +1264,37 @@
 
             var shoMsgTlfFijo = true;
 
-            response.Data.forEach(function(element) {
-              if(element.Resultado) {
-                var elemetLN = {
-                  codAplicacion: personConstants.aplications.VIDA,
-                  tipoDato: element.Tipo,
-                  valorDato: element.Valor
-                };
-
-                datosLN.push(elemetLN);
-
-                switch(element.Tipo) {
-                  case "CORREO": 
-                    var fuente = element.Valor === $scope.data.dataContratante.CorreoElectronico ? 'contratante' : 'asegurado';
-                    msg += "El correo del " + fuente + " est&aacute; en la tabla de Cliente/ Unidad inelegible por estudios t&eacute;cnicos.<br/>"; 
-                    break;
-                  case "TLF_MOVIL": 
-                    msg += "El tel&eacute;fono celular del contratante est&aacute; en la tabla de Cliente/ Unidad inelegible por estudios t&eacute;cnicos.<br/>"; 
-                    break;
-                  case "TLF_FIJO": 
-                    if(shoMsgTlfFijo) {
-                      var fuente = tlfIgual ? 'oficina o casa' : element.Valor === $scope.data.dataContratante.TelefonoOficina ? 'oficina' : 'casa';
-                      msg += "El tel&eacute;fono fijo (" + fuente + ") del contratante est&aacute; en la tabla de Cliente/ Unidad inelegible por estudios t&eacute;cnicos.<br/>"; 
-                      if(tlfIgual) shoMsgTlfFijo = false;
-                    }
-                    break;
-                  default: "";
+            if (Array.isArray(response.Data)) {
+              response.Data.forEach(function(element) {
+                if(element.Resultado) {
+                  var elemetLN = {
+                    codAplicacion: personConstants.aplications.VIDA,
+                    tipoDato: element.Tipo,
+                    valorDato: element.Valor
+                  };
+  
+                  datosLN.push(elemetLN);
+  
+                  switch(element.Tipo) {
+                    case "CORREO": 
+                      var fuente = element.Valor === $scope.data.dataContratante.CorreoElectronico ? 'contratante' : 'asegurado';
+                      msg += "El correo del " + fuente + " est&aacute; en la tabla de Cliente/ Unidad inelegible por estudios t&eacute;cnicos.<br/>"; 
+                      break;
+                    case "TLF_MOVIL": 
+                      msg += "El tel&eacute;fono celular del contratante est&aacute; en la tabla de Cliente/ Unidad inelegible por estudios t&eacute;cnicos.<br/>"; 
+                      break;
+                    case "TLF_FIJO": 
+                      if(shoMsgTlfFijo) {
+                        var fuente = tlfIgual ? 'oficina o casa' : element.Valor === $scope.data.dataContratante.TelefonoOficina ? 'oficina' : 'casa';
+                        msg += "El tel&eacute;fono fijo (" + fuente + ") del contratante est&aacute; en la tabla de Cliente/ Unidad inelegible por estudios t&eacute;cnicos.<br/>"; 
+                        if(tlfIgual) shoMsgTlfFijo = false;
+                      }
+                      break;
+                    default: "";
+                  }
                 }
-              }
-            });
+              });
+            }
 
             if(msg === "") {
               _guardarData();
