@@ -98,6 +98,7 @@ define([
       var jsonData = { validator: constantsRiesgosGenerales.PARAMETROS.DESC_COMER_SIMPLE.COD, currency: false, moneda: null }
       var descuentos = paramData.Giro.Detalle.filter(function (element) { return element.Tipo.Codigo === constantsRiesgosGenerales.PARAMETROS.DESC_COMER_SIMPLE.VALUE_REGISTER })
       if (descuentos.length) {
+        descuentos.sort(function (a, b) { return parseInt(a.Valor) - parseInt(b.Valor) });
         for (var index = 0; index < descuentos.length; index++) {
           var element = descuentos[index];
           if (parseInt(paramData.CantidadElementos) <= parseInt(element.Valor2)) {
