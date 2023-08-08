@@ -3,8 +3,6 @@
 define(['angular', 'constants', 'lodash'], function (angular, constants, _) {
   MfaFactory.$inject = ['$q', '$cookies', 'localStorageFactory', 'oimProxyLogin', 'httpData'];
   function MfaFactory($q, $cookies, localStorageFactory, oimProxyLogin, httpData) {
-    var modalities = null;
-
     function _getConfig() {
       return {
         headers: {
@@ -26,21 +24,19 @@ define(['angular', 'constants', 'lodash'], function (angular, constants, _) {
     }
 
     function getModalities(showSpin) {
-      if (modalities) {
-        return $q.resolve(modalities);
-      }
-
       var reqCommon = _getReqCommon();
       var deferred = $q.defer();
       httpData.post(
         oimProxyLogin.endpoint + 'api/mfa/authenticators/application/' + reqCommon.applicationCode + '/searchModalities',
-        { deviceCode: reqCommon.deviceCode },
+        {
+          deviceCode: reqCommon.deviceCode,
+          groupTypeId: reqCommon.groupType
+        },
         _getConfig(),
         showSpin
       ).then(function (res) {
         if (res.operationCode === constants.operationCode.success) {
-          modalities = res.data;
-          deferred.resolve(modalities);
+          deferred.resolve(res.data);
         } else {
           deferred.reject(res);
         }
