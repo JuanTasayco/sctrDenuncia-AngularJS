@@ -55,9 +55,9 @@ define([
         var ci21 = tracto ? tractosJ21 : notractosJ19;
         var moneda = currencyType(vm.resumen.Moneda.Codigo)
         var prima = $filter('currency')(vm.resumen.PrimaNeta / i21, moneda, 2);
-        return i21 === ci21 ?  prima : `${moneda}-`;
+        return i21 === ci21 ?  prima : (moneda + '-');
       }
-      return `-`;
+      return '-';
     }
 
     function viewTractoNoTracto() {
