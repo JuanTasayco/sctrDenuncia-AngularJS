@@ -36,7 +36,7 @@
 
 </head>
 
-<body style="display: none" class="page-login" ng-cloak>
+<body ng-controller="LayoutController" style="display: none" class="page-login" ng-cloak>
 
     <div class="main" ng-init="atHome = true">
         <div class="wrapper">
@@ -54,12 +54,20 @@
 
                                 <div class="col-md-7 pt-xs-2 pb-xs-2">
                                     <div class="row">
-
-                                        <div class="col-md-10 col-md-offset-1 login-welcome text-center">
+                                        <div class="col-md-10 col-md-offset-1">
+                                          <a ng-if="layoutConfig.onBack"
+                                            ng-click="layoutConfig.onBack()"
+                                            href="javascript:void(0)"
+                                            class="link-back g-link no-underline gCGreen1 fwBold">
+                                            <span class="link-back__icon ico-mapfre_78_chevronleft"></span>
+                                            Volver
+                                          </a>
+                                          <div class="login-welcome text-center">
                                             <h2 ng-show="welcomeUserTypes">¡Bienvenido!</h2>
                                             <img src="../../images/login-logo2.png" alt="" class="mt-xs-1 mb-xs-1">
                                             <p ng-show="welcomeUserTypes">Elige el tipo de cuenta con la que deseas ingresar.</p>
                                             <span class="g-shortline" ng-show="welcomeUserTypes"></span>
+                                          </div>
                                         </div>
                                         <div class="clearfix"></div>
 
