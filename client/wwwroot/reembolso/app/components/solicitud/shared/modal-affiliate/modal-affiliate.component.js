@@ -15,6 +15,9 @@ define(['angular', 'lodash', 'ReembolsoActions', 'reConstants'], function (ng, _
     vm.createAffiliate = createAffiliate;
     vm.changeToEquifaxModal = changeToEquifaxModal;
     vm.onKeyUp = onKeyUp;
+    vm.serviceSearchAffiliate = _serviceSearchAffiliate;
+    vm.getListData = _getListData;
+    vm.dataEquifax = false;
 
     function onInit() {
       vm.affiliateInput = {};
@@ -30,12 +33,35 @@ define(['angular', 'lodash', 'ReembolsoActions', 'reConstants'], function (ng, _
     }
 
     function searchAffiliate() {
+      vm.dataEquifax = false;
       if (vm.frm.$invalid) {
         vm.frm.markAsPristine();
         return void 0;
       }
+      var tipoFilter = vm.showAdditionalInputs ? 2 : 1;
+      var valorFilter = vm.affiliateInput.identifier;
+      if(vm.showAdditionalInputs){
+        valorFilter = vm.affiliateInput.identifier.toUpperCase();
+        if(vm.affiliateInput.lastName.length > 0){
+          valorFilter = valorFilter + " " + vm.affiliateInput.lastName.toUpperCase();
+        }
+        if(vm.affiliateInput.motherLastName.length > 0){
+          valorFilter = valorFilter + " " + vm.affiliateInput.motherLastName.toUpperCase();
+        }
+      }
 
-      _getListData(_serviceSearchAffiliate, vm.affiliateInput);
+      reFactory.solicitud.GetAllBeneficiaryByFilters(vm.state.additionalData.documentControlNumber,
+        vm.state.additionalData.sinisterAnio,tipoFilter,valorFilter).then(function(res) {
+        if(res.isValid && res.data.length > 0){
+          vm.listData = res.data
+        }else{
+          vm.getListData(vm.serviceSearchAffiliate, vm.affiliateInput);
+        }
+      })
+      .catch(function(err) {
+        $log.error(err);
+      });
+      
     }
 
     function selectAffiliate(afiliate) {
@@ -121,14 +147,16 @@ define(['angular', 'lodash', 'ReembolsoActions', 'reConstants'], function (ng, _
       };
 
       vm.searchServiceName === 'GetAfiliatesList' && (req.idCompany = vm.state.company.id);
-
+      vm.dataEquifax = true;
       return reFactory.solicitud[vm.searchServiceName](req);
     }
 
     function _serviceGetBeneficiaryList() {
-      return reFactory.solicitud.GetBeneficiaryListMapfre(
+      return reFactory.solicitud.GetAllBeneficiaryByFilters(
         vm.state.additionalData.documentControlNumber,
-        vm.state.additionalData.sinisterAnio
+        vm.state.additionalData.sinisterAnio,
+        1,
+        null
       );
     }
 
