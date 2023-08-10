@@ -93,7 +93,7 @@
               $state.go('dashboard', {type: 0}, {reload: true, inherit: false});
             }
 
-            updateDashboardSup();
+            updateDashboardSup(false);
 
             //$scope.userName = oimClaims.userName;
           };
@@ -110,8 +110,7 @@
             vm.popup2.opened = true;
           }
 
-          function updateDashboardSup() {
-
+          function updateDashboardSup(flagTracker) {
             // Chart 1
             vm.chart1 = {
               chartType : 'bar-horz',
@@ -283,382 +282,36 @@
               idWorkshop: (vm.mTaller && vm.mTaller.idThird) ? vm.mTaller.idThird : 0,
               idProficient: (vm.mPerito && vm.mPerito.idThird) ? vm.mPerito.idThird : 0,
               startDate: (vm.mConsultaDesde) ? pericialFactory.general.formatearFecha(vm.mConsultaDesde) : pericialFactory.general.formatearFecha(new Date()),
-              endDate: (vm.mConsultaHasta) ? pericialFactory.general.formatearFecha(vm.mConsultaHasta) : pericialFactory.general.formatearFecha(new Date())
+              endDate: (vm.mConsultaHasta) ? pericialFactory.general.formatearFecha(vm.mConsultaHasta) : pericialFactory.general.formatearFecha(new Date()),
+              flagTracker: flagTracker ? 'S': 'N',
+              tracker: {
+                CodigoPerfil: vm.rol
+              }
             };
 
-            pericialFactory.general.monitor(function() {
-              return pericialFactory.dashboard.Resource_Dashboard_Supervisor(vm.paramsG1);
-            }, $scope)
-              .begin()
-              .then(
-                function(response) {
-                  if (response.data.length > 0) {
-                    $timeout(function() {
-                      vm.grafico1 = response.data[0];
-                      vm.chart1.chartData = [];
-                      vm.chart1.chartData.push(vm.grafico1.inTimeRow);
-                      vm.chart1.chartData.push(vm.grafico1.delayedRow);
-                      vm.chart1.chartData.push(vm.grafico1.veryDelayedRow);
-
-
-                      vm.sinPresupuestarData = {
-                        labels: vm.chart1.chartLabels,
-                        datasets: [{
-                          label: 'Dataset 1',
-                          //   {
-                          //   display: false
-                          // },
-                          backgroundColor: ['#02cc34','#ffcc00','#fb5c52'],
-                          data: [vm.grafico1.inTimeRow, vm.grafico1.delayedRow,vm.grafico1.veryDelayedRow]
-                        }]
-
-                      };
-
-                      vm.sinPresupuestar = document.getElementById("sinPresupuestar");
-
-                      vm.sinPresupuestarChart = new Chart(vm.sinPresupuestar, {
-                        type: 'horizontalBar',
-                        data: vm.sinPresupuestarData,
-                        options: {
-                          // Elements options apply to all of the options unless overridden in a dataset
-                          // In this case, we are setting the border of each horizontal bar to be 2px wide
-                          elements: {
-                            rectangle: {
-                              borderWidth: 1
-                            }
-                          },
-                          responsive: true,
-                          legend: {
-                            display: false
-                          },
-                          scales: {
-                            xAxes: [{
-                              ticks: {
-                                beginAtZero: true,
-                                callback: function(value) {if (value % 1 === 0) {return value;}}
-                              }
-                            }]
-                          },
-                          title: {
-                            display: false
-                          }
-                        }
-                      });
-
-                      vm.grafico2 = response.data[1];
-                      vm.chart2.chartData = [];
-                      vm.chart2.chartData.push(vm.grafico2.inTimeRow);
-                      vm.chart2.chartData.push(vm.grafico2.delayedRow);
-                      vm.chart2.chartData.push(vm.grafico2.veryDelayedRow);
-
-                      vm.sinPeritarData = {
-                        datasets: [{
-                          data: [vm.grafico2.inTimeRow, vm.grafico2.delayedRow, vm.grafico2.veryDelayedRow],
-                          backgroundColor: ['#02cc34','#ffcc00','#fb5c52'],
-                          borderWidth: [0,0,0],
-                          label: 'Dataset 1'
-                        }],
-                        labels: {
-                          display: false
-                        }
-                      };
-
-                      vm.sinPeritar = document.getElementById("sinPeritar");
-
-                      vm.sinPeritarChart = new Chart(vm.sinPeritar, {
-                        type: 'doughnut',
-                        data: vm.sinPeritarData,
-                        options: {
-                          responsive: true,
-                          legend: {
-                            position: 'top'
-                          },
-                          title: {
-                            display: false
-                          },
-                          animation: {
-                            animateScale: true,
-                            animateRotate: true
-                          }
-                        }
-                      });
-
-                      vm.grafico3 = response.data[2];
-                      vm.chart3.chartData = [];
-                      vm.chart3.chartData.push(vm.grafico3.inTimeRow);
-                      vm.chart3.chartData.push(vm.grafico3.delayedRow);
-                      vm.chart3.chartData.push(vm.grafico3.veryDelayedRow);
-
-                      vm.sinAutorizarData = {
-                        labels: ['A tiempo', 'Retraso', 'Alerta'],
-                        datasets: [{
-                          backgroundColor: ['#02cc34','#ffcc00','#fb5c52'],
-                          data: [vm.grafico3.inTimeRow, vm.grafico3.delayedRow,vm.grafico3.veryDelayedRow]
-                        }]
-                      };
-
-                      vm.sinAutorizar = document.getElementById("sinAutorizar");
-
-                      vm.sinAutorizarChart = new Chart(vm.sinAutorizar, {
-                        type: 'bar',
-                        data: vm.sinAutorizarData,
-                        options: {
-                          responsive: true,
-                          legend: {
-                            display: false
-                          },
-                          scales: {
-                            yAxes: [{
-                              ticks: {
-                                beginAtZero: true,
-                                callback: function(value) {if (value % 1 === 0) {return value;}}
-                              }
-                            }]
-                          },
-                          title: {
-                            display: false
-                          }
-                        }
-                      });
-
-                      vm.grafico4 = response.data[3];
-                      vm.chart4.chartData = [];
-                      vm.chart4.chartData.push(vm.grafico4.inTimeRow);
-                      vm.chart4.chartData.push(vm.grafico4.delayedRow);
-                      vm.chart4.chartData.push(vm.grafico4.veryDelayedRow);
-
-                      vm.peritadosOkData = {
-                        data : {
-                          datasets: [{
-                            data: [
-                              vm.grafico4.inTimeRow,
-                              vm.grafico4.delayedRow,
-                              vm.grafico4.veryDelayedRow
-                            ],
-                            // data: [
-                            //   10,
-                            //   20,
-                            //   30
-                            // ],
-                            backgroundColor: ['rgba(2,204,52,0.5)','rgba(251,92,82,0.5)','rgba(255,204,0,0.5)'],
-                            borderWidth: [0,0,0],
-                            label: 'My dataset' // for legend
-                          }],
-                          labels: [
-                            'Red',
-                            'Orange',
-                            'Yellow'
-                          ]
-                        },
-                        options: {
-                          responsive: true,
-                          layout: {
-                            padding: {
-                              left: 0,
-                              right: 0,
-                              top: 5,
-                              bottom: 5
-                            }
-                          },
-                          legend: {
-                            display: false
-                          },
-                          title: {
-                            display: false
-                          },
-                          scale: {
-                            ticks: {
-                              beginAtZero: true,
-                              min: 0,
-                              stepSize: 1
-                            },
-                            reverse: false
-                          },
-                          animation: {
-                            animateRotate: false,
-                            animateScale: true
-                          }
-                        }
-                      };
-
-                      vm.peritadosOk = document.getElementById("peritadosOk");
-
-                      // vm.peritadosOkChart =
-                      window.myPolarArea = Chart.PolarArea(vm.peritadosOk, vm.peritadosOkData);
-
-                      vm.grafico5 = response.data[4];
-                      vm.chart5.chartData = [];
-                      vm.chart5.chartData.push(vm.grafico5.inTimeRow);
-                      vm.chart5.chartData.push(vm.grafico5.delayedRow);
-                      vm.chart5.chartData.push(vm.grafico5.veryDelayedRow);
-
-
-
-                      vm.enReparacionData = {
-                        labels: ['A tiempo', 'Retraso', 'Alerta'],
-                        datasets: [{
-                          backgroundColor: ['#06ca8e','#05bde4','#fb5c52'],
-                          data: [vm.grafico5.inTimeRow, vm.grafico5.delayedRow,vm.grafico5.veryDelayedRow]
-                         }]
-                      };
-
-                      vm.enReparacion = document.getElementById("enReparacion");
-
-                      vm.sinAutorizarChart = new Chart(vm.enReparacion, {
-                        type: 'bar',
-                        data: vm.enReparacionData,
-                        options: {
-                          responsive: true,
-                          legend: {
-                            display: false
-                          },
-                          scales: {
-                            yAxes: [{
-                              ticks: {
-                                beginAtZero: true,
-                                callback: function(value) {if (value % 1 === 0) {return value;}}
-                              }
-                            }]
-                          },
-                          title: {
-                            display: false
-                          }
-                        }
-                      });
-
-
-
-                      vm.grafico6 = response.data[5];
-                      vm.chart6.chartData = [];
-                      vm.chart6.chartData.push(vm.grafico6.inTimeRow);
-                      vm.chart6.chartData.push(vm.grafico6.delayedRow);
-                      vm.chart6.chartData.push(vm.grafico6.veryDelayedRow);
-
-                      vm.fueraTiempoData = {
-                        labels: ['A tiempo', 'Retraso', 'Alerta'],
-                        datasets: [{
-                          label: 'Dataset 1',
-                          backgroundColor: ['#06ca8e','#05bde4','#f66b81'],
-                          data: [vm.grafico6.inTimeRow, vm.grafico6.delayedRow,vm.grafico6.veryDelayedRow]
-                        }]
-                      };
-
-                      vm.fueraTiempo = document.getElementById("fueraTiempo");
-
-                      vm.fueraTiempoChart = new Chart(vm.fueraTiempo, {
-                        type: 'horizontalBar',
-                        data: vm.fueraTiempoData,
-                        options: {
-                          elements: {
-                            rectangle: {
-                              borderWidth: 1
-                            }
-                          },
-                          responsive: true,
-                          legend: {
-                            display: false
-                          },
-                          scales: {
-                            xAxes: [{
-                              ticks: {
-                                beginAtZero: true,
-                                callback: function(value) {if (value % 1 === 0) {return value;}}
-                              }
-                            }]
-                          },
-                          title: {
-                            display: false
-                          }
-                        }
-                      });
-
-
-
-                      vm.grafico7 = response.data[6];
-                      vm.chart7.chartData = [];
-                      vm.chart7.chartData.push(vm.grafico7.inTimeRow);
-                      vm.chart7.chartData.push(vm.grafico7.delayedRow);
-                      vm.chart7.chartData.push(vm.grafico7.veryDelayedRow);
-
-
-                      vm.pendientesDeRepararData = {
-                        labels: ['1-7', '9-15', '16 a más'],
-                        datasets: [{
-                          backgroundColor: ['#02cc34','#ffcc00','#fb5c52'],
-                          data: [vm.grafico7.inTimeRow, vm.grafico7.delayedRow,vm.grafico7.veryDelayedRow]
-                        }]
-                      };
-
-                      vm.pendientesDeReparar = document.getElementById("pendientesDeReparar");
-
-                      vm.pendientesDeRepararChart = new Chart(vm.pendientesDeReparar, {
-                        type: 'bar',
-                        data: vm.pendientesDeRepararData,
-                        options: {
-                          responsive: true,
-                          legend: {
-                            display: false
-                          },
-                          scales: {
-                            yAxes: [{
-                              ticks: {
-                                beginAtZero: true,
-                                callback: function(value) {if (value % 1 === 0) {return value;}}
-                              }
-                            }]
-                          },
-                          title: {
-                            display: false
-                          }
-                        }
-                      });
-
-                      vm.grafico8 = response.data[7];
-                      // vm.chart8.chartData = [5124, 2131];
-                      vm.chart8.chartData = [];
-                      vm.chart8.chartData.push(vm.grafico8.inTimeRow);
-                      vm.chart8.chartData.push(vm.grafico8.delayedRow);
-                      // vm.chart8.chartData.push(vm.grafico8.veryDelayedRow);
-
-                      vm.entregadosData = {
-                        datasets: [{
-                          data: [vm.grafico8.inTimeRow, vm.grafico8.delayedRow],
-                          backgroundColor: ['#05bde4','#f4f4f4'],
-                          borderWidth: [0,0],
-                          label: 'Dataset 1'
-                        }],
-                        labels: {
-                          display: false
-                        }
-                      };
-
-                      vm.entregados = document.getElementById("entregados");
-
-                      vm.entregadosChart = new Chart(vm.entregados, {
-                        type: 'doughnut',
-                        data: vm.entregadosData,
-                        options: {
-                          responsive: true,
-                          legend: {
-                            position: 'top',
-                          },
-                          title: {
-                            display: false
-                          },
-                          animation: {
-                            animateScale: true,
-                            animateRotate: true
-                          }
-                        }
-                      });
-                    }, 200);
-                  }
-
-                },
-                function(response) {
-                  console.error(response);
+            if (flagTracker)
+            {
+              pericialFactory.dashboard.Resource_Dashboard_Supervisor(vm.paramsG1).then(
+                function(response){
+                  
+                  mapResponse(response)
                 }
               );
+            }else{
+              pericialFactory.general.monitor(function() {
+                return pericialFactory.dashboard.Resource_Dashboard_Supervisor(vm.paramsG1);
+              }, $scope)
+                .begin()
+                .then(
+                  function(response) {
+                    mapResponse(response)
+  
+                  },
+                  function(response) {
+                    console.error(response);
+                  }
+                );
+              }
           }
 
           //Resource_Dashboard_Supervisor
@@ -680,6 +333,370 @@
               vm.paramsList.dateEnd = (vm.formData.dateEnd) ? pericialFactory.general.formatearFecha(vm.formData.dateEnd) : pericialFactory.general.formatearFecha(new Date());
             }
             $state.go('bandejaServicios', {type: id, executive: idExecutiveState}, {reload: true, inherit: false});
+          }
+          function mapResponse(response){
+            if (response.data.length > 0) {
+              $timeout(function() {
+                vm.paramsG1.flagTracker = 'N';
+                vm.grafico1 = response.data[0];
+                vm.chart1.chartData = [];
+                vm.chart1.chartData.push(vm.grafico1.inTimeRow);
+                vm.chart1.chartData.push(vm.grafico1.delayedRow);
+                vm.chart1.chartData.push(vm.grafico1.veryDelayedRow);
+
+
+                vm.sinPresupuestarData = {
+                  labels: vm.chart1.chartLabels,
+                  datasets: [{
+                    label: 'Dataset 1',
+                    //   {
+                    //   display: false
+                    // },
+                    backgroundColor: ['#02cc34','#ffcc00','#fb5c52'],
+                    data: [vm.grafico1.inTimeRow, vm.grafico1.delayedRow,vm.grafico1.veryDelayedRow]
+                  }]
+
+                };
+
+                vm.sinPresupuestar = document.getElementById("sinPresupuestar");
+
+                vm.sinPresupuestarChart = new Chart(vm.sinPresupuestar, {
+                  type: 'horizontalBar',
+                  data: vm.sinPresupuestarData,
+                  options: {
+                    // Elements options apply to all of the options unless overridden in a dataset
+                    // In this case, we are setting the border of each horizontal bar to be 2px wide
+                    elements: {
+                      rectangle: {
+                        borderWidth: 1
+                      }
+                    },
+                    responsive: true,
+                    legend: {
+                      display: false
+                    },
+                    scales: {
+                      xAxes: [{
+                        ticks: {
+                          beginAtZero: true,
+                          callback: function(value) {if (value % 1 === 0) {return value;}}
+                        }
+                      }]
+                    },
+                    title: {
+                      display: false
+                    }
+                  }
+                });
+
+                vm.grafico2 = response.data[1];
+                vm.chart2.chartData = [];
+                vm.chart2.chartData.push(vm.grafico2.inTimeRow);
+                vm.chart2.chartData.push(vm.grafico2.delayedRow);
+                vm.chart2.chartData.push(vm.grafico2.veryDelayedRow);
+
+                vm.sinPeritarData = {
+                  datasets: [{
+                    data: [vm.grafico2.inTimeRow, vm.grafico2.delayedRow, vm.grafico2.veryDelayedRow],
+                    backgroundColor: ['#02cc34','#ffcc00','#fb5c52'],
+                    borderWidth: [0,0,0],
+                    label: 'Dataset 1'
+                  }],
+                  labels: {
+                    display: false
+                  }
+                };
+
+                vm.sinPeritar = document.getElementById("sinPeritar");
+
+                vm.sinPeritarChart = new Chart(vm.sinPeritar, {
+                  type: 'doughnut',
+                  data: vm.sinPeritarData,
+                  options: {
+                    responsive: true,
+                    legend: {
+                      position: 'top'
+                    },
+                    title: {
+                      display: false
+                    },
+                    animation: {
+                      animateScale: true,
+                      animateRotate: true
+                    }
+                  }
+                });
+
+                vm.grafico3 = response.data[2];
+                vm.chart3.chartData = [];
+                vm.chart3.chartData.push(vm.grafico3.inTimeRow);
+                vm.chart3.chartData.push(vm.grafico3.delayedRow);
+                vm.chart3.chartData.push(vm.grafico3.veryDelayedRow);
+
+                vm.sinAutorizarData = {
+                  labels: ['A tiempo', 'Retraso', 'Alerta'],
+                  datasets: [{
+                    backgroundColor: ['#02cc34','#ffcc00','#fb5c52'],
+                    data: [vm.grafico3.inTimeRow, vm.grafico3.delayedRow,vm.grafico3.veryDelayedRow]
+                  }]
+                };
+
+                vm.sinAutorizar = document.getElementById("sinAutorizar");
+
+                vm.sinAutorizarChart = new Chart(vm.sinAutorizar, {
+                  type: 'bar',
+                  data: vm.sinAutorizarData,
+                  options: {
+                    responsive: true,
+                    legend: {
+                      display: false
+                    },
+                    scales: {
+                      yAxes: [{
+                        ticks: {
+                          beginAtZero: true,
+                          callback: function(value) {if (value % 1 === 0) {return value;}}
+                        }
+                      }]
+                    },
+                    title: {
+                      display: false
+                    }
+                  }
+                });
+
+                vm.grafico4 = response.data[3];
+                vm.chart4.chartData = [];
+                vm.chart4.chartData.push(vm.grafico4.inTimeRow);
+                vm.chart4.chartData.push(vm.grafico4.delayedRow);
+                vm.chart4.chartData.push(vm.grafico4.veryDelayedRow);
+
+                vm.peritadosOkData = {
+                  data : {
+                    datasets: [{
+                      data: [
+                        vm.grafico4.inTimeRow,
+                        vm.grafico4.delayedRow,
+                        vm.grafico4.veryDelayedRow
+                      ],
+                      // data: [
+                      //   10,
+                      //   20,
+                      //   30
+                      // ],
+                      backgroundColor: ['rgba(2,204,52,0.5)','rgba(251,92,82,0.5)','rgba(255,204,0,0.5)'],
+                      borderWidth: [0,0,0],
+                      label: 'My dataset' // for legend
+                    }],
+                    labels: [
+                      'Red',
+                      'Orange',
+                      'Yellow'
+                    ]
+                  },
+                  options: {
+                    responsive: true,
+                    layout: {
+                      padding: {
+                        left: 0,
+                        right: 0,
+                        top: 5,
+                        bottom: 5
+                      }
+                    },
+                    legend: {
+                      display: false
+                    },
+                    title: {
+                      display: false
+                    },
+                    scale: {
+                      ticks: {
+                        beginAtZero: true,
+                        min: 0,
+                        stepSize: 1
+                      },
+                      reverse: false
+                    },
+                    animation: {
+                      animateRotate: false,
+                      animateScale: true
+                    }
+                  }
+                };
+
+                vm.peritadosOk = document.getElementById("peritadosOk");
+
+                // vm.peritadosOkChart =
+                window.myPolarArea = Chart.PolarArea(vm.peritadosOk, vm.peritadosOkData);
+
+                vm.grafico5 = response.data[4];
+                vm.chart5.chartData = [];
+                vm.chart5.chartData.push(vm.grafico5.inTimeRow);
+                vm.chart5.chartData.push(vm.grafico5.delayedRow);
+                vm.chart5.chartData.push(vm.grafico5.veryDelayedRow);
+
+
+
+                vm.enReparacionData = {
+                  labels: ['A tiempo', 'Retraso', 'Alerta'],
+                  datasets: [{
+                    backgroundColor: ['#06ca8e','#05bde4','#fb5c52'],
+                    data: [vm.grafico5.inTimeRow, vm.grafico5.delayedRow,vm.grafico5.veryDelayedRow]
+                   }]
+                };
+
+                vm.enReparacion = document.getElementById("enReparacion");
+
+                vm.sinAutorizarChart = new Chart(vm.enReparacion, {
+                  type: 'bar',
+                  data: vm.enReparacionData,
+                  options: {
+                    responsive: true,
+                    legend: {
+                      display: false
+                    },
+                    scales: {
+                      yAxes: [{
+                        ticks: {
+                          beginAtZero: true,
+                          callback: function(value) {if (value % 1 === 0) {return value;}}
+                        }
+                      }]
+                    },
+                    title: {
+                      display: false
+                    }
+                  }
+                });
+
+
+
+                vm.grafico6 = response.data[5];
+                vm.chart6.chartData = [];
+                vm.chart6.chartData.push(vm.grafico6.inTimeRow);
+                vm.chart6.chartData.push(vm.grafico6.delayedRow);
+                vm.chart6.chartData.push(vm.grafico6.veryDelayedRow);
+
+                vm.fueraTiempoData = {
+                  labels: ['A tiempo', 'Retraso', 'Alerta'],
+                  datasets: [{
+                    label: 'Dataset 1',
+                    backgroundColor: ['#06ca8e','#05bde4','#f66b81'],
+                    data: [vm.grafico6.inTimeRow, vm.grafico6.delayedRow,vm.grafico6.veryDelayedRow]
+                  }]
+                };
+
+                vm.fueraTiempo = document.getElementById("fueraTiempo");
+
+                vm.fueraTiempoChart = new Chart(vm.fueraTiempo, {
+                  type: 'horizontalBar',
+                  data: vm.fueraTiempoData,
+                  options: {
+                    elements: {
+                      rectangle: {
+                        borderWidth: 1
+                      }
+                    },
+                    responsive: true,
+                    legend: {
+                      display: false
+                    },
+                    scales: {
+                      xAxes: [{
+                        ticks: {
+                          beginAtZero: true,
+                          callback: function(value) {if (value % 1 === 0) {return value;}}
+                        }
+                      }]
+                    },
+                    title: {
+                      display: false
+                    }
+                  }
+                });
+
+
+
+                vm.grafico7 = response.data[6];
+                vm.chart7.chartData = [];
+                vm.chart7.chartData.push(vm.grafico7.inTimeRow);
+                vm.chart7.chartData.push(vm.grafico7.delayedRow);
+                vm.chart7.chartData.push(vm.grafico7.veryDelayedRow);
+
+
+                vm.pendientesDeRepararData = {
+                  labels: ['1-7', '9-15', '16 a más'],
+                  datasets: [{
+                    backgroundColor: ['#02cc34','#ffcc00','#fb5c52'],
+                    data: [vm.grafico7.inTimeRow, vm.grafico7.delayedRow,vm.grafico7.veryDelayedRow]
+                  }]
+                };
+
+                vm.pendientesDeReparar = document.getElementById("pendientesDeReparar");
+
+                vm.pendientesDeRepararChart = new Chart(vm.pendientesDeReparar, {
+                  type: 'bar',
+                  data: vm.pendientesDeRepararData,
+                  options: {
+                    responsive: true,
+                    legend: {
+                      display: false
+                    },
+                    scales: {
+                      yAxes: [{
+                        ticks: {
+                          beginAtZero: true,
+                          callback: function(value) {if (value % 1 === 0) {return value;}}
+                        }
+                      }]
+                    },
+                    title: {
+                      display: false
+                    }
+                  }
+                });
+
+                vm.grafico8 = response.data[7];
+                // vm.chart8.chartData = [5124, 2131];
+                vm.chart8.chartData = [];
+                vm.chart8.chartData.push(vm.grafico8.inTimeRow);
+                vm.chart8.chartData.push(vm.grafico8.delayedRow);
+                // vm.chart8.chartData.push(vm.grafico8.veryDelayedRow);
+
+                vm.entregadosData = {
+                  datasets: [{
+                    data: [vm.grafico8.inTimeRow, vm.grafico8.delayedRow],
+                    backgroundColor: ['#05bde4','#f4f4f4'],
+                    borderWidth: [0,0],
+                    label: 'Dataset 1'
+                  }],
+                  labels: {
+                    display: false
+                  }
+                };
+
+                vm.entregados = document.getElementById("entregados");
+
+                vm.entregadosChart = new Chart(vm.entregados, {
+                  type: 'doughnut',
+                  data: vm.entregadosData,
+                  options: {
+                    responsive: true,
+                    legend: {
+                      position: 'top',
+                    },
+                    title: {
+                      display: false
+                    },
+                    animation: {
+                      animateScale: true,
+                      animateRotate: true
+                    }
+                  }
+                });
+              }, 200);
+            }
           }
 
           vm.verTipoSiniestro = verTipoSiniestro;
