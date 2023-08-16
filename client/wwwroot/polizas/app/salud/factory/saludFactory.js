@@ -576,6 +576,20 @@ define(['angular', 'constants', 'lodash'], function(angular, constants, _) {
       return months <= 0 ? 0 : months;
     }
 
+    function GenerarCuestionarioFile(quotation, fileName) {
+      mpSpin.start();
+      $http.get(oimProxyPoliza.endpoint + 'api/salud/dps/' + quotation, undefined, { responseType: "arraybuffer"}).success(
+        function(data, status, headers) {
+          mainServices.fnDownloadFileBase64(data, 'pdf', fileName, true);
+          mpSpin.end();
+        },
+        function(data, status) {
+          mpSpin.end();
+          mModalAlert.showError("Error al descargar el documento", 'ERROR');
+        }
+      );
+    }
+
     var factory = {
       spliceListPrimas: spliceListPrimas,
       getProductsByUser: getProductsByUser,
@@ -688,7 +702,9 @@ define(['angular', 'constants', 'lodash'], function(angular, constants, _) {
       getListMotivosObservacion: getListMotivosObservacion,
       getListEstadosSolicitud: getListEstadosSolicitud,
       descargarReporteDiagnostico: descargarReporteDiagnostico,
-      DiferenciaMeses: DiferenciaMeses
+
+      DiferenciaMeses: DiferenciaMeses,
+      GenerarCuestionarioFile: GenerarCuestionarioFile
     };
 
     return factory;
