@@ -61,6 +61,8 @@ define(['angular', 'constants', 'constantsPericial', 'mocksPericial', 'helper', 
       vm.dataSiniestro = {};
       vm.dataAuto = {};
 
+      saveTracker(isPerito());
+
       pericialFactory.siniester.GetSinister($stateParams.id, false).then(function(response) {
         if (response.data) {
           vm.siniestro = response.data;
@@ -302,6 +304,23 @@ define(['angular', 'constants', 'constantsPericial', 'mocksPericial', 'helper', 
         }
       });
     };
+    
+    function saveTracker(isPerito){
+      vm.paramTracker = {
+        idSinisterDetail: $stateParams.id,
+        CodigoPerfil: vm.rol,
+        DescripcionOperacion : isPerito ?  'INGRESO A PERITAR' :'INGRESO A DETALLE',
+        OpcionMenu : isPerito ? 'GPER > Principal > Peritar': 'GPER > Principal > Ver Detalle'
+      };
+
+      pericialFactory.siniester.SaveTracker(vm.paramTracker).then(function(response) {
+        
+      })
+        .catch(function(err){
+          console.log(err);
+            mModalAlert.showError("Error en SaveTracker", 'Error');
+        });
+    }
 
     function cargarInventario(doc, type) {
 
@@ -532,7 +551,10 @@ define(['angular', 'constants', 'constantsPericial', 'mocksPericial', 'helper', 
         vm.params = {
           idSinisterDetail: $stateParams.id,
           idSinisterState: vm.siniestro.detail.idSinisterState,
-          commentary: (message) ? message.toUpperCase() : ''
+          commentary: (message) ? message.toUpperCase() : '',
+          tracker: {
+            CodigoPerfil: vm.rol
+          }
         };
 
         pericialFactory.comment.AddMovement(vm.params).then(function(response) {
@@ -797,6 +819,9 @@ define(['angular', 'constants', 'constantsPericial', 'mocksPericial', 'helper', 
                 "tipologia": '',
                 "ordenServicio": vm.ordenServicio,
                 "dni":  !vm.dataUser ? '' : (vm.dataUser.documentType === 'DNI' ? vm.dataUser.documentNumber : '')
+              },
+              tracker: {
+                CodigoPerfil: vm.rol
               }
             };
             pericialFactory.proficient.Resource_Sinister_Proficient_Save_Finish(vm.paramsRegistro).then(function (response) {

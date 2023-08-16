@@ -16,7 +16,7 @@ define(['angular',
     vm.isAdmin = oimPrincipal.get_role() === 'ADMREF';
     vm.isDoctor = oimPrincipal.get_role() === 'MEDREF';
 
-    console.log("V2023-07-28 0900");
+    console.log("V2023-08-04 0900");
 
     function trackHome() {
       let ipLocal = $window.localStorage['clientIp'] ? $window.localStorage['clientIp'] : "0.0.0.0";

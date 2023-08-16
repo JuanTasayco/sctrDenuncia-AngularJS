@@ -176,16 +176,16 @@ define(['angular', 'lodash'], function(ng, _) {
       vm.loader.text = 'Estamos cargando la lista de proveedores';
       $state.go('referencia.panel.proveedores.busqueda', data);
 
-      let opcionMenu = vm.showFrmAttr ? "Proveedores/Perú - Buscar proveedor - atributos" : "Proveedores/Perú - Buscar proveedor - nombre";
-      let descripcionOperacion = vm.showFrmAttr ? "Click al botón Buscar Proveedores - atributos" : "Click al botón Buscar Proveedores - nombre";
+      let optionMenu = vm.showFrmAttr ? "Proveedores/Perú - Buscar proveedor - atributos" : "Proveedores/Perú - Buscar proveedor - nombre";
+      let descriptionOperation = vm.showFrmAttr ? "Click al botón Buscar Proveedores - atributos" : "Click al botón Buscar Proveedores - nombre";
 
       const obj = {
         "codigoAplicacion": "REF",
         "ipOrigen": vm.ipLocal,
         "tipoRegistro": "O",
         "codigoObjeto": "PROVEEDORES",
-        "opcionMenu": opcionMenu,
-        "descripcionOperacion": descripcionOperacion, 
+        "opcionMenu": optionMenu,
+        "descripcionOperacion": descriptionOperation, 
         "filtros": angular.toJson(data),
         "codigoUsuario": oimPrincipal.getUsername(),
         "numeroSesion": "",

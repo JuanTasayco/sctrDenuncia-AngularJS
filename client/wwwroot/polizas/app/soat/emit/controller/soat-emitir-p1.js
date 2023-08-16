@@ -124,12 +124,25 @@
 			$scope.sinDataPlaca = 'No se encontraron los datos del vehículo en el sistema, prueba con otros valores o ingresa los datos de manera manual';
 			$scope.conDataPlaca = 'Se recuperaron los datos del vehículo del sistema, edita los datos o busca otro vehículo';
 			$scope.searchAgain = 'Realizar nueva búsqueda';
-
+			$scope.cadena = '';
+			$scope.tipoCad = 0;
 			$scope.buscarRiesgo = function($event, cadena, tipo){
-		    var keyCode = $event.which || $event.keyCode;
-		    if (keyCode === 13 || keyCode === 9) {
-		        $scope.buscarPlacaChasisMotor(cadena, tipo);
-		    }
+				$scope.cadena = cadena;
+				$scope.tipoCad = tipo;
+				var keyCode = $event.which || $event.keyCode;
+				if (keyCode === 13 || keyCode === 9) {
+					soatFactory.validarFormatoPlaca({"NumeroPlaca": cadena}).then(function(response){
+						if(response.OperationCode == constants.operationCode.success){
+							$scope.buscarPlacaChasisMotor($scope.cadena, $scope.tipoCad);
+						}else{
+							mModalAlert.showError(response.Message, "Error");
+						}						
+					})
+					.catch(function(err) {
+						mModalAlert.showError("Opps Algo Ocurrio", "Error");
+					});
+					
+				}
 		  };
 
 		  $scope.buscarXRiesgo = function(placa, chasis, motor){
@@ -960,31 +973,41 @@
 				$scope.formData.mNumAsientos = mNumAsientos;
 				$scope.formData.timon = optRadio;
 				$scope.formData.mModeloPrint = mModeloPrint;
-				if ($scope.formData.mostrarRiesgo){
+				soatFactory.validarFormatoPlaca({"NumeroPlaca": $scope.formData.mPlaca}).then(function(response){
+					if(response.OperationCode == constants.operationCode.success){
+						if ($scope.formData.mostrarRiesgo){
 
-					$scope.validationForm();
-
-					if(parseInt($scope.formData.mNumAsientos) > parseInt($scope.formData.mSubModelo.NumeroAsiento)){
-						//mModalAlert.showError("El número de asientos no puede mayor a: " + $scope.formData.mSubModelo.NumeroAsiento, "Datos incorrectos");
-					}else{
-						if($scope.formData.validatedPaso1   && ($scope.formData.mSubModelo && $scope.formData.mSubModelo.Codigo) &&
-							($scope.formData.mYearFabric>=$scope.anioMin && $scope.formData.mYearFabric<=$scope.anioMax)){
-							$scope.formData.mPlaca = $scope.formData.mPlaca.toUpperCase();
-							$scope.formData.mNumeroChasis = $scope.formData.mNumeroChasis.toUpperCase();
-							$scope.formData.mNumeroMotor = $scope.formData.mNumeroMotor.toUpperCase();
-							$scope.formData.paso1Completed = true;
-							$scope.formData.updateSoat = true;
-							if($scope.mAgente.codigoAgente != '0'){
-								$state.go('.', {
-									step: 2
-								});
+							$scope.validationForm();
+		
+							if(parseInt($scope.formData.mNumAsientos) > parseInt($scope.formData.mSubModelo.NumeroAsiento)){
+								//mModalAlert.showError("El número de asientos no puede mayor a: " + $scope.formData.mSubModelo.NumeroAsiento, "Datos incorrectos");
 							}else{
-								mModalAlert.showError("No tiene un agente seleccionado", "Error");
+								if($scope.formData.validatedPaso1   && ($scope.formData.mSubModelo && $scope.formData.mSubModelo.Codigo) &&
+									($scope.formData.mYearFabric>=$scope.anioMin && $scope.formData.mYearFabric<=$scope.anioMax)){
+									$scope.formData.mPlaca = $scope.formData.mPlaca.toUpperCase();
+									$scope.formData.mNumeroChasis = $scope.formData.mNumeroChasis.toUpperCase();
+									$scope.formData.mNumeroMotor = $scope.formData.mNumeroMotor.toUpperCase();
+									$scope.formData.paso1Completed = true;
+									$scope.formData.updateSoat = true;
+									if($scope.mAgente.codigoAgente != '0'){
+										$state.go('.', {
+											step: 2
+										});
+									}else{
+										mModalAlert.showError("No tiene un agente seleccionado", "Error");
+									}
+								}
 							}
+		
 						}
-					}
-
-				}
+					}else{
+						mModalAlert.showError(response.Message, "Error");
+					}						
+				})
+				.catch(function(err) {
+					mModalAlert.showError("Opps Algo Ocurrio", "Error");
+				});
+				
 			};
 
 			if($stateParams.step!=null){

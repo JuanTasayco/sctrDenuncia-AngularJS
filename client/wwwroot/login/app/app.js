@@ -1,6 +1,7 @@
 define(['angular',
     'app_routes',
     'angular_route',
+    'lodash',
     'angular_ocLazyLoad',
     'angular_ui_route',
     'wrap_gaia',
@@ -9,8 +10,10 @@ define(['angular',
     'mDirective',
     'helper',
     'oim_security',
-    'loginTemplates'
-], function(require, app_routes, angular_route) {
+    'loginTemplates',
+    'storageManager',
+    'angular_cookies'
+], function(require, app_routes, angular_route, _) {
 
     var baseUrl = "";
     // create new module appLogin
@@ -25,7 +28,10 @@ define(['angular',
         'oim.security.authorization',
         'oim.wrap.gaia.httpSrv',
         'oim.wrap.gaia.cookieSrv',
-        'oim.login.templates'
+        'oim.login.templates',
+        'storage.manager',
+        'ngSanitize',
+        'ngCookies'
     ]);
 
 
@@ -100,12 +106,21 @@ define(['angular',
 
             oimProgress.end();
 
-            var stateLogin = 'login',
-                stateUserTypes = 'authoButtons';
+            var stateUserTypes = 'authoButtons';
             $rootScope.welcomeUserTypes = cstate.name == stateUserTypes;
-            $rootScope.showCommonControl = cstate.name !== stateLogin;
-
+            $rootScope.showCommonControl = !_.contains(['login', 'authVerify', 'authCode'], cstate.name);
         });
+    }]);
+
+    appLogin.controller('LayoutController',
+      ['$scope',
+      function($scope) {
+
+        $scope.$on('layoutConfig', onLayoutConfig);
+
+        function onLayoutConfig(_, config) {
+          $scope.layoutConfig = config;
+        }
     }]);
 
     appLogin.controller('btnHomeController',

@@ -140,8 +140,8 @@ define(['angular', 'lodash'], function(ng, _) {
         $state.current.reloadOnSearch = void 0;
       }, 0);
       if (lvl === 1 || lvl === 2) {
-        let opcionMenu = lvl === 1 ? "Clientes/Perú - Ver departamento" : "Clientes/Perú - Ver distrito";
-        let descripcionOperacion = lvl === 1 ? "Click a un departamento del Perú" : "Click a un distrito del Perú";
+        let optionMenu = lvl === 1 ? "Clientes/Perú - Ver departamento" : "Clientes/Perú - Ver distrito";
+        let descriptionOperation = lvl === 1 ? "Click a un departamento del Perú" : "Click a un distrito del Perú";
         let filters = lvl === 1 ?  {departamento: vm.lvl1} : {departamento: vm.lvl1, provincia: vm.lvl2};
 
         const obj = {
@@ -149,8 +149,8 @@ define(['angular', 'lodash'], function(ng, _) {
           "ipOrigen": vm.ipLocal,
           "tipoRegistro": "O",
           "codigoObjeto": "PROVEEDORES",
-          "opcionMenu": opcionMenu,
-          "descripcionOperacion": descripcionOperacion,
+          "opcionMenu": optionMenu,
+          "descripcionOperacion": descriptionOperation,
           "filtros":  angular.toJson(filters),
           "codigoUsuario": oimPrincipal.getUsername(),
           "numeroSesion": "",

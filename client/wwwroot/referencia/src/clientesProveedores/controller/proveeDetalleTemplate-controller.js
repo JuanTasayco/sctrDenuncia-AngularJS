@@ -96,7 +96,7 @@ define(['angular', 'moment',
         (window.URL || window.webkitURL).revokeObjectURL(response); // eslint-disable-line
       });
 
-      const filtros = {idProveedor: vm.proveid, idAuditoria: vm.idAudit};
+      const filters = {idProveedor: vm.proveid, idAuditoria: vm.idAudit};
 
       const obj = {
         "codigoAplicacion": "REF",
@@ -105,7 +105,7 @@ define(['angular', 'moment',
         "codigoObjeto": "PROVEEDORES",
         "opcionMenu": "Proveedores/busqueda - Ver detalle",
         "descripcionOperacion": "Click al botón descargar reporte", 
-        "filtros": angular.toJson(filtros),
+        "filtros": angular.toJson(filters),
         "codigoUsuario": oimPrincipal.getUsername(),
         "numeroSesion": "",
         "codigoAgente": 0
@@ -115,7 +115,7 @@ define(['angular', 'moment',
     };
 
     vm.historyAudit = function fnha() {
-      const filtros = {idProveedor: vm.proveid};
+      const filters = {idProveedor: vm.proveid};
       const obj = {
         "codigoAplicacion": "REF",
         "ipOrigen": vm.ipLocal, 
@@ -123,7 +123,7 @@ define(['angular', 'moment',
         "codigoObjeto": "PROVEEDORES",
         "opcionMenu": "Proveedores/busqueda - Ver detalle",
         "descripcionOperacion": "Click al botón Historial auditorias",
-        "filtros": angular.toJson(filtros), 
+        "filtros": angular.toJson(filters), 
         "codigoUsuario": oimPrincipal.getUsername(),
         "numeroSesion": "",
         "codigoAgente": 0
@@ -241,7 +241,7 @@ define(['angular', 'moment',
         vm.retrieveAudit(-1, true);
       }
 
-      const filtros = {idProveedor: vm.proveid};
+      const filters = {idProveedor: vm.proveid};
 
       const obj = {
         "codigoAplicacion": "REF",
@@ -250,7 +250,7 @@ define(['angular', 'moment',
         "codigoObjeto": "PROVEEDORES",
         "opcionMenu": "Proveedores/busqueda - Ver detalle",
         "descripcionOperacion": "Click al botón Iniciar auditorias",
-        "filtros": angular.toJson(filtros),
+        "filtros": angular.toJson(filters),
         "codigoUsuario": oimPrincipal.getUsername(),
         "numeroSesion": "",
         "codigoAgente": 0
@@ -299,7 +299,7 @@ define(['angular', 'moment',
       }
       */
 
-      const filtros = {idProveedor: vm.proveid, idAuditoria: vm.idAudit};
+      const filters = {idProveedor: vm.proveid, idAuditoria: vm.idAudit};
 
       const obj = {
         "codigoAplicacion": "REF",
@@ -308,7 +308,7 @@ define(['angular', 'moment',
         "codigoObjeto": "PROVEEDORES",
         "opcionMenu": "Proveedores/busqueda - Ver detalle",
         "descripcionOperacion": "Click al botón finalizar auditorias",
-        "filtros": angular.toJson(filtros),
+        "filtros": angular.toJson(filters),
         "codigoUsuario": oimPrincipal.getUsername(),
         "numeroSesion": "",
         "codigoAgente": 0
@@ -352,7 +352,7 @@ define(['angular', 'moment',
     vm.savingAudit = function() {
       openSaveModal();
 
-      const filtros = {idProveedor: vm.proveid};
+      const filters = {idProveedor: vm.proveid};
 
       const obj = {
         "codigoAplicacion": "REF",
@@ -361,7 +361,7 @@ define(['angular', 'moment',
         "codigoObjeto": "PROVEEDORES",
         "opcionMenu": "Proveedores/busqueda - Ver detalle",
         "descripcionOperacion": "Click al botón guardar auditoria",
-        "filtros": angular.toJson(filtros),
+        "filtros": angular.toJson(filters),
         "codigoUsuario": oimPrincipal.getUsername(),
         "numeroSesion": "",
         "codigoAgente": 0
@@ -700,7 +700,7 @@ define(['angular', 'moment',
         };
       }
 
-      const filtros = {idProveedor: vm.idProveedor, tipoArchivo: vm.typeFile.descFile};
+      const filters = {idProveedor: vm.idProveedor, tipoArchivo: vm.typeFile.descFile};
 
       const obj = {
         "codigoAplicacion": "REF",
@@ -709,7 +709,7 @@ define(['angular', 'moment',
         "codigoObjeto": "PROVEEDORES",
         "opcionMenu": "Proveedores/busqueda - Ver detalle",
         "descripcionOperacion": "Click al botón Adjuntar archivo",
-        "filtros": angular.toJson(filtros), 
+        "filtros": angular.toJson(filters), 
         "codigoUsuario": oimPrincipal.getUsername(),
         "numeroSesion": "",
         "codigoAgente": 0
@@ -783,7 +783,7 @@ define(['angular', 'moment',
           (window.URL || window.webkitURL).revokeObjectURL(data); // eslint-disable-line
         });
 
-        const filtros = {idProveedor: vm.idProveedor};
+        const filters = {idProveedor: vm.idProveedor};
 
         const obj = {
           "codigoAplicacion": "REF",
@@ -792,7 +792,7 @@ define(['angular', 'moment',
           "codigoObjeto": "PROVEEDORES",
           "opcionMenu": "Detalle de Proveedor - descargar archivos",
           "descripcionOperacion": "Descarga de archivo en la sección "+seccion,
-          "filtros": angular.toJson(filtros),
+          "filtros": angular.toJson(filters),
           "codigoUsuario": oimPrincipal.getUsername(),
           "numeroSesion": "",
           "codigoAgente": 0
@@ -992,7 +992,7 @@ define(['angular', 'moment',
       vm.auditSaved = true;
       vm.auditSaving = true;
 
-      const filtros = {idProveedor: vm.proveid};
+      const filters = {idProveedor: vm.proveid};
 
       const obj = {
         "codigoAplicacion": "REF",
@@ -1001,7 +1001,7 @@ define(['angular', 'moment',
         "codigoObjeto": "PROVEEDORES",
         "opcionMenu": "Proveedores/busqueda - Ver detalle",
         "descripcionOperacion": "Click al botón Guardar especialidad",
-        "filtros": angular.toJson(filtros), 
+        "filtros": angular.toJson(filters), 
         "codigoUsuario": oimPrincipal.getUsername(),
         "numeroSesion": "",
         "codigoAgente": 0
@@ -1106,7 +1106,7 @@ define(['angular', 'moment',
       vm.auditSaved = true;
       vm.auditSaving = true;
 
-      const filtros = {idProveedor: vm.proveid};
+      const filters = {idProveedor: vm.proveid};
 
       const obj = {
         "codigoAplicacion": "REF",
@@ -1115,7 +1115,7 @@ define(['angular', 'moment',
         "codigoObjeto": "PROVEEDORES",
         "opcionMenu": "Proveedores/busqueda - Ver detalle",
         "descripcionOperacion": "Click al botón Guardar servicio",
-        "filtros": angular.toJson(filtros), 
+        "filtros": angular.toJson(filters), 
         "codigoUsuario": oimPrincipal.getUsername(),
         "numeroSesion": "",
         "codigoAgente": 0

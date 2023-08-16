@@ -61,6 +61,8 @@ define(['angular', 'constants', 'constantsPericial', 'helper', 'mocksPericial', 
       vm.dataSiniestro = {};
       vm.dataAuto = {};
 
+      saveTracker(isPerito());
+
       pericialFactory.siniester.GetSinister($stateParams.id, false).then(function(response) {
         if (response.data) {
           vm.siniestro = response.data;
@@ -259,6 +261,23 @@ define(['angular', 'constants', 'constantsPericial', 'helper', 'mocksPericial', 
 
     };
 
+    function saveTracker(isPerito){
+      vm.paramTracker = {
+        idSinisterDetail: null,
+        CodigoPerfil: vm.rol,
+        DescripcionOperacion : isPerito ?  'INGRESO A PERITAR' :'INGRESO A DETALLE',
+        OpcionMenu : isPerito ? 'GPER > Principal > Peritar': 'GPER > Principal > Ver Detalle'
+      };
+
+      pericialFactory.siniester.SaveTracker(vm.paramTracker).then(function(response) {
+        
+      })
+        .catch(function(err){
+          console.log(err);
+            mModalAlert.showError("Error en SaveTracker", 'Error');
+        });
+    }
+
     function showImage(idImage, value) {
 
       pericialFactory.attach.GetImage(idImage, value).then(function(response) {
@@ -299,7 +318,10 @@ define(['angular', 'constants', 'constantsPericial', 'helper', 'mocksPericial', 
         vm.params = {
           idSinisterDetail: $stateParams.id,
           idSinisterState: vm.siniestro.detail.idSinisterState,
-          commentary: (message) ? message.toUpperCase() : ''
+          commentary: (message) ? message.toUpperCase() : '',
+          tracker: {
+            CodigoPerfil: vm.rol
+          }
         };
 
         pericialFactory.comment.AddMovement(vm.params).then(function(response) {
@@ -381,7 +403,10 @@ define(['angular', 'constants', 'constantsPericial', 'helper', 'mocksPericial', 
     function AsignarmeServicio() {
       mModalConfirm.confirmInfo('¿Está seguro que desea peritar el siguiente siniestro?', 'Asignarme servicio', 'Peritar').then(function (response) {
         console.log('Asignar servicio...');
-        vm.params = { idSinisterDetail: parseInt( $stateParams.id)};
+        vm.params = { idSinisterDetail: parseInt( $stateParams.id),
+          tracker: {
+            CodigoPerfil: vm.rol
+          }};
         pericialFactory.proficient.Resource_Sinister_Proficient_Assign(vm.params).then(function(response) {
           if (response.operationCode === 200) {
             if (response.data) {
@@ -414,6 +439,9 @@ define(['angular', 'constants', 'constantsPericial', 'helper', 'mocksPericial', 
           proficient:
             {
               idProficient: value
+            },
+            tracker: {
+              CodigoPerfil: vm.rol
             }
 
         };
