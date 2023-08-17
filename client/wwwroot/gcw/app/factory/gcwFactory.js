@@ -949,7 +949,6 @@ define([
               "nomTomador": poliza.cliente,
               "codDocumento": poliza.documentCode,
               "tipDocumento": poliza.documentType,
-              "email" : poliza.email
           },
           "poliza": {
               "compania": poliza.ciaId,
@@ -963,8 +962,7 @@ define([
           "cliente": {
               "nomTomador": poliza.client.name,
               "codDocumento": poliza.client.documentNumber,
-              "tipDocumento": poliza.client.documentType,
-              "email" : poliza.client.email
+              "tipDocumento": poliza.client.documentType
           },
           "poliza": {
               "compania": poliza.ramo.companyId,
