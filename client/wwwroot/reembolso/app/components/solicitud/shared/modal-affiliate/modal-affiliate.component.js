@@ -50,8 +50,8 @@ define(['angular', 'lodash', 'ReembolsoActions', 'reConstants'], function (ng, _
         }
       }
 
-      reFactory.solicitud.GetAllBeneficiaryByFilters(vm.state.additionalData.documentControlNumber,
-        vm.state.additionalData.sinisterAnio,tipoFilter,valorFilter).then(function(res) {
+      reFactory.solicitud.GetAllBeneficiaryByFilters(vm.state.additionalData.documentControlNumber || 0,
+        vm.state.additionalData.sinisterAnio  || 0,tipoFilter,valorFilter).then(function(res) {
         if(res.isValid && res.data.length > 0){
           vm.listData = res.data
         }else{
@@ -153,8 +153,8 @@ define(['angular', 'lodash', 'ReembolsoActions', 'reConstants'], function (ng, _
 
     function _serviceGetBeneficiaryList() {
       return reFactory.solicitud.GetAllBeneficiaryByFilters(
-        vm.state.additionalData.documentControlNumber,
-        vm.state.additionalData.sinisterAnio,
+        vm.state.additionalData.documentControlNumber || 0,
+        vm.state.additionalData.sinisterAnio || 0,
         1,
         null
       );
