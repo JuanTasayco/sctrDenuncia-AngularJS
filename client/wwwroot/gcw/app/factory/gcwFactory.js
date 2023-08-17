@@ -928,6 +928,59 @@ define([
         return proxyParameter.getLookupExternalLink(true);
       }
 
+      function getLinkPago(params) {
+        return proxyPayment.getLinkPago(params,true);
+      }
+
+      function getSendLinkPago(params) {
+        return proxyPayment.getSendLinkPago(params,true);
+      }
+
+      function getLinkAfiliacion(params) {
+        return proxyPayment.getLinkAfiliacion(params,true);
+      }
+      function getSendLinkAfiliacion(params) {
+        return proxyPayment.getSendLinkAfiliacion(params,true);
+      }
+
+      function requestDocCartera(poliza) {
+        return {
+          "cliente": {
+              "nomTomador": poliza.cliente,
+              "codDocumento": poliza.documentCode,
+              "tipDocumento": poliza.documentType,
+              "email" : poliza.email
+          },
+          "poliza": {
+              "compania": poliza.ciaId,
+              "numero": poliza.policyNumber
+          }
+        }
+      }
+
+      function requestDocPagar(poliza) {
+        return {
+          "cliente": {
+              "nomTomador": poliza.client.name,
+              "codDocumento": poliza.client.documentNumber,
+              "tipDocumento": poliza.client.documentType,
+              "email" : poliza.client.email
+          },
+          "poliza": {
+              "compania": poliza.ramo.companyId,
+              "numero": poliza.policyNumber
+          },
+          "documento": {
+              "numero": poliza.documentNumber,
+              "tipo": String(poliza.documentType).substring(0,2),
+              "fechaVencimiento": poliza.dateEffect
+          },
+          "moneda": 1,
+          "importe": poliza.amount,
+          "afiliar": false
+        }
+      }
+
       return {
         getIndexActionsMenu: getIndexActionsMenu,
         isDirector: isDirector,
@@ -983,6 +1036,12 @@ define([
         getDocPagar: getDocPagar,
         getDataDocPagarDetalle: getDataDocPagarDetalle,
         getDataDocPagarDetalleEstado: getDataDocPagarDetalleEstado,
+        getLinkPago : getLinkPago,
+        getSendLinkPago : getSendLinkPago,
+        getLinkAfiliacion:getLinkAfiliacion,
+        getSendLinkAfiliacion : getSendLinkAfiliacion,
+        requestDocCartera : requestDocCartera,
+        requestDocPagar:requestDocPagar,
 
         // Cobranzas: Historial de Pago
         getHistorialPago: getHistorialPago,
