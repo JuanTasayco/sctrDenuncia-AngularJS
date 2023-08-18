@@ -2,8 +2,8 @@
 
 define(['angular', 'coreConstants', 'system', 'lodash'], function (ng, coreConstants, system, _) {
     var folder = system.apps.ap.location;
-    WhatYouWantToDoController.$inject = ['$scope', 'AdminRamoFactory', '$stateParams', '$uibModal', 'mModalConfirm', 'mModalAlert'];
-    function WhatYouWantToDoController($scope, AdminRamoFactory, $stateParams, $uibModal, mModalConfirm, mModalAlert) {
+    FrequentQuestionsController.$inject = ['$scope', 'AdminRamoFactory', '$stateParams', '$uibModal', 'mModalConfirm', 'mModalAlert'];
+    function FrequentQuestionsController($scope, AdminRamoFactory, $stateParams, $uibModal, mModalConfirm, mModalAlert) {
         var vm = this;
         vm.$onInit = onInit;
         vm.$onDestroy = onDestroy;
@@ -16,11 +16,12 @@ define(['angular', 'coreConstants', 'system', 'lodash'], function (ng, coreConst
         vm.typeForm = "AGREGAR"
 
         function onInit() {
+            
             AdminRamoFactory.subsChangeRamo(changeRamo);
             AdminRamoFactory.subsClickSectionAdd(onClickSectionAdd);
             AdminRamoFactory.subsClickSectionRemove(onClickSectionRemove);
             AdminRamoFactory.subsClickSectionOrder(onClickSectionOrder);
-            AdminRamoFactory.setSectionSelected(AdminRamoFactory.getSections()[0]);
+            AdminRamoFactory.setSectionSelected(AdminRamoFactory.getSections()[2]);
             AdminRamoFactory.emitComponentsReady();
         }
 
@@ -83,7 +84,7 @@ define(['angular', 'coreConstants', 'system', 'lodash'], function (ng, coreConst
                 keyboard: true,
                 scope: $scope,
                 size: 'md',
-                templateUrl: '/admin-portal/app/admin-policy-section/pages/admin-ramo/what-you-want-to-do/modal-form.html',
+                templateUrl: '/admin-portal/app/admin-policy-section/pages/admin-ramo/frequent-questions/modal-form.html',
                 controller: ['$scope', '$uibModalInstance', '$uibModal', '$timeout', function ($scope, $uibModalInstance, $uibModal, $timeout) {
                     //CloseModal
                     $scope.closeModal = function () {
@@ -161,10 +162,10 @@ define(['angular', 'coreConstants', 'system', 'lodash'], function (ng, coreConst
     } // end controller
 
     return ng.module(coreConstants.ngMainModule)
-        .controller('WhatYouWantToDoController', WhatYouWantToDoController)
-        .component('apWhatYouWantToDo', {
-            templateUrl: folder + '/app/admin-policy-section/pages/admin-ramo/what-you-want-to-do/what-you-want-to-do.component.html',
-            controller: 'WhatYouWantToDoController',
+        .controller('FrequentQuestionsController', FrequentQuestionsController)
+        .component('apFrequentQuestions', {
+            templateUrl: folder + '/app/admin-policy-section/pages/admin-ramo/frequent-questions/frequent-questions.component.html',
+            controller: 'FrequentQuestionsController',
             bindings: {
             }
         });;

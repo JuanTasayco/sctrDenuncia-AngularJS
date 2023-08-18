@@ -2,8 +2,8 @@
 
 define(['angular', 'coreConstants', 'system', 'lodash'], function (ng, coreConstants, system, _) {
     var folder = system.apps.ap.location;
-    WhatYouWantToDoController.$inject = ['$scope', 'AdminRamoFactory', '$stateParams', '$uibModal', 'mModalConfirm', 'mModalAlert'];
-    function WhatYouWantToDoController($scope, AdminRamoFactory, $stateParams, $uibModal, mModalConfirm, mModalAlert) {
+    InsurancesByRamoController.$inject = ['$scope', 'AdminRamoFactory', '$stateParams', '$uibModal', 'mModalConfirm', 'mModalAlert'];
+    function InsurancesByRamoController($scope, AdminRamoFactory, $stateParams, $uibModal, mModalConfirm, mModalAlert) {
         var vm = this;
         vm.$onInit = onInit;
         vm.$onDestroy = onDestroy;
@@ -20,7 +20,7 @@ define(['angular', 'coreConstants', 'system', 'lodash'], function (ng, coreConst
             AdminRamoFactory.subsClickSectionAdd(onClickSectionAdd);
             AdminRamoFactory.subsClickSectionRemove(onClickSectionRemove);
             AdminRamoFactory.subsClickSectionOrder(onClickSectionOrder);
-            AdminRamoFactory.setSectionSelected(AdminRamoFactory.getSections()[0]);
+            AdminRamoFactory.setSectionSelected(AdminRamoFactory.getSections()[1]);
             AdminRamoFactory.emitComponentsReady();
         }
 
@@ -83,7 +83,7 @@ define(['angular', 'coreConstants', 'system', 'lodash'], function (ng, coreConst
                 keyboard: true,
                 scope: $scope,
                 size: 'md',
-                templateUrl: '/admin-portal/app/admin-policy-section/pages/admin-ramo/what-you-want-to-do/modal-form.html',
+                templateUrl: '/admin-portal/app/admin-policy-section/pages/admin-ramo/insurances-by-ramo/modal-form.html',
                 controller: ['$scope', '$uibModalInstance', '$uibModal', '$timeout', function ($scope, $uibModalInstance, $uibModal, $timeout) {
                     //CloseModal
                     $scope.closeModal = function () {
@@ -161,10 +161,10 @@ define(['angular', 'coreConstants', 'system', 'lodash'], function (ng, coreConst
     } // end controller
 
     return ng.module(coreConstants.ngMainModule)
-        .controller('WhatYouWantToDoController', WhatYouWantToDoController)
-        .component('apWhatYouWantToDo', {
-            templateUrl: folder + '/app/admin-policy-section/pages/admin-ramo/what-you-want-to-do/what-you-want-to-do.component.html',
-            controller: 'WhatYouWantToDoController',
+        .controller('InsurancesByRamoController', InsurancesByRamoController)
+        .component('apInsurancesByRamo', {
+            templateUrl: folder + '/app/admin-policy-section/pages/admin-ramo/insurances-by-ramo/insurances-by-ramo.component.html',
+            controller: 'InsurancesByRamoController',
             bindings: {
             }
         });;

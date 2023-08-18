@@ -9,18 +9,24 @@ define(['angular', 'coreConstants', 'lodash', 'endpointsConstants'], function (
     AdminRamoFactory.$inject = ['httpData', '$stateParams','CommonFactory','GeneralAdminRamoFactory'];
     function AdminRamoFactory(httpData, $stateParams,CommonFactory, GeneralAdminRamoFactory) {
         var domain = endpointsConstants.default;
-        var listSubsChangeRamo = [];
         var listComponentsReady = [];
+        var listSubsChangeRamo = [];
         var listSubsClickSectionAdd = [];
         var listSubsClickSectionRemove = [];
         var listSubsClickSectionOrder = [];
         var itemSectionSelected = null;
+        var itemRamoSelected = null;
+        var listSections = [];
 
         return {
             GetSection: GetSection,
+            getSections: getSections,
+            setSections: setSections,
             getSectionListContent: getSectionListContent,
-            executeChangeRamos : executeChangeRamos,
+            emitChangeRamos : emitChangeRamos,
             updateStatusSection : updateStatusSection,
+            setRamoSelected : setRamoSelected,
+            getRamoSelected : getRamoSelected,
             setSectionSelected : setSectionSelected,
             getSectionSelected : getSectionSelected,
             emitClickSectionAdd : emitClickSectionAdd,
@@ -30,12 +36,21 @@ define(['angular', 'coreConstants', 'lodash', 'endpointsConstants'], function (
             emitClickSectionOrder : emitClickSectionOrder,
             subsClickSectionOrder : subsClickSectionOrder,
             subsChangeRamo : subsChangeRamo,
+            clearChangeRamo : clearChangeRamo,
             emitComponentsReady : emitComponentsReady,
             subsComponentsReady : subsComponentsReady,
             updateCardSection: updateCardSection,
             saveCardSection: saveCardSection,
             deleteCardSection: deleteCardSection,
         };
+
+        function setSections(list) {
+            listSections = list;
+        }
+
+        function getSections() {
+            return listSections;
+        }
 
         function GetSection(showSpin) {
             return CommonFactory.GetSection(coreConstants.codigoAppMassAdm,209, showSpin);
@@ -61,7 +76,16 @@ define(['angular', 'coreConstants', 'lodash', 'endpointsConstants'], function (
             return GeneralAdminRamoFactory.saveCardSection(coreConstants.codigoAppMassAdm, seccionId, idProducto , body ,true);
         }
 
+        function setRamoSelected(item){
+            itemRamoSelected = item;
+        }
+
+        function getRamoSelected(){
+            return itemRamoSelected;
+        }
+
         function setSectionSelected(item){
+            item.selected = true;
             itemSectionSelected = item;
         }
 
@@ -109,11 +133,15 @@ define(['angular', 'coreConstants', 'lodash', 'endpointsConstants'], function (
             listComponentsReady.push(fn);
         }
 
+        function clearChangeRamo(){
+            listSubsChangeRamo = [];
+        }
+
         function subsChangeRamo(fn){
             listSubsChangeRamo.push(fn);
         }
 
-        function executeChangeRamos(item){
+        function emitChangeRamos(item){
             for (var index = 0; index < listSubsChangeRamo.length; index++) {
                 listSubsChangeRamo[index](item);
             }
