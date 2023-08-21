@@ -15,6 +15,11 @@ define(['angular', 'coreConstants', 'system', 'lodash'], function (ng, coreConst
         vm.focusTitle = true
         vm.typeForm = "AGREGAR"
 
+        vm.onEditTitle = onEditTitle;
+        vm.onSaveTitle = onSaveTitle;
+        vm.isEditTitle = false;
+
+
         function onInit() {
             AdminRamoFactory.subsChangeRamo(changeRamo);
             AdminRamoFactory.subsClickSectionAdd(onClickSectionAdd);
@@ -58,6 +63,14 @@ define(['angular', 'coreConstants', 'system', 'lodash'], function (ng, coreConst
                     changeRamo(vm.ramo)
                 }
             )
+        }
+
+        function onEditTitle(){
+            vm.isEditTitle = true;
+        }
+
+        function onSaveTitle(){
+            vm.isEditTitle = false;
         }
 
         function onClickSectionAdd(data) {
@@ -169,3 +182,4 @@ define(['angular', 'coreConstants', 'system', 'lodash'], function (ng, coreConst
             }
         });;
 });
+
