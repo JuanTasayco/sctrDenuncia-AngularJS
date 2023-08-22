@@ -174,7 +174,7 @@ define([
       var globalParameter = _getModelGeneralDTO();
       var parameterEspecificos = {
         "NombreContratante": factory.cotizacion.producto.modelo.NombreContratante,
-        "CodTipoTrabajo": factory.cotizacion.producto.modelo.TipoTrabajo.Codigo,
+        "CodTipoTrabajo": '',
         "CodRamo": factory.cotizacion.producto.modelo.Ramo.Codigo,
         "CantTrabajadores": parseInt(factory.cotizacion.producto.modelo.CantTrabajadores),
         "Ubicacion": factory.cotizacion.producto.modelo.Ubicacion,

@@ -237,12 +237,32 @@ define(['angular', 'constants', 'constantsPericial', 'helper', 'pericialFactory'
             vm.paramsFile.stateExecutive = 0;
           }
 
+          saveTracker();
+
           vm.attachFileReportURL = $sce.trustAsResourceUrl(constants.system.api.endpoints.gper + 'api/report/download/sinister');
           $timeout(function() {
             document.getElementById('frmAttachFileReport').submit();
           }, 500);
 
         }
+      }
+
+      function saveTracker(){
+        vm.paramTracker = {
+          idSinisterDetail: null,
+          CodigoPerfil: vm.rol,
+          DescripcionOperacion : 'GENERAR REPORTE',
+          OpcionMenu : 'GPER > Reportes > Generar',
+          RequestService : vm.paramsFile
+        };
+  
+        pericialFactory.siniester.SaveTracker(vm.paramTracker).then(function(response) {
+          
+        })
+          .catch(function(err){
+            console.log(err);
+              mModalAlert.showError("Error en SaveTracker", 'Error');
+          });
       }
 
       function resource_Security_GetProficient() {

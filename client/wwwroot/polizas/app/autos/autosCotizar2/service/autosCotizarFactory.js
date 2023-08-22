@@ -13,6 +13,7 @@ define(["angular", "constants"], function(angular, constants) {
     function($http, $q, $window, proxyProducto, proxyAutomovil, proxyGeneral, proxyClaims, httpData) {
       var base = constants.system.api.endpoints.policy;
       var base2 = constants.system.api.endpoints.security;
+      var cotizacionFechaHora;
 
       function concatenateUrl(params) {
         var url = "";

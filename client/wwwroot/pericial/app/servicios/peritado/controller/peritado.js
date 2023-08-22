@@ -297,7 +297,10 @@ define(['angular', 'constants', 'constantsPericial', 'mocksPericial', 'helper', 
         vm.params = {
           idSinisterDetail: $stateParams.id,
           idSinisterState: vm.siniestro.detail.idSinisterState,
-          commentary: (message) ? message.toUpperCase() : ''
+          commentary: (message) ? message.toUpperCase() : '',
+          tracker: {
+            CodigoPerfil: vm.rol
+          }
         };
 
         pericialFactory.comment.AddMovement(vm.params).then(function(response) {

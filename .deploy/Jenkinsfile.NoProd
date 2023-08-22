@@ -19,7 +19,7 @@ pipeline {
     }
     parameters {
         text(name: 'LISTABRANCHE', defaultValue: '', description: 'Ingrese la lista de branches a integrar')
-    }      
+    }     
     options {
         timeout(time: 45, unit: 'MINUTES')
         timestamps()
@@ -224,23 +224,25 @@ pipeline {
                     branch 'master'
                 }
             }
-            environment {
-                PACKAGE_VERSION        = getFieldFromPackage("version")
-                PACKAGE_NAME           = getFieldFromPackage("name")
 
-            }
             steps {
                 gitFetch()
+                gitIgnoreChange()
                 gitCheckout env.BRANCH_NAME
 
                 script {
+                    def version = getFieldFromPackage("version")
+
                     def msg = 'release'
                     if (BRANCH_NAME.startsWith('release')) {
                         msg = 'release candidate'
-                    }                 
-                    gitCommitPackage  "promotion to " + msg + " completed (" + PACKAGE_VERSION + ")"
+                    }                
+                    container('node') {
+                        promotionNpmPeru(env.BRANCH_NAME, version)
+                    }                    
+                    gitCommitPackage  "promotion to " + msg + " completed (" + version + ")"
                     gitPush()
-                    gitTag(PACKAGE_VERSION,  "New " + msg + " tag " + PACKAGE_VERSION)
+                    gitTag(version,  "New " + msg + " tag " + version)
                     gitPushTags()
                     
                 }
