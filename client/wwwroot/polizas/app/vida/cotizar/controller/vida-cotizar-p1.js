@@ -544,17 +544,17 @@
 
 
       $scope.onCoberturaChange = function(item) {
-        if (item.MontoCobertura < item.ValorMinimoAsegurado) {
+        if (parseFloat(item.MontoCobertura) < item.ValorMinimoAsegurado) {
           item.MontoCobertura = item.ValorMinimoAsegurado;
         }
-        if (item.MontoCobertura > item.ValorMaximoAsegurado) {
+        if (parseFloat(item.MontoCobertura) > item.ValorMaximoAsegurado) {
           item.MontoCobertura = item.ValorMaximoAsegurado;
         }
 
         $scope.data.coberturas.forEach(function(it) {
           if (it.MarcaPrincipal === 'N') {
             if ($scope.activarInputCoberturaSecundaria) {
-              if (it.MontoCobertura === 0 || it.MontoCobertura > item.MontoCobertura) {
+              if (parseFloat(it.MontoCobertura) === 0 || parseFloat(it.MontoCobertura) > parseFloat(item.MontoCobertura)) {
                 it.MontoCobertura = item.MontoCobertura * (it.FactorAsegurado ? it.FactorAsegurado : 1);
               }
             } else {
@@ -567,10 +567,10 @@
 
       $scope.onCoberturaSecundariaChange = function(item) {
         var coberturaPrincipal = _.find($scope.data.coberturas, function (cobertura) { return cobertura.MarcaPrincipal === 'S'; });
-        if (item.MontoCobertura < coberturaPrincipal.ValorMinimoAsegurado) {
+        if (parseFloat(item.MontoCobertura) < parseFloat(coberturaPrincipal.ValorMinimoAsegurado)) {
           item.MontoCobertura = coberturaPrincipal.ValorMinimoAsegurado;
         }
-        if (item.MontoCobertura > coberturaPrincipal.MontoCobertura) {
+        if (parseFloat(item.MontoCobertura) > parseFloat(coberturaPrincipal.MontoCobertura)) {
           item.MontoCobertura = coberturaPrincipal.MontoCobertura;
         }        
       }
