@@ -14,6 +14,10 @@ define(['angular', 'coreConstants', 'system', 'lodash'], function (ng, coreConst
         vm.form = {}
         vm.focusTitle = true
         vm.typeForm = "AGREGAR"
+        vm.configView = {
+            buttonAdd: 'Agregar etiqueta',
+            titleCard: 'Título de etiqueta'
+        }
 
         function onInit() {
             AdminRamoFactory.subsChangeRamo(changeRamo);
@@ -26,6 +30,9 @@ define(['angular', 'coreConstants', 'system', 'lodash'], function (ng, coreConst
 
         function onDestroy() {
             AdminRamoFactory.clearChangeRamo();
+            AdminRamoFactory.unsubscribeSectionAdd();
+            AdminRamoFactory.unsubscribeSectionRemove();
+            AdminRamoFactory.unsubscribeSectionOrder();
         }
 
         function onClickSectionRemove(data) {
@@ -76,7 +83,7 @@ define(['angular', 'coreConstants', 'system', 'lodash'], function (ng, coreConst
                 vm.typeForm = "AGREGAR"
             }
 
-            $uibModal.open({
+            var modalInstance =$uibModal.open({
                 backdrop: true, // background de fondo
                 backdropClick: true,
                 dialogFade: false,
@@ -149,7 +156,16 @@ define(['angular', 'coreConstants', 'system', 'lodash'], function (ng, coreConst
             vm.ramo = item
             AdminRamoFactory.getSectionListContent(vm.section.code, item.code).then(
                 function (data) {
-                    vm.content = data;
+                    data.contenido = _.map(data.contenido, function (p) {
+                        var item = _.assign(p,{
+                            link: p.dataService.link, 
+                            internalLink: p.dataService.linkInterno,
+                            title: p.dataService.titulo
+                        }) 
+                        delete item.dataService
+                        return item
+                    });
+                    vm.content =  data
                 }
             )
         }

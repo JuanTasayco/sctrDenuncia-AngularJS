@@ -1,17 +1,24 @@
-<ap-card-section-header ng-if="$ctrl.content" card="$ctrl.content" section="$ctrl.section" ramo="$ctrl.ramo"></ap-card-section-header>
+<ap-card-section-header ng-if="$ctrl.content" card="$ctrl.content" section="$ctrl.section" ramo="$ctrl.ramo" config="$ctrl.configView"></ap-card-section-header>
 <div class="card-item-conteiner" ng-repeat="card in $ctrl.content.contenido" style="margin-top: 15px;">
-    <ap-card-item class="card-item" card="card" section="$ctrl.section" ramo="$ctrl.ramo">
-        <div class="card-item-left">
-            <div class="card-item-left-section">
-                <span class="card-item-left-text">URL de etiqueta</span>
-                <span class="card-item-left-url">{{ card.link }}</span>
+    <ap-card-item class="card-item" card="card" section="$ctrl.section" ramo="$ctrl.ramo" config="$ctrl.configView">
+        <div class="row">
+            <div class="col-xs-12">
+                <span class="gH6 fwBold g-cl--black2">Contenido de la pregunta</span>
             </div>
-        </div>
-        <div class="card-item-rigth" ng-click="$ctrl.openModal()">
-            <i class="ico-mapfre-350-myd-user mr-md-1"></i>
-            <div class="card-item-rigth-section">
-                <span class="card-item-rigth-text">Última actualización:</span>
-                <span class="card-item-rigth-date">{{ card.lastModification }} - {{card.modificationDateLabel}} </span>
+            <div class="col-xs-12 mt-xs-1">
+                <div style="border: 1px solid #DDD;background: #FFF;padding: 24px;">
+                    <div  data-ng-bind-html="card.description"></div>
+                </div>
+            </div>
+            <div class="col-xs-12 mt-xs-1">
+                <mpf-checkbox label="Ver como pregunta principal" ng-disabled="true" name="check" ng-model="card.isMain"></mpf-checkbox>
+            </div>
+            <div class="col-xs-12 mt-xs-2" >
+                <span class="label-last-modification">
+                    <i class="ico-mapfre-350-myd-user mr-md-1"></i>
+                    <span class="gH7 g-cl--gray3">Última actualización:</span>
+                    <span class="gH7 g-cl--gray3 fwBold">{{ card.lastModification }} - {{card.modificationDateLabel}} </span>
+                </span>
             </div>
         </div>
     </ap-card-item>

@@ -10,10 +10,13 @@ define(['angular', 'coreConstants', 'system', 'lodash'], function (ng, coreConst
         vm.content = null;
         vm.ramo = null;
         vm.section = null;;
-        vm.openModal = openModal;
         vm.form = {}
         vm.focusTitle = true
-        vm.typeForm = "AGREGAR"
+        vm.typeForm = "AGREGAR PREGUNTA"
+        vm.configView = {
+            buttonAdd: 'Agregar pregunta',
+            titleCard: 'Título de pregunta'
+        }
 
         function onInit() {
             
@@ -27,6 +30,9 @@ define(['angular', 'coreConstants', 'system', 'lodash'], function (ng, coreConst
 
         function onDestroy() {
             AdminRamoFactory.clearChangeRamo();
+            AdminRamoFactory.unsubscribeSectionAdd();
+            AdminRamoFactory.unsubscribeSectionRemove();
+            AdminRamoFactory.unsubscribeSectionOrder();
         }
 
         function onClickSectionRemove(data) {
@@ -63,21 +69,16 @@ define(['angular', 'coreConstants', 'system', 'lodash'], function (ng, coreConst
 
         function onClickSectionAdd(data) {
             if (!data.isNew) {
-                vm.form.title = data.item.title;
-                vm.form.url = data.item.link;
-                vm.form.check = !data.item.internalLink;
-                vm.form.contentId = data.item.contentId;
-                vm.form.active = data.item.active;
-                vm.form.order = data.item.order;
+                vm.form = _.assign({},data.item) ;
                 vm.focusTitle  =  true;
-                vm.typeForm = "EDITAR"
+                vm.typeForm = "EDITAR PREGUNTA"
             } else {
                 vm.focusTitle  =  false;
                 vm.form = {}
-                vm.typeForm = "AGREGAR"
+                vm.typeForm = "AGREGAR PREGUNTA"
             }
 
-            $uibModal.open({
+            var modalInstance = $uibModal.open({
                 backdrop: true, // background de fondo
                 backdropClick: true,
                 dialogFade: false,
@@ -92,8 +93,8 @@ define(['angular', 'coreConstants', 'system', 'lodash'], function (ng, coreConst
                     };
 
                     $scope.save = function () {
-                        if (!$scope.frmLabel.$valid) {
-                            $scope.frmLabel.markAsPristine();
+                        if (!$scope.frmModal.$valid) {
+                            $scope.frmModal.markAsPristine();
                             return;
                         }
                         mModalConfirm.confirmInfo(
@@ -113,8 +114,8 @@ define(['angular', 'coreConstants', 'system', 'lodash'], function (ng, coreConst
             
             var body = {
                 "titulo": form.title,
-                "link": form.url,
-                "linkInterno": !form.check,
+                "principal": form.isMain,
+                "descContenido": _transformHtml(form.description),
                 "activo": form.active,
                 "orden": form.order,
                 "accion": "UPDATE"
@@ -131,10 +132,11 @@ define(['angular', 'coreConstants', 'system', 'lodash'], function (ng, coreConst
         function saveCard(form, uibModalInstance) {
             var body = {
                 "titulo": form.title,
-                "link": form.url,
-                "linkInterno": !form.check,
+                "principal": form.isMain,
+                "descContenido": _transformHtml(form.description),
                 "activo": true
             }
+            
 
             AdminRamoFactory.saveCardSection(vm.section.code, vm.ramo.code, body).then(
                 function (data) {
@@ -150,15 +152,34 @@ define(['angular', 'coreConstants', 'system', 'lodash'], function (ng, coreConst
             vm.ramo = item
             AdminRamoFactory.getSectionListContent(vm.section.code, item.code).then(
                 function (data) {
-                    vm.content = data;
+                    data.contenido = _.map(data.contenido, function (p) {
+                        var item = _.assign(p,{
+                            title: p.dataService.titulo,
+                            description: p.dataService.descContenido, 
+                            isMain: p.dataService.principal
+                        }) 
+                        delete item.dataService
+                        return item
+                    });
+                    vm.content =  data
                 }
             )
         }
 
-        function openModal() {
-
-        }
-
+        function _transformHtml(str) {
+            var entityMap = {
+              "&amp;": "&",
+              "&lt;": "<",
+              "&gt;": ">",
+              '&quot;': '"',
+              '&#39;': "'",
+              '&#x2F;': "/"
+            };
+      
+            return String(str).replace(/(&amp;|&lt;|&gt;|&quot;|&#39;|&#x2F;)/g, function (s) {
+              return entityMap[s];
+            });
+          }
     } // end controller
 
     return ng.module(coreConstants.ngMainModule)

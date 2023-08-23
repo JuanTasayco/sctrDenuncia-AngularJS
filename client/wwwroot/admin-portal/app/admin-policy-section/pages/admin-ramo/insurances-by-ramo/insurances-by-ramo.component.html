@@ -1,5 +1,5 @@
 <ap-card-section-header ng-if="$ctrl.content" card="$ctrl.content" section="$ctrl.section"
-    ramo="$ctrl.ramo"></ap-card-section-header>
+    ramo="$ctrl.ramo" config="$ctrl.configView"></ap-card-section-header>
 
 <div class="card-title">
     <div class="card-title-section">
@@ -16,176 +16,97 @@
     </span>
 </div>
 
-<div class="card-item-conteiner" style="margin-top: 15px;"> <!--  ng-repeat="card in $ctrl.content.contenido" -->
-    <ap-card-item class="card-item" card="{title:'DAÑO TOTAL', active: true}" section="$ctrl.section" ramo="$ctrl.ramo">
-        <div style="display: flex;
-        padding: 0px 24px;
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 20px;
-        align-self: stretch;
-        width: 100%;">
-
-            <div style="display: flex;
-            align-items: flex-start;
-            gap: 20px;
-            align-self: stretch;">
-                <div style="display: flex;
-                flex-direction: column;
-                align-items: flex-start;
-                gap: 8px;
-                flex: 1 0 0;">
-                    <span style="color: #1B1B1B;
-font-family: Roboto;
-font-size: 13px;
-font-style: normal;
-font-weight: 500;
-line-height: normal;align-self: stretch;">Subtitulo de producto</span>
-                    <span style="color: #1B1B1B;
-font-family: Roboto;
-font-size: 14px;
-font-style: normal;
-font-weight: 400;
-line-height: normal;align-self: stretch;">EL MÁS COMPLETO</span>
+<div class="card-item-conteiner"  ng-repeat="card in $ctrl.content.contenido" style="margin-top: 15px;"> <!--  ng-repeat="card in $ctrl.content.contenido" -->
+    <ap-card-item class="card-item" card="card" section="$ctrl.section" ramo="$ctrl.ramo" config="$ctrl.configView">
+        <div class="row">
+            <div class="col-md-4">
+                <div class="gH6 fwBold g-cl--black2"> 
+                    Subtitulo de producto:
                 </div>
-                <div style="display: flex;
-                flex-direction: column;
-                align-items: flex-start;
-                gap: 8px;
-                flex: 1 0 0;">
-                    <span>Detalle del producto</span>
-                    <span>Beneficio máximo anual</span>
-                </div>
-                <div style="display: flex;
-                flex-direction: column;
-                align-items: flex-start;
-                gap: 8px;
-                flex: 1 0 0;">
-                    <span>Información adicional del producto</span>
-                    <span>S/ 300.00 por persona</span>
+                <div class="gH6 g-cl--black2 mt-xs-1"> 
+                    {{card.header.subTitle ||'-'}}
                 </div>
             </div>
-            <div style="display: flex;
-            flex-direction: column;
-            align-items: flex-start;
-            gap: 8px;
-            align-self: stretch;">
-                <span>Contenido de producto</span>
-                <div style="display: flex;
-                align-items: flex-start;
-                gap: 10px;
-                align-self: stretch;">
-                    <div style="display: flex;
-                    padding: 16px;
-                    flex-direction: column;
-                    align-items: flex-start;
-                    gap: 4px;
-                    flex: 1 0 0;border: 1px solid #DDD;
-                    background: #FFF;">
-                        <span style="color: #4C4C4C;
-text-align: center;
-font-family: Roboto;
-font-size: 14px;
-font-style: normal;
-font-weight: 700;
-line-height: normal;">Sección 1</span>
-                        <div style="display: flex;
-                        align-items: center;
-                        gap: 8px;
-                        align-self: stretch;">
-                            <span class="gCGreen1 ico-mapfre_260_checkmark"></span>
-                            <span style="color: #000;
-font-family: Roboto;
-font-size: 14px;
-font-style: normal;
-font-weight: 400;
-line-height: normal;">Servicio funerario Finisterre.</span>
-                        </div>
-                        <div style="display: flex;
-                        align-items: center;
-                        gap: 8px;
-                        align-self: stretch;">
-                            <span class="gCGreen1 ico-mapfre_260_checkmark"></span>
-                            <span>Servicio funerario Finisterre.</span>
-                        </div>
-                        <div style="display: flex;
-                        align-items: center;
-                        gap: 8px;
-                        align-self: stretch;">
-                            <span class="gCGreen1 ico-mapfre_260_checkmark"></span>
-                            <span>Servicio funerario Finisterre.</span>
-                        </div>
-                        <div style="display: flex;
-                        align-items: center;
-                        gap: 8px;
-                        align-self: stretch;">
-                            <span class="gCGreen1 ico-mapfre_260_checkmark"></span>
-                            <span>Servicio funerario Finisterre.</span>
-                        </div>
-                    </div>
-                    <div style="display: flex;
-                    padding: 16px;
-                    flex-direction: column;
-                    align-items: flex-start;
-                    gap: 4px;
-                    flex: 1 0 0;border: 1px solid #DDD;
-                    background: #FFF;"></div>
+            <div class="col-md-4">
+                <div class="gH6 fwBold g-cl--black2"> 
+                    Detalle de producto:
+                </div>
+                <div class="gH6 g-cl--black2 mt-xs-1"> 
+                    {{card.header.detail ||'-'}}
                 </div>
             </div>
-            <div style="display: flex;
-            align-items: flex-start;
-            gap: 20px;
-            align-self: stretch;">
-            <div style="display: flex;
-flex-direction: column;
-align-items: flex-start;
-gap: 8px;
-flex: 1 0 0;">
-                    <span style="color: #1B1B1B;
-font-family: Roboto;
-font-size: 13px;
-font-style: normal;
-font-weight: 500;
-line-height: normal;">Precio de producto</span>
-                    <span style="color: #1B1B1B;
-font-family: Roboto;
-font-size: 14px;
-font-style: normal;
-font-weight: 400;
-line-height: normal;">desde S/ 85 al mes</span>
-
+            <div class="col-md-4">
+                <div class="gH6 fwBold g-cl--black2 "> 
+                    Información adicional del producto:
                 </div>
-                <div style="display: flex;
-                flex-direction: column;
-            align-items: flex-start;
-                gap: 8px;
-                flex: 1 0 0;">
-                    <span style="color: #1B1B1B;
-font-family: Roboto;
-font-size: 13px;
-font-style: normal;
-font-weight: 500;
-line-height: normal;">Detalle de footer</span>
-                    <span style="color: #1B1B1B;
-font-family: Roboto;
-font-size: 14px;
-font-style: normal;
-font-weight: 400;
-line-height: normal;">URL de Boton</span>
-</div>
-            </div>
-            <div class="card-item-rigth" style="display: flex;
-            width: 308px;
-            padding: 3px 10px;
-            justify-content: flex-end;
-            align-items: center;">
-            
-            <div class="card-item-rigth-section">
-                <span class="card-item-rigth-text">Última actualización:</span>
-                <span class="card-item-rigth-date">{{ card.lastModification }} - {{card.modificationDateLabel}} </span>
+                <div class="gH6 g-cl--black2 mt-xs-1"> 
+                    {{card.header.additionInformation ||'-'}}
+                </div>
             </div>
         </div>
 
+        <div class="row mt-xs-2">
+            <div class="col-xs-12 mb-xs-1">
+                <div class="gH6 fwBold g-cl--black2"> 
+                   Contenido de producto:
+                </div>
+                <div class="gH6 g-cl--black2 mt-xs-1" ng-if="!card.sections.length"> 
+                   -
+                </div>
+            </div>
+            <div class="col-md-6" ng-repeat="section in card.sections">
+                <div style="border: 1px solid #DDD;padding: 16px;">
+                    <div class="gH6 fwBold g-cl--black2 mb-xs-1"> 
+                        Sección {{$index+1}}:
+                     </div>
+                    <div ng-repeat="item in section.items" class="mb-xs-1">
+                        <span class="gCGreen1 ico-mapfre_260_checkmark mb-xs-1"></span>
+                        <span class="g-cl--black" >{{item}}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row mt-xs-2">
+            <div class="col-md-6">
+                <div class="gH6 fwBold g-cl--black2"> 
+                    Precio de producto:
+                </div>
+                <div class="gH6 g-cl--black2 mt-xs-1"> 
+                    {{card.footer.productPrice ||'-'}}
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="gH6 fwBold g-cl--black2"> 
+                    Detalle de producto:
+                </div>
+                <div class="gH6 g-cl--black2 mt-xs-1"> 
+                    {{card.footer.detail ||'-'}}
+                </div>
+            </div>
+            <div class="col-md-6 mt-xs-1">
+                <div class="gH6 fwBold g-cl--black2"> 
+                    Titulo de botón:
+                </div>
+                <div class="gH6 g-cl--black2 mt-xs-1"> 
+                    {{card.footer.titleButton ||'-'}}
+                </div>
+            </div>
+            <div class="col-md-6  mt-xs-1">
+                <div class="gH6 fwBold g-cl--black2"> 
+                    URL de botón:
+                </div>
+                <div class="gH6 g-cl--black2 mt-xs-1"> 
+                    {{card.footer.urlButton ||'-'}}
+                </div>
+            </div>
+            <div class="col-xs-12 mt-xs-2" >
+                <span class="label-last-modification">
+                    <i class="ico-mapfre-350-myd-user mr-md-1"></i>
+                    <span class="gH7 g-cl--gray3">Última actualización:</span>
+                    <span class="gH7 g-cl--gray3 fwBold">{{ card.lastModification }} - {{card.modificationDateLabel}} </span>
+                </span>
+            </div>
         </div>
     </ap-card-item>
 </div>

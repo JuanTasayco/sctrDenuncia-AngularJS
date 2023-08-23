@@ -1,10 +1,10 @@
 <section class="page-modal pr-sm-2 pl-sm-2">
 
-    <form name="frmLabel">
+    <form name="frmModal">
         <div class="container">
             <div class="row">
                 <div class="col-xs-6">
-                    <h2 class="gH3"><b>{{$ctrl.typeForm}} ETIQUETA XD</b></h2>
+                    <h2 class="gH3"><b>{{$ctrl.typeForm}}</b></h2>
                 </div>
                 <div class="col-xs-6">
                     <button type="button" class="close g-close-modal" style="top: 0;" ng-click="closeModal()">
@@ -15,21 +15,43 @@
             <div class="row">
                 <div class="col-xs-12 mt-xs-2">
                     <div class="g-input-design">
-                        <label class="g-placeholder" ng-class="{animated: $ctrl.focusTitle}">Título de etiqueta*</label>
-                        <input type="text" name="nTitulo" ng-required="true" ng-model="$ctrl.form.title" ng-focus="$ctrl.focusTitle = true;" style="text-transform: none;">
+                        <label class="g-placeholder" ng-class="{animated: $ctrl.focusTitle}">Título de pregunta*</label>
+                        <input type="text" name="nTitulo" ng-required="true" ng-model="$ctrl.form.title"
+                            ng-focus="$ctrl.focusTitle = true;" style="text-transform: none;">
                     </div>
                     <ul class="g-error">
-						<li ng-show="frmLabel.nTitulo.$error.required && !frmLabel.nTitulo.$pristine">* Este campo es obligatorio</li>
-					</ul>
+                        <li ng-show="frmModal.nTitulo.$error.required && !frmModal.nTitulo.$pristine">* Este campo es
+                            obligatorio</li>
+                    </ul>
                 </div>
                 <div class="col-xs-12 mt-xs-2">
-                    <mpf-input label="{label: 'URL de etiqueta', required: true}" ng-model="$ctrl.form.url" name="nUrl" ng-required="true"></mpf-input>
-                    <ul class="g-error">
-						<li ng-show="frmLabel.nUrl.$error.required && !frmLabel.nUrl.$pristine">* Este campo es obligatorio</li>
-					</ul>
+                    <div class="g-input-design">
+                        <label class="g-placeholder animated">Contenido de pregunta*</label>
+                        <div class="c-input__content-input">
+                            <ng-quill-editor class="c-quill-editor" name="nDescContenido" ng-required="true"
+                                max-length="4000" ng-model="$ctrl.form.description" placeholder="''">
+                                <toolbar></toolbar>
+                            </ng-quill-editor>
+                            <div class="c-message__container">
+                                <ul class="g-error no-margin-xs no-margin-md">
+                                    <li
+                                        ng-if="frmModal.nDescContenido.$invalid && !frmModal.nDescContenido.$pristine && !frmModal.nDescContenido.$error.maxlength">
+                                        Ingrese Información adicional
+                                    </li>
+                                    <li ng-if="frmModal.nDescContenido.$error.maxlength">
+                                        Ingrese 4000 caracteres
+                                    </li>
+                                </ul>
+                                <div class="g-text-right-xs g-text-right-md">
+                                    <span class="c-message__character">Máximo 4000 caracteres</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
                 </div>
                 <div class="col-xs-12 mt-xs-2">
-                    <mpf-checkbox label="Abrir el enlace en una nueva pestaña" name="check" ng-model="$ctrl.form.check"></mpf-checkbox>
+                    <mpf-checkbox label="Ver como pregunta principal" name="check" ng-model="$ctrl.form.isMain"></mpf-checkbox>
                 </div>
             </div>
             <div class="row mb-2 mt-xs-2">

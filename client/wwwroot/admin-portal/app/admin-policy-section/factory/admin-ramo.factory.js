@@ -29,10 +29,13 @@ define(['angular', 'coreConstants', 'lodash', 'endpointsConstants'], function (
             getRamoSelected : getRamoSelected,
             setSectionSelected : setSectionSelected,
             getSectionSelected : getSectionSelected,
+            unsubscribeSectionAdd: unsubscribeSectionAdd,
             emitClickSectionAdd : emitClickSectionAdd,
             subsClickSectionAdd : subsClickSectionAdd,
+            unsubscribeSectionRemove: unsubscribeSectionRemove,
             emitClickSectionRemove : emitClickSectionRemove,
             subsClickSectionRemove : subsClickSectionRemove,
+            unsubscribeSectionOrder: unsubscribeSectionOrder,
             emitClickSectionOrder : emitClickSectionOrder,
             subsClickSectionOrder : subsClickSectionOrder,
             subsChangeRamo : subsChangeRamo,
@@ -93,6 +96,10 @@ define(['angular', 'coreConstants', 'lodash', 'endpointsConstants'], function (
             return itemSectionSelected;
         }
 
+        function unsubscribeSectionAdd(){
+            listSubsClickSectionAdd = [];
+        }
+
         function emitClickSectionAdd(item){
             for (var index = 0; index < listSubsClickSectionAdd.length; index++) {
                 listSubsClickSectionAdd[index](item);
@@ -103,6 +110,10 @@ define(['angular', 'coreConstants', 'lodash', 'endpointsConstants'], function (
             listSubsClickSectionAdd.push(fn);
         }
 
+        function unsubscribeSectionRemove(){
+            listSubsClickSectionRemove = [];
+        }
+
         function emitClickSectionRemove(item){
             for (var index = 0; index < listSubsClickSectionRemove.length; index++) {
                 listSubsClickSectionRemove[index](item);
@@ -111,6 +122,10 @@ define(['angular', 'coreConstants', 'lodash', 'endpointsConstants'], function (
 
         function subsClickSectionRemove(fn){
             listSubsClickSectionRemove.push(fn);
+        }
+
+        function unsubscribeSectionOrder(){
+            listSubsClickSectionOrder = [];
         }
 
         function emitClickSectionOrder(item){

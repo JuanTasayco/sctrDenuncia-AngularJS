@@ -13,11 +13,15 @@ define(['angular', 'coreConstants', 'system', 'lodash'], function (ng, coreConst
         vm.openModal = openModal;
         vm.form = {}
         vm.focusTitle = true
-        vm.typeForm = "AGREGAR"
+        vm.typeForm = "AGREGAR PRODUCTO"
 
         vm.onEditTitle = onEditTitle;
         vm.onSaveTitle = onSaveTitle;
         vm.isEditTitle = false;
+        vm.configView = {
+            buttonAdd: 'Agregar producto',
+            titleCard: 'Título de producto'
+        }
 
 
         function onInit() {
@@ -31,6 +35,9 @@ define(['angular', 'coreConstants', 'system', 'lodash'], function (ng, coreConst
 
         function onDestroy() {
             AdminRamoFactory.clearChangeRamo();
+            AdminRamoFactory.unsubscribeSectionAdd();
+            AdminRamoFactory.unsubscribeSectionRemove();
+            AdminRamoFactory.unsubscribeSectionOrder();
         }
 
         function onClickSectionRemove(data) {
@@ -75,18 +82,15 @@ define(['angular', 'coreConstants', 'system', 'lodash'], function (ng, coreConst
 
         function onClickSectionAdd(data) {
             if (!data.isNew) {
-                vm.form.title = data.item.title;
-                vm.form.url = data.item.link;
-                vm.form.check = !data.item.internalLink;
-                vm.form.contentId = data.item.contentId;
-                vm.form.active = data.item.active;
-                vm.form.order = data.item.order;
-                vm.focusTitle  =  true;
-                vm.typeForm = "EDITAR"
+                vm.form = data.item;
+                vm.typeForm = "EDITAR PRODUCTO"
             } else {
-                vm.focusTitle  =  false;
-                vm.form = {}
-                vm.typeForm = "AGREGAR"
+                vm.form = {
+                    header: {},
+                    section: [],
+                    footer: {}
+                }
+                vm.typeForm = "AGREGAR PRODUCTO"
             }
 
             $uibModal.open({
@@ -104,8 +108,8 @@ define(['angular', 'coreConstants', 'system', 'lodash'], function (ng, coreConst
                     };
 
                     $scope.save = function () {
-                        if (!$scope.frmLabel.$valid) {
-                            $scope.frmLabel.markAsPristine();
+                        if (!$scope.frmModal.$valid) {
+                            $scope.frmModal.markAsPristine();
                             return;
                         }
                         mModalConfirm.confirmInfo(
@@ -122,11 +126,21 @@ define(['angular', 'coreConstants', 'system', 'lodash'], function (ng, coreConst
         }
 
         function updateCard(form, uibModalInstance) {
-            
             var body = {
-                "titulo": form.title,
-                "link": form.url,
-                "linkInterno": !form.check,
+                "titulo": form.header.title,
+                "subTitulo": form.header.subTitle,
+                "detalle": form.header.detail,
+                "infoAdicional": form.header.additionInformation,
+
+                "link": form.footer.urlButton,
+                "linkInterno": !form.footer.externaLink,
+                "footerTitulo": form.footer.productPrice,
+                "footerSubTitulo": form.footer.detail,
+                "textoEvento": form.footer.titleButton,
+
+                "secciones": form.sections,
+                "boldDetalle": form.boldDetail,
+                "estiloRojo": form.redStyle,
                 "activo": form.active,
                 "orden": form.order,
                 "accion": "UPDATE"
@@ -142,10 +156,21 @@ define(['angular', 'coreConstants', 'system', 'lodash'], function (ng, coreConst
 
         function saveCard(form, uibModalInstance) {
             var body = {
-                "titulo": form.title,
-                "link": form.url,
-                "linkInterno": !form.check,
-                "activo": true
+                "titulo": form.header.title,
+                "subTitulo": form.header.subTitle,
+                "detalle": form.header.detail,
+                "infoAdicional": form.header.additionInformation,
+
+                "link": form.footer.urlButton,
+                "linkInterno": !form.footer.externaLink,
+                "footerTitulo": form.footer.productPrice,
+                "footerSubTitulo": form.footer.detail,
+                "textoEvento": form.footer.titleButton,
+
+                "secciones": form.sections,
+                "boldDetalle": form.boldDetail,
+                "estiloRojo": form.redStyle,
+                "activo": true,
             }
 
             AdminRamoFactory.saveCardSection(vm.section.code, vm.ramo.code, body).then(
@@ -162,7 +187,30 @@ define(['angular', 'coreConstants', 'system', 'lodash'], function (ng, coreConst
             vm.ramo = item
             AdminRamoFactory.getSectionListContent(vm.section.code, item.code).then(
                 function (data) {
-                    vm.content = data;
+                    data.contenido = _.map(data.contenido, function (p) {
+                        var item = _.assign(p,{
+                            header : {
+                                title: p.dataService.titulo,
+                                subTitle: p.dataService.subTitulo,
+                                detail: p.dataService.detalle,
+                                additionInformation: p.dataService.infoAdicional
+                            },
+                            sections: p.dataService.secciones,
+                            footer: {
+                                productPrice: p.dataService.footerTitulo,
+                                detail: p.dataService.footerSubTitulo,
+                                titleButton: p.dataService.textoEvento,
+                                urlButton: p.dataService.link,
+                                externaLink: !p.dataService.linkInterno,
+                            },
+                            boldDetail:  p.dataService.boldDetalle,
+                            redStyle:  p.dataService.estiloRojo,
+                        }) 
+                        delete item.dataService
+                        return item
+                    });
+
+                    vm.content =  data;
                 }
             )
         }
