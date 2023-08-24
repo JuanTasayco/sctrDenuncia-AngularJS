@@ -185,6 +185,7 @@ define(['angular', 'coreConstants', 'system', 'lodash'], function (ng, coreConst
                 function (data) {
                     data.contenido = _.map(data.contenido, function (p) {
                         var item = _.assign(p,{
+                            title: p.dataService.titulo,
                             header : {
                                 title: p.dataService.titulo,
                                 subTitle: p.dataService.subTitulo,
@@ -208,6 +209,7 @@ define(['angular', 'coreConstants', 'system', 'lodash'], function (ng, coreConst
 
                     vm.content =  data;
                     vm.titleContent =  data.titulo;
+                    console.log("vm.content",vm.content)
                 }
             )
         }
