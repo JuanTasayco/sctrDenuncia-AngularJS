@@ -209,7 +209,6 @@ define(['angular', 'coreConstants', 'system', 'lodash'], function (ng, coreConst
 
                     vm.content =  data;
                     vm.titleContent =  data.titulo;
-                    console.log("vm.content",vm.content)
                 }
             )
         }
