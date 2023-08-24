@@ -179,7 +179,7 @@ define(['angular', 'coreConstants', 'system', 'lodash'], function (ng, coreConst
         }
 
         function htmlEncode(input) {
-            const textArea = document.createElement("textarea");
+            var textArea = document.createElement("textarea");
             textArea.innerText = input;
             return textArea.innerHTML.split("<br>").join("\n");
           }
