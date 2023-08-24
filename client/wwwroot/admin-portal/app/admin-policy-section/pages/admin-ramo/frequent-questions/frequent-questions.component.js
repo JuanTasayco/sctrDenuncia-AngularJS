@@ -38,7 +38,7 @@ define(['angular', 'coreConstants', 'system', 'lodash'], function (ng, coreConst
         function onClickSectionRemove(data) {
             mModalConfirm.confirmInfo(
                 null,
-                '¿Estás seguro de eliminar la etiqueta?',
+                '¿Estás seguro de eliminar la pregunta?',
                 'SI').then(function (response) {
                     if (response) {
                         AdminRamoFactory.deleteCardSection(vm.section.code, vm.ramo.code, data.item.contentId).then(
@@ -99,7 +99,7 @@ define(['angular', 'coreConstants', 'system', 'lodash'], function (ng, coreConst
                         }
                         mModalConfirm.confirmInfo(
                             null,
-                            '¿Estás seguro de '+ (data.isNew ? 'guardar' : 'modificar') +' la etiqueta?',
+                            '¿Estás seguro de '+ (data.isNew ? 'guardar' : 'modificar') +' la pregunta?',
                             'SI').then(function (response) {
                                 if (response) {
                                     data.isNew ? saveCard(vm.form, $uibModalInstance) : updateCard(vm.form, $uibModalInstance)
