@@ -83,7 +83,7 @@ define(['angular', 'coreConstants', 'system', 'lodash'], function (ng, coreConst
                 vm.typeForm = "AGREGAR"
             }
 
-            var modalInstance =$uibModal.open({
+            $uibModal.open({
                 backdrop: true, // background de fondo
                 backdropClick: true,
                 dialogFade: false,
