@@ -78,7 +78,7 @@ define(['angular', 'coreConstants', 'system', 'lodash'], function (ng, coreConst
                 vm.typeForm = "AGREGAR PREGUNTA"
             }
 
-            var modalInstance = $uibModal.open({
+            $uibModal.open({
                 backdrop: true, // background de fondo
                 backdropClick: true,
                 dialogFade: false,
@@ -93,6 +93,7 @@ define(['angular', 'coreConstants', 'system', 'lodash'], function (ng, coreConst
                     };
 
                     $scope.save = function () {
+                        formValidate();
                         if (!$scope.frmModal.$valid) {
                             $scope.frmModal.markAsPristine();
                             return;
@@ -106,6 +107,18 @@ define(['angular', 'coreConstants', 'system', 'lodash'], function (ng, coreConst
                                 }
                             }).catch(function (error) { });;
                     };
+
+                    $scope.onQuillEditorChanged = function(){
+                        formValidate();
+                        !$scope.frmModal.$valid && $scope.frmModal.markAsPristine();
+                    }
+
+                    function formValidate(){
+                        var isValide = htmlEncode(vm.form.description).length > 4000;
+                        $scope.frmModal.nDescContenido.$error.maxlength = isValide;
+                        $scope.frmModal.$valid = !isValide;
+                    }
+            
                 }]
             });
         }
@@ -115,7 +128,7 @@ define(['angular', 'coreConstants', 'system', 'lodash'], function (ng, coreConst
             var body = {
                 "titulo": form.title,
                 "principal": form.isMain,
-                "descContenido": _transformHtml(form.description),
+                "descContenido": form.description,
                 "activo": form.active,
                 "orden": form.order,
                 "accion": "UPDATE"
@@ -133,11 +146,10 @@ define(['angular', 'coreConstants', 'system', 'lodash'], function (ng, coreConst
             var body = {
                 "titulo": form.title,
                 "principal": form.isMain,
-                "descContenido": _transformHtml(form.description),
+                "descContenido": form.description,
                 "activo": true
             }
             
-
             AdminRamoFactory.saveCardSection(vm.section.code, vm.ramo.code, body).then(
                 function (data) {
                     uibModalInstance.close()
@@ -155,7 +167,7 @@ define(['angular', 'coreConstants', 'system', 'lodash'], function (ng, coreConst
                     data.contenido = _.map(data.contenido, function (p) {
                         var item = _.assign(p,{
                             title: p.dataService.titulo,
-                            description: p.dataService.descContenido, 
+                            description: _transformHtml(p.dataService.descContenido), 
                             isMain: p.dataService.principal
                         }) 
                         delete item.dataService
@@ -165,6 +177,12 @@ define(['angular', 'coreConstants', 'system', 'lodash'], function (ng, coreConst
                 }
             )
         }
+
+        function htmlEncode(input) {
+            const textArea = document.createElement("textarea");
+            textArea.innerText = input;
+            return textArea.innerHTML.split("<br>").join("\n");
+          }
 
         function _transformHtml(str) {
             var entityMap = {
@@ -180,6 +198,7 @@ define(['angular', 'coreConstants', 'system', 'lodash'], function (ng, coreConst
               return entityMap[s];
             });
           }
+        
     } // end controller
 
     return ng.module(coreConstants.ngMainModule)
