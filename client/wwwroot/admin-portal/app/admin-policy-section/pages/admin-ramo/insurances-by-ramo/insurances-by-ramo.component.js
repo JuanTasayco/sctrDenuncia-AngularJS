@@ -23,7 +23,6 @@ define(['angular', 'coreConstants', 'system', 'lodash'], function (ng, coreConst
             titleCard: 'Título de producto'
         }
 
-
         function onInit() {
             AdminRamoFactory.subsChangeRamo(changeRamo);
             AdminRamoFactory.subsClickSectionAdd(onClickSectionAdd);
@@ -82,12 +81,12 @@ define(['angular', 'coreConstants', 'system', 'lodash'], function (ng, coreConst
 
         function onClickSectionAdd(data) {
             if (!data.isNew) {
-                vm.form = data.item;
+                vm.form =  ng.copy(data.item);
                 vm.typeForm = "EDITAR PRODUCTO"
             } else {
                 vm.form = {
                     header: {},
-                    section: [],
+                    sections: [],
                     footer: {}
                 }
                 vm.typeForm = "AGREGAR PRODUCTO"
@@ -99,7 +98,7 @@ define(['angular', 'coreConstants', 'system', 'lodash'], function (ng, coreConst
                 dialogFade: false,
                 keyboard: true,
                 scope: $scope,
-                size: 'md',
+                size: 'lg',
                 templateUrl: '/admin-portal/app/admin-policy-section/pages/admin-ramo/insurances-by-ramo/modal-form.html',
                 controller: ['$scope', '$uibModalInstance', '$uibModal', '$timeout', function ($scope, $uibModalInstance, $uibModal, $timeout) {
                     //CloseModal

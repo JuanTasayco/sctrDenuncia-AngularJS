@@ -45,146 +45,9 @@
                 <div class="col-xs-6">
                     <h2 class="gH3"><b>Contenido de producto</b></h2>
                 </div>
-                <div class="col-md-12 g-box3 g-box-add-item-1 box-add-damage-1 clearfix" ng-if="!$ctrl.form.sections || $ctrl.form.sections.length === 0">
-                    <p class="text-center">No hay ningún contenido registrado.</p>
-                    <a class="col-xs-8 col-xs-offset-2 col-sm-6 col-sm-offset-3 col-md-4 col-md-offset-4 g-btn g-btn-white mt-xs-1">
-                        <span class="glyphicon glyphicon-plus"></span>Agregar sección
-                    </a>
+                <div class="col-xs-12">
+                    <wp-sections data="$ctrl.form.sections"></wp-sections>
                 </div>
-                <div class="container-add-damage" ng-repeat="section in $ctrl.form.sections">
-                    <div class="col-md-12 g-box3 g-box-add-item-2 box-add-damage-2" ng-if="!section.open">
-                        <div class="row row-add-item">
-                            <div class="col-xs-12 col-md-3 col-add-item g-border-right">
-                                <ul>
-                                  <li class="g-dot text-left">
-                                    <span class="g-label3">Sección 1
-                                    </span>
-                                  </li>
-                                </ul>
-                            </div>
-                            <div class="col-xs-12 col-md-3 col-add-item g-border-right">
-                                <ul>
-                                  <li class="g-dot text-left">
-                                    <span class="g-label3">Titulo
-                                      <span class="g-label3-data">Coberturas</span>
-                                    </span>
-                                  </li>
-                                </ul>
-                            </div>
-                            <div class="col-xs-12 col-md-3 col-add-item g-border-right">
-                                <ul>
-                                  <li class="g-dot text-left">
-                                    <span class="g-label3">Nro. de items
-                                      <span class="g-label3-data">4</span>
-                                    </span>
-                                  </li>
-                                </ul>
-                            </div>
-                            <div class="col-md-3 col-add-item col-add-item-btns g-border-right">
-                                <a class="ico-mapfre_43_editar ico-mapfre u-zi-xs--10" data-ng-click="section.open=true">
-                                </a>
-                                <a class="ico-mapfre_29_eliminar ico-mapfre" data-ng-click="$ctrl.handleOnDelete()">
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-12 g-box3 g-box-add-item-3 box-add-damage-3" ng-if="section.open">
-                        <div class="row">
-                            <div class="col-md-12">
-                                <h3 class="g-sub-title c-black">Agregar Editar</h3>
-                            </div>
-                            <div class="col-xs-12 mt-xs-1">
-                                <mpf-input class="g-text-none" label="{label: 'Título', required: true}" ng-model="section.titulo" name="nContentTitulo" ></mpf-input>
-                                <ul class="g-error">
-                                    <li ng-show="frmModal.nContentTitulo.$error.required && !frmModal.nContentTitulo.$pristine">* Este campo es obligatorio</li>
-                                </ul>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-xs-9">
-                                Items
-                            </div>
-                            <div class="col-xs-3">
-                                <a class="g-link gCGreen1 h-myd--fz14" >Agregar items</a>
-                            </div>
-                        </div>
-                        <div class="row row-add-item" ng-repeat="p in section.items">
-                            
-                            <div class="col-xs-11">
-                                <mpf-input class="g-text-none"  ng-model="section.items[$index]" name="nContentItem{{$index}}" ></mpf-input>
-                                <ul class="g-error">
-                                    <li ng-show="frmModal.nContentItem{{$index}}.$error.required && !frmModal.nContentItem{{$index}}.$pristine">* Este campo es obligatorio</li>
-                                </ul>
-                            </div>
-                            <div class="col-xs-1">
-                                <a class="ico-mapfre_29_eliminar ico-mapfre" data-ng-click="$ctrl.handleOnDelete()"></a>
-                            </div>
-                        </div>
-                        <div class="row mt-xs-2">
-                            <div class="col-xs-6 col-sm-4 col-sm-offset-1 col-md-3 col-md-offset-3 mb-xs-1">
-                                <a class="col-xs-12 g-btn g-btn-white" data-ng-click="section.open=false">
-                                    Cancelar
-                                </a>
-                            </div>
-                            <div class="col-xs-6 col-sm-4 col-sm-offset-2 col-md-3 col-md-offset-0 mb-xs-1">
-                                <a class="col-xs-12 g-btn g-btn-verde" data-ng-click="section.open=false">
-                                    Guardar
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div ng-if="$ctrl.form.sections.length > 0">
-                    <a class="col-12 col-md-4 col-md-offset-8  mt-md-2 g-btn g-btn-white">
-                        <span class="glyphicon glyphicon-plus"></span>Agregar sección
-                    </a>
-                </div>
-                <!-- <div class="col-md-12 g-box3 g-box-add-item-3 box-add-damage-3">
-                    <div class="row">
-                        <div class="col-md-12">
-                            <h3 class="g-sub-title c-black">Agregar Editar</h3>
-                        </div>
-                        <div class="col-xs-12 mt-xs-1">
-                            <mpf-input class="g-text-none" label="{label: 'Título', required: true}" ng-model="$ctrl.form.header.title" name="nContentTitulo" ></mpf-input>
-                            <ul class="g-error">
-                                <li ng-show="frmModal.nContentTitulo.$error.required && !frmModal.nContentTitulo.$pristine">* Este campo es obligatorio</li>
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-xs-9">
-                            Items
-                        </div>
-                        <div class="col-xs-3">
-                            <a class="g-link gCGreen1 h-myd--fz14" >Agregar items</a>
-                        </div>
-                    </div>
-                    <div class="row row-add-item" ng-repeat="item in [1,2,3,4,5]">
-                        
-                        <div class="col-xs-11">
-                            <mpf-input class="g-text-none"  ng-model="$ctrl.form.header.title" name="nContentItem{{$index}}" ></mpf-input>
-                            <ul class="g-error">
-                                <li ng-show="frmModal.nContentItem{{$index}}.$error.required && !frmModal.nContentItem{{$index}}.$pristine">* Este campo es obligatorio</li>
-                            </ul>
-                        </div>
-                        <div class="col-xs-1">
-                            <a class="ico-mapfre_29_eliminar ico-mapfre" data-ng-click="$ctrl.handleOnDelete()"></a>
-                        </div>
-                    </div>
-                    <div class="row mt-xs-2">
-                        <div class="col-xs-6 col-sm-4 col-sm-offset-1 col-md-3 col-md-offset-3 mb-xs-1">
-                            <a class="col-xs-12 g-btn g-btn-white" data-ng-click="$ctrl.cerrarFrm()">
-                                Cancelar
-                            </a>
-                        </div>
-                        <div class="col-xs-6 col-sm-4 col-sm-offset-2 col-md-3 col-md-offset-0 mb-xs-1">
-                            <a class="col-xs-12 g-btn g-btn-verde" data-ng-click="$ctrl.grabarAtropellado()">
-                                Guardar
-                            </a>
-                        </div>
-                    </div>
-                </div> -->
-                  
             </div>
             <div class="row mt-xs-2">
                 <div class="col-xs-6">
@@ -201,6 +64,21 @@
                     <ul class="g-error">
 						<li ng-show="frmModal.nFooterDetalle.$error.required && !frmModal.nFooterDetalle.$pristine">* Este campo es obligatorio</li>
 					</ul>
+                </div>
+                <div class="col-md-6 mt-xs-1">
+                    <mpf-input class="g-text-none" label="{label: 'Titulo del boton', required: true}" ng-model="$ctrl.form.footer.titleButton" name="nFooterTituloButton" ></mpf-input>
+                    <ul class="g-error">
+						<li ng-show="frmModal.nFooterTituloButton.$error.required && !frmModal.nFooterTituloButton.$pristine">* Este campo es obligatorio</li>
+					</ul>
+                </div>
+                <div class="col-md-6 mt-xs-1">
+                    <mpf-input class="g-text-none" label="{label: 'URL de boton', required: true}" ng-model="$ctrl.form.footer.urlButton" name="nFooterUrlButton" ></mpf-input>
+                    <ul class="g-error">
+						<li ng-show="frmModal.nFooterUrlButton.$error.required && !frmModal.nFooterUrlButton.$pristine">* Este campo es obligatorio</li>
+					</ul>
+                </div>
+                <div class="col-xs-12 mt-xs-2">
+                    <mpf-checkbox label="Abrir el enlace en una nueva pestaña" name="check" ng-model="$ctrl.form.footer.externaLink"></mpf-checkbox>
                 </div>
             </div>
             <div class="row mb-2 mt-xs-2">

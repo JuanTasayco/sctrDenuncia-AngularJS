@@ -1,0 +1,43 @@
+<div class="col-md-12 g-box3 g-box-add-item-2 box-add-damage-2" ng-if="!$ctrl.showEditFrm">
+    <div class="row" style="display: flex;">
+        <div class="col-xs-12 col-md-3 g-border-right">
+            <ul>
+              <li class="g-dot text-left">
+                <span class="g-label3">Sección {{$ctrl.index +1}}
+                </span>
+              </li>
+            </ul>
+        </div>
+        <div class="col-xs-12 col-md-3 g-border-right">
+          <div class="g-label3-data">
+            Titulo:
+          </div>
+          <div class="g-label3-data">
+            {{$ctrl.section.title || '-'}}
+          </div>
+        </div>
+        <div class="col-xs-12 col-md-3 g-border-right">
+          <div class="g-label3-data">
+            Nro. de items:
+          </div>
+          <div class="g-label3-data">
+            {{$ctrl.section.items.length}}
+          </div>
+        </div>
+        
+        <div class="col-xs-12 col-md-3" style="display: flex;justify-content: space-evenly;align-items: center;">
+          <div class="g-cursor-pointer" data-ng-click="$ctrl.showEditFrm = true">
+            <span class="ico-mapfre_345_myd-edit g-cl--green"></span>
+          </div>
+          <div class="g-cursor-pointer" data-ng-click="$ctrl.handleOnDelete()">
+              <span class="ico-mapfre-363-myd-eliminar"></span>
+          </div>
+        </div>
+    </div>
+</div>
+<wp-add-edit-section 
+  data-ng-if="$ctrl.showEditFrm"
+  data-section="$ctrl.section"
+  data-on-cancel="$ctrl.showEditFrm=false"
+  data-on-save="$ctrl.editSection($event)"
+></wp-add-edit-section>

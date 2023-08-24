@@ -69,6 +69,18 @@ define(['system'], function(system) {
         name: 'apInsurancesByRamo',
         path: folder + '/app/admin-policy-section/pages/admin-ramo/insurances-by-ramo/insurances-by-ramo.component'
       },
+      apInsurancesByRamoFormSections: {
+        name: 'apInsurancesByRamoFormSections',
+        path: folder + '/app/admin-policy-section/pages/admin-ramo/insurances-by-ramo/sections/sections.component'
+      },
+      apInsurancesByRamoFormSectionsList: {
+        name: 'apInsurancesByRamoFormSectionsList',
+        path: folder + '/app/admin-policy-section/pages/admin-ramo/insurances-by-ramo/sections/section/section.component'
+      },
+      apInsurancesByRamoFormSectionsAddOrEdit: {
+        name: 'apInsurancesByRamoFormSectionsAddOrEdit',
+        path: folder + '/app/admin-policy-section/pages/admin-ramo/insurances-by-ramo/sections/add-update-section/add-update-section.component'
+      },
       apFrequentQuestions: {
         name: 'apFrequentQuestions',
         path: folder + '/app/admin-policy-section/pages/admin-ramo/frequent-questions/frequent-questions.component'
@@ -307,6 +319,12 @@ define(['system'], function(system) {
       },
       AdminRamoComponent: {
         deps: ['apCardSection', 'apCardListRamo', 'apCardItem', 'apCardSectionHeader']
+      },
+      apInsurancesByRamo: {
+        deps: ['apInsurancesByRamoFormSections']
+      },
+      apInsurancesByRamoFormSections: {
+        deps: ['apInsurancesByRamoFormSectionsList','apInsurancesByRamoFormSectionsAddOrEdit']
       },
       CarouselTrayComponent: {
         deps: ['apTab', 'apCarousel']
