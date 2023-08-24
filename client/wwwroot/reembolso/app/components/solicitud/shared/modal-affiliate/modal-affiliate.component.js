@@ -43,7 +43,7 @@ define(['angular', 'lodash', 'ReembolsoActions', 'reConstants'], function (ng, _
       if(vm.showAdditionalInputs){
         valorFilter = vm.affiliateInput.identifier.toUpperCase();
         if(vm.affiliateInput.lastName.length > 0){
-          valorFilter = valorFilter + " " + vm.affiliateInput.lastName.toUpperCase();
+          valorFilter = valorFilter + "-" + vm.affiliateInput.lastName.toUpperCase();
         }
         if(vm.affiliateInput.motherLastName.length > 0){
           valorFilter = valorFilter + " " + vm.affiliateInput.motherLastName.toUpperCase();
@@ -65,36 +65,50 @@ define(['angular', 'lodash', 'ReembolsoActions', 'reConstants'], function (ng, _
     }
 
     function selectAffiliate(afiliate) {
-      if (afiliate.idAffiliate === 0) {
-        var request = {
-          idCompany: vm.solicitud.company.id,
-          lastName: afiliate.lastName,
-          motherLastName: afiliate.motherLastName,
-          firstName: afiliate.firstName,
-          secondName: '',
-          birthdate: afiliate.birthdate,
-          sex: afiliate.sex,
-          documentType: afiliate.documentType,
-          documentNumber: afiliate.documentNumber,
-          sinisterDate: vm.state.additionalData.sinisterDate,
-          correlativeNumber: afiliate.correlativeNumber,
-          idCustomer: vm.state.solicitudData.client.id,
-          customerContractNumber: vm.state.solicitudData.contractNumber,
-          injuredType: afiliate.injuredType,
-          documentControlNumber: afiliate.documentControlNumber,
-          anio: afiliate.anio
-        };
-        reFactory.solicitud
-          .GenerateAfiliateId(request)
-          .then(function () {
-            _serviceGetBeneficiaryList();
-          })
-          .catch(function (err) {
-            $log.error('Fallo en el servidor', err);
-          });
+      if(vm.dataEquifax && vm.showAdditionalInputs){
+        vm.afiliate = afiliate;
+        vm.close({
+          $event: {
+            data: {
+              afiliate: afiliate,
+              action: 'create'
+            },
+            status: 'ok'
+          }
+        });
+      }else{
+        if (afiliate.idAffiliate === 0) {
+          var request = {
+            idCompany: vm.solicitud.company.id,
+            lastName: afiliate.lastName,
+            motherLastName: afiliate.motherLastName,
+            firstName: afiliate.firstName,
+            secondName: '',
+            birthdate: afiliate.birthdate,
+            sex: afiliate.sex,
+            documentType: afiliate.documentType,
+            documentNumber: afiliate.documentNumber,
+            sinisterDate: vm.state.additionalData.sinisterDate,
+            correlativeNumber: afiliate.correlativeNumber,
+            idCustomer: vm.state.solicitudData.client.id,
+            customerContractNumber: vm.state.solicitudData.contractNumber,
+            injuredType: afiliate.injuredType,
+            documentControlNumber: afiliate.documentControlNumber,
+            anio: afiliate.anio
+          };
+          reFactory.solicitud
+            .GenerateAfiliateId(request)
+            .then(function () {
+              _serviceGetBeneficiaryList();
+            })
+            .catch(function (err) {
+              $log.error('Fallo en el servidor', err);
+            });
+        }
+  
+        vm.afiliate = afiliate;
       }
-
-      vm.afiliate = afiliate;
+      
     }
 
     function sendAffiliate() {
@@ -148,6 +162,7 @@ define(['angular', 'lodash', 'ReembolsoActions', 'reConstants'], function (ng, _
 
       vm.searchServiceName === 'GetAfiliatesList' && (req.idCompany = vm.state.company.id);
       vm.dataEquifax = true;
+      
       return reFactory.solicitud[vm.searchServiceName](req);
     }
 
