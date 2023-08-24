@@ -65,7 +65,7 @@ define(['angular', 'lodash', 'ReembolsoActions', 'reConstants'], function (ng, _
     }
 
     function selectAffiliate(afiliate) {
-      if(vm.dataEquifax && vm.showAdditionalInputs){
+      if(vm.dataEquifax){
         vm.afiliate = afiliate;
         vm.close({
           $event: {
