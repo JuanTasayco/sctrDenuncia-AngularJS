@@ -14,7 +14,7 @@
 					$scope.main = $scope.main || {};
 					// $scope.firstStep = $scope.firstStep || {};
 					// $scope.secondStep = $scope.secondStep || {};
-
+          $scope.firstLoad = true;
 					settingsVigencia();
 					_filter('1');
 
@@ -99,6 +99,7 @@
           vidaFactory.filterRefrred(params, true).then(function(response){
             if (response.OperationCode == constants.operationCode.success){
               if (response.Data.Lista.length > 0){
+                $scope.firstLoad = true;
                 $scope.totalItems = parseInt(response.Data.CantidadTotalPaginas) * 10;
                 $scope.items = response.Data.Lista;
               }else{
