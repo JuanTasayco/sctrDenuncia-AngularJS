@@ -10,7 +10,6 @@ define(['angular', 'coreConstants', 'system', 'lodash'], function (ng, coreConst
         vm.content = null;
         vm.ramo = null;
         vm.section = null;;
-        vm.openModal = openModal;
         vm.form = {}
         vm.focusTitle = true
         vm.typeForm = "AGREGAR"
@@ -168,10 +167,6 @@ define(['angular', 'coreConstants', 'system', 'lodash'], function (ng, coreConst
                     vm.content =  data
                 }
             )
-        }
-
-        function openModal() {
-
         }
 
     } // end controller

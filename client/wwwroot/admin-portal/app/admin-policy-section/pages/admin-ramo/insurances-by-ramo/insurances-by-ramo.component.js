@@ -10,13 +10,13 @@ define(['angular', 'coreConstants', 'system', 'lodash'], function (ng, coreConst
         vm.content = null;
         vm.ramo = null;
         vm.section = null;;
-        vm.openModal = openModal;
         vm.form = {}
         vm.focusTitle = true
         vm.typeForm = "AGREGAR PRODUCTO"
 
         vm.onEditTitle = onEditTitle;
         vm.onSaveTitle = onSaveTitle;
+        vm.titleContent = null;
         vm.isEditTitle = false;
         vm.configView = {
             buttonAdd: 'Agregar producto',
@@ -42,7 +42,7 @@ define(['angular', 'coreConstants', 'system', 'lodash'], function (ng, coreConst
         function onClickSectionRemove(data) {
             mModalConfirm.confirmInfo(
                 null,
-                '¿Estás seguro de eliminar la etiqueta?',
+                '¿Estás seguro de eliminar el producto?',
                 'SI').then(function (response) {
                     if (response) {
                         AdminRamoFactory.deleteCardSection(vm.section.code, vm.ramo.code, data.item.contentId).then(
@@ -73,10 +73,6 @@ define(['angular', 'coreConstants', 'system', 'lodash'], function (ng, coreConst
 
         function onEditTitle(){
             vm.isEditTitle = true;
-        }
-
-        function onSaveTitle(){
-            vm.isEditTitle = false;
         }
 
         function onClickSectionAdd(data) {
@@ -113,7 +109,7 @@ define(['angular', 'coreConstants', 'system', 'lodash'], function (ng, coreConst
                         }
                         mModalConfirm.confirmInfo(
                             null,
-                            '¿Estás seguro de '+ (data.isNew ? 'guardar' : 'modificar') +' la etiqueta?',
+                            '¿Estás seguro de '+ (data.isNew ? 'guardar' : 'modificar') +' el producto?',
                             'SI').then(function (response) {
                                 if (response) {
                                     data.isNew ? saveCard(vm.form, $uibModalInstance) : updateCard(vm.form, $uibModalInstance)
@@ -182,6 +178,7 @@ define(['angular', 'coreConstants', 'system', 'lodash'], function (ng, coreConst
 
         function changeRamo(item) {
             vm.content = null;
+            vm.isEditTitle = false;
             vm.section = AdminRamoFactory.getSectionSelected();
             vm.ramo = item
             AdminRamoFactory.getSectionListContent(vm.section.code, item.code).then(
@@ -210,12 +207,31 @@ define(['angular', 'coreConstants', 'system', 'lodash'], function (ng, coreConst
                     });
 
                     vm.content =  data;
+                    vm.titleContent =  data.titulo;
                 }
             )
         }
 
-        function openModal() {
-
+        function onSaveTitle() {
+            mModalConfirm.confirmInfo(
+                null,
+                '¿Estás seguro de actulizar el titulo de producto?',
+                'SI'
+            ).then(function (response) {
+                if (response) {
+                    var body = {
+                        seccionId: vm.section.code,
+                        activo: vm.content.activo,
+                        titulo: vm.titleContent,
+                    }
+                    AdminRamoFactory.updateStatusSection(vm.section.code, vm.ramo.code, body).then(
+                        function () {
+                            vm.content.titulo = vm.titleContent;
+                            vm.isEditTitle = false;
+                        }
+                    )
+                }
+            });
         }
 
     } // end controller
