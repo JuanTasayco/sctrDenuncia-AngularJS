@@ -26,6 +26,35 @@ define([], function() {
         ]
       },
       {
+        code: '',
+        name: 'authVerify',
+        description: '',
+        url: '/auth-verify',
+        template: '<login-auth-verify></login-auth-verify>',
+
+        resolver: [
+          {
+            name: 'authVerify',
+            moduleName: 'appLogin',
+            files: ['AuthVerifyController']
+          }
+        ]
+      },
+      {
+        code: '',
+        name: 'authCode',
+        description: '',
+        url: '/auth-code',
+        template: '<login-auth-code></login-auth-code>',
+        resolver: [
+          {
+            name: 'authCode',
+            moduleName: 'appLogin',
+            files: ['AuthCodeController']
+          }
+        ]
+      },
+      {
           name: "authoButtons",
           code: "",
           url: '/userTypes',

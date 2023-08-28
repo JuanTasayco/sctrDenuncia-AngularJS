@@ -17,7 +17,8 @@ define([
       '$q',
       'serviceLogin',
       '$stateParams',
-      function($scope, $rootScope, $location, $q, serviceLogin, $stateParams) {
+      '$state',
+      function($scope, $rootScope, $location, $q, serviceLogin, $stateParams, $state) {
         var _self = this;
 
         _self.tryCancelRecurrent = _self.type != undefined && _self.type !== null && _self.type !== 0;
@@ -26,6 +27,7 @@ define([
         if (authe) {
           _self.isResolveLogin = true;
           authe.init();
+          _self.isRecurrente && $state.go('loginByType');
         } else _self.isResolveLogin = false;
 
         var dataFromMyDream =
