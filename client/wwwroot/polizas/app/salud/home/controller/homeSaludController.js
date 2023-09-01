@@ -11,7 +11,7 @@ define(['angular', 'constants', 'saludFactory'], function(
     var vm = this;
 
     vm.$onInit = function () {
-	  console.log('Version 17/08/23 09:00');
+	  console.log('Version 01/09/23 09:00');
       $scope.formData = $scope.formData || {};
       $scope.isAdmin = isAdmin;
     };
@@ -119,8 +119,8 @@ define(['angular', 'constants', 'saludFactory'], function(
                 return;
               }
 
-              fechaInicio = $filter("date")($scope.mDesdeFilter, "yyyyMMdd");
-              fechaFin = $filter("date")($scope.mHastaFilter, "yyyyMMdd");
+              fechaInicio = $filter("date")($scope.mDesdeFilter, "ddMMyyyy");
+              fechaFin = $filter("date")($scope.mHastaFilter, "ddMMyyyy");
               tipoFormato = "xlsx";
 
               saludFactory.descargarReporteDiagnostico(tipoFormato, fechaInicio, fechaFin, true)
