@@ -100,6 +100,72 @@ define(['system', 'coreConstants'], function(system, coreConstants) {
     },
     {
       code: '',
+      description: 'Administrador de servicios adicionales',
+      name: 'adminAdditionalServices',
+      parent: 'root',
+      abstract: true,
+      url: '',
+      views: {
+        content: {
+          controller: 'AdditionalServicesComponent as $ctrl',
+          templateUrl: folder + '/app/admin-additional-services/additional-services.component.html'
+        }
+      },
+      resolve: {
+        
+      },
+      resolver: [
+        {
+          name: 'adminAdditionalServices',
+          moduleName: moduleName,
+          files: ['AdditionalServicesComponent']
+        }
+      ]
+    },
+    {
+      name: 'adminAdditionalServices.1234',
+      code: '',
+      description: 'Sección Misas y Resposo',
+      url: '',
+      abstract: true,
+      views: {
+        contenido: {
+          controller: 'MassesAndResponsesComponent as $ctrl',
+          templateUrl: folder + '/app/admin-additional-services/pages/masses-and-responses/masses-and-responses.component.html'
+        }
+      },
+      resolver: [
+        {
+          name: 'adminAdditionalServices.1234',
+          moduleName: moduleName,
+          files: [
+            'MassesAndResponsesComponent'
+          ]
+        }
+      ]
+    },
+    {
+      name: 'adminAdditionalServices.1234.masses',
+      code: '',
+      description: 'Misas',
+      url: '/admin-additional-services/masses-and-responsos/masses',
+      views: {
+        'contenido': {
+          template: '<ap-masses></ap-masses>'
+        }
+      },
+      resolver: [
+        {
+          name: 'adminAdditionalServices.1234.masses',
+          moduleName: moduleName,
+          files: [
+            'apMasses'
+          ]
+        }
+      ]
+    },
+    {
+      code: '',
       description: 'Administrador por ramos',
       name: 'adminPolicySection',
       parent: 'root',

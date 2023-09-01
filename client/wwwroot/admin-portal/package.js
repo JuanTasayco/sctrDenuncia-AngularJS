@@ -57,6 +57,24 @@ define(['system'], function(system) {
         name: 'apCardListRamo',
         path: folder + '/app/shared/components/card-list-ramo/card-list-ramo.component'
       },
+      // Servicios Adicionales
+      AdditionalServicesComponent: {
+        name: 'AdditionalServicesComponent',
+        path: folder + '/app/admin-additional-services/additional-services.component'
+      },
+      MassesAndResponsesComponent: {
+        name: 'MassesAndResponsesComponent',
+        path: folder + '/app/admin-additional-services/pages/masses-and-responses/masses-and-responses.component'
+      },
+      apMasses: {
+        name: 'apMasses',
+        path: folder + '/app/admin-additional-services/pages/masses-and-responses/masses/masses.component'
+      },
+      // componenentes Servicios Adicionales
+      apTabServices: {
+        name: 'apTabServices',
+        path: folder + '/app/admin-additional-services/components/tab/tab.component'
+      },
       AdminRamoComponent: {
         name: 'AdminRamoComponent',
         path: folder + '/app/admin-policy-section/pages/admin-ramo/admin-ramo.component'
@@ -319,6 +337,9 @@ define(['system'], function(system) {
       },
       AdminRamoComponent: {
         deps: ['apCardSection', 'apCardListRamo', 'apCardItem', 'apCardSectionHeader']
+      },
+      AdditionalServicesComponent: {
+        deps: ['apCardListRamo','apTabServices']
       },
       apInsurancesByRamo: {
         deps: ['apInsurancesByRamoFormSections']
