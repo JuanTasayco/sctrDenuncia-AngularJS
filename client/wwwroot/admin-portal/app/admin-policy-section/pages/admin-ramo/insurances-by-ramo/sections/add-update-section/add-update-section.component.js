@@ -14,7 +14,7 @@ define(['angular', 'coreConstants', 'system', 'lodash'], function (ng, coreConst
     function onInit() {
       vm.frm = {
         items: [],
-        title: null
+        titulo: null
       };
       vm.array = []
       vm.frmTitle = vm.isFrmAdd ? 'Agregar sección' : 'Editar sección';
