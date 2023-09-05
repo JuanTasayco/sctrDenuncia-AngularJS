@@ -210,7 +210,8 @@ define([
         $scope.message = false;
         $scope.porGenerar = false;
         $scope.error = false;
-
+        $scope.liquidacionescount = vm.liquidacionesSelected.length;
+        $scope.amount = vm.amountSelect;
         $uibModal.open({
           backdrop: true,
           backdropClick: true,
@@ -219,16 +220,14 @@ define([
           scope: $scope,
           templateUrl : '/gcw/app/components/cobranzas/liquidacion-soat/modalLiquidacion.html',
           controller : ['$scope', '$uibModalInstance', '$uibModal', function($scope, $uibModalInstance, $uibModal) {
-
+            
             $scope.close = function () {
               $uibModalInstance.close();
               $rootScope.$broadcast('getDataPostLiquidation', 1);
             };
 
             $scope.generar = function(){
-
-              var amount = gcwFactory.getVariableSession("amountSession");
-              if(amount.value > 0) $scope.porGenerar = true;
+              if($scope.amount > 0) $scope.porGenerar = true;
               else $scope.porGenerar = false;
 
               if($scope.porGenerar){ //desencadena generacion de liq
@@ -302,9 +301,9 @@ define([
         if(!vm.liquidaciones[index].btndisabled){
           vm.liquidacionesSelected.push(vm.liquidaciones[index])
         }
-  
       }
-
+      amountSelectFunc();
+      
       vm.liquidaciones = _.map(vm.liquidaciones,function (x) {
         x.btndisabled = true;
         return x;
