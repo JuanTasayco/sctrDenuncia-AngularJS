@@ -449,7 +449,7 @@
         menuName: 'Constancia de Salud',
         rootApi: '',
         isComponsesMenu: true,
-        icon: 'ico-mapfre-anulacion'
+        icon: 'ico-mapfre_93_crearmodificar'
       },
     },
     lib: {
