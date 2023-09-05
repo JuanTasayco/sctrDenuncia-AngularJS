@@ -581,7 +581,7 @@
 
   angular
     .module('oim.security.authentication',
-      ['satellizer', 'oim.google.analytics', 'origin.system', 'oim.theme.service', 'oim.proxyService.mydream'])
+      ['satellizer', 'oim.google.analytics', 'origin.system', 'oim.theme.service', 'oim.proxyService.mydream', 'ngCookies', 'storage.manager'])
     .config([
       '$authProvider',
       function($authProvider) {
@@ -612,6 +612,8 @@
         'proxyEncrypt',
         'httpData',
         'proxyLoginRsa',
+        '$cookies',
+        'localStorageFactory',
         function (
           $window,
           $location,
@@ -629,7 +631,9 @@
           proxyHome,
           proxyEncrypt,
           httpData,
-          proxyLoginRsa
+          proxyLoginRsa,
+          $cookies,
+          localStorageFactory
           ) {
 
           var $this = this;
@@ -661,19 +665,6 @@
                   userprofile: response.data[5].value.toUpperCase()
                 };
 
-              function _getUserTypesList() {
-                var defer = $q.defer();
-                var userTypesList = _getLocalStorage(_keyUserTypes, true);
-
-                (userTypesList && userTypesList.length)
-                  ? defer.resolve(userTypesList)
-                  : _getUserTypes().then(function(resUserTypes) {
-                      defer.resolve(resUserTypes.data.data || []);
-                    });
-
-                return defer.promise;
-              }
-
               function _spreadProfile(profile, data) {
                 var userTypeItem = _.find(data, function(value) {
                   return value.groupType === parseInt(profile.userSubType);
@@ -682,13 +673,12 @@
                 return profile;
               }
 
-              _getUserTypesList().then(
-                function(userTypesListRes) {
-                  vProfile = _spreadProfile(vProfile, userTypesListRes);
+              getUserTypes()
+                .then(function(resUserTypes) {
+                  vProfile = _spreadProfile(vProfile, resUserTypes);
                   _set_profile(vProfile);
                   defer.resolve(response);
-                }
-              );
+                });
             },
             function error(response) {
               defer.reject(response);
@@ -739,22 +729,102 @@
             delete $window.localStorage[value];
           });
         }
-        function _getUserTypes() {
-          var url = 'api/person/GetUsers',
-            p = $http(
-              {
-                method: 'POST',
-                url: base2 + url,
-                headers: {
-                  'Content-Type': 'application/json',
-                  'Authorization': 'Bearer ' + _getLocalStorage(_keyFirstToken)
-                }
-            });
-          return p;
+
+        function setUserTypes(v) {
+          localStorageFactory.setItem(_keyUserTypes, v);
         }
 
-        this.signIn = function(credentials, profile) {
+        function _userTypes() {
+          return $http({
+            method: 'POST',
+            url: base2 + 'api/person/GetUsers',
+            headers: {
+              'Content-Type': 'application/json',
+              'Authorization': 'Bearer ' + _getLocalStorage(_keyFirstToken)
+            }
+          });
+        }
+
+        function getUserTypes() {
+          var userTypes = localStorageFactory.getItem(_keyUserTypes);
           var defer = $q.defer();
+
+          if (userTypes && userTypes.length) {
+            defer.resolve(userTypes);
+          } else {
+            _userTypes().then(function(response) {
+                userTypes = response.data.data || [];
+                setUserTypes(userTypes);
+                defer.resolve(userTypes);
+              }, function(err) {
+                defer.reject(err);
+              });
+          }
+
+          return defer.promise;
+        }
+
+        function setXmfa(v) {
+          localStorageFactory.setItem('X-MFA', v);
+        };
+
+        function getXmfa() {
+          return !!parseInt(localStorageFactory.getItem('X-MFA'));
+        };
+
+        function removeXmfa() {
+          localStorageFactory.removeItem('X-MFA');
+        }
+
+        function _getHeadersSignIn() {
+          var headers = {
+            'Content-Type': 'application/x-www-form-urlencoded'
+          };
+
+          var deviceCode = $cookies.get('deviceCode');
+          if (!deviceCode) {
+            deviceCode = crypto.randomUUID();
+            var today = new Date();
+            var exp = new Date(today);
+            exp.setDate(exp.getDate() + 90);
+            $cookies.put('deviceCode', deviceCode.replaceAll('-', ''), { expires: exp });
+          }
+
+          var headerMfa = {
+            'X-App-Code': '1df288de5ea84eca9517f375b0974ee7', // INFO: Hardcode for problems with the constant 'constants.ORIGIN_SYSTEMS.oim.mfaCode' in deploy
+            'X-Device-Code': deviceCode
+          };
+
+          return Object.assign(headers, headerMfa);
+        }
+
+        function setCredentials(credentials) {
+          localStorageFactory.setItem('credentials', credentials);
+        }
+
+        function getCredentials() {
+          return localStorageFactory.getItem('credentials');
+        }
+
+        function removeCredentials() {
+          localStorageFactory.removeItem('credentials');
+        }
+
+        function _storagesToFma(xmfa, credentials) {
+          if (!!parseInt(xmfa)) {
+            setXmfa(xmfa);
+            setCredentials(credentials);
+          } else {
+            removeXmfa();
+            removeCredentials();
+          }
+        }
+
+        function getUserTypeSelectedByMfa(userTypes) {
+          return  _.find(userTypes, function(userType) { return !!userType.selectedByMfa });
+        }
+
+        function signIn(credentials, profile) {
           var data = {
             grant_type: constants.system.authenticate.grant_type,
             userName: credentials.username,
@@ -763,34 +833,50 @@
             scope: 'encrypt',
             systemId: "OIM" // SD05445901_MPAMA-348
           };
-          var promise = $auth.signup(undefined, {
+
+          var profileCurrent = _get_profile() || {};
+
+          var defer = $q.defer();
+          $auth.signup(undefined, {
             method: 'POST',
-            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            headers: _getHeadersSignIn(),
             data: $httpParamSerializerJQLike(data),
             withCredentials: false
-          });
-          promise
-            .success(function(response) {
+          })
+            .success(function(response, status, headers, config) {
+              _storagesToFma(headers('X-MFA'), credentials);
               _setLocalStorage(_keyFirstToken, response.access_token);
               delete data.password;
-                _getUserTypes().then(
-                  function(resUserTypes) {
-                    response.userTypes = resUserTypes.data.data || [];
-                    _setLocalStorage(_keyUserTypes, response.userTypes, true);
-                    defer.resolve(response);
-                  },
-                  function(response) {
-                    defer.reject(response);
+              getUserTypes()
+                .then(function(resUserTypes) {
+                  var userTypeSelectedByMfa = getUserTypeSelectedByMfa(resUserTypes);
+                  response.userTypes = userTypeSelectedByMfa ? [userTypeSelectedByMfa] : resUserTypes;
+                  if (response.userTypes.length === 1) {
+                    var userConstantByGroupType = _.find(constants.typeLogin, function(ut) { return ut.subType == response.userTypes[0].groupType; });
+                    _set_profile(_.assign(profileCurrent, userConstantByGroupType, response.userTypes[0]));
                   }
-                )
+                  defer.resolve(response);
+                }, function(errUserTyes) {
+                  defer.reject(errUserTyes);
+                });
             })
             .error(function(response) {
               defer.reject(response);
             });
-            if (profile) _set_profile(profile);
 
-            return defer.promise;
-          }
+          if (profile) _set_profile(_.assign(profileCurrent, profile));
+
+          return defer.promise;
+        }
+
+        this.setUserTypes = setUserTypes;
+        this.getUserTypes = getUserTypes;
+        this.setXmfa = setXmfa;
+        this.getXmfa = getXmfa;
+        this.signIn = signIn;
+        this.setCredentials = setCredentials;
+        this.getCredentials = getCredentials;
+        this.removeCredentials = removeCredentials;
 
           function _parseLoginPromise($promise) {
             var defer = $q.defer();

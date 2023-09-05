@@ -15,6 +15,7 @@ define([
     '$window',
     'mModalConfirm',
     'accessSupplier',
+    'localStorageFactory',
     function(
       loginFactory,
       $httpProvider,
@@ -26,7 +27,8 @@ define([
       mModalAlert,
       $window,
       mModalConfirm,
-      accessSupplier
+      accessSupplier,
+      localStorageFactory
     ) {
       var __extends = helper.__extend();
 
@@ -69,7 +71,7 @@ define([
           $this.$controller.isRecurrente = mapfreAuthetication.isRecurrent() && !$this.$controller.tryCancelRecurrent;
           $this.$controller.showMessage = false;
           if ($this.$controller.isRecurrente) $this.setValueRecurrent();
-          
+
 
           $this.$controller.type = $this.get_info().code;
 
@@ -88,6 +90,7 @@ define([
           }
           return vUrl;
         }
+
         AuthBase.prototype.signIn = function() {
           function isLocalStorageNameSupported() {
             var testKey = 'test',
@@ -102,20 +105,21 @@ define([
           }
           mpSpin.start('Estamos verificando sus credenciales...');
 
-          var credentials = this.get_credentials(),
-            promise = mapfreAuthetication.signIn(credentials);
+          var credentials = this.get_credentials();
 
-          promise.then(
-            function(response) {
-              mpSpin.end();
+          mapfreAuthetication.signIn(credentials, { username: credentials.username })
+            .then(function(response) {
+              var vUrl = _getParamUrl();
+              var loginHref= vUrl ? '/login?url=' + vUrl : '/login';
+
               if (response.userTypes.length > 1) {
-                var vUrl = _getParamUrl();
-                window.location.href = vUrl
-                  ? '/login?url=' + vUrl + $state.href('authoButtons')
-                  : '/login' + $state.href('authoButtons');
+                window.location.href = loginHref + $state.href('authoButtons');
+              } else if (mapfreAuthetication.getXmfa()) {
+                window.location.href = loginHref + $state.href('authVerify');
               } else {
                 $this.finalSignIn(response.userTypes[0]);
               }
+              mpSpin.end();
             },
             function(response) {
               mpSpin.end();
@@ -130,8 +134,9 @@ define([
               }
               $this.$controller.showMessage = true;
               $this.$controller.messageError = response.error;
-            }
-          );
+            }).finally(function() {
+              mpSpin.end();
+            });
         };
 
         AuthBase.prototype.finalSignIn = function(user){
@@ -258,7 +263,7 @@ define([
         AuthProvider.prototype.get_credentials = function() {
           var _credentials = this.$controller.credentials;
           var credentials = _super.prototype.get_credentials.call();
-          credentials.username = _credentials.documentNumber;
+          credentials.username = _credentials.documentNumber || credentials.username;
           return credentials;
         };
         AuthProvider.prototype.setValueRecurrent = function() {
