@@ -298,7 +298,7 @@ define([
 
     function agregarTodo() {
       for (var index = 0; index < vm.liquidaciones.length; index++) {
-        if(!vm.liquidaciones[index].btndisabled){
+        if(!vm.liquidaciones[index].btndisabled && !vm.liquidaciones[index].checkEnabled=='N'){
           vm.liquidacionesSelected.push(vm.liquidaciones[index])
         }
       }
