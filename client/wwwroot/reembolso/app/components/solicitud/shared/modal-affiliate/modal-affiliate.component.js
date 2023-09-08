@@ -49,18 +49,22 @@ define(['angular', 'lodash', 'ReembolsoActions', 'reConstants'], function (ng, _
           valorFilter = valorFilter + " " + vm.affiliateInput.motherLastName.toUpperCase();
         }
       }
-
-      reFactory.solicitud.GetAllBeneficiaryByFilters(vm.state.additionalData.documentControlNumber || 0,
-        vm.state.additionalData.sinisterAnio  || 0,tipoFilter,valorFilter).then(function(res) {
-        if(res.isValid && res.data.length > 0){
-          vm.listData = res.data
-        }else{
-          vm.getListData(vm.serviceSearchAffiliate, vm.affiliateInput);
-        }
-      })
-      .catch(function(err) {
-        $log.error(err);
-      });
+      if(vm.state.additionalData){
+        reFactory.solicitud.GetAllBeneficiaryByFilters(vm.state.additionalData.documentControlNumber || 0,
+          vm.state.additionalData.sinisterAnio  || 0,tipoFilter,valorFilter).then(function(res) {
+          if(res.isValid && res.data.length > 0){
+            vm.listData = res.data
+          }else{
+            vm.getListData(vm.serviceSearchAffiliate, vm.affiliateInput);
+          }
+        })
+        .catch(function(err) {
+          $log.error(err);
+        });
+      }else{
+        vm.getListData(vm.serviceSearchAffiliate, vm.affiliateInput);
+      }
+      
       
     }
 
