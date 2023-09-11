@@ -1,30 +1,33 @@
 'use strict';
 
 define(['angular', 'coreConstants'], function (ng, coreConstants) {
-    AdditionalServicesComponent.$inject = ['$stateParams','mModalConfirm'];
-    function AdditionalServicesComponent($stateParams,mModalConfirm) {
+    AdditionalServicesComponent.$inject = ['$stateParams', 'mModalConfirm','additionalServices','GeneralAdditionalServiceFactory'];
+    function AdditionalServicesComponent($stateParams, mModalConfirm,additionalServices,GeneralAdditionalServiceFactory) {
         var vm = this;
         vm.$onInit = onInit;
         vm.fnCheckBox = fnCheckBox;
         // reemplazar por el valor del servicio
         vm.serviceSelected = {
+            id: 1,
             name: 'MISAS Y REPONSOS',
-            activo: true
+            active: true,
+            subServices:[
+                {
+                    code: 1,
+                    lbl: "MISAS EN CAPILLA"
+                },
+                {
+                    code: 2,
+                    lbl: "RESPONSO EN SEPULTURA"
+                }
+            ]
         }
-        vm.services = [
-            {
-                code: 'MASSES-RESPONSES',
-                name: 'MISAS Y REPONSOS',
-                selected: true,
-                icon: "",
-                url: "/images/ico-ramos/apps.svg"
-            }
-        ]
-
+        vm.services = additionalServices;
         function onInit() {
-            // vm.ramos = ramo
-            // vm.sections = sections
-            // AdminRamoFactory.setSections(sections);
+            console.log("additionalServices",additionalServices);
+            vm.services[0].selected = true;
+            GeneralAdditionalServiceFactory.setServiceSelected(vm.services[0]);
+            console.log("additionalServices End");
         }
 
         function fnCheckBox(item) {
@@ -48,9 +51,9 @@ define(['angular', 'coreConstants'], function (ng, coreConstants) {
                         //     }
                         // )
                     }
-                }).catch(function (error) { 
+                }).catch(function (error) {
                     item.activo = !item.activo
-                 });
+                });
         }
 
     } // end controller

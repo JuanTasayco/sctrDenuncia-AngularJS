@@ -20,7 +20,7 @@ define(['angular', 'coreConstants', 'system'], function(ng, coreConstants, syste
     }
 
     function _initValues() {
-      vm.selectedTab = 0;
+      vm.selectedTab = 1;
     }
   } // end controller
 

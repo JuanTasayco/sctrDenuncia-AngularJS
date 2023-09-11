@@ -112,7 +112,12 @@ define(['system', 'coreConstants'], function(system, coreConstants) {
         }
       },
       resolve: {
-        
+        additionalServices: [
+          "GeneralAdditionalServiceFactory",
+          function(GeneralAdditionalServiceFactory) {
+            return GeneralAdditionalServiceFactory.getAdditionalServices();
+          }
+        ]
       },
       resolver: [
         {
@@ -145,21 +150,41 @@ define(['system', 'coreConstants'], function(system, coreConstants) {
       ]
     },
     {
-      name: 'adminAdditionalServices.1234.masses',
+      name: 'adminAdditionalServices.1234.ranges',
       code: '',
       description: 'Misas',
-      url: '/admin-additional-services/masses-and-responsos/masses',
+      url: '/admin-additional-services/masses-and-responsos/ranges',
       views: {
         'contenido': {
-          template: '<ap-masses></ap-masses>'
+          template: '<ap-ranges-and-date></ap-ranges-and-date>'
         }
       },
       resolver: [
         {
-          name: 'adminAdditionalServices.1234.masses',
+          name: 'adminAdditionalServices.1234.ranges',
           moduleName: moduleName,
           files: [
-            'apMasses'
+            'apRangesAndDate'
+          ]
+        }
+      ]
+    },
+    {
+      name: 'adminAdditionalServices.1234.content',
+      code: '',
+      description: 'Misas',
+      url: '/admin-additional-services/masses-and-responsos/content',
+      views: {
+        'contenido': {
+          template: '<ap-content></ap-content>'
+        }
+      },
+      resolver: [
+        {
+          name: 'adminAdditionalServices.1234.content',
+          moduleName: moduleName,
+          files: [
+            'apContent'
           ]
         }
       ]

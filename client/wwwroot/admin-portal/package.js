@@ -66,9 +66,13 @@ define(['system'], function(system) {
         name: 'MassesAndResponsesComponent',
         path: folder + '/app/admin-additional-services/pages/masses-and-responses/masses-and-responses.component'
       },
-      apMasses: {
-        name: 'apMasses',
-        path: folder + '/app/admin-additional-services/pages/masses-and-responses/masses/masses.component'
+      apRangesAndDate: {
+        name: 'apRangesAndDate',
+        path: folder + '/app/admin-additional-services/pages/masses-and-responses/ranges-and-date/ranges-and-date.component'
+      },
+      apContent: {
+        name: 'apContent',
+        path: folder + '/app/admin-additional-services/pages/masses-and-responses/content/content.component'
       },
       // componenentes Servicios Adicionales
       apTabServices: {
@@ -118,6 +122,14 @@ define(['system'], function(system) {
       GeneralAdminRamoFactory: {
         name: 'GeneralAdminRamoFactory',
         path: folder + '/app/admin-policy-section/factory/general.factory'
+      },
+      GeneralAdditionalServiceFactory: {
+        name: 'GeneralAdditionalServiceFactory',
+        path: folder + '/app/admin-additional-services/factory/general.factory'
+      },
+      MassesAndResponsesFactory: {
+        name: 'MassesAndResponsesFactory',
+        path: folder + '/app/admin-additional-services/factory/masses-and-responses.factory'
       },
       CarouselTrayFactory: {
         name: 'CarouselTrayFactory',

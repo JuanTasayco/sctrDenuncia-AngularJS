@@ -14,7 +14,8 @@ define([
     return {
       getFormatDateLong: getFormatDateLong,
       GetDocumentType: GetDocumentType,
-      GetSection: GetSection
+      GetSection: GetSection,
+      GetAdditionalServices: GetAdditionalServices
     };
 
     function getFormatDateLong(textDate) {
@@ -86,6 +87,74 @@ define([
         .then(function(res) {
           var array = _.map(res, function(p) {
             return { name: p.descripcion, code: p.seccionId , url: p.seccionId};
+          })
+
+          return _.assign(array);
+        });
+    }
+
+    function GetAdditionalServices(codeApp, showSpin) {
+      return httpData
+        .get(
+          domain + 'api/v1/cms/areaPrivada/serviciosAdicionales',
+          {
+              params: _.assign({
+                  codigoApp: codeApp
+              })
+          },
+          undefined,
+          showSpin
+        )
+        .then(function(res) {
+          var array = _.map(res, function(p , index) {
+            return { 
+              id: p.id,
+              name: p.nombre, 
+              code: p.seccionId , 
+              url: p.icono,
+              active: p.activo,
+              subServices: p.subServicios,
+              selected: index ? false : true
+            };
+          })
+
+          return _.assign(array);
+        }).catch( function(){
+          var res = [
+            {
+              "id": 1,
+              "nombre": "MISAS Y RESPONSOS",
+              "icono": "ABC",
+              "activo": true,
+              "subServicios": [
+                {
+                  "id": 1,
+                  "nombre": "MISAS EN CAPILLA"
+                },
+                {
+                  "id": 2,
+                  "nombre": "RESPONSO EN SEPULTURA"
+                }
+              ]
+            },
+              {
+                  "id": "2",
+                  "nombre": "FLORES Y ARREGLOS",
+                  "icono": "flores.svg",
+                  "activo": true,
+                  "subServicios": []
+              }
+          ]
+          var array = _.map(res, function(p , index) {
+            return { 
+              id: p.id,
+              name: p.nombre, 
+              code: p.seccionId , 
+              url: p.icono,
+              active: p.activo,
+              subServices: p.subServicios,
+              selected: index ? false : true
+            };
           })
 
           return _.assign(array);
