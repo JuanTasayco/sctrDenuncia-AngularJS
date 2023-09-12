@@ -61,7 +61,7 @@ define([
         _self.USER = new nsctrFactory.object.oUser();
 
         _self.CURRENCY_TYPE = constants.currencyType;
-
+        debugger;
         _getConstancySummary(_self.STATE_PARAMS.idProof, _self.USER.role, _self.MODULE.code);
       };
       /*########################
@@ -77,6 +77,12 @@ define([
       _self.fnInTechnicalControl = function(number) {
         return number === '-1';
       };
+      
+      _self.fnDownloadReceipt = function (receiptNumber , typeReceipt) {
+        nsctrFactory.common.proxyPolicy.ServicesDownloadReceipt(typeReceipt, receiptNumber, true).then(function (response) {
+          mainServices.fnDownloadFileBase64(response.data, "pdf", 'Recibo_' + receiptNumber, false);
+        });
+      }
 
       _self.fnInTechnicalControlSegurity = function(item) {
         console.log(localStorage.getItem('typeName'));
