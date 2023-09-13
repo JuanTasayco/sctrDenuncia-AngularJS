@@ -200,7 +200,8 @@ define(['angular', 'constantsSalud', 'lodash'], function (angular, constantsSalu
     }
 
     $scope.descargarCuestionario = function () {
-      $window.open(constants.system.api.endpoints.policy + 'api/salud/dps/' + $stateParams.quotationNumber);
+      var vFileName = 'CUESTIONARIO_COTIZACION_' + $stateParams.quotationNumber + '.pdf';
+      saludFactory.GenerarCuestionarioFile($stateParams.quotationNumber, vFileName);
     }
 
     $scope.fnLoadFile = function (index) {

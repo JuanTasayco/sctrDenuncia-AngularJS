@@ -129,6 +129,12 @@ define([
                 return;
               }
 
+              if($scope.tasa.porcentajeAjuste > 100 || $scope.tasa.porcentajeAjuste < -100) {
+                $scope.formTasaAjuste.markAsPristine();
+                mModalAlert.showError("El porcentaje de ajuste no se encuentra en el rango válido.", "Tasa de Ajuste");
+                return;
+              }
+
               var request = {
                 porcentajeAjuste: $scope.tasa.porcentajeAjuste,
                 mcaActivo: $scope.tasa.mcaActivo
