@@ -1,28 +1,14 @@
 'use strict';
 
 define(['angular', 'coreConstants','lodash'], function (ng, coreConstants,_) {
-    MassesAndResponsesComponent.$inject = ['$stateParams','GeneralAdditionalServiceFactory'];
-    function MassesAndResponsesComponent($stateParams, GeneralAdditionalServiceFactory) {
+    MassesAndResponsesComponent.$inject = ['$stateParams','GeneralAdditionalServiceFactory', 'AdminRamoFactory'];
+    function MassesAndResponsesComponent($stateParams, GeneralAdditionalServiceFactory, AdminRamoFactory) {
         var vm = this;
         vm.$onInit = onInit;
-        vm.servicesSelected = {
-            id: 1,
-            name: 'MISAS Y REPONSOS',
-            active: true,
-            subServices:[
-                {
-                    code: 0,
-                    lbl: "MISAS EN CAPILLA"
-                },
-                {
-                    code: 1,
-                    lbl: "RESPONSO EN SEPULTURA"
-                }
-            ]
-        }
 
         function onInit() {
             vm.servicesSelected = GeneralAdditionalServiceFactory.getServiceSelected();
+            AdminRamoFactory.subsChangeRamo(changeRamo);
             vm.servicesSelected.subServices = _.map(vm.servicesSelected.subServices, function(p , index) {
                 return { 
                     code: p.id,
@@ -30,10 +16,11 @@ define(['angular', 'coreConstants','lodash'], function (ng, coreConstants,_) {
                 };
               })
             console.log("masess and responses",vm.servicesSelected)
-            
-            // vm.ramos = ramo
-            // vm.sections = sections
-            // AdminRamoFactory.setSections(sections);
+            vm.selectedSubService = vm.servicesSelected.subServices[0].code;
+        }
+
+        function changeRamo(item) {
+            vm.servicesSelected = item;
         }
 
     } // end controller

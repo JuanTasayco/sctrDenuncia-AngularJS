@@ -1,59 +1,50 @@
 'use strict';
 
 define(['angular', 'coreConstants'], function (ng, coreConstants) {
-    AdditionalServicesComponent.$inject = ['$stateParams', 'mModalConfirm','additionalServices','GeneralAdditionalServiceFactory'];
-    function AdditionalServicesComponent($stateParams, mModalConfirm,additionalServices,GeneralAdditionalServiceFactory) {
+    AdditionalServicesComponent.$inject = ['$stateParams', 'mModalConfirm','additionalServices','GeneralAdditionalServiceFactory', 'AdminRamoFactory'];
+    function AdditionalServicesComponent($stateParams, mModalConfirm, additionalServices, GeneralAdditionalServiceFactory, AdminRamoFactory) {
         var vm = this;
         vm.$onInit = onInit;
         vm.fnCheckBox = fnCheckBox;
-        // reemplazar por el valor del servicio
-        vm.serviceSelected = {
-            id: 1,
-            name: 'MISAS Y REPONSOS',
-            active: true,
-            subServices:[
-                {
-                    code: 1,
-                    lbl: "MISAS EN CAPILLA"
-                },
-                {
-                    code: 2,
-                    lbl: "RESPONSO EN SEPULTURA"
-                }
-            ]
-        }
-        vm.services = additionalServices;
+        
         function onInit() {
-            console.log("additionalServices",additionalServices);
+            vm.services = additionalServices;
             vm.services[0].selected = true;
-            GeneralAdditionalServiceFactory.setServiceSelected(vm.services[0]);
-            console.log("additionalServices End");
+            vm.serviceSelected = vm.services[0];
+            GeneralAdditionalServiceFactory.setServiceSelected(vm.serviceSelected);
+            AdminRamoFactory.subsChangeRamo(changeRamo);
         }
 
         function fnCheckBox(item) {
             mModalConfirm.confirmInfo(
                 null,
-                '¿Estás seguro de ' + (item.activo ? 'habilitar' : 'inhabilitar') + ' todo el servicio?',
+                '¿Estás seguro de ' + (item.active ? 'habilitar' : 'inhabilitar') + ' todo el servicio?',
                 'SI').then(function (response) {
                     if (response) {
-                        // var body = {
-                        //     seccionId: vm.section.code,
-                        //     activo: item.activo
-                        // }
-                        // AdminRamoFactory.updateStatusSection(vm.section.code, vm.ramo.code, body).then(
-                        //     function (data) {
-                        //         if (data.codigo === 1001) {
-                        //             item.activo = !item.activo
-                        //         }
-                        //     },
-                        //     function () {
-                        //         item.activo = !item.activo
-                        //     }
-                        // )
+                        var body = {
+                            activo: item.active
+                        }
+                        
+                        vm.serviceSelected = AdminRamoFactory.getRamoSelected();
+
+                        GeneralAdditionalServiceFactory.updateServiceSection(vm.serviceSelected.id, body).then(
+                            function (data) {
+                                if (data.codigo === 1001) {
+                                    item.activo = !item.activo
+                                }
+                            },
+                            function () {
+                                item.activo = !item.activo
+                            }
+                        )
                     }
-                }).catch(function (error) {
-                    item.activo = !item.activo
+                }).catch(function (error) { 
+                    item.active =!item.active
                 });
+        }
+
+        function changeRamo(item) {
+            vm.serviceSelected = item;
         }
 
     } // end controller

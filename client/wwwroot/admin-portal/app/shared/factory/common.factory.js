@@ -96,12 +96,8 @@ define([
     function GetAdditionalServices(codeApp, showSpin) {
       return httpData
         .get(
-          domain + 'api/v1/cms/areaPrivada/serviciosAdicionales',
-          {
-              params: _.assign({
-                  codigoApp: codeApp
-              })
-          },
+          domain + 'api/v1/cms/areaPrivada/serviciosFunerarios',
+          {},
           undefined,
           showSpin
         )
@@ -111,46 +107,7 @@ define([
               id: p.id,
               name: p.nombre, 
               code: p.seccionId , 
-              url: p.icono,
-              active: p.activo,
-              subServices: p.subServicios,
-              selected: index ? false : true
-            };
-          })
-
-          return _.assign(array);
-        }).catch( function(){
-          var res = [
-            {
-              "id": 1,
-              "nombre": "MISAS Y RESPONSOS",
-              "icono": "ABC",
-              "activo": true,
-              "subServicios": [
-                {
-                  "id": 1,
-                  "nombre": "MISAS EN CAPILLA"
-                },
-                {
-                  "id": 2,
-                  "nombre": "RESPONSO EN SEPULTURA"
-                }
-              ]
-            },
-              {
-                  "id": "2",
-                  "nombre": "FLORES Y ARREGLOS",
-                  "icono": "flores.svg",
-                  "activo": true,
-                  "subServicios": []
-              }
-          ]
-          var array = _.map(res, function(p , index) {
-            return { 
-              id: p.id,
-              name: p.nombre, 
-              code: p.seccionId , 
-              url: p.icono,
+              url: `/images/ico-ramos/${p.icono}`,
               active: p.activo,
               subServices: p.subServicios,
               selected: index ? false : true

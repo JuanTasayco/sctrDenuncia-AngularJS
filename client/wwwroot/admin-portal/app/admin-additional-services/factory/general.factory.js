@@ -15,7 +15,7 @@ define(['angular', 'coreConstants', 'lodash', 'endpointsConstants'], function (
       getAdditionalServices : getAdditionalServices,
       setServiceSelected : setServiceSelected,
       getServiceSelected : getServiceSelected,
-
+      updateServiceSection : updateServiceSection
     };
 
     function getAdditionalServices() {
@@ -61,23 +61,18 @@ define(['angular', 'coreConstants', 'lodash', 'endpointsConstants'], function (
     //     });
     // }
 
-    // function updateStatusSection(codeApp, seccionId, idProducto, body, showSpin) {
-    //   return httpData
-    //     .put(
-    //       domain + 'api/v1/cms/areaPrivada/seccion/' + seccionId,
-    //       body,
-    //       {
-    //         params: _.assign({
-    //           codigoApp: codeApp,
-    //           idProducto: idProducto,
-    //         })
-    //       },
-    //       showSpin
-    //     )
-    //     .then(function (res) {
-    //       return _.assign(res);
-    //     });
-    // }
+    function updateServiceSection(servicioId, body, showSpin) {
+      return httpData
+        .put(
+          domain + 'api/v1/cms/areaPrivada/servicioFunerario/' + servicioId,
+          body,
+          {},
+          showSpin
+        )
+        .then(function (res) {
+          return _.assign(res);
+        });
+    }
 
     // function updateCardSection(codeApp, seccionId, idProducto, contenidoId, body, showSpin) {
     //   return httpData
