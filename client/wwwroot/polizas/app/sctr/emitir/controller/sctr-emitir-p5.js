@@ -653,14 +653,14 @@
         }
       }
 
-      $scope.getRecibo = function(recibo){
-        sctrEmitFactory.getRecibo($scope.formData.tipoSCTR, recibo, 'recibo_'+recibo+'.pdf').then(function(response){
-          mainServices.fnDownloadFileBase64(response.Data, "pdf", 'recibo_'+recibo+'.pdf', false);
+      $scope.getRecibo = function(recibo,numeroRecibo){
+        sctrEmitFactory.getRecibo($scope.formData.tipoSCTR, recibo).then(function(response){
+          mainServices.fnDownloadFileBase64(response.data.Data, "pdf", 'recibo_'+numeroRecibo+'.pdf', false);
           });
       }
 
       $scope.getPoliza = function(id, numPoliza,codigoagente){
-        sctrEmitFactory.getPoliza($scope.formData.tipoSCTR, id, numPoliza, 'OIM_'+numPoliza+'.pdf',codigoagente).then(function(response){
+        sctrEmitFactory.getPoliza($scope.formData.tipoSCTR, id, numPoliza,codigoagente).then(function(response){
           mainServices.fnDownloadFileBase64(response.Data, "pdf", 'OIM_'+numPoliza+'.pdf', false);
         }, function gpErFn(response) {
           mModalAlert.showError(response.Message, 'Error al descargar el documento');

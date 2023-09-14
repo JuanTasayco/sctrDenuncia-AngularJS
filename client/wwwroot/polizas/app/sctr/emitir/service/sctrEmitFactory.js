@@ -426,82 +426,18 @@ define([
       return proxySctr.DownloadFilePcConstancia(params,true);
     }
 
-    function getPoliza(tipo, id, numPoliza, defaultFileName,codigoagente){
+    function getPoliza(tipo, id, numPoliza,codigoagente){
       tipo = tipo.toLowerCase();
-      //return proxyFile.GetTemplate(idTemplate, true);
-      // getData('api/sctr/descarga/'+tipo+'/poliza/'+ id + '/' + numPoliza, '').then(function(response){
-      //   if (response.OperationCode == constants.operationCode.success){
-      //     var url = response.Data;
-      //     $window.open(url);
-      //   }
-      // });
-
-      var self = this;
-      var deferred = $q.defer();
-      mpSpin.start();
-      $http.get(base + 'api/sctr/download/'+tipo+'/poliza/'+ id + '/' + numPoliza+'/' + codigoagente, { responseType: "arraybuffer" }).success(
-        function (data, status, headers) {
-          var type = headers('Content-Type');
-          var disposition = headers('Content-Disposition');
-          if (disposition) {
-            var match = disposition.match(/.*filename=\"?([^;\"]+)\"?.*/);
-            if (match[1])
-              defaultFileName = match[1];
-          }
-          defaultFileName = defaultFileName.replace(/[<>:"\/\\|?*]+/g, '_');
-          var blob = new Blob([data], { type: type });
-          saveAs(blob, defaultFileName);
-          mpSpin.end();
-          deferred.resolve(defaultFileName);
-        }, function (data, status) {
-          mpSpin.end();
-          var e = /* error */
-          deferred.reject(e);
-        }).error(function(data){
-          mpSpin.end();
-          deferred.reject(data);
-        });
-      return deferred.promise;
+      return $http.get(base + 'api/sctr/download/'+tipo+'/poliza/'+ id + '/' + numPoliza+'/' + codigoagente)
     }
 
     function getCondiciones(tipo){
       getTemplate(tipo);
     }
 
-    function getRecibo(tipo, params, defaultFileName){
+    function getRecibo(tipo, params){
       tipo = tipo.toLowerCase();
-      //return proxyFile.GetTemplate(idTemplate, true);
-      //var valor = getData('api/sctr/descarga/'+tipo+'/recibo/'+ params, '');
-      // getData('api/sctr/descarga/'+tipo+'/recibo/'+ params, '').then(function(response){
-      //   if (response.OperationCode == constants.operationCode.success){
-      //     var url = response.Data;
-      //     $window.open(url);
-      //   }
-      // });
-
-      var self = this;
-      var deferred = $q.defer();
-      mpSpin.start();
-      $http.get(base + 'api/sctr/download/'+tipo+'/recibo/'+ params, { responseType: "arraybuffer" }).success(
-        function (data, status, headers) {
-          var type = headers('Content-Type');
-          var disposition = headers('Content-Disposition');
-          if (disposition) {
-            var match = disposition.match(/.*filename=\"?([^;\"]+)\"?.*/);
-            if (match[1])
-              defaultFileName = match[1];
-          }
-          defaultFileName = defaultFileName.replace(/[<>:"\/\\|?*]+/g, '_');
-          var blob = new Blob([data], { type: type });
-          saveAs(blob, defaultFileName);
-          mpSpin.end();
-          deferred.resolve(defaultFileName);
-        }, function (data, status) {
-          mpSpin.end();
-          var e = /* error */
-          deferred.reject(e);
-        });
-      return deferred.promise;
+      return $http.get(base + 'api/sctr/download/'+tipo+'/recibo/'+ params);
     }
 
     function exportReports(tipoDoc, solicitud){//descarga de excel
