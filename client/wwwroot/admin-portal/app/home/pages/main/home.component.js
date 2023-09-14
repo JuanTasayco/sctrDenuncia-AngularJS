@@ -36,7 +36,6 @@ define([
           $state.go('carouselTray', { codeApp: itemCode });
         }
       }
-
     }
 
     vm.showSubMenu = showSubMenu;

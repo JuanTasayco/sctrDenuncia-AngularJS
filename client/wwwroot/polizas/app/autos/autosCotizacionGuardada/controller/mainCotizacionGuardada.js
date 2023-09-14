@@ -5,15 +5,17 @@ define([
   '/polizas/app/autos/autosCotizacionGuardada/component/component.js',
   '/polizas/app/autos/autosHome/service/autosFactory.js',
   '/scripts/mpf-main-controls/components/modalAssessment/component/modalAssessment.js',
-  'modalSendEmail'
+  'modalSendEmail',
+  '/polizas/app/autos/autosCotizar2/service/autosCotizarFactory.js',
 ], function (angular, helper, _, factory) {
 
   angular.module('appAutos')
-    .controller("cotizacionGuardadaController", ['$scope', 'autosFactory', '$rootScope', '$window', '$state', '$stateParams', '$uibModal', 'mpSpin', 'oimPrincipal', 'mainServices', 'oimAbstractFactory', 'proxyClaims', 'mModalAlert','proxyReferido',
-      function ($scope, autosFactory,  $rootScope, $window, $state, $stateParams, $uibModal, mpSpin, oimPrincipal, mainServices, oimAbstractFactory, proxyClaims, mModalAlert,proxyReferido) {
+    .controller("cotizacionGuardadaController", ['$scope', 'autosFactory', 'autosCotizarFactory', '$rootScope', '$window', '$state', '$stateParams', '$uibModal', 'mpSpin', 'oimPrincipal', 'mainServices', 'oimAbstractFactory', 'proxyClaims', 'mModalAlert','proxyReferido',
+      function ($scope, autosFactory, autosCotizarFactory, $rootScope, $window, $state, $stateParams, $uibModal, mpSpin, oimPrincipal, mainServices, oimAbstractFactory, proxyClaims, mModalAlert,proxyReferido) {
 
         var profile = [];
 
+        autosFactory.setCotizacionFechaHora(null);
         $scope.isMyDream = oimAbstractFactory.isMyDream();
         // Request para firma
         $scope.paramsSignature = {

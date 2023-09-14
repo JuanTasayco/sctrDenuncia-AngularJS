@@ -17,7 +17,12 @@ pipeline {
             yaml getYmlBuildPod('oim')
         }
     }
-   
+    parameters {
+        choice(
+            choices: ['SONARQUBE' ,'DESPLEGAR'],
+            description: 'Indicar la tarea a realizar',
+            name: 'REQUESTED_ACTION')
+    }     
     options {
         timeout(time: 45, unit: 'MINUTES')
         timestamps()
@@ -73,6 +78,11 @@ pipeline {
 
         //This is a security stage that must be executed before building any code or image.
         stage('Security pre-build'){
+            when {
+                anyOf {
+                    expression { return params.REQUESTED_ACTION == 'DESPLEGAR'}
+                }                   
+            }                
             steps{
                 script{
                     secPreBuild()
@@ -81,6 +91,11 @@ pipeline {
         }   
         
         stage('Build Auditoria') {
+            when {
+                anyOf {
+                    expression { return params.REQUESTED_ACTION == 'DESPLEGAR'}
+                }      				
+            }            
             steps {
                 container('node') {
                     sh("""
@@ -101,6 +116,11 @@ pipeline {
         }
 
         stage('Build & Unit Test') {
+            when {
+                anyOf {
+                    expression { return params.REQUESTED_ACTION == 'DESPLEGAR'}
+                }      				
+            }             
             steps {
                 container('node') {
                     sh("""
@@ -124,6 +144,9 @@ pipeline {
                 not {
                     branch 'PR*'
                 }
+                anyOf {
+                    expression { return params.REQUESTED_ACTION == 'SONARQUBE'}
+                }                   
             }      
             environment {
                 PACKAGE_VERSION        = getFieldFromPackage("version")
@@ -169,6 +192,9 @@ pipeline {
                 not {
                     branch 'PR*'
                 }
+                anyOf {
+                    expression { return params.REQUESTED_ACTION == 'SONARQUBE'}
+                }                   
             }                 
            
             steps {
@@ -204,6 +230,9 @@ pipeline {
                     branch 'release'
                     branch 'master'
                 }
+                anyOf {
+                    expression { return params.REQUESTED_ACTION == 'DESPLEGAR'}
+                }                   
             }
             steps {
                 container('node') {
@@ -221,24 +250,29 @@ pipeline {
                     branch 'release'
                     branch 'master'
                 }
+                anyOf {
+                    expression { return params.REQUESTED_ACTION == 'DESPLEGAR'}
+                }                   
             }
-            environment {
-                PACKAGE_VERSION        = getFieldFromPackage("version")
-                PACKAGE_NAME           = getFieldFromPackage("name")
 
-            }
             steps {
                 gitFetch()
+                gitIgnoreChange()
                 gitCheckout env.BRANCH_NAME
 
                 script {
+                    def version = getFieldFromPackage("version")
+
                     def msg = 'release'
                     if (BRANCH_NAME.startsWith('release')) {
                         msg = 'release candidate'
-                    }                 
-                    gitCommitPackage  "promotion to " + msg + " completed (" + PACKAGE_VERSION + ")"
+                    }                
+                    container('node') {
+                        promotionNpmPeru(env.BRANCH_NAME, version)
+                    }                    
+                    gitCommitPackage  "promotion to " + msg + " completed (" + version + ")"
                     gitPush()
-                    gitTag(PACKAGE_VERSION,  "New " + msg + " tag " + PACKAGE_VERSION)
+                    gitTag(version,  "New " + msg + " tag " + version)
                     gitPushTags()
                     
                 }
@@ -248,6 +282,11 @@ pipeline {
         }        
 
         stage('Security post-build'){
+            when {
+                anyOf {
+                    expression { return params.REQUESTED_ACTION == 'DESPLEGAR'}
+                }                   
+            }                
             steps {
                 script{
                     secPostBuild()
@@ -257,6 +296,11 @@ pipeline {
 
 
         stage('Security pre-deploy'){
+            when {
+                anyOf {
+                    expression { return params.REQUESTED_ACTION == 'DESPLEGAR'}
+                }                   
+            }                
             steps{
                 script{
                     secPreDeploy()
@@ -271,6 +315,9 @@ pipeline {
                     branch 'release'
                     branch 'master'
                 }
+                anyOf {
+                    expression { return params.REQUESTED_ACTION == 'DESPLEGAR'}
+                }                   
             }
             environment {
                 PACKAGE_VERSION        = getFieldFromPackage("version")
@@ -296,6 +343,11 @@ pipeline {
         }        
 
         stage('Security post-deploy'){
+            when {
+                anyOf {
+                    expression { return params.REQUESTED_ACTION == 'DESPLEGAR'}
+                }                   
+            }            
             steps{
                 script{
                     secPostDeploy()
@@ -306,6 +358,9 @@ pipeline {
         stage ('Next Snapshot Promotion develop') {
             when {
 				expression { return env.BRANCH_NAME == 'master' } 
+                anyOf {
+                    expression { return params.REQUESTED_ACTION == 'DESPLEGAR'}
+                }                   
             }
             environment {
                 developBranch = "develop"
@@ -335,6 +390,9 @@ pipeline {
         stage ('Next Snapshot Promotion release') {
             when {
                 expression { return env.BRANCH_NAME == 'master' } 
+                anyOf {
+                    expression { return params.REQUESTED_ACTION == 'DESPLEGAR'}
+                }                   
             }
             environment {
                 developBranch = "release"

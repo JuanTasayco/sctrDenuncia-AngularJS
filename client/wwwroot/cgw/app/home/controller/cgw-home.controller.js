@@ -9,6 +9,7 @@ define([
   function cgwHomeController($scope, cgwFactory, $uibModal, $window, $rootScope, oimClaims, mModalAlert, localStorageService, $state) {
 
     (function onLoad() {
+      console.log('V2023-07-03 09:00');
 
       $scope.grupoAplicacion = parseInt(oimClaims.userSubType);
 

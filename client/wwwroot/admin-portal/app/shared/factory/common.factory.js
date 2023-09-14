@@ -12,8 +12,46 @@ define([
     var domain = endpointsConstants.default;
 
     return {
-      GetDocumentType: GetDocumentType
+      getFormatDateLong: getFormatDateLong,
+      GetDocumentType: GetDocumentType,
+      GetSection: GetSection
     };
+
+    function getFormatDateLong(textDate) {
+      var currentDate = new Date();
+      var newDate = new Date(textDate);
+      
+      var years = currentDate.getFullYear() - newDate.getFullYear();
+      var months = currentDate.getMonth() - newDate.getMonth();
+      var days = currentDate.getDate() - newDate.getDate();
+      var hours = newDate.getHours();
+      var minutes = newDate.getMinutes();
+      
+      var result = "";
+      
+      if (months < 0) {
+        years--;
+        months += 12;
+      }
+      
+      if (days < 0) {
+        months--;
+        var lastMonth = new Date(newDate.getFullYear(), newDate.getMonth(), 0);
+        days += lastMonth.getDate();
+      }
+      
+      if (years != 0) {
+        result = years + "a - ";
+      }
+      if (months != 0) {
+        result = result + months + "m - ";
+      }
+      if (days != 0) {
+        result = result + days + "d - ";
+      }
+      
+      return result + hours + ":" + minutes;
+    }
 
     function GetDocumentType(codeApp, showSpin) {
       return httpData
@@ -29,6 +67,28 @@ define([
         )
         .then(function(res) {
           return _.assign(res, {success: res.codigo === coreConstants.api.successfulCode});
+        });
+    }
+
+
+    function GetSection(codeApp, idSection, showSpin) {
+      return httpData
+        .get(
+          domain + 'api/v1/cms/areaPrivada/secciones/grupoSeccion/'+ idSection,
+          {
+              params: _.assign({
+                  codigoApp: codeApp
+              })
+          },
+          undefined,
+          showSpin
+        )
+        .then(function(res) {
+          var array = _.map(res, function(p, indice) {
+            return { name: p.descripcion, code: p.seccionId , url: p.ruta , selected : !indice};
+          })
+
+          return _.assign(array);
         });
     }
   }

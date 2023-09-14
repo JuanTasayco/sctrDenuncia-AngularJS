@@ -62,6 +62,8 @@ define(['angular', 'constants', 'constantsPericial', 'mocksPericial', 'helper', 
       vm.dataSiniestro = {};
       vm.dataAuto = {};
       
+      saveTracker(isTaller());
+
       pericialFactory.siniester.GetSinister($stateParams.id, false).then(function(response) {
         if (response.data) {
           vm.siniestro = response.data;
@@ -290,6 +292,23 @@ define(['angular', 'constants', 'constantsPericial', 'mocksPericial', 'helper', 
         });
      };
 
+     function saveTracker(isTaller){
+       vm.paramTracker = {
+         idSinisterDetail: $stateParams.id,
+         CodigoPerfil: vm.rol,
+         DescripcionOperacion : isTaller ?  'INGRESO A CARGAR PRESUPUESTO':'INGRESO A DETALLE',
+         OpcionMenu : isTaller ? 'GPER > Principal > Cargar Presupuesto': 'GPER > Principal > Ver Detalle'
+       };
+ 
+       pericialFactory.siniester.SaveTracker(vm.paramTracker).then(function(response) {
+         
+       })
+         .catch(function(err){
+           console.log(err);
+             mModalAlert.showError("Error en SaveTracker", 'Error');
+         });
+     }
+
     function getVersiones() {
       pericialFactory.webproc
         .GetVersion(vm.siniestro.caseNumber, vm.siniestro.sinisterNumber)
@@ -423,7 +442,10 @@ define(['angular', 'constants', 'constantsPericial', 'mocksPericial', 'helper', 
         vm.params = {
           idSinisterDetail: $stateParams.id,
           idSinisterState: vm.siniestro.detail.idSinisterState,
-          commentary: (message) ? message.toUpperCase() : ''
+          commentary: (message) ? message.toUpperCase() : '',
+          tracker: {
+            CodigoPerfil: vm.rol
+          }
         };
 
         pericialFactory.comment.AddMovement(vm.params).then(function(response) {
@@ -588,6 +610,9 @@ define(['angular', 'constants', 'constantsPericial', 'mocksPericial', 'helper', 
           },
           proficient: {
             idTypeProficient: vm.siniestro.mTipoPerito.idProficient
+          },
+          tracker: {
+            CodigoPerfil: vm.rol
           }
         };
       }

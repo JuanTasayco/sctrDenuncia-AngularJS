@@ -148,6 +148,14 @@ define(['angular', 'constants'], function(angular, cons)
 			return mydata || [];
 		};
 
+		function setCotizacionFechaHora(dateTime){
+			cotizacionFechaHora = dateTime;
+		}
+	
+		function getCotizacionFechaHora(){
+			return cotizacionFechaHora;
+		}
+
 		var eliminarVariableSession = function(key) {
 			$window.sessionStorage.removeItem(key);
 		};
@@ -245,6 +253,8 @@ define(['angular', 'constants'], function(angular, cons)
         	loadAutocompleteFilter : loadAutocompleteFilter,
         	postData: postData,
         	getData: getData,
+			getCotizacionFechaHora: getCotizacionFechaHora,
+			setCotizacionFechaHora: setCotizacionFechaHora,
         	addVariableSession: addVariableSession,
           getVariableSession: getVariableSession,
           eliminarVariableSession: eliminarVariableSession,

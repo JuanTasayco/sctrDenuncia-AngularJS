@@ -5,11 +5,11 @@ define(['angular', 'constants', 'constantsPericial', 'helper', 'pericialFactory'
   constants, constantsPericial) {
 
   NuevoRegistroController.$inject = [
-    '$scope', '$window', '$state', '$stateParams', '$timeout', 'mainServices', '$uibModal', 'mModalAlert', 'mModalConfirm', 'pericialFactory', 'proxyAutomovil'
+    '$scope', '$window', '$state', '$stateParams', '$timeout', 'mainServices', '$uibModal', 'mModalAlert', 'mModalConfirm', 'pericialFactory', 'proxyAutomovil', 'oimClaims'
   ];
 
   function NuevoRegistroController(
-    $scope, $window, $state, $stateParams, $timeout, mainServices, $uibModal, mModalAlert, mModalConfirm, pericialFactory, proxyAutomovil
+    $scope, $window, $state, $stateParams, $timeout, mainServices, $uibModal, mModalAlert, mModalConfirm, pericialFactory, proxyAutomovil, oimClaims
   ) {
       var vm = this;
 
@@ -37,6 +37,14 @@ define(['angular', 'constants', 'constantsPericial', 'helper', 'pericialFactory'
         vm.status = {
           isopen: false
         };
+        
+        oimClaims.rolesCode.some(function(obj, i) {
+          return obj.nombreAplicacion === "GPER" ? vm.indexArray = i : false;
+        });
+
+        if (vm.indexArray !== -1) {
+          vm.rol = oimClaims.rolesCode[vm.indexArray].codigoRol;
+        }
       };
 
       function searchMarcaModelo(wilcar) {
@@ -173,6 +181,9 @@ define(['angular', 'constants', 'constantsPericial', 'helper', 'pericialFactory'
                 "numero_servicio": !vm.vehiculo ? '' : (!vm.vehiculo.sinisterNumber ? '' : vm.vehiculo.sinisterNumber),        
                 "dni": !vm.dataUser ? '' : (vm.dataUser.documentType === 'DNI' ? vm.dataUser.documentNumber : ''),
                 "ordenServicio": ''
+              },
+              tracker: {
+                CodigoPerfil: vm.rol
               }
             };
 
