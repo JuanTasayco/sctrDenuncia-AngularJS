@@ -586,6 +586,8 @@
               if($scope.formData.Pagado){
                 $scope.formData.NumPolizaPension = $scope.cotizacion[0].Riesgo.NumPoliza;
                 $scope.formData.NumPolizaSalud = $scope.cotizacion[1].Riesgo.NumPoliza;
+                $scope.formData.CodigoAgentePension = $scope.cotizacion[0].Solicitud.CodigoAgente;
+                $scope.formData.CodigoAgenteSalud = $scope.cotizacion[1].Solicitud.CodigoAgente;
               }
 
             }else if($scope.cotizacion[0].CodigoCompania==3){//salud
@@ -653,11 +655,13 @@
 
       $scope.getRecibo = function(recibo){
         sctrEmitFactory.getRecibo($scope.formData.tipoSCTR, recibo, 'recibo_'+recibo+'.pdf').then(function(response){
+          mainServices.fnDownloadFileBase64(response.Data, "pdf", 'recibo_'+recibo+'.pdf', false);
           });
       }
 
-      $scope.getPoliza = function(id, numPoliza){
-        sctrEmitFactory.getPoliza($scope.formData.tipoSCTR, id, numPoliza, 'OIM_'+numPoliza+'.pdf').then(function(response){
+      $scope.getPoliza = function(id, numPoliza,codigoagente){
+        sctrEmitFactory.getPoliza($scope.formData.tipoSCTR, id, numPoliza, 'OIM_'+numPoliza+'.pdf',codigoagente).then(function(response){
+          mainServices.fnDownloadFileBase64(response.Data, "pdf", 'OIM_'+numPoliza+'.pdf', false);
         }, function gpErFn(response) {
           mModalAlert.showError(response.Message, 'Error al descargar el documento');
         });

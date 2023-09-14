@@ -426,7 +426,7 @@ define([
       return proxySctr.DownloadFilePcConstancia(params,true);
     }
 
-    function getPoliza(tipo, id, numPoliza, defaultFileName){
+    function getPoliza(tipo, id, numPoliza, defaultFileName,codigoagente){
       tipo = tipo.toLowerCase();
       //return proxyFile.GetTemplate(idTemplate, true);
       // getData('api/sctr/descarga/'+tipo+'/poliza/'+ id + '/' + numPoliza, '').then(function(response){
@@ -439,7 +439,7 @@ define([
       var self = this;
       var deferred = $q.defer();
       mpSpin.start();
-      $http.get(base + 'api/sctr/download/'+tipo+'/poliza/'+ id + '/' + numPoliza, { responseType: "arraybuffer" }).success(
+      $http.get(base + 'api/sctr/download/'+tipo+'/poliza/'+ id + '/' + numPoliza+'/' + codigoagente, { responseType: "arraybuffer" }).success(
         function (data, status, headers) {
           var type = headers('Content-Type');
           var disposition = headers('Content-Disposition');
