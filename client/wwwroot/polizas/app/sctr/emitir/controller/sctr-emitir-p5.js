@@ -676,14 +676,14 @@
             if($scope.formData.pension && $scope.formData.salud){
               $scope.getRecibo($scope.formData.NumeroReciboPensionEncrypt);
               $scope.getRecibo($scope.formData.NumeroReciboSaludEncrypt);
-              $scope.getPoliza(2, $scope.formData.NumPolizaPension);
-              $scope.getPoliza(3, $scope.formData.NumPolizaSalud);
+              $scope.getPoliza(2, $scope.formData.NumPolizaPension,$scope.formData.CodigoAgentePension);
+              $scope.getPoliza(3, $scope.formData.NumPolizaSalud,$scope.formData.CodigoAgenteSalud);
             }else if($scope.formData.pension){
               $scope.getRecibo($scope.formData.NumeroReciboPensionEncrypt);
-              $scope.getPoliza(2, $scope.formData.NumPolizaPension);
+              $scope.getPoliza(2, $scope.formData.NumPolizaPension,$scope.formData.CodigoAgentePension);
             }else if($scope.formData.salud){
               $scope.getRecibo($scope.formData.NumeroReciboSaludEncrypt);
-              $scope.getPoliza(3, $scope.formData.NumPolizaSalud);
+              $scope.getPoliza(3, $scope.formData.NumPolizaSalud,$scope.formData.CodigoAgenteSalud);
             }
 
             $scope.getConstancia();
@@ -704,14 +704,14 @@
           if($scope.formData.pension && $scope.formData.salud){
             $scope.getRecibo($scope.formData.NumeroReciboPensionEncrypt);
             $scope.getRecibo($scope.formData.NumeroReciboSaludEncrypt);
-            $scope.getPoliza(2, $scope.formData.NumPolizaPension);
-            $scope.getPoliza(3, $scope.formData.NumPolizaSalud);
+            $scope.getPoliza(2, $scope.formData.NumPolizaPension,$scope.formData.CodigoAgentePension);
+            $scope.getPoliza(3, $scope.formData.NumPolizaSalud,$scope.formData.CodigoAgenteSalud);
           }else if($scope.formData.pension){
             $scope.getRecibo($scope.formData.NumeroReciboPensionEncrypt);
-            $scope.getPoliza(2, $scope.formData.NumPolizaPension);
+            $scope.getPoliza(2, $scope.formData.NumPolizaPension,$scope.formData.CodigoAgentePension);
           }else if($scope.formData.salud){
             $scope.getRecibo($scope.formData.NumeroReciboSaludEncrypt);
-            $scope.getPoliza(3, $scope.formData.NumPolizaSalud);
+            $scope.getPoliza(3, $scope.formData.NumPolizaSalud,$scope.formData.CodigoAgenteSalud);
           }
 
           $scope.getConstancia();
