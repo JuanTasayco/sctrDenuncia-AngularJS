@@ -9,7 +9,7 @@ define(['angular', 'coreConstants', 'system'], function(ng, coreConstants, syste
     vm.$onInit = onInit;
 
     function onInit() {
-      _initValues();
+      // _initValues();
     }
 
     function click(tab) {
@@ -32,7 +32,8 @@ define(['angular', 'coreConstants', 'system'], function(ng, coreConstants, syste
       controller: 'TabServicesComponent',
       bindings: {
         items: '=?',
-        onClick: '&?'
+        onClick: '&?',
+        selectedTab: '=?',
       }
     });
 });
