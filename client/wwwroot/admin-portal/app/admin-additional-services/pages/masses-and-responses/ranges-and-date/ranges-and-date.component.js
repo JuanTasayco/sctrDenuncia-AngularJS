@@ -7,7 +7,7 @@ define(['angular', 'coreConstants', 'system', 'lodash'], function (ng, coreConst
         var vm = this;
         vm.$onInit = onInit;
 
-        vm.save = save;
+        vm.saveSubServiceRangesAndDate = saveSubServiceRangesAndDate;
         vm.addCancellationDate = addCancellationDate;
         vm.deleteCancellationDate = deleteCancellationDate;
         vm.changeDayBoxStatus = changeDayBoxStatus;
@@ -102,7 +102,7 @@ define(['angular', 'coreConstants', 'system', 'lodash'], function (ng, coreConst
                     ]
                 }
             ],
-            idTiempoCeremonia: 1,
+            tiempoCeremoniaId: 1,
             feriados: [
                 "2023-05-06T00:00:00",
                 "2023-05-06T00:00:00"
@@ -122,10 +122,11 @@ define(['angular', 'coreConstants', 'system', 'lodash'], function (ng, coreConst
         }
 
         function changeRamo() {
-            //changeSubService(vm.servicesSelected.)
+            // changeSubService(vm.servicesSelected.)
         }
 
         function changeSubService(item){
+            vm.subServicesSelected = item;
             MassesAndResponsesFactory.getServiceParameters(item.code).then(function (res){
                 MassesAndResponsesFactory.setServiceParameters(res);
 
@@ -136,16 +137,57 @@ define(['angular', 'coreConstants', 'system', 'lodash'], function (ng, coreConst
                 vm.dataCeremonyRange = MassesAndResponsesFactory.getCeremonyRange();
                 vm.dataSector = MassesAndResponsesFactory.getSector(vm.tabsCamposantoSelected.code);
 
+                getSubServiceRangesAndDate();
+
             });
         }
 
         function onTabCamposanto(event){
             vm.tabsCamposantoSelected = event;
             vm.dataSector = MassesAndResponsesFactory.getSector(vm.tabsCamposantoSelected.code);
+            getSubServiceRangesAndDate()
         }
 
-        function save() {
-            console.log("save")
+        function getSubServiceRangesAndDate(){
+            MassesAndResponsesFactory.saveSubServiceRangesAndDate(vm.tabsCamposantoSelected.code, vm.servicesSelected.id).then(function (res){
+                console.log(res);
+            });
+        }
+
+        function saveSubServiceRangesAndDate() {
+
+            var requestSave = {
+                tiempoCeremoniaId: vm.ceremonyRange.code,
+                activo: true,
+                dias: _.map(vm.dataCampoSanto.days, function (x) {
+                    return {
+                        id: ""+x.id,
+                        nombre: x.name,
+                        activo: x.active,
+                        rangoHorario: _.map(x.rangeHours, function (y){
+                            return {
+                                horaInicio: y.initHour,
+                                horaFin: y.endHour
+                            };
+                        })
+                    };
+                }),
+                feriados: _.map(vm.dataCancellationDays, function (x) {
+                    return {
+                        sectorId: x.sector && x.sector.code,
+                        fecha: x.year.code + "-" + x.month.code + "-" + x.day.code + "T05:00:00Z"
+                    };
+                })
+            };
+
+            console.log(requestSave);
+
+            MassesAndResponsesFactory.saveSubServiceRangesAndDate(vm.tabsCamposantoSelected.code, vm.subServicesSelected.code, requestSave).then(function (res){
+                
+                console.log(res);
+
+            });
+
         }
 
         function changeDayBoxStatus(dayItem, dayIndex) {

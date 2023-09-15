@@ -28,6 +28,9 @@ define(['angular', 'coreConstants', 'lodash', 'endpointsConstants'], function (
 
       updateServiceSection : updateServiceSection,
       getServiceParameters : getServiceParameters,
+      saveSubServiceRangesAndDate : saveSubServiceRangesAndDate,
+      getSubServiceRangesAndDate : getSubServiceRangesAndDate,
+
       setServiceSelected : setServiceSelected,
       getServiceSelected : getServiceSelected,
       setSubServiceSelected : setSubServiceSelected,
@@ -73,6 +76,14 @@ define(['angular', 'coreConstants', 'lodash', 'endpointsConstants'], function (
 
     function getServiceParameters(servicioId) {
       return GeneralAdditionalServiceFactory.getServiceParameters(servicioId, true);
+    }
+
+    function saveSubServiceRangesAndDate(camposantoId, subServiceRangesAndDateId, body) {
+      return GeneralAdditionalServiceFactory.saveSubServiceRangesAndDate(camposantoId, subServiceRangesAndDateId, body, true);
+    }
+
+    function getSubServiceRangesAndDate(camposantoId, subServiceRangesAndDateId) {
+      return GeneralAdditionalServiceFactory.getSubServiceRangesAndDate(camposantoId, subServiceRangesAndDateId, true);
     }
 
     function setServiceSelected (service) {

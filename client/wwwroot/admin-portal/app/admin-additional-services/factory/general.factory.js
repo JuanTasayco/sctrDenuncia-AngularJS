@@ -14,28 +14,29 @@ define(['angular', 'coreConstants', 'lodash', 'endpointsConstants'], function (
       getAdditionalServices : getAdditionalServices,
       updateServiceSection : updateServiceSection,
       getServiceParameters : getServiceParameters,
+      saveSubServiceRangesAndDate : saveSubServiceRangesAndDate,
+      getSubServiceRangesAndDate : getSubServiceRangesAndDate
     };
 
     function getAdditionalServices() {
       return CommonFactory.GetAdditionalServices(coreConstants.codigoAppMassAdm, true);
     }
 
-
-
-    // function getSectionListContent(codeApp, seccionId, idProducto, showSpin) {
-    //   return httpData
-    //     .get(
-    //       domain + 'api/v1/cms/areaPrivada/seccion/' + seccionId + '/contenido',
-    //       {
-    //         params: _.assign({
-    //           codigoApp: codeApp,
-    //           idProducto: idProducto,
-    //         })
-    //       },
-    //       undefined,
-    //       showSpin
-    //     )
-    //     .then(function (res) {
+    function getSubServiceRangesAndDate(camposantoId, subServiceRangesAndDateId, showSpin) {
+      return httpData
+        .get(
+          domain + 'api/v1/cms/areaPrivada/camposanto/' + camposantoId + '/servicioFunerario/' + subServiceRangesAndDateId,
+          {
+            params: _.assign({
+              codigoApp: codeApp,
+              idProducto: idProducto,
+            })
+          },
+          undefined,
+          showSpin
+        )
+        .then(function (res) {
+          console.log(res);
     //       res.contenido = _.map(res.contenido, function (p, indice) {
     //         return {
     //           dataService: p,
@@ -49,9 +50,9 @@ define(['angular', 'coreConstants', 'lodash', 'endpointsConstants'], function (
     //           orderDown: indice === (res.contenido.length-1) ? false: true,
     //         }
     //       })
-    //       return _.assign(res);
-    //     });
-    // }
+          return _.assign(res);
+        });
+    }
 
     function getServiceParameters(servicioId, showSpin) {
       return httpData
@@ -79,59 +80,19 @@ define(['angular', 'coreConstants', 'lodash', 'endpointsConstants'], function (
         });
     }
 
-    // function updateCardSection(codeApp, seccionId, idProducto, contenidoId, body, showSpin) {
-    //   return httpData
-    //     .put(
-    //       domain + 'api/v1/cms/areaPrivada/seccion/' + seccionId + '/contenido/'+contenidoId,
-    //       body,
-    //       {
-    //         params: _.assign({
-    //           codigoApp: codeApp,
-    //           idProducto: idProducto,
-    //         })
-    //       },
-    //       showSpin
-    //     )
-    //     .then(function (res) {
-    //       return _.assign(res);
-    //     });
-    // }
+    function saveSubServiceRangesAndDate(camposantoId, subServiceRangesAndDateId, body, showSpin) {
+      return httpData
+        .post(
+          domain + 'api/v1/cms/areaPrivada/camposanto/'+camposantoId+'/servicioFunerario/'+subServiceRangesAndDateId,
+          body,
+          {},
+          showSpin
+        )
+        .then(function (res) {
+          return _.assign(res);
+        });
+    }
 
-    // function saveCardSection(codeApp, seccionId, idProducto, body, showSpin) {
-    //   return httpData
-    //     .post(
-    //       domain + 'api/v1/cms/areaPrivada/seccion/' + seccionId + '/contenido/',
-    //       body,
-    //       {
-    //         params: _.assign({
-    //           codigoApp: codeApp,
-    //           idProducto: idProducto,
-    //         })
-    //       },
-    //       showSpin
-    //     )
-    //     .then(function (res) {
-    //       return _.assign(res);
-    //     });
-    // }
-
-    // function deleteCardSection(codeApp, seccionId, idProducto, contenidoId, showSpin) {
-    //   return httpData
-    //     .delete(
-    //       domain + 'api/v1/cms/areaPrivada/seccion/' + seccionId + '/contenido/'+contenidoId,
-    //       {
-    //         params: _.assign({
-    //           codigoApp: codeApp,
-    //           idProducto: idProducto,
-    //         })
-    //       },
-    //       undefined,
-    //       showSpin
-    //     )
-    //     .then(function (res) {
-    //       return _.assign(res);
-    //     });
-    // }
 
   } // end factory
 
