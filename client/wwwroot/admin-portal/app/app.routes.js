@@ -130,7 +130,7 @@ define(['system', 'coreConstants'], function(system, coreConstants) {
     {
       name: 'adminAdditionalServices.1234',
       code: '',
-      description: 'Sección Misas y Resposo',
+      description: 'Sección Misas y Responso',
       url: '',
       abstract: true,
       views: {

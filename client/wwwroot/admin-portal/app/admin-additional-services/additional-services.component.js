@@ -1,8 +1,8 @@
 'use strict';
 
 define(['angular', 'coreConstants'], function (ng, coreConstants) {
-    AdditionalServicesComponent.$inject = ['$stateParams', 'mModalConfirm','additionalServices','GeneralAdditionalServiceFactory', 'AdminRamoFactory'];
-    function AdditionalServicesComponent($stateParams, mModalConfirm, additionalServices, GeneralAdditionalServiceFactory, AdminRamoFactory) {
+    AdditionalServicesComponent.$inject = ['$stateParams', 'mModalConfirm','additionalServices','MassesAndResponsesFactory', 'AdminRamoFactory'];
+    function AdditionalServicesComponent($stateParams, mModalConfirm, additionalServices, MassesAndResponsesFactory, AdminRamoFactory) {
         var vm = this;
         vm.$onInit = onInit;
         vm.fnCheckBox = fnCheckBox;
@@ -11,7 +11,7 @@ define(['angular', 'coreConstants'], function (ng, coreConstants) {
             vm.services = additionalServices;
             vm.services[0].selected = true;
             vm.serviceSelected = vm.services[0];
-            GeneralAdditionalServiceFactory.setServiceSelected(vm.serviceSelected);
+            MassesAndResponsesFactory.setServiceSelected(vm.serviceSelected);
             AdminRamoFactory.subsChangeRamo(changeRamo);
         }
 
@@ -27,7 +27,7 @@ define(['angular', 'coreConstants'], function (ng, coreConstants) {
                         
                         vm.serviceSelected = AdminRamoFactory.getRamoSelected();
 
-                        GeneralAdditionalServiceFactory.updateServiceSection(vm.serviceSelected.id, body).then(
+                        MassesAndResponsesFactory.updateServiceSection(vm.serviceSelected.id, body).then(
                             function (data) {
                                 if (data.codigo === 1001) {
                                     item.activo = !item.activo

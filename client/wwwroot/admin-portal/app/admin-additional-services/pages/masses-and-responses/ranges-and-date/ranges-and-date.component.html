@@ -9,7 +9,7 @@
         <p class="g-cl--black2">Selecciona el <span class="h-fw--bold">Campo Santo MAPFRE</span></p>
     </div>
     <div class="col-xs-12">
-        <ap-tab-services class="mt-100" data-on-click="$ctrl.onTab($event)" items="$ctrl.tabs"></ap-tab-services>
+        <ap-tab-services class="mt-100" data-on-click="$ctrl.onTabCamposanto($event)" items="$ctrl.tabsCamposanto" selected-tab="$ctrl.tabsCamposantoSelected.code"></ap-tab-services>
     </div>
     <div class="col-xs-12 mt-xs-2">
         <div class="g-border container pb-xs-2 pt-xs-2">
@@ -75,7 +75,7 @@
                 </div>
                 <div class="col-xs-12 col-md-4">
                     <mpf-select label="{label: 'Ceremonias de:', required: false}" name="nCeremonyRange"
-                        ng-model="$ctrl.sort" text-field="Description" value-field="Code"
+                        ng-model="$ctrl.sort" text-field="description" value-field="code"
                         m-data-source="$ctrl.dataCeremonyRange" ng-change="$ctrl.changeSort()"></mpf-select>
                 </div>
             </div>
@@ -92,12 +92,13 @@
                                 <div class="row">
                                     <div class="col-xs-12 col-md-6" ng-if="$ctrl.isResponse">
                                         <p class="g-cl--black2 h-myd--fz13 no-margin-xs">Sector:</p>
-                                        <p class="g-cl--black h-myd--fz14 h-fw--bold no-margin-xs">{{item.sector}}</p>
+                                        <p class="g-cl--black h-myd--fz14 h-fw--bold no-margin-xs">{{item.sector.name}}</p>
                                     </div>
                                     <div class="col-xs-12 col-md-6">
                                         <p class="g-cl--black2 h-myd--fz13 no-margin-xs">Fecha:</p>
-                                        <p class="g-cl--black h-myd--fz14 h-fw--bold no-margin-xs">{{item.day}} -
-                                            {{item.month}} - {{item.year}}</p>
+                                        <p class="g-cl--black h-myd--fz14 h-fw--bold no-margin-xs">
+                                            {{item.day.name}} - {{item.month.name}} - {{item.year.name}}
+                                        </p>
                                     </div>
                                 </div>
 

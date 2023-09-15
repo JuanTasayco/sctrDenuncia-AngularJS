@@ -2,81 +2,22 @@
 
 define(['angular', 'coreConstants', 'system', 'lodash'], function (ng, coreConstants, system, _) {
     var folder = system.apps.ap.location;
-    RangesAndDateController.$inject = ['$scope', '$stateParams', '$uibModal', 'mModalConfirm', 'mModalAlert'];
-    function RangesAndDateController($scope, $stateParams, $uibModal, mModalConfirm, mModalAlert) {
+    RangesAndDateController.$inject = ['$scope', '$stateParams', '$uibModal', 'mModalConfirm', 'mModalAlert', 'MassesAndResponsesFactory', 'AdminRamoFactory'];
+    function RangesAndDateController($scope, $stateParams, $uibModal, mModalConfirm, mModalAlert, MassesAndResponsesFactory, AdminRamoFactory) {
         var vm = this;
         vm.$onInit = onInit;
 
-        vm.tabs = [
-            {
-                code: 0,
-                lbl: 'CHICLAYO'
-            },
-            {
-                code: 1,
-                lbl: 'CHICLAYO'
-            },
-            {
-                code: 2,
-                lbl: 'CHICLAYO'
-            },
-            {
-                code: 3,
-                lbl: 'CHICLAYO'
-            },
-            {
-                code: 4,
-                lbl: 'CHICLAYO'
-            },
-            {
-                code: 5,
-                lbl: 'CHICLAYO'
-            }
-        ]
-        // al setear en false se quita la opcion sector del modal
-        vm.isResponse = true;
         vm.save = save;
         vm.addCancellationDate = addCancellationDate;
         vm.deleteCancellationDate = deleteCancellationDate;
         vm.changeDayBoxStatus = changeDayBoxStatus;
         vm.addTimeBox = addTimeBox;
         vm.removeTimeBox = removeTimeBox;
+        vm.onTabCamposanto = onTabCamposanto;
 
-        vm.dataCeremonyRange = [
-            { Code: 2, Description: '1 hora' },
-            { Code: 1, Description: '30 minutos' }
-        ]
-        vm.dataSector = [
-            { Code: 1, Description: 'Sector 1' },
-            { Code: 2, Description: 'Sector 2' }
-        ]
-        vm.dataDays = [
-            { Code: 1, Description: '01' },
-            { Code: 2, Description: '02' }
-        ]
-        vm.dataMonths = [
-            { Code: 1, Description: 'Enero' },
-            { Code: 2, Description: 'Febrero' }
-        ]
-        vm.dataYears = [
-            { Code: 1, Description: '2023' },
-            { Code: 2, Description: '2024' }
-        ]
-
-        vm.dataCancellationDays = [
-            {
-                sector: 'Sector 1',
-                day: '01',
-                month: 'Enero',
-                year: '2023'
-            },
-            {
-                sector: 'Sector 2',
-                day: '01',
-                month: 'Enero',
-                year: '2023'
-            }
-        ]
+        vm.dataCeremonyRange = []
+        vm.dataCancellationDays = [];
+        vm.dataSector = []
 
         vm.formCancellationDay = {}
 
@@ -168,13 +109,43 @@ define(['angular', 'coreConstants', 'system', 'lodash'], function (ng, coreConst
             ]
         }
 
-
         function onInit() {
+            vm.servicesSelected = MassesAndResponsesFactory.getServiceSelected();
+            vm.subServicesSelected = MassesAndResponsesFactory.getSubServiceSelected();
+            AdminRamoFactory.subsChangeRamo(changeRamo);
+            MassesAndResponsesFactory.subsChangeSubService(changeSubService);
 
+            var now = new Date();
+            vm.dataDays = MassesAndResponsesFactory.getDays(now.getFullYear(), now.getMonth());
+            vm.dataMonths = MassesAndResponsesFactory.getMonths();
+            vm.dataYears = MassesAndResponsesFactory.getAnios();
+        }
+
+        function changeRamo() {
+            //changeSubService(vm.servicesSelected.)
+        }
+
+        function changeSubService(item){
+            MassesAndResponsesFactory.getServiceParameters(item.code).then(function (res){
+                MassesAndResponsesFactory.setServiceParameters(res);
+
+                vm.isResponse = item.code === 'SA0025';
+
+                vm.tabsCamposanto = MassesAndResponsesFactory.getCamposantos();
+                vm.tabsCamposantoSelected = vm.tabsCamposanto[0];
+                vm.dataCeremonyRange = MassesAndResponsesFactory.getCeremonyRange();
+                vm.dataSector = MassesAndResponsesFactory.getSector(vm.tabsCamposantoSelected.code);
+
+            });
+        }
+
+        function onTabCamposanto(event){
+            vm.tabsCamposantoSelected = event;
+            vm.dataSector = MassesAndResponsesFactory.getSector(vm.tabsCamposantoSelected.code);
         }
 
         function save() {
-            console.log(vm.dataCampoSanto)
+            console.log("save")
         }
 
         function changeDayBoxStatus(dayItem, dayIndex) {
@@ -213,12 +184,16 @@ define(['angular', 'coreConstants', 'system', 'lodash'], function (ng, coreConst
                 keyboard: true,
                 scope: $scope,
                 size: 'lg',
-                templateUrl: '/admin-portal/app/admin-additional-services/pages/masses-and-responses/masses/modal-cancellation-date.html',
+                templateUrl: '/admin-portal/app/admin-additional-services/pages/masses-and-responses/ranges-and-date/modal-cancellation-date.html',
                 controller: ['$scope', '$uibModalInstance', '$uibModal', '$timeout', function ($scope, $uibModalInstance, $uibModal, $timeout) {
                     //CloseModal
                     $scope.closeModal = function () {
                         $uibModalInstance.close();
                     };
+
+                    $scope.changeMonth = function (){
+                        vm.dataDays = MassesAndResponsesFactory.getDays(vm.form.year.code, vm.form.month.code);
+                    }
 
                     $scope.save = function () {
                         console.log("save modal")
@@ -226,8 +201,32 @@ define(['angular', 'coreConstants', 'system', 'lodash'], function (ng, coreConst
                             $scope.formCancellationDay.markAsPristine();
                             return;
                         }
-                        vm.dataCancellationDays.push(vm.form);
+
+                        var filters = _.filter(vm.dataCancellationDays, function (item) {
+                            if ((!vm.isResponse || (item.sector.code === vm.form.sector.code))
+                                && item.day.code === vm.form.day.code
+                                && item.month.code === vm.form.month.code
+                                && item.year.code === vm.form.year.code) {
+                              return item;
+                            }
+                          });
+
+                        console.log(filters);
+
+                        if (filters.length !== 0){
+                            mModalAlert.showWarning("La fecha seleccionada ya se encuentra en la lista", 'Advertencia');
+                            return;
+                        }
+
+                        var cancellationDate = {
+                            sector: vm.form.sector,
+                            day: vm.form.day,
+                            month: vm.form.month,
+                            year: vm.form.year
+                        };
+                        vm.dataCancellationDays.push(cancellationDate);
                         $uibModalInstance.close()
+
                     };
                 }]
             });

@@ -9,26 +9,18 @@ define(['angular', 'coreConstants', 'lodash', 'endpointsConstants'], function (
   GeneralAdditionalServiceFactory.$inject = ['httpData', '$stateParams', 'CommonFactory'];
   function GeneralAdditionalServiceFactory(httpData, $stateParams, CommonFactory) {
     var domain = endpointsConstants.default;
-    var serviceSelected = null;
 
     return {
       getAdditionalServices : getAdditionalServices,
-      setServiceSelected : setServiceSelected,
-      getServiceSelected : getServiceSelected,
-      updateServiceSection : updateServiceSection
+      updateServiceSection : updateServiceSection,
+      getServiceParameters : getServiceParameters,
     };
 
     function getAdditionalServices() {
       return CommonFactory.GetAdditionalServices(coreConstants.codigoAppMassAdm, true);
     }
 
-    function setServiceSelected (service) {
-      serviceSelected = service;
-    }
 
-    function getServiceSelected (service) {
-      return serviceSelected;
-    }
 
     // function getSectionListContent(codeApp, seccionId, idProducto, showSpin) {
     //   return httpData
@@ -60,6 +52,19 @@ define(['angular', 'coreConstants', 'lodash', 'endpointsConstants'], function (
     //       return _.assign(res);
     //     });
     // }
+
+    function getServiceParameters(servicioId, showSpin) {
+      return httpData
+        .get(
+          domain + 'api/v1/cms/areaPrivada/servicioFunerario/' + servicioId + '/parametros',
+          {},
+          undefined,
+          showSpin
+        )
+        .then(function (res) {
+          return _.assign(res);
+        });
+    }
 
     function updateServiceSection(servicioId, body, showSpin) {
       return httpData

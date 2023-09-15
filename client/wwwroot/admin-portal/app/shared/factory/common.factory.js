@@ -117,6 +117,10 @@ define([
           return _.assign(array);
         });
     }
+    
   }
+
+  
+
   return ng.module(coreConstants.ngCommonModule, []).factory('CommonFactory', CommonFactory);
 });
