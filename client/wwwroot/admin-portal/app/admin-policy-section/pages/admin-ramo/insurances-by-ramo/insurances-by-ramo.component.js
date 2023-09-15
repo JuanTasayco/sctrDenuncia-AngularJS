@@ -135,7 +135,7 @@ define(['angular', 'coreConstants', 'system', 'lodash'], function (ng, coreConst
 
                 "secciones": form.sections,
                 "boldDetalle": form.boldDetail,
-                "estiloRojo": form.redStyle,
+                "estiloRojo": form.footer.isButtonInfo,
                 "activo": form.active,
                 "orden": form.order,
                 "accion": "UPDATE"
@@ -158,13 +158,14 @@ define(['angular', 'coreConstants', 'system', 'lodash'], function (ng, coreConst
 
                 "link": form.footer.urlButton,
                 "linkInterno": !form.footer.externaLink,
+                
                 "footerTitulo": form.footer.productPrice,
                 "footerSubTitulo": form.footer.detail,
                 "textoEvento": form.footer.titleButton,
 
                 "secciones": form.sections,
                 "boldDetalle": form.boldDetail,
-                "estiloRojo": form.redStyle,
+                "estiloRojo": form.footer.isButtonInfo,
                 "activo": true,
             }
 
@@ -199,9 +200,10 @@ define(['angular', 'coreConstants', 'system', 'lodash'], function (ng, coreConst
                                 titleButton: p.dataService.textoEvento,
                                 urlButton: p.dataService.link,
                                 externaLink: !p.dataService.linkInterno,
+                                isButtonInfo: p.dataService.estiloRojo
                             },
                             boldDetail:  p.dataService.boldDetalle,
-                            redStyle:  p.dataService.estiloRojo,
+                            //redStyle:  p.dataService.estiloRojo,
                         }) 
                         delete item.dataService
                         return item
@@ -209,7 +211,6 @@ define(['angular', 'coreConstants', 'system', 'lodash'], function (ng, coreConst
 
                     vm.content =  data;
                     vm.titleContent =  data.titulo;
-                    console.log("vm.content",vm.content)
                 }
             )
         }
