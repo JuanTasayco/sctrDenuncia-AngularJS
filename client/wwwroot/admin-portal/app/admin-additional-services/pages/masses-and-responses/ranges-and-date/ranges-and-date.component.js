@@ -38,6 +38,10 @@ define(['angular', 'coreConstants', 'system', 'lodash'], function (ng, coreConst
         vm.save = save;
         vm.addCancellationDate = addCancellationDate;
         vm.deleteCancellationDate = deleteCancellationDate;
+        vm.changeDayBoxStatus = changeDayBoxStatus;
+        vm.addTimeBox = addTimeBox;
+        vm.removeTimeBox = removeTimeBox;
+
         vm.dataCeremonyRange = [
             { Code: 2, Description: '1 hora' },
             { Code: 1, Description: '30 minutos' }
@@ -87,14 +91,6 @@ define(['angular', 'coreConstants', 'system', 'lodash'], function (ng, coreConst
                         {
                             initHour: "09:00",
                             endHour: "17:00"
-                        },
-                        {
-                            initHour: "09:00",
-                            endHour: "18:00"
-                        },
-                        {
-                            initHour: "09:00",
-                            endHour: "19:00"
                         }
                     ]
                 },
@@ -102,7 +98,67 @@ define(['angular', 'coreConstants', 'system', 'lodash'], function (ng, coreConst
                     id:2,
                     name: "LUN",
                     active: true,
-                    rangeHours: []
+                    rangeHours: [
+                        {
+                            initHour: "09:00",
+                            endHour: "17:00"
+                        }
+                    ]
+                },
+                {
+                    id:3,
+                    name: "MAR",
+                    active: true,
+                    rangeHours: [
+                        {
+                            initHour: "09:00",
+                            endHour: "17:00"
+                        }
+                    ]
+                },
+                {
+                    id:4,
+                    name: "MIE",
+                    active: true,
+                    rangeHours: [
+                        {
+                            initHour: "09:00",
+                            endHour: "17:00"
+                        }
+                    ]
+                },
+                {
+                    id:5,
+                    name: "JUE",
+                    active: true,
+                    rangeHours: [
+                        {
+                            initHour: "09:00",
+                            endHour: "17:00"
+                        }
+                    ]
+                },
+                {
+                    id:6,
+                    name: "VIE",
+                    active: true,
+                    rangeHours: [
+                        {
+                            initHour: "09:00",
+                            endHour: "17:00"
+                        }
+                    ]
+                },
+                {
+                    id:7,
+                    name: "SAB",
+                    active: true,
+                    rangeHours: [
+                        {
+                            initHour: "09:00",
+                            endHour: "17:00"
+                        }
+                    ]
                 }
             ],
             idTiempoCeremonia: 1,
@@ -118,7 +174,34 @@ define(['angular', 'coreConstants', 'system', 'lodash'], function (ng, coreConst
         }
 
         function save() {
-            console.log("save")
+            console.log(vm.dataCampoSanto)
+        }
+
+        function changeDayBoxStatus(dayItem, dayIndex) {
+            if (dayItem.active) {
+                this.addTimeBox(dayIndex);
+            } else {
+                vm.dataCampoSanto.days[dayIndex].rangeHours = [];
+            }
+        }
+
+        function addTimeBox(dayIndex) {
+            vm.dataCampoSanto.days[dayIndex].rangeHours.push({
+                initHour: "09:00",
+                endHour: "17:00"
+            });
+        }
+
+        function removeTimeBox(dayId, hourIndex) {
+            for (var i = 0; i < vm.dataCampoSanto.days.length; i++) {
+                if (vm.dataCampoSanto.days[i].id === dayId) {
+                    vm.dataCampoSanto.days[i].rangeHours.splice(hourIndex, 1);
+
+                    if (vm.dataCampoSanto.days[i].rangeHours.length === 0) {
+                        vm.dataCampoSanto.days[i].active = false;
+                    }
+                }
+            }
         }
 
         function addCancellationDate(data) {
