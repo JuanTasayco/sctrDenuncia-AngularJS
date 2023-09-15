@@ -26,31 +26,36 @@ define(['angular', 'coreConstants', 'lodash', 'endpointsConstants'], function (
       return httpData
         .get(
           domain + 'api/v1/cms/areaPrivada/camposanto/' + camposantoId + '/servicioFunerario/' + subServiceRangesAndDateId,
-          {
-            params: _.assign({
-              codigoApp: codeApp,
-              idProducto: idProducto,
-            })
-          },
+          {},
           undefined,
           showSpin
         )
-        .then(function (res) {
-          console.log(res);
-    //       res.contenido = _.map(res.contenido, function (p, indice) {
-    //         return {
-    //           dataService: p,
-    //           active: p.activo,
-    //           contentId: p.contenidoId,
-    //           modificationDateLabel: CommonFactory.getFormatDateLong(p.fechaModificacion),
-    //           idProduct: p.idProducto,
-    //           order: p.orden,
-    //           lastModification: p.ultimaModificacion,
-    //           orderUp: indice === 0 ? false: true,
-    //           orderDown: indice === (res.contenido.length-1) ? false: true,
-    //         }
-    //       })
-          return _.assign(res);
+        .then(function (x) {
+          x = {
+            id: x.servicioId,
+            days: _.map(x.dias, function (y) {
+              return {
+                id: y.id,
+                name: y.nombre,
+                active: y.activo,
+                rangeHours: _.map(y.rangoHorario || [], function (z) {
+                  return {
+                    initHour: z.horaInicio,
+                    endHour: z.horaFin
+                  };
+                })
+              };
+            }),
+            ceremonyRangeId: x.tiempoCeremoniaId,
+            cancellationDays: _.map(x.feriados || [], function (y) {
+              return {
+                sectorId: y.sectorId,
+                date: y.fecha
+              };
+            })
+          };
+
+          return _.assign(x);
         });
     }
 

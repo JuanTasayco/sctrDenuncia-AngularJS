@@ -14,100 +14,12 @@ define(['angular', 'coreConstants', 'system', 'lodash'], function (ng, coreConst
         vm.addTimeBox = addTimeBox;
         vm.removeTimeBox = removeTimeBox;
         vm.onTabCamposanto = onTabCamposanto;
-
+        
         vm.dataCeremonyRange = []
         vm.dataCancellationDays = [];
         vm.dataSector = []
 
         vm.formCancellationDay = {}
-
-        vm.dataCampoSanto = {
-            id: 1,
-            days: [
-                {
-                    id: 1,
-                    name: "DOM",
-                    active: true,
-                    rangeHours: [
-                        {
-                            initHour: "09:00",
-                            endHour: "17:00"
-                        }
-                    ]
-                },
-                {
-                    id:2,
-                    name: "LUN",
-                    active: true,
-                    rangeHours: [
-                        {
-                            initHour: "09:00",
-                            endHour: "17:00"
-                        }
-                    ]
-                },
-                {
-                    id:3,
-                    name: "MAR",
-                    active: true,
-                    rangeHours: [
-                        {
-                            initHour: "09:00",
-                            endHour: "17:00"
-                        }
-                    ]
-                },
-                {
-                    id:4,
-                    name: "MIE",
-                    active: true,
-                    rangeHours: [
-                        {
-                            initHour: "09:00",
-                            endHour: "17:00"
-                        }
-                    ]
-                },
-                {
-                    id:5,
-                    name: "JUE",
-                    active: true,
-                    rangeHours: [
-                        {
-                            initHour: "09:00",
-                            endHour: "17:00"
-                        }
-                    ]
-                },
-                {
-                    id:6,
-                    name: "VIE",
-                    active: true,
-                    rangeHours: [
-                        {
-                            initHour: "09:00",
-                            endHour: "17:00"
-                        }
-                    ]
-                },
-                {
-                    id:7,
-                    name: "SAB",
-                    active: true,
-                    rangeHours: [
-                        {
-                            initHour: "09:00",
-                            endHour: "17:00"
-                        }
-                    ]
-                }
-            ],
-            tiempoCeremoniaId: 1,
-            feriados: [
-                "2023-05-06T00:00:00",
-                "2023-05-06T00:00:00"
-            ]
-        }
 
         function onInit() {
             vm.servicesSelected = MassesAndResponsesFactory.getServiceSelected();
@@ -146,47 +58,78 @@ define(['angular', 'coreConstants', 'system', 'lodash'], function (ng, coreConst
             vm.tabsCamposantoSelected = event;
             vm.dataSector = MassesAndResponsesFactory.getSector(vm.tabsCamposantoSelected.code);
             getSubServiceRangesAndDate()
+
+            vm.dataCancellationDays = []
         }
 
         function getSubServiceRangesAndDate(){
-            MassesAndResponsesFactory.saveSubServiceRangesAndDate(vm.tabsCamposantoSelected.code, vm.servicesSelected.id).then(function (res){
-                console.log(res);
+            MassesAndResponsesFactory.getSubServiceRangesAndDate(vm.tabsCamposantoSelected.code, vm.subServicesSelected.code).then(function (res){
+                vm.dataCampoSanto = res;
+
+                vm.ceremonyRange = {
+                    code: vm.dataCampoSanto.ceremonyRangeId
+                };
+                
+                _.forEach(vm.dataCampoSanto.cancellationDays, function (x) {
+                    var _date = new Date(x.date);
+                    var cancellationDate = {
+                        sector: x.sectorId,
+                        year: { 
+                            code: _date.getFullYear(), 
+                            name: _date.getFullYear()
+                        },
+                        month: { 
+                            code: _date.getMonth(),
+                            name: _.find(MassesAndResponsesFactory.getMonths(), function(y) {
+                                return y.code === _date.getMonth() + 1
+                            }).name
+                        },
+                        day: { 
+                            code: _date.getDate(),
+                            name: _.find(MassesAndResponsesFactory.getDays(_date.getFullYear(),_date.getMonth() + 1), function(y) {
+                                return y.code === _date.getDate()
+                            }).name
+                        },
+                    };
+                    vm.dataCancellationDays.push(cancellationDate);
+                });
+
             });
         }
 
         function saveSubServiceRangesAndDate() {
 
-            var requestSave = {
-                tiempoCeremoniaId: vm.ceremonyRange.code,
-                activo: true,
-                dias: _.map(vm.dataCampoSanto.days, function (x) {
-                    return {
-                        id: ""+x.id,
-                        nombre: x.name,
-                        activo: x.active,
-                        rangoHorario: _.map(x.rangeHours, function (y){
+            mModalConfirm.confirmInfo(
+                null,
+                '¿Estas seguro de guardar los cambios realizados?',
+                'SI').then(function (response) {
+                    var requestSave = {
+                        tiempoCeremoniaId: vm.ceremonyRange.code,
+                        activo: true,
+                        dias: _.map(vm.dataCampoSanto.days, function (x) {
                             return {
-                                horaInicio: y.initHour,
-                                horaFin: y.endHour
+                                id: ""+x.id,
+                                nombre: x.name,
+                                activo: x.active,
+                                rangoHorario: _.map(x.rangeHours, function (y){
+                                    return {
+                                        horaInicio: y.initHour,
+                                        horaFin: y.endHour
+                                    };
+                                })
+                            };
+                        }),
+                        feriados: _.map(vm.dataCancellationDays, function (x) {
+                            return {
+                                sectorId: x.sector && x.sector.code,
+                                fecha: x.year.code + "-" + x.month.code + 1 + "-" + x.day.code + "T05:00:00Z"
                             };
                         })
                     };
-                }),
-                feriados: _.map(vm.dataCancellationDays, function (x) {
-                    return {
-                        sectorId: x.sector && x.sector.code,
-                        fecha: x.year.code + "-" + x.month.code + "-" + x.day.code + "T05:00:00Z"
-                    };
+                    MassesAndResponsesFactory.saveSubServiceRangesAndDate(vm.tabsCamposantoSelected.code, vm.subServicesSelected.code, requestSave).then(function (res){
+                        console.log(res);
+                    });
                 })
-            };
-
-            console.log(requestSave);
-
-            MassesAndResponsesFactory.saveSubServiceRangesAndDate(vm.tabsCamposantoSelected.code, vm.subServicesSelected.code, requestSave).then(function (res){
-                
-                console.log(res);
-
-            });
 
         }
 
