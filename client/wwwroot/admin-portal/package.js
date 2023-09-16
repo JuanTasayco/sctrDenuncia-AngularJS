@@ -123,6 +123,10 @@ define(['system'], function(system) {
         name: 'GeneralAdminRamoFactory',
         path: folder + '/app/admin-policy-section/factory/general.factory'
       },
+      CarouselTrayFactory: {
+        name: 'CarouselTrayFactory',
+        path: folder + '/app/carousel-tray/factory/carousel-tray.factory'
+      },
       GeneralAdditionalServiceFactory: {
         name: 'GeneralAdditionalServiceFactory',
         path: folder + '/app/admin-additional-services/factory/general.factory'
@@ -130,10 +134,6 @@ define(['system'], function(system) {
       MassesAndResponsesFactory: {
         name: 'MassesAndResponsesFactory',
         path: folder + '/app/admin-additional-services/factory/masses-and-responses.factory'
-      },
-      CarouselTrayFactory: {
-        name: 'CarouselTrayFactory',
-        path: folder + '/app/carousel-tray/factory/carousel-tray.factory'
       },
       BannerRecordsFactory: {
         name: 'BannerRecordsFactory',
