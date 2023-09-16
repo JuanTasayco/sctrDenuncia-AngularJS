@@ -661,7 +661,7 @@
 
       $scope.getPoliza = function(id, numPoliza,codigoagente){
         sctrEmitFactory.getPoliza($scope.formData.tipoSCTR, id, numPoliza,codigoagente).then(function(response){
-          mainServices.fnDownloadFileBase64(response.Data, "pdf", 'OIM_'+numPoliza+'.pdf', false);
+          mainServices.fnDownloadFileBase64(response.data.Data, "pdf", 'OIM_'+numPoliza+'.pdf', false);
         }, function gpErFn(response) {
           mModalAlert.showError(response.Message, 'Error al descargar el documento');
         });
