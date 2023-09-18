@@ -1,0 +1,49 @@
+<div class="col-md-12 g-box3 g-box-add-item-3 box-add-damage-3" data-ng-form="$ctrl.frmSection">
+    <div class="row">
+        <div class="col-md-12">
+            <h3 class="g-sub-title c-black">{{$ctrl.frmTitle}}</h3>
+        </div>
+        <div class="col-xs-12 mt-xs-1">
+            <mpf-input class="g-text-none" label="{label: 'Título', required: false}" ng-model="$ctrl.frm.titulo" name="nContentTitulo" ></mpf-input>
+            <ul class="g-error">
+                <li ng-show="$ctrl.frmSection.nContentTitulo.$error.required && !$ctrl.frmSection.nContentTitulo.$pristine">* Este campo es obligatorio</li>
+            </ul>
+        </div>
+    </div>
+    <div class="row mt-xs-2">
+        <div class="col-xs-9">
+            Items
+        </div>
+        <div class="col-xs-3" style="display: flex;
+        justify-content: flex-end;" ng-click="$ctrl.addItem()">
+            <a class="g-link gCGreen1 h-myd--fz14" >Agregar items</a>
+        </div>
+    </div>
+    <div class="row" style="display: flex;
+    align-items: end;" ng-repeat="item in $ctrl.array">
+        
+        <div class="col-xs-11">
+            <mpf-input class="g-text-none" data-ng-model="item.value" name="nContentItem{{$index}}" ng-required="true"></mpf-input>
+            <ul class="g-error">
+                <li ng-show="$ctrl.frmSection.nContentItem{{$index}}.$error.required && !$ctrl.frmSection.nContentItem{{$index}}.$pristine">* No puede dejar un item vacío</li>
+            </ul>
+        </div>
+        <div class="col-xs-1">
+            <div class="g-cursor-pointer" data-ng-click="$ctrl.handleOnDelete($index)">
+                <span class="ico-mapfre-363-myd-eliminar"></span>
+            </div>
+        </div>
+    </div>
+    <div class="row mt-xs-2">
+        <div class="col-xs-6 col-sm-4 col-sm-offset-1 col-md-3 col-md-offset-3 mb-xs-1">
+            <a class="col-xs-12 g-btn g-btn-white" data-ng-click="$ctrl.cancel()">
+                Cancelar
+            </a>
+        </div>
+        <div class="col-xs-6 col-sm-4 col-sm-offset-2 col-md-3 col-md-offset-0 mb-xs-1">
+            <a class="col-xs-12 g-btn g-btn-verde" data-ng-click="$ctrl.saveFrm()">
+                Guardar
+            </a>
+        </div>
+    </div>
+</div>

@@ -9,33 +9,51 @@ define(['angular', 'coreConstants', 'lodash', 'endpointsConstants'], function (
     AdminRamoFactory.$inject = ['httpData', '$stateParams','CommonFactory','GeneralAdminRamoFactory'];
     function AdminRamoFactory(httpData, $stateParams,CommonFactory, GeneralAdminRamoFactory) {
         var domain = endpointsConstants.default;
-        var listSubsChangeRamo = [];
         var listComponentsReady = [];
+        var listSubsChangeRamo = [];
         var listSubsClickSectionAdd = [];
         var listSubsClickSectionRemove = [];
         var listSubsClickSectionOrder = [];
         var itemSectionSelected = null;
+        var itemRamoSelected = null;
+        var listSections = [];
 
         return {
             GetSection: GetSection,
+            getSections: getSections,
+            setSections: setSections,
             getSectionListContent: getSectionListContent,
-            executeChangeRamos : executeChangeRamos,
+            emitChangeRamos : emitChangeRamos,
             updateStatusSection : updateStatusSection,
+            setRamoSelected : setRamoSelected,
+            getRamoSelected : getRamoSelected,
             setSectionSelected : setSectionSelected,
             getSectionSelected : getSectionSelected,
+            unsubscribeSectionAdd: unsubscribeSectionAdd,
             emitClickSectionAdd : emitClickSectionAdd,
             subsClickSectionAdd : subsClickSectionAdd,
+            unsubscribeSectionRemove: unsubscribeSectionRemove,
             emitClickSectionRemove : emitClickSectionRemove,
             subsClickSectionRemove : subsClickSectionRemove,
+            unsubscribeSectionOrder: unsubscribeSectionOrder,
             emitClickSectionOrder : emitClickSectionOrder,
             subsClickSectionOrder : subsClickSectionOrder,
             subsChangeRamo : subsChangeRamo,
+            clearChangeRamo : clearChangeRamo,
             emitComponentsReady : emitComponentsReady,
             subsComponentsReady : subsComponentsReady,
             updateCardSection: updateCardSection,
             saveCardSection: saveCardSection,
             deleteCardSection: deleteCardSection,
         };
+
+        function setSections(list) {
+            listSections = list;
+        }
+
+        function getSections() {
+            return listSections;
+        }
 
         function GetSection(showSpin) {
             return CommonFactory.GetSection(coreConstants.codigoAppMassAdm,209, showSpin);
@@ -61,12 +79,25 @@ define(['angular', 'coreConstants', 'lodash', 'endpointsConstants'], function (
             return GeneralAdminRamoFactory.saveCardSection(coreConstants.codigoAppMassAdm, seccionId, idProducto , body ,true);
         }
 
+        function setRamoSelected(item){
+            itemRamoSelected = item;
+        }
+
+        function getRamoSelected(){
+            return itemRamoSelected;
+        }
+
         function setSectionSelected(item){
+            item.selected = true;
             itemSectionSelected = item;
         }
 
         function getSectionSelected(){
             return itemSectionSelected;
+        }
+
+        function unsubscribeSectionAdd(){
+            listSubsClickSectionAdd = [];
         }
 
         function emitClickSectionAdd(item){
@@ -79,6 +110,10 @@ define(['angular', 'coreConstants', 'lodash', 'endpointsConstants'], function (
             listSubsClickSectionAdd.push(fn);
         }
 
+        function unsubscribeSectionRemove(){
+            listSubsClickSectionRemove = [];
+        }
+
         function emitClickSectionRemove(item){
             for (var index = 0; index < listSubsClickSectionRemove.length; index++) {
                 listSubsClickSectionRemove[index](item);
@@ -87,6 +122,10 @@ define(['angular', 'coreConstants', 'lodash', 'endpointsConstants'], function (
 
         function subsClickSectionRemove(fn){
             listSubsClickSectionRemove.push(fn);
+        }
+
+        function unsubscribeSectionOrder(){
+            listSubsClickSectionOrder = [];
         }
 
         function emitClickSectionOrder(item){
@@ -109,11 +148,15 @@ define(['angular', 'coreConstants', 'lodash', 'endpointsConstants'], function (
             listComponentsReady.push(fn);
         }
 
+        function clearChangeRamo(){
+            listSubsChangeRamo = [];
+        }
+
         function subsChangeRamo(fn){
             listSubsChangeRamo.push(fn);
         }
 
-        function executeChangeRamos(item){
+        function emitChangeRamos(item){
             for (var index = 0; index < listSubsChangeRamo.length; index++) {
                 listSubsChangeRamo[index](item);
             }
