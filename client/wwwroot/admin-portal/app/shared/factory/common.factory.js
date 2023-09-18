@@ -107,7 +107,7 @@ define([
               id: p.id,
               name: p.nombre, 
               code: p.seccionId , 
-              url: `/images/ico-ramos/${p.icono}`,
+              url: '/images/ico-ramos/' + p.icono,
               active: p.activo,
               subServices: p.subServicios,
               selected: index ? false : true
