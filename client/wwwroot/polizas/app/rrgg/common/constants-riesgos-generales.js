@@ -14,7 +14,8 @@ define([], function () {
       COTIZACION_STEPS: 'cotizacionRiesgosGenerales.steps',
       BANDEJA_COTIZACION: 'bandejaPolizaRiesgosGenerales',
       RESUMEN: 'resumenRiesgosGenerales',
-      CLONAR:'clonarPolizasRrgg'
+      CLONAR:'clonarPolizasRrgg',
+      HOME: 'homePolizasRrgg'
     },
     ARCHIVOS: {
       PLANTILLA_EXCEL_TRABAJADORES: 'app/assets/rrgg/Trama_Trabajadores.xls',
