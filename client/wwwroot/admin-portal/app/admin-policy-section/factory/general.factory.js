@@ -34,17 +34,21 @@ define(['angular', 'coreConstants', 'lodash', 'endpointsConstants'], function (
         .then(function (res) {
           res.contenido = _.map(res.contenido, function (p, indice) {
             return {
-              dataService: p,
               active: p.activo,
               contentId: p.contenidoId,
+              modificationDate: p.fechaModificacion,
               modificationDateLabel: CommonFactory.getFormatDateLong(p.fechaModificacion),
               idProduct: p.idProducto,
+              link: p.link,
+              internalLink: p.linkInterno,
               order: p.orden,
+              title: p.titulo,
               lastModification: p.ultimaModificacion,
               orderUp: indice === 0 ? false: true,
               orderDown: indice === (res.contenido.length-1) ? false: true,
-            }
+            };
           })
+
           return _.assign(res);
         });
     }

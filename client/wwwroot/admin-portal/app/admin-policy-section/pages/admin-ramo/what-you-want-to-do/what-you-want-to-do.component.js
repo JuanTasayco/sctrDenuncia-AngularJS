@@ -6,32 +6,20 @@ define(['angular', 'coreConstants', 'system', 'lodash'], function (ng, coreConst
     function WhatYouWantToDoController($scope, AdminRamoFactory, $stateParams, $uibModal, mModalConfirm, mModalAlert) {
         var vm = this;
         vm.$onInit = onInit;
-        vm.$onDestroy = onDestroy;
         vm.content = null;
         vm.ramo = null;
         vm.section = null;;
+        vm.openModal = openModal;
         vm.form = {}
         vm.focusTitle = true
         vm.typeForm = "AGREGAR"
-        vm.configView = {
-            buttonAdd: 'Agregar etiqueta',
-            titleCard: 'Título de etiqueta'
-        }
 
         function onInit() {
             AdminRamoFactory.subsChangeRamo(changeRamo);
             AdminRamoFactory.subsClickSectionAdd(onClickSectionAdd);
             AdminRamoFactory.subsClickSectionRemove(onClickSectionRemove);
             AdminRamoFactory.subsClickSectionOrder(onClickSectionOrder);
-            AdminRamoFactory.setSectionSelected(AdminRamoFactory.getSections()[0]);
             AdminRamoFactory.emitComponentsReady();
-        }
-
-        function onDestroy() {
-            AdminRamoFactory.clearChangeRamo();
-            AdminRamoFactory.unsubscribeSectionAdd();
-            AdminRamoFactory.unsubscribeSectionRemove();
-            AdminRamoFactory.unsubscribeSectionOrder();
         }
 
         function onClickSectionRemove(data) {
@@ -155,18 +143,13 @@ define(['angular', 'coreConstants', 'system', 'lodash'], function (ng, coreConst
             vm.ramo = item
             AdminRamoFactory.getSectionListContent(vm.section.code, item.code).then(
                 function (data) {
-                    data.contenido = _.map(data.contenido, function (p) {
-                        var item = _.assign(p,{
-                            link: p.dataService.link, 
-                            internalLink: p.dataService.linkInterno,
-                            title: p.dataService.titulo
-                        }) 
-                        delete item.dataService
-                        return item
-                    });
-                    vm.content =  data
+                    vm.content = data;
                 }
             )
+        }
+
+        function openModal() {
+
         }
 
     } // end controller

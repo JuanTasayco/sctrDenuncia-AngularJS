@@ -16,9 +16,8 @@ define(['angular', 'coreConstants', 'system'], function (ng, coreConstants, syst
 
         function onInit() {
             vm.ramos = vm.items;
-            AdminRamoFactory.setRamoSelected(vm.ramos[0]);
             AdminRamoFactory.subsComponentsReady(function (){ 
-                vm.onRamoItemClick(AdminRamoFactory.getRamoSelected()); 
+                vm.onRamoItemClick(vm.ramos[0]); 
             });
         }
         
@@ -35,8 +34,7 @@ define(['angular', 'coreConstants', 'system'], function (ng, coreConstants, syst
         function onRamoItemClick(item){
             vm.ramos.filter(function (x) { return x.selected === true; }).forEach(function (x) { x.selected = false; });
             item.selected = true;
-            AdminRamoFactory.setRamoSelected(item);
-            AdminRamoFactory.emitChangeRamos(item)
+            AdminRamoFactory.executeChangeRamos(item)
         }
 
     } // end controller

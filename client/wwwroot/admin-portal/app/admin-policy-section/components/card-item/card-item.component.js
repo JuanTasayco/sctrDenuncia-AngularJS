@@ -64,7 +64,6 @@ define(['angular', 'coreConstants', 'system'], function (ng, coreConstants, syst
                 card: '=',
                 section: '=',
                 ramo: '=',
-                config: '='
             }
         });
 });
