@@ -99,7 +99,7 @@
               $scope.formData.esCliente = true;
             }
 
-            $scope.formData.quotation = $stateParams.quotation;
+            $scope.formData.quotation = $scope.formData.NroSolicitud || $stateParams.quotation;
             $scope.formData.tipoSCTR = $stateParams.tipo;
 
             if($scope.formData.tipoSCTR==constants.module.polizas.sctr.periodoCorto.TipoPeriodo){
