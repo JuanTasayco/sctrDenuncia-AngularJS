@@ -26,7 +26,6 @@ define(['angular', 'coreConstants'], function (ng, coreConstants) {
                         }
                         
                         vm.serviceSelected = AdminRamoFactory.getRamoSelected();
-
                         MassesAndResponsesFactory.updateServiceSection(vm.serviceSelected.id, body).then(
                             function (data) {
                                 if (data.codigo === 1001) {

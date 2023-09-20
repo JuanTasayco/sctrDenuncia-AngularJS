@@ -13,6 +13,10 @@ define(['system'], function(system) {
         name: 'app',
         path: folder + '/app/app'
       },
+      moment: {
+        name: 'moment',
+        path: '/scripts/b_components/moment/min/moment.min'
+      },
       ngRaven: {
         name: 'ngRaven',
         path: '/scripts/b_components/raven-js/dist/angular/raven.min'

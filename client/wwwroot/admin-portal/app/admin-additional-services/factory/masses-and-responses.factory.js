@@ -70,8 +70,8 @@ define(['angular', 'coreConstants', 'lodash', 'endpointsConstants'], function (
       listSubsChangeSubService.push(fn);
     }
 
-    function updateServiceSection(seccionId, idProducto, contenidoId, body) {
-      return GeneralAdditionalServiceFactory.updateServiceSection(coreConstants.codigoAppMassAdm, seccionId, idProducto, contenidoId , body ,true);
+    function updateServiceSection(servicioId, body) {
+      return GeneralAdditionalServiceFactory.updateServiceSection(servicioId, body ,true);
     }
 
     function getServiceParameters(servicioId) {

@@ -1,12 +1,13 @@
 'use strict';
 
-define(['angular', 'coreConstants', 'system', 'lodash'], function (ng, coreConstants, system, _) {
+define(['angular', 'coreConstants', 'moment', 'system', 'lodash'], function (ng, coreConstants, moment, system, _) {
     var folder = system.apps.ap.location;
     RangesAndDateController.$inject = ['$scope', '$stateParams', '$uibModal', 'mModalConfirm', 'mModalAlert', 'MassesAndResponsesFactory', 'AdminRamoFactory'];
     function RangesAndDateController($scope, $stateParams, $uibModal, mModalConfirm, mModalAlert, MassesAndResponsesFactory, AdminRamoFactory) {
         var vm = this;
         vm.$onInit = onInit;
 
+        vm.patternHours  = /^(0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$/;
         vm.saveSubServiceRangesAndDate = saveSubServiceRangesAndDate;
         vm.addCancellationDate = addCancellationDate;
         vm.deleteCancellationDate = deleteCancellationDate;
@@ -14,12 +15,15 @@ define(['angular', 'coreConstants', 'system', 'lodash'], function (ng, coreConst
         vm.addTimeBox = addTimeBox;
         vm.removeTimeBox = removeTimeBox;
         vm.onTabCamposanto = onTabCamposanto;
+
+        vm.validateEndHor = validateEndHor;
         
         vm.dataCeremonyRange = []
         vm.dataCancellationDays = [];
         vm.dataSector = []
 
         vm.formCancellationDay = {}
+        vm.formHours = {}
 
         function onInit() {
             vm.servicesSelected = MassesAndResponsesFactory.getServiceSelected();
@@ -79,7 +83,7 @@ define(['angular', 'coreConstants', 'system', 'lodash'], function (ng, coreConst
                             name: _date.getFullYear()
                         },
                         month: { 
-                            code: _date.getMonth(),
+                            code: _date.getMonth() +1 ,
                             name: _.find(MassesAndResponsesFactory.getMonths(), function(y) {
                                 return y.code === _date.getMonth() + 1
                             }).name
@@ -98,6 +102,10 @@ define(['angular', 'coreConstants', 'system', 'lodash'], function (ng, coreConst
         }
 
         function saveSubServiceRangesAndDate() {
+            if (!$scope.formHours.$valid) {
+                $scope.formHours.markAsPristine();
+                return;
+            }
 
             mModalConfirm.confirmInfo(
                 null,
@@ -122,7 +130,7 @@ define(['angular', 'coreConstants', 'system', 'lodash'], function (ng, coreConst
                         feriados: _.map(vm.dataCancellationDays, function (x) {
                             return {
                                 sectorId: x.sector && x.sector.code,
-                                fecha: x.year.code + "-" + x.month.code + 1 + "-" + x.day.code + "T05:00:00Z"
+                                fecha: x.year.code + "-" + x.month.code + "-" + x.day.code + "T05:00:00Z"
                             };
                         })
                     };
@@ -219,6 +227,16 @@ define(['angular', 'coreConstants', 'system', 'lodash'], function (ng, coreConst
 
         function deleteCancellationDate(index) {
             vm.dataCancellationDays.splice(index, 1);
+        }
+
+        // function compareHour(){
+
+        // }
+
+        function validateEndHor(hourInit,hourEnd) {
+            var hourInit = moment(hourInit,'HH:mm');
+            var hourEnd = moment(hourEnd,'HH:mm');
+            console.log(hourInit.isAfter(hourEnd))
         }
 
     } // end controller
