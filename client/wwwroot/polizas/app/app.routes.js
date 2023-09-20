@@ -3362,7 +3362,7 @@ define(["constants"], function(constants) {
       name: "cotizadorSalud",
       code: "",
       params: { step: null },
-      description: "Cotizador de salud",
+      description: "Cotización salud",
       breads: ["homePolizasSalud"],
       urls: [
         {
@@ -4504,7 +4504,7 @@ define(["constants"], function(constants) {
         }
       ],
       breads: ["homePolizasSeguroviaje"],
-      description: "Cotizar SegurViaje",
+      description: "Cotización Seguro de viaje",
       views: {
         contenido: {
           template: function($stateParam) {
