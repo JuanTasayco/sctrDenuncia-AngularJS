@@ -24,6 +24,7 @@ define(['angular', 'coreConstants', 'moment', 'system', 'lodash'], function (ng,
 
         vm.formCancellationDay = {}
         vm.formHours = {}
+        vm.formCeremonyRange = {}
 
         function onInit() {
             vm.servicesSelected = MassesAndResponsesFactory.getServiceSelected();
@@ -102,8 +103,10 @@ define(['angular', 'coreConstants', 'moment', 'system', 'lodash'], function (ng,
         }
 
         function saveSubServiceRangesAndDate() {
-            if (!$scope.formHours.$valid) {
+            console.log($scope.formCeremonyRange)
+            if (!$scope.formHours.$valid || !$scope.formCeremonyRange.$valid) {
                 $scope.formHours.markAsPristine();
+                $scope.formCeremonyRange.markAsPristine();
                 return;
             }
 
@@ -121,8 +124,8 @@ define(['angular', 'coreConstants', 'moment', 'system', 'lodash'], function (ng,
                                 activo: x.active,
                                 rangoHorario: _.map(x.rangeHours, function (y){
                                     return {
-                                        horaInicio: y.initHour,
-                                        horaFin: y.endHour
+                                        horaInicio: moment(y.initHour,'HHmm').format('HH:mm'),
+                                        horaFin: moment(y.endHour,'HHmm').format('HH:mm')
                                     };
                                 })
                             };
