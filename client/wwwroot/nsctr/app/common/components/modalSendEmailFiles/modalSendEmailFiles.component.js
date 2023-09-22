@@ -56,6 +56,7 @@ define([
 						if(elem && elem.fileList[key] && elem.fileList[key].contancyNumber){
 							elem.fileList[key].contancyNumber = _self.mainData.constancyNumber;
 						}
+
 						vFileDocument = vFileDocument.concat(elem.fileList);
 					});
 					return vFileDocument;
@@ -67,7 +68,8 @@ define([
 						bodyMessage 	: _self.data.mComentario || '',
 						clientName 		: _self.data.paramsSendEmail.clientName || '',
 						fileDocument 	: _getFileDocument(),
-						contancyNumber : _self.mainData.constancyNumber
+						contancyNumber : _self.mainData.constancyNumber,
+						codigoAgente : _self.data.paramsSendEmail.codAgt,
 					}
 				];
 				return vParams;

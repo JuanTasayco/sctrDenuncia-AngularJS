@@ -568,6 +568,28 @@ define(['angular', 'constants', 'lodash'], function(angular, constants, _) {
         });
     }
 
+    function DiferenciaMeses(fecha1, fecha2) {
+      var months;
+      months = (fecha2.getFullYear() - fecha1.getFullYear()) * 12;
+      months -= fecha1.getMonth();
+      months += fecha2.getMonth();
+      return months <= 0 ? 0 : months;
+    }
+
+    function GenerarCuestionarioFile(quotation, fileName) {
+      mpSpin.start();
+      $http.get(oimProxyPoliza.endpoint + 'api/salud/dps/' + quotation, undefined, { responseType: "arraybuffer"}).success(
+        function(data, status, headers) {
+          mainServices.fnDownloadFileBase64(data, 'pdf', fileName, true);
+          mpSpin.end();
+        },
+        function(data, status) {
+          mpSpin.end();
+          mModalAlert.showError("Error al descargar el documento", 'ERROR');
+        }
+      );
+    }
+
     var factory = {
       spliceListPrimas: spliceListPrimas,
       getProductsByUser: getProductsByUser,
@@ -679,7 +701,10 @@ define(['angular', 'constants', 'lodash'], function(angular, constants, _) {
 
       getListMotivosObservacion: getListMotivosObservacion,
       getListEstadosSolicitud: getListEstadosSolicitud,
-      descargarReporteDiagnostico: descargarReporteDiagnostico
+      descargarReporteDiagnostico: descargarReporteDiagnostico,
+
+      DiferenciaMeses: DiferenciaMeses,
+      GenerarCuestionarioFile: GenerarCuestionarioFile
     };
 
     return factory;
