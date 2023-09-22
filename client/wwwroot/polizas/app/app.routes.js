@@ -5036,7 +5036,7 @@ define(["constants"], function(constants) {
       name: "cotizacionPolizaVidaLey",
       currentAppID: "EMISAVIDALEY",
       code:[3461,3272],
-      description: "Cotizar póliza de Vida Ley",
+      description: "Cotización póliza de vida ley",
       breads: ["homePolizaVidaLey"],
       params: { step: null },
       urls: [
