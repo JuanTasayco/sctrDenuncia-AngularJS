@@ -1063,6 +1063,7 @@
                           : ""
                         : "",
                       EstadoCivil: $scope.formData.isEmblem && $scope.formData.mEstadoCivil ? { Codigo: $scope.formData.mEstadoCivil.Codigo } : undefined,
+                      FechaHora: $scope.formData.DocumentosAsociados[0].FechaHora,
                       FechaExpedicion: $scope.formData.isEmblem ? validateExpirationDate($scope.formData) : undefined
                     }
                   };
