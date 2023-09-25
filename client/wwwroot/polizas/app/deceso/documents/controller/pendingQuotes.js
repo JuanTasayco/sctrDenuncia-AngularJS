@@ -12,6 +12,7 @@
 				(function onLoad(){
           $scope.codeModule = $state.current.nombreCorto || $state.toOimState.nombreCorto || null;
           $scope.main = $scope.main || {};
+          $scope.firstLoad = true;
           $scope.mAgenteFilter = $scope.main.agent;
           $scope.showAgent = _showAgent();
 					// $scope.firstStep = $scope.firstStep || {};
@@ -180,6 +181,7 @@
           decesoFactory.ListarCotizacionDecesoPag(params, true).then(function(response){
             if (response.OperationCode == constants.operationCode.success){
               if (response.Data.Lista.length > 0){
+                $scope.firstLoad = false;
                 $scope.totalItems = parseInt(response.Data.CantidadTotalPaginas) * 10;
                 $scope.items = response.Data.Lista;
               }else{

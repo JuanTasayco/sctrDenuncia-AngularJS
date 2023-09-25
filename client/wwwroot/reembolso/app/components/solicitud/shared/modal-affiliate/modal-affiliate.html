@@ -14,33 +14,7 @@
     </div>
     <div class="container g-modal-body pt-xs-2 pb-xs-2">
       <div class="col-xs-12">
-        <div class="row mb-xs-2" ng-if="$ctrl.isSoatProduct && $ctrl.showDisclaimer">
-          <div class="col-xs-12 g-box fz14 pt-xs-1-5 pb-xs-1-5 content-alert alert-section">
-            <div class="clearfix g-div-middle">
-              <div class="col-xs-12 col-sm-9 no-padding-xs alert-text">
-                <div class="clearfix g-div-middle">
-                  <div class="col-xs-12 col-sm-2 col-md-2 text-center no-padding-xs mb-xs-1 mb-sm-0">
-                    <i class="fwBold gnIcon-lg ico-mapfre_301_warning"></i>
-                  </div>
-                  <div class="col-xs-12 col-sm-10 col-md-10 g-text-center-xs g-text-left-sm no-padding-xs">
-                    <p class="gH3 no-margin-xs fwMedium gCGray2">
-                      Si el {{ $ctrl.namelbl }} no ha sido encontrado
-                    </p>
-                    <span class="fwLight gCGray2">Puedes buscarlo en los datos de equifax.</span>
-                  </div>
-                </div>
-              </div>
-              <div class="col-xs-12 col-sm-3 text-center alert-create">
-                <p
-                  class="no-margin-xs pt-xs-1-5 pb-xs-1-5 g-u-cursor--pointer"
-                  ng-click="$ctrl.changeToEquifaxModal()">
-                  <b>Buscar {{ $ctrl.namelbl }}</b>
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="row mb-xs-2" ng-if="!$ctrl.showDisclaimer">
+        <div class="row mb-xs-2">
           <div class="col-xs-12">
             <div class="row">
               <div class="col-xs-8">
@@ -112,8 +86,9 @@
                   ng-repeat="afiliado in $ctrl.listData"
                   ng-class="{'active': afiliado === $ctrl.afiliate}"
                   ng-click="$ctrl.selectAffiliate(afiliado)">
-                    <div class="col-xs-3">{{afiliado.documentNumber}}</div>
-                    <div class="col-xs-9">{{afiliado.fullName}}</div>
+                    <div class="col-xs-2">{{afiliado.documentNumber}}</div>
+                    <div class="col-xs-7">{{afiliado.fullName}}</div>
+                    <div ng-if="$ctrl.dataEquifax" class="col-xs-2 g-box-label text-center g-new-label-green">NUEVO</div>
                 </div>
               </div>
             </div>

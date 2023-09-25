@@ -12,7 +12,8 @@ define(['angular',
     'oim_security',
     'loginTemplates',
     'storageManager',
-    'angular_cookies'
+    'angular_cookies',
+    'mMainServices'
 ], function(require, app_routes, angular_route, _) {
 
     var baseUrl = "";
@@ -31,7 +32,8 @@ define(['angular',
         'oim.login.templates',
         'storage.manager',
         'ngSanitize',
-        'ngCookies'
+        'ngCookies',
+        'mapfre.mainServices'
     ]);
 
 

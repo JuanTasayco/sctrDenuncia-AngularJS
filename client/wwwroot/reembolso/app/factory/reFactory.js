@@ -224,7 +224,9 @@ define(['angular', 'constants', 'fileSaver'], function (ng, constants, fileSaver
         GetAffiliate: GetAffiliate,
 
         // EPS
-        GetAllBenefitEps: GetAllBenefitEps
+        GetAllBenefitEps: GetAllBenefitEps,
+        GetAllBeneficiaryByFilters: GetAllBeneficiaryByFilters,
+        
       },
       common: {
         DatePicker: DatePicker,
@@ -929,6 +931,10 @@ define(['angular', 'constants', 'fileSaver'], function (ng, constants, fileSaver
         });
 
       return deferred.promise;
+    }
+
+    function GetAllBeneficiaryByFilters(documentControlNumber, anio, tipoFiltro, valorfiltro) {
+      return proxySinisterBeneficiary.GetAllBeneficiaryByFilters(documentControlNumber, anio, tipoFiltro, valorfiltro, true);
     }
 
     return ng.extend({}, factory);

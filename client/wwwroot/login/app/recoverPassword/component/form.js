@@ -77,7 +77,7 @@ define([
                   : (_self.code == 200)
                     ? '(01) 213 7373 Anexo 1111'
                     : '(01) 213 7373 Anexo 1111';
-                  _self.msgAlert.text = '<br ><br ><strong>Si no reconoces o ya no tienes acceso a este correo, por favor comunícate con tu gestor comercial.</strong>';
+                  _self.msgAlert.text = '<br ><br ><strong>Sólo para usuarios Bróker, Corredor o Empresa deberán comunicarse con su gestor comercial siempre y cuando no reconoces o ya no tienes acceso a este correo.</strong>';
 
                   var txt_email = (response.data.origenMail === 'OIM') ? 'OIM ' : 'cliente ';
                   mModalAlert.showSuccess('Se ha enviado un mensaje a su correo de '+txt_email+response.data.txt_Email+' para reestablecer tu contraseña. Revisa tu bandeja de entrada.' + _self.msgAlert.text, "");

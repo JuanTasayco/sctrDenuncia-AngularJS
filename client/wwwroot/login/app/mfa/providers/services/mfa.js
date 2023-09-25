@@ -19,7 +19,7 @@ define(['angular', 'constants', 'lodash'], function (angular, constants, _) {
         applicationCode : '1df288de5ea84eca9517f375b0974ee7', // INFO: Hardcode for problems with the constant 'constants.ORIGIN_SYSTEMS.oim.mfaCode' in deploy
         deviceCode: $cookies.get('deviceCode'),
         userName: profile.username,
-        groupType: profile.groupType
+        groupTypeId: profile.groupType
       };
     }
 
@@ -30,7 +30,7 @@ define(['angular', 'constants', 'lodash'], function (angular, constants, _) {
         oimProxyLogin.endpoint + 'api/mfa/authenticators/application/' + reqCommon.applicationCode + '/searchModalities',
         {
           deviceCode: reqCommon.deviceCode,
-          groupTypeId: reqCommon.groupType
+          groupTypeId: reqCommon.groupTypeId
         },
         _getConfig(),
         showSpin
@@ -79,6 +79,14 @@ define(['angular', 'constants', 'lodash'], function (angular, constants, _) {
       };
     }
 
+    function setModalityCode(modalityCode) {
+      localStorageFactory.setItem('modalityCode', modalityCode);
+    }
+
+    function getModalityCode() {
+      return localStorageFactory.getItem('modalityCode');
+    }
+
     function sendCode(modalityCode, showSpin) {
       var bodySendCode = Object.assign(_getReqCommon(), {
         modalityCode: modalityCode
@@ -107,6 +115,8 @@ define(['angular', 'constants', 'lodash'], function (angular, constants, _) {
       getModalities: getModalities,
       getModalityByCode: getModalityByCode,
       parseModalityByView: parseModalityByView,
+      setModalityCode: setModalityCode,
+      getModalityCode: getModalityCode,
       sendCode: sendCode,
       checkCode: checkCode
     };
