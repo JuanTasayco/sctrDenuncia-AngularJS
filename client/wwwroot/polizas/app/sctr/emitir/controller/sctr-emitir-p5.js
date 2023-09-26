@@ -560,6 +560,8 @@
             if($scope.cotizacion.length==2){
               $scope.formData.salud = true;
               $scope.formData.pension = true;
+              $scope.formData.CodigoAgentePension = $scope.cotizacion[0].Solicitud.CodigoAgente;
+              $scope.formData.CodigoAgenteSalud = $scope.cotizacion[1].Solicitud.CodigoAgente;
 
               if(!$scope.formData.pNormal){
                 $scope.formData.Pagado = $scope.cotizacion[0].Pagado && $scope.cotizacion[1].Pagado;
@@ -586,13 +588,12 @@
               if($scope.formData.Pagado){
                 $scope.formData.NumPolizaPension = $scope.cotizacion[0].Riesgo.NumPoliza;
                 $scope.formData.NumPolizaSalud = $scope.cotizacion[1].Riesgo.NumPoliza;
-                $scope.formData.CodigoAgentePension = $scope.cotizacion[0].Solicitud.CodigoAgente;
-                $scope.formData.CodigoAgenteSalud = $scope.cotizacion[1].Solicitud.CodigoAgente;
               }
 
             }else if($scope.cotizacion[0].CodigoCompania==3){//salud
               $scope.formData.salud = true;
               $scope.formData.NumeroReciboSalud = $scope.cotizacion[0].Riesgo.NumeroRecibo;
+              $scope.formData.CodigoAgenteSalud = $scope.cotizacion[0].Solicitud.CodigoAgente;
               $scope.formData.NumeroReciboSaludEncrypt = $scope.cotizacion[0].Riesgo.NumeroReciboEncrypt;
               if(!$scope.formData.pNormal){
                 $scope.formData.PagadoS = $scope.cotizacion[0].Pagado;
@@ -606,6 +607,7 @@
 
             }else if($scope.cotizacion[0].CodigoCompania==2){//pension
               $scope.formData.pension = true;
+              $scope.formData.CodigoAgentePension = $scope.cotizacion[0].Solicitud.CodigoAgente;
               if(!$scope.formData.pNormal){
                 $scope.formData.PagadoP = $scope.cotizacion[0].Pagado;
                 $scope.formData.PagadoP = ($scope.formData.PagadoP === 'S') ? true : false;
