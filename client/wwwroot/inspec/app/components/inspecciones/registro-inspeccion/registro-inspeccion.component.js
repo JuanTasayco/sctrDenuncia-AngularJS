@@ -1321,6 +1321,8 @@ define(['angular', 'constants', 'moment', 'lodash', 'helper', 'mpfPersonConstant
         CadenaAccesoriosValor: '',
       };
       vm.params.Cotizacion = {
+        numeroCotizacion: vm.Cotizacion.numCotizacion,
+        FechaHora: vm.Cotizacion.FechaHora,
         CodigoCompania: constants.module.polizas.autos.companyCode,
         CodigoTipoEntidad: '1',
         CodigoCorredor: vm.profile.codagent,
@@ -1496,6 +1498,8 @@ define(['angular', 'constants', 'moment', 'lodash', 'helper', 'mpfPersonConstant
             vm.netPremiumReal = response.Data.Vehiculo.PrimaVehicularReal;
             vm.emissionValuePercent = response.Data.PorDerechoEmision / 100;
             vm.sumaAsegurada = response.Data.Vehiculo.SumaAsegurada;
+            vm.numCotizacion = response.Data.numeroCotizacion;
+            vm.Cotizacion.FechaHora = response.Data.FechaHora;
             _calculatePremium();
             _fnAutoEmit();
           } else {
