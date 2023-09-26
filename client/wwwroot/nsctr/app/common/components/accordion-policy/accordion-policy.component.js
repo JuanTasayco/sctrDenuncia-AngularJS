@@ -140,6 +140,8 @@ define([
                 nsctrApplicationFactory.setApplications(_self.applications);
               } else{
                 itemPolicy.openToggle = !vToggle;
+                (!response.data.length)?
+                mModalAlert.showWarning('No existen aplicaciones vigentes para declarar', 'ALERTA') :
                 mModalAlert.showWarning('La póliza ' + policymsg + ' se encuentra con control técnico, por favor comunicarse con su ejecutivo comercial para su aprobación.', 'ALERTA');
               }
             }).catch(function() {
