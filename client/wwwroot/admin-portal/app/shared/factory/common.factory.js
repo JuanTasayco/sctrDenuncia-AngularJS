@@ -15,7 +15,8 @@ define([
       getFormatDateLong: getFormatDateLong,
       GetDocumentType: GetDocumentType,
       GetSection: GetSection,
-      GetAdditionalServices: GetAdditionalServices
+      GetAdditionalServices: GetAdditionalServices,
+      GetGeneralParams: GetGeneralParams
     };
 
     function getFormatDateLong(textDate) {
@@ -72,12 +73,12 @@ define([
     }
 
 
-    function GetSection(codeApp, idSection, showSpin) {
+    function GetSection(codeApp, idSection, showSpin,params) {
       return httpData
         .get(
           domain + 'api/v1/cms/areaPrivada/secciones/grupoSeccion/'+ idSection,
           {
-              params: _.assign({
+              params: _.assign({params,
                   codigoApp: codeApp
               })
           },
@@ -115,6 +116,28 @@ define([
           })
 
           return _.assign(array);
+        });
+    }
+
+    function GetGeneralParams(codeApp,codigoGrupo,showSpin) {
+      return httpData
+        .get(
+          domain + 'api/v1/cms/areaPrivada/generales/parametros/'+ codigoGrupo,
+          {
+            params: _.assign({
+              codigoApp: codeApp
+            })
+          },
+          undefined,
+          showSpin
+        )
+        .then(function(res) {
+          return _.map(res, function (p){
+            return {
+              code: p.valor,
+              lbl: p.descripcion
+            };
+          })
         });
     }
     

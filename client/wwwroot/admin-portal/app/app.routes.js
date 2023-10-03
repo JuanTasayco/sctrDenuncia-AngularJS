@@ -286,6 +286,84 @@ define(['system', 'coreConstants'], function(system, coreConstants) {
     },
     {
       code: '',
+      description: 'Administrador Mapfre tecuidamos',
+      name: 'adminMapfreTecuidamos',
+      parent: 'root',
+      abstract: true,
+      url: '',
+      views: {
+        content: {
+          controller: 'AdminMapfreTecuidamosComponent as $ctrl',
+          templateUrl: folder + '/app/admin-mapfre-tecuidamos/admin-mapfre-tecuidamos.component.html'
+        }
+      },
+      resolve: {
+        sections: [
+          "GeneralAdminMapfreTecuidamosFactory",
+          function(GeneralAdminMapfreTecuidamosFactory) {
+            return GeneralAdminMapfreTecuidamosFactory.GetSection(true);
+          }
+        ]
+      },
+      resolver: [
+        {
+          name: 'adminMapfreTecuidamos',
+          moduleName: moduleName,
+          files: ['AdminMapfreTecuidamosComponent']
+        }
+      ]
+    },
+    {
+      name: 'adminMapfreTecuidamos.CMB1201',
+      code: '',
+      description: 'Sección Beneficios',
+      url: '/admin-mapfre-tecuidamos/benefits',
+      views: {
+        contenido: {
+          controller: 'MyBenefitsController as $ctrl',
+          templateUrl: folder + '/app/admin-mapfre-tecuidamos/pages/my-benefits/my-benefits.component.html'
+        }
+      },
+      resolve: {
+        commercialSegment: [
+          "GeneralAdminMapfreTecuidamosFactory",
+          function(GeneralAdminMapfreTecuidamosFactory) {
+            return GeneralAdminMapfreTecuidamosFactory.GetParams(true);
+          }
+        ]
+      },
+      resolver: [
+        {
+          name: 'adminMapfreTecuidamos.CMB1201',
+          moduleName: moduleName,
+          files: [
+            'apMyBenefits'
+          ]
+        }
+      ]
+    },
+    {
+      name: 'adminMapfreTecuidamos.CMD7702',
+      code: '',
+      description: 'Sección Que es',
+      url: '/admin-mapfre-tecuidamos/what-is',
+      views: {
+        'contenido': {
+          template: '<ap-what-is></ap-what-is>'
+        }
+      },
+      resolver: [
+        {
+          name: 'adminMapfreTecuidamos.CMD7702',
+          moduleName: moduleName,
+          files: [
+            'apWhatIs'
+          ]
+        }
+      ]
+    },
+    {
+      code: '',
       description: 'Lista de Carruseles',
       name: 'carouselTray',
       parent: 'root',
