@@ -1,0 +1,111 @@
+<section class="g-page g-page-documents g-ui-view">
+  <div class="g-title">
+    <div class="container">
+      <div class="row">
+        <div class="col-sm-9 mb-xs-2 no-mb-sm">
+          <h1>Mantenimiento de restricciones</h1>
+        </div>
+        <div class="col-sm-3">
+          <a class="g-btn g-btn-verde second-design block" ng-click="vm.showMessagesModal()">Mensajes</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="g-section-inner">
+    <div class="container">
+      <div class="row">
+        <!-- Filtros -->
+        <div class="col-md-3 mb-xs-2">
+          <mpf-filtro-restricciones-soat
+            ng-buscar="vm.buscarRestricciones($event)"
+            ng-limpiar="vm.limpiarResultados()"
+            ng-nuevo="vm.nuevaRestriccion()">
+          </mpf-filtro-restricciones-soat>
+        </div>
+
+        <!-- INICIO: Resultado -->
+        <div class="col-md-9 pl-md-0">
+          <!-- Mensaje de realiza una busqueda -->
+          <div class="col-md-12 text-center g-box-noresult" ng-if="vm.pagination.noSearch">
+            <div class="row">
+              <div class="col-md-12 g-box-noresult-ico gCBlue2">
+                <span class="ico-mapfre_303_informacion"></span>
+              </div>
+              <div class="col-md-12 g-box-noresult-text">
+                Realiza una búsqueda para obtener resultados.
+              </div>
+            </div>
+          </div>
+
+          <!-- Mensaje de error si no hay resultados -->
+          <div class="col-md-12 text-center g-box-noresult" ng-if="vm.pagination.noResult">
+            <div class="row">
+              <div class="col-md-12 g-box-noresult-ico gCRed1"><span class="ico-mapfre_302_error"></span></div>
+              <div class="col-md-12 g-box-noresult-text">No hay resultados para los filtros escogidos.<br>Intenta de nuevo.</div>
+            </div>
+          </div>
+
+          <div ng-if="!vm.pagination.noResult && !vm.pagination.noSearch">
+            <div class="clearfix g-box g-overflow-hidden-xs mb-xs-2 pb-xs-2 pt-xs-2 pr-xs-2 pl-xs-2">
+              <!-- Cabecera -->
+              <div class="row pt-xs-2 pb-xs-2">
+                <ul class="clearfix">
+                  <li class="col-md-12 col-sm-12">
+                    <ul class="row">
+                      <li class="col-sm-2">
+                        <div class="col-sm-12 item-dato g-text-uppercase text-center"><b>CORREDOR / AGENTE</b></div>
+                      </li>
+                      <li class="col-sm-1">
+                        <div class="col-sm-12 item-dato g-text-uppercase text-center"><b>USUARIO OIM</b></div>
+                      </li>
+                      <li class="col-sm-2">
+                        <div class="col-sm-12 item-dato g-text-uppercase text-center"><b>TIPO VEHÍCULO</b></div>
+                      </li>
+                      <li class="col-sm-2">
+                        <div class="col-sm-12 item-dato g-text-uppercase text-center"><b>IMPORTE HISTÓRICO</b></div>
+                      </li>
+                      <li class="col-sm-1">
+                        <div class="col-sm-12 item-dato g-text-uppercase text-center"><b>TOTAL EMISIONES</b></div>
+                      </li>
+                      <li class="col-sm-1">
+                        <div class="col-sm-12 item-dato g-text-uppercase text-center"><b>EMISIONES DIARIAS</b></div>
+                      </li>
+                      <li class="col-sm-1">
+                        <div class="col-sm-12 item-dato g-text-uppercase text-center"><b>DÍAS CRÉDITO</b></div>
+                      </li>
+                      <li class="col-sm-1">
+                        <div class="col-sm-12 item-dato g-text-uppercase text-center"><b>ESTADO</b></div>
+                      </li>
+                      <li class="col-sm-1"></li>
+                    </ul>
+                  </li>
+                </ul>
+              </div>
+              <!-- FIn -->
+
+              <!-- Inicio: Resultados -->
+              <mpf-item-restricciones-soat
+                ng-repeat="item in vm.pagination.items"
+                ng-restriccion="item"
+                ng-accion="vm.accionItem($event)">
+              </mpf-item-restricciones-soat>
+              <!-- Fin: Resultados -->
+            </div>
+          </div>          
+
+          <!-- Inicio: Paginacion -->
+          <div class="row" ng-if="!vm.pagination.noResult && vm.pagination.totalItems > 10">
+            <div class="col-md-12">
+              <ul uib-pagination class="g-pagination" ng-model="vm.pagination.currentPage"
+                max-size="vm.pagination.maxSize" total-items="vm.pagination.totalItems"
+                ng-change="vm.pageChanged(vm.pagination.currentPage)" boundary-link-numbers="true"></ul>
+            </div>
+          </div>
+          <!-- Fin: Paginacion -->
+        </div>
+        <!-- FIN: Resultado de consulta -->
+      </div>
+    </div>
+  </div>
+</section>

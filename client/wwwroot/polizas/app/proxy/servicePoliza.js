@@ -3535,6 +3535,46 @@
                     name:  'GetListModalidadSoatDigital',
                     path: 'api/soat/modalidad/digital'
                 },
+                'methodUsuarioPorNombre':{
+                    name:  'UsuarioPorNombre',
+                    path: 'api/soat/users?name={name}'
+                },
+                'methodRestricciones':{
+                    name:  'Restricciones',
+                    path: 'api/soat/restrictions?agent={agent}&user={user}&vehiculeType={vehiculeType}&items={items}&pages={pages}'
+                },
+                'methodRegistrarRestricciones':{
+                    name:  'RegistrarRestricciones',
+                    path: 'api/soat/restriction'
+                },
+                'methodActualizarRestricciones':{
+                    name:  'ActualizarRestricciones',
+                    path: 'api/soat/restriction?state={state}'
+                },
+                'methodGetMessageSoat':{
+                    name:  'GetMessageSoat',
+                    path: 'api/soat/messages'
+                },
+                'methodActualizarMensajesSoat':{
+                    name:  'ActualizarMensajesSoat',
+                    path: 'api/soat/message?user={user}'
+                },
+                'methodGetIssue':{
+                    name:  'GetIssue',
+                    path: 'api/soat/issue?company={company}&agent={agent}&user={user}&vehicleType={vehicleType}'
+                },
+                'methodGetLog':{
+                    name:  'GetLog',
+                    path: 'api/soat/log?fecha={fecha}'
+                },
+                'methodGetVersion':{
+                    name:  'GetVersion',
+                    path: 'api/soat/version'
+                },
+                'methodGetVersionNet':{
+                    name:  'GetVersionNet',
+                    path: 'api/soat/versionNet'
+                },
             }
         }
     })
@@ -7567,6 +7607,52 @@
                 },
                 'GetListModalidadSoatDigital' : function( showSpin){
                     return httpData['get'](oimProxyPoliza.endpoint + 'api/soat/modalidad/digital',
+                                         undefined, undefined, showSpin)
+                },
+                'UsuarioPorNombre' : function(name, showSpin){
+                    return httpData['get'](oimProxyPoliza.endpoint + helper.formatNamed('api/soat/users?name={name}',
+                                                    { 'name':name   }),
+                                         undefined, undefined, showSpin)
+                },
+                'Restricciones' : function(agent, user, vehiculeType, items, pages, showSpin){
+                    return httpData['get'](oimProxyPoliza.endpoint + helper.formatNamed('api/soat/restrictions?agent={agent}&user={user}&vehiculeType={vehiculeType}&items={items}&pages={pages}',
+                                                    { 'agent':  { value: agent, defaultValue:'' } ,'user':  { value: user, defaultValue:'' } ,'vehiculeType':  { value: vehiculeType, defaultValue:'' } ,'items':  { value: items, defaultValue:'20' } ,'pages':  { value: pages, defaultValue:'1' }  }),
+                                         undefined, undefined, showSpin)
+                },
+                'RegistrarRestricciones' : function(body, showSpin){
+                    return httpData['post'](oimProxyPoliza.endpoint + 'api/soat/restriction',
+                                         body, undefined, showSpin)
+                },
+                'ActualizarRestricciones' : function(body, state, showSpin){
+                    return httpData['put'](oimProxyPoliza.endpoint + helper.formatNamed('api/soat/restriction?state={state}',
+                                                    { 'state':  { value: state, defaultValue:'N' }  }),
+                                         body, undefined, showSpin)
+                },
+                'GetMessageSoat' : function( showSpin){
+                    return httpData['get'](oimProxyPoliza.endpoint + 'api/soat/messages',
+                                         undefined, undefined, showSpin)
+                },
+                'ActualizarMensajesSoat' : function(body, user, showSpin){
+                    return httpData['put'](oimProxyPoliza.endpoint + helper.formatNamed('api/soat/message?user={user}',
+                                                    { 'user':  { value: user, defaultValue:'' }  }),
+                                         body, undefined, showSpin)
+                },
+                'GetIssue' : function(company, agent, user, vehicleType, showSpin){
+                    return httpData['get'](oimProxyPoliza.endpoint + helper.formatNamed('api/soat/issue?company={company}&agent={agent}&user={user}&vehicleType={vehicleType}',
+                                                    { 'company':  { value: company, defaultValue:'' } ,'agent':  { value: agent, defaultValue:'' } ,'user':  { value: user, defaultValue:'' } ,'vehicleType':  { value: vehicleType, defaultValue:'' }  }),
+                                         undefined, undefined, showSpin)
+                },
+                'GetLog' : function(fecha, showSpin){
+                    return httpData['get'](oimProxyPoliza.endpoint + helper.formatNamed('api/soat/log?fecha={fecha}',
+                                                    { 'fecha':  { value: fecha, defaultValue:'' }  }),
+                                         undefined, undefined, showSpin)
+                },
+                'GetVersion' : function( showSpin){
+                    return httpData['get'](oimProxyPoliza.endpoint + 'api/soat/version',
+                                         undefined, undefined, showSpin)
+                },
+                'GetVersionNet' : function( showSpin){
+                    return httpData['get'](oimProxyPoliza.endpoint + 'api/soat/versionNet',
                                          undefined, undefined, showSpin)
                 }
         };

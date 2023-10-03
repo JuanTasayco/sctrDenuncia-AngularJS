@@ -1,0 +1,36 @@
+<div class="gSweetModal">
+    <ng-form name="formMensajes">
+        <div class="cntContent container">
+            <div class="row">
+                <div class="col-xs-12 mb-xs-2">
+                    <h2 class="g-sub-title c-black gH3"><b>Mensajes Restricción Corredor</b></h2>
+                </div>
+            </div>
+    
+            <div class="row mb-xs-3" ng-repeat="message in messages">
+                <div class="col-xs-12">
+                    <mpf-input 
+                        label="{label: message.valueDescription, required: true}" 
+                        name="field_{{message.valueId}}" 
+                        ng-model="message.messageDescription" 
+                        ng-required="true">
+                    </mpf-input>
+  
+                    <div class="g-error" ng-show="formMensajes['field_' + message.valueId].$error.required && !formMensajes['field_' + message.valueId].$pristine">
+                        * Ingrese datos en el campo '{{message.valueDescription}}'
+                    </div>
+                </div>
+            </div>
+  
+            <div class="row">
+                <div class="col-md-4 col-md-offset-2">
+                    <a class="g-btn g-btn-mini g-btn-transparent block" ng-click="closeModal()">Cancelar</a>
+                </div>
+                <div class="col-md-4">
+                    <a class="g-btn g-btn-mini g-btn-gris-salud block" ng-click="guardar()">Guardar</a>
+                </div>
+             </div>
+        </div>
+    </ng-form>
+</div>
+    

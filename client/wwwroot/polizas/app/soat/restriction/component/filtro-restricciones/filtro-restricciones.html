@@ -1,0 +1,58 @@
+<form name="frmRestricciones">
+  <div show-filter class="clearfix g-col-filter g-box-md fz14 gBgcGray5-md gBgcWhite1 g-myd-box g-myd-box--filter" ng-class="{'show': isFilterVisible}">
+    <div class="col-md-12 mb-xs-3 gH4 gCGray1">
+      <h2 class="pb-xs-1 g-border-bottom-xs hidden-xs hidden-sm"><b>Opciones de Búsqueda</b></h2>
+      <div id="show-filter" class="row pt-xs-2 pb-xs-2 gBgcGray5 g-border-bottom-xs hidden-md hidden-lg" ng-click="toggleFilter();">
+        <div class="col-xs-10"><h2><b>Opciones de Búsqueda</b></h2></div>
+        <div class="col-xs-2 g-text-right-xs">
+          <span class="glyphicon glyphicon-chevron-down" ng-if="isFilterVisible"></span>
+          <span class="glyphicon glyphicon-chevron-up" ng-if="!isFilterVisible"></span>
+        </div>
+        <div class="clearfix"></div>
+      </div>
+    </div>
+
+    <div class="g-col-filter__box">
+      <div class="col-md-12 mb-xs-2">
+        <h2 class="hidden-xs hidden-sm"><b>Buscar por:</b></h2>
+      </div>
+      <div class="col-md-12 mb-xs-2">
+        <mp-data-seeker
+          behavior="{label:'Agente / Corredor', placeholder:'', matchField:'CodigoNombre', required: true}"
+          name="nAgente"
+          m-data-source="vm.buscarAgentes($inputNeed)" 
+          ng-model="vm.filtros.agente">
+          <div ng-bind-html="$item.CodigoNombre | highlight: $select.search"></div>
+        </mp-data-seeker>
+      </div>
+      <div class="col-md-12 mb-xs-2">
+        <mp-data-seeker
+          behavior="{label:'Usuario OIM', placeholder:'', matchField:'userName'}"
+          name="nUsuario"
+          m-data-source="vm.buscarUsuarios($inputNeed)" 
+          ng-model="vm.filtros.usuario">
+          <div ng-bind-html="$item.userName | highlight: $select.search"></div>
+        </mp-data-seeker>
+      </div>
+      <div class="col-md-12 mb-xs-2">
+        <mpf-select 
+          label="{label: 'Tipo de Vehículo', required: false}"
+          name="nTipoVehiculo"
+          ng-model="vm.filtros.tipoVehiculo"
+          m-data-source="vm.tiposVehiculos"
+          text-field="{{$ctrl.Description}}"
+          value-field="{{$ctrl.Codigo}}"
+          m-Empty-Option="{enterData:true}"></mpf-select>
+      </div>
+      <div class="col-md-12 mb-xs-1">
+        <a class="g-btn g-btn-verde block" ng-click="vm.buscarRestricciones(); toggleFilter();">Filtrar</a>
+      </div>
+      <div class="col-md-12 mb-xs-1">
+        <a class="g-btn g-btn-white block" ng-click="vm.limpiarFiltros(); toggleFilter();">Limpiar</a>
+      </div>
+      <div class="col-md-12">
+        <a class="g-btn g-btn-verde block" ng-click="vm.nuevaRestriccion(); toggleFilter();">Nuevo</a>
+      </div>
+    </div>
+  </div>
+</form>
