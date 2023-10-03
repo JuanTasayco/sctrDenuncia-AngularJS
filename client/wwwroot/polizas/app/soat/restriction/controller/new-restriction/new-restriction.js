@@ -27,7 +27,7 @@
             $state.go("soatRestricciones");
           });
             } else {
-              mModalAlert.showError('Hubo un error al registrar la restricción', 'Restricciones');
+              mModalAlert.showError(response.message, 'Restricciones');
             }
           });
         }

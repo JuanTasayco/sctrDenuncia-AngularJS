@@ -39,7 +39,7 @@
             $state.go("soatRestricciones");
           });
             } else {
-              mModalAlert.showError('Hubo un error al editar la restricción', 'Restricciones');
+              mModalAlert.showError(response.message, 'Restricciones');
             }
           });
         }

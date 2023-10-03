@@ -137,7 +137,7 @@
                     if(response.status === 200) {
                       $uibModalInstance.close();
                     } else {
-                      mModalAlert.showError('Hubo un error al registrar los datos', 'Mensajes Restricción Corredor');
+                      mModalAlert.showError(response.message, 'Mensajes Restricción Corredor');
                     }
                   });
                 };
@@ -175,7 +175,7 @@
               vm.limpiarResultados();
               _buscarRestricciones();
                 } else {
-                  mModalAlert.showError('Hubo un error al eliminar la restricción', 'Restricciones');
+                  mModalAlert.showError(response.message, 'Restricciones');
                 }
               });
             }
