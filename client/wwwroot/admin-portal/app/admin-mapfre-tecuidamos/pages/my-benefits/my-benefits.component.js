@@ -1,6 +1,6 @@
 'use strict';
 
-define(['angular', 'coreConstants', 'system', 'lodash'], function (ng, coreConstants, system, _) {
+define(['angular', 'coreConstants', 'mapfreTecuidamosConstants', 'system', 'lodash'], function (ng, coreConstants, mapfreTecuidamosConstants, system, _) {
     var folder = system.apps.ap.location;
     MyBenefitsController.$inject = ['$scope', '$stateParams', '$uibModal', 'mModalConfirm', 'mModalAlert','commercialSegment', 'GeneralAdminMapfreTecuidamosFactory', 'AdminRamoFactory', '$q'];
     function MyBenefitsController($scope, $stateParams, $uibModal, mModalConfirm, mModalAlert,commercialSegment, GeneralAdminMapfreTecuidamosFactory, AdminRamoFactory, $q) {
@@ -19,10 +19,7 @@ define(['angular', 'coreConstants', 'system', 'lodash'], function (ng, coreConst
         vm.addOrEditItemsBenefits = addOrEditItemsBenefits;
         vm.onClickItemsBenefitsRemove = onClickItemsBenefitsRemove;
         vm.deleteFile = deleteFile;
-
-        
-
-        
+        vm.setIcon = setIcon;
 
         vm.file = {
             image: {
@@ -40,6 +37,7 @@ define(['angular', 'coreConstants', 'system', 'lodash'], function (ng, coreConst
 
         function onInit() {
             
+            vm.iconsBenefits = mapfreTecuidamosConstants.ICONS_BENEFICIOS_CM
             ///
             vm.fileTypes = '.jpg,.jpeg,.png'
             vm.fileTypesPdf = '.pdf'
@@ -94,11 +92,9 @@ define(['angular', 'coreConstants', 'system', 'lodash'], function (ng, coreConst
                 //     return void mModalAlert.showError( 'Las dimensiones del imagen deben ser: ' + vm.imgWidth + 'px x ' + vm.imgHeight + 'px<br>Actualmente: ' + image.width + 'px x ' + image.height + 'px', 'Error');
                 // }
                 photo.photoBase64 = image.base64;
-                console.log("file",file);
-                console.log("photo",photo);
+
                 GeneralAdminMapfreTecuidamosFactory.UploadImage(file).then(
                     function(res) {
-                        console.log("subiendo archivo",res);
                         vm.formAssistance.linkImage = res.rutaTemporal;
                         vm.file.image.upload = true;
                         vm.file.image.src = image.base64;
@@ -112,7 +108,6 @@ define(['angular', 'coreConstants', 'system', 'lodash'], function (ng, coreConst
             // if (file.size / kb > vm.maxKbSize) {
             //     return void mModalAlert.showWarning('La imagen supera los ' + vm.maxMbSize + 'MB', 'No se pudo generar la carga del archivo');
             // }
-            console.log(file,"createPreviewPdf")
 
             var pdf = { name: file.name.replace(/ /g, '-') };
 
@@ -120,13 +115,10 @@ define(['angular', 'coreConstants', 'system', 'lodash'], function (ng, coreConst
                 // if (image.width != vm.imgWidth || image.height != vm.imgHeight) {
                 //     return void mModalAlert.showError( 'Las dimensiones del imagen deben ser: ' + vm.imgWidth + 'px x ' + vm.imgHeight + 'px<br>Actualmente: ' + image.width + 'px x ' + image.height + 'px', 'Error');
                 // }
-                console.log("readAsDataURLPDF",item)
                 pdf.base64 = item.base64;
-                // console.log("file",file);
-                // console.log("photo",pdf);
+
                 GeneralAdminMapfreTecuidamosFactory.UploadImage(file).then(
                     function(res) {
-                        console.log("subiendo archivo",res);
                         vm.formAssistance.linkPdf= res.rutaTemporal;
                         vm.file.pdf.upload = true;
                         vm.file.pdf.src = pdf.name;
@@ -316,7 +308,6 @@ define(['angular', 'coreConstants', 'system', 'lodash'], function (ng, coreConst
                 vm.typeFormItemsBenefits = "AGREGAR BENEFICIO"
             }
 
-
             $uibModal.open({
                 backdrop: true, // background de fondo
                 backdropClick: true,
@@ -328,13 +319,11 @@ define(['angular', 'coreConstants', 'system', 'lodash'], function (ng, coreConst
                 controller: ['$scope', '$uibModalInstance', '$uibModal', '$timeout', function ($scope, $uibModalInstance, $uibModal, $timeout) {
                     //CloseModal
                     $timeout(function () {
-                        console.log("Entro timeout")
                         vm.svgList = document.getElementById('svgList');
-                        document.getElementById('selectButton').addEventListener('click', () => {
-                            console.log("Entro")
+                        document.getElementById('selectButton').addEventListener('click', function(e) {
                             vm.svgList.classList.toggle('hidden');
                         });
-                    }, 2000);
+                    }, 1);
                     
 
                     $scope.closeModal = function () {
@@ -525,7 +514,11 @@ define(['angular', 'coreConstants', 'system', 'lodash'], function (ng, coreConst
         function deleteFile(type) {
             vm.file[type].upload = false;
             vm.file[type].src = null;
-            console.log(vm.file)
+        }
+
+        function setIcon(key) {
+            vm.formItemsBenefits.icon = key;
+            vm.svgList.classList.toggle('hidden');
         }
 
     } // end controller

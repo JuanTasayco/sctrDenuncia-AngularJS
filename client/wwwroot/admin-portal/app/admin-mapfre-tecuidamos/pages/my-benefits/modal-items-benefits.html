@@ -13,10 +13,34 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-xs-6 col-md-4">
-                    
+                <div class="col-xs-6 col-md-3">
+                    <div class="g-input-design" style="border: none;">
+                        <label class="g-placeholder" ng-class="{animated: true}">Selecciona icono*</label>
+                        <div id="selectButton" style="cursor: pointer;border-radius: 10px;border: 1px solid #DFE0E0;background-color: #FFF;display: flex;
+                        padding: 10px 20px;
+                        align-items: center;justify-content: space-between;">
+                            <div ng-if="$ctrl.formItemsBenefits.icon">
+                                <img src="{{ $ctrl.iconsBenefits[$ctrl.formItemsBenefits.icon].icon }}" width="40px" alt="">
+                            </div>
+                            <div ng-if="!$ctrl.formItemsBenefits.icon">---</div>
+                            <span class="ico-mapfre_308_arrowDown" style="font-size: 20px;"></span>
+                        </div>
+                    </div>
+                    <!-- <button id="selectButton">Seleccionar SVG</button> -->
+                    <div id="svgList" class="hidden container pt-xs-1 pb-xs-1" style="    border-radius: 10px;
+                    border: 1px solid #DFE0E0;
+                    width: 200px;
+                    position: absolute;
+                    background: white;
+                    z-index: 9;">
+                        <div class="row">
+                            <div class="col-xs-4" style="cursor: pointer;" ng-repeat="(key, value) in $ctrl.iconsBenefits" ng-click="$ctrl.setIcon(key)">
+                                <img src="{{value.icon}}" width="40px" alt="">
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <div class="col-xs-12 col-md-8 mt-xs-1">
+                <div class="col-xs-12 col-md-9 mt-xs-1">
                     <mpf-input class="g-text-none" label="{label: 'Título', required: true}" ng-required="true" ng-model="$ctrl.formItemsBenefits.title" name="nTitulo" ></mpf-input>
                     <ul class="g-error">
 						<li ng-show="frmModalItemsBenefits.nTitulo.$error.required && !frmModalItemsBenefits.nTitulo.$pristine">* Este campo es obligatorio</li>

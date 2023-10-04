@@ -73,12 +73,12 @@ define([
     }
 
 
-    function GetSection(codeApp, idSection, showSpin,params) {
+    function GetSection(codeApp, idSection, showSpin) {
       return httpData
         .get(
           domain + 'api/v1/cms/areaPrivada/secciones/grupoSeccion/'+ idSection,
           {
-              params: _.assign({params,
+              params: _.assign({
                   codigoApp: codeApp
               })
           },
