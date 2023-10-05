@@ -120,8 +120,10 @@ define(['angular', 'coreConstants', 'mapfreTecuidamosConstants', 'system', 'loda
                 GeneralAdminMapfreTecuidamosFactory.UploadImage(file).then(
                     function(res) {
                         vm.formAssistance.linkPdf= res.rutaTemporal;
+                        vm.formAssistance.nameFile = pdf.name;
                         vm.file.pdf.upload = true;
                         vm.file.pdf.src = pdf.name;
+                        vm.file.pdf.name = pdf.name;
                     }
                 )
                 // vm.onUpload({ $event: { photoToUpload: file, photoData: photo } });
@@ -237,6 +239,7 @@ define(['angular', 'coreConstants', 'mapfreTecuidamosConstants', 'system', 'loda
                             linkPdf: p.dataService.rutaPdf,
                             title: p.dataService.titulo,
                             textButton: p.dataService.textoEvento,
+                            nameFile: p.dataService.nombreArchivoPdf,
                             description:  _transformHtml(p.dataService.descContenido)
                         }) 
                         delete item.dataService
@@ -431,6 +434,7 @@ define(['angular', 'coreConstants', 'mapfreTecuidamosConstants', 'system', 'loda
 
             vm.file.image.src = data.linkImage;
             vm.file.pdf.src = data.linkPdf;
+            vm.file.pdf.name = data.nameFile;
             $uibModal.open({
                 backdrop: true, // background de fondo
                 backdropClick: true,
@@ -495,6 +499,7 @@ define(['angular', 'coreConstants', 'mapfreTecuidamosConstants', 'system', 'loda
                 textoEvento: vm.formAssistance.textButton,
                 rutaImagen: vm.formAssistance.linkImage,
                 rutaPdf: vm.formAssistance.linkPdf,
+                nombreArchivoPdf: vm.formAssistance.nameFile,
                 accion: "UPDATE"
             }
 
@@ -514,6 +519,7 @@ define(['angular', 'coreConstants', 'mapfreTecuidamosConstants', 'system', 'loda
         function deleteFile(type) {
             vm.file[type].upload = false;
             vm.file[type].src = null;
+            vm.file[type].name = null;
         }
 
         function setIcon(key) {

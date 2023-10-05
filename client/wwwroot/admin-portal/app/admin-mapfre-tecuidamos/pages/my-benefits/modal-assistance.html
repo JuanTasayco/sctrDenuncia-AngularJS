@@ -45,12 +45,31 @@
 
                 </div>
                 <div class="col-xs-12 mt-xs-1">
-                    <input type="file" accept="{{$ctrl.fileTypes}}" file-model="$ctrl.photoFile" ng-if="!$ctrl.file.image.src && !$ctrl.file.image.upload" />
-                    <div ng-if="$ctrl.file.image.upload || $ctrl.file.image.src">
-                        <img ng-src="{{$ctrl.file.image.src}}" alt="">
-                        <button type="button" class="close" style="top: 0;position: absolute;" ng-click="$ctrl.deleteFile('image')">
-                            <span class="ico-mapfre_231_cancelaroff"></span>
-                        </button>
+
+                    <div class="col-xs-12 mt-xs-2">
+                        <div class="gCBlack1 gH4 fwMedium">Imágen</div>
+                    </div>
+                    <div class="col-xs-12 col-sm-6 col-lg-4 mt-xs-2" >
+                        <div class="container g-border h-br--5 pt-xs-2 pb-xs-2">
+                            <div class="gCBlack1 gH5 fwBold">Imagen 01</div>
+                            <div ng-if="$ctrl.file.image.upload || $ctrl.file.image.src" class="mt-xs-2" style="position: relative;">
+                                <img ng-src="{{$ctrl.file.image.src}}" class="w-100" alt="">
+                                <button type="button" class="close g-close-modal" style="top: 10px;position: absolute;right: 10px;color: white;" ng-click="$ctrl.deleteFile('image')">
+                                    <span class="ico-mapfre_231_cancelaroff" style="font-size: 20px;"></span>
+                                </button>
+                            </div>
+                            <div class="file-upload mt-xs-2"  ng-if="!$ctrl.file.image.src && !$ctrl.file.image.upload">
+                                <input type="file" id="custom-file-input" class="input-none" accept="{{$ctrl.fileTypes}}" file-model="$ctrl.photoFile" />
+                                <label for="custom-file-input">
+                                  <span style="color: #8DB602;font-size: 14px;font-weight: 700;">Examina o arrastra aquí  la imágen</span>
+                                    <br>
+                                  <span style="font-size: 11px;
+                                    font-style: normal;
+                                    font-weight: 400;color: #8E8E8E;">Tamaño máx. de archivo 2Mb - formato JPG, PNG</span>
+                                </label>
+                              </div>
+                        </div>
+                        
                     </div>
                 </div>
                 <div class="col-xs-12 mt-xs-1">
@@ -66,7 +85,7 @@
                     <div ng-if="$ctrl.file.pdf.upload || $ctrl.file.pdf.src" class="g-border h-br--5 container pt-xs-2 pb-xs-2">
                         <div style="padding: 16px 20px;display: flex;border-radius: 10px;background: #8E8E8E;align-items: center;position: relative">
                             <div style="color: white;margin-right: 5px;" class="ico-mapfre_158_pdf gH1"></div>
-                            <span style="color: white;">nombre.pdf</span> 
+                            <span style="color: white;">{{$ctrl.file.pdf.name}}</span> 
                             <button type="button" class="close g-close-modal" style="top: 10px;position: absolute;right: 10px;color: white;" ng-click="$ctrl.deleteFile('pdf')">
                                 <span class="ico-mapfre_231_cancelaroff" style="font-size: 20px;"></span>
                             </button>

@@ -14,6 +14,8 @@ define(['angular', 'coreConstants', 'lodash', 'endpointsConstants'], function (
       getAdditionalServices : getAdditionalServices,
       updateServiceSection : updateServiceSection,
       getServiceParameters : getServiceParameters,
+      getServiceProducto : getServiceProducto,
+      updateProduct : updateProduct,
       saveSubServiceRangesAndDate : saveSubServiceRangesAndDate,
       getSubServiceRangesAndDate : getSubServiceRangesAndDate
     };
@@ -65,6 +67,42 @@ define(['angular', 'coreConstants', 'lodash', 'endpointsConstants'], function (
           domain + 'api/v1/cms/areaPrivada/servicioFunerario/' + servicioId + '/parametros',
           {},
           undefined,
+          showSpin
+        )
+        .then(function (res) {
+          return _.assign(res);
+        });
+    }
+
+    function getServiceProducto(servicioId, showSpin) {
+      return httpData
+        .get(
+          domain + 'api/v1/cms/areaPrivada/servicioFunerario/' + servicioId + '/producto',
+          {},
+          undefined,
+          showSpin
+        )
+        .then(function (res) {
+          var x = {
+            title : res.titulo,
+            description : res.descripcion,
+            detailNotice : res.avisoDetalle,
+            images : res.imagenes,
+            servicioId : res.servicioId,
+            activeNotice : res.avisoActivo,
+            modificationDateLabel: CommonFactory.getFormatDateLong(res.fechaModificacion),
+            lastModification: res.ultimaModificacion
+          }
+          return _.assign(x);
+        });
+    }
+
+    function updateProduct(servicioId, body, showSpin) {
+      return httpData
+        .put(
+          domain + 'api/v1/cms/areaPrivada/servicioFunerario/' + servicioId + '/producto',
+          body,
+          {},
           showSpin
         )
         .then(function (res) {

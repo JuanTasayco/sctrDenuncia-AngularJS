@@ -6,6 +6,7 @@ define(['angular', 'coreConstants','lodash'], function (ng, coreConstants,_) {
         var vm = this;
         vm.$onInit = onInit;
         vm.onTabSubService = onTabSubService;
+        vm.section = 1;
 
         function onInit() {
             vm.servicesSelected = MassesAndResponsesFactory.getServiceSelected();
@@ -19,9 +20,14 @@ define(['angular', 'coreConstants','lodash'], function (ng, coreConstants,_) {
             console.log("masess and responses",vm.servicesSelected)
             vm.selectedSubService = vm.servicesSelected.subServices[0];
             
-            setTimeout(function () {
+            // setTimeout(function () {
+            //     vm.onTabSubService(vm.selectedSubService);
+            // }, 333);
+
+            MassesAndResponsesFactory.subsComponentsReady(function (){ 
+                console.log("subsComponentsReady")
                 vm.onTabSubService(vm.selectedSubService);
-            }, 333);
+            });
             
         }
 
