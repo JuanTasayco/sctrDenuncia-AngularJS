@@ -150,6 +150,8 @@ define(['angular', 'coreConstants', 'system', 'lodash'], function (ng, coreConst
             MassesAndResponsesFactory.updateProduct(vm.productId,body).then(
                 function( res){
                     console.log(res)
+                    uibModalInstance.close();
+                    MassesAndResponsesFactory.emitComponentsReady();
                 }
             )
         }
@@ -166,6 +168,7 @@ define(['angular', 'coreConstants', 'system', 'lodash'], function (ng, coreConst
         function deleteFile(index) {
             console.log(vm.arrayImages[index]);
             vm.arrayImages[index].rutaImagen = null;
+            vm.arrayImages[index].src = null;
         }
 
 
