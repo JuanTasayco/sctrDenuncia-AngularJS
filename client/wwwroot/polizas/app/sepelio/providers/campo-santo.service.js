@@ -8,10 +8,10 @@ define([
     .factory('campoSantoService', campoSantoService);
 
   campoSantoService.$inject = ['$q', '$http', '$window', 'httpData', 'mainServices', 'mModalAlert', 'mpSpin', 'proxyGeneral', 'proxyEmpresa', 'proxyDomicilio', 'proxyUbigeo',
-    'proxyCampoSanto','proxyPersonForm'];
+    'proxyCampoSanto','proxyPersonForm','campoSantoFactory'];
 
   function campoSantoService($q, $http, $window, httpData, mainServices, mModalAlert, mpSpin, proxyGeneral, proxyEmpresa, proxyDomicilio, proxyUbigeo,
-    proxyCampoSanto, proxyPersonForm) {
+    proxyCampoSanto, proxyPersonForm,campoSantoFactory) {
     var base = constants.system.api.endpoints.policy;
     var service = {
       getProxyCamposanto: GetProxyCamposanto,
@@ -169,7 +169,7 @@ define([
     function GuardarOperacion(data, page) {
       data.paginaActual = page;
       
-      return proxyCampoSanto.GuardarCotizacion(data, true)
+      return proxyCampoSanto.GuardarCotizacion(campoSantoFactory.ConvertJsonValueToUpper(data), true)
     }
 
     function EnviarCorreoExepcional(data) {

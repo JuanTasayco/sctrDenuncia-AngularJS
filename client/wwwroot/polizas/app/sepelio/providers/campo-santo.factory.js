@@ -20,6 +20,7 @@ define([
     var dataprospecto;
     var dataEvaluarAlternativas;
     var isPreemitidoEditable = true;
+    var dataDataEvaluacion = null;
 
     var factory = {
       setClaims: SetClaims,
@@ -50,6 +51,8 @@ define([
       modelBuscarCotizacion: modelBuscarCotizacion,
       sendEmailExepcional: sendEmailExepcional,
       setDataEvaluarAlternativas: SetDataEvaluarAlternativas,
+      SetDataEvaluacion: SetDataEvaluacion,
+      GetDataEvaluacion: GetDataEvaluacion,
       getDataEvaluarAlternativas: GetDataEvaluarAlternativas,
       getModelDatosAdicionales: getModelDatosAdicionales,
       getCotizacionEmision: getCotizacionEmision,
@@ -63,7 +66,8 @@ define([
       getCotizacionFechaEfecto: GetCotizacionFechaEfecto,
       calcularEdad: calcularEdad,
       isPreemitidoEditable: IsPreemitidoEditable,
-      setPreemitidoEditable: SetPreemitidoEditable
+      setPreemitidoEditable: SetPreemitidoEditable,
+      ConvertJsonValueToUpper: ConvertJsonValueToUpper
     };
 
 
@@ -140,6 +144,14 @@ define([
 
     function SetDataEvaluarAlternativas(params) {
       dataEvaluarAlternativas = params;
+    }
+
+    function SetDataEvaluacion(params) {
+      dataDataEvaluacion = params;
+    }
+
+    function GetDataEvaluacion() {
+      return dataDataEvaluacion;
     }
 
     function GetDataEvaluarAlternativas() {
@@ -313,6 +325,7 @@ define([
     }
     function getModelTomador() {
       var globalParameter = getGeneralModelEmision(factory.cotizacion.datosTomador);
+      globalParameter = ConvertJsonValueToUpper(globalParameter);
       return globalParameter;
     }
     function getModelBenefiario() {
@@ -328,7 +341,7 @@ define([
       if (factory.cotizacion.datosAval.modelo.eliminado) {
         return null; 
       }else{
-        return parameter;
+        return ConvertJsonValueToUpper(parameter);
       }
     }
 
@@ -371,7 +384,7 @@ define([
       return model.map(function (item) {
         var isValidDate = Date.parse(item.modelo.fechaNacimiento);
         var isValidDateDefuncion = Date.parse(item.modelo.fechaDefuncion)
-        return {
+        return ConvertJsonValueToUpper({
           "idCotizacion": item.modelo.idCotizacion || factory.cotizacion.datosCotizacion.idCotizacion || null,
           "nombre": item.modelo.nombre || null,
           "paterno": item.modelo.paterno || null,
@@ -403,7 +416,7 @@ define([
           "descripcionZona": item.modelo.descripcionZona,
           "codParentesco": item.modelo.parentesco ? item.modelo.parentesco.Codigo : null,
           "fechaDefuncion": isNaN(isValidDateDefuncion) ? null : FormatearFechaNacimiento(item.modelo.fechaDefuncion),
-        }
+        });
       })
     }
 
@@ -573,6 +586,17 @@ define([
         "fecVcto": factory.formatearFechaNacimiento(factory.cotizacion.datosCotizacion.fecVcto),
       }
       return params;
+    }
+
+    function ConvertJsonValueToUpper(objeto) {
+      for (var clave in objeto) {
+        if (clave.toUpperCase() !== "idCotizacion".toUpperCase()){
+          if (typeof objeto[clave] === "string") {
+            objeto[clave] = objeto[clave].toUpperCase();
+          }
+        }
+      }
+      return objeto;
     }
 
   }

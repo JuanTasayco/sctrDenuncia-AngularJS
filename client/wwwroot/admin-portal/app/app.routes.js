@@ -134,9 +134,9 @@ define(['system', 'coreConstants'], function(system, coreConstants) {
       ]
     },
     {
-      name: 'adminPolicySection.WhatYouWantToDo',
+      name: 'adminPolicySection.FFB1218',
       code: '',
-      description: 'Seccion Que quieres hacer',
+      description: 'Sección Que quieres hacer',
       url: '/admin-policy-section/what-you-want-to-do',
       views: {
         'contenido': {
@@ -145,10 +145,50 @@ define(['system', 'coreConstants'], function(system, coreConstants) {
       },
       resolver: [
         {
-          name: 'adminPolicySection.WhatYouWantToDo',
+          name: 'adminPolicySection.FFB1218',
           moduleName: moduleName,
           files: [
             'apWhatYouWantToDo'
+          ]
+        }
+      ]
+    },
+    {
+      name: 'adminPolicySection.A0D139A',
+      code: '',
+      description: 'Sección Asegurados por ramo',
+      url: '/admin-policy-section/insurances-by-ramo',
+      views: {
+        'contenido': {
+          template: '<ap-insurances-by-ramo></ap-insurances-by-ramo>'
+        }
+      },
+      resolver: [
+        {
+          name: 'adminPolicySection.A0D139A',
+          moduleName: moduleName,
+          files: [
+            'apInsurancesByRamo'
+          ]
+        }
+      ]
+    },
+    {
+      name: 'adminPolicySection.AAD771R',
+      code: '',
+      description: 'Sección Preguntas frecuentes',
+      url: '/admin-policy-section/frequent-questions',
+      views: {
+        'contenido': {
+          template: '<ap-frequent-questions></ap-frequent-questions>'
+        }
+      },
+      resolver: [
+        {
+          name: 'adminPolicySection.AAD771R',
+          moduleName: moduleName,
+          files: [
+            'apFrequentQuestions'
           ]
         }
       ]

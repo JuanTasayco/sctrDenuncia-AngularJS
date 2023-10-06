@@ -9,6 +9,7 @@ define(['angular', 'coreConstants'], function (ng, coreConstants) {
         function onInit() {
             vm.ramos = ramo
             vm.sections = sections
+            AdminRamoFactory.setSections(sections);
         }
 
     } // end controller

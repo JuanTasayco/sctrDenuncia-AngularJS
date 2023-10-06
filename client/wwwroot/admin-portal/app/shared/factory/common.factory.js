@@ -84,8 +84,8 @@ define([
           showSpin
         )
         .then(function(res) {
-          var array = _.map(res, function(p, indice) {
-            return { name: p.descripcion, code: p.seccionId , url: p.ruta , selected : !indice};
+          var array = _.map(res, function(p) {
+            return { name: p.descripcion, code: p.seccionId , url: p.seccionId};
           })
 
           return _.assign(array);

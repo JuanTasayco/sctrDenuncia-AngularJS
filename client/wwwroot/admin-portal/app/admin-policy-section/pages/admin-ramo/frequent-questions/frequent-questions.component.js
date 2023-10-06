@@ -2,8 +2,8 @@
 
 define(['angular', 'coreConstants', 'system', 'lodash'], function (ng, coreConstants, system, _) {
     var folder = system.apps.ap.location;
-    WhatYouWantToDoController.$inject = ['$scope', 'AdminRamoFactory', '$stateParams', '$uibModal', 'mModalConfirm', 'mModalAlert'];
-    function WhatYouWantToDoController($scope, AdminRamoFactory, $stateParams, $uibModal, mModalConfirm, mModalAlert) {
+    FrequentQuestionsController.$inject = ['$scope', 'AdminRamoFactory', '$stateParams', '$uibModal', 'mModalConfirm', 'mModalAlert'];
+    function FrequentQuestionsController($scope, AdminRamoFactory, $stateParams, $uibModal, mModalConfirm, mModalAlert) {
         var vm = this;
         vm.$onInit = onInit;
         vm.$onDestroy = onDestroy;
@@ -12,18 +12,19 @@ define(['angular', 'coreConstants', 'system', 'lodash'], function (ng, coreConst
         vm.section = null;;
         vm.form = {}
         vm.focusTitle = true
-        vm.typeForm = "AGREGAR"
+        vm.typeForm = "AGREGAR PREGUNTA"
         vm.configView = {
-            buttonAdd: 'Agregar etiqueta',
-            titleCard: 'Título de etiqueta'
+            buttonAdd: 'Agregar pregunta',
+            titleCard: 'Título de pregunta'
         }
 
         function onInit() {
+            
             AdminRamoFactory.subsChangeRamo(changeRamo);
             AdminRamoFactory.subsClickSectionAdd(onClickSectionAdd);
             AdminRamoFactory.subsClickSectionRemove(onClickSectionRemove);
             AdminRamoFactory.subsClickSectionOrder(onClickSectionOrder);
-            AdminRamoFactory.setSectionSelected(AdminRamoFactory.getSections()[0]);
+            AdminRamoFactory.setSectionSelected(AdminRamoFactory.getSections()[2]);
             AdminRamoFactory.emitComponentsReady();
         }
 
@@ -37,7 +38,7 @@ define(['angular', 'coreConstants', 'system', 'lodash'], function (ng, coreConst
         function onClickSectionRemove(data) {
             mModalConfirm.confirmInfo(
                 null,
-                '¿Estás seguro de eliminar la etiqueta?',
+                '¿Estás seguro de eliminar la pregunta?',
                 'SI').then(function (response) {
                     if (response) {
                         AdminRamoFactory.deleteCardSection(vm.section.code, vm.ramo.code, data.item.contentId).then(
@@ -68,18 +69,13 @@ define(['angular', 'coreConstants', 'system', 'lodash'], function (ng, coreConst
 
         function onClickSectionAdd(data) {
             if (!data.isNew) {
-                vm.form.title = data.item.title;
-                vm.form.url = data.item.link;
-                vm.form.check = !data.item.internalLink;
-                vm.form.contentId = data.item.contentId;
-                vm.form.active = data.item.active;
-                vm.form.order = data.item.order;
+                vm.form = _.assign({},data.item) ;
                 vm.focusTitle  =  true;
-                vm.typeForm = "EDITAR"
+                vm.typeForm = "EDITAR PREGUNTA"
             } else {
                 vm.focusTitle  =  false;
                 vm.form = {}
-                vm.typeForm = "AGREGAR"
+                vm.typeForm = "AGREGAR PREGUNTA"
             }
 
             $uibModal.open({
@@ -89,7 +85,7 @@ define(['angular', 'coreConstants', 'system', 'lodash'], function (ng, coreConst
                 keyboard: true,
                 scope: $scope,
                 size: 'md',
-                templateUrl: '/admin-portal/app/admin-policy-section/pages/admin-ramo/what-you-want-to-do/modal-form.html',
+                templateUrl: '/admin-portal/app/admin-policy-section/pages/admin-ramo/frequent-questions/modal-form.html',
                 controller: ['$scope', '$uibModalInstance', '$uibModal', '$timeout', function ($scope, $uibModalInstance, $uibModal, $timeout) {
                     //CloseModal
                     $scope.closeModal = function () {
@@ -97,19 +93,32 @@ define(['angular', 'coreConstants', 'system', 'lodash'], function (ng, coreConst
                     };
 
                     $scope.save = function () {
-                        if (!$scope.frmLabel.$valid) {
-                            $scope.frmLabel.markAsPristine();
+                        formValidate();
+                        if (!$scope.frmModal.$valid) {
+                            $scope.frmModal.markAsPristine();
                             return;
                         }
                         mModalConfirm.confirmInfo(
                             null,
-                            '¿Estás seguro de '+ (data.isNew ? 'guardar' : 'modificar') +' la etiqueta?',
+                            '¿Estás seguro de '+ (data.isNew ? 'guardar' : 'modificar') +' la pregunta?',
                             'SI').then(function (response) {
                                 if (response) {
                                     data.isNew ? saveCard(vm.form, $uibModalInstance) : updateCard(vm.form, $uibModalInstance)
                                 }
                             }).catch(function (error) { });;
                     };
+
+                    $scope.onQuillEditorChanged = function(){
+                        formValidate();
+                        !$scope.frmModal.$valid && $scope.frmModal.markAsPristine();
+                    }
+
+                    function formValidate(){
+                        var isValide = htmlEncode(vm.form.description).length > 4000;
+                        $scope.frmModal.nDescContenido.$error.maxlength = isValide;
+                        $scope.frmModal.$valid = !isValide;
+                    }
+            
                 }]
             });
         }
@@ -118,8 +127,8 @@ define(['angular', 'coreConstants', 'system', 'lodash'], function (ng, coreConst
             
             var body = {
                 "titulo": form.title,
-                "link": form.url,
-                "linkInterno": !form.check,
+                "principal": form.isMain,
+                "descContenido": form.description,
                 "activo": form.active,
                 "orden": form.order,
                 "accion": "UPDATE"
@@ -136,11 +145,11 @@ define(['angular', 'coreConstants', 'system', 'lodash'], function (ng, coreConst
         function saveCard(form, uibModalInstance) {
             var body = {
                 "titulo": form.title,
-                "link": form.url,
-                "linkInterno": !form.check,
+                "principal": form.isMain,
+                "descContenido": form.description,
                 "activo": true
             }
-
+            
             AdminRamoFactory.saveCardSection(vm.section.code, vm.ramo.code, body).then(
                 function (data) {
                     uibModalInstance.close()
@@ -157,9 +166,9 @@ define(['angular', 'coreConstants', 'system', 'lodash'], function (ng, coreConst
                 function (data) {
                     data.contenido = _.map(data.contenido, function (p) {
                         var item = _.assign(p,{
-                            link: p.dataService.link, 
-                            internalLink: p.dataService.linkInterno,
-                            title: p.dataService.titulo
+                            title: p.dataService.titulo,
+                            description: _transformHtml(p.dataService.descContenido), 
+                            isMain: p.dataService.principal
                         }) 
                         delete item.dataService
                         return item
@@ -169,13 +178,34 @@ define(['angular', 'coreConstants', 'system', 'lodash'], function (ng, coreConst
             )
         }
 
+        function htmlEncode(input) {
+            var textArea = document.createElement("textarea");
+            textArea.innerText = input;
+            return textArea.innerHTML.split("<br>").join("\n");
+          }
+
+        function _transformHtml(str) {
+            var entityMap = {
+              "&amp;": "&",
+              "&lt;": "<",
+              "&gt;": ">",
+              '&quot;': '"',
+              '&#39;': "'",
+              '&#x2F;': "/"
+            };
+      
+            return String(str).replace(/(&amp;|&lt;|&gt;|&quot;|&#39;|&#x2F;)/g, function (s) {
+              return entityMap[s];
+            });
+          }
+        
     } // end controller
 
     return ng.module(coreConstants.ngMainModule)
-        .controller('WhatYouWantToDoController', WhatYouWantToDoController)
-        .component('apWhatYouWantToDo', {
-            templateUrl: folder + '/app/admin-policy-section/pages/admin-ramo/what-you-want-to-do/what-you-want-to-do.component.html',
-            controller: 'WhatYouWantToDoController',
+        .controller('FrequentQuestionsController', FrequentQuestionsController)
+        .component('apFrequentQuestions', {
+            templateUrl: folder + '/app/admin-policy-section/pages/admin-ramo/frequent-questions/frequent-questions.component.html',
+            controller: 'FrequentQuestionsController',
             bindings: {
             }
         });;

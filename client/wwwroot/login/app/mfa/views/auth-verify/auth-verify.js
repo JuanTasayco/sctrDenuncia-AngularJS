@@ -42,7 +42,7 @@ define(['angular', 'constants', 'lodash', 'MfaFactory', 'CardModalityController'
     }
 
     function onGoTo(modality) {
-      localStorageFactory.setItem('modalityCode', modality.code);
+      MfaFactory.setModalityCode(modality.code);
 
       MfaFactory.sendCode(modality.code, true)
         .then(function() {
