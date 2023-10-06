@@ -156,9 +156,9 @@ define([
         }, 500);
     }
 
-    $scope.downloadImpresion = function(item){
+    $scope.downloadImpresion = function(item,type){
       vm.rol = gcwFactory.obtenerAgente(vm.dataTicket);
-      vm.exportURLDetalle = $sce.trustAsResourceUrl(constants.system.api.endpoints.gcw+ 'api/collection/soat/download');
+      vm.exportURLDetalle = $sce.trustAsResourceUrl(constants.system.api.endpoints.gcw+ 'api/collection/soat/download?extensionFile='+type);
         vm.downloadFile2 = {
           preSettlement: item.preSettlement,
           agentId: vm.rol.agenteID,
