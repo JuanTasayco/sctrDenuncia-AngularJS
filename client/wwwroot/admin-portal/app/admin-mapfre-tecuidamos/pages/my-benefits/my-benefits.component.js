@@ -432,6 +432,7 @@ define(['angular', 'coreConstants', 'mapfreTecuidamosConstants', 'system', 'loda
                 linkPdf: data.linkPdf,
                 textButton: data.textButton,
                 contentId: data.contentId,
+                nameFile: data.nameFile,
             }); 
 
             vm.file.image.src = data.linkImage;
