@@ -36,7 +36,8 @@ define(['angular', 'coreConstants', 'mapfreTecuidamosConstants', 'system', 'loda
         var watchPDFModel;
 
         function onInit() {
-            
+            vm.imgWidth = '513';
+            vm.imgHeight = '213';
             vm.iconsBenefits = mapfreTecuidamosConstants.ICONS_BENEFICIOS_CM
             ///
             vm.fileTypes = '.jpg,.jpeg,.png'
@@ -88,9 +89,10 @@ define(['angular', 'coreConstants', 'mapfreTecuidamosConstants', 'system', 'loda
             var photo = { name: file.name.replace(/ /g, '-') };
 
             readAsDataURL(file, $scope).then(function (image) {
-                // if (image.width != vm.imgWidth || image.height != vm.imgHeight) {
-                //     return void mModalAlert.showError( 'Las dimensiones del imagen deben ser: ' + vm.imgWidth + 'px x ' + vm.imgHeight + 'px<br>Actualmente: ' + image.width + 'px x ' + image.height + 'px', 'Error');
-                // }
+                console.log(image.width)
+                if (image.width != vm.imgWidth || image.height != vm.imgHeight) {
+                    return void mModalAlert.showError( 'Las dimensiones del imagen deben ser: ' + vm.imgWidth + 'px x ' + vm.imgHeight + 'px<br>Actualmente: ' + image.width + 'px x ' + image.height + 'px', 'Error');
+                }
                 photo.photoBase64 = image.base64;
 
                 GeneralAdminMapfreTecuidamosFactory.UploadImage(file).then(
