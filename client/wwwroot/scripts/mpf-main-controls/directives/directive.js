@@ -3785,8 +3785,13 @@ define(['angular', 'spin', 'system', 'lodash', 'directiveUtils'],
                 var current = {
                   breads: state.breads,
                   description: state.description,
-                  state: state.name
+                  state: state.name,
                 }
+                $window.localStorage.removeItem('appCodeSubMenu');
+                if (state.appCode){
+                  $window.localStorage.setItem('appCodeSubMenu',state.appCode);
+                }                
+               
                 directiveApply(current);
               });
 
@@ -3794,7 +3799,7 @@ define(['angular', 'spin', 'system', 'lodash', 'directiveUtils'],
                 current = current || {
                   breads: $state.$current.self.breads,
                   description: $state.$current.self.description,
-                  state: $state.$current.self.name
+                  state: $state.$current.self.name,
                 }
 
 

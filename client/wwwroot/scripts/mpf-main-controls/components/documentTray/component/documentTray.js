@@ -239,6 +239,8 @@
                     vm.$onInit = function () {
                       $scope.documentosSalud = [];
                       $scope.pdfUrl = {};
+                      $scope.codApli = '';
+                      $scope.ipOrigen = '';
                       $scope.observacionModal = '';
                       _revisarPeticion();
                     }
@@ -1465,10 +1467,13 @@
               Suplemento :          '0',
               Aplicacion :          item.Aplicacion, //'11', //SERVICIO
               SuplementoAplicacion: '0',
-              TipoImpresion :       'A'
+              TipoImpresion :       'A',
+              CodApli: $window.localStorage['appCodeSubMenu'] || '',
+              IpOrigen: $window.localStorage['clientIp'] || ''
             }
             $scope.pdfData = data;
             $scope.pdfURL = $sce.trustAsResourceUrl(constants.system.api.endpoints.policy + 'api/reporte/transporte/emision');
+
             $window.setTimeout(function(){
               document.getElementById('frmDownloadPDF').submit();
             });

@@ -163,7 +163,9 @@
 				Suplemento : "0",
 				Aplicacion : $scope.mainStep.numeroAplicacion,
 				SuplementoAplicacion : "0",
-				TipoImpresion : "A"
+				TipoImpresion : "A",
+				CodApli: $window.localStorage['appCodeSubMenu'] || '',
+                IpOrigen: $window.localStorage['clientIp'] || ''
 	    	};
 	    	$scope.pdfURL = $sce.trustAsResourceUrl(constants.system.api.endpoints.policy + "/api/reporte/transporte/emision");
             $scope.pdfData = angular.toJson(pdf);
