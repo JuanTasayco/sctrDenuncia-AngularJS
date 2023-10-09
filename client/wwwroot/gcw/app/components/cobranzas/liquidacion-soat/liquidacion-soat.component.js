@@ -13,7 +13,9 @@ define([
   '$rootScope',
   'mModalAlert',
   'MxPaginador',
+  '$stateParams',
   '$sce',
+  '$uibModal',
   'gcwServicePoliza'
   ];
 
@@ -25,7 +27,9 @@ define([
     $rootScope,
     mModalAlert,
     MxPaginador,
+    $stateParams,
     $sce,
+    $uibModal,
     gcwServicePoliza
     ) {
 
@@ -50,9 +54,21 @@ define([
       page.setNroItemsPorPagina(vm.itemsXPagina);
 
       vm.lstTipoPoliza = lstTipoPoliza;
+      vm.lstUso = lstUso;
       vm.lstTipoMoneda = lstTipoMoneda;
       vm.liquidaciones = null;
+      vm.liquidacionesSelected = [];
+      vm.liquidacionesSelectedFound = [];
+      vm.amountSelect = 0;
+      vm.showFiltroPagar = false;
+
       vm.dataTicket = gcwFactory.getVariableSession("dataTicket");
+
+      $scope.letterNumber =  $stateParams.id;
+      $scope.yearLetter =  $stateParams.year;
+      $scope.letterVersion =  $stateParams.version;
+      $scope.letterCia =  $stateParams.cia;
+      console.log($stateParams);
 
       //recalcula el monto total (des)habilitando checkbox
       vm.reCalculaTotal = reCalculaTotal;
@@ -64,6 +80,7 @@ define([
 
       lstTipoPoliza();
       lstTipoMoneda();
+      lstUso();
 
       vm.cabecera = $rootScope.cabecera;
       vm.dataTicket = gcwFactory.getVariableSession("dataTicket");
@@ -101,6 +118,7 @@ define([
         vm.tipoPoliza = {};
         vm.tipoMoneda.value = 1;
         vm.tipoPoliza.code = 0;
+        vm.usoPoliza.code = 0;
         vm.mFechaHasta = new Date();
         vm.mFechaDesde = gcwFactory.restarMes(new Date(), 6);
         vm.filter = {
@@ -169,6 +187,162 @@ define([
     //paginacion
     vm.pageChanged = pageChanged;
     vm.buscar = buscar;
+    vm.agregar = agregar;
+    vm.quitar = quitar;
+    vm.quitarTodo = quitarTodo;
+    vm.agregarTodo = agregarTodo;
+    vm.searchliquidacionesSelected = searchliquidacionesSelected;
+    vm.verHistorial = verHistorial;
+    vm.generarLiquidacion = generarLiquidacion;
+
+    function amountSelectFunc() {
+      vm.amountSelect = _.reduce(vm.liquidacionesSelected,function (previous, current) {
+        return previous + current.netPremium;
+      }, 0);
+      gcwFactory.addVariableSession('amountSession', {value: vm.amountSelect});
+    }
+
+    function generarLiquidacion(){
+      var exportData = vm.liquidacionesSelected.length>0 ? vm.paramsLiquidacion : null;
+
+      if(exportData){
+
+        $scope.message = false;
+        $scope.porGenerar = false;
+        $scope.error = false;
+        $scope.liquidacionescount = vm.liquidacionesSelected.length;
+        $scope.amount = vm.amountSelect;
+        $uibModal.open({
+          backdrop: true,
+          backdropClick: true,
+          dialogFade: false,
+          keyboard: true,
+          scope: $scope,
+          templateUrl : '/gcw/app/components/cobranzas/liquidacion-soat/modalLiquidacion.html',
+          controller : ['$scope', '$uibModalInstance', '$uibModal', function($scope, $uibModalInstance, $uibModal) {
+            
+            $scope.close = function () {
+              $uibModalInstance.close();
+              $rootScope.$broadcast('getDataPostLiquidation', 1);
+            };
+
+            $scope.generar = function(){
+              if($scope.amount > 0) $scope.porGenerar = true;
+              else $scope.porGenerar = false;
+
+              if($scope.porGenerar){ //desencadena generacion de liq
+                exportData.soat = vm.liquidacionesSelected;
+                gcwFactory.generarLiquidacion(exportData, true).then(function(response){
+                  $scope.message = true;
+                  $scope.preSettlement = response.data.value;
+
+                  $scope.downloadFile = {
+                    preSettlement: $scope.preSettlement,
+                    agentId: exportData.agentId,
+                    managerId: exportData.managerId,
+                    userCode: exportData.userCode
+                  };
+                  gcwFactory.addVariableSession('downloadFile', $scope.downloadFile);
+                }, function(error){
+                  console.log(error);
+                });
+
+              }else{
+                $scope.error = true;
+              }
+            }
+
+            $scope.exportarLiq = function(){
+              $scope.exportURL = $sce.trustAsResourceUrl(constants.system.api.endpoints.gcw+ 'api/collection/soat/download');
+              $scope.downloadFile = gcwFactory.getVariableSession('downloadFile');
+              $timeout(function() {
+                document.getElementById('frmLiquidSoat').submit();
+              }, 500);
+            }
+          }]
+        });
+      }else{
+        mModalAlert.showInfo("El total de liquidación es 0. No es posible generar liquidación", "Liquidación SOAT");
+      }
+    }
+
+
+
+
+    function searchliquidacionesSelected(codigo) {
+      if(codigo){
+        vm.liquidacionesSelectedFound = _.filter(vm.liquidacionesSelected,function (x) {
+          return x.policyNumber.indexOf(codigo) >=0 || x.vehicle.plate.indexOf(codigo) >=0
+        })
+      }
+      
+      if(vm.polizaPlaca){
+        vm.showFiltroPagar = true;
+      }
+      else{
+        vm.showFiltroPagar = false;
+      }
+    }
+
+    function agregar(item) {
+      var existe = _.filter(vm.liquidacionesSelected,function (x) {
+        return x.policyNumber == item.policyNumber
+      })
+      if(existe.length==0){
+        item.checkSelected = "S",
+        item.checkEnabled = "S",
+        vm.liquidacionesSelected.push(item);
+        amountSelectFunc();
+      }
+    }
+
+    function agregarTodo() {
+      for (var index = 0; index < vm.liquidaciones.length; index++) {
+        if(!vm.liquidaciones[index].btndisabled && vm.liquidaciones[index].checkEnabled!='N'){
+          vm.liquidacionesSelected.push(vm.liquidaciones[index])
+        }
+      }
+      amountSelectFunc();
+      
+      vm.liquidaciones = _.map(vm.liquidaciones,function (x) {
+        x.btndisabled = true;
+        return x;
+      }) 
+    }
+
+    function quitar(item) {
+      vm.liquidacionesSelected = _.filter(vm.liquidacionesSelected,function (x) {
+        return x.policyNumber !== item.policyNumber
+      });
+
+      vm.liquidacionesSelectedFound = _.filter(vm.liquidacionesSelectedFound,function (x) {
+        return x.policyNumber !== item.policyNumber
+      });
+
+      vm.liquidaciones = _.map(vm.liquidaciones,function (x) {
+        if(x.btndisabled && (x.policyNumber == item.policyNumber)){
+          x.btndisabled = false;
+        }
+        return x;
+      }) 
+      amountSelectFunc();
+    }
+
+    function quitarTodo() {
+      vm.liquidacionesSelected = [];
+      vm.liquidaciones = _.map(vm.liquidaciones,function (x) {
+        x.btndisabled =  false;
+        return x;
+      }) 
+      amountSelectFunc();
+    }
+
+    
+    function verHistorial() {
+      gcwFactory.addVariableSession("dataTandaSession", vm.tandas);
+        $state.go('consulta.liquidacionSoatHistorial', {}, {reload: false, inherit: false});
+    }
+
 
     function getFilterLiqSession(){
       vm.filterLiqSession = {};
@@ -188,10 +362,21 @@ define([
       });
     }
 
+    function verHistorial() {
+      gcwFactory.addVariableSession("dataTandaSession", vm.tandas);
+        $state.go('consulta.liquidacionSoatHistorial', {}, {reload: false, inherit: false});
+    }
+
     //lista tipo de moneda: Soles y Dolares
     function lstTipoMoneda(){
       gcwFactory.getListTipoMoneda().then(function glpPr(req){
         vm.lstTipoMoneda = req.data;
+      });
+    }
+
+    function lstUso() {
+      gcwFactory.getTypeUse().then(function glpPr(req){
+        vm.lstUso = req.data;
       });
     }
 
@@ -211,7 +396,9 @@ define([
             agentId: vm.rol.agenteID,
             managerId: vm.rol.gestorID,
             RowByPage: vm.itemsXTanda,
-            CurrentPage: vm.currentPage
+            CurrentPage: vm.currentPage,
+            typeUseCode: (ng.isUndefined(vm.usoPoliza)) ? 0 : vm.usoPoliza.value,
+            policyOrPlate: vm.policyOrPlate
           };
           page.setCurrentTanda(vm.currentPage);
           getLiquidaciones(vm.filter);
@@ -277,6 +464,26 @@ define([
     function setLstCurrentPage() {
       vm.liquidaciones = page.getItemsDePagina();
       vm.paramsLiquidacion = vm.tandas[tandaActual].paramsLiquidacion;
+      if(vm.liquidacionesSelected.length>0){
+        vm.liquidaciones = _.map(vm.liquidaciones,function (x) {
+          for (var index = 0; index < vm.liquidacionesSelected.length; index++) {
+            if(x.policyNumber == vm.liquidacionesSelected[index].policyNumber){
+              x.btndisabled = true;
+             break;
+            }
+            else{
+              x.btndisabled = false;
+            }
+          }
+          return x;
+        })
+      }
+      else{
+        vm.liquidaciones = _.map(vm.liquidaciones,function (x) {
+          x.btndisabled = false;
+          return x;
+        })
+      }
     }
 
     function pageChanged(event) {

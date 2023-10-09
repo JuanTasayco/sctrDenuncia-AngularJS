@@ -2,7 +2,7 @@
 /* eslint-disable new-cap */
 
 define(['angular', 'lodash', 'helper', 'wpConstant'], function(ng, _, helper, wpConstant) {
-  var currentUser, roleWP, nroAsistencia, siniestroNro;
+  var currentUser, roleWP, nroAsistencia, siniestroNro , provincialist, distritolist;
   var wpFactoryHelp = {
     help: {
       buildReq: buildReq,
@@ -36,6 +36,10 @@ define(['angular', 'lodash', 'helper', 'wpConstant'], function(ng, _, helper, wp
     setCurrentUser: setCurrentUser,
     getCurrentUser: getCurrentUser,
     setNroAsistencia: setNroAsistencia,
+    setDistrito : setDistrito,
+    getDistrito: getDistrito,
+    setProvincia : setProvincia,
+    getProvincia: getProvincia,
     getNroAsistencia: getNroAsistencia,
     setSiniestroNro: setSiniestroNro,
     getSiniestroNro: getSiniestroNro,
@@ -404,6 +408,24 @@ define(['angular', 'lodash', 'helper', 'wpConstant'], function(ng, _, helper, wp
 
   function setNroAsistencia(codAsistencia) {
     nroAsistencia = codAsistencia;
+  }
+
+  function setDistrito(lista) {
+    distritolist = lista  || [{}];;
+  }
+  function getDistrito(id) {
+    return distritolist.find(function (x) {
+      return x.id == id;
+    });
+
+  }
+  function setProvincia(lista) {
+    provincialist = lista || [{}];
+  }
+  function getProvincia(id) {
+    return provincialist.find(function (x) {
+      return x.id == id;
+    });
   }
 
   function getNroAsistencia() {
