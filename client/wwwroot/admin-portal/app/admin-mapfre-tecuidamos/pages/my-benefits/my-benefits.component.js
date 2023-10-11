@@ -20,6 +20,7 @@ define(['angular', 'coreConstants', 'mapfreTecuidamosConstants', 'system', 'loda
         vm.onClickItemsBenefitsRemove = onClickItemsBenefitsRemove;
         vm.deleteFile = deleteFile;
         vm.setIcon = setIcon;
+        vm.viewErrors= false
 
         vm.file = {
             image: {
@@ -89,7 +90,6 @@ define(['angular', 'coreConstants', 'mapfreTecuidamosConstants', 'system', 'loda
             var photo = { name: file.name.replace(/ /g, '-') };
 
             readAsDataURL(file, $scope).then(function (image) {
-                console.log(image.width)
                 if (image.width != vm.imgWidth || image.height != vm.imgHeight) {
                     return void mModalAlert.showError( 'Las dimensiones del imagen deben ser: ' + vm.imgWidth + 'px x ' + vm.imgHeight + 'px<br>Actualmente: ' + image.width + 'px x ' + image.height + 'px', 'Error');
                 }
@@ -304,6 +304,7 @@ define(['angular', 'coreConstants', 'mapfreTecuidamosConstants', 'system', 'loda
         }
 
         function addOrEditItemsBenefits(data) {
+            vm.viewErrors = false;
             if(data){
                 vm.formItemsBenefits = ng.copy(data);
                 vm.formItemsBenefits.check = !data.internalLink;
@@ -336,8 +337,9 @@ define(['angular', 'coreConstants', 'mapfreTecuidamosConstants', 'system', 'loda
                     };
 
                     $scope.saveItemsBenefits = function () {
-                        if (!$scope.frmModalItemsBenefits.$valid) {
+                        if (!$scope.frmModalItemsBenefits.$valid || !vm.formItemsBenefits.icon) {
                             $scope.frmModalItemsBenefits.markAsPristine();
+                            vm.viewErrors = true;
                             return;
                         }
 
@@ -425,6 +427,7 @@ define(['angular', 'coreConstants', 'mapfreTecuidamosConstants', 'system', 'loda
         }
 
         function editAssistance(data) {
+            vm.viewErrors= false
             vm.formAssistance =ng.copy({
                 title: data.title,
                 description: data.description,
@@ -453,8 +456,9 @@ define(['angular', 'coreConstants', 'mapfreTecuidamosConstants', 'system', 'loda
                     };
 
                     $scope.saveAssistance = function () {
-                        if (!$scope.frmModalAssistance.$valid) {
+                        if (!$scope.frmModalAssistance.$valid || !vm.file.pdf.src || !vm.file.image.src) {
                             $scope.frmModalAssistance.markAsPristine();
+                            vm.viewErrors = true;
                             return;
                         }
                         updateAssistance($uibModalInstance) 
