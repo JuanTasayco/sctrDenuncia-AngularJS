@@ -3789,7 +3789,7 @@ define(['angular', 'spin', 'system', 'lodash', 'directiveUtils'],
                 }
                 $window.localStorage.removeItem('appCodeSubMenu');
                 if (state.appCode){
-                  $window.localStorage.setItem('appCodeSubMenu',state.appCode);
+                  $window.localStorage.setItem('appCodeSubMenu', state.appCode == 'TRANSPORTES' ? 'TRANSPORTE' : state.appCode );                  
                 }                
                
                 directiveApply(current);
