@@ -127,10 +127,29 @@ define([], function() {
       ]
     },
     {
-      name: 'detalleAsistencia',
-      abstract: true,
+      name: 'consolidadoAsistencia',
       code: '',
-      url: '/detalle',
+      url: '/consolidado-asistencia',
+      description: 'Web Procurador',
+      parent: 'root',
+      views: {
+        content: {
+          controller: 'ConsolidadoAsistenciaPageController as $ctrl',
+          templateUrl: '/webproc/app/components/consolidado-asistencia/consolidado-asistencia.page.html'
+        }
+      },
+      resolver: [
+        {
+          name: 'consolidadoAsistencia',
+          moduleName: 'appWp',
+          files: ['consolidadoAsistenciaPageController']
+        }
+      ]
+    },
+    {
+      name: 'detalleAsistencia',
+      code: '',
+      url: '/detalle?:nroAsistencia',
       params: {
         nroAsistencia: null
       },
@@ -197,6 +216,12 @@ define([], function() {
             return wpFactory.car.Get();
           }
         ],
+        typeDocuments: [
+          'wpFactory',
+          function typeDocuments(wpFactory) {
+            return wpFactory.siniestro.GetListParameterDetail(5,undefined,true);
+          }
+        ],
         dataAsistencia: [
           'wpFactory',
           '$stateParams',
@@ -213,139 +238,140 @@ define([], function() {
         }
       ]
     },
-    {
-      name: 'detalleAsistencia.generales',
-      code: '',
-      url: '/generales?:nroAsistencia',
-      description: 'Datos generales',
-      views: {
-        contenido: {
-          controller: 'DatosGeneralesPageController as $ctrl',
-          templateUrl: '/webproc/app/components/detalle-asistencia/datos-generales/datos-generales.page.html'
-        }
-      },
-      resolver: [
-        {
-          name: 'detalleAsistencia.generales',
-          moduleName: 'appWp',
-          files: ['wpDatosGenerales']
-        }
-      ]
-    },
-    {
-      name: 'detalleAsistencia.conductor',
-      code: '',
-      url: '/conductor?:nroAsistencia',
-      description: 'Datos de conductor y ocupante',
-      views: {
-        contenido: {
-          controller: 'ConductorOcupantePageController as $ctrl',
-          templateUrl: '/webproc/app/components/detalle-asistencia/conductor-ocupante/conductor-ocupante.page.html'
-        }
-      },
-      resolver: [
-        {
-          name: 'detalleAsistencia.conductor',
-          moduleName: 'appWp',
-          files: ['wpConductorOcupante']
-        }
-      ]
-    },
-    {
-      name: 'detalleAsistencia.vehiculo',
-      code: '',
-      url: '/vehiculo?:nroAsistencia',
-      description: 'Datos del vehículo',
-      views: {
-        contenido: {
-          controller: 'VehiculoPageController as $ctrl',
-          templateUrl: '/webproc/app/components/detalle-asistencia/vehiculo/vehiculo.page.html'
-        }
-      },
-      resolver: [
-        {
-          name: 'detalleAsistencia.vehiculo',
-          moduleName: 'appWp',
-          files: ['wpVehiculo']
-        }
-      ]
-    },
-    {
-      name: 'detalleAsistencia.terceros',
-      code: '',
-      url: '/terceros?:nroAsistencia',
-      description: 'Datos del vehículo',
-      views: {
-        contenido: {
-          controller: 'TercerosPageController as $ctrl',
-          templateUrl: '/webproc/app/components/detalle-asistencia/terceros/terceros.page.html'
-        }
-      },
-      resolver: [
-        {
-          name: 'detalleAsistencia.terceros',
-          moduleName: 'appWp',
-          files: ['wpTerceros']
-        }
-      ]
-    },
-    {
-      name: 'detalleAsistencia.siniestro',
-      code: '',
-      url: '/siniestro?:nroAsistencia',
-      description: 'Datos del detalle siniestro',
-      views: {
-        contenido: {
-          controller: 'DetalleSiniestroPageController as $ctrl',
-          templateUrl: '/webproc/app/components/detalle-asistencia/detalle-siniestro/detalle-siniestro.page.html'
-        }
-      },
-      resolver: [
-        {
-          name: 'detalleAsistencia.siniestro',
-          moduleName: 'appWp',
-          files: ['wpDetalleSiniestro']
-        }
-      ]
-    },
-    {
-      name: 'detalleAsistencia.consolidado',
-      code: '',
-      url: '/consolidado?:nroAsistencia',
-      description: 'Datos del consolidado',
-      views: {
-        contenido: {
-          controller: 'ConsolidadoPageController as $ctrl',
-          templateUrl: '/webproc/app/components/detalle-asistencia/consolidado/consolidado.page.html'
-        }
-      },
-      resolver: [
-        {
-          name: 'detalleAsistencia.consolidado',
-          moduleName: 'appWp',
-          files: ['wpConsolidado']
-        }
-      ]
-    },
-    {
-      name: 'detalleAsistencia.talleres',
-      code: '',
-      url: '/talleres?:nroAsistencia',
-      description: 'Búsqueda de talleres',
-      views: {
-        contenido: {
-          controller: 'TalleresPageController as $ctrl',
-          templateUrl: '/webproc/app/components/detalle-asistencia/talleres/talleres.page.html'
-        }
-      },
-      resolver: [
-        {
-          name: 'detalleAsistencia.talleres',
-          moduleName: 'appWp',
-          files: ['wpTalleres']
-        }
-      ]
-    }
+    //// Antiguo 
+    // {
+    //   name: 'detalleAsistencia.generales',
+    //   code: '',
+    //   url: '/generales?:nroAsistencia',
+    //   description: 'Datos generales',
+    //   views: {
+    //     contenido: {
+    //       controller: 'DatosGeneralesPageController as $ctrl',
+    //       templateUrl: '/webproc/app/components/detalle-asistencia/datos-generales/datos-generales.page.html'
+    //     }
+    //   },
+    //   resolver: [
+    //     {
+    //       name: 'detalleAsistencia.generales',
+    //       moduleName: 'appWp',
+    //       files: ['wpDatosGenerales']
+    //     }
+    //   ]
+    // },
+    // {
+    //   name: 'detalleAsistencia.conductor',
+    //   code: '',
+    //   url: '/conductor?:nroAsistencia',
+    //   description: 'Datos de conductor y ocupante',
+    //   views: {
+    //     contenido: {
+    //       controller: 'ConductorOcupantePageController as $ctrl',
+    //       templateUrl: '/webproc/app/components/detalle-asistencia/conductor-ocupante/conductor-ocupante.page.html'
+    //     }
+    //   },
+    //   resolver: [
+    //     {
+    //       name: 'detalleAsistencia.conductor',
+    //       moduleName: 'appWp',
+    //       files: ['wpConductorOcupante']
+    //     }
+    //   ]
+    // },
+    // {
+    //   name: 'detalleAsistencia.vehiculo',
+    //   code: '',
+    //   url: '/vehiculo?:nroAsistencia',
+    //   description: 'Datos del vehículo',
+    //   views: {
+    //     contenido: {
+    //       controller: 'VehiculoPageController as $ctrl',
+    //       templateUrl: '/webproc/app/components/detalle-asistencia/vehiculo/vehiculo.page.html'
+    //     }
+    //   },
+    //   resolver: [
+    //     {
+    //       name: 'detalleAsistencia.vehiculo',
+    //       moduleName: 'appWp',
+    //       files: ['wpVehiculo']
+    //     }
+    //   ]
+    // },
+    // {
+    //   name: 'detalleAsistencia.terceros',
+    //   code: '',
+    //   url: '/terceros?:nroAsistencia',
+    //   description: 'Datos del vehículo',
+    //   views: {
+    //     contenido: {
+    //       controller: 'TercerosPageController as $ctrl',
+    //       templateUrl: '/webproc/app/components/detalle-asistencia/terceros/terceros.page.html'
+    //     }
+    //   },
+    //   resolver: [
+    //     {
+    //       name: 'detalleAsistencia.terceros',
+    //       moduleName: 'appWp',
+    //       files: ['wpTerceros']
+    //     }
+    //   ]
+    // },
+    // {
+    //   name: 'detalleAsistencia.siniestro',
+    //   code: '',
+    //   url: '/siniestro?:nroAsistencia',
+    //   description: 'Datos del detalle siniestro',
+    //   views: {
+    //     contenido: {
+    //       controller: 'DetalleSiniestroPageController as $ctrl',
+    //       templateUrl: '/webproc/app/components/detalle-asistencia/detalle-siniestro/detalle-siniestro.page.html'
+    //     }
+    //   },
+    //   resolver: [
+    //     {
+    //       name: 'detalleAsistencia.siniestro',
+    //       moduleName: 'appWp',
+    //       files: ['wpDetalleSiniestro']
+    //     }
+    //   ]
+    // },
+    // {
+    //   name: 'detalleAsistencia.consolidado',
+    //   code: '',
+    //   url: '/consolidado?:nroAsistencia',
+    //   description: 'Datos del consolidado',
+    //   views: {
+    //     contenido: {
+    //       controller: 'ConsolidadoPageController as $ctrl',
+    //       templateUrl: '/webproc/app/components/detalle-asistencia/consolidado/consolidado.page.html'
+    //     }
+    //   },
+    //   resolver: [
+    //     {
+    //       name: 'detalleAsistencia.consolidado',
+    //       moduleName: 'appWp',
+    //       files: ['wpConsolidado']
+    //     }
+    //   ]
+    // },
+    // {
+    //   name: 'detalleAsistencia.talleres',
+    //   code: '',
+    //   url: '/talleres?:nroAsistencia',
+    //   description: 'Búsqueda de talleres',
+    //   views: {
+    //     contenido: {
+    //       controller: 'TalleresPageController as $ctrl',
+    //       templateUrl: '/webproc/app/components/detalle-asistencia/talleres/talleres.page.html'
+    //     }
+    //   },
+    //   resolver: [
+    //     {
+    //       name: 'detalleAsistencia.talleres',
+    //       moduleName: 'appWp',
+    //       files: ['wpTalleres']
+    //     }
+    //   ]
+    // }
   ];
 
   return data;

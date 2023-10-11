@@ -1,10 +1,3 @@
-<gcw-header
-  data="{type: 3}"
-  datatanda="vm.tandas"
-  export="vm.paramsLiquidacion"
->
-</gcw-header>
-
 <div class="consultaGestion">
   <div class="container">
     <!-- Top bar: Filtro e iconos -->
@@ -13,8 +6,15 @@
         <a ng-click="showFilterTopbar = !showFilterTopbar" uib-popover="Filtro" popover-trigger="'mouseenter'"><span class="g-icon-box g-icon-box-md"><span class="ico-mapfre ico-mapfre_203_filtro ico-filter"></span></span></a>
         <a ng-show="vm.totalRows >= 1" data-ng-click="exportar()" uib-popover="Exportar" popover-trigger="'mouseenter'"><span class="g-icon-box g-icon-box-md"><span class="ico-mapfre ico-mapfre_124_download ico-download"></span></span></a>
       </div>
-      <div class="g-row-filter__box box_right height-xs height-sm" ng-class="{'filter__show': showFilterTopbar}">
+      <div class="g-row-filter__box box_right_100 height-xs height-sm" ng-class="{'filter__show': showFilterTopbar}">
         <form class="clearfix">
+          <div class="g-filter-col">
+            <span style="font-size: 14px;"> Buscar </span>
+            <input type="text"  class="mt-xs-1 filtro_liquidacionSoat" placeholder="PÓLIZA O PLACA" style="max-width: 130px;margin-left: 5px;
+            font-size: 14px;
+            border: none;
+            border-bottom: 1px solid #3f3a3a;" ng-model="vm.policyOrPlate" >
+          </div>
           <div class="g-filter-col">
             <mpf-select-horz
               ng-model="vm.tipoPoliza"
@@ -26,7 +26,18 @@
               m-Empty-Option="{enterData:false}"
               mpf-validation="required"></mpf-select-horz>
           </div>
-          <div class="g-filter-col select_150">
+          <div class="g-filter-col">
+            <mpf-select-horz
+              ng-model="vm.usoPoliza"
+              name="nDesde"
+              m-data-source="vm.lstUso"
+              label="{label: 'Uso', required: false}"
+              text-field="description"
+              value-field="value"
+              m-Empty-Option="{enterData:false}"
+              mpf-validation="required"></mpf-select-horz>
+          </div>
+          <div class="g-filter-col">
             <mpf-select-horz
               ng-model="vm.tipoMoneda"
               name="nTipoMoneda"
@@ -64,132 +75,240 @@
             ga-category="'CG - Cobranzas'"
             ga-action="'MPF - Liquidación SOAT - Aplicar Filtros'"
             ga-label="'Botón: Aplicar Filtros'"
-            ng-click="vm.buscar()"><a class="g-btn g-btn-white block second-design ">Aplicar Filtros</a></div>
+            ng-click="vm.buscar()"><a class="g-btn g-btn-white block second-design ">Aplicar </a></div>
           <div class="col__buttons visible-xs visible-sm mt-xs-2">
-            <a class="g-btn g-btn-white block second-design mb-xs-2" ng-click="vm.buscar()">Aplicar Filtros</a>
+            <a class="g-btn g-btn-white block second-design mb-xs-2" ng-click="vm.buscar()">Aplicar</a>
             <a class="g-btn g-btn-white block" ng-click="showFilterTopbar = !showFilterTopbar">Cerrar</a>
           </div>
         </form>
       </div>
     </div>
-
-    <div class="clearfix" ng-show="vm.totalRows >= 1">
-      <div class="col-xs-12 col-md-12 g-text-right-md des-user mt-xs-2 mb-xs-1 g-text-left-xs no-padding-xs">
-        <span class="bold">TOTAL LIQUIDACIÓN:</span> <span>{{vm.totalAmount | number:2}}</span>
-      </div>
-    </div>
-
-    <div class="mb-xs-2 g-myd-box g-myd-box--solicitudes" ng-show="vm.totalRows >= 1">
-      <div  class="clearfix g-box solicitudes pl-xs-1-5 pr-xs-1-5 h-myd-pl--0 h-myd-pr--0" data-ng-repeat="item in vm.liquidaciones">
-        <div class="row">
-          <div class="col-xs-12 col-sm-1">
-            <div class="text-center mt-xs-1 mb-xs-1 h-myd-mt--0">
-              <div class="item-dato g-text-uppercase" ng-if="item.checkEnabled == 'N'">
-                <mpf-checkbox name="nChk" ng-model="item.itemChk" ng-checked="item.itemChk=false" ng-disabled="isDisabled()"></mpf-checkbox>
-              </div>
-              <div class="item-dato g-text-uppercase" ng-if="item.checkEnabled == 'S'" >
-                <!--  <mpf-checkbox name="nChk" ng-model="item.checkSelected" ng-change="vm.reCalculaTotal(item)" ng-true-value="'S'" ng-false-value="'N'"></mpf-checkbox> -->
-                <div class="cnt-check">
-                  <div class="g-cnt-checkbox">
-                    <label class="g-checkbox" ng-class="{'active' : item.checkSelected == 'S'}">
-                      <span class="ico-checkbox"></span>
-                      <input type="checkbox" name="nChk" ng-model="item.checkSelected" ng-change="vm.reCalculaTotal(item)"  ng-true-value="'S'" ng-false-value="'N'">
-                    </label>
-                  </div>
-                </div>
-              </div>
-            </div>
+    <div class="row">
+      <div class="col-md-7">
+        <div class="clearfix" ng-show="vm.totalRows >= 1">
+          <div class="col-xs-6 col-md-6 des-user mt-xs-2 mb-xs-1 g-text-left-xs no-padding-xs">
+            <h2 class="gH3 mb-xs-1"> Registros Pendientes</h2>
+            <span class="bold">TOTAL LIQUIDACIÓN PENDIENTE:</span> <span>{{vm.totalAmount | number:2}}</span>
           </div>
-          <div class="col-xs-12 col-sm-11 pt-sm-1 h-myd-pt--0">
-            <div class="row g-box-header">
-              <ul class="clearfix g-list second-design">
-                <li class="col-md-8 no-padding-xs">
-                  <ul class="row">
-                    <li class="col-md-6 col-xs-12 clearfix cnt-item no-padding-xs">
-                      <div class="col-md-12 col-xs-12 ">
-                        <div class="col-md-5 col-xs-12 item-label g-text-uppercase">TIPO DE PÓLIZA:</div>
-                        <div class="col-md-7 col-xs-12 item-dato g-text-uppercase">{{item.policyType}}</div>
-                      </div>
-                    </li>
-                    <li class="col-md-6 col-xs-12 clearfix cnt-item no-padding-md">
-                      <div class="col-md-5 col-xs-12 item-label g-text-uppercase">RECIBO:</div>
-                      <div class="col-md-7 col-xs-12 item-dato g-text-uppercase">{{item.receiptNumber}}</div>
-                    </li>
-                  </ul>
-                </li>
-                <li class="col-md-4 col-xs-12 clearfix cnt-item no-padding-xs">
-                  <div class="col-md-5 col-xs-12 item-label g-text-uppercase">PRE LIQUIDACIÓN:</div>
-                  <div class="col-md-7 col-xs-12 item-dato g-text-uppercase">{{item.preSettlement}}</div>
-                </li>
-              </ul>
-              <ul class="clearfix g-list second-design">
-                <li class="col-md-8 col-xs-12 no-padding-xs">
-                  <ul class="row">
-                    <li class="col-md-6 col-xs-12 clearfix cnt-item no-padding-xs">
-                      <div class="col-md-12 col-xs-12">
-                        <div class="col-md-5 col-xs-12 item-label g-text-uppercase">PÓLIZA:</div>
-                        <div class="col-md-7 col-xs-12 item-dato g-text-uppercase">{{item.policyNumber}}</div>
-                      </div>
-                    </li>
-                    <li class="col-md-6 col-xs-12 clearfix cnt-item no-padding-md">
-                      <div class="col-md-5 col-xs-12 item-label g-text-uppercase">MONEDA:</div>
-                      <div class="col-md-7 col-xs-12 item-dato g-text-uppercase" ng-show="item.coinCode == 1">SOLES</div>
-                      <div class="col-md-7 col-xs-12 item-dato g-text-uppercase" ng-show="item.coinCode == 2">DÓLARES</div>
-                    </li>
-                  </ul>
-                </li>
-                <li class="col-md-4 col-xs-12 clearfix cnt-item no-padding-xs">
-                  <div class="col-md-5 col-xs-12 item-label g-text-uppercase">PRIMA TOTAL:</div>
-                  <div class="col-md-7 col-xs-12 item-dato g-text-uppercase">{{item.netPremium | number:2}}</div>
-                </li>
-              </ul>
+          <div class="col-xs-6 col-md-6 des-user mt-xs-2 mb-xs-1 g-text-left-xs no-padding-xs">
+            <div class="col-md-6">
+              <a class="g-btn g-btn-white block second-design" ng-click="vm.verHistorial()">Ver Historial </a>
             </div>
-            <div class="row g-box-content list-liquiSoat">
-              <ul class="clearfix g-list second-design">
-                <li class="col-md-4 col-xs-12 pr-xs-0 cnt-item no-padding-xs">
-                  <div class="col-md-5 col-xs-12 item-label g-text-uppercase">Certificado:</div>
-                  <div class="col-md-7 col-xs-12 item-dato">-</div>
-                </li>
-                <li class="col-md-4 col-xs-12 pr-xs-0 cnt-item no-padding-xs">
-                  <div class="col-md-5 col-xs-12 item-label g-text-uppercase">Marca:</div>
-                  <div class="col-md-7 col-xs-12 item-dato">{{item.vehicle.make}}</div>
-                </li>
-                <li class="col-md-4 col-xs-12 pr-xs-0 cnt-item no-padding-xs">
-                  <div class="col-md-5 col-xs-12 item-label g-text-uppercase">Uso:</div>
-                  <div class="col-md-7 col-xs-12 item-dato">{{item.vehicle.use}}</div>
-                </li>
-                <li class="col-md-4 col-xs-12 pr-xs-0 cnt-item no-padding-xs">
-                  <div class="col-md-5 col-xs-12 item-label g-text-uppercase">Contratante:</div>
-                  <div class="col-md-7 col-xs-12 item-dato">{{item.contractorFull}}</div>
-                </li>
-                <li class="col-md-4 col-xs-12 pr-xs-0 cnt-item no-padding-xs">
-                  <div class="col-md-5 col-xs-12 item-label g-text-uppercase">Placa:</div>
-                  <div class="col-md-7 col-xs-12 item-dato">{{item.vehicle.plate}}</div>
-                </li>
-                <li class="col-md-4 col-xs-12 pr-xs-0 cnt-item no-padding-xs">
-                  <div class="col-md-5 col-xs-12 item-label g-text-uppercase">Asientos:</div>
-                  <div class="col-md-7 col-xs-12 item-dato">{{item.vehicle.seatNumber}}</div>
-                </li>
-                <li class="col-md-4 col-xs-12 pr-xs-0 cnt-item no-padding-xs">
-                  <div class="col-md-5 col-xs-12 item-label g-text-uppercase">Tipo Vehículo:</div>
-                  <div class="col-md-7 col-xs-12 item-dato">{{item.vehicle.type}}</div>
-                </li>
-              </ul>
+            <div class="col-md-6">
+              <a class="g-btn g-btn-white block second-design" ng-click="vm.agregarTodo()">Añadir Todos</a>
             </div>
           </div>
         </div>
+        
+        <div class="mb-xs-2 g-myd-box g-myd-box--solicitudes" ng-show="vm.totalRows >= 1">
+          <div  class="clearfix g-box solicitudes mt-sm-1 pl-xs-1-5 pr-xs-1-5 h-myd-pl--0 h-myd-pr--0" data-ng-repeat="item in vm.liquidaciones">
+            <div class="row">
+              <div class="col-xs-12 col-sm-12 pt-sm-1 h-myd-pt--0">
+                <div class="row g-box-header col-sm-10">  
+                  <ul class="clearfix g-list second-design">
+                    <li class="col-md-12 col-xs-12 no-padding-xs">
+                      <ul class="row">
+                        <li class="col-md-3 col-xs-3 no-padding-xs">
+                          <div class="col-md-12 col-xs-12">
+                            <div class="col-md-12 col-xs-12 item-label g-text-uppercase">PÓLIZA:</div>
+
+                          </div>
+                        </li>
+                        <li class="col-md-2 col-xs-3 no-padding-md">
+                          <div class="col-md-12 col-xs-12 item-label g-text-uppercase">PLACA:</div>
+              
+                        </li>
+                        <li class="col-md-2 col-xs-3 no-padding-md">
+                          <div class="col-md-12 col-xs-12 item-label g-text-uppercase">FECHA:</div>
+                        </li>
+                        <li class="col-md-4 col-xs-3 no-padding-md">
+                          <div class="col-md-12 col-xs-12 item-label g-text-uppercase">PRIMA TOTAL:</div>
+              
+                        </li>
+                      </ul>
+                    </li>
+                  </ul>
+                  <ul class="clearfix mt-xs-1  mb-xs-1  g-list second-design">
+                    <li class="col-md-12 col-xs-12 no-padding-xs">
+                      <ul class="row">
+                        <li class="col-md-3 col-xs-3 nclearfix  no-padding-xs">
+                          <div class="col-md-12 col-xs-12">
+                            <div class="col-md-7 col-xs-12 item-dato g-text-uppercase">{{item.policyNumber}}</div>
+                          </div>
+                        </li>
+                        <li class="col-md-2 col-xs-3 no-padding-md">
+                          <div class="col-md-7 col-xs-12 item-dato g-text-uppercase">{{item.vehicle.plate}}</div>
+                          
+                        </li>
+                        <li class="col-md-2 col-xs-3  no-padding-xs">
+                          <div class="col-md-7 col-xs-12 item-dato g-text-uppercase">{{item.policyDate}}</div>
+                        </li>
+                        <li class="col-md-4 col-xs-3 no-padding-xs">
+                          <div class="col-md-7 col-xs-12 item-dato g-text-uppercase">{{item.netPremium | number:2}}</div>
+                        </li>
+                      </ul>
+                    </li>
+                    
+                  </ul>
+                </div>
+                <div class="row col-sm-3  text-right" ng-class="{'mb-xs-2': item.btndisabled || item.checkEnabled=='N'}">
+                  <button class="g-btn g-btn-white block second-design" ng-disabled="item.btndisabled || item.checkEnabled=='N'" ng-click="vm.agregar(item);item.btndisabled=true"> {{item.btndisabled || item.checkEnabled=='N' ? 'Pendiente de pago' : 'Añadir'  }} </button>
+                </div>
+
+              </div>
+            </div>
+          </div>
+        </div>
+        <mx-paginador
+        data-datos="vm.liquidaciones"
+        data-items-x-page="vm.itemsXPagina"
+        data-msg-vacio="vm.msgVacio"
+        data-on-paginar="vm.pageChanged($event)"
+        data-pagina-actual="vm.currentPage"
+        data-total-items="vm.totalRows"
+      >
+      </mx-paginador>
+      </div>
+      <div class="col-md-5 gBgcGray5" ng-show="vm.totalRows >= 1">
+        <div class="clearfix" >
+          <div class="col-xs-7 col-md-7 des-user mt-xs-2 mb-xs-1 g-text-left-xs no-padding-xs">
+            <h2 class="gH3 mb-xs-1"> Registros a pagar ({{vm.liquidacionesSelected.length}})</h2>
+            <span class="bold">TOTAL LIQUIDACIÓN:</span> <span>{{vm.amountSelect | number:2}}</span>
+          </div>
+          <div class="col-xs-5 col-md-5 des-user mt-xs-2 mb-xs-1 g-text-left-xs no-padding-xs">
+            <div class="col-md-12">
+              <a class="g-btn g-btn-white block second-design" ng-click="vm.quitarTodo()"> QUITAR TODOS </a>
+            </div>
+          </div>
+          <div class="col-md-12 g-text-left-xs no-padding-xs mb-xs-1">
+            <mpf-input label="{label: 'Buscar por numero de poliza o placa', required: false}" name="nNumPoliza" ng-model="vm.polizaPlaca" ng-blur="vm.searchliquidacionesSelected(vm.polizaPlaca);"></mpf-input>
+          </div>
+        </div>
+        <div class="col-md-12" style="height: 750px; display: flex;justify-content: center;align-items: center;" ng-if="vm.liquidacionesSelected.length==0 || (vm.showFiltroPagar && vm.liquidacionesSelectedFound.length==0)">
+          <span class="col-md-8" class="bold">  No tienes ningún registro seleccionado Puedes agregar con el botón “Añadir”. </span>
+        </div>
+        <div style="height: 750px; max-height: 750px; overflow: scroll;">
+          <div  class="clearfix gBgcWhite1 g-box solicitudes mt-sm-1 pl-xs-1-5 pr-xs-1-5 h-myd-pl--0 h-myd-pr--0"  ng-if="vm.liquidacionesSelected.length>0 && !vm.showFiltroPagar" data-ng-repeat="item in vm.liquidacionesSelected">
+            <div class="row">
+              <div class="col-xs-12 col-sm-12 pt-sm-1 h-myd-pt--0 no-padding-xs">
+                <div class="row g-box-header col-md-12">  
+                  <ul class="clearfix g-list second-design">
+                    <li class="col-md-12 col-xs-12 no-padding-xs">
+                      <ul class="row">
+                        <li class="col-md-3 col-xs-3 clearfix  no-padding-md">
+                          <div class="col-md-12 col-xs-12">
+                            <div class="col-md-12 col-xs-12 item-label g-text-uppercase">PÓLIZA:</div>
+  
+                          </div>
+                        </li>
+                        <li class="col-md-2 col-xs-3 clearfix  no-padding-md">
+                          <div class="col-md-12 col-xs-12 item-label g-text-uppercase">PLACA:</div>
+              
+                        </li>
+                        <li class="col-md-2 col-xs-3 clearfix  no-padding-md">
+                          <div class="col-md-12 col-xs-12 item-label g-text-uppercase">FECHA:</div>
+              
+                        </li>
+                        <li class="col-md-4 col-xs-3 clearfix  no-padding-md">
+                          <div class="col-md-12 col-xs-12 item-label g-text-uppercase">PRIMA TOTAL:</div>
+              
+                        </li>
+                      </ul>
+                    </li>
+                  </ul>
+                  <ul class="clearfix mt-xs-1  mb-xs-1 g-list second-design">
+                    <li class="col-md-12 col-xs-12 no-padding-xs">
+                      <ul class="row">
+                        <li class="col-md-3 col-xs-3 nclearfix  no-padding-md">
+                          <div class="col-md-12 col-xs-12">
+                            <div class="col-md-7 col-xs-12 item-dato g-text-uppercase">{{item.policyNumber}}</div>
+                          </div>
+                        </li>
+                        <li class="col-md-2 col-xs-3 clearfix  no-padding-md">
+                          <div class="col-md-7 col-xs-12 item-dato g-text-uppercase">{{item.vehicle.plate}}</div>
+                        </li>
+                        <li class="col-md-2 col-xs-3 clearfix  no-padding-xs">
+                          <div class="col-md-7 col-xs-12 item-dato g-text-uppercase">{{item.policyDate}}</div>
+                        </li>
+                        <li class="col-md-4 col-xs-3 clearfix  no-padding-xs">
+                          <div class="col-md-7 col-xs-12 item-dato g-text-uppercase">{{item.netPremium | number:2}}</div>
+                        </li>
+  
+                      </ul>
+                    </li>
+                  </ul>
+                </div>
+                <div class="row col-md-1 mt-xs-1 text-right">
+                  <span class="icon ico-mapfre_307_tacho icon-box-md"  style="font-size: 20px; color: red;" ng-click="vm.quitar(item)"></span>
+                </div>
+  
+              </div>
+            </div>
+          </div>
+          <div  class="clearfix gBgcWhite1 g-box solicitudes mt-sm-1 pl-xs-1-5 pr-xs-1-5 h-myd-pl--0 h-myd-pr--0"  ng-if="vm.liquidacionesSelectedFound.length>0 && vm.showFiltroPagar" data-ng-repeat="item in vm.liquidacionesSelectedFound">
+            <div class="row">
+              <div class="col-xs-12 col-sm-12 pt-sm-1 h-myd-pt--0 no-padding-xs">
+                <div class="row g-box-header col-md-12">  
+                  <ul class="clearfix g-list second-design">
+                    <li class="col-md-12 col-xs-12 no-padding-xs">
+                      <ul class="row">
+                        <li class="col-md-3 col-xs-3 clearfix  no-padding-md">
+                          <div class="col-md-12 col-xs-12">
+                            <div class="col-md-12 col-xs-12 item-label g-text-uppercase">PÓLIZA:</div>
+  
+                          </div>
+                        </li>
+                        <li class="col-md-2 col-xs-3 clearfix  no-padding-md">
+                          <div class="col-md-12 col-xs-12 item-label g-text-uppercase">PLACA:</div>
+              
+                        </li>
+                        <li class="col-md-2 col-xs-3 clearfix  no-padding-md">
+                          <div class="col-md-12 col-xs-12 item-label g-text-uppercase">FECHA:</div>
+              
+                        </li>
+                        <li class="col-md-4 col-xs-3 clearfix  no-padding-md">
+                          <div class="col-md-12 col-xs-12 item-label g-text-uppercase">PRIMA TOTAL:</div>
+              
+                        </li>
+                      </ul>
+                    </li>
+                  </ul>
+                  <ul class="clearfix mt-xs-1  mb-xs-1 g-list second-design">
+                    <li class="col-md-12 col-xs-12 no-padding-xs">
+                      <ul class="row">
+                        <li class="col-md-3 col-xs-3 nclearfix  no-padding-md">
+                          <div class="col-md-12 col-xs-12">
+                            <div class="col-md-7 col-xs-12 item-dato g-text-uppercase">{{item.policyNumber}}</div>
+                          </div>
+                        </li>
+                        <li class="col-md-2 col-xs-3 clearfix  no-padding-md">
+                          <div class="col-md-7 col-xs-12 item-dato g-text-uppercase">{{item.vehicle.plate}}</div>
+                        </li>
+                        <li class="col-md-2 col-xs-3 clearfix  no-padding-xs">
+                          <div class="col-md-7 col-xs-12 item-dato g-text-uppercase">{{item.policyDate}}</div>
+                        </li>
+                        <li class="col-md-4 col-xs-3 clearfix  no-padding-xs">
+                          <div class="col-md-7 col-xs-12 item-dato g-text-uppercase">{{item.netPremium | number:2}}</div>
+                        </li>
+  
+                      </ul>
+                    </li>
+                  </ul>
+                </div>
+                <div class="row col-md-1 mt-xs-1 text-right">
+                  <span class="icon ico-mapfre_307_tacho icon-box-md"  style="font-size: 20px; color: red;" ng-click="vm.quitar(item)"></span>
+                </div>
+  
+              </div>
+            </div>
+          </div>
+
+        </div>
+        <div class="pt-xs-2 pb-xs-2">
+            <a class="g-btn g-btn-green-border second-design block g-myd-btn-secundary" ng-click="vm.generarLiquidacion()">Generar liquidación</a>
+        </div>
       </div>
     </div>
-
-    <mx-paginador
-      data-datos="vm.liquidaciones"
-      data-items-x-page="vm.itemsXPagina"
-      data-msg-vacio="vm.msgVacio"
-      data-on-paginar="vm.pageChanged($event)"
-      data-pagina-actual="vm.currentPage"
-      data-total-items="vm.totalRows"
-    >
-    </mx-paginador>
   </div>
 </div>
 

@@ -11,9 +11,13 @@ define(['angular', 'lodash'], function(ng, _) {
       getTipoLesion: getTipoLesion,
       getTipoLicencia: getTipoLicencia,
       getTipoRelacion: getTipoRelacion,
+      getTipoSiniestro: getTipoSiniestro,
+      getTipoSiniestroDetalle: getTipoSiniestroDetalle,
       getTipoSoat: getTipoSoat,
       getTipoVia: getTipoVia,
       getZonaDanho: getZonaDanho,
+      getCompaniaSeguro: getCompaniaSeguro,
+      getConvenio: getConvenio,
       setLookups: setLookups,
       getCarBrands: getCarBrands,
       setCarBrands: setCarBrands,
@@ -21,6 +25,8 @@ define(['angular', 'lodash'], function(ng, _) {
       setCarTypesUse: setCarTypesUse,
       getCarTypes: getCarTypes,
       setCarTypes: setCarTypes,
+      getTypeDocuments: getTypeDocuments,
+      setTypeDocuments: setTypeDocuments,
       getNivelDanho: getNivelDanho,
       setNivelDanho: setNivelDanho,
       getTipoDanho: getTipoDanho,
@@ -51,6 +57,10 @@ define(['angular', 'lodash'], function(ng, _) {
       dataLookup.TIP_BIEN = _filtrarSegunCodigo('TIP_BIEN', 'codigoCampo', item, dataLookup.TIP_BIEN);
       dataLookup.TIP_DOMICILIO = _filtrarSegunCodigo('TIP_DOMICILIO', 'codigoCampo', item, dataLookup.TIP_DOMICILIO);
       dataLookup.TIP_RELACION = _filtrarSegunCodigo('TIP_RELACION', 'codigoCampo', item, dataLookup.TIP_RELACION);
+      dataLookup.TIP_SINIESTRO = _filtrarSegunCodigo('TipoAsistencia', 'codigoCampo', item, dataLookup.TIP_SINIESTRO);
+      dataLookup.TIP_SINIESTRO_DETALLE = _filtrarSegunCodigo('DetalleTipoSiniestro', 'codigoCampo', item, dataLookup.TIP_SINIESTRO_DETALLE);
+      dataLookup.COMPANIA_ASEGURADO = _filtrarSegunCodigo('EmpresaAseguradora', 'codigoCampo', item, dataLookup.COMPANIA_ASEGURADO);
+      dataLookup.CONVENIO = _filtrarSegunCodigo('CroquisAndResponsability', 'codigoCampo', item, dataLookup.CONVENIO);
       dataLookup.COD_RESPONSABILIDAD = _filtrarSegunCodigo(
         'COD_RESPONSABILIDAD',
         'codigoCampo',
@@ -107,6 +117,10 @@ define(['angular', 'lodash'], function(ng, _) {
     return dataLookup.USO_VEHICULO;
   }
 
+  function getTypeDocuments() {
+    return dataLookup.TIP_DOCUMENTS;
+  }
+
   function getCarTypes() {
     return dataLookup.CAR_TYPES;
   }
@@ -129,6 +143,10 @@ define(['angular', 'lodash'], function(ng, _) {
 
   function setCarTypesUse(arrUses) {
     dataLookup.USO_VEHICULO = [].concat(arrUses);
+  }
+
+  function setTypeDocuments(arrDocuments) {
+    dataLookup.TIP_DOCUMENTS = [].concat(arrDocuments);
   }
 
   function setCarTypes(arrTypes) {
@@ -181,8 +199,24 @@ define(['angular', 'lodash'], function(ng, _) {
     return dataLookup.ZONA_DANO;
   }
 
+  function getCompaniaSeguro() {
+    return dataLookup.COMPANIA_ASEGURADO;
+  }
+
+  function getConvenio() {
+    return dataLookup.CONVENIO;
+  }
+
   function getTipoRelacion() {
     return dataLookup.TIP_RELACION;
+  }
+
+  function getTipoSiniestro() {
+    return dataLookup.TIP_SINIESTRO;
+  }
+
+  function getTipoSiniestroDetalle() {
+    return dataLookup.TIP_SINIESTRO_DETALLE;
   }
 
   function setMotivoInves(arrMotivo) {
