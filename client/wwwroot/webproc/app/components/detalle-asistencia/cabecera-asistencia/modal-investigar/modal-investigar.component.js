@@ -21,15 +21,12 @@ define(['angular'], function(ng) {
     }
 
     function realizarCb() {
-      vm.frmBien.markAsPristine();
-      if(!vm.frmBien.$invalid){
-        vm.close({
-          $event: {
-            data: vm.frm,
-            status: 'ok'
-          }
-        });
-      }
+      vm.close({
+        $event: {
+          data: vm.frm,
+          status: 'ok'
+        }
+      });
     }
   } // end controller
 

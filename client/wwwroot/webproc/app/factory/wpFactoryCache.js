@@ -1,15 +1,13 @@
 'use strict';
 
 define(['angular'], function(ng) {
-  var frmBandeja, resultadoBandeja, frmConsolidado;
+  var frmBandeja, resultadoBandeja;
   var cache = {
     cache: {
       setFrm: setFrm,
       getFrm: getFrm,
       setResultado: setResultado,
-      getResultado: getResultado,
-      setConsolidado: setConsolidado,
-      getConsolidado: getConsolidado
+      getResultado: getResultado
     }
   };
 
@@ -31,13 +29,5 @@ define(['angular'], function(ng) {
 
   function getResultado() {
     return resultadoBandeja;
-  }
-
-  function setConsolidado(frm) {
-    frmConsolidado = ng.copy(frm);
-  }
-
-  function getConsolidado() {
-    return frmConsolidado;
   }
 });
