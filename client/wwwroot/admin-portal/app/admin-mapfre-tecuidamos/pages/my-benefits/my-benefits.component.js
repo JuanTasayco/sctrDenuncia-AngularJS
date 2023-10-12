@@ -33,6 +33,8 @@ define(['angular', 'coreConstants', 'mapfreTecuidamosConstants', 'system', 'loda
             }
         }
 
+        var kb = 1000;
+
         var watchFileModel;
         var watchPDFModel;
 
@@ -43,6 +45,9 @@ define(['angular', 'coreConstants', 'mapfreTecuidamosConstants', 'system', 'loda
             ///
             vm.fileTypes = '.jpg,.jpeg,.png'
             vm.fileTypesPdf = '.pdf'
+
+            vm.maxKbSize = 4000;
+            vm.maxMbSize = vm.maxKbSize / kb;
 
             ///
             AdminRamoFactory.setSectionSelected(AdminRamoFactory.getSections()[0]);
@@ -107,9 +112,9 @@ define(['angular', 'coreConstants', 'mapfreTecuidamosConstants', 'system', 'loda
         }
 
         function createPreviewPdf(file) {
-            // if (file.size / kb > vm.maxKbSize) {
-            //     return void mModalAlert.showWarning('La imagen supera los ' + vm.maxMbSize + 'MB', 'No se pudo generar la carga del archivo');
-            // }
+            if (file.size / kb > vm.maxKbSize) {
+                return void mModalAlert.showWarning('El pdf supera los ' + vm.maxMbSize + 'MB', 'No se pudo generar la carga del archivo');
+            }
 
             var pdf = { name: file.name.replace(/ /g, '-') };
 
