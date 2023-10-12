@@ -253,7 +253,7 @@ define([
                   $scope.preSettlement = response.data.value;
                   vm.liquidacionesSelected = [];
                   vm.amountSelect = 0;
-                  
+
                   $scope.downloadFile = {
                     preSettlement: $scope.preSettlement,
                     agentId: exportData.agentId,
@@ -286,18 +286,10 @@ define([
 
     function searchliquidacionesSelected(codigo, event) {
       if (event.code == 'Enter' && codigo) {
-        if (codigo) {
-          vm.liquidacionesSelectedFound = _.filter(vm.liquidacionesSelected, function (x) {
-            return x.policyNumber.indexOf(codigo) >= 0 || x.vehicle.plate.indexOf(codigo) >= 0
-          })
-        }
-
-        if (vm.polizaPlaca) {
-          vm.showFiltroPagar = true;
-        }
-        else {
-          vm.showFiltroPagar = false;
-        }
+        vm.liquidacionesSelectedFound = _.filter(vm.liquidacionesSelected, function (x) {
+          return x.policyNumber.indexOf(codigo) >= 0 || x.vehicle.plate.indexOf(codigo) >= 0
+        })
+        vm.polizaPlaca ? vm.showFiltroPagar = true : vm.showFiltroPagar = false;
       } else if (!codigo) {
         vm.liquidacionesSelectedFound = _.filter(vm.liquidacionesSelected, function (x) {
           return x.policyNumber.indexOf(codigo) >= 0 || x.vehicle.plate.indexOf(codigo) >= 0
@@ -522,7 +514,7 @@ define([
     }
 
     function pageChanged(event) {
-      
+
       vm.filter = {
         CoinCode: (typeof vm.tipoMoneda == 'undefined') ? 1 : vm.tipoMoneda.value,
         PolicyType: (typeof vm.tipoPoliza == 'undefined') ? 0 : vm.tipoPoliza.code,//"0", //code: 0 todos 1 laser 2 manual
@@ -535,7 +527,7 @@ define([
 
       page.setNroPaginaAMostrar(event.pageToLoad).thenLoadFrom(function (nroTanda) {
         tandaActual = nroTanda;
-        
+
         if (vm.tandas[nroTanda]) {
           page.setDataActual(vm.tandas[nroTanda].data).setConfiguracionTanda();
           setLstCurrentPage();
