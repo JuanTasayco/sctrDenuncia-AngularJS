@@ -1,7 +1,7 @@
 'use strict';
 
 define(['angular', 'AsistenciaActions', 'wpConstant', 'lodash'], function(ng, AsistenciaActions, wpConstant, _) {
-  CabeceraAsistenciaController.$inject = [
+  FooterAsistenciaController.$inject = [
     '$window',
     '$document',
     '$rootScope',
@@ -14,7 +14,7 @@ define(['angular', 'AsistenciaActions', 'wpConstant', 'lodash'], function(ng, As
     '$ngRedux',
     '$state'
   ];
-  function CabeceraAsistenciaController(
+  function FooterAsistenciaController(
     $window,
     $document,
     $rootScope,
@@ -88,10 +88,10 @@ define(['angular', 'AsistenciaActions', 'wpConstant', 'lodash'], function(ng, As
   }
   return ng
     .module('appWp')
-    .controller('CabeceraAsistenciaController', CabeceraAsistenciaController)
-    .component('wpCabeceraAsistencia', {
-      templateUrl: '/webproc/app/components/detalle-asistencia/cabecera-asistencia/cabecera-asistencia.html',
-      controller: 'CabeceraAsistenciaController',
+    .controller('FooterAsistenciaController', FooterAsistenciaController)
+    .component('wpFooterAsistencia', {
+      templateUrl: '/webproc/app/components/detalle-asistencia/footer-asistencia/footer-asistencia.html',
+      controller: 'FooterAsistenciaController',
       bindings: {
         infoAsistencia: '<?',
         onGuardar: '&?',

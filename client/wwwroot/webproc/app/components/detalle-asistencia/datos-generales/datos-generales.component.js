@@ -14,7 +14,6 @@ define(['angular', 'lodash', 'AsistenciaActions', 'wpConstant'], function(ng, _,
     vm.toggleComisariaManual = toggleComisariaManual;
     vm.changeExoneracionDenunciaDosaje = changeExoneracionDenunciaDosaje;
 
-    // declaracion
 
     function onInit() {
       actionsRedux = $ngRedux.connect(mapStateToThis, AsistenciaActions)(vm);
@@ -136,10 +135,10 @@ define(['angular', 'lodash', 'AsistenciaActions', 'wpConstant'], function(ng, _,
       if (
         !(
           vm.frm &&
-          vm.frm.codigoTipoSiniestro === '2' && // Tipo de Siniestro = CHOQUE
-          vm.frm.detalleTipoSiniestro.length === 14 && // Exista un Detalle de Siniestro
+          vm.frm.codigoTipoSiniestro === '2' &&
+          vm.frm.detalleTipoSiniestro.length === 14 &&
           vm.frm.detalleTipoSiniestro[13].value === true
-        ) // Detalle del siniestro = Entre Vehiculos)
+        )
       ) {
         vm.frm.siniestroConvenio = {
           aplicaConvenio: false,

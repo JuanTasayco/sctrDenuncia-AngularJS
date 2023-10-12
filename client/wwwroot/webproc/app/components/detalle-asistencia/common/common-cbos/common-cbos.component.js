@@ -13,6 +13,8 @@ define(['angular', 'lodash', 'wpConstant'], function(ng, _, wpConstant) {
       ngModel: '=?',
       optionDefault: '=?',
       setModelByThisKey: '=?',
+      setCodeTipoSiniestro : '=?',
+      setModelByThisText: '=?',
       txtField: '@?',
       valueField: '@?'
     }
@@ -39,9 +41,10 @@ define(['angular', 'lodash', 'wpConstant'], function(ng, _, wpConstant) {
     }
 
     function watcherModel() {
-      watchModel = $scope.$watch('$ctrl.ngModel.id', function(nv, ov) {
+      watchModel = $scope.$watch('$ctrl.ngModel', function(nv, ov) {
         if (nv !== ov) {
-          vm.setModelByThisKey = nv;
+          vm.setModelByThisKey = nv.id;
+          vm.setModelByThisText = nv.descripcion;
         }
       });
     }
@@ -54,7 +57,7 @@ define(['angular', 'lodash', 'wpConstant'], function(ng, _, wpConstant) {
       wpFactory.ubigeo
         .GetDepartaments(false)
         .then(function gcbRPrFn(resp) {
-          vm.cboLista = [].concat({descripcion: '--SELECCIONE--', id: 0}, resp);
+          vm.cboLista = resp;
           wpFactory.myLookup.setDepartamentos(vm.cboLista);
           setModel();
         })
@@ -93,6 +96,7 @@ define(['angular', 'lodash', 'wpConstant'], function(ng, _, wpConstant) {
       watchModel = $scope.$watch('$ctrl.ngModel.id', function(nv, ov) {
         if (nv !== ov) {
           vm.setModelByThisKey = nv;
+          vm.setModelByThisText = vm.ngModel.descripcion;
         }
       });
     }
@@ -104,7 +108,7 @@ define(['angular', 'lodash', 'wpConstant'], function(ng, _, wpConstant) {
     }
 
     function setModel() {
-      vm.ngModel = wpFactory.help.seleccionarCombo(vm.cboLista, vm.valueField, vm.setModelByThisKey);
+      vm.ngModel = wpFactory.help.seleccionarCombo(vm.cboLista, vm.valueField, vm.setModelByThisKey || vm.prov );
     }
 
     function getLista(depaId) {
@@ -114,7 +118,7 @@ define(['angular', 'lodash', 'wpConstant'], function(ng, _, wpConstant) {
       wpFactory.ubigeo
         .GetProvinces(depaId, false)
         .then(function gcbRPrFn(resp) {
-          vm.cboLista = [].concat({descripcion: '--SELECCIONE--', id: 0}, resp);
+          vm.cboLista = resp;
           setModel();
         })
         .catch(function gctEPrFn(err) {
@@ -127,7 +131,8 @@ define(['angular', 'lodash', 'wpConstant'], function(ng, _, wpConstant) {
   var wpCboProvincia = _.merge({}, wpCboCommonSetting, {
     controller: 'CboProvinciaController',
     bindings: {
-      depa: '=?'
+      depa: '=?',
+      prov: '=?'
     }
   });
 
@@ -158,6 +163,7 @@ define(['angular', 'lodash', 'wpConstant'], function(ng, _, wpConstant) {
       watchModel = $scope.$watch('$ctrl.ngModel.id', function(nv, ov) {
         if (nv !== ov) {
           vm.setModelByThisKey = nv;
+          vm.setModelByThisText = vm.ngModel.descripcion;
         }
       });
     }
@@ -175,7 +181,7 @@ define(['angular', 'lodash', 'wpConstant'], function(ng, _, wpConstant) {
     }
 
     function setModel() {
-      vm.ngModel = wpFactory.help.seleccionarCombo(vm.cboLista, vm.valueField, vm.setModelByThisKey);
+      vm.ngModel = wpFactory.help.seleccionarCombo(vm.cboLista, vm.valueField, vm.setModelByThisKey || vm.dist);
     }
 
     function getLista(objLugar) {
@@ -189,7 +195,7 @@ define(['angular', 'lodash', 'wpConstant'], function(ng, _, wpConstant) {
       wpFactory.ubigeo
         .GetDistricts(depa, prov)
         .then(function gcbRPrFn(resp) {
-          vm.cboLista = [].concat({descripcion: '--SELECCIONE--', id: 0}, resp);
+          vm.cboLista = resp;
           setModel();
         })
         .catch(function gctEPrFn(err) {
@@ -203,7 +209,8 @@ define(['angular', 'lodash', 'wpConstant'], function(ng, _, wpConstant) {
     controller: 'CboDistritoController',
     bindings: {
       depa: '<?',
-      prov: '<?'
+      prov: '<?',
+      dist: '<?'
     }
   });
 
@@ -297,6 +304,7 @@ define(['angular', 'lodash', 'wpConstant'], function(ng, _, wpConstant) {
       watchModel = $scope.$watch('$ctrl.ngModel.codigoValor', function(nv, ov) {
         if (nv !== ov) {
           vm.setModelByThisKey = nv;
+          vm.setModelByThisText = vm.ngModel ? vm.ngModel.nombreValor : null;
         }
       });
     }
@@ -330,6 +338,7 @@ define(['angular', 'lodash', 'wpConstant'], function(ng, _, wpConstant) {
       watchModel = $scope.$watch('$ctrl.ngModel.codigoValor', function(nv, ov) {
         if (nv !== ov) {
           vm.setModelByThisKey = nv;
+          vm.setModelByThisText = vm.ngModel ? vm.ngModel.nombreValor : null;
         }
       });
     }
@@ -492,7 +501,7 @@ define(['angular', 'lodash', 'wpConstant'], function(ng, _, wpConstant) {
     function onInit() {
       vm.txtField = vm.txtField || 'nombreValor';
       vm.valueField = vm.valueField || 'codigoValor';
-      vm.cboLista = wpConstant.tipoSiniestro;
+      vm.cboLista = wpFactory.myLookup.getTipoSiniestro();
       vm.ngModel = wpFactory.help.seleccionarCombo(vm.cboLista, vm.valueField, vm.setModelByThisKey);
       watcherModel();
     }
@@ -505,6 +514,7 @@ define(['angular', 'lodash', 'wpConstant'], function(ng, _, wpConstant) {
       watchModel = $scope.$watch('$ctrl.ngModel.codigoValor', function(nv, ov) {
         if (nv !== ov) {
           vm.setModelByThisKey = (nv || 0) + '';
+          vm.setModelByThisText = vm.ngModel ? vm.ngModel.nombreValor : null;
         }
       });
     }
@@ -525,7 +535,7 @@ define(['angular', 'lodash', 'wpConstant'], function(ng, _, wpConstant) {
     function onInit() {
       vm.txtField = vm.txtField || 'nombreValor';
       vm.valueField = vm.valueField || 'codigoValor';
-      vm.cboLista = wpConstant.lugarAtencion;
+      vm.cboLista = wpFactory.myLookup.getLugarAtencionAsistencia();
       vm.ngModel = wpFactory.help.seleccionarCombo(vm.cboLista, vm.valueField, vm.setModelByThisKey);
       watcherModel();
     }
@@ -616,6 +626,9 @@ define(['angular', 'lodash', 'wpConstant'], function(ng, _, wpConstant) {
       wpFactory.police
         .GetPoliceStationByUbigeo(dist, true, depa, prov)
         .then(function gcbRPrFn(resp) {
+          vm.array({
+            array : resp
+          })
           vm.cboLista = resp;
           setModel();
         })
@@ -631,7 +644,8 @@ define(['angular', 'lodash', 'wpConstant'], function(ng, _, wpConstant) {
     bindings: {
       depa: '<?',
       dist: '<?',
-      prov: '<?'
+      prov: '<?',
+      array: '&?'
     }
   });
 
@@ -913,6 +927,72 @@ define(['angular', 'lodash', 'wpConstant'], function(ng, _, wpConstant) {
     controller: 'CboZonaDanhoController'
   });
 
+  // CBO: Convenio
+  CboConvenioController.$inject = ['wpFactory', '$scope'];
+  function CboConvenioController(wpFactory, $scope) {
+    var vm = this;
+    var watchModel;
+    vm.$onInit = onInit;
+    vm.$onDestroy = onDestroy;
+
+    function onInit() {
+      vm.txtField = vm.txtField || 'nombreValorDetalle';
+      vm.valueField = vm.valueField || 'codigoValor';
+      vm.cboLista = wpFactory.myLookup.getConvenio();
+      vm.ngModel = wpFactory.help.seleccionarCombo(vm.cboLista, vm.valueField, vm.setModelByThisKey);
+      watcherModel();
+    }
+
+    function onDestroy() {
+      watchModel();
+    }
+
+    function watcherModel() {
+      watchModel = $scope.$watch('$ctrl.ngModel.codigoValor', function(nv, ov) {
+        if (nv !== ov) {
+          vm.setModelByThisKey = nv;
+        }
+      });
+    }
+  }
+
+  var wpCboConvenio = ng.extend({}, wpCboCommonSetting, {
+    controller: 'CboConvenioController'
+  });
+
+  // CBO: Compañia de seguros
+  CboCompaniaSeguroController.$inject = ['wpFactory', '$scope'];
+  function CboCompaniaSeguroController(wpFactory, $scope) {
+    var vm = this;
+    var watchModel;
+    vm.$onInit = onInit;
+    vm.$onDestroy = onDestroy;
+
+    function onInit() {
+      vm.txtField = vm.txtField || 'nombreValor';
+      vm.valueField = vm.valueField || 'codigoValor';
+      vm.cboLista = wpFactory.myLookup.getCompaniaSeguro();
+      vm.ngModel = wpFactory.help.seleccionarCombo(vm.cboLista, vm.valueField, vm.setModelByThisKey);
+      watcherModel();
+    }
+
+    function onDestroy() {
+      watchModel();
+    }
+
+    function watcherModel() {
+      watchModel = $scope.$watch('$ctrl.ngModel.codigoValor', function(nv, ov) {
+        if (nv !== ov) {
+          vm.setModelByThisKey = nv;
+        }
+      });
+    }
+  }
+
+  var wpCboCompaniaSeguro = ng.extend({}, wpCboCommonSetting, {
+    controller: 'CboCompaniaSeguroController'
+  });
+
   // CBO: parte del daño
   CboParteDanhoController.$inject = ['wpFactory', '$log', '$scope'];
   function CboParteDanhoController(wpFactory, $log, $scope) {
@@ -1139,6 +1219,39 @@ define(['angular', 'lodash', 'wpConstant'], function(ng, _, wpConstant) {
     controller: 'CboUsoVehiculoController'
   });
 
+  // CBO: tipo de documentos
+  CboTipoDocumentosController.$inject = ['wpFactory', '$scope'];
+  function CboTipoDocumentosController(wpFactory, $scope) {
+    var vm = this;
+    var watchModel;
+    vm.$onInit = onInit;
+    vm.$onDestroy = onDestroy;
+
+    function onInit() {
+      vm.txtField = vm.txtField || 'descripcionParametro';
+      vm.valueField = vm.valueField || 'codigoParametro';
+      vm.cboLista = wpFactory.myLookup.getTypeDocuments();
+      vm.ngModel = wpFactory.help.seleccionarCombo(vm.cboLista, vm.valueField, vm.setModelByThisKey);
+      watcherModel();
+    }
+
+    function onDestroy() {
+      watchModel();
+    }
+
+    function watcherModel() {
+      watchModel = $scope.$watch('$ctrl.ngModel.codigoParametro', function(nv, ov) {
+        if (nv !== ov) {
+          vm.setModelByThisKey = nv;
+        }
+      });
+    }
+  }
+
+  var wpCboTipoDocumentos = ng.extend({}, wpCboCommonSetting, {
+    controller: 'CboTipoDocumentosController'
+  });
+
   // CBO: tipo de bien
   CboTipoBienController.$inject = ['wpFactory', '$scope'];
   function CboTipoBienController(wpFactory, $scope) {
@@ -1181,6 +1294,7 @@ define(['angular', 'lodash', 'wpConstant'], function(ng, _, wpConstant) {
   function CboResponsabilidadController(wpFactory, $scope) {
     var vm = this;
     var watchModel;
+    var watchModel2;
     vm.$onInit = onInit;
     vm.$onDestroy = onDestroy;
 
@@ -1188,10 +1302,7 @@ define(['angular', 'lodash', 'wpConstant'], function(ng, _, wpConstant) {
       vm.txtField = vm.txtField || 'nombreValor';
       vm.valueField = vm.valueField || 'codigoValor';
       // TODO: back deberia tmb mandar ese obj
-      vm.cboLista = [].concat(wpFactory.myLookup.getCodResponsabilidad(), {
-        codigoValor: '4',
-        nombreValor: 'DETERMINAR POR PNP'
-      });
+      setCombo(true);
       vm.ngModel = wpFactory.help.seleccionarCombo(vm.cboLista, vm.valueField, vm.setModelByThisKey);
       watcherModel();
     }
@@ -1200,12 +1311,38 @@ define(['angular', 'lodash', 'wpConstant'], function(ng, _, wpConstant) {
       watchModel();
     }
 
+    function setCombo(showTercero) {
+      vm.cboLista = [].concat(wpFactory.myLookup.getCodResponsabilidad(), {
+        codigoValor: '4',
+        nombreValor: 'DETERMINAR POR PNP'
+      });
+      if(!showTercero){
+        vm.cboLista = _.filter(vm.cboLista,function (x) {
+          return x.codigoValor != 2;
+        })
+      }
+    }
+
     function watcherModel() {
       watchModel = $scope.$watch('$ctrl.ngModel.codigoValor', function(nv, ov) {
         if (nv !== ov) {
           vm.setModelByThisKey = nv;
         }
       });
+      watchModel2 = $scope.$watch('$ctrl.setCodeTipoSiniestro', function(nv, ov) {
+        if (nv !== ov) {
+          if(vm.setCodeTipoSiniestro  == 106){
+            setCombo(false);
+            vm.ngModel = {
+              'codigoValor' : null
+            }
+          }
+          else{
+            setCombo(true);
+          }
+        }
+      });
+
     }
   }
 
@@ -1306,6 +1443,10 @@ define(['angular', 'lodash', 'wpConstant'], function(ng, _, wpConstant) {
     .component('wpCboDireccionTaller', wpCboDireccionTaller)
     .controller('CboZonaDanhoController', CboZonaDanhoController)
     .component('wpCboZonaDanho', wpCboZonaDanho)
+    .controller('CboConvenioController', CboConvenioController)
+    .component('wpCboConvenio', wpCboConvenio)
+    .controller('CboCompaniaSeguroController', CboCompaniaSeguroController)
+    .component('wpCboCompaniaSeguro', wpCboCompaniaSeguro)
     .controller('CboParteDanhoController', CboParteDanhoController)
     .component('wpCboParteDanho', wpCboParteDanho)
     .controller('CboTipoDanhoController', CboTipoDanhoController)
@@ -1316,6 +1457,8 @@ define(['angular', 'lodash', 'wpConstant'], function(ng, _, wpConstant) {
     .component('wpCboModeloVehiculo', wpCboModeloVehiculo)
     .controller('CboUsoVehiculoController', CboUsoVehiculoController)
     .component('wpCboUsoVehiculo', wpCboUsoVehiculo)
+    .controller('CboTipoDocumentosController', CboTipoDocumentosController)
+    .component('wpCboTipoDocumentos', wpCboTipoDocumentos)
     .controller('CboTipoBienController', CboTipoBienController)
     .component('wpCboTipoBien', wpCboTipoBien)
     .controller('CboResponsabilidadController', CboResponsabilidadController)
