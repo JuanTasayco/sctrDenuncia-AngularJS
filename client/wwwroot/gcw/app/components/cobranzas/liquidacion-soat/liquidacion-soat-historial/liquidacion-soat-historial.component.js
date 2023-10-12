@@ -51,6 +51,7 @@ define([
                 if(response.data.code == 1){
 
                   var params = {
+                    userCode: vm.dataTicket.userCode,
                     agentId: vm.rol.agenteID,
                     managerId: vm.rol.gestorID,
                     RowByPage: "10",
