@@ -12,7 +12,7 @@ define(['angular', 'coreConstants', 'system', 'lodash'], function (ng, coreConst
 
         vm.form = {}
         vm.content = null;
-        vm.elementsImage = [1, 2, 3, 4, 5, 6]
+        vm.elementsImage = [1, 2, 3, 4, 5]
         vm.arrayImages = []
         vm.productId = null;
         
