@@ -1,8 +1,8 @@
 'use strict';
 
 define(['angular', 'lodash', 'AsistenciaActions', 'wpConstant'], function (ng, _, AsistenciaActions, wpConstant) {
-  VehiculoSoatController.$inject = ['wpFactory', '$log', '$scope', '$interval', '$ngRedux', '$timeout','$rootScope'];
-  function VehiculoSoatController(wpFactory, $log, $scope, $interval, $ngRedux, $timeout,$rootScope) {
+  VehiculoSoatController.$inject = ['wpFactory', '$log', '$scope', '$interval', '$ngRedux', '$timeout','$rootScope','mModalAlert'];
+  function VehiculoSoatController(wpFactory, $log, $scope, $interval, $ngRedux, $timeout,$rootScope,mModalAlert) {
     var vm = this
     var onFrmSave;
     vm.$onInit = onInit;
@@ -54,6 +54,15 @@ define(['angular', 'lodash', 'AsistenciaActions', 'wpConstant'], function (ng, _
 
     function getPlaca() {
       if (vm.frmVehiculo.placaVehiculo) {
+        var frmGeneral = $scope.$parent.$parent.$parent.$ctrl.frmGeneral;
+        if(frmGeneral.frmLugarOcurrencia.frmVehiculoSoat.nPlaca.$viewValue == vm.frmVehiculo.placaVehiculo && !vm.isUa){
+          mModalAlert.showWarning('Este dato debe ser distinto al de la placa Vehículo Asegurado', 'Datos no válidos');
+          return void 0;
+        }else if (frmGeneral.frmTerceroConvenio.frmVehiculoSoat.nPlaca.$viewValue == vm.frmVehiculo.placaVehiculo && vm.isUa) {
+          mModalAlert.showWarning('Este dato debe ser distinto al de la placa Vehículo Tercero', 'Datos no válidos');
+          return void 0;
+        }
+        
         vm.isRequired = true;
         wpFactory.siniestro.GetSiniestroPlaca(vm.frmVehiculo.placaVehiculo).then(function (response) {
           response.vehiculo.respuesta == 1
@@ -63,6 +72,7 @@ define(['angular', 'lodash', 'AsistenciaActions', 'wpConstant'], function (ng, _
           $log.error('Falló al obtener equifax', err.data);
           setVehiculo(null);
         })
+        
       }
       else{
         vm.isRequired = false
