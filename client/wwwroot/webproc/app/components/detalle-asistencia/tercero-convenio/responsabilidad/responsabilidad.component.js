@@ -24,6 +24,11 @@ define(['angular', 'lodash', 'AsistenciaActions', 'wpConstant', 'wpAgregarAtrope
         }
         changeResponsabilidad();
       }
+      else{
+        vm.frmSiniestro.siniestroConvenio = {};
+        vm.frmSiniestro.siniestroConvenio.codigoMoneda = '';
+        vm.frmSiniestro.siniestroConvenio.codigoEmpresaAseguradora = null;
+      }
     }
 
     function changeResponsabilidad() {
