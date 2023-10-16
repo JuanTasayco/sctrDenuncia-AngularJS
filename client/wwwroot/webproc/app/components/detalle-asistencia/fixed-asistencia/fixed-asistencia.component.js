@@ -22,52 +22,6 @@ define(['angular', 'lodash', 'AsistenciaActions', 'wpConstant'], function(ng, _,
       vm.onInvestigar();
     }
 
-
-    function _showModalConfirm(textos) {
-      return $uibModal.open({
-        backdrop: true,
-        backdropClick: true,
-        dialogFade: false,
-        keyboard: true,
-        scope: $scope,
-        size: 'md',
-        template: '<wp-modal-confirm close="close(status)" textos="textos"></wp-modal-confirm>',
-        controller: [
-          '$scope',
-          '$uibModalInstance',
-          function(scope, $uibModalInstance) {
-            scope.close = function(type) {
-              type && type === 'ok' ? $uibModalInstance.close() : $uibModalInstance.dismiss();
-            };
-            scope.textos = textos;
-          }
-        ]
-      });
-    }
-
-
-    function _showModalInvestigar(textos) {
-      return $uibModal.open({
-        backdrop: true,
-        backdropClick: true,
-        dialogFade: false,
-        keyboard: true,
-        scope: $scope,
-        size: 'md',
-        template: '<wp-modal-investigar close="close($event)" textos="textos" datos="datos"></wp-modal-investigar>',
-        controller: [
-          '$scope',
-          '$uibModalInstance',
-          function(scope, $uibModalInstance) {
-            scope.close = function(ev) {
-              ev && ev.status === 'ok' ? $uibModalInstance.close(ev.data) : $uibModalInstance.dismiss();
-            };
-            scope.textos = textos;
-            
-          }
-        ]
-      });
-    }
   }
 
   return ng

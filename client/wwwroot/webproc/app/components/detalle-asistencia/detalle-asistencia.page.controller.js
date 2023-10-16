@@ -171,7 +171,6 @@ define(['angular', 'lodash', 'AsistenciaActions', 'helper', 'wpConstant','consta
     }
 
     function desestimar() {
-
       $scope.$emit('frm:save');
       $timeout(function () {
         debugger
@@ -196,7 +195,7 @@ define(['angular', 'lodash', 'AsistenciaActions', 'helper', 'wpConstant','consta
           btnOk: 'Desistir',
           titulo: '¿Está seguro que el cliente desea desistir de la Asistencia?'
         };
-
+        vm.ultimaDataDeAsistencia.desestimiento = "S"
         var request = setRequest('GENERADO');
 
         _showModalConfirm(textos)
