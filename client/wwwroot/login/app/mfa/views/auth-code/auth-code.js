@@ -8,8 +8,8 @@ define([
   '/login/app/login/component/authentication/serviceLogin.js',
   'InputCodesController'
 ], function(angular, system, _) {
-  AuthCodeController.$inject = ['$scope', '$state', 'MfaFactory', 'localStorageFactory', 'serviceLogin', 'mModalAlert', 'mapfreAuthetication', '$q'];
-  function AuthCodeController($scope, $state, MfaFactory, localStorageFactory, serviceLogin, mModalAlert, mapfreAuthetication, $q) {
+  AuthCodeController.$inject = ['$scope', '$state', 'MfaFactory', 'localStorageFactory', 'serviceLogin', 'mModalAlert', 'mapfreAuthetication', '$q', '$interval', 'mainServices'];
+  function AuthCodeController($scope, $state, MfaFactory, localStorageFactory, serviceLogin, mModalAlert, mapfreAuthetication, $q, $interval, mainServices) {
     var vm = this;
 
     vm.modality = {};
@@ -26,7 +26,8 @@ define([
         onBack: _onBack
       };
       _setLayoutConfig(layoutConfig);
-      _getModalty();
+      vm.modalityCode = MfaFactory.getModalityCode();
+      _getModaltyByCode(vm.modalityCode);
     };
 
     function _onBack() {
@@ -37,9 +38,7 @@ define([
       $scope.$emit('layoutConfig', config);
     }
 
-    function _getModalty() {
-      var modalityCode = localStorageFactory.getItem('modalityCode');
-
+    function _getModaltyByCode(modalityCode) {
       MfaFactory.getModalityByCode(modalityCode)
         .then(function(resModality) {
           vm.modality = MfaFactory.parseModalityByView(resModality, 'code-verify');
@@ -59,16 +58,64 @@ define([
       return deferred.promise;
     }
 
-    function onResend() {
-      var modalityCode = localStorageFactory.getItem('modalityCode');
+    function modalAlertTimer(resSendCode) {
+      function pad(v) {
+        return v.toString().padStart(2, '0');
+      }
 
-      MfaFactory.sendCode(modalityCode, true)
+      function getTimerMessage(dateExpirationTime) {
+        var countDownTime = dateExpirationTime - (new Date()).getTime();
+        var countDownDate = new Date(countDownTime);
+
+        return {
+          countDownTime: countDownTime,
+          message: 'Intentelo nuevamente en ' + pad(countDownDate.getMinutes()) + ':' + pad(countDownDate.getSeconds())
+        };
+      }
+
+      $scope.modalAlertTimer = {
+        dateExpirationTime: resSendCode.data.dateExpiration,
+        message: resSendCode.message,
+        timerMessage: getTimerMessage(resSendCode.data.dateExpiration).message
+      };
+
+      var uibModalTimer = {
+        scope: $scope,
+        controller: function($scope, $uibModalInstance) {
+          var intervalTimerMessage = $interval(function() {
+            var timerMessage = getTimerMessage($scope.modalAlertTimer.dateExpirationTime);
+
+            $scope.modalAlertTimer.timerMessage = timerMessage.message;
+
+            if (timerMessage.countDownTime <= 0) {
+              $interval.cancel(intervalTimerMessage);
+              $uibModalInstance.close();
+            }
+          }, 1000);
+        }
+      };
+
+      var modalTimerOpt = {
+        showIconClose: false,
+        showIcon: 'warning',
+        title: '¡Opps!',
+        templateContent: 'tplModalAlertTimer.html',
+        showCancelButton: false
+      }
+
+      mainServices.fnShowModal(uibModalTimer, modalTimerOpt);
+    }
+
+    function onResend() {
+      MfaFactory.sendCode(vm.modalityCode, true)
         .then(function(resSendCode) {
           if (resSendCode.operationCode ===  constants.operationCode.success) {
             _modalSuccess(vm.modality.value, 'Se envió el código nuevamente', null, null, 'Aceptar')
               .then(function() {
                 vm.mInputCode = {};
               });
+          } else if(resSendCode.operationCode === 901) {
+            modalAlertTimer(resSendCode);
           } else {
             mModalAlert.showWarning(resSendCode.message, '¡Opps!', null, null, 'Aceptar');
           }
@@ -93,7 +140,7 @@ define([
 
     function onSumitCode() {
       var reqCheckCode = {
-        modalityCode: localStorageFactory.getItem('modalityCode'),
+        modalityCode: vm.modalityCode,
         code: _getCode()
       };
 

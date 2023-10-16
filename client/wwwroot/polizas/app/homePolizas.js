@@ -107,9 +107,6 @@
                                 var vida = _.find(appSubMenu.items, function(x) {
                                     return /CWVI/.test(x.ruta);
                                 });
-                                var vidaley = _.find(appSubMenu.items, function(x) {
-                                  return /EMISAVIDALEY/.test(x.ruta);
-                              });
                                 if (vida) {
                                     if (!_.find($scope.items, function(x) { return x.code == VidaCode})) {
                                         var items = $scope.items || [];
@@ -118,21 +115,6 @@
                                         $scope.items = items;
                                     }
                                 }
-                                if (vidaley) {
-                                  if (!_.find($scope.items, function(x) { return x.code == EMISAVIDALEY})) {
-                                      var items2 = $scope.items || [];
-                                      var itemLife2 = _.find(onlyMenus, function(x) { return x.code == EMISAVIDALEY })
-                                      items2.push(itemLife);
-                                      if ($scope.items.length){
-                                        $scope.items.push(itemLife2);
-                                      }else{
-                                        $scope.items = items2;
-                                      }
-                                      
-                                  }
-
-
-                              }
                             }
                         }
                     });
@@ -141,14 +123,14 @@
             } else {
                 accessVida = _.find(authorizedResource.accessApp, function(value) {
                     return value.code == VidaCode
-                })
-                accessVidaLey = _.find(authorizedResource.accessApp, function(value) {
-                  return value.code == EMISAVIDALEY
-                })
+                })                
                 accessCampoSanto = _.find(authorizedResource.accessApp, function(value) {
                   return value.code == EMISACAMPOSANTO
                 })
             }
+            accessVidaLey = _.find(authorizedResource.accessApp, function(value) {
+              return value.code == EMISAVIDALEY
+            })
         var accessDecesos =  _.find(authorizedResource.accessApp, function(value) {
           return value.code == 'DECESO'
         })

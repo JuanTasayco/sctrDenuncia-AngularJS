@@ -5,7 +5,6 @@ define(['angular'], function(ng) {
   function BandejaPageController(wpFactory, role) {
     // HACK: usado para los componentes de bandeja
     wpFactory.setRole(role);
-    wpFactory.cache.setConsolidado(null)
   } // end controller
 
   return ng.module('appWp').controller('BandejaPageController', BandejaPageController);

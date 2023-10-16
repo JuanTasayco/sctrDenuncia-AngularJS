@@ -445,6 +445,10 @@ define([
         return proxyRenewal.getregisterFlagPolicyElectronic(params, showSpin);
       }
 
+      function getTypeUse() {
+        return proxyParameter.getTypeUse(true);
+      }
+
       function buscarAnuladas(params, showSpin) {
 
         const pathParams = {
@@ -1025,6 +1029,7 @@ define([
 
         getDataPolicyElectronic: getDataPolicyElectronic,
         getSetDataPolicyElectronic: getSetDataPolicyElectronic,
+        getTypeUse : getTypeUse,
         buscarAnuladas: buscarAnuladas,
 
         // Cobranzas: Comprobantes remitidos
