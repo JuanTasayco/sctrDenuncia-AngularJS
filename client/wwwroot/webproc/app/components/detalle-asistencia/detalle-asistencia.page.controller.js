@@ -70,10 +70,12 @@ define(['angular', 'lodash', 'AsistenciaActions', 'helper', 'wpConstant','consta
     vm.url = {
       'QA' : "https://talleres.pre.mapfre.com.pe/#/talleres?plate=",
       "PROD" : "https://talleres.mapfre.com.pe/#/talleres?plate=" 
-    } 
+    }
+    
 
     function onInit() {
       vm.modolectura = true;
+      vm.disabledAsistencia = false;
       var paramsURL = ng.copy($state.params);
 
       wpFactory.setNroAsistencia($state.params.nroAsistencia);
@@ -81,6 +83,9 @@ define(['angular', 'lodash', 'AsistenciaActions', 'helper', 'wpConstant','consta
       dataAsistencia = paramsURL.setFrm ? wpFactory.cache.getConsolidado() : dataAsistencia
 
       vm.ultimaDataDeAsistencia = _getDataAsistencia();
+      
+      vm.ultimaDataDeAsistencia.flagCobertura== "N" ?  vm.disabledAsistencia = true : vm.disabledAsistencia = false;
+
 
       wpFactory.setSiniestroNro(vm.ultimaDataDeAsistencia.codigoSiniestro);
 

@@ -35,6 +35,7 @@ define(['angular', 'lodash', 'AsistenciaActions', 'wpConstant'], function(ng, _,
         onDesestimar: '&?',
         onAutorizar: '&?',
         infoAsistencia: '<?',
+        disabledAsistencia: '='
       }
     });
 });
