@@ -75,7 +75,7 @@ define(['angular', 'lodash', 'AsistenciaActions', 'helper', 'wpConstant','consta
 
     function onInit() {
       vm.modolectura = true;
-      vm.disabledAsistencia = false;
+      vm.disabledAutorizar = true;
       var paramsURL = ng.copy($state.params);
 
       wpFactory.setNroAsistencia($state.params.nroAsistencia);
@@ -83,9 +83,7 @@ define(['angular', 'lodash', 'AsistenciaActions', 'helper', 'wpConstant','consta
       dataAsistencia = paramsURL.setFrm ? wpFactory.cache.getConsolidado() : dataAsistencia
 
       vm.ultimaDataDeAsistencia = _getDataAsistencia();
-      
-      vm.ultimaDataDeAsistencia.flagCobertura== "N" ?  vm.disabledAsistencia = true : vm.disabledAsistencia = false;
-
+      vm.disabledAutorizar = vm.ultimaDataDeAsistencia.estadoSiniestro == 'GENERADO' ? false : true;
 
       wpFactory.setSiniestroNro(vm.ultimaDataDeAsistencia.codigoSiniestro);
 
@@ -262,7 +260,6 @@ define(['angular', 'lodash', 'AsistenciaActions', 'helper', 'wpConstant','consta
         else{
           var request = {
             codigoInterno: wpFactory.getNroAsistencia(),
-            estadoSiniestro: "10"
           };
     
           var textos = {
