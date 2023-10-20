@@ -83,6 +83,20 @@ define(['system'], function(system) {
         name: 'apTabServices',
         path: folder + '/app/admin-additional-services/components/tab/tab.component'
       },
+      //
+      AdminMapfreTecuidamosComponent: {
+        name: 'AdminMapfreTecuidamosComponent',
+        path: folder + '/app/admin-mapfre-tecuidamos/admin-mapfre-tecuidamos.component'
+      },
+      apMyBenefits: {
+        name: 'apMyBenefits',
+        path: folder + '/app/admin-mapfre-tecuidamos/pages/my-benefits/my-benefits.component'
+      },
+      apWhatIs: {
+        name: 'apWhatIs',
+        path: folder + '/app/admin-mapfre-tecuidamos/pages/what-is/what-is.component'
+      },
+      //
       AdminRamoComponent: {
         name: 'AdminRamoComponent',
         path: folder + '/app/admin-policy-section/pages/admin-ramo/admin-ramo.component'
@@ -126,6 +140,10 @@ define(['system'], function(system) {
       GeneralAdminRamoFactory: {
         name: 'GeneralAdminRamoFactory',
         path: folder + '/app/admin-policy-section/factory/general.factory'
+      },
+      GeneralAdminMapfreTecuidamosFactory: {
+        name: 'GeneralAdminMapfreTecuidamosFactory',
+        path: folder + '/app/admin-mapfre-tecuidamos/factory/general.factory'
       },
       CarouselTrayFactory: {
         name: 'CarouselTrayFactory',
@@ -186,6 +204,10 @@ define(['system'], function(system) {
       productsConstants: {
         name: 'productsConstants',
         path: folder + '/app/shared/constants/products.constants'
+      },
+      mapfreTecuidamosConstants: {
+        name: 'mapfreTecuidamosConstants',
+        path: folder + '/app/shared/constants/mapfre-tecuidamos.constants'
       },
       carouselTrayUtils: {
         name: 'carouselTrayUtils',
@@ -350,6 +372,9 @@ define(['system'], function(system) {
       },
       ngRedux: {
         deps: ['angular', 'redux']
+      },
+      AdminMapfreTecuidamosComponent: {
+        deps: ['apCardSection']
       },
       AdminRamoComponent: {
         deps: ['apCardSection', 'apCardListRamo', 'apCardItem', 'apCardSectionHeader']

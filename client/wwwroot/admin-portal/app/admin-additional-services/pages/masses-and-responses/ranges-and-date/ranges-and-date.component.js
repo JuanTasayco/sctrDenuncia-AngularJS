@@ -6,6 +6,7 @@ define(['angular', 'coreConstants', 'moment', 'system', 'lodash'], function (ng,
     function RangesAndDateController($scope, $stateParams, $uibModal, mModalConfirm, mModalAlert, MassesAndResponsesFactory, AdminRamoFactory) {
         var vm = this;
         vm.$onInit = onInit;
+        vm.$onDestroy = onDestroy;
 
         vm.patternHours  = /^(0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$/;
         vm.saveSubServiceRangesAndDate = saveSubServiceRangesAndDate;
@@ -27,10 +28,13 @@ define(['angular', 'coreConstants', 'moment', 'system', 'lodash'], function (ng,
         vm.formCeremonyRange = {}
 
         function onInit() {
+            console.log("Entro onInit")
             vm.servicesSelected = MassesAndResponsesFactory.getServiceSelected();
             vm.subServicesSelected = MassesAndResponsesFactory.getSubServiceSelected();
             AdminRamoFactory.subsChangeRamo(changeRamo);
             MassesAndResponsesFactory.subsChangeSubService(changeSubService);
+           
+            MassesAndResponsesFactory.emitComponentsReady();
 
             var now = new Date();
             vm.dataDays = MassesAndResponsesFactory.getDays(now.getFullYear(), now.getMonth());
@@ -38,11 +42,16 @@ define(['angular', 'coreConstants', 'moment', 'system', 'lodash'], function (ng,
             vm.dataYears = MassesAndResponsesFactory.getAnios();
         }
 
+        function onDestroy() {
+            MassesAndResponsesFactory.unsubscribeChangeSubService();
+        }
+
         function changeRamo() {
             // changeSubService(vm.servicesSelected.)
         }
 
         function changeSubService(item){
+            console.log("changeSubService",item);
             vm.subServicesSelected = item;
             MassesAndResponsesFactory.getServiceParameters(item.code).then(function (res){
                 MassesAndResponsesFactory.setServiceParameters(res);

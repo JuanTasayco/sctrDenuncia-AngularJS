@@ -9,6 +9,7 @@ define([], function() {
     ngMainModule: 'appAP',
     ngAdminRamoModule: 'appAP.AdminRamoFactory',
     ngGeneralAdminRamoModule: 'appAP.GeneralAdminRamoFactory',
+    ngGeneralAdminMapfreTecuidamosModule: 'appAP.GeneralAdminMapfreTecuidamosFactory',
     ngGeneralAdditionalServiceModule: 'appAP.GeneralAdditionalServiceFactory',
     ngMassesAndResponsesModule: 'appAP.MassesAndResponsesFactory',
     ngCarouselTrayModule: 'appAP.CarouselTrayFactory',

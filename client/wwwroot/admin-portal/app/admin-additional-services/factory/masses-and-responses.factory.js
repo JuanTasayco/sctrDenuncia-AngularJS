@@ -28,6 +28,8 @@ define(['angular', 'coreConstants', 'lodash', 'endpointsConstants'], function (
 
       updateServiceSection : updateServiceSection,
       getServiceParameters : getServiceParameters,
+      getServiceProducto : getServiceProducto,
+      updateProduct : updateProduct,
       saveSubServiceRangesAndDate : saveSubServiceRangesAndDate,
       getSubServiceRangesAndDate : getSubServiceRangesAndDate,
 
@@ -47,6 +49,7 @@ define(['angular', 'coreConstants', 'lodash', 'endpointsConstants'], function (
     };
 
     function emitComponentsReady() {
+      console.log("emito")
       for (var index = 0; index < listComponentsReady.length; index++) {
         listComponentsReady[index]();
       }
@@ -74,8 +77,16 @@ define(['angular', 'coreConstants', 'lodash', 'endpointsConstants'], function (
       return GeneralAdditionalServiceFactory.updateServiceSection(servicioId, body ,true);
     }
 
+    function updateProduct(servicioId, body) {
+      return GeneralAdditionalServiceFactory.updateProduct(servicioId, body ,true);
+    }
+
     function getServiceParameters(servicioId) {
       return GeneralAdditionalServiceFactory.getServiceParameters(servicioId, true);
+    }
+
+    function getServiceProducto(servicioId) {
+      return GeneralAdditionalServiceFactory.getServiceProducto(servicioId, true);
     }
 
     function saveSubServiceRangesAndDate(camposantoId, subServiceRangesAndDateId, body) {
