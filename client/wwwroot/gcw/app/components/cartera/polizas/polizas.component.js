@@ -3,8 +3,8 @@ define([
   '/gcw/app/factory/gcwFactory.js'
 ], function(ng, constants, _) {
 
-  PolizasController.$inject = ['$scope', 'gcwFactory', 'gaService', '$state', 'mModalAlert', '$rootScope', '$timeout', '$sce', 'MxPaginador', 'accessSupplier', 'CommonCboService'];
-  function PolizasController($scope, gcwFactory, gaService, $state, mModalAlert, $rootScope, $timeout, $sce, MxPaginador, CommonCboService) {
+  PolizasController.$inject = ['$scope', 'gcwFactory', 'gaService', '$state', 'mModalAlert','mModalConfirm', '$rootScope', '$timeout', '$sce', 'MxPaginador', 'accessSupplier', 'CommonCboService'];
+  function PolizasController($scope, gcwFactory, gaService, $state, mModalAlert , mModalConfirm, $rootScope, $timeout, $sce, MxPaginador, CommonCboService) {
     var vm = this;
     var page;
 
@@ -191,11 +191,48 @@ define([
     vm.limpiar = limpiar;
     vm.pageChanged = pageChanged;
     vm.irDetallePoliza = irDetallePoliza;
+    vm.sendEmail = sendEmail;
+    vm.copy = copy;
 
     $scope.$watch('vm.formDataCartera.Sector', function(){
       lstRamos();
     });
 
+    function sendEmail(event,poliza) {
+      if (event) {
+        event.preventDefault();
+        event.stopPropagation();
+      }
+      if(poliza.email){
+        mModalConfirm.confirmWarning('¿DESEAS ENVIAR EL ENLACE DE AFILIACIÓN A ' + poliza.email.toUpperCase() +'?','','')
+        .then(function () {
+          gcwFactory.getSendLinkAfiliacion(gcwFactory.requestDocCartera(poliza)).then(function (response) {
+            mModalAlert.showSuccess("El email ha sido enviado a " + poliza.email, "")
+          }).catch(function () {
+            mModalAlert.showError("No es posible enviar un correo. Por favor, genere un enlace de afiliación", "")
+          })
+        });
+      }
+      else{
+        mModalAlert.showError("No es posible enviar un correo. Por favor, genere un enlace de afiliación", "")
+      }
+    }
+
+    function copy(event, poliza) {
+      if (event) {
+        event.preventDefault();
+        event.stopPropagation();
+      }
+      gcwFactory.getLinkAfiliacion(gcwFactory.requestDocCartera(poliza)).then(function (response) {
+        navigator.clipboard.writeText(response.data.url)
+          .then(function () {
+            mModalAlert.showSuccess("El enlace fue copiado en el portapapeles", "")
+          })
+      }).catch(function () {
+        mModalAlert.showError("Error al generar enlace", "")
+      })
+    }
+    
     function lstAnios(){
 
       var hoy = new Date();
