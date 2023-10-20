@@ -176,7 +176,6 @@ define(['angular', 'lodash', 'AsistenciaActions', 'helper', 'wpConstant','consta
     function desestimar() {
       $scope.$emit('frm:save');
       $timeout(function () {
-        debugger
         if (vm.frmGeneral.frmLugarOcurrencia.$invalid || vm.frmGeneral.frmTerceroConvenio.$invalid) {
           var frminvalid = vm.frmGeneral.frmLugarOcurrencia.$invalid ? 'Lugar de ocurrencia' : 'Terceros Convenio';
           return void mModalAlert
@@ -272,10 +271,14 @@ define(['angular', 'lodash', 'AsistenciaActions', 'helper', 'wpConstant','consta
             .result.then(function cgScFn() {
               wpFactory.siniestro
                 .Autorizar(request)
-                .then(function aSPr() {
-                  mModalAlert.showSuccess('Realizado con éxito', 'Autorizar').then(function msAnularPr() {
-                    consolidar();
-                  });
+                .then(function (response) {
+                  if(response.operationCode === 200){
+                    mModalAlert.showSuccess('Realizado con éxito', 'Autorizar').then(function msAnularPr() {
+                      consolidar();
+                    });
+                  }else if(response.operationCode === 500){
+                    mModalAlert.showError(response.message, 'Error');
+                  }
                 })
                 .catch(function aEPr(err) {
                   mModalAlert.showError('Ocurrió un error al autorizar', 'Error');
