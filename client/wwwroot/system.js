@@ -439,6 +439,18 @@
         isComponsesMenu: true,
         icon: 'ico-mapfre-anulacion'
       },
+      constancia:{
+        code: "CASEG",
+        shortName: 'Constancia de Salud',
+        packageName: 'constanciaPackage',
+        path: "/constancia/package",
+        appPath: "/constancia/app",
+        location: '/constancia/#',
+        menuName: 'Constancia de Salud',
+        rootApi: '',
+        isComponsesMenu: true,
+        icon: 'ico-mapfre_93_crearmodificar'
+      },
     },
     lib: {
       /* LIBS ANGULAR */
