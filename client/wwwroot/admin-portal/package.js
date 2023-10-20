@@ -13,6 +13,10 @@ define(['system'], function(system) {
         name: 'app',
         path: folder + '/app/app'
       },
+      moment: {
+        name: 'moment',
+        path: '/scripts/b_components/moment/min/moment.min'
+      },
       ngRaven: {
         name: 'ngRaven',
         path: '/scripts/b_components/raven-js/dist/angular/raven.min'
@@ -56,6 +60,28 @@ define(['system'], function(system) {
       apCardListRamo: {
         name: 'apCardListRamo',
         path: folder + '/app/shared/components/card-list-ramo/card-list-ramo.component'
+      },
+      // Servicios Adicionales
+      AdditionalServicesComponent: {
+        name: 'AdditionalServicesComponent',
+        path: folder + '/app/admin-additional-services/additional-services.component'
+      },
+      MassesAndResponsesComponent: {
+        name: 'MassesAndResponsesComponent',
+        path: folder + '/app/admin-additional-services/pages/masses-and-responses/masses-and-responses.component'
+      },
+      apRangesAndDate: {
+        name: 'apRangesAndDate',
+        path: folder + '/app/admin-additional-services/pages/masses-and-responses/ranges-and-date/ranges-and-date.component'
+      },
+      apContent: {
+        name: 'apContent',
+        path: folder + '/app/admin-additional-services/pages/masses-and-responses/content/content.component'
+      },
+      // componenentes Servicios Adicionales
+      apTabServices: {
+        name: 'apTabServices',
+        path: folder + '/app/admin-additional-services/components/tab/tab.component'
       },
       AdminRamoComponent: {
         name: 'AdminRamoComponent',
@@ -104,6 +130,14 @@ define(['system'], function(system) {
       CarouselTrayFactory: {
         name: 'CarouselTrayFactory',
         path: folder + '/app/carousel-tray/factory/carousel-tray.factory'
+      },
+      GeneralAdditionalServiceFactory: {
+        name: 'GeneralAdditionalServiceFactory',
+        path: folder + '/app/admin-additional-services/factory/general.factory'
+      },
+      MassesAndResponsesFactory: {
+        name: 'MassesAndResponsesFactory',
+        path: folder + '/app/admin-additional-services/factory/masses-and-responses.factory'
       },
       BannerRecordsFactory: {
         name: 'BannerRecordsFactory',
@@ -319,6 +353,9 @@ define(['system'], function(system) {
       },
       AdminRamoComponent: {
         deps: ['apCardSection', 'apCardListRamo', 'apCardItem', 'apCardSectionHeader']
+      },
+      AdditionalServicesComponent: {
+        deps: ['apCardListRamo','apTabServices']
       },
       apInsurancesByRamo: {
         deps: ['apInsurancesByRamoFormSections']

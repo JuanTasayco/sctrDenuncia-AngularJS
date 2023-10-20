@@ -100,6 +100,97 @@ define(['system', 'coreConstants'], function(system, coreConstants) {
     },
     {
       code: '',
+      description: 'Administrador de servicios adicionales',
+      name: 'adminAdditionalServices',
+      parent: 'root',
+      abstract: true,
+      url: '',
+      views: {
+        content: {
+          controller: 'AdditionalServicesComponent as $ctrl',
+          templateUrl: folder + '/app/admin-additional-services/additional-services.component.html'
+        }
+      },
+      resolve: {
+        additionalServices: [
+          "GeneralAdditionalServiceFactory",
+          function(GeneralAdditionalServiceFactory) {
+            return GeneralAdditionalServiceFactory.getAdditionalServices();
+          }
+        ]
+      },
+      resolver: [
+        {
+          name: 'adminAdditionalServices',
+          moduleName: moduleName,
+          files: ['AdditionalServicesComponent']
+        }
+      ]
+    },
+    {
+      name: 'adminAdditionalServices.1234',
+      code: '',
+      description: 'Sección Misas y Responso',
+      url: '',
+      abstract: true,
+      views: {
+        contenido: {
+          controller: 'MassesAndResponsesComponent as $ctrl',
+          templateUrl: folder + '/app/admin-additional-services/pages/masses-and-responses/masses-and-responses.component.html'
+        }
+      },
+      resolver: [
+        {
+          name: 'adminAdditionalServices.1234',
+          moduleName: moduleName,
+          files: [
+            'MassesAndResponsesComponent'
+          ]
+        }
+      ]
+    },
+    {
+      name: 'adminAdditionalServices.1234.ranges',
+      code: '',
+      description: 'Misas',
+      url: '/admin-additional-services/masses-and-responsos/ranges',
+      views: {
+        'contenido': {
+          template: '<ap-ranges-and-date></ap-ranges-and-date>'
+        }
+      },
+      resolver: [
+        {
+          name: 'adminAdditionalServices.1234.ranges',
+          moduleName: moduleName,
+          files: [
+            'apRangesAndDate'
+          ]
+        }
+      ]
+    },
+    {
+      name: 'adminAdditionalServices.1234.content',
+      code: '',
+      description: 'Misas',
+      url: '/admin-additional-services/masses-and-responsos/content',
+      views: {
+        'contenido': {
+          template: '<ap-content></ap-content>'
+        }
+      },
+      resolver: [
+        {
+          name: 'adminAdditionalServices.1234.content',
+          moduleName: moduleName,
+          files: [
+            'apContent'
+          ]
+        }
+      ]
+    },
+    {
+      code: '',
       description: 'Administrador por ramos',
       name: 'adminPolicySection',
       parent: 'root',
