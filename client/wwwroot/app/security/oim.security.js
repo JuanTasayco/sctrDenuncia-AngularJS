@@ -581,7 +581,7 @@
 
   angular
     .module('oim.security.authentication',
-      ['satellizer', 'oim.google.analytics', 'origin.system', 'oim.theme.service', 'oim.proxyService.mydream', 'ngCookies', 'storage.manager'])
+      ['satellizer', 'oim.google.analytics', 'origin.system', 'oim.theme.service', 'oim.proxyService.mydream', 'ngCookies', 'storage.manager', 'crypto.manager'])
     .config([
       '$authProvider',
       function($authProvider) {

@@ -15,6 +15,7 @@
     "proxyGeneral",
     "mainServices",
     'autosFactory',
+    'encrypterFactory',
     function(
       $scope,
       $state,
@@ -28,12 +29,16 @@
       polizasFactory,
       proxyGeneral,
       mainServices,
-      autosFactory) {
+      autosFactory,
+      encrypterFactory) {
       // auto emit: paso 4
       $scope.CODIGO_GESTOR_COBRO_REGISTRO_CUENTA = 'DB';
       $scope.CODIGO_GESTOR_COBRO_REGISTRO_TARJETA = 'TA';
 
       (function onLoad() {
+        
+        encrypterFactory.loadDefaultKey();
+
         $scope.formData.registro = polizasFactory.isFinanciamiento12CuotasMensual($scope.formData.tipoFinanciamiento && $scope.formData.tipoFinanciamiento.codigo) ? $scope.CODIGO_GESTOR_COBRO_REGISTRO_CUENTA : '';
 
         if (typeof $scope.formData.selectLoadFile == 'undefined') $scope.formData.selectLoadFile = true;
@@ -704,13 +709,13 @@
           .then(function (rsCargaAltaDocumental) {
             if (rsCargaAltaDocumental.OperationCode == constants.operationCode.success){
               em.GestorCobro.NombreArchivoCargomatico = rsCargaAltaDocumental.Data.ValueResult;
-              emitFactory.sendEmision(em).then(sendEmision_Response);
+              emitFactory.sendEmision({valueEncrypt:encrypterFactory.handler(em)}).then(sendEmision_Response);
             }else{
               mModalAlert.showError(rsCargaAltaDocumental.Message, 'Error Archivo cargomático');
             }
           });
         }else{
-          emitFactory.sendEmision(em).then(sendEmision_Response);
+          emitFactory.sendEmision({valueEncrypt:encrypterFactory.handler(em)}).then(sendEmision_Response);
         }
     };
 

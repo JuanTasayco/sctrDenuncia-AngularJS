@@ -7,13 +7,14 @@
         '/polizas/app/autos/autosHome/service/autosFactory.js',
     ],
     function(angular, constants, _) {
-        angular.module("appAutos").controller('autosCotizarS3', ['$scope', '$state','$filter', 'autosFactory', 'autosCotizarFactory', 'mpSpin', '$uibModal', 'mModalAlert', '$rootScope', 'oimPrincipal', 'mModalConfirm', 'mainServices', 'oimAbstractFactory','proxyGeneral',
-            function($scope, $state, $filter, autosFactory, autosCotizarFactory, mpSpin, $uibModal, mModalAlert, $rootScope, oimPrincipal, mModalConfirm, mainServices, oimAbstractFactory, proxyGeneral) {
+        angular.module("appAutos").controller('autosCotizarS3', ['$scope', '$state','$filter', 'autosFactory', 'autosCotizarFactory', 'mpSpin', '$uibModal', 'mModalAlert', '$rootScope', 'oimPrincipal', 'mModalConfirm', 'mainServices', 'oimAbstractFactory','proxyGeneral','encrypterFactory',
+            function($scope, $state, $filter, autosFactory, autosCotizarFactory, mpSpin, $uibModal, mModalAlert, $rootScope, oimPrincipal, mModalConfirm, mainServices, oimAbstractFactory, proxyGeneral, encrypterFactory) {
 
             var vm = this;
             vm.$onInit = onInit;
 
             function onInit() {
+                encrypterFactory.loadDefaultKey();
                 $scope.formData = $rootScope.formData || {};
                 $scope.formData.codigoUsuario = $scope.mAgente.codigoUsuario;
                 $scope.formData.codigoUsuarioRED = $scope.mAgente.codigoUsuario;
@@ -1068,7 +1069,7 @@
                   };
                   mpSpin.start();
                   autosCotizarFactory
-                    .grabarVehiculo(dataCotizacion)
+                    .grabarVehiculo({valueEncrypt:encrypterFactory.handler(dataCotizacion)})
                     .then(function(response) {
                       mpSpin.end();
                       if (response.OperationCode == constants.operationCode.success) {
