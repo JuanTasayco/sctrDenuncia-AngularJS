@@ -14,7 +14,9 @@ define([
     return {
       getFormatDateLong: getFormatDateLong,
       GetDocumentType: GetDocumentType,
-      GetSection: GetSection
+      GetSection: GetSection,
+      GetAdditionalServices: GetAdditionalServices,
+      GetGeneralParams: GetGeneralParams
     };
 
     function getFormatDateLong(textDate) {
@@ -84,13 +86,64 @@ define([
           showSpin
         )
         .then(function(res) {
-          var array = _.map(res, function(p, indice) {
-            return { name: p.descripcion, code: p.seccionId , url: p.ruta , selected : !indice};
+          var array = _.map(res, function(p) {
+            return { name: p.descripcion, code: p.seccionId , url: p.seccionId};
           })
 
           return _.assign(array);
         });
     }
+
+    function GetAdditionalServices(codeApp, showSpin) {
+      return httpData
+        .get(
+          domain + 'api/v1/cms/areaPrivada/serviciosFunerarios',
+          {},
+          undefined,
+          showSpin
+        )
+        .then(function(res) {
+          var array = _.map(res, function(p , index) {
+            return { 
+              id: p.id,
+              name: p.nombre, 
+              code: p.seccionId , 
+              url: '/images/ico-ramos/' + p.icono,
+              active: p.activo,
+              subServices: p.subServicios,
+              selected: index ? false : true
+            };
+          })
+
+          return _.assign(array);
+        });
+    }
+
+    function GetGeneralParams(codeApp,codigoGrupo,showSpin) {
+      return httpData
+        .get(
+          domain + 'api/v1/cms/areaPrivada/generales/parametros/'+ codigoGrupo,
+          {
+            params: _.assign({
+              codigoApp: codeApp
+            })
+          },
+          undefined,
+          showSpin
+        )
+        .then(function(res) {
+          return _.map(res, function (p){
+            return {
+              code: p.valor,
+              lbl: p.descripcion
+            };
+          })
+        });
+    }
+    
   }
+
+  
+
   return ng.module(coreConstants.ngCommonModule, []).factory('CommonFactory', CommonFactory);
 });

@@ -961,7 +961,7 @@ define(["constants"], function(constants) {
     {
       name: "autosQuote",
       appCode: "AUTOMOVILES",
-      description: "Cotizar póliza de auto",
+      description: "Cotización de auto",
       breads: ["homePolizasAutos"],
       params: { step: null },
       urls: [
@@ -1022,7 +1022,7 @@ define(["constants"], function(constants) {
     {
       name: "autosQuoteToken",
       appCode: "AUTOMOVILES",
-      description: "Cotizar póliza de auto",
+      description: "Cotización de auto",
       breads: ["homePolizasAutos"],
       params: { step: null },
       urls: [
@@ -1948,7 +1948,7 @@ define(["constants"], function(constants) {
       name: "accidentesQuote",
       code: "102",
       url: "/accidentes/quote",
-      description: "Cotización póliza accidentes",
+      description: "Cotización accidentes",
       breads: ["homePolizasAccidentes"],
       controller: "accidentesQuoteController",
       templateUrl: "/polizas/app/accidentes/quote/component/accidentes-quote.html",
@@ -3362,7 +3362,7 @@ define(["constants"], function(constants) {
       name: "cotizadorSalud",
       code: "",
       params: { step: null },
-      description: "Cotizador de salud",
+      description: "Cotización salud",
       breads: ["homePolizasSalud"],
       urls: [
         {
@@ -3400,7 +3400,7 @@ define(["constants"], function(constants) {
       name: "cotizadorClinicaDigital",
       code: "",
       params: { step: null },
-      description: "Cotizador de Clinica Digital",
+      description: "Cotización de Clinica Digital",
       breads: ["homePolizasClinicaDigital"],
       urls: [
         {
@@ -3437,7 +3437,7 @@ define(["constants"], function(constants) {
     {
       name: "cotizacionGuardadaClinicaDigital",
       code: "",
-      description: "Cotizador de Clinica Digital",
+      description: "Cotización de Clinica Digital",
       breads: ["homePolizasClinicaDigital"],
       urls: [
         {
@@ -4504,7 +4504,7 @@ define(["constants"], function(constants) {
         }
       ],
       breads: ["homePolizasSeguroviaje"],
-      description: "Cotizar SegurViaje",
+      description: "Cotización Seguro de viaje",
       views: {
         contenido: {
           template: function($stateParam) {
@@ -5036,7 +5036,7 @@ define(["constants"], function(constants) {
       name: "cotizacionPolizaVidaLey",
       currentAppID: "EMISAVIDALEY",
       code:[3461,3272],
-      description: "Cotizar póliza de Vida Ley",
+      description: "Cotización póliza de vida ley",
       breads: ["homePolizaVidaLey"],
       params: { step: null },
       urls: [

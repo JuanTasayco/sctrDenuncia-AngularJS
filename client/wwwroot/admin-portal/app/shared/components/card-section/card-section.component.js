@@ -10,7 +10,6 @@ define(['angular', 'coreConstants', 'system'], function (ng, coreConstants, syst
 
         function onInit() {
             vm.sections = vm.items
-            vm.onSectionItemClick(vm.sections[0]);
         }
 
         function onSectionItemClick(item){
@@ -27,7 +26,8 @@ define(['angular', 'coreConstants', 'system'], function (ng, coreConstants, syst
             templateUrl: folder + '/app/shared/components/card-section/card-section.component.html',            
             controller: 'CardSectionController',
             bindings: {
-                items: '='
+                items: '=',
+                path: '='
             }
         });
 });

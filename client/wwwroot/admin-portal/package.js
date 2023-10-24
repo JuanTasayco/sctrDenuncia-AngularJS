@@ -13,6 +13,10 @@ define(['system'], function(system) {
         name: 'app',
         path: folder + '/app/app'
       },
+      moment: {
+        name: 'moment',
+        path: '/scripts/b_components/moment/min/moment.min'
+      },
       ngRaven: {
         name: 'ngRaven',
         path: '/scripts/b_components/raven-js/dist/angular/raven.min'
@@ -57,6 +61,42 @@ define(['system'], function(system) {
         name: 'apCardListRamo',
         path: folder + '/app/shared/components/card-list-ramo/card-list-ramo.component'
       },
+      // Servicios Adicionales
+      AdditionalServicesComponent: {
+        name: 'AdditionalServicesComponent',
+        path: folder + '/app/admin-additional-services/additional-services.component'
+      },
+      MassesAndResponsesComponent: {
+        name: 'MassesAndResponsesComponent',
+        path: folder + '/app/admin-additional-services/pages/masses-and-responses/masses-and-responses.component'
+      },
+      apRangesAndDate: {
+        name: 'apRangesAndDate',
+        path: folder + '/app/admin-additional-services/pages/masses-and-responses/ranges-and-date/ranges-and-date.component'
+      },
+      apContent: {
+        name: 'apContent',
+        path: folder + '/app/admin-additional-services/pages/masses-and-responses/content/content.component'
+      },
+      // componenentes Servicios Adicionales
+      apTabServices: {
+        name: 'apTabServices',
+        path: folder + '/app/admin-additional-services/components/tab/tab.component'
+      },
+      //
+      AdminMapfreTecuidamosComponent: {
+        name: 'AdminMapfreTecuidamosComponent',
+        path: folder + '/app/admin-mapfre-tecuidamos/admin-mapfre-tecuidamos.component'
+      },
+      apMyBenefits: {
+        name: 'apMyBenefits',
+        path: folder + '/app/admin-mapfre-tecuidamos/pages/my-benefits/my-benefits.component'
+      },
+      apWhatIs: {
+        name: 'apWhatIs',
+        path: folder + '/app/admin-mapfre-tecuidamos/pages/what-is/what-is.component'
+      },
+      //
       AdminRamoComponent: {
         name: 'AdminRamoComponent',
         path: folder + '/app/admin-policy-section/pages/admin-ramo/admin-ramo.component'
@@ -64,6 +104,26 @@ define(['system'], function(system) {
       apWhatYouWantToDo: {
         name: 'apWhatYouWantToDo',
         path: folder + '/app/admin-policy-section/pages/admin-ramo/what-you-want-to-do/what-you-want-to-do.component'
+      },
+      apInsurancesByRamo: {
+        name: 'apInsurancesByRamo',
+        path: folder + '/app/admin-policy-section/pages/admin-ramo/insurances-by-ramo/insurances-by-ramo.component'
+      },
+      apInsurancesByRamoFormSections: {
+        name: 'apInsurancesByRamoFormSections',
+        path: folder + '/app/admin-policy-section/pages/admin-ramo/insurances-by-ramo/sections/sections.component'
+      },
+      apInsurancesByRamoFormSectionsList: {
+        name: 'apInsurancesByRamoFormSectionsList',
+        path: folder + '/app/admin-policy-section/pages/admin-ramo/insurances-by-ramo/sections/section/section.component'
+      },
+      apInsurancesByRamoFormSectionsAddOrEdit: {
+        name: 'apInsurancesByRamoFormSectionsAddOrEdit',
+        path: folder + '/app/admin-policy-section/pages/admin-ramo/insurances-by-ramo/sections/add-update-section/add-update-section.component'
+      },
+      apFrequentQuestions: {
+        name: 'apFrequentQuestions',
+        path: folder + '/app/admin-policy-section/pages/admin-ramo/frequent-questions/frequent-questions.component'
       },
       CarouselTrayComponent: {
         name: 'CarouselTrayComponent',
@@ -81,9 +141,21 @@ define(['system'], function(system) {
         name: 'GeneralAdminRamoFactory',
         path: folder + '/app/admin-policy-section/factory/general.factory'
       },
+      GeneralAdminMapfreTecuidamosFactory: {
+        name: 'GeneralAdminMapfreTecuidamosFactory',
+        path: folder + '/app/admin-mapfre-tecuidamos/factory/general.factory'
+      },
       CarouselTrayFactory: {
         name: 'CarouselTrayFactory',
         path: folder + '/app/carousel-tray/factory/carousel-tray.factory'
+      },
+      GeneralAdditionalServiceFactory: {
+        name: 'GeneralAdditionalServiceFactory',
+        path: folder + '/app/admin-additional-services/factory/general.factory'
+      },
+      MassesAndResponsesFactory: {
+        name: 'MassesAndResponsesFactory',
+        path: folder + '/app/admin-additional-services/factory/masses-and-responses.factory'
       },
       BannerRecordsFactory: {
         name: 'BannerRecordsFactory',
@@ -132,6 +204,10 @@ define(['system'], function(system) {
       productsConstants: {
         name: 'productsConstants',
         path: folder + '/app/shared/constants/products.constants'
+      },
+      mapfreTecuidamosConstants: {
+        name: 'mapfreTecuidamosConstants',
+        path: folder + '/app/shared/constants/mapfre-tecuidamos.constants'
       },
       carouselTrayUtils: {
         name: 'carouselTrayUtils',
@@ -297,8 +373,20 @@ define(['system'], function(system) {
       ngRedux: {
         deps: ['angular', 'redux']
       },
+      AdminMapfreTecuidamosComponent: {
+        deps: ['apCardSection']
+      },
       AdminRamoComponent: {
         deps: ['apCardSection', 'apCardListRamo', 'apCardItem', 'apCardSectionHeader']
+      },
+      AdditionalServicesComponent: {
+        deps: ['apCardListRamo','apTabServices']
+      },
+      apInsurancesByRamo: {
+        deps: ['apInsurancesByRamoFormSections']
+      },
+      apInsurancesByRamoFormSections: {
+        deps: ['apInsurancesByRamoFormSectionsList','apInsurancesByRamoFormSectionsAddOrEdit']
       },
       CarouselTrayComponent: {
         deps: ['apTab', 'apCarousel']

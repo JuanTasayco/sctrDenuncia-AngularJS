@@ -79,6 +79,14 @@ define(['angular', 'constants', 'lodash'], function (angular, constants, _) {
       };
     }
 
+    function setModalityCode(modalityCode) {
+      localStorageFactory.setItem('modalityCode', modalityCode);
+    }
+
+    function getModalityCode() {
+      return localStorageFactory.getItem('modalityCode');
+    }
+
     function sendCode(modalityCode, showSpin) {
       var bodySendCode = Object.assign(_getReqCommon(), {
         modalityCode: modalityCode
@@ -107,6 +115,8 @@ define(['angular', 'constants', 'lodash'], function (angular, constants, _) {
       getModalities: getModalities,
       getModalityByCode: getModalityByCode,
       parseModalityByView: parseModalityByView,
+      setModalityCode: setModalityCode,
+      getModalityCode: getModalityCode,
       sendCode: sendCode,
       checkCode: checkCode
     };

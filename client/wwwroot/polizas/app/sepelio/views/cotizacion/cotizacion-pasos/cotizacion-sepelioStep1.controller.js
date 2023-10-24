@@ -307,6 +307,7 @@ define([
     function _getIDTipoFinanciamiento() {
       var cuotas = $scope.modelo.cuotas ? $scope.modelo.cuotas.NumeroCuota : 1;
       $scope.modelo.idTipoFinanciamiento = campoSantoFactory.getIDTipoFinanciamiento(cuotas);
+      
     }
 
     function _validarLimaMetropolitana() {
@@ -683,6 +684,9 @@ define([
           "fechaNacimiento" : campoSantoFactory.formatearFechaNacimiento($scope.modelo.fechaNacimiento)
         }
         campoSantoService.generarEvelacuion(data).then(function (response) {
+
+          campoSantoFactory.SetDataEvaluacion(response);
+
           if (response.Califica === 1) {
             mModalAlert.showSuccess("Cliente califica con éxito", "")
               .then(function () { 

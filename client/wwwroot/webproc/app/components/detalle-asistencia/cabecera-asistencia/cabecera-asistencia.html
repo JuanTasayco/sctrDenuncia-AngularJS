@@ -1,4 +1,4 @@
-<div class="g-title ">
+<div class="g-title wp-no-bb">
   <div class="container">
     <div class="row">
       <div class="col-xs-8 col-sm-7 col-md-6 pr-xs-0 mt-1 title-box">
@@ -6,119 +6,218 @@
           <div class="col-md-12">
             <span class="ico-mapfre_84_circleleft ico-title"></span>
             <h1>Asistencia #{{::$ctrl.infoAsistencia.nroAsistencia}}</h1>
-            <span class="g-tag"
-              data-ng-class="$ctrl.clsLabel[$ctrl.infoAsistencia.estadoSiniestro.toLowerCase()] || 'tag-gray'">
+            <span class="g-tag" data-ng-class="$ctrl.clsLabel[$ctrl.infoAsistencia.estadoSiniestro.toLowerCase()] || 'tag-gray'" >
               {{$ctrl.cd.estadoSiniestro === 'ABIERTO' ? 'NUEVO' : $ctrl.infoAsistencia.estadoSiniestro}}
             </span>
           </div>
         </div>
+        <div class="row">
+          <div class="col-md-12">
+            <div class="siniestro-box">
+              <span class="g-label2">Siniestro:&nbsp;</span>
+              <span class="g-label2-data">{{$ctrl.infoAsistencia.codigoSiniestro || ''}}</span>
+            </div>
+            <div class="siniestro-box">
+              <span class="g-label2">Póliza:&nbsp;</span>
+              <span class="g-label2-data">{{$ctrl.infoAsistencia.numeroPoliza}}</span>
+            </div>
+          </div>
+          <div class="col-xs-12 hidden-md hidden-lg u-minheight--19">
+            <div
+              class="wp-autosave__box u-txt-size--8em"
+              data-ng-class="($ctrl.autoSaveStatus.isSaving || $ctrl.autoSaveStatus.isSaved) ? 'is--visible': ''">
+              <span
+                class="wp-autosave__ico is-saving ico-mapfre_183_refresh"
+                data-ng-class="$ctrl.autoSaveStatus.icoCls">
+              </span>
+              <span class="wp-autosave__txt"><b>{{$ctrl.autoSaveStatus.txt}}</b></span>
+            </div>
+          </div>
+        </div>
       </div>
       <div class="col-xs-4 col-sm-5 col-md-6 pl-xs-0" data-ng-if="!$ctrl.infoAsistencia.userForeign">
-        <div class="row g-text-right-xs pr-xs-2 relive" ng-if="!$ctrl.modoLectura">
-          <div
-            class="col-xs-4 col-sm-3 u-float-align pl-xs-0 cabecera-asis__box-btn cabecera-asis__box-btn--save"
-            data-ng-if="$ctrl.infoAsistencia.estadoSiniestro.toUpperCase() === 'ABIERTO' || $ctrl.infoAsistencia.estadoSiniestro.toUpperCase() === 'PENDIENTE'">
-            <a class="col-md-12 g-btn second-design"
-              data-ng-class="$ctrl.saveStatus.saved ? 'g-btn-white ' : 'g-btn-verde'"
-              data-ng-click="$ctrl.handleGuardar();">
-              <span class="ico-mapfre_148_exito hidden-sm hidden-md hidden-lg"
-                data-ng-if="$ctrl.saveStatus.saved"></span>
-              <span class="ico-mapfre_146_USB ico-mapfre ico-save hidden-md hidden-lg"
-                data-ng-if="!$ctrl.saveStatus.saved"></span>
-              <span class="hidden-xs hidden-sm"> GUARDAR</span>
-            </a>
+        <div class="row g-text-right-xs pr-xs-2 relive">
+          <div class="col-sm-4 hidden-xs hidden-sm u-ph-0 u-float-align wp-autosave__wrap">
+            <div
+              class="wp-autosave__box is--cabecera"
+              data-ng-class="($ctrl.autoSaveStatus.isSaving || $ctrl.autoSaveStatus.isSaved) ? 'is--visible': ''">
+              <span
+                class="wp-autosave__ico"
+                data-ng-class="$ctrl.autoSaveStatus.icoCls">
+              </span>
+              <span class="wp-autosave__txt"><b>{{$ctrl.autoSaveStatus.txt}}</b></span>
+            </div>
           </div>
           <div
-            class="col-xs-4 col-sm-2 col-md-5 hidden-xs hidden-sm u-float-align pl-xs-0 "
+            class="col-xs-4 col-sm-2 col-md-3 u-float-align pl-xs-0 cabecera-asis__box-btn cabecera-asis__box-btn--save"
+            data-ng-if="$ctrl.infoAsistencia.estadoSiniestro.toUpperCase() === 'ABIERTO' || $ctrl.infoAsistencia.estadoSiniestro.toUpperCase() === 'PENDIENTE'"
           >
-            <a class="col-md-12 g-btn g-btn-verde second-design" data-ng-click="$ctrl.handleConsolidar()">
-              <span>GENERAR CONSOLIDADO</span>
+            <a
+              class="col-md-12 g-btn second-design"
+              data-ng-class="$ctrl.saveStatus.saved ? 'g-btn-white ' : 'g-btn-verde'"
+              data-ng-click="$ctrl.handleGuardar();"
+            >
+              <span class="ico-mapfre_148_exito hidden-sm hidden-md hidden-lg" data-ng-if="$ctrl.saveStatus.saved" ></span>
+              <span class="ico-mapfre_146_USB ico-mapfre ico-save hidden-md hidden-lg" data-ng-if="!$ctrl.saveStatus.saved" ></span>
+              <span class="hidden-xs hidden-sm">{{$ctrl.saveStatus.saved ? 'Guardado' : 'Guardar'}}</span>
             </a>
           </div>
           <div
             class="col-xs-4 col-sm-3 hidden-xs hidden-sm u-float-align pl-xs-0 "
-            data-ng-if="$ctrl.infoAsistencia.estadoSiniestro.toUpperCase() !== 'ANULADO'  && $ctrl.infoAsistencia.estadoSiniestro.toUpperCase() !== 'ABIERTO'"
+            data-ng-if="$ctrl.frmStatus.general && $ctrl.infoAsistencia.estadoSiniestro.toUpperCase() !== 'ANULADO'  && $ctrl.infoAsistencia.estadoSiniestro.toUpperCase() !== 'ABIERTO'"
           >
             <a class="col-md-12 g-btn g-btn-verde second-design" data-ng-click="$ctrl.handleTerminar()">
               <span>Terminar</span>
             </a>
           </div>
-        </div>
-        <div class="row g-text-right-xs pl-xs-2" ng-if="$ctrl.modoLectura">
-          <div class="col-md-5 col-md-offset-7">
-            <a class="g-btn g-btn-white second-design block" ng-click="$ctrl.regresarBandeja();" > RETORNAR ALA BANDEJA </a>
-        </div>
-        </div>
-      </div>
-    </div>
-    <hr>
-    <div>
-      <div class="row mb-xs-1">
-        <div class="col-md-4">
-          <span class="g-label2">Siniestro:&nbsp;</span>
-          <span class="g-label2-data">{{$ctrl.infoAsistencia.codigoSiniestro || ''}}</span>
-        </div>
-        <div class="col-md-4">
-          <span class="g-label2">U.A:&nbsp;</span>
-          <span class="g-label2-data">SI</span>
-        </div>
-        <div class="col-md-4">
-          <span class="g-label2">Conductor U.A:&nbsp;</span>
-          <span class="g-label2-data">SI</span>
-        </div>
-
-      </div>
-      <div class="row mb-xs-1">
-        <div class="col-md-4">
-          <span class="g-label2">Póliza:&nbsp;</span>
-          <span class="g-label2-data">{{$ctrl.infoAsistencia.numeroPoliza}}</span>
-        </div>
-        <div class="col-md-4">
-          <span class="g-label2">U.T:&nbsp;</span>
-          <span class="g-label2-data">{{$ctrl.infoAsistencia.estadoUT ? 'SI' : 'NO'}}</span>
-        </div>
-        <div class="col-md-4">
-          <span class="g-label2">Conductor U.T:&nbsp;</span>
-          <span class="g-label2-data">{{$ctrl.infoAsistencia.estadoConductorUT ? 'SI' : 'NO'}}</span>
+          <div
+            class="col-xs-2 u-float-align cabecera-asis__box-btn cabecera-asis__box-btn--menu js-menu-mas-ops"
+            data-ng-if="$ctrl.infoAsistencia.estadoSiniestro.toUpperCase() === 'ABIERTO' || $ctrl.infoAsistencia.estadoSiniestro.toUpperCase() === 'PENDIENTE' || $ctrl.infoAsistencia.estadoSiniestro.toUpperCase() === 'GENERADO'"
+          >
+            <a class="col-md-12 g-btn g-btn-transparent second-design" data-ng-click="$ctrl.showMenuMasOpc()">
+              <span class="ico-mapfre_167_otros ico-mapfre2 wp-menu-cabecera__ico"></span>
+            </a>
+            <ul class="menuMasOpc" data-ng-show="$ctrl.isVisibleMenuMasOpc">
+              <li data-ng-if="$ctrl.infoAsistencia.estadoSiniestro.toUpperCase() === 'PENDIENTE' || $ctrl.infoAsistencia.estadoSiniestro.toUpperCase() === 'GENERADO'">
+                <a data-ng-click="$ctrl.handleAnular();">Anular asistencia</a>
+              </li>
+              <li><a data-ng-click="$ctrl.handleInvestigar();">Poner a investigación</a></li>
+              <li data-ng-if="$ctrl.frmStatus.general && $ctrl.infoAsistencia.estadoSiniestro.toUpperCase() === 'PENDIENTE'" >
+                <a data-ng-click="$ctrl.handleDesestimar();">Desistimiento</a>
+              </li>
+              <li
+                class="hidden-sm hidden-md hidden-lg"
+                data-ng-if="$ctrl.frmStatus.general && $ctrl.infoAsistencia.estadoSiniestro.toUpperCase() !== 'ANULADO' && $ctrl.infoAsistencia.estadoSiniestro.toUpperCase() !== 'ABIERTO'"
+              >
+                <a data-ng-click="$ctrl.handleTerminar();">Terminar</a>
+              </li>
+            </ul>
+          </div>
         </div>
       </div>
-      <!-- <div class="row">
-        <div class="col-md-4">
-          <span class="g-label2">Cliente/Unidad observada:&nbsp;</span>
-          <span class="g-label2-data">Pendiente variable</span>
-        </div>
-      </div> -->
     </div>
   </div>
 </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 <div class="g-section g-section-tabs relive row u-pt-xs-0 u-pb-0">
   <div class="container tabs-box u-z--1035">
     <div class="tabs-box-list main-tabs pb-xs-2 wp-tabs-detalle__wp relive u-bg--white">
+      <uib-tabset justified="true" active="$ctrl.currentTab">
+        <uib-tab
+          classes="tabs-box-list__tab"
+          data-select="$ctrl.handleAutoSave(); $ctrl.onSeleccionTab(0)"
+          data-ui-sref-active="active"
+          data-ui-sref="{{$ctrl.tabs[0].state}}"
+          data-ui-sref-opts="{reload: false}"
+          index="0">
+          <uib-tab-heading>
+            {{$ctrl.tabs[0].title}}
+            <span data-ng-if="$ctrl.frmStatus.general != undefined  && $ctrl.isFrmRequire">
+              <span
+                class="wp-frm-tab__ico ico-mapfre_132_alert"
+                data-ng-class="$ctrl.frmStatus.general ? 'invisible' : ''">
+              </span>
+            </span>
+          </uib-tab-heading>
+        </uib-tab>
+        <uib-tab
+          classes="tabs-box-list__tab"
+          data-select="$ctrl.handleAutoSave(); $ctrl.onSeleccionTab(1)"
+          data-ui-sref-active="active"
+          data-ui-sref="{{$ctrl.tabs[1].state}}"
+          data-ui-sref-opts="{reload: false}"
+          index="1">
+          <uib-tab-heading>
+            {{$ctrl.tabs[1].title}}
+            <span data-ng-if="$ctrl.frmStatus.conductor != undefined && $ctrl.isFrmRequire">
+              <span
+                class="wp-frm-tab__ico ico-mapfre_132_alert"
+                data-ng-class="$ctrl.frmStatus.conductor ? 'invisible' : ''">
+              </span>
+            </span>
+          </uib-tab-heading>
+        </uib-tab>
+        <uib-tab
+          classes="tabs-box-list__tab"
+          data-select="$ctrl.handleAutoSave(); $ctrl.onSeleccionTab(2)"
+          data-ui-sref-active="active"
+          data-ui-sref="{{$ctrl.tabs[2].state}}"
+          data-ui-sref-opts="{reload: false}"
+          index="2">
+          <uib-tab-heading>
+            {{$ctrl.tabs[2].title}}
+            <span data-ng-if="$ctrl.frmStatus.vehiculo != undefined  && $ctrl.isFrmRequire">
+              <span
+                class="wp-frm-tab__ico ico-mapfre_132_alert"
+                data-ng-class="$ctrl.frmStatus.vehiculo ? 'invisible' : ''">
+              </span>
+            </span>
+          </uib-tab-heading>
+        </uib-tab>
+        <uib-tab
+          classes="tabs-box-list__tab"
+          data-select="$ctrl.handleAutoSave(); $ctrl.onSeleccionTab(3)"
+          data-ui-sref-active="active"
+          data-ui-sref="{{$ctrl.tabs[3].state}}"
+          data-ui-sref-opts="{reload: false}"
+          index="3">
+          <uib-tab-heading>
+            {{$ctrl.tabs[3].title}}
+          </uib-tab-heading>
+        </uib-tab>
+        <uib-tab
+          classes="tabs-box-list__tab"
+          data-select="$ctrl.handleAutoSave(); $ctrl.onSeleccionTab(4)"
+          data-ui-sref-active="active"
+          data-ui-sref="{{$ctrl.tabs[4].state}}"
+          data-ui-sref-opts="{reload: false}"
+          index="4">
+          <uib-tab-heading>
+            {{$ctrl.tabs[4].title}}
+          </uib-tab-heading>
+        </uib-tab>
+        <uib-tab
+          classes="tabs-box-list__tab"
+          data-select="$ctrl.handleAutoSave(); $ctrl.onSeleccionTab(5)"
+          data-ui-sref-active="active"
+          data-ui-sref="{{$ctrl.tabs[5].state}}"
+          data-ui-sref-opts="{reload: false}"
+          index="5">
+          <uib-tab-heading>
+            {{$ctrl.tabs[5].title}}
+            <span data-ng-if="$ctrl.frmStatus.siniestro != undefined  && $ctrl.isFrmRequire">
+              <span
+                class="wp-frm-tab__ico ico-mapfre_132_alert"
+                data-ng-class="$ctrl.frmStatus.siniestro ? 'invisible' : ''">
+              </span>
+            </span>
+          </uib-tab-heading>
+        </uib-tab>
+        <uib-tab
+          classes="tabs-box-list__tab"
+          data-select="$ctrl.handleAutoSave(); $ctrl.onSeleccionTab(6)"
+          data-ui-sref-active="active"
+          data-ui-sref="{{$ctrl.tabs[6].state}}"
+          data-ui-sref-opts="{reload: false}"
+          data-ng-if="$ctrl.canViewConsolidado()"
+          index="6">
+          <uib-tab-heading>
+            {{$ctrl.tabs[6].title}}
+          </uib-tab-heading>
+        </uib-tab>
+        <div class="border-tabs-fixed" ng-show="$ctrl.boolChangeClassTabs"></div>
+      </uib-tabset>
     </div>
   </div>
-  <a class="tabs-box-navigate__left hidden-md hidden-lg" data-ng-click="$ctrl.goLeft();" id="link__left">
+  <a
+    class="tabs-box-navigate__left hidden-md hidden-lg"
+    data-ng-click="$ctrl.goLeft();"
+    id="link__left">
     <span class="ico-mapfre_78_chevronleft"></span>
   </a>
-  <a class="tabs-box-navigate__right hidden-md hidden-lg" data-ng-click="$ctrl.goRight();" id="link__right">
+  <a
+    class="tabs-box-navigate__right hidden-md hidden-lg"
+    data-ng-click="$ctrl.goRight();"
+    id="link__right">
     <span class="ico-mapfre_79_chevroneright"></span>
   </a>
   <div class="fixed-sm"></div>
