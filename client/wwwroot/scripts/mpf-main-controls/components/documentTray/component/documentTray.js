@@ -1469,7 +1469,8 @@
               SuplementoAplicacion: '0',
               TipoImpresion :       'A',
               CodApli: $window.localStorage['appCodeSubMenu'] || '',
-              IpOrigen: $window.localStorage['clientIp'] || ''
+              IpOrigen: $window.localStorage['clientIp'] || '',
+              CodigoUsuario: oimPrincipal.getUsername().toUpperCase()
             }
             $scope.pdfData = data;
             $scope.pdfURL = $sce.trustAsResourceUrl(constants.system.api.endpoints.policy + 'api/reporte/transporte/emision');
