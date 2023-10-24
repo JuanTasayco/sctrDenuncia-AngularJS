@@ -50,7 +50,9 @@ define([], function() {
       {codigoValor: 'ANULADO', nombreValor: 'ANULADO'},
       {codigoValor: 'ABIERTO', nombreValor: 'NUEVO'},
       {codigoValor: 'PENDIENTE', nombreValor: 'PENDIENTE'},
-      {codigoValor: 'GENERADO', nombreValor: 'GENERADO'}
+      {codigoValor: 'GENERADO', nombreValor: 'GENERADO'},
+      {codigoValor: 'DESISTIMIENTO', nombreValor: 'DESISTIMIENTO'},
+      {codigoValor: 'AUTORIZADO', nombreValor: 'AUTORIZADO'}
     ],
     codUserType: {
       admin: 'ADMIN',
