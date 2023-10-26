@@ -1,0 +1,116 @@
+<section class="page-modal pr-sm-2 pl-sm-2">
+
+    <form name="frmModalAssistance">
+        <div class="container">
+            <div class="row">
+                <div class="col-xs-6">
+                    <h2 class="gH3"><b>EDITAR</b></h2>
+                </div>
+                <div class="col-xs-6">
+                    <button type="button" class="close g-close-modal" style="top: 0;" ng-click="closeModal()">
+                        <span class="ico-mapfre_231_cancelaroff"></span>
+                    </button>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-12 mt-xs-1">
+                    <mpf-input class="g-text-none" label="{label: 'Título', required: true}" mpf-validation="onlyLetterNumCaracteres" ng-required="true" ng-model="$ctrl.formAssistance.title" name="nTitulo" ></mpf-input>
+                    <ul class="g-error">
+						<li ng-show="frmModalAssistance.nTitulo.$error.required && !frmModalAssistance.nTitulo.$pristine">* Este campo es obligatorio</li>
+					</ul>
+                </div>
+                <div class="col-xs-12 mt-xs-2">
+                    <div class="g-input-design">
+                        <label class="g-placeholder animated">Contenido*</label>
+                        <div class="c-input__content-input">
+                            <ng-quill-editor class="c-quill-editor" on-content-changed="onQuillEditorChanged()" name="nDescContenido" ng-required="true" ng-model="$ctrl.formAssistance.description" placeholder="''">
+                                <toolbar></toolbar>
+                            </ng-quill-editor>
+                            <div class="c-message__container">
+                                <ul class="g-error no-margin-xs no-margin-md">
+                                    <li
+                                        ng-if="frmModalAssistance.nDescContenido.$error.required && !frmModalAssistance.nDescContenido.$pristine">
+                                        Ingrese Información adicional
+                                    </li>
+                                    <li ng-if="frmModalAssistance.nDescContenido.$error.maxlength">
+                                        Ingrese 4000 caracteres
+                                    </li>
+                                </ul>
+                                <div class="g-text-right-xs g-text-right-md">
+                                    <span class="c-message__character">Máximo 4000 caracteres</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="col-xs-12 mt-xs-1">
+
+                    <div class="col-xs-12 mt-xs-2">
+                        <div class="gCBlack1 gH4 fwMedium">Imágen</div>
+                    </div>
+                    <div class="col-xs-12 col-sm-6 col-lg-4 mt-xs-2" >
+                        <div class="container g-border h-br--5 pt-xs-2 pb-xs-2">
+                            <div class="gCBlack1 gH5 fwBold">Imagen 01</div>
+                            <div ng-if="$ctrl.file.image.upload || $ctrl.file.image.src" class="mt-xs-2" style="position: relative;">
+                                <img ng-src="{{$ctrl.file.image.src}}" class="w-100" alt="">
+                                <button type="button" class="close g-close-modal" style="top: 10px;position: absolute;right: 10px;color: white;" ng-click="$ctrl.deleteFile('image')">
+                                    <span class="ico-mapfre_231_cancelaroff" style="font-size: 20px;"></span>
+                                </button>
+                            </div>
+                            <div class="file-upload mt-xs-2"  ng-if="!$ctrl.file.image.src && !$ctrl.file.image.upload">
+                                <input type="file" id="custom-file-input" class="box-images--input" accept="{{$ctrl.fileTypes}}" file-model="$ctrl.photoFile" />
+                                <label for="custom-file-input">
+                                    <span style="color: #8DB602;font-size: 14px;font-weight: 700;">Examina o arrastra aquí  la imágen</span>
+                                    <br>
+                                    <span style="font-size: 11px;
+                                        font-style: normal;
+                                        font-weight: 400;color: #8E8E8E;">Tamaño máx. de archivo 2Mb - formato JPG, PNG</span>
+                                    <br>
+                                    <span style="font-size: 11px;
+                                        font-style: normal;
+                                        font-weight: 400;color: #8E8E8E;">513px X 213px</span>
+                                </label>
+                              </div>
+                        </div>
+                        <ul class="g-error">
+                            <li ng-show="!$ctrl.file.image.src && $ctrl.viewErrors">* Este campo es obligatorio</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-xs-12 mt-xs-1">
+                    <mpf-input class="g-text-none" label="{label: 'Título de boton de descarga para PDF', required: true}" ng-required="true" ng-model="$ctrl.formAssistance.textButton" name="nTextButton" ></mpf-input>
+                    <ul class="g-error">
+						<li ng-show="frmModalAssistance.nTextButton.$error.required && !frmModalAssistance.nTextButton.$pristine">* Este campo es obligatorio</li>
+					</ul>
+                </div>
+                <div class="col-xs-12 col-md-5 mt-xs-1">
+                    <p class="g-cl--black fwMedium mb-xs-1">Documento PDF</p>
+
+                    <input type="file" accept="{{$ctrl.fileTypesPdf}}" file-model="$ctrl.pdfFile" ng-if="!$ctrl.file.pdf.src && !$ctrl.file.pdf.upload" />
+                    <div ng-if="$ctrl.file.pdf.upload || $ctrl.file.pdf.src" class="g-border h-br--5 container pt-xs-2 pb-xs-2">
+                        <div style="padding: 16px 20px;display: flex;border-radius: 10px;background: #8E8E8E;align-items: center;position: relative">
+                            <div style="color: white;margin-right: 5px;" class="ico-mapfre_158_pdf gH1"></div>
+                            <span style="color: white;">{{$ctrl.file.pdf.name}}</span> 
+                            <button type="button" class="close g-close-modal" style="top: 10px;position: absolute;right: 10px;color: white;" ng-click="$ctrl.deleteFile('pdf')">
+                                <span class="ico-mapfre_231_cancelaroff" style="font-size: 20px;"></span>
+                            </button>
+                        </div>
+                    </div>
+                    <ul class="g-error">
+                        <div></div>
+                        <li ng-show="!$ctrl.file.pdf.src && $ctrl.viewErrors">* Este campo es obligatorio</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="row mb-2 mt-xs-2">
+                <div class="col-md-6 mb-xs-1 no-mb-md">
+                    <a href="" class="g-btn g-btn-white block" ng-click="closeModal()">CANCELAR</a>
+                </div>
+                <div class="col-md-6">
+                    <a href="" class="g-btn g-btn-verde block" ng-click="saveAssistance()">GUARDAR</a>
+                </div>
+            </div>
+        </div>
+    </form>
+</section>
