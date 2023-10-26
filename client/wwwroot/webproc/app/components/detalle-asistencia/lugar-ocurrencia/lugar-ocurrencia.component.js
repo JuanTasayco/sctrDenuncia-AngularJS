@@ -60,8 +60,6 @@ define(['angular', 'lodash', 'AsistenciaActions', 'wpConstant'], function (ng, _
       vm.siniestroTypeCheckList = wpFactory.myLookup.getTipoSiniestroDetalle().filter(function (element) {
         return element.nombreValor == (valor ? valor.nombreValor : nombreTipoSiniestro ? nombreTipoSiniestro.nombreValor : null) && element.nombreValorDetalle;
       });
-
-      vm.frmSiniestro.codigoSubSiniestro = vm.siniestroTypeCheckList[0] ? vm.siniestroTypeCheckList[0].codigoValor:"";
       vm.frmSiniestro.expediente = "";
     }
 
