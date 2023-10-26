@@ -67,7 +67,7 @@ define([
     }
 
     function BuscarAgentes(wilcar) {
-      if (wilcar && wilcar.length >= 3) {
+      if (soatFactory.validateSearchText(wilcar)) {
         var defer = $q.defer();
         soatFactory.buscarAgente(wilcar.toUpperCase(), false).then(function (response) {
           defer.resolve(response.Data);
@@ -78,7 +78,7 @@ define([
     }
 
     function BuscarUsuarios(wilcar) {
-      if (wilcar && wilcar.length >= 3) {
+      if (soatFactory.validateSearchText(wilcar)) {
         var defer = $q.defer();
         soatFactory.buscarUsuario(wilcar.toUpperCase(), false).then(function (response) {
           defer.resolve(response.data);
@@ -102,26 +102,26 @@ define([
 
     function _transformNewRestriction(restriccion) {
       return {
-        agentId: (restriccion && restriccion.agent && restriccion.agent.CodigoAgente) || '',
-        userId: (restriccion && restriccion.user && restriccion.user.userId) || '',
-        vehicleTypeId: (restriccion && restriccion.vehicleType.Codigo) || '',
-        historicalAmount: (restriccion && restriccion.historicalAmount) || '',
-        totalEmissions: (restriccion && restriccion.totalEmissions) || '',
-        dailyEmissions: (restriccion && restriccion.dailyEmissions) || '',
-        creditDays: (restriccion && restriccion.creditDays) || ''
+        agentId: soatFactory.getValueString(restriccion.agent, 'CodigoAgente'),
+        userId: soatFactory.getValueString(restriccion.user, 'userId'),
+        vehicleTypeId: soatFactory.getValueString(restriccion.vehicleType, 'Codigo'),
+        historicalAmount: soatFactory.getValueString(restriccion, 'historicalAmount'),
+        totalEmissions: soatFactory.getValueString(restriccion, 'totalEmissions'),
+        dailyEmissions: soatFactory.getValueString(restriccion, 'dailyEmissions'),
+        creditDays: soatFactory.getValueString(restriccion, 'creditDays')
       };
     }
 
     function _transformEditRestriction(restriccion) {
       return {
-        agentId: (vm.restriccion && vm.restriccion.agent && vm.restriccion.agent.CodigoAgente) || '',
-        userId: (vm.restriccion && vm.restriccion.user && restriccion.user.userId) || '',
-        vehicleTypeId: (vm.restriccion && vm.restriccion.vehicleType && vm.restriccion.vehicleType.Codigo) || '',
-        historicalAmount: (vm.restriccion && vm.restriccion.historicalAmount) || '',
-        totalEmissions: (vm.restriccion && vm.restriccion.totalEmissions) || '',
-        dailyEmissions: (vm.restriccion && vm.restriccion.dailyEmissions) || '',
-        creditDays: (vm.restriccion && vm.restriccion.creditDays) || '',
-        state: (vm.restriccion && vm.restriccion.state && vm.restriccion.state.Codigo) || '',
+        agentId: soatFactory.getValueString(restriccion.agent, 'CodigoAgente'),
+        userId: soatFactory.getValueString(restriccion.user, 'userId'),
+        vehicleTypeId: soatFactory.getValueString(restriccion.vehicleType, 'Codigo'),
+        historicalAmount: soatFactory.getValueString(restriccion, 'historicalAmount'),
+        totalEmissions: soatFactory.getValueString(restriccion, 'totalEmissions'),
+        dailyEmissions: soatFactory.getValueString(restriccion, 'dailyEmissions'),
+        creditDays: soatFactory.getValueString(restriccion, 'creditDays'),
+        state: soatFactory.getValueString(restriccion.state, 'Codigo')
       };
     }
   }

@@ -54,27 +54,29 @@
     
         function _buscarRestricciones() {
           soatFactory.listarRestricciones(vm.parametros, true).then(function (response) {
-            if(response.status === 200) {
-              vm.pagination.totalItems = parseInt(response.data.numberItems);
-              vm.pagination.items = response.data.restrictions;
-              vm.pagination.noSearch = false;
-              vm.pagination.noResult = response.data.numberItems === 0;
-            } else {
-              mModalAlert.showError('Hubo un problema en la búsqueda', 'Restricciones');
+            if(response.status !== 200) {
               vm.pagination.totalItems = 0;
               vm.pagination.noSearch = true;
               vm.pagination.noResult = false;
               vm.pagination.items = [];
+
+              mModalAlert.showError('Hubo un problema en la búsqueda', 'Restricciones');
+              return;
             }
+
+            vm.pagination.totalItems = parseInt(response.data.numberItems);
+            vm.pagination.items = response.data.restrictions;
+            vm.pagination.noSearch = false;
+            vm.pagination.noResult = response.data.numberItems === 0;
           });
         }
     
         function _setRequestBuscarRestricciones(filtros) {
           console.log(filtros);
           vm.parametros = {
-            agent: (filtros && filtros.agente) || '',
-            user: (filtros && filtros.usuario) || '',
-            vehicleType: (filtros && filtros.tipoVehiculo) || '',
+            agent: soatFactory.getValueString(filtros, 'agente'),
+            user: soatFactory.getValueString(filtros, 'usuario'),
+            vehicleType: soatFactory.getValueString(filtros, 'tipoVehiculo'),
             items: vm.pagination.maxSize,
             pages: vm.pagination.currentPage
           };
@@ -97,12 +99,12 @@
             templateUrl : '/polizas/app/soat/restriction/popup/controller/popupMensajes.html',
             controller : ['$scope', '$uibModalInstance', 'soatFactory', 'mModalAlert',
               function($scope, $uibModalInstance, soatFactory, mModalAlert) {
+                $scope.messages = [];
+
                 $scope.loadMessage = function () {
                   soatFactory.listarMensajes(true).then(function (response) {
                     if(response.status === 200) {
                       $scope.messages = response.data;
-                    } else {
-                      $scope.messages = [];
                     }
                   });
                 }
@@ -134,11 +136,12 @@
                   var currentUser = JSON.parse(localStorage.getItem('profile')).username;
 
                   soatFactory.editarMensajes(request, currentUser, true).then(function(response) {
-                    if(response.status === 200) {
-                      $uibModalInstance.close();
-                    } else {
+                    if(response.status !== 200) {
                       mModalAlert.showError(response.message, 'Mensajes Restricción Corredor');
+                      return;
                     }
+
+                    $uibModalInstance.close();
                   });
                 };
 
@@ -152,7 +155,9 @@
         function AccionItem(event) {
           if(event.evento === 'eliminar'){
             EliminarRestriccion(event.restriccion);
-          } else if(event.evento === 'editar'){
+          } 
+          
+          if(event.evento === 'editar'){
             restrictionService.setRestriction(event.restriccion);
             $state.go('soatEditRestriccion', {restrictionId : event.restriccion.restrictionId});
           }
@@ -171,12 +176,12 @@
               };
 
               soatFactory.eliminarRestriccion(parameter, true).then(function(response) {
-                if(response.status === 200) {
-              vm.limpiarResultados();
-              _buscarRestricciones();
-                } else {
+                if(response.status !== 200) {
                   mModalAlert.showError(response.message, 'Restricciones');
                 }
+
+              vm.limpiarResultados();
+              _buscarRestricciones();
               });
             }
           });

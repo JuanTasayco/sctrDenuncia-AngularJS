@@ -319,6 +319,14 @@ define([
       return proxySoat.ActualizarMensajesSoat(params, user, showSpin);
     }
 
+    function getValueString(obj, key) {
+      return (obj && obj[key]) || '';
+    }
+
+    function validateSearchText(wilcar) {
+      return wilcar && wilcar.length >= 3;
+    }
+
     return {
       addVariableSession: addVariableSession,
       getVariableSession: getVariableSession,
@@ -361,7 +369,9 @@ define([
       editarRestriccion: editarRestriccion,
       eliminarRestriccion: eliminarRestriccion,
       listarMensajes: listarMensajes,
-      editarMensajes: editarMensajes
+      editarMensajes: editarMensajes,
+      getValueString: getValueString,
+      validateSearchText: validateSearchText
     };
   }]);
 

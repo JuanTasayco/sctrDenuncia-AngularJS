@@ -22,25 +22,26 @@
     
         function _nuevaRestriccion() {
           soatFactory.registrarRestriccion(vm.parametros, true).then(function(response) {
-            if(response.status === 200) {
+            if(response.status !== 200) {
+              mModalAlert.showError(response.message, 'Restricciones');
+              return;
+            }
+
           mModalAlert.showSuccess('Se ha registrado la restricción', 'Exitoso').then(function(x){
             $state.go("soatRestricciones");
           });
-            } else {
-              mModalAlert.showError(response.message, 'Restricciones');
-            }
           });
         }
     
         function _setRequestNuevaRestriccion(parametros) {
           vm.parametros = {
-            agentId: (parametros && parametros.agentId) || '',
-            userId: (parametros && parametros.userId) || '',
-            vehicleTypeId: (parametros && parametros.vehicleTypeId) || '',
-            historicalAmount: (parametros && parametros.historicalAmount) || '',
-            totalEmissions: (parametros && parametros.totalEmissions) || '',
-            dailyEmissions: (parametros && parametros.dailyEmissions) || '',
-            creditDays: (parametros && parametros.creditDays) || '',
+            agentId: soatFactory.getValueString(parametros, 'agentId'),
+            userId: soatFactory.getValueString(parametros, 'userId'),
+            vehicleTypeId: soatFactory.getValueString(parametros, 'vehicleTypeId'),
+            historicalAmount: soatFactory.getValueString(parametros, 'historicalAmount'),
+            totalEmissions: soatFactory.getValueString(parametros, 'totalEmissions'),
+            dailyEmissions: soatFactory.getValueString(parametros, 'dailyEmissions'),
+            creditDays: soatFactory.getValueString(parametros, 'creditDays'),
             creationUser: JSON.parse(localStorage.getItem('profile')).username,
             modificationUser: JSON.parse(localStorage.getItem('profile')).username
           };

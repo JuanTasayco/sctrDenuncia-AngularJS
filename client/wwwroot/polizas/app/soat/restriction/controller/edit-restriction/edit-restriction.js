@@ -20,12 +20,17 @@
             dailyEmissions: restriccionTmp.dailyEmissions,
             historicalAmount: restriccionTmp.historicalAmount,
             restrictionId: restriccionTmp.restrictionId,
-            state: { Codigo: restriccionTmp.state, Descripcion: restriccionTmp.state === 'N' ? 'ACTIVO' : (restriccionTmp.state === 'S' ? 'INACTIVO' : '') },
+            state: { Codigo: restriccionTmp.state, Descripcion: getStateDescription(restriccionTmp.state) },
             totalEmissions: restriccionTmp.totalEmissions,
             user: { userId: restriccionTmp.userId, userName: restriccionTmp.userName },
             vehicleType: { Codigo: restriccionTmp.vehicleTypeId, Descripcion: restriccionTmp.vehicleTypeName }
           };
         })();
+
+        function getStateDescription(state) {
+          if(state === 'N') return 'ACTIVO';
+          return state === 'S' ? 'INACTIVO' : '';
+        }
 
         function EditarRestriccion(parametros) {
           _setRequestEditarRestriccion(parametros);
@@ -34,27 +39,28 @@
     
         function _editarRestriccion() {
           soatFactory.editarRestriccion(vm.parametros, true).then(function(response) {
-            if(response.status === 200) {
+            if(response.status !== 200) {
+              mModalAlert.showError(response.message, 'Restricciones');
+              return;
+            }
+
           mModalAlert.showSuccess('Se ha editado la restricción', 'Exitoso').then(function(x){
             $state.go("soatRestricciones");
           });
-            } else {
-              mModalAlert.showError(response.message, 'Restricciones');
-            }
           });
         }
     
         function _setRequestEditarRestriccion(parametros) {
           vm.parametros = {
             restrictionId: vm.restriccion.restrictionId,
-            agentId: (parametros && parametros.agentId) || 0,
-            userId: (parametros && parametros.userId) || 0,
-            vehicleTypeId: (parametros && parametros.vehicleTypeId) || 0,
-            historicalAmount: (parametros && parametros.historicalAmount) || 0,
-            totalEmissions: (parametros && parametros.totalEmissions) || 0,
-            dailyEmissions: (parametros && parametros.dailyEmissions) || 0,
-            creditDays: (parametros && parametros.creditDays) || 0,
-            state: (parametros && parametros.state) || 0,
+            agentId: soatFactory.getValueString(parametros, 'agentId'),
+            userId: soatFactory.getValueString(parametros, 'userId'),
+            vehicleTypeId: soatFactory.getValueString(parametros, 'vehicleTypeId'),
+            historicalAmount: soatFactory.getValueString(parametros, 'historicalAmount'),
+            totalEmissions: soatFactory.getValueString(parametros, 'totalEmissions'),
+            dailyEmissions: soatFactory.getValueString(parametros, 'dailyEmissions'),
+            creditDays: soatFactory.getValueString(parametros, 'creditDays'),
+            state: soatFactory.getValueString(parametros, 'state'),
             modificationUser: JSON.parse(localStorage.getItem('profile')).username
           };
         }

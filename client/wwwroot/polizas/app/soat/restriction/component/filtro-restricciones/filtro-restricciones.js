@@ -47,7 +47,7 @@ define([
     })();
 
     function BuscarAgentes(wilcar) {
-      if (wilcar && wilcar.length >= 3) {
+      if (soatFactory.validateSearchText(wilcar)) {
         var defer = $q.defer();
         soatFactory.buscarAgente(wilcar.toUpperCase(), false).then(function (response) {
           defer.resolve(response.Data);
@@ -58,7 +58,7 @@ define([
     }
 
     function BuscarUsuarios(wilcar) {
-      if (wilcar && wilcar.length >= 3) {
+      if (soatFactory.validateSearchText(wilcar)) {
         var defer = $q.defer();
         soatFactory.buscarUsuario(wilcar.toUpperCase(), false).then(function (response) {
           defer.resolve(response.data);
@@ -77,13 +77,12 @@ define([
     }
 
     function BuscarRestricciones() {
-      if ($scope.ngBuscarCallback) {
-        if (_validateFilter()) {
-          $scope.ngBuscarCallback({ '$event': _transformFiltrosBuscar() });
-        }
-      } else {
+      if (!($scope.ngBuscarCallback && _validateFilter())) {
         console.error('ERR-001: No se ha asignado la propiedad ng-buscar');
+        return;
       }
+
+      $scope.ngBuscarCallback({ '$event': _transformFiltrosBuscar() });
     }
 
     function LimpiarFiltros() {
@@ -103,11 +102,11 @@ define([
       if (_validateFilterFields()) {
         $scope.frmRestricciones.markAsPristine();
         return $scope.frmRestricciones.$valid;
-      } else {
+      }
+
         mModalAlert.showWarning('Debe ingresar los filtros obligatorios', 'ALERTA', null, 3000);
         return false;
       }
-    }
 
     function _validateFilterFields() {
       var validate = (vm.filtros.agente !== null && (vm.filtros.agente.CodigoAgente !== undefined && vm.filtros.agente.CodigoAgente !== null))
@@ -117,9 +116,9 @@ define([
 
     function _transformFiltrosBuscar() {
       return {
-        agente: vm.filtros.agente && vm.filtros.agente.CodigoAgente,
-        usuario: vm.filtros.usuario && vm.filtros.usuario.userId,
-        tipoVehiculo: vm.filtros.tipoVehiculo && vm.filtros.tipoVehiculo.Codigo,
+        agente: soatFactory.getValueString(vm.filtros.agente, 'CodigoAgente'),
+        usuario: soatFactory.getValueString(vm.filtros.usuario, 'userId'),
+        tipoVehiculo: soatFactory.getValueString(vm.filtros.tipoVehiculo, 'Codigo'),
       };
     }
   }
