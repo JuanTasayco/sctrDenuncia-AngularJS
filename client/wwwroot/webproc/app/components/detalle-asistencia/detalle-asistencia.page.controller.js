@@ -225,12 +225,7 @@ define(['angular', 'lodash', 'AsistenciaActions', 'helper', 'wpConstant','consta
       vm.ultimaDataDeAsistencia.codigoDepartamento = vm.ultimaDataDeAsistencia.codigoDepartamento + '';
       vm.ultimaDataDeAsistencia.codigoProvincia = vm.ultimaDataDeAsistencia.codigoProvincia + '';
       vm.ultimaDataDeAsistencia.codigoDistrito = vm.ultimaDataDeAsistencia.codigoDistrito + '';
-      vm.ultimaDataDeAsistencia.codigoDepartamento = null;
-      vm.ultimaDataDeAsistencia.codigoDepartamentoComisaria = null;
-      vm.ultimaDataDeAsistencia.codigoDistrito = null;
-      vm.ultimaDataDeAsistencia.codigoDistritoComisaria = null;
       
-
       vm.ultimaDataDeAsistencia.siniestroConvenio = {
         "aplicaConvenio": vm.ultimaDataDeAsistencia.siniestroConvenio.aplicaConvenio,
         "codigoConvenioGolpe": parseInt(vm.ultimaDataDeAsistencia.siniestroConvenio.codigoConvenioGolpe),
