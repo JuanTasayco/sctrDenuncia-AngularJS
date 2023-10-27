@@ -261,6 +261,7 @@ define([
                     userCode: exportData.userCode
                   };
                   gcwFactory.addVariableSession('downloadFile', $scope.downloadFile);
+                  vm.polizaPlaca = "";
                 }, function (error) {
                   console.log(error);
                 });
