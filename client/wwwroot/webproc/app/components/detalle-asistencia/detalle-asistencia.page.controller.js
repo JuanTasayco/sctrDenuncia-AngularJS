@@ -253,9 +253,6 @@ define(['angular', 'lodash', 'AsistenciaActions', 'helper', 'wpConstant','consta
               vm.validateForm.validate = false;
             });
         }
-        else if(vm.ultimaDataDeAsistencia.apreciacionEtilica){
-          mModalAlert.showWarning('No se puede autoizar debido a que la Apreciación Etilica es positiva', 'Alerta');
-        }
         else{
           var request = {
             codigoInterno: wpFactory.getNroAsistencia(),
@@ -288,7 +285,7 @@ define(['angular', 'lodash', 'AsistenciaActions', 'helper', 'wpConstant','consta
             .catch(function () {
             })
         }
-        
+
       });
 
       
