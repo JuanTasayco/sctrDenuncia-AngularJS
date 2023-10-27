@@ -321,7 +321,7 @@
                 },
                 'methodgetCollectionReportSoat':{
                     name:  'getCollectionReportSoat',
-                    path: 'api/collection/soat/download'
+                    path: 'api/collection/soat/download?extensionFile={extensionFile}'
                 },
                 'methodgetCollectionReportSoatV2':{
                     name:  'getCollectionReportSoatV2',
@@ -519,6 +519,22 @@
                     name:  'getReportReceiptDocumentEmail',
                     path: 'api/payment/document/receipt/email'
                 },
+                'methodgetLinkPago':{
+                    name:  'getLinkPago',
+                    path: 'api/payment/linkPago'
+                },
+                'methodgetSendLinkPago':{
+                    name:  'getSendLinkPago',
+                    path: 'api/payment/sendLinkPago'
+                },
+                'methodgetLinkAfiliacion':{
+                    name:  'getLinkAfiliacion',
+                    path: 'api/payment/linkAfiliacion'
+                },
+                'methodgetSendLinkAfiliacion':{
+                    name:  'getSendLinkAfiliacion',
+                    path: 'api/payment/sendLinkAfiliacion'
+                },
             }
         },
         controllerRenovation: {
@@ -686,6 +702,10 @@
                 'methodgetLookupExternalLink':{
                     name:  'getLookupExternalLink',
                     path: 'api/lookup/externalLink'
+                },
+                'methodgetTypeUse':{
+                    name:  'getTypeUse',
+                    path: 'api/lookup/typeUse'
                 },
             }
         },
@@ -1120,8 +1140,9 @@
                     return httpData['post'](oimProxyGcw.endpoint + 'api/collection/soat/register/selected',
                                          filter, undefined, showSpin)
                 },
-                'getCollectionReportSoat' : function( showSpin){
-                    return httpData['post'](oimProxyGcw.endpoint + 'api/collection/soat/download',
+                'getCollectionReportSoat' : function(extensionFile, showSpin){
+                    return httpData['post'](oimProxyGcw.endpoint + helper.formatNamed('api/collection/soat/download?extensionFile={extensionFile}',
+                                                    { 'extensionFile':  { value: extensionFile, defaultValue:'' }  }),
                                          undefined, undefined, showSpin)
                 },
                 'getCollectionReportSoatV2' : function(extension, showSpin){
@@ -1345,6 +1366,22 @@
                 'getReportReceiptDocumentEmail' : function(filter, showSpin){
                     return httpData['post'](oimProxyGcw.endpoint + 'api/payment/document/receipt/email',
                                          filter, undefined, showSpin)
+                },
+                'getLinkPago' : function(tokenPaymentRq, showSpin){
+                    return httpData['post'](oimProxyGcw.endpoint + 'api/payment/linkPago',
+                                         tokenPaymentRq, undefined, showSpin)
+                },
+                'getSendLinkPago' : function(tokenPaymentRq, showSpin){
+                    return httpData['post'](oimProxyGcw.endpoint + 'api/payment/sendLinkPago',
+                                         tokenPaymentRq, undefined, showSpin)
+                },
+                'getLinkAfiliacion' : function(tokenAffiliationRq, showSpin){
+                    return httpData['post'](oimProxyGcw.endpoint + 'api/payment/linkAfiliacion',
+                                         tokenAffiliationRq, undefined, showSpin)
+                },
+                'getSendLinkAfiliacion' : function(tokenAffiliationRq, showSpin){
+                    return httpData['post'](oimProxyGcw.endpoint + 'api/payment/sendLinkAfiliacion',
+                                         tokenAffiliationRq, undefined, showSpin)
                 }
         };
      }]);
@@ -1534,6 +1571,10 @@
                 },
                 'getLookupExternalLink' : function( showSpin){
                     return httpData['get'](oimProxyGcw.endpoint + 'api/lookup/externalLink',
+                                         undefined, undefined, showSpin)
+                },
+                'getTypeUse' : function( showSpin){
+                    return httpData['get'](oimProxyGcw.endpoint + 'api/lookup/typeUse',
                                          undefined, undefined, showSpin)
                 }
         };
