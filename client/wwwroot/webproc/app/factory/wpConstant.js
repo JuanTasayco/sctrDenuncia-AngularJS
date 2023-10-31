@@ -43,7 +43,9 @@ define([], function() {
     estadoParaProcurador: [
       {codigoValor: '', nombreValor: '--TODOS--'},
       {codigoValor: 'ABIERTO', nombreValor: 'NUEVO'},
-      {codigoValor: 'PENDIENTE', nombreValor: 'PENDIENTE'}
+      {codigoValor: 'PENDIENTE', nombreValor: 'PENDIENTE'},
+      {codigoValor: 'DESISTIMIENTO', nombreValor: 'DESISTIMIENTO'},
+      {codigoValor: 'AUTORIZADO', nombreValor: 'AUTORIZADO'}
     ],
     estadoParaNoProcurador: [
       {codigoValor: '', nombreValor: '--TODOS--'},
