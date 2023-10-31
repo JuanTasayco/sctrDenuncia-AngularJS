@@ -99,7 +99,7 @@ define(['angular', 'AsistenciaActions', 'wpConstant', 'lodash'], function(ng, As
         onConsolidar: '&?',
         onVerDeducible: '&?',
         saveStatus: '=?',
-        modoLectura: '=?'
+        blocksinistro: '=?'
       }
     });
 });

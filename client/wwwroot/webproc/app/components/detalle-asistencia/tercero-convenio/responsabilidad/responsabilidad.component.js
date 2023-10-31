@@ -65,7 +65,8 @@ define(['angular', 'lodash', 'AsistenciaActions', 'wpConstant', 'wpAgregarAtrope
       templateUrl: '/webproc/app/components/detalle-asistencia/tercero-convenio/responsabilidad/responsabilidad.html',
       controller: 'ResponsabilidadController',
       bindings: {
-        siniestro: '=?'
+        siniestro: '=?',
+        modoLectura: '=?'
       }
     });
 });

@@ -69,7 +69,8 @@ define(['angular', 'lodash'], function (ng, _) {
         idxAtropellado: '<?',
         ngIf: '=?',
         onAgregar: '&?',
-        onEditar: '&?'
+        onEditar: '&?',
+        modoLectura: '=?'
       }
     });
 });

@@ -2,16 +2,17 @@
   class="col-md-12 g-box3 g-box-add-item-1 box-add-damage-1 clearfix"
   data-ng-if="$ctrl.showBoxInicialAgregar">
   <p class="text-center">No hay ningún bien registrado.</p>
-  <a
+  <button data-ng-disabled="$ctrl.modoLectura"
     class="col-xs-8 col-xs-offset-2 col-sm-6 col-sm-offset-3 col-md-4 col-md-offset-4 g-btn g-btn-white mt-xs-1"
     data-ng-click="$ctrl.showFrmAddBien()">
     <span class="glyphicon glyphicon-plus"></span>Agregar Bien
-  </a>
+  </button>
 </div>
 <div
   class="container-add-bien"
   data-ng-repeat="item in $ctrl.bienes track by $index">
   <wp-bien
+    modo-lectura="$ctrl.modoLectura"
     data-bien="item"
     data-idx="$index"
     data-on-delete="$ctrl.handleEliminarBien($index)"
@@ -27,6 +28,7 @@
   </a>
 </div>
 <wp-agregar-editar-bien
+  modo-lectura="$ctrl.modoLectura"
   data-es-frm-agregar="true"
   data-ng-if="$ctrl.showAddFrm"
   data-on-agregar="$ctrl.handleAgregarBien($event)"

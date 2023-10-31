@@ -191,7 +191,8 @@ define(['angular', 'lodash', 'AsistenciaActions', 'wpConstant'], function (ng, _
       controller: 'LugarOcurrenciaController',
       bindings: {
         siniestro: '=?',
-        validateForm: '=?'
+        validateForm: '=?',
+        modoLectura: '=?'
       }
     });
 });

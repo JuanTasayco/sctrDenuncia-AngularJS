@@ -107,6 +107,7 @@ define(['angular', 'lodash', 'AsistenciaActions', 'wpConstant'], function (ng, _
         isUa: '=?',
         conductor: '=?',
         validateForm: '=?',
+        modoLectura: '=?'
       }
     });
 });

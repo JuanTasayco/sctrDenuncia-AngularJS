@@ -99,7 +99,8 @@ define(['angular', 'lodash', 'AsistenciaActions', 'wpConstant'], function (ng, _
         isUa: '=?',
         vehiculo: '=?',
         validateForm: '=?',
-        isRequired: '=?'
+        isRequired: '=?',
+        modoLectura: '=?'
       }
     });
 });

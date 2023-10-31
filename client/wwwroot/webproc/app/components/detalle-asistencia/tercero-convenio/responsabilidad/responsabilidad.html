@@ -1,7 +1,7 @@
 <div class="col-xs-12 g-box3 box-add-third-damage-3 mb-xs-1">
     <div class="row">
         <div class="col-md-4">
-            <wp-cbo-responsabilidad data-label="{label: 'Responsabilidad', required: true}"
+            <wp-cbo-responsabilidad data-label="{label: 'Responsabilidad', required: true}" data-ng-disabled="$ctrl.modoLectura"
                 data-ng-model="$ctrl.frm.codigoResponsaDetaSiniestro" data-option-default="{enterData: true}"
                 data-set-model-by-this-key="$ctrl.frmSiniestro.codigoResponsaDetaSiniestro"
                 data-set-code-tipo-siniestro="$ctrl.frmSiniestro.codigoSubSiniestro" name="nResponsabilidad"
@@ -11,18 +11,18 @@
         <div class="col-md-4">
             <div class="col-md-12"><span class="g-label text-left">¿Tercero cuenta con seguro?</span></div>
             <div class="col-md-4 col-sm-3 col-xs-3 mt-xs-2">
-                <m-radio data-ng-model="$ctrl.frmSiniestro.siniestroConvenio.flagTerceroSeguro" label="{label: 'Si'}"
+                <m-radio data-ng-model="$ctrl.frmSiniestro.siniestroConvenio.flagTerceroSeguro" label="{label: 'Si'}" data-ng-disabled="$ctrl.modoLectura"
                     name="nSeguro" value="S" ng-click="$ctrl.changeResponsabilidad()">
                 </m-radio>
             </div>
             <div class="col-md-8 col-sm-3 col-xs-3 mt-xs-2">
-                <m-radio data-ng-model="$ctrl.frmSiniestro.siniestroConvenio.flagTerceroSeguro" label="{label: 'No'}"
+                <m-radio data-ng-model="$ctrl.frmSiniestro.siniestroConvenio.flagTerceroSeguro" label="{label: 'No'}" data-ng-disabled="$ctrl.modoLectura"
                     name="nSeguro" value="N" ng-click="$ctrl.changeResponsabilidad()">
                 </m-radio>
             </div>
         </div>
         <div class="col-md-4" ng-if="$ctrl.showConvenio && $ctrl.frmSiniestro.codigoSubSiniestro != 106 ">
-            <wp-cbo-convenio data-label="{label: 'Convenio', required: false}"
+            <wp-cbo-convenio data-label="{label: 'Convenio', required: false}" data-ng-disabled="$ctrl.modoLectura"
                 data-ng-model="$ctrl.frm.codigoConvenioGolpe" data-option-default="{enterData: true}"
                 data-set-model-by-this-key="$ctrl.frmSiniestro.siniestroConvenio.codigoConvenioGolpe"
                 name="nAcuerdoConductores" data-ng-change="$ctrl.changeResponsabilidad()">
@@ -32,7 +32,7 @@
     </div>
     <div class="row mt-xs-2" ng-if="$ctrl.showCompanhiaTercero">
         <div class="col-md-4">
-            <wp-cbo-compania-seguro data-label="{label: 'Compañia de seguro (Tercero)', required: true}"
+            <wp-cbo-compania-seguro data-label="{label: 'Compañia de seguro (Tercero)', required: true}" data-ng-disabled="$ctrl.modoLectura"
                 data-ng-model="$ctrl.frm.codigoEmpresaAseguradora" data-option-default="{enterData: true}"
                 data-set-model-by-this-key="$ctrl.frmSiniestro.siniestroConvenio.codigoEmpresaAseguradora"
                 name="nCompaniaSeguro">
@@ -42,7 +42,7 @@
     </div>
     <div class="row mt-xs-2" ng-if="$ctrl.showImporte">
         <div class="col-md-4">
-            <mpf-input data-ng-model="$ctrl.frmSiniestro.siniestroConvenio.importe"
+            <mpf-input data-ng-model="$ctrl.frmSiniestro.siniestroConvenio.importe" data-ng-disabled="$ctrl.modoLectura"
                 label="{label: 'Importe', required: false}" name="nImporte">
             </mpf-input>
         </div>
@@ -50,7 +50,7 @@
             <div class="col-md-12"><span class="g-label text-left">Moneda</span></div>
             <div class="col-md-4 col-sm-3 col-xs-3 mt-xs-2" ng-repeat="item in $ctrl.frmSiniestro.monedaList">
                 <m-radio data-ng-model="$ctrl.frmSiniestro.siniestroConvenio.codigoMoneda" label="{label: item.nombreValor}"
-                    name="nMoneda" value="{{item.codigoValor}}">
+                    name="nMoneda" value="{{item.codigoValor}}" data-ng-disabled="$ctrl.modoLectura">
                 </m-radio>
             </div>
         </div>

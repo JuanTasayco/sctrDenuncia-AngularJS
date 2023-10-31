@@ -68,7 +68,8 @@ define(['angular'], function(ng) {
       bindings: {
         isUa: '=?',
         detalle: '=?',
-        validateForm: '=?'
+        validateForm: '=?',
+        modoLectura: '=?'
       }
     });
 });

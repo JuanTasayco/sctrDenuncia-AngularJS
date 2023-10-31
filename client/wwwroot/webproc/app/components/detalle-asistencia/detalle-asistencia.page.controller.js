@@ -1,6 +1,6 @@
 'use strict';
 
-define(['angular', 'lodash', 'AsistenciaActions', 'helper', 'wpConstant','constants'], function (
+define(['angular', 'lodash', 'AsistenciaActions', 'helper', 'wpConstant', 'constants'], function (
   ng,
   _,
   AsistenciaActions,
@@ -68,13 +68,15 @@ define(['angular', 'lodash', 'AsistenciaActions', 'helper', 'wpConstant','consta
       validate: false
     };
     vm.url = {
-      'QA' : "https://talleres.pre.mapfre.com.pe/#/talleres?plate=",
-      "PROD" : "https://talleres.mapfre.com.pe/#/talleres?plate=" 
+      'QA': "https://talleres.pre.mapfre.com.pe/#/talleres?plate=",
+      "PROD": "https://talleres.mapfre.com.pe/#/talleres?plate="
     }
-    
+
 
     function onInit() {
-      vm.modolectura = true;
+      vm.blocksinistro = true;
+      vm.modolectura = false;
+
       vm.disabledAutorizar = true;
       var paramsURL = ng.copy($state.params);
 
@@ -83,19 +85,23 @@ define(['angular', 'lodash', 'AsistenciaActions', 'helper', 'wpConstant','consta
       dataAsistencia = paramsURL.setFrm ? wpFactory.cache.getConsolidado() : dataAsistencia
 
       vm.ultimaDataDeAsistencia = _getDataAsistencia();
-      vm.disabledAutorizar = vm.ultimaDataDeAsistencia.estadoSiniestro == 'GENERADO' ? false : true;
+      if (vm.ultimaDataDeAsistencia.estadoSiniestro == 'GENERADO') { vm.disabledAutorizar = false , vm.modolectura = true}
+      else {
+        vm.disabledAutorizar = true
+      };
 
       wpFactory.setSiniestroNro(vm.ultimaDataDeAsistencia.codigoSiniestro);
 
+
       if (!vm.ultimaDataDeAsistencia.codigoSiniestro) {
-        vm.modolectura = true;
+        vm.blocksinistro = true;
         mModalAlert.showWarning(
           '<b>' + ' La asistencia no cuenta con "código de siniestro", por lo que esta vista será de solo consulta' + '</b>',
           'Mensaje'
         );
       }
-      else{
-        vm.modolectura = false;
+      else {
+        vm.blocksinistro = false;
       }
 
       wpFactory.ubigeo.GetProvinces(vm.ultimaDataDeAsistencia.codigoDepartamento || dataAsistencia.codigoDepartamento, false)
@@ -103,7 +109,7 @@ define(['angular', 'lodash', 'AsistenciaActions', 'helper', 'wpConstant','consta
           wpFactory.setProvincia(response);
         })
 
-      wpFactory.ubigeo.GetDistricts(vm.ultimaDataDeAsistencia.codigoDepartamento || dataAsistencia.codigoDepartamento , vm.ultimaDataDeAsistencia.codigoProvincia || dataAsistencia.codigoProvincia )
+      wpFactory.ubigeo.GetDistricts(vm.ultimaDataDeAsistencia.codigoDepartamento || dataAsistencia.codigoDepartamento, vm.ultimaDataDeAsistencia.codigoProvincia || dataAsistencia.codigoProvincia)
         .then(function (response) {
           wpFactory.setDistrito(response);
         })
@@ -225,7 +231,7 @@ define(['angular', 'lodash', 'AsistenciaActions', 'helper', 'wpConstant','consta
       vm.ultimaDataDeAsistencia.codigoDepartamento = vm.ultimaDataDeAsistencia.codigoDepartamento + '';
       vm.ultimaDataDeAsistencia.codigoProvincia = vm.ultimaDataDeAsistencia.codigoProvincia + '';
       vm.ultimaDataDeAsistencia.codigoDistrito = vm.ultimaDataDeAsistencia.codigoDistrito + '';
-      
+
       vm.ultimaDataDeAsistencia.siniestroConvenio = {
         "aplicaConvenio": vm.ultimaDataDeAsistencia.siniestroConvenio.aplicaConvenio,
         "codigoConvenioGolpe": parseInt(vm.ultimaDataDeAsistencia.siniestroConvenio.codigoConvenioGolpe),
@@ -245,39 +251,39 @@ define(['angular', 'lodash', 'AsistenciaActions', 'helper', 'wpConstant','consta
     function autorizar() {
       $scope.$emit('frm:save');
       $timeout(function () {
-          var request = {
-            codigoInterno: wpFactory.getNroAsistencia(),
-          };
-          var textos = {
-            btnCancel: 'Cancelar',
-            btnOk: 'Autorizar',
-            titulo: '¿Está seguro que el cliente desea autorizar de la Asistencia?'
-          };
+        var request = {
+          codigoInterno: wpFactory.getNroAsistencia(),
+        };
+        var textos = {
+          btnCancel: 'Cancelar',
+          btnOk: 'Autorizar',
+          titulo: '¿Está seguro que el cliente desea autorizar de la Asistencia?'
+        };
 
-          _showModalConfirm(textos)
-            .result.then(function cgScFn() {
-              wpFactory.siniestro
-                .Autorizar(request)
-                .then(function (response) {
-                  if(response.operationCode === 200){
-                    mModalAlert.showSuccess('Realizado con éxito', 'Autorizar').then(function msAnularPr() {
-                      _goBandejaWithNroAsistencia();
-                    });
-                  }else if(response.operationCode === 500){
-                    mModalAlert.showError(response.message, 'Error');
-                  }
-                })
-                .catch(function aEPr(err) {
-                  mModalAlert.showError('Ocurrió un error al autorizar', 'Error');
-                  $log.error('Falló al autorizar asistencia', err.data);
-                });
-            })
-            .catch(function () {
-            })
+        _showModalConfirm(textos)
+          .result.then(function cgScFn() {
+            wpFactory.siniestro
+              .Autorizar(request)
+              .then(function (response) {
+                if (response.operationCode === 200) {
+                  mModalAlert.showSuccess('Realizado con éxito', 'Autorizar').then(function msAnularPr() {
+                    _goBandejaWithNroAsistencia();
+                  });
+                } else if (response.operationCode === 500) {
+                  mModalAlert.showError(response.message, 'Error');
+                }
+              })
+              .catch(function aEPr(err) {
+                mModalAlert.showError('Ocurrió un error al autorizar', 'Error');
+                $log.error('Falló al autorizar asistencia', err.data);
+              });
+          })
+          .catch(function () {
+          })
 
       });
 
-      
+
     }
 
     function guardar() {
@@ -453,11 +459,11 @@ define(['angular', 'lodash', 'AsistenciaActions', 'helper', 'wpConstant','consta
     }
 
     function verDeducible() {
-      if(vm.frmGeneral.frmLugarOcurrencia.frmVehiculoSoat.nPlaca.$viewValue){
+      if (vm.frmGeneral.frmLugarOcurrencia.frmVehiculoSoat.nPlaca.$viewValue) {
         var url = vm.url[constants.environment] + btoa(vm.frmGeneral.frmLugarOcurrencia.frmVehiculoSoat.nPlaca.$viewValue);
         window.open(url, '_blank');
       }
-      else{
+      else {
         mModalAlert.showWarning('Ingresar un valor en el campo placa', 'Alerta');
       }
 

@@ -81,7 +81,8 @@ define(['angular'], function(ng) {
         bienes: '=?',
         onAgregar: '&?',
         onEditar: '&?',
-        onEliminar: '&?'
+        onEliminar: '&?',
+        modoLectura: '=?'
       }
     });
 });

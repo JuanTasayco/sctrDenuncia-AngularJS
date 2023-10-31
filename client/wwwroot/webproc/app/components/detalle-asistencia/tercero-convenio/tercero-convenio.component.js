@@ -117,7 +117,8 @@ define(['angular', 'lodash', 'AsistenciaActions', 'wpConstant','wpAgregarAtropel
         siniestro: '=?',
         fotos: '=?',
         conductorTercero: '=?',
-        validateForm: '=?'
+        validateForm: '=?',
+        modoLectura: '=?'
       }
     });
 });

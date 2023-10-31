@@ -59,7 +59,8 @@ define(['angular'], function(ng) {
         idx: '=?',
         bien: '=?',
         onDelete: '&?',
-        onEditar: '&?'
+        onEditar: '&?',
+        modoLectura: '=?'
       }
     });
 });
