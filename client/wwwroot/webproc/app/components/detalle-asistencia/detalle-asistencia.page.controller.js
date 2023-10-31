@@ -245,25 +245,15 @@ define(['angular', 'lodash', 'AsistenciaActions', 'helper', 'wpConstant','consta
     function autorizar() {
       $scope.$emit('frm:save');
       $timeout(function () {
-        if (vm.frmGeneral.frmLugarOcurrencia.$invalid || vm.frmGeneral.frmTerceroConvenio.$invalid) {
-          var frminvalid = vm.frmGeneral.frmLugarOcurrencia.$invalid ? 'Lugar de ocurrencia' : 'Terceros Convenio';
-          return void mModalAlert
-            .showWarning('Los campos de' + frminvalid + 'son obligatorios', 'Falta completar')
-            .then(function msAnularPr() {
-              vm.validateForm.validate = false;
-            });
-        }
-        else{
           var request = {
             codigoInterno: wpFactory.getNroAsistencia(),
           };
-    
           var textos = {
             btnCancel: 'Cancelar',
             btnOk: 'Autorizar',
             titulo: '¿Está seguro que el cliente desea autorizar de la Asistencia?'
           };
-    
+
           _showModalConfirm(textos)
             .result.then(function cgScFn() {
               wpFactory.siniestro
@@ -271,7 +261,7 @@ define(['angular', 'lodash', 'AsistenciaActions', 'helper', 'wpConstant','consta
                 .then(function (response) {
                   if(response.operationCode === 200){
                     mModalAlert.showSuccess('Realizado con éxito', 'Autorizar').then(function msAnularPr() {
-                      consolidar();
+                      _goBandejaWithNroAsistencia();
                     });
                   }else if(response.operationCode === 500){
                     mModalAlert.showError(response.message, 'Error');
@@ -284,7 +274,6 @@ define(['angular', 'lodash', 'AsistenciaActions', 'helper', 'wpConstant','consta
             })
             .catch(function () {
             })
-        }
 
       });
 
