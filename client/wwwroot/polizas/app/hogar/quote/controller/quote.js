@@ -32,10 +32,10 @@
               nombreAgente: homeClaims[6].value.toUpperCase(), //DIRECTO . ORGANIZACION TERRITORIAL
               codigoAgente: homeClaims[7].value //Ejm: 9808 //agendid en el claim
             };
-            $scope.userRoot = false;
-            if (oimPrincipal.isAdmin() && $scope.mainStep.claims.nombreAgente != '') {
+            $scope.userRoot = oimPrincipal.validateAgent('evoSubMenuEMISA','HOGAR');
+            /* if (oimPrincipal.isAdmin() && $scope.mainStep.claims.nombreAgente != '') {
               $scope.userRoot = true;
-            }
+            } */
 
             /*#########################
             # mAgente

@@ -43,10 +43,10 @@
             nombreAgente:   claims[6].value.toUpperCase(),
             codigoAgente:   claims[7].value //Ejm: 9808 //agendid en el claim
           }
-          $scope.userRoot = false;
-          if ((oimPrincipal.isAdmin()) && $scope.formData.claims.nombreAgente != ''){
+          $scope.userRoot = oimPrincipal.validateAgent('evoSubMenuEMISA','SCTR');
+          /* if ((oimPrincipal.isAdmin()) && $scope.formData.claims.nombreAgente != ''){
             $scope.userRoot = true;
-          }
+          } */
 
           $scope.mAgente = {
             codigoAgente: $scope.formData.claims.codigoAgente,
