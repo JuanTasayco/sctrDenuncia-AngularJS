@@ -1113,6 +1113,19 @@ define([
 				function userTypeChange(params) {
 					return proxyUsuarioDisma.UserTypeChange(params, true);
 				}
+				function onlyView(){
+					const opcMenu = localStorage.getItem('currentSeguridadObj').split('|');
+					const seguridadApps = getVarLS('evoSubMenuSEGURIDAD')[0];
+					if(opcMenu && seguridadApps.nombreCabecera === opcMenu[0].toUpperCase()){
+						return _.find(seguridadApps.items,
+							function(item){
+							  return item.nombreCorto ===  opcMenu[1].toUpperCase();
+							});
+					}else{
+						return { soloLectura: true }
+					}
+					
+				}
 
 				return {
 					//local storage
@@ -1310,7 +1323,8 @@ define([
 					updateConfig: updateConfig,
 					getDetailsConfig: getDetailsConfig,
 					
-					userTypeChange: userTypeChange
+					userTypeChange: userTypeChange,
+					onlyView: onlyView
 				};
 
 			}]);

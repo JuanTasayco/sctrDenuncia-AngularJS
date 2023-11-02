@@ -26,7 +26,7 @@
 
                     /* SUB ROLES */
                     var searchTypeGroup = null;
-
+                    $scope.onlyView = true;
                     /* FUNCIONES ROLE */
                     function getRoleByCode(roleID, showSpin) {
                         seguridadFactory.getRolDetail(roleID, showSpin)
@@ -536,6 +536,8 @@
                         getAplicacionesByCode($state.params.id);
                         getSubRolesByCode($state.params.id);
                         initComponentsDefault();
+                        const objetSeguridad = seguridadFactory.onlyView();
+                        $scope.onlyView = objetSeguridad.soloLectura;
                     })();
 
                 }

@@ -81,6 +81,8 @@
             $scope.updateStatusApplication = UpdateStatusApplication;
             $scope.updateApplication = UpdateApplication;
             $scope.updateSystemId = UpdateSystemId;
+            $scope.onlyView = true;
+
 
             function GetApplicationByCode(numApplication, showSpin) {
                 seguridadFactory.getApplicationDetail(numApplication, showSpin)
@@ -1041,13 +1043,14 @@
 
                 InitDataDefault();
                 GetApplicationByCode(numApplication, true);
-
+                const objetSeguridad = seguridadFactory.onlyView();
+                $scope.onlyView = objetSeguridad.soloLectura;
                 $scope.tabNodosObjeto = '/security/app/aplicaciones/templates/templateNodosObjeto.html';
                 $scope.tabNodosObjetoPerfil = '/security/app/aplicaciones/templates/templateNodosObjetoPerfil.html';
                 $scope.tabDatosGenerales = '/security/app/aplicaciones/detalle/component/templateDatosGenerales.html';
                 $scope.tabObjetosDetalle = '/security/app/aplicaciones/detalle/component/templateObjetosDetalle.html';
                 $scope.tabPerfilesDetalle = '/security/app/aplicaciones/detalle/component/templatePerfilesDetalle.html';
-
+                
             })();
 
             $scope.systemsChange = function(checkedItem) {

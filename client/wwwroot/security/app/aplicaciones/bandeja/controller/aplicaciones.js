@@ -32,6 +32,7 @@
                     $scope.changeStateAplication = ChangeStateAplication;
                     $scope.getAplicationsPage = GetAplicationsPage;
                     $scope.getAplicationSearch = GetAplicationSearch;
+                    $scope.onlyView = true;
 
                     function ShowCreateAplicacion() {
                         $state.go("crearAplicaciones.steps",{ step:1 });
@@ -161,6 +162,8 @@
                     (function onLoad() {
                         InitDataDefault();
                         GetAplicacionesData(true);
+                        const objetSeguridad = seguridadFactory.onlyView();
+                        $scope.onlyView = objetSeguridad.soloLectura;
                     })();
                 }
             ]

@@ -3768,7 +3768,11 @@ define(['angular', 'spin', 'system', 'lodash', 'directiveUtils'],
                   if (item.description) steps.push(item.description);
                 });
                 $window.localStorage.setItem('currentBreadcrumb', steps.join('|'));
-                if (!steps.length) { $window.localStorage.removeItem('currentBreadcrumb'); }
+                $window.localStorage.setItem('currentSeguridadObj', steps.join('|'));
+                if (!steps.length) { 
+                  $window.localStorage.removeItem('currentSeguridadObj');
+                  $window.localStorage.removeItem('currentBreadcrumb');
+                }
               }
 
               function Populate(items) {
