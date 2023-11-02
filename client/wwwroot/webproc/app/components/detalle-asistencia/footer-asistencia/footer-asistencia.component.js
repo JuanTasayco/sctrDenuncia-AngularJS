@@ -58,7 +58,7 @@ define(['angular', 'AsistenciaActions', 'wpConstant', 'lodash'], function(ng, As
     });
 
     function onInit() {
-
+      console.log(vm.modoLectura);
     }
 
     function handleGuardar() {
@@ -99,7 +99,8 @@ define(['angular', 'AsistenciaActions', 'wpConstant', 'lodash'], function(ng, As
         onConsolidar: '&?',
         onVerDeducible: '&?',
         saveStatus: '=?',
-        blocksinistro: '=?'
+        blocksinistro: '=?',
+        modoLectura: '=?'
       }
     });
 });

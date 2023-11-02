@@ -52,7 +52,7 @@ define(['angular', 'lodash', 'AsistenciaActions', 'wpConstant','wpAgregarAtropel
     }
 
     function eliminarFotoOtros(event) {
-      _eliminarFoto(event, 'documentos');
+      vm.modoLectura? mModalAlert.showWarning("No se puede eliminar documentos en el estado actual.", "Error") : _eliminarFoto(event, 'documentos');
     }
 
     function _eliminarFoto(event, propWhereSave) {

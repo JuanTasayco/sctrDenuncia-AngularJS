@@ -85,7 +85,7 @@ define(['angular', 'lodash', 'AsistenciaActions', 'helper', 'wpConstant', 'const
       dataAsistencia = paramsURL.setFrm ? wpFactory.cache.getConsolidado() : dataAsistencia
 
       vm.ultimaDataDeAsistencia = _getDataAsistencia();
-      if (vm.ultimaDataDeAsistencia.estadoSiniestro == 'GENERADO') { vm.disabledAutorizar = false , vm.modolectura = true}
+      if (vm.ultimaDataDeAsistencia.estadoSiniestro == 'GENERADO' || vm.ultimaDataDeAsistencia.estadoSiniestro == 'AUTORIZADO' ) { vm.disabledAutorizar = false , vm.modolectura = true}
       else {
         vm.disabledAutorizar = true
       };
