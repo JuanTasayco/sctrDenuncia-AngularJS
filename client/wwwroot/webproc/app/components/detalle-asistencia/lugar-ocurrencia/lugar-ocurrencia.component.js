@@ -1,8 +1,8 @@
 'use strict';
 
 define(['angular', 'lodash', 'AsistenciaActions', 'wpConstant'], function (ng, _, AsistenciaActions, wpConstant) {
-  LugarOcurrenciaController.$inject = ['wpFactory', '$scope', '$uibModal','$rootScope','mModalAlert'];
-  function LugarOcurrenciaController(wpFactory, $scope, $uibModal,$rootScope,mModalAlert) {
+  LugarOcurrenciaController.$inject = ['wpFactory', '$scope', 'mModalAlert', '$uibModal','$rootScope'];
+  function LugarOcurrenciaController(wpFactory, $scope, mModalAlert , $uibModal,$rootScope) {
     var vm = this
     var onFrmSave;
     vm.$onInit = onInit;

@@ -1,8 +1,8 @@
 'use strict';
 
 define(['angular', 'lodash', 'AsistenciaActions', 'wpConstant'], function (ng, _, AsistenciaActions, wpConstant) {
-  VehiculoSoatController.$inject = ['wpFactory', '$log', '$scope','$timeout','$rootScope','mModalAlert'];
-  function VehiculoSoatController(wpFactory, $log, $scope, $timeout,$rootScope,mModalAlert) {
+  VehiculoSoatController.$inject = ['wpFactory', '$log', '$scope', 'mModalAlert','$timeout','$rootScope',];
+  function VehiculoSoatController(wpFactory, $log, $scope, mModalAlert,$timeout,$rootScope) {
     var vm = this
     var onFrmSave;
     vm.$onInit = onInit;
@@ -54,11 +54,11 @@ define(['angular', 'lodash', 'AsistenciaActions', 'wpConstant'], function (ng, _
 
     function getPlaca() {
       if (vm.frmVehiculo.placaVehiculo) {
-        vm.frmGeneralAux = $scope.$parent.$parent.$parent.$ctrl.frmGeneral;
-        if(vm.frmGeneralAux.frmLugarOcurrencia.frmVehiculoSoat.nPlaca.$viewValue == vm.frmVehiculo.placaVehiculo && !vm.isUa){
+        var frmGeneralAux = $scope.$parent.$parent.$parent.$ctrl.frmGeneral;
+        if(frmGeneralAux.frmLugarOcurrencia.frmVehiculoSoat.nPlaca.$viewValue == vm.frmVehiculo.placaVehiculo && !vm.isUa){
           mModalAlert.showWarning('Este dato debe ser distinto al de la placa Vehículo Asegurado', 'Datos no válidos');
           return void 0;
-        }else if (vm.frmGeneralAux.frmTerceroConvenio.frmVehiculoSoat.nPlaca.$viewValue == vm.frmVehiculo.placaVehiculo && vm.isUa) {
+        }else if (frmGeneralAux.frmTerceroConvenio.frmVehiculoSoat.nPlaca.$viewValue == vm.frmVehiculo.placaVehiculo && vm.isUa) {
           mModalAlert.showWarning('Este dato debe ser distinto al de la placa Vehículo Tercero', 'Datos no válidos');
           return void 0;
         }
