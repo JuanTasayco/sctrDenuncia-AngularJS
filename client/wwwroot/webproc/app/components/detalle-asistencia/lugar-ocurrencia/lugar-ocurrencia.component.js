@@ -1,8 +1,8 @@
 'use strict';
 
 define(['angular', 'lodash', 'AsistenciaActions', 'wpConstant'], function (ng, _, AsistenciaActions, wpConstant) {
-  LugarOcurrenciaController.$inject = ['wpFactory', '$scope', '$uibModal','$rootScope'];
-  function LugarOcurrenciaController(wpFactory, $scope, $uibModal,$rootScope) {
+  LugarOcurrenciaController.$inject = ['wpFactory', '$scope', '$uibModal','$rootScope','mModalAlert'];
+  function LugarOcurrenciaController(wpFactory, $scope, $uibModal,$rootScope,mModalAlert) {
     var vm = this
     var onFrmSave;
     vm.$onInit = onInit;
@@ -126,7 +126,7 @@ define(['angular', 'lodash', 'AsistenciaActions', 'wpConstant'], function (ng, _
     }
 
     function subirFotosOtros(event) {
-      _subirFotos(event, 'documentos', 21);
+      vm.modoLectura? mModalAlert.showWarning("No se puede agregar documentos en el estado actual.", "Error") :  _subirFotos(event, 'documentos', 21);
     }
 
     function eliminarFotoOtros(event) {

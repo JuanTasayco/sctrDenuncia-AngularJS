@@ -1,8 +1,8 @@
 'use strict';
 
 define(['angular', 'lodash', 'AsistenciaActions', 'wpConstant','wpAgregarAtropellado','wpAgregarBien'], function(ng, _, AsistenciaActions, wpConstant) {
-  TerceroConvenioController.$inject = ['wpFactory', '$log', '$scope', '$interval', '$ngRedux'];
-  function TerceroConvenioController(wpFactory, $log, $scope, $interval, $ngRedux) {
+  TerceroConvenioController.$inject = ['wpFactory', '$log', '$scope', '$interval', '$ngRedux','mModalAlert'];
+  function TerceroConvenioController(wpFactory, $log, $scope, $interval, $ngRedux,mModalAlert) {
     var vm = this
     var watchFrmRequire;
     vm.$onInit = onInit;
@@ -48,7 +48,7 @@ define(['angular', 'lodash', 'AsistenciaActions', 'wpConstant','wpAgregarAtropel
     }
 
     function subirFotosOtros(event) {
-      _subirFotos(event, 'documentos', 10);
+      vm.modoLectura? mModalAlert.showWarning("No se puede agregar documentos en el estado actual.", "Error") :  _subirFotos(event, 'documentos', 21);
     }
 
     function eliminarFotoOtros(event) {
