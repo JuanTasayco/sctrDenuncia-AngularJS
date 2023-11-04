@@ -53,16 +53,7 @@ define(['angular', 'lodash', 'AsistenciaActions', 'wpConstant'], function (ng, _
     }
 
     function getPlaca() {
-      if (vm.frmVehiculo.placaVehiculo) {
-        var frmGeneralAux = $scope.$parent.$parent.$parent.$ctrl.frmGeneral;
-        if(frmGeneralAux.frmLugarOcurrencia.frmVehiculoSoat.nPlaca.$viewValue == vm.frmVehiculo.placaVehiculo && !vm.isUa){
-          mModalAlert.showWarning('Este dato debe ser distinto al de la placa Vehículo Asegurado', 'Datos no válidos');
-          return void 0;
-        }else if (frmGeneralAux.frmTerceroConvenio.frmVehiculoSoat.nPlaca.$viewValue == vm.frmVehiculo.placaVehiculo && vm.isUa) {
-          mModalAlert.showWarning('Este dato debe ser distinto al de la placa Vehículo Tercero', 'Datos no válidos');
-          return void 0;
-        }
-        
+      if (vm.frmVehiculo.placaVehiculo) {        
         vm.isRequired = true;
         wpFactory.siniestro.GetSiniestroPlaca(vm.frmVehiculo.placaVehiculo).then(function (response) {
           response.vehiculo.respuesta == 1

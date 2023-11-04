@@ -4,39 +4,38 @@ define(['angular'], function(ng) {
   VehiculoController.$inject = ['$rootScope', '$scope', '$timeout', 'wpFactory'];
   function VehiculoController($rootScope, $scope, $timeout, wpFactory) {
     var vm = this;
-    var onFrmAtropelladoCerrado;
+    var onFrmvehiculoTerceroCerrado;
     vm.$onDestroy = onDestroy;
     vm.$onInit = onInit;
-    vm.editarAtropellado = editarAtropellado;
+    vm.editarvehiculoTercero = editarvehiculoTercero;
     vm.handleOnDelete = handleOnDelete;
     vm.handleOnEditar = handleOnEditar;
 
     // declaracion
 
     function onInit() {
-      console.log('vehiculo tercero');
-      onFrmAtropelladoCerrado = $scope.$on('atropellado:frmEditCerrado', frmAtropelladoCerrado);
-      vm.showAtropellado = true;
+      onFrmvehiculoTerceroCerrado = $scope.$on('vehiculoTercero:frmEditCerrado', FrmvehiculoTerceroCerrado);
+      vm.showVehiculoTercero = true;
     }
 
     function onDestroy() {
-      onFrmAtropelladoCerrado();
+      onFrmvehiculoTerceroCerrado();
     }
 
-    function editarAtropellado() {
+    function editarvehiculoTercero() {
       vm.showEditFrm = true;
-      vm.showAtropellado = false;
+      vm.showVehiculoTercero = false;
     }
 
-    function frmAtropelladoCerrado() {
-      vm.showAtropellado = true;
+    function FrmvehiculoTerceroCerrado() {
+      vm.showVehiculoTercero = true;
     }
 
     function handleOnEditar(event) {
       vm.onEditar({
         $event: {
           idx: event.idx,
-          atropellado: event.atropellado
+          VehiculoTercero: event.vehiculoTercero
         }
       });
     }
@@ -45,7 +44,7 @@ define(['angular'], function(ng) {
       vm.onDelete();
       // HACK: para verificar luego que el atropellado ha sido agregado al state
       $timeout(function() {
-        $rootScope.$emit('atropellado:frmCerrado');
+        $rootScope.$emit('VehiculoTercero:frmCerrado');
       });
     }
   } // end controller
@@ -58,7 +57,7 @@ define(['angular'], function(ng) {
       controller: 'VehiculoController',
       bindings: {
         idx: '=?',
-        atropellado: '=?',
+        vehiculoTercero: '=?',
         onDelete: '&?',
         onEditar: '&?'
       }

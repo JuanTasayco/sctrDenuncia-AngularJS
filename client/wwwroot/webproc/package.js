@@ -297,11 +297,6 @@ define([], function() {
         path:
           '/webproc/app/components/detalle-asistencia/terceros/agregar-vehiculo/agregar-editar-vehiculo/agregar-editar-vehiculo.component'
       },
-      wpVehiculoTercero: {
-        name: 'wpVehiculoTercero',
-        path:
-          '/webproc/app/components/detalle-asistencia/terceros/agregar-vehiculo/vehiculo-tercero/vehiculo-tercero.component'
-      },
       wpDetalleSiniestro: {
         name: 'wpDetalleSiniestro',
         path: '/webproc/app/components/detalle-asistencia/detalle-siniestro/detalle-siniestro.component'
@@ -373,7 +368,7 @@ define([], function() {
         deps: ['wpAgregarEditarAtropellado','wpAtropellado']
       },
       wpAgregarVehiculoTercero: {
-        deps: ['wpAgregarEditarAtropellado','wpVehiculoTercero']
+        deps: ['wpAgregarEditarVehiculoTercero','wpVehiculoTercero']
       },
       wpAgregarBien: {
         deps: ['wpAgregarEditarBien','wpBien']
@@ -407,9 +402,6 @@ define([], function() {
       },
       wpAgregarBienOld: {
         deps: ['wpAgregarEditarBien', 'wpBienOld']
-      },
-      wpAgregarVehiculo: {
-        deps: ['wpAgregarEditarVehiculo', 'wpVehiculoTercero']
       },
       wpAgregarPeaton: {
         deps: ['wpAgregarEditarPeaton', 'wpPeaton']

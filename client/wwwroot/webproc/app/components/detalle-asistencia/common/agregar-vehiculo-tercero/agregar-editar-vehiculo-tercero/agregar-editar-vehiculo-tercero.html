@@ -1,4 +1,4 @@
-<div class="col-md-12 g-box3 g-box-add-item-3 box-add-damage-3" data-ng-form="$ctrl.frmAtropellado">
+<div class="col-md-12 g-box3 g-box-add-item-3 box-add-damage-3" data-ng-form="$ctrl.frmVehiculoTercero">
   <div class="row">
     <div class="col-md-12 mb-xs-2">
       <h3 class="g-sub-title c-black">{{::$ctrl.frmTitulo}}</h3>
@@ -8,7 +8,7 @@
     <div class="col-md-12">
       <div class="col-md-4">
         <wp-cbo-tipo-documentos data-label="{label: 'Tipo Documento', required: true}" data-ng-disabled="$ctrl.modoLectura"
-          data-ng-model="$ctrl.frmAtropellado.CodigoTipoDocumentoIdentidad" data-option-default="{enterData: true}"
+          data-ng-model="$ctrl.frmVehiculoTercero.CodigoTipoDocumentoIdentidad" data-option-default="{enterData: true}"
           data-set-model-by-this-key="$ctrl.frm.CodigoTipoDocumentoIdentidad" name="nTipoDocumento">
         </wp-cbo-tipo-documentos>
       </div>
@@ -48,13 +48,85 @@
     </div>
   </div>
   <div class="row mt-xs-2">
+    <div class="col-md-12">
+      <div class="col-md-12">
+        <h2 class="g-sub-title">Datos del Vehiculo Tercero</h2>
+      </div>
+    </div>
+    <div class="col-md-12">
+      <div class="col-md-12">
+        <wp-vehiculo-soat data-is-ua="false" modo-lectura="$ctrl.modoLectura" vehiculo="$ctrl.frm" validate-form="$ctrl.validateForm"></wp-vehiculo-soat>
+      </div>
+    </div>
+  </div>
+
+  <div class="row mt-xs-2">
+    <div class="col-md-12">
+      <div class="col-md-12">
+        <h2 class="g-sub-title">Fotos</h2>
+      </div>
+    </div>
+    <div class="col-md-12">
+        <div class="col-md-12">
+          <div class="g-section-tabs mt-xs-1 mb-xs-2">
+            <div class="container u-ph-0 g-overflow-hidden-xs"
+              data-ng-class="{'u-msk-block': $ctrl.statusBlock.blockByAnulado}">
+              <uib-tabset justified="false">
+                <uib-tab class="col-md-12 col-sm-12 u-ph-0 wp-tabModal__item" index="0">
+                  <uib-tab-heading>
+                    <span>Fotos (SOAT, Tarjeta de propiedad, Documentos de siniestros)</span>
+                  </uib-tab-heading>
+                  <div class="content-tab u-bg--gris-9">
+                    <div class="g-viewer-photo u-height--auto u-zi-xs--10">
+                      <div class="container array-foto-box" data-ng-class="{'u-msk-block': $ctrl.statusBlock.blockByAnulado}">
+                        <mx-image-uploader data-nombre-img="'Otros'"
+                          data-max-photos="'15'"
+                          data-on-remove="$ctrl.eliminarFotoOtros($event)" data-on-upload="$ctrl.subirFotosOtros($event)"
+                          data-photos="$ctrl.documentos" data-service-photo-modal="$ctrl.servicePhotoModal($event)">
+                        </mx-image-uploader>
+                      </div>
+                    </div>
+                  </div>
+                </uib-tab>
+              </uib-tabset>
+            </div>
+          </div>
+        </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-12">
+      <div class="col-md-4 mb-xs-2">
+        <div class="row">
+          <div class="col-md-12"><span class="g-label text-left">Lesiones del conductor</span></div>
+          <div class="col-md-3 col-sm-3 col-xs-3 mt-xs-1">
+            <m-radio data-ng-model="$ctrl.frm.flagLesionTercero" label="{label: 'Si'}" name="nLesionesconductorTerceroAux" data-ng-disabled="$ctrl.modoLectura"
+              value="S">
+            </m-radio>
+          </div>
+          <div class="col-md-9 col-sm-3 col-xs-3 mt-xs-1">
+            <m-radio data-ng-model="$ctrl.frm.flagLesionTercero" label="{label: 'NO'}" name="nLesionesconductorTerceroAux" data-ng-disabled="$ctrl.modoLectura"
+              value="N">
+            </m-radio>
+          </div>
+          <div class="g-error col-xs-12"
+            data-ng-show="frmVehiculoTercero.lesionesConductor.$invalid && !frmVehiculoTercero.lesionesConducto.$pristine">
+            Este campo es obligatorio
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row mt-xs-2">
     <div class="col-xs-6 col-sm-4 col-sm-offset-1 col-md-3 col-md-offset-3 mb-xs-1">
       <button class="col-xs-12 g-btn g-btn-white" data-ng-click="$ctrl.cerrarFrm()">
         Cancelar
       </button>
     </div>
     <div class="col-xs-6 col-sm-4 col-sm-offset-2 col-md-3 col-md-offset-0 mb-xs-1">
-      <button class="col-xs-12 g-btn g-btn-verde" data-ng-click="$ctrl.grabarAtropellado()" data-ng-disabled="$ctrl.modoLectura">
+      <button class="col-xs-12 g-btn g-btn-verde" data-ng-click="$ctrl.grabarVehiculoTercero()" data-ng-disabled="$ctrl.modoLectura">
         Guardar
       </button>
     </div>

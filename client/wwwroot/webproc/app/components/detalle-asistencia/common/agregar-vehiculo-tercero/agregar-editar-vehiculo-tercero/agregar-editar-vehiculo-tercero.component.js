@@ -5,7 +5,7 @@ define(['angular', 'lodash'], function (ng, _) {
   function AgregarEditarVehiculoTerceroController($rootScope, $scope, $timeout, wpFactory) {
     var vm = this;
     vm.$onInit = onInit;
-    vm.grabarAtropellado = grabarAtropellado;
+    vm.grabarVehiculoTercero = grabarVehiculoTercero;
     vm.cerrarFrm = cerrarFrm;
     vm.getPerson = getPerson;
 
@@ -16,30 +16,36 @@ define(['angular', 'lodash'], function (ng, _) {
     }
 
     function asignarDatosAlModelo() {
-      vm.frm = ng.copy(vm.atropellado);
+      vm.frm = ng.copy(vm.vehiculoTercero);
     }
 
-    function grabarAtropellado() {
-      if (vm.frmAtropellado.$invalid) {
-        vm.frmAtropellado.markAsPristine();
+    function grabarVehiculoTercero() {
+      if (vm.frmVehiculoTercero.$invalid) {
+        vm.frmVehiculoTercero.markAsPristine();
         return void 0;
       }
-
+      var frmVehiculoSoat =  vm.frmVehiculoTercero.frmVehiculoSoat
+      vm.frm.codigoSoatVehiculo = frmVehiculoSoat.codigoSoatVehiculo.codigoValor;
+      vm.frm.codigoTipoVehiculo  = frmVehiculoSoat.codigoTipoVehiculo.codigoValor;
+      vm.frm.codigoUsoVehiculo = frmVehiculoSoat.codigoUsoVehiculo.codigoValor;
+      vm.frm.placaVehiculo = frmVehiculoSoat.nPlaca.$modelValue;
+      debugger;
+      
       vm.ngIf = false;
-      vm.esFrmAgregar && vm.onAgregar({$event: {atropellado: vm.frm}});
+      vm.esFrmAgregar && vm.onAgregar({$event: {vehiculoTercero: vm.frm}});
       if (!vm.esFrmAgregar) {
-        vm.onEditar({$event: {idx: vm.idxAtropellado, atropellado: vm.frm}});
-        $scope.$emit('atropellado:frmEditCerrado');
+        vm.onEditar({$event: {idx: vm.idxVehiculoTercero, vehiculoTercero: vm.frm}});
+        $scope.$emit('vehiculoTercero:frmEditCerrado');
       }
       $timeout(function() {
-        $rootScope.$emit('atropellado:frmCerrado');
+        $rootScope.$emit('vehiculoTercero:frmCerrado');
       });
     }
 
     function cerrarFrm() {
       vm.ngIf = false;
-      $scope.$emit('atropellado:frmEditCerrado');
-      $rootScope.$emit('atropellado:frmCerrado');
+      $scope.$emit('vehiculoTercero:frmEditCerrado');
+      $rootScope.$emit('vehiculoTercero:frmCerrado');
     }
 
     function getPerson() {
@@ -59,14 +65,14 @@ define(['angular', 'lodash'], function (ng, _) {
   return ng
     .module('appWp')
     .controller('AgregarEditarVehiculoTerceroController', AgregarEditarVehiculoTerceroController)
-    .component('wpAgregarEditarAtropellado', {
+    .component('wpAgregarEditarVehiculoTercero', {
       templateUrl:
         '/webproc/app/components/detalle-asistencia/common/agregar-vehiculo-tercero/agregar-editar-vehiculo-tercero/agregar-editar-vehiculo-tercero.html',
       controller: 'AgregarEditarVehiculoTerceroController',
       bindings: {
-        atropellado: '<?',
+        vehiculoTercero: '<?',
         esFrmAgregar: '<?',
-        idxAtropellado: '<?',
+        idxVehiculoTercero: '<?',
         ngIf: '=?',
         onAgregar: '&?',
         onEditar: '&?',

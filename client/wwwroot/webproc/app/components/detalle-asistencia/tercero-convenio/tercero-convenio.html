@@ -20,76 +20,12 @@
         </div>
       </div>
       <wp-agregar-vehiculo-tercero
-        data-atropellados="$ctrl.frmTercero.peatonesTercero"
-        data-on-agregar="$ctrl.agregarAtropellado($event)"
-        data-on-editar="$ctrl.editarAtropellado($event)"
+        data-vehiculo-tercero="$ctrl.frmTercero.vehiculoTercero"
+        data-on-agregar="$ctrl.agregarVehiculoTercero($event)"
+        data-on-editar="$ctrl.editarVehiculoTercero($event)"
         modo-lectura="$ctrl.modoLectura"
-        data-on-eliminar="$ctrl.eliminarAtropellado($event)" >
+        data-on-eliminar="$ctrl.eliminarVehiculoTercero($event)" >
       </wp-agregar-vehiculo-tercero>
-
-      <div class="row mt-xs-3">
-        <div class="col-md-12">
-          <h2 class="g-sub-title">Fotos</h2>
-        </div>
-
-        <!-- FOTOS -->
-        <div class="col-md-12">
-          <div class="g-section-tabs mt-xs-1 mb-xs-2">
-            <div class="container u-ph-0 g-overflow-hidden-xs"
-              data-ng-class="{'u-msk-block': $ctrl.statusBlock.blockByAnulado}">
-              <uib-tabset justified="false">
-                <uib-tab class="col-md-12 col-sm-12 u-ph-0 wp-tabModal__item" index="0">
-                  <uib-tab-heading>
-                    <span>Fotos (SOAT, Tarjeta de propiedad, Documentos de siniestros)</span>
-                  </uib-tab-heading>
-                  <div class="content-tab u-bg--gris-9">
-                    <div class="g-viewer-photo u-height--auto u-zi-xs--10">
-                      <div class="container array-foto-box" data-ng-class="{'u-msk-block': $ctrl.statusBlock.blockByAnulado}">
-                        <mx-image-uploader data-nombre-img="'Otros'"
-                          data-max-photos="'15'"
-                          data-on-remove="$ctrl.eliminarFotoOtros($event)" data-on-upload="$ctrl.subirFotosOtros($event)"
-                          data-photos="$ctrl.documentos" data-service-photo-modal="$ctrl.servicePhotoModal($event)">
-                        </mx-image-uploader>
-                      </div>
-                    </div>
-                  </div>
-                </uib-tab>
-              </uib-tabset>
-            </div>
-          </div>
-        </div>
-      </div>
-  
-      <div class="row">
-        <div class="col-md-12">
-          <h2 class="g-sub-title">Datos del Vehiculo Tercero</h2>
-        </div>
-        <div class="col-md-12">
-          <wp-vehiculo-soat data-is-ua="false" modo-lectura="$ctrl.modoLectura" vehiculo="$ctrl.frmTercero.conductorTercero[0].vehiculoTercero" validate-form="$ctrl.validateForm"></wp-vehiculo-soat>
-        </div>
-      </div>
-  
-      <div class="row">
-        <div class="col-md-4 mb-xs-2">
-          <div class="row">
-            <div class="col-md-12"><span class="g-label text-left">Lesiones del conductor</span></div>
-            <div class="col-md-3 col-sm-3 col-xs-3 mt-xs-1">
-              <m-radio data-ng-model="$ctrl.frmTercero.flagLesionTercero" label="{label: 'Si'}" name="nLesionesconductorTerceroAux" data-ng-disabled="$ctrl.modoLectura"
-                value="S">
-              </m-radio>
-            </div>
-            <div class="col-md-9 col-sm-3 col-xs-3 mt-xs-1">
-              <m-radio data-ng-model="$ctrl.frmTercero.flagLesionTercero" label="{label: 'NO'}" name="nLesionesconductorTerceroAux" data-ng-disabled="$ctrl.modoLectura"
-                value="N">
-              </m-radio>
-            </div>
-            <div class="g-error col-xs-12"
-              data-ng-show="frmTerceroConvenio.lesionesConductor.$invalid && !frmTerceroConvenio.lesionesConducto.$pristine">
-              Este campo es obligatorio
-            </div>
-          </div>
-        </div>
-      </div>
       
       <!-- Nivel de daño vehiculo -->
       <wp-nivel-danho modo-lectura="$ctrl.modoLectura" data-detalle="$ctrl.frmTercero.conductorTercero[0].detalleDanioVehiculo[0]" validate-form="$ctrl.validateForm"></wp-nivel-danho>

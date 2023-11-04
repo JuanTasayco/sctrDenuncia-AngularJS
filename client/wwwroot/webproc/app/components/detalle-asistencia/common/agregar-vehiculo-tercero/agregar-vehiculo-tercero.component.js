@@ -4,67 +4,68 @@ define(['angular'], function(ng) {
   AgregarVehiculoTerceroController.$inject = ['$rootScope'];
   function AgregarVehiculoTerceroController($rootScope) {
     var vm = this;
-    var onFrmAtropelladoCerrado;
+    var onFrmvehiculoTerceroCerrado;
     vm.$onDestroy = onDestroy;
     vm.$onInit = onInit;
-    vm.handleAgregarAtropellado = handleAgregarAtropellado;
-    vm.handleEditarAtropellado = handleEditarAtropellado;
-    vm.handleEliminarAtropellado = handleEliminarAtropellado;
-    vm.showFrmAddAtropellado = showFrmAddAtropellado;
+    vm.handleAgregarvehiculoTercero = handleAgregarvehiculoTercero;
+    vm.handleEditarvehiculoTercero = handleEditarvehiculoTercero;
+    vm.handleEliminarvehiculoTercero = handleEliminarvehiculoTercero;
+    vm.showFrmAddvehiculoTercero = showFrmAddvehiculoTercero;
     
     function onInit() {
-      onFrmAtropelladoCerrado = $rootScope.$on('atropellado:frmCerrado', frmAtropelladoCerrado);
-      vm.atropellados = vm.atropellados || [];
+      onFrmvehiculoTerceroCerrado = $rootScope.$on('vehiculoTercero:frmCerrado', frmvehiculoTerceroCerrado);
+      vm.vehiculoTercero = vm.vehiculoTercero || [];
       vm.showAddFrm = false;
-      showBtnsSegunCantidadAtropellados();
+      showBtnsSegunCantidadvehiculoTercero();
     }
 
     function onDestroy() {
-      onFrmAtropelladoCerrado();
+      onFrmvehiculoTerceroCerrado();
     }
 
-    function areThereAtropellados() {
-      return vm.atropellados.length ? true : false;
+    function areTherevehiculoTercero() {
+      return vm.vehiculoTercero.length ? true : false;
     }
 
-    function handleAgregarAtropellado(event) {
+    function handleAgregarvehiculoTercero(event) {
       vm.onAgregar({
         $event: {
-          atropellado: event.atropellado
+          vehiculoTercero: event.vehiculoTercero
         }
       });
     }
 
-    function handleEditarAtropellado(event) {
+    function handleEditarvehiculoTercero(event) {
+      debugger;
       vm.onEditar({
         $event: {
           idx: event.idx,
-          atropellado: event.atropellado
+          vehiculoTercero: event.VehiculoTercero
         }
       });
     }
 
-    function handleEliminarAtropellado(idx) {
+    function handleEliminarvehiculoTercero(idx) {
       vm.onEliminar({
         $event: {
           idx: idx
         }
       });
-      showBtnsSegunCantidadAtropellados();
+      showBtnsSegunCantidadvehiculoTercero();
     }
 
-    function frmAtropelladoCerrado() {
-      showBtnsSegunCantidadAtropellados();
+    function frmvehiculoTerceroCerrado() {
+      showBtnsSegunCantidadvehiculoTercero();
     }
 
-    function showBtnsSegunCantidadAtropellados() {
-      vm.showBoxInicialAgregar = !areThereAtropellados();
-      vm.showBtnAddAtropellado = areThereAtropellados();
+    function showBtnsSegunCantidadvehiculoTercero() {
+      vm.showBoxInicialAgregar = !areTherevehiculoTercero();
+      vm.showBtnAddvehiculoTercero = areTherevehiculoTercero();
     }
 
-    function showFrmAddAtropellado() {
+    function showFrmAddvehiculoTercero() {
       vm.showBoxInicialAgregar = false;
-      vm.showBtnAddAtropellado = false;
+      vm.showBtnAddvehiculoTercero = false;
       vm.showAddFrm = true;
     }
   }
@@ -76,7 +77,7 @@ define(['angular'], function(ng) {
       templateUrl: '/webproc/app/components/detalle-asistencia/common/agregar-vehiculo-tercero/agregar-vehiculo-tercero.html',
       controller: 'AgregarVehiculoTerceroController',
       bindings: {
-        atropellados: '=?',
+        vehiculoTercero: '=?',
         onAgregar: '&?',
         onEditar: '&?',
         onEliminar: '&?',
