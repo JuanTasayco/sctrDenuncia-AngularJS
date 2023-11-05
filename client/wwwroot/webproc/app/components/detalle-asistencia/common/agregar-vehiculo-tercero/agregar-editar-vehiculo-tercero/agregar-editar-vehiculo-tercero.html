@@ -54,9 +54,86 @@
       </div>
     </div>
     <div class="col-md-12">
-      <div class="col-md-12">
-        <wp-vehiculo-soat data-is-ua="false" modo-lectura="$ctrl.modoLectura" vehiculo="$ctrl.frm" validate-form="$ctrl.validateForm"></wp-vehiculo-soat>
-      </div>
+          <div class="col-md-8">
+            <div class="row">
+              <div class="col-md-6 mb-xs-2">
+                <mpf-input data-ng-model="$ctrl.frm.placaVehiculo" 
+                  data-ng-minlength="6"
+                  data-ng-maxlength = "6"
+                  ng-required="true"
+                  data-mpf-validation="onlyLetterNumber" data-ng-disabled="$ctrl.modoLectura"
+                  label="{label: 'Placa', required: true}"  name="nPlaca" data-ng-blur="$ctrl.getPlaca();">
+                </mpf-input>
+                <div class="g-error"
+                  data-ng-show="frmVehiculoSoat.nPlaca.$invalid && !frmVehiculoSoat.nPlaca.$pristine">
+                  Este campo es obligatorio
+                </div>
+              </div>
+      
+              <div class="col-md-6 mb-xs-2">
+                <wp-cbo-soat data-label="{label: 'SOAT', required: $ctrl.isRequired ? true : false }" data-ng-required="true"
+                  data-ng-model="frmVehiculoSoat.codigoSoatVehiculo" data-option-default="{enterData: true}" data-ng-disabled="$ctrl.modoLectura"
+                  data-set-model-by-this-key="$ctrl.frm.codigoSoatVehiculo" data-set-model-by-this-text="$ctrl.frm.descripcionSoatVehiculo" name="nCodigoSoatVehiculo" >
+                </wp-cbo-soat>
+                <div class="g-error"
+                  data-ng-show="frmVehiculoSoat.nCodigoSoatVehiculo.$invalid && !frmVehiculoSoat.nCodigoSoatVehiculo.$pristine && $ctrl.frm.placaVehiculo">
+                  Este campo es obligatorio
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-6 mb-xs-2">
+                <wp-cbo-tipo-vehiculo data-label="{label: 'Tipo de vehículo', required: $ctrl.isRequired ? true : false }" data-ng-disabled="$ctrl.modoLectura"
+                  data-ng-model="frmVehiculoSoat.codigoTipoVehiculo" data-option-default="{enterData: true}" data-ng-required="true"
+                  data-set-model-by-this-key="$ctrl.frm.codigoTipoVehiculo" data-set-model-by-this-text="$ctrl.frm.descripcionTipoVehiculo" name="nTipoVehiculo">
+                </wp-cbo-tipo-vehiculo>
+                <div class="g-error"
+                  data-ng-show="frmVehiculoSoat.nTipoVehiculo.$invalid && !frmVehiculoSoat.nTipoVehiculo.$pristine && $ctrl.frm.placaVehiculo">
+                  Este campo es obligatorio
+                </div>
+              </div>
+              <div class="col-md-6 mb-xs-2" ng-if="!$ctrl.isUa">
+                <wp-cbo-uso-vehiculo data-label="{label: 'Uso del vehículo', required: false}" data-ng-required="true" data-ng-disabled="$ctrl.modoLectura"
+                  data-ng-model="frmVehiculoSoat.codigoUsoVehiculo" data-option-default="{enterData: true}"
+                  data-set-model-by-this-key="$ctrl.frm.codigoUsoVehiculo" name="nUsoVehiculo">
+                </wp-cbo-uso-vehiculo>
+                <div class="g-error"
+                  data-ng-show="$ctrl.nUsoVehiculo.codigoUsoVehiculo.$invalid && !$ctrl.nUsoVehiculo.codigoUsoVehiculo.$pristine">
+                  Este campo es obligatorio
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="gBgcGray5 col-md-12">
+              <h2 class="mt-xs-2 gCGreen1">{{ $ctrl.frm.modeloVehiculo + ' ' + $ctrl.frm.marcaVehiculo}} </h2>
+              <hr>
+              <div class="row">
+                <div class="col-md-6 mb-xs-2">
+                  #Motor
+                </div>
+                <div class="col-md-6 mb-xs-2">
+                  {{$ctrl.frm.motorVehiculo}}
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-6 mb-xs-2">
+                  Año de vehículo
+                </div>
+                <div class="col-md-6 mb-xs-2">
+                  {{$ctrl.frm.anioVehiculo}}
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-6 mb-xs-2">
+                  #Serie
+                </div>
+                <div class="col-md-6 mb-xs-2">
+                  {{$ctrl.frm.num_chasis}}
+                </div>
+              </div>
+            </div>
+          </div>
     </div>
   </div>
 
@@ -115,6 +192,22 @@
             Este campo es obligatorio
           </div>
         </div>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-12">
+      <wp-nivel-danho modo-lectura="$ctrl.modoLectura" data-detalle="$ctrl.frm" validate-form="$ctrl.validateForm"></wp-nivel-danho>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-12 mb-xs-2 mt-xs-3">
+      <mpf-input data-ng-disabled="$ctrl.modoLectura" data-ng-model="$ctrl.frm.descripcionDanios" label="{label: 'Descripcion de los daños', required: false}"
+        name="nDescripcionDanos">
+      </mpf-input>
+      <div class="g-error"
+        data-ng-show="frmTerceroConvenio.nDescripcionDanos.$invalid && !frmTerceroConvenio.nDescripcionDanos.$pristine">
+        Este campo es obligatorio
       </div>
     </div>
   </div>

@@ -1,13 +1,15 @@
 'use strict';
 
 define(['angular', 'lodash'], function (ng, _) {
-  AgregarEditarVehiculoTerceroController.$inject = ['$rootScope', '$scope', '$timeout', 'wpFactory'];
-  function AgregarEditarVehiculoTerceroController($rootScope, $scope, $timeout, wpFactory) {
+  AgregarEditarVehiculoTerceroController.$inject = ['$rootScope', '$scope', '$timeout','$log', 'wpFactory'];
+  function AgregarEditarVehiculoTerceroController($rootScope, $scope, $timeout,$log, wpFactory) {
     var vm = this;
     vm.$onInit = onInit;
     vm.grabarVehiculoTercero = grabarVehiculoTercero;
     vm.cerrarFrm = cerrarFrm;
     vm.getPerson = getPerson;
+    vm.getPlaca = getPlaca;
+    vm.setVehiculo = setVehiculo;
 
     function onInit() {
       vm.frm = {}
@@ -15,29 +17,55 @@ define(['angular', 'lodash'], function (ng, _) {
       !vm.esFrmAgregar && asignarDatosAlModelo();
     }
 
+    function getPlaca() {
+      if (vm.frm.placaVehiculo) {
+       vm.isRequired = true;
+        wpFactory.siniestro.GetSiniestroPlaca(vm.frm.placaVehiculo).then(function (response) {
+          response.vehiculo.respuesta == 1
+            ? setVehiculo(response.vehiculo)
+            : setVehiculo(null);
+        }).catch(function aEPr(err) {
+          $log.error('Falló al obtener equifax', err.data);
+          setVehiculo(null);
+        })
+        
+      }
+      else{
+        vm.isRequired = false
+      }
+    }
+    function setVehiculo(data) {
+      vm.frm.placaVehiculo = data ? data.num_placa : vm.frm.placaVehiculo;
+      vm.frm.codigoSoatVehiculo = null;
+      vm.frm.codigoTipoVehiculo = data ? data.cod_tip_vehi : null;
+      vm.frm.codigoUsoVehiculo = data ? data.cod_uso : null;
+      vm.frm.marcaVehiculo = data ? data.des_marca : null;
+      vm.frm.modeloVehiculo = data ? data.des_modelo : null;
+      vm.frm.motorVehiculo = data ? data.num_motor : null;
+      vm.frm.anioVehiculo = data ? data.anho_fabricacion : null;
+      vm.frm.serieVehiculo = data ? data.serie : null;
+      vm.frm.num_chasis = data ? data.num_chasis : null;
+    }
     function asignarDatosAlModelo() {
       vm.frm = ng.copy(vm.vehiculoTercero);
     }
 
     function grabarVehiculoTercero() {
       if (vm.frmVehiculoTercero.$invalid) {
-        vm.frmVehiculoTercero.markAsPristine();
+        vm.frmTercero.markAsPristine();
         return void 0;
       }
-      var frmVehiculoSoat =  vm.frmVehiculoTercero.frmVehiculoSoat
-      vm.frm.codigoSoatVehiculo = frmVehiculoSoat.codigoSoatVehiculo.codigoValor;
-      vm.frm.codigoTipoVehiculo  = frmVehiculoSoat.codigoTipoVehiculo.codigoValor;
-      vm.frm.codigoUsoVehiculo = frmVehiculoSoat.codigoUsoVehiculo.codigoValor;
-      vm.frm.placaVehiculo = frmVehiculoSoat.nPlaca.$modelValue;
-      debugger;
+      var frmNivelDanho = vm.frmVehiculoTercero.frmNivelDanho
+      vm.frm.pregunta1 = frmNivelDanho.nDanhoPregunta1.$modelValue; 
+      vm.frm.pregunta2 = frmNivelDanho.nDanhoPregunta2 ? frmNivelDanho.nDanhoPregunta2.$modelValue : null; 
       
       vm.ngIf = false;
-      vm.esFrmAgregar && vm.onAgregar({$event: {vehiculoTercero: vm.frm}});
+      vm.esFrmAgregar && vm.onAgregar({ $event: { vehiculoTercero: vm.frm } });
       if (!vm.esFrmAgregar) {
-        vm.onEditar({$event: {idx: vm.idxVehiculoTercero, vehiculoTercero: vm.frm}});
+        vm.onEditar({ $event: { idx: vm.idxVehiculoTercero, vehiculoTercero: vm.frm } });
         $scope.$emit('vehiculoTercero:frmEditCerrado');
       }
-      $timeout(function() {
+      $timeout(function () {
         $rootScope.$emit('vehiculoTercero:frmCerrado');
       });
     }

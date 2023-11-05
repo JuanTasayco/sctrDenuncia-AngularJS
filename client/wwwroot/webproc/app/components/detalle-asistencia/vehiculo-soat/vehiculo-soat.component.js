@@ -53,7 +53,7 @@ define(['angular', 'lodash', 'AsistenciaActions', 'wpConstant'], function (ng, _
     }
 
     function getPlaca() {
-      if (vm.frmVehiculo.placaVehiculo) {        
+      if (vm.frmVehiculo.placaVehiculo) {
         vm.isRequired = true;
         wpFactory.siniestro.GetSiniestroPlaca(vm.frmVehiculo.placaVehiculo).then(function (response) {
           response.vehiculo.respuesta == 1
