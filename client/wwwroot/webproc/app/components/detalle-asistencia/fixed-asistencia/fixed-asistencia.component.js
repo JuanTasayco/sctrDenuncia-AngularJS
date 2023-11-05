@@ -7,6 +7,7 @@ define(['angular', 'lodash', 'AsistenciaActions', 'wpConstant'], function(ng, _,
     vm.desestimar = desestimar;
     vm.investigar = investigar;
     vm.autorizar = autorizar;
+    vm.anular = anular;
 
     vm.nroAsistencia =  $state.params.nroAsistencia;
 
@@ -22,6 +23,10 @@ define(['angular', 'lodash', 'AsistenciaActions', 'wpConstant'], function(ng, _,
       vm.onInvestigar();
     }
 
+    function anular() {
+      vm.onAnular();
+    }
+    
   }
 
   return ng
@@ -34,6 +39,7 @@ define(['angular', 'lodash', 'AsistenciaActions', 'wpConstant'], function(ng, _,
         onInvestigar: '&?',
         onDesestimar: '&?',
         onAutorizar: '&?',
+        onAnular: '&?',
         infoAsistencia: '<?',
         disabledAutorizar: '='
       }

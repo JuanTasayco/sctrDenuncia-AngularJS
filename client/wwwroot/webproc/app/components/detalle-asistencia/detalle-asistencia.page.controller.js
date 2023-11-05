@@ -53,6 +53,7 @@ define(['angular', 'lodash', 'AsistenciaActions', 'helper', 'wpConstant', 'const
 
     vm.$onInit = onInit;
     vm.desestimar = desestimar;
+    vm.anular = anular;
     vm.guardar = guardar;
     vm.autorizar = autorizar;
     vm.investigar = investigar;
@@ -285,6 +286,36 @@ define(['angular', 'lodash', 'AsistenciaActions', 'helper', 'wpConstant', 'const
 
 
     }
+
+    function anular() {
+    
+      $scope.$emit('frm:save');
+      $timeout(function () {
+        var textos = {
+          btnCancel: 'Cancelar',
+          btnOk: 'Anular',
+          titulo: '¿Está seguro que el cliente desea anular de la Asistencia?'
+        };
+        var request = setRequest('ANULADO');
+        _showModalConfirm(textos)
+          .result.then(function cdScFn() {
+            wpFactory.siniestro
+              .GeneratorCaseFile(true, request)
+              .then(function aSPr() {
+                mModalAlert.showSuccess('Realizado con éxito', 'Anular').then(function msAnularPr() {
+                  _goBandejaWithNroAsistencia();
+                });
+              })
+              .catch(function aEPr(err) {
+                mModalAlert.showError('Ocurrió un error al poner en anulado', 'Error');
+                $log.error('Falló el anular asistencia', err.data);
+              });
+          })
+          .catch(function () {
+          });
+      })
+    }
+
 
     function guardar() {
       $scope.$emit('frm:save');
