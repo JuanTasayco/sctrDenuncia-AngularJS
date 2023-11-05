@@ -28,7 +28,6 @@ define(['angular', 'lodash', 'AsistenciaActions', 'wpConstant','wpAgregarAtropel
     function onInit() {
       vm.dateFormat = 'dd/MM/yyyy';
       vm.frmTercero = vm.siniestro;
-      vm.frmTercero.vehiculoTercero = angular.copy(vm.siniestro.peatonesTercero)
       _loadFotosOtros(vm.documentos)
     }
 
@@ -99,15 +98,15 @@ define(['angular', 'lodash', 'AsistenciaActions', 'wpConstant','wpAgregarAtropel
 
     //Vehiculo Tercero
     function agregarVehiculoTercero(event) {
-      vm.frmTercero.vehiculoTercero.push(event.vehiculoTercero);
+      vm.frmTercero.conductorTercero.push(event.vehiculoTercero);
     }
 
     function editarVehiculoTercero(event) {
-      vm.frmTercero.vehiculoTercero[event.idx] = event.vehiculoTercero;
+      vm.frmTercero.conductorTercero[event.idx] = event.vehiculoTercero;
     }
-
+    
     function eliminarVehiculoTercero(event) {
-      vm.frmTercero.vehiculoTercero.splice(event.idx, 1);
+      vm.frmTercero.conductorTercero.splice(event.idx, 1);
     }
 
     // BienAfectado 

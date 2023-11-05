@@ -320,11 +320,10 @@ define(['angular', 'lodash', 'AsistenciaActions', 'helper', 'wpConstant', 'const
     function guardar() {
       $scope.$emit('frm:save');
       $timeout(function () {
-        var invalidplaca = vm.frmGeneral.frmTerceroConvenio.frmVehiculoSoat.nPlaca.$viewValue;
         vm.frmGeneral.frmLugarOcurrencia.$invalid && vm.frmGeneral.frmLugarOcurrencia.markAsPristine();
         vm.frmGeneral.frmTerceroConvenio.$invalid && vm.frmGeneral.frmTerceroConvenio.markAsPristine();
         var dataGuardar = setRequest('PENDIENTE');
-        if (vm.frmGeneral.frmLugarOcurrencia.$invalid || (vm.frmGeneral.frmTerceroConvenio.$invalid && invalidplaca)) {
+        if (vm.frmGeneral.frmLugarOcurrencia.$invalid || vm.frmGeneral.frmTerceroConvenio.$invalid) {
           var frminvalid = vm.frmGeneral.frmLugarOcurrencia.$invalid ? 'Lugar de ocurrencia' : 'Terceros Convenio';
           return void mModalAlert
             .showWarning('Los campos de ' + frminvalid + ' son obligatorios', 'Falta completar')

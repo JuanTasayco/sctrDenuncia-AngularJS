@@ -8,12 +8,12 @@
     <div class="col-md-12">
       <div class="col-md-4">
         <wp-cbo-tipo-documentos data-label="{label: 'Tipo Documento', required: true}" data-ng-disabled="$ctrl.modoLectura"
-          data-ng-model="$ctrl.frmVehiculoTercero.CodigoTipoDocumentoIdentidad" data-option-default="{enterData: true}"
-          data-set-model-by-this-key="$ctrl.frm.CodigoTipoDocumentoIdentidad" name="nTipoDocumento">
+          data-ng-model="$ctrl.frmVehiculoTercero.ocupanteTercero.codigoTipoDocumentoIdentidad" data-option-default="{enterData: true}"
+          data-set-model-by-this-key="$ctrl.frm.ocupanteTercero.codigoTipoDocumentoIdentidad" name="nTipoDocumento">
         </wp-cbo-tipo-documentos>
       </div>
       <div class="col-md-4">
-        <mpf-input data-mpf-validation="required" data-ng-model="$ctrl.frm.numeroDocumentoIdentidad" data-ng-disabled="$ctrl.modoLectura"
+        <mpf-input data-mpf-validation="required" data-ng-model="$ctrl.frm.ocupanteTercero.numeroDocumentoIdentidad" data-ng-disabled="$ctrl.modoLectura"
           label="{label: 'Numero Documento', required: true}" ng-blur="$ctrl.getPerson();" name="nNumeroDoc">
         </mpf-input>
         <div class="g-error" data-ng-show="$ctrl.frm.nNumeroDoc.$invalid && !$ctrl.frm.nNumeroDoc.$pristine">
@@ -26,22 +26,22 @@
   <div class="row mt-xs-2">
     <div class="col-md-12">
       <div class="col-md-4 mb-xs-2">
-        <mpf-input data-ng-model="$ctrl.frm.nombrePeaton" data-mpf-validation="required, onlyLetter" data-ng-disabled="$ctrl.modoLectura"
+        <mpf-input data-ng-model="$ctrl.frm.ocupanteTercero.nombreConductor" data-mpf-validation="required, onlyLetter" data-ng-disabled="$ctrl.modoLectura"
           label="{label: 'Nombres', required: true}" name="nNombre">
         </mpf-input>
       </div>
       <div class="col-md-4 mb-xs-2">
-        <mpf-input data-ng-model="$ctrl.frm.paternoPeaton" data-mpf-validation="required, onlyLetter" data-ng-disabled="$ctrl.modoLectura"
+        <mpf-input data-ng-model="$ctrl.frm.ocupanteTercero.paternoConductor" data-mpf-validation="required, onlyLetter" data-ng-disabled="$ctrl.modoLectura"
           label="{label: 'Apellidos', required: true}" name="nApellido">
         </mpf-input>
       </div>
       <div class="col-md-4 mb-xs-2">
-        <mpf-input data-ng-model="$ctrl.frm.telefonoPeaton" ata-atrn-length="20" data-mpf-validation="onlyNumberNoSpace" data-ng-disabled="$ctrl.modoLectura"
+        <mpf-input data-ng-model="$ctrl.frm.ocupanteTercero.telefonoConductor" ata-atrn-length="20" data-mpf-validation="onlyNumberNoSpace" data-ng-disabled="$ctrl.modoLectura"
           data-ng-maxlength="20" label="{label: 'Telefono', required: true}" name="nTelefono">
         </mpf-input>
       </div>
       <div class="col-md-4 mb-xs-2">
-        <mpf-input data-ng-model="$ctrl.frm.correoPeaton" data-mpf-validation="email" data-ng-maxlength="200" data-ng-disabled="$ctrl.modoLectura"
+        <mpf-input data-ng-model="$ctrl.frm.ocupanteTercero.correoConductor" data-mpf-validation="email" data-ng-maxlength="200" data-ng-disabled="$ctrl.modoLectura"
           label="{label: 'Email', required: false}" name="nEmail">
         </mpf-input>
       </div>
@@ -57,7 +57,7 @@
           <div class="col-md-8">
             <div class="row">
               <div class="col-md-6 mb-xs-2">
-                <mpf-input data-ng-model="$ctrl.frm.placaVehiculo" 
+                <mpf-input data-ng-model="$ctrl.frm.vehiculoTercero.placaVehiculo" 
                   data-ng-minlength="6"
                   data-ng-maxlength = "6"
                   ng-required="true"
@@ -73,7 +73,7 @@
               <div class="col-md-6 mb-xs-2">
                 <wp-cbo-soat data-label="{label: 'SOAT', required: $ctrl.isRequired ? true : false }" data-ng-required="true"
                   data-ng-model="frmVehiculoSoat.codigoSoatVehiculo" data-option-default="{enterData: true}" data-ng-disabled="$ctrl.modoLectura"
-                  data-set-model-by-this-key="$ctrl.frm.codigoSoatVehiculo" data-set-model-by-this-text="$ctrl.frm.descripcionSoatVehiculo" name="nCodigoSoatVehiculo" >
+                  data-set-model-by-this-key="$ctrl.frm.vehiculoTercero.codigoSoatVehiculo" data-set-model-by-this-text="$ctrl.frm.descripcionSoatVehiculo" name="nCodigoSoatVehiculo" >
                 </wp-cbo-soat>
                 <div class="g-error"
                   data-ng-show="frmVehiculoSoat.nCodigoSoatVehiculo.$invalid && !frmVehiculoSoat.nCodigoSoatVehiculo.$pristine && $ctrl.frm.placaVehiculo">
@@ -85,7 +85,7 @@
               <div class="col-md-6 mb-xs-2">
                 <wp-cbo-tipo-vehiculo data-label="{label: 'Tipo de vehículo', required: $ctrl.isRequired ? true : false }" data-ng-disabled="$ctrl.modoLectura"
                   data-ng-model="frmVehiculoSoat.codigoTipoVehiculo" data-option-default="{enterData: true}" data-ng-required="true"
-                  data-set-model-by-this-key="$ctrl.frm.codigoTipoVehiculo" data-set-model-by-this-text="$ctrl.frm.descripcionTipoVehiculo" name="nTipoVehiculo">
+                  data-set-model-by-this-key="$ctrl.frm.vehiculoTercero.codigoTipoVehiculo" data-set-model-by-this-text="$ctrl.frm.descripcionTipoVehiculo" name="nTipoVehiculo">
                 </wp-cbo-tipo-vehiculo>
                 <div class="g-error"
                   data-ng-show="frmVehiculoSoat.nTipoVehiculo.$invalid && !frmVehiculoSoat.nTipoVehiculo.$pristine && $ctrl.frm.placaVehiculo">
@@ -95,7 +95,7 @@
               <div class="col-md-6 mb-xs-2" ng-if="!$ctrl.isUa">
                 <wp-cbo-uso-vehiculo data-label="{label: 'Uso del vehículo', required: false}" data-ng-required="true" data-ng-disabled="$ctrl.modoLectura"
                   data-ng-model="frmVehiculoSoat.codigoUsoVehiculo" data-option-default="{enterData: true}"
-                  data-set-model-by-this-key="$ctrl.frm.codigoUsoVehiculo" name="nUsoVehiculo">
+                  data-set-model-by-this-key="$ctrl.frm.vehiculoTercero.codigoUsoVehiculo" name="nUsoVehiculo">
                 </wp-cbo-uso-vehiculo>
                 <div class="g-error"
                   data-ng-show="$ctrl.nUsoVehiculo.codigoUsoVehiculo.$invalid && !$ctrl.nUsoVehiculo.codigoUsoVehiculo.$pristine">
@@ -106,14 +106,14 @@
           </div>
           <div class="col-md-4">
             <div class="gBgcGray5 col-md-12">
-              <h2 class="mt-xs-2 gCGreen1">{{ $ctrl.frm.modeloVehiculo + ' ' + $ctrl.frm.marcaVehiculo}} </h2>
+              <h2 class="mt-xs-2 gCGreen1">{{ $ctrl.frm.vehiculoTercero.modeloVehiculo + ' ' + $ctrl.frm.vehiculoTercero.marcaVehiculo}} </h2>
               <hr>
               <div class="row">
                 <div class="col-md-6 mb-xs-2">
                   #Motor
                 </div>
                 <div class="col-md-6 mb-xs-2">
-                  {{$ctrl.frm.motorVehiculo}}
+                  {{$ctrl.frm.vehiculoTercero.motorVehiculo}}
                 </div>
               </div>
               <div class="row">
@@ -121,7 +121,7 @@
                   Año de vehículo
                 </div>
                 <div class="col-md-6 mb-xs-2">
-                  {{$ctrl.frm.anioVehiculo}}
+                  {{$ctrl.frm.vehiculoTercero.anioVehiculo}}
                 </div>
               </div>
               <div class="row">
@@ -129,7 +129,7 @@
                   #Serie
                 </div>
                 <div class="col-md-6 mb-xs-2">
-                  {{$ctrl.frm.num_chasis}}
+                  {{$ctrl.frm.vehiculoTercero.num_chasis}}
                 </div>
               </div>
             </div>
@@ -146,8 +146,7 @@
     <div class="col-md-12">
         <div class="col-md-12">
           <div class="g-section-tabs mt-xs-1 mb-xs-2">
-            <div class="container u-ph-0 g-overflow-hidden-xs"
-              data-ng-class="{'u-msk-block': $ctrl.statusBlock.blockByAnulado}">
+            <div class="container u-ph-0 g-overflow-hidden-xs">
               <uib-tabset justified="false">
                 <uib-tab class="col-md-12 col-sm-12 u-ph-0 wp-tabModal__item" index="0">
                   <uib-tab-heading>
@@ -155,7 +154,7 @@
                   </uib-tab-heading>
                   <div class="content-tab u-bg--gris-9">
                     <div class="g-viewer-photo u-height--auto u-zi-xs--10">
-                      <div class="container array-foto-box" data-ng-class="{'u-msk-block': $ctrl.statusBlock.blockByAnulado}">
+                      <div class="container array-foto-box">
                         <mx-image-uploader data-nombre-img="'Otros'"
                           data-max-photos="'15'"
                           data-on-remove="$ctrl.eliminarFotoOtros($event)" data-on-upload="$ctrl.subirFotosOtros($event)"
@@ -178,12 +177,12 @@
         <div class="row">
           <div class="col-md-12"><span class="g-label text-left">Lesiones del conductor</span></div>
           <div class="col-md-3 col-sm-3 col-xs-3 mt-xs-1">
-            <m-radio data-ng-model="$ctrl.frm.flagLesionTercero" label="{label: 'Si'}" name="nLesionesconductorTerceroAux" data-ng-disabled="$ctrl.modoLectura"
+            <m-radio data-ng-model="$ctrl.frm.ocupanteTercero.flagLesion" label="{label: 'Si'}" name="nLesionesconductorTerceroAux" data-ng-disabled="$ctrl.modoLectura"
               value="S">
             </m-radio>
           </div>
           <div class="col-md-9 col-sm-3 col-xs-3 mt-xs-1">
-            <m-radio data-ng-model="$ctrl.frm.flagLesionTercero" label="{label: 'NO'}" name="nLesionesconductorTerceroAux" data-ng-disabled="$ctrl.modoLectura"
+            <m-radio data-ng-model="$ctrl.frm.ocupanteTercero.flagLesion" label="{label: 'NO'}" name="nLesionesconductorTerceroAux" data-ng-disabled="$ctrl.modoLectura"
               value="N">
             </m-radio>
           </div>
@@ -197,7 +196,7 @@
   </div>
   <div class="row">
     <div class="col-md-12">
-      <wp-nivel-danho modo-lectura="$ctrl.modoLectura" data-detalle="$ctrl.frm" validate-form="$ctrl.validateForm"></wp-nivel-danho>
+      <wp-nivel-danho modo-lectura="$ctrl.modoLectura" data-detalle="$ctrl.frm.detalleDanioVehiculo[0]" validate-form="$ctrl.validateForm"></wp-nivel-danho>
     </div>
   </div>
   <div class="row">

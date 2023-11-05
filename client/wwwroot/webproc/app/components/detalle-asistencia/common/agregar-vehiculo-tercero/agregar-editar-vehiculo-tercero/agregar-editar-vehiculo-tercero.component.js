@@ -19,12 +19,13 @@ define(['angular', 'lodash'], function (ng, _) {
       vm.frm = {}
       vm.frmTitulo = vm.esFrmAgregar ? 'Agregando Vehiculo Tercero' : 'Editando Vehiculo Tercero';
       !vm.esFrmAgregar && asignarDatosAlModelo();
+      //vm.frm.ocupanteTercero.itemConductor = vm.idxVehiculoTercero + 1;
     }
 
     function getPlaca() {
-      if (vm.frm.placaVehiculo) {
+      if (vm.frm.vehiculoTercero.placaVehiculo) {
        vm.isRequired = true;
-        wpFactory.siniestro.GetSiniestroPlaca(vm.frm.placaVehiculo).then(function (response) {
+        wpFactory.siniestro.GetSiniestroPlaca(vm.frm.vehiculoTercero.placaVehiculo).then(function (response) {
           response.vehiculo.respuesta == 1
             ? setVehiculo(response.vehiculo)
             : setVehiculo(null);
@@ -39,16 +40,16 @@ define(['angular', 'lodash'], function (ng, _) {
       }
     }
     function setVehiculo(data) {
-      vm.frm.placaVehiculo = data ? data.num_placa : vm.frm.placaVehiculo;
-      vm.frm.codigoSoatVehiculo = null;
-      vm.frm.codigoTipoVehiculo = data ? data.cod_tip_vehi : null;
-      vm.frm.codigoUsoVehiculo = data ? data.cod_uso : null;
-      vm.frm.marcaVehiculo = data ? data.des_marca : null;
-      vm.frm.modeloVehiculo = data ? data.des_modelo : null;
-      vm.frm.motorVehiculo = data ? data.num_motor : null;
-      vm.frm.anioVehiculo = data ? data.anho_fabricacion : null;
-      vm.frm.serieVehiculo = data ? data.serie : null;
-      vm.frm.num_chasis = data ? data.num_chasis : null;
+      vm.frm.vehiculoTercero.placaVehiculo = data ? data.num_placa : vm.frm.placaVehiculo;
+      vm.frm.vehiculoTercero.codigoSoatVehiculo = null;
+      vm.frm.vehiculoTercero.codigoTipoVehiculo = data ? data.cod_tip_vehi : null;
+      vm.frm.vehiculoTercero.codigoUsoVehiculo = data ? data.cod_uso : null;
+      vm.frm.vehiculoTercero.marcaVehiculo = data ? data.des_marca : null;
+      vm.frm.vehiculoTercero.modeloVehiculo = data ? data.des_modelo : null;
+      vm.frm.vehiculoTercero.motorVehiculo = data ? data.num_motor : null;
+      vm.frm.vehiculoTercero.anioVehiculo = data ? data.anho_fabricacion : null;
+      vm.frm.vehiculoTercero.serieVehiculo = data ? data.serie : null;
+      vm.frm.vehiculoTercero.num_chasis = data ? data.num_chasis : null;
     }
     function asignarDatosAlModelo() {
       vm.frm = ng.copy(vm.vehiculoTercero);
@@ -81,13 +82,13 @@ define(['angular', 'lodash'], function (ng, _) {
     }
 
     function getPerson() {
-      if (vm.frm.numeroDocumentoIdentidad) {
-        wpFactory.siniestro.GetSiniestroPerson(vm.frm.numeroDocumentoIdentidad, 0, vm.frm.CodigoTipoDocumentoIdentidad, 1)
+      if (vm.frm.ocupanteTercero.numeroDocumentoIdentidad) {
+        wpFactory.siniestro.GetSiniestroPerson(vm.frm.ocupanteTercero.numeroDocumentoIdentidad, 0, vm.frm.ocupanteTercero.codigoTipoDocumentoIdentidad, 1)
           .then(function (response) {
-            vm.frm.nombrePeaton = response.persona.ape_paterno;
-            vm.frm.paternoPeaton = response.persona.ape_paterno;
-            vm.frm.telefonoPeaton = response.persona.telefono;
-            vm.frm.correoPeaton = response.persona.email;
+            vm.frm.ocupanteTercero.nombreConductor = response.persona.ape_paterno;
+            vm.frm.ocupanteTercero.paternoConductor = response.persona.ape_paterno;
+            vm.frm.ocupanteTercero.telefonoConductor = response.persona.telefono;
+            vm.frm.ocupanteTercero.correoConductor = response.persona.email;
           })
       }
 
