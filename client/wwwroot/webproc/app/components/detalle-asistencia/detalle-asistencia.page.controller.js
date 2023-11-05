@@ -300,7 +300,7 @@ define(['angular', 'lodash', 'AsistenciaActions', 'helper', 'wpConstant', 'const
         _showModalConfirm(textos)
           .result.then(function cdScFn() {
             wpFactory.siniestro
-              .GeneratorCaseFile(true, request)
+              .Save(request, true)
               .then(function aSPr() {
                 mModalAlert.showSuccess('Realizado con éxito', 'Anular').then(function msAnularPr() {
                   _goBandejaWithNroAsistencia();
