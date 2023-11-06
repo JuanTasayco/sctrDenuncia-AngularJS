@@ -40,8 +40,7 @@ define(['angular', 'lodash', 'AsistenciaActions', 'wpConstant', 'wpAgregarAtrope
           ) ? true : false;
         vm.showCompanhiaTercero =
           (
-            vm.frmSiniestro.codigoResponsaDetaSiniestro == 1 ||
-            vm.frmSiniestro.codigoResponsaDetaSiniestro == 2 &&
+            vm.frmSiniestro.siniestroConvenio.codigoConvenioGolpe != null &&
             vm.frmSiniestro.siniestroConvenio.flagTerceroSeguro == 'S' &&
             vm.frmSiniestro.siniestroConvenio.codigoConvenioGolpe == 71
           ) ? true : false;

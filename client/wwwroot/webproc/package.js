@@ -362,13 +362,16 @@ define([], function() {
         deps: ['wpCabeceraAsistencia', 'wpConstant', 'mpfTimepicker', 'wpCommonCbos', 'wpLugarOcurrencia','wpTerceroConvenio','wpFixedAsistencia','wpPersonComponent','wpVehiculoSoat','wpFooterAsistencia']
       },
       wpTerceroConvenio: {
-        deps: ['wpAgregarAtropellado','wpAgregarBien','wpNivelDanho','wpResponsabilidad','wpAgregarVehiculoTercero']
+        deps: ['wpAgregarAtropellado','wpAgregarBien','wpNivelDanho','wpResponsabilidad','wpAgregarVehiculoTercero','mxImageUploader']
       },
       wpAgregarAtropellado: {
-        deps: ['wpAgregarEditarAtropellado','wpAtropellado']
+        deps: ['wpAgregarEditarAtropellado','wpAtropellado','mxImageUploader']
+      },
+      wpAgregarEditarVehiculoTercero:{
+        deps: ['mxImageUploader','wpModalMap']
       },
       wpAgregarVehiculoTercero: {
-        deps: ['wpAgregarEditarVehiculoTercero','wpVehiculoTercero']
+        deps: ['wpAgregarEditarVehiculoTercero','wpVehiculoTercero','mxImageUploader']
       },
       wpAgregarBien: {
         deps: ['wpAgregarEditarBien','wpBien']

@@ -20,6 +20,8 @@ define(['angular', 'lodash'], function (ng, _) {
       vm.frmTitulo = vm.esFrmAgregar ? 'Agregando Vehiculo Tercero' : 'Editando Vehiculo Tercero';
       !vm.esFrmAgregar && asignarDatosAlModelo();
       //vm.frm.ocupanteTercero.itemConductor = vm.idxVehiculoTercero + 1;
+      vm.documentos = null;
+      _loadFotosOtros(vm.documentos);
     }
 
     function getPlaca() {
@@ -122,7 +124,24 @@ define(['angular', 'lodash'], function (ng, _) {
         vm[propWhereSave] = wpFactory.help.getFotosConB64(vm[propWhereSave], resp, event.photoData);
       });
     }
-    
+    function _loadFotosOtros(fotosSiniestro) {
+      _loadFotos(fotosSiniestro, 'documentos');
+    }
+
+    function _loadFotos(arrFotos, prop) {
+      _.forEach(arrFotos, function feFn(item, idx) {
+        if (item && item.nombreFisico) {
+          wpFactory.siniestro.ViewImageByPath(item.nombreFisico).then(function (resp) {
+            if(wpFactory.help.isCode200(resp)){
+              vm[prop][idx].srcImg = resp.data
+            }
+            else{
+              vm[prop][idx] = null
+            }
+          });
+        }
+      });
+    }
 
   }
   return ng

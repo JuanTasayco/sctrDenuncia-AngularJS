@@ -60,7 +60,7 @@ define(['angular', 'lodash', 'AsistenciaActions', 'wpConstant'], function (ng, _
       vm.siniestroTypeCheckList = wpFactory.myLookup.getTipoSiniestroDetalle().filter(function (element) {
         return element.nombreValor == (valor ? valor.nombreValor : nombreTipoSiniestro ? nombreTipoSiniestro.nombreValor : null) && element.nombreValorDetalle;
       });
-      vm.frmSiniestro.expediente = "";
+      vm.frmSiniestro.expediente = vm.siniestro.expediente;
     }
 
     function changeFinHoraAtencion() {
