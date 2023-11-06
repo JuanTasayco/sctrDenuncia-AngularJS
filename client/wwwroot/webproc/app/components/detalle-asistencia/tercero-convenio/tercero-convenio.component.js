@@ -29,6 +29,7 @@ define(['angular', 'lodash', 'AsistenciaActions', 'wpConstant','wpAgregarAtropel
       vm.dateFormat = 'dd/MM/yyyy';
       vm.frmTercero = vm.siniestro;
       _loadFotosOtros(vm.documentos)
+  
     }
 
 

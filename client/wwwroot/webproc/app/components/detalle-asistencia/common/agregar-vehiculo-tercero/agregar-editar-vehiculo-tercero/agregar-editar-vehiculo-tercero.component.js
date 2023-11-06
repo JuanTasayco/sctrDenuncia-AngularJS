@@ -20,7 +20,7 @@ define(['angular', 'lodash'], function (ng, _) {
       vm.frmTitulo = vm.esFrmAgregar ? 'Agregando Vehiculo Tercero' : 'Editando Vehiculo Tercero';
       !vm.esFrmAgregar && asignarDatosAlModelo();
       //vm.frm.ocupanteTercero.itemConductor = vm.idxVehiculoTercero + 1;
-      vm.documentos = null;
+      vm.documentos = [];
       _loadFotosOtros(vm.documentos);
     }
 
