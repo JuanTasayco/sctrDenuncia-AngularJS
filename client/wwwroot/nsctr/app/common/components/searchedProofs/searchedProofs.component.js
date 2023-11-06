@@ -142,6 +142,15 @@ define([
             mainServices.fnDownloadFileBase64(response.data, "pdf", 'Recibo_' + receiptNumber, false);
           });
         }
+        
+        _self.fnOpenUrl = function (e, url) {
+          if (url) $window.open(url, '_blank');
+          var textToAnalytics = nsctrService.fnSearchUrlforGoogleAnalytics();
+          setTimeout(function () {
+            var appCode = window.localStorage['appOrigin'] ? window.localStorage['appOrigin'] : 'OIM'
+            gaService.add({ gaCategory: appCode + ' - NSCTR', gaAction: textToAnalytics + '- Click Identificador de Constancia ', gaLabel: 'Botón: Descargar' });
+          }, 100);
+        }
 
         _self.fnDownloadConstancia = function (constancyIdentity) {
           nsctrFactory.common.proxyConstancy.ServicesDownloadConstancy(constancyIdentity, true).then(function (response) {
