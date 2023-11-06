@@ -376,7 +376,6 @@ define(['angular', 'lodash', 'AsistenciaActions', 'helper', 'wpConstant', 'const
     function terminar() {
       $scope.$emit('frm:save');
       $timeout(function () {
-        var invalidplaca = vm.frmGeneral.frmTerceroConvenio.frmVehiculoSoat.nPlaca.$viewValue;
         if (vm.frmGeneral.frmLugarOcurrencia.$invalid || vm.frmGeneral.frmTerceroConvenio.$invalid && invalidplaca) {
           var frminvalid = vm.frmGeneral.frmLugarOcurrencia.$invalid ? 'Lugar de ocurrencia' : 'Terceros Convenio';
           return void mModalAlert
