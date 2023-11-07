@@ -35,8 +35,14 @@ define(['angular', 'lodash', 'AsistenciaActions', 'wpConstant', 'wpAgregarAtrope
     }
 
     function changeResponsabilidad() {
+
       $timeout(function () {
-        vm.showImporte =
+        if(vm.frmSiniestro.codigoResponsaDetaSiniestro == 4){
+          vm.showConvenio  = false;
+          vm.showCompanhiaTercero = false;
+        }
+        else{
+          vm.showImporte =
           (
             vm.frmSiniestro.codigoResponsaDetaSiniestro == 2 &&
             vm.frmSiniestro.siniestroConvenio.codigoConvenioGolpe.codigoValor == 72
@@ -53,6 +59,8 @@ define(['angular', 'lodash', 'AsistenciaActions', 'wpConstant', 'wpAgregarAtrope
             vm.frmSiniestro.siniestroConvenio.flagTerceroSeguro == 'N' ||
             !vm.frmSiniestro.siniestroConvenio.flagTerceroSeguro
           ) ? false : true;
+        }
+        
         changeSeguro();
       })
     }
