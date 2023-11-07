@@ -426,7 +426,7 @@
           isCompanyClient: isCompanyClient,
           validateAgent: function(menuEmisa, aplications){
             var storage = $window.localStorage;
-            var subMenu = angular.fromJson(storage[menuEmisa]);
+            var subMenu = angular.fromJson(storage[menuEmisa]) || [];
             var menus = subMenu.filter(function(x) { return x.nombreCabecera === aplications })[0];
             if(menus){ 
               return _.find(menus.items, function (field) {
