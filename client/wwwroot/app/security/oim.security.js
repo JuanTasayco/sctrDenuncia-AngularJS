@@ -430,7 +430,7 @@
             var menus = subMenu.filter(function(x) { return x.nombreCabecera === aplications })[0];
             if(menus){ 
               return _.find(menus.items, function (field) {
-                return field.nombreCorto === 'COTIZACION MULTIAGENTE';
+                return field.nombreCorto === 'COTIZACIONMULTIAGENTE';
                 }) ? true : false;
             }
             return false;

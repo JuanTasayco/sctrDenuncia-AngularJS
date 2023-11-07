@@ -12,7 +12,7 @@ define([
   function CotizacionVidaLeyController($scope, $state, oimPrincipal, oimClaims, vidaLeyFactory, parametros) {
     var vm = this;
 
-    vm.userRoot = false;
+    vm.userRoot = oimPrincipal.validateAgent('evoSubMenuEMISAVIDALEY','COTIZACION');
     vm.user = {};
     vm.currentStep = 1;
 
@@ -22,7 +22,7 @@ define([
 
     (function load_CotizacionVidaLeyController() {
       vidaLeyFactory.setClaims(oimClaims);
-      vm.userRoot = vidaLeyFactory.isUserRoot();
+      vm.userRoot = oimPrincipal.validateAgent('evoSubMenuEMISAVIDALEY','COTIZACION');
       vm.user = vidaLeyFactory.getUser();
       vidaLeyFactory.initCotizacion();
 
