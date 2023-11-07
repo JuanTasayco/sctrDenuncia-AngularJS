@@ -183,7 +183,12 @@ define(['angular', 'lodash', 'AsistenciaActions', 'helper', 'wpConstant', 'const
     function desestimar() {
       $scope.$emit('frm:save');
       $timeout(function () {
-        if (vm.frmGeneral.frmLugarOcurrencia.$invalid || vm.frmGeneral.frmTerceroConvenio.$invalid) {
+        var frmTerceroConvenioinvalid = false;
+        if(vm.frmGeneral.frmTerceroConvenio){ 
+          frmTerceroConvenioinvalid  = vm.frmGeneral.frmTerceroConvenio.$invalid;
+        }
+
+        if (vm.frmGeneral.frmLugarOcurrencia.$invalid || frmTerceroConvenioinvalid) {
           var frminvalid = vm.frmGeneral.frmLugarOcurrencia.$invalid ? 'Lugar de ocurrencia' : 'Terceros Convenio';
           return void mModalAlert
             .showWarning('Los campos de' + frminvalid + 'son obligatorios', 'Falta completar')
@@ -240,6 +245,16 @@ define(['angular', 'lodash', 'AsistenciaActions', 'helper', 'wpConstant', 'const
         "codigoMoneda": vm.ultimaDataDeAsistencia.siniestroConvenio.codigoMoneda.toString(),
         "flagTerceroSeguro": vm.ultimaDataDeAsistencia.siniestroConvenio.flagTerceroSeguro,
         "importe": parseFloat(vm.ultimaDataDeAsistencia.siniestroConvenio.importe)
+      }
+      
+      if(!vm.frmGeneral.frmTerceroConvenio){
+        vm.ultimaDataDeAsistencia.conductorTercero = null;
+        vm.ultimaDataDeAsistencia.siniestroConvenio = null;
+        vm.ultimaDataDeAsistencia.peatonesTercero = null;
+        vm.ultimaDataDeAsistencia.ocupantes= null;
+        vm.ultimaDataDeAsistencia.bienesTercero = null;
+        vm.ultimaDataDeAsistencia.codigoResponsaDetaSiniestro = null;
+        
       }
 
       return _.assign({}, vm.ultimaDataDeAsistencia, vm.ultimaDataDeAsistencia.dataVehiculo, {
@@ -320,10 +335,16 @@ define(['angular', 'lodash', 'AsistenciaActions', 'helper', 'wpConstant', 'const
     function guardar() {
       $scope.$emit('frm:save');
       $timeout(function () {
-        vm.frmGeneral.frmLugarOcurrencia.$invalid && vm.frmGeneral.frmLugarOcurrencia.markAsPristine();
-        vm.frmGeneral.frmTerceroConvenio.$invalid && vm.frmGeneral.frmTerceroConvenio.markAsPristine();
+        vm.frmGeneral.frmLugarOcurrencia.markAsPristine();
+        var frmTerceroConvenioinvalid = false;
+        if(vm.frmGeneral.frmTerceroConvenio){
+          vm.frmGeneral.frmTerceroConvenio.markAsPristine() 
+          frmTerceroConvenioinvalid  = vm.frmGeneral.frmTerceroConvenio.$invalid;
+        }   
+        
         var dataGuardar = setRequest('PENDIENTE');
-        if (vm.frmGeneral.frmLugarOcurrencia.$invalid || vm.frmGeneral.frmTerceroConvenio.$invalid) {
+        
+        if (vm.frmGeneral.frmLugarOcurrencia.$invalid || frmTerceroConvenioinvalid) {
           var frminvalid = vm.frmGeneral.frmLugarOcurrencia.$invalid ? 'Lugar de ocurrencia' : 'Terceros Convenio';
           return void mModalAlert
             .showWarning('Los campos de ' + frminvalid + ' son obligatorios', 'Falta completar')
@@ -376,7 +397,11 @@ define(['angular', 'lodash', 'AsistenciaActions', 'helper', 'wpConstant', 'const
     function terminar() {
       $scope.$emit('frm:save');
       $timeout(function () {
-        if (vm.frmGeneral.frmLugarOcurrencia.$invalid || vm.frmGeneral.frmTerceroConvenio.$invalid && invalidplaca) {
+        var frmTerceroConvenioinvalid = false;
+        if(vm.frmGeneral.frmTerceroConvenio){
+          frmTerceroConvenioinvalid  = vm.frmGeneral.frmTerceroConvenio.$invalid;
+        }
+        if (vm.frmGeneral.frmLugarOcurrencia.$invalid || frmTerceroConvenioinvalid){
           var frminvalid = vm.frmGeneral.frmLugarOcurrencia.$invalid ? 'Lugar de ocurrencia' : 'Terceros Convenio';
           return void mModalAlert
             .showWarning('Los campos de' + frminvalid + 'son obligatorios', 'Falta completar')
