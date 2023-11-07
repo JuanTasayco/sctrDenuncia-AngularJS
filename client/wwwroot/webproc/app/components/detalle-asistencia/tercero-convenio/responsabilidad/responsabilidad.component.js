@@ -6,6 +6,7 @@ define(['angular', 'lodash', 'AsistenciaActions', 'wpConstant', 'wpAgregarAtrope
     var vm = this
     vm.$onInit = onInit;
     vm.changeResponsabilidad = changeResponsabilidad;
+    vm.changeSeguro = changeSeguro;
     vm.showConvenio = false;
     vm.showCompanhiaTercero = false;
     vm.showImporte = false;
@@ -17,6 +18,7 @@ define(['angular', 'lodash', 'AsistenciaActions', 'wpConstant', 'wpAgregarAtrope
     function onInit() {
       vm.frmSiniestro = vm.siniestro;
       vm.frmSiniestro.monedaList = wpFactory.myLookup.getTipoMoneda();
+      vm.showConvenioAux = true
       if(vm.frmSiniestro.siniestroConvenio){
         vm.frmSiniestro.siniestroConvenio.codigoMoneda = 74;
         if(vm.TipomonedaAntigua[vm.frmSiniestro.siniestroConvenio.codigoMoneda]) {
@@ -29,6 +31,7 @@ define(['angular', 'lodash', 'AsistenciaActions', 'wpConstant', 'wpAgregarAtrope
         vm.frmSiniestro.siniestroConvenio.codigoMoneda = '';
         vm.frmSiniestro.siniestroConvenio.codigoEmpresaAseguradora = null;
       }
+      changeSeguro();
     }
 
     function changeResponsabilidad() {
@@ -36,13 +39,12 @@ define(['angular', 'lodash', 'AsistenciaActions', 'wpConstant', 'wpAgregarAtrope
         vm.showImporte =
           (
             vm.frmSiniestro.codigoResponsaDetaSiniestro == 2 &&
-            vm.frmSiniestro.siniestroConvenio.codigoConvenioGolpe == 72
+            vm.frmSiniestro.siniestroConvenio.codigoConvenioGolpe.codigoValor == 72
           ) ? true : false;
         vm.showCompanhiaTercero =
           (
-            vm.frmSiniestro.siniestroConvenio.codigoConvenioGolpe != null &&
             vm.frmSiniestro.siniestroConvenio.flagTerceroSeguro == 'S' &&
-            vm.frmSiniestro.siniestroConvenio.codigoConvenioGolpe == 71
+            vm.frmSiniestro.siniestroConvenio.codigoConvenioGolpe.codigoValor == 71
           ) ? true : false;
 
         vm.showConvenio =
@@ -51,9 +53,25 @@ define(['angular', 'lodash', 'AsistenciaActions', 'wpConstant', 'wpAgregarAtrope
             vm.frmSiniestro.siniestroConvenio.flagTerceroSeguro == 'N' ||
             !vm.frmSiniestro.siniestroConvenio.flagTerceroSeguro
           ) ? false : true;
+        changeSeguro();
       })
     }
-
+    function changeSeguro() {
+      vm.listaConvenio = wpFactory.myLookup.getConvenio();
+      if(vm.frmSiniestro.siniestroConvenio.flagTerceroSeguro == 'N'){
+        vm.listaConvenio = _.filter(vm.listaConvenio,function (x) {
+          return x.codigoValor == 72;
+        })
+      }
+      else{
+        vm.listaConvenio = _.filter(vm.listaConvenio,function (x) {
+          return x.codigoValor ==  71;
+        })
+      }
+      vm.showConvenioAux = false;
+      vm.showConvenioAux = true;
+      
+    }
 
   } // end controller
 
