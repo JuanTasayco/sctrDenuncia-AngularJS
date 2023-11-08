@@ -42,7 +42,7 @@ define(['angular', 'lodash'], function (ng, _) {
       }
     }
     function setVehiculo(data) {
-      vm.frm.vehiculoTercero.placaVehiculo = data ? data.num_placa : vm.frm.placaVehiculo;
+      vm.frm.vehiculoTercero.placaVehiculo = data ? data.num_placa : vm.frm.vehiculoTercero.placaVehiculo;
       vm.frm.vehiculoTercero.codigoSoatVehiculo = null;
       vm.frm.vehiculoTercero.codigoTipoVehiculo = data ? data.cod_tip_vehi : null;
       vm.frm.vehiculoTercero.codigoUsoVehiculo = data ? data.cod_uso : null;
