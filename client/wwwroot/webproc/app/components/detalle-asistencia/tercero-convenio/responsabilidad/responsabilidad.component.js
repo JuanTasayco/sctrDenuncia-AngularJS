@@ -21,12 +21,17 @@ define(['angular', 'lodash', 'AsistenciaActions', 'wpConstant', 'wpAgregarAtrope
     function onInit() {
       vm.frmSiniestro = vm.siniestro;
       vm.frmSiniestro.monedaList = wpFactory.myLookup.getTipoMoneda();
+      vm.frmSiniestro.siniestroConvenio.codigoConvenioGolpeSelect = {codigoValor :vm.frmSiniestro.siniestroConvenio.codigoConvenioGolpeSelect}
       if(vm.frmSiniestro.siniestroConvenio){
         vm.frmSiniestro.siniestroConvenio.codigoMoneda = 74;
         if(vm.TipomonedaAntigua[vm.frmSiniestro.siniestroConvenio.codigoMoneda]) {
           vm.frmSiniestro.siniestroConvenio.codigoMoneda = vm.TipomonedaAntigua[vm.frmSiniestro.siniestroConvenio.codigoMoneda]
         }
-        changeResponsabilidad();
+        vm.showHaveSeguro = vm.frmSiniestro.siniestroConvenio.flagTerceroSeguro != null ;
+        vm.showImporte = vm.frmSiniestro.siniestroConvenio.codigoMoneda!= null ;
+        vm.showCompanhiaTercero =  vm.frmSiniestro.siniestroConvenio.codigoEmpresaAseguradora!= null ;
+        vm.showConvenio =  vm.frmSiniestro.siniestroConvenio.codigoConvenioGolpeSelect
+       
       }
       else{
         vm.frmSiniestro.siniestroConvenio = {};
@@ -46,10 +51,10 @@ define(['angular', 'lodash', 'AsistenciaActions', 'wpConstant', 'wpAgregarAtrope
           vm.listaConvenio = _.filter(vm.listaConvenio,function (item) {
             return item.codigoValor == 71;
           })
-          vm.frmSiniestro.siniestroConvenio.codigoConvenioGolpe = null;
+          vm.frmSiniestro.siniestroConvenio.codigoConvenioGolpeSelect = null;
           vm.showHaveSeguro = true;
           vm.showConvenio = vm.frmSiniestro.siniestroConvenio.flagTerceroSeguro == 'S';
-          vm.showCompanhiaTercero =  vm.frmSiniestro.siniestroConvenio.codigoConvenioGolpe.codigoValor == 71 && vm.showConvenio; 
+          vm.showCompanhiaTercero = vm.frmSiniestro.siniestroConvenio.codigoConvenioGolpeSelect ?  vm.frmSiniestro.siniestroConvenio.codigoConvenioGolpeSelect.codigoValor == 71 && vm.showConvenio : false; 
         }
         else if (vm.frmSiniestro.codigoResponsaDetaSiniestro==2){
           vm.showConvenio = false;
@@ -65,10 +70,10 @@ define(['angular', 'lodash', 'AsistenciaActions', 'wpConstant', 'wpAgregarAtrope
               return item.codigoValor == 72;
             })
           }
-          vm.frmSiniestro.siniestroConvenio.codigoConvenioGolpe = null;
+          vm.frmSiniestro.siniestroConvenio.codigoConvenioGolpeSelect = null;
           vm.showHaveSeguro = true;
           vm.showConvenio = true;
-          vm.showCompanhiaTercero =  vm.frmSiniestro.siniestroConvenio.codigoConvenioGolpe.codigoValor;
+          vm.showCompanhiaTercero = vm.frmSiniestro.siniestroConvenio.codigoConvenioGolpeSelect ? vm.frmSiniestro.siniestroConvenio.codigoConvenioGolpeSelect.codigoValor : false;
         }
         else if (vm.frmSiniestro.codigoResponsaDetaSiniestro==3){
           vm.showHaveSeguro = false;
@@ -78,7 +83,7 @@ define(['angular', 'lodash', 'AsistenciaActions', 'wpConstant', 'wpAgregarAtrope
           vm.listaConvenio = _.filter(vm.listaConvenio,function (item) {
             return item.codigoValor != 72;
           })
-          vm.frmSiniestro.siniestroConvenio.codigoConvenioGolpe = null;
+          vm.frmSiniestro.siniestroConvenio.codigoConvenioGolpeSelect = null;
           vm.showConvenio = true;
         }
         else{
@@ -86,13 +91,14 @@ define(['angular', 'lodash', 'AsistenciaActions', 'wpConstant', 'wpAgregarAtrope
           vm.showCompanhiaTercero = false;
           vm.showHaveSeguro = false;
         }
+        vm.frmSiniestro.siniestroConvenio.codigoConvenioGolpe = vm.frmSiniestro.siniestroConvenio.codigoConvenioGolpeSelect ? vm.frmSiniestro.siniestroConvenio.codigoConvenioGolpeSelect.codigoValor : null;
       })
 
     }
 
     function changeConvenio() {
-      vm.showCompanhiaTercero =  vm.frmSiniestro.siniestroConvenio.codigoConvenioGolpe.codigoValor == 71;
-      vm.showImporte =  vm.frmSiniestro.siniestroConvenio.codigoConvenioGolpe.codigoValor == 72;
+      vm.showCompanhiaTercero =  vm.frmSiniestro.siniestroConvenio.codigoConvenioGolpeSelect.codigoValor == 71;
+      vm.showImporte =  vm.frmSiniestro.siniestroConvenio.codigoConvenioGolpeSelect.codigoValor == 72;
     }
 
   } // end controller

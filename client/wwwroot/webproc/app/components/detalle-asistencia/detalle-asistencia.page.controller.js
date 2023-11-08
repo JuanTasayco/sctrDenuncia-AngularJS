@@ -256,7 +256,7 @@ define(['angular', 'lodash', 'AsistenciaActions', 'helper', 'wpConstant', 'const
         vm.ultimaDataDeAsistencia.codigoResponsaDetaSiniestro = null;
         
       }
-
+      
       return _.assign({}, vm.ultimaDataDeAsistencia, vm.ultimaDataDeAsistencia.dataVehiculo, {
         codigoTipoVehiculoAsegurado: vm.ultimaDataDeAsistencia.dataVehiculo.codigoTipoVehiculo,
         anioVehiculoAsegurado: vm.ultimaDataDeAsistencia.dataVehiculo.anioVehiculo,
@@ -343,6 +343,7 @@ define(['angular', 'lodash', 'AsistenciaActions', 'helper', 'wpConstant', 'const
         }   
         
         var dataGuardar = setRequest('PENDIENTE');
+        delete dataGuardar.siniestroConvenio.codigoConvenioGolpeSelect
         
         if (vm.frmGeneral.frmLugarOcurrencia.$invalid || frmTerceroConvenioinvalid) {
           var frminvalid = vm.frmGeneral.frmLugarOcurrencia.$invalid ? 'Lugar de ocurrencia' : 'Terceros Convenio';
@@ -425,7 +426,7 @@ define(['angular', 'lodash', 'AsistenciaActions', 'helper', 'wpConstant', 'const
         };
 
         var dataGuardar = setRequest('GENERADO')
-
+        delete dataGuardar.siniestroConvenio.codigoConvenioGolpeSelect
         _showModalConfirm(textos)
           .result.then(function ctScFn() {
             wpFactory.siniestro
@@ -505,6 +506,7 @@ define(['angular', 'lodash', 'AsistenciaActions', 'helper', 'wpConstant', 'const
       $scope.$emit('frm:save');
       $timeout(function () {
         var dataGuardar = setRequest(vm.ultimaDataDeAsistencia.estadoSiniestro);
+        delete dataGuardar.siniestroConvenio.codigoConvenioGolpeSelect
         wpFactory.cache.setConsolidado(dataGuardar);
         $state.go('consolidadoAsistencia');
       });
