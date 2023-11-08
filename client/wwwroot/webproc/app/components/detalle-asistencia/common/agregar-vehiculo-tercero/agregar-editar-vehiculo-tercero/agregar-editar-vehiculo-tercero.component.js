@@ -50,7 +50,7 @@ define(['angular', 'lodash'], function (ng, _) {
       vm.frm.vehiculoTercero.modeloVehiculo = data ? data.des_modelo : null;
       vm.frm.vehiculoTercero.motorVehiculo = data ? data.num_motor : null;
       vm.frm.vehiculoTercero.anioVehiculo = data ? data.anho_fabricacion : null;
-      vm.frm.vehiculoTercero.serieVehiculo = data ? data.serie : null;
+      vm.frm.vehiculoTercero.serieVehiculo = data ? data.num_chasis : null;
       vm.frm.vehiculoTercero.num_chasis = data ? data.num_chasis : null;
     }
     function asignarDatosAlModelo() {
