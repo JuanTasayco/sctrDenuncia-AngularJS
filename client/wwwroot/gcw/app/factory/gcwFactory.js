@@ -950,7 +950,7 @@ define([
       function requestDocCartera(poliza) {
         return {
           "cliente": {
-              "nomTomador": poliza.cliente,
+              "nomTomador": poliza.clientName,
               "codDocumento": poliza.documentCode,
               "tipDocumento": poliza.documentType,
           },
