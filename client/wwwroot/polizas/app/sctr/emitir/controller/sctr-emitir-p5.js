@@ -99,7 +99,7 @@
               $scope.formData.esCliente = true;
             }
 
-            $scope.formData.quotation = $stateParams.quotation;
+            $scope.formData.quotation = $scope.formData.NroSolicitud || parseInt($stateParams.quotation);
             $scope.formData.tipoSCTR = $stateParams.tipo;
 
             if($scope.formData.tipoSCTR==constants.module.polizas.sctr.periodoCorto.TipoPeriodo){
@@ -560,6 +560,8 @@
             if($scope.cotizacion.length==2){
               $scope.formData.salud = true;
               $scope.formData.pension = true;
+              $scope.formData.CodigoAgentePension = $scope.cotizacion[0].Solicitud.CodigoAgente;
+              $scope.formData.CodigoAgenteSalud = $scope.cotizacion[1].Solicitud.CodigoAgente;
 
               if(!$scope.formData.pNormal){
                 $scope.formData.Pagado = $scope.cotizacion[0].Pagado && $scope.cotizacion[1].Pagado;
@@ -591,6 +593,7 @@
             }else if($scope.cotizacion[0].CodigoCompania==3){//salud
               $scope.formData.salud = true;
               $scope.formData.NumeroReciboSalud = $scope.cotizacion[0].Riesgo.NumeroRecibo;
+              $scope.formData.CodigoAgenteSalud = $scope.cotizacion[0].Solicitud.CodigoAgente;
               $scope.formData.NumeroReciboSaludEncrypt = $scope.cotizacion[0].Riesgo.NumeroReciboEncrypt;
               if(!$scope.formData.pNormal){
                 $scope.formData.PagadoS = $scope.cotizacion[0].Pagado;
@@ -604,6 +607,7 @@
 
             }else if($scope.cotizacion[0].CodigoCompania==2){//pension
               $scope.formData.pension = true;
+              $scope.formData.CodigoAgentePension = $scope.cotizacion[0].Solicitud.CodigoAgente;
               if(!$scope.formData.pNormal){
                 $scope.formData.PagadoP = $scope.cotizacion[0].Pagado;
                 $scope.formData.PagadoP = ($scope.formData.PagadoP === 'S') ? true : false;
@@ -651,13 +655,15 @@
         }
       }
 
-      $scope.getRecibo = function(recibo){
-        sctrEmitFactory.getRecibo($scope.formData.tipoSCTR, recibo, 'recibo_'+recibo+'.pdf').then(function(response){
+      $scope.getRecibo = function(recibo,numeroRecibo){
+        sctrEmitFactory.getRecibo($scope.formData.tipoSCTR, recibo).then(function(response){
+          mainServices.fnDownloadFileBase64(response.data.Data, "pdf", 'recibo_'+numeroRecibo+'.pdf', false);
           });
       }
 
-      $scope.getPoliza = function(id, numPoliza){
-        sctrEmitFactory.getPoliza($scope.formData.tipoSCTR, id, numPoliza, 'OIM_'+numPoliza+'.pdf').then(function(response){
+      $scope.getPoliza = function(id, numPoliza,codigoagente){
+        sctrEmitFactory.getPoliza($scope.formData.tipoSCTR, id, numPoliza,codigoagente).then(function(response){
+          mainServices.fnDownloadFileBase64(response.data.Data, "pdf", 'OIM_'+numPoliza+'.pdf', false);
         }, function gpErFn(response) {
           mModalAlert.showError(response.Message, 'Error al descargar el documento');
         });
@@ -672,14 +678,14 @@
             if($scope.formData.pension && $scope.formData.salud){
               $scope.getRecibo($scope.formData.NumeroReciboPensionEncrypt);
               $scope.getRecibo($scope.formData.NumeroReciboSaludEncrypt);
-              $scope.getPoliza(2, $scope.formData.NumPolizaPension);
-              $scope.getPoliza(3, $scope.formData.NumPolizaSalud);
+              $scope.getPoliza(2, $scope.formData.NumPolizaPension,$scope.formData.CodigoAgentePension);
+              $scope.getPoliza(3, $scope.formData.NumPolizaSalud,$scope.formData.CodigoAgenteSalud);
             }else if($scope.formData.pension){
               $scope.getRecibo($scope.formData.NumeroReciboPensionEncrypt);
-              $scope.getPoliza(2, $scope.formData.NumPolizaPension);
+              $scope.getPoliza(2, $scope.formData.NumPolizaPension,$scope.formData.CodigoAgentePension);
             }else if($scope.formData.salud){
               $scope.getRecibo($scope.formData.NumeroReciboSaludEncrypt);
-              $scope.getPoliza(3, $scope.formData.NumPolizaSalud);
+              $scope.getPoliza(3, $scope.formData.NumPolizaSalud,$scope.formData.CodigoAgenteSalud);
             }
 
             $scope.getConstancia();
@@ -700,14 +706,14 @@
           if($scope.formData.pension && $scope.formData.salud){
             $scope.getRecibo($scope.formData.NumeroReciboPensionEncrypt);
             $scope.getRecibo($scope.formData.NumeroReciboSaludEncrypt);
-            $scope.getPoliza(2, $scope.formData.NumPolizaPension);
-            $scope.getPoliza(3, $scope.formData.NumPolizaSalud);
+            $scope.getPoliza(2, $scope.formData.NumPolizaPension,$scope.formData.CodigoAgentePension);
+            $scope.getPoliza(3, $scope.formData.NumPolizaSalud,$scope.formData.CodigoAgenteSalud);
           }else if($scope.formData.pension){
             $scope.getRecibo($scope.formData.NumeroReciboPensionEncrypt);
-            $scope.getPoliza(2, $scope.formData.NumPolizaPension);
+            $scope.getPoliza(2, $scope.formData.NumPolizaPension,$scope.formData.CodigoAgentePension);
           }else if($scope.formData.salud){
             $scope.getRecibo($scope.formData.NumeroReciboSaludEncrypt);
-            $scope.getPoliza(3, $scope.formData.NumPolizaSalud);
+            $scope.getPoliza(3, $scope.formData.NumPolizaSalud,$scope.formData.CodigoAgenteSalud);
           }
 
           $scope.getConstancia();

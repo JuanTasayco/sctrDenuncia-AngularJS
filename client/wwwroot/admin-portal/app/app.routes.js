@@ -100,6 +100,97 @@ define(['system', 'coreConstants'], function(system, coreConstants) {
     },
     {
       code: '',
+      description: 'Administrador de servicios adicionales',
+      name: 'adminAdditionalServices',
+      parent: 'root',
+      abstract: true,
+      url: '',
+      views: {
+        content: {
+          controller: 'AdditionalServicesComponent as $ctrl',
+          templateUrl: folder + '/app/admin-additional-services/additional-services.component.html'
+        }
+      },
+      resolve: {
+        additionalServices: [
+          "GeneralAdditionalServiceFactory",
+          function(GeneralAdditionalServiceFactory) {
+            return GeneralAdditionalServiceFactory.getAdditionalServices();
+          }
+        ]
+      },
+      resolver: [
+        {
+          name: 'adminAdditionalServices',
+          moduleName: moduleName,
+          files: ['AdditionalServicesComponent']
+        }
+      ]
+    },
+    {
+      name: 'adminAdditionalServices.1234',
+      code: '',
+      description: 'Sección Misas y Responso',
+      url: '',
+      abstract: true,
+      views: {
+        contenido: {
+          controller: 'MassesAndResponsesComponent as $ctrl',
+          templateUrl: folder + '/app/admin-additional-services/pages/masses-and-responses/masses-and-responses.component.html'
+        }
+      },
+      resolver: [
+        {
+          name: 'adminAdditionalServices.1234',
+          moduleName: moduleName,
+          files: [
+            'MassesAndResponsesComponent'
+          ]
+        }
+      ]
+    },
+    {
+      name: 'adminAdditionalServices.1234.ranges',
+      code: '',
+      description: 'Misas',
+      url: '/admin-additional-services/masses-and-responsos/ranges',
+      views: {
+        'contenido': {
+          template: '<ap-ranges-and-date></ap-ranges-and-date>'
+        }
+      },
+      resolver: [
+        {
+          name: 'adminAdditionalServices.1234.ranges',
+          moduleName: moduleName,
+          files: [
+            'apRangesAndDate'
+          ]
+        }
+      ]
+    },
+    {
+      name: 'adminAdditionalServices.1234.content',
+      code: '',
+      description: 'Misas',
+      url: '/admin-additional-services/masses-and-responsos/content',
+      views: {
+        'contenido': {
+          template: '<ap-content></ap-content>'
+        }
+      },
+      resolver: [
+        {
+          name: 'adminAdditionalServices.1234.content',
+          moduleName: moduleName,
+          files: [
+            'apContent'
+          ]
+        }
+      ]
+    },
+    {
+      code: '',
       description: 'Administrador por ramos',
       name: 'adminPolicySection',
       parent: 'root',
@@ -189,6 +280,84 @@ define(['system', 'coreConstants'], function(system, coreConstants) {
           moduleName: moduleName,
           files: [
             'apFrequentQuestions'
+          ]
+        }
+      ]
+    },
+    {
+      code: '',
+      description: 'Administrador Mapfre tecuidamos',
+      name: 'adminMapfreTecuidamos',
+      parent: 'root',
+      abstract: true,
+      url: '',
+      views: {
+        content: {
+          controller: 'AdminMapfreTecuidamosComponent as $ctrl',
+          templateUrl: folder + '/app/admin-mapfre-tecuidamos/admin-mapfre-tecuidamos.component.html'
+        }
+      },
+      resolve: {
+        sections: [
+          "GeneralAdminMapfreTecuidamosFactory",
+          function(GeneralAdminMapfreTecuidamosFactory) {
+            return GeneralAdminMapfreTecuidamosFactory.GetSection(true);
+          }
+        ]
+      },
+      resolver: [
+        {
+          name: 'adminMapfreTecuidamos',
+          moduleName: moduleName,
+          files: ['AdminMapfreTecuidamosComponent']
+        }
+      ]
+    },
+    {
+      name: 'adminMapfreTecuidamos.CMB1201',
+      code: '',
+      description: 'Sección Beneficios',
+      url: '/admin-mapfre-tecuidamos/benefits',
+      views: {
+        contenido: {
+          controller: 'MyBenefitsController as $ctrl',
+          templateUrl: folder + '/app/admin-mapfre-tecuidamos/pages/my-benefits/my-benefits.component.html'
+        }
+      },
+      resolve: {
+        commercialSegment: [
+          "GeneralAdminMapfreTecuidamosFactory",
+          function(GeneralAdminMapfreTecuidamosFactory) {
+            return GeneralAdminMapfreTecuidamosFactory.GetParams(true);
+          }
+        ]
+      },
+      resolver: [
+        {
+          name: 'adminMapfreTecuidamos.CMB1201',
+          moduleName: moduleName,
+          files: [
+            'apMyBenefits'
+          ]
+        }
+      ]
+    },
+    {
+      name: 'adminMapfreTecuidamos.CMD7702',
+      code: '',
+      description: 'Sección Que es',
+      url: '/admin-mapfre-tecuidamos/what-is',
+      views: {
+        'contenido': {
+          template: '<ap-what-is></ap-what-is>'
+        }
+      },
+      resolver: [
+        {
+          name: 'adminMapfreTecuidamos.CMD7702',
+          moduleName: moduleName,
+          files: [
+            'apWhatIs'
           ]
         }
       ]

@@ -112,7 +112,7 @@ define([
             mModalAlert.showWarning("Error al guardar la cotizacion", "")
           }
         }).catch(function (error) {
-          mModalAlert.showWarning(error.Data, error.Message);
+          mModalAlert.showWarning(error.data ? error.data.Data : error.Data, error.Message || "");
         });
       }
     };
@@ -198,7 +198,7 @@ define([
                 })
                 .then(function (response) {
                   if (showMessage(response, _validaControlTecnico)){
-                    mModalAlert.showSuccess("Se guardo correctamente", "Cotización Emitida") 
+                    mModalAlert.showSuccess("Se guardo correctamente", "Póliza Emitida") 
                     .then(function (r2) {
                       if (r2) $state.go(constantsSepelios.ROUTES.BANDEJA_COTIZACION, {}, { reload: true, inherit: false });
                     });   

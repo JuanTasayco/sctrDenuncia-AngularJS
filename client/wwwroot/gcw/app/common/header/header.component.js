@@ -130,7 +130,7 @@ define([
             }
 
             $scope.exportarLiq = function(){
-              $scope.exportURL = $sce.trustAsResourceUrl(constants.system.api.endpoints.gcw+ 'api/collection/soat/download');
+              $scope.exportURL = $sce.trustAsResourceUrl(constants.system.api.endpoints.gcw+ 'api/collection/soat/download?extensionFile=PDF');
               $scope.downloadFile = gcwFactory.getVariableSession('downloadFile');
               $timeout(function() {
                 document.getElementById('frmLiquidSoat').submit();
