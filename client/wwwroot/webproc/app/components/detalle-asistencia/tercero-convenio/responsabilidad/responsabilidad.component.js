@@ -21,7 +21,7 @@ define(['angular', 'lodash', 'AsistenciaActions', 'wpConstant', 'wpAgregarAtrope
     function onInit() {
       vm.frmSiniestro = vm.siniestro;
       vm.frmSiniestro.monedaList = wpFactory.myLookup.getTipoMoneda();
-      vm.frmSiniestro.siniestroConvenio.codigoConvenioGolpeSelect = {codigoValor :vm.frmSiniestro.siniestroConvenio.codigoConvenioGolpeSelect}
+      vm.frmSiniestro.siniestroConvenio.codigoConvenioGolpeSelect = {codigoValor: vm.frmSiniestro.siniestroConvenio ? vm.frmSiniestro.siniestroConvenio.codigoConvenioGolpeSelect : null}
       if(vm.frmSiniestro.siniestroConvenio){
         vm.frmSiniestro.siniestroConvenio.codigoMoneda = 74;
         if(vm.TipomonedaAntigua[vm.frmSiniestro.siniestroConvenio.codigoMoneda]) {

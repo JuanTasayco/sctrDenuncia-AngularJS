@@ -114,13 +114,23 @@ define(['angular', 'lodash', 'AsistenciaActions', 'helper', 'wpConstant', 'const
         .then(function (response) {
           wpFactory.setDistrito(response);
         })
+      
+      var estadoUT = false ,estadoConductorUT = false; 
+      if(vm.ultimaDataDeAsistencia.conductorTercero){
+        if(vm.ultimaDataDeAsistencia.conductorTercero.length>0){
+          estadoUT = vm.ultimaDataDeAsistencia.conductorTercero[0].ocupanteTercero ? !!vm.ultimaDataDeAsistencia.conductorTercero[0].ocupanteTercero.codigoTipoDocumentoIdentidad : false
+          estadoConductorUT  = vm.ultimaDataDeAsistencia.conductorTercero[0].vehiculoTercero ? !!vm.ultimaDataDeAsistencia.conductorTercero[0].vehiculoTercero.codigoTipoVehiculo : false
+        }
+      }
+      
+      
 
       vm.infoAsistencia = _.assign({}, ng.copy($state.params), {
         codigoSiniestro: vm.ultimaDataDeAsistencia.codigoSiniestro,
         numeroPoliza: vm.ultimaDataDeAsistencia.numeroPoliza,
         estadoSiniestro: vm.ultimaDataDeAsistencia.estadoSiniestro,
-        estadoUT: vm.ultimaDataDeAsistencia.conductorTercero.length && vm.ultimaDataDeAsistencia.conductorTercero[0].ocupanteTercero ? !!vm.ultimaDataDeAsistencia.conductorTercero[0].ocupanteTercero.codigoTipoDocumentoIdentidad : false,
-        estadoConductorUT: vm.ultimaDataDeAsistencia.conductorTercero.length && vm.ultimaDataDeAsistencia.conductorTercero[0].vehiculoTercero ? !!vm.ultimaDataDeAsistencia.conductorTercero[0].vehiculoTercero.codigoTipoVehiculo : false
+        estadoUT: estadoUT,
+        estadoConductorUT: estadoConductorUT
       });
       _setLookups();
     }
@@ -154,10 +164,7 @@ define(['angular', 'lodash', 'AsistenciaActions', 'helper', 'wpConstant', 'const
         anioVehiculo: dataAsistencia.anioVehiculoAsegurado,
         serieVehiculo: dataAsistencia.serieVehiculo
       }
-      if (dataAsistencia.conductorTercero.length && dataAsistencia.conductorTercero[0].vehiculoTercero) {
-        vm.fotosTercero = dataAsistencia.conductorTercero[0].vehiculoTercero.fotosVehiculo
-      }
-
+      
       return _.merge({}, wpFactory.help.getObjWithHoursFormat5Characters(dataAsistencia), {
         codigoInterno: wpFactory.getNroAsistencia(),
         estadoSiniestro: dataAsistencia.estadoSiniestro || 'ABIERTO',
@@ -506,7 +513,6 @@ define(['angular', 'lodash', 'AsistenciaActions', 'helper', 'wpConstant', 'const
       $scope.$emit('frm:save');
       $timeout(function () {
         var dataGuardar = setRequest(vm.ultimaDataDeAsistencia.estadoSiniestro);
-        delete dataGuardar.siniestroConvenio.codigoConvenioGolpeSelect
         wpFactory.cache.setConsolidado(dataGuardar);
         $state.go('consolidadoAsistencia');
       });
