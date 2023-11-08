@@ -9,28 +9,28 @@
                 data-ng-change="$ctrl.changeResponsabilidad()">
             </wp-cbo-responsabilidad>
         </div>
-        <div class="col-md-4">
+        <div class="col-md-4" ng-if="$ctrl.showHaveSeguro">
             <div class="col-md-12"><span class="g-label text-left">¿Tercero cuenta con seguro?</span></div>
             <div class="col-md-4 col-sm-3 col-xs-3 mt-xs-2">
                 <m-radio data-ng-model="$ctrl.frmSiniestro.siniestroConvenio.flagTerceroSeguro" label="{label: 'Si'}"
                     data-ng-disabled="$ctrl.modoLectura" name="nSeguro" value="S"
-                    ng-click="$ctrl.changeResponsabilidad();" ng-change="$ctrl.changeSeguro()">
+                    ng-change="$ctrl.changeResponsabilidad();">
                 </m-radio>
             </div>
             <div class="col-md-8 col-sm-3 col-xs-3 mt-xs-2">
                 <m-radio data-ng-model="$ctrl.frmSiniestro.siniestroConvenio.flagTerceroSeguro" label="{label: 'No'}"
                     data-ng-disabled="$ctrl.modoLectura" name="nSeguro" value="N"
-                    ng-click="$ctrl.changeResponsabilidad()" ng-change="$ctrl.changeSeguro()">
+                    ng-change="$ctrl.changeResponsabilidad();">
                 </m-radio>
             </div>
         </div>
         <div class="col-md-4"
-            ng-if="$ctrl.showConvenio && $ctrl.showConvenioAux && ($ctrl.frmSiniestro.codigoSubSiniestro=='102' || $ctrl.frmSiniestro.codigoSubSiniestro=='103')">
+            ng-if="$ctrl.showConvenio">
             <mpf-select label="{label: 'Convenio', required: false}" name="nAcuerdoConductores" data-ng-disabled="$ctrl.modoLectura"
                 ng-disabled="$ctrl.disabledAcuerdoEntreConductores" m-data-source="$ctrl.listaConvenio"
                 data-m-Empty-Option="{enterData: true}"
                 data-ng-model="$ctrl.frmSiniestro.siniestroConvenio.codigoConvenioGolpe" text-field="nombreValorDetalle"
-                value-field="codigoValor" data-ng-change="$ctrl.changeResponsabilidad()"></mpf-select>
+                value-field="codigoValor" ng-change="$ctrl.changeConvenio();"></mpf-select>
         </div>
         
     </div>

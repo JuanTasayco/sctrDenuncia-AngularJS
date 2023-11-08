@@ -1312,10 +1312,7 @@ define(['angular', 'lodash', 'wpConstant'], function(ng, _, wpConstant) {
     }
 
     function setCombo(showTercero) {
-      vm.cboLista = [].concat(wpFactory.myLookup.getCodResponsabilidad(), {
-        codigoValor: '4',
-        nombreValor: 'DETERMINAR POR PNP'
-      });
+      vm.cboLista = wpFactory.myLookup.getCodResponsabilidad();
       if(!showTercero){
         vm.cboLista = _.filter(vm.cboLista,function (x) {
           return x.codigoValor != 2;
