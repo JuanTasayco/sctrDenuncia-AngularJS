@@ -120,7 +120,7 @@ define([
         vm.usoPoliza = {}
         vm.tipoMoneda.value = 1;
         vm.tipoPoliza.code = 0;
-        vm.usoPoliza.code = 0;
+        vm.usoPoliza.value = 0;
         vm.mFechaHasta = new Date();
         vm.mFechaDesde = gcwFactory.restarMes(new Date(), 6);
         vm.filter = {
@@ -352,6 +352,9 @@ define([
 
     function quitarTodo() {
       vm.liquidacionesSelected = [];
+      vm.liquidacionesSelectedFound = [];
+      vm.polizaPlaca = null;
+      vm.showFiltroPagar = false
       vm.liquidaciones = _.map(vm.liquidaciones, function (x) {
         x.btndisabled = false;
         return x;
