@@ -50,7 +50,7 @@ define(['angular', 'lodash', 'AsistenciaActions', 'wpConstant', 'wpAgregarAtrope
           vm.showCompanhiaTercero = false;
           vm.showImporte = false;
           vm.listaConvenio = _.filter(vm.listaConvenio,function (item) {
-            return item.codigoValor == 71;
+            return item.codigoValor == 71 || item.codigoValor == 70;
           })
           vm.frmSiniestro.siniestroConvenio.codigoConvenioGolpeSelect = null;
           vm.showHaveSeguro = true;
@@ -63,12 +63,12 @@ define(['angular', 'lodash', 'AsistenciaActions', 'wpConstant', 'wpAgregarAtrope
           vm.showImporte = false;
           if(vm.frmSiniestro.siniestroConvenio.flagTerceroSeguro == 'S'){
             vm.listaConvenio = _.filter(vm.listaConvenio,function (item) {
-              return item.codigoValor == 71;
+              return item.codigoValor == 71 || item.codigoValor == 70;
             })
           }
           else{
             vm.listaConvenio = _.filter(vm.listaConvenio,function (item) {
-              return item.codigoValor == 72;
+              return item.codigoValor == 72 || item.codigoValor == 70;
             })
           }
           vm.frmSiniestro.siniestroConvenio.codigoConvenioGolpeSelect = null;
