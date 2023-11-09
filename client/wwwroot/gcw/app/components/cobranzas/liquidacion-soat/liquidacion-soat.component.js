@@ -288,12 +288,12 @@ define([
     function searchliquidacionesSelected(codigo, event) {
       if (event.code == 'Enter' && codigo) {
         vm.liquidacionesSelectedFound = _.filter(vm.liquidacionesSelected, function (x) {
-          return x.policyNumber.indexOf(codigo) >= 0 || x.vehicle.plate.indexOf(codigo) >= 0
+          return x.policyNumber.toUpperCase().indexOf(codigo.toUpperCase()) >= 0 || x.vehicle.plate.toUpperCase().indexOf(codigo.toUpperCase()) >= 0
         })
         vm.polizaPlaca ? vm.showFiltroPagar = true : vm.showFiltroPagar = false;
       } else if (!codigo) {
         vm.liquidacionesSelectedFound = _.filter(vm.liquidacionesSelected, function (x) {
-          return x.policyNumber.indexOf(codigo) >= 0 || x.vehicle.plate.indexOf(codigo) >= 0
+          return x.policyNumber.toUpperCase().indexOf(codigo.toUpperCase()) >= 0 || x.vehicle.plate.toUpperCase().indexOf(codigo.toUpperCase()) >= 0
         })
       }
     }
