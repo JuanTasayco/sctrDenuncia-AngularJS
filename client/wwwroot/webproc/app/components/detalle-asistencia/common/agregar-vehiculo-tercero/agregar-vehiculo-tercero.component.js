@@ -56,6 +56,7 @@ define(['angular'], function(ng) {
 
     function frmvehiculoTerceroCerrado() {
       showBtnsSegunCantidadvehiculoTercero();
+      vm.showFrmAddvehiculoTercero = true;
     }
 
     function showBtnsSegunCantidadvehiculoTercero() {
@@ -64,6 +65,7 @@ define(['angular'], function(ng) {
     }
 
     function showFrmAddvehiculoTercero() {
+      vm.showFrmAddvehiculoTercero = false;
       vm.showBoxInicialAgregar = false;
       vm.showBtnAddvehiculoTercero = false;
       vm.showAddFrm = true;
