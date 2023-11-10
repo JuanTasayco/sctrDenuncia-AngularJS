@@ -7,7 +7,10 @@ define(['angular', 'coreConstants', 'system', 'lodash'], function (ng, coreConst
         var vm = this;
         
         vm.$onInit = onInit;
+        vm.showTooltip = false;
         vm.editWhatIs = editWhatIs;
+        vm.mostrarTooltip = mostrarTooltip;
+        vm.ocultarTooltip = ocultarTooltip;
 
         function onInit() {
             AdminRamoFactory.setSectionSelected(AdminRamoFactory.getSections()[1]);
@@ -124,6 +127,14 @@ define(['angular', 'coreConstants', 'system', 'lodash'], function (ng, coreConst
             return String(str).replace(/(&amp;|&lt;|&gt;|&quot;|&#39;|&#x2F;)/g, function (s) {
                 return entityMap[s];
             });
+        }
+
+        function mostrarTooltip() {
+            vm.showTooltip = true;
+        }
+        
+        function ocultarTooltip () {
+            vm.showTooltip = false;
         }
     } // end controller
 
