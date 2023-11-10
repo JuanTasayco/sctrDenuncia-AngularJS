@@ -17,6 +17,16 @@ define(['angular', 'lodash', 'AsistenciaActions', 'wpConstant'], function (ng, _
     vm.changeArray = changeArray;
     vm.changeApEtilica = changeApEtilica;
     vm.onChangeLstDetalleSiniestro = onChangeLstDetalleSiniestro;
+    vm.subirFotosSiniestro = subirFotosSiniestro;
+    vm.agregarDanho = agregarDanho;
+    vm.editarDanho = editarDanho;
+    vm.eliminarDanho = eliminarDanho;
+    vm.servicePhotoModal = servicePhotoModal;
+    vm.subirFotoSoat = subirFotoSoat;
+    vm.subirFotoTarjeta = subirFotoTarjeta;
+    vm.subirFotoLicencia = subirFotoLicencia;
+    vm.subirFotoOdometro = subirFotoOdometro;
+
 
     vm.soatTypeSource = [];
     vm.siniestroTypeSource = [];
@@ -27,6 +37,11 @@ define(['angular', 'lodash', 'AsistenciaActions', 'wpConstant'], function (ng, _
     vm.frmSiniestro  = null;
     vm.exoneracionDisabled = false;
     vm.pattern  = /^(0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$/;
+    vm.docSoat = [];
+    vm.docTarjeta = [];
+    vm.docLicencia = [];
+    vm.docOdometro = [];
+    vm.arrFotosSiniestros = [];
 
     function onDestroy() {
       wpFactory.myLookup.resetDataLookUp();
@@ -36,7 +51,19 @@ define(['angular', 'lodash', 'AsistenciaActions', 'wpConstant'], function (ng, _
     function onInit() {
       onFrmSave = $rootScope.$on('frm:save', setFrm)
       vm.dateFormat = 'dd/MM/yyyy';
+
       vm.frmSiniestro = vm.siniestro;
+      vm.frmSiniestro.esModalidadKm = !vm.frmSiniestro.esModalidadKm ? false : vm.frmSiniestro.esModalidadKm;
+      if (vm.frmSiniestro.esModalidadKm) {
+        vm.maxFotos = 4
+      }
+      vm.optImgsTabs = {
+        isPhotoValid: {},
+        statusBlock: vm.statusBlock,
+        isOdometro: vm.frmSiniestro.esModalidadKm
+      };
+
+
       vm.frmSiniestro.flagLesionConductor = vm.frmSiniestro.flagLesionConductor ? vm.frmSiniestro.flagLesionConductor : "S";
       vm.frmSiniestro.flagOcupantes = vm.frmSiniestro.flagOcupantes ? vm.frmSiniestro.flagOcupantes : "S";
       vm.frmSiniestro.flagFallecidos = vm.frmSiniestro.flagFallecidos ? vm.frmSiniestro.flagOcupantes : "S";
@@ -180,7 +207,40 @@ define(['angular', 'lodash', 'AsistenciaActions', 'wpConstant'], function (ng, _
     function changeArray(data){
       vm.comisariasArray = data;
     }
+    function subirFotosSiniestro(event) {
+      return wpFactory.siniestro.UploadCarSinister(event.photoToUpload, 4);
+    }
 
+    function subirFotoSoat(event) {
+      return wpFactory.siniestro.UploadCarDocument(event.photoToUpload, 3);
+    }
+
+    function subirFotoTarjeta(event) {
+      return wpFactory.siniestro.UploadCarDocument(event.photoToUpload, 2);
+    }
+
+    function subirFotoLicencia(event) {
+      return wpFactory.siniestro.UploadCarDocument(event.photoToUpload, 1);
+    }
+
+    function subirFotoOdometro(event) {
+      return wpFactory.siniestro.UploadCarDocument(event.photoToUpload, 5);
+    }
+    // danhos
+
+    function agregarDanho(event) {
+      vm.rdxDanhoVehiculoPropioAdd(event.danho);
+      vm.isValidListDanhos = true;
+    }
+
+    function editarDanho(event) {
+      vm.rdxDanhoVehiculoPropioEdit(event.idx, event.danho);
+    }
+
+    function eliminarDanho(event) {
+      vm.rdxDanhoVehiculoPropioDelete(event.idx);
+      vm.isValidListDanhos = false;
+    }
   } 
 
   return ng

@@ -380,7 +380,7 @@ define([], function() {
         deps: ['wpAgregarOcupante']
       },
       wpLugarOcurrencia: {
-        deps: ['mxImageUploader','wpModalMap','wpNivelDanho']
+        deps: ['wpImgTabUpload','wpModalMap','wpNivelDanho']
       },
       wpImgTabUpload: {
         deps: ['mxImageUploader']
