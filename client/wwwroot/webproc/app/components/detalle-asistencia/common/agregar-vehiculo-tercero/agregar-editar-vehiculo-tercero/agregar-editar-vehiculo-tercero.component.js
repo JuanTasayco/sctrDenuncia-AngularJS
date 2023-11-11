@@ -13,15 +13,41 @@ define(['angular', 'lodash'], function (ng, _) {
     vm.eliminarFotoOtros = eliminarFotoOtros;
     vm.subirFotosOtros = subirFotosOtros;
     vm.servicePhotoModal = servicePhotoModal;
+    vm.subirFotosSiniestro = subirFotosSiniestro;
+    vm.agregarDanho = agregarDanho;
+    vm.editarDanho = editarDanho;
+    vm.eliminarDanho = eliminarDanho;
+    vm.servicePhotoModal = servicePhotoModal;
+    vm.subirFotoSoat = subirFotoSoat;
+    vm.subirFotoTarjeta = subirFotoTarjeta;
+    vm.subirFotoLicencia = subirFotoLicencia;
+    vm.subirFotoOdometro = subirFotoOdometro;
 
+
+    vm.docSoat = [];
+    vm.docTarjeta = [];
+    vm.docLicencia = [];
+    vm.docOdometro = [];
+    vm.arrFotosSiniestros = [];
+    
 
     function onInit() {
       vm.frm = {}
       vm.frmTitulo = vm.esFrmAgregar ? 'Agregando Vehiculo Tercero' : 'Editando Vehiculo Tercero';
       !vm.esFrmAgregar && asignarDatosAlModelo();
-      //vm.frm.ocupanteTercero.itemConductor = vm.idxVehiculoTercero + 1;
       vm.documentos = [];
       _loadFotosOtros(vm.documentos);
+      vm.frm = vm.vehiculoTercero;
+      
+      vm.maxFotos = 4
+      
+      vm.optImgsTabs = {
+        isPhotoValid: {},
+        statusBlock: null,
+        isOdometro: null
+      };
+      
+      vm.frm.documentosVehiculo = [];
     }
 
     function getPlaca() {
@@ -141,6 +167,41 @@ define(['angular', 'lodash'], function (ng, _) {
           });
         }
       });
+    }
+
+    function subirFotosSiniestro(event) {
+      return wpFactory.siniestro.UploadCarSinister(event.photoToUpload, 4);
+    }
+
+    function subirFotoSoat(event) {
+      return wpFactory.siniestro.UploadCarDocument(event.photoToUpload, 3);
+    }
+
+    function subirFotoTarjeta(event) {
+      return wpFactory.siniestro.UploadCarDocument(event.photoToUpload, 2);
+    }
+
+    function subirFotoLicencia(event) {
+      return wpFactory.siniestro.UploadCarDocument(event.photoToUpload, 1);
+    }
+
+    function subirFotoOdometro(event) {
+      return wpFactory.siniestro.UploadCarDocument(event.photoToUpload, 5);
+    }
+    // danhos
+
+    function agregarDanho(event) {
+      vm.rdxDanhoVehiculoPropioAdd(event.danho);
+      vm.isValidListDanhos = true;
+    }
+
+    function editarDanho(event) {
+      vm.rdxDanhoVehiculoPropioEdit(event.idx, event.danho);
+    }
+
+    function eliminarDanho(event) {
+      vm.rdxDanhoVehiculoPropioDelete(event.idx);
+      vm.isValidListDanhos = false;
     }
 
   }

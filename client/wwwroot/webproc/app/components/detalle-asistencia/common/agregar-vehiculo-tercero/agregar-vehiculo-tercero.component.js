@@ -11,7 +11,8 @@ define(['angular'], function(ng) {
     vm.handleEditarvehiculoTercero = handleEditarvehiculoTercero;
     vm.handleEliminarvehiculoTercero = handleEliminarvehiculoTercero;
     vm.showFrmAddvehiculoTercero = showFrmAddvehiculoTercero;
-    
+    vm.showViewFrmAddvehiculoTercero = true;
+
     function onInit() {
       onFrmvehiculoTerceroCerrado = $rootScope.$on('vehiculoTercero:frmCerrado', frmvehiculoTerceroCerrado);
       vm.vehiculoTercero = vm.vehiculoTercero || [];
@@ -56,7 +57,7 @@ define(['angular'], function(ng) {
 
     function frmvehiculoTerceroCerrado() {
       showBtnsSegunCantidadvehiculoTercero();
-      vm.showFrmAddvehiculoTercero = true;
+      vm.showViewFrmAddvehiculoTercero = true;
     }
 
     function showBtnsSegunCantidadvehiculoTercero() {
@@ -65,7 +66,7 @@ define(['angular'], function(ng) {
     }
 
     function showFrmAddvehiculoTercero() {
-      vm.showFrmAddvehiculoTercero = false;
+      vm.showViewFrmAddvehiculoTercero = false;
       vm.showBoxInicialAgregar = false;
       vm.showBtnAddvehiculoTercero = false;
       vm.showAddFrm = true;
