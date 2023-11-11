@@ -37,7 +37,7 @@ define(['angular', 'lodash'], function (ng, _) {
       !vm.esFrmAgregar && asignarDatosAlModelo();
       vm.documentos = [];
       _loadFotosOtros(vm.documentos);
-      vm.frm = vm.vehiculoTercero;
+      vm.frm = vm.vehiculoTercero || vm.frm;
       
       vm.maxFotos = 4
       
@@ -85,7 +85,7 @@ define(['angular', 'lodash'], function (ng, _) {
 
     function grabarVehiculoTercero() {
       if (vm.frmVehiculoTercero.$invalid) {
-        vm.frmTercero.markAsPristine();
+        vm.frmVehiculoTercero.markAsPristine();
         return void 0;
       }
       var frmNivelDanho = vm.frmVehiculoTercero.frmNivelDanho
