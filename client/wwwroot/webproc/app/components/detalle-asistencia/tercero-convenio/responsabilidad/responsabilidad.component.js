@@ -44,7 +44,7 @@ define(['angular', 'lodash', 'AsistenciaActions', 'wpConstant', 'wpAgregarAtrope
     function changeResponsabilidad() {
       vm.listaConvenio = wpFactory.myLookup.getConvenio();
       $timeout(function () {
-        debugger;
+        
         if(vm.frmSiniestro.codigoResponsaDetaSiniestro==1){
           vm.showConvenio = false;
           vm.showCompanhiaTercero = false;

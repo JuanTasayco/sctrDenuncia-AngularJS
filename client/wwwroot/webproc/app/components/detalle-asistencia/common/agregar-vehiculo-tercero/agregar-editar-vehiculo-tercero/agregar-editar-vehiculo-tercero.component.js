@@ -22,7 +22,7 @@ define(['angular', 'lodash'], function (ng, _) {
     vm.subirFotoTarjeta = subirFotoTarjeta;
     vm.subirFotoLicencia = subirFotoLicencia;
     vm.subirFotoOdometro = subirFotoOdometro;
-
+    
 
     vm.docSoat = [];
     vm.docTarjeta = [];
@@ -140,7 +140,7 @@ define(['angular', 'lodash'], function (ng, _) {
     function _subirFotos(event, propWhereSave, imageTypeCode) {
       wpFactory.siniestro.UploadThirdParties(event.photoToUpload, {
         imageTypeCode: imageTypeCode,
-        itemConductor: 1
+        itemConductor: vm.idxVehiculoTercero
       }).then(function ucsPr(resp) {
         vm.fotos = wpFactory.help.getArrayFotosNuevas(
           vm.fotos,
@@ -202,6 +202,33 @@ define(['angular', 'lodash'], function (ng, _) {
     function eliminarDanho(event) {
       vm.rdxDanhoVehiculoPropioDelete(event.idx);
       vm.isValidListDanhos = false;
+    }
+    function subirFotoSoat(event) {
+      return wpFactory.siniestro.UploadThirdParties(event.photoToUpload, {
+        imageTypeCode: 12,
+        itemConductor: vm.idxVehiculoTercero +1 
+      });
+    }
+
+    function subirFotoTarjeta(event) {
+      return wpFactory.siniestro.UploadThirdParties(event.photoToUpload, {
+        imageTypeCode: 11,
+        itemConductor: vm.idxVehiculoTercero +1 
+      });
+    }
+
+    function subirFotoLicencia(event) {
+      return wpFactory.siniestro.UploadThirdParties(event.photoToUpload, {
+        imageTypeCode: 10,
+        itemConductor: vm.idxVehiculoTercero +1 
+      });
+    }
+
+    function subirFotosSiniestro(event) {
+      return wpFactory.siniestro.UploadThirdParties(event.photoToUpload, {
+        imageTypeCode: 13,
+        itemConductor: vm.idxVehiculoTercero +1 
+      });
     }
 
   }
