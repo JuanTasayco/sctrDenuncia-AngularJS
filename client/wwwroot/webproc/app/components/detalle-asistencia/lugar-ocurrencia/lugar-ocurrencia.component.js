@@ -10,8 +10,6 @@ define(['angular', 'lodash', 'AsistenciaActions', 'wpConstant'], function (ng, _
     vm.selectDanio = selectDanio;
     vm.getCheckList = GetCheckList;
     vm.changeFinHoraAtencion = changeFinHoraAtencion;
-    vm.eliminarFotoOtros = eliminarFotoOtros;
-    vm.subirFotosOtros = subirFotosOtros;
     vm.servicePhotoModal = servicePhotoModal;
     vm._showModalMap = _showModalMap;
     vm.changeArray = changeArray;
@@ -149,31 +147,6 @@ define(['angular', 'lodash', 'AsistenciaActions', 'wpConstant'], function (ng, _
             }
           });
         }
-      });
-    }
-
-    function subirFotosOtros(event) {
-      vm.modoLectura? mModalAlert.showWarning("No se puede agregar documentos en el estado actual.", "Error") :  _subirFotos(event, 'documentos', 21);
-    }
-
-    function eliminarFotoOtros(event) {
-      vm.modoLectura? mModalAlert.showWarning("No se puede eliminar documentos en el estado actual.", "Error") : _eliminarFoto(event, 'documentos');
-    }
-
-    function _eliminarFoto(event, propWhereSave) {
-      wpFactory.siniestro.DeleteImages(event.photoToRemove.nombreFisico);
-      vm[propWhereSave].splice(event.idx, 1);
-      vm.frmSiniestro.documentosVehiculo = [].concat(vm[propWhereSave]);
-    }
-
-    function _subirFotos(event, propWhereSave, imageTypeCode) {
-      wpFactory.siniestro.UploadSinisterDetail(event.photoToUpload, imageTypeCode).then(function ucsPr(resp) {
-        vm.frmSiniestro.documentosVehiculo = wpFactory.help.getArrayFotosNuevas(
-          vm.frmSiniestro.documentosVehiculo,
-          resp,
-          event.photoData
-        );
-        vm[propWhereSave] = wpFactory.help.getFotosConB64(vm[propWhereSave], resp, event.photoData);
       });
     }
 
