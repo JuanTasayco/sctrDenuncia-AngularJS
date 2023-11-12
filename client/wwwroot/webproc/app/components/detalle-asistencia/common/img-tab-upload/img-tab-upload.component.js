@@ -45,7 +45,8 @@ define(['angular', 'AsistenciaActions', 'lodash'], function(ng, AsistenciaAction
       var imgOdometro = []
 
       for (var idx = 0; idx < arrFotosDoc.length; idx++) {
-        if (arrFotosDoc[idx].imageTypeCode === 3) { //Soat
+        debugger;
+        if (arrFotosDoc[idx].imageTypeCode === 3 || arrFotosDoc[idx].imageTypeCode === 12) { //Soat
           imgSoat = [arrFotosDoc[idx]]
         }
 
@@ -53,11 +54,11 @@ define(['angular', 'AsistenciaActions', 'lodash'], function(ng, AsistenciaAction
           imgOdometro = [arrFotosDoc[idx]]
         }
 
-        if (arrFotosDoc[idx].imageTypeCode === 2) { //Tarjeta
+        if (arrFotosDoc[idx].imageTypeCode === 2 || arrFotosDoc[idx].imageTypeCode === 11) { //Tarjeta
           imgTarjeta = [arrFotosDoc[idx]]
         }
 
-        if (arrFotosDoc[idx].imageTypeCode === 1) { //Licencia
+        if (arrFotosDoc[idx].imageTypeCode === 1 || arrFotosDoc[idx].imageTypeCode === 10) { //Licencia
           imgLicencia = [arrFotosDoc[idx]]
         }
       } 

@@ -66,6 +66,7 @@ define(['angular', 'lodash', 'AsistenciaActions', 'wpConstant'], function (ng, _
       vm.frmSiniestro.flagOcupantes = vm.frmSiniestro.flagOcupantes ? vm.frmSiniestro.flagOcupantes : "S";
       vm.frmSiniestro.flagFallecidos = vm.frmSiniestro.flagFallecidos ? vm.frmSiniestro.flagOcupantes : "S";
       vm.getCheckList(null);
+      debugger;
       vm.documentos = vm.frmSiniestro.fotosDetaSiniestro.concat(vm.frmSiniestro.documentosVehiculo).concat(vm.frmSiniestro.fotosSiniestroVehiculo);
       _loadFotosOtros(vm.documentos);
     }
@@ -136,6 +137,7 @@ define(['angular', 'lodash', 'AsistenciaActions', 'wpConstant'], function (ng, _
     }
 
     function _loadFotos(arrFotos, prop) {
+      debugger;
       _.forEach(arrFotos, function feFn(item, idx) {
         if (item && item.nombreFisico) {
           wpFactory.siniestro.ViewImageByPath(item.nombreFisico).then(function (resp) {

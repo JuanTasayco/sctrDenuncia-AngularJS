@@ -1,8 +1,8 @@
 'use strict';
 
 define(['angular', 'lodash'], function (ng, _) {
-  AgregarEditarVehiculoTerceroController.$inject = ['$rootScope', '$scope', '$timeout','$log', 'wpFactory'];
-  function AgregarEditarVehiculoTerceroController($rootScope, $scope, $timeout,$log, wpFactory) {
+  AgregarEditarVehiculoTerceroController.$inject = ['$rootScope', '$scope', '$timeout', '$log', 'wpFactory'];
+  function AgregarEditarVehiculoTerceroController($rootScope, $scope, $timeout, $log, wpFactory) {
     var vm = this;
     vm.$onInit = onInit;
     vm.grabarVehiculoTercero = grabarVehiculoTercero;
@@ -22,14 +22,14 @@ define(['angular', 'lodash'], function (ng, _) {
     vm.subirFotoTarjeta = subirFotoTarjeta;
     vm.subirFotoLicencia = subirFotoLicencia;
     vm.subirFotoOdometro = subirFotoOdometro;
-    
+
 
     vm.docSoat = [];
     vm.docTarjeta = [];
     vm.docLicencia = [];
     vm.docOdometro = [];
     vm.arrFotosSiniestros = [];
-    
+    vm.showImages = false;
 
     function onInit() {
       debugger;
@@ -37,23 +37,22 @@ define(['angular', 'lodash'], function (ng, _) {
       vm.frmTitulo = vm.esFrmAgregar ? 'Agregando Vehiculo Tercero' : 'Editando Vehiculo Tercero';
       !vm.esFrmAgregar && asignarDatosAlModelo();
       vm.documentos = [];
-      _loadFotosOtros(vm.documentos);
+
       vm.frm = vm.vehiculoTercero || vm.frm;
-      
+      vm.documentosVehiculoTercero = vm.frm.documentosVehiculoTercero ? vm.frm.documentosVehiculoTercero : [];
       vm.maxFotos = 4
-      
       vm.optImgsTabs = {
         isPhotoValid: {},
         statusBlock: null,
         isOdometro: null
       };
-      
-      vm.frm.documentosVehiculoTercero = vm.vehiculoTercero.documentosVehiculoTercero ?  vm.vehiculoTercero.documentosVehiculoTercero : [] ;
+
+      _loadFotosOtros(vm.documentosVehiculoTercero);
     }
 
     function getPlaca() {
       if (vm.frm.vehiculoTercero.placaVehiculo) {
-       vm.isRequired = true;
+        vm.isRequired = true;
         wpFactory.siniestro.GetSiniestroPlaca(vm.frm.vehiculoTercero.placaVehiculo).then(function (response) {
           response.vehiculo.respuesta == 1
             ? setVehiculo(response.vehiculo)
@@ -62,9 +61,9 @@ define(['angular', 'lodash'], function (ng, _) {
           $log.error('Falló al obtener equifax', err.data);
           setVehiculo(null);
         })
-        
+
       }
-      else{
+      else {
         vm.isRequired = false
       }
     }
@@ -90,9 +89,9 @@ define(['angular', 'lodash'], function (ng, _) {
         return void 0;
       }
       var frmNivelDanho = vm.frmVehiculoTercero.frmNivelDanho
-      vm.frm.pregunta1 = frmNivelDanho.nDanhoPregunta1.$modelValue; 
-      vm.frm.pregunta2 = frmNivelDanho.nDanhoPregunta2 ? frmNivelDanho.nDanhoPregunta2.$modelValue : null; 
-      
+      vm.frm.pregunta1 = frmNivelDanho.nDanhoPregunta1.$modelValue;
+      vm.frm.pregunta2 = frmNivelDanho.nDanhoPregunta2 ? frmNivelDanho.nDanhoPregunta2.$modelValue : null;
+
       vm.ngIf = false;
       vm.esFrmAgregar && vm.onAgregar({ $event: { vehiculoTercero: vm.frm } });
       if (!vm.esFrmAgregar) {
@@ -125,10 +124,10 @@ define(['angular', 'lodash'], function (ng, _) {
     }
 
     function eliminarFotoOtros(event) {
-      vm.modoLectura? mModalAlert.showWarning("No se puede eliminar documentos en el estado actual.", "Error") : _eliminarFoto(event, 'documentos');
+      vm.modoLectura ? mModalAlert.showWarning("No se puede eliminar documentos en el estado actual.", "Error") : _eliminarFoto(event, 'documentos');
     }
     function subirFotosOtros(event) {
-      vm.modoLectura? mModalAlert.showWarning("No se puede agregar documentos en el estado actual.", "Error") : _subirFotos(event, 'documentos', 21);
+      vm.modoLectura ? mModalAlert.showWarning("No se puede agregar documentos en el estado actual.", "Error") : _subirFotos(event, 'documentos', 21);
     }
     function servicePhotoModal(photo) {
       return wpFactory.siniestro.ViewImageByPath(photo.nombreFisico, 0);
@@ -136,7 +135,7 @@ define(['angular', 'lodash'], function (ng, _) {
     function _eliminarFoto(event, propWhereSave) {
       wpFactory.siniestro.DeleteImages(event.photoToRemove.nombreFisico);
       vm[propWhereSave].splice(event.idx, 1);
-      vm.frm.documentosVehiculoTercero = [].concat(vm[propWhereSave]);
+      vm.documentosVehiculoTercero = [].concat(vm[propWhereSave]);
     }
 
     function _subirFotos(event, propWhereSave, imageTypeCode) {
@@ -144,8 +143,8 @@ define(['angular', 'lodash'], function (ng, _) {
         imageTypeCode: imageTypeCode,
         itemConductor: vm.idxVehiculoTercero
       }).then(function ucsPr(resp) {
-        vm.frm.documentosVehiculoTercero = wpFactory.help.getArrayFotosNuevas(
-          vm.frm.documentosVehiculoTercero,
+        vm.documentosVehiculoTercero = wpFactory.help.getArrayFotosNuevas(
+          vm.documentosVehiculoTercero,
           resp,
           event.photoData
         );
@@ -153,22 +152,33 @@ define(['angular', 'lodash'], function (ng, _) {
       });
     }
     function _loadFotosOtros(fotosSiniestro) {
-      _loadFotos(fotosSiniestro, 'documentos');
+      _loadFotos(fotosSiniestro, 'documentosVehiculoTercero');
     }
 
     function _loadFotos(arrFotos, prop) {
-      _.forEach(arrFotos, function feFn(item, idx) {
-        if (item && item.nombreFisico) {
-          wpFactory.siniestro.ViewImageByPath(item.nombreFisico).then(function (resp) {
-            if(wpFactory.help.isCode200(resp)){
-              vm[prop][idx].srcImg = resp.data
-            }
-            else{
-              vm[prop][idx] = null
-            }
-          });
-        }
-      });
+      vm.frm.documentosVehiculoTerceroAux = vm.documentosVehiculoTercero;
+      if(arrFotos.length>0){
+        _.forEach(arrFotos, function feFn(item, idx) {
+          if (item && item.nombreFisico) {
+            wpFactory.siniestro.ViewImageByPath(item.nombreFisico).then(function (resp) {
+              if (wpFactory.help.isCode200(resp)) {
+                vm["frm"][prop][idx].srcImg = resp.data
+              }
+              else {
+                vm["frm"][prop][idx] = null
+              }
+            });
+          }
+        });
+      }
+      else{
+        vm.showImages = true;
+      }
+      
+      vm.frm.documentosVehiculoTercero = vm.frm.documentosVehiculoTerceroAux
+      $timeout(function () {
+        vm.showImages = true;
+      }, 1000)
     }
 
     function subirFotosSiniestro(event) {
@@ -211,28 +221,28 @@ define(['angular', 'lodash'], function (ng, _) {
       debugger;
       return wpFactory.siniestro.UploadThirdParties(event.photoToUpload, {
         imageTypeCode: 12,
-        itemConductor: vm.idxVehiculoTercero +1 
+        itemConductor: vm.idxVehiculoTercero + 1
       });
     }
 
     function subirFotoTarjeta(event) {
       return wpFactory.siniestro.UploadThirdParties(event.photoToUpload, {
         imageTypeCode: 11,
-        itemConductor: vm.idxVehiculoTercero +1 
+        itemConductor: vm.idxVehiculoTercero + 1
       });
     }
 
     function subirFotoLicencia(event) {
       return wpFactory.siniestro.UploadThirdParties(event.photoToUpload, {
         imageTypeCode: 10,
-        itemConductor: vm.idxVehiculoTercero +1 
+        itemConductor: vm.idxVehiculoTercero + 1
       });
     }
 
     function subirFotosSiniestro(event) {
       return wpFactory.siniestro.UploadThirdParties(event.photoToUpload, {
         imageTypeCode: 13,
-        itemConductor: vm.idxVehiculoTercero +1 
+        itemConductor: vm.idxVehiculoTercero + 1
       });
     }
 
