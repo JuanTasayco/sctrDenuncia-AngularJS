@@ -266,7 +266,9 @@ define(['angular', 'lodash', 'AsistenciaActions', 'helper', 'wpConstant', 'const
 
       if(vm.ultimaDataDeAsistencia.conductorTercero){
         _.forEach(vm.ultimaDataDeAsistencia.conductorTercero,function (item, idx) {
+          vm.ultimaDataDeAsistencia.conductorTercero[idx].vehiculoTercero.itemTerceroVehiculo = 0;
           vm.ultimaDataDeAsistencia.conductorTercero[idx].ocupanteTercero.itemConductor = 0;
+          vm.ultimaDataDeAsistencia.conductorTercero[idx].vehiculoTercero.itemTerceroVehiculo = idx+1;
           vm.ultimaDataDeAsistencia.conductorTercero[idx].ocupanteTercero.itemConductor = idx+1; 
         });
       }
