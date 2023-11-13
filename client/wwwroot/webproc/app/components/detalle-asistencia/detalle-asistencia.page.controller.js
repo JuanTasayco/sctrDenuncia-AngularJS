@@ -263,6 +263,14 @@ define(['angular', 'lodash', 'AsistenciaActions', 'helper', 'wpConstant', 'const
         vm.ultimaDataDeAsistencia.codigoResponsaDetaSiniestro = null;
         
       }
+
+      if(vm.ultimaDataDeAsistencia.conductorTercero){
+        _.forEach(vm.ultimaDataDeAsistencia.conductorTercero,function (item, idx) {
+          vm.ultimaDataDeAsistencia.conductorTercero[idx].ocupanteTercero.itemConductor = 0;
+          vm.ultimaDataDeAsistencia.conductorTercero[idx].ocupanteTercero.itemConductor = idx+1; 
+        });
+      }
+
       
       return _.assign({}, vm.ultimaDataDeAsistencia, vm.ultimaDataDeAsistencia.dataVehiculo, {
         codigoTipoVehiculoAsegurado: vm.ultimaDataDeAsistencia.dataVehiculo.codigoTipoVehiculo,

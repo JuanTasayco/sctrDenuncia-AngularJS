@@ -32,7 +32,7 @@ define(['angular', 'lodash'], function (ng, _) {
     vm.showImages = false;
 
     function onInit() {
-      debugger;
+      
       vm.frm = {}
       vm.frmTitulo = vm.esFrmAgregar ? 'Agregando Vehiculo Tercero' : 'Editando Vehiculo Tercero';
       !vm.esFrmAgregar && asignarDatosAlModelo();
@@ -40,6 +40,8 @@ define(['angular', 'lodash'], function (ng, _) {
 
       vm.frm = vm.vehiculoTercero || vm.frm;
       vm.documentosVehiculoTercero = vm.frm.documentosVehiculoTercero ? vm.frm.documentosVehiculoTercero : [];
+      vm.frm.detalleDanioVehiculo =  vm.frm.detalleDanioVehiculo ?  vm.frm.detalleDanioVehiculo : {};
+    
       vm.maxFotos = 4
       vm.optImgsTabs = {
         isPhotoValid: {},
@@ -95,7 +97,7 @@ define(['angular', 'lodash'], function (ng, _) {
       vm.ngIf = false;
       vm.esFrmAgregar && vm.onAgregar({ $event: { vehiculoTercero: vm.frm } });
       if (!vm.esFrmAgregar) {
-        debugger;
+        
         vm.onEditar({ $event: { idx: vm.idxVehiculoTercero, vehiculoTercero: vm.frm } });
         $scope.$emit('vehiculoTercero:frmEditCerrado');
       }
@@ -190,12 +192,12 @@ define(['angular', 'lodash'], function (ng, _) {
     }
 
     function subirFotoTarjeta(event) {
-      debugger;
+      
       return wpFactory.siniestro.UploadCarDocument(event.photoToUpload, 2);
     }
 
     function subirFotoLicencia(event) {
-      debugger;
+      
       return wpFactory.siniestro.UploadCarDocument(event.photoToUpload, 1);
     }
 
@@ -218,7 +220,7 @@ define(['angular', 'lodash'], function (ng, _) {
       vm.isValidListDanhos = false;
     }
     function subirFotoSoat(event) {
-      debugger;
+      
       return wpFactory.siniestro.UploadThirdParties(event.photoToUpload, {
         imageTypeCode: 12,
         itemConductor: vm.idxVehiculoTercero + 1

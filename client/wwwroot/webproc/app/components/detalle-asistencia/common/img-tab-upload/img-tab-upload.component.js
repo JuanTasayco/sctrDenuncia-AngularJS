@@ -45,7 +45,7 @@ define(['angular', 'AsistenciaActions', 'lodash'], function(ng, AsistenciaAction
       var imgOdometro = []
 
       for (var idx = 0; idx < arrFotosDoc.length; idx++) {
-        debugger;
+        
         if (arrFotosDoc[idx].imageTypeCode === 3 || arrFotosDoc[idx].imageTypeCode === 12) { //Soat
           imgSoat = [arrFotosDoc[idx]]
         }
