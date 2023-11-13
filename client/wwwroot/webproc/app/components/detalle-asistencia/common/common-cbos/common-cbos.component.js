@@ -1328,7 +1328,7 @@ define(['angular', 'lodash', 'wpConstant'], function(ng, _, wpConstant) {
       });
       watchModel2 = $scope.$watch('$ctrl.setCodeTipoSiniestro', function(nv, ov) {
         if (nv !== ov) {
-          if(vm.setCodeTipoSiniestro  == 106){
+          if(vm.setCodeTipoSiniestro  == 120){
             setCombo(false);
             vm.ngModel = {
               'codigoValor' : null
