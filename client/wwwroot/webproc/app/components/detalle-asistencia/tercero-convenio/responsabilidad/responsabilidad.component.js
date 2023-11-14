@@ -21,7 +21,8 @@ define(['angular', 'lodash', 'AsistenciaActions', 'wpConstant', 'wpAgregarAtrope
     function onInit() {
       vm.frmSiniestro = vm.siniestro;
       vm.frmSiniestro.monedaList = wpFactory.myLookup.getTipoMoneda();
-      vm.frmSiniestro.siniestroConvenio.codigoConvenioGolpeSelect = {codigoValor: vm.frmSiniestro.siniestroConvenio ? vm.frmSiniestro.siniestroConvenio.codigoConvenioGolpeSelect : null}
+
+      
       if(vm.frmSiniestro.siniestroConvenio){
         vm.frmSiniestro.siniestroConvenio.codigoMoneda = 74;
         if(vm.TipomonedaAntigua[vm.frmSiniestro.siniestroConvenio.codigoMoneda]) {
@@ -35,9 +36,15 @@ define(['angular', 'lodash', 'AsistenciaActions', 'wpConstant', 'wpAgregarAtrope
       }
       else{
         vm.frmSiniestro.siniestroConvenio = {};
+        vm.showHaveSeguro = false;
+        vm.showConvenio = false;
+        vm.showCompanhiaTercero = false;
+        vm.showImporte = false;
+        
         vm.frmSiniestro.siniestroConvenio.codigoMoneda = '';
         vm.frmSiniestro.siniestroConvenio.codigoEmpresaAseguradora = null;
       }
+      vm.frmSiniestro.siniestroConvenio.codigoConvenioGolpeSelect = {codigoValor: vm.frmSiniestro.siniestroConvenio ? vm.frmSiniestro.siniestroConvenio.codigoConvenioGolpeSelect : null}
       vm.listaConvenio = wpFactory.myLookup.getConvenio();
     }
 
