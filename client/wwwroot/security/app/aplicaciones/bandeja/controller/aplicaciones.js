@@ -163,7 +163,7 @@
                         InitDataDefault();
                         GetAplicacionesData(true);
                         const objetSeguridad = seguridadFactory.onlyView();
-                        $scope.onlyView = objetSeguridad.soloLectura;
+                        $scope.onlyView = objetSeguridad.soloLectura || true;
                     })();
                 }
             ]

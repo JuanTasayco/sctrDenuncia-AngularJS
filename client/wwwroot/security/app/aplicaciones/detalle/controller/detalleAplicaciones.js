@@ -1044,7 +1044,7 @@
                 InitDataDefault();
                 GetApplicationByCode(numApplication, true);
                 const objetSeguridad = seguridadFactory.onlyView();
-                $scope.onlyView = objetSeguridad.soloLectura;
+                $scope.onlyView = objetSeguridad.soloLectura || true;
                 $scope.tabNodosObjeto = '/security/app/aplicaciones/templates/templateNodosObjeto.html';
                 $scope.tabNodosObjetoPerfil = '/security/app/aplicaciones/templates/templateNodosObjetoPerfil.html';
                 $scope.tabDatosGenerales = '/security/app/aplicaciones/detalle/component/templateDatosGenerales.html';
