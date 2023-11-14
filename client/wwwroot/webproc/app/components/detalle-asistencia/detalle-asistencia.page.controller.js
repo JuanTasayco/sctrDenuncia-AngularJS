@@ -361,15 +361,6 @@ define(['angular', 'lodash', 'AsistenciaActions', 'helper', 'wpConstant', 'const
         var dataGuardar = setRequest('PENDIENTE');
         delete dataGuardar.siniestroConvenio.codigoConvenioGolpeSelect
         
-        if (vm.frmGeneral.frmLugarOcurrencia.$invalid || frmTerceroConvenioinvalid) {
-          var frminvalid = vm.frmGeneral.frmLugarOcurrencia.$invalid ? 'Lugar de ocurrencia' : 'Terceros Convenio';
-          return void mModalAlert
-            .showWarning('Los campos de ' + frminvalid + ' son obligatorios', 'Falta completar')
-            .then(function msAnularPr() {
-              vm.validateForm.validate = false;
-            });
-        }
-
         var textos = {
           btnCancel: 'Cancelar',
           btnOk: 'Guardar',
