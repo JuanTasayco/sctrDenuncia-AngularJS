@@ -763,6 +763,7 @@
                           $scope.formData.DocumentosAsociados[key] = {};
 
                           $scope.formData.DocumentosAsociados[key].CodigoPrima = resultadoPrima.NumeroCotizacion;
+                          $scope.formData.DocumentosAsociados[key].FechaHora = resultadoPrima.FechaHora;
                           $scope.formData.DocumentosAsociados[key].CodigoEstado = "1";
                           $scope.formData.DocumentosAsociados[key].CodigoUsuarioRED = $scope.formData.codigoUsuarioRED;
                           $scope.formData.DocumentosAsociados[key].CodigoUsuario = $scope.formData.codigoUsuario;
