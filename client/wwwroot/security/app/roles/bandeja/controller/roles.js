@@ -35,6 +35,7 @@
                     $scope.getRolesPage = GetRolesPage;
                     $scope.getRolesSearch = GetRolesSearch;
                     $scope.clearFieldsSearch = ClearFieldsSearch;
+                    $scope.onlyView = true;
 
 
                     function ShowCreateRole() {
@@ -199,6 +200,8 @@
                     (function onLoad() {
                         initDataDefault();
                         getRolesData(true);
+                        const objetSeguridad = seguridadFactory.onlyView();
+                        $scope.onlyView = objetSeguridad.soloLectura;
                     })();
 
 
