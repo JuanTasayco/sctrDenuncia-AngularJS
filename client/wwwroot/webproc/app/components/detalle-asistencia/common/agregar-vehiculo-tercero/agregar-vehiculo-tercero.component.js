@@ -11,7 +11,7 @@ define(['angular'], function(ng) {
     vm.handleEditarvehiculoTercero = handleEditarvehiculoTercero;
     vm.handleEliminarvehiculoTercero = handleEliminarvehiculoTercero;
     vm.showFrmAddvehiculoTercero = showFrmAddvehiculoTercero;
-    vm.showViewFrmAddvehiculoTercero = true;
+    vm.showViewFrmAddvehiculoTercero = false;
     
 
     function onInit() {
