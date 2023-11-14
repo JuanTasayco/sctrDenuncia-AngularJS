@@ -26,6 +26,7 @@ define(['angular', 'system', 'generalConstant', 'mpfCardFilter','actterFactory',
     $scope.getPolizas = getPolizas;
 
     $scope.isRedirectPortal = actterFactory.isRedirectPortal();
+    $scope.isOptModify = actterFactory.isOptModify();
 
 
     (function onLoad() {
@@ -76,6 +77,9 @@ define(['angular', 'system', 'generalConstant', 'mpfCardFilter','actterFactory',
     }
 
     function getPolizas(client){
+
+      if (!$scope.isOptModify) return;
+
       SetPaginatePolizasDefaultValues();
       if(client.polizasSearch) {
         $scope.totalItemsPolizas = client.polizasSearch.length

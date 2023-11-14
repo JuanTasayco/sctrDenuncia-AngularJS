@@ -47,20 +47,29 @@ define(['angular', 'constants', 'generalConstant'], function (angular, constants
         }
 
         function getStorageValueObject(group, key) {
-            var groups = storageActter();
+            var groups = storageActter() || [];
+
+            if (groups.length === 0) return false;
+
             var itemGroup = groups.find(function (item) {
                 return item.nombreCabecera.includes(group)
-            })
+            }) || [];
+
+            if (itemGroup.length === 0) return false;
 
             var valueObject = itemGroup.items.find(function (item) {
                 return item.nombreCorto.includes(key)
-            })
+            });
 
             return valueObject;
         }
 
         function isRedirectPortal(){
             return !!getStorageValueObject('ACCIONES', 'REDIRECT_PORTAL');
+        }
+
+        function isOptModify(){
+            return !!getStorageValueObject('ACCIONES', 'OPC_MODIFICAR');
         }
 
         return {
@@ -76,6 +85,7 @@ define(['angular', 'constants', 'generalConstant'], function (angular, constants
             storageActter: storageActter,
             getStorageValueObject: getStorageValueObject,
             isRedirectPortal: isRedirectPortal,
+            isOptModify: isOptModify,
             baseUrlPortal: baseUrlPortal
         }
     }
