@@ -4460,7 +4460,10 @@ define(['angular', 'spin', 'system', 'lodash', 'directiveUtils'],
           });
 
           scope.toggleList = function() {
-            scope.isActive = !scope.isActive;
+            if(!scope.ngDisabled){
+              scope.isActive = !scope.isActive;
+            }
+            
           }
 
           scope.changeCheck = function(checked, item) {
@@ -4491,7 +4494,8 @@ define(['angular', 'spin', 'system', 'lodash', 'directiveUtils'],
             datasource: '<',
             valueField: '<',
             textField: '<',
-            checkedChange: '&'
+            checkedChange: '&',
+            ngDisabled: '='
           },
           templateUrl: '/scripts/mpf-main-controls/html/mpf-select-multiple.html',
           link: link
