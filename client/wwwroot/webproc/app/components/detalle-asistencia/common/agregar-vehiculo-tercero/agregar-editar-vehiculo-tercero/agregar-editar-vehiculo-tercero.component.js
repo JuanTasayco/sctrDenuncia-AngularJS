@@ -34,7 +34,7 @@ define(['angular', 'lodash'], function (ng, _) {
     function onInit() {
       
       vm.frm = {}
-      vm.frmTitulo = vm.esFrmAgregar ? 'Agregando Vehiculo Tercero' : 'Editando Vehiculo Tercero';
+      vm.frmTitulo = vm.esFrmAgregar ? 'Agregando conductor tercero' : 'Editando conductor tercero';
       !vm.esFrmAgregar && asignarDatosAlModelo();
       vm.documentos = [];
 
