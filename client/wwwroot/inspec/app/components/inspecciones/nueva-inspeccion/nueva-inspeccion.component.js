@@ -379,7 +379,7 @@ define(['angular', 'moment', 'constants', 'lodash', 'mpfPersonConstants', 'mpfPe
         MarcaPorDctoIntegralidad: vm.formData.DctoIntegralidad ? "S" : "N",
         AutoConInspeccion: 'S', // S => EmisionAutoUsado
         InspeccionConCotizacion: 'S', // S => InspeccionConCotizacion
-        numeroCotizacion: '', // Campo no requerido
+        numeroCotizacion: vm.dataCotizacion.numero, // Campo no requerido
         CodigoCorredor: vm.agentRequest.id, // 9808, //CodigoAgente
         TotalDsctoComision: 0, // Campo no requerido
         DsctoComision: 0, // Campo no requerido
