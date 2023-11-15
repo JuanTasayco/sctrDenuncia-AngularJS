@@ -359,7 +359,7 @@ define(['angular', 'lodash', 'AsistenciaActions', 'helper', 'wpConstant', 'const
         }   
         
         var dataGuardar = setRequest('PENDIENTE');
-        delete dataGuardar.siniestroConvenio.codigoConvenioGolpeSelect
+        dataGuardar.siniestroConvenio.codigoConvenioGolpeSelect ? delete dataGuardar.siniestroConvenio.codigoConvenioGolpeSelect : null
         
         var textos = {
           btnCancel: 'Cancelar',
@@ -433,7 +433,7 @@ define(['angular', 'lodash', 'AsistenciaActions', 'helper', 'wpConstant', 'const
         };
 
         var dataGuardar = setRequest('GENERADO')
-        delete dataGuardar.siniestroConvenio.codigoConvenioGolpeSelect
+        dataGuardar.siniestroConvenio.codigoConvenioGolpeSelect ? delete dataGuardar.siniestroConvenio.codigoConvenioGolpeSelect : null
         _showModalConfirm(textos)
           .result.then(function ctScFn() {
             wpFactory.siniestro
