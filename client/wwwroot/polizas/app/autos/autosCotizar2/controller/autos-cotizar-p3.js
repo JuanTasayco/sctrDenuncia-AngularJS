@@ -978,6 +978,7 @@
 
                   dataCotizacion = {
                     PorDctoIntgPlaza: $scope.formData.PorDctoIntgPlaza || 0,
+                    FechaHora: $scope.formData.DocumentosAsociados[0].FechaHora,
                     MarcaPorDctoIntegralidad: $scope.formData.DctoIntegralidad ? "S" : "N",
                     CodigoCompania: constants.module.polizas.autos.companyCode,
                     CodigoProductoPrin: $scope.prdPrincipal.codigoProducto,
@@ -1064,7 +1065,6 @@
                           : ""
                         : "",
                       EstadoCivil: $scope.formData.isEmblem && $scope.formData.mEstadoCivil ? { Codigo: $scope.formData.mEstadoCivil.Codigo } : undefined,
-                      FechaHora: $scope.formData.DocumentosAsociados[0].FechaHora,
                       FechaExpedicion: $scope.formData.isEmblem ? validateExpirationDate($scope.formData) : undefined
                     }
                   };
