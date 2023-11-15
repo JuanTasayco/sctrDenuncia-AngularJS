@@ -137,8 +137,8 @@ define(['angular', 'system', 'generalConstant', 'mpfCardFilter','actterFactory',
 
     $scope.fnRedirectToPortal = function(client) {
       var body = {
-        userName: client.documento.numero,
-        groupTypeId: 5
+        documentType: client.documento.codigo,
+        documentNumber: client.documento.numero,
       };
       actterFactory.getTokenRedirect(body).then(
         function (response){
