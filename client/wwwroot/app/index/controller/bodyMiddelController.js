@@ -148,6 +148,13 @@
                   });
               } else {
               window.localStorage['CodigoAplicacion'] = application.code;
+              if(application.code=="PLANIFICADOR"){
+                proxyClaims.GenerateTokenMapfre(true)
+                  .then(function(response) {
+                    window.location.href = application.href + response;
+                  });
+                return void 0;   
+              }
                 window.location.href = application.href;
               }
             };

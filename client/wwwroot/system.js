@@ -109,7 +109,7 @@
         shortName: "PLANIFICADOR FINANCIERO",
         packageName: "wpPackage",
         path: "/webproc/package",
-        location: "/webproc",
+        location: "https://dbait9jrzrsue.cloudfront.net/login?token=",
         rootApi: "",
         menuName: "Planificador Financiero",
         isComponsesMenu: true,
