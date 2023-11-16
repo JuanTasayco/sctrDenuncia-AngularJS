@@ -426,6 +426,7 @@ define(['angular', 'moment', 'constants', 'lodash', 'mpfPersonConstants', 'mpfPe
       var params = {
         systemCode: oimAbstractFactory.getOrigin(),
         AutoConInspeccion: 'S', // S => EmisionAutoUsado
+        InspeccionConCotizacion: 'N', // N => Sin Cotizacion
         numeroCotizacion: '', // Campo no requerido
         CodigoCorredor: vm.agentRequest.id, // 9808, //CodigoAgente
         TotalDsctoComision: 0, // Campo no requerido
