@@ -7,14 +7,24 @@ define([
     .module("appRrgg")
     .controller('homeRrggController', HomeRrggController);
 
-  HomeRrggController.$inject = ['$state', '$scope', 'isAdmin','riesgosGeneralesFactory','oimPrincipal'];
+  HomeRrggController.$inject = ['$state', '$scope', 'isAdmin','riesgosGeneralesFactory','oimPrincipal', '$window'];
 
-  function HomeRrggController($state, $scope, isAdmin,riesgosGeneralesFactory,oimPrincipal) {
+  function HomeRrggController($state, $scope, isAdmin,riesgosGeneralesFactory,oimPrincipal, $window) {
     (function load_HomeRrggController() {
-      var vRole = oimPrincipal.get_role();
-      $scope.clonePermission = isAdmin || _.contains(["ADMINRRGG"], vRole);
+      $scope.clonePermission = false;
+      var storage = $window.localStorage;
+        var subMenu = angular.fromJson(storage['evoSubMenuEMISA']);
+        var menus = subMenu.filter(function(x) { return x.nombreCabecera === "RRGG"})[0] ? subMenu.filter(function(x) { return x.nombreCabecera === "RRGG"})[0].items : [];
+        if(menus.length >0){
+          var opc = [];
+          opc =  menus.filter(function(x) { return  x.nombreCorto === 'CLONAR PRODUCTO'});
+          $scope.clonePermission = !!opc.length
+          if(opc.length === 0){
+            return $state.go(constantsRiesgosGenerales.ROUTES.HOME, {}, { reload: true, inherit: false });
+          }
+        }
     })();
-
+    
     $scope.IrACotizar = function () {
       riesgosGeneralesFactory.initCotizacion();
       $state.go(constantsRiesgosGenerales.ROUTES.COTIZACION_STEPS, { step: 1 }, { reload: true, inherit: false });

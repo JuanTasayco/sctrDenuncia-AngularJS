@@ -143,6 +143,7 @@ define(['angular', 'constants', 'helper', 'lodash', 'angular_file_saver'],
 
           //option showModal
           var modalOptions = {
+            showIconClose: true,
             showIcon: '',
             title: '',
             titleUppercase: true,
@@ -454,7 +455,7 @@ define(['angular', 'constants', 'helper', 'lodash', 'angular_file_saver'],
             const mimeType = type === 'pdf' ? 'application/pdf' : type;
             const blobFile = b64toBlob(base64, mimeType);
             fnDownloadBlob(blobFile, fileName);
-          } catch (error) { 
+          } catch (error) {
             console.log(error.message);
           }
 
@@ -523,7 +524,11 @@ define(['angular', 'constants', 'helper', 'lodash', 'angular_file_saver'],
               break;
             case constants.documentTypes.carnetExtrajeria.Codigo: //CEX
             case constants.documentTypes.cip.Codigo: //CIP: NO DEFINIDO
+              vFieldTypeDisabled = 'onlyNumber';
+              break;
             case constants.documentTypes.pasaporte.Codigo: //PEX
+              vMaxLength = 15;
+              vMinLength = 1;
               vFieldTypeDisabled = 'onlyNumber';
               break;
             default:

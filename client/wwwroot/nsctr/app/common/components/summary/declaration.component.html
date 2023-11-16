@@ -161,14 +161,28 @@
 				  <!--!$ctrl.fnInTechnicalControl(item.number) && -->
                   <div ng-if="$ctrl.fnInTechnicalControlSegurity(item) && !$ctrl.fnInTechnicalControl(item.number) "
                     class="col-sm-3 g-col-sm middle">
-                    <a class="g-btn g-btn-white second-design block" ng-if="item.description != 'Constancia'"
-                      href="{{item.url}}"
-                      target="_blank">
-                      Descargar
-                    </a>
+					<div ng-if="item.type!='S' && item.type!='P'">
+						<a class="g-btn g-btn-white second-design block" ng-if="item.description != 'Constancia'"
+						href="{{item.url}}"
+						target="_blank">
+						Descargar
+					  </a>
+					</div>
+                    <div ng-if="item.type=='S' || item.type=='P'" >
+						<a class="g-btn g-btn-white second-design block" ng-if="item.description != 'Constancia'"
+						href="javascript:void(0)" ng-click="$ctrl.fnDownloadReceipt(item.number,item.type)">
+						Descargar
+					  </a>
+					</div>
+
 					<a class="g-btn g-btn-white second-design block" 
 						ng-if="item.description == 'Constancia'"
 						ng-click="$ctrl.fnDescargarConstancia()">
+						Descargar
+					</a>
+					<a class="g-btn g-btn-white second-design block" 
+						ng-if="item.description == 'Poliza'"
+						ng-click="$ctrl.fnDescargarPoliza(item)">
 						Descargar
 					</a>
                   </div>
@@ -190,8 +204,15 @@
                         </div>
 						<!--!$ctrl.fnInTechnicalControl(item.number) && -->
                         <div class="document" ng-if="$ctrl.fnInTechnicalControlSegurity(item) && !$ctrl.fnInTechnicalControl(item.number)">
+							<a class="g-btn g-btn-white second-design block" ng-if="item.description != 'Constancia'"
+								href="{{item.url}}"
+								rel="noopener"
+								target="_blank">
+								Descargar
+							</a>
                           <a class="g-btn g-btn-white second-design block" 
-						  ng-click="$ctrl.fnDescargarConstancia()">
+							ng-if="item.description == 'Constancia'"
+							ng-click="$ctrl.fnDescargarConstancia()">
                             Descargar
                           </a>
                         </div>

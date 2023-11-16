@@ -61,7 +61,7 @@ define(['angular', 'constants', 'helper', 'lodash', 'mpfPersonConstants', 'salud
       };
       
       $scope.userRoot = oimPrincipal.isAdmin();
-      $scope.gLblTitle = 'Cotizador de Clinica Digital';
+      $scope.gLblTitle = 'Cotización póliza de Clinica Digital';
 
       var insuredData = {};
       var insuredDocumentNumberValidate;

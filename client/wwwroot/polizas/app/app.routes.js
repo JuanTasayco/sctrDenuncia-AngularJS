@@ -961,7 +961,7 @@ define(["constants"], function(constants) {
     {
       name: "autosQuote",
       appCode: "AUTOMOVILES",
-      description: "Cotizar póliza de auto",
+      description: "Cotización de auto",
       breads: ["homePolizasAutos"],
       params: { step: null },
       urls: [
@@ -1022,7 +1022,7 @@ define(["constants"], function(constants) {
     {
       name: "autosQuoteToken",
       appCode: "AUTOMOVILES",
-      description: "Cotizar póliza de auto",
+      description: "Cotización de auto",
       breads: ["homePolizasAutos"],
       params: { step: null },
       urls: [
@@ -1948,7 +1948,7 @@ define(["constants"], function(constants) {
       name: "accidentesQuote",
       code: "102",
       url: "/accidentes/quote",
-      description: "Cotización póliza accidentes",
+      description: "Cotización accidentes",
       breads: ["homePolizasAccidentes"],
       controller: "accidentesQuoteController",
       templateUrl: "/polizas/app/accidentes/quote/component/accidentes-quote.html",
@@ -3362,7 +3362,7 @@ define(["constants"], function(constants) {
       name: "cotizadorSalud",
       code: "",
       params: { step: null },
-      description: "Cotizador de salud",
+      description: "Cotización salud",
       breads: ["homePolizasSalud"],
       urls: [
         {
@@ -3400,7 +3400,7 @@ define(["constants"], function(constants) {
       name: "cotizadorClinicaDigital",
       code: "",
       params: { step: null },
-      description: "Cotizador de Clinica Digital",
+      description: "Cotización de Clinica Digital",
       breads: ["homePolizasClinicaDigital"],
       urls: [
         {
@@ -3437,7 +3437,7 @@ define(["constants"], function(constants) {
     {
       name: "cotizacionGuardadaClinicaDigital",
       code: "",
-      description: "Cotizador de Clinica Digital",
+      description: "Cotización de Clinica Digital",
       breads: ["homePolizasClinicaDigital"],
       urls: [
         {
@@ -4504,7 +4504,7 @@ define(["constants"], function(constants) {
         }
       ],
       breads: ["homePolizasSeguroviaje"],
-      description: "Cotizar SegurViaje",
+      description: "Cotización Seguro de viaje",
       views: {
         contenido: {
           template: function($stateParam) {
@@ -5036,7 +5036,7 @@ define(["constants"], function(constants) {
       name: "cotizacionPolizaVidaLey",
       currentAppID: "EMISAVIDALEY",
       code:[3461,3272],
-      description: "Cotizar póliza de Vida Ley",
+      description: "Cotización póliza de vida ley",
       breads: ["homePolizaVidaLey"],
       params: { step: null },
       urls: [
@@ -6143,6 +6143,244 @@ define(["constants"], function(constants) {
             "mpfFiltroMantenedorTasasAjustesSalud",
             "mantenedorTasasAjustesController"
           ],
+        }
+      ]
+    },
+    {
+      name: 'homePolizasFola',
+      appCode: constants.module.polizas.fola.code,
+      url: '/fola/home',
+      description: constants.module.polizas.fola.description,
+      parent: 'root',
+      views: {
+        content: {
+          templateUrl: '/polizas/app/fola/views/home/home-fola.template.html',
+          controller: 'homeFolaController',
+          controllerAs: 'vm'
+        }
+      },
+      resolve: {
+        isAdmin: [
+          'oimClaims',
+          'mainServices',
+          function (oimClaims, mainServices) {
+            return mainServices.isAdminEmisaApp(oimClaims.rolesCode);
+          }
+        ]
+      },
+      resolver: [
+        {
+          name: 'homePolizasFola',
+          moduleName: constants.module.polizas.fola.moduleName,
+          files: ['homeFolaController'],
+          resolveTemplate: true
+        }
+      ]
+    },
+    {
+      name: "errorInternoFola",
+      code: "",
+      description: "Error interno",
+      url: "/fola/error_interno",
+      parent: "root",
+      breads: ['homePolizasFola'],
+      views: {
+        content: {
+          controller: [function() {}],
+          templateUrl: "/polizas/app/fola/views/error/500.html"
+        }
+      }
+    },
+    {
+      name: 'cotizadorFola',
+      appCode: constants.module.polizas.fola.code,
+      description: 'Cotizador',
+      breads: ['homePolizasFola'],
+      url: '/fola/cotizador',
+      parent: 'root',
+      views: {
+        content: {
+          controller: 'cotizadorFolaController',
+          templateUrl: '/polizas/app/fola/views/cotizar/cotizador-fola.template.html',
+          controllerAs: 'vm'
+        }
+      },
+      resolver: [
+        {
+          name: 'cotizadorFola',
+          moduleName: constants.module.polizas.fola.moduleName,
+          files: ['folaService', 'cotizadorFolaController'],
+          resolveTemplate: true
+        }
+      ]
+    },
+    {
+      name: 'emisorPolizaFola',
+      appCode: constants.module.polizas.fola.code,
+      breads: ['homePolizasFola'],
+      description: 'Emisión Poliza',
+      url: '/fola/emisor-fola',
+      parent: 'root',
+      views: {
+        content: {
+          templateUrl: '/polizas/app/fola/views/emision/fola-emision.template.html',
+          controller: 'emisorPolizaFolaController',
+          controllerAs: 'vm',
+        }
+      },
+      resolver: [
+        {
+          name: 'emisorPolizaFola',
+          moduleName: constants.module.polizas.fola.moduleName,
+          files: [
+            'folaService',
+            'folaFactory',
+            'emisorPolizaFolaController',
+            'mpfFiltroDocumentosFola',
+            'mpfDocumentoItemFola'
+          ],
+          resolveTemplate: true
+        }
+      ]
+    },
+    {
+      name: "emisionFola",
+      appCode: constants.module.polizas.fola.code,
+      breads: ["homePolizasFola"],
+      description: "Emision",
+      params:{step:null},
+      urls: [
+        {
+          url: "/fola/emision/:documentoId",
+          abstract: true,
+          parent: "root",
+          thenRoutes: ["/fola/emision/:documentoId/1"],
+          views: {
+            content: {
+              controller: "emisionFolaController",
+              templateUrl: "/polizas/app/fola/views/emisor/emision-fola.template.html"
+            }
+          },
+          resolve: {}
+        },
+        {
+          name: "emisionFola.steps",
+          url: "/:step",
+          params: {},
+          templateUrl: function($stateParam) {
+            var steps = [
+              undefined,
+              "/polizas/app/fola/views/emisor/componente/paso-1.html",
+              "/polizas/app/fola/views/emisor/componente/paso-2.html"
+            ];
+            return steps[$stateParam.step];
+          },
+          resolve: {
+          },
+          controllerProvider: function($stateParams) {
+            var steps = [
+              undefined,
+              "emisorFola1Controller",
+              "emisorFola2Controller"
+            ];
+            return steps[$stateParams.step];
+          }
+        }
+      ],
+      resolver: [
+        {
+          name: 'emisionFola',
+          moduleName: constants.module.polizas.fola.moduleName,
+          files: [
+            'emisorFola1Controller',
+            'emisorFola2Controller',
+            'emisionFolaController'
+          ]
+        }
+      ]
+    },
+    {
+      name: 'bandejaDocumentosFola',
+      appCode: constants.module.polizas.fola.code,
+      breads: ['homePolizasFola'],
+      description: 'Consulta Documentos',
+      url: '/fola/consulta-documentos',
+      parent: 'root',
+      views: {
+        content: {
+          templateUrl: '/polizas/app/fola/views/bandeja-documentos/bandeja-documentos-fola.template.html',
+          controller: 'bandejaDocumentosFolaController',
+          controllerAs: 'vm'
+        }
+      },
+      resolver: [
+        {
+          name: 'bandejaDocumentosFola',
+          moduleName: constants.module.polizas.fola.moduleName,
+          files: [
+            'folaService',
+            'folaFactory',
+            'folaGeneralFactory',
+            'bandejaDocumentosFolaController',
+            'mpfFiltroDocumentosFola',
+            'mpfDocumentoItemFola'
+          ]
+        }
+      ]
+    },
+    {
+      name: 'resumenBandejaDocumentos',
+      appCode: constants.module.polizas.fola.code,
+      breads: ['homePolizasFola','bandejaDocumentosFola'],
+      description: 'Emisión de Póliza',
+      url: '/fola/resumen-emision-poliza/:documentoId',
+      parent: 'root',
+      views: {
+        content: {
+          templateUrl: '/polizas/app/fola/views/resumen-bandeja-emision/resumen-bandeja-documentos.template.html',
+          controller: 'resumenBandejaDocumentosController',
+          controllerAs: 'vm'
+        }
+      },
+      resolver: [
+        {
+          name: 'resumenBandejaDocumentos',
+          moduleName: constants.module.polizas.fola.moduleName,
+          files: ['folaService', 'folaFactory', 'folaGeneralFactory', 'resumenBandejaDocumentosController']
+        }
+      ]
+    },
+    {
+      name: 'planFola',
+      appCode: constants.module.polizas.fola.code,
+      breads: ['homePolizasFola'],
+      description: 'Mantenimiento',
+      url: '/fola/planes',
+      parent: 'root',
+      views: {
+        content: {
+          templateUrl: '/polizas/app/fola/views/plan/plan-fola.template.html',
+          controller: 'planFolaController',
+          controllerAs: 'vm'
+        }
+      },
+      resolve: {
+        isAdmin: [
+          'oimClaims',
+          'mainServices',
+          '$state',
+          function (oimClaims, mainServices, $state) {
+            if(!mainServices.isAdminEmisaApp(oimClaims.rolesCode)){
+              $state.go("homePolizasFola");
+            }
+          }
+        ]
+      },
+      resolver: [
+        {
+          name: 'planFola',
+          moduleName: constants.module.polizas.fola.moduleName,
+          files: ['folaService', 'folaFactory', 'planFolaController']
         }
       ]
     },

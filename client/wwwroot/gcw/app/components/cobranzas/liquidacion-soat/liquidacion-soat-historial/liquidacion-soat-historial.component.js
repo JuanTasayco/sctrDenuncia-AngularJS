@@ -51,6 +51,7 @@ define([
                 if(response.data.code == 1){
 
                   var params = {
+                    userCode: vm.dataTicket.userCode,
                     agentId: vm.rol.agenteID,
                     managerId: vm.rol.gestorID,
                     RowByPage: "10",
@@ -156,14 +157,15 @@ define([
         }, 500);
     }
 
-    $scope.downloadImpresion = function(item){
+    $scope.downloadImpresion = function(item,type){
       vm.rol = gcwFactory.obtenerAgente(vm.dataTicket);
-      vm.exportURLDetalle = $sce.trustAsResourceUrl(constants.system.api.endpoints.gcw+ 'api/collection/soat/download');
+      debugger;
+      vm.exportURLDetalle = $sce.trustAsResourceUrl(constants.system.api.endpoints.gcw+ 'api/collection/soat/download?extensionFile='+type);
         vm.downloadFile2 = {
           preSettlement: item.preSettlement,
           agentId: vm.rol.agenteID,
           managerId: vm.rol.gestorID,
-          userCode: vm.dataTicket.security
+          userCode: vm.dataTicket.userCode
         };
         $timeout(function() {
           document.getElementById('frmExportDetalle').submit();

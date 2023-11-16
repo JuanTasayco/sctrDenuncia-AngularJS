@@ -7,6 +7,11 @@ define([], function() {
     codigoAppMassAdm: 'ADMI',
     codigoAppCemetery: 'CPS',
     ngMainModule: 'appAP',
+    ngAdminRamoModule: 'appAP.AdminRamoFactory',
+    ngGeneralAdminRamoModule: 'appAP.GeneralAdminRamoFactory',
+    ngGeneralAdminMapfreTecuidamosModule: 'appAP.GeneralAdminMapfreTecuidamosFactory',
+    ngGeneralAdditionalServiceModule: 'appAP.GeneralAdditionalServiceFactory',
+    ngMassesAndResponsesModule: 'appAP.MassesAndResponsesFactory',
     ngCarouselTrayModule: 'appAP.CarouselTrayFactory',
     ngBannerRecordsModule: 'appAP.BannerRecordsFactory',
     ngCarouselModificationModule: 'appAP.CarouselModificationFactory',
@@ -16,6 +21,7 @@ define([], function() {
     ngMassTrayModule: 'appAP.MassTrayFactory',
     ngCommonModule: 'appAP.CommonFactory',
     ngCemeteryModule: 'appAP.CemeteryFactory',
+
     api: {
       successfulCode: 1000
     }

@@ -12,6 +12,7 @@
 
 				(function onLoad(){
 					$scope.main = $scope.main || {};
+          $scope.firstLoad = true;
 					// $scope.firstStep = $scope.firstStep || {};
 					// $scope.secondStep = $scope.secondStep || {};
 
@@ -150,6 +151,7 @@
           vidaFactory.filterEmittedQuotes(params, true).then(function(response){
             if (response.OperationCode == constants.operationCode.success){
               if (response.Data.Lista.length > 0){
+                $scope.firstLoad = false;
                 $scope.totalItems = parseInt(response.Data.CantidadTotalPaginas) * 10;
                 $scope.items = response.Data.Lista;
               }else{

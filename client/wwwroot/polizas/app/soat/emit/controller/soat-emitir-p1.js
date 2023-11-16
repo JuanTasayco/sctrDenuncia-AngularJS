@@ -124,12 +124,15 @@
 			$scope.sinDataPlaca = 'No se encontraron los datos del vehículo en el sistema, prueba con otros valores o ingresa los datos de manera manual';
 			$scope.conDataPlaca = 'Se recuperaron los datos del vehículo del sistema, edita los datos o busca otro vehículo';
 			$scope.searchAgain = 'Realizar nueva búsqueda';
-
+			$scope.cadena = '';
+			$scope.tipoCad = 0;
 			$scope.buscarRiesgo = function($event, cadena, tipo){
-		    var keyCode = $event.which || $event.keyCode;
-		    if (keyCode === 13 || keyCode === 9) {
-		        $scope.buscarPlacaChasisMotor(cadena, tipo);
-		    }
+				$scope.cadena = cadena;
+				$scope.tipoCad = tipo;
+				var keyCode = $event.which || $event.keyCode;
+				if (keyCode === 13 || keyCode === 9) {
+					$scope.buscarPlacaChasisMotor($scope.cadena, $scope.tipoCad);				
+				}
 		  };
 
 		  $scope.buscarXRiesgo = function(placa, chasis, motor){
@@ -985,6 +988,7 @@
 					}
 
 				}
+				
 			};
 
 			if($stateParams.step!=null){

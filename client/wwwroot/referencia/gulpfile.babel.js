@@ -67,7 +67,7 @@ const autoprefixerOptions = {
     mangle: false
   };
 
-let compressing = myargs.env === 'prod' ? true : false,
+let compressing = false,//myargs.env === 'prod' ? true : false,
   jsChannel = lazypipe()
   .pipe(eslint)
   .pipe(eslint.format)
@@ -236,7 +236,7 @@ gulp.task('clean', () => {
 
 gulp.task('build', ['clean'], (cb) => {
   info('Building Referencia App ....' + myargs.env)
-  compressing = myargs.env === 'prod' ? true : false
+  compressing = false//myargs.env === 'prod' ? true : false
   return runSequence('clean', 'js', 'sass', 'html', cb)
 })
 

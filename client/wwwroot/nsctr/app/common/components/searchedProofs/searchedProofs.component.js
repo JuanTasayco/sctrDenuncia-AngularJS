@@ -137,6 +137,12 @@ define([
         /*#########################
         # fnOpenUrl
         #########################*/
+        _self.fnDownloadReceipt = function (receiptNumber , typeReceipt) {
+          nsctrFactory.common.proxyPolicy.ServicesDownloadReceipt(typeReceipt, receiptNumber, true).then(function (response) {
+            mainServices.fnDownloadFileBase64(response.data, "pdf", 'Recibo_' + receiptNumber, false);
+          });
+        }
+        
         _self.fnOpenUrl = function (e, url) {
           if (url) $window.open(url, '_blank');
           var textToAnalytics = nsctrService.fnSearchUrlforGoogleAnalytics();
@@ -145,6 +151,7 @@ define([
             gaService.add({ gaCategory: appCode + ' - NSCTR', gaAction: textToAnalytics + '- Click Identificador de Constancia ', gaLabel: 'Botón: Descargar' });
           }, 100);
         }
+
         _self.fnDownloadConstancia = function (constancyIdentity) {
           nsctrFactory.common.proxyConstancy.ServicesDownloadConstancy(constancyIdentity, true).then(function (response) {
             mainServices.fnDownloadFileBase64(response.data, "pdf", 'Constancia_' + constancyIdentity, false);
@@ -212,19 +219,19 @@ define([
                 ? "Recibo"
                 : "Recibo Pensión",
               number: item.pensionReceiptNumber,
-              url: item.urlPensionReceipt
+              url: '-'
             },
             {
               type: nsctr_constants.health.code,
               description: "Recibo Salud",
               number: item.healthReceiptNumber,
-              url: item.urlHealthReceipt
+              url: '-'
             },
             {
               type: nsctr_constants.movementType.proof.operationType,
               description: "Constancia",
               number: item.constancyNumber,
-              url: item.urlConstancy
+              url: '-'
             },
             {
               type: nsctr_constants.certificate.code,
@@ -249,7 +256,7 @@ define([
           var vFileList = {
             proofNumber: item.constancyNumber,
             fileList: vFiles.filter(function (elem, key) {
-              return elem.url;
+              return elem.url && elem.number;
             })
           };
           return vFileList;

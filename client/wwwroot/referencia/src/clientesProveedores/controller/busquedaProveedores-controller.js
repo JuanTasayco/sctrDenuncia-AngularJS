@@ -3,11 +3,11 @@ define(['angular', 'lodash', 'paginate', 'typeahead', 'bloodhound'], function(ng
   var module = ng.module('referenciaApp');
   module.controller('BusquedaProveedoresController', busquedaProveedoresController);
   busquedaProveedoresController.$inject = ['$scope', '$state', '$log', 'dataProveedores', '$timeout', 'staticData',
-    'panelService', 'rx', 'coreDataService'
+    'panelService', 'rx', 'coreDataService', 'oimPrincipal', '$window'
   ];
 
   function busquedaProveedoresController($scope, $state, $log, dataProveedores, $timeout, staticData, panelService,
-    rx, coreDataService) {
+    rx, coreDataService, oimPrincipal, $window) {
     var vm = this;
     vm.loader = {};
     vm.loader.text = 'Estamos cargando la lista de proveedores';
@@ -20,6 +20,8 @@ define(['angular', 'lodash', 'paginate', 'typeahead', 'bloodhound'], function(ng
     vm.lstSelServiEmergencias = [];
     vm.lstSelServiAmbulancias = [];
     vm.filter = ng.copy($state.params);
+
+    vm.ipLocal = $window.localStorage['clientIp'] ? $window.localStorage['clientIp'] : "0.0.0.0";
 
     vm.$onInit = function oiFn() {
       vm.panel = 'Clientes y Proveedores';
@@ -282,6 +284,21 @@ define(['angular', 'lodash', 'paginate', 'typeahead', 'bloodhound'], function(ng
       vm.toFilter.esPaginacion = false;
       vm.toFilter.pagina = 1;
       $scope.filterData(vm.toFilter); // eslint-disable-line
+
+      const obj = {
+        "codigoAplicacion": "REF",
+        "ipOrigen": vm.ipLocal,
+        "tipoRegistro": "O",
+        "codigoObjeto": "PROVEEDORES",
+        "opcionMenu": "Proveedores/busqueda - Aplicar Filtro",
+        "descripcionOperacion": "Click al botón Aplicar Filtros",
+        "filtros": angular.toJson(vm.filter),
+        "codigoUsuario": oimPrincipal.getUsername(),
+        "numeroSesion": "",
+        "codigoAgente": 0
+      };
+
+      panelService.saveTracker(obj);
     };
 
     vm.resetFilter = function rfFn() {
@@ -292,13 +309,28 @@ define(['angular', 'lodash', 'paginate', 'typeahead', 'bloodhound'], function(ng
       vm.currentPage = pageNo;
     };
 
-    vm.verDetalleProveedor = function vdpFn(id) {
+    vm.verDetalleProveedor = function vdpFn(item) {
       var data = {};
-      data.id = id;
+      data.id = item.id;
       vm.loader.loading = true;
       vm.loader.text = 'Estamos cargando la información del proveedor';
 
       $state.go('referencia.panel.proveedores.busqueda.detalle.info', data);
+
+      const obj = {
+        "codigoAplicacion": "REF",
+        "ipOrigen": vm.ipLocal,
+        "tipoRegistro": "O",
+        "codigoObjeto": "PROVEEDORES",
+        "opcionMenu": "Proveedores/busqueda - Ver detalle",
+        "descripcionOperacion": "click al botón Ver detalle",
+        "filtros": angular.toJson(item), 
+        "codigoUsuario": oimPrincipal.getUsername(),
+        "numeroSesion": "",
+        "codigoAgente": 0
+      };
+
+      panelService.saveTracker(obj);
     };
 
     var tasUnFn = $scope.$on('typeahead:select', function tasFn() {

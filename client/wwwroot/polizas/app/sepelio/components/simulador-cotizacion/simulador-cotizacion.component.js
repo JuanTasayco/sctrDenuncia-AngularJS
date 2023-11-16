@@ -132,7 +132,14 @@ define([
             }
             mModalConfirm.confirmWarning("¿Esta seguro de cotizar el contrato?", 'ACEPTAR').then(function (confirm) {
                 if (confirm) {
-                    campoSantoService.guardarOperacion(campoSantoFactory.modelSimuladacion(), 2).then(function (response) {
+
+
+                    var evaluacion = campoSantoFactory.GetDataEvaluacion();
+                    var requestSimulacion = angular.extend({}, campoSantoFactory.modelSimuladacion(), {
+                        calificacion: evaluacion ? evaluacion.CalificacionCliente : ''
+                    });
+
+                    campoSantoService.guardarOperacion(requestSimulacion, 2).then(function (response) {
                         if (response.OperationCode === constants.operationCode.success) {
                             vm.cotizacion.datosCotizacion.idCotizacion = response.Data.idCotizacion;
                             if(vm.cotizacion.datosCotizacion.directo){
@@ -149,7 +156,7 @@ define([
                             }
                         }
                     }).catch(function (error){
-                        mModalAlert.showError(error.Data, error.Message);
+                        mModalAlert.showError(error.data ? error.data.Data : error.Data, error.Message);
                     });
                 }
             });
@@ -159,7 +166,14 @@ define([
                 if (vm.cotizacion.datosCotizacion.estadoCotizacion!=='APROBADO'){
             vm.cotizacion.datosCotizacion.estadoCotizacion = "PROSPECTO";
                 }
-            campoSantoService.guardarOperacion(campoSantoFactory.modelSimuladacion(), 2).then(function (response) {
+
+                var evaluacion = campoSantoFactory.GetDataEvaluacion();
+                var requestSimulacion = angular.extend({}, campoSantoFactory.modelSimuladacion(), {
+                    calificacion: evaluacion ? evaluacion.CalificacionCliente : ''
+                });
+                
+
+            campoSantoService.guardarOperacion(requestSimulacion, 2).then(function (response) {
                 if (response.OperationCode === constants.operationCode.success) {
                         mModalAlert.showSuccess("Se guardo correctamente", "Simulación Guardada").then(function (r2) {
                             vm.idCotizacion = response.Data.idCotizacion;
@@ -173,7 +187,7 @@ define([
                         }
                     }
                 }).catch(function (error){
-                    mModalAlert.showError(error.Data, error.Message);
+                    mModalAlert.showError(error.data ? error.data.Data : error.Data, error.Message);
                 });
             } else {
                         cotizar();

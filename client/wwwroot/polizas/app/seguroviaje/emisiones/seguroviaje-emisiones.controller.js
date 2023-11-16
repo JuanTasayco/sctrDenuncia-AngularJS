@@ -53,6 +53,7 @@ define([
       vm.exportEmisions = exportEmisions;
       vm.enviarPolizaMail = enviarPolizaMail; //MSAAVEDRA 20210813
       vm.firstLoad = true;
+      vm.emissions = []
       getListStatePolicy()
 
       initFilter()
@@ -84,15 +85,14 @@ define([
       return seguroviajeService.getManagers(params, false)
     }
     function initFilter(){
-      vm.firstLoad = false;
       vm.filter = seguroviajeFactory.setFilterBody();
       vm.filter.typeSearch = 3;
-      getEmission();
+      getEmissionInitial();
     }
     function clean(){
       initFilter()
       vm.firstLoad = true
-      vm.emissions = undefined
+      vm.emissions = []
       vm.emissions.data.totalPages = 0
     }
     function getPDF(technicalControl, policyNumber){
@@ -114,9 +114,21 @@ define([
       }
     }
     function getEmission(){
+      vm.firstLoad =   false;
+      seguroviajeService.getEmissionPage(seguroviajeFactory.setFilterRequest(angular.copy(vm.filter)), true)
+      .then(function(response){        
+        if(response.operationCode == 200){ 
+          vm.emissions = response.data;
+        }
+      })
+    }
+    function getEmissionInitial(){
       seguroviajeService.getEmissionPage(seguroviajeFactory.setFilterRequest(angular.copy(vm.filter)), true)
       .then(function(response){
         if(response.operationCode == 200){
+          if(response.data.data.length > 0){
+            vm.firstLoad =   false; 
+          }  
           vm.emissions = response.data;
         }
       })

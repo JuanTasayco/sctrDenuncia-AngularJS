@@ -62,7 +62,7 @@ define(['angular', 'constants', 'helper', 'lodash', 'mpfPersonConstants', 'salud
       };
       
       $scope.userRoot = oimPrincipal.isAdmin();
-      $scope.gLblTitle = 'Cotizador de salud';
+      $scope.gLblTitle = 'Cotización póliza salud';
       $scope.disabledForm = false;
 
       var insuredData = {};
