@@ -19,7 +19,7 @@ define(['angular', 'constants', 'generalConstant'], function (angular, constants
         }
 
         function getTokenRedirect(body) {
-            return httpData['post'](baseSecurity+ 'api/token/generate', body, undefined, true);
+            return httpData['post'](baseSecurity+ 'api/token', body, undefined, true);
         }
 
         // Ubigeo
