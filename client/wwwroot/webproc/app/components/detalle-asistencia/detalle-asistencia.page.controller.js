@@ -245,13 +245,18 @@ define(['angular', 'lodash', 'AsistenciaActions', 'helper', 'wpConstant', 'const
       vm.ultimaDataDeAsistencia.codigoProvincia = vm.ultimaDataDeAsistencia.codigoProvincia + '';
       vm.ultimaDataDeAsistencia.codigoDistrito = vm.ultimaDataDeAsistencia.codigoDistrito + '';
       
-      vm.ultimaDataDeAsistencia.siniestroConvenio = {
-        "codigoConvenioGolpe": parseInt(vm.ultimaDataDeAsistencia.siniestroConvenio.codigoConvenioGolpe),
-        "codigoEmpresaAseguradora": vm.ultimaDataDeAsistencia.siniestroConvenio.codigoEmpresaAseguradora,
-        "codigoMoneda": vm.ultimaDataDeAsistencia.siniestroConvenio.codigoMoneda.toString(),
-        "flagTerceroSeguro": vm.ultimaDataDeAsistencia.siniestroConvenio.flagTerceroSeguro,
-        "importe": parseFloat(vm.ultimaDataDeAsistencia.siniestroConvenio.importe)
+      if(vm.ultimaDataDeAsistencia.siniestroConvenio){
+        vm.ultimaDataDeAsistencia.siniestroConvenio = {
+          "codigoConvenioGolpe": parseInt(vm.ultimaDataDeAsistencia.siniestroConvenio.codigoConvenioGolpe),
+          "codigoEmpresaAseguradora": vm.ultimaDataDeAsistencia.siniestroConvenio.codigoEmpresaAseguradora,
+          "codigoMoneda": vm.ultimaDataDeAsistencia.siniestroConvenio.codigoMoneda.toString(),
+          "flagTerceroSeguro": vm.ultimaDataDeAsistencia.siniestroConvenio.flagTerceroSeguro,
+          "importe": parseFloat(vm.ultimaDataDeAsistencia.siniestroConvenio.importe)
+        }
+        vm.ultimaDataDeAsistencia.siniestroConvenio.codigoConvenioGolpeSelect ? delete vm.ultimaDataDeAsistencia.siniestroConvenio.codigoConvenioGolpeSelect : null
+
       }
+      
       
       if(!vm.frmGeneral.frmTerceroConvenio){
         vm.ultimaDataDeAsistencia.conductorTercero = null;
@@ -359,8 +364,7 @@ define(['angular', 'lodash', 'AsistenciaActions', 'helper', 'wpConstant', 'const
         }   
         
         var dataGuardar = setRequest('PENDIENTE');
-        dataGuardar.siniestroConvenio.codigoConvenioGolpeSelect ? delete dataGuardar.siniestroConvenio.codigoConvenioGolpeSelect : null
-        
+
         var textos = {
           btnCancel: 'Cancelar',
           btnOk: 'Guardar',
@@ -433,7 +437,7 @@ define(['angular', 'lodash', 'AsistenciaActions', 'helper', 'wpConstant', 'const
         };
 
         var dataGuardar = setRequest('GENERADO')
-        dataGuardar.siniestroConvenio.codigoConvenioGolpeSelect ? delete dataGuardar.siniestroConvenio.codigoConvenioGolpeSelect : null
+        
         _showModalConfirm(textos)
           .result.then(function ctScFn() {
             wpFactory.siniestro
