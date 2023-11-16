@@ -364,7 +364,7 @@ define(['angular', 'lodash', 'AsistenciaActions', 'helper', 'wpConstant', 'const
         }   
         
         var dataGuardar = setRequest('PENDIENTE');
-
+        
         var textos = {
           btnCancel: 'Cancelar',
           btnOk: 'Guardar',
@@ -377,7 +377,7 @@ define(['angular', 'lodash', 'AsistenciaActions', 'helper', 'wpConstant', 'const
             wpFactory.siniestro
               .Save(dataGuardar, true)
               .then(function aSPr(res) {
-                vm.infoAsistencia.estadoSiniestro = 'PENDIENTE';
+                vm.ultimaDataDeAsistencia.estadoSiniestro = 'PENDIENTE';
               })
               .catch(function aEPr(err) {
                 $log.error('Falló el guardar asistencia', err.data);
