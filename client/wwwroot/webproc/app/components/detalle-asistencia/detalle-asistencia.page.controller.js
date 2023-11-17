@@ -378,6 +378,7 @@ define(['angular', 'lodash', 'AsistenciaActions', 'helper', 'wpConstant', 'const
               .Save(dataGuardar, true)
               .then(function aSPr(res) {
                 vm.ultimaDataDeAsistencia.estadoSiniestro = 'PENDIENTE';
+                vm.infoAsistencia.estadoSiniestro = 'PENDIENTE';
               })
               .catch(function aEPr(err) {
                 $log.error('Falló el guardar asistencia', err.data);
