@@ -200,7 +200,10 @@
                     (function onLoad() {
                         initDataDefault();
                         getRolesData(true);
-                        $scope.onlyView = $scope.objetSeguridad.soloLectura;
+                        $timeout(function () {
+                            $scope.onlyView = $scope.objetSeguridad.soloLectura;
+                        }, 10);
+                        
                     })();
 
 

@@ -1043,7 +1043,9 @@
 
                 InitDataDefault();
                 GetApplicationByCode(numApplication, true);
-                $scope.onlyView = $scope.objetSeguridad.soloLectura || true;
+                $timeout(function () {
+                    $scope.onlyView = $scope.objetSeguridad.soloLectura || true;
+                }, 10);
                 $scope.tabNodosObjeto = '/security/app/aplicaciones/templates/templateNodosObjeto.html';
                 $scope.tabNodosObjetoPerfil = '/security/app/aplicaciones/templates/templateNodosObjetoPerfil.html';
                 $scope.tabDatosGenerales = '/security/app/aplicaciones/detalle/component/templateDatosGenerales.html';

@@ -537,7 +537,9 @@
                         getAplicacionesByCode($state.params.id);
                         getSubRolesByCode($state.params.id);
                         initComponentsDefault();
-                        $scope.onlyView = $scope.objetSeguridad.soloLectura;
+                        $timeout(function () {
+                            $scope.onlyView = $scope.objetSeguridad.soloLectura;
+                        }, 10);
                     })();
 
                 }
