@@ -42,7 +42,7 @@ define(['angular', 'lodash', 'AsistenciaActions', 'wpConstant'], function (ng, _
       vm.frmVehiculo.modeloVehiculo = data ? data.des_modelo : null;
       vm.frmVehiculo.motorVehiculo = data ? data.num_motor : null;
       vm.frmVehiculo.anioVehiculo = data ? data.anho_fabricacion : null;
-      vm.frmVehiculo.serieVehiculo = data ? data.serie : null;
+      vm.frmVehiculo.serieVehiculo = data ? data.num_chasis : null;
       vm.frmVehiculo.num_chasis = data ? data.num_chasis : null;
 
       // (Hack) : para setear valores a selects del componente cbo
