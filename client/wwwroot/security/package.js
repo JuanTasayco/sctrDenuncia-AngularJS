@@ -14,8 +14,8 @@
          path : '/security/app/app'
       },
       'uiTree': {
-          name: 'uiTree',
-          path: '/security/components/angular-ui-tree/dist/angular-ui-tree.min'
+        name: 'uiTree',
+        path: '/scripts/b_components/angular-ui-tree/dist/angular-ui-tree.min'
       },
        //components
        'menuSecurity' : {

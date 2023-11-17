@@ -17,9 +17,10 @@
                     var MAX_ROWS_DEFAULT = 10;
                     var NUM_PAGE_DEFAULT = 1;
                     var SORTING_TYPE_DEFAULT = 1;
-
                     $scope.ENABLE_STATE = messagesSeguridad.CODIGO_ESTADO.HABILITADO;
                     $scope.DISABLED_STATE = messagesSeguridad.CODIGO_ESTADO.DESHABILITADO;
+                    $scope.objetSeguridad = seguridadFactory.onlyView();
+
 
                     /* VARIABLES */
                     var page;
@@ -162,8 +163,7 @@
                     (function onLoad() {
                         InitDataDefault();
                         GetAplicacionesData(true);
-                        const objetSeguridad = seguridadFactory.onlyView();
-                        $scope.onlyView = objetSeguridad.soloLectura || true;
+                        $scope.onlyView = $scope.objetSeguridad.soloLectura || true;
                     })();
                 }
             ]

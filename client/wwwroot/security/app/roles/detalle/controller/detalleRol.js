@@ -23,6 +23,7 @@
                     var searchApplication;
                     var searchProfile;
                     var searchRole;
+                    $scope.objetSeguridad = seguridadFactory.onlyView();
 
                     /* SUB ROLES */
                     var searchTypeGroup = null;
@@ -536,8 +537,7 @@
                         getAplicacionesByCode($state.params.id);
                         getSubRolesByCode($state.params.id);
                         initComponentsDefault();
-                        const objetSeguridad = seguridadFactory.onlyView();
-                        $scope.onlyView = objetSeguridad.soloLectura;
+                        $scope.onlyView = $scope.objetSeguridad.soloLectura;
                     })();
 
                 }

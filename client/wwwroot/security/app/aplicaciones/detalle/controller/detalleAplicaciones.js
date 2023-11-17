@@ -82,7 +82,7 @@
             $scope.updateApplication = UpdateApplication;
             $scope.updateSystemId = UpdateSystemId;
             $scope.onlyView = true;
-
+            $scope.objetSeguridad = seguridadFactory.onlyView();
 
             function GetApplicationByCode(numApplication, showSpin) {
                 seguridadFactory.getApplicationDetail(numApplication, showSpin)
@@ -1043,8 +1043,7 @@
 
                 InitDataDefault();
                 GetApplicationByCode(numApplication, true);
-                const objetSeguridad = seguridadFactory.onlyView();
-                $scope.onlyView = objetSeguridad.soloLectura || true;
+                $scope.onlyView = $scope.objetSeguridad.soloLectura || true;
                 $scope.tabNodosObjeto = '/security/app/aplicaciones/templates/templateNodosObjeto.html';
                 $scope.tabNodosObjetoPerfil = '/security/app/aplicaciones/templates/templateNodosObjetoPerfil.html';
                 $scope.tabDatosGenerales = '/security/app/aplicaciones/detalle/component/templateDatosGenerales.html';
