@@ -31,7 +31,7 @@
                     var el = {
                       label: name
                       , objMXKey: arrEl[i].ordenObjMx
-                      , state: (i == 0) ? 'dashboard' : arrEl[i].nombreLargo.toLowerCase()
+                      , state: (arrEl[i].nombreLargo.toLowerCase() == "general") ? 'dashboard' : arrEl[i].nombreLargo.toLowerCase()
                       , isSubMenu: false
                       , actived: false
                       , show: true
