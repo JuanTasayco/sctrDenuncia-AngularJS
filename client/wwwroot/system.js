@@ -113,7 +113,7 @@
         rootApi: "",
         menuName: "Planificador Financiero",
         isComponsesMenu: true,
-        icon: "ico-mapfre_11_assitentemapfre"
+        icon: "ico-mapfre-340-planificador"
       },
       ap: {
         code: "ADMPORTALES",
