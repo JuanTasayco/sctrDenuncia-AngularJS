@@ -48,7 +48,7 @@
           , httpData){
 
             var page;
-
+            $scope.objetSeguridad = seguridadFactory.onlyView();
             function _initData(){
 
               //set formulario de busqueda
@@ -160,7 +160,7 @@
             }
 
             (function onLoad(){
-
+              $scope.onlyView = $scope.objetSeguridad.soloLectura || true;
               $scope.showSelectedBar = false;
               $scope.firstLoad = true;
 
