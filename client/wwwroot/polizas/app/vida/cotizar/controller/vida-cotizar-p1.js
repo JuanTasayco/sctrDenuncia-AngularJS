@@ -30,6 +30,7 @@
       
       $scope.validaInsuredForm = false;
       $scope.validaContractorForm = false;
+      $scope.activarInputCoberturaSecundaria = false;
       
       $scope.$on('personForm', function(event, data) {
         if (data.contratante) {
@@ -230,6 +231,7 @@
 
       if ($scope.data.producto) {
         _validatePPJ();
+        _validarCoberturasSecundariasPorRamo();
       }
 
       function _validatePPJ(){
@@ -281,6 +283,8 @@
         if ($scope.data.producto.CodigoProducto === 66102 || $scope.data.producto.CodigoProducto === 66101) {
           $scope.data.visibleCodigoPromocion = true;
         }
+
+        _validarCoberturasSecundariasPorRamo();
 
         $scope.optionEdit  = option ? option : 0;
         if ($scope.data.producto && $scope.data.producto.CodigoProducto !== null) {
@@ -540,18 +544,48 @@
 
 
       $scope.onCoberturaChange = function(item) {
-        if (item.MontoCobertura < item.ValorMinimoAsegurado) {
+        if (parseFloat(item.MontoCobertura) < item.ValorMinimoAsegurado) {
           item.MontoCobertura = item.ValorMinimoAsegurado;
         }
-        if (item.MontoCobertura > item.ValorMaximoAsegurado) {
+        if (parseFloat(item.MontoCobertura) > item.ValorMaximoAsegurado) {
           item.MontoCobertura = item.ValorMaximoAsegurado;
         }
 
         $scope.data.coberturas.forEach(function(it) {
-          if (it.MarcaPrincipal == 'N') {
+          if (it.MarcaPrincipal === 'N') {
+            if ($scope.activarInputCoberturaSecundaria) {
+              if (parseFloat(it.MontoCobertura) === 0 || parseFloat(it.MontoCobertura) > parseFloat(item.MontoCobertura)) {
+                it.MontoCobertura = item.MontoCobertura * (it.FactorAsegurado ? it.FactorAsegurado : 1);
+              }
+            } else {
               it.MontoCobertura = item.MontoCobertura * (it.FactorAsegurado ? it.FactorAsegurado : 1);
+            }
           }
         });
+        
+      }
+
+      $scope.onCoberturaSecundariaChange = function(item) {
+        var coberturaPrincipal = _.find($scope.data.coberturas, function (cobertura) { return cobertura.MarcaPrincipal === 'S'; });
+        if (parseFloat(item.MontoCobertura) < parseFloat(coberturaPrincipal.ValorMinimoAsegurado)) {
+          item.MontoCobertura = coberturaPrincipal.ValorMinimoAsegurado;
+        }
+        if (parseFloat(item.MontoCobertura) > parseFloat(coberturaPrincipal.MontoCobertura)) {
+          item.MontoCobertura = coberturaPrincipal.MontoCobertura;
+        }        
+      }
+
+      $scope.onCheckCobertura = function (item) {
+        if ($scope.activarInputCoberturaSecundaria) {
+          if (generalConstantVida.codCoberturaExcluyente.find(function (ce) { return ce === item.CodigoCobertura; })) {
+            var excluye = generalConstantVida.codCoberturaExcluyente.filter(function (ce) { return ce !== item.CodigoCobertura });
+            $scope.data.coberturas.forEach(function (co) {
+              if (excluye.find(function (ce) { return ce === co.CodigoCobertura; })) {
+                co.Checked = false;
+              }
+            });
+          }
+        }
       }
 
       $scope.getContractorData = function(data) {
@@ -931,7 +965,8 @@
         $scope.optionEdit = vQuotationNumber > 0 ? 1 : 0;
 
         $scope.data.producto = {
-          CodigoProducto: data.Producto.CodigoProducto //60425
+          CodigoProducto: data.Producto.CodigoProducto, //60425
+          CodigoRamo: data.Producto.CodigoRamo
         };
 
         codigoProductoOriginal = data.Producto.CodigoProducto;
@@ -1229,35 +1264,37 @@
 
             var shoMsgTlfFijo = true;
 
-            response.Data.forEach(function(element) {
-              if(element.Resultado) {
-                var elemetLN = {
-                  codAplicacion: personConstants.aplications.VIDA,
-                  tipoDato: element.Tipo,
-                  valorDato: element.Valor
-                };
-
-                datosLN.push(elemetLN);
-
-                switch(element.Tipo) {
-                  case "CORREO": 
-                    var fuente = element.Valor === $scope.data.dataContratante.CorreoElectronico ? 'contratante' : 'asegurado';
-                    msg += "El correo del " + fuente + " est&aacute; en la tabla de Cliente/ Unidad inelegible por estudios t&eacute;cnicos.<br/>"; 
-                    break;
-                  case "TLF_MOVIL": 
-                    msg += "El tel&eacute;fono celular del contratante est&aacute; en la tabla de Cliente/ Unidad inelegible por estudios t&eacute;cnicos.<br/>"; 
-                    break;
-                  case "TLF_FIJO": 
-                    if(shoMsgTlfFijo) {
-                      var fuente = tlfIgual ? 'oficina o casa' : element.Valor === $scope.data.dataContratante.TelefonoOficina ? 'oficina' : 'casa';
-                      msg += "El tel&eacute;fono fijo (" + fuente + ") del contratante est&aacute; en la tabla de Cliente/ Unidad inelegible por estudios t&eacute;cnicos.<br/>"; 
-                      if(tlfIgual) shoMsgTlfFijo = false;
-                    }
-                    break;
-                  default: "";
+            if (Array.isArray(response.Data)) {
+              response.Data.forEach(function(element) {
+                if(element.Resultado) {
+                  var elemetLN = {
+                    codAplicacion: personConstants.aplications.VIDA,
+                    tipoDato: element.Tipo,
+                    valorDato: element.Valor
+                  };
+  
+                  datosLN.push(elemetLN);
+  
+                  switch(element.Tipo) {
+                    case "CORREO": 
+                      var fuente = element.Valor === $scope.data.dataContratante.CorreoElectronico ? 'contratante' : 'asegurado';
+                      msg += "El correo del " + fuente + " est&aacute; en la tabla de Cliente/ Unidad inelegible por estudios t&eacute;cnicos.<br/>"; 
+                      break;
+                    case "TLF_MOVIL": 
+                      msg += "El tel&eacute;fono celular del contratante est&aacute; en la tabla de Cliente/ Unidad inelegible por estudios t&eacute;cnicos.<br/>"; 
+                      break;
+                    case "TLF_FIJO": 
+                      if(shoMsgTlfFijo) {
+                        var fuente = tlfIgual ? 'oficina o casa' : element.Valor === $scope.data.dataContratante.TelefonoOficina ? 'oficina' : 'casa';
+                        msg += "El tel&eacute;fono fijo (" + fuente + ") del contratante est&aacute; en la tabla de Cliente/ Unidad inelegible por estudios t&eacute;cnicos.<br/>"; 
+                        if(tlfIgual) shoMsgTlfFijo = false;
+                      }
+                      break;
+                    default: "";
+                  }
                 }
-              }
-            });
+              });
+            }
 
             if(msg === "") {
               _guardarData();
@@ -1328,6 +1365,10 @@
           }]
         });
         */
+      }
+
+      function _validarCoberturasSecundariasPorRamo() {        
+        $scope.activarInputCoberturaSecundaria = _.contains(generalConstantVida.codRamosCoberturasSecundarias, $scope.data.producto.CodigoRamo);
       }
 
   }]);
