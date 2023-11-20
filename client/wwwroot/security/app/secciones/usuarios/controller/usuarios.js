@@ -48,7 +48,6 @@
           , httpData){
 
             var page;
-            $scope.objetSeguridad = seguridadFactory.onlyView();
             function _initData(){
 
               //set formulario de busqueda
@@ -158,9 +157,12 @@
                 //$scope.grupoUsuario == 1 // Usuario Externo
               }else $scope.userDisma = true;              
             }
-
+            $scope.onlyView = true;
             (function onLoad(){
-              $scope.onlyView = $scope.objetSeguridad.soloLectura || true;
+              $scope.objetSeguridad = seguridadFactory.onlyView();
+              $timeout(function () {
+                $scope.onlyView = $scope.objetSeguridad.soloLectura;
+              }, 10);
               $scope.showSelectedBar = false;
               $scope.firstLoad = true;
 
