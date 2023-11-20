@@ -57,11 +57,19 @@ define(['angular', 'constants', 'generalConstant'], function (angular, constants
 
             if (itemGroup.length === 0) return false;
 
+            if(!key) {
+                return itemGroup;
+            }
+
             var valueObject = itemGroup.items.find(function (item) {
                 return item.nombreCorto.includes(key)
             });
 
             return valueObject;
+        }
+
+        function menuOptions(){
+            return getStorageValueObject('GESTION DE CLIENTES', null);
         }
 
         function isRedirectPortal(){
@@ -85,6 +93,7 @@ define(['angular', 'constants', 'generalConstant'], function (angular, constants
             storageActter: storageActter,
             getStorageValueObject: getStorageValueObject,
             isRedirectPortal: isRedirectPortal,
+            menuOptions: menuOptions,
             isOptModify: isOptModify,
             baseUrlPortal: baseUrlPortal
         }
