@@ -279,8 +279,8 @@ define(['angular', 'lodash', 'AsistenciaActions', 'helper', 'wpConstant', 'const
 
       
       return _.assign({}, vm.ultimaDataDeAsistencia, vm.ultimaDataDeAsistencia.dataVehiculo, {
-        codigoTipoVehiculoAsegurado: vm.ultimaDataDeAsistencia.dataVehiculo.codigoTipoVehiculo,
-        anioVehiculoAsegurado: vm.ultimaDataDeAsistencia.dataVehiculo.anioVehiculo,
+        codigoTipoVehiculoAsegurado: vm.ultimaDataDeAsistencia.dataVehiculo ? vm.ultimaDataDeAsistencia.dataVehiculo.codigoTipoVehiculo : {} ,
+        anioVehiculoAsegurado: vm.ultimaDataDeAsistencia.dataVehiculo ? vm.ultimaDataDeAsistencia.dataVehiculo.anioVehiculo : {},
         estadoSiniestro: estado
       })
     }
