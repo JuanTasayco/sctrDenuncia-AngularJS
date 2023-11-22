@@ -36,7 +36,8 @@ define(['angular'], function(ng) {
         $scope.frmNivelDanho.markAsPristine();
         return void 0;
       }        
-      vm.detalle = vm.frm.pregunta1 ? vm.frm : undefined;  
+      vm.detalle = vm.frm.pregunta1 ? vm.frm : undefined;
+      vm.detalle.descripcionDanios = vm.descripcionDanios;
     }
 
 
@@ -68,6 +69,7 @@ define(['angular'], function(ng) {
       bindings: {
         isUa: '=?',
         detalle: '=?',
+        descripcionDanios: '=?',
         validateForm: '=?',
         modoLectura: '=?'
       }
