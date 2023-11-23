@@ -10,10 +10,16 @@ define(['angular', 'constants', 'generalConstant'], function (angular, constants
         httpData
     ) {
         var basePoliza = constants.system.api.endpoints.policy;
+        var baseSecurity = constants.system.api.endpoints.security;
+        var baseUrlPortal = constants.ORIGIN_SYSTEMS.selfService.url;
 
         function getEconomicsActivities(actEco, showSpin) {
              return httpData['post'](basePoliza+ 'api/general/actividadeconomica/sunat',
                                  actEco, undefined, showSpin);
+        }
+
+        function getTokenRedirect(body) {
+            return httpData['post'](baseSecurity+ 'api/token/generate', body, undefined, true);
         }
 
         // Ubigeo
@@ -36,6 +42,27 @@ define(['angular', 'constants', 'generalConstant'], function (angular, constants
             })
         }
 
+        function storageActter() {
+            return JSON.parse(localStorage.getItem('evoSubMenuACTTER'));
+        }
+
+        function getStorageValueObject(group, key) {
+            var groups = storageActter();
+            var itemGroup = groups.find(function (item) {
+                return item.nombreCabecera.includes(group)
+            })
+
+            var valueObject = itemGroup.items.find(function (item) {
+                return item.nombreCorto.includes(key)
+            })
+
+            return valueObject;
+        }
+
+        function isRedirectPortal(){
+            return !!getStorageValueObject('ACCIONES', 'REDIRECT_PORTAL');
+        }
+
         return {
             ubigeo: {
                 getCountries: getCountries,
@@ -44,7 +71,12 @@ define(['angular', 'constants', 'generalConstant'], function (angular, constants
                 getDistrict: getDistrict,
                 mapUbigeo: mapUbigeo
             },
-            getEconomicsActivities : getEconomicsActivities
+            getEconomicsActivities : getEconomicsActivities,
+            getTokenRedirect: getTokenRedirect,
+            storageActter: storageActter,
+            getStorageValueObject: getStorageValueObject,
+            isRedirectPortal: isRedirectPortal,
+            baseUrlPortal: baseUrlPortal
         }
     }
 

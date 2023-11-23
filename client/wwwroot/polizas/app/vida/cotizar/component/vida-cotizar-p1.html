@@ -492,6 +492,7 @@
                   ng-model="item.Checked"
                   label=""
                   ng-disabled="item.MarcaPrincipal=='S'  || disabledPPJPU"
+                  ng-change="onCheckCobertura(item)"
                 ></mpf-checkbox>
               </div>
               <div class="col-md-3 col-xs-5">
@@ -510,10 +511,24 @@
                   add-messages
                 />
               </div>
-              <div class="col-md-2 text-right" ng-if="item.MarcaPrincipal=='N'">
-                <span ng-show="item.Checked || (primaDeseadaCalculada && codCoberturaPPJ == item.CodigoCobertura) "
-                  >{{ item.MontoCobertura | number }}</span
-                >
+              <div class="col-md-2 text-right" ng-if="item.MarcaPrincipal=='N' && !activarInputCoberturaSecundaria">
+                <span ng-show="item.Checked || (primaDeseadaCalculada && codCoberturaPPJ == item.CodigoCobertura) ">
+                  {{ item.MontoCobertura | number }}
+                </span>
+              </div>
+              <div
+                class="col-md-2 col-xs-4 text-right"
+                ng-if="item.MarcaPrincipal=='N' && activarInputCoberturaSecundaria"
+              >
+                <input
+                  type="text"
+                  class="onlyInput text-right g-tablet-block"
+                  ng-model="item.MontoCobertura"
+                  ng-blur="onCoberturaSecundariaChange(item)"
+                  mpf-validation="numberFixed2"
+                  add-messages
+                  ng-show="item.Checked || (primaDeseadaCalculada && codCoberturaPPJ == item.CodigoCobertura) "
+                />
               </div>
             </div>
           </div>
