@@ -247,15 +247,13 @@ define(['angular', 'lodash', 'AsistenciaActions', 'helper', 'wpConstant', 'const
       
       if(vm.ultimaDataDeAsistencia.siniestroConvenio){
         vm.ultimaDataDeAsistencia.siniestroConvenio = {
-          "codigoConvenioGolpe": parseInt(vm.ultimaDataDeAsistencia.siniestroConvenio.codigoConvenioGolpeSelect.codigoValor),
-          "codigoEmpresaAseguradora": vm.ultimaDataDeAsistencia.siniestroConvenio.codigoEmpresaAseguradora,
-          "codigoMoneda": vm.ultimaDataDeAsistencia.siniestroConvenio.codigoMoneda.toString(),
-          "flagTerceroSeguro": vm.ultimaDataDeAsistencia.siniestroConvenio.flagTerceroSeguro,
-          "importe": parseFloat(vm.ultimaDataDeAsistencia.siniestroConvenio.importe),
-          "codigoConvenioGolpeSelect" : vm.ultimaDataDeAsistencia.siniestroConvenio.codigoConvenioGolpeSelect
+          "codigoConvenioGolpe": vm.frmGeneral.frmTerceroConvenio.nAcuerdoConductores  ? parseInt(vm.ultimaDataDeAsistencia.siniestroConvenio.codigoConvenioGolpeSelect.codigoValor) : null,
+          "codigoEmpresaAseguradora": vm.frmGeneral.frmTerceroConvenio.nCompaniaSeguro ? vm.ultimaDataDeAsistencia.siniestroConvenio.codigoEmpresaAseguradora : null,
+          "codigoMoneda": vm.frmGeneral.frmTerceroConvenio.nMoneda ?  vm.ultimaDataDeAsistencia.siniestroConvenio.codigoMoneda.toString() : null,
+          "flagTerceroSeguro": vm.frmGeneral.frmTerceroConvenio.nSeguro ?  vm.ultimaDataDeAsistencia.siniestroConvenio.flagTerceroSeguro : null,
+          "importe": vm.frmGeneral.frmTerceroConvenio.nImporte ? parseFloat(vm.ultimaDataDeAsistencia.siniestroConvenio.importe) : null,
+          "codigoConvenioGolpeSelect" : vm.ultimaDataDeAsistencia.siniestroConvenio.codigoConvenioGolpeSelect || null
         }
-        //vm.ultimaDataDeAsistencia.siniestroConvenio.codigoConvenioGolpeSelect ? delete vm.ultimaDataDeAsistencia.siniestroConvenio.codigoConvenioGolpeSelect : null
-
       }
       
       
