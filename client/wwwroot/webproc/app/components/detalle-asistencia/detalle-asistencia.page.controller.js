@@ -247,13 +247,14 @@ define(['angular', 'lodash', 'AsistenciaActions', 'helper', 'wpConstant', 'const
       
       if(vm.ultimaDataDeAsistencia.siniestroConvenio){
         vm.ultimaDataDeAsistencia.siniestroConvenio = {
-          "codigoConvenioGolpe": parseInt(vm.ultimaDataDeAsistencia.siniestroConvenio.codigoConvenioGolpe),
+          "codigoConvenioGolpe": parseInt(vm.ultimaDataDeAsistencia.siniestroConvenio.codigoConvenioGolpeSelect.codigoValor),
           "codigoEmpresaAseguradora": vm.ultimaDataDeAsistencia.siniestroConvenio.codigoEmpresaAseguradora,
           "codigoMoneda": vm.ultimaDataDeAsistencia.siniestroConvenio.codigoMoneda.toString(),
           "flagTerceroSeguro": vm.ultimaDataDeAsistencia.siniestroConvenio.flagTerceroSeguro,
-          "importe": parseFloat(vm.ultimaDataDeAsistencia.siniestroConvenio.importe)
+          "importe": parseFloat(vm.ultimaDataDeAsistencia.siniestroConvenio.importe),
+          "codigoConvenioGolpeSelect" : vm.ultimaDataDeAsistencia.siniestroConvenio.codigoConvenioGolpeSelect
         }
-        vm.ultimaDataDeAsistencia.siniestroConvenio.codigoConvenioGolpeSelect ? delete vm.ultimaDataDeAsistencia.siniestroConvenio.codigoConvenioGolpeSelect : null
+        //vm.ultimaDataDeAsistencia.siniestroConvenio.codigoConvenioGolpeSelect ? delete vm.ultimaDataDeAsistencia.siniestroConvenio.codigoConvenioGolpeSelect : null
 
       }
       
