@@ -29,8 +29,12 @@
           , seguridadFactory) {
 
           var vm = this;
+          $scope.objetSeguridad = seguridadFactory.onlyView();
           vm.$onInit = function () {
-
+            $scope.onlyView = true;
+            $timeout(function () {
+              $scope.onlyView = $scope.objetSeguridad.soloLectura;
+            }, 10);
             $scope.frmData = {};
             vm.roles = [];
             vm.existRole = false;

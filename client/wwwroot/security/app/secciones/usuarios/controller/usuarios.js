@@ -49,7 +49,7 @@
 
             var page;
             function _initData(){
-
+              $scope.objetSeguridad = seguridadFactory.onlyView();
               //set formulario de busqueda
               $scope.searchClient = {};
               $scope.searchClient.mUsuario = $scope.searchClient.mUsuario || "";
