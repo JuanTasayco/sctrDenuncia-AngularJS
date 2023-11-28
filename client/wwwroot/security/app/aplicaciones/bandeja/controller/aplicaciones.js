@@ -164,7 +164,7 @@
                         InitDataDefault();
                         GetAplicacionesData(true);
                         $timeout(function () {
-                            $scope.onlyView = $scope.objetSeguridad.soloLectura || true;
+                            $scope.onlyView = $scope.objetSeguridad.soloLectura;
                         }, 10);
                     })();
                 }
