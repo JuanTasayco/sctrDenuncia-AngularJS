@@ -28,11 +28,14 @@ define(['angular', 'lodash', 'AsistenciaActions', 'wpConstant', 'wpAgregarAtrope
         if(vm.TipomonedaAntigua[vm.frmSiniestro.siniestroConvenio.codigoMoneda]) {
           vm.frmSiniestro.siniestroConvenio.codigoMoneda = vm.TipomonedaAntigua[vm.frmSiniestro.siniestroConvenio.codigoMoneda]
         }
-        vm.showHaveSeguro = vm.frmSiniestro.siniestroConvenio.flagTerceroSeguro != null ;
-        vm.showImporte = vm.frmSiniestro.siniestroConvenio.codigoMoneda!= null ;
-        vm.showCompanhiaTercero =  vm.frmSiniestro.siniestroConvenio.codigoEmpresaAseguradora!= null ;
-        vm.showConvenio =  vm.frmSiniestro.siniestroConvenio.codigoConvenioGolpeSelect
-       
+        vm.showHaveSeguro = vm.frmSiniestro.siniestroConvenio.flagTerceroSeguro ;
+        vm.showImporte = vm.frmSiniestro.siniestroConvenio.codigoMoneda ;
+        vm.showCompanhiaTercero =  vm.frmSiniestro.siniestroConvenio.codigoEmpresaAseguradora ;
+        vm.showConvenio =  vm.frmSiniestro.siniestroConvenio.codigoConvenioGolpe;
+        $timeout(function () {
+          vm.frmSiniestro.siniestroConvenio.codigoConvenioGolpeSelect.codigoValor =   vm.frmSiniestro.siniestroConvenio.codigoConvenioGolpe;
+        },10)
+
       }
       else{
         vm.frmSiniestro.siniestroConvenio = {};
