@@ -24,7 +24,6 @@ define(['angular', 'lodash', 'AsistenciaActions', 'wpConstant', 'wpAgregarAtrope
 
       
       if(vm.frmSiniestro.siniestroConvenio){
-        vm.frmSiniestro.siniestroConvenio.codigoMoneda = 74;
         if(vm.TipomonedaAntigua[vm.frmSiniestro.siniestroConvenio.codigoMoneda]) {
           vm.frmSiniestro.siniestroConvenio.codigoMoneda = vm.TipomonedaAntigua[vm.frmSiniestro.siniestroConvenio.codigoMoneda]
         }
@@ -35,7 +34,6 @@ define(['angular', 'lodash', 'AsistenciaActions', 'wpConstant', 'wpAgregarAtrope
         $timeout(function () {
           vm.frmSiniestro.siniestroConvenio.codigoConvenioGolpeSelect.codigoValor =   vm.frmSiniestro.siniestroConvenio.codigoConvenioGolpe;
         },10)
-
       }
       else{
         vm.frmSiniestro.siniestroConvenio = {};
