@@ -119,10 +119,10 @@
                 ng-change="fnChangeProfilePrincipal(item.numAplicacion, item.numPerfil, frmData[$index].numero)" ng-disabled="item.codEstado==2">
                 <div ng-bind-html="$item.codigoNombrePerfil | highlight: $select.search"></div>
               </mp-data-seeker>
-              <span class="ico-mapfre_337_deletePerfil g-tacho-perfil g-link no-underline gnIcon-sm gCGray3" ng-class="(item.codEstado != 1 || item.numPerfil == null) ? 'g-disable' : ''"
+              <span class="ico-mapfre_337_deletePerfil g-tacho-perfil g-link no-underline gnIcon-sm gCGray3" ng-class="(item.codEstado != 1 || item.numPerfil == null) || onlyView ? 'g-disable' : ''"
                 ng-click="fnDeleteProfile(item, $index)"></span>
             </li>
-            <li class="col-sm-2 col-md-2 item-toggle cnt-item item-dato text-center mt-xs-1" ng-class="(item.codEstado==null) ? 'g-disable' : ''">
+            <li class="col-sm-2 col-md-2 item-toggle cnt-item item-dato text-center mt-xs-1" ng-class="(item.codEstado==null || onlyView ) ? 'g-disable' : ''">
               <mpf-checkbox-toggle 
               ng-model="item.accessActive" 
               label="" 
