@@ -1044,7 +1044,7 @@
                 InitDataDefault();
                 GetApplicationByCode(numApplication, true);
                 $timeout(function () {
-                    $scope.onlyView = $scope.objetSeguridad.soloLectura || true;
+                    $scope.onlyView = $scope.objetSeguridad.soloLectura;
                 }, 10);
                 $scope.tabNodosObjeto = '/security/app/aplicaciones/templates/templateNodosObjeto.html';
                 $scope.tabNodosObjetoPerfil = '/security/app/aplicaciones/templates/templateNodosObjetoPerfil.html';
