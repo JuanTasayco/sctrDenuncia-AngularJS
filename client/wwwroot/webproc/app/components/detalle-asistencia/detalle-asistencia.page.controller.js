@@ -245,7 +245,7 @@ define(['angular', 'lodash', 'AsistenciaActions', 'helper', 'wpConstant', 'const
       vm.ultimaDataDeAsistencia.codigoProvincia = vm.ultimaDataDeAsistencia.codigoProvincia + '';
       vm.ultimaDataDeAsistencia.codigoDistrito = vm.ultimaDataDeAsistencia.codigoDistrito + '';
       
-      if(vm.ultimaDataDeAsistencia.siniestroConvenio){
+      if(vm.ultimaDataDeAsistencia.siniestroConvenio && vm.frmGeneral.frmTerceroConvenio){
         vm.ultimaDataDeAsistencia.siniestroConvenio = {
           "codigoConvenioGolpe": vm.frmGeneral.frmTerceroConvenio.nAcuerdoConductores  ? parseInt(vm.ultimaDataDeAsistencia.siniestroConvenio.codigoConvenioGolpeSelect.codigoValor) : null,
           "codigoEmpresaAseguradora": vm.frmGeneral.frmTerceroConvenio.nCompaniaSeguro ? vm.ultimaDataDeAsistencia.siniestroConvenio.codigoEmpresaAseguradora : null,
