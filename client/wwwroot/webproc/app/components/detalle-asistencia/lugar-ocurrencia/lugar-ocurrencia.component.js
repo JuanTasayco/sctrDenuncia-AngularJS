@@ -97,22 +97,11 @@ define(['angular', 'lodash', 'AsistenciaActions', 'wpConstant'], function (ng, _
     }
 
     function onChangeLstDetalleSiniestro(radioItem) {
-      if(vm.frmSiniestro.codigoTipoSiniestro == '148'){
-        if(radioItem.nombreValorDetalle.replace(' ', '').toUpperCase()=="ROTURALUNA"){
-          vm.frmSiniestro.expediente = "PPL"
-        }else{
-          vm.frmSiniestro.expediente = "PPD"
-        }
-      }
-      else{
-        if(radioItem.nombreValorDetalle.replace(' ', '').toUpperCase()=="TOTAL"){
-          vm.frmSiniestro.expediente = "PTR"
-        }else{
-          vm.frmSiniestro.expediente = "PPR"
-        }
-      }
+      vm.frmSiniestro.expediente = radioItem.valEquivalence;
+      vm.frmSiniestro.codigoCausa = radioItem.valEquivalence2;
+      vm.frmSiniestro.codigoConsecuencia = radioItem.valEquivalence3;
     }
-
+    
     function changeApEtilica() {
       if(vm.frmSiniestro.apreciacionEtilica==true){
         vm.frmSiniestro.exoneraDenuncia = false
