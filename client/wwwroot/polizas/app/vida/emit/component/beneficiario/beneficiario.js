@@ -45,8 +45,8 @@
           numDocPrincipal: "="
       },
       templateUrl: 'app/vida/emit/component/beneficiario/beneficiario.html',
-      controller: ['$scope', 'proxyUbigeo', 'proxyVida', 'proxyGeneral', 'proxyTipoDocumento', 'vidaService', 'proxyContratante', '$filter', '$timeout', 'mModalAlert',
-      function($scope, proxyUbigeo, proxyVida, proxyGeneral, proxyTipoDocumento, vidaService, proxyContratante, $filter, $timeout, mModalAlert) {
+      controller: ['$scope', 'proxyUbigeo', 'proxyVida', 'proxyGeneral', 'proxyTipoDocumento', 'vidaService', 'proxyContratante', '$filter', '$timeout', 'mModalAlert', 'proxyPersonForm',
+      function($scope, proxyUbigeo, proxyVida, proxyGeneral, proxyTipoDocumento, vidaService, proxyContratante, $filter, $timeout, mModalAlert, proxyPersonForm) {
 
         var _self = this;
 
@@ -376,7 +376,12 @@
 
                 $scope.currentDoc = paramsContractor;
 
-                proxyContratante.GetContratanteByNroDocumento(paramsContractor.companyCode, paramsContractor.documentType, paramsContractor.documentNumber, true).then(function(response){
+                proxyContratante.getPersonEquifax({ 
+                  "applicationCode": "VIDA",
+                  "tipoDocumento": paramsContractor.documentType,
+                  "codigoDocumento": paramsContractor.documentNumber,
+                  "codigoCompania": constants.module.polizas.vida.companyCode
+                }, true).then(function(response){
                   var vValue = response.Data;
                   if (vValue){
 
