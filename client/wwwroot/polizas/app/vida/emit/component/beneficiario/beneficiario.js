@@ -50,7 +50,6 @@
 
         var _self = this;
 
-
         (function onLoad(){
 
           _self.data = _self.data ? _self.data : {};
@@ -61,6 +60,10 @@
           _self.numDocAsegurado = _self.data.cotizacion.Asegurado.NumeroDocumento;
 
           $scope.cBeneficiaryLife = '6';
+          $scope.disabledForm ={
+            dateNac: false,
+            sexo: false
+          }
 
           _init();
 
@@ -219,6 +222,11 @@
         //
         function _disabledFields(b){
           $scope.disabledFields = b;
+          $scope.disabledForm.dateNac = b;
+          $scope.disabledForm.sexo = b;
+        }
+        function _disabledFieldsBirthay(b){
+          $scope.disabledFields = b;
         }
         //
         function _showNaturalRucPerson(documentType, documentNumber){
@@ -376,7 +384,7 @@
 
                 $scope.currentDoc = paramsContractor;
 
-                proxyContratante.getPersonEquifax({ 
+                proxyPersonForm.getPersonEquifax({ 
                   "applicationCode": "VIDA",
                   "tipoDocumento": paramsContractor.documentType,
                   "codigoDocumento": paramsContractor.documentNumber,
@@ -463,8 +471,11 @@
                     // if (vDataUbigeo.mDepartamento && vDataUbigeo.mDepartamento.Codigo !== null){
                     _self.setterUbigeo(vDataContractorAddress.CodigoDepartamento, vDataContractorAddress.CodigoProvincia, vDataContractorAddress.CodigoDistrito);
                     // }
-
-                    _disabledFields(true)
+                    if (vValue.Edad < 18){
+                      _disabledFieldsBirthay(true)
+                    }else{
+                      _disabledFields(true)
+                    }                    
 
                   }else if(vFormContractor.mNumeroDocumento === _self.numDocPrincipal){
                     var quotation = _self.data.cotizacion;
@@ -522,7 +533,11 @@
                     vFormContractorAddress.mDirReferencias = !address.mDirReferencias ? '' : address.mDirReferencias;
 
                     _self.setterUbigeo(ubigeo.mDepartamento.Codigo, ubigeo.mProvincia.Codigo, ubigeo.mDistrito.Codigo);
-                    _disabledFields(true)
+                    if (vFormContractor.mEdadActual < 18){
+                      _disabledFieldsBirthay(true)
+                    }else{
+                      _disabledFields(true)
+                    } 
                   }else{
                     _clearSearchContractor();
                   }
