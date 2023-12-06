@@ -354,7 +354,8 @@
     .factory('oimPrincipal', [
       'accessSupplier',
       '$state',
-      function(accessSupplier, $state) {
+      '$window',
+      function(accessSupplier, $state, $window) {
         var data = accessSupplier.profile();
 
         function init() {
@@ -422,7 +423,21 @@
             return null;
           },
           isUserType: isUserType,
-          isCompanyClient: isCompanyClient
+          isCompanyClient: isCompanyClient,
+          validateAgent: function(menuEmisa, aplications){
+            var storage = $window.localStorage;
+            var subMenu = angular.fromJson(storage[menuEmisa]) || [];
+            if(subMenu){
+              var menus = subMenu.filter(function(x) { return x.nombreCabecera === aplications })[0];
+              if(menus){ 
+                return _.find(menus.items, function (field) {
+                  return field.nombreCorto === 'COTIZACIONMULTIAGENTE';
+                  }) ? true : false;
+              }
+            }           
+            
+            return false;
+          }
         };
       }
     ])
