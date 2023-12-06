@@ -763,6 +763,7 @@
                           $scope.formData.DocumentosAsociados[key] = {};
 
                           $scope.formData.DocumentosAsociados[key].CodigoPrima = resultadoPrima.NumeroCotizacion;
+                          $scope.formData.DocumentosAsociados[key].FechaHora = resultadoPrima.FechaHora;
                           $scope.formData.DocumentosAsociados[key].CodigoEstado = "1";
                           $scope.formData.DocumentosAsociados[key].CodigoUsuarioRED = $scope.formData.codigoUsuarioRED;
                           $scope.formData.DocumentosAsociados[key].CodigoUsuario = $scope.formData.codigoUsuario;
@@ -977,6 +978,7 @@
 
                   dataCotizacion = {
                     PorDctoIntgPlaza: $scope.formData.PorDctoIntgPlaza || 0,
+                    FechaHora: $scope.formData.DocumentosAsociados[0].FechaHora,
                     MarcaPorDctoIntegralidad: $scope.formData.DctoIntegralidad ? "S" : "N",
                     CodigoCompania: constants.module.polizas.autos.companyCode,
                     CodigoProductoPrin: $scope.prdPrincipal.codigoProducto,
