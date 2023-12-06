@@ -49,7 +49,6 @@ define(['angular', 'coreConstants', 'lodash', 'endpointsConstants'], function (
     };
 
     function emitComponentsReady() {
-      console.log("emito")
       for (var index = 0; index < listComponentsReady.length; index++) {
         listComponentsReady[index]();
       }

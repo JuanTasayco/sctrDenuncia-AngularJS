@@ -28,7 +28,6 @@ define(['angular', 'coreConstants', 'moment', 'system', 'lodash'], function (ng,
         vm.formCeremonyRange = {}
 
         function onInit() {
-            console.log("Entro onInit")
             vm.servicesSelected = MassesAndResponsesFactory.getServiceSelected();
             vm.subServicesSelected = MassesAndResponsesFactory.getSubServiceSelected();
             AdminRamoFactory.subsChangeRamo(changeRamo);
@@ -51,7 +50,6 @@ define(['angular', 'coreConstants', 'moment', 'system', 'lodash'], function (ng,
         }
 
         function changeSubService(item){
-            console.log("changeSubService",item);
             vm.subServicesSelected = item;
             MassesAndResponsesFactory.getServiceParameters(item.code).then(function (res){
                 MassesAndResponsesFactory.setServiceParameters(res);
@@ -112,7 +110,6 @@ define(['angular', 'coreConstants', 'moment', 'system', 'lodash'], function (ng,
         }
 
         function saveSubServiceRangesAndDate() {
-            console.log($scope.formCeremonyRange)
             if (!$scope.formHours.$valid || !$scope.formCeremonyRange.$valid) {
                 $scope.formHours.markAsPristine();
                 $scope.formCeremonyRange.markAsPristine();
@@ -201,7 +198,6 @@ define(['angular', 'coreConstants', 'moment', 'system', 'lodash'], function (ng,
                     }
 
                     $scope.save = function () {
-                        console.log("save modal")
                         if (!$scope.formCancellationDay.$valid) {
                             $scope.formCancellationDay.markAsPristine();
                             return;
@@ -216,7 +212,6 @@ define(['angular', 'coreConstants', 'moment', 'system', 'lodash'], function (ng,
                             }
                           });
 
-                        console.log(filters);
 
                         if (filters.length !== 0){
                             mModalAlert.showWarning("La fecha seleccionada ya se encuentra en la lista", 'Advertencia');
@@ -248,7 +243,6 @@ define(['angular', 'coreConstants', 'moment', 'system', 'lodash'], function (ng,
         function validateEndHor(hourInit,hourEnd) {
             var hourInit = moment(hourInit,'HH:mm');
             var hourEnd = moment(hourEnd,'HH:mm');
-            console.log(hourInit.isAfter(hourEnd))
         }
 
     } // end controller
