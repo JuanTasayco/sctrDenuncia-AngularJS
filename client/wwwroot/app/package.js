@@ -301,6 +301,10 @@
                 name: 'storageManager',
                 path: '/scripts/storage-manager'
             },
+            cryptoManager: {
+                name: 'cryptoManager',
+                path: '/scripts/crypto-manager'
+            },
             proxyHome: {
                 name: "proxyHome",
                 path: '/mydream/app/proxy/serviceMyDream'
@@ -352,6 +356,7 @@
             mTemplates: { deps: ['angular'] },
             mDirective: { deps: ['angular', 'spin', 'mTemplates', 'directiveUtils'] },
             storageManager: { deps: ['angular', 'crypto-js'] },
+            cryptoManager: { deps: ['angular', 'crypto-js'] },
             oimGoogleAnalytics: { deps: ['angular'] },
             angular_file_saver: { deps: ['angular', 'fileSaver'] },
             mMainServices: { deps: ['angular', 'angular_file_saver'] },
@@ -365,7 +370,7 @@
             oim_ocLazyLoad: {deps:['angular_ocLazyLoad', 'angular_ui_route']},
             proxyLogin : { deps: ['wrap_gaia'] },
             proxyTrip : { deps: ['wrap_gaia'] },
-            oim_security : { deps: ['satellizer', 'proxyLogin', 'oimGoogleAnalytics', 'originSystem', 'proxyHome', 'angular_cookies', 'storageManager'] },
+            oim_security : { deps: ['satellizer', 'proxyLogin', 'oimGoogleAnalytics', 'originSystem', 'proxyHome', 'angular_cookies', 'storageManager', 'cryptoManager'] },
             mxPaginador : { deps: ['mDirective'] },
             lyra: { deps: ['mDirective'] },
             'images-resizer': { deps: ['angular'] },
