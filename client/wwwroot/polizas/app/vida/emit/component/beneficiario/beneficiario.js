@@ -62,7 +62,18 @@
           $scope.cBeneficiaryLife = '6';
           $scope.disabledForm ={
             dateNac: false,
-            sexo: false
+            sexo: false,
+            mNomContratante: false,
+            mApePatContratante: false,
+            mApeMatContratante: false,
+            mEstadoCivil: false,
+            mCorreoElectronico: false,
+            mProfesion: false,
+            mOcupacion: false,
+            mActividadEconomica: false,
+            mTelefonoFijo: false,
+            mTelefonoOficina: false,
+            mTelefonoCelular: false
           }
 
           _init();
@@ -224,6 +235,33 @@
           $scope.disabledFields = b;
           $scope.disabledForm.dateNac = b;
           $scope.disabledForm.sexo = b;
+          $scope.disabledForm.mNomContratante = b;
+          $scope.disabledForm.mApePatContratante = b;
+          $scope.disabledForm.mApeMatContratante = b;
+          $scope.disabledForm.mEstadoCivil = b;
+          $scope.disabledForm.mCorreoElectronico = b;
+          $scope.disabledForm.mProfesion = b;
+          $scope.disabledForm.mOcupacion = b;
+          $scope.disabledForm.mActividadEconomica = b;
+          $scope.disabledForm.mTelefonoFijo = b;
+          $scope.disabledForm.mTelefonoOficina = b;
+          $scope.disabledForm.mTelefonoCelular = b;
+        }
+        function _disabledFieldsEquifax(vFormContractor){
+          $scope.disabledFields = true;
+          $scope.disabledForm.dateNac = vFormContractor.mEdadActual < 18;
+          $scope.disabledForm.sexo = vFormContractor.mEdadActual < 18;
+          $scope.disabledForm.mNomContratante = vFormContractor.mNomContratante && vFormContractor.mNomContratante != '';
+          $scope.disabledForm.mApePatContratante = vFormContractor.mApePatContratante && vFormContractor.mApePatContratante != '';
+          $scope.disabledForm.mApeMatContratante = vFormContractor.mApeMatContratante && vFormContractor.mApeMatContratante != '';
+          $scope.disabledForm.mEstadoCivil = vFormContractor.mEstadoCivil.CodigoEstadoCivil;
+          $scope.disabledForm.mCorreoElectronico = vFormContractor.mApeMatContratante && vFormContractor.mApeMatContratante != '';
+          $scope.disabledForm.mProfesion = vFormContractor.mProfesion.Codigo;
+          $scope.disabledForm.mOcupacion = vFormContractor.mOcupacion.Codigo;
+          $scope.disabledForm.mActividadEconomica = vFormContractor.mActividadEconomica.Codigo;
+          $scope.disabledForm.mTelefonoFijo = vFormContractor.mTelefonoFijo && vFormContractor.mTelefonoFijo != '';
+          $scope.disabledForm.mTelefonoOficina = vFormContractor.mTelefonoOficina && vFormContractor.mTelefonoOficina != '';
+          $scope.disabledForm.mTelefonoCelular = vFormContractor.mTelefonoCelular && vFormContractor.mTelefonoCelular != '';
         }
         function _disabledFieldsBirthay(b){
           $scope.disabledFields = b;
@@ -471,11 +509,7 @@
                     // if (vDataUbigeo.mDepartamento && vDataUbigeo.mDepartamento.Codigo !== null){
                     _self.setterUbigeo(vDataContractorAddress.CodigoDepartamento, vDataContractorAddress.CodigoProvincia, vDataContractorAddress.CodigoDistrito);
                     // }
-                    if (vValue.Edad < 18){
-                      _disabledFieldsBirthay(true)
-                    }else{
-                      _disabledFields(true)
-                    }                    
+                    _disabledFieldsEquifax(vFormContractor);                    
 
                   }else if(vFormContractor.mNumeroDocumento === _self.numDocPrincipal){
                     var quotation = _self.data.cotizacion;
@@ -533,11 +567,7 @@
                     vFormContractorAddress.mDirReferencias = !address.mDirReferencias ? '' : address.mDirReferencias;
 
                     _self.setterUbigeo(ubigeo.mDepartamento.Codigo, ubigeo.mProvincia.Codigo, ubigeo.mDistrito.Codigo);
-                    if (vFormContractor.mEdadActual < 18){
-                      _disabledFieldsBirthay(true)
-                    }else{
-                      _disabledFields(true)
-                    } 
+                    _disabledFieldsEquifax(vFormContractor); 
                   }else{
                     _clearSearchContractor();
                   }
