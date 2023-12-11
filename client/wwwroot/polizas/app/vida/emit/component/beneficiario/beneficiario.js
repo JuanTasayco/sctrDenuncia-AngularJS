@@ -249,8 +249,8 @@
         }
         function _disabledFieldsEquifax(vFormContractor){
           $scope.disabledFields = true;
-          $scope.disabledForm.dateNac = vFormContractor.mEdadActual < 18;
-          $scope.disabledForm.sexo = vFormContractor.mEdadActual < 18;
+          $scope.disabledForm.dateNac = vFormContractor.mEdadActual > 17;
+          $scope.disabledForm.sexo = vFormContractor.mEdadActual > 17;
           $scope.disabledForm.mNomContratante = vFormContractor.mNomContratante && vFormContractor.mNomContratante != '';
           $scope.disabledForm.mApePatContratante = vFormContractor.mApePatContratante && vFormContractor.mApePatContratante != '';
           $scope.disabledForm.mApeMatContratante = vFormContractor.mApeMatContratante && vFormContractor.mApeMatContratante != '';
@@ -460,7 +460,7 @@
                       };
                       vFormContractor.mSexo               = vValue.Sexo;
                       vFormContractor.mFechaNacimiento    = vidaService.outputFormatDatePicker(vValue.FechaNacimiento);
-                      vFormContractor.mEdadActual         = vValue.Edad; //$filter('calculateAge')(vidaService.toDate(vValue.FechaNacimiento));
+                      vFormContractor.mEdadActual         = $filter('calculateActuarialAge')(vFormContractor.mFechaNacimiento); //$filter('calculateAge')(vidaService.toDate(vValue.FechaNacimiento));
 
                       vFormContractor.mProfesion          = {
                         Codigo: (vValue.Profesion) ? vValue.Profesion.Codigo : null
@@ -532,7 +532,7 @@
                       };
                       vFormContractor.mSexo = quotation.Contratante.Sexo
                       vFormContractor.mFechaNacimiento = quotation.Contratante.newFechaNacimiento;
-                      vFormContractor.mEdadActual = _self.data.edadActual;
+                      vFormContractor.mEdadActual = $filter('calculateActuarialAge')(quotation.Contratante.newFechaNacimiento);
 
                       vFormContractor.mProfesion = {
                         Codigo: !_self.data.profesion.Codigo ? null : _self.data.profesion.Codigo
