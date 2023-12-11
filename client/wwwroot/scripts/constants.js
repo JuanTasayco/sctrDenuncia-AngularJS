@@ -800,7 +800,8 @@ define([], function () {
     },
     STORAGE_KEYS: {
       profile: 'profile',
-      originSystem: 'originSystem'
+      originSystem: 'originSystem',
+      clientIp: 'clientIp'
     }
   };
   constants = oim;
