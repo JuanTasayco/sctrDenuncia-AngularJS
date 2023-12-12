@@ -73,7 +73,19 @@
             mActividadEconomica: false,
             mTelefonoFijo: false,
             mTelefonoOficina: false,
-            mTelefonoCelular: false
+            mTelefonoCelular: false,
+            mTipoVia: false,
+            mNombreVia: false,
+            mTipoNumero: false,
+            mNumeroDireccion: false,
+            mTipoInterior: false,
+            mNumeroInterior: false,
+            mTipoZona: false,
+            mNombreZona: false,
+            mDirReferencias: false,
+            mDepartament: false,
+            mProvincia: false,
+            mDistrito: false,
           }
 
           _init();
@@ -179,16 +191,18 @@
         }
         //onBeneficiario
         _self.onBeneficiario = function(item) {
-          _clearBeneficiary(false);
-          _clearSearchContractor();
-          var vDisabledFields = false;
-          //BENEFICIARIO VIDA
-          // if (item.Codigo == '6'){
-          if (item.Codigo == $scope.cBeneficiaryLife){
-            _loadContractor(_self.data);
-            vDisabledFields = true;
-          }
-          _disabledFields(vDisabledFields);
+          if(!_self.editing){
+            _clearBeneficiary(false);
+            _clearSearchContractor();
+            var vDisabledFields = false;
+            //BENEFICIARIO VIDA
+            // if (item.Codigo == '6'){
+            if (item.Codigo == $scope.cBeneficiaryLife){
+              _loadContractor(_self.data);
+              vDisabledFields = true;
+            }
+            _disabledFields(vDisabledFields);
+          }          
         }
         //
         _self.closeBeneficiary = function() {
@@ -246,8 +260,20 @@
           $scope.disabledForm.mTelefonoFijo = b;
           $scope.disabledForm.mTelefonoOficina = b;
           $scope.disabledForm.mTelefonoCelular = b;
+          $scope.disabledForm.mTipoVia = b;
+          $scope.disabledForm.mNombreVia = b;
+          $scope.disabledForm.mTipoNumero = b;
+          $scope.disabledForm.mNumeroDireccion = b;
+          $scope.disabledForm.mTipoInterior = b;
+          $scope.disabledForm.mNumeroInterior = b;
+          $scope.disabledForm.mTipoZona = b;
+          $scope.disabledForm.mNombreZona = b;
+          $scope.disabledForm.mDirReferencias = b;
+          $scope.disabledForm.mDepartament = b;
+          $scope.disabledForm.mProvincia = b;
+          $scope.disabledForm.mDistrito = b;
         }
-        function _disabledFieldsEquifax(vFormContractor){
+        function _disabledFieldsEquifax(vFormContractor, vFormContractorAddress, vDataContractorAddress){
           $scope.disabledFields = true;
           $scope.disabledForm.dateNac = vFormContractor.mEdadActual > 17;
           $scope.disabledForm.sexo = vFormContractor.mEdadActual > 17;
@@ -255,13 +281,26 @@
           $scope.disabledForm.mApePatContratante = vFormContractor.mApePatContratante && vFormContractor.mApePatContratante != '';
           $scope.disabledForm.mApeMatContratante = vFormContractor.mApeMatContratante && vFormContractor.mApeMatContratante != '';
           $scope.disabledForm.mEstadoCivil = vFormContractor.mEstadoCivil.CodigoEstadoCivil;
-          $scope.disabledForm.mCorreoElectronico = vFormContractor.mApeMatContratante && vFormContractor.mApeMatContratante != '';
+          $scope.disabledForm.mCorreoElectronico = vFormContractor.mCorreoElectronico && vFormContractor.mCorreoElectronico != '';
           $scope.disabledForm.mProfesion = vFormContractor.mProfesion.Codigo;
           $scope.disabledForm.mOcupacion = vFormContractor.mOcupacion.Codigo;
-          $scope.disabledForm.mActividadEconomica = vFormContractor.mActividadEconomica.Codigo;
+          $scope.disabledForm.mActividadEconomica = vFormContractor.mActividadEconomica && vFormContractor.mActividadEconomica.Codigo;
           $scope.disabledForm.mTelefonoFijo = vFormContractor.mTelefonoFijo && vFormContractor.mTelefonoFijo != '';
           $scope.disabledForm.mTelefonoOficina = vFormContractor.mTelefonoOficina && vFormContractor.mTelefonoOficina != '';
           $scope.disabledForm.mTelefonoCelular = vFormContractor.mTelefonoCelular && vFormContractor.mTelefonoCelular != '';
+
+          $scope.disabledForm.mTipoVia = vFormContractorAddress.mTipoVia.Codigo;
+          $scope.disabledForm.mNombreVia = vFormContractorAddress.mNombreVia && vFormContractorAddress.mNombreVia != '';
+          $scope.disabledForm.mTipoNumero = vFormContractorAddress.mTipoNumero.Codigo;
+          $scope.disabledForm.mNumeroDireccion = vFormContractorAddress.mNumeroDireccion && vFormContractorAddress.mNumeroDireccion != '';
+          $scope.disabledForm.mTipoInterior = vFormContractorAddress.mTipoInterior.Codigo;
+          $scope.disabledForm.mNumeroInterior = vFormContractorAddress.mNumeroInterior && vFormContractorAddress.mNumeroInterior != '';
+          $scope.disabledForm.mTipoZona = vFormContractorAddress.mTipoZona.Codigo;
+          $scope.disabledForm.mNombreZona = vFormContractorAddress.mNombreZona && vFormContractorAddress.mNombreZona != '';
+          $scope.disabledForm.mDirReferencias = vFormContractorAddress.mDirReferencias && vFormContractorAddress.mDirReferencias != '';
+          $scope.disabledForm.mDepartament = vDataContractorAddress.CodigoDepartamento && vDataContractorAddress.CodigoDepartamento != '';
+          $scope.disabledForm.mProvincia = vDataContractorAddress.CodigoProvincia && vDataContractorAddress.CodigoProvincia != '';
+          $scope.disabledForm.mDistrito = vDataContractorAddress.CodigoDistrito && vDataContractorAddress.CodigoDistrito != '';
         }
         function _disabledFieldsBirthay(b){
           $scope.disabledFields = b;
@@ -509,7 +548,7 @@
                     // if (vDataUbigeo.mDepartamento && vDataUbigeo.mDepartamento.Codigo !== null){
                     _self.setterUbigeo(vDataContractorAddress.CodigoDepartamento, vDataContractorAddress.CodigoProvincia, vDataContractorAddress.CodigoDistrito);
                     // }
-                    _disabledFieldsEquifax(vFormContractor);                    
+                    _disabledFieldsEquifax(vFormContractor, vFormContractorAddress, vDataContractorAddress);                    
 
                   }else if(vFormContractor.mNumeroDocumento === _self.numDocPrincipal){
                     var quotation = _self.data.cotizacion;
@@ -567,7 +606,12 @@
                     vFormContractorAddress.mDirReferencias = !address.mDirReferencias ? '' : address.mDirReferencias;
 
                     _self.setterUbigeo(ubigeo.mDepartamento.Codigo, ubigeo.mProvincia.Codigo, ubigeo.mDistrito.Codigo);
-                    _disabledFieldsEquifax(vFormContractor); 
+                    var vDataContractorAddress2 = {
+                      CodigoDepartamento: ubigeo.mDepartamento.Codigo,
+                      CodigoDistrito: ubigeo.mDistrito.Codigo,
+                      CodigoProvincia: ubigeo.mProvincia.Codigo,
+                    }
+                    _disabledFieldsEquifax(vFormContractor, vFormContractorAddress, vDataContractorAddress2); 
                   }else{
                     _clearSearchContractor();
                   }
@@ -615,12 +659,12 @@
         _self.saveBeneficiary = function() {
           var vIndex = '',
               vCurrentItem = null;
-          if (_validateForm()){
-            if (!angular.isUndefined(_validateDuplicateBeneficiary())) {
-              mModalAlert.showError("No pueden existir dos beneficiarios con el mismo Número de documento", "Error");
-              return;
-            }
+          if (_validateForm()){            
             if (!_self.editing) {
+              if (!angular.isUndefined(_validateDuplicateBeneficiary())) {
+                mModalAlert.showError("No pueden existir dos beneficiarios con el mismo Número de documento", "Error");
+                return;
+              }
               _self.data.beneficiaries.push(_self.current);
               vIndex = _self.data.beneficiaries.length - 1;
             } else {
