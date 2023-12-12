@@ -203,17 +203,15 @@
           return true;
         }
         $scope.formData.step1$Valid = true;
-        try {
-          $scope.formData.mPlaca = $scope.formData.mPlaca && $scope.formData.mPlaca.toUpperCase();
-          $scope.formData.mNumeroChasis = $scope.formData.mNumeroChasis && $scope.formData.mNumeroChasis.toUpperCase();
-          $scope.formData.mNumeroMotor = $scope.formData.mNumeroMotor && $scope.formData.mNumeroMotor.toUpperCase();
+		$scope.formData.mPlaca = $scope.formData.mPlaca && $scope.formData.mPlaca.toUpperCase();
+		$scope.formData.mNumeroChasis = $scope.formData.mNumeroChasis && $scope.formData.mNumeroChasis.toUpperCase();
+		$scope.formData.mNumeroMotor = $scope.formData.mNumeroMotor && $scope.formData.mNumeroMotor.toUpperCase();
 
-          if(seValidaListaNegra()) {
-            validarListNegra();
-          } else {
-            irAPaso2();
-          }
-        } catch (e) {}
+		if(seValidaListaNegra()) {
+			validarListNegra();
+		} else {
+			irAPaso2();
+		}
 
         return true;
       };
@@ -230,12 +228,10 @@
 
       function irAPaso2() {
         $window.setTimeout(function() {
-          try {
             if ($scope.formData.isDirtyCar) {
               $scope.formData.isDirtyCar = false;
               $state.go("newEmit.steps", { step: 2 });
             }
-          } catch (e) {}
         });
       }
 

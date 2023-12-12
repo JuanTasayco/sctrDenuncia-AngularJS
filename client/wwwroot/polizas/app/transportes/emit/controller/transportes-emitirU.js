@@ -29,7 +29,7 @@
 						codigoAgente: carClaims[7].value //Ejm: 9808 //agendid en el claim
 						// codigoRol: carClaims[].value
 					}
-					$scope.userRoot = (oimPrincipal.isAdmin() && $scope.mainStep.claims.nombreAgente != '');
+					$scope.userRoot = oimPrincipal.validateAgent('evoSubMenuEMISA','TRANSPORTES');
 
 					if (!$scope.userRoot) {
 						$scope.$broadcast('claimschange',{"val":$scope.mainStep.claims});

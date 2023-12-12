@@ -32,7 +32,7 @@
         </div>
         <a href="javascript:void(0)" class="gH4 mb-xs-1"
           ng-if="$ctrl.validateConstancia(itemProofs) && itemProofs.technicalControlPension.code != '8010' && itemProofs.technicalControlHealth.code != '8010'"
-          ng-class="(itemProofs.urlConstancy && !itemProofs.hideConstancyNumber)
+          ng-class="(!itemProofs.hideConstancyNumber)
             ? ['g-link', (itemProofs.state === '1') ? 'gCGreen1' : '']
             : ['g-cursor-auto']"
           ng-click="$ctrl.fnDownloadConstancia(itemProofs.constancyIdentity)">
@@ -124,7 +124,7 @@
                     <a href="javascript:void(0)" class="g-text-uppercase g-link"
                       ng-if="$ctrl.validateSegurity(itemProofs, 1)"
                       ng-class="{'gCGreen1': itemProofs.enableUrlPensionReceipt == 'S'}"
-                      ng-click="$ctrl.fnOpenUrl($event, itemProofs.urlPensionReceipt)">
+                      ng-click="$ctrl.fnDownloadReceipt(itemProofs.pensionReceiptNumber,'P')">
                       {{itemProofs.pensionReceiptNumber}}
                     </a>
                   </div>
@@ -188,7 +188,7 @@
                 <a ng-if="$ctrl.segurityCard && (itemProofs.technicalControlPension.code != '8010' && itemProofs.technicalControlHealth.code != '8010')"
                   href="javascript:void(0)"
                   ng-class="(itemProofs.urlCargo) ? ['g-link', 'gCGreen1'] : ['g-cursor-auto']"
-                  ng-click="$ctrl.fnOpenUrl($event, itemProofs.urlCargo)">
+                  ng-click="$ctrl.fnOpenUrl($event, itemProofs.urlCargo)"> 
                   {{itemProofs.cargoNumber}}
                 </a>
                 <span

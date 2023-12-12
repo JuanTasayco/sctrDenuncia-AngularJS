@@ -7,13 +7,14 @@ define([
     .module(constants.module.polizas.vidaLey.moduleName)
     .controller('homeVidaLeyController', HomeVidaLeyController);
 
-  HomeVidaLeyController.$inject = ['$state', 'oimAuthorize', 'vidaLeyFactory', 'proxyMenu', '$window'];
+  HomeVidaLeyController.$inject = ['$state', 'oimAuthorize', 'oimPrincipal', 'vidaLeyFactory', 'proxyMenu', '$window'];
 
-  function HomeVidaLeyController($state, oimAuthorize, vidaLeyFactory, proxyMenu, $window){
+  function HomeVidaLeyController($state, oimAuthorize, oimPrincipal, vidaLeyFactory, proxyMenu, $window){
     var vm = this;
 
-    (function loadHomeVidaLeyController() {      
+    (function loadHomeVidaLeyController() {  
       _loadMenu();
+      
 
     })();
 
@@ -24,10 +25,16 @@ define([
     function _getMenuItem(){
       vm.dataMenu = vidaLeyFactory.storageVidaLey();
 
-      vm.menuNames = vm.dataMenu.map(function (item) {
+      vm.menuNames = [] 
+      vm.dataMenu.map(function (item) {
         return item.nombreLargo
         }
       );
+      angular.forEach(vm.dataMenu, function(item) {
+        if(item.nombreCorto !== 'COTIZACIONMULTIAGENTE'){
+          vm.menuNames.push(item.nombreLargo)
+        }        
+      });
     }
 
     vm.goTo = function (item) {

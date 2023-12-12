@@ -1,10 +1,12 @@
 'use strict';
-define(['angular', 'system', 'generalConstant'], function(angular, system, generalConstant) {
-  HomeController.$inject = [];
-  function HomeController() {
+define(['angular', 'system', 'generalConstant','actterFactory'], function(angular, system, generalConstant,actterFactory) {
+  HomeController.$inject = ['actterFactory'];
+  function HomeController(actterFactory) {
     var vm = this;
 
     vm.$onInit = function() {};
+
+    vm.subMenus  = actterFactory.menuOptions();
   }
 
   return angular

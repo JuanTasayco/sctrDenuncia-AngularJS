@@ -1,0 +1,77 @@
+<section class="page-modal pr-sm-2 pl-sm-2">
+
+    <form name="frmModal">
+        <div class="container">
+            <div class="row">
+                <div class="col-xs-6">
+                    <h2 class="gH3"><b>EDITAR PRODUCTO</b></h2>
+                </div>
+                <div class="col-xs-6">
+                    <button type="button" class="close g-close-modal top-0" ng-click="closeModal()">
+                        <span class="ico-mapfre_231_cancelaroff"></span>
+                    </button>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-12 mt-xs-1">
+                    <mpf-input class="g-text-none" label="{label: 'Título de producto', required: true}" ng-model="$ctrl.form.title"ng-required="true" name="nTitulo" ></mpf-input>
+                    <ul class="g-error">
+						<li ng-show="frmModal.nTitulo.$error.required && !frmModal.nTitulo.$pristine">* Este campo es obligatorio</li>
+					</ul>
+                </div>
+                <div class="col-xs-12 mt-xs-1">
+                    <mpf-input class="g-text-none" label="{label: 'Descripción de producto', required: true}" ng-model="$ctrl.form.description"ng-required="true" name="nDescription" ></mpf-input>
+                    <ul class="g-error">
+						<li ng-show="frmModal.nDescription.$error.required && !frmModal.nDescription.$pristine">* Este campo es obligatorio</li>
+					</ul>
+                </div>
+                <div class="col-xs-12 mt-xs-2">
+                    <div class="gCBlack1 gH4 fwMedium">Imágenes de producto</div>
+                </div>
+                <div class="col-xs-12">
+                    <div class="columns-image">
+                        <div class="mb-xs-2 array-images" ng-repeat="item in $ctrl.arrayImages">
+                            <div class="container g-border h-br--5 pt-xs-2 pb-xs-2" ng-show="item.rutaImagen">
+                                <div class="gCBlack1 gH5 fwBold">Imagen {{item.posicion}}</div>
+                                <div class="mt-xs-2 g-relative">
+                                    <img src="{{item.src}}" class="w-100 h-br--5 " height="150px" width="210px"  alt="">
+        
+                                    <button type="button" class="close g-close-modal array-images-close" ng-click="$ctrl.deleteFile($index)">
+                                        <span class="ico-mapfre_231_cancelaroff" style="font-size: 20px;"></span>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="file-upload array-images-content" ng-show="!item.src">
+                                <input type="file" class="box-images--input" id="custom-file-input-{{item.posicion}}" accept="image/*" />
+                                <label for="custom-file-input-{{item.posicion}}">
+                                  <span class="array-images-content-text">Examina o arrastra aquí  la imágen</span>
+                                    <br>
+                                  <span class="array-images-content-size" >Tamaño máx. de archivo 2Mb - formato JPG, PNG</span>
+                                </label>
+                              </div>
+                        </div>
+                    </div>
+                </div>
+                
+                
+                <div class="col-xs-12 mt-xs-2">
+                    <mpf-checkbox label="Añadir aviso" name="check" ng-model="$ctrl.form.activeNotice"></mpf-checkbox>
+                </div>
+                <div class="col-xs-12 mt-xs-1">
+                    <mpf-input class="g-text-none" label="{label: 'Detalle del aviso', required: true}" ng-model="$ctrl.form.detailNotice"ng-required="true" name="nDetailNotice" ></mpf-input>
+                    <ul class="g-error">
+						<li ng-show="frmModal.nDetailNotice.$error.required && !frmModal.nDetailNotice.$pristine">* Este campo es obligatorio</li>
+					</ul>
+                </div>
+            </div>
+            <div class="row mb-2 mt-xs-2">
+                <div class="col-md-6 mb-xs-1 no-mb-md">
+                    <a href="" class="g-btn g-btn-white block" ng-click="closeModal()">CANCELAR</a>
+                </div>
+                <div class="col-md-6">
+                    <a href="" class="g-btn g-btn-verde block" ng-click="save()">GUARDAR</a>
+                </div>
+            </div>
+        </div>
+    </form>
+</section>

@@ -26,7 +26,7 @@
 							codigoAgente:   claims[7].value
 						};
 
-						$scope.userRoot = ((oimPrincipal.isAdmin()) && $scope.formData.claims.nombreAgente !== '');
+						$scope.userRoot = oimPrincipal.validateAgent('evoSubMenuEMISA','SCTR');
 
 						$scope.mAgente = {
 							codigoAgente: $scope.formData.claims.codigoAgente,

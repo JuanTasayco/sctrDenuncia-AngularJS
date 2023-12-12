@@ -95,7 +95,7 @@
       },
       wp: {
         code: "WEBPROC",
-        shortName: "-WEB PROCURADOR",
+        shortName: "WEB DEL PROCURADOR",
         packageName: "wpPackage",
         path: "/webproc/package",
         location: "/webproc",
@@ -438,6 +438,18 @@
         rootApi: '',
         isComponsesMenu: true,
         icon: 'ico-mapfre-anulacion'
+      },
+      constancia:{
+        code: "CASEG",
+        shortName: 'Constancia de Salud',
+        packageName: 'constanciaPackage',
+        path: "/constancia/package",
+        appPath: "/constancia/app",
+        location: '/constancia/#',
+        menuName: 'Constancia de Salud',
+        rootApi: '',
+        isComponsesMenu: true,
+        icon: 'ico-mapfre_93_crearmodificar'
       },
     },
     lib: {

@@ -1,7 +1,7 @@
 'use strict';
 define(['angular', 'system', 'generalConstant', 'mpfCardFilter','actterFactory','constants','proxyActter'], function(angular, system, generalConstant,mpfCardFilter,actterFactory,constants,proxyActter) {
-  ClientsController.$inject = ['$scope', '$log', '$state','$stateParams','$q','actterFactory','MxPaginador','proxyCliente','proxyGeneral','mainServices'];
-  function ClientsController($scope, log, $state, $stateParams, $q, actterFactory,MxPaginador,proxyCliente,proxyGeneral,mainServices) {
+  ClientsController.$inject = ['$scope', '$log', '$state','$stateParams','$q','actterFactory','MxPaginador','proxyCliente','proxyGeneral','mainServices','mModalAlert'];
+  function ClientsController($scope, log, $state, $stateParams, $q, actterFactory,MxPaginador,proxyCliente,proxyGeneral,mainServices,mModalAlert) {
     var vm = this;
     var page , pagePolizas;
     $scope.currentPage = 1;
@@ -24,6 +24,10 @@ define(['angular', 'system', 'generalConstant', 'mpfCardFilter','actterFactory',
     
     $scope.documentTypeChange = documentTypeChange;
     $scope.getPolizas = getPolizas;
+
+    $scope.isRedirectPortal = actterFactory.isRedirectPortal();
+    $scope.isOptModify = actterFactory.isOptModify();
+
 
     (function onLoad() {
       getParamsForm(generalConstant.PARAM_FORM);
@@ -73,6 +77,9 @@ define(['angular', 'system', 'generalConstant', 'mpfCardFilter','actterFactory',
     }
 
     function getPolizas(client){
+
+      if (!$scope.isOptModify) return;
+
       SetPaginatePolizasDefaultValues();
       if(client.polizasSearch) {
         $scope.totalItemsPolizas = client.polizasSearch.length
@@ -127,6 +134,23 @@ define(['angular', 'system', 'generalConstant', 'mpfCardFilter','actterFactory',
       $scope.polizas =[];
       $scope.totalItemsPolizas = 0;
     }
+
+    $scope.fnRedirectToPortal = function(client) {
+      var body = {
+        documentType: client.documento.codigo,
+        documentNumber: client.documento.numero,
+      };
+      actterFactory.getTokenRedirect(body).then(
+        function (response){
+          if (response.operationCode){
+            var token = response.data.access_token;
+            window.open(actterFactory.baseUrlPortal + '#/validate-token?token=' + token, '_blank');
+          }
+        }
+      ).catch(function (error) {
+        mModalAlert.showWarning(error.data.data.message, 'Advertencia');
+      });
+    };
 
     $scope.fnGoToClientEdit = function(client,empresa) {
       $state.go('editclient', {
