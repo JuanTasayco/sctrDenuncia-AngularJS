@@ -275,8 +275,8 @@
         }
         function _disabledFieldsEquifax(vFormContractor, vFormContractorAddress, vDataContractorAddress){
           $scope.disabledFields = true;
-          $scope.disabledForm.dateNac = vFormContractor.mEdadActual > 17 && (vFormContractor.mEdadActual && vFormContractor.mEdadActual != '');
-          $scope.disabledForm.sexo = vFormContractor.sexo > 17 && (vFormContractor.sexo && vFormContractor.sexo != '');
+          $scope.disabledForm.dateNac = vFormContractor.mEdadActual > 17 && (vFormContractor.mFechaNacimiento && vFormContractor.mFechaNacimiento != '');
+          $scope.disabledForm.sexo = vFormContractor.mEdadActual > 17 && (vFormContractor.mSexo && vFormContractor.mSexo != '');
           $scope.disabledForm.mNomContratante = vFormContractor.mNomContratante && vFormContractor.mNomContratante != '';
           $scope.disabledForm.mApePatContratante = vFormContractor.mApePatContratante && vFormContractor.mApePatContratante != '';
           $scope.disabledForm.mApeMatContratante = vFormContractor.mApeMatContratante && vFormContractor.mApeMatContratante != '';
@@ -629,6 +629,7 @@
 
         //saveBeneficiary
         function _validateForm(){
+          console.log(_self.formulario)
           _self.formulario.markAsPristine();
           return _self.formulario.$valid;
         }
