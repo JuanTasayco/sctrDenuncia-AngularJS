@@ -323,7 +323,7 @@ define(['angular', 'lodash', 'wpConstant'], function(ng, _, wpConstant) {
     vm.$onDestroy = onDestroy;
 
     function onInit() {
-      vm.txtField = vm.txtField || 'nombreValor';
+      vm.txtField = vm.txtField || 'nombreValorDetalle';
       vm.valueField = vm.valueField || 'codigoValor';
       vm.cboLista = wpFactory.myLookup.getTipoSoat();
       vm.ngModel = wpFactory.help.seleccionarCombo(vm.cboLista, vm.valueField, vm.setModelByThisKey);
