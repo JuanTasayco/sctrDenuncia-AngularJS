@@ -1,8 +1,8 @@
 define([
-  'angular', 'constantsRiesgosGenerales', 'rrggModalProductParameter'
+  'angular', 'constantsRiesgosGenerales', 'rrggModalProductParameter', '/scripts/mpf-main-controls/components/ubigeo/component/ubigeo.js',
 ], function (ng, constantsRiesgosGenerales) {
-  carController.$inject = ['riesgosGeneralesService', 'riesgosGeneralesFactory', 'riesgosGeneralesCommonFactory', '$uibModal', 'mModalConfirm'];
-  function carController(riesgosGeneralesService, riesgosGeneralesFactory, riesgosGeneralesCommonFactory, $uibModal, mModalConfirm) {
+  carController.$inject = ['$scope', 'riesgosGeneralesService', 'riesgosGeneralesFactory', 'riesgosGeneralesCommonFactory', '$uibModal', 'mModalConfirm'];
+  function carController($scope, riesgosGeneralesService, riesgosGeneralesFactory, riesgosGeneralesCommonFactory, $uibModal, mModalConfirm) {
     var vm = this;
     vm.validControlForm = ValidControlForm;
     vm.OpenParametros = OpenParametros;
@@ -11,18 +11,34 @@ define([
     vm.changeDesde = changeDesde;
     vm.validateSumas = validateSumas;
     vm.validateMaximaDuracionCar = validateMaximaDuracionCar;
+    vm.ubigeoValid = {}; 
     vm.$onInit = function () {
       vm.constantsRrgg = constantsRiesgosGenerales;
       riesgosGeneralesFactory.setCotizacionProducto(vm.cotizacion);
       vm.producto = riesgosGeneralesFactory.cotizacion.producto;
       vm.format = constants.formats.dateFormat;
       vm.fechaActual = new Date();
+      
       vm.producto.modelo = {
+        Ubigeo: {
+          mDepartamento: null,
+          mProvincia: null,
+          mDistrito: null
+        },
         Endosatorio: "0",
         AseguradoAdicional: "0",
         DuracionDesde: new Date(),
         DuracionHasta: new Date(vm.fechaActual.setDate(vm.fechaActual.getDate() + 365))
       }
+
+      $scope.$watch('setter', function() {
+        $scope.setterUbigeo = $scope.setter;
+      })
+      $scope.$watch('clean', function() {
+        $scope.cleanUbigeo = $scope.clean;
+      })
+
+
       riesgosGeneralesService.getCurrencyType(false)
         .then(function (response) {
           vm.monedas = response.Data;
@@ -124,8 +140,7 @@ define([
         }
       });
     }
-
-
+    
   } // end controller
   return ng.module('appRrgg')
     .controller('carController', carController)

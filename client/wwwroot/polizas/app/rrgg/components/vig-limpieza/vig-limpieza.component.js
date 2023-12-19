@@ -1,8 +1,8 @@
 define([
-  'angular', 'constantsRiesgosGenerales', 'rrggModalProductParameter'
+  'angular', 'constantsRiesgosGenerales', 'rrggModalProductParameter', '/scripts/mpf-main-controls/components/ubigeo/component/ubigeo.js',
 ], function (ng, constantsRiesgosGenerales) {
-  vigLimpController.$inject = ['mModalAlert', '$uibModal', 'riesgosGeneralesService', 'riesgosGeneralesFactory', 'riesgosGeneralesCommonFactory', 'mModalConfirm'];
-  function vigLimpController(mModalAlert, $uibModal, riesgosGeneralesService, riesgosGeneralesFactory, riesgosGeneralesCommonFactory, mModalConfirm) {
+  vigLimpController.$inject = ['$scope','mModalAlert', '$uibModal', 'riesgosGeneralesService', 'riesgosGeneralesFactory', 'riesgosGeneralesCommonFactory', 'mModalConfirm'];
+  function vigLimpController($scope,mModalAlert, $uibModal, riesgosGeneralesService, riesgosGeneralesFactory, riesgosGeneralesCommonFactory, mModalConfirm) {
     var vm = this;
     vm.OpenParametros = OpenParametros;
     vm.validControlForm = ValidControlForm;
@@ -12,6 +12,7 @@ define([
     vm.changeHasta = changeHasta;
     vm.clearInputSumas = clearInputSumas;
     vm.validateUbicaciones = validateUbicaciones;
+    vm.ubigeoValid = {}; 
     vm.$onInit = function () {
       vm.constantsRrgg = constantsRiesgosGenerales;
       riesgosGeneralesFactory.setCotizacionProducto(vm.cotizacion);
@@ -25,6 +26,11 @@ define([
         minStartDateFormat: riesgosGeneralesFactory.formatearFecha(new Date())
       }
       vm.producto.modelo = {
+        Ubigeo: {
+          mDepartamento: null,
+          mProvincia: null,
+          mDistrito: null
+        },
         UsasArmas: "0",
         MasUbicaciones: "0",
         Ingresatrabajadores: "0",
@@ -33,6 +39,12 @@ define([
         DuracionDesde: new Date(),
         DuracionHasta: new Date(vm.fechaActual.setDate(vm.fechaActual.getDate() + 365))
       }
+      $scope.$watch('setter', function() {
+        $scope.setterUbigeo = $scope.setter;
+      })
+      $scope.$watch('clean', function() {
+        $scope.cleanUbigeo = $scope.clean;
+      })
       riesgosGeneralesService.getProxyPametros(vm.cotizacion.producto.CodigoRiesgoGeneral, vm.constantsRrgg.PARAMETROS.ACTI_REALIZA)
         .then(function (response) {
           vm.actividad = response.Data;

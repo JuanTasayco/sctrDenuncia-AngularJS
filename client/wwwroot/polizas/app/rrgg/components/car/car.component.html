@@ -50,6 +50,16 @@
         ng-click="vm.showModalConfirmation()"></span></a>
   </div>
 </div>
+
+  <mpf-ubigeo
+      data="$ctrl.producto.modelo.Ubigeo"
+      ng-model="$ctrl.producto.modelo.Ubigeo"
+      is-Valid="$ctrl.ubigeoValid"
+      setter="$ctrl.producto.setter"
+      all-Fields-Required="true"
+      clean="$ctrl.producto.clean"
+    ></mpf-ubigeo>
+
 <div class="row">
   <div class="col-sm-6 col-md-3 mb-xs-2" ng-if="$ctrl.cotizacion.producto.Grupo === 'CAR'">
     <p class="fwMedium">¿Agregará un endosatario?</p>
@@ -65,8 +75,7 @@
       mpf-validation="onlyLetterNumCaracteres"></mpf-input>
   </div>
   <div class="col-sm-6 col-md-3 mb-xs-2">
-    <mpf-input label="{label: 'Ubicación',required: true}" name="ubicacion" ng-model="$ctrl.producto.modelo.Lugar" ng-maxlength="200"
-      ng-required="true" mpf-validation="onlyLetterNumCaracteres"></mpf-input>
+    <mpf-input label="{label: 'Dirección del riesgo',required: true}" name="ubicacion" ng-model="$ctrl.producto.modelo.Lugar" ng-maxlength="200" ng-required="true" mpf-validation="onlyLetterNumCaracteres"></mpf-input>
     <div class="g-error" ng-show="$ctrl.validControlForm('ubicacion')">
       {{$ctrl.constantsRrgg.SMS_ERROR.REQUERIDO}}
     </div>
