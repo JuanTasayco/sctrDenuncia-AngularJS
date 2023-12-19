@@ -21,6 +21,7 @@
               function capitalizeStr(str){
                 return str.charAt(0).toUpperCase() + str.substr(1).toLowerCase();
               }
+              vm.userDisma = (profile.typeUser == 1) ? true : false;
 
               vm.evoSubMenuSeg = seguridadFactory.getVarLS('evoSubMenuSEGURIDAD');
               if(!angular.isUndefined(vm.evoSubMenuSeg)){
@@ -35,6 +36,9 @@
                       , isSubMenu: false
                       , actived: false
                       , show: true
+                    }
+                    if(name == "General" && profile.typeUser == 3){ //ocultar menu general para usuario brokers
+                      continue;
                     }
                     vm.menuSeguridad.push(el)
                 } //end for

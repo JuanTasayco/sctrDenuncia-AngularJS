@@ -19,7 +19,10 @@
           $scope.data = $scope.data || {};
           $scope.dataS1 = $scope.dataS1 || {};
           $scope.dataS2 = $scope.dataS2 || {};
+          if (!$scope.data.SHOW_RISKS_LIST){
+            $scope.dataS1.mOpcionFacturacion = 0;
 
+          }
           if ($scope.data.SHOW_RISKS_LIST){
             $scope.dataS1.openToggle = true;
             $scope.dataS1.itemsApplication = $scope.dataS1.itemsApplication || risksList;
@@ -274,7 +277,8 @@
                 }
               };
 
-          if (isMonthAdvance) vParams.Invoiced = $scope.dataS1.mOpcionFacturacion;
+          // if (isMonthAdvance)
+          vParams.Invoiced = $scope.dataS1.mOpcionFacturacion;
           return vParams;
         }
         function _paramsMassiveLoad(tabPayroll, isMonthAdvance){

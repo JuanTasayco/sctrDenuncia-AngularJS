@@ -15,8 +15,9 @@
     appSecurity.controller('datosPersonalesController',
       ['$scope'
         , 'seguridadFactory'
+        , 'mModalAlert'
         , function($scope
-        , seguridadFactory) {
+        , seguridadFactory,mModalAlert) {
 
           var vm = this;
           
@@ -32,17 +33,61 @@
                   || item.codigo == 4
                   || item.codigo == 2
                   || item.codigo == 6
-                  || item.codigo == 7
+                  // || item.codigo == 7
                   || item.codigo == 1
               })
             });
           }; //end init
           vm.fnChangeTipoDoc = _fnChangeTipoDoc;
+          vm.getInformationDocument = _getInformationDocument;
+
           vm.fnInferData = _fnInferData;
           vm.isRuc = _isRuc;
 
           function _fnChangeTipoDoc() {
             vm.data.mNumDoc = '';
+            vm.data.mApellidoPaterno = '';
+            vm.data.mApellidoMaterno = '';
+            vm.data.mNombres = '';
+            vm.data.mTelefono = '';
+            vm.data.mEmail = '';
+          }
+          function _getInformationDocument() {
+            var numDoc = vm.data.mNumDoc;
+            if(vm.data.mTipoDoc.codigo == 1 && numDoc){
+              if(numDoc.length == '8'){
+                vm.requestEquifax = {};
+                vm.requestEquifax.documentType = 'DNI';
+                vm.requestEquifax.documentNumber = numDoc;
+                vm.requestEquifax.queryType = '1';
+
+                seguridadFactory.getInformationDocumentEquifax(vm.requestEquifax, true).then(function(response){
+                  console.log(response);
+                  if(response.operationCode === 200 && response.data){
+                    var data = response.data;
+                    vm.data.mApellidoPaterno = data.surname;
+                    vm.data.mApellidoMaterno = data.secondSurname;
+                    vm.data.mNombres = data.names;
+                    vm.data.mTelefono = data.phone;
+                    vm.data.mEmail = data.mail;
+                  }else{
+                      vm.data.mApellidoPaterno = '';
+                      vm.data.mApellidoMaterno = '';
+                      vm.data.mNombres = '';
+                      vm.data.mTelefono = '';
+                      vm.data.mEmail = '';
+                  }
+                  },function(error){
+                    mModalAlert.showWarning(error, '');
+                  });
+              }
+            }else{
+              vm.data.mApellidoPaterno = '';
+              vm.data.mApellidoMaterno = '';
+              vm.data.mNombres = '';
+              vm.data.mTelefono = '';
+              vm.data.mEmail = '';
+            }
           }
 
           function _isRuc() {
