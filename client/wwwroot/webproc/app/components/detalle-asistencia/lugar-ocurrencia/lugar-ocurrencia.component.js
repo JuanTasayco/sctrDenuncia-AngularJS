@@ -1,8 +1,8 @@
 'use strict';
 
 define(['angular', 'lodash', 'AsistenciaActions', 'wpConstant'], function (ng, _, AsistenciaActions, wpConstant) {
-  LugarOcurrenciaController.$inject = ['wpFactory', '$scope', 'mModalAlert', '$uibModal','$rootScope'];
-  function LugarOcurrenciaController(wpFactory, $scope, mModalAlert , $uibModal,$rootScope) {
+  LugarOcurrenciaController.$inject = ['wpFactory', '$scope', 'mModalAlert', '$uibModal','$rootScope','$timeout'];
+  function LugarOcurrenciaController(wpFactory, $scope, mModalAlert , $uibModal,$rootScope, $timeout) {
     var vm = this
     var onFrmSave;
     vm.$onInit = onInit;
@@ -24,6 +24,7 @@ define(['angular', 'lodash', 'AsistenciaActions', 'wpConstant'], function (ng, _
     vm.subirFotoTarjeta = subirFotoTarjeta;
     vm.subirFotoLicencia = subirFotoLicencia;
     vm.subirFotoOdometro = subirFotoOdometro;
+    vm.changePlaceAttention = changePlaceAttention;
 
 
     vm.soatTypeSource = [];
@@ -49,7 +50,7 @@ define(['angular', 'lodash', 'AsistenciaActions', 'wpConstant'], function (ng, _
     function onInit() {
       onFrmSave = $rootScope.$on('frm:save', setFrm)
       vm.dateFormat = 'dd/MM/yyyy';
-
+      console.log("vm.siniestro",vm.siniestro );
       vm.frmSiniestro = vm.siniestro;
       vm.frmSiniestro.esModalidadKm = !vm.frmSiniestro.esModalidadKm ? false : vm.frmSiniestro.esModalidadKm;
       if (vm.frmSiniestro.esModalidadKm) {
@@ -66,7 +67,7 @@ define(['angular', 'lodash', 'AsistenciaActions', 'wpConstant'], function (ng, _
       vm.frmSiniestro.flagOcupantes = vm.frmSiniestro.flagOcupantes ? vm.frmSiniestro.flagOcupantes : "S";
       vm.frmSiniestro.flagFallecidos = vm.frmSiniestro.flagFallecidos ? vm.frmSiniestro.flagOcupantes : "S";
       vm.getCheckList(null);
-      
+
       vm.documentos = vm.frmSiniestro.fotosDetaSiniestro.concat(vm.frmSiniestro.documentosVehiculo).concat(vm.frmSiniestro.fotosSiniestroVehiculo);
       _loadFotosOtros(vm.documentos);
     }
@@ -77,6 +78,16 @@ define(['angular', 'lodash', 'AsistenciaActions', 'wpConstant'], function (ng, _
         return void 0;
       }
 
+    }
+
+    function changePlaceAttention(){
+      $timeout(function() {
+        if(vm.frmSiniestro.codigoLugarAtencion == 78) {
+          vm.frmSiniestro.lugarAtencion = vm.frmSiniestro.referenciaVia;
+        }else {
+          vm.frmSiniestro.lugarAtencion = null
+        }
+      });
     }
 
     function GetCheckList(valor) {
@@ -101,7 +112,7 @@ define(['angular', 'lodash', 'AsistenciaActions', 'wpConstant'], function (ng, _
       vm.frmSiniestro.codigoCausa = radioItem.valEquivalence2;
       vm.frmSiniestro.codigoConsecuencia = radioItem.valEquivalence3;
     }
-    
+
     function changeApEtilica() {
       if(vm.frmSiniestro.apreciacionEtilica==true){
         vm.frmSiniestro.exoneraDenuncia = false
@@ -126,7 +137,7 @@ define(['angular', 'lodash', 'AsistenciaActions', 'wpConstant'], function (ng, _
     }
 
     function _loadFotos(arrFotos, prop) {
-      
+
       _.forEach(arrFotos, function feFn(item, idx) {
         if (item && item.nombreFisico) {
           wpFactory.siniestro.ViewImageByPath(item.nombreFisico).then(function (resp) {
@@ -144,7 +155,7 @@ define(['angular', 'lodash', 'AsistenciaActions', 'wpConstant'], function (ng, _
     function servicePhotoModal(photo) {
       return wpFactory.siniestro.ViewImageByPath(photo.nombreFisico, 0);
     }
-    
+
     function _showModalMap() {
 
       return $uibModal.open({
@@ -205,7 +216,7 @@ define(['angular', 'lodash', 'AsistenciaActions', 'wpConstant'], function (ng, _
       vm.rdxDanhoVehiculoPropioDelete(event.idx);
       vm.isValidListDanhos = false;
     }
-  } 
+  }
 
   return ng
     .module('appWp')

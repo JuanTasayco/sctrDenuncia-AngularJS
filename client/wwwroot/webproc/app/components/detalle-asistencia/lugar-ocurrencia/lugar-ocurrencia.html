@@ -77,7 +77,7 @@
       </div>
 
       <div class="col-md-3 mb-xs-2">
-        <mpf-datepicker data-format="$ctrl.dateFormat" data-ng-model="frmLugarOcurrencia.fechaLlamado" data-ng-disabled="$ctrl.modoLectura"
+        <mpf-datepicker data-format="$ctrl.dateFormat" data-ng-model="frmLugarOcurrencia.fechaLlamado" data-ng-disabled="true"
           data-ng-required="false" data-parsear-to-date="true" ng-disabled="true" data-set-max-today="true"
           data-set-model-by-this-data="$ctrl.frmSiniestro.fechaLlamado"
           label="{label: 'Fecha del siniestro (Contact Center):', required: false}" name="nSiniestroFecha">
@@ -88,7 +88,7 @@
         </div>
       </div>
       <div class="col-md-3 mb-xs-2">
-        <mpf-input data-ng-model="$ctrl.frmSiniestro.horaLlamado" ng-required="false" 
+        <mpf-input data-ng-model="$ctrl.frmSiniestro.horaLlamado" ng-required="false"
           label="{label: 'Hora del siniestro (Contact Center)', required: false}" name="nHoraLlamado" ng-disabled="true">
           <div class="g-error"
             data-ng-show="frmLugarOcurrencia.nHoraLlamado.$invalid && !frmLugarOcurrencia.nHoraLlamado.$pristine">
@@ -122,7 +122,7 @@
       </div>
 
       <div class="col-md-4 mb-xs-2">
-        <wp-cbo-tipo-siniestro data-ng-disabled="$ctrl.statusBlock.blockByGenerado || $ctrl.modoLectura" 
+        <wp-cbo-tipo-siniestro data-ng-disabled="$ctrl.statusBlock.blockByGenerado || $ctrl.modoLectura"
           data-label="{label: 'Tipo del Siniestro', required: true}"
           data-ng-change="$ctrl.getCheckList(frmLugarOcurrencia.nTipoSiniestro.$viewValue)"
           data-ng-model="frmLugarOcurrencia.tipoSiniestro" data-option-default="{enterData: true}"
@@ -188,7 +188,7 @@
           </div>
         </div>
       </div>
-      
+
     </div>
 
     <!-- Detalles de atención -->
@@ -200,7 +200,7 @@
         <div class="col-md-4 mb-xs-2">
           <wp-cbo-lugar-atencion data-label="{label: 'Lugar de Atención', required: true}" data-ng-disabled="$ctrl.modoLectura"
             data-ng-model="frmLugarOcurrencia.codigoLugarAtencion" data-option-default="{enterData: true}"
-            data-set-model-by-this-key="$ctrl.frmSiniestro.codigoLugarAtencion" name="nCodigoLugarAtencion">
+            data-set-model-by-this-key="$ctrl.frmSiniestro.codigoLugarAtencion" name="nCodigoLugarAtencion" data-ng-change="$ctrl.changePlaceAttention()" >
           </wp-cbo-lugar-atencion>
           <div class="g-error"
             data-ng-show="frmLugarOcurrencia.nCodigoLugarAtencion.$invalid && !frmLugarOcurrencia.nCodigoLugarAtencion.$pristine">
@@ -208,8 +208,8 @@
           </div>
         </div>
         <div class="col-md-8 mb-xs-2">
-          <mpf-input data-ng-model="$ctrl.frmSiniestro.lugarAtencion" data-ng-required="true" data-ng-disabled="$ctrl.modoLectura"
-            label="{label: 'Dirección de atención', required: true}" name="nLugarAtencion">
+          <mpf-input data-ng-model="$ctrl.frmSiniestro.lugarAtencion" data-ng-required="true" data-ng-disabled="$ctrl.modoLectura || $ctrl.frmSiniestro.codigoLugarAtencion == 78"
+            label="{label: 'Dirección de atención', required: true}" name="nLugarAtencion" >
           </mpf-input>
           <div class="g-error"
             data-ng-show="frmLugarOcurrencia.nLugarAtencion.$invalid && !frmLugarOcurrencia.nLugarAtencion.$pristine">
@@ -278,13 +278,13 @@
         </wp-vehiculo-soat>
       </div>
     </div>
-    
+
     <!-- Nivel de daño vehiculo -->
     <wp-nivel-danho is-ua="true" data-detalle="$ctrl.frmSiniestro.detalleDanioVehiculo[0]" modo-lectura="$ctrl.modoLectura" data-descripcion-danios= "$ctrl.frmSiniestro.detalleDanioVehiculo[0].descripcionDanios"
       validate-form="$ctrl.validateForm"></wp-nivel-danho>
     <div class="row">
       <div class="col-md-12 mb-xs-2 mt-xs-3">
-        <mpf-input data-ng-model="$ctrl.frmSiniestro.detalleDanioVehiculo[0].descripcionDanios" data-ng-disabled="$ctrl.modoLectura" 
+        <mpf-input data-ng-model="$ctrl.frmSiniestro.detalleDanioVehiculo[0].descripcionDanios" data-ng-disabled="$ctrl.modoLectura"
           data-ng-required="true" label="{label: 'Descripcion de los daños', required: true}"
           name="nDescripcionDaniosUA">
         </mpf-input>
@@ -335,7 +335,7 @@
         </div>
       </div>
     </div>
-    
+
     <!-- FOTOS -->
     <div class="row mt-xs-3">
       <div class="col-md-12">
@@ -357,7 +357,7 @@
       </wp-img-tab-upload>
       </div>
     </div>
-    
+
 
     <div class="row mt-xs-3">
       <div class="col-md-12">
@@ -383,7 +383,7 @@
           data-ng-maxlength="3500" label="{label: 'Observaciones', required: false}"
           name="nObservaciones">
         </mpf-textarea>
-        
+
       </div>
     </div>
   </div>

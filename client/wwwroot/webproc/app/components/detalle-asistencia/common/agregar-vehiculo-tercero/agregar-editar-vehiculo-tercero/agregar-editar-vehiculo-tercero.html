@@ -9,12 +9,12 @@
       <div class="col-md-4">
         <wp-cbo-tipo-documentos data-label="{label: 'Tipo Documento', required: true}" data-ng-disabled="$ctrl.modoLectura"
           data-ng-model="$ctrl.frmVehiculoTercero.ocupanteTercero.codigoTipoDocumentoIdentidad" data-option-default="{enterData: true}"
-          data-set-model-by-this-key="$ctrl.frm.ocupanteTercero.codigoTipoDocumentoIdentidad" name="nTipoDocumento">
+          data-set-model-by-this-key="$ctrl.frm.ocupanteTercero.codigoTipoDocumentoIdentidad" name="nTipoDocumento" data-ng-change="$ctrl.documentTypeChange()">
         </wp-cbo-tipo-documentos>
       </div>
       <div class="col-md-4">
         <mpf-input data-ng-required="true" data-ng-model="$ctrl.frm.ocupanteTercero.numeroDocumentoIdentidad" data-mpf-validation="onlyNumber" data-ng-disabled="$ctrl.modoLectura"
-          label="{label: 'Numero Documento', required: true}" ng-blur="$ctrl.getPerson();" name="nNumeroDoc">
+        data-ng-minlength="$ctrl.docNumMinLength" data-ng-maxlength="$ctrl.docNumMaxLength" data-mpf-validation-disabled="{{$ctrl.docNumTypeDisabled}}" label="{label: 'Numero Documento', required: true}" ng-blur="$ctrl.getPerson();" name="nNumeroDoc">
         </mpf-input>
         <div class="g-error" data-ng-show="$ctrl.frm.nNumeroDoc.$invalid && !$ctrl.frm.nNumeroDoc.$pristine">
           Ingrese un dato válido
@@ -57,7 +57,7 @@
           <div class="col-md-8">
             <div class="row">
               <div class="col-md-6 mb-xs-2">
-                <mpf-input data-ng-model="$ctrl.frm.vehiculoTercero.placaVehiculo" 
+                <mpf-input data-ng-model="$ctrl.frm.vehiculoTercero.placaVehiculo"
                   data-ng-minlength="6"
                   data-ng-maxlength = "6"
                   ng-required="true"
@@ -69,7 +69,7 @@
                   Este campo es obligatorio
                 </div>
               </div>
-      
+
               <div class="col-md-6 mb-xs-2">
                 <wp-cbo-soat data-label="{label: 'SOAT', required: $ctrl.isRequired ? true : false }" data-ng-required="true"
                   data-ng-model="frmVehiculoSoat.codigoSoatVehiculo" data-option-default="{enterData: true}" data-ng-disabled="$ctrl.modoLectura"
@@ -106,7 +106,7 @@
           </div>
           <div class="col-md-4">
             <div class="gBgcGray5 col-md-12">
-              <h2 class="mt-xs-2 gCGreen1">{{ $ctrl.frm.vehiculoTercero.modeloVehiculo + ' ' + $ctrl.frm.vehiculoTercero.marcaVehiculo}} </h2>
+              <h2 class="mt-xs-2 gCGreen1">{{ ($ctrl.frm.vehiculoTercero.modeloVehiculo || '') + ' ' + ($ctrl.frm.vehiculoTercero.marcaVehiculo || '')}} </h2>
               <hr>
               <div class="row">
                 <div class="col-md-6 mb-xs-2">
@@ -143,7 +143,7 @@
     </div>
     <div class="col-md-12">
       <div ng-if="$ctrl.showImages">
-        <wp-img-tab-upload 
+        <wp-img-tab-upload
         data-fotos-docs="$ctrl.frm.documentosVehiculoTercero"
         data-fotos-siniestros="$ctrl.frm.fotosSiniestroVehiculo"
         data-on-subir-foto-licencia="$ctrl.subirFotoLicencia($event)"
@@ -157,7 +157,7 @@
       >
       </wp-img-tab-upload>
       </div>
-      
+
     </div>
   </div>
 

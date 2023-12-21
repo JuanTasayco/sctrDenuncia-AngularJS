@@ -1,8 +1,8 @@
 'use strict';
 
 define(['angular', 'lodash', 'AsistenciaActions', 'wpConstant'], function (ng, _, AsistenciaActions, wpConstant) {
-  VehiculoSoatController.$inject = ['wpFactory', '$log', '$scope', 'mModalAlert','$timeout','$rootScope',];
-  function VehiculoSoatController(wpFactory, $log, $scope, mModalAlert,$timeout,$rootScope) {
+  VehiculoSoatController.$inject = ['wpFactory', '$log', '$scope', 'mModalAlert', '$timeout', '$rootScope',];
+  function VehiculoSoatController(wpFactory, $log, $scope, mModalAlert, $timeout, $rootScope) {
     var vm = this
     var onFrmSave;
     vm.$onInit = onInit;
@@ -12,6 +12,13 @@ define(['angular', 'lodash', 'AsistenciaActions', 'wpConstant'], function (ng, _
     vm.frmVehiculo = {};
     vm.soatTypeSource = [];
     vm.showForm = true;
+    $scope.frmVehiculoSoat = {}
+
+    $timeout(function() {
+      if(vm.frmVehiculo.placaVehiculo && !vm.frmVehiculo.codigoTipoVehiculo ) {
+        getPlaca();
+      };
+    });
 
     function onDestroy() {
       onFrmSave();
@@ -20,7 +27,7 @@ define(['angular', 'lodash', 'AsistenciaActions', 'wpConstant'], function (ng, _
     function onInit() {
       onFrmSave = $rootScope.$on('frm:save', setFrm)
       vm.isRequired = vm.isUa ? true : false;
-      vm.frmVehiculo = ng.copy(vm.vehiculo)  || { itemTerceroVehiculo: 1 };
+      vm.frmVehiculo = ng.copy(vm.vehiculo) || { itemTerceroVehiculo: 1 };
     }
 
 
@@ -30,7 +37,7 @@ define(['angular', 'lodash', 'AsistenciaActions', 'wpConstant'], function (ng, _
         return void 0;
       }
 
-      vm.vehiculo = vm.frmVehiculo.placaVehiculo ?  vm.frmVehiculo : undefined
+      vm.vehiculo = vm.frmVehiculo.placaVehiculo ? vm.frmVehiculo : undefined
     }
 
     function setVehiculo(data) {
@@ -47,9 +54,12 @@ define(['angular', 'lodash', 'AsistenciaActions', 'wpConstant'], function (ng, _
 
       // (Hack) : para setear valores a selects del componente cbo
       $scope.frmVehiculoSoat.codigoSoatVehiculo = null;
-      $scope.frmVehiculoSoat.codigoTipoVehiculo = data ? data.cod_tip_vehi : null;
-      $scope.frmVehiculoSoat.codigoUsoVehiculo = data ? data.cod_uso : null;
-      refreshCbo();
+      $scope.frmVehiculoSoat.codigoTipoVehiculo = {
+        codigoValor: data ? data.cod_tip_vehi : null
+      }
+      $scope.frmVehiculoSoat.codigoUsoVehiculo  = {
+        codigoValor : data ? data.cod_uso : null
+      }
     }
 
     function getPlaca() {
@@ -63,20 +73,11 @@ define(['angular', 'lodash', 'AsistenciaActions', 'wpConstant'], function (ng, _
           $log.error('Falló al obtener equifax', err.data);
           setVehiculo(null);
         })
-        
+
       }
-      else{
+      else {
         vm.isRequired = false
       }
-    }
-
-    function refreshCbo() {
-      $timeout(function () {
-        vm.showForm = false;
-        $timeout(function () {
-          vm.showForm = true;
-        })
-      })
     }
   } // end controller
 

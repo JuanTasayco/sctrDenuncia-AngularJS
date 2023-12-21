@@ -14,10 +14,18 @@ define(['angular', 'lodash', 'AsistenciaActions', 'wpConstant'], function (ng, _
     $scope.frmPerson = {}
     vm.docNumType = ""
     vm.showForm = true;
-    
+
     vm.documentTypeChange = documentTypeChange;
 
     vm.searched = false;
+    $timeout(function() {
+      if(vm.conductor && vm.conductor.codigoTipoDocumentoIdentidad ){
+        documentNumberValidation();
+        if(vm.frmConductor.numeroDocumentoIdentidad && !vm.frmConductor.nombreConductor ) {
+          getPerson();
+        };
+      }
+    });
 
     function onDestroy() {
       onFrmSave();
@@ -27,7 +35,7 @@ define(['angular', 'lodash', 'AsistenciaActions', 'wpConstant'], function (ng, _
       onFrmSave = $rootScope.$on('frm:save', setFrm)
       vm.title = vm.isUa ? 'Conductor unidad asegurada' : 'Conductor Tercero';
       vm.docNumType = vm.isUa ? 'required' : '';
-      vm.isRequired = vm.isUa ? true : false;      
+      vm.isRequired = vm.isUa ? true : false;
       if(vm.conductor && vm.conductor.codigoTipoDocumentoIdentidad ==0) {
         vm.conductor.codigoTipoDocumentoIdentidad = 1
       }
@@ -57,7 +65,7 @@ define(['angular', 'lodash', 'AsistenciaActions', 'wpConstant'], function (ng, _
     }
 
     function getPerson() {
-      if (vm.frmConductor.numeroDocumentoIdentidad) {
+      if (vm.frmConductor.numeroDocumentoIdentidad && vm.frmConductor.codigoTipoDocumentoIdentidad) {
         wpFactory.siniestro.GetSiniestroPerson(vm.frmConductor.numeroDocumentoIdentidad, 0, $scope.frmPerson.codigoTipoDocumentoIdentidad.descripcionParametro, 1)
           .then(function (response) {
             response.persona.respuesta == "1"
@@ -73,14 +81,10 @@ define(['angular', 'lodash', 'AsistenciaActions', 'wpConstant'], function (ng, _
     function documentTypeChange() {
       vm.frmConductor.numeroDocumentoIdentidad = '';
       setConductor(null);
-      var numDocValidations = {};
+
       if (!ng.isUndefined($scope.frmPerson.codigoTipoDocumentoIdentidad)) {
         $timeout(function tcd() {
-          mainServices.documentNumber.fnFieldsValidated(numDocValidations,$scope.frmPerson.codigoTipoDocumentoIdentidad.descripcionParametro, 1);
-          vm.docNumMaxLength = numDocValidations.DOCUMENT_NUMBER_MAX_LENGTH;
-          vm.docNumMinLength = numDocValidations.DOCUMENT_NUMBER_MIN_LENGTH;
-          vm.docNumType = numDocValidations.DOCUMENT_NUMBER_FIELD_TYPE + (vm.isUa ? ",required" : '');
-          vm.docNumTypeDisabled = numDocValidations.DOCUMENT_NUMBER_FIELD_TYPE_DISABLED;
+          documentNumberValidation();
           if(!vm.isUa) {
             vm.docNumType = vm.frmConductor.codigoTipoDocumentoIdentidad ? (vm.docNumType + ",required") : vm.docNumType;
             vm.isRequired = vm.frmConductor.codigoTipoDocumentoIdentidad ? true : false;
@@ -90,10 +94,17 @@ define(['angular', 'lodash', 'AsistenciaActions', 'wpConstant'], function (ng, _
               vm.showForm = true;
             })
           }
-          
-          
         }, 0);
       }
+    }
+
+    function documentNumberValidation(){
+      var numDocValidations = {};
+      mainServices.documentNumber.fnFieldsValidated(numDocValidations,$scope.frmPerson.codigoTipoDocumentoIdentidad.descripcionParametro, 1);
+      vm.docNumMaxLength = numDocValidations.DOCUMENT_NUMBER_MAX_LENGTH;
+      vm.docNumMinLength = numDocValidations.DOCUMENT_NUMBER_MIN_LENGTH;
+      vm.docNumType = numDocValidations.DOCUMENT_NUMBER_FIELD_TYPE + (vm.isUa ? ",required" : '');
+      vm.docNumTypeDisabled = numDocValidations.DOCUMENT_NUMBER_FIELD_TYPE_DISABLED;
     }
   } // end controller
 

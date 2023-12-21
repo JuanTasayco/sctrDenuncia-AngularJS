@@ -9,12 +9,12 @@
       <div class="col-md-4">
         <wp-cbo-tipo-documentos data-label="{label: 'Tipo Documento', required: true}" data-ng-disabled="$ctrl.modoLectura"
           data-ng-model="$ctrl.frmAtropellado.CodigoTipoDocumentoIdentidad" data-option-default="{enterData: true}"
-          data-set-model-by-this-key="$ctrl.frm.CodigoTipoDocumentoIdentidad" name="nTipoDocumento">
+          data-set-model-by-this-key="$ctrl.frm.CodigoTipoDocumentoIdentidad" name="nTipoDocumento" data-ng-change="$ctrl.documentTypeChange()">
         </wp-cbo-tipo-documentos>
       </div>
       <div class="col-md-4">
         <mpf-input data-mpf-validation="required" data-ng-model="$ctrl.frm.numeroDocumentoIdentidad" data-ng-disabled="$ctrl.modoLectura"
-          label="{label: 'Numero Documento', required: true}" ng-blur="$ctrl.getPerson();" name="nNumeroDoc">
+        data-ng-minlength="$ctrl.docNumMinLength" data-ng-maxlength="$ctrl.docNumMaxLength" data-mpf-validation-disabled="{{$ctrl.docNumTypeDisabled}}" label="{label: 'Numero Documento', required: true}" ng-blur="$ctrl.getPerson();" name="nNumeroDoc"  >
         </mpf-input>
         <div class="g-error" data-ng-show="$ctrl.frm.nNumeroDoc.$invalid && !$ctrl.frm.nNumeroDoc.$pristine">
           Ingrese un dato válido
