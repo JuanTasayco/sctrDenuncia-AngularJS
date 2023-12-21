@@ -1328,6 +1328,9 @@
                 $window.setTimeout(function(){
                   document.getElementById('frmDownloadExcelSalud').submit();
                 });
+              } if(_self.subModule === 'Soat') {
+                var vFileNameSoat = 'OIM - Cotizaciones y Pólizas' + '.xls';
+                documentosFactory.generarExcelSoat($scope.excelData, vFileNameSoat);
               } else {
                 var vFileName = 'OIM - Cotizaciones y Pólizas' + '.xls';
                 documentosFactory.generarExcel($scope.excelData, vFileName);
