@@ -276,8 +276,12 @@ define([
               })
           }
 
+          var appCodeSubMenu = $window.localStorage['appCodeSubMenu'];
           var codApli = $window.localStorage['CodigoAplicacion'];
           var clientIp = $window.localStorage['clientIp'];
+          if (appCodeSubMenu == 'TRANSPORTE'){
+            codApli = appCodeSubMenu;
+          }
           config.headers = _.assign(config.headers, {cod_apli: codApli, ip_origen: clientIp});
 
           return config;
