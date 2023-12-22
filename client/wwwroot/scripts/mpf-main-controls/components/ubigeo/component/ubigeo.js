@@ -72,6 +72,7 @@ define(['angular', 'constants', '/scripts/mpf-main-controls/components/ubigeo/se
                     _self.getDistritos(_self.data.mProvincia);
                     if (codigoDistrito) {
                         _self.data.mDistrito = { Codigo: codigoDistrito }
+                        
                     }
                 } else {
                     clean();
@@ -81,6 +82,14 @@ define(['angular', 'constants', '/scripts/mpf-main-controls/components/ubigeo/se
                 _self.blockDepartament = false;
                 // enviamos un codigo inexistente para que limpie los cbos de provincia y distrito
                 _self.getProvincias({ Codigo: null });
+            }
+        }
+
+        function changeDistrict(data) {
+            _self.ubigeo = {
+                mDepartamento: data.mDepartamento.Codigo,
+                mProvincia: data.mProvincia.Codigo,
+                mDistrito: data.mDistrito.Codigo
             }
         }
 
@@ -95,7 +104,12 @@ define(['angular', 'constants', '/scripts/mpf-main-controls/components/ubigeo/se
 
         _self.setter = setUbigeo;
         _self.clean = clean;
-
+        _self.changeDistrict = changeDistrict;
+        _self.$onInit = function() {
+            $scope.$watch('$ctrl.ubigeo', function(newUbigeo, oldUbigeo) {
+                $scope.$emit('ubigeo', newUbigeo);
+            });
+        };
     }]).component('mpfUbigeo', {
         templateUrl: '/scripts/mpf-main-controls/components/ubigeo/component/ubigeo.html',
         controller: 'ctrlUbigeo',
@@ -107,7 +121,8 @@ define(['angular', 'constants', '/scripts/mpf-main-controls/components/ubigeo/se
             blockDepartament: "=?",
             blockProvincia: "=?",
             blockDistrito: "=?",
-            allFieldsRequired: '=?'
+            allFieldsRequired: '=?',
+            ubigeo: '<'
         }
     })
 });

@@ -1,8 +1,8 @@
 define([
   'angular', 'constantsRiesgosGenerales', 'rrggModalProductParameter', '/scripts/mpf-main-controls/components/ubigeo/component/ubigeo.js',
 ], function (ng, constantsRiesgosGenerales) {
-  carController.$inject = ['$scope', 'riesgosGeneralesService', 'riesgosGeneralesFactory', 'riesgosGeneralesCommonFactory', '$uibModal', 'mModalConfirm'];
-  function carController($scope, riesgosGeneralesService, riesgosGeneralesFactory, riesgosGeneralesCommonFactory, $uibModal, mModalConfirm) {
+  carController.$inject = ['$scope', 'riesgosGeneralesService', 'riesgosGeneralesFactory', 'riesgosGeneralesCommonFactory', '$uibModal', 'mModalConfirm', 'mModalAlert'];
+  function carController($scope, riesgosGeneralesService, riesgosGeneralesFactory, riesgosGeneralesCommonFactory, $uibModal, mModalConfirm, mModalAlert) {
     var vm = this;
     vm.validControlForm = ValidControlForm;
     vm.OpenParametros = OpenParametros;
@@ -31,9 +31,24 @@ define([
         DuracionHasta: new Date(vm.fechaActual.setDate(vm.fechaActual.getDate() + 365))
       }
 
+     
+
       $scope.$watch('setter', function() {
         $scope.setterUbigeo = $scope.setter;
       })
+
+      $scope.$on('ubigeo', function(_, data) {
+        if(data) {
+          riesgosGeneralesService.getRestriccionUbigeo(data.mDepartamento,data.mProvincia,data.mDistrito)
+          .then(function (response) {
+            var restringido = response.Data.Restringido
+            if (restringido) {
+              mModalAlert.showWarning("La cotización debe pasar por VoBo de Suscripción, debido a que la ubicación del riesgo se encuentra en zona restringida.", "MAPFRE: RESTRICCIÓN DE UBICACIÓN DE RIESGO");
+            }
+          })
+        }
+      })
+
       $scope.$watch('clean', function() {
         $scope.cleanUbigeo = $scope.clean;
       })

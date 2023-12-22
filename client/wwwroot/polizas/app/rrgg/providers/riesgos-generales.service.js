@@ -32,7 +32,9 @@ define([
       gestionClonacion: gestionClonacion,
       filterCotizacion: filterCotizacion,
       agente:agente,
-      validacionFecha:validacionFecha
+      validacionFecha:validacionFecha,
+      getRestriccionUbigeo: getRestriccionUbigeo,
+      
     };
 
     return service;
@@ -221,6 +223,10 @@ define([
         });
       mpSpin.end();
       return deferred.promise;
+    }
+
+    function getRestriccionUbigeo(departamento, provincia, distrito) { 
+      return proxyParametro.getRestriccionUbigeo(departamento, provincia, distrito)
     }
   }
 

@@ -478,6 +478,9 @@ define([
             group[index] = _.groupBy(item, "Orden");
           })
           var sumaMaxima = _getData(group[0]).pop()[1]
+          var sumaMinima = group[0][1].find(function (data) {
+            return data.Campo === "C0057"
+          }).Dato
           //cuando es soles calcula por TC
           if (parseInt(paramData.moneda.Codigo) === 1) {
             var result = convertDolaresAsoles(sumaMaxima);
@@ -485,6 +488,7 @@ define([
             jsonData.simboloMoneda = result.simboloMoneda
           }
           var tasaMaxima = parseFloat(sumaMaxima)
+          var tasaMinima = parseFloat(sumaMinima)
           if (parseFloat(paramData.MontoObra) > tasaMaxima) {
             if (paramData.type === "C") {
               mModalConfirm.confirmWarning(riesgosGeneralesFactory.getSmsError(tasaMaxima, jsonData), "MAPFRE:LIMITE DE SUMA ASEGURADA").then(function (response) {
@@ -496,6 +500,15 @@ define([
               deferred.resolve(true);
             }
           }
+
+          if (parseFloat(paramData.MontoObra) < tasaMinima) {
+            mModalConfirm.confirmWarning("El monto no cubre el mínimo de suma asegurada: US$ " + tasaMinima , "MAPFRE:MÍNIMO DE SUMA ASEGURADA").then(function (response) {
+              deferred.resolve(true);
+            }).catch(function (error) {
+              deferred.resolve(true);
+            });
+          } 
+          
         })
       return deferred.promise;
     }
