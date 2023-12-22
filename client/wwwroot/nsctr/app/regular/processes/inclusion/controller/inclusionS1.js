@@ -32,6 +32,7 @@
           var segurity = nsctrFactory.validation._filterData(JSON.parse(localStorage.getItem("nsctrSubMenu"+$scope.MODULE.appCode)), "PROCESOS_ACCIONES", "nombreCabecera");
           $scope.segurityNotDeclared = nsctrFactory.validation._filterData(segurity.items, "GENERAR_INCLUSION_CONDICION_NO_DECLARADA", "nombreCorto");
           $scope.segurityDeclared = nsctrFactory.validation._filterData(segurity.items, "GENERAR_INCLUSION_CONDICION_DECLARADA", "nombreCorto");
+          
 
         })();
         /*########################
@@ -257,7 +258,7 @@
                                           : nsctr_constants.movementType.declaration.description.toLowerCase(),
                 ClientDocumentCode:     $scope.data.STATE_PARAMS['client'].documentNumber,
                 ClientDocumentType:     $scope.data.STATE_PARAMS['client'].documentType,
-                UserCode:               $scope.data.USER.name,
+                UserCode:               $scope.data.USER.name, 
                 WorkCenterData:         $scope.dataS1.mDatosObra || '', //SE AGREGA EN SECONDSTEP
                 CostsCenter:            '', //SE AGREGA EN SECONDSTEP
                 MCAIdeDeclaration:      (isMonthAdvance)
@@ -274,7 +275,8 @@
                 {
                   PensionRisksList: vRisksSessions['pension'],
                   HealthRisksList:  vRisksSessions['health'],
-                }
+                },
+                RoleCode:               $scope.data.USER.role,
               };
 
           // if (isMonthAdvance)
@@ -327,7 +329,9 @@
                 PolicyType:           application.applicationType,
                 OperationType:        nsctr_constants.movementType.inclusion.operationType,
                 MovementNumber:       parseInt(vSession.movementNumber || 0),
-                flgPrimaMinima:       'S' // 'S' => AplicarPrima | 'N' => ExonerarPrima
+                flgPrimaMinima:       'S' ,// 'S' => AplicarPrima | 'N' => ExonerarPrima
+                RoleCode:             $scope.data.USER.role,
+
               }
               vParams.push(vApplication);
             }
