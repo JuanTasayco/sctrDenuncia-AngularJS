@@ -3227,6 +3227,14 @@
                     name:  'getDevolverAgente',
                     path: 'api/rrgg/parametro/devolveragente/{codAgente}'
                 },
+                'methodgetRestriccionUbigeo':{
+                    name:  'getRestriccionUbigeo',
+                    path: 'api/rrgg/parametro/restriccion/{codDepartamento}/{codProvincia}/{codDistrito}'
+                },
+                'methodgetListProductosByUser':{
+                    name:  'getListProductosByUser',
+                    path: 'api/rrgg/parametro/productosByUser'
+                },
             }
         },
         controllerTronSistema: {
@@ -7208,6 +7216,15 @@
                 'getDevolverAgente' : function(codAgente, showSpin){
                     return httpData['get'](oimProxyPoliza.endpoint + helper.formatNamed('api/rrgg/parametro/devolveragente/{codAgente}',
                                                     { 'codAgente':codAgente   }),
+                                         undefined, undefined, showSpin)
+                },
+                'getRestriccionUbigeo' : function(codDepartamento,codProvincia, codDistrito, showSpin){
+                    return httpData['get'](oimProxyPoliza.endpoint + helper.formatNamed('api/rrgg/parametro/restriccion/{codDepartamento}/{codProvincia}/{codDistrito}',
+                                                    { 'codDepartamento':codDepartamento, 'codProvincia': codProvincia,'codDistrito':codDistrito    }),
+                                         undefined, undefined, showSpin)
+                },
+                'getListProductosByUser': function(showSpin){
+                    return httpData['get'](oimProxyPoliza.endpoint + 'api/rrgg/parametro/productosByUser',
                                          undefined, undefined, showSpin)
                 }
         };

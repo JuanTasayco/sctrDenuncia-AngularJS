@@ -23,9 +23,9 @@ define([
         minStartDate: new Date(),
         minStartDateFormat: riesgosGeneralesFactory.formatearFecha(new Date())
       }
-      riesgosGeneralesService.getProxyProductos()
+      riesgosGeneralesService.getProxyProductosByUser()
         .then(function (response) {
-          $scope.productos = response.Data.filter(function (element) { return element.Habilitado === 1 })
+          $scope.productos = response.Data
         });
       $scope.cotizacion.fechaCotizacion = $scope.fnFilter(new Date(), constants.formats.dateFormat)
       riesgosGeneralesService.getProxyPametros(0, constantsRiesgosGenerales.PARAMETROS.TIP_CAMBIO)

@@ -34,6 +34,7 @@ define([
       agente:agente,
       validacionFecha:validacionFecha,
       getRestriccionUbigeo: getRestriccionUbigeo,
+      getProxyProductosByUser: getProxyProductosByUser
       
     };
 
@@ -227,6 +228,10 @@ define([
 
     function getRestriccionUbigeo(departamento, provincia, distrito) { 
       return proxyParametro.getRestriccionUbigeo(departamento, provincia, distrito)
+    }
+
+    function getProxyProductosByUser() {
+      return proxyParametro.getListProductosByUser(true);
     }
   }
 
