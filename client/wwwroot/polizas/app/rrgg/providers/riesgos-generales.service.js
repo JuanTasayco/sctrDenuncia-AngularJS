@@ -227,7 +227,7 @@ define([
     }
 
     function getRestriccionUbigeo(departamento, provincia, distrito) { 
-      return proxyParametro.GetRestriccionUbigeo(departamento, provincia, distrito)
+      return proxyParametro.GetRestriccionUbigeo(departamento, provincia, distrito) 
     }
 
     function getProxyProductosByUser() {
