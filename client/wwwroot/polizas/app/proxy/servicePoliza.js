@@ -7222,7 +7222,7 @@
                     return httpData['get'](oimProxyPoliza.endpoint + helper.formatNamed('api/rrgg/parametro/restriccion/{codDepartamento}/{codProvincia}/{codDistrito}',
                                                     { 'codDepartamento':codDepartamento, 'codProvincia': codProvincia,'codDistrito':codDistrito    }),
                                          undefined, undefined, showSpin)
-                },
+                }, 
                 'getListProductosByUser': function(showSpin){
                     return httpData['get'](oimProxyPoliza.endpoint + 'api/rrgg/parametro/productosByUser',
                                          undefined, undefined, showSpin)
