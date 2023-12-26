@@ -227,11 +227,11 @@ define([
     }
 
     function getRestriccionUbigeo(departamento, provincia, distrito) { 
-      return proxyParametro.getRestriccionUbigeo(departamento, provincia, distrito)
+      return proxyParametro.GetRestriccionUbigeo(departamento, provincia, distrito)
     }
 
     function getProxyProductosByUser() {
-      return proxyParametro.getListProductosByUser(true);
+      return proxyParametro.GetListProductosByUser(true);
     }
   }
 
