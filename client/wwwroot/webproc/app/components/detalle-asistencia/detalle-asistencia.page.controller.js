@@ -26,7 +26,8 @@ define(['angular', 'lodash', 'AsistenciaActions', 'helper', 'wpConstant', 'const
     'typeDocuments',
     'wpFactory',
     '$ngRedux',
-    'mModalAlert'
+    'mModalAlert',
+    'mpSpin'
   ];
   function DetalleAsistenciaPageController(
     $interval,
@@ -46,7 +47,8 @@ define(['angular', 'lodash', 'AsistenciaActions', 'helper', 'wpConstant', 'const
     typeDocuments,
     wpFactory,
     $ngRedux,
-    mModalAlert
+    mModalAlert,
+    mpSpin
   ) {
     var vm = this;
     var frmInvestigacion = {};
@@ -114,16 +116,16 @@ define(['angular', 'lodash', 'AsistenciaActions', 'helper', 'wpConstant', 'const
         .then(function (response) {
           wpFactory.setDistrito(response);
         })
-      
-      var estadoUT = false ,estadoConductorUT = false; 
+
+      var estadoUT = false ,estadoConductorUT = false;
       if(vm.ultimaDataDeAsistencia.conductorTercero){
         if(vm.ultimaDataDeAsistencia.conductorTercero.length>0){
           estadoUT = vm.ultimaDataDeAsistencia.conductorTercero[0].ocupanteTercero ? !!vm.ultimaDataDeAsistencia.conductorTercero[0].ocupanteTercero.codigoTipoDocumentoIdentidad : false
           estadoConductorUT  = vm.ultimaDataDeAsistencia.conductorTercero[0].vehiculoTercero ? !!vm.ultimaDataDeAsistencia.conductorTercero[0].vehiculoTercero.codigoTipoVehiculo : false
         }
       }
-      
-      
+
+
 
       vm.infoAsistencia = _.assign({}, ng.copy($state.params), {
         codigoSiniestro: vm.ultimaDataDeAsistencia.codigoSiniestro,
@@ -133,6 +135,7 @@ define(['angular', 'lodash', 'AsistenciaActions', 'helper', 'wpConstant', 'const
         estadoConductorUT: estadoConductorUT
       });
       _setLookups();
+      mpSpin.end()
     }
 
     function _isDifferentToPendiente() {
@@ -164,7 +167,7 @@ define(['angular', 'lodash', 'AsistenciaActions', 'helper', 'wpConstant', 'const
         anioVehiculo: dataAsistencia.anioVehiculoAsegurado,
         serieVehiculo: dataAsistencia.serieVehiculo
       }
-      
+
       return _.merge({}, wpFactory.help.getObjWithHoursFormat5Characters(dataAsistencia), {
         codigoInterno: wpFactory.getNroAsistencia(),
         estadoSiniestro: dataAsistencia.estadoSiniestro || 'ABIERTO',
@@ -191,7 +194,7 @@ define(['angular', 'lodash', 'AsistenciaActions', 'helper', 'wpConstant', 'const
       $scope.$emit('frm:save');
       $timeout(function () {
         var frmTerceroConvenioinvalid = false;
-        if(vm.frmGeneral.frmTerceroConvenio){ 
+        if(vm.frmGeneral.frmTerceroConvenio){
           frmTerceroConvenioinvalid  = vm.frmGeneral.frmTerceroConvenio.$invalid;
         }
 
@@ -244,7 +247,7 @@ define(['angular', 'lodash', 'AsistenciaActions', 'helper', 'wpConstant', 'const
       vm.ultimaDataDeAsistencia.codigoDepartamento = vm.ultimaDataDeAsistencia.codigoDepartamento + '';
       vm.ultimaDataDeAsistencia.codigoProvincia = vm.ultimaDataDeAsistencia.codigoProvincia + '';
       vm.ultimaDataDeAsistencia.codigoDistrito = vm.ultimaDataDeAsistencia.codigoDistrito + '';
-      
+
       if(vm.ultimaDataDeAsistencia.siniestroConvenio && vm.frmGeneral.frmTerceroConvenio){
         vm.ultimaDataDeAsistencia.siniestroConvenio = {
           "codigoConvenioGolpe": vm.frmGeneral.frmTerceroConvenio.nAcuerdoConductores  ? parseInt(vm.ultimaDataDeAsistencia.siniestroConvenio.codigoConvenioGolpeSelect.codigoValor) : null,
@@ -255,8 +258,8 @@ define(['angular', 'lodash', 'AsistenciaActions', 'helper', 'wpConstant', 'const
           "codigoConvenioGolpeSelect" : vm.ultimaDataDeAsistencia.siniestroConvenio.codigoConvenioGolpeSelect || null
         }
       }
-      
-      
+
+
       if(!vm.frmGeneral.frmTerceroConvenio){
         vm.ultimaDataDeAsistencia.conductorTercero = null;
         vm.ultimaDataDeAsistencia.siniestroConvenio = null;
@@ -264,7 +267,7 @@ define(['angular', 'lodash', 'AsistenciaActions', 'helper', 'wpConstant', 'const
         vm.ultimaDataDeAsistencia.ocupantes= null;
         vm.ultimaDataDeAsistencia.bienesTercero = null;
         vm.ultimaDataDeAsistencia.codigoResponsaDetaSiniestro = null;
-        
+
       }
 
       if(vm.ultimaDataDeAsistencia.conductorTercero){
@@ -272,11 +275,11 @@ define(['angular', 'lodash', 'AsistenciaActions', 'helper', 'wpConstant', 'const
           vm.ultimaDataDeAsistencia.conductorTercero[idx].vehiculoTercero.itemTerceroVehiculo = 0;
           vm.ultimaDataDeAsistencia.conductorTercero[idx].ocupanteTercero.itemConductor = 0;
           vm.ultimaDataDeAsistencia.conductorTercero[idx].vehiculoTercero.itemTerceroVehiculo = idx+1;
-          vm.ultimaDataDeAsistencia.conductorTercero[idx].ocupanteTercero.itemConductor = idx+1; 
+          vm.ultimaDataDeAsistencia.conductorTercero[idx].ocupanteTercero.itemConductor = idx+1;
         });
       }
 
-      
+
       return _.assign({}, vm.ultimaDataDeAsistencia, vm.ultimaDataDeAsistencia.dataVehiculo, {
         codigoTipoVehiculoAsegurado: vm.ultimaDataDeAsistencia.dataVehiculo ? vm.ultimaDataDeAsistencia.dataVehiculo.codigoTipoVehiculo : {} ,
         anioVehiculoAsegurado: vm.ultimaDataDeAsistencia.dataVehiculo ? vm.ultimaDataDeAsistencia.dataVehiculo.anioVehiculo : {},
@@ -323,7 +326,7 @@ define(['angular', 'lodash', 'AsistenciaActions', 'helper', 'wpConstant', 'const
     }
 
     function anular() {
-    
+
       $scope.$emit('frm:save');
       $timeout(function () {
         var textos = {
@@ -358,12 +361,12 @@ define(['angular', 'lodash', 'AsistenciaActions', 'helper', 'wpConstant', 'const
         vm.frmGeneral.frmLugarOcurrencia.markAsPristine();
         var frmTerceroConvenioinvalid = false;
         if(vm.frmGeneral.frmTerceroConvenio){
-          vm.frmGeneral.frmTerceroConvenio.markAsPristine() 
+          vm.frmGeneral.frmTerceroConvenio.markAsPristine()
           frmTerceroConvenioinvalid  = vm.frmGeneral.frmTerceroConvenio.$invalid;
-        }   
-        
+        }
+
         var dataGuardar = setRequest('PENDIENTE');
-        
+
         var textos = {
           btnCancel: 'Cancelar',
           btnOk: 'Guardar',
@@ -378,6 +381,8 @@ define(['angular', 'lodash', 'AsistenciaActions', 'helper', 'wpConstant', 'const
               .then(function aSPr(res) {
                 vm.ultimaDataDeAsistencia.estadoSiniestro = 'PENDIENTE';
                 vm.infoAsistencia.estadoSiniestro = 'PENDIENTE';
+                mpSpin.start();
+                $state.reload();
               })
               .catch(function aEPr(err) {
                 $log.error('Falló el guardar asistencia', err.data);
@@ -437,7 +442,7 @@ define(['angular', 'lodash', 'AsistenciaActions', 'helper', 'wpConstant', 'const
         };
 
         var dataGuardar = setRequest('GENERADO')
-        
+
         _showModalConfirm(textos)
           .result.then(function ctScFn() {
             wpFactory.siniestro
@@ -452,7 +457,8 @@ define(['angular', 'lodash', 'AsistenciaActions', 'helper', 'wpConstant', 'const
                   );
                 } else {
                   mModalAlert.showSuccess('Realizado con éxito', 'Asistencia Generada').then(function msTerminarPr() {
-                    _goBandejaWithNroAsistencia();
+                    mpSpin.start();
+                    $state.reload();
                   });
                 }
               })
