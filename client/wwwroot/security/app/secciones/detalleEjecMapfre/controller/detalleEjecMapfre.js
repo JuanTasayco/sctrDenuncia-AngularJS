@@ -28,10 +28,16 @@
           , mModalConfirm
           , seguridadFactory) {
 
+          $scope.objetSeguridad = seguridadFactory.onlyView();
           (function onLoad() {
             $scope.tabDatosGenerales = '/security/app/secciones/templates/tabDatosGenerales_2.html';
             $scope.tabRoles = '/security/app/secciones/templates/tabRoles.html';
-
+            
+            $scope.onlyView = true;
+            $timeout(function () {
+              $scope.onlyView = $scope.objetSeguridad.soloLectura;
+            }, 10);
+                
             $scope.login = seguridadFactory.getVarLS("profile");
             $scope.frmData = $scope.frmData || {}
             $scope.frmData.mCodCobrador = $scope.frmData.mCodCobrador || undefined;

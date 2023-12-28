@@ -3768,7 +3768,11 @@ define(['angular', 'spin', 'system', 'lodash', 'directiveUtils'],
                   if (item.description) steps.push(item.description);
                 });
                 $window.localStorage.setItem('currentBreadcrumb', steps.join('|'));
-                if (!steps.length) { $window.localStorage.removeItem('currentBreadcrumb'); }
+                $window.localStorage.setItem('currentSeguridadObj', steps.join('|'));
+                if (!steps.length) { 
+                  $window.localStorage.removeItem('currentSeguridadObj');
+                  $window.localStorage.removeItem('currentBreadcrumb');
+                }
               }
 
               function Populate(items) {
@@ -4461,7 +4465,10 @@ define(['angular', 'spin', 'system', 'lodash', 'directiveUtils'],
           });
 
           scope.toggleList = function() {
-            scope.isActive = !scope.isActive;
+            if(!scope.ngDisabled){
+              scope.isActive = !scope.isActive;
+            }
+            
           }
 
           scope.changeCheck = function(checked, item) {
@@ -4492,7 +4499,8 @@ define(['angular', 'spin', 'system', 'lodash', 'directiveUtils'],
             datasource: '<',
             valueField: '<',
             textField: '<',
-            checkedChange: '&'
+            checkedChange: '&',
+            ngDisabled: '='
           },
           templateUrl: '/scripts/mpf-main-controls/html/mpf-select-multiple.html',
           link: link
