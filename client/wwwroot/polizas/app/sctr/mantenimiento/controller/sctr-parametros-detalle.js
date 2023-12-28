@@ -15,7 +15,7 @@
 				(function onLoad(){
 
 					$scope.formData = $scope.formData || {};
-
+					$scope.userRoot = oimPrincipal.validateAgent('evoSubMenuEMISA','SCTR');
 					var key = 'paramsData';			   
 
 					$scope.estadoDataParametro = [{"Codigo":1, "Descripcion":"VIGENTE"},{"Codigo":2,"Descripcion":"NO VIGENTE"}];

@@ -869,9 +869,7 @@ define([
         };
         objectEmit[vm.formControlName] = vm.form;
 
-        objectEmit[vm.formControlName].FechaNacimiento = vm.contractorData && vm.contractorData.FechaNacimiento
-          ? vm.contractorData.FechaNacimiento
-          : vm.form.day && vm.form.month && vm.form.year && vm.form.day.Codigo && vm.form.month.Codigo && vm.form.year.Codigo
+        objectEmit[vm.formControlName].FechaNacimiento = vm.form.day && vm.form.month && vm.form.year && vm.form.day.Codigo && vm.form.month.Codigo && vm.form.year.Codigo
             ? vm.form.day.Descripcion + '/' + vm.form.month.Descripcion + '/' + vm.form.year.Descripcion
             : '';
 

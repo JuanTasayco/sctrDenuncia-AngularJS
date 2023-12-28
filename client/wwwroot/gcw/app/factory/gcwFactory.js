@@ -950,7 +950,7 @@ define([
       function requestDocCartera(poliza) {
         return {
           "cliente": {
-              "nomTomador": poliza.cliente,
+              "nomTomador": poliza.clientName,
               "codDocumento": poliza.documentCode,
               "tipDocumento": poliza.documentType,
           },
@@ -977,7 +977,7 @@ define([
               "tipo": String(poliza.documentType).substring(0,2),
               "fechaVencimiento": poliza.dateEffect
           },
-          "moneda": 1,
+          "moneda": poliza.coinDescription == "DOL" ? 2 : 1,
           "importe": poliza.amount,
           "afiliar": false
         }

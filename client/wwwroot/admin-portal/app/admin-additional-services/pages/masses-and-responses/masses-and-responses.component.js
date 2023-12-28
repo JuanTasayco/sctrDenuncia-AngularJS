@@ -17,7 +17,6 @@ define(['angular', 'coreConstants','lodash'], function (ng, coreConstants,_) {
                     lbl: p.nombre
                 };
               })
-            console.log("masess and responses",vm.servicesSelected)
             vm.selectedSubService = vm.servicesSelected.subServices[0];
             
             // setTimeout(function () {
@@ -25,7 +24,6 @@ define(['angular', 'coreConstants','lodash'], function (ng, coreConstants,_) {
             // }, 333);
 
             MassesAndResponsesFactory.subsComponentsReady(function (){ 
-                console.log("subsComponentsReady")
                 vm.onTabSubService(vm.selectedSubService);
             });
             
@@ -37,7 +35,6 @@ define(['angular', 'coreConstants','lodash'], function (ng, coreConstants,_) {
         }
 
         function onTabSubService(item){
-            console.log('setSubServiceSelected',item);
             vm.selectedSubService = item;
             MassesAndResponsesFactory.setSubServiceSelected(item);
             MassesAndResponsesFactory.emitChangeSubService(item);

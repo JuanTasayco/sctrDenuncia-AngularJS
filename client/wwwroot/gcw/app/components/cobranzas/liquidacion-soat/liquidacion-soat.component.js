@@ -120,7 +120,7 @@ define([
         vm.usoPoliza = {}
         vm.tipoMoneda.value = 1;
         vm.tipoPoliza.code = 0;
-        vm.usoPoliza.code = 0;
+        vm.usoPoliza.value = 0;
         vm.mFechaHasta = new Date();
         vm.mFechaDesde = gcwFactory.restarMes(new Date(), 6);
         vm.filter = {
@@ -261,6 +261,7 @@ define([
                     userCode: exportData.userCode
                   };
                   gcwFactory.addVariableSession('downloadFile', $scope.downloadFile);
+                  vm.polizaPlaca = "";
                 }, function (error) {
                   console.log(error);
                 });
@@ -287,12 +288,12 @@ define([
     function searchliquidacionesSelected(codigo, event) {
       if (event.code == 'Enter' && codigo) {
         vm.liquidacionesSelectedFound = _.filter(vm.liquidacionesSelected, function (x) {
-          return x.policyNumber.indexOf(codigo) >= 0 || x.vehicle.plate.indexOf(codigo) >= 0
+          return x.policyNumber.toUpperCase().indexOf(codigo.toUpperCase()) >= 0 || x.vehicle.plate.toUpperCase().indexOf(codigo.toUpperCase()) >= 0
         })
         vm.polizaPlaca ? vm.showFiltroPagar = true : vm.showFiltroPagar = false;
       } else if (!codigo) {
         vm.liquidacionesSelectedFound = _.filter(vm.liquidacionesSelected, function (x) {
-          return x.policyNumber.indexOf(codigo) >= 0 || x.vehicle.plate.indexOf(codigo) >= 0
+          return x.policyNumber.toUpperCase().indexOf(codigo.toUpperCase()) >= 0 || x.vehicle.plate.toUpperCase().indexOf(codigo.toUpperCase()) >= 0
         })
       }
     }
@@ -351,6 +352,9 @@ define([
 
     function quitarTodo() {
       vm.liquidacionesSelected = [];
+      vm.liquidacionesSelectedFound = [];
+      vm.polizaPlaca = null;
+      vm.showFiltroPagar = false
       vm.liquidaciones = _.map(vm.liquidaciones, function (x) {
         x.btndisabled = false;
         return x;
