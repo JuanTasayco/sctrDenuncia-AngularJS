@@ -86,13 +86,14 @@ define(['angular', 'lodash', 'AsistenciaActions', 'helper', 'wpConstant', 'const
       dataAsistencia = paramsURL.setFrm ? wpFactory.cache.getConsolidado() : dataAsistencia
 
       vm.ultimaDataDeAsistencia = _getDataAsistencia();
-      if (vm.ultimaDataDeAsistencia.estadoSiniestro == 'GENERADO' || vm.ultimaDataDeAsistencia.estadoSiniestro == 'AUTORIZADO' ) { vm.disabledAutorizar = false , vm.modolectura = true}
+      if (vm.ultimaDataDeAsistencia.estadoSiniestro == 'GENERADO' || vm.ultimaDataDeAsistencia.estadoSiniestro == 'AUTORIZADO' ) { 
+        vm.disabledAutorizar = vm.ultimaDataDeAsistencia.apreciacionEtilica , vm.modolectura = true
+      }
       else {
-        vm.disabledAutorizar = true
+        vm.disabledAutorizar = true;
       };
 
       wpFactory.setSiniestroNro(vm.ultimaDataDeAsistencia.codigoSiniestro);
-
 
       if (!vm.ultimaDataDeAsistencia.codigoSiniestro) {
         vm.blocksinistro = true;
@@ -293,7 +294,7 @@ define(['angular', 'lodash', 'AsistenciaActions', 'helper', 'wpConstant', 'const
         var textos = {
           btnCancel: 'Cancelar',
           btnOk: 'Autorizar',
-          titulo: '¿Está seguro que el cliente desea autorizar de la Asistencia?'
+          titulo: 'Recuerda que el siniestro <b>No</b> debe tener Alerta de investigación y debe estar <b>EXONERADO</b> de los tramites policiales. ¿Estás seguro de autorizar?'
         };
 
         _showModalConfirm(textos)
