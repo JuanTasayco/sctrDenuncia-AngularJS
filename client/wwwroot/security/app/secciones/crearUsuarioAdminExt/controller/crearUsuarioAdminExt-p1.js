@@ -126,8 +126,8 @@
             var uniqueObject = {};
             var newArrayWithoutDuplicates = [];
 
-            for (var row of array) {
-              var obj = row;
+            for (var i = 0; i < array.length; i++) {
+              var obj = array[i];
               var value = obj[property];
 
               if (!uniqueObject[value]) {
