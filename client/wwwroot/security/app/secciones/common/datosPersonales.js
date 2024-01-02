@@ -53,7 +53,7 @@
             vm.data.mEmail = '';
           }
           function _getInformationDocument() {
-            let numDoc = vm.data.mNumDoc;
+            var numDoc = vm.data.mNumDoc;
             if(vm.data.mTipoDoc.codigo == 1 && numDoc){
               if(numDoc.length == '8'){
                 vm.requestEquifax = {};
@@ -64,7 +64,7 @@
                 seguridadFactory.getInformationDocumentEquifax(vm.requestEquifax, true).then(function(response){
                   console.log(response);
                   if(response.operationCode === 200 && response.data){
-                    let data = response.data;
+                    var data = response.data;
                     vm.data.mApellidoPaterno = data.surname;
                     vm.data.mApellidoMaterno = data.secondSurname;
                     vm.data.mNombres = data.names;

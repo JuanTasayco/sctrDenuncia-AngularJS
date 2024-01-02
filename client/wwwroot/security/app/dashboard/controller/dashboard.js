@@ -240,8 +240,8 @@
             $scope.frmData.mTipoUsuario.codigo = $scope.frmData.mTipoUsuario.codigo || 0;
 
               $timeout(function(){
-                let profile = seguridadFactory.getVarLS("profile");
-                let userType = profile.typeUser;
+                var profile = seguridadFactory.getVarLS("profile");
+                var userType = profile.typeUser;
                 if(userType == 3){
                   $window.location.href = '/security/#/secciones/usuarios'
                 }

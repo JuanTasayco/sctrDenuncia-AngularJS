@@ -123,12 +123,12 @@
             $scope.createS1.user.datosPersonales.mNumDoc = "";
           }
           $scope.removeduplicate = function(array, property) {
-            let uniqueObject = {};
-            let newArrayWithoutDuplicates = [];
+            var uniqueObject = {};
+            var newArrayWithoutDuplicates = [];
 
-            for (let row of array) {
-              let obj = row;
-              let value = obj[property];
+            for (var row of array) {
+              var obj = row;
+              var value = obj[property];
 
               if (!uniqueObject[value]) {
                 uniqueObject[value] = true;
