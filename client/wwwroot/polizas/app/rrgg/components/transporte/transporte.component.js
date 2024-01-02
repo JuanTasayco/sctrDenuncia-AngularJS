@@ -1,8 +1,8 @@
 define([
   'angular', 'constantsRiesgosGenerales'
 ], function (ng, constantsRiesgosGenerales) {
-  transporteController.$inject = ['mModalAlert', 'riesgosGeneralesService', 'riesgosGeneralesFactory', 'riesgosGeneralesCommonFactory', 'mModalConfirm', 'mainServices', '$uibModal'];
-  function transporteController(mModalAlert, riesgosGeneralesService, riesgosGeneralesFactory, riesgosGeneralesCommonFactory, mModalConfirm, mainServices, $uibModal) {
+  transporteController.$inject = ['$scope','mModalAlert', 'riesgosGeneralesService', 'riesgosGeneralesFactory', 'riesgosGeneralesCommonFactory', 'mModalConfirm', 'mainServices', '$uibModal'];
+  function transporteController($scope,mModalAlert, riesgosGeneralesService, riesgosGeneralesFactory, riesgosGeneralesCommonFactory, mModalConfirm, mainServices, $uibModal) {
     var vm = this;
     vm.producto = {};
     vm.validControlForm = ValidControlForm;
