@@ -112,7 +112,7 @@ define(['angular', 'AsistenciaActions', 'lodash','wpConstant'], function (ng, As
     }
 
     function setLugarAtencion() {
-      var lugarAtention = wpConstant.lugarAtencion;
+      var lugarAtention = wpFactory.myLookup.getLugarAtencionAsistencia();
       vm.lugarAtention2 = _.find(lugarAtention,function (x) {
         return x.codigoValor == vm.infoAsistencia.codigoLugarAtencion;
       });

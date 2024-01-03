@@ -135,6 +135,7 @@ define(['angular', 'lodash', 'AsistenciaActions', 'helper', 'wpConstant', 'const
         estadoUT: estadoUT,
         estadoConductorUT: estadoConductorUT
       });
+      wpFactory.myLookup.resetDataLookUp();
       _setLookups();
       mpSpin.end()
     }
@@ -202,7 +203,7 @@ define(['angular', 'lodash', 'AsistenciaActions', 'helper', 'wpConstant', 'const
         if (vm.frmGeneral.frmLugarOcurrencia.$invalid || frmTerceroConvenioinvalid) {
           var frminvalid = vm.frmGeneral.frmLugarOcurrencia.$invalid ? 'Lugar de ocurrencia' : 'Terceros Convenio';
           return void mModalAlert
-            .showWarning('Los campos de' + frminvalid + 'son obligatorios', 'Falta completar')
+            .showWarning('Los campos de ' + frminvalid + ' son obligatorios', 'Falta completar')
             .then(function msAnularPr() {
               vm.validateForm.validate = false;
             });
@@ -422,7 +423,7 @@ define(['angular', 'lodash', 'AsistenciaActions', 'helper', 'wpConstant', 'const
         if (vm.frmGeneral.frmLugarOcurrencia.$invalid || frmTerceroConvenioinvalid){
           var frminvalid = vm.frmGeneral.frmLugarOcurrencia.$invalid ? 'Lugar de ocurrencia' : 'Terceros Convenio';
           return void mModalAlert
-            .showWarning('Los campos de' + frminvalid + 'son obligatorios', 'Falta completar')
+            .showWarning('Los campos de ' + frminvalid + ' son obligatorios', 'Falta completar')
             .then(function msAnularPr() {
               vm.validateForm.validate = false;
             });

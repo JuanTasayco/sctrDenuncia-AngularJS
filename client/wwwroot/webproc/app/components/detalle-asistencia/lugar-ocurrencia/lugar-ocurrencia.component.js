@@ -5,6 +5,8 @@ define(['angular', 'lodash', 'AsistenciaActions', 'wpConstant'], function (ng, _
   function LugarOcurrenciaController(wpFactory, $scope, mModalAlert , $uibModal,$rootScope, $timeout) {
     var vm = this
     var onFrmSave;
+    var watchReferenciaViaObserver;
+
     vm.$onInit = onInit;
     vm.$onDestroy = onDestroy;
     vm.selectDanio = selectDanio;
@@ -43,8 +45,8 @@ define(['angular', 'lodash', 'AsistenciaActions', 'wpConstant'], function (ng, _
     vm.arrFotosSiniestros = [];
 
     function onDestroy() {
-      wpFactory.myLookup.resetDataLookUp();
       onFrmSave();
+      if (watchReferenciaViaObserver) watchReferenciaViaObserver();
     }
 
     function onInit() {
@@ -83,9 +85,14 @@ define(['angular', 'lodash', 'AsistenciaActions', 'wpConstant'], function (ng, _
     function changePlaceAttention(){
       $timeout(function() {
         if(vm.frmSiniestro.codigoLugarAtencion == 78) {
-          vm.frmSiniestro.lugarAtencion = vm.frmSiniestro.referenciaVia;
+          watchReferenciaViaObserver = $scope.$watch(function (){
+            return vm.frmSiniestro.referenciaVia;
+          }, function(a,b,c,d){
+            vm.frmSiniestro.lugarAtencion = a;
+          })
         }else {
           vm.frmSiniestro.lugarAtencion = null
+          if (watchReferenciaViaObserver) watchReferenciaViaObserver();
         }
       });
     }
