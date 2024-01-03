@@ -9,13 +9,29 @@
           <p>{{$index + 1}}</p>
         </div>
         <div class="col-sm-7 col-md-8 mb-xs-2 mb-sm-0">
-          <mpf-input label="{label: 'Ubicación del riesgo', required: true}" name="direccion{{$index}}" ng-model="local.Direccion" ng-maxlength="200"
+          <mpf-input label="{label: 'Ubicación del riesgo', required: true}" name="direccion{{$index}}" 
+            ng-model="local.Direccion" ng-maxlength="200"
             ng-disabled="$ctrl.validate" mpf-validation="onlyLetterNumCaracteres" ng-required="true">
           </mpf-input>
           <div class="g-error" ng-show="$ctrl.validControlForm('direccion{{$index}}')">
             {{$ctrl.constantsRrgg.SMS_ERROR.REQUERIDO}}
           </div>
         </div>
+        <div ng-if="$ctrl.validate" class="col-sm-7 col-md-8 mb-xs-2 mb-sm-0">
+          <mpf-input label="{label: 'Ubigeo'}" name="departamento{{$index}}" 
+            ng-model="local.Departamento.Descripcion" ng-maxlength="200"
+            ng-disabled="$ctrl.validate" mpf-validation="onlyLetterNumCaracteres">
+          </mpf-input>
+        </div>
+        <mpf-ubigeo
+          ng-if="!$ctrl.validate"
+          data="local.Ubigeo"
+          ng-model="local.Ubigeo"
+          is-Valid="$ctrl.ubigeoValid"
+          setter="$ctrl.local.setter"
+          all-Fields-Required="true"
+          clean="$ctrl.local.clean"
+        ></mpf-ubigeo>
         <div ng-if="$ctrl.data.TipoAseguramiento.Codigo == $ctrl.constantsRrgg.TIPO_ASEGURAMIENTO.X_UNIDAD"
           class="col-sm-3 col-md-2 mb-xs-2 mb-sm-0">
           <mpf-input ng-keyup="$ctrl.calcularPrimas()" label="{label: 'UIT'}" name="Uit{{$index}}" ng-model="local.Uit"

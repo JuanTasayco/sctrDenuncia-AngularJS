@@ -570,6 +570,9 @@ define([
         return {
           "Orden": local.Orden,
           "Direccion": local.Direccion,
+          "Departamento": { Codigo: local.Ubigeo.mDepartamento.Codigo },
+          "Provincia": { Codigo: local.Ubigeo.mProvincia.Codigo },
+          "Distrito": { Codigo: local.Ubigeo.mDistrito.Codigo },
           "SumaAsegurada": factory.cotizacion.producto.modelo.SumaAseguradaAMT ? factory.cotizacion.producto.modelo.SumaAseguradaAMT.Dato : 0,
           "Uit": local.Uit || 0
         }

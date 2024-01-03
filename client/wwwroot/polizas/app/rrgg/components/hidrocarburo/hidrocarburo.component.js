@@ -1,8 +1,8 @@
 define([
   'angular', 'constants', 'constantsRiesgosGenerales', 'locales', 'vehiculos', 'rrggModalProductParameter'
 ], function (ng, constants, constantsRiesgosGenerales) {
-  hidrocarburoController.$inject = ['mModalAlert', 'riesgosGeneralesService', 'riesgosGeneralesFactory', 'riesgosGeneralesCommonFactory', '$uibModal'];
-  function hidrocarburoController(mModalAlert, riesgosGeneralesService, riesgosGeneralesFactory, riesgosGeneralesCommonFactory, $uibModal) {
+  hidrocarburoController.$inject = ['$scope','mModalAlert', 'riesgosGeneralesService', 'riesgosGeneralesFactory', 'riesgosGeneralesCommonFactory', '$uibModal'];
+  function hidrocarburoController($scope,mModalAlert, riesgosGeneralesService, riesgosGeneralesFactory, riesgosGeneralesCommonFactory, $uibModal) {
     var vm = this;
     vm.producto = {};
     // Funciones
@@ -25,13 +25,25 @@ define([
       vm.constantsRrgg = constantsRiesgosGenerales;
       riesgosGeneralesFactory.setCotizacionProducto(vm.cotizacion);
       vm.producto = riesgosGeneralesFactory.cotizacion.producto;
-      vm.locales = [{ Ubicacion: "" }, { Ubicacion: "" }]
+      vm.locales = [{ Ubicacion: "",  Ubigeo: {
+        mDepartamento: null,
+        mProvincia: null,
+        mDistrito: null
+      }, }, { Ubicacion: "",  Ubigeo: {
+        mDepartamento: null,
+        mProvincia: null,
+        mDistrito: null
+      }, }]
       vm.producto.modelo = {
+       
         listaUbicaciones: [],
         listaVehiculos: [],
         AseguraAdicional: 0,
         CantidadUit: ''
       }
+
+      
+      
       riesgosGeneralesService.getCurrencyType(false)
         .then(function (response) {
           vm.monedas = response.Data;

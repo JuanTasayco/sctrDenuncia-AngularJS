@@ -1,5 +1,5 @@
 define([
-  'angular', 'constantsRiesgosGenerales'
+  'angular', 'constantsRiesgosGenerales', '/scripts/mpf-main-controls/components/ubigeo/component/ubigeo.js'
 ], function (ng, constantsRiesgosGenerales) {
   transporteController.$inject = ['$scope','mModalAlert', 'riesgosGeneralesService', 'riesgosGeneralesFactory', 'riesgosGeneralesCommonFactory', 'mModalConfirm', 'mainServices', '$uibModal'];
   function transporteController($scope,mModalAlert, riesgosGeneralesService, riesgosGeneralesFactory, riesgosGeneralesCommonFactory, mModalConfirm, mainServices, $uibModal) {
