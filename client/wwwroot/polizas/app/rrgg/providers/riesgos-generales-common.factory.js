@@ -502,11 +502,16 @@ define([
           }
 
           if (parseFloat(paramData.MontoObra) < tasaMinima) {
-            mModalConfirm.confirmWarning("La suma asegurada no puede ser menor a US$" + tasaMinima + ". Para montos menores, SOLICITAR VoBo de Suscripción", "MAPFRE:SUMA ASEGURADA MÍNIMA").then(function (response) {
+            if (paramData.type === "C") {
+              mModalConfirm.confirmWarning("La suma asegurada no puede ser menor a US$" + tasaMinima + ". Para montos menores, SOLICITAR VoBo de Suscripción", "MAPFRE:SUMA ASEGURADA MÍNIMA").then(function (response) {
+                deferred.resolve(true);
+              }).catch(function (error) {
+                deferred.resolve(true);
+              });
+            } else if (paramData.type === "R") {
               deferred.resolve(true);
-            }).catch(function (error) {
-              deferred.resolve(true);
-            });
+            }
+            
           } 
           
         })
