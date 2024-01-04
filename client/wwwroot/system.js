@@ -369,6 +369,18 @@
         isComponsesMenu: true,
         icon: 'ico-mapfre_172_consultaGestion'
       },
+      planillaasistencial:{
+        code: "PLAASIST",
+        shortName: 'Planilla Asistencial',
+        packageName: 'planillaasistencialPackage',
+        path: "/planillaasistencial/package",
+        appPath: "/planillaasistencial/app",
+        location: '/planillaasistencial/#',
+        menuName: 'Planilla Asistencial',
+        rootApi: '',
+        isComponsesMenu: true,
+        icon: 'ico-mapfre_174_gestionMedica'
+      },
       gestionmedica:{
         code: "GESMED",
         shortName: 'Gestión Médica',
