@@ -518,23 +518,6 @@ define([
       return deferred.promise;
     }
 
-    function _buscarParametro(group, propiedad, value) {
-      let parametro = null;
-      for (let i = 0; i < group.length; i++) {
-          const array = group[i];
-          for (let j = 0; j < array.length; j++) {
-              const objeto = array[j];
-              if (objeto[propiedad] === value) {
-                parametro = objeto;
-                  break;
-              }
-          }
-          if (parametro) {
-              break;
-          }
-      }
-      return parametro;
-  }
   }
 
 });
