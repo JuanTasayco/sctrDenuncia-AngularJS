@@ -90,6 +90,17 @@ define([
 						mainServices.fnDownloadFileBase64(data.file, data.mimeType, data.defaultFileName, true);
 					  });
 				}
+				function generarExcelSoat(params, vFileName) {
+					const urlRequest = constants.system.api.endpoints.policy + 'api/soat/bandeja/descargarExcel';
+				return httpData.postDownload(
+							urlRequest,
+							params,
+							{ responseType: 'arraybuffer' },
+							true
+					).then(function(data){
+						mainServices.fnDownloadFileBase64(data.file, data.mimeType, data.defaultFileName, true);
+					});
+				}
 				function filterDocumentsClinicaDigital(params, showSpin){
 					return proxyClinicaDigital.GetListarBandejaDocumentos(params, showSpin);
 				}
@@ -107,7 +118,8 @@ define([
 				filterDocumentsSalud: filterDocumentsSalud,
 				generarArchivo: generarArchivo,
 				generarExcel: generarExcel,
-				filterDocumentsClinicaDigital: filterDocumentsClinicaDigital
+				filterDocumentsClinicaDigital: filterDocumentsClinicaDigital,
+				generarExcelSoat: generarExcelSoat
 			};
 
 		}]);
