@@ -478,9 +478,9 @@ define([
             group[index] = _.groupBy(item, "Orden");
           })
           var sumaMaxima = _getData(group[0]).pop()[1]
-          var sumaMinima = group[0][1].find(function (data) {
+          var sumaMinima = response.Data.find(function (data) {
             return data.Campo === "C0057"
-          }).Dato
+          }).Dato 
           //cuando es soles calcula por TC
           if (parseInt(paramData.moneda.Codigo) === 1) {
             var result = convertDolaresAsoles(sumaMaxima);
@@ -512,6 +512,24 @@ define([
         })
       return deferred.promise;
     }
+
+    function _buscarParametro(group, propiedad, value) {
+      let parametro = null;
+      for (let i = 0; i < group.length; i++) {
+          const array = group[i];
+          for (let j = 0; j < array.length; j++) {
+              const objeto = array[j];
+              if (objeto[propiedad] === value) {
+                parametro = objeto;
+                  break;
+              }
+          }
+          if (parametro) {
+              break;
+          }
+      }
+      return parametro;
+  }
   }
 
 });

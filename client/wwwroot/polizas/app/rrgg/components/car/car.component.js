@@ -90,14 +90,17 @@ define([
       riesgosGeneralesCommonFactory.validateDescuentoCAR(paramData)
     }
     function validateSumas() {
-      var paramData = {
-        CodigoRiesgoGeneral: vm.cotizacion.producto.CodigoRiesgoGeneral,
-        MontoObra: riesgosGeneralesCommonFactory.formatMilesToNumber(vm.producto.modelo.MontoObra),
-        moneda: vm.producto.modelo.Moneda,
-        Grupo : vm.cotizacion.producto.Grupo,
-        type: "C"
+      if (vm.producto.modelo.MontoObra) {
+        var paramData = {
+          CodigoRiesgoGeneral: vm.cotizacion.producto.CodigoRiesgoGeneral,
+          MontoObra: riesgosGeneralesCommonFactory.formatMilesToNumber(vm.producto.modelo.MontoObra),
+          moneda: vm.producto.modelo.Moneda,
+          Grupo : vm.cotizacion.producto.Grupo,
+          type: "C"
+        }
+        riesgosGeneralesCommonFactory.validateMontosCAR(paramData)
       }
-      riesgosGeneralesCommonFactory.validateMontosCAR(paramData)
+      
     }
     function OpenParametros() {
       var vModalSendEmail = $uibModal.open({

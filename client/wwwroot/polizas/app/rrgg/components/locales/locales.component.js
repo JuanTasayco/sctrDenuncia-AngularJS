@@ -19,7 +19,7 @@ define([
       if(data) {
         riesgosGeneralesService.getRestriccionUbigeo(data.mDepartamento,data.mProvincia,data.mDistrito)
         .then(function (response) {
-          var restringido = response.Data.Restringido
+          const restringido = response.Data.Restringido
           if (restringido) {
             mModalAlert.showWarning("La cotización debe pasar por VoBo de Suscripción, debido a que la ubicación del riesgo se encuentra en zona restringida.", "MAPFRE: RESTRICCIÓN DE UBICACIÓN DE RIESGO");
           }
