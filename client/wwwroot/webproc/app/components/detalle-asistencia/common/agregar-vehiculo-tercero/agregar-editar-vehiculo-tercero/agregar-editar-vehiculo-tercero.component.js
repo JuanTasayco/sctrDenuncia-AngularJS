@@ -40,7 +40,7 @@ define(['angular', 'lodash'], function (ng, _) {
 
       vm.frm = vm.vehiculoTercero || vm.frm;
       vm.documentosVehiculoTercero = vm.frm.documentosVehiculoTercero ? vm.frm.documentosVehiculoTercero : [];
-      vm.frm.detalleDanioVehiculo =  vm.frm.detalleDanioVehiculo ?  vm.frm.detalleDanioVehiculo : {};
+      vm.frm.detalleDanioVehiculo =  vm.frm.detalleDanioVehiculo ?  vm.frm.detalleDanioVehiculo : [{}];
 
       vm.maxFotos = 4
       vm.optImgsTabs = {
@@ -49,8 +49,23 @@ define(['angular', 'lodash'], function (ng, _) {
         isOdometro: null
       };
 
-      _loadFotosOtros(vm.documentosVehiculoTercero);
+
+      _asignarFotosAlModelo()
+      _loadFotosOtros();
     }
+
+    function _asignarFotosAlModelo() {
+      var arrFotosVehiculo = vm.frm.vehiculoTercero.fotosVehiculo;
+      if (arrFotosVehiculo.length) {
+        vm.frm.tab4At1 = {};
+        vm.frm.tab4At1.fotosVehiculo = wpFactory.help.getArrayBy(arrFotosVehiculo, 'imageTypeCode', 13);
+        vm.frm.tab4At1.fotosDoc = []
+        vm.frm.tab4At1.fotosDoc[0] = wpFactory.help.getArrayBy(arrFotosVehiculo, 'imageTypeCode', 12)[0];
+        vm.frm.tab4At1.fotosDoc[1] = wpFactory.help.getArrayBy(arrFotosVehiculo, 'imageTypeCode', 11)[0];
+        vm.frm.tab4At1.fotosDoc[2] = wpFactory.help.getArrayBy(arrFotosVehiculo, 'imageTypeCode', 10)[0];
+    }
+    }
+
 
     function getPlaca() {
       if (vm.frm.vehiculoTercero.placaVehiculo) {
@@ -98,10 +113,7 @@ define(['angular', 'lodash'], function (ng, _) {
         vm.frmVehiculoTercero.markAsPristine();
         return void 0;
       }
-      var frmNivelDanho = vm.frmVehiculoTercero.frmNivelDanho
-      vm.frm.pregunta1 = frmNivelDanho.nDanhoPregunta1.$modelValue;
-      vm.frm.pregunta2 = frmNivelDanho.nDanhoPregunta2 ? frmNivelDanho.nDanhoPregunta2.$modelValue : null;
-
+      vm.frm.detalleDanioVehiculo[0].descripcionDanios = vm.frm.descripcionDanios;
       vm.ngIf = false;
       vm.esFrmAgregar && vm.onAgregar({ $event: { vehiculoTercero: vm.frm } });
       if (!vm.esFrmAgregar) {
@@ -190,8 +202,8 @@ define(['angular', 'lodash'], function (ng, _) {
         vm[propWhereSave] = wpFactory.help.getFotosConB64(vm[propWhereSave], resp, event.photoData);
       });
     }
-    function _loadFotosOtros(fotosSiniestro) {
-      _loadFotos(fotosSiniestro, 'documentosVehiculoTercero');
+    function _loadFotosOtros() {
+      _loadFotos(vm.frm.tab4At1, 'fotosVehiculo');
     }
 
     function _loadFotos(arrFotos, prop) {
@@ -201,10 +213,10 @@ define(['angular', 'lodash'], function (ng, _) {
           if (item && item.nombreFisico) {
             wpFactory.siniestro.ViewImageByPath(item.nombreFisico).then(function (resp) {
               if (wpFactory.help.isCode200(resp)) {
-                vm["frm"][prop][idx].srcImg = resp.data
+                vm.frm["vehiculoTercero"][prop][idx].srcImg = resp.data
               }
               else {
-                vm["frm"][prop][idx] = null
+                vm.frm["vehiculoTercero"][prop][idx] = null
               }
             });
           }

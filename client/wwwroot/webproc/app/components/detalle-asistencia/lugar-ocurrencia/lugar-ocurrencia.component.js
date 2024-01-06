@@ -72,6 +72,10 @@ define(['angular', 'lodash', 'AsistenciaActions', 'wpConstant'], function (ng, _
 
       vm.documentos = vm.frmSiniestro.fotosDetaSiniestro.concat(vm.frmSiniestro.documentosVehiculo).concat(vm.frmSiniestro.fotosSiniestroVehiculo);
       _loadFotosOtros(vm.documentos);
+
+      if(vm.frmSiniestro.codigoLugarAtencion == 78) {
+        registerWatchReferenciaVia();
+      }
     }
 
     function setFrm() {
@@ -85,16 +89,20 @@ define(['angular', 'lodash', 'AsistenciaActions', 'wpConstant'], function (ng, _
     function changePlaceAttention(){
       $timeout(function() {
         if(vm.frmSiniestro.codigoLugarAtencion == 78) {
-          watchReferenciaViaObserver = $scope.$watch(function (){
-            return vm.frmSiniestro.referenciaVia;
-          }, function(a,b,c,d){
-            vm.frmSiniestro.lugarAtencion = a;
-          })
+          registerWatchReferenciaVia();
         }else {
           vm.frmSiniestro.lugarAtencion = null
           if (watchReferenciaViaObserver) watchReferenciaViaObserver();
         }
       });
+    }
+
+    function registerWatchReferenciaVia(){
+          watchReferenciaViaObserver = $scope.$watch(function (){
+            return vm.frmSiniestro.referenciaVia;
+          }, function(a,b,c,d){
+            vm.frmSiniestro.lugarAtencion = a;
+          })
     }
 
     function GetCheckList(valor) {
