@@ -268,7 +268,7 @@ define(['angular', 'lodash', 'AsistenciaActions', 'helper', 'wpConstant', 'const
         vm.ultimaDataDeAsistencia.peatonesTercero = null;
         vm.ultimaDataDeAsistencia.ocupantes= null;
         vm.ultimaDataDeAsistencia.bienesTercero = null;
-        vm.ultimaDataDeAsistencia.codigoResponsaDetaSiniestro = null;
+        vm.ultimaDataDeAsistencia.codigoResponsaDetaSiniestro = 0;
 
       }
 
