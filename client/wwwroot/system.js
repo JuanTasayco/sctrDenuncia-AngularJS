@@ -323,15 +323,15 @@
       },
       referencias:{
         code: "NREF",
-        shortName: 'Referencias',
+        shortName: 'Planilla asistencial',
         packageName: 'referenciasPackage',
         path: "/referencias/package",
         appPath: "/referencias/app",
-        location: '/referencias/#',
-        menuName: 'Referencias',
+        location: '/planillaasistencial/#',
+        menuName: 'Planilla asistencial',
         rootApi: '',
         isComponsesMenu: true,
-        icon: 'ico-mapfre_155_Sctr'
+        icon: 'ico-mapfre_343_sctrdenuncia'
       },
       altasBajasSalud:{
         code: "ABSALUD",
