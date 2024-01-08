@@ -49,6 +49,7 @@ define([
                 validateMontosMaximosTEE();
                 validateDescuentosTEE();
                 validateFechaDesdeTEE();
+                validateUbigeo();
                 if (!$scope.cotizacionResumen.CantTrabajadores) {
                   $scope.cotizacionResumen.CantTrabajadores = "0"
                 }
@@ -57,9 +58,11 @@ define([
                 $scope.cotizacionResumen.TipoAseguramiento = $scope.cotizacionResumen.Giro.TipoAseguramiento;
                 validateDescuentosHDR();
                 validateUitHidro();
+                validateUbigeo();
               }
               if (response.Data.Grupo === constantsRiesgosGenerales.GRUPO.CAR || response.Data.Grupo === constantsRiesgosGenerales.GRUPO.CARLITE) {
                 validateDescuentosCAR();
+                validateUbigeo();
                 setTimeout(function () {
                   if (!$scope.estadoValidate) {
                     validateMaximaDuracionCar();
@@ -77,6 +80,7 @@ define([
               }
               if (response.Data.Grupo === constantsRiesgosGenerales.GRUPO.TRANSPORTE) {
                 validateFechaDesdeRetro();
+                validateUbigeo();
                 setTimeout(function () {
                   if (!$scope.estadoValidate) {
                     validateMontoMaximoParamSimple($scope.constantsRrgg.PARAMETROS.CONSIDERACIONES);
@@ -87,6 +91,7 @@ define([
               if (response.Data.Grupo === constantsRiesgosGenerales.GRUPO.EVENTOS) {
                 validateMontoMaximoParamSimple($scope.constantsRrgg.PARAMETROS.SUM_MAX_ASEGURADA);
                 validateEventos();
+                validateUbigeo();
                 setTimeout(function () {
                   if (!$scope.estadoValidate) {
                     validateFechaDesdeRetro();
@@ -96,6 +101,7 @@ define([
               }
               if (response.Data.Grupo === constantsRiesgosGenerales.GRUPO.DEMOLICIONES) {
                 validateMontoMaximoParamTabla($scope.cotizacionResumen.SumaAsegurada);
+                validateUbigeo();
                 setTimeout(function () {
                   if (!$scope.estadoValidate) {
                     validateDescuentosDEM();
@@ -133,6 +139,7 @@ define([
               riesgosGeneralesFactory.cotizacion.form = $scope.cotizacionResumen
               $scope.cotizacionResumen.IdProducto = $scope.cotizacionResumen.CodigoRiesgoGeneral || $scope.cotizacionResumen.IdProducto
             } else {
+              
               mModalAlert.showError(response.Message, "¡Error de Resultado!")
             }
           }).catch(function (error) {
@@ -431,6 +438,15 @@ define([
           $scope.maximosValidate = response;
         }
       });
+    }
+
+    function validateUbigeo(){
+      const cotizacionResumen = $scope.cotizacionResumen
+      riesgosGeneralesService.getRestriccionUbigeo(cotizacionResumen.Departamento.Codigo, cotizacionResumen.Provincia.Codigo,cotizacionResumen.Distrito.Codigo)
+          .then(function (response) {
+            const restringido = response.Data.Restringido
+            $scope.maximosValidate = restringido
+          })
     }
   }
 
