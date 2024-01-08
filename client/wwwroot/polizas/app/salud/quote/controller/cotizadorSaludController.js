@@ -55,7 +55,7 @@ define(['angular', 'constants', 'helper', 'lodash', 'mpfPersonConstants', 'salud
       $scope.data.fechaVencimiento = new Date(new Date().setYear($scope.data.fechaActual.getFullYear() + 1));
       $scope.decimal = constants.formats.twoDecimals;
       $scope.formVida = {}
-      $scope.esAdmin = oimPrincipal.isAdmin();
+      $scope.validateAgent = oimPrincipal.validateAgent('evoSubMenuEMISA','SALUD');
       $scope.mAgente = {
         codigoNombre: oimPrincipal.getAgent().codigoAgente+' - '+oimPrincipal.getAgent().codigoNombre,
         codigoAgente: oimPrincipal.getAgent().codigoAgente

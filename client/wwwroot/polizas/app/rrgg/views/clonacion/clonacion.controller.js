@@ -18,6 +18,16 @@ define([
         .then(function (response) {
           $scope.productos = response.Data.filter(function (element) { return !element.CodigoProductoOrigen})
         });
+      var subMenu = angular.fromJson(storage['evoSubMenuEMISA']);
+      var menus = subMenu.filter(function(x) { return x.nombreCabecera === "RRGG"})[0] ? subMenu.filter(function(x) { return x.nombreCabecera === "RRGG"})[0].items : [];
+      if(menus.length >0){
+          var opc = [];
+          opc =  menus.filter(function(x) { return  x.nombreCorto === 'CLONAR PRODUCTO'});
+          $scope.clonePermission = !!opc.length
+          if(opc.length === 0){
+            return $state.go(constantsRiesgosGenerales.ROUTES.HOME, {}, { reload: true, inherit: false });
+          }
+      }
       listarClonados();
     })();
     $scope.openEdit = function (item) {

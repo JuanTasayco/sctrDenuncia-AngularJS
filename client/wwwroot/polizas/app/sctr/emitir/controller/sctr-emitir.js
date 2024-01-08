@@ -34,7 +34,7 @@ define([
               $scope.formData.isBroker = oimClaims.userSubType == 3 && oimClaims.userType==3
               $scope.userSubType = oimClaims.userSubType;
               $scope.userType = oimClaims.userType //claims[3].value
-              $scope.userRoot = false;
+              $scope.userRoot = oimPrincipal.validateAgent('evoSubMenuEMISA','SCTR');
               //$scope.officeName =  oimClaims.officeName;
               $scope.agentName =  oimClaims.agentName;
               
@@ -93,11 +93,11 @@ define([
 
                 console.log($scope.formData.TipoRol);
 
-                 if($scope.formData.TipoRol=='ADM' || $scope.formData.TipoRol=='EAC' || $scope.formData.TipoRol=='GST'){
+                 /* if($scope.formData.TipoRol=='ADM' || $scope.formData.TipoRol=='EAC' || $scope.formData.TipoRol=='GST'){
                     $scope.userRoot = true;
                   }else{
                     $scope.userRoot = false;
-                  }
+                  } */
                   
                   $scope.formData.numReferido = JSON.parse(window.localStorage.getItem('profile')).numeroReferido;
                   

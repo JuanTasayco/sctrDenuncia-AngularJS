@@ -7,13 +7,14 @@
         '/polizas/app/autos/autosHome/service/autosFactory.js',
     ],
     function(angular, constants, _) {
-        angular.module("appAutos").controller('autosCotizarS3', ['$scope', '$state','$filter', 'autosFactory', 'autosCotizarFactory', 'mpSpin', '$uibModal', 'mModalAlert', '$rootScope', 'oimPrincipal', 'mModalConfirm', 'mainServices', 'oimAbstractFactory','proxyGeneral',
-            function($scope, $state, $filter, autosFactory, autosCotizarFactory, mpSpin, $uibModal, mModalAlert, $rootScope, oimPrincipal, mModalConfirm, mainServices, oimAbstractFactory, proxyGeneral) {
+        angular.module("appAutos").controller('autosCotizarS3', ['$scope', '$state','$filter', 'autosFactory', 'autosCotizarFactory', 'mpSpin', '$uibModal', 'mModalAlert', '$rootScope', 'oimPrincipal', 'mModalConfirm', 'mainServices', 'oimAbstractFactory','proxyGeneral','encrypterFactory',
+            function($scope, $state, $filter, autosFactory, autosCotizarFactory, mpSpin, $uibModal, mModalAlert, $rootScope, oimPrincipal, mModalConfirm, mainServices, oimAbstractFactory, proxyGeneral, encrypterFactory) {
 
             var vm = this;
             vm.$onInit = onInit;
 
             function onInit() {
+                encrypterFactory.loadDefaultKey();
                 $scope.formData = $rootScope.formData || {};
                 $scope.formData.codigoUsuario = $scope.mAgente.codigoUsuario;
                 $scope.formData.codigoUsuarioRED = $scope.mAgente.codigoUsuario;
@@ -763,6 +764,7 @@
                           $scope.formData.DocumentosAsociados[key] = {};
 
                           $scope.formData.DocumentosAsociados[key].CodigoPrima = resultadoPrima.NumeroCotizacion;
+                          $scope.formData.DocumentosAsociados[key].FechaHora = resultadoPrima.FechaHora;
                           $scope.formData.DocumentosAsociados[key].CodigoEstado = "1";
                           $scope.formData.DocumentosAsociados[key].CodigoUsuarioRED = $scope.formData.codigoUsuarioRED;
                           $scope.formData.DocumentosAsociados[key].CodigoUsuario = $scope.formData.codigoUsuario;
@@ -977,6 +979,7 @@
 
                   dataCotizacion = {
                     PorDctoIntgPlaza: $scope.formData.PorDctoIntgPlaza || 0,
+                    FechaHora: $scope.formData.DocumentosAsociados[0].FechaHora,
                     MarcaPorDctoIntegralidad: $scope.formData.DctoIntegralidad ? "S" : "N",
                     CodigoCompania: constants.module.polizas.autos.companyCode,
                     CodigoProductoPrin: $scope.prdPrincipal.codigoProducto,
@@ -1068,7 +1071,7 @@
                   };
                   mpSpin.start();
                   autosCotizarFactory
-                    .grabarVehiculo(dataCotizacion)
+                    .grabarVehiculo({valueEncrypt:encrypterFactory.handler(dataCotizacion)})
                     .then(function(response) {
                       mpSpin.end();
                       if (response.OperationCode == constants.operationCode.success) {

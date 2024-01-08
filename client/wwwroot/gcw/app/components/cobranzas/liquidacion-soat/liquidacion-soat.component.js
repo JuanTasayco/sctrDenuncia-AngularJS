@@ -3,20 +3,20 @@ define([
   'constants',
   'lodash',
   'gcwServicePoliza'
-], function(ng, constants, _) {
+], function (ng, constants, _) {
 
   LiquidacionSoatController.$inject = [
-  '$scope',
-  '$state',
-  'gcwFactory',
-  '$timeout',
-  '$rootScope',
-  'mModalAlert',
-  'MxPaginador',
-  '$stateParams',
-  '$sce',
-  '$uibModal',
-  'gcwServicePoliza'
+    '$scope',
+    '$state',
+    'gcwFactory',
+    '$timeout',
+    '$rootScope',
+    'mModalAlert',
+    'MxPaginador',
+    '$stateParams',
+    '$sce',
+    '$uibModal',
+    'gcwServicePoliza'
   ];
 
   function LiquidacionSoatController(
@@ -31,7 +31,7 @@ define([
     $sce,
     $uibModal,
     gcwServicePoliza
-    ) {
+  ) {
 
     var vm = this;
     var page;
@@ -39,8 +39,9 @@ define([
     var tandaActual = 1;
     var tempTotal = 0;
     vm.soat = [];//almacena los items desmarcados
+    vm.isagregarTodo = false;
 
-    vm.$onInit = function() {
+    vm.$onInit = function () {
       $rootScope.currentURL = $state.current.url;
       $rootScope.$broadcast('comprobanteRemitido');
       $rootScope.$broadcast('dashboard');
@@ -64,10 +65,10 @@ define([
 
       vm.dataTicket = gcwFactory.getVariableSession("dataTicket");
 
-      $scope.letterNumber =  $stateParams.id;
-      $scope.yearLetter =  $stateParams.year;
-      $scope.letterVersion =  $stateParams.version;
-      $scope.letterCia =  $stateParams.cia;
+      $scope.letterNumber = $stateParams.id;
+      $scope.yearLetter = $stateParams.year;
+      $scope.letterVersion = $stateParams.version;
+      $scope.letterCia = $stateParams.cia;
       console.log($stateParams);
 
       //recalcula el monto total (des)habilitando checkbox
@@ -85,7 +86,7 @@ define([
       vm.cabecera = $rootScope.cabecera;
       vm.dataTicket = gcwFactory.getVariableSession("dataTicket");
 
-      $rootScope.$on('getDataPostLiquidation', function(event, data){
+      $rootScope.$on('getDataPostLiquidation', function (event, data) {
         vm.rol = gcwFactory.obtenerAgente(vm.dataTicket);
         vm.liquidaciones = null;
         vm.totalAmount = 0;
@@ -105,20 +106,21 @@ define([
           CurrentPage: 1
         }
 
-        $timeout(function() {
+        $timeout(function () {
           getLiquidaciones(filterPostLiquidation);
         }, 1000);
       })
 
-      if($rootScope.loadLiquidation == 1){
+      if ($rootScope.loadLiquidation == 1) {
         vm.rol = gcwFactory.obtenerAgente(vm.dataTicket);
         //carga liquidaciones otra vez
         vm.totalRows = 0;
         vm.tipoMoneda = {};
         vm.tipoPoliza = {};
+        vm.usoPoliza = {}
         vm.tipoMoneda.value = 1;
         vm.tipoPoliza.code = 0;
-        vm.usoPoliza.code = 0;
+        vm.usoPoliza.value = 0;
         vm.mFechaHasta = new Date();
         vm.mFechaDesde = gcwFactory.restarMes(new Date(), 6);
         vm.filter = {
@@ -132,12 +134,12 @@ define([
           CurrentPage: 1
         };
 
-        $timeout(function() {
+        $timeout(function () {
           getLiquidaciones(vm.filter);
         }, 1000);
 
-      }else{
-        if(!ng.isUndefined($rootScope.preLocHis)){
+      } else {
+        if (!ng.isUndefined($rootScope.preLocHis)) {
 
           var filterLiqSession = gcwFactory.getVariableSession("filterLiqSession");
           vm.tandas = gcwFactory.getVariableSession("dataTandaSession");
@@ -157,7 +159,7 @@ define([
 
           //monto de liquidacion
           var amount;
-          if(!ng.isUndefined(res3.value))
+          if (!ng.isUndefined(res3.value))
             amount = res3.value;
           else
             amount = res2.totalAmount;
@@ -169,10 +171,10 @@ define([
 
           vm.msgVacio = 'No hay resultados para la búsqueda realizada.<br/>Intenta nuevamente';
           page.setDataActual(vm.liquidaciones).setConfiguracionTanda().setCurrentTanda(1);
-              setLstCurrentPage();
+          setLstCurrentPage();
 
           $rootScope.preLocHis = undefined;
-        }else{
+        } else {
           vm.totalRows = 0;
           vm.tipoMoneda = {};
           vm.tipoPoliza = {};
@@ -195,17 +197,31 @@ define([
     vm.verHistorial = verHistorial;
     vm.generarLiquidacion = generarLiquidacion;
 
+    function agregarTodoAux() {
+      for (var index = 0; index < vm.liquidaciones.length; index++) {
+        if (!vm.liquidaciones[index].btndisabled && vm.liquidaciones[index].checkEnabled != 'N') {
+          vm.liquidacionesSelected.push(vm.liquidaciones[index])
+        }
+      }
+      amountSelectFunc();
+
+      vm.liquidaciones = _.map(vm.liquidaciones, function (x) {
+        x.btndisabled = true;
+        return x;
+      })
+    }
     function amountSelectFunc() {
-      vm.amountSelect = _.reduce(vm.liquidacionesSelected,function (previous, current) {
+      vm.amountSelect = _.reduce(vm.liquidacionesSelected, function (previous, current) {
         return previous + current.netPremium;
       }, 0);
-      gcwFactory.addVariableSession('amountSession', {value: vm.amountSelect});
+      vm.totalAmount = vm.totalAmount2 - vm.amountSelect;
+      gcwFactory.addVariableSession('amountSession', { value: vm.amountSelect });
     }
 
-    function generarLiquidacion(){
-      var exportData = vm.liquidacionesSelected.length>0 ? vm.paramsLiquidacion : null;
+    function generarLiquidacion() {
+      var exportData = vm.liquidacionesSelected.length > 0 ? vm.paramsLiquidacion : null;
 
-      if(exportData){
+      if (exportData) {
 
         $scope.message = false;
         $scope.porGenerar = false;
@@ -218,23 +234,25 @@ define([
           dialogFade: false,
           keyboard: true,
           scope: $scope,
-          templateUrl : '/gcw/app/components/cobranzas/liquidacion-soat/modalLiquidacion.html',
-          controller : ['$scope', '$uibModalInstance', '$uibModal', function($scope, $uibModalInstance, $uibModal) {
-            
+          templateUrl: '/gcw/app/components/cobranzas/liquidacion-soat/modalLiquidacion.html',
+          controller: ['$scope', '$uibModalInstance', '$uibModal', function ($scope, $uibModalInstance, $uibModal) {
+
             $scope.close = function () {
               $uibModalInstance.close();
               $rootScope.$broadcast('getDataPostLiquidation', 1);
             };
 
-            $scope.generar = function(){
-              if($scope.amount > 0) $scope.porGenerar = true;
+            $scope.generar = function () {
+              if ($scope.amount > 0) $scope.porGenerar = true;
               else $scope.porGenerar = false;
 
-              if($scope.porGenerar){ //desencadena generacion de liq
+              if ($scope.porGenerar) { //desencadena generacion de liq
                 exportData.soat = vm.liquidacionesSelected;
-                gcwFactory.generarLiquidacion(exportData, true).then(function(response){
+                gcwFactory.generarLiquidacion(exportData, true).then(function (response) {
                   $scope.message = true;
                   $scope.preSettlement = response.data.value;
+                  vm.liquidacionesSelected = [];
+                  vm.amountSelect = 0;
 
                   $scope.downloadFile = {
                     preSettlement: $scope.preSettlement,
@@ -243,120 +261,127 @@ define([
                     userCode: exportData.userCode
                   };
                   gcwFactory.addVariableSession('downloadFile', $scope.downloadFile);
-                }, function(error){
+                  vm.polizaPlaca = "";
+                }, function (error) {
                   console.log(error);
                 });
 
-              }else{
+              } else {
                 $scope.error = true;
               }
             }
 
-            $scope.exportarLiq = function(){
-              $scope.exportURL = $sce.trustAsResourceUrl(constants.system.api.endpoints.gcw+ 'api/collection/soat/download');
+            $scope.exportarLiq = function () {
+              $scope.exportURL = $sce.trustAsResourceUrl(constants.system.api.endpoints.gcw + 'api/collection/soat/download');
               $scope.downloadFile = gcwFactory.getVariableSession('downloadFile');
-              $timeout(function() {
+              $timeout(function () {
                 document.getElementById('frmLiquidSoat').submit();
               }, 500);
             }
           }]
         });
-      }else{
+      } else {
         mModalAlert.showInfo("El total de liquidación es 0. No es posible generar liquidación", "Liquidación SOAT");
       }
     }
 
-
-
-
-    function searchliquidacionesSelected(codigo) {
-      if(codigo){
-        vm.liquidacionesSelectedFound = _.filter(vm.liquidacionesSelected,function (x) {
-          return x.policyNumber.indexOf(codigo) >=0 || x.vehicle.plate.indexOf(codigo) >=0
+    function searchliquidacionesSelected(codigo, event) {
+      if (event.code == 'Enter' && codigo) {
+        vm.liquidacionesSelectedFound = _.filter(vm.liquidacionesSelected, function (x) {
+          return x.policyNumber.toUpperCase().indexOf(codigo.toUpperCase()) >= 0 || x.vehicle.plate.toUpperCase().indexOf(codigo.toUpperCase()) >= 0
         })
-      }
-      
-      if(vm.polizaPlaca){
-        vm.showFiltroPagar = true;
-      }
-      else{
-        vm.showFiltroPagar = false;
+        vm.polizaPlaca ? vm.showFiltroPagar = true : vm.showFiltroPagar = false;
+      } else if (!codigo) {
+        vm.liquidacionesSelectedFound = _.filter(vm.liquidacionesSelected, function (x) {
+          return x.policyNumber.toUpperCase().indexOf(codigo.toUpperCase()) >= 0 || x.vehicle.plate.toUpperCase().indexOf(codigo.toUpperCase()) >= 0
+        })
       }
     }
 
     function agregar(item) {
-      var existe = _.filter(vm.liquidacionesSelected,function (x) {
-        return x.policyNumber == item.policyNumber
+      var existe = _.filter(vm.liquidacionesSelected, function (x) {
+        return x.receiptNumber == item.receiptNumber
       })
-      if(existe.length==0){
+      if (existe.length == 0) {
         item.checkSelected = "S",
-        item.checkEnabled = "S",
-        vm.liquidacionesSelected.push(item);
+          item.checkEnabled = "S",
+          vm.liquidacionesSelected.push(item);
         amountSelectFunc();
       }
     }
 
     function agregarTodo() {
-      for (var index = 0; index < vm.liquidaciones.length; index++) {
-        if(!vm.liquidaciones[index].btndisabled && vm.liquidaciones[index].checkEnabled!='N'){
-          vm.liquidacionesSelected.push(vm.liquidaciones[index])
-        }
-      }
-      amountSelectFunc();
-      
-      vm.liquidaciones = _.map(vm.liquidaciones,function (x) {
-        x.btndisabled = true;
-        return x;
-      }) 
+      vm.liquidacionesSelected = [];
+      vm.currentPage = 1; // El paginador selecciona el nro 1
+      vm.filter = {
+        CoinCode: (ng.isUndefined(vm.tipoMoneda)) ? 1 : vm.tipoMoneda.value,
+        PolicyType: (ng.isUndefined(vm.tipoPoliza)) ? 0 : vm.tipoPoliza.code,
+        dateStart: gcwFactory.formatearFecha(vm.mFechaDesde),
+        dateEnd: gcwFactory.formatearFecha(vm.mFechaHasta),
+        agentId: vm.rol.agenteID,
+        managerId: vm.rol.gestorID,
+        RowByPage: vm.totalRows,
+        CurrentPage: vm.currentPage,
+        typeUseCode: (ng.isUndefined(vm.usoPoliza)) ? 0 : vm.usoPoliza.value,
+        policyOrPlate: vm.policyOrPlate
+      };
+      vm.isagregarTodo = true;
+      page.setCurrentTanda(vm.currentPage);
+      getLiquidaciones(vm.filter);
+
+
     }
 
     function quitar(item) {
-      vm.liquidacionesSelected = _.filter(vm.liquidacionesSelected,function (x) {
-        return x.policyNumber !== item.policyNumber
+      vm.liquidacionesSelected = _.filter(vm.liquidacionesSelected, function (x) {
+        return x.receiptNumber !== item.receiptNumber
       });
 
-      vm.liquidacionesSelectedFound = _.filter(vm.liquidacionesSelectedFound,function (x) {
-        return x.policyNumber !== item.policyNumber
+      vm.liquidacionesSelectedFound = _.filter(vm.liquidacionesSelectedFound, function (x) {
+        return x.receiptNumber !== item.receiptNumber
       });
 
-      vm.liquidaciones = _.map(vm.liquidaciones,function (x) {
-        if(x.btndisabled && (x.policyNumber == item.policyNumber)){
+      vm.liquidaciones = _.map(vm.liquidaciones, function (x) {
+        if (x.btndisabled && (x.receiptNumber == item.receiptNumber)) {
           x.btndisabled = false;
         }
         return x;
-      }) 
+      })
       amountSelectFunc();
     }
 
     function quitarTodo() {
       vm.liquidacionesSelected = [];
-      vm.liquidaciones = _.map(vm.liquidaciones,function (x) {
-        x.btndisabled =  false;
+      vm.liquidacionesSelectedFound = [];
+      vm.polizaPlaca = null;
+      vm.showFiltroPagar = false
+      vm.liquidaciones = _.map(vm.liquidaciones, function (x) {
+        x.btndisabled = false;
         return x;
-      }) 
+      })
       amountSelectFunc();
     }
 
-    
+
     function verHistorial() {
       gcwFactory.addVariableSession("dataTandaSession", vm.tandas);
-        $state.go('consulta.liquidacionSoatHistorial', {}, {reload: false, inherit: false});
+      $state.go('consulta.liquidacionSoatHistorial', {}, { reload: false, inherit: false });
     }
 
 
-    function getFilterLiqSession(){
+    function getFilterLiqSession() {
       vm.filterLiqSession = {};
       vm.filterLiqSession = {
-        tipoPoliza : vm.tipoPoliza.code,
-        tipoMoneda : vm.tipoMoneda.value,
-        mFechaDesde : vm.mFechaDesde,
-        mFechaHasta : vm.mFechaHasta
+        tipoPoliza: vm.tipoPoliza.code,
+        tipoMoneda: vm.tipoMoneda.value,
+        mFechaDesde: vm.mFechaDesde,
+        mFechaHasta: vm.mFechaHasta
       }
       return vm.filterLiqSession;
     }
 
     //lista tipo de poliza: Todos, Laser y Manual
-    function lstTipoPoliza(){
+    function lstTipoPoliza() {
       gcwFactory.getListTipoPoliza().then(function glpPr(req) {
         vm.lstTipoPoliza = req.data;
       });
@@ -364,29 +389,29 @@ define([
 
     function verHistorial() {
       gcwFactory.addVariableSession("dataTandaSession", vm.tandas);
-        $state.go('consulta.liquidacionSoatHistorial', {}, {reload: false, inherit: false});
+      $state.go('consulta.liquidacionSoatHistorial', {}, { reload: false, inherit: false });
     }
 
     //lista tipo de moneda: Soles y Dolares
-    function lstTipoMoneda(){
-      gcwFactory.getListTipoMoneda().then(function glpPr(req){
+    function lstTipoMoneda() {
+      gcwFactory.getListTipoMoneda().then(function glpPr(req) {
         vm.lstTipoMoneda = req.data;
       });
     }
 
     function lstUso() {
-      gcwFactory.getTypeUse().then(function glpPr(req){
+      gcwFactory.getTypeUse().then(function glpPr(req) {
         vm.lstUso = req.data;
       });
     }
 
-    function buscar(){
+    function buscar() {
       vm.rol = gcwFactory.obtenerAgente(vm.dataTicket);
 
-      if(vm.cabecera && !ng.isUndefined(vm.dataTicket)){
-        if(!vm.rol.agenteID || vm.rol.agenteID == 0){
+      if (vm.cabecera && !ng.isUndefined(vm.dataTicket)) {
+        if (!vm.rol.agenteID || vm.rol.agenteID == 0) {
           mModalAlert.showInfo("Seleccione un agente para iniciar la consulta", "Cobranzas: Liquidación SOAT", "", "", "", "g-myd-modal");
-        }else if(gcwFactory.evaluarFechas(vm.mFechaDesde, vm.mFechaHasta)){
+        } else if (gcwFactory.evaluarFechas(vm.mFechaDesde, vm.mFechaHasta)) {
           vm.currentPage = 1; // El paginador selecciona el nro 1
           vm.filter = {
             CoinCode: (ng.isUndefined(vm.tipoMoneda)) ? 1 : vm.tipoMoneda.value,
@@ -407,15 +432,17 @@ define([
       }
     }
 
-    function getLiquidaciones(filter){
+    function getLiquidaciones(filter) {
       var showBtn = {};
 
       gcwFactory.getLiquidacionesSoat(filter, true).then(
-        function(response){
+        function (response) {
           //var liquidaciones;
-          if(response.data){
+          if (response.data) {
 
             vm.totalAmount = tempTotal || response.data.totalAmount;
+            vm.totalAmount2 = tempTotal || response.data.totalAmount;
+
             vm.totalPages = response.data.totalPages;
             vm.totalRows = response.data.totalRows;
 
@@ -426,20 +453,24 @@ define([
               $rootScope.$emit('showButtonGenerate', 1);
               showBtn.value = "1";
               vm.liquidaciones = response.data.list;
+              if (vm.isagregarTodo) {
+                agregarTodoAux();
+                vm.isagregarTodo = false;
+              }
               vm.paramsLiquidacion = buildParamsLiq(response.data.list, null);
               gcwFactory.addVariableSession('showBtn', showBtn);
-              gcwFactory.addVariableSession('amountSession', {value: vm.totalAmount});
-    				}else{
+              gcwFactory.addVariableSession('amountSession', { value: vm.totalAmount });
+            } else {
               showBtn.value = "-1";
               gcwFactory.addVariableSession('showBtn', showBtn);
               $rootScope.$emit('showButtonGenerate', -1);
-    					vm.liquidaciones = [];
+              vm.liquidaciones = [];
               vm.totalAmount = 0;
               vm.totalPages = 0;
               vm.totalRows = 0;
               vm.paramsLiquidacion = [];
-    				}
-    			}else{
+            }
+          } else {
             showBtn.value = "-1";
             gcwFactory.addVariableSession('showBtn', showBtn);
             $rootScope.$emit('showButtonGenerate', -1);
@@ -449,7 +480,7 @@ define([
             vm.totalRows = 0;
             vm.paramsLiquidacion = [];
           }
-          vm.tandas[tandaActual] = {data: vm.liquidaciones, paramsLiquidacion: vm.paramsLiquidacion};
+          vm.tandas[tandaActual] = { data: vm.liquidaciones, paramsLiquidacion: vm.paramsLiquidacion };
           page.setNroTotalRegistros(vm.totalRows).setDataActual(vm.liquidaciones).setConfiguracionTanda();
           setLstCurrentPage();
           saveInSSLiqudacion();
@@ -464,22 +495,22 @@ define([
     function setLstCurrentPage() {
       vm.liquidaciones = page.getItemsDePagina();
       vm.paramsLiquidacion = vm.tandas[tandaActual].paramsLiquidacion;
-      if(vm.liquidacionesSelected.length>0){
-        vm.liquidaciones = _.map(vm.liquidaciones,function (x) {
+      if (vm.liquidacionesSelected.length > 0) {
+        vm.liquidaciones = _.map(vm.liquidaciones, function (x) {
           for (var index = 0; index < vm.liquidacionesSelected.length; index++) {
-            if(x.policyNumber == vm.liquidacionesSelected[index].policyNumber){
+            if (x.receiptNumber == vm.liquidacionesSelected[index].receiptNumber) {
               x.btndisabled = true;
-             break;
+              break;
             }
-            else{
+            else {
               x.btndisabled = false;
             }
           }
           return x;
         })
       }
-      else{
-        vm.liquidaciones = _.map(vm.liquidaciones,function (x) {
+      else {
+        vm.liquidaciones = _.map(vm.liquidaciones, function (x) {
           x.btndisabled = false;
           return x;
         })
@@ -487,18 +518,20 @@ define([
     }
 
     function pageChanged(event) {
+
       vm.filter = {
-    		CoinCode: (typeof vm.tipoMoneda == 'undefined') ? 1 : vm.tipoMoneda.value,
-  			PolicyType: (typeof vm.tipoPoliza == 'undefined') ? 0 : vm.tipoPoliza.code,//"0", //code: 0 todos 1 laser 2 manual
+        CoinCode: (typeof vm.tipoMoneda == 'undefined') ? 1 : vm.tipoMoneda.value,
+        PolicyType: (typeof vm.tipoPoliza == 'undefined') ? 0 : vm.tipoPoliza.code,//"0", //code: 0 todos 1 laser 2 manual
         dateStart: gcwFactory.formatearFecha(vm.mFechaDesde),
         dateEnd: gcwFactory.formatearFecha(vm.mFechaHasta),
         agentId: vm.rol.agenteID,
         managerId: vm.rol.gestorID,
-    		RowByPage: vm.itemsXTanda
+        RowByPage: vm.itemsXTanda
       };
 
-      page.setNroPaginaAMostrar(event.pageToLoad).thenLoadFrom(function(nroTanda) {
+      page.setNroPaginaAMostrar(event.pageToLoad).thenLoadFrom(function (nroTanda) {
         tandaActual = nroTanda;
+
         if (vm.tandas[nroTanda]) {
           page.setDataActual(vm.tandas[nroTanda].data).setConfiguracionTanda();
           setLstCurrentPage();
@@ -510,39 +543,39 @@ define([
       }, setLstCurrentPage);
     }
 
-    function polizaSoatN(item, value){
+    function polizaSoatN(item, value) {
       //crea un array con los datos de los items desmarcados
       var poliza = {
         policyNumber: item.policyNumber,
         receiptNumber: item.receiptNumber,
         checkSelected: 'N'
       }
-      if(value == 'N')
+      if (value == 'N')
         vm.soat.push(poliza);
       else
-        _.remove(vm.soat, {receiptNumber: item.receiptNumber});
+        _.remove(vm.soat, { receiptNumber: item.receiptNumber });
     }
 
-    function reCalculaTotal(item){
-    	if(item.checkSelected == 'N' && vm.totalAmount!=0){
-    		vm.totalAmount = vm.totalAmount - item.netPremium;
+    function reCalculaTotal(item) {
+      if (item.checkSelected == 'N' && vm.totalAmount != 0) {
+        vm.totalAmount = vm.totalAmount - item.netPremium;
         polizaSoatN(item, 'N');
-      }else{
-    		vm.totalAmount = vm.totalAmount + item.netPremium;
+      } else {
+        vm.totalAmount = vm.totalAmount + item.netPremium;
         polizaSoatN(item, 'S');
       }
 
       tempTotal = vm.totalAmount;
       // paramsLiquidacion = gcwFactory.getVariableSession("liqSession");
       vm.paramsLiquidacion = buildParamsLiq(vm.tandas[tandaActual].paramsLiquidacion, item);
-      if(!ng.isUndefined($rootScope.preLocHis)){
+      if (!ng.isUndefined($rootScope.preLocHis)) {
         vm.paramsLiquidacion = buildParamsLiq(vm.liquidaciones, item);
       }
-      gcwFactory.addVariableSession('amountSession', {value: vm.totalAmount});
+      gcwFactory.addVariableSession('amountSession', { value: vm.totalAmount });
       saveInSSLiqudacion();
     }
 
-    function buildParamsLiq(data, item){
+    function buildParamsLiq(data, item) {
       var paramsLiquidacion = {};
       paramsLiquidacion = {
         CoinCode: vm.tipoMoneda.value,
@@ -562,16 +595,16 @@ define([
       var keys = _.keys(obj);
       var arrParamsLiquidacion = [];
       _.each(keys, function epl(item) {
-        if(ng.isUndefined(obj[item].paramsLiquidacion))
+        if (ng.isUndefined(obj[item].paramsLiquidacion))
           arrParamsLiquidacion = [].concat([], arrParamsLiquidacion, []);
         else
           arrParamsLiquidacion = [].concat([], arrParamsLiquidacion, obj[item].paramsLiquidacion.soat);
       });
-      return ng.extend({}, obj[keys[0]].paramsLiquidacion, {soat: arrParamsLiquidacion});
+      return ng.extend({}, obj[keys[0]].paramsLiquidacion, { soat: arrParamsLiquidacion });
     }
 
-    $scope.exportar = function(){
-      vm.exportURL = $sce.trustAsResourceUrl(constants.system.api.endpoints.gcw+ 'api/collection/soat/download');
+    $scope.exportar = function () {
+      vm.exportURL = $sce.trustAsResourceUrl(constants.system.api.endpoints.gcw + 'api/collection/soat/download');
       //vm.downloadFile = gcwFactory.getVariableSession('downloadFile');
       vm.downloadFile = {
         preSettlement: "",
@@ -579,7 +612,7 @@ define([
         managerId: vm.rol.gestorID,
         userCode: vm.dataTicket.userCode
       };
-      $timeout(function() {
+      $timeout(function () {
         document.getElementById('frmExport').submit();
       }, 500);
     }

@@ -83,12 +83,19 @@
       </div>
       <div class="row" ng-if="clients.length">
         <div class="col-xs-12">
-          <uib-accordion class="g-acordeon">
+          <uib-accordion class="g-acordeon" close-others="false">
             <div uib-accordion-group ng-repeat="client in clients" ng-click="getPolizas(client);" class="g-acordeon--item" is-open="status.open">
               <uib-accordion-heading>
                 <div class="row" >
                   <div class="col-xs-12 col-md-10">
                     <div class="row">
+
+                      <div class="col-md-1 mb-xs-1 mb-md-0" ng-if="isRedirectPortal" ng-click="$event.stopPropagation();">
+                        <a href="javascript:void(0)" class="g-btn g-btn-verde second-design block" ng-click="fnRedirectToPortal(client)">
+                          <span class="ico-mapfre-360-myd-export"></span>
+                        </a>
+                      </div>
+
                       <div class="col-md-2 mb-xs-1 mb-md-0">
                         <div class="box-text g-border-right-md">
                           <p class="title"><b>Tipo de documento</b></p>
@@ -101,32 +108,32 @@
                           <p class="info">{{client.documento.numero}}</p>
                         </div>
                       </div>
-                      <div class="col-md-3 mb-xs-1 mb-md-0">
+                      <div class="mb-xs-1 mb-md-0" ng-class="{'col-md-5': !isOptModify, 'col-md-3': isOptModify}">
                         <div class="box-text g-border-right-md">
                           <p class="title"><b>Cliente</b></p>
                           <p class="info">{{client.nombreCompleto}}</p>
                         </div>
                       </div>
-                      <div class="col-md-3 mb-xs-1 mb-md-0">
+                      <div class="mb-xs-1 mb-md-0" ng-class="{'col-md-3': !isRedirectPortal, 'col-md-2': isRedirectPortal}">
                         <div class="box-text">
                           <p class="title"><b>HDDC (Cartera Huérfana)</b></p>
                           <p class="info" ng-if="client.mcaHDDC=='S'">SI</p>
                           <p class="info" ng-if="client.mcaHDDC!='S'">NO</p>
                         </div>
                       </div>
-                      <div class="col-md-2 mt-xs-1"  ng-click="$event.stopPropagation();">
+                      <div class="col-md-2 mt-xs-1"  ng-click="$event.stopPropagation();" ng-if="isOptModify">
                         <a class="g-link gCGreen1 h-myd--fz14" ng-click="fnGoToClientEdit(client.documento,client.empresa)">Modificar datos</a>
                       </div>
                     </div>
                   </div>
-                  <div class="col-xs-12 col-md-2 mt-xs-2 mt-md-0">
+                  <div class="col-xs-12 col-md-2 mt-xs-2 mt-md-0" ng-if="isOptModify">
                     <a href="javascript:void(0)" class="g-btn g-btn-verde second-design block">
                       {{ status.open ? 'Ocultar pólizas' : 'Ver pólizas' }}
                     </a>
                   </div>
                 </div>
               </uib-accordion-heading>
-              <div class="g-sec-information tbl-wrapper" ng-click="$event.stopPropagation();">
+              <div class="g-sec-information tbl-wrapper" ng-if="isOptModify" ng-click="$event.stopPropagation();">
                 <div class="row">
                   <div class="col-xs-12">
                       <div class="tbl-main">

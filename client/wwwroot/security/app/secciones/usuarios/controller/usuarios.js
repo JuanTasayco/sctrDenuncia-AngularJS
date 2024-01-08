@@ -48,9 +48,8 @@
           , httpData){
 
             var page;
-
             function _initData(){
-
+              $scope.objetSeguridad = seguridadFactory.onlyView();
               //set formulario de busqueda
               $scope.searchClient = {};
               $scope.searchClient.mUsuario = $scope.searchClient.mUsuario || "";
@@ -158,9 +157,12 @@
                 //$scope.grupoUsuario == 1 // Usuario Externo
               }else $scope.userDisma = true;              
             }
-
+            $scope.onlyView = true;
             (function onLoad(){
-
+              $scope.objetSeguridad = seguridadFactory.onlyView();
+              $timeout(function () {
+                $scope.onlyView = $scope.objetSeguridad.soloLectura;
+              }, 10);
               $scope.showSelectedBar = false;
               $scope.firstLoad = true;
 

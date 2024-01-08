@@ -26,7 +26,8 @@ define(['angular', 'coreConstants', 'system'], function (ng, coreConstants, syst
             templateUrl: folder + '/app/shared/components/card-section/card-section.component.html',            
             controller: 'CardSectionController',
             bindings: {
-                items: '='
+                items: '=',
+                path: '='
             }
         });
 });

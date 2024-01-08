@@ -151,7 +151,7 @@ define(['angular', 'moment', 'constants', 'lodash', 'mpfPersonConstants', 'mpfPe
             vm.dataVerify = {
               isValidAutoInspec: false,
             };
-            fnIsInTotalLose(vm.formData.vehicleLicensePlate);
+            fnIsInTotalLose(vm.formData.mPlaca);
           }
         })
         .catch(function (err) {

@@ -268,21 +268,22 @@
       <div tbl-oim class="col-xs-12 g-tbl-wrapper pl-xs-0">
         <div class="tbl-main">
           <ul class="tbl-header clearfix gBgcGray5">
-            <li class="title col-12-dktp">Póliza</li>
+            <li class="title col-10-dktp">Póliza</li>
             <li class="title col-11-dktp">Producto</li>
             <li class="title col-9-dktp">Vencimiento</li>
             <li class="title col-20-dktp">Cliente</li>
-            <li class="title col-10-dktp">Segmento Comercial</li>
-            <li class="title col-8-dktp text-right">MP$</li>
-            <li class="title col-10-dktp text-right">Prima Neta</li>
-            <li class="title col-10-dktp">Moneda</li>
+            <li class="title col-8-dktp">Segmento Comercial</li>
+            <li class="title col-7-dktp text-right">MP$</li>
+            <li class="title col-9-dktp text-right">Prima Neta</li>
+            <li class="title col-7-dktp">Moneda</li>
             <li class="title col-6-dktp">Pagos Pend.</li>
             <li class="title col-4-dktp">Sini.</li>
+            <li class="title col-8-dktp text-center">Compartir enlace de afiliación</li>
           </ul>
           <ul class="tbl-body clearfix">
             <li data-ng-repeat="poliza in vm.polizas" ng-click="vm.irDetallePoliza(poliza);">
               <ul height-row class="tbl-row clearfix g-u-cursor--pointer">
-                <li class="cell col-12-dktp">
+                <li class="cell col-10-dktp">
                   <span class="cell-title">{{poliza.policyNumber}}</span>
                   <span class="c-tag mb-xs-1"
                       data-ng-class="{'u-bg--rojo-primario': poliza.stateCode === 'EXPIRADA', 'u-bg--gris-3': poliza.stateCode === 'CADUCADA', 'u-bg--yellow-2': poliza.stateCode === 'ANULADA','u-bg--verde-2': poliza.stateCode === 'VIGENTE'}">{{poliza.stateCode}}
@@ -297,16 +298,16 @@
                 <li class="cell col-20-dktp">
                   <span class="cell-label"><span class="cell-data g-text-uppercase">{{poliza.clientName}}</span></span>
                 </li>
-                <li class="cell col-10-dktp">
+                <li class="cell col-8-dktp">
                   <span class="cell-label"><span class="cell-data">{{poliza.businessSegment}}</span></span>
                 </li>
-                <li class="cell col-8-dktp text-right">
+                <li class="cell col-7-dktp text-right">
                   <span class="cell-label"><span class="cell-data">{{poliza.mapfreDollar | number:2}}</span></span>
                 </li>
-                <li class="cell col-10-dktp text-right">
+                <li class="cell col-9-dktp text-right">
                   <span class="cell-label"><span class="cell-data">{{poliza.netPremium | number:2}}</span></span>
                 </li>
-                <li class="cell col-10-dktp">
+                <li class="cell col-7-dktp">
                   <span class="cell-label" ng-if="poliza.coinCode==1"><span class="cell-data g-text-uppercase">SOLES</span></span>
 
                   <span class="cell-label" ng-if="poliza.coinCode==2"><span class="cell-data g-text-uppercase">DÓLARES</span></span>
@@ -316,6 +317,20 @@
                 </li>
                 <li class="cell col-4-dktp">
                   <span class="cell-label"><span class="cell-data g-text-uppercase">{{poliza.withAmountClaimed}}</span></span>
+                </li>
+                <li class="cell col-8-dktp">
+                  <span class="cell-label">
+                    <span class="cell-data" style="display: flex;">
+                      <a class="text-center">
+                        <span ng-click="vm.sendEmail($event,poliza);"class="ico-mapfre_123_envelop gnIcon-xsm gCGray3 p-xs-2 ml-xs-2 mr-xs-1"></span>
+                        <b> ENVIAR </b>
+                      </a>
+                      <a class="text-center">
+                        <span ng-click="vm.copy($event,poliza)"class="ico-mapfre_390_copy gnIcon-xsm gCGray3 p-xs-2"></span>
+                        <b> COPIAR </b>
+                      </a>
+                    </span>
+                    </span>
                 </li>
               </ul>
             </li>

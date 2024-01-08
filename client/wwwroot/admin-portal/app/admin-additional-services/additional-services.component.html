@@ -1,0 +1,39 @@
+<div class="g-title">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-8">
+                <h1>Administrador de servicios adicionales</h1>
+            </div>
+            <div class="col-md-4 pt-md-2 text-right hidden-xs hidden-sm">
+                <a href="#/" ui-sref="home">
+                    <span class=" gCGray3">
+                        <i class="icon ico-mapfre_310_arrowLeft"></i>
+                        <b>Volver</b>
+                    </span>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="gBgcGray5 pd-list-ramo">
+    <div class="container">
+        <ap-card-list-ramo items="$ctrl.services"></ap-card-list-ramo>
+    </div>
+</div>
+<!-- Seccion Secvicio -->
+<div class="container">
+    <div class="row mt-xs-3">
+        <div class="col-md-8">
+            <p class="g-cl--black2 gH8 no-margin-xs">SERVICIO</p>
+            <p class="g-cl--black gH2">{{$ctrl.serviceSelected.name}}</p>
+        </div>
+        <div class="col-md-4 g-text-right-xs">
+            <span class="mr-xs-2">Sección {{$ctrl.serviceSelected.active ? 'habilitada' : 'inhabilitada'}}</span>
+            <mpf-checkbox-toggle ng-model="$ctrl.serviceSelected.active" label=""
+                ng-change="$ctrl.fnCheckBox($ctrl.serviceSelected)"></mpf-checkbox-toggle>
+        </div>
+        <div class="col-md-12">
+            <div class="mb-xs-2 w-100" ui-view="contenido"></div>
+        </div>
+    </div>
+</div>
