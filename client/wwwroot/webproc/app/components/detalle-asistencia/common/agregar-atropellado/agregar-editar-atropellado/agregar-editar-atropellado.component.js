@@ -70,7 +70,6 @@ define(['angular', 'lodash'], function (ng, _) {
     }
 
     function setConductor(data) {
-      vm.frm.CodigoTipoDocumentoIdentidad = vm.frm.CodigoTipoDocumentoIdentidad;
       vm.frm.nombrePeaton = data ? data.nombres : null;
       vm.frm.paternoPeaton = data ? data.ape_paterno : null;
       vm.frm.telefonoPeaton = data ? data.telefono : null;
