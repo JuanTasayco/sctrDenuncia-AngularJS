@@ -94,10 +94,12 @@ define(['angular', 'constants', '/scripts/mpf-main-controls/components/ubigeo/se
         }
 
         function changeUbigeo(data) {
-            _self.ubigeo = {
-                mDepartamento: data.mDepartamento.Codigo,
-                mProvincia: data?.mProvincia?.Codigo,
-                mDistrito: data?.mDistrito?.Codigo
+            if(data) {
+                _self.ubigeo = {
+                    mDepartamento: data.mDepartamento ? data.mDepartamento.Codigo : null,
+                    mProvincia: data.mProvincia ? data.mProvincia.Codigo : null ,
+                    mDistrito: data.mDistrito ? data.mDistrito.Codigo : null
+                }    
             }
         }
 
@@ -134,3 +136,4 @@ define(['angular', 'constants', '/scripts/mpf-main-controls/components/ubigeo/se
         }
     })
 });
+x 
