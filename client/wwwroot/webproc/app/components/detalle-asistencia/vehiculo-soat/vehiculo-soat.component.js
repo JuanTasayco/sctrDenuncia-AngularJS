@@ -28,6 +28,7 @@ define(['angular', 'lodash', 'AsistenciaActions', 'wpConstant'], function (ng, _
       onFrmSave = $rootScope.$on('frm:save', setFrm)
       vm.isRequired = vm.isUa ? true : false;
       vm.frmVehiculo = ng.copy(vm.vehiculo) || { itemTerceroVehiculo: 1 };
+
     }
 
 
@@ -41,6 +42,7 @@ define(['angular', 'lodash', 'AsistenciaActions', 'wpConstant'], function (ng, _
     }
 
     function setVehiculo(data) {
+
       vm.frmVehiculo.placaVehiculo = data ? data.num_placa : vm.frmVehiculo.placaVehiculo;
       vm.frmVehiculo.codigoSoatVehiculo = null;
       vm.frmVehiculo.codigoTipoVehiculo = data ? data.cod_tip_vehi : null;
@@ -51,6 +53,9 @@ define(['angular', 'lodash', 'AsistenciaActions', 'wpConstant'], function (ng, _
       vm.frmVehiculo.anioVehiculo = data ? data.anho_fabricacion : null;
       vm.frmVehiculo.serieVehiculo = data ? data.num_chasis : null;
       vm.frmVehiculo.num_chasis = data ? data.num_chasis : null;
+
+      vm.frmVehiculo.codigoMarcaVehiculo = data ? data.cod_marca : null;
+      vm.frmVehiculo.codigoModeloVehiculo = data ? data.cod_modelo : null;
 
       // (Hack) : para setear valores a selects del componente cbo
       $scope.frmVehiculoSoat.codigoSoatVehiculo = null;

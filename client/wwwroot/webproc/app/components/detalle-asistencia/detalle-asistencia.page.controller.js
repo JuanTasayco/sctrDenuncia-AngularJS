@@ -164,7 +164,10 @@ define(['angular', 'lodash', 'AsistenciaActions', 'helper', 'wpConstant', 'const
         codigoTipoVehiculo: dataAsistencia.codigoTipoVehiculoAsegurado,
         descripcionTipoVehiculo: dataAsistencia.descripcionTipoVehiculo,
         codigoUsoVehiculo: dataAsistencia.codigoUsoVehiculo,
+        codigoModeloVehiculo: dataAsistencia.codigoModeloVehiculo,
         modeloVehiculo: dataAsistencia.modeloVehiculo,
+        codigoMarcaVehiculo: dataAsistencia.codigoMarcaVehiculo,
+        marcaVehiculo: dataAsistencia.marcaVehiculo,
         motorVehiculo: dataAsistencia.motorVehiculo,
         anioVehiculo: dataAsistencia.anioVehiculoAsegurado,
         serieVehiculo: dataAsistencia.serieVehiculo
@@ -280,7 +283,6 @@ define(['angular', 'lodash', 'AsistenciaActions', 'helper', 'wpConstant', 'const
           vm.ultimaDataDeAsistencia.conductorTercero[idx].ocupanteTercero.itemConductor = idx+1;
         });
       }
-
 
       return _.assign({}, vm.ultimaDataDeAsistencia, vm.ultimaDataDeAsistencia.dataVehiculo, {
         codigoTipoVehiculoAsegurado: vm.ultimaDataDeAsistencia.dataVehiculo ? vm.ultimaDataDeAsistencia.dataVehiculo.codigoTipoVehiculo : {} ,
