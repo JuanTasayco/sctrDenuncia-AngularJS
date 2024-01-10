@@ -358,6 +358,16 @@ define([
         "MateriaAsegurada": factory.cotizacion.producto.modelo.MateriaAsegurada,
         "NombreCliente": factory.cotizacion.producto.modelo.NombreCliente,
         "Direccion": factory.cotizacion.producto.modelo.Direccion,
+        "Departamento": {
+          "Codigo": factory.cotizacion.producto.modelo.Ubigeo.mDepartamento.Codigo
+        },
+        "Provincia": {
+          "Codigo": factory.cotizacion.producto.modelo.Ubigeo.mProvincia.Codigo
+        },
+        "Distrito": {
+          "Codigo": factory.cotizacion.producto.modelo.Ubigeo.mDistrito.Codigo
+        }
+      
       }
       var parameterProducto = angular.extend({}, globalParameter, parameterEspecificos);
       return parameterProducto;

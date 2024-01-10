@@ -113,6 +113,7 @@ define([
 
               }
               if (response.Data.Grupo === constantsRiesgosGenerales.GRUPO.VIGLIMP) {
+                validateUbigeo()
                 if ($scope.cotizacionResumen.SumaAseguradaRC >= 0) {
                   validateMontoMaximoParamTabla($scope.cotizacionResumen.SumaAseguradaRC);
                 }
@@ -445,7 +446,7 @@ define([
       riesgosGeneralesService.getRestriccionUbigeo(cotizacionResumen.Departamento.Codigo, cotizacionResumen.Provincia.Codigo,cotizacionResumen.Distrito.Codigo)
           .then(function (response) {
             const restringido = response.Data.Restringido
-            $scope.maximosValidate = restringido
+            $scope.ubigeoValidate = restringido
           })
     }
   }
