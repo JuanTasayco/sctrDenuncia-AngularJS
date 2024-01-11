@@ -371,7 +371,7 @@
       },
       planillaasistencial:{
         code: "PLAASIST",
-        shortName: 'Planilla Asistencial',
+        shortName: 'PLANILLA ASISTENCIAL',
         packageName: 'planillaasistencialPackage',
         path: "/planillaasistencial/package",
         appPath: "/planillaasistencial/app",
