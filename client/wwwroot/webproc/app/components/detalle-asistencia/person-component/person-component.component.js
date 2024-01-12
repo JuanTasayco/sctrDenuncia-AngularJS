@@ -19,11 +19,13 @@ define(['angular', 'lodash', 'AsistenciaActions', 'wpConstant'], function (ng, _
 
     vm.searched = false;
     $timeout(function() {
+      console.log("entro",vm.conductor)
       if(vm.conductor && vm.conductor.codigoTipoDocumentoIdentidad ){
         documentNumberValidation();
         if(vm.frmConductor.numeroDocumentoIdentidad && !vm.frmConductor.nombreConductor ) {
           getPerson();
-        };
+        }
+        vm.frmConductor.edadCondutor = (vm.frmConductor && vm.frmConductor.fchNacimientoConductor) ? wpFactory.help.calcularEdad(vm.frmConductor.fchNacimientoConductor) : null
       }
     });
 
@@ -58,8 +60,10 @@ define(['angular', 'lodash', 'AsistenciaActions', 'wpConstant'], function (ng, _
       vm.frmConductor.telefonoConductor = data ? data.telefono : null;
       vm.frmConductor.correoConductor = data ? data.email : null;
       vm.frmConductor.fchExpiracionLicenciConductor = null;
+      vm.frmConductor.licenciaConductor = null;
       vm.frmConductor.codigoLicenciaConductor = null;
       vm.frmConductor.fchNacimientoConductor = data ? new Date(data.fechaNacimiento) : null;
+      vm.frmConductor.edadCondutor = data && data.fechaNacimiento ? wpFactory.help.calcularEdad(data.fechaNacimiento) : null;
       // (Hack) : para setear valores a selects del componente cbo
       $scope.frmPerson.codigoLicenciaConductor = null;
     }
