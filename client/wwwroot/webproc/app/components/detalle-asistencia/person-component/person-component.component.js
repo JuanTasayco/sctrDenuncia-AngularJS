@@ -19,7 +19,6 @@ define(['angular', 'lodash', 'AsistenciaActions', 'wpConstant'], function (ng, _
 
     vm.searched = false;
     $timeout(function() {
-      console.log("entro",vm.conductor)
       if(vm.conductor && vm.conductor.codigoTipoDocumentoIdentidad ){
         documentNumberValidation();
         if(vm.frmConductor.numeroDocumentoIdentidad && !vm.frmConductor.nombreConductor ) {
