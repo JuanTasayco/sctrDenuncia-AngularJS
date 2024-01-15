@@ -442,12 +442,29 @@ define([
     }
 
     function validateUbigeo(){
-      const cotizacionResumen = $scope.cotizacionResumen
-      riesgosGeneralesService.getRestriccionUbigeo(cotizacionResumen.Departamento.Codigo, cotizacionResumen.Provincia.Codigo,cotizacionResumen.Distrito.Codigo)
+      var cotizacionResumen = $scope.cotizacionResumen
+      var restringido = false
+      if (cotizacionResumen.Grupo == constantsRiesgosGenerales.GRUPO.HIDROCARBURO){
+        for (var i = 0; i < cotizacionResumen.listaUbicaciones.length; i++) {
+          var ubicacion = cotizacionResumen.listaUbicaciones[i];
+           
+          riesgosGeneralesService.getRestriccionUbigeo(ubicacion.Departamento.Codigo, ubicacion.Provincia.Codigo,ubicacion.Distrito.Codigo)
           .then(function (response) {
-            const restringido = response.Data.Restringido
+            if (!restringido){
+              restringido = response.Data.Restringido
+              $scope.ubigeoValidate = restringido
+            }
+          })
+          
+        }
+      } else {
+        riesgosGeneralesService.getRestriccionUbigeo(cotizacionResumen.Departamento.Codigo, cotizacionResumen.Provincia.Codigo,cotizacionResumen.Distrito.Codigo)
+          .then(function (response) {
+            restringido = response.Data.Restringido
             $scope.ubigeoValidate = restringido
           })
+      }
+      
     }
   }
 
