@@ -16,6 +16,7 @@ define(['angular', 'lodash', 'AsistenciaActions', 'wpConstant'], function (ng, _
     vm.showForm = true;
 
     vm.documentTypeChange = documentTypeChange;
+    vm.calcularEdad = calcularEdad;
 
     vm.searched = false;
     $timeout(function() {
@@ -79,6 +80,10 @@ define(['angular', 'lodash', 'AsistenciaActions', 'wpConstant'], function (ng, _
             setConductor(null);
           })
       }
+    }
+
+    function calcularEdad(){
+      vm.frmConductor.edadCondutor = wpFactory.help.calcularEdad(vm.frmConductor.fchNacimientoConductor) ;
     }
 
     function documentTypeChange() {

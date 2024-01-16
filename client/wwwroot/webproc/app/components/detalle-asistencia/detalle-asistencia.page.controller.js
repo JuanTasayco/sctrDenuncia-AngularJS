@@ -88,7 +88,7 @@ define(['angular', 'lodash', 'AsistenciaActions', 'helper', 'wpConstant', 'const
       dataAsistencia = paramsURL.setFrm ? wpFactory.cache.getConsolidado() : dataAsistencia
 
       vm.ultimaDataDeAsistencia = _getDataAsistencia();
-      if (vm.ultimaDataDeAsistencia.estadoSiniestro == 'GENERADO' || vm.ultimaDataDeAsistencia.estadoSiniestro == 'AUTORIZADO' ) { 
+      if (vm.ultimaDataDeAsistencia.estadoSiniestro == 'GENERADO' || vm.ultimaDataDeAsistencia.estadoSiniestro == 'AUTORIZADO' ) {
         vm.disabledAutorizar = vm.ultimaDataDeAsistencia.apreciacionEtilica , vm.modolectura = true
       }
       else {
@@ -415,12 +415,29 @@ define(['angular', 'lodash', 'AsistenciaActions', 'helper', 'wpConstant', 'const
       });
     }
 
+    function _checkFotosDoc() {
+      return wpFactory.help.isArrayFotosValid(vm.ultimaDataDeAsistencia, 3);
+    }
+
+    function _checkFotosSiniestro() {
+      return (vm.ultimaDataDeAsistencia.fotosSiniestroVehiculo || []).length > 0 ? true : false;
+    }
+
     function terminar() {
       $scope.$emit('frm:save');
       $timeout(function () {
+        console.log("vm.frmGeneral.frmTerceroConvenio",vm.frmGeneral)
+        console.log("vm.frmGeneral.setRequest('GENERADO')",setRequest('GENERADO'))
         var frmTerceroConvenioinvalid = false;
         if(vm.frmGeneral.frmTerceroConvenio){
           frmTerceroConvenioinvalid  = vm.frmGeneral.frmTerceroConvenio.$invalid;
+        }
+        if(!_checkFotosDoc() || !_checkFotosSiniestro()){
+          return void mModalAlert
+          .showWarning('Los campos de Fotos del asegurado son obligatorios', 'Falta completar')
+          .then(function msAnularPr() {
+            vm.validateForm.validate = false;
+          });
         }
         if (vm.frmGeneral.frmLugarOcurrencia.$invalid || frmTerceroConvenioinvalid){
           var frminvalid = vm.frmGeneral.frmLugarOcurrencia.$invalid ? 'Lugar de ocurrencia' : 'Terceros Convenio';
