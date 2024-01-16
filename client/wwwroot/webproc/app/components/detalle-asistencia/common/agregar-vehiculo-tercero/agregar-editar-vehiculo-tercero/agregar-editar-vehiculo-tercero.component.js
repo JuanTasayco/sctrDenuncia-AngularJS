@@ -60,9 +60,9 @@ define(['angular', 'lodash'], function (ng, _) {
       vm.frm.tab4At1.fotosDoc = []
       if (arrFotosVehiculo.length) {
         vm.frm.tab4At1.fotosVehiculo = wpFactory.help.getArrayBy(arrFotosVehiculo, 'imageTypeCode', 13);
-        vm.frm.tab4At1.fotosDoc[0] = wpFactory.help.getArrayBy(arrFotosVehiculo, 'imageTypeCode', 12);
-        vm.frm.tab4At1.fotosDoc[1] = wpFactory.help.getArrayBy(arrFotosVehiculo, 'imageTypeCode', 11);
-        vm.frm.tab4At1.fotosDoc[2] = wpFactory.help.getArrayBy(arrFotosVehiculo, 'imageTypeCode', 10);
+        vm.frm.tab4At1.fotosDoc[0] = wpFactory.help.getArrayBy(arrFotosVehiculo, 'imageTypeCode', 12)[0];
+        vm.frm.tab4At1.fotosDoc[1] = wpFactory.help.getArrayBy(arrFotosVehiculo, 'imageTypeCode', 11)[0];
+        vm.frm.tab4At1.fotosDoc[2] = wpFactory.help.getArrayBy(arrFotosVehiculo, 'imageTypeCode', 10)[0];
       }
     }
 
