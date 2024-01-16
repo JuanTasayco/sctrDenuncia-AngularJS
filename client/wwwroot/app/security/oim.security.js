@@ -1037,7 +1037,6 @@
                           documentType: documentType.value,
                           documentNumber: DocumentNumber.value,
                           ip: localStorage.getItem('clientIp') || '',
-                          mac: "" 
                         }
                         _termAcceptance(bodyTerms).then(resp =>{
                           _redirect(url, isRedirect);
