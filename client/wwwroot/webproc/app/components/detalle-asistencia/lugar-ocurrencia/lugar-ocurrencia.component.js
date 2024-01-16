@@ -55,6 +55,7 @@ define(['angular', 'lodash', 'AsistenciaActions', 'wpConstant'], function (ng, _
       console.log("vm.siniestro",vm.siniestro );
       vm.frmSiniestro = vm.siniestro;
       vm.frmSiniestro.esModalidadKm = !vm.frmSiniestro.esModalidadKm ? false : vm.frmSiniestro.esModalidadKm;
+      vm.maxFotos = 3
       if (vm.frmSiniestro.esModalidadKm) {
         vm.maxFotos = 4
       }
@@ -79,11 +80,26 @@ define(['angular', 'lodash', 'AsistenciaActions', 'wpConstant'], function (ng, _
     }
 
     function setFrm() {
+      vm.optImgsTabs.isRequired = {doc: true, siniestro: true};
+      _checkAllPhotos()
       if ($scope.frmLugarOcurrencia.$invalid) {
         $scope.showUp = true;
         return void 0;
       }
 
+    }
+
+    function _checkAllPhotos() {
+      _checkFotosDoc();
+      _checkFotosSiniestro();
+    }
+
+    function _checkFotosDoc() {
+      vm.optImgsTabs.isPhotoValid.doc = wpFactory.help.isArrayFotosValid(vm.frmSiniestro.documentosVehiculo, vm.maxFotos);
+    }
+
+    function _checkFotosSiniestro() {
+      vm.optImgsTabs.isPhotoValid.siniestro = (vm.frmSiniestro.fotosSiniestroVehiculo || []).length > 0 ? true : false;
     }
 
     function changePlaceAttention(){

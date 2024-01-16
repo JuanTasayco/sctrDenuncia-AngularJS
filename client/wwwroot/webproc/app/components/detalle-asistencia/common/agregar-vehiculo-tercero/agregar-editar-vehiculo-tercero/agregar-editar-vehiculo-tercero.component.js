@@ -55,7 +55,7 @@ define(['angular', 'lodash'], function (ng, _) {
     }
 
     function _asignarFotosAlModelo() {
-      var arrFotosVehiculo = vm.frm.vehiculoTercero?.fotosVehiculo || [];
+      var arrFotosVehiculo = (vm.frm.vehiculoTercero && vm.frm.vehiculoTercero.fotosVehiculo) ? vm.frm.vehiculoTercero.fotosVehiculo : [];
       vm.frm.tab4At1 = {};
       vm.frm.tab4At1.fotosDoc = []
       if (arrFotosVehiculo.length) {
