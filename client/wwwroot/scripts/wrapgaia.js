@@ -255,10 +255,13 @@ define([
 
       function getClientIp() {
         var $http = $injector.get('$http');
-        $http({ method: 'GET', url: 'https://jsonip.com', skipAuthorization: true })
+        $http({ method: 'GET', url: 'https://jsonip.com/', skipAuthorization: true })
           .then(function(response) {
             $window.localStorage['clientIp'] = response.data.ip;
-          });
+          })
+          .catch(function () {
+            $window.localStorage['clientIp'] = '0.0.0.0';
+          })
       }
 
       return {
