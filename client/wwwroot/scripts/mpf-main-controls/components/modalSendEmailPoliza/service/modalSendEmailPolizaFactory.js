@@ -13,13 +13,15 @@ define([
 		'$q',
 		'proxyEmpresa',
 		'proxyVidaLey',
+		'proxyTransporte',
 		function (
 			proxyMail,
 			proxySctr,
 			$http,
 			$q,
 			proxyEmpresa,
-			proxyVidaLey
+			proxyVidaLey,
+			proxyTransporte
 		) {
 
 			var base = constants.system.api.endpoints.gcw;
@@ -51,9 +53,13 @@ define([
 				console.log('msaavedra', data);
 				return $http.post(base + 'api/policy/send', data, { headers: { 'Content-Type': 'application/json' } });
 			}
+			function sendEmailSaveTraza(params, showSpin){
+				return proxyTransporte.SendEmailSaveTraza(params, showSpin);
+			}
 
 			return {
-				sendEmail: sendEmail
+				sendEmail: sendEmail,
+				sendEmailSaveTraza: sendEmailSaveTraza
 			};
 
 		}]);

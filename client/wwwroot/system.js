@@ -95,7 +95,7 @@
       },
       wp: {
         code: "WEBPROC",
-        shortName: "-WEB PROCURADOR",
+        shortName: "WEB DEL PROCURADOR",
         packageName: "wpPackage",
         path: "/webproc/package",
         location: "/webproc",

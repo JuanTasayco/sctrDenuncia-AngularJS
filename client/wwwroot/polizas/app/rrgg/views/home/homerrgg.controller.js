@@ -19,9 +19,6 @@ define([
           var opc = [];
           opc =  menus.filter(function(x) { return  x.nombreCorto === 'CLONAR PRODUCTO'});
           $scope.clonePermission = !!opc.length
-          if(opc.length === 0){
-            return $state.go(constantsRiesgosGenerales.ROUTES.HOME, {}, { reload: true, inherit: false });
-          }
         }
     })();
     

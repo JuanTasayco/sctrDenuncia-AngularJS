@@ -44,6 +44,7 @@
         mainWizarpBase.call(this, $scope);
         var ag = oimPrincipal.getAgent()
         $scope.isAdmin = oimPrincipal.isAdmin();
+        $scope.userRoot = oimPrincipal.validateAgent('evoSubMenuEMISA','EMPRESAS');
         $scope.data.agent = {
             codigoNombre: $scope.isAdmin ? ag.codigoAgente + '-' + ag.codigoNombre : ag.codigoNombre,
             codigoAgente: ag.codigoAgente
