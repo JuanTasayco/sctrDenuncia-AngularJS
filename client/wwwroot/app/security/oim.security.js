@@ -1023,9 +1023,7 @@
               })
               .finally(function(error) {
                 if (!resFinalSignIn.userOptions.isAgent) {                  
-                  _verifyTerms().then(resp =>{
-                    console.log(resp)
-                    console.log(resp.data.hasAcceptTerms)
+                  _verifyTerms().then(function(resp){
                     if(!resp.data.hasAcceptTerms){
                       var termiCondicionText = resp.data.termCondition.text + '<span class="v-terms" style="position: absolute;right: 0;bottom: -15%;">' + 'v.'+ resp.data.termCondition.version +'</span>'
                       mModalConfirm.confirmDanger(termiCondicionText, '¿Aceptas las políticas de uso de OIM?')
@@ -1038,7 +1036,7 @@
                           documentNumber: DocumentNumber.value,
                           ip: localStorage.getItem('clientIp') || '',
                         }
-                        _termAcceptance(bodyTerms).then(resp =>{
+                        _termAcceptance(bodyTerms).then(function(resp){
                           _redirect(url, isRedirect);
                           return void 0;
 
