@@ -255,7 +255,7 @@ define([
 
       function getClientIp() {
         var $http = $injector.get('$http');
-        $http({ method: 'GET', url: 'https://jsonip.com', skipAuthorization: true })
+        $http({ method: 'GET', url: 'https://api.seeip.org/jsonip', skipAuthorization: true })
           .then(function(response) {
             $window.localStorage['clientIp'] = response.data.ip;
           });

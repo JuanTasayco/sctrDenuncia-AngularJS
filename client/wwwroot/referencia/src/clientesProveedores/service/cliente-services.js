@@ -45,7 +45,7 @@ define(['angular', 'lodash'],
 
       function getIp() {
         var deferred = $q.defer();
-        Restangular.setBaseUrl('https://jsonip.com');
+        Restangular.setBaseUrl('https://api.seeip.org/jsonip');
 
         var clientUrl = Restangular.one('');
           clientUrl.get().then(function getSFn(data) {
