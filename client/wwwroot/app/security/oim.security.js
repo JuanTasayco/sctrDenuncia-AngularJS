@@ -1012,7 +1012,6 @@
             } else if ((resFinalSignIn.userOptions.isAgent || parseInt(subType.value) === LOGIN_TYPE.broker.subType) && !(resFinalSignIn.userOptions.isActiveMarch && !resFinalSignIn.userOptions.isUserMarch)) {         
               isRedirect = true;
               url = constants.originApps.urlHomeMYD + 'login?tokenOIM=' + $auth.getToken();
-
               proxyHome.GetAccessProfile("MYDREAM", false).then(console.log)
               .catch(function(error) {
                 if (error.data.data.message === "El usuario no tiene un perfil configurado para el aplicativo de MYDREAM") {
@@ -1025,7 +1024,7 @@
                 if (!resFinalSignIn.userOptions.isAgent) {                  
                   _verifyTerms().then(function(resp){
                     if(!resp.data.hasAcceptTerms){
-                      var termiCondicionText = resp.data.termCondition.text + '<span class="v-terms" style="position: absolute;right: 0;bottom: -15%;">' + 'v.'+ resp.data.termCondition.version +'</span>'
+                      var termiCondicionText = resp.data.termCondition.text + '<span class="v-terms" style="position: absolute;right: 0;bottom: -15%; font-size: 10px;">' + 'v.'+ resp.data.termCondition.version +'</span>'
                       mModalConfirm.confirmDanger(termiCondicionText, '¿Aceptas las políticas de uso de OIM?')
                       .then(function() {
                         const bodyTerms = {
@@ -1083,8 +1082,6 @@
                 }
               }
             }
-
-            _redirect(url, isRedirect);
           }, 500);
         };
 
