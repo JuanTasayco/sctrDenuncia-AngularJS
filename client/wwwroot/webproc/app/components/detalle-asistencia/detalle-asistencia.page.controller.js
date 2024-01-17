@@ -416,7 +416,7 @@ define(['angular', 'lodash', 'AsistenciaActions', 'helper', 'wpConstant', 'const
     }
 
     function _checkFotosDoc() {
-      return wpFactory.help.isArrayFotosValid(vm.ultimaDataDeAsistencia, 3);
+      return wpFactory.help.isArrayFotosValid(vm.ultimaDataDeAsistencia.documentosVehiculo, 3);
     }
 
     function _checkFotosSiniestro() {
