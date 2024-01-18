@@ -45,18 +45,7 @@ define(['angular', 'lodash'],
 
       function getIp() {
         var deferred = $q.defer();
-        Restangular.setBaseUrl('https://jsonip.com');
-
-        var clientUrl = Restangular.one('');
-          clientUrl.get().then(function getSFn(data) {
-            $log.info('factory successful: ' + data);
-            deferred.resolve(data);
-          }, function getEFn(error) {
-            $log.info('factory error: ' + error);
-          });
-
-        //Restangular.setBaseUrl('https://oim.mapfre.com.pe/oim_referencia/api');
-        //Restangular.setBaseUrl('http://localhost:23610/api');
+        $q.when({ip:'0.0.0.0'});
         return deferred.promise;
       }
 
