@@ -1003,14 +1003,19 @@
             // INFO: Ingresa a OIM desde otros sistemas
             if (resFinalSignIn.data && resFinalSignIn.data.urlRedirection) {
               url = resFinalSignIn.data.urlRedirection;
+              _redirect(url,isRedirect);
+
             // INFO: Redirecciona a Autoservicio: clientePersona y ClienteEmpresa
             } else if (urlRedirect && urlRedirect.value && (parseInt(subType.value) !== LOGIN_TYPE.broker.subType && parseInt(subType.value) !== LOGIN_TYPE.proveedor.subType)) {
               isRedirect = true;
               url = urlRedirect.value + $auth.getToken();
+              _redirect(url,isRedirect);
 
             // INFO: Redirecciona a MyDream: EjecutivoAgente y Broker
             } else if ((resFinalSignIn.userOptions.isAgent || parseInt(subType.value) === LOGIN_TYPE.broker.subType) && !(resFinalSignIn.userOptions.isActiveMarch && !resFinalSignIn.userOptions.isUserMarch)) {         
               isRedirect = true;
+              console.log("je3")
+
               url = constants.originApps.urlHomeMYD + 'login?tokenOIM=' + $auth.getToken();
               proxyHome.GetAccessProfile("MYDREAM", false).then(console.log)
               .catch(function(error) {
@@ -1061,6 +1066,8 @@
                 }
               })
 
+            }else{
+              _redirect(url,isRedirect);
             }
 
             function _redirect(url, isRedirect) {
