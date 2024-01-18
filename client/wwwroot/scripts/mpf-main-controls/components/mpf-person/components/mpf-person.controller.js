@@ -395,7 +395,7 @@ define([
               vm.params.tipoRol = vm.tipoRol;
             }
 
-            if (!vm.isEmitVidaLey() && !vm.form.documentId) {
+            if (!vm.form.documentId) {
               getEquifaxData(vm.form.documentType, vm.form.documentNumber);
             }
 
