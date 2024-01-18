@@ -846,7 +846,7 @@ define(['angular', 'constants', 'helper', 'lodash', 'mpfPersonConstants', 'salud
           var monthAge = 12 + monthNow -monthDob;
         }
 
-        if (dateNow <= dateDob){
+        if (dateNow < dateDob){
           monthAge--;
           if (monthAge < 0) {
             monthAge = 11;
