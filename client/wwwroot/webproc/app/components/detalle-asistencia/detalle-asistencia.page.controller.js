@@ -296,7 +296,7 @@ define(['angular', 'lodash', 'AsistenciaActions', 'helper', 'wpConstant', 'const
     }
 
     function formatHour(data){
-      let valorNumerico = data.replace(/\D/g, '');
+      const valorNumerico = data.replace(/\D/g, '');
       const horas = valorNumerico.slice(0, 2);
       const minutos = valorNumerico.slice(2);
       return `${horas}:${minutos}`;
