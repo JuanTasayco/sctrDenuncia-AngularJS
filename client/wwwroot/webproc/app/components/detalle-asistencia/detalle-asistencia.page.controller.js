@@ -284,11 +284,22 @@ define(['angular', 'lodash', 'AsistenciaActions', 'helper', 'wpConstant', 'const
         });
       }
 
+      vm.ultimaDataDeAsistencia.horaSiniestro && (vm.ultimaDataDeAsistencia.horaSiniestro = formatHour( vm.ultimaDataDeAsistencia.horaSiniestro));
+      vm.ultimaDataDeAsistencia.horaInicioAtencion && (vm.ultimaDataDeAsistencia.horaInicioAtencion = formatHour( vm.ultimaDataDeAsistencia.horaInicioAtencion));
+      vm.ultimaDataDeAsistencia.horaFinAtencion && (vm.ultimaDataDeAsistencia.horaFinAtencion = formatHour( vm.ultimaDataDeAsistencia.horaFinAtencion));
+
       return _.assign({}, vm.ultimaDataDeAsistencia, vm.ultimaDataDeAsistencia.dataVehiculo, {
         codigoTipoVehiculoAsegurado: vm.ultimaDataDeAsistencia.dataVehiculo ? vm.ultimaDataDeAsistencia.dataVehiculo.codigoTipoVehiculo : {} ,
         anioVehiculoAsegurado: vm.ultimaDataDeAsistencia.dataVehiculo ? vm.ultimaDataDeAsistencia.dataVehiculo.anioVehiculo : {},
         estadoSiniestro: estado
       })
+    }
+
+    function formatHour(data){
+      let valorNumerico = data.replace(/\D/g, '');
+      const horas = valorNumerico.slice(0, 2);
+      const minutos = valorNumerico.slice(2);
+      return `${horas}:${minutos}`;
     }
 
     function autorizar() {

@@ -30,6 +30,7 @@ define(['angular', 'lodash'], function (ng, _) {
     vm.docOdometro = [];
     vm.arrFotosSiniestros = [];
     vm.showImages = false;
+    vm.dateFormat = 'dd/MM/yyyy';
 
     function onInit() {
 
@@ -165,6 +166,11 @@ define(['angular', 'lodash'], function (ng, _) {
       vm.frm.ocupanteTercero.paternoConductor = data ? data.ape_paterno : null;
       vm.frm.ocupanteTercero.telefonoConductor = data ? data.telefono : null;
       vm.frm.ocupanteTercero.correoConductor = data ? data.email : null;
+      vm.frm.ocupanteTercero.fchExpiracionLicenciConductor = null;
+      vm.frm.ocupanteTercero.licenciaConductor = null;
+      vm.frm.ocupanteTercero.codigoLicenciaConductor = null;
+
+      $scope.frmVehiculoTercero.ocupanteTercero.codigoLicenciaConductor = null;
     }
 
     function documentNumberValidation(){
