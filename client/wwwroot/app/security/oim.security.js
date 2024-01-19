@@ -1014,8 +1014,6 @@
             // INFO: Redirecciona a MyDream: EjecutivoAgente y Broker
             } else if ((resFinalSignIn.userOptions.isAgent || parseInt(subType.value) === LOGIN_TYPE.broker.subType) && !(resFinalSignIn.userOptions.isActiveMarch && !resFinalSignIn.userOptions.isUserMarch)) {         
               isRedirect = true;
-              console.log("je3")
-
               url = constants.originApps.urlHomeMYD + 'login?tokenOIM=' + $auth.getToken();
               proxyHome.GetAccessProfile("MYDREAM", false).then(console.log)
               .catch(function(error) {
@@ -1033,7 +1031,7 @@
                       mModalConfirm.confirmDanger(termiCondicionText, '¿Aceptas las políticas de uso de OIM?')
                       .then(function() {
                         const bodyTerms = {
-                          idTerms: 1,
+                          idTerms: resp.data.termCondition.id,
                           UserCode: loginUserName.value,
                           userName: userName.value,
                           documentType: documentType.value,
