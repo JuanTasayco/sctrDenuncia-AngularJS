@@ -445,17 +445,18 @@ define([
       var cotizacionResumen = $scope.cotizacionResumen
       var restringido = false
       if (cotizacionResumen.Grupo == constantsRiesgosGenerales.GRUPO.HIDROCARBURO){
-        for (var i = 0; i < cotizacionResumen.listaUbicaciones.length; i++) {
-          var ubicacion = cotizacionResumen.listaUbicaciones[i];
-           
-          riesgosGeneralesService.getRestriccionUbigeo(ubicacion.Departamento.Codigo, ubicacion.Provincia.Codigo,ubicacion.Distrito.Codigo)
-          .then(function (response) {
-            if (!restringido){
-              restringido = response.Data.Restringido
-              $scope.ubigeoValidate = restringido
-            }
-          })
-          
+        if( cotizacionResumen.listaUbicaciones){
+          for (var i = 0; i < cotizacionResumen.listaUbicaciones.length; i++) {
+            var ubicacion = cotizacionResumen.listaUbicaciones[i];
+            riesgosGeneralesService.getRestriccionUbigeo(ubicacion.Departamento.Codigo, ubicacion.Provincia.Codigo,ubicacion.Distrito.Codigo)
+            .then(function (response) {
+              if (!restringido){
+                restringido = response.Data.Restringido
+                $scope.ubigeoValidate = restringido
+              }
+            })
+            
+          }
         }
       } else {
         riesgosGeneralesService.getRestriccionUbigeo(cotizacionResumen.Departamento.Codigo, cotizacionResumen.Provincia.Codigo,cotizacionResumen.Distrito.Codigo)

@@ -135,6 +135,7 @@ define([
         }
         if (vm.producto.modelo.IsVehiculoOrLocal === vm.constantsRrgg.DATOS.VEHICULOS) {
           vm.producto.modelo.listaVehiculos.forEach(function (element) { element.Uit = "" });
+          
         }
       }
     }
@@ -146,10 +147,12 @@ define([
         grupo === vm.constantsRrgg.PARAMETROS.GIRO_NEGOCIO.GRUPO.E) {
         vm.producto.modelo.IsVehiculoOrLocal = vm.constantsRrgg.DATOS.LOCALES
         if (vm.producto.modelo.CantidadElementos)
+          vm.producto.modelo.listaVehiculos = [];
           vm.addDatos(vm.producto.modelo.CantidadElementos, vm.constantsRrgg.DATOS.LOCALES)
       } else {
         vm.producto.modelo.IsVehiculoOrLocal = vm.constantsRrgg.DATOS.VEHICULOS
         if (vm.producto.modelo.CantidadElementos)
+          vm.producto.modelo.listaUbicaciones = [];
           vm.addDatos(vm.producto.modelo.CantidadElementos, vm.constantsRrgg.DATOS.VEHICULOS)
       }
     }
