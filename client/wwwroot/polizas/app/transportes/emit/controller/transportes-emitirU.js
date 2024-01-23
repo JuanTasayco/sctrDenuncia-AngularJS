@@ -91,7 +91,10 @@
 				Suplemento : "0",
 				Aplicacion : "0",
 				SuplementoAplicacion : "0",
-				TipoImpresion : "P"
+				TipoImpresion : "P",
+				CodApli: $window.localStorage['appCodeSubMenu'] || '',
+                IpOrigen: $window.localStorage['clientIp'] || '',
+				CodigoUsuario: oimPrincipal.getUsername().toUpperCase()
 	    	};
 	    	$scope.pdfURL = $sce.trustAsResourceUrl(constants.system.api.endpoints.policy + "/api/reporte/transporte/emision");
             $scope.pdfData = angular.toJson(pdf);

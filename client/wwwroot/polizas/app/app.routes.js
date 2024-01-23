@@ -809,6 +809,7 @@ define(["constants"], function(constants) {
     {
       name: "transporteemit",
       code: "58",
+      appCode: "TRANSPORTES",
       description: "Emisión póliza de transportes",
       breads: ["homePolizasTransportes"],
       params: { step: null },
@@ -873,6 +874,7 @@ define(["constants"], function(constants) {
     },
     {
       name: "transporteaplicacion",
+      appCode: "TRANSPORTES",
       code: "20",
       params: { step: null },
       description: "Crear aplicación de transportes",

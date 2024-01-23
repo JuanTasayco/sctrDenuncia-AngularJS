@@ -2,8 +2,8 @@
     <div class="col-xs-12 col-sm-6 col-md-6 col-xs-offset-0 col-sm-offset-3 text-center g-box-noresult-text">
         <p>No existen objetos asignados a la aplicación. Crea un nuevo objeto y empieza a diseñar la estructura del menú de
             la aplicación</p>
-        <div class="col-xs-10 col-sm-8 col-xs-offset-1 col-sm-offset-2 text center mt-xs-2">
-            <a class="g-btn g-btn-white block second-design" ng-click="changeViewCreateMenu('CREATE', null)">Crear objeto</a>
+        <div class="col-xs-10 col-sm-8 col-xs-offset-1 col-sm-offset-2 text center mt-xs-2" >
+            <a ng-if="!onlyView" class="g-btn g-btn-white block second-design" ng-click="changeViewCreateMenu('CREATE', null)">Crear objeto</a>
         </div>
     </div>
 </div>
@@ -23,7 +23,7 @@
         <div class="form-group clearfix">
             <div class="col-xs-12 col-sm-6 col-md-6 mt-xs-2 mt-sm-0">
                 <mpf-input label="{label: 'Nombre largo'}" name="nNombreL" ng-model="$parent.menu.largeName" ng-required="true" mpf-validation="onlyLetterNumberGuion"
-                    ng-maxlength="150"></mpf-input>
+                    ng-maxlength="150" ng-disabled="onlyView"></mpf-input>
                 <ul class="g-error">
                     <li ng-show="frmSaveObject.nNombreL.$error.required && !frmSaveObject.nNombreL.$pristine">* Este campo es obligatorio</li>
                     <li ng-show="!validateMinLength($parent.menu.largeName, 2) && !frmSaveObject.nNombreL.$pristine">* Mínimo de 2 carácteres</li>
@@ -31,7 +31,7 @@
             </div>
             <div class="col-xs-12 col-sm-6 col-md-6 mt-xs-2 mt-sm-0">
                 <mpf-input label="{label: 'Nombre corto'}" name="nNombreC" ng-model="$parent.menu.shortName" ng-required="true" mpf-validation="onlyLetterNumberGuion"
-                    ng-maxlength="100"></mpf-input>
+                    ng-maxlength="100" ng-disabled="onlyView"></mpf-input>
                 <ul class="g-error">
                     <li ng-show="frmSaveObject.nNombreC.$error.required && !frmSaveObject.nNombreC.$pristine">* Este campo es obligatorio</li>
                 </ul>
@@ -43,7 +43,7 @@
             <div class="col-xs-12 col-sm-6 col-md-4 mt-xs-2 mt-sm-0">
                 <div class="content-outer">
                     <div class="content-inner">
-                        <mpf-checkbox name="nCheckPantalla" ng-model="$parent.menu.invPantalla" label="Invoca a pantalla"></mpf-checkbox>
+                        <mpf-checkbox name="nCheckPantalla" ng-model="$parent.menu.invPantalla" label="Invoca a pantalla" ng-disabled="onlyView"></mpf-checkbox>
                     </div>
                 </div>
             </div>
@@ -52,7 +52,7 @@
     <div class="row mt-xs-2">
       <div class="form-group clearfix">
         <div class="col-xs-12 col-sm-6 col-md-6 mt-xs-0">
-          <mpf-input label="{label: 'Navegación'}" name="nRutaA" ng-model="$parent.menu.txtUrl" ng-required="$parent.menu.invPantalla" ng-maxlength="200"></mpf-input>
+          <mpf-input label="{label: 'Navegación'}" ng-disabled="onlyView" name="nRutaA" ng-model="$parent.menu.txtUrl" ng-required="$parent.menu.invPantalla" ng-maxlength="200"></mpf-input>
           <ul class="g-error">
               <li ng-show="frmSaveObject.nRutaA.$error.required && !frmSaveObject.nRutaA.$pristine && $parent.menu.invPantalla">* Este campo es obligatorio</li>
           </ul>
@@ -62,7 +62,7 @@
             class="g-input-design--transform-initial"
             label="{label: 'Página por defecto', required: false}"
             name="redirectUrl"
-            ng-model="$parent.menu.redirectUrl">
+            ng-model="$parent.menu.redirectUrl" ng-disabled="onlyView">
           </mpf-input>
           <ul class="g-error">
             <li ng-show="frmSaveObject.redirectUrl.$error.required && !frmSaveObject.redirectUrl.$pristine">* Este campo es obligatorio</li>
@@ -75,19 +75,19 @@
             <div class="col-xs-12 col-sm-6 col-md-6 mt-xs-2 mt-sm-0">
                 <mp-data-seeker behavior="{label:'', placeholder:'Superior', matchField:'descripcion', lenSearching: 2}" m-data-source="getObjectsSearchAutocomplete($inputNeed)"
                     ng-model="$parent.seeker.mSuperior" ng-required="false" ng-change="selectObjectAutocomplete($parent.seeker.mSuperior)"
-                    name="nSuperior">
+                    name="nSuperior" ng-disabled="onlyView">
                     <div ng-bind-html="$item.descripcion | highlight: $select.search"></div>
                 </mp-data-seeker>
             </div>
             <div class="col-xs-6 col-sm-2 col-md-2 mt-xs-2 mt-sm-0">
-                <mpf-input label="{label: 'Orden'}" name="nOrden" ng-model="$parent.menu.numOrder" ng-required="false" mpf-validation="onlyNumber"></mpf-input>
+                <mpf-input label="{label: 'Orden'}" name="nOrden" ng-model="$parent.menu.numOrder" ng-required="false" mpf-validation="onlyNumber" ng-disabled="onlyView"></mpf-input>
                 <ul class="g-error">
                     <li ng-show="!validateRangeValues($parent.menu.numOrder, 1, 99999999, false) && !frmSaveObject.nOrden.$pristine">* El valor mínimo es 1 y máximo es 99999999 </li>
                 </ul>
             </div>
         </div>
     </div>
-    <div class="row mt-xs-4">
+    <div class="row mt-xs-4" ng-if="!onlyView">
         <div class="col-md-3 col-sm-4 col-xs-offset-0 col-sm-offset-2 col-md-offset-3 mb-xs-1 no-mb-sm">
             <a class="g-btn g-btn-white second-design block" ng-click="cancelCreateObject()">Cancelar</a>
         </div>
@@ -105,8 +105,8 @@
                     <b class="ng-binding">Estructura del Menu</b>
                 </h2>
             </div>
-            <div class="col-xs-6 col-sm-4 col-md-3 text-right">
-                <a class="g-btn g-btn-white block second-design" ng-click="changeViewCreateMenu('CREATE', null)">Nuevo objeto</a>
+            <div class="col-xs-6 col-sm-4 col-md-3 text-right" >
+                <a ng-if="!onlyView" class="g-btn g-btn-white block second-design" ng-click="changeViewCreateMenu('CREATE', null)">Nuevo objeto</a>
             </div>
         </div>
     </div>
@@ -118,7 +118,7 @@
         </div>
         <div class="mt-xs-2 mt-sm-4 g-drag-drop">
             <div class="col-xs-12 pl-sm-4 pr-sm-4">
-                <div ui-tree="treeOptions" id="tree-root" data-max-depth="6">
+                <div ui-tree="treeOptions" id="tree-root" data-max-depth="6" data-drop-enabled="!onlyView" data-drag-enabled="!onlyView">
                     <ol class="row" ui-tree-nodes ng-model="menuTree">
                         <li ng-repeat="node in menuTree" ui-tree-node ng-include="tabNodosObjeto" class="lista-padre" ng-class="{isCreate : node.isCreate}"></li>
                     </ol>

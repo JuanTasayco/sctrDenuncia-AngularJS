@@ -171,6 +171,7 @@ define([
       showTitle: '=?',
       interiorRequired: '=?',
       disabledFieldsBeneficiary: '=?',
+      disabledForm: '=?',
       numeroRequired: '=?',
       blockDistrito: '=?',
       formName: '@',

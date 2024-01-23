@@ -17,9 +17,10 @@
                     var MAX_ROWS_DEFAULT = 10;
                     var NUM_PAGE_DEFAULT = 1;
                     var SORTING_TYPE_DEFAULT = 1;
-
                     $scope.ENABLE_STATE = messagesSeguridad.CODIGO_ESTADO.HABILITADO;
                     $scope.DISABLED_STATE = messagesSeguridad.CODIGO_ESTADO.DESHABILITADO;
+                    $scope.objetSeguridad = seguridadFactory.onlyView();
+
 
                     /* VARIABLES */
                     var page;
@@ -32,6 +33,7 @@
                     $scope.changeStateAplication = ChangeStateAplication;
                     $scope.getAplicationsPage = GetAplicationsPage;
                     $scope.getAplicationSearch = GetAplicationSearch;
+                    $scope.onlyView = true;
 
                     function ShowCreateAplicacion() {
                         $state.go("crearAplicaciones.steps",{ step:1 });
@@ -161,6 +163,9 @@
                     (function onLoad() {
                         InitDataDefault();
                         GetAplicacionesData(true);
+                        $timeout(function () {
+                            $scope.onlyView = $scope.objetSeguridad.soloLectura;
+                        }, 10);
                     })();
                 }
             ]

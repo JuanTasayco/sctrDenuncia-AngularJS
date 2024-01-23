@@ -65,21 +65,23 @@
         </ul>
       </div>
     </div>
-
     <div class="row">
       <div class="col-md-4 mb-xs-1 mb-md-0 g-div-bottom">
 				<div class="col-xs-10 pl-xs-0">
 		      <mp-data-seeker 
 		      behavior="{label:'Cobrador', placeholder:'Código o descripción del Cobrador', matchField:'codigoDescripcion'}" 
-		      m-data-source="getListCollector($inputNeed)" 
+		      m-data-source="getListCollector($inputNeed)" ng-disabled="onlyView"
 		      ng-model="frmData.mCodCobrador">
 		        <div ng-bind-html="$item.codigoDescripcion | highlight: $select.search"></div>
 		      </mp-data-seeker>
 				</div>
         <div class="col-xs-2 pr-xs-0 text-center">
-          <span 
-          class="ico-mapfre_337_deletePerfil g-tacho-perfil g-disable g-link no-underline gnIcon-sm gCGray3" 
+          <span  ng-if="!onlyView"
+          class="ico-mapfre_337_deletePerfil g-tacho-perfil g-disable g-link no-underline gnIcon-sm gCGray3 " 
           ng-click="fnClearCobrador()"
+          ></span>
+          <span ng-if="onlyView"
+          class="ico-mapfre_337_deletePerfil g-tacho-perfil g-disable g-link no-underline gnIcon-sm gCGray3 " style="color: #d5d5d5;cursor: not-allowed;"
           ></span>
         </div>
       </div>
@@ -87,15 +89,18 @@
 				<div class="col-xs-10 pl-xs-0">
         	<mp-data-seeker 
         	behavior="{label:'Productor', placeholder:'Código o descripción del agente', matchField:'codigoDescripcion'}" 
-        	m-data-source="getListProducer($inputNeed)" 
+        	m-data-source="getListProducer($inputNeed)"  ng-disabled="onlyView"
         	ng-model="frmData.mCodAgente">
           <div ng-bind-html="$item.codigoDescripcion | highlight: $select.search"></div>
         	</mp-data-seeker>
 				</div>
         <div class="col-xs-2 pr-xs-0 text-center">
-          <span 
+          <span  ng-if="!onlyView"
           class="ico-mapfre_337_deletePerfil g-tacho-perfil g-disable g-link no-underline gnIcon-sm gCGray3" 
           ng-click="fnClearAgente()"
+          ></span>
+          <span ng-if="onlyView"
+          class="ico-mapfre_337_deletePerfil g-tacho-perfil g-disable g-link no-underline gnIcon-sm gCGray3" style="color: #d5d5d5;cursor: not-allowed;"
           ></span>
         </div>
       </div>
@@ -115,9 +120,9 @@
     </div>
     <div class="row mt-xs-6">
       <div class="col-md-4 col-md-offset-4">
-        <a class="g-btn g-btn-verde block" 
+        <button class="g-btn g-btn-verde block" ng-disabled="onlyView"
         ng-click="fnGuardarCambios()"
-        >Guardar cambios</a>
+        >Guardar cambios</button>
       </div>
     </div>
 </div>
