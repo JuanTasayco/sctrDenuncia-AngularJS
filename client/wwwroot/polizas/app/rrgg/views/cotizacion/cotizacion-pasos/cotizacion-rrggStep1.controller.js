@@ -93,7 +93,7 @@ define([
             }
             $state.go(constantsRiesgosGenerales.ROUTES.COTIZACION_STEPS, { step: constantsRiesgosGenerales.STEPS.RESULTADOS });
           } else {
-            mModalAlert.showWarning(response.Data.MessageResult, "Alerta!")
+            mModalAlert.showWarning(response.Data ? response.Data.MessageResult : 'Ha ocurrido un error en el servidor, porfavor contacte con soporte.' , "Alerta!")
           }
         }).catch(function (error) {
           mModalAlert.showError(error.Message, "¡Error!")
