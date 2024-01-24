@@ -54,7 +54,7 @@ define(['angular', 'lodash'], function(ng, _) {
     _.forEach(arrData, function(item) {
       dataLookup.TIP_LESION = _filtrarSegunCodigo('TIP_LESION', 'codigoCampo', item, dataLookup.TIP_LESION);
       dataLookup.TIP_LICENCIA = _filtrarSegunCodigo('TIP_LICENCIA', 'codigoCampo', item, dataLookup.TIP_LICENCIA);
-      dataLookup.TIP_SOAT = _filtrarSegunCodigo('EmpresaAseguradora', 'codigoCampo', item, dataLookup.TIP_SOAT);
+      dataLookup.TIP_SOAT = _filtrarSegunCodigo('TIP_SOAT', 'codigoCampo', item, dataLookup.TIP_SOAT);
       dataLookup.NIV_EDUCATIVO = _filtrarSegunCodigo('NIV_EDUCATIVO', 'codigoCampo', item, dataLookup.NIV_EDUCATIVO);
       dataLookup.ZONA_DANO = _filtrarSegunCodigo('ZONA_DANO', 'codigoCampo', item, dataLookup.ZONA_DANO);
       dataLookup.TIP_BIEN = _filtrarSegunCodigo('TIP_BIEN', 'codigoCampo', item, dataLookup.TIP_BIEN);
@@ -129,7 +129,7 @@ define(['angular', 'lodash'], function(ng, _) {
   function getCarTypes() {
     return dataLookup.CAR_TYPES;
   }
-  
+
   function getNivelDanho() {
     return dataLookup.nivelDanho;
   }
@@ -157,7 +157,7 @@ define(['angular', 'lodash'], function(ng, _) {
   function setCarTypes(arrTypes) {
     dataLookup.CAR_TYPES = [].concat(arrTypes);
   }
-  
+
   function setNivelDanho(arrNivel) {
     dataLookup.nivelDanho = [].concat(_.filter(arrNivel, function(item) {
       return item.codigoParametro != 0;
@@ -183,7 +183,7 @@ define(['angular', 'lodash'], function(ng, _) {
   function getTipoMoneda() {
     return dataLookup.TIPO_MONEDA;
   }
-  
+
   function getTipoBien() {
     return dataLookup.TIP_BIEN;
   }
