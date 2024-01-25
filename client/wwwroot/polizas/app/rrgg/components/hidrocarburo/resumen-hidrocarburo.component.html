@@ -62,17 +62,19 @@
         </div>
         <div class="page-rrgg__table" ng-if="$ctrl.resumen.IsVehiculoOrLocal === $ctrl.constantsRrgg.DATOS.LOCALES">
           <div class="row no-margin-xs">
-            <div class="col-xs-4 fwBold text-sm">Ubicación del riesgo</div>
-            <div class="col-xs-4 fwBold text-sm">UIT</div>
-            <div class="col-xs-4 fwBold g-text-right-md text-sm">Suma Asegurada (por local)
+            <div class="col-xs-3 fwBold text-sm">Ubicación del riesgo</div>
+            <div class="col-xs-3 fwBold text-sm">UIT</div>
+            <div class="col-xs-3 fwBold text-sm">Ubigeo</div>
+            <div class="col-xs-3 fwBold g-text-right-md text-sm">Suma Asegurada (por local)
             </div>
           </div>
           <div class="row no-margin-xs pt-xs-1 pb-xs-1">
             <div class="col-xs-12">
               <div ng-repeat="local in $ctrl.resumen.listaUbicaciones track by $index" class="row">
-                <div class="col-xs-4 mb-xs-1 text-xs">{{local.Direccion}}</div>
-                <div class="col-xs-4 mb-xs-1 text-xs">{{local.Uit}}</div>
-                <div class="col-xs-4 mb-xs-1 text-xs g-text-right-md">
+                <div class="col-xs-3 mb-xs-1 text-xs">{{local.Direccion}}</div>
+                <div class="col-xs-3 mb-xs-1 text-xs">{{local.Uit}}</div>
+                <div class="col-xs-3 mb-xs-1 text-xs">{{local.Departamento.Descripcion}} - {{local.Provincia.Descripcion}} - {{local.Distrito.Descripcion}}</div>
+                <div class="col-xs-3 mb-xs-1 text-xs g-text-right-md">
                   <span ng-if="$ctrl.unidadLocal()">{{local.SumaAsegurada | currency:
                     $ctrl.currencyType($ctrl.resumen.Moneda.Codigo)}}</span>
                   <span ng-if="!$ctrl.unidadLocal()">{{local.SumaAsegurada}}</span>
@@ -109,6 +111,7 @@
     </div>
     <div class="col-xs-12 mb-xs-1">
       <ul class="row g-list-md page-rrgg__table-list">
+        
         <li class="col-sm-6 clearfix mb-xs-2 page-rrgg__table-list-item">
           <div class="col-xs-4 item-label"><span class="ico-mapfre_82_circle ico-bullet"></span>UIT:</div>
           <div class="col-xs-8 item-dato ng-binding" rrgg-resumen-valoruit>{{$ctrl.resumen.ValorUit | currency: 'S/.'  }}</div>

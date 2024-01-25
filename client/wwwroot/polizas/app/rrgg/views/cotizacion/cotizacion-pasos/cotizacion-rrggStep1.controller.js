@@ -23,9 +23,9 @@ define([
         minStartDate: new Date(),
         minStartDateFormat: riesgosGeneralesFactory.formatearFecha(new Date())
       }
-      riesgosGeneralesService.getProxyProductos()
+      riesgosGeneralesService.getProxyProductosByUser()
         .then(function (response) {
-          $scope.productos = response.Data.filter(function (element) { return element.Habilitado === 1 })
+          $scope.productos = response.Data
         });
       $scope.cotizacion.fechaCotizacion = $scope.fnFilter(new Date(), constants.formats.dateFormat)
       riesgosGeneralesService.getProxyPametros(0, constantsRiesgosGenerales.PARAMETROS.TIP_CAMBIO)
@@ -93,7 +93,7 @@ define([
             }
             $state.go(constantsRiesgosGenerales.ROUTES.COTIZACION_STEPS, { step: constantsRiesgosGenerales.STEPS.RESULTADOS });
           } else {
-            mModalAlert.showWarning(response.Data.MessageResult, "Alerta!")
+            mModalAlert.showWarning(response.Data ? response.Data.MessageResult : 'Ha ocurrido un error en el servidor, porfavor contacte con soporte.' , "Alerta!")
           }
         }).catch(function (error) {
           mModalAlert.showError(error.Message, "¡Error!")
