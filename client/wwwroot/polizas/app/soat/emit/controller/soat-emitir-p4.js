@@ -603,10 +603,8 @@
 														$state.go('getSoat'); // Redireccionamiento
 													}
 											    }, 2000);
-
 			                }
 			                else if(response.Data.NumeroReferenciaBancaria == ""){
-
 												if(response.Message != ''){
 													mModalAlert.showError(response.Message, "¡Error!");
 												}else{

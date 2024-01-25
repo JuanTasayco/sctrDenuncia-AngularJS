@@ -103,6 +103,32 @@
           name: 'soatDocumentsController',
           path: '/polizas/app/soat/documents/controller/documents'
       },
+
+      'soatRestrictionController': {
+        name: 'soatRestrictionController',
+        path: '/polizas/app/soat/restriction/controller/list-restriction/list-restriction'
+      },
+      'soatNewRestrictionController': {
+        name: 'soatNewRestrictionController',
+        path: '/polizas/app/soat/restriction/controller/new-restriction/new-restriction'
+      },
+      'soatEditRestrictionController': {
+        name: 'soatEditRestrictionController',
+        path: '/polizas/app/soat/restriction/controller/edit-restriction/edit-restriction'
+      },
+      'mpfItemRestriccionesSoat': {
+        name: 'mpfItemRestriccionesSoat',
+        path: '/polizas/app/soat/restriction/component/item-restricciones/item-restricciones'
+      },
+      'mpfFiltroRestriccionesSoat': {
+        name: 'mpfFiltroRestriccionesSoat',
+        path: '/polizas/app/soat/restriction/component/filtro-restricciones/filtro-restricciones'
+      },
+      'mpfFormRestriccionesSoat': {
+        name: 'mpfFormRestriccionesSoat',
+        path: '/polizas/app/soat/restriction/component/form-restricciones/form-restricciones'
+      },
+
       'transporteEmitController': {
           name: 'transporteEmitController',
           path: '/polizas/app/transportes/emit/controller/transportes-emitirU'
