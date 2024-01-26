@@ -138,6 +138,10 @@ define(['angular', 'lodash'], function (ng, _) {
 
     function getPerson() {
       if (vm.frm.ocupanteTercero.numeroDocumentoIdentidad && vm.frm.ocupanteTercero.codigoTipoDocumentoIdentidad) {
+        if(vm.numeroDocumentoIdentidadAux === vm.frm.ocupanteTercero.numeroDocumentoIdentidad ) {
+          return;
+        }
+        vm.numeroDocumentoIdentidadAux = vm.frm.ocupanteTercero.numeroDocumentoIdentidad;
         wpFactory.siniestro.GetSiniestroPerson(vm.frm.ocupanteTercero.numeroDocumentoIdentidad, 0, vm.frmVehiculoTercero.ocupanteTercero.codigoTipoDocumentoIdentidad.descripcionParametro, 1)
           .then(function (response) {
             response.persona.respuesta == "1"

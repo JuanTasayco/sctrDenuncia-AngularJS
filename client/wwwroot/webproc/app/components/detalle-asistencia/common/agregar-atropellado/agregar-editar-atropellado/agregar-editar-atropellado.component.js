@@ -1,14 +1,15 @@
 'use strict';
 
 define(['angular', 'lodash'], function (ng, _) {
-  AgregarEditarAtropelladoController.$inject = ['$rootScope', '$scope', '$timeout', 'wpFactory', 'mainServices'];
-  function AgregarEditarAtropelladoController($rootScope, $scope, $timeout, wpFactory, mainServices) {
+  AgregarEditarAtropelladoController.$inject = ['$rootScope', '$scope', '$timeout', 'wpFactory', 'mainServices','$log'];
+  function AgregarEditarAtropelladoController($rootScope, $scope, $timeout, wpFactory, mainServices,$log) {
     var vm = this;
     vm.$onInit = onInit;
     vm.grabarAtropellado = grabarAtropellado;
     vm.cerrarFrm = cerrarFrm;
     vm.getPerson = getPerson;
     vm.documentTypeChange = documentTypeChange;
+    vm.numeroDocumentoIdentidadAux = '';
 
     function onInit() {
       vm.frm = {}
@@ -45,6 +46,10 @@ define(['angular', 'lodash'], function (ng, _) {
 
     function getPerson() {
       if (vm.frm.numeroDocumentoIdentidad  && vm.frm.codigoTipoDocumentoIdentidad) {
+        if(vm.numeroDocumentoIdentidadAux === vm.frm.numeroDocumentoIdentidad ) {
+          return;
+        }
+        vm.numeroDocumentoIdentidadAux = vm.frm.numeroDocumentoIdentidad;
         wpFactory.siniestro.GetSiniestroPerson(vm.frm.numeroDocumentoIdentidad, 0, vm.frmAtropellado.codigoTipoDocumentoIdentidad.descripcionParametro, 1)
           .then(function (response) {
             response.persona.respuesta == "1"

@@ -69,7 +69,12 @@ define(['angular', 'lodash', 'AsistenciaActions', 'wpConstant'], function (ng, _
     }
 
     function getPerson() {
+
       if (vm.frmConductor.numeroDocumentoIdentidad && vm.frmConductor.codigoTipoDocumentoIdentidad) {
+        if(vm.numeroDocumentoIdentidadAux === vm.frmConductor.numeroDocumentoIdentidad ) {
+          return;
+        }
+        vm.numeroDocumentoIdentidadAux = vm.frmConductor.numeroDocumentoIdentidad;
         wpFactory.siniestro.GetSiniestroPerson(vm.frmConductor.numeroDocumentoIdentidad, 0, $scope.frmPerson.codigoTipoDocumentoIdentidad.descripcionParametro, 1)
           .then(function (response) {
             response.persona.respuesta == "1"
