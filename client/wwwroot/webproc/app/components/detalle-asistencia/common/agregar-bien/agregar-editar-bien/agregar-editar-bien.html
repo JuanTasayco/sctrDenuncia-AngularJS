@@ -5,7 +5,16 @@
     </div>
   </div>
   <div class="row">
-    <div class="col-md-12 mb-xs-1">
+    <div class="col-md-4 mb-xs-1">
+      <wp-cbo-nivel-danho data-label="{label: 'Nivel Daño', required: true}" data-ng-disabled="$ctrl.modoLectura"
+        data-ng-model="$ctrl.frmBien.codigoNivelDanioBien" data-option-default="{enterData: true}"
+        data-set-model-by-this-key="$ctrl.frm.codigoNivelDanioBien" name="nNivelDanho">
+      </wp-cbo-nivel-danho>
+      <div class="g-error" data-ng-show="$ctrl.frmBien.nNivelDanho.$invalid && !$ctrl.frmBien.nNivelDanho.$pristine">
+        Este campo es obligatorio
+      </div>
+    </div>
+    <div class="col-md-8 mb-xs-1">
       <mpf-input data-ng-model="$ctrl.frm.descripcionDanioBien" label="{label: 'Descripcion', required: false}" data-ng-disabled="$ctrl.modoLectura"
         name="ndescripcionDanioBien">
       </mpf-input>
@@ -22,18 +31,24 @@
   </div>
   <div class="row">
     <div class="col-md-4 mb-xs-1">
-      <mpf-input data-ng-model="$ctrl.frm.propietarioBien" label="{label: 'Nombres', required: false}" data-ng-disabled="$ctrl.modoLectura"
-        name="nNombres">
-      </mpf-input>
+      <wp-cbo-tipo-bien data-label="{label: 'Tipo de Bien', required: true}" data-ng-model="$ctrl.frmBien.tipoBien" data-ng-disabled="$ctrl.modoLectura"
+        data-option-default="{enterData: true}" data-set-model-by-this-key="$ctrl.frm.codigoTipoBien" name="nTipoBien">
+      </wp-cbo-tipo-bien>
+      <div class="g-error" data-ng-show="$ctrl.frmBien.nTipoBien.$invalid && !$ctrl.frmBien.nTipoBien.$pristine">
+        Este campo es obligatorio
+      </div>
     </div>
     <div class="col-md-4 mb-xs-1">
-      <mpf-input data-ng-model="$ctrl.frm.apePropietarioBien" label="{label: 'Apellidos', required: false}" data-ng-disabled="$ctrl.modoLectura"
-        name="nApellidos">
+      <mpf-input data-ng-model="$ctrl.frm.propietarioBien"  data-mpf-validation="required, onlyLetter" label="{label: 'Propietario', required: true}" data-ng-disabled="$ctrl.modoLectura"
+        name="nPropietario">
       </mpf-input>
+      <div class="g-error" data-ng-show="$ctrl.frmBien.nPropietario.$invalid && !$ctrl.frmBien.nPropietario.$pristine">
+        Este campo es obligatorio
+      </div>
     </div>
     <div class="col-md-4 mb-xs-1">
       <mpf-input data-ng-model="$ctrl.frm.telefonoBien" label="{label: 'Telefono', required: false}" data-ng-disabled="$ctrl.modoLectura"
-        name="nTelefono">
+        name="nTelefono" data-mpf-validation="onlyNumberNoSpace" >
       </mpf-input>
     </div>
 
@@ -41,8 +56,11 @@
   <div class="row">
     <div class="col-md-4 mb-xs-1">
       <mpf-input data-ng-model="$ctrl.frm.correoPropietario" label="{label: 'Email', required: false}" data-ng-disabled="$ctrl.modoLectura"
-        name="nEmail">
+        name="nEmail" data-mpf-validation="email">
       </mpf-input>
+      <div class="g-error" data-ng-show="$ctrl.frmBien.nEmail.$invalid && !$ctrl.frmBien.nEmail.$pristine">
+        Ingrese un dato válido
+      </div>
     </div>
   </div>
   <div class="row mt-xs-2">
