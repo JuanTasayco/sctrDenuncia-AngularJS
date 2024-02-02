@@ -199,9 +199,6 @@ define(['angular', 'lodash', 'AsistenciaActions', 'helper', 'wpConstant', 'const
       $scope.$emit('frm:save');
       $timeout(function () {
         var frmTerceroConvenioinvalid = false;
-        if(vm.frmGeneral.frmTerceroConvenio){
-          frmTerceroConvenioinvalid  = vm.frmGeneral.frmTerceroConvenio.$invalid;
-        }
 
         if (vm.frmGeneral.frmLugarOcurrencia.$invalid || frmTerceroConvenioinvalid) {
           var frminvalid = vm.frmGeneral.frmLugarOcurrencia.$invalid ? 'Lugar de ocurrencia' : 'Terceros Convenio';
@@ -375,10 +372,6 @@ define(['angular', 'lodash', 'AsistenciaActions', 'helper', 'wpConstant', 'const
       $timeout(function () {
         vm.frmGeneral.frmLugarOcurrencia.markAsPristine();
         var frmTerceroConvenioinvalid = false;
-        if(vm.frmGeneral.frmTerceroConvenio){
-          vm.frmGeneral.frmTerceroConvenio.markAsPristine()
-          frmTerceroConvenioinvalid  = vm.frmGeneral.frmTerceroConvenio.$invalid;
-        }
 
         var dataGuardar = setRequest('PENDIENTE');
 
@@ -437,12 +430,7 @@ define(['angular', 'lodash', 'AsistenciaActions', 'helper', 'wpConstant', 'const
     function terminar() {
       $scope.$emit('frm:save');
       $timeout(function () {
-        console.log("vm.frmGeneral.frmTerceroConvenio",vm.frmGeneral)
-        console.log("vm.frmGeneral.setRequest('GENERADO')",setRequest('GENERADO'))
         var frmTerceroConvenioinvalid = false;
-        if(vm.frmGeneral.frmTerceroConvenio){
-          frmTerceroConvenioinvalid  = vm.frmGeneral.frmTerceroConvenio.$invalid;
-        }
         if(!_checkFotosDoc() || !_checkFotosSiniestro()){
           return void mModalAlert
           .showWarning('Los campos de Fotos del asegurado son obligatorios', 'Falta completar')
