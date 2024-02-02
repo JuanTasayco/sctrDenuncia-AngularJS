@@ -9,15 +9,16 @@ define([
     .controller('cotizacionRrggStep1Controller', cotizacionRrggStep1Controller);
 
   cotizacionRrggStep1Controller.$inject = ['$scope', '$state', 'mainServices', 'mModalAlert', 'mpSpin', '$uibModal', 'riesgosGeneralesService', 'riesgosGeneralesFactory',
-    'riesgosGeneralesCommonFactory', '$filter'];
+    'riesgosGeneralesCommonFactory','oimAbstractFactory', '$filter'];
 
   function cotizacionRrggStep1Controller($scope, $state, mainServices, mModalAlert, mpSpin, $uibModal, riesgosGeneralesService, riesgosGeneralesFactory,
-    riesgosGeneralesCommonFactory, $filter) {
+    riesgosGeneralesCommonFactory,oimAbstractFactory, $filter) {
 
     (function load_cotizacionRrggStep1Controller() {
       $scope.constantsRrgg = constantsRiesgosGenerales
       $scope.fnFilter = $filter("date");
       $scope.cotizacion = {};
+      $scope.isMydream = oimAbstractFactory.isMyDream();
       $scope.format = constants.formats.dateFormat;
       $scope.validadores = {
         minStartDate: new Date(),
@@ -84,6 +85,7 @@ define([
             requestProducto = riesgosGeneralesFactory.getModelEventos();
             break;
         }
+        requestProducto.CodigoApp = $scope.isMydream ? 'MYD' : 'OIM';
         riesgosGeneralesService.cargaCotizacion(requestProducto, $scope.cotizacion.producto.Grupo).then(function (response) {
           if (response.OperationCode === constants.operationCode.success) {
             riesgosGeneralesFactory.cotizacion.tramite = {
