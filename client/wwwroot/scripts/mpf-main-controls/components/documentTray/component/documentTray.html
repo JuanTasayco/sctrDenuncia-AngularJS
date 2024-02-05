@@ -185,6 +185,7 @@
                   <div class="col-md-6 cnt-item text-right">
                     <a href="" class="g-btn g-btn-verde block second-design add-ico ng-scope"
                       ng-if="item.NumeroPoliza"
+                      ng-class="{'disabled': item.NumeroRecibo === '-1'}"
                       ng-click="enviarPolizaMail(item)">Enviar</a>
                   </div>
 
@@ -209,7 +210,7 @@
 							      <ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="single-button">
 							        <li role="menuitem"><a ng-click="actionButton($index)">{{(item.EstadoEmision != 'EMITIDA') ? 'Ver más' : 'Descargar PDF'}}</a></li>
 							        <li role="menuitem" ng-show="permitirAnular && item.EstadoEmisionTron != 'ANULADO' && vigenteAnular(item)"><a ng-click="anularSOAT(item)">Anular póliza</a></li>
-							        <li role="menuitem" ng-show="checkValue(item.CodigoModalidad)"><a ng-click="enviarMailSOAT(item)">Enviar por correo</a></li>
+							        <li role="menuitem" ng-show="item.NumeroRecibo !== '-1' && checkValue(item.CodigoModalidad)"><a ng-click="enviarMailSOAT(item)">Enviar por correo</a></li>
 							      </ul>
 							    </div>
 								</li>

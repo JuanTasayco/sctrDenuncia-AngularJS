@@ -807,6 +807,83 @@ define(["constants"], function(constants) {
     },
 
     {
+      name: "soatRestricciones",
+      appCode: "SOAT",
+      breads: ["homePolizasSOAT"],
+      description: "Mantenimiento de restricciones",
+      url: "/soat/restrictions",
+      parent: "root",
+      views: {
+        content: {
+          controller: "soatRestrictionController",
+          templateUrl: "/polizas/app/soat/restriction/controller/list-restriction/list-restriction.html",
+          controllerAs: 'vm'
+        }
+      },
+      resolver: [
+        {
+          name: "soatRestricciones",
+          moduleName: "appSoat",
+          files: [
+            "mpfFiltroRestriccionesSoat",
+            "mpfItemRestriccionesSoat",
+            "soatRestrictionController"
+          ]
+        }
+      ]
+    },
+    {
+      name: "soatNewRestriccion",
+      appCode: "SOAT",
+      breads: ["soatRestricciones"],
+      description: "Registrar restricción",
+      url: "/soat/newRestriction",
+      parent: "root",
+      views: {
+        content: {
+          controller: "soatNewRestrictionController",
+          templateUrl: "/polizas/app/soat/restriction/controller/new-restriction/new-restriction.html",
+          controllerAs: 'vm'
+        }
+      },
+      resolver: [
+        {
+          name: "soatNewRestriccion",
+          moduleName: "appSoat",
+          files: [
+            "mpfFormRestriccionesSoat",
+            "soatNewRestrictionController"
+          ]
+        }
+      ]
+    },
+    {
+      name: "soatEditRestriccion",
+      appCode: "SOAT",
+      breads: ["soatRestricciones"],
+      description: "Editar restricción",
+      url: "/soat/editRestriction/:restrictionId",
+      parent: "root",
+      views: {
+        content: {
+          controller: "soatEditRestrictionController",
+          templateUrl: "/polizas/app/soat/restriction/controller/edit-restriction/edit-restriction.html",
+          controllerAs: 'vm'
+        }
+      },
+      resolver: [
+        {
+          name: "soatEditRestriccion",
+          moduleName: "appSoat",
+          files: [
+            "mpfFormRestriccionesSoat",
+            "soatEditRestrictionController"
+          ]
+        }
+      ]
+    },
+
+    {
       name: "transporteemit",
       code: "58",
       appCode: "TRANSPORTES",

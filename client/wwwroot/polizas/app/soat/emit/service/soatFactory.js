@@ -6,8 +6,8 @@ define([
 
   var appSoat = angular.module('appSoat');
 
-  appSoat.factory('soatFactory', ['$http', '$q', '$window', 'proxyClaims', 'proxySoat', 'proxyProducto', 'httpData', 'proxyEmision',
-    function($http, $q, $window, proxyClaims, proxySoat, proxyProducto, httpData, proxyEmision){
+  appSoat.factory('soatFactory', ['$http', '$q', '$window', 'proxyClaims', 'proxySoat', 'proxyProducto', 'httpData', 'proxyEmision', 'proxyAgente',
+    function($http, $q, $window, proxyClaims, proxySoat, proxyProducto, httpData, proxyEmision, proxyAgente){
 
     var base = constants.system.api.endpoints.policy;
     var CODE_RUBRO = {
@@ -287,6 +287,46 @@ define([
       return proxyEmision.validarFormatoPlaca(params, true);
     }
 
+    function buscarAgente(params, showSpin) {
+      return proxyAgente.buscarAgente(params, showSpin);
+    }
+
+    function buscarUsuario(params, showSpin) {
+      return proxySoat.UsuarioPorNombre(params, showSpin)
+    }
+
+    function listarRestricciones(params, showSpin) {
+      return proxySoat.Restricciones(params.agent, params.user, params.vehicleType, params.items, params.pages, showSpin);
+    }
+
+    function registrarRestriccion(params, showSpin) {
+      return proxySoat.RegistrarRestricciones(params, showSpin);
+    }
+
+    function editarRestriccion(params, showSpin) {
+      return proxySoat.ActualizarRestricciones(params, null, showSpin);
+    }
+
+    function eliminarRestriccion(params, showSpin) {
+      return proxySoat.ActualizarRestricciones(params, 'S', showSpin);
+    }
+
+    function listarMensajes(showSpin) {
+      return proxySoat.GetMessageSoat(showSpin);
+    }
+
+    function editarMensajes(params, user, showSpin) {
+      return proxySoat.ActualizarMensajesSoat(params, user, showSpin);
+    }
+
+    function getValueString(obj, key) {
+      return (obj && obj[key]) || '';
+    }
+
+    function validateSearchText(wilcar) {
+      return wilcar && wilcar.length >= 3;
+    }
+
     return {
       addVariableSession: addVariableSession,
       getVariableSession: getVariableSession,
@@ -320,7 +360,18 @@ define([
       CODE_DELIVERY: CODE_DELIVERY,
       GetProductDescription: GetProductDescription,
       GetProductPolizaManual: GetProductPolizaManual,
-      validarFormatoPlaca: validarFormatoPlaca
+      validarFormatoPlaca: validarFormatoPlaca,
+
+      buscarAgente: buscarAgente,
+      buscarUsuario: buscarUsuario,
+      listarRestricciones: listarRestricciones,
+      registrarRestriccion: registrarRestriccion,
+      editarRestriccion: editarRestriccion,
+      eliminarRestriccion: eliminarRestriccion,
+      listarMensajes: listarMensajes,
+      editarMensajes: editarMensajes,
+      getValueString: getValueString,
+      validateSearchText: validateSearchText
     };
   }]);
 

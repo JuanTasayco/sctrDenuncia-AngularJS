@@ -1,8 +1,8 @@
 define([
-  'angular', 'constantsRiesgosGenerales'
+  'angular', 'constantsRiesgosGenerales', '/scripts/mpf-main-controls/components/ubigeo/component/ubigeo.js',
 ], function (ng, constantsRiesgosGenerales) {
-  demolicionesController.$inject = ['mModalAlert', 'riesgosGeneralesService', 'riesgosGeneralesFactory', 'riesgosGeneralesCommonFactory', 'mainServices','$uibModal','mModalConfirm'];
-  function demolicionesController(mModalAlert, riesgosGeneralesService, riesgosGeneralesFactory, riesgosGeneralesCommonFactory, mainServices,$uibModal,mModalConfirm) {
+  demolicionesController.$inject = ['$scope','mModalAlert', 'riesgosGeneralesService', 'riesgosGeneralesFactory', 'riesgosGeneralesCommonFactory', 'mainServices','$uibModal','mModalConfirm'];
+  function demolicionesController($scope, mModalAlert, riesgosGeneralesService, riesgosGeneralesFactory, riesgosGeneralesCommonFactory, mainServices,$uibModal,mModalConfirm) {
     var vm = this;
     vm.OpenParametros = OpenParametros;
     vm.validateDescuentos = validateDescuentos;
@@ -10,6 +10,7 @@ define([
     vm.validControlForm = ValidControlForm;
     vm.changeDesde = changeDesde;
     vm.sumaAseguradaPrevia = null;
+    vm.ubigeoValid = {}; 
     vm.$onInit = function ()  {
       vm.constantsRrgg = constantsRiesgosGenerales;
       riesgosGeneralesFactory.setCotizacionProducto(vm.cotizacion);
@@ -22,9 +23,33 @@ define([
         minStartDateFormat: riesgosGeneralesFactory.formatearFecha(new Date())
       }
       vm.producto.modelo = {
+        Ubigeo: {
+          mDepartamento: null,
+          mProvincia: null,
+          mDistrito: null
+        },
         FechaDesde: new Date(),
         FechaHasta: new Date(vm.fechaActual.setDate(vm.fechaActual.getDate() + 365))
       }
+
+      $scope.$watch('setter', function() {
+        $scope.setterUbigeo = $scope.setter;
+      })
+      $scope.$on('ubigeo', function(_, data) {
+        if(data) {
+          riesgosGeneralesService.getRestriccionUbigeo(data.mDepartamento,data.mProvincia,data.mDistrito)
+          .then(function (response) {
+            var restringido = response.Data.Restringido
+            if (restringido) {
+              mModalAlert.showWarning("La cotización debe pasar por VoBo de Suscripción, debido a que la ubicación del riesgo se encuentra en zona restringida.", "MAPFRE: RESTRICCIÓN DE UBICACIÓN DE RIESGO");
+            }
+          })
+        }
+      })
+      $scope.$watch('clean', function() {
+        $scope.cleanUbigeo = $scope.clean;
+      })
+
       riesgosGeneralesService.getCurrencyType(false)
       .then(function (response) {
         vm.monedas = response.Data;

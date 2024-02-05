@@ -191,6 +191,15 @@ define([
         "EndosarDeshonestidad": factory.cotizacion.producto.modelo.EndosarDeshonestidad,
         "NombreEndosarDeshonestidad": factory.cotizacion.producto.modelo.NombreEndosarDeshonestidad || "",
         "Ingresatrabajadores": factory.cotizacion.producto.modelo.Ingresatrabajadores,
+        "Departamento": {
+          "Codigo": factory.cotizacion.producto.modelo.Ubigeo.mDepartamento.Codigo
+        },
+        "Provincia": {
+          "Codigo": factory.cotizacion.producto.modelo.Ubigeo.mProvincia.Codigo
+        },
+        "Distrito": {
+          "Codigo": factory.cotizacion.producto.modelo.Ubigeo.mDistrito.Codigo
+        }
       };
       var parameterProducto = angular.extend({}, globalParameter, parameterEspecificos);
       return parameterProducto;
@@ -264,7 +273,16 @@ define([
         "DuracionHasta": _cambiarFormatoDatetime(factory.cotizacion.producto.modelo.DuracionHasta),
         "AseguradoAdicional": factory.cotizacion.producto.modelo.AseguradoAdicional,
         "NombreAseguradoAdicional": factory.cotizacion.producto.modelo.NombreAseguradoAdicional,
-      };
+        "Departamento": {
+          "Codigo": factory.cotizacion.producto.modelo.Ubigeo.mDepartamento.Codigo
+        },
+        "Provincia": {
+          "Codigo": factory.cotizacion.producto.modelo.Ubigeo.mProvincia.Codigo
+        },
+        "Distrito": {
+          "Codigo": factory.cotizacion.producto.modelo.Ubigeo.mDistrito.Codigo
+        }
+      }
       var parameterProducto = angular.extend({}, globalParameter, parameterEspecificos);
       return parameterProducto;
     }
@@ -288,7 +306,16 @@ define([
         "NombreTercero": factory.cotizacion.producto.modelo.NombreTercero,
         "EndosaDeshonestidad": factory.cotizacion.producto.modelo.EndosaDeshonestidad,
         "NombreEndosaDeshonestidad": factory.cotizacion.producto.modelo.NombreEndosaDeshonestidad,
-        "NumeroDocumento": factory.cotizacion.producto.modelo.NumeroDocumento
+        "NumeroDocumento": factory.cotizacion.producto.modelo.NumeroDocumento,
+        "Departamento": {
+          "Codigo": factory.cotizacion.producto.modelo.Ubigeo.mDepartamento.Codigo
+        },
+        "Provincia": {
+          "Codigo": factory.cotizacion.producto.modelo.Ubigeo.mProvincia.Codigo
+        },
+        "Distrito": {
+          "Codigo": factory.cotizacion.producto.modelo.Ubigeo.mDistrito.Codigo
+        }
       }
       var parameterProducto = angular.extend({}, globalParameter, parameterEspecificos);
       return parameterProducto;
@@ -303,7 +330,16 @@ define([
         "Ubicacion": factory.cotizacion.producto.modelo.Ubicacion,
         "FechaDesde": _cambiarFormatoDatetime(factory.cotizacion.producto.modelo.FechaDesde),
         "FechaHasta": _cambiarFormatoDatetime(factory.cotizacion.producto.modelo.FechaHasta),
-        "SumaAsegurada": factory.cotizacion.producto.modelo.SumaAsegurada
+        "SumaAsegurada": factory.cotizacion.producto.modelo.SumaAsegurada,
+        "Departamento": {
+          "Codigo": factory.cotizacion.producto.modelo.Ubigeo.mDepartamento.Codigo
+        },
+        "Provincia": {
+          "Codigo": factory.cotizacion.producto.modelo.Ubigeo.mProvincia.Codigo
+        },
+        "Distrito": {
+          "Codigo": factory.cotizacion.producto.modelo.Ubigeo.mDistrito.Codigo
+        }
       }
       var parameterProducto = angular.extend({}, globalParameter, parameterEspecificos);
       return parameterProducto;
@@ -322,6 +358,16 @@ define([
         "MateriaAsegurada": factory.cotizacion.producto.modelo.MateriaAsegurada,
         "NombreCliente": factory.cotizacion.producto.modelo.NombreCliente,
         "Direccion": factory.cotizacion.producto.modelo.Direccion,
+        "Departamento": {
+          "Codigo": factory.cotizacion.producto.modelo.Ubigeo.mDepartamento.Codigo
+        },
+        "Provincia": {
+          "Codigo": factory.cotizacion.producto.modelo.Ubigeo.mProvincia.Codigo
+        },
+        "Distrito": {
+          "Codigo": factory.cotizacion.producto.modelo.Ubigeo.mDistrito.Codigo
+        }
+      
       }
       var parameterProducto = angular.extend({}, globalParameter, parameterEspecificos);
       return parameterProducto;
@@ -341,6 +387,15 @@ define([
         "Aforo": parseInt(factory.cotizacion.producto.modelo.Aforo),
         "Seguridad": factory.cotizacion.producto.modelo.Seguridad,
         "SumaAsegurada": factory.cotizacion.producto.modelo.SumaAsegurada,
+        "Departamento": {
+          "Codigo": factory.cotizacion.producto.modelo.Ubigeo.mDepartamento.Codigo
+        },
+        "Provincia": {
+          "Codigo": factory.cotizacion.producto.modelo.Ubigeo.mProvincia.Codigo
+        },
+        "Distrito": {
+          "Codigo": factory.cotizacion.producto.modelo.Ubigeo.mDistrito.Codigo
+        }
       }
       var parameterProducto = angular.extend({}, globalParameter, parameterEspecificos);
       return parameterProducto;
@@ -525,6 +580,9 @@ define([
         return {
           "Orden": local.Orden,
           "Direccion": local.Direccion,
+          "Departamento": { Codigo: local.Ubigeo.mDepartamento.Codigo },
+          "Provincia": { Codigo: local.Ubigeo.mProvincia.Codigo },
+          "Distrito": { Codigo: local.Ubigeo.mDistrito.Codigo },
           "SumaAsegurada": factory.cotizacion.producto.modelo.SumaAseguradaAMT ? factory.cotizacion.producto.modelo.SumaAseguradaAMT.Dato : 0,
           "Uit": local.Uit || 0
         }
