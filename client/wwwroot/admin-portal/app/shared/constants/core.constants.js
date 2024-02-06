@@ -21,6 +21,7 @@ define([], function() {
     ngMassTrayModule: 'appAP.MassTrayFactory',
     ngCommonModule: 'appAP.CommonFactory',
     ngCemeteryModule: 'appAP.CemeteryFactory',
+    ngGeneralAdminClinicaDigitalModule: 'appAP.GeneralAdminClinicaDigitalFactory',
 
     api: {
       successfulCode: 1000
