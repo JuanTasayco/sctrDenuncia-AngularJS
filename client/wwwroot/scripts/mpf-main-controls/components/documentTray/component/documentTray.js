@@ -239,6 +239,8 @@
                     vm.$onInit = function () {
                       $scope.documentosSalud = [];
                       $scope.pdfUrl = {};
+                      $scope.codApli = '';
+                      $scope.ipOrigen = '';
                       $scope.observacionModal = '';
                       _revisarPeticion();
                     }
@@ -1328,6 +1330,9 @@
                 $window.setTimeout(function(){
                   document.getElementById('frmDownloadExcelSalud').submit();
                 });
+              } if(_self.subModule === 'Soat') {
+                var vFileNameSoat = 'OIM - Cotizaciones y Pólizas' + '.xls';
+                documentosFactory.generarExcelSoat($scope.excelData, vFileNameSoat);
               } else {
                 var vFileName = 'OIM - Cotizaciones y Pólizas' + '.xls';
                 documentosFactory.generarExcel($scope.excelData, vFileName);
@@ -1465,10 +1470,14 @@
               Suplemento :          '0',
               Aplicacion :          item.Aplicacion, //'11', //SERVICIO
               SuplementoAplicacion: '0',
-              TipoImpresion :       'A'
+              TipoImpresion :       'A',
+              CodApli: $window.localStorage['appCodeSubMenu'] || '',
+              IpOrigen: $window.localStorage['clientIp'] || '',
+              CodigoUsuario: oimPrincipal.getUsername().toUpperCase()
             }
             $scope.pdfData = data;
             $scope.pdfURL = $sce.trustAsResourceUrl(constants.system.api.endpoints.policy + 'api/reporte/transporte/emision');
+
             $window.setTimeout(function(){
               document.getElementById('frmDownloadPDF').submit();
             });

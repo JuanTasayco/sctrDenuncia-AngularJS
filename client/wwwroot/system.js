@@ -95,7 +95,7 @@
       },
       wp: {
         code: "WEBPROC",
-        shortName: "-WEB PROCURADOR",
+        shortName: "WEB DEL PROCURADOR",
         packageName: "wpPackage",
         path: "/webproc/package",
         location: "/webproc",
@@ -391,6 +391,18 @@
         rootApi: '',
         isComponsesMenu: true,
         icon: 'ico-mapfre_174_gestionMedica'
+      },
+  	 cnt:{
+        code: "CNT",
+        shortName: 'Canales No Tradicionales',
+        packageName: 'Canales No Tradicionales',
+        path: "/cnt/package",
+        appPath: "/cnt/app",
+        location: '/cnt/#',
+        menuName: 'Canales No Tradicionales',
+        rootApi: '',
+        isComponsesMenu: true,
+        icon: 'ico-mapfre_172_consultaGestion'
       },
       atencionsiniestrosagricola:{
         code: "ASA",

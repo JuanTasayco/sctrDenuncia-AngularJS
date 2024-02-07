@@ -88,9 +88,6 @@ define(['angular', 'coreConstants', 'mapfreTecuidamosConstants', 'system', 'loda
         }
 
         function createPreview(file) {
-            // if (file.size / kb > vm.maxKbSize) {
-            //     return void mModalAlert.showWarning('La imagen supera los ' + vm.maxMbSize + 'MB', 'No se pudo generar la carga del archivo');
-            // }
 
             var photo = { name: file.name.replace(/ /g, '-') };
 
@@ -107,7 +104,6 @@ define(['angular', 'coreConstants', 'mapfreTecuidamosConstants', 'system', 'loda
                         vm.file.image.src = image.base64;
                     }
                 )
-                // vm.onUpload({ $event: { photoToUpload: file, photoData: photo } });
             });
         }
 
@@ -119,9 +115,6 @@ define(['angular', 'coreConstants', 'mapfreTecuidamosConstants', 'system', 'loda
             var pdf = { name: file.name.replace(/ /g, '-') };
 
             getBase64(file, $scope).then(function (item) {
-                // if (image.width != vm.imgWidth || image.height != vm.imgHeight) {
-                //     return void mModalAlert.showError( 'Las dimensiones del imagen deben ser: ' + vm.imgWidth + 'px x ' + vm.imgHeight + 'px<br>Actualmente: ' + image.width + 'px x ' + image.height + 'px', 'Error');
-                // }
                 pdf.base64 = item.base64;
 
                 GeneralAdminMapfreTecuidamosFactory.UploadImage(file).then(
@@ -133,7 +126,6 @@ define(['angular', 'coreConstants', 'mapfreTecuidamosConstants', 'system', 'loda
                         vm.file.pdf.name = pdf.name;
                     }
                 )
-                // vm.onUpload({ $event: { photoToUpload: file, photoData: photo } });
             });
         }
 
@@ -169,29 +161,6 @@ define(['angular', 'coreConstants', 'mapfreTecuidamosConstants', 'system', 'loda
                     };
                 });
             };
-        }
-
-        function onLoadPDF(reader, deferred, scope) {
-            return function () {
-                scope.$apply(function () {
-                    var pdf = new FileReader();
-                    pdf.src = reader.result;
-                    pdf.onload = function () {
-                        deferred.resolve({
-                            base64: reader.result,
-                        });
-                    };
-                });
-            };
-        }
-
-        function getBase64(file, onLoadCallback) {
-            return new Promise(function (resolve, reject) {
-                var reader = new FileReader();
-                reader.onload = function () { resolve(reader.result); };
-                reader.onerror = reject;
-                reader.readAsDataURL(file);
-            });
         }
 
         function onError(reader, deferred, scope) {

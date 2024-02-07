@@ -26,6 +26,7 @@ define(['angular', 'system', 'generalConstant', 'mpfCardFilter','actterFactory',
     $scope.getPolizas = getPolizas;
 
     $scope.isRedirectPortal = actterFactory.isRedirectPortal();
+    $scope.isOptModify = actterFactory.isOptModify();
 
 
     (function onLoad() {
@@ -76,6 +77,9 @@ define(['angular', 'system', 'generalConstant', 'mpfCardFilter','actterFactory',
     }
 
     function getPolizas(client){
+
+      if (!$scope.isOptModify) return;
+
       SetPaginatePolizasDefaultValues();
       if(client.polizasSearch) {
         $scope.totalItemsPolizas = client.polizasSearch.length
@@ -133,8 +137,8 @@ define(['angular', 'system', 'generalConstant', 'mpfCardFilter','actterFactory',
 
     $scope.fnRedirectToPortal = function(client) {
       var body = {
-        userName: client.documento.numero,
-        groupTypeId: 5
+        documentType: client.documento.codigo,
+        documentNumber: client.documento.numero,
       };
       actterFactory.getTokenRedirect(body).then(
         function (response){

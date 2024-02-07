@@ -65,35 +65,49 @@
   <div class="col-xs-12 mb-xs-2">
     <p class="fwMedium mb-xs-0">Duración del evento</p>
   </div>
-  <div class="col-md-3">
-    <div class="row">
-      <div class="col-sm-6 mb-xs-2">
-        <mpf-datepicker  ng-change="$ctrl.changeDesdeEvento();" label="{label: 'Desde', required: true}" ng-model="$ctrl.producto.modelo.FechaEventoDesde"
-          format="$ctrl.format" name="nFechaInicialDuracion" ng-required="true" ng-disabled="disabled" readonly="false">
-        </mpf-datepicker>
-        <div class="g-error" ng-show="$ctrl.validControlForm('nFechaInicialDuracion')">
-          {{$ctrl.constantsRrgg.SMS_ERROR.REQUERIDO}}
-        </div>
+  <mpf-ubigeo
+      data="$ctrl.producto.modelo.Ubigeo"
+      ng-model="$ctrl.producto.modelo.Ubigeo"
+      is-Valid="$ctrl.ubigeoValid"
+      setter="$ctrl.producto.setter"
+      all-Fields-Required="true"
+      clean="$ctrl.producto.clean"
+    ></mpf-ubigeo>
+  <div class="row">
+    <div class="col-sm-6 col-md-3 mb-xs-2 mb-md-0">
+      <mpf-input label="{label: 'Dirección del riesgo', required: true}" name="Ubicacion" ng-maxlength="150"
+        mpf-validation="onlyLetterNumCaracteres" ng-model="$ctrl.producto.modelo.Ubicacion" ng-required="true">
+      </mpf-input>
+      <div class="g-error" ng-show="$ctrl.validControlForm('Ubicacion')">
+        {{$ctrl.constantsRrgg.SMS_ERROR.REQUERIDO}}
       </div>
-      <div class="col-sm-6 mb-xs-2">
-        <mpf-datepicker ng-change="$ctrl.validateEventos()" label="{label: 'Hasta',required: true}"  ng-model="$ctrl.producto.modelo.FechaEventoHasta"
-         format="$ctrl.format" name="mFechaFinalDuracion" ng-required="true" ng-disabled="disabled" readonly="false">
-        </mpf-datepicker>
-        <div class="g-error" ng-show="$ctrl.validControlForm('mFechaFinalDuracion')">
-          {{$ctrl.constantsRrgg.SMS_ERROR.REQUERIDO}}
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-3">
+      <div class="row">
+        <div class="col-sm-6 mb-xs-2">
+          <mpf-datepicker  ng-change="$ctrl.changeDesdeEvento();" label="{label: 'Desde', required: true}" ng-model="$ctrl.producto.modelo.FechaEventoDesde"
+            format="$ctrl.format" name="nFechaInicialDuracion" ng-required="true" ng-disabled="disabled" readonly="false">
+          </mpf-datepicker>
+          <div class="g-error" ng-show="$ctrl.validControlForm('nFechaInicialDuracion')">
+            {{$ctrl.constantsRrgg.SMS_ERROR.REQUERIDO}}
+          </div>
+        </div>
+        <div class="col-sm-6 mb-xs-2">
+          <mpf-datepicker ng-change="$ctrl.validateEventos()" label="{label: 'Hasta',required: true}"  ng-model="$ctrl.producto.modelo.FechaEventoHasta"
+           format="$ctrl.format" name="mFechaFinalDuracion" ng-required="true" ng-disabled="disabled" readonly="false">
+          </mpf-datepicker>
+          <div class="g-error" ng-show="$ctrl.validControlForm('mFechaFinalDuracion')">
+            {{$ctrl.constantsRrgg.SMS_ERROR.REQUERIDO}}
+          </div>
         </div>
       </div>
     </div>
   </div>
+  
 
-  <div class="col-sm-6 col-md-3 mb-xs-2 mb-md-0">
-    <mpf-input label="{label: 'Ubicación del riesgo', required: true}" name="Ubicacion" ng-maxlength="150"
-      mpf-validation="onlyLetterNumCaracteres" ng-model="$ctrl.producto.modelo.Ubicacion" ng-required="true">
-    </mpf-input>
-    <div class="g-error" ng-show="$ctrl.validControlForm('Ubicacion')">
-      {{$ctrl.constantsRrgg.SMS_ERROR.REQUERIDO}}
-    </div>
-  </div>
+  
   <div class="col-sm-6 col-md-3 mb-xs-2 mb-md-0">
     <mpf-input label="{label: 'Evento', required: true}" name="evento" mpf-validation="onlyLetterNumCaracteres" ng-maxlength="150"
       ng-model="$ctrl.producto.modelo.ObraRealizar" ng-required="true">

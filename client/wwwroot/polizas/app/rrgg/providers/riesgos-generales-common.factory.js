@@ -478,6 +478,9 @@ define([
             group[index] = _.groupBy(item, "Orden");
           })
           var sumaMaxima = _getData(group[0]).pop()[1]
+          var sumaMinima = response.Data.find(function (data) {
+            return data.Campo === "C0057"
+          }).Dato 
           //cuando es soles calcula por TC
           if (parseInt(paramData.moneda.Codigo) === 1) {
             var result = convertDolaresAsoles(sumaMaxima);
@@ -485,6 +488,7 @@ define([
             jsonData.simboloMoneda = result.simboloMoneda
           }
           var tasaMaxima = parseFloat(sumaMaxima)
+          var tasaMinima = parseFloat(sumaMinima)
           if (parseFloat(paramData.MontoObra) > tasaMaxima) {
             if (paramData.type === "C") {
               mModalConfirm.confirmWarning(riesgosGeneralesFactory.getSmsError(tasaMaxima, jsonData), "MAPFRE:LIMITE DE SUMA ASEGURADA").then(function (response) {
@@ -496,9 +500,24 @@ define([
               deferred.resolve(true);
             }
           }
+
+          if (parseFloat(paramData.MontoObra) < tasaMinima) {
+            if (paramData.type === "C") {
+              mModalConfirm.confirmWarning("La suma asegurada no puede ser menor a US$" + tasaMinima + ". Para montos menores, SOLICITAR VoBo de Suscripción", "MAPFRE:SUMA ASEGURADA MÍNIMA").then(function (response) {
+                deferred.resolve(true);
+              }).catch(function (error) {
+                deferred.resolve(true);
+              });
+            } else if (paramData.type === "R") {
+              deferred.resolve(true);
+            }
+            
+          } 
+          
         })
       return deferred.promise;
     }
+
   }
 
 });

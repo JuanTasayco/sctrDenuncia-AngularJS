@@ -25,10 +25,10 @@ define([
 
                     //Funcion para busca el objeto
                     _self.modalSendEmail = _.find(constants.modalSendEmail, function (item) {
-                        if ((typeof _self.action.action == 'undefined')) {
-                            return item.action == _self.action;
-                        } else {
+                        if ((_self.action && _self.action.action && typeof _self.action.action != 'undefined')) {
                             return item.action == _self.action.action;
+                        } else {                            
+                            return item.action == _self.action;
                         }
                     });
 
@@ -60,6 +60,14 @@ define([
                     function send(vdataSendEmail) {
                         _self.showMessageError = false;
                         mpSpin.start();
+                        
+                        var appCodeSubMenu = $window.localStorage['appCodeSubMenu'];
+                        if (appCodeSubMenu == 'TRANSPORTE'){
+                            modalSendEmailPolizaFactory.sendEmailSaveTraza(vdataSendEmail,false).then(function (response) {
+                            }, function (error) {
+                                console.log('error');
+                            });
+                        }
                        
                         modalSendEmailPolizaFactory.sendEmail('enviarPoliza', vdataSendEmail).then(function (response) {
                             console.log('response',response);							

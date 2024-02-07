@@ -9,9 +9,13 @@
       ['$scope'
       , '$state'
       , 'seguridadFactory'
+      , '$location'
+      , '$window'
       , function($scope
         , $state
-        , seguridadFactory){
+        , seguridadFactory
+        , $location
+        , $window){
           var vm = this;
           vm.$onInit = function() {
 
@@ -31,13 +35,17 @@
                     var el = {
                       label: name
                       , objMXKey: arrEl[i].ordenObjMx
-                      , state: (i == 0) ? 'dashboard' : arrEl[i].nombreLargo.toLowerCase()
+                      , state: (arrEl[i].nombreLargo.toLowerCase() == "general") ? 'dashboard' : arrEl[i].nombreLargo.toLowerCase()
                       , isSubMenu: false
                       , actived: false
                       , show: true
                     }
                     vm.menuSeguridad.push(el)
-                } //end for
+                }
+                if($location.path() == "/dashboard"){
+                  vm.evoSubMenuSeg[0].items[0].nombreCorto == "USUARIOS"? $window.location.href = '#/secciones/usuarios' : '';
+                }
+                
               } // end if
               vm.userDisma = (profile.typeUser == 1) ? true : false
               // if(profile.typeUser == 1){

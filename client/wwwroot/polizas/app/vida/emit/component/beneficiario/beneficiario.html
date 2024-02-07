@@ -37,7 +37,7 @@
 
       <div class="row">
         <div class="col-md-4 mb-xs-2">
-          <mpf-select label="{label: 'Tipo de beneficiario', required: true}" name="nTipoBeneficiario" ng-change="$ctrl.onBeneficiario($ctrl.current.contractor.mTipoBeneficiario)" ng-model="$ctrl.current.contractor.mTipoBeneficiario" text-field="Descripcion" value-field="Codigo" m-data-source="$ctrl.tipoBeneficiarios" m-Empty-Option="{enterData:true}" mpf-validation="required" ng-required="true" ng-disabled="false"></mpf-select>
+          <mpf-select label="{label: 'Tipo de beneficiario', required: true}" name="nTipoBeneficiario" ng-change="$ctrl.onBeneficiario($ctrl.current.contractor.mTipoBeneficiario)" ng-model="$ctrl.current.contractor.mTipoBeneficiario" text-field="Descripcion" value-field="Codigo" m-data-source="$ctrl.tipoBeneficiarios" m-Empty-Option="{enterData:true}" mpf-validation="required" ng-required="true" ng-disabled="editing"></mpf-select>
           <ul class="g-error">
             <li ng-show="$ctrl.formulario.nTipoBeneficiario.$invalid && !$ctrl.formulario.nTipoBeneficiario.$pristine">* Seleccione un tipo de beneficiario</li>
           </ul>
@@ -81,19 +81,19 @@
 
       <div class="row">
         <div class="col-md-4 mb-xs-2">
-          <mpf-input label="{label: 'Nombre', required: true}" name="nNomContratante" ng-model="$ctrl.current.contractor.mNomContratante" ng-Maxlength="65" mpf-validation="onlyLetter" ng-required="true" ng-disabled="disabledFields"></mpf-input>
+          <mpf-input label="{label: 'Nombre', required: true}" name="nNomContratante" ng-model="$ctrl.current.contractor.mNomContratante" ng-Maxlength="65" mpf-validation="onlyLetter" ng-required="true" ng-disabled="disabledFields && disabledForm.mNomContratante"></mpf-input>
           <ul class="g-error">
             <li ng-show="$ctrl.formulario.nNomContratante.$invalid && !$ctrl.formulario.nNomContratante.$pristine">* Ingrese un nombre</li>
           </ul>
         </div>
         <div class="col-md-4 mb-xs-2" ng-if="showNaturalRucPerson">
-          <mpf-input label="{label: 'Apellido Paterno', required: true}" name="nApePatContratante" ng-model="$ctrl.current.contractor.mApePatContratante" ng-Maxlength="28" mpf-validation="onlyLetter" ng-required="true" ng-disabled="disabledFields"></mpf-input>
+          <mpf-input label="{label: 'Apellido Paterno', required: true}" name="nApePatContratante" ng-model="$ctrl.current.contractor.mApePatContratante" ng-Maxlength="28" mpf-validation="onlyLetter" ng-required="true" ng-disabled="disabledFields && disabledForm.mApePatContratante"></mpf-input>
           <ul class="g-error">
             <li ng-show="$ctrl.formulario.nApePatContratante.$invalid && !$ctrl.formulario.nApePatContratante.$pristine">* Ingrese un apellido paterno</li>
           </ul>
         </div>
         <div class="col-md-4 mb-xs-2" ng-if="showNaturalRucPerson">
-          <mpf-input label="{label: 'Apellido Materno', required: true}" name="nApeMatContratante" ng-model="$ctrl.current.contractor.mApeMatContratante" ng-Maxlength="28" mpf-validation="onlyLetter" ng-required="true" ng-Disabled="disabledFields"></mpf-input>
+          <mpf-input label="{label: 'Apellido Materno', required: true}" name="nApeMatContratante" ng-model="$ctrl.current.contractor.mApeMatContratante" ng-Maxlength="28" mpf-validation="onlyLetter" ng-required="true" ng-Disabled="disabledFields && disabledForm.mApeMatContratante"></mpf-input>
           <ul class="g-error">
             <li ng-show="$ctrl.formulario.nApeMatContratante.$invalid && !$ctrl.formulario.nApeMatContratante.$pristine">* Ingrese un apellido materno</li>
           </ul>
@@ -102,16 +102,16 @@
 
       <div class="row" ng-if="showNaturalRucPerson">
         <div class="col-md-4 mb-xs-2">
-          <mpf-select label="{label: 'Estado civil', required: false}" name="nEstadoCivil" ng-model="$ctrl.current.contractor.mEstadoCivil" text-field="NombreEstadoCivil" value-field="CodigoEstadoCivil" m-data-source="$ctrl.estadosCivil" m-Empty-Option="{enterData:true}" ng-required="false" ng-disabled="disabledFields"></mpf-select>
+          <mpf-select label="{label: 'Estado civil', required: false}" name="nEstadoCivil" ng-model="$ctrl.current.contractor.mEstadoCivil" text-field="NombreEstadoCivil" value-field="CodigoEstadoCivil" m-data-source="$ctrl.estadosCivil" m-Empty-Option="{enterData:true}" ng-required="false" ng-disabled="disabledFields && disabledForm.mEstadoCivil"></mpf-select>
         </div>
         <div class="col-md-4 mb-xs-2">
           <span class="g-label mb-md-2 h-myd-mb--5">Sexo<span>*</span></span>
           <div class="row">
             <div class="col-md-6">
-              <m-radio label="{label: 'Masculino'}" name="nSexo" ng-model="$ctrl.current.contractor.mSexo" value="1" ng-required="true" ng-disabled="disabledFields"></m-radio>
+              <m-radio label="{label: 'Masculino'}" name="nSexo" ng-model="$ctrl.current.contractor.mSexo" value="1" ng-required="true" ng-disabled="disabledForm.sexo"></m-radio>
             </div>
             <div class="col-md-6">
-              <m-radio label="{label: 'Femenino'}" name="nSexo" ng-model="$ctrl.current.contractor.mSexo" value="0" ng-required="true" ng-disabled="disabledFields"></m-radio>
+              <m-radio label="{label: 'Femenino'}" name="nSexo" ng-model="$ctrl.current.contractor.mSexo" value="0" ng-required="true" ng-disabled="disabledForm.sexo"></m-radio>
             </div>
             <ul class="col-md-12 g-error">
               <li ng-show="$ctrl.formulario.nSexo.$invalid && !$ctrl.formulario.nSexo.$pristine">* Seleccione un sexo</li>
@@ -123,9 +123,9 @@
             <div class="col-md-8 mb-xs-2">
               <div class="input-group g-date-picker">
                 <label class="g-placeholder animated">Fecha de nacimiento<span>*</span>:</label>
-                <input type="text" class="form-control" ng-change="changeFechaNacimiento($ctrl.current.contractor.mFechaNacimiento)" uib-datepicker-popup="{{$ctrl.formatDate}}" name="nFechaNacimiento" ng-model="$ctrl.current.contractor.mFechaNacimiento" is-open="$ctrl.popupFechaNacimiento.opened" datepicker-options="$ctrl.optionsFechaNacimiento" close-text="Close" alt-input-formats="$ctrl.altInputFormats" ui-mask="{{$ctrl.mask}}" ng-pattern="$ctrl.pattern" model-view-value="true" ng-required="true" ng-disabled="disabledFields" />
+                <input type="text" class="form-control" ng-change="changeFechaNacimiento($ctrl.current.contractor.mFechaNacimiento)" uib-datepicker-popup="{{$ctrl.formatDate}}" name="nFechaNacimiento" ng-model="$ctrl.current.contractor.mFechaNacimiento" is-open="$ctrl.popupFechaNacimiento.opened" datepicker-options="$ctrl.optionsFechaNacimiento" close-text="Close" alt-input-formats="$ctrl.altInputFormats" ui-mask="{{$ctrl.mask}}" ng-pattern="$ctrl.pattern" model-view-value="true" ng-required="true" ng-disabled="disabledForm.dateNac" />
                 <span class="input-group-btn">
-                  <button type="button" class="btn btn-default" ng-click="$ctrl.openFechaNacimiento()" ng-disabled="disabledFields"><i class="glyphicon glyphicon-calendar"></i></button>
+                  <button type="button" class="btn btn-default" ng-click="$ctrl.openFechaNacimiento()" ng-disabled="disabledForm.dateNac"><i class="glyphicon glyphicon-calendar"></i></button>
                 </span>
               </div>
               <ul class="g-error">
@@ -142,18 +142,18 @@
 
       <div class="row">
         <div class="col-md-4 mb-xs-2">
-          <mpf-input label="{label: 'Correo electrónico', required: false}" name="nCorreoElectronico" ng-model="$ctrl.current.contractor.mCorreoElectronico" ng-model-options="{ allowInvalid: true}" mpf-validation="email" ng-maxlength="100" ng-required="false" ng-disabled="disabledFields"></mpf-input>
+          <mpf-input label="{label: 'Correo electrónico', required: false}" name="nCorreoElectronico" ng-model="$ctrl.current.contractor.mCorreoElectronico" ng-model-options="{ allowInvalid: true}" mpf-validation="email" ng-maxlength="100" ng-required="false" ng-disabled="disabledFields && disabledForm.mCorreoElectronico"></mpf-input>
         </div>
         <div class="col-md-4 mb-xs-2" ng-if="showNaturalRucPerson">
-          <mpf-select label="{label: 'Profesión', required: false}" name="nProfesion" ng-model="$ctrl.current.contractor.mProfesion" m-data-source="$ctrl.ocupaciones" text-field="Descripcion" value-field="Codigo" m-Empty-Option="{enterData:true}" ng-required="false" ng-disabled="disabledFields"></mpf-select>
+          <mpf-select label="{label: 'Profesión', required: false}" name="nProfesion" ng-model="$ctrl.current.contractor.mProfesion" m-data-source="$ctrl.ocupaciones" text-field="Descripcion" value-field="Codigo" m-Empty-Option="{enterData:true}" ng-required="false" ng-disabled="disabledFields && disabledForm.mProfesion"></mpf-select>
         </div>
         <div class="col-md-4 mb-xs-2" ng-if="showNaturalRucPerson">
-          <mpf-select label="{label: 'Ocupación', required: false}" name="nOcupacion" ng-model="$ctrl.current.contractor.mOcupacion" m-data-source="$ctrl.ocupaciones" text-field="Descripcion" value-field="Codigo" m-Empty-Option="{enterData:true}" ng-required="false" ng-disabled="disabledFields"></mpf-select>
+          <mpf-select label="{label: 'Ocupación', required: false}" name="nOcupacion" ng-model="$ctrl.current.contractor.mOcupacion" m-data-source="$ctrl.ocupaciones" text-field="Descripcion" value-field="Codigo" m-Empty-Option="{enterData:true}" ng-required="false" ng-disabled="disabledFields && disabledForm.mOcupacion"></mpf-select>
         </div>
       </div>
       <div class="row" ng-if="$ctrl.current.contractor.mTipoDocumento.TipoDocumento == 'RUC'">
         <div class="col-md-4 mb-xs-2">
-          <mpf-select label="{label: 'Actividad económica', required: false}" name="nActividadEconomica" ng-model="$ctrl.current.contractor.mActividadEconomica" m-data-source="$ctrl.actividadesEconomicas" text-field="Descripcion" value-field="Codigo" m-Empty-Option="{enterData:true}" ng-required="false" ng-disabled="disabledFields"></mpf-select>
+          <mpf-select label="{label: 'Actividad económica', required: false}" name="nActividadEconomica" ng-model="$ctrl.current.contractor.mActividadEconomica" m-data-source="$ctrl.actividadesEconomicas" text-field="Descripcion" value-field="Codigo" m-Empty-Option="{enterData:true}" ng-required="false" ng-disabled="disabledFields && disabledForm.mActividadEconomica"></mpf-select>
           <ul class="g-error">
             <li ng-show="$ctrl.formulario.nActividadEconomica.$invalid && !$ctrl.formulario.nActividadEconomica.$pristine">* Selecciona una actividad ecnómica</li>
           </ul>
@@ -167,19 +167,19 @@
       </div>
       <div class="row">
         <div class="col-md-4 mb-xs-2">
-          <mpf-input label="{label: 'Teléfono fijo', required: false}" name="nTelefonoFijo" ng-model="$ctrl.current.contractor.mTelefonoFijo" ng-maxlength="10" mpf-validation="onlyNumber" ng-required="false" ng-disabled="disabledFields"></mpf-input>
+          <mpf-input label="{label: 'Teléfono fijo', required: false}" name="nTelefonoFijo" ng-model="$ctrl.current.contractor.mTelefonoFijo" ng-maxlength="10" mpf-validation="onlyNumber" ng-required="false" ng-disabled="disabledFields && disabledForm.mTelefonoFijo"></mpf-input>
           <ul class="g-error">
             <li ng-show="$ctrl.formulario.nTelefonoFijo.$invalid && !$ctrl.formulario.nTelefonoFijo.$pristine">* Ingrese un teléfono fijo</li>
           </ul>
         </div>
         <div class="col-md-4 mb-xs-2">
-          <mpf-input label="{label: 'Teléfono oficina', required: false}" name="nTelefonoOficina" ng-model="$ctrl.current.contractor.mTelefonoOficina" ng-maxlength="10" mpf-validation="onlyNumber" ng-required="false" ng-disabled="disabledFields"></mpf-input>
+          <mpf-input label="{label: 'Teléfono oficina', required: false}" name="nTelefonoOficina" ng-model="$ctrl.current.contractor.mTelefonoOficina" ng-maxlength="10" mpf-validation="onlyNumber" ng-required="false" ng-disabled="disabledFields && $ctrl.current.disabledForm.mTelefonoOficina"></mpf-input>
           <ul class="g-error">
             <li ng-show="$ctrl.formulario.nTelefonoOficina.$invalid && !$ctrl.formulario.nTelefonoOficina.$pristine">* Ingrese un teléfono de oficina</li>
           </ul>
         </div>
         <div class="col-md-4 mb-xs-2">
-          <mpf-input label="{label: 'Teléfono móvil', required: false}" name="nTelefonoCelular" ng-model="$ctrl.current.contractor.mTelefonoCelular" ng-maxlength="10" mpf-validation="onlyNumber" ng-required="false" ng-disabled="disabledFields"></mpf-input>
+          <mpf-input label="{label: 'Teléfono móvil', required: false}" name="nTelefonoCelular" ng-model="$ctrl.current.contractor.mTelefonoCelular" ng-maxlength="10" mpf-validation="onlyNumber" ng-required="false" ng-disabled="disabledFields && disabledForm.mTelefonoCelular"></mpf-input>
           <ul class="g-error">
             <li ng-show="$ctrl.formulario.nTelefonoCelular.$invalid && !$ctrl.formulario.nTelefonoCelular.$pristine">* Ingrese un teléfono celular</li>
           </ul>
@@ -198,22 +198,23 @@
       setter-Ubigeo="$ctrl.setterUbigeo"
       clean-Ubigeo="$ctrl.cleanUbigeo"
       disabled-fields-beneficiary="disabledFields"
-      block-Departament="disabledFields"
-      block-Provincia="disabledFields"
-      block-Distrito="disabledFields"
+      disabled-form="disabledForm"
+      block-Departament="disabledForm.mDepartament"
+      block-Provincia="disabledForm.mProvincia"
+      block-Distrito="disabledForm.mDistrito"
       show-title="false"
       all-fields-required="false">
     </mpf-contractor-address>
 
       <div class="row pt-xs-2" ng-if="$ctrl.current.contractor.mTipoBeneficiario.Codigo == '6'">
         <div class="col-md-4 mb-xs-2 no-mb-md">
-          <mpf-select label="{label: 'País natal', required: false}" name="nPaisNatal" ng-model="$ctrl.current.contractor.mPaisNatal" text-field="Descripcion" value-field="Codigo" m-data-source="$ctrl.paises" m-Empty-Option="{enterData:true}" ng-required="false" ng-disabled="disabledFields"></mpf-select>
+          <mpf-select label="{label: 'País natal', required: false}" name="nPaisNatal" ng-model="$ctrl.current.contractor.mPaisNatal" text-field="Descripcion" value-field="Codigo" m-data-source="$ctrl.paises" m-Empty-Option="{enterData:true}" ng-required="false" ng-disabled="disabledFields && $ctrl.current.contractor.mPaisNatal"></mpf-select>
           <ul class="g-error">
             <li ng-show="$ctrl.formulario.nPaisNatal.$invalid && !$ctrl.formulario.nPaisNatal.$pristine">* Seleccione un país natal</li>
           </ul>
         </div>
         <div class="col-md-4">
-          <mpf-select label="{label: 'País residencia', required: false}" name="nPaisResidencia" ng-model="$ctrl.current.contractor.mPaisResidencia" text-field="Descripcion" value-field="Codigo" m-data-source="$ctrl.paises" m-Empty-Option="{enterData:true}" ng-required="false" ng-disabled="disabledFields"></mpf-select>
+          <mpf-select label="{label: 'País residencia', required: false}" name="nPaisResidencia" ng-model="$ctrl.current.contractor.mPaisResidencia" text-field="Descripcion" value-field="Codigo" m-data-source="$ctrl.paises" m-Empty-Option="{enterData:true}" ng-required="false" ng-disabled="disabledFields && $ctrl.current.contractor.mPaisResidencia"></mpf-select>
           <ul class="g-error">
             <li ng-show="$ctrl.formulario.nPaisResidencia.$invalid && !$ctrl.formulario.nPaisResidencia.$pristine">* Seleccione un país residencia</li>
           </ul>

@@ -17,11 +17,8 @@ define(['angular', 'coreConstants', 'system', 'lodash'], function (ng, coreConst
         vm.productId = null;
         
         function onInit() {
-            console.log("entro contetn")
             vm.servicesSelected = MassesAndResponsesFactory.getServiceSelected();
             vm.subServicesSelected = MassesAndResponsesFactory.getSubServiceSelected();
-            console.log("entro contetn", vm.servicesSelected)
-            console.log("entro contetn", vm.subServicesSelected)
             AdminRamoFactory.subsChangeRamo(changeRamo);
             MassesAndResponsesFactory.subsChangeSubService(changeSubService);
 
@@ -98,9 +95,7 @@ define(['angular', 'coreConstants', 'system', 'lodash'], function (ng, coreConst
                     $timeout(function () {
 
                         _.forEach(vm.elementsImage, function abc(item) {
-                            console.log(item)
                             var fileInput = document.getElementById('custom-file-input-'+item);
-                            console.log(fileInput)
 
                             fileInput.addEventListener('change', function (x) {
                                 var file = fileInput.files[0]
@@ -145,11 +140,9 @@ define(['angular', 'coreConstants', 'system', 'lodash'], function (ng, coreConst
                 "avisoDetalle" : vm.form.detailNotice
             }
 
-            console.log(body)
 
             MassesAndResponsesFactory.updateProduct(vm.productId,body).then(
                 function( res){
-                    console.log(res)
                     uibModalInstance.close();
                     MassesAndResponsesFactory.emitComponentsReady();
                 }
@@ -158,7 +151,6 @@ define(['angular', 'coreConstants', 'system', 'lodash'], function (ng, coreConst
 
         function onDestroy() {
             MassesAndResponsesFactory.unsubscribeChangeSubService();
-            watchFileModel();
         }
 
         function changeRamo() {
@@ -166,7 +158,6 @@ define(['angular', 'coreConstants', 'system', 'lodash'], function (ng, coreConst
         }
 
         function deleteFile(index) {
-            console.log(vm.arrayImages[index]);
             vm.arrayImages[index].rutaImagen = null;
             vm.arrayImages[index].src = null;
         }

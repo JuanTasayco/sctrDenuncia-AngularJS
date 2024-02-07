@@ -187,7 +187,7 @@
       $scope.mainStep.isAdmin = oimPrincipal.isAdmin();
 
       $scope.disabledManager = _disabledManager();
-      $scope.showAgent = _showAgent();
+      $scope.showAgent = oimPrincipal.validateAgent('evoSubMenuCWVI','COTIZACION'); //_showAgent();
 
 
       $scope.userRoot = oimPrincipal.isAdmin();

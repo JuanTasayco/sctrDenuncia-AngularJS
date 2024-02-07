@@ -125,6 +125,8 @@ define(['angular', 'coreConstants', 'system', 'lodash'], function (ng, coreConst
                 return entityMap[s];
             });
         }
+
+ 
     } // end controller
 
     return ng.module(coreConstants.ngMainModule)

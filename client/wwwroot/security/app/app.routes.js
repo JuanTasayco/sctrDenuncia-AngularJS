@@ -160,7 +160,7 @@ define(['constants'], function (constants) {
       params: {
         step: null
       },
-      description: '',
+      description: 'Usuarios',
       breads: ['home'],
       urls: [{
         url: '/secciones/crearUsuarioCliEmp',
@@ -226,7 +226,7 @@ define(['constants'], function (constants) {
       name: 'crearUsuarioCliEmpExito',
       // code: '',
       appCode: '',
-      description: '',
+      description: 'Usuarios',
       url: '/secciones/crearUsuarioCliEmpExito',
       parent: 'root',
       views: {
@@ -251,7 +251,7 @@ define(['constants'], function (constants) {
       params: {
         step: null
       },
-      description: '',
+      description: 'Usuarios',
       breads: ['home'],
       urls: [{
         url: '/secciones/crearUsuarioEjecMapfre',
@@ -316,7 +316,7 @@ define(['constants'], function (constants) {
       name: 'crearUsuarioEjecMapfreExito',
       // code: '',
       appCode: '',
-      description: '',
+      description: 'Usuarios',
       url: '/secciones/crearUsuarioEjecMapfreExito/:id',
       parent: 'root',
       views: {
@@ -341,7 +341,7 @@ define(['constants'], function (constants) {
       params: {
         step: null
       },
-      description: '',
+      description: 'Usuarios',
       breads: ['home'],
       urls: [
         {
@@ -411,7 +411,7 @@ define(['constants'], function (constants) {
       name: 'crearUsuarioProveedorExito',
       // code: '',
       appCode: '',
-      description: '',
+      description: 'Usuarios',
       url: '/secciones/crearUsuarioProveedorExito',
       parent: 'root',
       views: {
@@ -436,7 +436,7 @@ define(['constants'], function (constants) {
       params: {
         step: null
       },
-      description: '',
+      description: 'Usuarios',
       breads: ['home'],
       urls: [{
         url: '/secciones/crearUsuarioCorredor',
@@ -504,7 +504,7 @@ define(['constants'], function (constants) {
       name: 'crearUsuarioCorredorExito',
       // code: '',
       appCode: '',
-      description: '',
+      description: 'Usuarios',
       url: '/secciones/crearUsuarioCorredorExito',
       parent: 'root',
       views: {
@@ -528,7 +528,7 @@ define(['constants'], function (constants) {
       params: {
         step: null
       },
-      description: '',
+      description: 'Usuarios',
       breads: ['home'],
       urls: [{
         url: '/secciones/crearUsuarioAdminExt',
@@ -590,7 +590,7 @@ define(['constants'], function (constants) {
       name: 'crearUsuarioAdminExtExito',
       // code: '',
       appCode: '',
-      description: '',
+      description: 'Usuarios',
       url: '/secciones/crearUsuarioAdminExtExito',
       parent: 'root',
       views: {
@@ -613,7 +613,7 @@ define(['constants'], function (constants) {
       activeMenu: 'usuarios',
       // code: '',
       appCode: '',
-      description: '',
+      description: 'Usuarios',
       url: '/secciones/detalleCliEmp/:id',
       parent: 'root',
       views: {
@@ -636,7 +636,7 @@ define(['constants'], function (constants) {
       activeMenu: 'usuarios',
       // code: '',
       appCode: '',
-      description: '',
+      description: 'Usuarios',
       url: '/secciones/detalleEjecMapfre/:id',
       parent: 'root',
       views: {
@@ -682,7 +682,7 @@ define(['constants'], function (constants) {
       activeMenu: 'usuarios',
       // code: '',
       appCode: '',
-      description: '',
+      description: 'Usuarios',
       url: '/secciones/detalleCorredor/:id',
       parent: 'root',
       views: {
@@ -705,7 +705,7 @@ define(['constants'], function (constants) {
       activeMenu: 'usuarios',
       // code: '',
       appCode: '',
-      description: '',
+      description: 'Usuarios',
       url: '/secciones/detalleUsuario/:id',
       parent: 'root',
       views: {
@@ -728,7 +728,7 @@ define(['constants'], function (constants) {
       activeMenu: 'usuarios',
       // code: '',
       appCode: '',
-      description: '',
+      description: 'Usuarios',
       url: '/creacionMasiva',
       parent: 'root',
       views: {
@@ -751,7 +751,7 @@ define(['constants'], function (constants) {
       activeMenu: 'usuarios',
       // code: '',
       appCode: '',
-      description: '',
+      description: 'Usuarios',
       url: '/deshabilitacionMasiva',
       parent: 'root',
       views: {
@@ -774,7 +774,7 @@ define(['constants'], function (constants) {
       activeMenu: 'usuarios',
       // code: '',
       appCode: '',
-      description: '',
+      description: 'Usuarios',
       url: '/modificacionMasiva',
       parent: 'root',
       views: {
@@ -796,7 +796,7 @@ define(['constants'], function (constants) {
       name: 'clonacion',
       activeMenu: 'usuarios',
       appCode: '',
-      description: '',
+      description: 'Usuarios',
       url: '/clonacion',
       parent: 'root',
       views: {
@@ -818,7 +818,7 @@ define(['constants'], function (constants) {
       name: 'habilitacion',
       activeMenu: 'usuarios',
       appCode: '',
-      description: '',
+      description: 'Usuarios',
       url: '/habilitacion',
       parent: 'root',
       views: {
@@ -864,7 +864,7 @@ define(['constants'], function (constants) {
       activeMenu: 'roles',
       // code: '',
       appCode: '',
-      description: '',
+      description: 'Roles',
       url: '/detalleRol/:id',
       parent: 'root',
       views: {
@@ -886,6 +886,7 @@ define(['constants'], function (constants) {
       name: 'crearRol',
       activeMenu: 'roles',
       appCode: '',
+      description: 'Roles',
       params: {
         step: null
       },
@@ -973,11 +974,11 @@ define(['constants'], function (constants) {
     {
       name: 'crearAplicaciones',
       activeMenu: 'aplicaciones',
+      description: 'Aplicaciones',
       appCode: '',
       params: {
         step: null
       },
-      description: 'Aplicaciones',
       breads: ['home'],
       urls: [
         {
@@ -1044,7 +1045,7 @@ define(['constants'], function (constants) {
       activeMenu: 'aplicaciones',
       // code: '',
       appCode: '',
-      description: '',
+      description: 'Aplicaciones',
       url: '/detalleAplicaciones/:id',
       parent: 'root',
       views: {

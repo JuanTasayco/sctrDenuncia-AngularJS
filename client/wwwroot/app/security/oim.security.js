@@ -20,8 +20,10 @@
 
         function clean() {
           var vProfile = store[constants.STORAGE_KEYS.profile];
+          var vClientIp = store[constants.STORAGE_KEYS.clientIp];
           store.clear();
           store[constants.STORAGE_KEYS.profile] = vProfile;
+          store[constants.STORAGE_KEYS.clientIp] = vClientIp;
         }
 
         function getAppName() {
@@ -354,7 +356,8 @@
     .factory('oimPrincipal', [
       'accessSupplier',
       '$state',
-      function(accessSupplier, $state) {
+      '$window',
+      function(accessSupplier, $state, $window) {
         var data = accessSupplier.profile();
 
         function init() {
@@ -422,7 +425,21 @@
             return null;
           },
           isUserType: isUserType,
-          isCompanyClient: isCompanyClient
+          isCompanyClient: isCompanyClient,
+          validateAgent: function(menuEmisa, aplications){
+            var storage = $window.localStorage;
+            var subMenu = angular.fromJson(storage[menuEmisa]) || [];
+            if(subMenu){
+              var menus = subMenu.filter(function(x) { return x.nombreCabecera === aplications })[0];
+              if(menus){ 
+                return _.find(menus.items, function (field) {
+                  return field.nombreCorto === 'COTIZACIONMULTIAGENTE';
+                  }) ? true : false;
+              }
+            }           
+            
+            return false;
+          }
         };
       }
     ])
@@ -581,7 +598,7 @@
 
   angular
     .module('oim.security.authentication',
-      ['satellizer', 'oim.google.analytics', 'origin.system', 'oim.theme.service', 'oim.proxyService.mydream', 'ngCookies', 'storage.manager'])
+      ['satellizer', 'oim.google.analytics', 'origin.system', 'oim.theme.service', 'oim.proxyService.mydream', 'ngCookies', 'storage.manager', 'crypto.manager'])
     .config([
       '$authProvider',
       function($authProvider) {
