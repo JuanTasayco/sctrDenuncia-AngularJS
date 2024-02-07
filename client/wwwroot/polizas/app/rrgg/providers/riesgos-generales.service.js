@@ -32,7 +32,10 @@ define([
       gestionClonacion: gestionClonacion,
       filterCotizacion: filterCotizacion,
       agente:agente,
-      validacionFecha:validacionFecha
+      validacionFecha:validacionFecha,
+      getRestriccionUbigeo: getRestriccionUbigeo,
+      getProxyProductosByUser: getProxyProductosByUser
+      
     };
 
     return service;
@@ -221,6 +224,14 @@ define([
         });
       mpSpin.end();
       return deferred.promise;
+    }
+
+    function getRestriccionUbigeo(departamento, provincia, distrito) { 
+      return proxyParametro.GetRestriccionUbicacion(departamento, provincia, distrito) 
+    }
+
+    function getProxyProductosByUser() {
+      return proxyParametro.GetListProductosByUser(true);
     }
   }
 

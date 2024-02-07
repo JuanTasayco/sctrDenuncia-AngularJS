@@ -31,9 +31,12 @@
           , seguridadFactory) {
 
           var vm = this;
-
+          $scope.objetSeguridad = seguridadFactory.onlyView();
           vm.$onInit = function () {
-
+            $scope.onlyView = true;
+            $timeout(function () {
+              $scope.onlyView = $scope.objetSeguridad.soloLectura;
+            }, 10);
             vm.showFullAccess = vm.fullAccess;
             $scope.frmData = [];
             $scope.frmModal = {};
@@ -282,46 +285,49 @@
             }
           }
 
-          $scope.fnDeleteProfile = function (item, index) {          
-            var userSubType = JSON.parse(window.localStorage.getItem('evoProfile')).userSubType;
-            var msgTitle =  'Recuerde que al eliminar el perfil seleccionado, afecta a todos'+
-                            ' los usuarios regulares que tengan dicho perfil'
-            var msgRegular = '¿Está seguro de que desea eliminar este acceso?';
+          $scope.fnDeleteProfile = function (item, index) {    
+            if(!$scope.onlyView){
+              var userSubType = JSON.parse(window.localStorage.getItem('evoProfile')).userSubType;
+              var msgTitle =  'Recuerde que al eliminar el perfil seleccionado, afecta a todos'+
+                              ' los usuarios regulares que tengan dicho perfil'
+              var msgRegular = '¿Está seguro de que desea eliminar este acceso?';
+              
+              mModalConfirm.confirmWarning(msgRegular, vm.typeGroup != '1' ? msgTitle : '')
+                .then(function(data){
+                  if(data){
+                    if (item.codEstado == 2)
+                      return false;
+                    if (item.numPerfil == null)
+                      return false;
+  
+                    var params = {
+                      numUser: vm.numUser,
+                      numApplication: item.numAplicacion,
+                      numProfile: item.numPerfil
+                    };
+                    seguridadFactory.deleteAccess(params)
+                      .then(function (response) {
+                        if (response.operationCode == 200) {
+                          $scope.frmData.splice(index, 1);
+                          if (vm.typeUser == 2) {
+                            getAccessByUserAdmin();
+                          }
+                          else {
+                            getAccessByUserRegular();
+                          }
+  
+                          mModalAlert.showSuccess('Se ha eliminado el perfil.', '');
+                        }
+                        else mModalAlert.showWarning(response.message, '');
+                      })
+                      .catch(function (error) {
+                        mModalAlert.showError(messagesSeguridad.UNEXPECTED_ERROR, '');
+                      });
+                  }
+                })
+                .catch(function(err){})
+            }      
             
-            mModalConfirm.confirmWarning(msgRegular, vm.typeGroup != '1' ? msgTitle : '')
-              .then(function(data){
-                if(data){
-                  if (item.codEstado == 2)
-                    return false;
-                  if (item.numPerfil == null)
-                    return false;
-
-                  var params = {
-                    numUser: vm.numUser,
-                    numApplication: item.numAplicacion,
-                    numProfile: item.numPerfil
-                  };
-                  seguridadFactory.deleteAccess(params)
-                    .then(function (response) {
-                      if (response.operationCode == 200) {
-                        $scope.frmData.splice(index, 1);
-                        if (vm.typeUser == 2) {
-                          getAccessByUserAdmin();
-                        }
-                        else {
-                          getAccessByUserRegular();
-                        }
-
-                        mModalAlert.showSuccess('Se ha eliminado el perfil.', '');
-                      }
-                      else mModalAlert.showWarning(response.message, '');
-                    })
-                    .catch(function (error) {
-                      mModalAlert.showError(messagesSeguridad.UNEXPECTED_ERROR, '');
-                    });
-                }
-              })
-              .catch(function(err){})
           }
 
           $scope.fnDeleteProfileAssociated = function (numAplicacion, numPerfil) {
@@ -439,7 +445,7 @@
           // $scope.fnCheckBoxPrincipal = function (codEstado, numAplicacion, elm) {
           $scope.fnCheckBoxPrincipal = _fnCheckBoxPrincipal;
           function _fnCheckBoxPrincipal(codEstado, numAplicacion, elm) {
-            if (codEstado != null) {
+            if (codEstado != null && !$scope.onlyView) {
               togglePrincipal(numAplicacion, elm);
               // if (elm) {
               //   fnActivoPrincipal(numAplicacion, $event);

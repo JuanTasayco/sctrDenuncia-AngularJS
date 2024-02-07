@@ -20,8 +20,10 @@
 
         function clean() {
           var vProfile = store[constants.STORAGE_KEYS.profile];
+          var vClientIp = store[constants.STORAGE_KEYS.clientIp];
           store.clear();
           store[constants.STORAGE_KEYS.profile] = vProfile;
+          store[constants.STORAGE_KEYS.clientIp] = vClientIp;
         }
 
         function getAppName() {

@@ -483,7 +483,7 @@ define(['angular', 'constants', 'helper', 'lodash', 'mpfPersonConstants', 'salud
             ApellidoMaterno:  $scope.data.apellidoMaternoAsegurado.toUpperCase(),
             Nombre:           $scope.data.nombreAsegurado.toUpperCase(),
             TipoAsegurado:    {codigo: $scope.data.tipoPersona.Codigo, Descripcion: $scope.data.tipoPersona.Descripcion  },
-            cobertura:        $scope.data.tipoPersona.Codigo == 'TI' ? true : $scope.data.cobertura,
+            cobertura:        $scope.data.cobertura,
             EstadoCivil: {
               Codigo: $scope.data.EstadoCivil ? $scope.data.EstadoCivil.CodigoEstadoCivilTron : null,
               Descripcion: $scope.data.EstadoCivil ? $scope.data.EstadoCivil.descripcion : null
@@ -511,7 +511,7 @@ define(['angular', 'constants', 'helper', 'lodash', 'mpfPersonConstants', 'salud
           ApellidoMaterno:  $scope.data.apellidoMaternoAsegurado.toUpperCase(),
           Nombre:           $scope.data.nombreAsegurado.toUpperCase(),
           TipoAsegurado:    {codigo: $scope.data.tipoPersona.Codigo, Descripcion: $scope.data.tipoPersona.Descripcion  },
-          cobertura:        $scope.data.tipoPersona.Codigo == 'TI' ? true : $scope.data.cobertura,
+          cobertura:        $scope.data.cobertura,
           EstadoCivil: {
             Codigo: $scope.data.EstadoCivil ? $scope.data.EstadoCivil.CodigoEstadoCivilTron : null,
             Descripcion: $scope.data.EstadoCivil ? $scope.data.EstadoCivil.descripcion : null
@@ -846,7 +846,7 @@ define(['angular', 'constants', 'helper', 'lodash', 'mpfPersonConstants', 'salud
           var monthAge = 12 + monthNow -monthDob;
         }
 
-        if (dateNow <= dateDob){
+        if (dateNow < dateDob){
           monthAge--;
           if (monthAge < 0) {
             monthAge = 11;

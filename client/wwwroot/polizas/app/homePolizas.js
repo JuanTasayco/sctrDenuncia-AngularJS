@@ -12,7 +12,7 @@
       'mModalAlert',
       '$state',
       function($scope, authorizedResource, oimClaims, proxyMenu, proxyReferido, mModalAlert, $state) {
-
+		  console.log('2023-11-08 13:00')
             var onlyMenusMap = [
                 { code: 'AUTOMOVILES', cssIcon: 'ico-mapfre_104_auto_front', iconMYD: 'ico-mapfre-377-autos',uiSref: 'homePolizasAutos', description: 'Autos' },
                 { code: 'HOGAR', cssIcon: 'ico-mapfre_112_hogar', iconMYD: 'ico-mapfre-378-hogar', uiSref: 'hogarHome', /*href: '/EMISA/default.aspx?query=' + oimClaims.tokenMapfre*/ description: 'Hogar' },

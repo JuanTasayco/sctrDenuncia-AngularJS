@@ -254,11 +254,7 @@ define([
       }
 
       function getClientIp() {
-        var $http = $injector.get('$http');
-        $http({ method: 'GET', url: 'https://jsonip.com', skipAuthorization: true })
-          .then(function(response) {
-            $window.localStorage['clientIp'] = response.data.ip;
-          });
+        $window.localStorage['clientIp'] = '0.0.0.0';
       }
 
       return {
@@ -276,8 +272,12 @@ define([
               })
           }
 
+          var appCodeSubMenu = $window.localStorage['appCodeSubMenu'];
           var codApli = $window.localStorage['CodigoAplicacion'];
           var clientIp = $window.localStorage['clientIp'];
+          if (appCodeSubMenu == 'TRANSPORTE'){
+            codApli = appCodeSubMenu;
+          }
           config.headers = _.assign(config.headers, {cod_apli: codApli, ip_origen: clientIp});
 
           return config;
