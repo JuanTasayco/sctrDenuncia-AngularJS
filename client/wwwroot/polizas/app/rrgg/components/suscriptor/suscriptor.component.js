@@ -1,8 +1,8 @@
 define([
   'angular', 'constantsRiesgosGenerales', 'rrggModalUploadDocument'
 ], function (ng, constantsRiesgosGenerales) {
-  suscriptorController.$inject = ['$scope', 'mModalAlert', 'riesgosGeneralesService', 'riesgosGeneralesFactory', '$uibModal'];
-  function suscriptorController($scope, mModalAlert, riesgosGeneralesService, riesgosGeneralesFactory, $uibModal) {
+  suscriptorController.$inject = ['$scope', 'mModalAlert', 'riesgosGeneralesService', 'riesgosGeneralesFactory', '$uibModal','oimAbstractFactory'];
+  function suscriptorController($scope, mModalAlert, riesgosGeneralesService, riesgosGeneralesFactory, $uibModal, oimAbstractFactory) {
     var vm = this;
     vm.addCorreo = AddCorreo
     vm.deleteCorreo = DeleteCorreo
@@ -10,6 +10,7 @@ define([
     vm.OpenModal = OpenModal
     vm.cambioTipoDocumento = CambioTipoDocumento
     vm.getAgente = getAgente
+    vm.isMydream = oimAbstractFactory.isMyDream();
     vm.$onInit = function () {
       vm.constantsRrgg = constantsRiesgosGenerales;
       riesgosGeneralesFactory.setCotizacionProducto(vm.cotizacion);
