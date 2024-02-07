@@ -109,7 +109,7 @@
         shortName: "PLANIFICADOR FINANCIERO",
         packageName: "wpPackage",
         path: "/webproc/package",
-        location: "https://dbait9jrzrsue.cloudfront.net/login?token=",
+        location: "https://peru.planificadorfinanciero.mapfre.com/login?token=",
         rootApi: "",
         menuName: "Planificador Financiero",
         isComponsesMenu: true,
