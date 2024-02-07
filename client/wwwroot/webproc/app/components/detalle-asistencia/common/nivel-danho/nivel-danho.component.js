@@ -35,9 +35,9 @@ define(['angular'], function(ng) {
       if($scope.frmNivelDanho.$invalid){
         $scope.frmNivelDanho.markAsPristine();
         return void 0;
-      }        
+      }
       vm.detalle = vm.frm.pregunta1 ? vm.frm : undefined;
-      vm.detalle.descripcionDanios = vm.descripcionDanios;
+      vm.detalle && (vm.detalle.descripcionDanios = vm.descripcionDanios);
     }
 
 
@@ -52,7 +52,7 @@ define(['angular'], function(ng) {
 
     function nexQuestion() {
         if(vm.frm.pregunta2){
-            selectDanio(vm.frm.pregunta2 == 'S' ? 2:1) 
+            selectDanio(vm.frm.pregunta2 == 'S' ? 2:1)
         }
         this.isRequired = true;
     }

@@ -433,19 +433,39 @@ define(['angular', 'lodash', 'AsistenciaActions', 'helper', 'wpConstant', 'const
         var frmTerceroConvenioinvalid = false;
         if(!_checkFotosDoc() || !_checkFotosSiniestro()){
           return void mModalAlert
-          .showWarning('Los campos de Fotos del asegurado son obligatorios', 'Falta completar')
-          .then(function msAnularPr() {
-            vm.validateForm.validate = false;
-          });
-        }
-        if (vm.frmGeneral.frmLugarOcurrencia.$invalid || frmTerceroConvenioinvalid){
-          var frminvalid = vm.frmGeneral.frmLugarOcurrencia.$invalid ? 'Lugar de ocurrencia' : 'Terceros Convenio';
-          return void mModalAlert
-            .showWarning('Los campos de ' + frminvalid + ' son obligatorios', 'Falta completar')
+            .showWarning('Los campos de Fotos del asegurado son obligatorios', 'Falta completar')
             .then(function msAnularPr() {
               vm.validateForm.validate = false;
             });
         }
+
+        frmTerceroConvenioinvalid = vm.frmGeneral.frmTerceroConvenio.$invalid;
+
+        if (vm.frmGeneral.frmLugarOcurrencia.$invalid) {
+          return void mModalAlert
+            .showWarning('Los campos de Lugar de ocurrencia son obligatorios', 'Falta completar')
+            .then(function msAnularPr() {
+              vm.validateForm.validate = false;
+            });
+        }
+
+        if (frmTerceroConvenioinvalid) {
+          var mensajes = []
+          vm.frmGeneral.frmTerceroConvenio['$ctrl.frmVehiculoTercero'] && mensajes.push('Conductor tercero');
+          vm.frmGeneral.frmTerceroConvenio['$ctrl.frmAtropellado'] && mensajes.push('Atropellado');
+          vm.frmGeneral.frmTerceroConvenio['$ctrl.frmBien'] && mensajes.push('Bien afectado');
+
+          var text =
+            mensajes.length
+              ? 'La sección ' + mensajes[0] + ' aún esta en edición'
+              : 'Debe completar al menos una responsabilidad'
+          return void mModalAlert
+            .showWarning(text, 'Falta completar')
+            .then(function msAnularPr() {
+              vm.validateForm.validate = false;
+            });
+        }
+
         if (!_isPendienteOrGenerado()) {
           return void mModalAlert.showWarning(
             'El estado de la asistencia debe estar en PENDIENTE o GENERADO.',
