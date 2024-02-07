@@ -9,7 +9,6 @@ define(['angular', 'coreConstants', 'lodash', 'endpointsConstants'], function (
   GeneralAdminClinicaDigitalFactory.$inject = ['httpData'];
   function GeneralAdminClinicaDigitalFactory(httpData) {
     var domain = endpointsConstants.default;
-    var testUrl = 'https://api.pre.mapfreperu.com/internal/comun/wsrmantenedoradm/';
 
     return {
       GetOptions: GetOptions,
@@ -44,7 +43,7 @@ define(['angular', 'coreConstants', 'lodash', 'endpointsConstants'], function (
     function GetContent(codigoApp, showSpin) {
       return httpData
         .get(
-          testUrl + 'termCondition/' + codigoApp,
+          domain + 'api/v1/cms/areaPrivada/termCondition/' + codigoApp,
           null,
           undefined,
           showSpin
@@ -58,7 +57,7 @@ define(['angular', 'coreConstants', 'lodash', 'endpointsConstants'], function (
     function UpdateContent(codigoApp, body, showSpin) {
       return httpData
         .put(
-          testUrl + 'termCondition/' + codigoApp,
+          domain + 'api/v1/cms/areaPrivada/termCondition/' + codigoApp,
           body,
           null,
           showSpin
