@@ -850,7 +850,14 @@ define([
     function populateTable(group, objItem){
       for (var item of Object.entries(group[0])) { 
         if(item[1].length < objItem.count) {
-          item[1].push(objItem.item)
+          var obj = objItem.item[objItem.item.length-1];
+          item[1].push({
+            Titulo: obj.Titulo,
+            Grupo: obj.Grupo,
+            Orden: obj.Orden,
+            Campo: obj.Campo,
+            Dato: ''
+          })
         }
       }
     }
