@@ -834,6 +834,27 @@ define([
       }
       return response;
     }
+
+    function getItemCountFieldsTable(group){
+      var count = 0;
+      var item = {};
+      for (var i of Object.entries(group[0])) { 
+        if(count < i[1].length) {
+          count = i[1].length;
+          item = i[1];
+        }
+      }
+      return { count: count, item: item };
+    }
+
+    function populateTable(group, objItem){
+      for (var item of Object.entries(group[0])) { 
+        if(item[1].length < objItem.count) {
+          item[1].push(objItem.item)
+        }
+      }
+    }
+
     function getDataParametro(cabecera) {
       vm.tableFooterNote = "";
       if (cabecera.TipoParametro === vm.constantsRrgg.PARAMETROS.TIPO_LISTA) {
@@ -862,6 +883,10 @@ define([
             group.forEach(function (item, index) {
               group[index] = _.groupBy(item, "Orden");
             })
+
+            // 
+            populateTable(group, getItemCountFieldsTable(group));
+
             vm.data.dataTableParametro = group
             _tipoTabla(cabecera)
             if (vm.arrayHeaders.type === 3)
