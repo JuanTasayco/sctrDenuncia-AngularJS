@@ -31,10 +31,14 @@ define([
         DuracionHasta: new Date(vm.fechaActual.setDate(vm.fechaActual.getDate() + 365))
       }
 
-     
-
-      $scope.$watch('setter', function() {
-        $scope.setterUbigeo = $scope.setter;
+      $scope.$watch('$ctrl.producto.setter', function() {
+        vm.setterUbigeo = vm.producto.setter;
+        if(vm.setterUbigeo && vm.cotizacion.form && vm.cotizacion.form.Departamento){
+          vm.setterUbigeo(
+            vm.cotizacion.form.Departamento.Codigo,
+            vm.cotizacion.form.Provincia.Codigo,
+            vm.cotizacion.form.Distrito.Codigo);
+        }
       })
 
       $scope.$on('ubigeo', function(_, data) {
@@ -67,7 +71,17 @@ define([
           vm.producto.modelo.tipoCambio = response.Data[0].Valor
         });
       if (riesgosGeneralesFactory.getEditarCotizacion()) {
+        
         vm.producto.modelo = vm.cotizacion.form
+
+        setTimeout(function() {
+          vm.producto.modelo.Ubigeo = {
+            mDepartamento: vm.cotizacion.form.Departamento,
+            mProvincia: vm.cotizacion.form.Provincia,
+            mDistrito: vm.cotizacion.form.Distrito
+          }
+        }, 500);
+
         vm.producto.modelo.DuracionDesde = new Date(vm.cotizacion.form.DuracionDesde)
         vm.producto.modelo.DuracionHasta = new Date(vm.cotizacion.form.DuracionHasta)
         vm.producto.modelo.DescuentoDirector = vm.cotizacion.form.DescuentoDirector ? vm.cotizacion.form.DescuentoDirector.toString() : vm.cotizacion.form.DescuentoDirector

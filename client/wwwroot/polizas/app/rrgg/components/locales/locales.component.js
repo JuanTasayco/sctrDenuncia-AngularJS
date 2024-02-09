@@ -11,8 +11,15 @@ define([
     vm.$onInit = function () {
       vm.constantsRrgg = constantsRiesgosGenerales;
     };
-    $scope.$watch('setter', function() {
-      $scope.setterUbigeo = $scope.setter;
+
+    $scope.$watch('$ctrl.producto.setter', function() {
+      vm.setterUbigeo = vm.producto.setter;
+      if(vm.setterUbigeo && vm.cotizacion.form && vm.cotizacion.form.Departamento){
+        vm.setterUbigeo(
+          vm.cotizacion.form.Departamento.Codigo,
+          vm.cotizacion.form.Provincia.Codigo,
+          vm.cotizacion.form.Distrito.Codigo);
+      }
     })
 
     $scope.$on('ubigeo', function(_, data) {
