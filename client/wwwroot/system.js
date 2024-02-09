@@ -104,6 +104,17 @@
         isComponsesMenu: true,
         icon: "ico-mapfre_11_assitentemapfre"
       },
+      pf: {
+        code: "PLANIFICADOR",
+        shortName: "PLANIFICADOR FINANCIERO",
+        packageName: "wpPackage",
+        path: "/webproc/package",
+        location: "https://peru.planificadorfinanciero.mapfre.com/login?token=",
+        rootApi: "",
+        menuName: "Planificador Financiero",
+        isComponsesMenu: true,
+        icon: "ico-mapfre-340-planificador"
+      },
       ap: {
         code: "ADMPORTALES",
         shortName: "Administrador de Portales",
