@@ -838,26 +838,32 @@ define([
     function getItemCountFieldsTable(group){
       var count = 0;
       var item = {};
-      for (var i of Object.entries(group[0])) { 
-        if(count < i[1].length) {
-          count = i[1].length;
-          item = i[1];
+      for (var i in group[0]) { 
+        if (group[0].hasOwnProperty(i)){
+          var ii = group[0][i]
+          if(count < ii.length) {
+            count = ii.length;
+            item = ii;
+          }
         }
       }
       return { count: count, item: item };
     }
 
     function populateTable(group, objItem){
-      for (var item of Object.entries(group[0])) { 
-        if(item[1].length < objItem.count) {
+      for (var item in group[0]) { 
+        if (group[0].hasOwnProperty(item)){
+          var ii = group[0][item]
+          if(ii.length < objItem.count) {
           var obj = objItem.item[objItem.item.length-1];
-          item[1].push({
+            ii.push({
             Titulo: obj.Titulo,
             Grupo: obj.Grupo,
             Orden: obj.Orden,
             Campo: obj.Campo,
             Dato: ''
           })
+          }
         }
       }
     }
