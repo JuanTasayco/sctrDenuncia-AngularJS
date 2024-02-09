@@ -28,6 +28,8 @@
             var pms2 = seguridadFactory.getCharges();
             pms2.then(function(response){
               $scope.cargoData = response.data || response.Data;
+              $scope.cargoData = $scope.removeduplicate($scope.cargoData, 'codigo');
+
             });
 
             //productores
@@ -78,6 +80,8 @@
             $scope.createS1.user.mTelefono = (!ng.isUndefined($scope.createS1.user.mTelefono)) ? $scope.createS1.user.mTelefono : ""
             $scope.createS1.user.mCelular = (!ng.isUndefined($scope.createS1.user.mCelular)) ? $scope.createS1.user.mCelular : ""
             $scope.createS1.user.mEmail = (!ng.isUndefined($scope.createS1.user.mEmail)) ? $scope.createS1.user.mEmail : ""
+            $scope.createS1.user.mCargo = {"codigo":3,"descripcion":"EMPLEADO"};
+            $scope.disabledCargo = false;
           }
 
 
@@ -118,7 +122,22 @@
           function _fnClearNumDoc(){
             $scope.createS1.user.datosPersonales.mNumDoc = "";
           }
+          $scope.removeduplicate = function(array, property) {
+            var uniqueObject = {};
+            var newArrayWithoutDuplicates = [];
 
+            for (var i = 0; i < array.length; i++) {
+              var obj = array[i];
+              var value = obj[property];
+
+              if (!uniqueObject[value]) {
+                uniqueObject[value] = true;
+                newArrayWithoutDuplicates.push(obj);
+              }
+            }
+
+            return newArrayWithoutDuplicates;
+          }
           function crudCompanyClient(){
             if(!$scope.create.validStep1){
               $scope.tmpIsCreate = true;
