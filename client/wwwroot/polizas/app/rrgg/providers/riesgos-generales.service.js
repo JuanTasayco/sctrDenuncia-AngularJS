@@ -31,6 +31,7 @@ define([
       productosClonados: productosClonados,
       gestionClonacion: gestionClonacion,
       filterCotizacion: filterCotizacion,
+      agenteSuscripcion:agenteSuscripcion,
       agente:agente,
       validacionFecha:validacionFecha,
       getRestriccionUbigeo: getRestriccionUbigeo,
@@ -159,6 +160,9 @@ define([
     }
     function filterCotizacion(request) {
       return proxyCotizacionRg.getListBandeja(request, true);
+    }
+    function agenteSuscripcion(codAgente) {
+      return proxyParametro.getDevolverAgenteSuscripcion(codAgente,true);
     }
     function agente(codAgente) {
       return proxyParametro.getDevolverAgente(codAgente,true);

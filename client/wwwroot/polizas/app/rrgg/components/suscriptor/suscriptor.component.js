@@ -65,6 +65,17 @@ define([
         .then(function (response) {
           vm.monedas = response.Data;
         });
+
+      if (vm.isMydream){
+        riesgosGeneralesService.agenteSuscripcion(vm.emision.modelo.tramite.CodigoAgente)
+        .then(function (response) {
+          if (response.OperationCode === 200){
+            vm.emision.modelo.tramite.CodigoAgente = response.Data.CodigoAgente;
+            getAgente();
+          }
+        })
+      }
+
     };
     function AddCorreo() {
       if (vm.emision.modelo.email.trim() && vm.form.email.$valid)
