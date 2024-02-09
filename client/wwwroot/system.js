@@ -80,7 +80,7 @@
         menuName: "Gestión de Requerimientos",
         isComponsesMenu: true,
         icon: "ico-mapfre_172_consultaGestion"
-      },	  
+      },
       gcw: {
         code: "GCW",
         shortName: "CONSULTAS DE GESTION",
@@ -462,6 +462,18 @@
         rootApi: '',
         isComponsesMenu: true,
         icon: 'ico-mapfre_93_crearmodificar'
+      },
+      inclusionMasiva:{
+        code: "OPTI",
+        shortName: 'Inclusión Masiva de Salud',
+        packageName: 'inclusionmasivaPackage',
+        path: "/inclusionmasiva/package",
+        appPath: "/inclusionmasiva/app",
+        location: '/inclusionmasiva/#',
+        menuName: 'Inclusión Masiva de Salud',
+        rootApi: '',
+        isComponsesMenu: true,
+        icon: 'ico-mapfre_343_sctrdenuncia'
       },
     },
     lib: {
