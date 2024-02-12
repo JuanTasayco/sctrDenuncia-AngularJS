@@ -45,7 +45,14 @@ define([
         }
         mModalConfirm.confirmWarning('', '¿ESTA SEGURO DE SOLICITAR LA POLIZA?', 'ACEPTAR').then(function (response) {
           var requestEmision = riesgosGeneralesFactory.getModelEmision();
-          requestEmision.CodigoApp = $scope.isMydream ? 'MYD' : 'OIM';
+          
+          if ($scope.isMydream){
+            requestEmision.CodigoApp = 'MYD';
+            requestEmision.CodigoUsr = requestEmision.CodigoUsrSuscripcion;
+          }else{
+            requestEmision.CodigoApp = 'OIM';
+          }
+
           riesgosGeneralesService.emision(requestEmision, $scope.tramite.Grupo).then(function (response) {
             if (response.OperationCode === constants.operationCode.success) {
               mModalAlert.showSuccess("Solicitud enviada correctamente.", "NUEVA SOLICITUD ENVIADA").then(function (rs) {
@@ -68,7 +75,14 @@ define([
         $scope.frmEmision.$valid = false
         var file = riesgosGeneralesFactory.cotizacion.emision.modelo.documentacionAll
         var requestSuscriptor = riesgosGeneralesFactory.getModelSuscriptor();
-        requestSuscriptor.CodigoApp = $scope.isMydream ? 'MYD' : 'OIM';
+
+        if ($scope.isMydream){
+          requestSuscriptor.CodigoApp = 'MYD';
+          requestSuscriptor.CodigoUsr = requestSuscriptor.CodigoUsrSuscripcion;
+        }else{
+          requestSuscriptor.CodigoApp = 'OIM';
+        }
+
         riesgosGeneralesService.sendSuscriptor(file, requestSuscriptor).then(function (response) {
           $scope.frmEmision.$valid = true
           if (response.data.OperationCode === constants.operationCode.success) {

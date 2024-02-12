@@ -65,12 +65,13 @@ define([
         .then(function (response) {
           vm.monedas = response.Data;
         });
-	  // Se ejecuta solo si viene desde MyDream
+
       if (vm.isMydream){
         riesgosGeneralesService.agenteSuscripcion(vm.emision.modelo.tramite.CodigoAgente)
         .then(function (response) {
           if (response.OperationCode === 200){
             vm.emision.modelo.tramite.CodigoAgente = response.Data.CodigoAgente;
+            vm.emision.modelo.tramite.AgenteUserSuscriptor = response.Data.Nombre;
             getAgente();
           }
         })
