@@ -140,16 +140,15 @@ define(['angular', 'lodash', 'AsistenciaActions', 'wpConstant'], function (ng, _
         return element.nombreValor == (valor ? valor.nombreValor : siniestroAux ? siniestroAux.nombreValor : null) && element.nombreValorDetalle && element.numeroOrden!=13;
       });
 
-      if(vm.typeSinister?.numeroOrden == 1){
+      if(vm.typeSinister && vm.typeSinister.numeroOrden == 1){
         vm.siniestroTypeCheckList = _.map(ng.copy(vm.siniestroTypeCheckList), function maf(item) {
-          return {
-            ...item,
-            checked: !!vm.detalleTipoSiniestroArrayAux.find(
-              function (element) { return element.codigoSubSiniestro == item.codigoValor }
-            )
-          };
+          var setitem = item;
+          setItem.checked= !!vm.detalleTipoSiniestroArrayAux.find(
+            function (element) { return element.codigoSubSiniestro == item.codigoValor }
+          )
+          return setItem;
         });
-      }else if (vm.typeSinister?.numeroOrden == 2) {
+      }else if (vm.typeSinister && vm.typeSinister.numeroOrden == 2) {
         vm.rbDetaSiniestroPorChoque = null
         _.map(ng.copy(vm.detalleTipoSiniestroArrayAux), function maf2(item) {
           const coincidencia = vm.siniestroTypeCheckList.find(
