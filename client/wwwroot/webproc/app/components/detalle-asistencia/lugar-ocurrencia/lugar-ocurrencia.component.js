@@ -16,7 +16,7 @@ define(['angular', 'lodash', 'AsistenciaActions', 'wpConstant'], function (ng, _
     vm._showModalMap = _showModalMap;
     vm.changeArray = changeArray;
     vm.changeApEtilica = changeApEtilica;
-    vm.onChangeLstDetalleSiniestro = onChangeLstDetalleSiniestro;
+    vm.onChangeLstDetalleSiniestroChoque = onChangeLstDetalleSiniestroChoque;
     vm.subirFotosSiniestro = subirFotosSiniestro;
     vm.agregarDanho = agregarDanho;
     vm.editarDanho = editarDanho;
@@ -27,6 +27,7 @@ define(['angular', 'lodash', 'AsistenciaActions', 'wpConstant'], function (ng, _
     vm.subirFotoLicencia = subirFotoLicencia;
     vm.subirFotoOdometro = subirFotoOdometro;
     vm.changePlaceAttention = changePlaceAttention;
+    vm.onChangeCheckboxSiniestroDetalle = onChangeCheckboxSiniestroDetalle;
 
 
     vm.soatTypeSource = [];
@@ -44,6 +45,12 @@ define(['angular', 'lodash', 'AsistenciaActions', 'wpConstant'], function (ng, _
     vm.docOdometro = [];
     vm.arrFotosSiniestros = [];
 
+    vm.typeSinister = 0;
+    vm.rbDetaSiniestroPorChoque;
+    vm.roturaLuna = wpFactory.myLookup.getTipoSiniestroDetalle().find(function (element) {
+      return element.numeroOrden ==13;
+    });
+
     function onDestroy() {
       onFrmSave();
       if (watchReferenciaViaObserver) watchReferenciaViaObserver();
@@ -52,8 +59,8 @@ define(['angular', 'lodash', 'AsistenciaActions', 'wpConstant'], function (ng, _
     function onInit() {
       onFrmSave = $rootScope.$on('frm:save', setFrm)
       vm.dateFormat = 'dd/MM/yyyy';
-      console.log("vm.siniestro",vm.siniestro );
       vm.frmSiniestro = vm.siniestro;
+      vm.detalleTipoSiniestroArrayAux = ng.copy(vm.siniestro.detalleTipoSiniestro);
       vm.frmSiniestro.esModalidadKm = !vm.frmSiniestro.esModalidadKm ? false : vm.frmSiniestro.esModalidadKm;
       vm.maxFotos = 3
       if (vm.frmSiniestro.esModalidadKm) {
@@ -80,6 +87,7 @@ define(['angular', 'lodash', 'AsistenciaActions', 'wpConstant'], function (ng, _
     }
 
     function setFrm() {
+      vm.clickSave= true;
       vm.optImgsTabs.isRequired = {doc: true, siniestro: true};
       _checkAllPhotos()
       if ($scope.frmLugarOcurrencia.$invalid) {
@@ -122,13 +130,58 @@ define(['angular', 'lodash', 'AsistenciaActions', 'wpConstant'], function (ng, _
     }
 
     function GetCheckList(valor) {
-      var nombreTipoSiniestro = wpFactory.myLookup.getTipoSiniestro().find(
+      vm.siniestro.detalleTipoSiniestro = ng.copy(vm.detalleTipoSiniestroArrayAux);
+      var siniestroAux = wpFactory.myLookup.getTipoSiniestro().find(
         function (element) { return element.codigoValor == vm.frmSiniestro.codigoTipoSiniestro }
       );
+      vm.typeSinister = valor || siniestroAux;
+
       vm.siniestroTypeCheckList = wpFactory.myLookup.getTipoSiniestroDetalle().filter(function (element) {
-        return element.nombreValor == (valor ? valor.nombreValor : nombreTipoSiniestro ? nombreTipoSiniestro.nombreValor : null) && element.nombreValorDetalle;
+        return element.nombreValor == (valor ? valor.nombreValor : siniestroAux ? siniestroAux.nombreValor : null) && element.nombreValorDetalle && element.numeroOrden!=13;
       });
+
+      if(vm.typeSinister?.numeroOrden == 1){
+        vm.siniestroTypeCheckList = _.map(ng.copy(vm.siniestroTypeCheckList), function maf(item) {
+          return {
+            ...item,
+            checked: !!vm.detalleTipoSiniestroArrayAux.find(
+              function (element) { return element.codigoSubSiniestro == item.codigoValor }
+            )
+          };
+        });
+      }else if (vm.typeSinister?.numeroOrden == 2) {
+        vm.rbDetaSiniestroPorChoque = null
+        _.map(ng.copy(vm.detalleTipoSiniestroArrayAux), function maf2(item) {
+          const coincidencia = vm.siniestroTypeCheckList.find(
+            function (element) { return item.codigoSubSiniestro == element.codigoValor }
+          )
+
+          if(coincidencia){
+            vm.rbDetaSiniestroPorChoque = coincidencia.codigoValor;
+          }
+        });
+
+        vm.roturaLuna.checked = !!vm.detalleTipoSiniestroArrayAux.find(
+          function (element) { return element.codigoSubSiniestro == vm.roturaLuna.codigoValor }
+        )
+      }
       vm.frmSiniestro.expediente = vm.siniestro.expediente;
+    }
+
+    function onChangeCheckboxSiniestroDetalle(item) {
+      if(item.checked){
+        const data = {
+          codigoSubSiniestro: item.codigoValor,
+          expediente: item.valEquivalence,
+          codigoCausa: item.valEquivalence2,
+          codigoConsecuencia: item.valEquivalence3
+        }
+        vm.siniestro.detalleTipoSiniestro.push(data)
+      }else {
+        vm.siniestro.detalleTipoSiniestro = vm.siniestro.detalleTipoSiniestro.filter(
+          function (element) { return element.codigoSubSiniestro !== item.codigoValor }
+        )
+      }
     }
 
     function changeFinHoraAtencion() {
@@ -138,10 +191,18 @@ define(['angular', 'lodash', 'AsistenciaActions', 'wpConstant'], function (ng, _
       }
     }
 
-    function onChangeLstDetalleSiniestro(radioItem) {
-      vm.frmSiniestro.expediente = radioItem.valEquivalence;
-      vm.frmSiniestro.codigoCausa = radioItem.valEquivalence2;
-      vm.frmSiniestro.codigoConsecuencia = radioItem.valEquivalence3;
+    function onChangeLstDetalleSiniestroChoque(radioItem) {
+      const data = {
+        codigoSubSiniestro: radioItem.codigoValor,
+        expediente: radioItem.valEquivalence,
+        codigoCausa: radioItem.valEquivalence2,
+        codigoConsecuencia: radioItem.valEquivalence3
+      }
+      vm.siniestro.detalleTipoSiniestro = vm.siniestro.detalleTipoSiniestro.filter(
+        function (element) { return element.expediente == 'PPL' }
+      )
+
+      vm.siniestro.detalleTipoSiniestro.push(data);
     }
 
     function changeApEtilica() {

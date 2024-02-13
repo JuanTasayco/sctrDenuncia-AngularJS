@@ -141,11 +141,42 @@
           <div>
             <div class="row">
               <div class="col-md-3 col-sm-3 col-xs-3 mt-xs-2" ng-repeat="siniestroType in $ctrl.siniestroTypeCheckList">
-                <m-radio data-ng-model="$ctrl.frmSiniestro.codigoSubSiniestro" data-ng-disabled="$ctrl.modoLectura"
+                <m-radio ng-if="$ctrl.typeSinister.numeroOrden != 1" data-ng-model="$ctrl.rbDetaSiniestroPorChoque" data-ng-disabled="$ctrl.modoLectura"
                   label="{label:siniestroType.nombreValorDetalle}" name="nTipoSiniestroDetalle"
                   value="{{siniestroType.codigoValor}}"
-                  ng-click="$ctrl.onChangeLstDetalleSiniestro(siniestroType);$ctrl.frmSiniestro.descripcionSubSiniestro = siniestroType.nombreValorDetalle">
+                  ng-click="$ctrl.onChangeLstDetalleSiniestroChoque(siniestroType)">
                 </m-radio>
+                <label ng-if="$ctrl.typeSinister.numeroOrden == 1" class="chk__lbl">
+                  <input
+                    class="chk__input"
+                    ng-change="$ctrl.onChangeCheckboxSiniestroDetalle(siniestroType)"
+                    ng-model="siniestroType.checked"
+                    type="checkbox"
+                  >
+                  <span class="chk__ico"></span>
+                  <span class="chk__txt">
+                    {{siniestroType.nombreValorDetalle}}
+                  </span>
+                </label>
+              </div>
+              <div class="col-md-3 col-sm-3 col-xs-3 mt-xs-2" ng-if="$ctrl.typeSinister.numeroOrden == 2" >
+                <label class="chk__lbl">
+                  <input
+                    class="chk__input"
+                    ng-change="$ctrl.onChangeCheckboxSiniestroDetalle($ctrl.roturaLuna)"
+                    ng-model="$ctrl.roturaLuna.checked"
+                    type="checkbox"
+                  >
+                  <span class="chk__ico"></span>
+                  <span class="chk__txt">
+                    {{$ctrl.roturaLuna.nombreValorDetalle}}
+                  </span>
+                </label>
+              </div>
+              <div
+                class="g-error col-xs-12"
+                ng-show="!$ctrl.frmSiniestro.detalleTipoSiniestro.length && $ctrl.siniestroTypeCheckList.length && $ctrl.clickSave">
+                Este campo es obligatorio
               </div>
             </div>
           </div>

@@ -374,7 +374,6 @@ define(['angular', 'lodash', 'AsistenciaActions', 'helper', 'wpConstant', 'const
         var frmTerceroConvenioinvalid = false;
 
         var dataGuardar = setRequest('PENDIENTE');
-
         var textos = {
           btnCancel: 'Cancelar',
           btnOk: 'Guardar',
@@ -440,8 +439,7 @@ define(['angular', 'lodash', 'AsistenciaActions', 'helper', 'wpConstant', 'const
         }
 
         frmTerceroConvenioinvalid = vm.frmGeneral.frmTerceroConvenio.$invalid;
-
-        if (vm.frmGeneral.frmLugarOcurrencia.$invalid) {
+        if (vm.frmGeneral.frmLugarOcurrencia.$invalid || !vm.ultimaDataDeAsistencia.detalleTipoSiniestro.length) {
           return void mModalAlert
             .showWarning('Los campos de Lugar de ocurrencia son obligatorios', 'Falta completar')
             .then(function msAnularPr() {
