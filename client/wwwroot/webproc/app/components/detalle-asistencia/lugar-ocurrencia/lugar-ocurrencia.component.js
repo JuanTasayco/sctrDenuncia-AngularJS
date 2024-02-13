@@ -142,11 +142,10 @@ define(['angular', 'lodash', 'AsistenciaActions', 'wpConstant'], function (ng, _
 
       if(vm.typeSinister && vm.typeSinister.numeroOrden == 1){
         vm.siniestroTypeCheckList = _.map(ng.copy(vm.siniestroTypeCheckList), function maf(item) {
-          var setitem = item;
-          setItem.checked= !!vm.detalleTipoSiniestroArrayAux.find(
+          item.checked= !!vm.detalleTipoSiniestroArrayAux.find(
             function (element) { return element.codigoSubSiniestro == item.codigoValor }
           )
-          return setItem;
+          return item;
         });
       }else if (vm.typeSinister && vm.typeSinister.numeroOrden == 2) {
         vm.rbDetaSiniestroPorChoque = null
