@@ -43,6 +43,7 @@ define(['angular', 'constants', 'helper', 'lodash', 'mpfPersonConstants', 'salud
         return vObj;
       }
 
+      console.log("14-02-2024");
       $scope.data = $scope.firstStep || {};
       $scope.showPlan = false;
       $scope.showInsuredForm = false;
