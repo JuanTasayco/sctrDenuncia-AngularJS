@@ -113,6 +113,9 @@ define([
           type: "C"
         }
         riesgosGeneralesCommonFactory.validateMontosCAR(paramData)
+        .then(function (res) {
+          riesgosGeneralesFactory.esContinueStep = res;
+        })
       }
       
     }
