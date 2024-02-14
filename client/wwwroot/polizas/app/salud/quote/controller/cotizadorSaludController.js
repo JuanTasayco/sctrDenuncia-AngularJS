@@ -196,13 +196,26 @@ define(['angular', 'constants', 'helper', 'lodash', 'mpfPersonConstants', 'salud
       function _validateInsuredForm(){
         return $scope.aseguradoValid;
       }
-      function _addInsured(insured){
-        $scope.insuredsList.push(insured);
-        $scope.showInsuredForm = false;
-        $scope.showInsuredResumen = true;
+
+      function _addInsured(vParams){
+        /* Método de registro */
+        saludFactory.registerInsuredTmp(vParams,true).then(function(res){
+          if(res.OperationCode === 200){
+              $scope.showInsuredForm = false;
+              $scope.showInsuredResumen = true;
+              $scope.insuredsList.push(vParams.Asegurado);
+          }else{
+              mModalAlert.showInfo('', res.Message);
+          }
+        });
       }
+      
       function _paramsPostInsuredValidate(){
+        var tokenEquifax = getTokenEquifax(oimClaims.userName);
+
         var vParams = {
+          Token: tokenEquifax,
+          ExistEquifax: $scope.ExistEquifax,
           codigoCompania: $scope.data.producto.CodigoCompania,
           codigoRamo: $scope.data.producto.CodigoRamo,
           numeroContrato: $scope.data.producto.NumeroContrato,
@@ -220,6 +233,16 @@ define(['angular', 'constants', 'helper', 'lodash', 'mpfPersonConstants', 'salud
         };
         return vParams;
       }
+
+      function getTokenEquifax(user){
+        var token = localStorage.getItem('tokenEquifax');
+        if(token){
+          if(token.includes(user)){
+            return token;
+          }else return null;
+        }else return null;
+      }
+
       $scope.onAddInsuredData = function() {
         $scope.$broadcast('submitForm', true);
         if (_validateInsuredForm() && $scope.data.producto){
@@ -244,10 +267,10 @@ define(['angular', 'constants', 'helper', 'lodash', 'mpfPersonConstants', 'salud
                       if (vInsured.Sexo.Codigo === conyuge.Sexo.Codigo) {
                         sexoTitularAlert();
                       } else {
-                        _addInsured(vInsured);
+                        _addInsured(vParams);
                       }
                     } else {
-                      _addInsured(vInsured);
+                      _addInsured(vParams);
                     }
                     break;
                   case 'CO':
@@ -258,15 +281,15 @@ define(['angular', 'constants', 'helper', 'lodash', 'mpfPersonConstants', 'salud
                       if (vInsured.Sexo.Codigo === titular.Sexo.Codigo) {
                         sexoConyugeAlert();
                       } else {
-                        _addInsured(vInsured);
+                        _addInsured(vParams);
                       }
                     } else {
-                      _addInsured(vInsured);
+                      _addInsured(vParams);
                     }
                     break;
                   case 'HI':
                     if (countChildrens < 4) {
-                      _addInsured(vInsured);
+                      _addInsured(vParams);
                       countChildrens++;
                     } else {
                       fourthChildrensAlert();
@@ -307,8 +330,19 @@ define(['angular', 'constants', 'helper', 'lodash', 'mpfPersonConstants', 'salud
         _clearInsured();
       };
 
-      $scope.onDeleteRowInsuredResumen = function(index) {
-        $scope.insuredsList.splice(index, 1);
+      $scope.onDeleteRowInsuredResumen = function($index,insured) {
+        var token = getTokenEquifax(oimClaims.userName);
+        if(token){
+          saludFactory.deleteInsuredTmp(token,insured.NumeroDocumento,true).then(function(res){
+            if(res.OperationCode == 200){
+              $scope.insuredsList.splice($index, 1);
+            }else{
+              mModalAlert.showInfo('', res.Message);
+            }
+          });
+        }else{
+          mModalAlert.showInfo('Por favor comuniquese con su encargado.', "Se manipuló el Token");
+        }
       };
 
       if ($scope.insuredsList.length === 0) {
@@ -430,6 +464,18 @@ define(['angular', 'constants', 'helper', 'lodash', 'mpfPersonConstants', 'salud
               }else{
                 $state.go('cotizacionGuardadaSalud', { numDoc: quotationResponse.NumeroDocumento }, { reload: true, inherit: false });
               }
+
+              /* Una vez guardada la cotización se limpia los datos registrados de la tabla temporal */
+              var token = getTokenEquifax(oimClaims.userName);
+              if(token){
+                saludFactory.deleteInsuredTmp(token,null,true).then(function(res){
+                  if(res.OperationCode == 200){
+                    $scope.insuredsList = [];
+                  }else{
+                    mModalAlert.showInfo('', res.Message);
+                  }
+                });
+              }
             } else {
               mModalAlert.showInfo('', res.Message);
             }
@@ -524,6 +570,11 @@ define(['angular', 'constants', 'helper', 'lodash', 'mpfPersonConstants', 'salud
       }
 
       $scope.processData = function(data) {
+        if(data.noData || data.isClear){
+          $scope.ExistEquifax = 'N';
+        }else{
+          $scope.ExistEquifax = 'S';
+        }
         $scope.disabledForm = data.esFraudulento && !data.aceptaAdvertencia;
       };
 

@@ -132,6 +132,15 @@ define(['angular', 'constants', 'lodash'], function(angular, constants, _) {
       return proxySalud.ValidarAsegurado(asegurado, showSpin);
     }
 
+    
+    function registerInsuredTmp(asegurado,showSpin){
+      return proxySalud.RegisterInsuredTmp(asegurado,showSpin);
+    }
+    function deleteInsuredTmp(token,dni,showSpin){
+      return proxySalud.DeleteInsuredTmp(token,dni,showSpin);
+    }
+    
+
     function postQuotationSalud(cotizacion, showSpin) {
       const pathParams = {
 				opcMenu: localStorage.getItem('currentBreadcrumb')
@@ -602,6 +611,8 @@ define(['angular', 'constants', 'lodash'], function(angular, constants, _) {
       getCurrencyType: getCurrencyType,
       getPrimaList: getPrimaList,
       postInsuredValidate: postInsuredValidate,
+      registerInsuredTmp: registerInsuredTmp,
+      deleteInsuredTmp:deleteInsuredTmp,
       postQuotationSalud: postQuotationSalud,
       saveQuotationSalud: saveQuotationSalud,
       getQuotationSalud: getQuotationSalud,

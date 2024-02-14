@@ -2275,6 +2275,14 @@
                     name:  'ValidarAsegurado',
                     path: 'api/salud/asegurados/validar'
                 },
+                'methodRegisterInsuredTmp':{
+                    name:  'RegisterInsuredTmp',
+                    path: 'api/salud/asegurados/registrarTmp'
+                },
+                'methodDeleteInsuredTmp':{
+                    name:  'DeleteInsuredTmp',
+                    path: 'api/salud/asegurados/eliminarTmp'
+                },
                 'methodGetListTipoPlanSalud':{
                     name:  'GetListTipoPlanSalud',
                     path: 'api/salud/tipoPlan'
@@ -6190,6 +6198,15 @@
                 'ValidarAsegurado' : function(asegurado, showSpin){
                     return httpData['post'](oimProxyPoliza.endpoint + 'api/salud/asegurados/validar',
                                          asegurado, undefined, showSpin)
+                },
+                'RegisterInsuredTmp' : function(asegurado,showSpin){
+                    return httpData['post'](oimProxyPoliza.endpoint + 'api/salud/asegurados/registrarTmp',
+                    asegurado, undefined, showSpin)
+                },
+                'DeleteInsuredTmp' : function(token,documento, showSpin){
+                    return httpData['post'](oimProxyPoliza.endpoint + helper.formatNamed('api/salud/asegurados/eliminarTmp?token={token}&documento={documento}',
+                    {'token':token, 'documento':documento}),
+                    undefined, showSpin)
                 },
                 'GetListTipoPlanSalud' : function( showSpin){
                     return httpData['get'](oimProxyPoliza.endpoint + 'api/salud/tipoPlan',
