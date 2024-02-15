@@ -143,6 +143,17 @@ define([
               
               mModalAlert.showError(response.Message, "¡Error de Resultado!")
             }
+
+            setTimeout(() => {
+              var req = {
+                HayError : $scope.maximosValidate || $scope.ubigeoValidate
+              }
+              console.log(req);
+              riesgosGeneralesService.cotizacionError($scope.cotizacion.NroTramite, req)
+            }, 1500);
+
+
+            
           }).catch(function (error) {
             mModalAlert.showError(error.Message, "¡Error de Resultado!")
           });
