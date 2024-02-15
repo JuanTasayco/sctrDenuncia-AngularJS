@@ -144,7 +144,7 @@ define([
               mModalAlert.showError(response.Message, "¡Error de Resultado!")
             }
 
-            setTimeout(() => {
+            setTimeout(function () {
               var req = {
                 HayError : $scope.maximosValidate || $scope.ubigeoValidate
               }
