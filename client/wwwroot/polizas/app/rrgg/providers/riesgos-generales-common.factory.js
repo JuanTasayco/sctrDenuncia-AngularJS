@@ -499,7 +499,7 @@ define([
                 deferred.resolve(false);
               });
             } else if (paramData.type === "R") {
-              deferred.resolve(true);
+              deferred.resolve(false);
             } else{
               deferred.resolve(true);
             }
@@ -515,7 +515,7 @@ define([
                 deferred.resolve(false);
               })
             } else if (paramData.type === "R") {
-                deferred.resolve(true);
+              deferred.resolve(false);
             } else{
               deferred.resolve(true);
             }

@@ -435,8 +435,8 @@ define([
       }
       riesgosGeneralesCommonFactory.validateMontosCAR(paramData).then(function (response) {
         if (!$scope.estadoValidate) {
-          $scope.estadoValidate = response;
-          $scope.maximosValidate = response;
+          $scope.estadoValidate = !response;
+          $scope.maximosValidate = !response;
         }
       });
     }
