@@ -72,7 +72,7 @@ define([
           if (response.OperationCode === 200){
             vm.emision.modelo.tramite.CodigoAgente = response.Data.CodigoAgente;
             vm.emision.modelo.tramite.AgenteUserSuscriptor = response.Data.Nombre;
-            vm.emision.modelo.email = [{ email: response.Data.Email }]
+            vm.emision.modelo.emails = [{ email: response.Data.Email }]
             getAgente();
           }
         })
