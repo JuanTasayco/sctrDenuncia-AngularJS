@@ -1059,8 +1059,11 @@
                     }
                   })
                 } else if ((resFinalSignIn.userOptions.isAgent && parseInt(subType.value) === LOGIN_TYPE.proveedor.subType) ){
+                  url = '/';
                   _redirect(url, isRedirect);
-                  return void 0;
+                }else{
+                  _redirect(url, isRedirect);
+
                 }
               })
 
