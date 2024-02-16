@@ -45,7 +45,8 @@ define([
       auth: {},
       parametros: {},
       cotizacion: {},
-      tiposDocumento: []
+      tiposDocumento: [],
+      esContinueStep: false
     };
     return factory;
     function InitCotizacion() {
@@ -129,17 +130,21 @@ define([
       if (data.canEquipos === constantsRiesgosGenerales.DATOS.EQUIPOS.ONE)
         vSmsMonto = 'El límite máximo por máquina es de: ' + simboloMoneda + " " + convertMiles(parseFloat(data.montoMaxTwo)) +
           ' (>2 máquinas), Para asegurar una máquina el límite es ' + simboloMoneda + " " + convertMiles(parseFloat(data.montoMaxOne)) + smsText;
+
       if (data.canEquipos >= constantsRiesgosGenerales.DATOS.EQUIPOS.TWO)
         vSmsMonto = 'El límite máximo por máquina es de: ' + simboloMoneda + " " + convertMiles(parseFloat(data.montoMaxTwo)) + smsText;
       if (data.validator === constantsRiesgosGenerales.PARAMETROS.DESC_COMER_SIMPLE.COD)
         vSmsMonto = 'El límite permitido de Descuento es de ' + valorMonto + '%, por favor volver a ingresar el descuento. ';
+        
       if(data.producto === constantsRiesgosGenerales.GRUPO.CARLITE){
-        vSmsMonto = vSmsMonto +  " Para montos mayores, utilizar el producto CAR";
+        vSmsMonto = vSmsMonto +  " Para montos mayores, utilizar el producto CAR.";
       }else{
-        vSmsMonto = vSmsMonto + " Para montos mayores, SOLICITAR VoBo al Área de Suscripción.";
+        vSmsMonto = vSmsMonto;
       }
+
       return vSmsMonto;
     }
+
     function CalculaSumaAsegurada(data) {
       var totalEquipo = factory.cotizacion.producto.modelo.ValorEquipos;
       var SumaTope = data.montoMaxOne;

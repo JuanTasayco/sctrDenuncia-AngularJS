@@ -153,7 +153,8 @@ define([
               }catch(e) {
                 return false
               }             
-          break;
+        case constantsRiesgosGenerales.GRUPO.CAR:
+            return !riesgosGeneralesFactory.esContinueStep;          
         default:
           return false;
       }

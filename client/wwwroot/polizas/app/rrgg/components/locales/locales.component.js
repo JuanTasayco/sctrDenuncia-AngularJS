@@ -10,17 +10,21 @@ define([
     vm.ubigeoValid = {};
     vm.$onInit = function () {
       vm.constantsRrgg = constantsRiesgosGenerales;
-    };
 
-    $scope.$watch('$ctrl.producto.setter', function() {
-      vm.setterUbigeo = vm.producto.setter;
-      if(vm.setterUbigeo && vm.cotizacion.form && vm.cotizacion.form.Departamento){
-        vm.setterUbigeo(
-          vm.cotizacion.form.Departamento.Codigo,
-          vm.cotizacion.form.Provincia.Codigo,
-          vm.cotizacion.form.Distrito.Codigo);
+      setTimeout(function (){
+        vm.data.listaUbicaciones.forEach(function (item){
+          item.setter && item.setter(item.Departamento.Codigo,item.Provincia.Codigo,item.Distrito.Codigo)
+          setTimeout(function(){
+            item.Ubigeo = {
+              mDepartamento: item.Departamento,
+              mProvincia: item.Provincia,
+              mDistrito: item.Distrito
       }
+          }, 500)
     })
+      }, 500)
+
+    };
 
     $scope.$on('ubigeo', function(_, data) {
       if(data) {
