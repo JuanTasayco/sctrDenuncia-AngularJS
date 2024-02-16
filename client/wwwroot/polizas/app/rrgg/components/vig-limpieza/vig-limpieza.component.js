@@ -1,8 +1,8 @@
 define([
-  'angular', 'constantsRiesgosGenerales', 'rrggModalProductParameter'
+  'angular', 'constantsRiesgosGenerales', 'rrggModalProductParameter', '/scripts/mpf-main-controls/components/ubigeo/component/ubigeo.js',
 ], function (ng, constantsRiesgosGenerales) {
-  vigLimpController.$inject = ['mModalAlert', '$uibModal', 'riesgosGeneralesService', 'riesgosGeneralesFactory', 'riesgosGeneralesCommonFactory', 'mModalConfirm'];
-  function vigLimpController(mModalAlert, $uibModal, riesgosGeneralesService, riesgosGeneralesFactory, riesgosGeneralesCommonFactory, mModalConfirm) {
+  vigLimpController.$inject = ['$scope','mModalAlert', '$uibModal', 'riesgosGeneralesService', 'riesgosGeneralesFactory', 'riesgosGeneralesCommonFactory', 'mModalConfirm'];
+  function vigLimpController($scope,mModalAlert, $uibModal, riesgosGeneralesService, riesgosGeneralesFactory, riesgosGeneralesCommonFactory, mModalConfirm) {
     var vm = this;
     vm.OpenParametros = OpenParametros;
     vm.validControlForm = ValidControlForm;
@@ -12,6 +12,7 @@ define([
     vm.changeHasta = changeHasta;
     vm.clearInputSumas = clearInputSumas;
     vm.validateUbicaciones = validateUbicaciones;
+    vm.ubigeoValid = {}; 
     vm.$onInit = function () {
       vm.constantsRrgg = constantsRiesgosGenerales;
       riesgosGeneralesFactory.setCotizacionProducto(vm.cotizacion);
@@ -25,6 +26,11 @@ define([
         minStartDateFormat: riesgosGeneralesFactory.formatearFecha(new Date())
       }
       vm.producto.modelo = {
+        Ubigeo: {
+          mDepartamento: null,
+          mProvincia: null,
+          mDistrito: null
+        },
         UsasArmas: "0",
         MasUbicaciones: "0",
         Ingresatrabajadores: "0",
@@ -33,6 +39,31 @@ define([
         DuracionDesde: new Date(),
         DuracionHasta: new Date(vm.fechaActual.setDate(vm.fechaActual.getDate() + 365))
       }
+
+      $scope.$watch('$ctrl.producto.setter', function() {
+        vm.setterUbigeo = vm.producto.setter;
+        if(vm.setterUbigeo && vm.cotizacion.form && vm.cotizacion.form.Departamento){
+          vm.setterUbigeo(
+            vm.cotizacion.form.Departamento.Codigo,
+            vm.cotizacion.form.Provincia.Codigo,
+            vm.cotizacion.form.Distrito.Codigo);
+        }
+      })
+
+      $scope.$on('ubigeo', function(_, data) {
+        if(data) {
+          riesgosGeneralesService.getRestriccionUbigeo(data.mDepartamento,data.mProvincia,data.mDistrito)
+          .then(function (response) {
+            var restringido = response.Data.Restringido
+            if (restringido) {
+              mModalAlert.showWarning("La cotización debe pasar por VoBo de Suscripción, debido a que la ubicación del riesgo se encuentra en zona restringida.", "MAPFRE: RESTRICCIÓN DE UBICACIÓN DE RIESGO");
+            }
+          })
+        }
+      })
+      $scope.$watch('clean', function() {
+        $scope.cleanUbigeo = $scope.clean;
+      })
       riesgosGeneralesService.getProxyPametros(vm.cotizacion.producto.CodigoRiesgoGeneral, vm.constantsRrgg.PARAMETROS.ACTI_REALIZA)
         .then(function (response) {
           vm.actividad = response.Data;
@@ -51,6 +82,15 @@ define([
         });
       if (riesgosGeneralesFactory.getEditarCotizacion()) {
         vm.producto.modelo = vm.cotizacion.form
+
+        setTimeout(function() {
+          vm.producto.modelo.Ubigeo = {
+            mDepartamento: vm.cotizacion.form.Departamento,
+            mProvincia: vm.cotizacion.form.Provincia,
+            mDistrito: vm.cotizacion.form.Distrito
+          }
+        }, 500);
+
         vm.producto.modelo.DuracionDesde = new Date(vm.cotizacion.form.DuracionDesde)
         vm.producto.modelo.DuracionHasta = new Date(vm.cotizacion.form.DuracionHasta)
         vm.producto.modelo.DescuentoDirector = vm.cotizacion.form.DescuentoDirector ? vm.cotizacion.form.DescuentoDirector.toString() : vm.cotizacion.form.DescuentoDirector;

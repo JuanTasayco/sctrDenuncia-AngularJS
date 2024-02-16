@@ -834,6 +834,40 @@ define([
       }
       return response;
     }
+
+    function getItemCountFieldsTable(group){
+      var count = 0;
+      var item = {};
+      for (var i in group[0]) { 
+        if (group[0].hasOwnProperty(i)){
+          var ii = group[0][i]
+          if(count < ii.length) {
+            count = ii.length;
+            item = ii;
+          }
+        }
+      }
+      return { count: count, item: item };
+    }
+
+    function populateTable(group, objItem){
+      for (var item in group[0]) { 
+        if (group[0].hasOwnProperty(item)){
+          var ii = group[0][item]
+          if(ii.length < objItem.count) {
+          var obj = objItem.item[objItem.item.length-1];
+            ii.push({
+            Titulo: obj.Titulo,
+            Grupo: obj.Grupo,
+            Orden: obj.Orden,
+            Campo: obj.Campo,
+            Dato: ''
+          })
+          }
+        }
+      }
+    }
+
     function getDataParametro(cabecera) {
       vm.tableFooterNote = "";
       if (cabecera.TipoParametro === vm.constantsRrgg.PARAMETROS.TIPO_LISTA) {
@@ -862,6 +896,10 @@ define([
             group.forEach(function (item, index) {
               group[index] = _.groupBy(item, "Orden");
             })
+
+            // 
+            populateTable(group, getItemCountFieldsTable(group));
+
             vm.data.dataTableParametro = group
             _tipoTabla(cabecera)
             if (vm.arrayHeaders.type === 3)

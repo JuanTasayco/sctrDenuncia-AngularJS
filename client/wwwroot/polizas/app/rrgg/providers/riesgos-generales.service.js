@@ -31,8 +31,13 @@ define([
       productosClonados: productosClonados,
       gestionClonacion: gestionClonacion,
       filterCotizacion: filterCotizacion,
+      agenteSuscripcion:agenteSuscripcion,
       agente:agente,
-      validacionFecha:validacionFecha
+      validacionFecha:validacionFecha,
+      getRestriccionUbigeo: getRestriccionUbigeo,
+      getProxyProductosByUser: getProxyProductosByUser,
+      cotizacionError: cotizacionError,
+      
     };
 
     return service;
@@ -157,6 +162,12 @@ define([
     function filterCotizacion(request) {
       return proxyCotizacionRg.getListBandeja(request, true);
     }
+    function cotizacionError(numeroTramite, request) {
+      return proxyCotizacionRg.CotizacionError(numeroTramite, request, true);
+    }
+    function agenteSuscripcion(codAgente) {
+      return proxyParametro.getDevolverAgenteSuscripcion(codAgente,true);
+    }
     function agente(codAgente) {
       return proxyParametro.getDevolverAgente(codAgente,true);
     }
@@ -221,6 +232,14 @@ define([
         });
       mpSpin.end();
       return deferred.promise;
+    }
+
+    function getRestriccionUbigeo(departamento, provincia, distrito) { 
+      return proxyParametro.GetRestriccionUbicacion(departamento, provincia, distrito) 
+    }
+
+    function getProxyProductosByUser() {
+      return proxyParametro.GetListProductosByUser(true);
     }
   }
 

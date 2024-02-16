@@ -1,15 +1,46 @@
 define([
-  'angular', 'constants', 'constantsRiesgosGenerales'
+  'angular', 'constants', 'constantsRiesgosGenerales', '/scripts/mpf-main-controls/components/ubigeo/component/ubigeo.js'
 ], function (ng, constants, constantsRiesgosGenerales) {
-  localesController.$inject = ['mModalAlert', 'riesgosGeneralesService', 'riesgosGeneralesFactory'];
-  function localesController(mModalAlert, riesgosGeneralesService, riesgosGeneralesFactory) {
+  localesController.$inject = ['$scope','mModalAlert', 'riesgosGeneralesService', 'riesgosGeneralesFactory'];
+  function localesController($scope,mModalAlert, riesgosGeneralesService, riesgosGeneralesFactory) {
     var vm = this;
     vm.calcularPrimas = calcularPrimas;
     vm.deleteDatos = DeleteDatos
     vm.validControlForm = ValidControlForm
+    vm.ubigeoValid = {};
     vm.$onInit = function () {
       vm.constantsRrgg = constantsRiesgosGenerales;
+
+      setTimeout(function (){
+        vm.data.listaUbicaciones.forEach(function (item){
+          item.setter && item.setter(item.Departamento.Codigo,item.Provincia.Codigo,item.Distrito.Codigo)
+          setTimeout(function(){
+            item.Ubigeo = {
+              mDepartamento: item.Departamento,
+              mProvincia: item.Provincia,
+              mDistrito: item.Distrito
+      }
+          }, 500)
+    })
+      }, 500)
+
     };
+
+    $scope.$on('ubigeo', function(_, data) {
+      if(data) {
+        riesgosGeneralesService.getRestriccionUbigeo(data.mDepartamento,data.mProvincia,data.mDistrito)
+        .then(function (response) {
+          const restringido = response.Data.Restringido
+          if (restringido) {
+            mModalAlert.showWarning("La cotización debe pasar por VoBo de Suscripción, debido a que la ubicación del riesgo se encuentra en zona restringida.", "MAPFRE: RESTRICCIÓN DE UBICACIÓN DE RIESGO");
+          }
+        })
+      }
+    })
+
+    $scope.$watch('clean', function() {
+      $scope.cleanUbigeo = $scope.clean;
+    })
     function calcularPrimas() {
       if (_validateForm())
         riesgosGeneralesService.primas(riesgosGeneralesFactory.getModelPrimas()).then(function (response) {

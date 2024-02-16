@@ -761,7 +761,25 @@
             }
           });
         }
-
+        function _verifyTerms() {
+          return httpData.get(
+            base2 + 'api/seguridad/user/termVerification',
+            undefined,
+            undefined,
+            true
+          );
+          
+        }
+        function _termAcceptance(body) {
+          return httpData.post(
+            base2 + 'api/seguridad/user/termAcceptance',
+						body, 
+            undefined,
+						true
+					  );
+         
+          
+        }
         function getUserTypes() {
           var userTypes = localStorageFactory.getItem(_keyUserTypes);
           var defer = $q.defer();
@@ -976,22 +994,27 @@
             var url = _getParamUrl();
             var subType = _.find(resFinalSignIn.claims, function(c) { return c.type == "UserSubType"; });
             var urlRedirect = _.find(resFinalSignIn.claims, function(c) { return c.type == "UrlRedirect"; });
-            var isRedirect = false;
+            var loginUserName = _.find(resFinalSignIn.claims, function(c) { return c.type == "LoginUserName"; });
+            var userName = _.find(resFinalSignIn.claims, function(c) { return c.type == "UserName"; });
+            var documentType = _.find(resFinalSignIn.claims, function(c) { return c.type == "DocumentType"; });
+            var DocumentNumber = _.find(resFinalSignIn.claims, function(c) { return c.type == "DocumentNumber"; });
 
+            var isRedirect = false;
             // INFO: Ingresa a OIM desde otros sistemas
             if (resFinalSignIn.data && resFinalSignIn.data.urlRedirection) {
               url = resFinalSignIn.data.urlRedirection;
+              _redirect(url,isRedirect);
+
             // INFO: Redirecciona a Autoservicio: clientePersona y ClienteEmpresa
             } else if (urlRedirect && urlRedirect.value && (parseInt(subType.value) !== LOGIN_TYPE.broker.subType && parseInt(subType.value) !== LOGIN_TYPE.proveedor.subType)) {
               isRedirect = true;
               url = urlRedirect.value + $auth.getToken();
+              _redirect(url,isRedirect);
 
             // INFO: Redirecciona a MyDream: EjecutivoAgente y Broker
-            } else if ((resFinalSignIn.userOptions.isAgent || parseInt(subType.value) === LOGIN_TYPE.broker.subType) && !(resFinalSignIn.userOptions.isActiveMarch && !resFinalSignIn.userOptions.isUserMarch)) {
-
+            } else if ((resFinalSignIn.userOptions.isAgent || parseInt(subType.value) === LOGIN_TYPE.broker.subType) && !(resFinalSignIn.userOptions.isActiveMarch && !resFinalSignIn.userOptions.isUserMarch)) {         
               isRedirect = true;
               url = constants.originApps.urlHomeMYD + 'login?tokenOIM=' + $auth.getToken();
-
               proxyHome.GetAccessProfile("MYDREAM", false).then(console.log)
               .catch(function(error) {
                 if (error.data.data.message === "El usuario no tiene un perfil configurado para el aplicativo de MYDREAM") {
@@ -1001,24 +1024,48 @@
                 }
               })
               .finally(function(error) {
-                if (!resFinalSignIn.userOptions.isAgent) {
-                  mModalConfirm.confirmDanger(constants.originApps.txtUssagePoliciesMYD, '¿Aceptas las políticas de uso de OIM?')
-                    .then(function() {
-                      _redirect(url, isRedirect);
-                    })
-                    .catch(function() {
-                      _redirect('/login', isRedirect);
-                    });
+                if (!resFinalSignIn.userOptions.isAgent) {                  
+                  _verifyTerms().then(function(resp){
+                    if(!resp.data.hasAcceptTerms){
+                      var termiCondicionText = resp.data.termCondition.text + '<span class="v-terms" style="position: absolute;right: 0;bottom: -15%; font-size: 10px;">' + 'v.'+ resp.data.termCondition.version +'</span>'
+                      mModalConfirm.confirmDanger(termiCondicionText, '¿Aceptas las políticas de uso de OIM?')
+                      .then(function() {
+                        const bodyTerms = {
+                          idTerms: resp.data.termCondition.id,
+                          UserCode: loginUserName.value,
+                          userName: userName.value,
+                          documentType: documentType.value,
+                          documentNumber: DocumentNumber.value,
+                          ip: localStorage.getItem('clientIp') || '',
+                        }
+                        _termAcceptance(bodyTerms).then(function(resp){
+                          _redirect(url, isRedirect);
+                          return void 0;
 
-                  return void 0;
+                        }).catch(function() {
+                          _redirect('/login', isRedirect);
+                        });
+                        
+                      }).catch(function() {
+                        _redirect('/login', isRedirect);
+                      });
+                      
+                      return void 0;
+                    }
+                    else{
+                      _redirect(url, isRedirect);
+                      return void 0;
+
+                    }
+                  })
                 } else if ((resFinalSignIn.userOptions.isAgent && parseInt(subType.value) === LOGIN_TYPE.proveedor.subType) ){
-                  isRedirect = false;
-                  url = '/';
+                  _redirect(url, isRedirect);
+                  return void 0;
                 }
-                _redirect(url, isRedirect);
               })
 
-              return void 0;
+            }else{
+              _redirect(url,isRedirect);
             }
 
             function _redirect(url, isRedirect) {
@@ -1040,8 +1087,6 @@
                 }
               }
             }
-
-            _redirect(url, isRedirect);
           }, 500);
         };
 

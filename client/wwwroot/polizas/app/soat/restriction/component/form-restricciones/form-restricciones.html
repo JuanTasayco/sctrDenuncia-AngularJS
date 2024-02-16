@@ -1,0 +1,127 @@
+<form name="formRestriccion">
+    <div class="cntContent container">
+        <div class="row mb-xs-3">
+            <div class="col-md-3 col-xs-12">
+                <mp-data-seeker
+                    behavior="{label:'Agente / Corredor', placeholder:'', matchField:'CodigoNombre', required: true}"
+                    name="nAgente"
+                    m-data-source="vm.buscarAgentes($inputNeed)" 
+                    ng-model="vm.restriccion.agent"
+                    ng-required="true"
+                    ng-disabled="!esNuevo">
+                    <div ng-bind-html="$item.CodigoNombre | highlight: $select.search"></div>
+                </mp-data-seeker>
+
+                <div class="g-error" ng-show="formRestriccion.nAgente.$error.required && !formRestriccion.nAgente.$pristine">
+                    * Seleccione un agente / corredor
+                </div>
+            </div>
+
+            <div class="col-md-3 col-xs-12">
+                <mp-data-seeker
+                    behavior="{label:'Usuario OIM', placeholder:'', matchField:'userName', required: false}"
+                    name="nUsuario"
+                    m-data-source="vm.buscarUsuarios($inputNeed)" 
+                    ng-model="vm.restriccion.user"
+                    ng-disabled="!esNuevo">
+                    <div ng-bind-html="$item.userName | highlight: $select.search"></div>
+                </mp-data-seeker>
+            </div>
+
+            <div class="col-md-3 col-xs-12">
+                <mpf-select
+                    label="{label: 'Tipo de Vehículo', required: true}"
+                    name="nTipoVehiculo"
+                    ng-model="vm.restriccion.vehicleType"
+                    m-data-source="vm.tiposVehiculos"
+                    text-field="Descripcion"
+                    value-field="Codigo"
+                    m-Empty-Option="{enterData:true}"
+                    ng-required="true"
+                    ng-disabled="!esNuevo">
+                </mpf-select>
+
+                <div class="g-error" ng-show="formRestriccion.nTipoVehiculo.$error.required && !formRestriccion.nTipoVehiculo.$pristine">
+                    * Seleccion un tipo de vehículo
+                </div>
+            </div>
+
+            <div class="col-md-3 col-xs-12">
+                <mpf-input 
+                    label="{label: 'Importe histórico', required: true}" 
+                    name="nImporteHistorico" 
+                    ng-model="vm.restriccion.historicalAmount" 
+                    ng-required="true">
+                </mpf-input>
+
+                <div class="g-error" ng-show="formRestriccion.nImporteHistorico.$error.required && !formRestriccion.nImporteHistorico.$pristine">
+                    * Ingrese el valor del importe histórico
+                </div>
+            </div>
+        </div>
+
+        <div class="row mb-xs-3">
+            <div class="col-md-3 col-xs-12">
+                <mpf-input 
+                    label="{label: 'Total de emisiones', required: true}" 
+                    name="nTotalEmisiones" 
+                    ng-model="vm.restriccion.totalEmissions" 
+                    ng-required="true">
+                </mpf-input>
+
+                <div class="g-error" ng-show="formRestriccion.nTotalEmisiones.$error.required && !formRestriccion.nTotalEmisiones.$pristine">
+                    * Ingrese el valor del total de emisiones
+                </div>
+            </div>
+
+            <div class="col-md-3 col-xs-12">
+                <mpf-input 
+                    label="{label: 'Emisiones diarias', required: true}" 
+                    name="nEmisionesDiarias" 
+                    ng-model="vm.restriccion.dailyEmissions" 
+                    ng-required="true">
+                </mpf-input>
+
+                <div class="g-error" ng-show="formRestriccion.nEmisionesDiarias.$error.required && !formRestriccion.nEmisionesDiarias.$pristine">
+                    * Ingrese el valor de emisiones diarias
+                </div>
+            </div>
+
+            <div class="col-md-3 col-xs-12">
+                <mpf-input 
+                    label="{label: 'Días de crédito', required: true}" 
+                    name="nDiasCredito" 
+                    ng-model="vm.restriccion.creditDays" 
+                    ng-required="true">
+                </mpf-input>
+
+                <div class="g-error" ng-show="formRestriccion.nDiasCredito.$error.required && !formRestriccion.nDiasCredito.$pristine">
+                    * Ingrese el valor de días de crédito
+                </div>
+            </div>
+
+            <div class="col-md-3 col-xs-12" ng-if="!vm.esNuevo">
+                <mpf-select
+                    label="{label: 'Estado', required: true}"
+                    name="nEstado"
+                    ng-model="vm.restriccion.state"
+                    m-data-source="vm.estados"
+                    text-field="Descripcion"
+                    value-field="Codigo"
+                    m-Empty-Option="{enterData:true}"
+                    ng-required="true">
+                </mpf-select>
+
+                <div class="g-error" ng-show="formRestriccion.nEstado.$error.required && !formRestriccion.nEstado.$pristine">
+                    * Seleccione un estado
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-offset-4 col-md-4">
+                <a class="g-btn g-btn-verde block" ng-click="vm.saveForm()">Guardar</a>
+            </div>
+         </div>
+    </div>
+</form>

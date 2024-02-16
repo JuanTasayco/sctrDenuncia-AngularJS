@@ -28,19 +28,19 @@
   <resumen-hidrocarburo ng-if="cotizacion.Grupo.trim() === constantsRrgg.GRUPO.HIDROCARBURO && cotizacionResumen"
     resumen="cotizacionResumen"></resumen-hidrocarburo>
   <rrgg-resumen-car
-    ng-if="cotizacion.Grupo.trim() === constantsRrgg.GRUPO.CAR || cotizacion.Grupo.trim() === constantsRrgg.GRUPO.CARLITE"
+    ng-if="cotizacion.Grupo.trim() === constantsRrgg.GRUPO.CAR || cotizacion.Grupo.trim() === constantsRrgg.GRUPO.CARLITE && cotizacionResumen"
     resumen="cotizacionResumen">
   </rrgg-resumen-car>
-  <rrgg-res-vig-limp ng-if="cotizacion.Grupo.trim() === constantsRrgg.GRUPO.VIGLIMP" resumen="cotizacionResumen">
+  <rrgg-res-vig-limp ng-if="cotizacion.Grupo.trim() === constantsRrgg.GRUPO.VIGLIMP && cotizacionResumen" resumen="cotizacionResumen">
   </rrgg-res-vig-limp>
   
-  <resumen-transporte ng-if="cotizacion.Grupo.trim() === constantsRrgg.GRUPO.TRANSPORTE" resumen="cotizacionResumen">
+  <resumen-transporte ng-if="cotizacion.Grupo.trim() === constantsRrgg.GRUPO.TRANSPORTE && cotizacionResumen" resumen="cotizacionResumen">
   </resumen-transporte>
   
-  <resumen-eventos ng-if="cotizacion.Grupo.trim() === constantsRrgg.GRUPO.EVENTOS" resumen="cotizacionResumen">
+  <resumen-eventos ng-if="cotizacion.Grupo.trim() === constantsRrgg.GRUPO.EVENTOS && cotizacionResumen" resumen="cotizacionResumen">
   </resumen-eventos>
 
-  <resumen-demoliciones ng-if="cotizacion.Grupo.trim() === constantsRrgg.GRUPO.DEMOLICIONES" resumen="cotizacionResumen">
+  <resumen-demoliciones ng-if="cotizacion.Grupo.trim() === constantsRrgg.GRUPO.DEMOLICIONES && cotizacionResumen" resumen="cotizacionResumen">
   </resumen-demoliciones>
 
   <div class="container">
@@ -48,10 +48,10 @@
       <div ng-click="dowloadPdf()" class="col-md-6 mb-xs-2" rrgg-step2-btn-downloadpdf>
         <a class="g-btn block">GUARDAR Y DESCARGAR PDF</a>
       </div>
-      <div ng-if="!maximosValidate" ng-click="GoStepEmision()" class="col-md-6 mb-xs-2" rrgg-step2-btn-emit-poliza>
+      <div ng-if="!maximosValidate && !ubigeoValidate" ng-click="GoStepEmision()" class="col-md-6 mb-xs-2" rrgg-step2-btn-emit-poliza>
         <a class="g-btn g-btn-verde block">EMITIR PÓLIZA</a>
       </div>
-      <div ng-if="maximosValidate" ng-click="GoStepSuscriptor()" class="col-md-6 mb-xs-2" rrgg-step2-btn-send-subscriber>
+      <div ng-if="maximosValidate || ubigeoValidate" ng-click="GoStepSuscriptor()" class="col-md-6 mb-xs-2" rrgg-step2-btn-send-subscriber>
         <a class="g-btn g-btn-verde block">ENVIAR A SUSCRIPTOR</a>
       </div>
     </div>

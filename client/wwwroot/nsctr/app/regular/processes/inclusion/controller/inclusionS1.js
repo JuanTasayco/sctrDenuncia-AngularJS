@@ -19,7 +19,10 @@
           $scope.data = $scope.data || {};
           $scope.dataS1 = $scope.dataS1 || {};
           $scope.dataS2 = $scope.dataS2 || {};
+          if (!$scope.data.SHOW_RISKS_LIST){
+            $scope.dataS1.mOpcionFacturacion = 0;
 
+          }
           if ($scope.data.SHOW_RISKS_LIST){
             $scope.dataS1.openToggle = true;
             $scope.dataS1.itemsApplication = $scope.dataS1.itemsApplication || risksList;
@@ -29,6 +32,7 @@
           var segurity = nsctrFactory.validation._filterData(JSON.parse(localStorage.getItem("nsctrSubMenu"+$scope.MODULE.appCode)), "PROCESOS_ACCIONES", "nombreCabecera");
           $scope.segurityNotDeclared = nsctrFactory.validation._filterData(segurity.items, "GENERAR_INCLUSION_CONDICION_NO_DECLARADA", "nombreCorto");
           $scope.segurityDeclared = nsctrFactory.validation._filterData(segurity.items, "GENERAR_INCLUSION_CONDICION_DECLARADA", "nombreCorto");
+          
 
         })();
         /*########################
@@ -254,7 +258,7 @@
                                           : nsctr_constants.movementType.declaration.description.toLowerCase(),
                 ClientDocumentCode:     $scope.data.STATE_PARAMS['client'].documentNumber,
                 ClientDocumentType:     $scope.data.STATE_PARAMS['client'].documentType,
-                UserCode:               $scope.data.USER.name,
+                UserCode:               $scope.data.USER.name, 
                 WorkCenterData:         $scope.dataS1.mDatosObra || '', //SE AGREGA EN SECONDSTEP
                 CostsCenter:            '', //SE AGREGA EN SECONDSTEP
                 MCAIdeDeclaration:      (isMonthAdvance)
@@ -271,10 +275,12 @@
                 {
                   PensionRisksList: vRisksSessions['pension'],
                   HealthRisksList:  vRisksSessions['health'],
-                }
+                },
+                RoleCode:               $scope.data.USER.role,
               };
 
-          if (isMonthAdvance) vParams.Invoiced = $scope.dataS1.mOpcionFacturacion;
+          // if (isMonthAdvance)
+          vParams.Invoiced = $scope.dataS1.mOpcionFacturacion;
           return vParams;
         }
         function _paramsMassiveLoad(tabPayroll, isMonthAdvance){
@@ -323,7 +329,9 @@
                 PolicyType:           application.applicationType,
                 OperationType:        nsctr_constants.movementType.inclusion.operationType,
                 MovementNumber:       parseInt(vSession.movementNumber || 0),
-                flgPrimaMinima:       'S' // 'S' => AplicarPrima | 'N' => ExonerarPrima
+                flgPrimaMinima:       'S' ,// 'S' => AplicarPrima | 'N' => ExonerarPrima
+                RoleCode:             $scope.data.USER.role,
+
               }
               vParams.push(vApplication);
             }

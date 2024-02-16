@@ -1,8 +1,8 @@
 define([
   'angular', 'constants', 'constantsRiesgosGenerales', 'locales', 'vehiculos', 'rrggModalProductParameter'
 ], function (ng, constants, constantsRiesgosGenerales) {
-  hidrocarburoController.$inject = ['mModalAlert', 'riesgosGeneralesService', 'riesgosGeneralesFactory', 'riesgosGeneralesCommonFactory', '$uibModal'];
-  function hidrocarburoController(mModalAlert, riesgosGeneralesService, riesgosGeneralesFactory, riesgosGeneralesCommonFactory, $uibModal) {
+  hidrocarburoController.$inject = ['$scope','mModalAlert', 'riesgosGeneralesService', 'riesgosGeneralesFactory', 'riesgosGeneralesCommonFactory', '$uibModal'];
+  function hidrocarburoController($scope,mModalAlert, riesgosGeneralesService, riesgosGeneralesFactory, riesgosGeneralesCommonFactory, $uibModal) {
     var vm = this;
     vm.producto = {};
     // Funciones
@@ -25,13 +25,22 @@ define([
       vm.constantsRrgg = constantsRiesgosGenerales;
       riesgosGeneralesFactory.setCotizacionProducto(vm.cotizacion);
       vm.producto = riesgosGeneralesFactory.cotizacion.producto;
-      vm.locales = [{ Ubicacion: "" }, { Ubicacion: "" }]
+      vm.locales = [{ Ubicacion: "",  Ubigeo: {
+        mDepartamento: null,
+        mProvincia: null,
+        mDistrito: null
+      }, }, { Ubicacion: "",  Ubigeo: {
+        mDepartamento: null,
+        mProvincia: null,
+        mDistrito: null
+      }, }]
       vm.producto.modelo = {
         listaUbicaciones: [],
         listaVehiculos: [],
         AseguraAdicional: 0,
         CantidadUit: ''
       }
+      
       riesgosGeneralesService.getCurrencyType(false)
         .then(function (response) {
           vm.monedas = response.Data;
@@ -53,6 +62,15 @@ define([
       if (riesgosGeneralesFactory.getEditarCotizacion()) {
         vm.producto.modelo = vm.cotizacion.form;
         vm.producto.modelo.listaUbicaciones = vm.cotizacion.form.listaUbicaciones || []
+
+        vm.producto.modelo.listaUbicaciones.forEach(function(item){
+          item.Ubigeo = {
+            mDepartamento : {Codigo:item.Departamento.Codigo},
+            mProvincia : {Codigo:item.Provincia.Codigo},
+            mDistrito : {Codigo:item.Distrito.Codigo},
+          };
+        });
+
         vm.producto.modelo.listaVehiculos = vm.cotizacion.form.listaVehiculos || []
         if (vm.producto.modelo.IsVehiculoOrLocal === vm.constantsRrgg.DATOS.VEHICULOS) {
           vm.producto.modelo.CantidadElementos = vm.producto.modelo.listaVehiculos.length;
@@ -123,6 +141,7 @@ define([
         }
         if (vm.producto.modelo.IsVehiculoOrLocal === vm.constantsRrgg.DATOS.VEHICULOS) {
           vm.producto.modelo.listaVehiculos.forEach(function (element) { element.Uit = "" });
+          
         }
       }
     }
@@ -134,10 +153,12 @@ define([
         grupo === vm.constantsRrgg.PARAMETROS.GIRO_NEGOCIO.GRUPO.E) {
         vm.producto.modelo.IsVehiculoOrLocal = vm.constantsRrgg.DATOS.LOCALES
         if (vm.producto.modelo.CantidadElementos)
+          vm.producto.modelo.listaVehiculos = [];
           vm.addDatos(vm.producto.modelo.CantidadElementos, vm.constantsRrgg.DATOS.LOCALES)
       } else {
         vm.producto.modelo.IsVehiculoOrLocal = vm.constantsRrgg.DATOS.VEHICULOS
         if (vm.producto.modelo.CantidadElementos)
+          vm.producto.modelo.listaUbicaciones = [];
           vm.addDatos(vm.producto.modelo.CantidadElementos, vm.constantsRrgg.DATOS.VEHICULOS)
       }
     }

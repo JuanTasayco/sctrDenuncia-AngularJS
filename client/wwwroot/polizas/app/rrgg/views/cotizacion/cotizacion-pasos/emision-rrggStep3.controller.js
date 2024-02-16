@@ -7,9 +7,9 @@ define([
     .module("appRrgg")
     .controller('emisionRrggStep3Controller', emisionRrggStep3Controller);
 
-  emisionRrggStep3Controller.$inject = ['$scope', '$state', 'mModalAlert', 'riesgosGeneralesFactory', 'riesgosGeneralesService', 'oimClaims', 'mModalConfirm'];
+  emisionRrggStep3Controller.$inject = ['$scope', '$state', 'mModalAlert', 'riesgosGeneralesFactory', 'riesgosGeneralesService', 'oimClaims', 'mModalConfirm', 'oimAbstractFactory'];
 
-  function emisionRrggStep3Controller($scope, $state, mModalAlert, riesgosGeneralesFactory, riesgosGeneralesService, oimClaims, mModalConfirm) {
+  function emisionRrggStep3Controller($scope, $state, mModalAlert, riesgosGeneralesFactory, riesgosGeneralesService, oimClaims, mModalConfirm, oimAbstractFactory) {
 
     (function load_emisionRrggStep3Controller() {
       $scope.constantsRrgg = constantsRiesgosGenerales;
@@ -18,6 +18,7 @@ define([
       $scope.tramite.userProfile = oimClaims.userProfile
       $scope.tramite.loginUserName = oimClaims.loginUserName
       $scope.emision = {}
+      $scope.isMydream = oimAbstractFactory.isMyDream();
     })();
     $scope.Emitir = function () {
       if (_validateForm()) {
@@ -43,7 +44,16 @@ define([
           }
         }
         mModalConfirm.confirmWarning('', '¿ESTA SEGURO DE SOLICITAR LA POLIZA?', 'ACEPTAR').then(function (response) {
-          riesgosGeneralesService.emision(riesgosGeneralesFactory.getModelEmision(), $scope.tramite.Grupo).then(function (response) {
+          var requestEmision = riesgosGeneralesFactory.getModelEmision();
+          
+          if ($scope.isMydream){
+            requestEmision.CodigoApp = 'MYD';
+            requestEmision.CodigoUsr = requestEmision.CodigoUsrSuscripcion;
+          }else{
+            requestEmision.CodigoApp = 'OIM';
+          }
+
+          riesgosGeneralesService.emision(requestEmision, $scope.tramite.Grupo).then(function (response) {
             if (response.OperationCode === constants.operationCode.success) {
               mModalAlert.showSuccess("Solicitud enviada correctamente.", "NUEVA SOLICITUD ENVIADA").then(function (rs) {
                 if (rs) {
@@ -64,7 +74,16 @@ define([
       if (_validateForm()) {
         $scope.frmEmision.$valid = false
         var file = riesgosGeneralesFactory.cotizacion.emision.modelo.documentacionAll
-        riesgosGeneralesService.sendSuscriptor(file, riesgosGeneralesFactory.getModelSuscriptor()).then(function (response) {
+        var requestSuscriptor = riesgosGeneralesFactory.getModelSuscriptor();
+
+        if ($scope.isMydream){
+          requestSuscriptor.CodigoApp = 'MYD';
+          requestSuscriptor.CodigoUsr = requestSuscriptor.CodigoUsrSuscripcion;
+        }else{
+          requestSuscriptor.CodigoApp = 'OIM';
+        }
+
+        riesgosGeneralesService.sendSuscriptor(file, requestSuscriptor).then(function (response) {
           $scope.frmEmision.$valid = true
           if (response.data.OperationCode === constants.operationCode.success) {
             mModalAlert.showSuccess(response.data.Message, "EXITOSO").then(function (rs) {

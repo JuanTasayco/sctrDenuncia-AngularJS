@@ -80,7 +80,7 @@
         menuName: "Gestión de Requerimientos",
         isComponsesMenu: true,
         icon: "ico-mapfre_172_consultaGestion"
-      },	  
+      },
       gcw: {
         code: "GCW",
         shortName: "CONSULTAS DE GESTION",
@@ -103,6 +103,17 @@
         menuName: "Web Procurador",
         isComponsesMenu: true,
         icon: "ico-mapfre_11_assitentemapfre"
+      },
+      pf: {
+        code: "PLANIFICADOR",
+        shortName: "PLANIFICADOR FINANCIERO",
+        packageName: "wpPackage",
+        path: "/webproc/package",
+        location: "https://peru.planificadorfinanciero.mapfre.com/login?token=",
+        rootApi: "",
+        menuName: "Planificador Financiero",
+        isComponsesMenu: true,
+        icon: "ico-mapfre-340-planificador"
       },
       ap: {
         code: "ADMPORTALES",
@@ -381,6 +392,18 @@
         isComponsesMenu: true,
         icon: 'ico-mapfre_174_gestionMedica'
       },
+  	 cnt:{
+        code: "CNT",
+        shortName: 'Canales No Tradicionales',
+        packageName: 'Canales No Tradicionales',
+        path: "/cnt/package",
+        appPath: "/cnt/app",
+        location: '/cnt/#',
+        menuName: 'Canales No Tradicionales',
+        rootApi: '',
+        isComponsesMenu: true,
+        icon: 'ico-mapfre_172_consultaGestion'
+      },
       atencionsiniestrosagricola:{
         code: "ASA",
         shortName: 'SINIESTROS AGRICOLA',
@@ -450,6 +473,18 @@
         rootApi: '',
         isComponsesMenu: true,
         icon: 'ico-mapfre_93_crearmodificar'
+      },
+      inclusionMasiva:{
+        code: "OPTI",
+        shortName: 'Inclusión Masiva de Salud',
+        packageName: 'inclusionmasivaPackage',
+        path: "/inclusionmasiva/package",
+        appPath: "/inclusionmasiva/app",
+        location: '/inclusionmasiva/#',
+        menuName: 'Inclusión Masiva de Salud',
+        rootApi: '',
+        isComponsesMenu: true,
+        icon: 'ico-mapfre_343_sctrdenuncia'
       },
     },
     lib: {

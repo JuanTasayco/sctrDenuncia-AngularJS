@@ -109,6 +109,7 @@ define([
 
           mapfreAuthetication.signIn(credentials, { username: credentials.username })
             .then(function(response) {
+
               var vUrl = _getParamUrl();
               var loginHref= vUrl ? '/login?url=' + vUrl : '/login';
 
@@ -145,7 +146,8 @@ define([
             response.userOptions = {
               isActiveMarch: user.isActiveMarch,
               isUserMarch: user.isUserMarch,
-              isAgent: user.isAgent
+              isAgent: user.isAgent,
+              user: user
             }
             mapfreAuthetication.redirect(response);
             mpSpin.end();

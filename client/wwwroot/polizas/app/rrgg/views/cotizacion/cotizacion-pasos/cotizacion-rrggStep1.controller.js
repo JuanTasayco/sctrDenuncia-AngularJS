@@ -9,23 +9,24 @@ define([
     .controller('cotizacionRrggStep1Controller', cotizacionRrggStep1Controller);
 
   cotizacionRrggStep1Controller.$inject = ['$scope', '$state', 'mainServices', 'mModalAlert', 'mpSpin', '$uibModal', 'riesgosGeneralesService', 'riesgosGeneralesFactory',
-    'riesgosGeneralesCommonFactory', '$filter'];
+    'riesgosGeneralesCommonFactory','oimAbstractFactory', '$filter'];
 
   function cotizacionRrggStep1Controller($scope, $state, mainServices, mModalAlert, mpSpin, $uibModal, riesgosGeneralesService, riesgosGeneralesFactory,
-    riesgosGeneralesCommonFactory, $filter) {
+    riesgosGeneralesCommonFactory,oimAbstractFactory, $filter) {
 
     (function load_cotizacionRrggStep1Controller() {
       $scope.constantsRrgg = constantsRiesgosGenerales
       $scope.fnFilter = $filter("date");
       $scope.cotizacion = {};
+      $scope.isMydream = oimAbstractFactory.isMyDream();
       $scope.format = constants.formats.dateFormat;
       $scope.validadores = {
         minStartDate: new Date(),
         minStartDateFormat: riesgosGeneralesFactory.formatearFecha(new Date())
       }
-      riesgosGeneralesService.getProxyProductos()
+      riesgosGeneralesService.getProxyProductosByUser()
         .then(function (response) {
-          $scope.productos = response.Data.filter(function (element) { return element.Habilitado === 1 })
+          $scope.productos = response.Data
         });
       $scope.cotizacion.fechaCotizacion = $scope.fnFilter(new Date(), constants.formats.dateFormat)
       riesgosGeneralesService.getProxyPametros(0, constantsRiesgosGenerales.PARAMETROS.TIP_CAMBIO)
@@ -84,6 +85,7 @@ define([
             requestProducto = riesgosGeneralesFactory.getModelEventos();
             break;
         }
+        requestProducto.CodigoApp = $scope.isMydream ? 'MYD' : 'OIM';
         riesgosGeneralesService.cargaCotizacion(requestProducto, $scope.cotizacion.producto.Grupo).then(function (response) {
           if (response.OperationCode === constants.operationCode.success) {
             riesgosGeneralesFactory.cotizacion.tramite = {
@@ -93,7 +95,7 @@ define([
             }
             $state.go(constantsRiesgosGenerales.ROUTES.COTIZACION_STEPS, { step: constantsRiesgosGenerales.STEPS.RESULTADOS });
           } else {
-            mModalAlert.showWarning(response.Data.MessageResult, "Alerta!")
+            mModalAlert.showWarning(response.Data ? response.Data.MessageResult : 'Ha ocurrido un error en el servidor, porfavor contacte con soporte.' , "Alerta!")
           }
         }).catch(function (error) {
           mModalAlert.showError(error.Message, "¡Error!")
@@ -151,7 +153,8 @@ define([
               }catch(e) {
                 return false
               }             
-          break;
+        case constantsRiesgosGenerales.GRUPO.CAR:
+            return !riesgosGeneralesFactory.esContinueStep;          
         default:
           return false;
       }

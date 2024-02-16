@@ -38,12 +38,17 @@ define(['angular', 'constants', '/scripts/mpf-main-controls/components/ubigeo/se
         });
 
         _self.getProvincias = function(idDepartamento) {
+           
             if (!idDepartamento || idDepartamento.Codigo == null) {
                 _self.data.dataProvincias = [];
                 _self.data.dataDistritos = [];
             } else {
                 ubigeoFactory.getProvincias(idDepartamento.Codigo).then(function(response) {
                     _self.data.dataProvincias = response.Data
+                    _self.data.mProvincia = null
+                    _self.data.mDistrito = null
+                    _self.changeUbigeo(_self.data)
+
                 }, function(error) {
                     console.log('error provincias');
                 });
@@ -51,11 +56,14 @@ define(['angular', 'constants', '/scripts/mpf-main-controls/components/ubigeo/se
         };
 
         _self.getDistritos = function(idProvincia) {
+            
             if (idProvincia == null || idProvincia.Codigo == null) {
                 _self.data.dataDistritos = [];
             } else {
                 ubigeoFactory.getDistritos(idProvincia.Codigo).then(function(response) {
                     _self.data.dataDistritos = response.Data
+                    _self.data.mDistrito = null
+                    _self.changeUbigeo(_self.data)
                 }, function(error) {
                     console.log('error distritos');
                 });
@@ -72,6 +80,7 @@ define(['angular', 'constants', '/scripts/mpf-main-controls/components/ubigeo/se
                     _self.getDistritos(_self.data.mProvincia);
                     if (codigoDistrito) {
                         _self.data.mDistrito = { Codigo: codigoDistrito }
+                        
                     }
                 } else {
                     clean();
@@ -81,6 +90,16 @@ define(['angular', 'constants', '/scripts/mpf-main-controls/components/ubigeo/se
                 _self.blockDepartament = false;
                 // enviamos un codigo inexistente para que limpie los cbos de provincia y distrito
                 _self.getProvincias({ Codigo: null });
+            }
+        }
+
+        function changeUbigeo(data) {
+            if(data) {
+                _self.ubigeo = {
+                    mDepartamento: data.mDepartamento ? data.mDepartamento.Codigo : null,
+                    mProvincia: data.mProvincia ? data.mProvincia.Codigo : null ,
+                    mDistrito: data.mDistrito ? data.mDistrito.Codigo : null
+                }    
             }
         }
 
@@ -95,7 +114,12 @@ define(['angular', 'constants', '/scripts/mpf-main-controls/components/ubigeo/se
 
         _self.setter = setUbigeo;
         _self.clean = clean;
-
+        _self.changeUbigeo = changeUbigeo;
+        _self.$onInit = function() {
+            $scope.$watch('$ctrl.ubigeo', function(newUbigeo, oldUbigeo) {
+                $scope.$emit('ubigeo', newUbigeo);
+            });
+        };
     }]).component('mpfUbigeo', {
         templateUrl: '/scripts/mpf-main-controls/components/ubigeo/component/ubigeo.html',
         controller: 'ctrlUbigeo',
@@ -107,7 +131,8 @@ define(['angular', 'constants', '/scripts/mpf-main-controls/components/ubigeo/se
             blockDepartament: "=?",
             blockProvincia: "=?",
             blockDistrito: "=?",
-            allFieldsRequired: '=?'
+            allFieldsRequired: '=?',
+            ubigeo: '<'
         }
     })
 });

@@ -9,19 +9,40 @@
           <p>{{$index + 1}}</p>
         </div>
         <div class="col-sm-7 col-md-8 mb-xs-2 mb-sm-0">
-          <mpf-input label="{label: 'Ubicación del riesgo', required: true}" name="direccion{{$index}}" ng-model="local.Direccion" ng-maxlength="200"
+          <mpf-input label="{label: 'Ubicación del riesgo', required: true}" name="direccion{{$index}}" 
+            ng-model="local.Direccion" ng-maxlength="200"
             ng-disabled="$ctrl.validate" mpf-validation="onlyLetterNumCaracteres" ng-required="true">
           </mpf-input>
           <div class="g-error" ng-show="$ctrl.validControlForm('direccion{{$index}}')">
             {{$ctrl.constantsRrgg.SMS_ERROR.REQUERIDO}}
           </div>
         </div>
+        
         <div ng-if="$ctrl.data.TipoAseguramiento.Codigo == $ctrl.constantsRrgg.TIPO_ASEGURAMIENTO.X_UNIDAD"
           class="col-sm-3 col-md-2 mb-xs-2 mb-sm-0">
           <mpf-input ng-keyup="$ctrl.calcularPrimas()" label="{label: 'UIT'}" name="Uit{{$index}}" ng-model="local.Uit"
             ng-disabled="$ctrl.validate" mpf-validation="onlyNumber">
           </mpf-input>
         </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-2 col-md-1 g-box--list-number"></div>
+        <div ng-if="$ctrl.validate" class="col-sm-7 col-md-8 mt-xs-2 mb-xs-2 mb-sm-0">
+          <p class="pr-xs-1 pr-md-0">Ubigeo</p>
+          <p>{{local.Departamento.Descripcion + ' - ' + local.Provincia.Descripcion + ' - ' + local.Distrito.Descripcion}}</p>
+        </div>
+        
+        <mpf-ubigeo
+          class="col-sm-7 col-md-8 mt-xs-2 mb-xs-2 mb-sm-0"
+          ng-if="!$ctrl.validate"
+          data="local.Ubigeo"
+          ng-model="local.Ubigeo"
+          is-Valid="$ctrl.ubigeoValid"
+          setter="local.setter"
+          all-Fields-Required="true"
+          clean="$ctrl.local.clean"
+        ></mpf-ubigeo>
+        
       </div>
     </li>
   </ul>
