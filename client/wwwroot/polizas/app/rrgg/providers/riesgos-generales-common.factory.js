@@ -479,7 +479,6 @@ define([
           })
           var sumaMaxima = _getData(group[0]).pop()[1]
           var sumaMinima = _getData(group[0]).shift()[0]
-          var isValid = false;
           jsonData.simboloMoneda = 'US$';
           //cuando es soles calcula por TC
           if (parseInt(paramData.moneda.Codigo) === 1) {
@@ -495,7 +494,7 @@ define([
           if (parseFloat(paramData.MontoObra) > tasaMaxima) {
             if (paramData.type === "C") {
               mModalAlert.showWarning(riesgosGeneralesFactory.getSmsError(tasaMaxima, jsonData), "MAPFRE:LIMITE DE SUMA ASEGURADA")
-              .then(function (response){
+              .then(function (){
                 deferred.resolve(false);
               });
             } else if (paramData.type === "R") {
@@ -503,15 +502,10 @@ define([
             } else{
               deferred.resolve(true);
             }
-          }else{
-            isValid = true;
-          }
-
-          if (parseFloat(paramData.MontoObra) < tasaMinima) {
-            isValid = false;
+          }else if (parseFloat(paramData.MontoObra) < tasaMinima) {
             if (paramData.type === "C") {
               mModalAlert.showWarning("La suma asegurada no puede ser menor a " + jsonData.simboloMoneda + " " + riesgosGeneralesFactory.convertMiles(tasaMinima) + ". Para montos menores, utilizar el producto CAR LITE", "MAPFRE:SUMA ASEGURADA MÍNIMA")
-              .then(function (response) {
+              .then(function () {
                 deferred.resolve(false);
               })
             } else if (paramData.type === "R") {
@@ -520,10 +514,6 @@ define([
               deferred.resolve(true);
             }
           }else{
-            isValid = true;
-          }
-            
-          if (isValid){
             deferred.resolve(true);
           } 
           

@@ -155,6 +155,8 @@ define([
               }             
         case constantsRiesgosGenerales.GRUPO.CAR:
             return !riesgosGeneralesFactory.esContinueStep;          
+        case constantsRiesgosGenerales.GRUPO.CARLITE:
+            return !riesgosGeneralesFactory.esContinueStep;       
         default:
           return false;
       }
