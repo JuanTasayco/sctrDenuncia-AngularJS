@@ -138,8 +138,6 @@ define([
         
       if(data.producto === constantsRiesgosGenerales.GRUPO.CARLITE){
         vSmsMonto = vSmsMonto +  " Para montos mayores, utilizar el producto CAR.";
-      }else{
-        vSmsMonto = vSmsMonto;
       }
 
       return vSmsMonto;
