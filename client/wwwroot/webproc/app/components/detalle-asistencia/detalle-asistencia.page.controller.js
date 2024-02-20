@@ -1,11 +1,12 @@
 'use strict';
 
-define(['angular', 'lodash', 'AsistenciaActions', 'helper', 'wpConstant'], function(
+define(['angular', 'lodash', 'AsistenciaActions', 'helper', 'wpConstant', 'constants'], function (
   ng,
   _,
   AsistenciaActions,
   helper,
-  wpConstant
+  wpConstant,
+  constants
 ) {
   DetalleAsistenciaPageController.$inject = [
     '$interval',
@@ -22,9 +23,11 @@ define(['angular', 'lodash', 'AsistenciaActions', 'helper', 'wpConstant'], funct
     'nivelDanho',
     'tipoDanho',
     'talleres',
+    'typeDocuments',
     'wpFactory',
     '$ngRedux',
-    'mModalAlert'
+    'mModalAlert',
+    'mpSpin'
   ];
   function DetalleAsistenciaPageController(
     $interval,
@@ -41,151 +44,133 @@ define(['angular', 'lodash', 'AsistenciaActions', 'helper', 'wpConstant'], funct
     nivelDanho,
     tipoDanho,
     talleres,
+    typeDocuments,
     wpFactory,
     $ngRedux,
-    mModalAlert
+    mModalAlert,
+    mpSpin
   ) {
     var vm = this;
-    var saveIntervalPromise, actionsRedux, oldFrm, idMongo, fromNewToPendiente;
     var frmInvestigacion = {};
-    var canSaveAgain = true;
-    var firstAutoSave = true;
+
     vm.$onInit = onInit;
-    vm.anular = anular;
     vm.desestimar = desestimar;
+    vm.anular = anular;
     vm.guardar = guardar;
-    vm.autoSave = autoSave;
+    vm.autorizar = autorizar;
     vm.investigar = investigar;
     vm.terminar = terminar;
+    vm.consolidar = consolidar;
+    vm.verDeducible = verDeducible;
 
-    // declaracion
+    vm.fotosTercero = [];
+    vm.conductorTerceroAux = {};
+    vm.validateForm = {
+      ocurrencia: false,
+      tercero: false,
+      validate: false
+    };
+    vm.url = {
+      'QA': "https://talleres.pre.mapfre.com.pe/#/talleres?plate=",
+      "PROD": "https://talleres.mapfre.com.pe/#/talleres?plate="
+    }
 
-    // TIP: vm.$onDestroy no es lanzado.
-    // más info: https://github.com/angular/angular.js/issues/15073
-    $scope.$on('$destroy', function sod() {
-      vm.rdxExitAssistance();
-      $interval.cancel(saveIntervalPromise);
-      actionsRedux();
-    });
 
     function onInit() {
-      var statusGeneral = {};
-      actionsRedux = $ngRedux.connect(mapStateToThis, AsistenciaActions)(vm);
-      wpFactory.setNroAsistencia(+$state.params.nroAsistencia);
-      var ultimaDataDeAsistencia = _getDataAsistencia();
-      wpFactory.setSiniestroNro(ultimaDataDeAsistencia.codigoSiniestro);
-      vm.infoAsistencia = _.assign({}, ng.copy($state.params), {
-        codigoSiniestro: ultimaDataDeAsistencia.codigoSiniestro,
-        numeroPoliza: ultimaDataDeAsistencia.numeroPoliza,
-        estadoSiniestro: ultimaDataDeAsistencia.estadoSiniestro,
-        role: wpFactory.getRole().roleCode
-      });
-      vm.autoSaveStatus = {
-        isSaving: false,
-        isSaved: false
+      vm.blocksinistro = true;
+      vm.modolectura = false;
+
+      vm.disabledAutorizar = true;
+      var paramsURL = ng.copy($state.params);
+
+      wpFactory.setNroAsistencia($state.params.nroAsistencia);
+
+      dataAsistencia = paramsURL.setFrm ? wpFactory.cache.getConsolidado() : dataAsistencia
+
+      vm.ultimaDataDeAsistencia = _getDataAsistencia();
+      if (vm.ultimaDataDeAsistencia.estadoSiniestro == 'GENERADO' || vm.ultimaDataDeAsistencia.estadoSiniestro == 'AUTORIZADO' ) {
+        vm.disabledAutorizar = vm.ultimaDataDeAsistencia.apreciacionEtilica , vm.modolectura = true
+      }
+      else {
+        vm.disabledAutorizar = true;
       };
-      vm.rdxDetalleUpdate(ultimaDataDeAsistencia);
-      _setBlockByState();
 
-      $timeout(function() {
-        // seteamos el oldFrm luego que los combos se hayan formateado. Asi no lanzara el autosave antes
-        oldFrm = wpFactory.help.buildReq(vm.detalleAsistencia);
-      }, 2000);
+      wpFactory.setSiniestroNro(vm.ultimaDataDeAsistencia.codigoSiniestro);
 
-      // solo mongo manda el campo statusInfo
-      if (vm.detalleAsistencia.statusInfo) {
-        if (ng.isUndefined(vm.detalleAsistencia.statusInfo.general)) {
-          statusGeneral = {general: wpFactory.validFrmGeneral(vm.detalleAsistencia)};
+      if (!vm.ultimaDataDeAsistencia.codigoSiniestro) {
+        vm.blocksinistro = true;
+        mModalAlert.showWarning(
+          '<b>' + ' La asistencia no cuenta con "código de siniestro", por lo que esta vista será de solo consulta' + '</b>',
+          'Mensaje'
+        );
+      }
+      else {
+        vm.blocksinistro = false;
+      }
+
+      wpFactory.ubigeo.GetProvinces(vm.ultimaDataDeAsistencia.codigoDepartamento || dataAsistencia.codigoDepartamento, false)
+        .then(function (response) {
+          wpFactory.setProvincia(response);
+        })
+
+      wpFactory.ubigeo.GetDistricts(vm.ultimaDataDeAsistencia.codigoDepartamento || dataAsistencia.codigoDepartamento, vm.ultimaDataDeAsistencia.codigoProvincia || dataAsistencia.codigoProvincia)
+        .then(function (response) {
+          wpFactory.setDistrito(response);
+        })
+
+      var estadoUT = false ,estadoConductorUT = false;
+      if(vm.ultimaDataDeAsistencia.conductorTercero){
+        if(vm.ultimaDataDeAsistencia.conductorTercero.length>0){
+          estadoUT = vm.ultimaDataDeAsistencia.conductorTercero[0].ocupanteTercero ? !!vm.ultimaDataDeAsistencia.conductorTercero[0].ocupanteTercero.codigoTipoDocumentoIdentidad : false
+          estadoConductorUT  = vm.ultimaDataDeAsistencia.conductorTercero[0].vehiculoTercero ? !!vm.ultimaDataDeAsistencia.conductorTercero[0].vehiculoTercero.codigoTipoVehiculo : false
         }
-      } else {
-        statusGeneral = {general: wpFactory.validFrmGeneral(vm.detalleAsistencia)};
-      }
-      if (_isPendienteOrGenerado()) {
-        statusGeneral = ng.extend({}, statusGeneral, {
-          conductor: wpFactory.validFrmConductor(vm.detalleAsistencia),
-          vehiculo: wpFactory.validFrmVehiculo(vm.detalleAsistencia),
-          siniestro: wpFactory.validFrmSiniestro(vm.detalleAsistencia)
-        });
-        vm.rdxFrmRequire(true);
       }
 
-      vm.rdxFrmsValidate(ng.extend({}, vm.detalleAsistencia.statusInfo, statusGeneral));
+
+
+      vm.infoAsistencia = _.assign({}, ng.copy($state.params), {
+        codigoSiniestro: vm.ultimaDataDeAsistencia.codigoSiniestro,
+        numeroPoliza: vm.ultimaDataDeAsistencia.numeroPoliza,
+        estadoSiniestro: vm.ultimaDataDeAsistencia.estadoSiniestro,
+        estadoUT: estadoUT,
+        estadoConductorUT: estadoConductorUT
+      });
+      wpFactory.myLookup.resetDataLookUp();
       _setLookups();
-      _isPendienteOrAbierto();
-    }
-
-    function mapStateToThis(state) {
-      return {
-        detalleAsistencia: _.merge({}, state.detalle),
-        frmStatus: state.frmStatus,
-        frmsValidationStates: state.frmsValidationStates,
-        isFrmRequire: state.frmStatus.require
-      };
-    }
-
-    function _setBlockByState() {
-      if (/generado/i.test(vm.detalleAsistencia.estadoSiniestro)) {
-        vm.rdxBlockByGenerado(true);
-      } else if (/anulado/i.test(vm.detalleAsistencia.estadoSiniestro)) {
-        vm.rdxBlockByAnulado(true);
-      }
-    }
-
-    function _isPendienteOrAbierto() {
-      return (
-        /pendiente/i.test(vm.detalleAsistencia.estadoSiniestro) || /abierto/i.test(vm.detalleAsistencia.estadoSiniestro)
-      );
+      mpSpin.end()
     }
 
     function _isDifferentToPendiente() {
-      return !/pendiente/i.test(vm.detalleAsistencia.estadoSiniestro);
+      return !/pendiente/i.test(vm.ultimaDataDeAsistencia.estadoSiniestro);
     }
 
     function _isPendienteOrGenerado() {
       return (
-        /pendiente/i.test(vm.detalleAsistencia.estadoSiniestro) ||
-        /generado/i.test(vm.detalleAsistencia.estadoSiniestro)
+        /pendiente/i.test(vm.ultimaDataDeAsistencia.estadoSiniestro) ||
+        /generado/i.test(vm.ultimaDataDeAsistencia.estadoSiniestro)
       );
     }
 
     function _getDataAsistencia() {
-      if (/ABIERTO/i.test(dataAsistencia.estadoSiniestro) && !+dataAsistencia.codigoTipoSiniestro) {
-        dataAsistencia.codigoTipoSiniestro = 2;
-      }
-      if (vm.infoAsistencia !=null)
-      dataAsistencia.codigoSiniestro =vm.infoAsistencia.codigoSiniestro;
+      dataAsistencia.codigoDepartamentoComisaria = dataAsistencia.codigoDepartamentoComisaria || dataAsistencia.codigoDepartamento
+      dataAsistencia.codigoProvinciaComisaria = dataAsistencia.codigoProvinciaComisaria || dataAsistencia.codigoProvincia
 
-      dataAsistencia.codigoTipoVia = dataAsistencia.codigoTipoVia && dataAsistencia.codigoTipoVia.trim();
-      // HACK: seteo de obj conductor para que mongo no lance error y tab conductor
-      _.keys(dataAsistencia.conductor).length || (dataAsistencia.conductor = {});
-      dataAsistencia.conductor.edadCondutor =
-        dataAsistencia.conductor.edadCondutor ||
-        wpFactory.help.calcularEdad(dataAsistencia.conductor.fchNacimientoConductor);
-      if (ng.isUndefined(dataAsistencia.conductor.codigoLesionConductor)) {
-        dataAsistencia.conductor.codigoLesionConductor = 0;
-      }
-      if (dataAsistencia.statusInfo) {
-        dataAsistencia.statusInfo = wpFactory.help.convertStringToBoolean(dataAsistencia.statusInfo);
-      }
-      dataAsistencia.numeroDocumentoCliente = dataAsistencia.numeroDocumentoCliente || 1;
-      ng.isUndefined(dataAsistencia.codigoRelacionAsegurado) && (dataAsistencia.codigoRelacionAsegurado = '0');
-      if (helper.hasPath(dataAsistencia, 'conductor.dniConductor')) {
-        dataAsistencia.conductor.dniConductor = wpFactory.help.padLeft(dataAsistencia.conductor.dniConductor, 8);
-      }
-
-      if (dataAsistencia.peatonesTercero && dataAsistencia.peatonesTercero.length) {
-        dataAsistencia.peatonesTercero = _.map(dataAsistencia.peatonesTercero, function mpF(item) {
-          var newDni = item.dniPeaton ? wpFactory.help.padLeft(item.dniPeaton, 8) : {};
-          return ng.extend({}, item, newDni);
-        });
-      }
-
-      if (dataAsistencia.conductorTercero && dataAsistencia.conductorTercero.length) {
-        dataAsistencia.conductorTercero = _.map(dataAsistencia.conductorTercero, function mpF(item) {
-          var currentDni = item.ocupanteTercero && item.ocupanteTercero.dniConductor;
-          var newDni = currentDni ? wpFactory.help.padLeft(currentDni, 8) : {};
-          return ng.extend({}, item, newDni);
-        });
+      if (vm.infoAsistencia != null)
+        dataAsistencia.codigoSiniestro = vm.infoAsistencia.codigoSiniestro;
+      dataAsistencia.dataVehiculo = {
+        placaVehiculo: dataAsistencia.placaVehiculo,
+        codigoSoatVehiculo: dataAsistencia.codigoSoatVehiculo,
+        descripcionSoatVehiculo: dataAsistencia.descripcionSoatVehiculo,
+        codigoTipoVehiculo: dataAsistencia.codigoTipoVehiculoAsegurado,
+        descripcionTipoVehiculo: dataAsistencia.descripcionTipoVehiculo,
+        codigoUsoVehiculo: dataAsistencia.codigoUsoVehiculo,
+        codigoModeloVehiculo: dataAsistencia.codigoModeloVehiculo,
+        modeloVehiculo: dataAsistencia.modeloVehiculo,
+        codigoMarcaVehiculo: dataAsistencia.codigoMarcaVehiculo,
+        marcaVehiculo: dataAsistencia.marcaVehiculo,
+        motorVehiculo: dataAsistencia.motorVehiculo,
+        anioVehiculo: dataAsistencia.anioVehiculoAsegurado,
+        serieVehiculo: dataAsistencia.serieVehiculo
       }
 
       return _.merge({}, wpFactory.help.getObjWithHoursFormat5Characters(dataAsistencia), {
@@ -203,324 +188,222 @@ define(['angular', 'lodash', 'AsistenciaActions', 'helper', 'wpConstant'], funct
       wpFactory.myLookup.setNivelDanho(nivelDanho);
       wpFactory.myLookup.setTipoDanho(tipoDanho);
       wpFactory.myLookup.setTalleres(talleres);
-    }
-
-    function _updateOldFrm() {
-      oldFrm = wpFactory.help.buildReq(vm.detalleAsistencia);
-    }
-
-    function autoSave() {
-        var request = wpFactory.help.buildReq(vm.detalleAsistencia);
-        if (canSaveAgain && wpFactory.help.isObjDifferent(oldFrm, request)) {
-          oldFrm = ng.copy(request);
-          _showMsgAutoSaveSaving();
-          fireAutoSave(request);
-        }
-    }
-
-    function _offAutoSave() {
-      canSaveAgain = false;
-    }
-
-    function _onAutoSave() {
-      canSaveAgain = true;
-    }
-
-    function fireAutoSave(frm) {
-      if (!canSaveAgain) {
-        return void 0;
-      }
-      _offAutoSave();
-      var dataAutoSave = {
-        autoGuardado: true,
-        currentUser: wpFactory.getCurrentUser().loginUserName,
-        statusInfo: vm.frmsValidationStates
-      };
-      idMongo && (dataAutoSave._id = idMongo);
-      fromNewToPendiente && (dataAutoSave.estadoSiniestro = 'PENDIENTE');
-      if(vm.infoAsistencia != null && frm.codigoSiniestro == 0) frm.codigoSiniestro = vm.infoAsistencia.codigoSiniestro;
-
-      var detalleAsistencia = _.merge({}, frm, dataAutoSave);
-      wpFactory.siniestro
-        .Save(detalleAsistencia, false)
-        .then(function asRPrFn(resp) {
-          if (_isBlockedByOtherUser(detalleAsistencia, resp)) {
-            vm.autoSaveStatus.isSaving = false;
-            vm.infoAsistencia.userForeign = resp.data;
-            _showMsgAutoSaveOverwrite();
-            return void 0;
-          }
-          vm.autoSaveStatus.isSaving = false;
-          vm.autoSaveStatus.isSaved = true;
-          _onAutoSave();
-          firstAutoSave && resp.data !== '000' && (idMongo = resp.data);
-          firstAutoSave = false;
-          _showMsgAutoSaveCompleted();
-        })
-        .catch(function asEPrFn(err) {
-          _onAutoSave();
-          vm.autoSaveStatus.isSaving = false;
-          vm.autoSaveStatus.isSaved = false;
-          $log.error('Falló el Autosave', err.data.message);
-        });
-    }
-
-    function _updateFrmOld(request) {
-      if (wpFactory.help.isObjDifferent(oldFrm, request)) {
-        oldFrm = ng.copy(request);
-      }
-    }
-
-    function _buildReqSave(obj) {
-      obj = obj || {};
-      var request = wpFactory.help.buildReq(vm.detalleAsistencia);
-
-      return ng.extend({}, request, obj, {
-        autoGuardado: false,
-        _id: vm.detalleAsistencia._id || idMongo
-      });
-    }
-
-    function _isBlockedByOtherUser(asistencia, resp) {
-      return (
-        asistencia._id &&
-        resp.data !== '000' &&
-        resp.data.toUpperCase() !== wpFactory.getCurrentUser().loginUserName.toUpperCase()
-      );
-    }
-
-    function _showMsgAutoSaveSaving() {
-      vm.autoSaveStatus.isSaving = true;
-      vm.autoSaveStatus.txt = 'Guardando borrador...';
-      vm.autoSaveStatus.icoCls = 'is-saving ico-mapfre_183_refresh';
-    }
-
-    function _showMsgAutoSaveCompleted() {
-      if (vm.autoSaveStatus.isSaved) {
-        vm.autoSaveStatus.txt = 'Cambios autoguardados';
-        vm.autoSaveStatus.icoCls = 'is-saved ico-mapfre_184_circleCheck';
-        $timeout(function() {
-          vm.autoSaveStatus.isSaved = false;
-        }, 2000);
-      }
-    }
-
-    function _showMsgAutoSaveOverwrite() {
-      var textos = {
-        btnCancel: 'Cancelar',
-        btnOk: 'Continuar',
-        subtitulo: 'Esta asistencia está siendo editada por <b>' + vm.infoAsistencia.userForeign + '</b>',
-        titulo: '¿Está seguro de sobreescribir los cambios?'
-      };
-
-      _showModalConfirm(textos)
-        .result.then(function caScFn() {
-          vm.infoAsistencia.userForeign = null;
-          _onAutoSave();
-          fireAutoSave(ng.extend({}, oldFrm, {overWrite: true}));
-        })
-        .catch(function smcCPr() {
-          mModalAlert.showWarning(
-            'Para poder volver a editar, vuelva a consultar la asistencia',
-            'Asistencia bloqueada'
-          );
-        });
+      wpFactory.myLookup.setTypeDocuments(typeDocuments);
     }
 
     function _goBandejaWithNroAsistencia() {
-      $state.go('bandeja', {assistanceNumber: wpFactory.getNroAsistencia()});
-    }
-
-    function _getIncompleteFrms(objFrm) {
-      var frmsToComplete = {};
-      _.each(objFrm, function mfvs(value, key) {
-        value || (frmsToComplete[key] = value);
-      });
-
-      return frmsToComplete;
-    }
-
-    function _isFrmInvalid(objValidationStateFrm) {
-      return _.some(objValidationStateFrm, function(status) {
-        return status === false;
-      });
-    }
-
-    function _showGoModalIncompleteFrm(incompleteFrms) {
-      mModalAlert
-        .showWarning(
-          'Verifica que hayas completado los campos obligatorios de: ' + _.keys(incompleteFrms).join(', '),
-          'Falta completar'
-        )
-        .then(function msGuardarPr() {
-          var currentState = $state.current.name;
-          var beInCurrentState = _.some(_.keys(incompleteFrms), function(item) {
-            return _.contains(currentState, item);
-          });
-          beInCurrentState || $state.go('detalleAsistencia.' + _.keys(incompleteFrms)[0]);
-        });
-    }
-
-    function anular() {
-      _offAutoSave();
-      vm.rdxFrmRequire(true);
-      if (!_isPendienteOrGenerado()) {
-        _onAutoSave();
-        return void mModalAlert.showWarning(
-          'El estado de la asistencia debe estar en PENDIENTE o GENERADO.',
-          'Aún no se puede Anular'
-        );
-      }
-
-      var textos = {
-        btnCancel: 'Cancelar',
-        btnOk: 'Anular',
-        subtitulo: 'Los cambios se guardarán en el sistema y se anulará la asistencia',
-        titulo: '¿Está seguro de Anular la Asistencia?'
-      };
-
-      var request = _buildReqSave({estadoSiniestro: 'ANULADO'});
-
-      _showModalConfirm(textos)
-        .result.then(function caScFn() {
-          // TODO: validar q validacion hay en la antigua
-          if (!vm.frmsValidationStates.general) {
-            _onAutoSave();
-            return void mModalAlert.showWarning('Los campos de Datos Generales son obligatorios', 'Falta completar');
-          }
-
-          wpFactory.siniestro
-            .Save(request, true)
-            .then(function aSPr() {
-              mModalAlert.showSuccess('Realizado con éxito', 'Asistencia Anulada').then(function msAnularPr() {
-                _goBandejaWithNroAsistencia();
-              });
-            })
-            .catch(function aEPr(err) {
-              _onAutoSave();
-              mModalAlert.showError('Ocurrió un error al anular', 'Error');
-              $log.error('Falló el anular asistencia', err.data);
-            });
-        })
-        .catch(function() {
-          _onAutoSave();
-        });
+      $state.go('bandeja', { assistanceNumber: wpFactory.getNroAsistencia() });
     }
 
     function desestimar() {
-      _offAutoSave();
-      vm.rdxFrmRequire(true);
-      if (_isDifferentToPendiente()) {
-        _onAutoSave();
-        return void mModalAlert.showWarning(
-          'El estado de la asistencia debe estar en PENDIENTE.',
-          'Aún no se puede desestimar'
-        );
-      }
+      $scope.$emit('frm:save');
+      $timeout(function () {
+        var frmTerceroConvenioinvalid = false;
 
-      var textos = {
-        btnCancel: 'Cancelar',
-        btnOk: 'Desistir',
-        titulo: '¿Está seguro que el cliente desea desistir de la Asistencia?'
-      };
-
-      var incompleteFrms = _getIncompleteFrms(vm.frmsValidationStates);
-      var request = _buildReqSave({estadoSiniestro: 'GENERADO'});
-
-      _showModalConfirm(textos)
-        .result.then(function cdScFn() {
-          if (_isFrmInvalid(vm.frmsValidationStates)) {
-            _onAutoSave();
-            return void _showGoModalIncompleteFrm(incompleteFrms);
-          }
-
-          wpFactory.siniestro
-            .GeneratorCaseFile(true, request)
-            .then(function aSPr() {
-              _updateFrmOld(request);
-              mModalAlert.showSuccess('Realizado con éxito', 'Desistimiento').then(function msAnularPr() {
-                _goBandejaWithNroAsistencia();
-              });
-            })
-            .catch(function aEPr(err) {
-              _onAutoSave();
-              mModalAlert.showError('Ocurrió un error al poner en desistimiento', 'Error');
-              $log.error('Falló el desestimar asistencia', err.data);
+        if (vm.frmGeneral.frmLugarOcurrencia.$invalid || frmTerceroConvenioinvalid) {
+          var frminvalid = vm.frmGeneral.frmLugarOcurrencia.$invalid ? 'Lugar de ocurrencia' : 'Terceros Convenio';
+          return void mModalAlert
+            .showWarning('Los campos de ' + frminvalid + ' son obligatorios', 'Falta completar')
+            .then(function msAnularPr() {
+              vm.validateForm.validate = false;
             });
-        })
-        .catch(function() {
-          _onAutoSave();
-        });
+        }
+
+        if (_isDifferentToPendiente()) {
+          return void mModalAlert.showWarning(
+            'El estado de la asistencia debe estar en PENDIENTE.',
+            'Aún no se puede desestimar'
+          );
+        }
+
+        var textos = {
+          btnCancel: 'Cancelar',
+          btnOk: 'Desistir',
+          titulo: '¿Está seguro que el cliente desea desistir de la Asistencia?'
+        };
+        vm.ultimaDataDeAsistencia.desestimiento = "S"
+        var request = setRequest('GENERADO');
+
+        _showModalConfirm(textos)
+          .result.then(function cdScFn() {
+
+            wpFactory.siniestro
+              .GeneratorCaseFile(true, request)
+              .then(function aSPr() {
+                mModalAlert.showSuccess('Realizado con éxito', 'Desistimiento').then(function msAnularPr() {
+                  _goBandejaWithNroAsistencia();
+                });
+              })
+              .catch(function aEPr(err) {
+                mModalAlert.showError('Ocurrió un error al poner en desistimiento', 'Error');
+                $log.error('Falló el desestimar asistencia', err.data);
+              });
+          })
+          .catch(function () {
+          });
+      })
+
     }
 
-    function guardar() {
-      if (localStorage.getItem('msg')) {
-        mModalAlert
-          .showWarning(localStorage.getItem('msg'), 'No se pudo generar Código de Siniestro');
+    function setRequest(estado) {
+      vm.ultimaDataDeAsistencia.codigoDepartamento = vm.ultimaDataDeAsistencia.codigoDepartamento + '';
+      vm.ultimaDataDeAsistencia.codigoProvincia = vm.ultimaDataDeAsistencia.codigoProvincia + '';
+      vm.ultimaDataDeAsistencia.codigoDistrito = vm.ultimaDataDeAsistencia.codigoDistrito + '';
+
+      if(vm.ultimaDataDeAsistencia.siniestroConvenio && vm.frmGeneral.frmTerceroConvenio){
+        vm.ultimaDataDeAsistencia.siniestroConvenio = {
+          "codigoConvenioGolpe": vm.frmGeneral.frmTerceroConvenio.nAcuerdoConductores  ? parseInt(vm.ultimaDataDeAsistencia.siniestroConvenio.codigoConvenioGolpeSelect.codigoValor) : null,
+          "codigoEmpresaAseguradora": vm.frmGeneral.frmTerceroConvenio.nCompaniaSeguro ? vm.ultimaDataDeAsistencia.siniestroConvenio.codigoEmpresaAseguradora : null,
+          "codigoMoneda": vm.frmGeneral.frmTerceroConvenio.nMoneda ?  vm.ultimaDataDeAsistencia.siniestroConvenio.codigoMoneda.toString() : null,
+          "flagTerceroSeguro": vm.frmGeneral.frmTerceroConvenio.nSeguro ?  vm.ultimaDataDeAsistencia.siniestroConvenio.flagTerceroSeguro : null,
+          "importe": vm.frmGeneral.frmTerceroConvenio.nImporte ? parseFloat(vm.ultimaDataDeAsistencia.siniestroConvenio.importe) : null,
+          "codigoConvenioGolpeSelect" : vm.ultimaDataDeAsistencia.siniestroConvenio.codigoConvenioGolpeSelect || null
+        }
       }
-      _offAutoSave();
-      vm.rdxFrmRequire(true);
-      var estadoSiniestro = vm.detalleAsistencia.estadoSiniestro;
-      if (!vm.frmsValidationStates.general) {
-        _onAutoSave();
-        return void mModalAlert
-          .showWarning('Los campos de Datos Generales son obligatorios', 'Falta completar')
-          .then(function msAnularPr() {
-            $state.go('detalleAsistencia.generales');
-          });
+
+
+      if(!vm.frmGeneral.frmTerceroConvenio){
+        vm.ultimaDataDeAsistencia.conductorTercero = null;
+        vm.ultimaDataDeAsistencia.siniestroConvenio = null;
+        vm.ultimaDataDeAsistencia.peatonesTercero = null;
+        vm.ultimaDataDeAsistencia.ocupantes= null;
+        vm.ultimaDataDeAsistencia.bienesTercero = null;
+        vm.ultimaDataDeAsistencia.codigoResponsaDetaSiniestro = 0;
+
       }
 
-      var textos = {
-        btnCancel: 'Cancelar',
-        btnOk: 'Guardar',
-        subtitulo: 'Los cambios se guardarán en el sistema',
-        titulo: '¿Está seguro de guardar los cambios?'
-      };
-
-      var incompleteFrms = _getIncompleteFrms(vm.frmsValidationStates);
-      var estadoReq = _isPendienteOrAbierto() ? {estadoSiniestro: 'PENDIENTE'} : {};
-      var request = _buildReqSave(estadoReq);
-
-      _showModalConfirm(textos)
-        .result.then(function cgScFn() {
-          if (_isFrmInvalid(vm.frmsValidationStates)) {
-            _onAutoSave();
-            return void _showGoModalIncompleteFrm(incompleteFrms);
-          }
-
-          wpFactory.siniestro
-            .Save(request, true)
-            .then(function aSPr() {
-              _updateFrmOld(ng.extend({}, request, {autoGuardado: true}));
-              vm.rdxFrmSaved(true);
-              if (estadoSiniestro === 'ABIERTO') {
-                vm.rdxDetalleUpdate({estadoSiniestro: 'PENDIENTE'});
-                vm.infoAsistencia.estadoSiniestro = 'PENDIENTE';
-                fromNewToPendiente = true;
-              }
-              _updateOldFrm();
-              _onAutoSave();
-
-              if (!_getDataAsistencia().codigoSiniestro) {
-                mModalAlert.showSuccess(
-                  'No se puede continuar, esta asistencia no tiene un siniestro aperturado',
-                  'Advertencia'
-                );
-              }
-            })
-            .catch(function aEPr(err) {
-              _onAutoSave();
-              $log.error('Falló el guardar asistencia', err.data);
-              var msgError = ''
-              if (err.data && err.data.data && err.data.data.message) {
-                msgError = err.data.data.message
-              }
-              mModalAlert.showError('Ocurrió un error al guardar <br><b>' + err.data.message + '</b>' + '<br><b>' + msgError + '</b>', 'Error');
-            });
-        })
-        .catch(function() {
-          _onAutoSave();
+      if(vm.ultimaDataDeAsistencia.conductorTercero){
+        _.forEach(vm.ultimaDataDeAsistencia.conductorTercero,function (item, idx) {
+          vm.ultimaDataDeAsistencia.conductorTercero[idx].vehiculoTercero.itemTerceroVehiculo = 0;
+          vm.ultimaDataDeAsistencia.conductorTercero[idx].ocupanteTercero.itemConductor = 0;
+          vm.ultimaDataDeAsistencia.conductorTercero[idx].vehiculoTercero.itemTerceroVehiculo = idx+1;
+          vm.ultimaDataDeAsistencia.conductorTercero[idx].ocupanteTercero.itemConductor = idx+1;
         });
+      }
+
+      vm.ultimaDataDeAsistencia.horaSiniestro && (vm.ultimaDataDeAsistencia.horaSiniestro = formatHour( vm.ultimaDataDeAsistencia.horaSiniestro));
+      vm.ultimaDataDeAsistencia.horaInicioAtencion && (vm.ultimaDataDeAsistencia.horaInicioAtencion = formatHour( vm.ultimaDataDeAsistencia.horaInicioAtencion));
+      vm.ultimaDataDeAsistencia.horaFinAtencion && (vm.ultimaDataDeAsistencia.horaFinAtencion = formatHour( vm.ultimaDataDeAsistencia.horaFinAtencion));
+
+      return _.assign({}, vm.ultimaDataDeAsistencia, vm.ultimaDataDeAsistencia.dataVehiculo, {
+        codigoTipoVehiculoAsegurado: vm.ultimaDataDeAsistencia.dataVehiculo ? vm.ultimaDataDeAsistencia.dataVehiculo.codigoTipoVehiculo : {} ,
+        anioVehiculoAsegurado: vm.ultimaDataDeAsistencia.dataVehiculo ? vm.ultimaDataDeAsistencia.dataVehiculo.anioVehiculo : {},
+        estadoSiniestro: estado
+      })
+    }
+
+    function formatHour(data){
+      const valorNumerico = data.replace(/\D/g, '');
+      const horas = valorNumerico.slice(0, 2);
+      const minutos = valorNumerico.slice(2);
+      return horas+':'+minutos;
+    }
+
+    function autorizar() {
+      $scope.$emit('frm:save');
+      $timeout(function () {
+        var request = {
+          codigoInterno: wpFactory.getNroAsistencia(),
+        };
+        var textos = {
+          btnCancel: 'Cancelar',
+          btnOk: 'Autorizar',
+          titulo: 'Recuerda que el siniestro <b>No</b> debe tener Alerta de investigación y debe estar <b>EXONERADO</b> de los tramites policiales. ¿Estás seguro de autorizar?'
+        };
+
+        _showModalConfirm(textos)
+          .result.then(function cgScFn() {
+            wpFactory.siniestro
+              .Autorizar(request)
+              .then(function (response) {
+                if (response.operationCode === 200) {
+                  mModalAlert.showSuccess('Realizado con éxito', 'Autorizar').then(function msAnularPr() {
+                    _goBandejaWithNroAsistencia();
+                  });
+                } else if (response.operationCode === 500) {
+                  mModalAlert.showError(response.message, 'Error');
+                }
+              })
+              .catch(function aEPr(err) {
+                mModalAlert.showError('Ocurrió un error al autorizar', 'Error');
+                $log.error('Falló al autorizar asistencia', err.data);
+              });
+          })
+          .catch(function () {
+          })
+
+      });
+
+
+    }
+
+    function anular() {
+
+      $scope.$emit('frm:save');
+      $timeout(function () {
+        var textos = {
+          btnCancel: 'Cancelar',
+          btnOk: 'Anular',
+          titulo: '¿Está seguro que el cliente desea anular de la Asistencia?'
+        };
+        var request = setRequest('ANULADO');
+        _showModalConfirm(textos)
+          .result.then(function cdScFn() {
+            wpFactory.siniestro
+              .Save(request, true)
+              .then(function aSPr() {
+                mModalAlert.showSuccess('Realizado con éxito', 'Anular').then(function msAnularPr() {
+                  _goBandejaWithNroAsistencia();
+                });
+              })
+              .catch(function aEPr(err) {
+                mModalAlert.showError('Ocurrió un error al poner en anulado', 'Error');
+                $log.error('Falló el anular asistencia', err.data);
+              });
+          })
+          .catch(function () {
+          });
+      })
+    }
+
+
+    function guardar() {
+      $scope.$emit('frm:save');
+      $timeout(function () {
+        vm.frmGeneral.frmLugarOcurrencia.markAsPristine();
+        var frmTerceroConvenioinvalid = false;
+
+        var dataGuardar = setRequest('PENDIENTE');
+        var textos = {
+          btnCancel: 'Cancelar',
+          btnOk: 'Guardar',
+          subtitulo: 'Los cambios se guardarán en el sistema',
+          titulo: '¿Está seguro de guardar los cambios?'
+        };
+
+        _showModalConfirm(textos)
+          .result.then(function cgScFn() {
+            wpFactory.siniestro
+              .Save(dataGuardar, true)
+              .then(function aSPr(res) {
+                vm.ultimaDataDeAsistencia.estadoSiniestro = 'PENDIENTE';
+                vm.infoAsistencia.estadoSiniestro = 'PENDIENTE';
+                mpSpin.start();
+                $state.reload();
+              })
+              .catch(function aEPr(err) {
+                $log.error('Falló el guardar asistencia', err.data);
+                var msgError = ''
+                if (err.data && err.data.data && err.data.data.message) {
+                  msgError = err.data.data.message
+                }
+                mModalAlert.showError('Ocurrió un error al guardar <br><b>' + err.data.message + '</b>' + '<br><b>' + msgError + '</b>', 'Error');
+              });
+          })
+          .catch(function () {
+
+          })
+      })
     }
 
     function investigar() {
@@ -529,89 +412,104 @@ define(['angular', 'lodash', 'AsistenciaActions', 'helper', 'wpConstant'], funct
         btnOk: 'Poner a investigación',
         titulo: '¿Está seguro de poner en investigación la Asistencia?'
       };
-      _showModalInvestigar(textos).result.then(function ctScFn(resp) {
-        frmInvestigacion.motivoInvestigacion = resp.motivoInvestigacion.codigoParametro;
-        frmInvestigacion.comentarioInvestigacion = resp.comentarioInvestigacion;
-        vm.rdxDetalleUpdate(frmInvestigacion);
+      _showModalInvestigar(textos, vm.ultimaDataDeAsistencia).result.then(function ctScFn(resp) {
+        vm.ultimaDataDeAsistencia.motivoInvestigacion = resp.motivoInvestigacion.codigoParametro;
+        vm.ultimaDataDeAsistencia.comentarioInvestigacion = resp.comentarioInvestigacion;
       });
     }
 
+    function _checkFotosDoc() {
+      return wpFactory.help.isArrayFotosValid(vm.ultimaDataDeAsistencia.documentosVehiculo, 3);
+    }
+
+    function _checkFotosSiniestro() {
+      return (vm.ultimaDataDeAsistencia.fotosSiniestroVehiculo || []).length > 0 ? true : false;
+    }
+
     function terminar() {
-      var body_get = {
-        "assistanceNumber": vm.detalleAsistencia.codigoInterno,
-        "carPlate": vm.detalleAsistencia.placaVehiculo,
-        "lastName": vm.detalleAsistencia.conductor.paternoConductor,
-        "district": vm.detalleAsistencia.codigoDistrito,
-        "documentNumber": vm.detalleAsistencia.conductor.dniConductor,
-        "name": vm.detalleAsistencia.conductor.nombreConductor,
-        "province": vm.detalleAsistencia.codigoProvincia,
-        "sinisterAddress": vm.detalleAsistencia.nombreVia
-      }
-
-      wpFactory.siniestro
-        .GetExistingSinister(body_get)
-        .then(function (value) {
-          mModalAlert.showWarning(
-            '<b>' + value.data.descripcion + '</b>',
-            'Mensaje'
-          );
-        })
-        .catch(function (e) {
-
-        });
-      _offAutoSave();
-      vm.rdxFrmRequire(true);
-      if (!_isPendienteOrGenerado()) {
-        _onAutoSave();
-        return void mModalAlert.showWarning(
-          'El estado de la asistencia debe estar en PENDIENTE o GENERADO.',
-          'Aún no se puede Terminar'
-        );
-      }
-
-      var textos = {
-        btnCancel: 'Cancelar',
-        btnOk: 'Terminar',
-        subtitulo: 'Los cambios se guardarán en el sistema y se generarán los expedientes respectivos.' +
-        (_getDataAsistencia().codigoSiniestro ? '' : '<br><b>Se está intentando terminar una asistencia sin siniestro generado, por favor comunicarse con un ejecutivo de siniestros.</b>'),
-        titulo: '¿Estás seguro de terminar la Asistencia?'
-      };
-
-      var incompleteFrms = _getIncompleteFrms(vm.frmsValidationStates);
-      var request = _buildReqSave({estadoSiniestro: 'GENERADO'});
-      if(vm.infoAsistencia != null && request.codigoSiniestro == 0) request.codigoSiniestro = vm.infoAsistencia.codigoSiniestro;
-
-      _showModalConfirm(textos)
-        .result.then(function ctScFn() {
-          if (_isFrmInvalid(vm.frmsValidationStates)) {
-            _onAutoSave();
-            return void _showGoModalIncompleteFrm(incompleteFrms);
-          }
-
-          wpFactory.siniestro
-            .GeneratorCaseFile(false, request)
-            .then(function aSPr(data) {
-              var aux_data = data.success
-              var aux_message = !data ? '' : data.message
-              if (aux_data) {
-                mModalAlert.showError(
-                  aux_message,
-                  'Aún no se puede Terminar'
-                );
-              } else {
-                mModalAlert.showSuccess('Realizado con éxito', 'Asistencia Generada').then(function msTerminarPr() {
-                  _goBandejaWithNroAsistencia();
-                });
-              }})
-            .catch(function aEPr(err) {
-              _onAutoSave();
-              mModalAlert.showError('Ocurrió un error al terminar <br><b>' + err.data.message + '</b>', 'Error');
-              $log.error('Falló el terminar asistencia', err.data);
+      $scope.$emit('frm:save');
+      $timeout(function () {
+        var frmTerceroConvenioinvalid = false;
+        if(!_checkFotosDoc() || !_checkFotosSiniestro()){
+          return void mModalAlert
+            .showWarning('Los campos de Fotos del asegurado son obligatorios', 'Falta completar')
+            .then(function msAnularPr() {
+              vm.validateForm.validate = false;
             });
-        })
-        .catch(function() {
-          _onAutoSave();
-        });
+        }
+
+        frmTerceroConvenioinvalid = vm.frmGeneral.frmTerceroConvenio.$invalid;
+        if (vm.frmGeneral.frmLugarOcurrencia.$invalid || !vm.ultimaDataDeAsistencia.detalleTipoSiniestro.length) {
+          return void mModalAlert
+            .showWarning('Los campos de Lugar de ocurrencia son obligatorios', 'Falta completar')
+            .then(function msAnularPr() {
+              vm.validateForm.validate = false;
+            });
+        }
+
+        if (frmTerceroConvenioinvalid) {
+          var mensajes = []
+          vm.frmGeneral.frmTerceroConvenio['$ctrl.frmVehiculoTercero'] && mensajes.push('Conductor tercero');
+          vm.frmGeneral.frmTerceroConvenio['$ctrl.frmAtropellado'] && mensajes.push('Atropellado');
+          vm.frmGeneral.frmTerceroConvenio['$ctrl.frmBien'] && mensajes.push('Bien afectado');
+
+          var text =
+            mensajes.length
+              ? 'La sección ' + mensajes[0] + ' aún esta en edición'
+              : 'Debe completar al menos una responsabilidad'
+          return void mModalAlert
+            .showWarning(text, 'Falta completar')
+            .then(function msAnularPr() {
+              vm.validateForm.validate = false;
+            });
+        }
+
+        if (!_isPendienteOrGenerado()) {
+          return void mModalAlert.showWarning(
+            'El estado de la asistencia debe estar en PENDIENTE o GENERADO.',
+            'Aún no se puede Terminar'
+          );
+        }
+
+        var textos = {
+          btnCancel: 'Cancelar',
+          btnOk: 'Terminar',
+          subtitulo: 'Los cambios se guardarán en el sistema y se generarán los expedientes respectivos.' +
+            (_getDataAsistencia().codigoSiniestro ? '' : '<br><b>Se está intentando terminar una asistencia sin siniestro generado, por favor comunicarse con un ejecutivo de siniestros.</b>'),
+          titulo: '¿Estás seguro de terminar la Asistencia?'
+        };
+
+        var dataGuardar = setRequest('GENERADO')
+
+        _showModalConfirm(textos)
+          .result.then(function ctScFn() {
+            wpFactory.siniestro
+              .GeneratorCaseFile(false, dataGuardar)
+              .then(function aSPr(data) {
+                var aux_data = data.success
+                var aux_message = !data ? '' : data.message
+                if (aux_data) {
+                  mModalAlert.showError(
+                    aux_message,
+                    'Aún no se puede Terminar'
+                  );
+                } else {
+                  mModalAlert.showSuccess('Realizado con éxito', 'Asistencia Generada').then(function msTerminarPr() {
+                    mpSpin.start();
+                    $state.reload();
+                  });
+                }
+              })
+              .catch(function aEPr(err) {
+                _onAutoSave();
+                mModalAlert.showError('Ocurrió un error al terminar <br><b>' + err.data.message + '</b>', 'Error');
+                $log.error('Falló el terminar asistencia', err.data);
+              });
+          })
+          .catch(function () {
+          });
+      })
+
     }
 
     function _showModalConfirm(textos) {
@@ -626,8 +524,8 @@ define(['angular', 'lodash', 'AsistenciaActions', 'helper', 'wpConstant'], funct
         controller: [
           '$scope',
           '$uibModalInstance',
-          function(scope, $uibModalInstance) {
-            scope.close = function(type) {
+          function (scope, $uibModalInstance) {
+            scope.close = function (type) {
               type && type === 'ok' ? $uibModalInstance.close() : $uibModalInstance.dismiss();
             };
             scope.textos = textos;
@@ -636,7 +534,7 @@ define(['angular', 'lodash', 'AsistenciaActions', 'helper', 'wpConstant'], funct
       });
     }
 
-    function _showModalInvestigar(textos) {
+    function _showModalInvestigar(textos, datos) {
       return $uibModal.open({
         backdrop: true,
         backdropClick: true,
@@ -648,26 +546,42 @@ define(['angular', 'lodash', 'AsistenciaActions', 'helper', 'wpConstant'], funct
         controller: [
           '$scope',
           '$uibModalInstance',
-          function(scope, $uibModalInstance) {
-            scope.close = function(ev) {
+          function (scope, $uibModalInstance) {
+            scope.close = function (ev) {
               ev && ev.status === 'ok' ? $uibModalInstance.close(ev.data) : $uibModalInstance.dismiss();
             };
             scope.textos = textos;
-            scope.datos = frmInvestigacion;
+            scope.datos = datos || frmInvestigacion;
           }
         ]
       });
     }
+
+    function consolidar() {
+      $scope.$emit('frm:save');
+      $timeout(function () {
+        var dataGuardar = setRequest(vm.ultimaDataDeAsistencia.estadoSiniestro);
+        wpFactory.cache.setConsolidado(dataGuardar);
+        $state.go('consolidadoAsistencia');
+      });
+
+
+    }
+
+    function verDeducible() {
+      if (vm.frmGeneral.frmLugarOcurrencia.frmVehiculoSoat.nPlaca.$viewValue) {
+        var url = vm.url[constants.environment] + btoa(vm.frmGeneral.frmLugarOcurrencia.frmVehiculoSoat.nPlaca.$viewValue);
+        window.open(url, '_blank');
+      }
+      else {
+        mModalAlert.showWarning('Ingresar un valor en el campo placa', 'Alerta');
+      }
+
+    }
+
   } // end controller
 
   return ng
     .module('appWp')
     .controller('DetalleAsistenciaPageController', DetalleAsistenciaPageController)
-    .controller('DatosGeneralesPageController', function() {})
-    .controller('ConductorOcupantePageController', function() {})
-    .controller('VehiculoPageController', function() {})
-    .controller('TercerosPageController', function() {})
-    .controller('DetalleSiniestroPageController', function() {})
-    .controller('ConsolidadoPageController', function() {})
-    .controller('TalleresPageController', function() {});
 });

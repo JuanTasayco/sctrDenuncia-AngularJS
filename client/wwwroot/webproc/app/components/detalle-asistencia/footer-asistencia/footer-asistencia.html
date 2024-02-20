@@ -1,0 +1,44 @@
+<div class="container mt-sm-2">
+    <div class="row">
+      <div class="col-md-6">
+
+      </div>
+      <div class="col-xs-4 col-sm-5 col-md-6" data-ng-if="!$ctrl.infoAsistencia.userForeign">
+        <div class="row g-text-right-xs pr-xs-2 relive" ng-if="!$ctrl.blocksinistro">
+          <div
+            class="col-xs-4 col-sm-3 u-float-align pl-xs-0 cabecera-asis__box-btn cabecera-asis__box-btn--save"
+            data-ng-if="$ctrl.infoAsistencia.estadoSiniestro.toUpperCase() === 'ABIERTO' || $ctrl.infoAsistencia.estadoSiniestro.toUpperCase() === 'PENDIENTE'">
+            <a class="col-md-12 g-btn second-design"
+              data-ng-class="$ctrl.saveStatus.saved ? 'g-btn-white ' : 'g-btn-verde'"
+              data-ng-click="$ctrl.handleGuardar();">
+              <span class="ico-mapfre_148_exito hidden-sm hidden-md hidden-lg"
+                data-ng-if="$ctrl.saveStatus.saved"></span>
+              <span class="ico-mapfre_146_USB ico-mapfre ico-save hidden-md hidden-lg"
+                data-ng-if="!$ctrl.saveStatus.saved"></span>
+              <span class="hidden-xs hidden-sm"> GUARDAR</span>
+            </a>
+          </div>
+          <div
+            class="col-xs-4 col-sm-2 col-md-4 hidden-xs hidden-sm u-float-align pl-xs-0 "
+          >
+            <a class="col-md-12 g-btn g-btn-verde second-design" data-ng-click="$ctrl.handleConsolidar()">
+              <span>GENERAR CONSOLIDADO</span>
+            </a>
+          </div>
+          <div
+            class="col-xs-4 col-sm-3 col-md-4 hidden-xs hidden-sm u-float-align pl-xs-0 "
+            data-ng-if="$ctrl.infoAsistencia.estadoSiniestro.toUpperCase() !== 'ANULADO'  && $ctrl.infoAsistencia.estadoSiniestro.toUpperCase() !== 'ABIERTO'"
+          >
+            <button class="col-md-12 g-btn g-btn-verde second-design" data-ng-disabled="$ctrl.modoLectura" data-ng-click="$ctrl.handleTerminar()">
+              <span>Terminar</span>
+            </button>
+          </div>
+        </div>
+        <div class="row g-text-right-xs pl-xs-2" ng-if="$ctrl.blocksinistro">
+          <div class="col-md-5 col-md-offset-7">
+            <a class="g-btn g-btn-white second-design block" ng-click="$ctrl.regresarBandeja();" > RETORNAR ALA BANDEJA </a>
+        </div>
+        </div>
+      </div>
+    </div>
+</div>

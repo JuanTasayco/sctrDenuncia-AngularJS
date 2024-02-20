@@ -1,0 +1,62 @@
+<div class="mt-xs-2">
+  <div class="container g-border">
+    <div data-ng-init="showUp = false" class="">
+      <div class="row pt-xs-2" style="background: rgb(85 84 84);cursor: pointer;"
+        data-ng-click="showUp = !showUp">
+        <div class="col-md-11" style="font-size: 20px; color: white;">
+          <h3 class="g-sub-title2  mb-md-1 pb-md-1">Terceros - Convenios (GxG)</h3>
+        </div>
+        <div class="col-md-1 text-white" style="font-size: 20px; color: white;">
+          <span class="ico-mapfre_76_chevrondown ico-down" data-ng-show="!showUp"></span>
+          <span class="ico-mapfre_77_chevronup ico-up" data-ng-show="showUp"></span>
+        </div>
+      </div>
+    </div>
+
+    <div data-ng-show="showUp" class="container" data-ng-form="frmTerceroConvenio">
+      <div class="row mt-xs-3">
+        <div class="col-md-12">
+          <h2 class="g-sub-title">Conductor Tercero</h2>
+        </div>
+      </div>
+      <wp-agregar-vehiculo-tercero
+        data-vehiculo-tercero="$ctrl.frmTercero.conductorTercero"
+        data-on-agregar="$ctrl.agregarVehiculoTercero($event)"
+        data-on-editar="$ctrl.editarVehiculoTercero($event)"
+        modo-lectura="$ctrl.modoLectura"
+        data-on-eliminar="$ctrl.eliminarVehiculoTercero($event)" >
+      </wp-agregar-vehiculo-tercero>
+
+      <div class="row">
+        <div class="col-md-12">
+          <h2 class="g-sub-title">Atropellado</h2>
+        </div>
+      </div>
+
+      <wp-agregar-atropellado
+        data-atropellados="$ctrl.frmTercero.peatonesTercero"
+        data-on-agregar="$ctrl.agregarAtropellado($event)"
+        data-on-editar="$ctrl.editarAtropellado($event)"
+        modo-lectura="$ctrl.modoLectura"
+        data-on-eliminar="$ctrl.eliminarAtropellado($event)" >
+      </wp-agregar-atropellado>
+
+      <div class="row mt-xs-2">
+        <div class="col-md-12">
+          <h2 class="g-sub-title">Bien afectado</h2>
+        </div>
+      </div>
+
+      <wp-agregar-bien
+        data-bienes="$ctrl.frmTercero.bienesTercero"
+        data-on-agregar="$ctrl.agregarBien($event)"
+        data-on-editar="$ctrl.editarBien($event)"
+        modo-lectura="$ctrl.modoLectura"
+        data-on-eliminar="$ctrl.eliminarBien($event)" >
+      </wp-agregar-bien>
+
+      <wp-responsabilidad siniestro="$ctrl.siniestro" modo-lectura="$ctrl.modoLectura"></wp-responsabilidad>
+    </div>
+
+  </div>
+</div>

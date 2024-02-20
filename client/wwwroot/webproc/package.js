@@ -79,6 +79,10 @@ define([], function() {
         name: 'wpModalConfirm',
         path: '/webproc/app/components/detalle-asistencia/common/modal-confirm/modal-confirm.component'
       },
+      wpModalMap: {
+        name: 'wpModalMap',
+        path: '/webproc/app/components/detalle-asistencia/common/modal-map/modal-map.component'
+      },
       wpImgTabUpload: {
         name: 'wpImgTabUpload',
         path: '/webproc/app/components/detalle-asistencia/common/img-tab-upload/img-tab-upload.component'
@@ -128,9 +132,17 @@ define([], function() {
         name: 'detalleAsistenciaPageController',
         path: '/webproc/app/components/detalle-asistencia/detalle-asistencia.page.controller'
       },
+      consolidadoAsistenciaPageController: {
+        name: 'consolidadoAsistenciaPageController',
+        path: '/webproc/app/components/consolidado-asistencia/consolidado-asistencia.page.controller'
+      },
       wpCabeceraAsistencia: {
         name: 'wpCabeceraAsistencia',
         path: '/webproc/app/components/detalle-asistencia/cabecera-asistencia/cabecera-asistencia.component'
+      },
+      wpFooterAsistencia: {
+        name: 'wpFooterAsistencia',
+        path: '/webproc/app/components/detalle-asistencia/footer-asistencia/footer-asistencia.component'
       },
       wpCommonCbos: {
         name: 'wpCommonCbos',
@@ -139,6 +151,70 @@ define([], function() {
       wpDatosGenerales: {
         name: 'wpDatosGenerales',
         path: '/webproc/app/components/detalle-asistencia/datos-generales/datos-generales.component'
+      },
+      wpLugarOcurrencia: {
+        name: 'wpLugarOcurrencia',
+        path: '/webproc/app/components/detalle-asistencia/lugar-ocurrencia/lugar-ocurrencia.component'
+      },
+      wpTerceroConvenio: {
+        name: 'wpTerceroConvenio',
+        path: '/webproc/app/components/detalle-asistencia/tercero-convenio/tercero-convenio.component'
+      },
+      wpResponsabilidad: {
+        name: 'wpResponsabilidad',
+        path: '/webproc/app/components/detalle-asistencia/tercero-convenio/responsabilidad/responsabilidad.component'
+      },
+      wpAgregarAtropellado: {
+        name: 'wpAgregarAtropellado',
+        path: '/webproc/app/components/detalle-asistencia/common/agregar-atropellado/agregar-atropellado.component'
+      },
+      wpAgregarEditarAtropellado: {
+        name: 'wpAgregarEditarAtropellado',
+        path: '/webproc/app/components/detalle-asistencia/common/agregar-atropellado/agregar-editar-atropellado/agregar-editar-atropellado.component'
+      },
+      wpAtropellado: {
+        name: 'wpAtropellado',
+        path: '/webproc/app/components/detalle-asistencia/common/agregar-atropellado/atropellado/atropellado.component'
+      },
+      wpVehiculoTercero: {
+        name: 'wpVehiculoTercero',
+        path: '/webproc/app/components/detalle-asistencia/common/agregar-vehiculo-tercero/vehiculo-tercero/vehiculo-tercero.component'
+      },
+      wpAgregarVehiculoTercero: {
+        name: 'wpAgregarVehiculoTercero',
+        path: '/webproc/app/components/detalle-asistencia/common/agregar-vehiculo-tercero/agregar-vehiculo-tercero.component'
+      },
+      wpAgregarEditarVehiculoTercero:{
+        name: 'wpAgregarEditarVehiculoTercero',
+        path: '/webproc/app/components/detalle-asistencia/common/agregar-vehiculo-tercero/agregar-editar-vehiculo-tercero/agregar-editar-vehiculo-tercero.component'
+      },
+      wpAgregarBien: {
+        name: 'wpAgregarBien',
+        path: '/webproc/app/components/detalle-asistencia/common/agregar-bien/agregar-bien.component'
+      },
+      wpNivelDanho: {
+        name: 'wpNivelDanho',
+        path: '/webproc/app/components/detalle-asistencia/common/nivel-danho/nivel-danho.component'
+      },
+      wpAgregarEditarBien: {
+        name: 'wpAgregarEditarBien',
+        path: '/webproc/app/components/detalle-asistencia/common/agregar-bien/agregar-editar-bien/agregar-editar-bien.component'
+      },
+      wpBien: {
+        name: 'wpBien',
+        path: '/webproc/app/components/detalle-asistencia/common/agregar-bien/bien/bien.component'
+      },
+      wpFixedAsistencia: {
+        name: 'wpFixedAsistencia',
+        path: '/webproc/app/components/detalle-asistencia/fixed-asistencia/fixed-asistencia.component'
+      },
+      wpPersonComponent: {
+        name: 'wpPersonComponent',
+        path: '/webproc/app/components/detalle-asistencia/person-component/person-component.component'
+      },
+      wpVehiculoSoat:{
+        name: 'wpVehiculoSoat',
+        path: '/webproc/app/components/detalle-asistencia/vehiculo-soat/vehiculo-soat.component'
       },
       mpfTimepicker: {
         name: 'mpfTimepicker',
@@ -186,17 +262,17 @@ define([], function() {
         name: 'wpTerceros',
         path: '/webproc/app/components/detalle-asistencia/terceros/terceros.component'
       },
-      wpAgregarBien: {
-        name: 'wpAgregarBien',
+      wpAgregarBienOld: {
+        name: 'wpAgregarBienOld',
         path: '/webproc/app/components/detalle-asistencia/terceros/agregar-bien/agregar-bien.component'
       },
-      wpAgregarEditarBien: {
-        name: 'wpAgregarEditarBien',
+      wpAgregarEditarBienOld: {
+        name: 'wpAgregarEditarBienOld',
         path:
           '/webproc/app/components/detalle-asistencia/terceros/agregar-bien/agregar-editar-bien/agregar-editar-bien.component'
       },
-      wpBien: {
-        name: 'wpBien',
+      wpBienOld: {
+        name: 'wpBienOld',
         path: '/webproc/app/components/detalle-asistencia/terceros/agregar-bien/bien/bien.component'
       },
       wpAgregarPeaton: {
@@ -220,11 +296,6 @@ define([], function() {
         name: 'wpAgregarEditarVehiculo',
         path:
           '/webproc/app/components/detalle-asistencia/terceros/agregar-vehiculo/agregar-editar-vehiculo/agregar-editar-vehiculo.component'
-      },
-      wpVehiculoTercero: {
-        name: 'wpVehiculoTercero',
-        path:
-          '/webproc/app/components/detalle-asistencia/terceros/agregar-vehiculo/vehiculo-tercero/vehiculo-tercero.component'
       },
       wpDetalleSiniestro: {
         name: 'wpDetalleSiniestro',
@@ -288,10 +359,28 @@ define([], function() {
         deps: ['wpFiltroTaller', 'wpTaller', 'wpModalDireccion', 'wpModalManual']
       },
       detalleAsistenciaPageController: {
-        deps: ['wpCabeceraAsistencia', 'wpConstant', 'mpfTimepicker', 'wpCommonCbos', 'wpMsgBox']
+        deps: ['wpCabeceraAsistencia', 'wpConstant', 'mpfTimepicker', 'wpCommonCbos', 'wpLugarOcurrencia','wpTerceroConvenio','wpFixedAsistencia','wpPersonComponent','wpVehiculoSoat','wpFooterAsistencia']
+      },
+      wpTerceroConvenio: {
+        deps: ['wpAgregarAtropellado','wpAgregarBien','wpNivelDanho','wpResponsabilidad','wpAgregarVehiculoTercero','mxImageUploader']
+      },
+      wpAgregarAtropellado: {
+        deps: ['wpAgregarEditarAtropellado','wpAtropellado','mxImageUploader']
+      },
+      wpAgregarEditarVehiculoTercero:{
+        deps: ['mxImageUploader','wpModalMap']
+      },
+      wpAgregarVehiculoTercero: {
+        deps: ['wpAgregarEditarVehiculoTercero','wpVehiculoTercero','mxImageUploader']
+      },
+      wpAgregarBien: {
+        deps: ['wpAgregarEditarBien','wpBien']
       },
       wpConductorOcupante: {
         deps: ['wpAgregarOcupante']
+      },
+      wpLugarOcurrencia: {
+        deps: ['wpImgTabUpload','wpModalMap','wpNivelDanho']
       },
       wpImgTabUpload: {
         deps: ['mxImageUploader']
@@ -300,7 +389,7 @@ define([], function() {
         deps: ['wpAgregarDanho', 'wpAutoAcor', 'wpImgTabUpload']
       },
       wpTerceros: {
-        deps: ['wpAgregarBien', 'wpAgregarPeaton', 'wpAgregarVehiculo', 'wpImgTabUpload']
+        deps: ['wpAgregarBienOld', 'wpAgregarPeaton', 'wpAgregarVehiculo', 'wpImgTabUpload']
       },
       wpDetalleSiniestro: {
         deps: ['mxImageUploader']
@@ -314,17 +403,14 @@ define([], function() {
       wpAgregarOcupante: {
         deps: ['wpAgregarEditarOcupante', 'wpOcupante']
       },
-      wpAgregarBien: {
-        deps: ['wpAgregarEditarBien', 'wpBien']
-      },
-      wpAgregarVehiculo: {
-        deps: ['wpAgregarEditarVehiculo', 'wpVehiculoTercero']
+      wpAgregarBienOld: {
+        deps: ['wpAgregarEditarBien', 'wpBienOld']
       },
       wpAgregarPeaton: {
         deps: ['wpAgregarEditarPeaton', 'wpPeaton']
       },
       wpConsolidado: {
-        deps: ['wpInfoSiniestro']
+        deps: ['wpInfoSiniestro','wpConstant']
       }
     },
     packages: {}
