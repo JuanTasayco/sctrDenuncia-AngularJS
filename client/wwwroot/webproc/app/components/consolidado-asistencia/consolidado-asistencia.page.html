@@ -320,14 +320,13 @@
                     <div class="row mt-xs-2">
                         <div class="col-md-12">
                             <h6 class="g-label text-left">
-                                Documentos (SOAT,tarjeta de propiedad , documentos de siniestrp):&nbsp;<br>
+                                Documentos (SOAT,tarjeta de propiedad , documentos de siniestro):&nbsp;<br>
                             </h6>
                         </div>
-                        <div class="col-md-2  mr-xs-1" ng-repeat="item in $ctrl.infoAsistencia.fotosDetaSiniestro">
+                        <div class="col-md-2 mr-xs-1" ng-repeat="item in $ctrl.infoAsistencia.fotosDetaSiniestro">
                             <img data-ng-src="{{item.srcImg}}">
                         </div>
                     </div>
-
 
                     <div class="row mt-xs-2 mb-xs-2">
                         <div class="col-md-12">
@@ -343,6 +342,115 @@
                                 Observaciones &nbsp;<br>
                             </h6>
                             <p class="mt-xs-1">{{$ctrl.infoAsistencia.observaciones}}</p>
+                        </div>
+                    </div>
+                    <div class="row mt-xs-2 mb-xs-2">
+                      <div class="col-md-12">
+                        <h6 class="g-sub-title">
+                          Consolidad de Pre-expediente &nbsp;<br>
+                        </h6>
+                        <div data-ng-repeat="affected in $ctrl.lstAffected">
+                          <div class="col-md-12 g-box mb-xs-2">
+                            <div class="row g-box-body gBgcGray5">
+                              <div class="col-xs-12 col-sm-3 search-result g-border-right mb-xs-1 mb-sm-0">
+                                <div class="row">
+                                  <div class="col-md-12">
+                                    <span>Afectado:&nbsp;</span>
+                                    <span class="g-label2">{{affected.afectado}}</span>
+                                  </div>
+                                  <div class="col-md-12">
+                                    <span>Tipo Afectado:&nbsp;</span>
+                                    <span class="g-label2">{{affected.tipoAfectado}}</span>
+                                  </div>
+                                  <div class="col-md-12">
+                                    <span>Nivel:&nbsp;</span>
+                                    <span class="g-label2">{{affected.nivelDanio}}</span>
+                                  </div>
+                                </div>
+                              </div>
+                              <div class="col-xs-12 col-sm-3 search-result g-border-right mb-md-1">
+                                <div class="row">
+                                  <div class="col-md-12">
+                                    <span>Tipo Expediente:&nbsp;</span>
+                                    <span class="g-label2">{{affected.tipoExpediente}}</span>
+                                  </div>
+                                </div>
+                              </div>
+                              <div class="col-xs-12 col-sm-3 search-result g-border-right mb-xs-1 mb-md-1">
+                                <div class="row">
+                                  <div class="col-md-12">
+                                    <span>Ind.Gen.Exp:&nbsp;</label>
+                                    <span class="g-label2">{{affected.generado === 'S' ? 'Si' : 'No'}}</span>
+                                  </div>
+                                </div>
+                              </div>
+                              <div class="col-xs-12 col-sm-3 search-result mb-md-1">
+                                <div class="row">
+                                  <div class="col-md-12">
+                                    <span>Reserva:&nbsp;</span>
+                                    <span class="g-label2">{{affected.reserva}}</span>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row mt-xs-2 mb-xs-2">
+                      <div class="col-md-12">
+                        <h6 class="g-sub-title">
+                          Servicios &nbsp;<br>
+                        </h6>
+                        <div data-ng-repeat="service in $ctrl.lstServices">
+                          <div class="col-md-12 g-box mb-xs-2">
+                            <div class="row g-box-body gBgcGray5">
+                              <div class="col-xs-12 col-sm-1 search-result g-border-right mb-xs-1 mb-sm-0">
+                                <div class="row">
+                                  <div class="col-md-12">
+                                    <span class="g-label2">{{service.numeroServicio}}</span>
+                                  </div>
+                                </div>
+                              </div>
+                              <div class="col-xs-12 col-sm-4 search-result g-border-right mb-xs-1 mb-sm-0">
+                                <div class="row">
+                                  <div class="col-md-12">
+                                    <span>Procurador:&nbsp;</span>
+                                    <span class="g-label2">{{service.nombreProcurador}}</span>
+                                  </div>
+                                  <div class="col-md-12">
+                                    <span>Tipo de Doc.:&nbsp;</span>
+                                    <span class="g-label2">{{service.procuradorTipoDocumento}}</span>
+                                  </div>
+                                </div>
+                              </div>
+                              <div class="col-xs-12 col-sm-4 search-result g-border-right mb-xs-1 mb-md-1">
+                                <div class="row">
+                                  <div class="col-md-12">
+                                    <span>Nro. Documento:&nbsp;</span>
+                                    <span class="g-label2">{{service.procuradorCodigoDocumento}}</span>
+                                  </div>
+                                  <div class="col-md-12">
+                                    <span>Tipo de Servicio:&nbsp;</span>
+                                    <span class="g-label2">{{service.tipoServicio}}</span>
+                                  </div>
+                                </div>
+                              </div>
+                              <div class="col-xs-12 col-sm-3 search-result mb-md-1">
+                                <div class="row">
+                                  <div class="col-md-12">
+                                    <span>SINIESTRO:&nbsp;</span>
+                                  </div>
+                                  <div class="col-md-12">
+                                    <span class="ico-mapfre ico-mapfre_140_reloj"></span>{{service.horaServicio}}
+                                  </div>
+                                  <div class="col-md-12">
+                                    <span class="ico-mapfre ico-mapfre_127_calendar3"></span>{{service.fechaServicio | date:'dd/MM/yyyy'}}
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
                         </div>
                     </div>
                 </div>
