@@ -51,16 +51,17 @@
           
             function setTokenEquifax(){
                 var token = localStorage.getItem('tokenEquifax');
+                console.log("22/03/2024");
                 //Si existe un token equifax almacenado, se vaiida
                 if(token){
                     //Si el token equifax no incluye el nombre de usuario entonces se crea
-                    if(!token.includes(oimClaims.userName)){
-                        token = oimClaims.userName + generarRandom();
+                    if(!token.includes(oimClaims.loginUserName)){
+                        token = oimClaims.loginUserName + generarRandom();
                         localStorage.setItem('tokenEquifax',token);
                     }
                 }else{
                     //si no existe un token equifax almacenado se crea uno
-                    token = oimClaims.userName + generarRandom();
+                    token = oimClaims.loginUserName + generarRandom();
                     localStorage.setItem('tokenEquifax',token);
                 }
             
