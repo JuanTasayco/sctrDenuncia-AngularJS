@@ -212,7 +212,7 @@ define(['angular', 'constants', 'helper', 'lodash', 'mpfPersonConstants', 'salud
       }
       
       function _paramsPostInsuredValidate(){
-        var tokenEquifax = getTokenEquifax(oimClaims.userName);
+        var tokenEquifax = getTokenEquifax(oimClaims.loginUserName);
 
         var vParams = {
           Token: tokenEquifax,
@@ -332,7 +332,7 @@ define(['angular', 'constants', 'helper', 'lodash', 'mpfPersonConstants', 'salud
       };
 
       $scope.onDeleteRowInsuredResumen = function($index,insured) {
-        var token = getTokenEquifax(oimClaims.userName);
+        var token = getTokenEquifax(oimClaims.loginUserName);
         if(token){
           saludFactory.deleteInsuredTmp(token,insured.NumeroDocumento,true).then(function(res){
             if(res.OperationCode == 200){
@@ -467,7 +467,7 @@ define(['angular', 'constants', 'helper', 'lodash', 'mpfPersonConstants', 'salud
               }
 
               /* Una vez guardada la cotización se limpia los datos registrados de la tabla temporal */
-              var token = getTokenEquifax(oimClaims.userName);
+              var token = getTokenEquifax(oimClaims.loginUserName);
               if(token){
                 saludFactory.deleteInsuredTmp(token,null,true).then(function(res){
                   if(res.OperationCode == 200){
