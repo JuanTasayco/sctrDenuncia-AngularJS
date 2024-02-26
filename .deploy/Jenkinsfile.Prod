@@ -353,10 +353,10 @@ pipeline {
                     }catch(Exception e){
                         echo "Error: ${e}"
                     }                
+                }               
             }
-
-        }        
-
+        }
+       
         stage ('Next Snapshot Promotion release') {
             when {
                 expression { return env.BRANCH_NAME == 'master' } 
@@ -388,6 +388,7 @@ pipeline {
                     }catch(Exception e){
                         echo "Error: ${e}"
                     }                        
+                }               
             }
         }
        
