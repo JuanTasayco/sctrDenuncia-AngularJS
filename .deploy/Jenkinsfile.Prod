@@ -17,12 +17,7 @@ pipeline {
             yaml getYmlBuildPod('oim')
         }
     }
-    parameters {
-        choice(
-            choices: ['SONARQUBE' ,'DESPLEGAR'],
-            description: 'Indicar la tarea a realizar',
-            name: 'REQUESTED_ACTION')
-    }     
+   
     options {
         timeout(time: 45, unit: 'MINUTES')
         timestamps()
@@ -78,11 +73,6 @@ pipeline {
 
         //This is a security stage that must be executed before building any code or image.
         stage('Security pre-build'){
-            when {
-                anyOf {
-                    expression { return params.REQUESTED_ACTION == 'DESPLEGAR'}
-                }                   
-            }                
             steps{
                 script{
                     secPreBuild()
@@ -91,11 +81,6 @@ pipeline {
         }   
         
         stage('Build Auditoria') {
-            when {
-                anyOf {
-                    expression { return params.REQUESTED_ACTION == 'DESPLEGAR'}
-                }      				
-            }            
             steps {
                 container('node') {
                     sh("""
@@ -116,11 +101,7 @@ pipeline {
         }
 
         stage('Build & Unit Test') {
-            when {
-                anyOf {
-                    expression { return params.REQUESTED_ACTION == 'DESPLEGAR'}
-                }      				
-            }             
+           
             steps {
                 container('node') {
                     sh("""
@@ -144,9 +125,7 @@ pipeline {
                 not {
                     branch 'PR*'
                 }
-                anyOf {
-                    expression { return params.REQUESTED_ACTION == 'SONARQUBE'}
-                }                   
+               
             }      
             environment {
                 PACKAGE_VERSION        = getFieldFromPackage("version")
@@ -192,9 +171,7 @@ pipeline {
                 not {
                     branch 'PR*'
                 }
-                anyOf {
-                    expression { return params.REQUESTED_ACTION == 'SONARQUBE'}
-                }                   
+                 
             }                 
            
             steps {
@@ -230,9 +207,7 @@ pipeline {
                     branch 'release'
                     branch 'master'
                 }
-                anyOf {
-                    expression { return params.REQUESTED_ACTION == 'DESPLEGAR'}
-                }                   
+                 
             }
             steps {
                 container('node') {
@@ -250,9 +225,7 @@ pipeline {
                     branch 'release'
                     branch 'master'
                 }
-                anyOf {
-                    expression { return params.REQUESTED_ACTION == 'DESPLEGAR'}
-                }                   
+                 
             }
 
             steps {
@@ -282,11 +255,7 @@ pipeline {
         }        
 
         stage('Security post-build'){
-            when {
-                anyOf {
-                    expression { return params.REQUESTED_ACTION == 'DESPLEGAR'}
-                }                   
-            }                
+              
             steps {
                 script{
                     secPostBuild()
@@ -298,8 +267,9 @@ pipeline {
         stage('Security pre-deploy'){
             when {
                 anyOf {
-                    expression { return params.REQUESTED_ACTION == 'DESPLEGAR'}
-                }                   
+                    branch 'develop'
+                    branch 'release'
+                }                
             }                
             steps{
                 script{
@@ -313,11 +283,7 @@ pipeline {
                 anyOf {
                     branch 'develop'
                     branch 'release'
-                    branch 'master'
                 }
-                anyOf {
-                    expression { return params.REQUESTED_ACTION == 'DESPLEGAR'}
-                }                   
             }
             environment {
                 PACKAGE_VERSION        = getFieldFromPackage("version")
@@ -345,8 +311,9 @@ pipeline {
         stage('Security post-deploy'){
             when {
                 anyOf {
-                    expression { return params.REQUESTED_ACTION == 'DESPLEGAR'}
-                }                   
+                    branch 'develop'
+                    branch 'release'
+                }                 
             }            
             steps{
                 script{
@@ -358,31 +325,33 @@ pipeline {
         stage ('Next Snapshot Promotion develop') {
             when {
 				expression { return env.BRANCH_NAME == 'master' } 
-                anyOf {
-                    expression { return params.REQUESTED_ACTION == 'DESPLEGAR'}
-                }                   
             }
             environment {
                 developBranch = "develop"
                 PACKAGE_VERSION        = getFieldFromPackage("version")
             }
             steps {
-                // promotion to snapshot after a release candidate is packaged and deployed
-                // git checkout development
-                gitCheckout developBranch
+                script(){
+                    try{                
+                        // promotion to snapshot after a release candidate is packaged and deployed
+                        // git checkout development
+                        gitCheckout developBranch
 
-                gitMergeWithResolveConflicts("master")
+                        gitMergeWithResolveConflicts("master")
 
-               sh "cat .deploy/Jenkinsfile.NoProd > Jenkinsfile"
+                        sh "cat .deploy/Jenkinsfile.NoProd > Jenkinsfile"
 
-                container('node') {
-                    promotionNpmPeru(developBranch,PACKAGE_VERSION)
-                }
+                        container('node') {
+                            promotionNpmPeru(developBranch,PACKAGE_VERSION)
+                        }
 
-                // commit next snapshot in development branch
-                gitCommitPackage "promotion to next snapshot completed (" + PACKAGE_VERSION + ")"
-                // push all changes
-                gitPush()
+                        // commit next snapshot in development branch
+                        gitCommitPackage "promotion to next snapshot completed (" + PACKAGE_VERSION + ")"
+                        // push all changes
+                        gitPush()
+                    }catch(Exception e){
+                        echo "Error: ${e}"
+                    }                
             }
 
         }        
@@ -390,31 +359,34 @@ pipeline {
         stage ('Next Snapshot Promotion release') {
             when {
                 expression { return env.BRANCH_NAME == 'master' } 
-                anyOf {
-                    expression { return params.REQUESTED_ACTION == 'DESPLEGAR'}
-                }                   
+               
             }
             environment {
                 developBranch = "release"
                 PACKAGE_VERSION        = getFieldFromPackage("version")
             }
             steps {
-                // promotion to snapshot after a release candidate is packaged and deployed
-                // git checkout development
-                gitCheckout developBranch
+                script(){
+                    try{                
+                        // promotion to snapshot after a release candidate is packaged and deployed
+                        // git checkout development
+                        gitCheckout developBranch
 
-                gitMergeWithResolveConflicts("master")
+                        gitMergeWithResolveConflicts("master")
 
-                sh "cat .deploy/Jenkinsfile.NoProd > Jenkinsfile"
+                        sh "cat .deploy/Jenkinsfile.NoProd > Jenkinsfile"
 
-                container('node') {
-                    promotionNpmPeru(developBranch,PACKAGE_VERSION)
-                }
+                        container('node') {
+                            promotionNpmPeru(developBranch,PACKAGE_VERSION)
+                        }
 
-                // commit next snapshot in development branch
-                gitCommitPackage "promotion to next snapshot completed (" + PACKAGE_VERSION + ")"
-                // push all changes
-                gitPush()
+                        // commit next snapshot in development branch
+                        gitCommitPackage "promotion to next snapshot completed (" + PACKAGE_VERSION + ")"
+                        // push all changes
+                        gitPush()
+                    }catch(Exception e){
+                        echo "Error: ${e}"
+                    }                        
             }
         }
        
