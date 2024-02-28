@@ -1,15 +1,14 @@
 'use strict';
 
 define(['angular', 'AsistenciaActions', 'lodash','wpConstant'], function (ng, AsistenciaActions, _,wpConstant) {
-  ConsolidadoAsistenciaPageController.$inject = ['$scope', '$ngRedux', 'wpFactory', '$state'];
-  function ConsolidadoAsistenciaPageController($scope, $ngRedux, wpFactory, $state) {
+  ConsolidadoAsistenciaPageController.$inject = ['$scope', '$ngRedux', 'wpFactory', '$state', '$log'];
+  function ConsolidadoAsistenciaPageController($scope, $ngRedux, wpFactory, $state, $log) {
 
     var vm = this;
     vm.$onInit = onInit;
     vm.infoAsistencia;
     vm.soat = [];
     vm.descargarVersionPDF = descargarVersionPDF;
-
 
     $scope.$on('$destroy', function sod() {
       $state.params.setFrm = true;
@@ -19,16 +18,15 @@ define(['angular', 'AsistenciaActions', 'lodash','wpConstant'], function (ng, As
       vm.infoAsistencia = wpFactory.cache.getConsolidado();
       if (!vm.infoAsistencia) {
         $state.go('bandeja', { setFrm: true })
-        
       }
       else{
         vm.departamentolist = wpFactory.myLookup.getDepartamentos();
-        
+
         if(!vm.infoAsistencia.descripcionDepartamento || vm.infoAsistencia.descripcionDepartamento == undefined || vm.infoAsistencia.descripcionDepartamento == '--SELECCIONE--' ){
           var distritofound = _.find(vm.departamentolist,function (x) {
             return x.id == vm.infoAsistencia.codigoDepartamento;
           });
-          
+
           vm.infoAsistencia.descripcionDepartamento = distritofound.id  ?  distritofound.descripcion : '-'
         }
 
@@ -36,7 +34,7 @@ define(['angular', 'AsistenciaActions', 'lodash','wpConstant'], function (ng, As
           vm.provincia = wpFactory.getProvincia(vm.infoAsistencia.codigoProvincia);
           vm.infoAsistencia.descripcionProvincia = vm.provincia ? vm.provincia.descripcion : '-';
         }
-        
+
         if(!vm.infoAsistencia.descripcionDistrito || vm.infoAsistencia.descripcionDistrito == undefined || vm.infoAsistencia.descripcionDistrito == '--SELECCIONE--' ){
           vm.distrito = wpFactory.getDistrito(vm.infoAsistencia.codigoDistrito);
           vm.infoAsistencia.descripcionDistrito = vm.distrito ? vm.distrito.descripcion : '-';
@@ -48,8 +46,10 @@ define(['angular', 'AsistenciaActions', 'lodash','wpConstant'], function (ng, As
         setSiniestroDetalle();
         setLugarAtencion();
         _getVersiones();
+        _obtenerListaAfectados();
+        _obtenerListaServicios();
       }
-     
+
     }
 
     function _getVersiones() {
@@ -63,7 +63,7 @@ define(['angular', 'AsistenciaActions', 'lodash','wpConstant'], function (ng, As
           $log.error('Falló el obtener versiones', err);
         });
     }
-    
+
     function descargarVersionPDF(objVersion) {
       if (wpFactory.getSiniestroNro()) {
         wpFactory.assistance.DownloadVersion(
@@ -119,6 +119,29 @@ define(['angular', 'AsistenciaActions', 'lodash','wpConstant'], function (ng, As
       vm.infoAsistencia.lugarAtencionDescripcion = vm.lugarAtention2 ? vm.lugarAtention2.nombreValor : '-';
     }
 
+    function _obtenerListaAfectados() {
+      wpFactory.siniestro
+        .GetListAffected()
+        .then(function glsSP(resp) {
+          vm.lstAffected = resp;
+        })
+        .catch(function gvEP(err) {
+          vm.lstAffected = [];
+          $log.error('Falló al obtener lista de afectados', err);
+        });
+    }
+
+    function _obtenerListaServicios() {
+      wpFactory.siniestro
+        .GetListServiec()
+        .then(function glsSP(resp) {
+          vm.lstServices = resp;
+        })
+        .catch(function gvEP(err) {
+          vm.lstServices = [];
+          $log.error('Falló al obtener lista de afectados', err);
+        });
+    }
 
   } // end controller
 
