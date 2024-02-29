@@ -28,6 +28,7 @@
             var pms2 = seguridadFactory.getCharges();
             pms2.then(function (response) {
               $scope.cargoData = response.data || response.Data;
+              $scope.cargoData = $scope.removeduplicate($scope.cargoData, 'codigo');
             });
 
             //productores
@@ -67,6 +68,12 @@
               $state.go('crearUsuarioCorredor.steps', { step: 1 });
 
             bindLookups();
+
+            //Default data
+
+            $scope.createS2.corredor.mCargo = {"codigo":3,"descripcion":"EMPLEADO"};
+
+            $scope.disabledCargo = false;
 
             $scope.login = seguridadFactory.getVarLS("profile");
 
@@ -147,7 +154,22 @@
           function _fnChangeTipoDoc() {
             $scope.createS2.corredor.datosPersonales.mNumDoc = '';
           }
+          $scope.removeduplicate = function(array, property) {
+            var uniqueObject = {};
+            var newArrayWithoutDuplicates = [];
 
+            for (var i = 0; i < array.length; i++) {
+              var obj = array[i];
+              var value = obj[property];
+
+              if (!uniqueObject[value]) {
+                uniqueObject[value] = true;
+                newArrayWithoutDuplicates.push(obj);
+              }
+            }
+
+            return newArrayWithoutDuplicates;
+          }
           $scope.fnInferData = _fnInferData;
           function _fnInferData() {
             var docValue = $scope.createS2.corredor.datosPersonales.mNumDoc;
@@ -203,9 +225,9 @@
                   , apellidoPaterno: (ng.isUndefined($scope.createS2.corredor.datosPersonales.mApellidoPaterno)) ? "" : $scope.createS2.corredor.datosPersonales.mApellidoPaterno
                   , apellidoMaterno: (ng.isUndefined($scope.createS2.corredor.datosPersonales.mApellidoMaterno)) ? "" : $scope.createS2.corredor.datosPersonales.mApellidoMaterno
                   , numCargo: (ng.isUndefined($scope.createS2.corredor.mCargo)) ? 0 : $scope.createS2.corredor.mCargo.codigo
-                  , telefono: (ng.isUndefined($scope.createS2.corredor.mTelefono)) ? "" : $scope.createS2.corredor.mTelefono
+                  , telefono: (ng.isUndefined($scope.createS2.corredor.datosPersonales.mTelefono)) ? "" : $scope.createS2.corredor.datosPersonales.mTelefono
                   , celular: (ng.isUndefined($scope.createS2.corredor.mCelular)) ? "" : $scope.createS2.corredor.mCelular
-                  , correo: (ng.isUndefined($scope.createS2.corredor.mEmail)) ? "" : $scope.createS2.corredor.mEmail
+                  , correo: (ng.isUndefined($scope.createS2.corredor.datosPersonales.mEmail)) ? "" : $scope.createS2.corredor.datosPersonales.mEmail
                   , codUser: $scope.login.username
                   , sede : ng.isUndefined($scope.createS2.corredor.sede) 
                     ? '' 
@@ -222,9 +244,9 @@
                   , firstLastName: $scope.createS2.corredor.datosPersonales.mApellidoPaterno
                   , secondLastName: $scope.createS2.corredor.datosPersonales.mApellidoMaterno
                   , numCharge: $scope.createS2.corredor.mCargo.codigo
-                  , phoneNumber: $scope.createS2.corredor.mTelefono
+                  , phoneNumber: $scope.createS2.corredor.datosPersonales.mTelefono
                   , cellPhoneNumber: $scope.createS2.corredor.mCelular
-                  , email: $scope.createS2.corredor.mEmail
+                  , email: $scope.createS2.corredor.datosPersonales.mEmail
                   , codeAgent: ($scope.createS2.corredor.mProductor.id == null) ? 0 : $scope.createS2.corredor.mProductor.id
                   , codeStatus: 1
                   , typeUser: $scope.createS2.corredor.mTipoUsuario

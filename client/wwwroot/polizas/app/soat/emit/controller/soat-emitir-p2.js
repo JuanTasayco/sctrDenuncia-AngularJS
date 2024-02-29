@@ -235,7 +235,7 @@
       if (fecha!=null) {
         var fechaC = new Date(fecha.getFullYear(), fecha.getMonth(), fecha.getDate());
         if (!cantidadDias || cantidadDias===365)
-          fechaC = new Date(fechaC.getFullYear() + 1, fechaC.getMonth(), fechaC.getDate());
+          fechaC = new Date(fechaC.getFullYear() , fechaC.getMonth(), fechaC.getDate() + 365);
         else
           fechaC.setDate(fechaC.getDate() + cantidadDias);
 

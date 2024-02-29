@@ -47,6 +47,30 @@
             $scope.token = oimClaims.tokenMapfre;
             $scope.linkHelp = _linkHelp();
 
+            setTokenEquifax();
+          
+            function setTokenEquifax(){
+                var token = localStorage.getItem('tokenEquifax');
+                console.log("22/03/2024");
+                //Si existe un token equifax almacenado, se vaiida
+                if(token){
+                    //Si el token equifax no incluye el nombre de usuario entonces se crea
+                    if(!token.includes(oimClaims.loginUserName)){
+                        token = oimClaims.loginUserName + generarRandom();
+                        localStorage.setItem('tokenEquifax',token);
+                    }
+                }else{
+                    //si no existe un token equifax almacenado se crea uno
+                    token = oimClaims.loginUserName + generarRandom();
+                    localStorage.setItem('tokenEquifax',token);
+                }
+            
+                return token;
+            }
+            function generarRandom(){
+                return (Math.floor(Math.random() * 9000000000) + 1000000000);
+            }
+            
             $scope.goApplication = function(application, e) {
               if (e) {
                 e.preventDefault();

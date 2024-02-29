@@ -17,7 +17,7 @@ pipeline {
             yaml getYmlBuildPod('oim')
         }
     }
-    parameters {
+   parameters {
         text(name: 'LISTABRANCHE', defaultValue: '', description: 'Ingrese la lista de branches a integrar')
     }     
     options {
@@ -103,6 +103,7 @@ pipeline {
         }
 
         stage('Build & Unit Test') {
+           
             steps {
                 container('node') {
                     sh("""
@@ -126,6 +127,7 @@ pipeline {
                 not {
                     branch 'PR*'
                 }
+               
             }      
             environment {
                 PACKAGE_VERSION        = getFieldFromPackage("version")
@@ -171,6 +173,7 @@ pipeline {
                 not {
                     branch 'PR*'
                 }
+                 
             }                 
            
             steps {
@@ -206,11 +209,13 @@ pipeline {
                     branch 'release'
                     branch 'master'
                 }
+                 
             }
             steps {
                 container('node') {
                     script() {
                         publishNPMPeru()
+                        addBuidDescription(getFieldFromPackage("version"))
                     }
                 }
             }
@@ -223,6 +228,7 @@ pipeline {
                     branch 'release'
                     branch 'master'
                 }
+                 
             }
 
             steps {
@@ -252,6 +258,7 @@ pipeline {
         }        
 
         stage('Security post-build'){
+              
             steps {
                 script{
                     secPostBuild()
@@ -261,6 +268,12 @@ pipeline {
 
 
         stage('Security pre-deploy'){
+            when {
+                anyOf {
+                    branch 'develop'
+                    branch 'release'
+                }                
+            }                
             steps{
                 script{
                     secPreDeploy()
@@ -273,7 +286,6 @@ pipeline {
                 anyOf {
                     branch 'develop'
                     branch 'release'
-                    branch 'master'
                 }
             }
             environment {
@@ -300,6 +312,12 @@ pipeline {
         }        
 
         stage('Security post-deploy'){
+            when {
+                anyOf {
+                    branch 'develop'
+                    branch 'release'
+                }                 
+            }            
             steps{
                 script{
                     secPostDeploy()
@@ -316,51 +334,63 @@ pipeline {
                 PACKAGE_VERSION        = getFieldFromPackage("version")
             }
             steps {
-                // promotion to snapshot after a release candidate is packaged and deployed
-                // git checkout development
-                gitCheckout developBranch
+                script(){
+                    try{                
+                        // promotion to snapshot after a release candidate is packaged and deployed
+                        // git checkout development
+                        gitCheckout developBranch
 
-                gitMergeWithResolveConflicts("master")
+                        gitMergeWithResolveConflicts("master")
 
-               sh "cat .deploy/Jenkinsfile.NoProd > Jenkinsfile"
+                        sh "cat .deploy/Jenkinsfile.NoProd > Jenkinsfile"
 
-                container('node') {
-                    promotionNpmPeru(developBranch,PACKAGE_VERSION)
-                }
+                        container('node') {
+                            promotionNpmPeru(developBranch,PACKAGE_VERSION)
+                        }
 
-                // commit next snapshot in development branch
-                gitCommitPackage "promotion to next snapshot completed (" + PACKAGE_VERSION + ")"
-                // push all changes
-                gitPush()
+                        // commit next snapshot in development branch
+                        gitCommitPackage "promotion to next snapshot completed (" + PACKAGE_VERSION + ")"
+                        // push all changes
+                        gitPush()
+                    }catch(Exception e){
+                        echo "Error: ${e}"
+                    }                
+                }               
             }
-
-        }        
-
+        }
+       
         stage ('Next Snapshot Promotion release') {
             when {
                 expression { return env.BRANCH_NAME == 'master' } 
+               
             }
             environment {
                 developBranch = "release"
                 PACKAGE_VERSION        = getFieldFromPackage("version")
             }
             steps {
-                // promotion to snapshot after a release candidate is packaged and deployed
-                // git checkout development
-                gitCheckout developBranch
+                script(){
+                    try{                
+                        // promotion to snapshot after a release candidate is packaged and deployed
+                        // git checkout development
+                        gitCheckout developBranch
 
-                gitMergeWithResolveConflicts("master")
+                        gitMergeWithResolveConflicts("master")
 
-                sh "cat .deploy/Jenkinsfile.NoProd > Jenkinsfile"
+                        sh "cat .deploy/Jenkinsfile.NoProd > Jenkinsfile"
 
-                container('node') {
-                    promotionNpmPeru(developBranch,PACKAGE_VERSION)
-                }
+                        container('node') {
+                            promotionNpmPeru(developBranch,PACKAGE_VERSION)
+                        }
 
-                // commit next snapshot in development branch
-                gitCommitPackage "promotion to next snapshot completed (" + PACKAGE_VERSION + ")"
-                // push all changes
-                gitPush()
+                        // commit next snapshot in development branch
+                        gitCommitPackage "promotion to next snapshot completed (" + PACKAGE_VERSION + ")"
+                        // push all changes
+                        gitPush()
+                    }catch(Exception e){
+                        echo "Error: ${e}"
+                    }                        
+                }               
             }
         }
        

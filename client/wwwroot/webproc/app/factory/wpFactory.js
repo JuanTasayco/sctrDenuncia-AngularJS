@@ -1,10 +1,11 @@
 'use strict';
 /* eslint-disable new-cap */
 
-define(['angular', 'lodash', 'constants', 'wpFactoryLookup', 'wpFactoryHelp', 'wpFactoryCache', 'fileSaver'], function(
+define(['angular', 'lodash', 'constants', 'wpConstant', 'wpFactoryLookup', 'wpFactoryHelp', 'wpFactoryCache', 'fileSaver'], function(
   ng,
   _,
   constants,
+  wpConstant,
   wpFactoryLookup,
   wpFactoryHelp,
   wpFactoryCache,
@@ -23,12 +24,14 @@ define(['angular', 'lodash', 'constants', 'wpFactoryLookup', 'wpFactoryHelp', 'w
     'proxyAssistance',
     'proxySiniestro',
     'proxyTaller',
+    'proxyEquifax',
     '$timeout',
     '$q',
     '$http',
     '$log',
     'mpSpin',
-    '$window'
+    '$window',
+    'httpData'
   ];
 
   function wpFactory(
@@ -44,11 +47,14 @@ define(['angular', 'lodash', 'constants', 'wpFactoryLookup', 'wpFactoryHelp', 'w
     proxyAssistance,
     proxySiniestro,
     proxyTaller,
+    proxyEquifax,
     $timeout,
     $q,
     $http,
     $log,
-    mpSpin
+    mpSpin,
+    $window,
+    httpData
   ) {
     var FROM_CACHE = false;
     var SHOW_SPIN = true;
@@ -66,6 +72,9 @@ define(['angular', 'lodash', 'constants', 'wpFactoryLookup', 'wpFactoryHelp', 'w
       },
       taller: {
         GetTalleres: GetTalleres
+      },
+      typeDocuments: {
+        Get: GetTypeDocuments
       },
       category: {
         Get: GetCategory,
@@ -119,8 +128,14 @@ define(['angular', 'lodash', 'constants', 'wpFactoryLookup', 'wpFactoryHelp', 'w
       },
       siniestro: {
         Get: GetSiniestro,
+        InitSiniestro : InitSiniestro,
+        SetSiniestro : SetSiniestro,
+        GetSiniestroPlaca:GetSiniestroPlaca,
+        GetSiniestroPerson : GetSiniestroPerson,
+        GetSiniestroData : GetSiniestroData,
         GetSiniestroMongo: GetSiniestroMongo,
         Save: Save,
+        Autorizar: Autorizar,
         DownloadVersionSinSiniestro: DownloadVersionSinSiniestro,
         GetCarBrands: GetVehicleParts,
         GeneratorCaseFile: GeneratorCaseFile,
@@ -352,8 +367,35 @@ define(['angular', 'lodash', 'constants', 'wpFactoryLookup', 'wpFactoryHelp', 'w
     // proxySiniestro
 
     function GetSiniestro(caso) {
-      return proxySiniestro.Get(caso, SHOW_SPIN);
+      return proxySiniestro.Get(caso, SHOW_SPIN)
+
     }
+
+    function GetTypeDocuments() {
+      return httpData['get']('https://oim.pre.mapfre.com.pe/oim_polizas/api/general/tipodoc/nacional', undefined,undefined, false)
+    }
+
+    function GetSiniestroPlaca(numPlaca) {
+      return  proxyEquifax.GetPlacaEquifax(numPlaca,true)
+    }
+
+    function GetSiniestroPerson(numDoc,tipoConsulta,tipoDoc,codCia) {
+      return  proxyEquifax.GetPersonEquifax(codCia,tipoDoc,numDoc,tipoConsulta,true)
+    }
+
+    function InitSiniestro() {
+      factory.siniestro.siniestroData = {};
+    }
+
+    function SetSiniestro(siniestro) {
+      factory.siniestro.InitSiniestro();
+      factory.siniestro.siniestroData = angular.extend({}, factory.siniestro.siniestroData, siniestro);
+    }
+
+    function GetSiniestroData() {
+      return factory.siniestro.siniestroData;
+    }
+    
 
     function GetSiniestroMongo(caso) {
       return proxySiniestro.GetSiniestroMongo(caso, SHOW_SPIN);
@@ -365,6 +407,10 @@ define(['angular', 'lodash', 'constants', 'wpFactoryLookup', 'wpFactoryHelp', 'w
 
     function GeneratorCaseFile(rejected, siniestro) {
       return proxySiniestro.GeneratorCaseFile(rejected, wpFactoryHelp.help.upperCaseObject(siniestro), SHOW_SPIN);
+    }
+
+    function Autorizar(siniestro) {
+      return proxySiniestro.AutorizarSave(siniestro, SHOW_SPIN);
     }
 
     function GenerateSinisterTRONv2(siniesterDetail) {

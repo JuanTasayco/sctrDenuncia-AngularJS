@@ -31,10 +31,12 @@ define([
       productosClonados: productosClonados,
       gestionClonacion: gestionClonacion,
       filterCotizacion: filterCotizacion,
+      agenteSuscripcion:agenteSuscripcion,
       agente:agente,
       validacionFecha:validacionFecha,
       getRestriccionUbigeo: getRestriccionUbigeo,
-      getProxyProductosByUser: getProxyProductosByUser
+      getProxyProductosByUser: getProxyProductosByUser,
+      cotizacionError: cotizacionError,
       
     };
 
@@ -159,6 +161,12 @@ define([
     }
     function filterCotizacion(request) {
       return proxyCotizacionRg.getListBandeja(request, true);
+    }
+    function cotizacionError(numeroTramite, request) {
+      return proxyCotizacionRg.CotizacionError(numeroTramite, request, true);
+    }
+    function agenteSuscripcion(codAgente) {
+      return proxyParametro.getDevolverAgenteSuscripcion(codAgente,true);
     }
     function agente(codAgente) {
       return proxyParametro.getDevolverAgente(codAgente,true);

@@ -38,9 +38,17 @@ define([
         FechaHasta: new Date(vm.fechaActual.setDate(vm.fechaActual.getDate() + 365))
       }
 
-      $scope.$watch('setter', function() {
-        $scope.setterUbigeo = $scope.setter;
+
+      $scope.$watch('$ctrl.producto.setter', function() {
+        vm.setterUbigeo = vm.producto.setter;
+        if(vm.setterUbigeo && vm.cotizacion.form && vm.cotizacion.form.Departamento){
+          vm.setterUbigeo(
+            vm.cotizacion.form.Departamento.Codigo,
+            vm.cotizacion.form.Provincia.Codigo,
+            vm.cotizacion.form.Distrito.Codigo);
+        }
       })
+
       $scope.$on('ubigeo', function(_, data) {
         if(data) {
           riesgosGeneralesService.getRestriccionUbigeo(data.mDepartamento,data.mProvincia,data.mDistrito)
@@ -74,6 +82,15 @@ define([
         });
       if (riesgosGeneralesFactory.getEditarCotizacion()) {
         vm.producto.modelo = vm.cotizacion.form;
+
+        setTimeout(function() {
+          vm.producto.modelo.Ubigeo = {
+            mDepartamento: vm.cotizacion.form.Departamento,
+            mProvincia: vm.cotizacion.form.Provincia,
+            mDistrito: vm.cotizacion.form.Distrito
+          }
+        }, 500);
+
         vm.producto.modelo.FechaDesde = new Date(vm.cotizacion.form.FechaDesde)
         vm.producto.modelo.FechaHasta = new Date(vm.cotizacion.form.FechaHasta)
         if (vm.cotizacion.form.SumaAseguradaDesh)

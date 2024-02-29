@@ -1105,7 +1105,13 @@ define([
 				function updateConfig(params){
 					return proxyConfiguracion.Update(params, true);
 				}
-
+        function getInformationDocumentEquifax(request, showSpin) {
+					return httpData.post(
+						oimProxySeguridad.endpoint + 'api/person/searchByDocument',
+                        request,
+						undefined,
+						showSpin)
+				}
 				function getDetailsConfig(){
 					return proxyConfiguracion.GetDetail(true);
 				}
@@ -1322,6 +1328,7 @@ define([
 					getObjectChildrenApplication: getObjectChildrenApplication,
 					postUpdateProfileApplication: postUpdateProfileApplication,
 					autocompleteObjects: autocompleteObjects,
+          getInformationDocumentEquifax:getInformationDocumentEquifax,
 					exportExcel: exportExcel,
 
 					//Configuration

@@ -35,14 +35,11 @@ define([
         mDistrito: null
       }, }]
       vm.producto.modelo = {
-       
         listaUbicaciones: [],
         listaVehiculos: [],
         AseguraAdicional: 0,
         CantidadUit: ''
       }
-
-      
       
       riesgosGeneralesService.getCurrencyType(false)
         .then(function (response) {
@@ -65,6 +62,15 @@ define([
       if (riesgosGeneralesFactory.getEditarCotizacion()) {
         vm.producto.modelo = vm.cotizacion.form;
         vm.producto.modelo.listaUbicaciones = vm.cotizacion.form.listaUbicaciones || []
+
+        vm.producto.modelo.listaUbicaciones.forEach(function(item){
+          item.Ubigeo = {
+            mDepartamento : {Codigo:item.Departamento.Codigo},
+            mProvincia : {Codigo:item.Provincia.Codigo},
+            mDistrito : {Codigo:item.Distrito.Codigo},
+          };
+        });
+
         vm.producto.modelo.listaVehiculos = vm.cotizacion.form.listaVehiculos || []
         if (vm.producto.modelo.IsVehiculoOrLocal === vm.constantsRrgg.DATOS.VEHICULOS) {
           vm.producto.modelo.CantidadElementos = vm.producto.modelo.listaVehiculos.length;

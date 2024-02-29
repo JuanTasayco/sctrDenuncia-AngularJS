@@ -1,23 +1,32 @@
-<div class="g-page page-web-proc-asistencia">
-  <page-title class="hidden-md" info="{title: 'Datos generales'}"></page-title>
-  <wp-cabecera-asistencia
-    data-auto-save-status="$ctrl.autoSaveStatus"
-    data-frm-status="$ctrl.frmsValidationStates"
-    data-info-asistencia="$ctrl.infoAsistencia"
-    data-is-frm-require="$ctrl.isFrmRequire"
-    data-on-anular="$ctrl.anular()"
-    data-on-desestimar="$ctrl.desestimar()"
-    data-on-guardar="$ctrl.guardar()"
-    data-on-auto-save="$ctrl.autoSave()"
-    data-on-investigar="$ctrl.investigar()"
-    data-on-terminar="$ctrl.terminar()"
-    data-save-status="$ctrl.frmStatus"
-  >
-  </wp-cabecera-asistencia>
-  <div class="tabs-box-mainview" data-ng-class="{'u-msk-block': $ctrl.infoAsistencia.estadoSiniestro.toUpperCase() === 'ANULADO' || $ctrl.infoAsistencia.userForeign}" >
-    <div class="col-md-12">
-      <div class="currentTab" data-ui-view="contenido"></div>
+<div class="page-web-proc-asistencia" data-ng-form="$ctrl.frmGeneral"
+  style="min-height: 520px; display: flex; flex-direction: column; justify-content: space-between;">
+  <div>
+    <page-title class="hidden-md" info="{title: 'Datos generales'}"></page-title>
+    
+    <wp-cabecera-asistencia data-info-asistencia="$ctrl.infoAsistencia" data-on-guardar="$ctrl.guardar()"  data-blocksinistro="$ctrl.blocksinistro"
+      data-on-terminar="$ctrl.terminar()"  data-on-consolidar="$ctrl.consolidar()" data-on-ver-deducible="$ctrl.verDeducible()">
+    </wp-cabecera-asistencia>
+
+    <div class="container" ng-if="$ctrl.ultimaDataDeAsistencia.estadoObservado == 'S'">
+      <div class=" mb-xs-2" style="color: #D81E05;padding: 10px 30px; border: 1px solid #D81E05;border-radius: 10px;">
+        ALERTA: Cliente/Unidad Observada
+      </div>
     </div>
-    <div class="clearfix"></div>
+    <wp-lugar-ocurrencia ng-if="$ctrl.ultimaDataDeAsistencia" siniestro="$ctrl.ultimaDataDeAsistencia" validate-form="$ctrl.validateForm" ng-if="!$ctrl.blocksinistro" modo-lectura="$ctrl.modolectura">
+    </wp-lugar-ocurrencia>
+
+    <wp-tercero-convenio ng-if="$ctrl.ultimaDataDeAsistencia" siniestro="$ctrl.ultimaDataDeAsistencia" fotos="$ctrl.fotosTercero" modo-lectura="$ctrl.modolectura" conductor-tercero="$ctrl.conductorTerceroAux" validate-form="$ctrl.validateForm">
+    </wp-tercero-convenio>
+    
+    <wp-footer-asistencia data-info-asistencia="$ctrl.infoAsistencia" data-on-guardar="$ctrl.guardar()"  data-blocksinistro="$ctrl.blocksinistro" data-modo-lectura="$ctrl.modolectura"
+    data-on-terminar="$ctrl.terminar()"  data-on-consolidar="$ctrl.consolidar()" data-on-ver-deducible="$ctrl.verDeducible()">
+    </wp-footer-asistencia>
+    
+    <div class="mt-xs-3" style="margin-top: 200px;">
+      <wp-fixed-asistencia ng-if="!$ctrl.blocksinistro"  data-disabled-autorizar="$ctrl.disabledAutorizar"  data-info-asistencia="$ctrl.infoAsistencia" data-on-desestimar="$ctrl.desestimar()" data-on-anular="$ctrl.anular()" data-on-investigar="$ctrl.investigar()"
+        data-on-autorizar="$ctrl.autorizar()"> </wp-fixed-asistencia>
+    </div>
+    
+
   </div>
 </div>

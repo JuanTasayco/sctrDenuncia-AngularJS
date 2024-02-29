@@ -1,0 +1,239 @@
+<div class="col-md-12 g-box3 g-box-add-item-3 box-add-damage-3" data-ng-form="$ctrl.frmVehiculoTercero">
+  <div class="row">
+    <div class="col-md-12 mb-xs-2">
+      <h3 class="g-sub-title c-black">{{::$ctrl.frmTitulo}}</h3>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-12">
+      <div class="col-md-4">
+        <wp-cbo-tipo-documentos data-label="{label: 'Tipo Documento', required: true}" data-ng-disabled="$ctrl.modoLectura"
+          data-ng-model="$ctrl.frmVehiculoTercero.ocupanteTercero.codigoTipoDocumentoIdentidad" data-option-default="{enterData: true}"
+          data-set-model-by-this-key="$ctrl.frm.ocupanteTercero.codigoTipoDocumentoIdentidad" name="nTipoDocumento" data-ng-change="$ctrl.documentTypeChange()">
+        </wp-cbo-tipo-documentos>
+      </div>
+      <div class="col-md-4">
+        <mpf-input data-ng-required="true" data-ng-model="$ctrl.frm.ocupanteTercero.numeroDocumentoIdentidad" data-mpf-validation="onlyNumber" data-ng-disabled="$ctrl.modoLectura"
+        data-ng-minlength="$ctrl.docNumMinLength" data-ng-maxlength="$ctrl.docNumMaxLength" data-mpf-validation-disabled="{{$ctrl.docNumTypeDisabled}}" label="{label: 'Numero Documento', required: true}" ng-blur="$ctrl.getPerson();" name="nNumeroDoc">
+        </mpf-input>
+        <div class="g-error" data-ng-show="$ctrl.frm.nNumeroDoc.$invalid && !$ctrl.frm.nNumeroDoc.$pristine">
+          Ingrese un dato válido
+        </div>
+      </div>
+    </div>
+
+  </div>
+  <div class="row mt-xs-2">
+    <div class="col-md-12">
+      <div class="col-md-4 mb-xs-2">
+        <mpf-input data-ng-model="$ctrl.frm.ocupanteTercero.nombreConductor" data-mpf-validation="required, onlyLetter" data-ng-disabled="$ctrl.modoLectura"
+          label="{label: 'Nombres', required: true}" name="nNombre">
+        </mpf-input>
+      </div>
+      <div class="col-md-4 mb-xs-2">
+        <mpf-input data-ng-model="$ctrl.frm.ocupanteTercero.paternoConductor" data-mpf-validation="required, onlyLetter" data-ng-disabled="$ctrl.modoLectura"
+          label="{label: 'Apellidos', required: true}" name="nApellido">
+        </mpf-input>
+      </div>
+      <div class="col-md-4 mb-xs-2">
+        <mpf-input data-ng-model="$ctrl.frm.ocupanteTercero.telefonoConductor" ata-atrn-length="20" data-mpf-validation="onlyNumberNoSpace" data-ng-disabled="$ctrl.modoLectura"
+          data-ng-maxlength="20" label="{label: 'Telefono', required: true}" name="nTelefono">
+        </mpf-input>
+      </div>
+      <div class="col-md-4 mb-xs-2">
+        <mpf-input data-ng-model="$ctrl.frm.ocupanteTercero.correoConductor" data-mpf-validation="email" data-ng-maxlength="200" data-ng-disabled="$ctrl.modoLectura"
+          label="{label: 'Email', required: false}" name="nEmail">
+        </mpf-input>
+      </div>
+    </div>
+  </div>
+  <div class="row mt-xs-2">
+    <div class="col-md-12">
+      <div class="col-md-4 mb-xs-2">
+        <mpf-input data-mpf-validation="alfanumericoEspacio" data-ng-maxlength="15"
+          data-ng-model="$ctrl.frm.ocupanteTercero.licenciaConductor"
+          label="{label: 'Nro. Licencia de conducir', required: false}" name="nLicenciaConductor">
+        </mpf-input>
+      </div>
+      <div class="col-md-4 mb-xs-2">
+        <mpf-datepicker data-format="$ctrl.dateFormat" data-ng-model="$ctrl.frm.ocupanteTercero.fchExpiracionLicenciConductor" data-ng-disabled="$ctrl.modoLectura"
+          data-parsear-to-date="true" data-readonly="false"
+          data-set-model-by-this-data="$ctrl.frm.ocupanteTercero.fchExpiracionLicenciConductor"
+          label="{label: 'Fecha de Expiracion de licencia:', required: false}" name="nFechaExpiracionLicencia">
+        </mpf-datepicker>
+      </div>
+      <div class="col-md-4 mb-xs-2">
+        <wp-cbo-tipo-licencia data-label="{label: 'Categoria', required: false}"
+          data-ng-model="frmVehiculoTercero.ocupanteTercero.codigoLicenciaConductor" data-option-default="{enterData: true}" data-ng-disabled="$ctrl.modoLectura"
+          data-set-model-by-this-key="$ctrl.frm.ocupanteTercero.codigoLicenciaConductor" name="nTipoLicencia">
+        </wp-cbo-tipo-licencia>
+      </div>
+    </div>
+  </div>
+  <div class="row mt-xs-2">
+    <div class="col-md-12">
+      <div class="col-md-12">
+        <h2 class="g-sub-title">Datos del Vehiculo Tercero</h2>
+      </div>
+    </div>
+    <div class="col-md-12">
+          <div class="col-md-8">
+            <div class="row">
+              <div class="col-md-6 mb-xs-2">
+                <mpf-input data-ng-model="$ctrl.frm.vehiculoTercero.placaVehiculo"
+                  data-ng-minlength="6"
+                  data-ng-maxlength = "6"
+                  ng-required="true"
+                  data-mpf-validation="onlyLetterNumber" data-ng-disabled="$ctrl.modoLectura"
+                  label="{label: 'Placa', required: true}"  name="nPlaca" data-ng-blur="$ctrl.getPlaca();">
+                </mpf-input>
+                <div class="g-error"
+                  data-ng-show="frmVehiculoSoat.nPlaca.$invalid && !frmVehiculoSoat.nPlaca.$pristine">
+                  Este campo es obligatorio
+                </div>
+              </div>
+
+              <div class="col-md-6 mb-xs-2">
+                <wp-cbo-soat data-label="{label: 'SOAT', required: $ctrl.isRequired ? true : false }" data-ng-required="true"
+                  data-ng-model="frmVehiculoSoat.codigoSoatVehiculo" data-option-default="{enterData: true}" data-ng-disabled="$ctrl.modoLectura"
+                  data-set-model-by-this-key="$ctrl.frm.vehiculoTercero.codigoSoatVehiculo" data-set-model-by-this-text="$ctrl.frm.descripcionSoatVehiculo" name="nCodigoSoatVehiculo" >
+                </wp-cbo-soat>
+                <div class="g-error"
+                  data-ng-show="frmVehiculoSoat.nCodigoSoatVehiculo.$invalid && !frmVehiculoSoat.nCodigoSoatVehiculo.$pristine && $ctrl.frm.placaVehiculo">
+                  Este campo es obligatorio
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-6 mb-xs-2">
+                <wp-cbo-tipo-vehiculo data-label="{label: 'Tipo de vehículo', required: $ctrl.isRequired ? true : false }" data-ng-disabled="$ctrl.modoLectura"
+                  data-ng-model="frmVehiculoSoat.codigoTipoVehiculo" data-option-default="{enterData: true}" data-ng-required="true"
+                  data-set-model-by-this-key="$ctrl.frm.vehiculoTercero.codigoTipoVehiculo" data-set-model-by-this-text="$ctrl.frm.descripcionTipoVehiculo" name="nTipoVehiculo">
+                </wp-cbo-tipo-vehiculo>
+                <div class="g-error"
+                  data-ng-show="frmVehiculoSoat.nTipoVehiculo.$invalid && !frmVehiculoSoat.nTipoVehiculo.$pristine && $ctrl.frm.placaVehiculo">
+                  Este campo es obligatorio
+                </div>
+              </div>
+              <div class="col-md-6 mb-xs-2" ng-if="!$ctrl.isUa">
+                <wp-cbo-uso-vehiculo data-label="{label: 'Uso del vehículo', required: false}" data-ng-required="true" data-ng-disabled="$ctrl.modoLectura"
+                  data-ng-model="frmVehiculoSoat.codigoUsoVehiculo" data-option-default="{enterData: true}"
+                  data-set-model-by-this-key="$ctrl.frm.vehiculoTercero.codigoUsoVehiculo" name="nUsoVehiculo">
+                </wp-cbo-uso-vehiculo>
+                <div class="g-error"
+                  data-ng-show="$ctrl.nUsoVehiculo.codigoUsoVehiculo.$invalid && !$ctrl.nUsoVehiculo.codigoUsoVehiculo.$pristine">
+                  Este campo es obligatorio
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="gBgcGray5 col-md-12">
+              <h2 class="mt-xs-2 gCGreen1">{{ ($ctrl.frm.vehiculoTercero.modeloVehiculo || '') + ' ' + ($ctrl.frm.vehiculoTercero.marcaVehiculo || '')}} </h2>
+              <hr>
+              <div class="row">
+                <div class="col-md-6 mb-xs-2">
+                  #Motor
+                </div>
+                <div class="col-md-6 mb-xs-2">
+                  {{$ctrl.frm.vehiculoTercero.motorVehiculo}}
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-6 mb-xs-2">
+                  Año de vehículo
+                </div>
+                <div class="col-md-6 mb-xs-2">
+                  {{$ctrl.frm.vehiculoTercero.anioVehiculo}}
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-6 mb-xs-2">
+                  #Serie
+                </div>
+                <div class="col-md-6 mb-xs-2">
+                  {{$ctrl.frm.vehiculoTercero.serieVehiculo}}
+                </div>
+              </div>
+            </div>
+          </div>
+    </div>
+  </div>
+
+  <div class="row mt-xs-3">
+    <div class="col-md-12">
+      <h2 class="g-sub-title">Fotos</h2>
+    </div>
+    <div class="col-md-12">
+      <div ng-if="$ctrl.showImages">
+        <wp-img-tab-upload
+        data-fotos-docs="$ctrl.frm.tab4At1.fotosDoc"
+        data-fotos-siniestros="$ctrl.frm.tab4At1.fotosVehiculo"
+        data-on-subir-foto-licencia="$ctrl.subirFotoLicencia($event)"
+        data-on-subir-foto-soat="$ctrl.subirFotoSoat($event)"
+        data-on-subir-foto-tarjeta="$ctrl.subirFotoTarjeta($event)"
+        data-on-subir-foto-odometro="$ctrl.subirFotoOdometro($event)"
+        data-on-subir-fotos-siniestro="$ctrl.subirFotosSiniestro($event)"
+        data-on-view-image-modal="$ctrl.servicePhotoModal($event)"
+        data-on-view-image="$ctrl.servicePhotoModal($event)"
+        data-opt="$ctrl.optImgsTabs"
+      >
+      </wp-img-tab-upload>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-12">
+      <div class="col-md-4 mb-xs-2">
+        <div class="row">
+          <div class="col-md-12"><span class="g-label text-left">Lesiones del conductor</span></div>
+          <div class="col-md-3 col-sm-3 col-xs-3 mt-xs-1">
+            <m-radio data-ng-model="$ctrl.frm.ocupanteTercero.flagLesion" label="{label: 'Si'}" name="nLesionesconductorTerceroAux" data-ng-disabled="$ctrl.modoLectura"
+              value="S">
+            </m-radio>
+          </div>
+          <div class="col-md-9 col-sm-3 col-xs-3 mt-xs-1">
+            <m-radio data-ng-model="$ctrl.frm.ocupanteTercero.flagLesion" label="{label: 'NO'}" name="nLesionesconductorTerceroAux" data-ng-disabled="$ctrl.modoLectura"
+              value="N">
+            </m-radio>
+          </div>
+          <div class="g-error col-xs-12"
+            data-ng-show="frmVehiculoTercero.lesionesConductor.$invalid && !frmVehiculoTercero.lesionesConducto.$pristine">
+            Este campo es obligatorio
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-12">
+      <wp-nivel-danho modo-lectura="$ctrl.modoLectura" data-detalle="$ctrl.frm.detalleDanioVehiculo[0]" validate-form="$ctrl.validateForm"></wp-nivel-danho>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-12 mb-xs-2 mt-xs-3">
+      <mpf-input data-ng-disabled="$ctrl.modoLectura" data-ng-model="$ctrl.frm.descripcionDanios" label="{label: 'Descripcion de los daños', required: false}"
+        name="nDescripcionDanos">
+      </mpf-input>
+      <div class="g-error"
+        data-ng-show="frmTerceroConvenio.nDescripcionDanos.$invalid && !frmTerceroConvenio.nDescripcionDanos.$pristine">
+        Este campo es obligatorio
+      </div>
+    </div>
+  </div>
+
+  <div class="row mt-xs-2">
+    <div class="col-xs-6 col-sm-4 col-sm-offset-1 col-md-3 col-md-offset-3 mb-xs-1">
+      <button class="col-xs-12 g-btn g-btn-white" data-ng-click="$ctrl.cerrarFrm()">
+        Cancelar
+      </button>
+    </div>
+    <div class="col-xs-6 col-sm-4 col-sm-offset-2 col-md-3 col-md-offset-0 mb-xs-1">
+      <button class="col-xs-12 g-btn g-btn-verde" data-ng-click="$ctrl.grabarVehiculoTercero()" data-ng-disabled="$ctrl.modoLectura">
+        Guardar
+      </button>
+    </div>
+  </div>
+</div>

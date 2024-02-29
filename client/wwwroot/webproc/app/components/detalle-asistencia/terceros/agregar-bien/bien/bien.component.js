@@ -68,7 +68,7 @@ define(['angular'], function(ng) {
   return ng
     .module('appWp')
     .controller('BienController', BienController)
-    .component('wpBien', {
+    .component('wpBienOld', {
       templateUrl: '/webproc/app/components/detalle-asistencia/terceros/agregar-bien/bien/bien.html',
       controller: 'BienController',
       bindings: {

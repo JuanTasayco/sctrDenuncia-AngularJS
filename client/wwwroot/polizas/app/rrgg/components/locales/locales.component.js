@@ -10,10 +10,21 @@ define([
     vm.ubigeoValid = {};
     vm.$onInit = function () {
       vm.constantsRrgg = constantsRiesgosGenerales;
-    };
-    $scope.$watch('setter', function() {
-      $scope.setterUbigeo = $scope.setter;
+
+      setTimeout(function (){
+        vm.data.listaUbicaciones.forEach(function (item){
+          item.setter && item.setter(item.Departamento.Codigo,item.Provincia.Codigo,item.Distrito.Codigo)
+          setTimeout(function(){
+            item.Ubigeo = {
+              mDepartamento: item.Departamento,
+              mProvincia: item.Provincia,
+              mDistrito: item.Distrito
+      }
+          }, 500)
     })
+      }, 500)
+
+    };
 
     $scope.$on('ubigeo', function(_, data) {
       if(data) {

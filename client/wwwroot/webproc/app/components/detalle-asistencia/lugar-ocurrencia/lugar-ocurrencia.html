@@ -1,0 +1,427 @@
+<div class="container mt-xs-3 g-border">
+  <div data-ng-init="showUp = false">
+    <div class="row pt-xs-2" style="background: rgb(85 84 84);cursor: pointer;" data-ng-click="showUp = !showUp">
+      <div class="col-md-11" style="font-size: 20px; color: white;">
+        <h3 class="g-sub-title2  mb-md-1 pb-md-1">Lugar de ocurrencia - Unidad asegurada y conductor</h3>
+      </div>
+      <div class="col-md-1" style="font-size: 20px; color: white;cursor: pointer;">
+        <span class="ico-mapfre_76_chevrondown ico-down" data-ng-show="!showUp"></span>
+        <span class="ico-mapfre_77_chevronup ico-up" data-ng-show="showUp"></span>
+      </div>
+    </div>
+
+  </div>
+  <div data-ng-show="showUp" class="container" data-ng-form="frmLugarOcurrencia">
+    <!-- Lugar del siniestro -->
+    <div class="row">
+      <div class="col-md-12 mt-xs-3">
+        <h2 class="g-sub-title">Lugar del siniestro</h2>
+      </div>
+      <div class="row col-md-12">
+        <div class="col-md-4 mb-xs-2">
+          <wp-cbo-departamento data-label="{label: 'Departamento', required: true}" data-ng-disabled="$ctrl.modoLectura"
+            data-option-default="{enterData: true}" data-ng-model="frmLugarOcurrencia.codigoDepartamento"
+            data-set-model-by-this-key="$ctrl.frmSiniestro.codigoDepartamento" data-ng-required="true"
+            data-set-model-by-this-text="$ctrl.frmSiniestro.descripcionDepartamento" name="nDepartament">
+          </wp-cbo-departamento>
+          <div class="g-error"
+            data-ng-show="frmLugarOcurrencia.nDepartament.$invalid && !frmLugarOcurrencia.nDepartament.$pristine">
+            Este campo es obligatorio
+          </div>
+        </div>
+        <div class="col-md-4 mb-xs-2">
+          <wp-cbo-provincia data-depa="frmLugarOcurrencia.codigoDepartamento" data-option-default="{enterData: true}"
+            data-prov="$ctrl.frmSiniestro.codigoProvincia" data-label="{label: 'Provincia', required: true}"
+            data-ng-model="frmLugarOcurrencia.codigoProvincia"
+            data-set-model-by-this-key="$ctrl.frmSiniestro.codigoProvincia" data-ng-required="true" data-ng-disabled="$ctrl.modoLectura"
+            data-set-model-by-this-text="$ctrl.frmSiniestro.descripcionProvincia" name="nProvincia">
+          </wp-cbo-provincia>
+          <div class="g-error"
+            data-ng-show="frmLugarOcurrencia.nProvincia.$invalid && !frmLugarOcurrencia.nProvincia.$pristine">
+            Este campo es obligatorio
+          </div>
+        </div>
+        <div class="col-md-4 mb-xs-2">
+          <wp-cbo-distrito data-depa="frmLugarOcurrencia.codigoDepartamento"
+            data-label="{label: 'Distrito', required: true}" data-ng-model="frmLugarOcurrencia.codigoDistrito"
+            data-option-default="{enterData: true}" data-set-model-by-this-text="$ctrl.frmSiniestro.descripcionDistrito"
+            data-prov="frmLugarOcurrencia.codigoProvincia" data-dist="$ctrl.frmSiniestro.codigoDistrito" data-ng-disabled="$ctrl.modoLectura"
+            data-ng-required="true" data-set-model-by-this-key="$ctrl.frmSiniestro.codigoDistrito" name="nDistrito">
+          </wp-cbo-distrito>
+          <div class="g-error"
+            data-ng-show="frmLugarOcurrencia.nDistrito.$invalid && !frmLugarOcurrencia.nDistrito.$pristine">
+            Este campo es obligatorio
+          </div>
+        </div>
+      </div>
+
+      <div class="row col-md-12 mt-xs-1">
+        <div class="col-md-6 mb-xs-2">
+          <mpf-input data-ng-maxlength="100" data-ng-model="$ctrl.frmSiniestro.nombreVia" ng-required="true" data-ng-disabled="$ctrl.modoLectura"
+            label="{label: 'Nombre de vía', required: true}" name="nNombreVia">
+          </mpf-input>
+          <div class="g-error"
+            data-ng-show="frmLugarOcurrencia.nNombreVia.$invalid && !frmLugarOcurrencia.nNombreVia.$pristine">
+            Este campo es obligatorio
+          </div>
+        </div>
+        <div class="col-md-6 mb-xs-2">
+          <mpf-input data-ng-maxlength="400" data-ng-model="$ctrl.frmSiniestro.referenciaVia" ng-required="true" data-ng-disabled="$ctrl.modoLectura"
+            label="{label: 'Referencia lugar del accidente', required: true}" name="nReferenciaVia">
+          </mpf-input>
+          <div class="g-error"
+            data-ng-show="frmLugarOcurrencia.nReferenciaVia.$invalid && !frmLugarOcurrencia.nReferenciaVia.$pristine">
+            Este campo es obligatorio
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-3 mb-xs-2">
+        <mpf-datepicker data-format="$ctrl.dateFormat" data-ng-model="frmLugarOcurrencia.fechaLlamado" data-ng-disabled="true"
+          data-ng-required="false" data-parsear-to-date="true" ng-disabled="true" data-set-max-today="true"
+          data-set-model-by-this-data="$ctrl.frmSiniestro.fechaLlamado"
+          label="{label: 'Fecha del siniestro (Contact Center):', required: false}" name="nSiniestroFecha">
+        </mpf-datepicker>
+        <div class="g-error"
+          data-ng-show="frmLugarOcurrencia.nSiniestroFecha.$invalid && !frmLugarOcurrencia.nSiniestroFecha.$pristine">
+          Este campo es obligatorio
+        </div>
+      </div>
+      <div class="col-md-3 mb-xs-2">
+        <mpf-input data-ng-model="$ctrl.frmSiniestro.horaLlamado" ng-required="false"
+          label="{label: 'Hora del siniestro (Contact Center)', required: false}" name="nHoraLlamado" ng-disabled="true">
+          <div class="g-error"
+            data-ng-show="frmLugarOcurrencia.nHoraLlamado.$invalid && !frmLugarOcurrencia.nHoraLlamado.$pristine">
+            Este campo es obligatorio
+          </div>
+      </div>
+      <div class="col-md-3 mb-xs-2">
+        <mpf-datepicker data-format="$ctrl.dateFormat" data-ng-model="frmLugarOcurrencia.fechaSiniestro" data-ng-disabled="$ctrl.modoLectura"
+          data-ng-required="true" data-parsear-to-date="true" data-readonly="false" data-set-max-today="true"
+          data-set-model-by-this-data="$ctrl.frmSiniestro.fechaSiniestro"
+          label="{label: 'Fecha del siniestro:', required: true}" name="nSiniestroFecha">
+        </mpf-datepicker>
+        <div class="g-error"
+          data-ng-show="frmLugarOcurrencia.nSiniestroFecha.$invalid && !frmLugarOcurrencia.nSiniestroFecha.$pristine">
+          Este campo es obligatorio
+        </div>
+      </div>
+      <div class="col-md-3 mb-xs-2">
+        <div class="g-input-design">
+          <label class="g-placeholder ng-binding" ng-class="{animated: true}">
+            Hora del siniestro<span>*</span>
+          </label>
+          <input type="text" name="nSiniestroHora" placeholder="__:__" ng-model="$ctrl.frmSiniestro.horaSiniestro" data-ng-disabled="$ctrl.modoLectura"
+            ng-focus="ngFocus()" ng-required="true" ng-minlength="5" ng-pattern="$ctrl.pattern" ng-maxlength="5"
+            ui-mask="99:99">
+        </div>
+        <div class="g-error"
+          data-ng-show="frmLugarOcurrencia.nSiniestroHora.$invalid && !frmLugarOcurrencia.nSiniestroHora.$pristine">
+          * Ingrese una hora válida
+        </div>
+      </div>
+
+      <div class="col-md-4 mb-xs-2">
+        <wp-cbo-tipo-siniestro data-ng-disabled="$ctrl.statusBlock.blockByGenerado || $ctrl.modoLectura"
+          data-label="{label: 'Tipo del Siniestro', required: true}"
+          data-ng-change="$ctrl.getCheckList(frmLugarOcurrencia.nTipoSiniestro.$viewValue)"
+          data-ng-model="frmLugarOcurrencia.tipoSiniestro" data-option-default="{enterData: true}"
+          data-set-model-by-this-key="$ctrl.frmSiniestro.codigoTipoSiniestro"
+          data-set-model-by-this-Text="$ctrl.frmSiniestro.descripcionTipoSiniestro" name="nTipoSiniestro">
+        </wp-cbo-tipo-siniestro>
+        <div class="g-error"
+          data-ng-show="frmLugarOcurrencia.nTipoSiniestro.$invalid && !frmLugarOcurrencia.nTipoSiniestro.$pristine">
+          Este campo es obligatorio
+        </div>
+      </div>
+      <div class="col-md-6 mb-xs-2">
+        <div class="row">
+          <div class="col-md-12"><span class="g-label text-left">Seleccione el detalle del tipo de siniestro</span>
+          </div>
+          <div>
+            <div class="row">
+              <div class="col-md-3 col-sm-3 col-xs-3 mt-xs-2" ng-repeat="siniestroType in $ctrl.siniestroTypeCheckList">
+                <m-radio ng-if="$ctrl.typeSinister.numeroOrden != 1" data-ng-model="$ctrl.rbDetaSiniestroPorChoque" data-ng-disabled="$ctrl.modoLectura"
+                  label="{label:siniestroType.nombreValorDetalle}" name="nTipoSiniestroDetalle"
+                  value="{{siniestroType.codigoValor}}"
+                  ng-click="$ctrl.onChangeLstDetalleSiniestroChoque(siniestroType)">
+                </m-radio>
+                <label ng-if="$ctrl.typeSinister.numeroOrden == 1" class="chk__lbl">
+                  <input
+                    class="chk__input"
+                    ng-change="$ctrl.onChangeCheckboxSiniestroDetalle(siniestroType)"
+                    ng-model="siniestroType.checked"
+                    type="checkbox"
+                  >
+                  <span class="chk__ico"></span>
+                  <span class="chk__txt">
+                    {{siniestroType.nombreValorDetalle}}
+                  </span>
+                </label>
+              </div>
+              <div class="col-md-3 col-sm-3 col-xs-3 mt-xs-2" ng-if="$ctrl.typeSinister.numeroOrden == 2" >
+                <label class="chk__lbl">
+                  <input
+                    class="chk__input"
+                    ng-change="$ctrl.onChangeCheckboxSiniestroDetalle($ctrl.roturaLuna)"
+                    ng-model="$ctrl.roturaLuna.checked"
+                    type="checkbox"
+                  >
+                  <span class="chk__ico"></span>
+                  <span class="chk__txt">
+                    {{$ctrl.roturaLuna.nombreValorDetalle}}
+                  </span>
+                </label>
+              </div>
+              <div
+                class="g-error col-xs-12"
+                ng-show="!$ctrl.frmSiniestro.detalleTipoSiniestro.length && $ctrl.siniestroTypeCheckList.length && $ctrl.clickSave">
+                Este campo es obligatorio
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Exoneracion de denuncia -->
+    <div class="row">
+      <div class="col-md-4">
+        <h2 class="g-sub-title">Apreciación etílica</h2>
+        <div class="row mb-xs-2">
+          <div class="col-md-12"><span class="g-label text-left">Apreciación etilica</span></div>
+          <div class="col-md-4 col-sm-3 col-xs-3 mt-xs-1">
+            <m-radio data-ng-model="$ctrl.frmSiniestro.apreciacionEtilica" data-is-input-boolean="true"  data-ng-disabled="$ctrl.modoLectura"
+              data-ng-change="$ctrl.changeApEtilica()" label="{label: 'Positiva'}" name="nApreciaciónElitica"
+              value="true">
+            </m-radio>
+          </div>
+          <div class="col-md-8 col-sm-3 col-xs-3 mt-xs-1">
+            <m-radio data-ng-model="$ctrl.frmSiniestro.apreciacionEtilica" data-is-input-boolean="true"  data-ng-disabled="$ctrl.modoLectura"
+              data-ng-change="$ctrl.changeApEtilica()" label="{label: 'Negativa'}" name="nApreciaciónElitica"
+              value="false">
+            </m-radio>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <h2 class="g-sub-title">Trámites policiales</h2>
+        <div class="row mb-xs-2">
+          <div class="col-md-12"><span class="g-label text-left">¿Hay exoneracion de denuncia/dosaje?</span></div>
+          <div class="col-md-3 col-sm-3 col-xs-3 mt-xs-1">
+            <m-radio data-ng-model="$ctrl.frmSiniestro.exoneraDenuncia" data-is-input-boolean="true"
+              ng-disabled="$ctrl.exoneracionDisabled || $ctrl.modoLectura" label="{label: 'Si'}" name="nExoneracion" value="true">
+            </m-radio>
+          </div>
+          <div class="col-md-9 col-sm-3 col-xs-3 mt-xs-1">
+            <m-radio data-ng-model="$ctrl.frmSiniestro.exoneraDenuncia" data-is-input-boolean="true" data-ng-disabled="$ctrl.modoLectura"
+              label="{label: 'No'}" name="nExoneracion" value="false">
+            </m-radio>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Detalles de atención -->
+    <div class="row">
+      <div class="col-md-12 mb-xs-1">
+        <h2 class="g-sub-title">Detalles de atención </h2>
+      </div>
+      <div class="row col-md-12">
+        <div class="col-md-4 mb-xs-2">
+          <wp-cbo-lugar-atencion data-label="{label: 'Lugar de Atención', required: true}" data-ng-disabled="$ctrl.modoLectura"
+            data-ng-model="frmLugarOcurrencia.codigoLugarAtencion" data-option-default="{enterData: true}"
+            data-set-model-by-this-key="$ctrl.frmSiniestro.codigoLugarAtencion" name="nCodigoLugarAtencion" data-ng-change="$ctrl.changePlaceAttention()" >
+          </wp-cbo-lugar-atencion>
+          <div class="g-error"
+            data-ng-show="frmLugarOcurrencia.nCodigoLugarAtencion.$invalid && !frmLugarOcurrencia.nCodigoLugarAtencion.$pristine">
+            Este campo es obligatorio
+          </div>
+        </div>
+        <div class="col-md-8 mb-xs-2">
+          <mpf-input data-ng-model="$ctrl.frmSiniestro.lugarAtencion" data-ng-required="true" data-ng-disabled="$ctrl.modoLectura || $ctrl.frmSiniestro.codigoLugarAtencion == 78"
+            label="{label: 'Dirección de atención', required: true}" name="nLugarAtencion" >
+          </mpf-input>
+          <div class="g-error"
+            data-ng-show="frmLugarOcurrencia.nLugarAtencion.$invalid && !frmLugarOcurrencia.nLugarAtencion.$pristine">
+            Este campo es obligatorio
+          </div>
+        </div>
+      </div>
+      <div class="row col-md-12">
+        <div class="col-md-4 mb-xs-2 u-h-xs--65-55">
+          <mpf-datepicker data-format="$ctrl.dateFormat" data-ng-model="frmLugarOcurrencia.fechaAtencion" data-ng-disabled="$ctrl.modoLectura"
+            data-ng-required="true" data-parsear-to-date="true" data-readonly="false" data-set-max-today="true"
+            data-set-model-by-this-data="$ctrl.frmSiniestro.fechaAtencion"
+            label="{label: 'Fecha de atención:', required: true}" name="nAtencionFecha">
+          </mpf-datepicker>
+          <div class=" g-error"
+            data-ng-show="frmLugarOcurrencia.nAtencionFecha.$invalid && !frmLugarOcurrencia.nAtencionFecha.$pristine">
+            Este campo es obligatorio
+          </div>
+        </div>
+        <div class="col-md-4 mb-xs-2">
+          <div class="g-input-design">
+            <label class="g-placeholder ng-binding" ng-class="{animated: true}">
+              Hora inicio de atención<span>*</span>
+            </label>
+            <input type="text" name="nAtencionInicioHora" placeholder="__:__" ng-disabled="$ctrl.modoLectura"
+              ng-model="$ctrl.frmSiniestro.horaInicioAtencion" ng-focus="ngFocus()" ng-required="true" ng-minlength="5"
+              ng-pattern="$ctrl.pattern" ng-maxlength="5" ui-mask="99:99" ng-blur="$ctrl.changeFinHoraAtencion();">
+          </div>
+          <div class="g-error"
+            data-ng-show="frmLugarOcurrencia.nAtencionInicioHora.$invalid && !frmLugarOcurrencia.nAtencionInicioHora.$pristine">
+            * Ingrese una hora válida
+          </div>
+        </div>
+        <div class="col-md-4 mb-xs-2">
+          <div class="g-input-design">
+            <label class="g-placeholder ng-binding" ng-class="{animated: true}">
+              Hora fin de atención<span>*</span>
+            </label>
+            <input type="text" name="nAtencionFinHora" placeholder="__:__" ng-model="$ctrl.frmSiniestro.horaFinAtencion" ng-disabled="$ctrl.modoLectura || !$ctrl.frmSiniestro.horaInicioAtencion"
+              ng-focus="ngFocus()" ng-required="true" ng-minlength="5" ng-pattern="$ctrl.pattern" ng-maxlength="5"
+              ui-mask="99:99" ng-blur="$ctrl.changeFinHoraAtencion();">
+          </div>
+          <div class="g-error"
+            data-ng-show="frmLugarOcurrencia.nAtencionFinHora.$invalid && !frmLugarOcurrencia.nAtencionFinHora.$pristine">
+            * Ingrese una hora válida
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Conductor U.A -->
+    <div class="mt-xs-3">
+      <wp-person-component  modo-lectura="$ctrl.modoLectura" is-ua="true" data-conductor="$ctrl.frmSiniestro.conductor"
+        validate-form="$ctrl.validateForm">
+      </wp-person-component>
+    </div>
+
+    <!-- Datos del vehiculo -->
+    <div class="row mt-xs-3">
+      <div class="col-md-12 mb-xs-1">
+        <h2 class="g-sub-title"> Datos del vehículo asegurado </h2>
+      </div>
+      <div class="col-md-12">
+        <wp-vehiculo-soat is-ua="true" data-vehiculo="$ctrl.frmSiniestro.dataVehiculo"  modo-lectura="$ctrl.modoLectura"
+          validate-form="$ctrl.validateForm">
+        </wp-vehiculo-soat>
+      </div>
+    </div>
+
+    <!-- Nivel de daño vehiculo -->
+    <div class="row">
+      <div class="col-md-12">
+        <wp-nivel-danho is-ua="true" data-detalle="$ctrl.frmSiniestro.detalleDanioVehiculo[0]" modo-lectura="$ctrl.modoLectura" data-descripcion-danios= "$ctrl.frmSiniestro.detalleDanioVehiculo[0].descripcionDanios"
+      validate-form="$ctrl.validateForm"></wp-nivel-danho>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-12 mb-xs-2 mt-xs-3">
+        <mpf-input data-ng-model="$ctrl.frmSiniestro.detalleDanioVehiculo[0].descripcionDanios" data-ng-disabled="$ctrl.modoLectura"
+          data-ng-required="true" label="{label: 'Descripcion de los daños', required: true}"
+          name="nDescripcionDaniosUA">
+        </mpf-input>
+        <div class="g-error"
+          data-ng-show="frmLugarOcurrencia.nDescripcionDaniosUA.$invalid && !frmLugarOcurrencia.nDescripcionDaniosUA.$pristine">
+          Este campo es obligatorio
+        </div>
+      </div>
+    </div>
+    <div class="row mt-xs-2">
+      <div class="row">
+        <div class="col-md-4 col-sm-4 col-xs-6">
+          <div class="col-md-12"><span class="g-label text-left">Lesiones del conductor</span></div>
+          <div class="col-md-4 col-sm-4 col-xs-4 mt-xs-1">
+            <m-radio data-ng-model="$ctrl.frmSiniestro.flagLesionConductor" label="{label: 'Si'}" data-ng-disabled="$ctrl.modoLectura"
+              name="nLesionesConductor" value="S">
+            </m-radio>
+          </div>
+          <div class="col-md-8 col-sm-8 col-xs-4 mt-xs-1">
+            <m-radio data-ng-model="$ctrl.frmSiniestro.flagLesionConductor" label="{label: 'No'}" data-ng-disabled="$ctrl.modoLectura"
+              name="nLesionesConductor" value="N">
+            </m-radio>
+          </div>
+        </div>
+        <div class="col-md-4 col-sm-4 col-xs-6">
+          <div class="col-md-12"><span class="g-label text-left">Ocupantes</span></div>
+          <div class="col-md-4 col-sm-4 col-xs-4 mt-xs-1">
+            <m-radio data-ng-model="$ctrl.frmSiniestro.flagOcupantes" label="{label: 'SI'}" name="nOcupantes" value="S" data-ng-disabled="$ctrl.modoLectura">
+            </m-radio>
+          </div>
+          <div class="col-md-8 col-sm-8 col-xs-4 mt-xs-1">
+            <m-radio data-ng-model="$ctrl.frmSiniestro.flagOcupantes" label="{label: 'NO'}" name="nOcupantes" value="N" data-ng-disabled="$ctrl.modoLectura">
+            </m-radio>
+          </div>
+        </div>
+        <div class="col-md-4 col-sm-4 col-xs-6">
+          <div class="col-md-12"><span class="g-label text-left">Fallecidos</span></div>
+          <div class="col-md-4 col-sm-4 col-xs-4 mt-xs-1">
+            <m-radio data-ng-model="$ctrl.frmSiniestro.flagFallecidos" label="{label: 'Si'}" name="nFallecidos" data-ng-disabled="$ctrl.modoLectura"
+              value="S">
+            </m-radio>
+          </div>
+          <div class="col-md-8 col-sm-8 col-xs-4 mt-xs-1">
+            <m-radio data-ng-model="$ctrl.frmSiniestro.flagFallecidos" label="{label: 'No'}" name="nFallecidos" data-ng-disabled="$ctrl.modoLectura"
+              value="N">
+            </m-radio>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- FOTOS -->
+    <div class="row mt-xs-3">
+      <div class="col-md-12">
+        <h2 class="g-sub-title">Fotos</h2>
+      </div>
+      <div class="col-md-12">
+        <wp-img-tab-upload
+        data-fotos-docs="$ctrl.frmSiniestro.documentosVehiculo"
+        data-fotos-siniestros="$ctrl.frmSiniestro.fotosSiniestroVehiculo"
+        data-on-subir-foto-licencia="$ctrl.subirFotoLicencia($event)"
+        data-on-subir-foto-soat="$ctrl.subirFotoSoat($event)"
+        data-on-subir-foto-tarjeta="$ctrl.subirFotoTarjeta($event)"
+        data-on-subir-foto-odometro="$ctrl.subirFotoOdometro($event)"
+        data-on-subir-fotos-siniestro="$ctrl.subirFotosSiniestro($event)"
+        data-on-view-image-modal="$ctrl.servicePhotoModal($event)"
+        data-on-view-image="$ctrl.servicePhotoModal($event)"
+        data-opt="$ctrl.optImgsTabs"
+      >
+      </wp-img-tab-upload>
+      </div>
+    </div>
+
+
+    <div class="row mt-xs-3">
+      <div class="col-md-12">
+        <h2 class="g-sub-title">Relato del asegurado</h2>
+      </div>
+      <div class="col-md-12 mb-xs-2">
+        <mpf-textarea data-ng-model="$ctrl.frmSiniestro.relatoProcurador" data-ng-required="true" data-ng-disabled="$ctrl.modoLectura"
+          data-ng-maxlength="3500" label="{label: 'Relato por parte del asegurado', required: true}"
+          name="nRelatoProductor">
+        </mpf-textarea>
+        <div class="g-error"
+          data-ng-show="frmLugarOcurrencia.nRelatoProductor.$invalid && !frmLugarOcurrencia.nRelatoProductor.$pristine">
+          Este campo es obligatorio
+        </div>
+      </div>
+    </div>
+    <div class="row mt-xs-2">
+      <div class="col-md-12">
+        <h2 class="g-sub-title">Observaciones</h2>
+      </div>
+      <div class="col-md-12 mb-xs-2">
+        <mpf-textarea data-ng-model="$ctrl.frmSiniestro.observaciones" data-ng-required="false" data-ng-disabled="$ctrl.modoLectura"
+          data-ng-maxlength="3500" label="{label: 'Observaciones', required: false}"
+          name="nObservaciones">
+        </mpf-textarea>
+
+      </div>
+    </div>
+  </div>
+
+</div>

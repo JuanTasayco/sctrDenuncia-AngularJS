@@ -26,7 +26,7 @@ define(['angular', 'AsistenciaActions', 'lodash'], function(ng, AsistenciaAction
       vm.fotosDoc = (vm.fotosDoc || []).length ? vm.fotosDoc : [];
       vm.fotosSiniestros = (vm.fotosSiniestros || []).length ? vm.fotosSiniestros : [];
       var arrFotosDoc = _cleanArrayFotos(vm.fotosDocs) || [];
-      
+
       if (vm.opt.isOdometro) {
         vm.requeTotalImagenes = 4
       }
@@ -45,7 +45,8 @@ define(['angular', 'AsistenciaActions', 'lodash'], function(ng, AsistenciaAction
       var imgOdometro = []
 
       for (var idx = 0; idx < arrFotosDoc.length; idx++) {
-        if (arrFotosDoc[idx].imageTypeCode === 3) { //Soat
+
+        if (arrFotosDoc[idx].imageTypeCode === 3 || arrFotosDoc[idx].imageTypeCode === 12) { //Soat
           imgSoat = [arrFotosDoc[idx]]
         }
 
@@ -53,14 +54,14 @@ define(['angular', 'AsistenciaActions', 'lodash'], function(ng, AsistenciaAction
           imgOdometro = [arrFotosDoc[idx]]
         }
 
-        if (arrFotosDoc[idx].imageTypeCode === 2) { //Tarjeta
+        if (arrFotosDoc[idx].imageTypeCode === 2 || arrFotosDoc[idx].imageTypeCode === 11) { //Tarjeta
           imgTarjeta = [arrFotosDoc[idx]]
         }
 
-        if (arrFotosDoc[idx].imageTypeCode === 1) { //Licencia
+        if (arrFotosDoc[idx].imageTypeCode === 1 || arrFotosDoc[idx].imageTypeCode === 10) { //Licencia
           imgLicencia = [arrFotosDoc[idx]]
         }
-      } 
+      }
       vm.docSoat = imgSoat
       vm.docTarjeta = imgTarjeta
       vm.docLicencia = imgLicencia
@@ -93,13 +94,13 @@ define(['angular', 'AsistenciaActions', 'lodash'], function(ng, AsistenciaAction
       _.forEach(fotosDoc, function feFn(item, idx) {
         if (item && item.nombreFisico) {
           vm.onViewImage({ $event: { nombreFisico: item.nombreFisico } }).then(function (resp) {
-            if (item.imageTypeCode === 3 && vm.docSoat.length > 0) {
+            if ((item.imageTypeCode === 3 || item.imageTypeCode === 12) && vm.docSoat.length > 0) {
               wpFactory.help.isCode200(resp) ? (vm.docSoat[0].srcImg = resp.data) : (vm.docSoat = []);
             }
-            if (item.imageTypeCode === 2 && vm.docTarjeta.length > 0) {
+            if ((item.imageTypeCode === 2 || item.imageTypeCode === 11) && vm.docTarjeta.length > 0) {
               wpFactory.help.isCode200(resp) ? (vm.docTarjeta[0].srcImg = resp.data) : (vm.docTarjeta = []);
             }
-            if (item.imageTypeCode === 1 && vm.docLicencia.length > 0) {
+            if ((item.imageTypeCode === 1 || item.imageTypeCode === 10) && vm.docLicencia.length > 0) {
               wpFactory.help.isCode200(resp) ? (vm.docLicencia[0].srcImg = resp.data) : (vm.docLicencia = []);
             }
             if (item.imageTypeCode === 5 && vm.docOdometro.length > 0) {

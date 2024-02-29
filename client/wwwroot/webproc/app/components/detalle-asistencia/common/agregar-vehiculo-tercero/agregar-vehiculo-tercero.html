@@ -1,0 +1,36 @@
+<div
+  class="col-md-12 g-box3 g-box-add-item-1 box-add-damage-1 clearfix"
+  data-ng-if="$ctrl.showBoxInicialAgregar">
+  <p class="text-center">No hay ningún conductor tercero registrado.</p>
+  <button  data-ng-disabled="$ctrl.modoLectura"
+    class="col-xs-8 col-xs-offset-2 col-sm-6 col-sm-offset-3 col-md-4 col-md-offset-4 g-btn g-btn-white mt-xs-1"
+    data-ng-click="$ctrl.showFrmAddvehiculoTercero()">
+    <span class="glyphicon glyphicon-plus"></span>Agregar conductor tercero
+  </button>
+</div>
+<div
+  class="container-add-vehiculoTercero"
+  data-ng-repeat="item in $ctrl.vehiculoTercero track by $index">
+  <wp-vehiculo-tercero
+    modo-lectura="$ctrl.modoLectura"
+    data-vehiculo-tercero="item"
+    data-idx="$index"
+    data-on-delete="$ctrl.handleEliminarvehiculoTercero($index)"
+    data-on-editar="$ctrl.handleEditarvehiculoTercero($event)"
+  >
+  </wp-vehiculo-tercero>
+</div>
+<div data-ng-show="$ctrl.showBtnAddvehiculoTercero">
+  <button data-ng-disabled="$ctrl.modoLectura"
+    class="col-xs-8 col-xs-offset-2 col-md-3 col-md-offset-9 mt-xs-2 mt-md-2 g-btn g-btn-white"
+    data-ng-click="$ctrl.showFrmAddvehiculoTercero()">
+    <span class="glyphicon glyphicon-plus"></span>Agregar conductor tercero
+  </button>
+</div>
+<wp-agregar-editar-vehiculo-tercero
+  modo-lectura="$ctrl.modoLectura"
+  data-es-frm-agregar="true"
+  data-ng-if="$ctrl.showAddFrm"
+  data-on-agregar="$ctrl.handleAgregarvehiculoTercero($event)"
+>
+</wp-agregar-editar-vehiculo-tercero>

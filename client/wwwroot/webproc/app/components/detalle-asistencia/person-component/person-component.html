@@ -1,0 +1,131 @@
+<div class="row" data-ng-form="frmPerson">
+  <div class="col-md-12">
+    <h2 class="g-sub-title">{{$ctrl.title}}</h2>
+  </div>
+  <div ng-if="$ctrl.showForm">
+    <div class="col-md-4">
+      <wp-cbo-tipo-documentos data-label="{label: 'Tipo Documento', required: $ctrl.isRequired ? true : false}"
+        data-ng-model="frmPerson.codigoTipoDocumentoIdentidad" data-option-default="{enterData: true}" data-ng-disabled="$ctrl.modoLectura"
+        data-set-model-by-this-key="$ctrl.frmConductor.codigoTipoDocumentoIdentidad" name="nTipoDocumento"
+        data-ng-change="$ctrl.documentTypeChange()">
+      </wp-cbo-tipo-documentos>
+      <ul class="g-error" data-ng-show="frmPerson.nTipoDocumento.$invalid && !frmPerson.nTipoDocumento.$pristine">
+        Este campo es obligatorio
+      </ul>
+    </div>
+    <div class="col-md-4">
+      <mpf-input data-ng-model="$ctrl.frmConductor.numeroDocumentoIdentidad" data-ng-minlength="$ctrl.docNumMinLength" data-ng-disabled="$ctrl.modoLectura"
+        data-ng-maxlength="$ctrl.docNumMaxLength" data-mpf-validation="onlyNumber"
+        data-mpf-validation-disabled="{{$ctrl.docNumTypeDisabled}}"
+        label="{label: 'Numero Documento', required: $ctrl.isRequired ? true : false}" ng-blur="$ctrl.getPerson();"
+        name="nNumeroDoc">
+      </mpf-input>
+      <ul class="g-error" data-ng-show="frmPerson.nNumeroDoc.$invalid && !frmPerson.nNumeroDoc.$pristine">
+        Este campo es obligatorio
+      </ul>
+    </div>
+
+
+    <div class="col-md-12">
+      <div class="row mt-xs-2">
+        <div class="col-md-4 mb-xs-2">
+          <mpf-input data-ng-model="$ctrl.frmConductor.nombreConductor" ng-required="$ctrl.isRequired ? true : false" data-ng-disabled="$ctrl.modoLectura"
+            label="{label: 'Nombres', required: $ctrl.isRequired ? true : false}" name="nNombre">
+          </mpf-input>
+          <ul class="g-error" data-ng-show="frmPerson.nNombre.$invalid && !frmPerson.nNombre.$pristine">
+            Este campo es obligatorio
+          </ul>
+        </div>
+        <div class="col-md-4 mb-xs-2">
+          <mpf-input data-ng-model="$ctrl.frmConductor.paternoConductor" ng-required="$ctrl.isRequired ? true : false" data-ng-disabled="$ctrl.modoLectura"
+            label="{label: 'Apellidos', required: $ctrl.isRequired ? true : false}" name="nApellido">
+          </mpf-input>
+          <ul class="g-error" data-ng-show="frmPerson.nApellido.$invalid && !frmPerson.nApellido.$pristine">
+            Este campo es obligatorio
+          </ul>
+        </div>
+        <div class="col-md-4 mb-xs-2" ng-if="!$ctrl.isUa">
+          <mpf-input data-ng-model="$ctrl.frmConductor.telefonoConductor" label="{label: 'Telefono', required: true}" data-ng-disabled="$ctrl.modoLectura"
+            name="nTelefono">
+          </mpf-input>
+
+        </div>
+      </div>
+      <div class="row mt-xs-2">
+        <div class="col-md-4 mb-xs-2" ng-if="$ctrl.isUa">
+          <mpf-input data-ng-model="$ctrl.frmConductor.telefonoConductor" label="{label: 'Telefono', required: true}" data-ng-disabled="$ctrl.modoLectura"
+          ng-required="true" name="nTelefono">
+          </mpf-input>
+          <ul class="g-error" data-ng-show="frmPerson.nTelefono.$invalid && !frmPerson.nTelefono.$pristine">
+            Este campo es obligatorio
+          </ul>
+        </div>
+        <div class="col-md-4 mb-xs-2">
+          <mpf-input data-ng-model="$ctrl.frmConductor.correoConductor" data-ng-disabled="$ctrl.modoLectura"
+            label="{label: 'Email', required: $ctrl.isRequired ? true : false}" name="nEmail"
+            ng-required="$ctrl.isRequired ? true : false">
+          </mpf-input>
+          <ul class="g-error" data-ng-show="frmPerson.nEmail.$invalid && !frmPerson.nEmail.$pristine">
+            Este campo es obligatorio
+          </ul>
+        </div>
+      </div>
+      <div class="row mt-xs-2">
+        <div class="col-md-4 mb-xs-2" ng-if="$ctrl.isUa">
+          <mpf-input data-mpf-validation="alfanumericoEspacio" data-ng-maxlength="15"
+            data-ng-model="$ctrl.frmConductor.licenciaConductor" data-ng-disabled="$ctrl.modoLectura"
+            label="{label: 'Nro. Licencia de conducir', required: false}" name="nLicenciaConductor">
+          </mpf-input>
+          <div class="g-error"
+            data-ng-show="frmPerson.nLicenciaConductor.$invalid && !frmPerson.nLicenciaConductor.$pristine">
+            Ingrese una licencia válida
+          </div>
+        </div>
+        <div class="col-md-4 mb-xs-2" ng-if="$ctrl.isUa">
+          <mpf-datepicker data-format="$ctrl.dateFormat" data-ng-model="$ctrl.frmConductor.fchExpiracionLicenciConductor" data-ng-disabled="$ctrl.modoLectura"
+            data-ng-required="true" data-parsear-to-date="true" data-readonly="false"
+            data-set-model-by-this-data="$ctrl.frmConductor.fchExpiracionLicenciConductor"
+            label="{label: 'Fecha de Expiracion de licencia:', required: true}" name="nFechaExpiracionLicencia">
+          </mpf-datepicker>
+          <ul class="g-error"
+            data-ng-show="frmPerson.nFechaExpiracionLicencia.$invalid && !frmPerson.nFechaExpiracionLicencia.$pristine">
+            Este campo es obligatorio
+          </ul>
+        </div>
+        <div class="col-md-4 mb-xs-2" ng-if="$ctrl.isUa">
+          <wp-cbo-tipo-licencia data-label="{label: 'Categoria', required: true}"
+            data-ng-model="frmPerson.codigoLicenciaConductor" data-option-default="{enterData: true}" data-ng-disabled="$ctrl.modoLectura"
+            data-set-model-by-this-key="$ctrl.frmConductor.codigoLicenciaConductor" name="nTipoLicencia">
+          </wp-cbo-tipo-licencia>
+          <ul class="g-error"
+            data-ng-show="frmPerson.nTipoLicencia.$invalid && !frmPerson.nTipoLicencia.$pristine">
+            Este campo es obligatorio
+          </ul>
+        </div>
+      </div>
+      <div class="row" ng-if="$ctrl.isUa">
+        <div class="col-md-4 mb-xs-2" >
+          <mpf-datepicker data-format="$ctrl.dateFormat" data-ng-model="$ctrl.frmConductor.fchNacimientoConductor" data-ng-disabled="$ctrl.modoLectura"
+            data-ng-required="true"  data-parsear-to-date="true" data-readonly="false"
+            data-set-model-by-this-data="$ctrl.frmConductor.fchNacimientoConductor"
+            label="{label: 'Fecha de Nacimiento:', required: true}" name="nfchNacimientoConductor"  ng-change="$ctrl.calcularEdad()">
+          </mpf-datepicker>
+          <ul class="g-error"
+            data-ng-show="frmPerson.nfchNacimientoConductor.$invalid && !frmPerson.nfchNacimientoConductor.$pristine">
+            Este campo es obligatorio
+          </ul>
+        </div>
+        <div class="col-md-1 mb-xs-2">
+          <mpf-input data-mpf-validation="required, onlyNumberNoSpace, edad" data-ng-model="$ctrl.frmConductor.edadCondutor"
+            data-set-model-by-this-data="$ctrl.frmConductor.edadCondutor" data-ng-disabled="true"
+            label="{label: 'Edad', required: false}" name="nEdad">
+          </mpf-input>
+          <div class="g-error"
+            data-ng-show="frmPerson.nEdad.$invalid && !frmPerson.nEdad.$pristine">
+            Ingrese una edad válida
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

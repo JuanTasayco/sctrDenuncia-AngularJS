@@ -478,40 +478,43 @@ define([
             group[index] = _.groupBy(item, "Orden");
           })
           var sumaMaxima = _getData(group[0]).pop()[1]
-          var sumaMinima = response.Data.find(function (data) {
-            return data.Campo === "C0057"
-          }).Dato 
+          var sumaMinima = _getData(group[0]).shift()[0]
+          jsonData.simboloMoneda = 'US$';
           //cuando es soles calcula por TC
           if (parseInt(paramData.moneda.Codigo) === 1) {
             var result = convertDolaresAsoles(sumaMaxima);
+            var result2 = convertDolaresAsoles(sumaMinima);
             sumaMaxima = result.montoMaximo;
+            sumaMinima = result2.montoMaximo;
             jsonData.simboloMoneda = result.simboloMoneda
           }
           var tasaMaxima = parseFloat(sumaMaxima)
           var tasaMinima = parseFloat(sumaMinima)
+
           if (parseFloat(paramData.MontoObra) > tasaMaxima) {
             if (paramData.type === "C") {
-              mModalConfirm.confirmWarning(riesgosGeneralesFactory.getSmsError(tasaMaxima, jsonData), "MAPFRE:LIMITE DE SUMA ASEGURADA").then(function (response) {
-                deferred.resolve(true);
-              }).catch(function (error) {
-                deferred.resolve(true);
+              mModalAlert.showWarning(riesgosGeneralesFactory.getSmsError(tasaMaxima, jsonData), "MAPFRE:LIMITE DE SUMA ASEGURADA")
+              .then(function (){
+                deferred.resolve(false);
               });
             } else if (paramData.type === "R") {
+              deferred.resolve(false);
+            } else{
               deferred.resolve(true);
             }
-          }
-
-          if (parseFloat(paramData.MontoObra) < tasaMinima) {
+          }else if (parseFloat(paramData.MontoObra) < tasaMinima) {
             if (paramData.type === "C") {
-              mModalConfirm.confirmWarning("La suma asegurada no puede ser menor a US$" + tasaMinima + ". Para montos menores, SOLICITAR VoBo de Suscripción", "MAPFRE:SUMA ASEGURADA MÍNIMA").then(function (response) {
-                deferred.resolve(true);
-              }).catch(function (error) {
-                deferred.resolve(true);
-              });
+              mModalAlert.showWarning("La suma asegurada no puede ser menor a " + jsonData.simboloMoneda + " " + riesgosGeneralesFactory.convertMiles(tasaMinima) + ". Para montos menores, utilizar el producto CAR LITE", "MAPFRE:SUMA ASEGURADA MÍNIMA")
+              .then(function () {
+                deferred.resolve(false);
+              })
             } else if (paramData.type === "R") {
+              deferred.resolve(false);
+            } else{
               deferred.resolve(true);
             }
-            
+          }else{
+            deferred.resolve(true);
           } 
           
         })
