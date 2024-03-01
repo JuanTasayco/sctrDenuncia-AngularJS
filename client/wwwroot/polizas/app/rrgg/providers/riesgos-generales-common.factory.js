@@ -17,6 +17,7 @@ define([
       validateMontoMaximoTEE: validateMontoMaximoTEE,
       validateDescuentoCAR: validateDescuentoCAR,
       validateDescuentosVIG: validateDescuentosVIG,
+      validateDescuentoComercialVIG: validateDescuentoComercialVIG,
       validateMontoMaximoParamTabla: validateMontoMaximoParamTabla,
       validateMontoMaximoParamSimple: validateMontoMaximoParamSimple,
       validateMontoMaximoVIG: validateMontoMaximoVIG,
@@ -269,6 +270,46 @@ define([
         })
       return deferred.promise;
     }
+
+    function validateDescuentoComercialVIG(paramData) {
+      var deferred = $q.defer();
+
+      riesgosGeneralesService.getProxyPametros(paramData.CodigoRiesgoGeneral, constantsRiesgosGenerales.PARAMETROS.DESC_COMERCIAL)
+        .then(function (response) {
+
+          var maxDescuento;
+          var descuento = parseFloat(paramData.DescuentoDirector);
+
+          var descuento1 = response.Data.find(function (data) { return data.Codigo === "S0431" });
+
+          if (descuento > parseFloat(descuento1.Valor)) {
+            maxDescuento = descuento1
+          }
+
+          if (paramData.type === "C") {
+            if (maxDescuento) {
+              var jsonData = { validator: constantsRiesgosGenerales.PARAMETROS.DESC_COMER_SIMPLE.COD, currency: false, moneda: paramData.moneda }
+              mModalAlert.showWarning(riesgosGeneralesFactory.getSmsError(maxDescuento.Valor, jsonData), "MAPFRE:LIMITE DE DESCUENTO")
+              .then(function () {
+                deferred.resolve(false);
+              });
+            }else{
+              deferred.resolve(true);
+            }
+          }else if (paramData.type === "R") {
+            if (maxDescuento) {
+              deferred.resolve(false);
+            }else{
+              deferred.resolve(true);
+            }
+          }
+        }, function (error) {
+          deferred.reject(error.statusText);
+        });
+
+      return deferred.promise;
+    }
+
     function validateMontoMaximoParamTabla(paramData) {
       var deferred = $q.defer();
       var jsonData = { tipoContrato: constantsRiesgosGenerales.RAMO.RESPON_CIVIL, currency: true, moneda: paramData.moneda }

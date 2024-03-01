@@ -7,6 +7,7 @@ define([
     vm.OpenParametros = OpenParametros;
     vm.validControlForm = ValidControlForm;
     vm.validateDescuentos = validateDescuentos;
+    vm.validateDescuentoComercial = validateDescuentoComercial;
     vm.validateMonto = validateMonto;
     vm.changeDesde = changeDesde;
     vm.changeHasta = changeHasta;
@@ -114,6 +115,17 @@ define([
         type: "C"
       }
       riesgosGeneralesCommonFactory.validateDescuentosVIG(paramData);
+    }
+    function validateDescuentoComercial() {
+      var paramData = {
+        CodigoRiesgoGeneral: vm.cotizacion.producto.CodigoRiesgoGeneral,
+        DescuentoDirector: vm.producto.modelo.DescuentoDirector,
+        type: "C"
+      }
+      riesgosGeneralesCommonFactory.validateDescuentoComercialVIG(paramData)
+      .then(function (res) {
+        riesgosGeneralesFactory.esContinueStep = res;
+      });
     }
     function validateMonto(sumaAsegurada,tipo) {
       var paramData = {
