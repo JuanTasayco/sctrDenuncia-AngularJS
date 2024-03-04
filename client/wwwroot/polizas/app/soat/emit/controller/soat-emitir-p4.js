@@ -587,15 +587,14 @@
 								if (response.OperationCode == 901 && response.Data) {
 									$scope.formData = {};
 									soatFactory.addVariableSession('documentosCotizacion', response.Data.NumeroDocumento);
-									const func = () => {
+									mModalAlert.showWarning(response.Message, "¡Advertencia!").then(function() {
 										if ($scope.encuesta.mostrar == 1) {
 											$scope.encuesta.numOperacion = response.Data.NumeroPoliza;
 											$state.go('getSoat', {encuesta: $scope.encuesta});
 										} else {
 											$state.go('getSoat');
 										}
-									}
-									mModalAlert.showWarning(response.Message, "¡Advertencia!").then(func);
+									});
 									return;
 								}
 
