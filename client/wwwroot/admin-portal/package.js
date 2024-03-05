@@ -362,6 +362,23 @@ define(['system'], function(system) {
         name: 'cemeteryUtils',
         path: folder + '/app/cemetery/utils/cemetery.utils'
       },
+      //Clinica Digital
+      AdminClinicaDigitalComponent: {
+        name: 'AdminClinicaDigitalComponent',
+        path: folder + '/app/admin-clinica-digital/admin-clinica-digital.component'
+      },
+      TermsConditionsComponent: {
+        name: 'TermsConditionsComponent',
+        path: folder + '/app/admin-clinica-digital/pages/terms-conditions/terms-conditions.component'
+      },
+      apEditorTermsConditions: {
+        name: 'apEditorTermsConditions',
+        path: folder + '/app/admin-clinica-digital/pages/editor-terms-conditions/editor-terms-conditions.component'
+      },
+      GeneralAdminClinicaDigitalFactory: {
+        name: 'GeneralAdminClinicaDigitalFactory',
+        path: folder + '/app/admin-clinica-digital/factory/general.factory'
+      }
     },
     shim: {
       appAP: {
@@ -454,7 +471,11 @@ define(['system'], function(system) {
       },
       popupParameter: {
         deps:['uploadButtonCemetery']
-      }
+      },
+
+      TermsConditionsComponent: {
+        deps: ['apCardSection']
+      },
     },
     packages: {}
   };

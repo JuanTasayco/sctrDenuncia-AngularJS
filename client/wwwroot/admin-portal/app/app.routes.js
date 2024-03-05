@@ -855,5 +855,99 @@ define(['system', 'coreConstants'], function(system, coreConstants) {
         }
       },
     },
+    //Clinica Digital
+    {
+      name: 'adminClinicaDigital',
+      code: '',
+      description: 'Administrador Clínica Digital',
+      url: '/admin-clinica-digital',
+      parent: 'root',
+      views: {
+        content: {
+          controller: 'AdminClinicaDigitalComponent as $ctrl',
+          templateUrl: folder + '/app/admin-clinica-digital/admin-clinica-digital.component.html'
+        }
+      },
+      resolve: {
+        options: [
+          "GeneralAdminClinicaDigitalFactory",
+          function(GeneralAdminClinicaDigitalFactory) {
+            return GeneralAdminClinicaDigitalFactory.GetOptions(true);
+          }
+        ]
+      },
+      resolver: [
+        {
+          name: 'adminClinicaDigital',
+          moduleName: moduleName,
+          files: ['AdminClinicaDigitalComponent']
+        }
+      ]
+    },
+    {
+      name: 'adminClinicaDigital.termsConditions',
+      code: '',
+      description: 'Términos y Condiciones',
+      parent: 'root',
+      url: '/admin-clinica-digital/terms-conditions',
+      breads: ['adminClinicaDigital'],
+      views: {
+        content: {
+          controller: 'TermsConditionsComponent as $ctrl',
+          templateUrl: folder + '/app/admin-clinica-digital/pages/terms-conditions/terms-conditions.component.html'
+        }
+      },
+      resolve: {
+        sections: [
+          "GeneralAdminClinicaDigitalFactory",
+          function(GeneralAdminClinicaDigitalFactory) {
+            return GeneralAdminClinicaDigitalFactory.GetSections(true);
+          }
+        ]
+      },
+      resolver: [
+        {
+          name: 'adminClinicaDigital.termsConditions',
+          moduleName: moduleName,
+          files: ['TermsConditionsComponent']
+        }
+      ]
+    },
+    {
+      name: 'adminClinicaDigital.termsConditions.deliveryMedicamentos',
+      code: '',
+      description: 'Servicio delivery medicamentos',
+      url: '/admin-clinica-digital/terms-conditions/delivery-medicamentos',
+      breads: ['adminClinicaDigital', 'adminClinicaDigital.termsConditions'],
+      views: {
+        contenido: {
+          controller: 'EditorTermsConditionsController as $ctrl',
+          templateUrl: folder + '/app/admin-clinica-digital/pages/editor-terms-conditions/editor-terms-conditions.component.html'
+        }
+      },
+      resolve: {
+        section: [
+          "GeneralAdminClinicaDigitalFactory",
+          function(GeneralAdminClinicaDigitalFactory) {
+            return GeneralAdminClinicaDigitalFactory.GetDataSection('deliveryMedicamentos', true);
+          }
+        ],
+        contenido: [
+          "GeneralAdminClinicaDigitalFactory",
+          function(GeneralAdminClinicaDigitalFactory) {
+            return GeneralAdminClinicaDigitalFactory.GetContent('DEL_MED', true);
+          }
+        ]
+      },
+      resolver: [
+        {
+          name: 'adminClinicaDigital.termsConditions.deliveryMedicamentos',
+          moduleName: moduleName,
+          files: [
+            'apEditorTermsConditions'
+          ]
+        }
+      ]
+    },
   ];
 });
