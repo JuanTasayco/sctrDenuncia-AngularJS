@@ -1,0 +1,91 @@
+<div class="page-modal page-consultas-gestion consultaGestion modal__wrapper">
+  <!-- Primer modal -->
+  <div class="container mb-xs-2">
+    <div class="row">
+      <div class="col-xs-12 mb-xs-2 pl-xs-3 pr-xs-3">
+        <h2 class="modal__title gH3"><b>GENERAR ENLACE Y/O CORREO DE PAGO</b></h2>
+        <button type="button" class="close g-close-modal" ng-click="closeModal()">
+          <span class="ico-mapfre_46_cancelaroff"></span>
+        </button>
+      </div>
+    </div>
+  </div>
+  <div class="container">
+    <div class="modal-body  no-pb-xs">
+      <div class="row">
+        <div class="col-xs-12 mb-xs-2">
+          <div class="modal__box--gray d-center mb-xs-2">
+            <div class="modal__icon--wrapper g-center-flex">
+              <i class="ico-mapfre-355-myd-casco"></i>
+            </div>
+            <div>
+              <div class="d-center d-d-flex--wrap mb-xs-1">
+                <p class="modal__text mt-xs-0 mb-xs-0 mr-xs-1">
+                  <!-- ::::::esto debería ser por póliza::::: -->
+                  Cliente: <span class="fwBold">{{ receipts[0].client.name }}</span>
+                </p>
+                <span ng-if="poliza.stateDocumentPayment.positiveBalance == 'S'">
+                  <span class="c-tag g-box-label g-text-uppercase c-green">SALDO A FAVOR</span>
+                </span>
+                <span ng-if="poliza.stateDocumentPayment.nextCancel == 'S'" ng-show="!vm.showColPoliza">
+                  <span class="c-tag g-box-label g-text-uppercase c-red fontz11">PRÓXIMA ANULAR</span>
+                </span>
+              </div>
+              <!-- ::::::esto debería ser por póliza::::: -->
+              <p class="modal__text mt-xs-0 mb-xs-1">Póliza: {{ receipts[0].ramo.description }} {{ poliza.policyNumber
+                }}</p>
+              <!-- ::::::esto debería ser por póliza::::: -->
+              <p class="modal__text mt-xs-0 mb-xs-0">Correo: {{ receipts[0].client.email }}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <p class="modal__text mt-xs-0 mb-xs-2">Selecciona el recibo a pagar:</p>
+      <div class="row" style="max-height:20rem;overflow-y:auto;box-sizing:border-box;overflow-x:hidden;">
+        <div class="mb-xs-2 d-center" data-ng-repeat="receipt in receipts">
+          <div class="col-xs-8 d-center d-col--mobile">
+            <label class="g-radio d-center"
+              ng-class="{'active': receipt.documentNumber === $parent.selectedReceipt.documentNumber }">
+              <div class="mr-xs-1">
+                <span class="ico-radio"></span>
+                <input type="radio" name="receipts" ng-value="receipt" ng-model="$parent.selectedReceipt" />
+              </div>
+              <p class="modal__text mt-xs-0 mb-xs-0 mr-xs-1">Nro. de recibo {{ receipt.documentNumber }}</p>
+            </label>
+            <div class="modal__tag tag--rounded">Vencimiento {{ receipt.dateEffect }}</div>
+          </div>
+          <div class="col-xs-4">
+            <p class="modal__text mt-xs-0 mb-xs-0 fwSemiBold g-text-right-xs">
+              <span ng-show="receipt.coinDescription == 'SOL'">S/</span>
+              <span ng-show="receipt.coinDescription == 'DOL'">$</span>
+              {{ receipt.amount }}</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="modal__box-total d-center d-justify--between mb-xs-2">
+        <div class="d-center">
+          <div class="d-flex mr-xs-2">
+            <mpf-checkbox-toggle ng-model="poliza.accessActive" label="" ng-change=""></mpf-checkbox-toggle>
+          </div>
+          <p class="modal__text mt-xs-0 mb-xs-0"> Enviar correo al cliente con link de pago </p>
+        </div>
+        <p class="modal__text mt-xs-0 mb-xs-0 g-text-right-xs">Total a pagar: <span
+            class="fwSemiBold" style="font-size:18px;">
+            <span ng-show="selectedReceipt.coinDescription == 'SOL'">S/</span>
+            <span ng-show="selectedReceipt.coinDescription == 'DOL'">$</span>
+            {{ selectedReceipt.amount }}</span>
+        </p>
+      </div>
+      <div class="modal__buttons-wrapper g-center-flex">
+        <button class="g-btn g-btn-white second-design block" ng-click="closeModal()">Cancelar</button>
+        <button 
+          class="g-btn g-btn-verde second-design block"
+          ng-click="generar($event, selectedReceipt)"
+          ng-disabled="!selectedReceipt"
+        >Generar
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

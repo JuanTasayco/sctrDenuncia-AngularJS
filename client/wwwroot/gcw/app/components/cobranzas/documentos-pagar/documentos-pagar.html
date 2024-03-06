@@ -1,72 +1,88 @@
+<style>
+.registeredlog_icon {
+	background-repeat: no-repeat;
+	background-size: 12px 12px;
+	background-position: center;
+}
+.user_icon {
+  background-color: #F2F2F2;
+  height: 16px;
+  width: 16px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+}
+.tabla-custom__details-info.green .tabla-custom__icon {
+  background-color: #8DB602;
+}
+.text--green {
+  color: #8DB602;
+}
+.bg--gray-20 {
+  background-color: #f2f2f2;
+}
+.tbl-header.clearfix li, .tbl-body.tbl-altoMinimo.clearfix li {
+  text-align: left;
+}
+.adjusted-datepicker .uib-datepicker-popup.dropdown-menu {
+  top: -100% !important;
+  left: 92% !important;
+  padding: 0 !important;
+  transform: scale(0.9);
+}
+</style>
 <div class="consultaGestion">
   <div class="container">
-    <div
-      show-filter
-      class="clearfix g-col-filter g-box-md gBgcGray5-md gBgcWhite1 g-myd-box"
-      ng-class="{'show': isFilterVisible}"
-    >
+    <div show-filter class="clearfix g-col-filter g-box-md gBgcGray5-md gBgcWhite1 g-myd-box"
+      ng-class="{'show': isFilterVisible}">
       <div class="col-xs-12">
         <div class="clearfix gH4 gCGray1 mb-xs-1-5">
-          <h2 class="hidden-xs hidden-sm"><b>Opciones de Búsqueda</b></h2>
-          <div
-            id="show-filter"
-            class="row pt-xs-2 pb-xs-2 gBgcGray5 g-border-bottom-xs hidden-md hidden-lg"
-            ng-click="toggleFilter();"
-          >
-            <div class="col-xs-10">
+          <h2 class="hidden-xs hidden-sm pull-left"><b>Opciones de Búsqueda</b></h2>
+          <div id="show-filter" class="row pt-xs-2 pb-xs-2 gBgcGray5 g-border-bottom-xs hidden-md hidden-lg"
+            ng-click="toggleFilter();">
+            <div class="col-xs-10 tick-anchor">
               <h2><b>Opciones de Búsqueda</b></h2>
             </div>
             <div class="col-xs-2 g-text-right-xs">
-              <!-- ngIf: isFilterVisible --><span
-                class="glyphicon glyphicon-chevron-down ng-scope"
-                ng-if="isFilterVisible"
-              ></span
-              ><!-- end ngIf: isFilterVisible -->
-              <!-- ngIf: !isFilterVisible --><span
-                class="glyphicon glyphicon-chevron-up ng-scope"
-                ng-if="!isFilterVisible"
-              ></span
-              ><!-- end ngIf: !isFilterVisible -->
+              <!-- ngIf: isFilterVisible --><span class="glyphicon glyphicon-chevron-down ng-scope"
+                ng-if="isFilterVisible"></span><!-- end ngIf: isFilterVisible -->
+              <!-- ngIf: !isFilterVisible --><span class="glyphicon glyphicon-chevron-up ng-scope"
+                ng-if="!isFilterVisible"></span><!-- end ngIf: !isFilterVisible -->
             </div>
             <div class="clearfix"></div>
+          </div>
+          <div class="pull-right pr-xs-1">
+            <button
+              ng-if="vm.evoProfile.roleCode === 'ADMIN'"
+              class="g-btn g-btn-white second-design block ml-xs-1 mr-xs-1"
+              ng-click="vm.openManageNotifications()">
+              <div style="display:flex;justify-content:center;align-items:center;gap:0.5rem;">
+                <span class="ico-mapfre_09_configuracion" style="font-size:25px;"></span>
+                ADMIN NOTIFICACIONES
+              </div>
+            </button>
           </div>
         </div>
         <form class="clearfix" name="frmDocPagar">
           <div class="row mb-xs-2">
             <div class="col-md-12 col-xs-12 mt-xs-2 mt-md-0">
-              <div class="row">
-                <div class="col-md-2 pl-xs-1 pr-xs-0">
-                  <m-radio
-                    label="{label: 'Por cartera'}"
-                    name="nTipoBusqueda"
-                    ng-model="vm.formDocPagar.optRadioTap1"
-                    value="1"
-                    data-ng-required="true"
-                  ></m-radio>
+              <div class="row pb-xs-1">
+                <div class="col-md-2 h-myd-mt--20 pr-xs-0">
+                  <m-radio label="{label: 'Por cartera'}" name="nTipoBusqueda" ng-model="vm.formDocPagar.optRadioTap1"
+                    value="1" data-ng-required="true"></m-radio>
                 </div>
                 <div class="col-md-2 pl-xs-1 pr-xs-0">
-                  <m-radio
-                    label="{label: 'Por póliza'}"
-                    name="nTipoBusqueda"
-                    ng-model="vm.formDocPagar.optRadioTap1"
-                    value="2"
-                    data-ng-required="true"
-                  ></m-radio>
-                  <div
-                    class="g-error"
-                    data-ng-show="frmDocPagar.nTipoBusqueda.$error.required && !frmDocPagar.nTipoBusqueda.$pristine"
-                  >
+                  <m-radio label="{label: 'Por póliza'}" name="nTipoBusqueda" ng-model="vm.formDocPagar.optRadioTap1"
+                    value="2" data-ng-required="true"></m-radio>
+                  <div class="g-error"
+                    data-ng-show="frmDocPagar.nTipoBusqueda.$error.required && !frmDocPagar.nTipoBusqueda.$pristine">
                     * Seleccione una opción
                   </div>
                 </div>
                 <div class="col-md-2 pl-xs-1 pr-xs-0">
-                  <m-radio
-                    label="{label: 'Por cliente'}"
-                    name="nTipoBusqueda"
-                    ng-model="vm.formDocPagar.optRadioTap1"
-                    value="3"
-                    data-ng-required="true"
-                  ></m-radio>
+                  <m-radio label="{label: 'Por cliente'}" name="nTipoBusqueda" ng-model="vm.formDocPagar.optRadioTap1"
+                    value="3" data-ng-required="true"></m-radio>
                 </div>
               </div>
               <div ng-show="vm.formDocPagar.optRadioTap1 == '1'" class="row">
@@ -79,11 +95,8 @@
               </div>
               <div ng-show="vm.formDocPagar.optRadioTap1 == '2'" class="row">
                 <div class="col-md-4 h-myd-mt--20">
-                  <mpf-input
-                    label="{label: 'Nro. Póliza', required: false}"
-                    name="nNumPoliza"
-                    ng-model="vm.formDocPagar.mNumPoliza"
-                  ></mpf-input>
+                  <mpf-input label="{label: 'Nro. Póliza', required: false}" name="nNumPoliza"
+                    ng-model="vm.formDocPagar.mNumPoliza"></mpf-input>
                 </div>
               </div>
               <div ng-show="vm.formDocPagar.optRadioTap1 == '3'" class="row">
@@ -94,6 +107,38 @@
             </div>
           </div>
           <div class="row">
+            <div class="col-md-2 col-xs-12 mb-xs-1 pull-left" ng-if="vm.formDocPagar.Situacion.code === 'PAG'">
+              <div class="modal__form--col">
+                <mpf-datepicker-horz
+                  class="adjusted-datepicker"
+                  ng-model="vm.paidFilterDates.start"
+                  label="{label: 'DESDE:', required: false}"
+                  format="'dd/MM/yyyy'"
+                  name="paidFilterStart"
+                  ng-required="false"
+                  ng-change=""
+                  mpf-validate="required"
+                  maxDate="vm.dateNow"
+                >
+                </mpf-datepicker-horz>
+              </div>
+            </div>
+            <div class="col-md-2 col-xs-12 mb-xs-1 pull-left" ng-if="vm.formDocPagar.Situacion.code === 'PAG'">
+              <div class="modal__form--col">
+                <mpf-datepicker-horz
+                  class="adjusted-datepicker"
+                  ng-model="vm.paidFilterDates.end"
+                  label="{label: 'HASTA:', required: false}"
+                  format="'dd/MM/yyyy'"
+                  name="paidFilterEnd"
+                  ng-required="false"
+                  ng-change=""
+                  mpf-validate="required"
+                  maxDate="vm.dateNow"
+                >
+                </mpf-datepicker-horz>
+              </div>
+            </div>
             <div class="col-md-2 col-xs-12 mb-xs-1 pull-right">
               <a class="g-btn g-btn-white second-design block" ng-click="vm.limpiar()">Limpiar</a>
             </div>
@@ -101,15 +146,9 @@
               <a class="g-btn g-btn-white second-design block" ng-click="estadoDocumento()">estado de cuenta</a>
             </div>
             <div class="col-md-2 col-xs-12 pull-right">
-              <a
-                class="g-btn g-btn-verde second-design block"
-                ga-click
-                ga-category="'CG - Cobranzas'"
-                ga-action="'MPF - Documentos por pagar - Buscar'"
-                ga-label="'Botón: Buscar'"
-                ng-click="vm.buscar(); vm.showCols(vm.formDocPagar.optRadioTap1,vm.formDocPagar.Situacion.code);"
-                >Buscar</a
-              >
+              <a class="g-btn g-btn-verde second-design block" ga-click ga-category="'CG - Cobranzas'"
+                ga-action="'MPF - Documentos por pagar - Buscar'" ga-label="'Botón: Buscar'"
+                ng-click="vm.buscar(); vm.showCols(vm.formDocPagar.optRadioTap1,vm.formDocPagar.Situacion.code);">Buscar</a>
             </div>
           </div>
         </form>
@@ -148,68 +187,50 @@
     <!-- Tabla -->
     <div class="row">
       <div class="col-xs-12">
-        <div tbl-oim class="g-tbl-wrapper pl-xs-0" data-ng-if="vm.docs && vm.docs.length">
+        <div tbl-oim class="g-tbl-wrapper pl-xs-0 tabla-custom-new" data-ng-if="vm.docs && vm.docs.length">
           <div class="tbl-main">
             <ul class="tbl-header clearfix">
               <li class="title col-3-dktp" ng-if="vm.showCheckAndButton()">
-                <mpf-checkbox
-                  label=""
-                  name="nCheckAll"
-                  ng-model="vm.mCheckAll"
-                  ng-checked="mCheckAllValue"
-                  ng-click="vm.selectAll(vm.mCheckAll);"
-                ></mpf-checkbox>
+                <mpf-checkbox label="" name="nCheckAll" ng-model="vm.mCheckAll" ng-checked="mCheckAllValue"
+                  ng-click="vm.selectAll(vm.mCheckAll);"></mpf-checkbox>
               </li>
-              <li
-                class="title"
-                ng-class="{' col-14-dktp':vm.colDktp1 , 'col-11-dktp':vm.colDktp2, 'col-12-dktp':!vm.showColPoliza}"
-                ng-if="vm.showColDetalles"
-              >
+              <li class="title"
+                ng-class="{' col-9-dktp':vm.colDktp1 , 'col-9-dktp':vm.colDktp2, 'col-12-dktp':!vm.showColPoliza}"
+                ng-if="vm.showColDetalles">
                 Detalles
               </li>
-              <li
-                class="title"
-                ng-class="{' col-11-dktp':vm.colDktp1, 'col-9-dktp':vm.colDktp2, 'col-14-dktp':!vm.showColDetalles, 'col-12-dktp':!vm.showColPoliza}"
-              >
+              <li class="title"
+                ng-class="{' col-8-dktp':vm.colDktp1, 'col-9-dktp':vm.colDktp2, 'col-14-dktp':!vm.showColDetalles, 'col-12-dktp':!vm.showColPoliza}">
                 Producto
               </li>
-              <li class="title col-10-dktp pos-relat" ng-show="vm.showColPoliza">Póliza</li>
+              <li class="title col-9-dktp pos-relat" ng-show="vm.showColPoliza">Póliza</li>
               <li class="title col-4-dktp">Tipo Doc</li>
-              <li class="title col-7-dktp">Nro. Doc</li>
-              <li class="title col-6-dktp text-center" data-ng-if="vm.showColDiasVenc">Días Venc.</li>
-              <li class="title col-7-dktp text-center">Vencimiento</li>
-              <li class="title col-6-dktp text-right">Imp.</li>
+              <li class="title col-7-dktp">Nro. Recibo</li>
+              <li class="title col-10-dktp text-center">Fecha Vencimiento</li>
+              <li class="title col-6-dktp text-left">Imp.</li>
               <li class="title col-5-dktp text-center">Moneda</li>
-              <li class="title col-8-dktp text-center">Medio</li>
+              <li class="title col-6-dktp text-center">Medio</li>
               <li class="title col-7-dktp">Compañía</li>
-              <li
-                class="title"
-                ng-class="{' col-11-dktp':vm.colDktp1, 'col-8-dktp':vm.colDktp2, 'col-14-dktp':!vm.showColDetalles, 'col-12-dktp':!vm.showColPoliza}"
-              >
+              <li class="title"
+                ng-class="{' col-9-dktp':vm.colDktp1, 'col-8-dktp':vm.colDktp2, 'col-12-dktp':!vm.showColDetalles, 'col-10-dktp':!vm.showColPoliza}">
                 Cobrador
               </li>
-              <li class="title col-8-dktp text-center">Compartir enlace de pago</li>
+              <li class="title col-15-dktp text-center">Contacto con el cliente </li>
+              <li class="title col-1-dktp"> </li>
             </ul>
             <ul class="tbl-body tbl-altoMinimo clearfix">
               <li data-ng-repeat="item in vm.docs">
-                <ul height-row class="tbl-row clearfix" ng-click="vm.showModalDocPagarDetalle(item, $event)">
-                  <li class="cell col-3-dktp" ng-if="vm.showCheckAndButton() && vm.docs.length>0">
-                    <mpf-checkbox
-                      label=""
-                      ng-if="item"
-                      name="nSelectDoc"
-                      ng-model="item.selected"
-                      ng-click="vm.selectDoc($index, item.selected); $event.stopPropagation();"
-                      >{{ item.selected }}</mpf-checkbox
-                    >
+                <ul height-row class="tbl-row clearfix" ng-click="vm.showModalDocPagarDetalle(item, $event, null)">
+                  <li class="cell fwMedium  col-3-dktp" ng-if="vm.showCheckAndButton() && vm.docs.length>0">
+                    <mpf-checkbox label="" ng-if="item" name="nSelectDoc" ng-model="item.selected"
+                      ng-click="vm.selectDoc($index, item.selected); $event.stopPropagation();">{{ item.selected }}
+                    </mpf-checkbox>
                   </li>
-                  <li
-                    class="cell"
-                    class="pos-relat"
-                    ng-class="{' col-14-dktp':vm.colDktp1, 'col-11-dktp':vm.colDktp2, 'col-12-dktp':!vm.showColPoliza}"
-                    ng-if="vm.showColDetalles"
-                  >
-                    <span class="cell-title">{{ item.client.name }}</span>
+                  <li class="cell fwMedium " class="pos-relat"
+                    ng-class="{' col-9-dktp':vm.colDktp1, 'col-9-dktp':vm.colDktp2, 'col-12-dktp':!vm.showColPoliza}"
+                    ng-if="vm.showColDetalles">
+                    <!-- :::::: Tiene que ser por póliza :::::: -->
+                    <span class="cell-title">{{ item.recibos[0].client.name }}</span>
                     <span ng-if="item.stateDocumentPayment.positiveBalance == 'S'">
                       <span class="c-tag g-box-label g-text-uppercase c-green">SALDO A FAVOR</span>
                     </span>
@@ -217,12 +238,12 @@
                       <span class="c-tag g-box-label g-text-uppercase c-red fontz11">PRÓXIMA ANULAR</span>
                     </span>
                   </li>
-                  <li
-                    class="cell"
-                    ng-class="{'col-11-dktp':vm.colDktp1, 'col-9-dktp':vm.colDktp2, 'col-14-dktp':!vm.showColDetalles, 'col-12-dktp':!vm.showColPoliza}"
-                  >
+                  <li class="cell fwMedium "
+                    ng-class="{'col-8-dktp':vm.colDktp1, 'col-9-dktp':vm.colDktp2, 'col-14-dktp':!vm.showColDetalles, 'col-12-dktp':!vm.showColPoliza}">
                     <span class="cell-label g-break-word">
-                      <span class="cell-data" data-ng-click="item.ramo.description">{{ item.ramo.description }}</span>
+                      <!-- :::::: Tiene que ser por póliza :::::: -->
+                      <span class="cell-data" data-ng-click="item.ramo.description">{{ item.recibos[0].ramo.description
+                        }}</span>
                     </span>
                     <div ng-show="!vm.showColDetalles">
                       <span ng-if="item.stateDocumentPayment.positiveBalance == 'S'">
@@ -230,91 +251,225 @@
                       </span>
                     </div>
                   </li>
-                  <li class="cell col-10-dktp pos-relat" ng-show="vm.showColPoliza">
-                    <span class="cell-label"
-                      ><span class="cell-data">{{ item.policyNumber }}</span></span
-                    >
+                  <li class="cell fwMedium  col-9-dktp pos-relat" ng-show="vm.showColPoliza">
+                    <span class="cell-label"><span class="cell-data">{{ item.policyNumber }}</span></span>
                     <span ng-if="item.stateDocumentPayment.nextCancel == 'S'">
                       <span class="c-tag g-box-label g-text-uppercase c-red fontz11">PRÓXIMA ANULAR</span>
                     </span>
                     <span ng-if="item.detailRejectionDescription != ''">
-                      <span class="g-box-label g-text-uppercase c-blue fontz11">Contiene Detalle rechazo</span>
+                      <span class="g-box-label g-text-uppercase c-blue fontz11" style="max-width:90px;">Contiene Detalle rechazo</span>
                     </span>
                   </li>
-                  <li class="cell col-4-dktp">
-                    <span class="cell-label"
-                      ><span class="cell-data">{{ item.documentType }}</span></span
-                    >
+                  <li class="cell fwMedium  col-4-dktp">
+                    <!-- :::::: Tiene que ser por póliza :::::: -->
+                    <span class="cell-label"><span class="cell-data">{{ item.recibos[0].documentType }}</span></span>
                   </li>
-                  <li class="cell col-7-dktp">
-                    <span class="cell-label"
-                      ><span class="cell-data">{{ item.documentNumber }}</span></span
-                    >
+                  <li class="cell fwMedium  col-7-dktp">
+                    <div class="cell-label">
+                      <span class="cell-data" ng-bind-html="item.receiptsToView.receiptNumbersHTML"
+                      style="font-size:11px;line-height:1.5;"></span>
+                    </div>
+                    <div>{{item.totalAmount}}</div>
                     <span ng-if="item.advancedInvoiceDescription != ''">
-                      <span class="g-box-label g-text-uppercase c-griss fontz11">Factura adelantada</span>
+                      <span class="g-box-label g-text-uppercase c-griss fontz11" 
+                        style="word-break: break-all;"
+                      >Factura adelantada</span>
                     </span>
                     <span ng-show="!vm.showColPoliza">
                       <span ng-if="item.stateDocumentPayment.nextCancel == 'S'">
                         <span class="g-box-label g-text-uppercase c-red fontz11">PRÓXIMA ANULAR</span>
                       </span>
                       <span ng-if="item.detailRejectionDescription != ''">
-                        <span class="g-box-label g-text-uppercase c-blue fontz11">Contiene Detalle rechazo</span>
+                        <span class="g-box-label g-text-uppercase c-blue fontz11" style="max-width:100px;">Contiene Detalle rechazo</span>
                       </span>
                     </span>
                   </li>
-                  <li class="cell col-6-dktp text-center" ng-if="vm.showColDiasVenc">
-                    <span class="cell-label"
-                      ><span class="cell-data">{{ item.numberDayExpiration }}</span></span
-                    >
+                  <li class="cell fwMedium  col-10-dktp text-center">
+                    <div class="cell-label" style="text-align:left;font-size:11px;display:flex;gap:0.25rem;">
+                      <span class="cell-data" ng-bind-html="item.receiptsToView.dueDatesHTML" style="line-height:1.5;"></span>
+                      <span class="cell-data" ng-if="vm.showColDiasVenc" 
+                        ng-bind-html="item.receiptsToView.numberDaysExpirationHTML" style="line-height:1.5;"></span>
+                    </div>
                   </li>
-                  <li class="cell col-7-dktp text-center">
-                    <span class="cell-label"
-                      ><span class="cell-data">{{ item.dateEffect }}</span></span
-                    >
+                  <li class="cell fwMedium  col-6-dktp text-right">
+                    <span class="cell-label" style="font-size:11px;line-height:1.5;">
+                      <div class="cell-data" ng-bind-html="item.receiptsToView.amountsHTML"
+                        style="padding-bottom:5px;margin-bottom:5px;"
+                      ></div>
+                      <span class="cell-data" 
+                        style="border-top: 1px solid #dddddd;padding-top: 5px;"
+                      >{{ item.receiptsToView.totalAmount }}
+                      </span>
+                    </span>
                   </li>
-                  <li class="cell col-6-dktp text-right">
-                    <span class="cell-label"
-                      ><span class="cell-data">{{ item.amount }}</span></span
-                    >
+                  <li class="cell fwMedium  col-5-dktp text-center">
+                    <!-- :::::: Tiene que ser por póliza :::::: -->
+                    <span class="cell-label"><span class="cell-data">{{ item.recibos[0].coinDescription }}</span></span>
                   </li>
-                  <li class="cell col-5-dktp text-center">
-                    <span class="cell-label"
-                      ><span class="cell-data">{{ item.coinDescription }}</span></span
-                    >
+                  <li class="cell fwMedium  col-6-dktp text-center">
+                    <span class="cell-label" style="word-break:break-all;">
+                      <!-- :::::: Tiene que ser por póliza :::::: -->
+                      <span class="cell-data">{{ item.recibos[0].collectionMethod.abbreviation }}</span>
+                    </span>
                   </li>
-                  <li class="cell col-8-dktp text-center">
-                    <span class="cell-label"
-                      ><span class="cell-data">{{ item.collectionMethod.abbreviation }}</span></span
-                    >
+                  <li class="cell fwMedium  col-7-dktp">
+                    <!-- :::::: Tiene que ser por póliza :::::: -->
+                    <span class="cell-label" style="word-break:break-all;">
+                      <span class="cell-data">{{ item.recibos[0].ramo.companyName }}</span>
+                    </span>
                   </li>
-                  <li class="cell col-7-dktp">
-                    <span class="cell-label"
-                      ><span class="cell-data">{{ item.ramo.companyName }}</span></span
-                    >
+                  <li class="cell fwMedium "
+                    ng-class="{' col-9-dktp':vm.colDktp1, 'col-8-dktp':vm.colDktp2, 'col-12-dktp':!vm.showColDetalles, 'col-10-dktp':!vm.showColPoliza}">
+                    <!-- :::::: Tiene que ser por póliza :::::: -->
+                    <span class="cell-label" style="word-break:break-all;">
+                      <span class="cell-data">{{ item.recibos[0].collectionsManagerName }}</span>
+                    </span>
                   </li>
-                  <li
-                    class="cell"
-                    ng-class="{' col-11-dktp':vm.colDktp1, 'col-8-dktp':vm.colDktp2, 'col-14-dktp':!vm.showColDetalles, 'col-12-dktp':!vm.showColPoliza}"
-                  >
-                    <span class="cell-label"
-                      ><span class="cell-data">{{ item.collectionsManagerName }}</span></span
-                    >
-                  </li>
-                  <li class="cell col-8-dktp">
+                  <li class="cell fwMedium col-15-dktp">
                     <span class="cell-label">
-                      <span class="cell-data" style="display: flex;">
-                        <a class="text-center">
-                          <span ng-click="vm.sendEmail($event,item);"class="ico-mapfre_123_envelop gnIcon-xsm gCGray3 p-xs-2 ml-xs-2 mr-xs-1"></span>
-                          <b> ENVIAR </b>
+                      <span class="cell-data d-center" style="justify-content:space-evenly">
+                        <a class="text-center" ng-click="vm.pago($event, item);">
+                          <span 
+                            class="gnIcon-xsm gCGray3 p-xs-2 ml-xs-2 mr-xs-1" 
+                            style="padding:8px 0;margin:0;display:flex;justify-content:center;"
+                          >
+                            <img src="/images/link/link_001.svg" width="35" height="35" />
+                          </span>
+                          <b style="font-size:10px;"> PAGO </b>
                         </a>
-                        <a class="text-center">
-                          <span ng-click="vm.copy($event,item)"class="ico-mapfre_390_copy gnIcon-xsm gCGray3 p-xs-2"></span>
-                          <b> COPIAR </b>
+                        <a class="text-center" ng-click="vm.register($event, item);">
+                          <span 
+                            class="gnIcon-xsm gCGray3 p-xs-2 ml-xs-2 mr-xs-1"
+                            style="padding:8px 0;margin:0;display:flex;justify-content:center;"
+                          >
+                            <img src="/images/calendar/calendar_001.svg" width="35" height="35" />
+                          </span>
+                          <b style="font-size:10px;"> REGISTRAR </b>
+                        </a>
+                        <a class="text-center" ng-click="vm.affiliate($event, item)">
+                          <span 
+                            class="gnIcon-xsm gCGray3 p-xs-2" 
+                            style="padding:8px 0;margin:0;display:flex;justify-content:center;"
+                          >
+                            <img src="/images/card/card_001.svg" width="35" height="35" />
+                          </span>
+                          <b style="font-size:10px;"> AFILIAR </b>
                         </a>
                       </span>
+                    </span>
+                    <p style="margin-top:15px;font-size:12px;">TELÉF: +51 985684782</p>
+                  </li>
+                  <li class="cell fwMedium col-1-dktp">
+                    <span class="cell-label pt-xs-1"
+                      style="display:inline-block;height:100%;cursor:pointer;"
+                      ng-click="vm.showRegisteredLogs($event, item)">
+                      <span class="cell-data">
+                        <a class="gCRed1">
+                          <span class="gnIcon-xsm" 
+                            ng-class="item.showSeeDown ? 'ico-mapfre_77_chevronup' : 'ico-mapfre_76_chevrondown'">
+                          </span>
+                        </a>
                       </span>
+                    </span>
                   </li>
                 </ul>
+
+                <ul class="tabla-custom__details tbl-body clearfix" ng-if="item.showSeeDown">
+                  <li>
+                    <div class="tabla-custom__details-box gBgcGray5-md">
+                      <p class="tabla__text no-mb-xs no-mt-xs">
+                        <span class="tabla__text--bold">Nro. suplemento {{ item.recibos[0].supplementId }} -</span>
+                        <span class="tabla__text--bold pr-xs-1 pl-xs-1">{{ item.recibos[0].supplementState }}</span>
+                          Del {{ item.recibos[0].dateEffect }} hasta {{ item.recibos[0].dateExpiration }} ({{ item.remainingMonths }} meses)
+                      </p>
+                    </div>
+                  </li>
+                </ul>
+                <ul class="tabla-custom__details tbl-body clearfix" ng-if="item.showSeeDown"
+                  style="overflow: auto;max-height:400px;margin-bottom:16px;">
+
+                  <li ng-if="item.groupedLogs.length === 0">
+                    <div class="tabla-custom__details-info gray">
+                      <div class="tabla-custom__details-date" style="visibility:hidden;">
+                        <p class="no-mb-xs no-mt-xs g-text-right-xs">Último</p>
+                        <p class="no-mb-xs no-mt-xs g-text-right-xs">01/02/2024</p>
+                        <p class="no-mb-xs no-mt-xs g-text-right-xs">hh:mm</p>
+                      </div>
+                      <div class="tabla-custom__box-border pl--16">
+                        <div class="tabla-custom__icon registeredlog_icon"
+                          style="background-image: url(/images/alert/alert_001.svg)">
+                          <i class="icon"></i>
+                        </div>
+                        <div class="tabla-custom__row">
+                          <div class="tabla-custom__text">
+                            <p class="tabla__text no-mb-xs no-mt-xs d-flex-center">
+                              Solicitud creada</p>
+                          </div>
+                          <div class="tabla-custom__text">
+                            <p class="tabla__text no-mb-xs no-mt-xs"><span class="tabla__text tabla__text--bold">
+                              No hay registro de pagos ni contacto con el cliente
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </li>
+
+                  <li data-ng-repeat="groupedLogItem in item.groupedLogs">
+                    <div class="tabla-custom__bar">
+                      <div class="tabla-custom__bar-line"></div>
+                      <div class="tabla-custom__bar-text">
+                        <p class="bar--text no-mb-xs no-mt-xs">
+                          {{ groupedLogItem.title }} <i class="ico-mapfre_77_chevronup"></i>
+                        </p>
+                      </div>
+                    </div>
+                    <div class="tabla-custom__details-info" 
+                      data-ng-repeat="logItem in groupedLogItem.orderedLogs"
+                      ng-init="viewProperties = vm.registeredLogsViewProperties[logItem.tipoCoordinacion-1]" 
+                      ng-class="viewProperties.mainColor">
+                      <div class="tabla-custom__details-date">
+                        <p class="no-mb-xs no-mt-xs g-text-right-xs" ng-if="$index === 0 && $parent.$index === 0">Último</p>
+                        <p class="no-mb-xs no-mt-xs g-text-right-xs">{{ logItem.dateReg }}</p>
+                        <p class="no-mb-xs no-mt-xs g-text-right-xs">{{ logItem.hourReg }}</p>
+                      </div>
+                      <div class="tabla-custom__box-border pl--16">
+                        <div class="tabla-custom__icon registeredlog_icon"
+                          ng-style="{'background-image': 'url({{ viewProperties.iconPath }})'}">
+                          <i class="icon"></i>
+                        </div>
+                        <div class="tabla-custom__row">
+                          <div class="tabla-custom__text">
+                            <p class="tabla__text no-mb-xs no-mt-xs d-flex-center">
+                              <i class="ico-mapfre-350-myd-user icon user_icon"></i>
+                              <span class="tabla__text tabla__text--bold" style="padding-right:4px">{{ logItem.name }}</span>
+                              <span>{{ viewProperties.userText }}</span>
+                            </p>
+                          </div>
+                          <div class="tabla-custom__text">
+                            <p class="tabla__text no-mb-xs no-mt-xs">
+                              <span class="tabla__text tabla__text--bold">Tipo de coordinación: </span>
+                              <span class="tabla-custom__tag" ng-class="'text--'+viewProperties.mainColor">
+                                {{ viewProperties.chipText }}
+                              </span>
+                            </p>
+                          </div>
+                          <div class="tabla-custom__text" ng-if="viewProperties.showSchedulingDate">
+                            <p class="tabla__text no-mb-xs no-mt-xs" >
+                              <span class="tabla__text tabla__text--bold">Fecha de programación: </span>
+                              {{ logItem.reprogramacion.fecha }} de {{ logItem.reprogramacion.horaDesde }} a {{ logItem.reprogramacion.horaHasta }}</p>
+                          </div>
+                          <div class="tabla-custom__text">
+                            <p class="tabla__text no-mb-xs no-mt-xs"><span class="tabla__text tabla__text--bold">Comentario:</span>
+                              {{ logItem.comentario }}
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </li>
+                </ul>
+
               </li>
             </ul>
           </div>
@@ -322,14 +477,8 @@
       </div>
     </div>
 
-    <mx-paginador
-      data-datos="vm.docs"
-      data-items-x-page="vm.itemsXPagina"
-      data-msg-vacio="vm.msgVacio"
-      data-on-paginar="vm.pageChanged($event)"
-      data-pagina-actual="vm.currentPage"
-      data-total-items="vm.totalRows"
-    >
+    <mx-paginador data-datos="vm.docs" data-items-x-page="vm.itemsXPagina" data-msg-vacio="vm.msgVacio"
+      data-on-paginar="vm.pageChanged($event)" data-pagina-actual="vm.currentPage" data-total-items="vm.totalRows">
     </mx-paginador>
   </div>
 </div>

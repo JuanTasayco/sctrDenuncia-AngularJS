@@ -1,0 +1,79 @@
+<div class="page-modal page-consultas-gestion consultaGestion modal__wrapper">
+  <!-- Primer modal -->
+  <div class="container mb-xs-2">
+    <div class="row">
+      <div class="col-xs-12 mb-xs-2 pl-xs-3 pr-xs-3">
+        <button type="button" class="close g-close-modal" ng-click="closeModal($event)">
+          <span class="ico-mapfre_46_cancelaroff"></span>
+        </button>
+      </div>
+    </div>
+  </div>
+  <div class="container">
+    <div class="modal-body">
+      <div class="row">
+        <div class="col-xs-12 mb-xs-2">
+          <div class="modal__box--center">
+            <div class="modal__icon-text g-text-center-xs mb-xs-2">
+              <i class="ico-mapfre-346-sucess icon mb-xs-2"></i>
+              <h2 class="title mt-xs-0">{{ linkData.title }}</h2>
+              <p class="modal__text text--16 mt-xs-0 mb-xs-0">{{ linkData.subtitle }}</p>
+            </div>
+            <div class="modal__box--gray mb-xs-2 d-center d-justify--between d-col--mobile">
+              <p class="modal__text mt-xs-0 mb-xs-0"
+                style="white-space: nowrap;overflow:hidden;text-overflow:ellipsis;">
+                {{ paymentLink.url || 'www.linkdepago.com' }}
+              </p>
+              <div class="d-center d-gap--8">
+                <button class="modal__btn--small g-btn g-btn-verde second-design" ng-click="copyUrl($event)">
+                  {{ paymentLink.url ? 'COPIADO' : 'COPIAR' }} 
+                  <i class="btn--icon"
+                    ng-class="paymentLink.url ? 'ico-mapfre-346-sucess' : 'ico-mapfre_390_copy'"></i>
+                </button>
+                <button class="modal__btn--small modal__btn--dark" 
+                  ng-if="!policy.accessActive"
+                  ng-click="sendEmail($event)" 
+                  ng-disabled="!isEmailEnabled">
+                  {{ isEmailEnabled ? 'ENVIAR' : 'ENVIADO' }} 
+                  <i class="btn--icon"
+                    ng-class="isEmailEnabled ? 'ico-mapfre_123_envelop' : 'ico-mapfre-346-sucess'"></i>
+                </button>
+              </div>
+            </div>
+            <div class="modal__box--gray mb-xs-2">
+              <div class="d-center d-gap--16 mb-xs-2">
+                <div class="modal__icon--wrapper g-center-flex">
+                  <i class="ico-mapfre-355-myd-casco"></i>
+                </div>
+                <div>
+                  <p class="modal__text mt-xs-0 mb-xs-1">
+                    Cliente: <span class="fwBold">{{ receipt.client.name }}</span>
+                  </p>
+                  <p class="modal__text mt-xs-0 mb-xs-1">
+                    Póliza: {{ receipt.ramo.description }} {{ receipt.policyNumber }}</p>
+                  <p class="modal__text mt-xs-0 mb-xs-0">Correo: {{ receipt.client.email }}</p>
+                </div>
+              </div>
+              <div class="modal__box--border">
+                <div class="d-center d-justify--between mb-xs-1">
+                  <div class="d-center d-d-flex--wrap d-gap--8">
+                    <p class="modal__text mt-xs-0 mb-xs-0 ">Nro. de recibo {{ receipt.documentNumber }}</p>
+                    <div class="modal__tag tag--rounded tag--white">Vencimiento {{ receipt.dateEffect }}</div>
+                  </div>
+                  <p class="modal__text mt-xs-0 mb-xs-0 fwSemiBold g-text-right-xs">
+                    <span ng-show="receipt.coinDescription == 'SOL'">S/</span>
+                    <span ng-show="receipt.coinDescription == 'DOL'">$</span>
+                    <b> {{ receipt.amount }}</b>
+                  </p>
+                </div>
+              </div>
+            </div>
+            <div class="modal__buttons-wrapper g-center-flex">
+              <button class="g-btn g-btn-white second-design block" ng-click="closeModal($event)">Cerrar</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

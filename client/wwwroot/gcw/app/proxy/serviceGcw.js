@@ -493,7 +493,7 @@
                 },
                 'methodgetListDocumentPayment':{
                     name:  'getListDocumentPayment',
-                    path: 'api/payment/document/paging'
+                    path: 'api/payment/document/paging/group'
                 },
                 'methodgetReportDocumentPayment':{
                     name:  'getReportDocumentPayment',
@@ -526,6 +526,18 @@
                 'methodgetSendLinkPago':{
                     name:  'getSendLinkPago',
                     path: 'api/payment/sendLinkPago'
+                },
+                'methodgetCoordinationTypes':{
+                    name: 'getCoordinationTypes',
+                    path: 'lookup/bitacora/tipoCoordinacion'
+                },
+                'methodRegisterContact': {
+                    name: 'registerContact',
+                    path: 'payment/bitacora/add'
+                },
+                'methodgetRegisteredLogs': {
+                    name: 'getRegisteredLogs',
+                    path: 'payment/document/bitacora'
                 },
                 'methodgetLinkAfiliacion':{
                     name:  'getLinkAfiliacion',
@@ -1340,7 +1352,7 @@
                                          filter, undefined, showSpin)
                 },
                 'getListDocumentPayment' : function(filter, showSpin){
-                    return httpData['post'](oimProxyGcw.endpoint + 'api/payment/document/paging',
+                    return httpData['post'](oimProxyGcw.endpoint + 'api/payment/document/paging/group',
                                          filter, undefined, showSpin)
                 },
                 'getReportDocumentPayment' : function(request, showSpin){
@@ -1374,6 +1386,26 @@
                 'getSendLinkPago' : function(tokenPaymentRq, showSpin){
                     return httpData['post'](oimProxyGcw.endpoint + 'api/payment/sendLinkPago',
                                          tokenPaymentRq, undefined, showSpin)
+                },
+                'getCoordinationTypes': function(showSpin) {
+                    var datalog = 'log';
+                    console.log(datalog);
+
+                    return httpData['get'](
+                        oimProxyGcw.endpoint + 'api/lookup/bitacora/tipoCoordinacion',
+                        undefined, undefined, showSpin
+                    );
+                },
+                'registerContact' : function(requestBody, showSpin){
+                    return httpData['post'](
+                        oimProxyGcw.endpoint + 'api/payment/bitacora/add',
+                        requestBody, undefined, showSpin)
+                },
+                'getRegisteredLogs': function(requestBody, showSpin) {
+                    return httpData['post'](
+                        oimProxyGcw.endpoint + 'api/payment/document/bitacora',
+                        requestBody, undefined, showSpin
+                    );
                 },
                 'getLinkAfiliacion' : function(tokenAffiliationRq, showSpin){
                     return httpData['post'](oimProxyGcw.endpoint + 'api/payment/linkAfiliacion',
