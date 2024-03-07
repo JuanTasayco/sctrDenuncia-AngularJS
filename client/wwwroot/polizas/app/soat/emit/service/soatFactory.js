@@ -304,7 +304,7 @@ define([
     }
 
     function editarRestriccion(params, showSpin) {
-      return proxySoat.ActualizarRestricciones(params, null, showSpin);
+      return proxySoat.ActualizarRestricciones(params, params.state, showSpin);
     }
 
     function eliminarRestriccion(params, showSpin) {

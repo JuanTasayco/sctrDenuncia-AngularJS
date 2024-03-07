@@ -584,6 +584,20 @@
 							soatFactory.emitirSOAT(paramsEmitSOAT)
 							.then(function(response){
 
+								if (response.OperationCode == 901 && response.Data) {
+									$scope.formData = {};
+									soatFactory.addVariableSession('documentosCotizacion', response.Data.NumeroDocumento);
+									mModalAlert.showWarning(response.Message, "¡Advertencia!").then(function() {
+										if ($scope.encuesta.mostrar == 1) {
+											$scope.encuesta.numOperacion = response.Data.NumeroPoliza;
+											$state.go('getSoat', {encuesta: $scope.encuesta});
+										} else {
+											$state.go('getSoat');
+										}
+									});
+									return;
+								}
+
 								if (oimPrincipal.get_role().toUpperCase() === "AGTDIG") {
 									if (response.OperationCode == constants.operationCode.success){
 										$scope.emitido = response.Data;
