@@ -1,8 +1,8 @@
 define([
   'angular', 'constants', 'constantsRiesgosGenerales', 'rrggModalProductParameter', '/scripts/mpf-main-controls/components/ubigeo/component/ubigeo.js',
 ], function (ng, constants, constantsRiesgosGenerales) {
-  TrabajosEspecificosController.$inject = ['$scope','mModalAlert', 'riesgosGeneralesService', 'riesgosGeneralesFactory', '$filter', '$uibModal', 'riesgosGeneralesCommonFactory', 'mModalConfirm'];
-  function TrabajosEspecificosController($scope,mModalAlert, riesgosGeneralesService, riesgosGeneralesFactory, $filter, $uibModal, riesgosGeneralesCommonFactory, mModalConfirm) {
+  TrabajosEspecificosController.$inject = ['$scope','mModalAlert', 'riesgosGeneralesService', 'riesgosGeneralesFactory', '$filter', '$uibModal', 'riesgosGeneralesCommonFactory', 'mModalConfirm', 'oimAbstractFactory'];
+  function TrabajosEspecificosController($scope,mModalAlert, riesgosGeneralesService, riesgosGeneralesFactory, $filter, $uibModal, riesgosGeneralesCommonFactory, mModalConfirm, oimAbstractFactory) {
     var vm = this;
     vm.producto = {};
     // Funciones
@@ -13,6 +13,7 @@ define([
     vm.validateDescuentos = validateDescuentos;
     vm.changeDesde = changeDesde;
     vm.ubigeoValid = {}; 
+    vm.isMydream = oimAbstractFactory.isMyDream();
     vm.$onInit = function () {
       vm.constantsRrgg = constantsRiesgosGenerales;
       riesgosGeneralesFactory.setCotizacionProducto(vm.cotizacion);

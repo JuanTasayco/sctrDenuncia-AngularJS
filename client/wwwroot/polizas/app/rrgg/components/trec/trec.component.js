@@ -1,8 +1,8 @@
 define([
   'angular', 'constantsRiesgosGenerales', 'equipos', 'rrggModalProductParameter'
 ], function (ng, constantsRiesgosGenerales) {
-  TrecController.$inject = ['mModalAlert', 'riesgosGeneralesService', 'riesgosGeneralesFactory', 'riesgosGeneralesCommonFactory', '$uibModal','mModalConfirm'];
-  function TrecController(mModalAlert, riesgosGeneralesService, riesgosGeneralesFactory, riesgosGeneralesCommonFactory, $uibModal,mModalConfirm) {
+  TrecController.$inject = ['mModalAlert', 'riesgosGeneralesService', 'riesgosGeneralesFactory', 'riesgosGeneralesCommonFactory', '$uibModal','mModalConfirm', 'oimAbstractFactory'];
+  function TrecController(mModalAlert, riesgosGeneralesService, riesgosGeneralesFactory, riesgosGeneralesCommonFactory, $uibModal,mModalConfirm, oimAbstractFactory) {
     var vm = this;
     // Propiedades
     vm.dataSourceNumeroEquipos = []
@@ -14,6 +14,8 @@ define([
     vm.OpenParametros = OpenParametros;
     vm.validateTipTrabajo = validateTipTrabajo
     vm.validaMonto = validaMonto
+    vm.isMydream = oimAbstractFactory.isMyDream();
+
     vm.$onInit = function () {
       vm.constantsRrgg = constantsRiesgosGenerales;
       riesgosGeneralesFactory.setCotizacionProducto(vm.cotizacion);

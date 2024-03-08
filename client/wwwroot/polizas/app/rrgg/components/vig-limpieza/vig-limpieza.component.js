@@ -1,8 +1,8 @@
 define([
   'angular', 'constantsRiesgosGenerales', 'rrggModalProductParameter', '/scripts/mpf-main-controls/components/ubigeo/component/ubigeo.js',
 ], function (ng, constantsRiesgosGenerales) {
-  vigLimpController.$inject = ['$scope','mModalAlert', '$uibModal', 'riesgosGeneralesService', 'riesgosGeneralesFactory', 'riesgosGeneralesCommonFactory', 'mModalConfirm'];
-  function vigLimpController($scope,mModalAlert, $uibModal, riesgosGeneralesService, riesgosGeneralesFactory, riesgosGeneralesCommonFactory, mModalConfirm) {
+  vigLimpController.$inject = ['$scope','mModalAlert', '$uibModal', 'riesgosGeneralesService', 'riesgosGeneralesFactory', 'riesgosGeneralesCommonFactory', 'mModalConfirm', 'oimAbstractFactory'];
+  function vigLimpController($scope,mModalAlert, $uibModal, riesgosGeneralesService, riesgosGeneralesFactory, riesgosGeneralesCommonFactory, mModalConfirm, oimAbstractFactory) {
     var vm = this;
     vm.OpenParametros = OpenParametros;
     vm.validControlForm = ValidControlForm;
@@ -14,6 +14,8 @@ define([
     vm.clearInputSumas = clearInputSumas;
     vm.validateUbicaciones = validateUbicaciones;
     vm.ubigeoValid = {}; 
+    vm.isMydream = oimAbstractFactory.isMyDream();
+
     vm.$onInit = function () {
       vm.constantsRrgg = constantsRiesgosGenerales;
       riesgosGeneralesFactory.setCotizacionProducto(vm.cotizacion);

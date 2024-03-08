@@ -1,8 +1,8 @@
 define([
   'angular', 'constants', 'constantsRiesgosGenerales', 'locales', 'vehiculos', 'rrggModalProductParameter'
 ], function (ng, constants, constantsRiesgosGenerales) {
-  hidrocarburoController.$inject = ['$scope','mModalAlert', 'riesgosGeneralesService', 'riesgosGeneralesFactory', 'riesgosGeneralesCommonFactory', '$uibModal'];
-  function hidrocarburoController($scope,mModalAlert, riesgosGeneralesService, riesgosGeneralesFactory, riesgosGeneralesCommonFactory, $uibModal) {
+  hidrocarburoController.$inject = ['$scope','mModalAlert', 'riesgosGeneralesService', 'riesgosGeneralesFactory', 'riesgosGeneralesCommonFactory', '$uibModal', 'oimAbstractFactory'];
+  function hidrocarburoController($scope,mModalAlert, riesgosGeneralesService, riesgosGeneralesFactory, riesgosGeneralesCommonFactory, $uibModal, oimAbstractFactory) {
     var vm = this;
     vm.producto = {};
     // Funciones
@@ -20,6 +20,7 @@ define([
     vm.validateUit = validateUit
     vm.limpiarsumaasegurada = limpiarSumaAsegurada
     vm.viewPanelAMT = viewPanelAMT
+    vm.isMydream = oimAbstractFactory.isMyDream();
 
     vm.$onInit = function () {
       vm.constantsRrgg = constantsRiesgosGenerales;
