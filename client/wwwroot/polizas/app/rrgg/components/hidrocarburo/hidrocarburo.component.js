@@ -14,13 +14,13 @@ define([
     vm.validateEquipoOrLocal = validateEquipoOrLocal
     vm.OpenParametros = OpenParametros
     vm.validateDescuentos = validateDescuentos
+    vm.isMydream = oimAbstractFactory.isMyDream();
     vm.tipAseguramiento = tipAseguramiento
     vm.cleanUit = cleanUit
     vm.validateDescuentosUnidades = validateDescuentosUnidades
     vm.validateUit = validateUit
     vm.limpiarsumaasegurada = limpiarSumaAsegurada
     vm.viewPanelAMT = viewPanelAMT
-    vm.isMydream = oimAbstractFactory.isMyDream();
 
     vm.$onInit = function () {
       vm.constantsRrgg = constantsRiesgosGenerales;
