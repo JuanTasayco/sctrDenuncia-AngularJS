@@ -1,0 +1,77 @@
+<style>
+  .receipt__button {
+    background: none;
+    border: none;
+    color: inherit;
+    cursor: pointer;
+    font: inherit;
+    outline: inherit;
+    padding: 0;
+    width: 100%;
+    opacity: 0.6;
+  }
+  .receipt__button:hover {
+    opacity: 1;
+  }
+</style>
+<div class="page-modal page-consultas-gestion consultaGestion modal__wrapper">
+  <!-- Primer modal -->
+  <div class="container mb-xs-2">
+    <div class="row">
+      <div class="col-xs-12 mb-xs-2 pl-xs-3 pr-xs-3">
+        <h2 class="modal__title gH3"><b>RECIBOS DE PÓLIZA SELECCIONADA</b></h2>
+        <button type="button" class="close g-close-modal" ng-click="closeModal($event)">
+          <span class="ico-mapfre_46_cancelaroff"></span>
+        </button>
+      </div>
+    </div>
+  </div>
+  <div class="container">
+    <div class="modal-body  no-pb-xs">
+      <div class="row">
+        <div class="col-xs-12 mb-xs-2">
+          <div class="modal__box--gray d-center mb-xs-2">
+            <div class="modal__icon--wrapper g-center-flex">
+              <i class="ico-mapfre-355-myd-casco"></i>
+            </div>
+            <div>
+              <div class="d-center d-d-flex--wrap mb-xs-1">
+                <p class="modal__text mt-xs-0 mb-xs-0 mr-xs-1">
+                  <!-- ::::::esto debería ser por póliza::::: -->
+                  Cliente: <span class="fwBold">{{ receipts[0].client.name }}</span>
+                </p>
+                <span ng-if="poliza.stateDocumentPayment.positiveBalance == 'S'">
+                  <span class="c-tag g-box-label g-text-uppercase c-green">SALDO A FAVOR</span>
+                </span>
+              </div>
+              <!-- ::::::esto debería ser por póliza::::: -->
+              <p class="modal__text mt-xs-0 mb-xs-1">
+                Póliza: {{ receipts[0].ramo.description }} {{ poliza.policyNumber}}
+              </p>
+              <!-- ::::::esto debería ser por póliza::::: -->
+              <p class="modal__text mt-xs-0 mb-xs-0">Correo: {{ receipts[0].client.email }}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <p class="modal__text mt-xs-0 mb-xs-2">Selecciona el recibo:</p>
+      <div class="row" style="max-height:28rem;overflow-y:auto;box-sizing:border-box;overflow-x:hidden;">
+        <button class="mb-xs-2 d-center receipt__button" data-ng-repeat="receipt in receipts"
+          ng-click="goToDetail(receipt, $event)">
+          <div class="col-xs-8 d-center d-col--mobile">
+            <div class="modal__text mt-xs-0 mb-xs-0 mr-xs-1">Nro. de recibo {{ receipt.documentNumber }}</div>
+            <div class="modal__tag tag--rounded">Vencimiento {{ receipt.dateEffect }}</div>
+          </div>
+          <div class="col-xs-4">
+            <p class="modal__text mt-xs-0 mb-xs-0 g-text-right-xs">Importe: <span
+              class="fwSemiBold">
+              <span ng-show="receipt.coinDescription == 'SOL'">S/</span>
+              <span ng-show="receipt.coinDescription == 'DOL'">$</span>
+              {{ receipt.amount }}</span>
+            </p>
+          </div>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

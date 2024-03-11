@@ -1,0 +1,142 @@
+<style>
+.modal__form--col .g-date-picker input {
+  font-size: 16px;
+}
+.modal__form--row .g-input-design input {
+  font-size: 16px;
+}
+.g-p--absolute {
+	position: absolute;
+}
+.g-p--relative {
+	position: relative;
+}
+.g-fs-16px {
+  font-size: 16px !important;
+}
+.backdrop {
+  width: 100%;
+  height: 100%;
+}
+.g-form-container {
+	opacity: 1;
+}
+.g-form-container.disabled {
+	opacity: 0.3;
+}
+.g-form-container.disabled .backdrop {
+	z-index: 999;
+}
+.g-form-container .backdrop {
+	z-index: 0;
+}
+</style>
+<div class="page-modal page-consultas-gestion modal__wrapper">
+  <!-- Primer modal -->
+  <div class="container mb-xs-2" ng-if="!httpResponseOk">
+    <div class="row">
+      <div class="col-xs-12 mb-xs-2 pl-xs-3 pr-xs-3">
+        <h2 class="modal__title gH3"><b>REGISTRAR CONTACTO CON EL CLIENTE</b></h2>
+        <button type="button" class="close g-close-modal" ng-click="closeModal($event)">
+          <span class="ico-mapfre_46_cancelaroff"></span>
+        </button>
+      </div>
+    </div>
+  </div>
+  <div class="container" ng-if="!httpResponseOk">
+    <div class="modal-body no-pb-xs">
+      <div class="row">
+        <div class="col-xs-12">
+          <div class="modal__form">
+            <div class="modal__form--row mb-xs-2">
+              <div class="modal__form--col g-modal-send-email">
+                <div class="g-select-desing">
+                  <label for="coordination_types_input" class="g-placeholder block animated">Tipo de coordinación con el cliente</label>
+                  <select class="g-fs-16px" name="coordination_types" id="coordination_types_input"
+                    ng-model="currentContact.coordinationKeys" ng-change="changeCoordination()">
+                    <option value="" hidden>SELECCIONA</option>
+                    <optgroup label="Si me contacté con el cliente">
+                      <option
+                        data-ng-repeat="item in formattedCoordinations.contacted"
+                        ng-value="item.codeInt + '-' + item.code"
+                      >{{ item.description }}
+                    </option>
+                    </optgroup>
+                    <optgroup label="No se logró el contacto con el cliente">
+                      <option 
+                        data-ng-repeat="item in formattedCoordinations.notContacted"
+                        ng-value="item.codeInt + '-' + item.code"
+                      >{{ item.description }}
+                      </option>
+                    </optgroup>
+                  </select>
+                  <span class="ico-mapfre_308_arrowDown ico-select"></span>
+                </div>
+              </div>
+            </div>
+            <div
+              class="modal__form--row d-center d-flex--wrap d-gap--24 g-p--relative g-form-container"
+              ng-class="{ disabled: currentCoordination.type === '2' || currentCoordination.code === '' }"
+            >
+              <div class="backdrop g-p--absolute g-h--100p g-w--100p"></div>
+              <div class="modal__form--col">
+                <mpf-datepicker label="{label: 'Fecha de reprogramación'}" ng-model="currentContact.date"
+                  format="'dd/MM/yyyy'" name="modalDateSchedule" set-min-today="true" nomargin="true">
+                </mpf-datepicker>
+              </div>
+              <div class="modal__form--col d-flex--wrap g-p--relative">
+                <p class="no-mb-xs no-mt-xs g-placeholder animated">Horario para contactarse con el cliente</p>
+                <div class="d-center d-flex--wrap d-gap--24">
+                  <div class="modal__form--col g-modal-send-email">
+                    <div class="g-select-desing">
+                      <select class="g-fs-16px" name="hour_since_from" id="hour_since_from_input" ng-model="currentContact.from">
+                        <option value="" hidden>Desde</option>
+                        <option data-ng-repeat="item in hoursFrom" ng-value="item.code">{{ item.description }}</option>
+                      </select>
+                      <span class="ico-mapfre_308_arrowDown ico-select"></span>
+                    </div>
+                  </div>
+                  <div class="modal__form--col g-modal-send-email">
+                    <div class="g-select-desing">
+                      <select class="g-fs-16px" name="hour_since_to" id="hour_since_to_input" ng-model="currentContact.to">
+                        <option value="" hidden>Hasta</option>
+                        <option data-ng-repeat="item in hoursTo" ng-value="item.code">{{ item.description }}</option>
+                      </select>
+                      <span class="ico-mapfre_308_arrowDown ico-select"></span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="modal__form--row mb-xs-2">
+              <mpf-input label="{label: 'Comentario', required: false}" name="comentario" placeholder="ESCRIBE..."
+                ng-model="currentContact.comment" ng-maxlength="500"></mpf-input>
+            </div>
+          </div>
+          <div class="modal__buttons-wrapper g-center-flex">
+            <button class="g-btn g-btn-white second-design block" 
+              ng-click="closeModal($event)"
+            >CANCELAR</button>
+            <button class="g-btn g-btn-verde second-design block" 
+              ng-click="confirmRegistration($event)" ng-disabled="isFormDisabled()"
+            >CONFIRMAR</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Segundo modal -->
+  <div class="container" ng-if="httpResponseOk">
+    <div class="modal-body no-pb-xs">
+      <div class="modal__box--center">
+        <div class="modal__icon-text g-text-center-xs mb-xs-3">
+          <i class="ico-mapfre-346-sucess icon mb-xs-3"></i>
+          <h2 class="title mt--0">Registro completado</h2>
+        </div>
+        <div class="modal__buttons-wrapper g-center-flex">
+          <button class="g-btn g-btn-white second-design block" ng-click="closeModal($event)">Cerrar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
