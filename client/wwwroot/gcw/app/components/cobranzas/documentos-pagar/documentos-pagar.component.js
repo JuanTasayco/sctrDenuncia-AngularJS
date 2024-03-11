@@ -348,14 +348,22 @@ define([
         } 
       )
       .then(
-        function(_){ 
+        function(response){
+          var conditionForResponse = response && typeof response === 'object' && response.operationCode === 200;
+
+          if (!conditionForResponse) {
+            throw new Error('');
+          }
+
           return Promise.resolve(true);
         }
       )
       .catch(
         function(error){
-          return error === 'cancel' ? Promise.resolve('cancel') : mModalAlert.showError(errorMessage, '');
-        } 
+          mModalAlert.showError(errorMessage, '');
+
+          return error === 'cancel' ? Promise.resolve('cancel') : Promise.resolve(false);
+        }
       );
     }
 
@@ -413,7 +421,13 @@ define([
         }
       };
 
-      return getSendLinkAfiliacion(requestBody).then(function(_) {
+      return getSendLinkAfiliacion(requestBody).then(function(response) {
+        var conditionalResponse = response && typeof response === 'object' && response.operationCode === 200;
+
+        if (!conditionalResponse) {
+          throw new Error('');
+        }
+
         return vm.openMembershipModal(policy);
       })
       .catch(function(_) {
@@ -491,7 +505,7 @@ define([
             }
 
             vm.sendLinkByEmail(selectedReceipt, 'payment').then(function(response) {
-              if (response === 'cancel') {
+              if (response === 'cancel' || !response) {
                 return;
               }
               return $scope.goToModalGenerated(selectedReceipt);
@@ -693,7 +707,7 @@ define([
             preventEvent(event);
 
             vm.sendLinkByEmail($scope.receipt, 'affiliation').then(function (response) {
-              if (response === 'cancel') {
+              if (response === 'cancel' || !response) {
                 return;
               }
               $scope.isEmailEnabled = false;
@@ -1385,7 +1399,7 @@ define([
           preventEvent(event);
 
           vm.sendLinkByEmail($scope.receipt, 'payment').then(function (response) {
-            if (response === 'cancel') {
+            if (response === 'cancel' || !response) {
               return;
             }
 
