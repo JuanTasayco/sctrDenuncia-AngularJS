@@ -88,8 +88,8 @@ define(['angular', 'constants'], function(angular, constants) {
     function GetListAgente(body, showSpin){
       return proxyDeceso.GetListAgente(body, showSpin);
     }
-    function ListaMedioPago(showSpin){
-      return proxyDeceso.ListaMedioPago(showSpin);
+    function ListaMedioPago(codigoModalidad, showSpin){
+      return proxyDeceso.ListaMedioPago(codigoModalidad, showSpin);
     }
     function ListarRamo(showSpin){
       return proxyDeceso.ListarRamo(showSpin);
