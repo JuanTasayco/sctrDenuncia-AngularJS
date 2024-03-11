@@ -86,25 +86,39 @@ define([
         api = proxyCotizacionRg.ResumenCotizacionTransporteMaritimoAereo(nroTramite,productoGrupo, true)
       return api;
     }
-    function dowloadPdf(nroTramite, producto) {
+
+    
+    function dowloadPdf(nroTramite, producto, reintentos) {
+      var exito = false;
       mpSpin.start();
       $http({
         url: constants.system.api.endpoints.policy + 'api/rrgg/emision/exportar/pdf/' + nroTramite + "/" + producto,
         method: 'GET',
         headers: {
           'Content-Type': 'application/x-www-form-urlencoded'
-        }
-
+        },
+        timeout: 40000
       }).success(
         function (data, status, headers) {
+          exito = true;
           data.Data.forEach(function (element) {
             mainServices.fnDownloadFileBase64(element.MessageResult, 'pdf', element.NombreArchivo, false);
             mpSpin.end();
           });
         },
         function (data, status) {
+          exito = true;
           mpSpin.end();
           mModalAlert.showError("Error al descargar el documento", 'ERROR');
+        }).finally(function (){
+          if (!exito){
+            if (reintentos > 1){
+              reintentos = reintentos - 1;
+              dowloadPdf(nroTramite, producto, reintentos);
+              return;
+            }
+            mpSpin.end();
+          }
         });
     }
     function giroNegocio() {

@@ -110,7 +110,7 @@ define([
     }
     $scope.dowloadPdf = function (cotizacion) {
       mModalConfirm.confirmWarning('', $scope.constantsRrgg.SMS_INFO.DATA_SENSIBLE, 'ACEPTAR').then(function (response) {
-        riesgosGeneralesService.dowloadPdf(cotizacion.NU_NRO_TRAMITE, cotizacion.GRUPO)
+        riesgosGeneralesService.dowloadPdf(cotizacion.NU_NRO_TRAMITE, cotizacion.GRUPO, 3)
       });
     }
     function _validInfoProducto(data) {

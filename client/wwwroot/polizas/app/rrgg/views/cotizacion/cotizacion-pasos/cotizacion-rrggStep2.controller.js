@@ -188,7 +188,7 @@ define([
     }
     $scope.dowloadPdf = function () {
       mModalConfirm.confirmWarning('', $scope.constantsRrgg.SMS_INFO.DATA_SENSIBLE, 'ACEPTAR').then(function (response) {
-        riesgosGeneralesService.dowloadPdf($scope.cotizacionResumen.NumeroTramite, $scope.cotizacionResumen.Grupo)
+        riesgosGeneralesService.dowloadPdf($scope.cotizacionResumen.NumeroTramite, $scope.cotizacionResumen.Grupo, 3)
       });
     }
     function validateMontosMaximosTRE() {

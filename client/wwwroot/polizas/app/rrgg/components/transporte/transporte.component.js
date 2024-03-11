@@ -1,8 +1,8 @@
 define([
   'angular', 'constantsRiesgosGenerales', '/scripts/mpf-main-controls/components/ubigeo/component/ubigeo.js'
 ], function (ng, constantsRiesgosGenerales) {
-  transporteController.$inject = ['$scope','mModalAlert', 'riesgosGeneralesService', 'riesgosGeneralesFactory', 'riesgosGeneralesCommonFactory', 'mModalConfirm', '$uibModal'];
-  function transporteController($scope,mModalAlert, riesgosGeneralesService, riesgosGeneralesFactory, riesgosGeneralesCommonFactory, mModalConfirm, $uibModal) {
+  transporteController.$inject = ['$scope','mModalAlert', 'riesgosGeneralesService', 'riesgosGeneralesFactory', 'riesgosGeneralesCommonFactory', 'mModalConfirm', '$uibModal', 'oimAbstractFactory'];
+  function transporteController($scope,mModalAlert, riesgosGeneralesService, riesgosGeneralesFactory, riesgosGeneralesCommonFactory, mModalConfirm, $uibModal, oimAbstractFactory) {
     var vm = this;
     vm.producto = {};
     vm.validControlForm = ValidControlForm;
@@ -11,6 +11,8 @@ define([
     vm.changeDesde = changeDesde;
     vm.ramoSelected = ramoSelected;
     vm.sumaAseguradaPrevia = null;
+    vm.isMydream = oimAbstractFactory.isMyDream();
+
     vm.$onInit = function () {
       vm.constantsRrgg = constantsRiesgosGenerales;
       riesgosGeneralesFactory.setCotizacionProducto(vm.cotizacion);
