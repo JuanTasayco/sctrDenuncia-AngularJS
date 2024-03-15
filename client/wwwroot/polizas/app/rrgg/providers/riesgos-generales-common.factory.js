@@ -72,7 +72,7 @@ define([
               maxDescuento = descuento2
             }
           } else {
-            if (descuento > parseFloat(descuento1.Valor2)) {
+            if (descuento > parseFloat(descuento1.Valor)) {
               maxDescuento = descuento1
             }
           }
