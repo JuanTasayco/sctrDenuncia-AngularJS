@@ -114,8 +114,7 @@ define(['angular', 'constants', 'helper', 'mpfPersonConstants', 'mpfPersonCompon
         $scope.firstStep = response[0].Data;
         $scope.asegurados = angular.copy(response[0].Data.Asegurados);
         $scope.contratante = angular.copy(response[0].Data.Contratante);             
-        $scope.productos = response[1].Data;
-        $scope.medioPagos = response[2].Data;
+        $scope.productos = response[1].Data; 
 
         $scope.firstStep.FechaInicioBkp = angular.copy($scope.firstStep.FechaInicio);
         var dateParts = $scope.firstStep.FechaInicio.split("/");
@@ -126,6 +125,17 @@ define(['angular', 'constants', 'helper', 'mpfPersonConstants', 'mpfPersonCompon
         $scope.firstStep.FechaFinBkp = angular.copy($scope.firstStep.FechaFin);
         var dateParts1 = $scope.firstStep.FechaFin.split("/");
         var dateObject1 = new Date(dateParts1[2], dateParts1[1] - 1, dateParts1[0]); // month is 0-based
+
+        decesoFactory.ListaMedioPago($scope.firstStep.Modalidad.CodigoModalidad, false)
+        then(function (response) {
+          if (response.OperationCode != constants.operationCode.success) {
+            return;
+          }
+
+          $scope.medioPagos = response.Data;
+        })
+        .catch(function (error) {
+        });
 
         decesoFactory.FechaVigencia($scope.firstStep.Ramo.CodigoRamo, $scope.firstStep.PolizaGrupo.NumeroPolizaGrupo, $scope.firstStep.Modalidad.CodigoModalidad, false).then(function(response) {
           if (response.OperationCode == constants.operationCode.success) {

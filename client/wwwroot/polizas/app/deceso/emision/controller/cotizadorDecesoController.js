@@ -172,6 +172,17 @@ define(['angular', 'constants', 'helper', 'lodash', 'mpfPersonConstants', 'salud
 
       $scope.onFinanciamientoChange = function(showspin){
 
+        decesoFactory.ListaMedioPago($scope.data.modalidad.CodigoModalidad, false)
+        .then(function (response) {
+          if (response.OperationCode != constants.operationCode.success) {
+            return;
+          }
+          $scope.data.medioPago = null;
+          $scope.medioPagos = response.Data;
+        })
+        .catch(function (error) {
+        });
+
         decesoFactory.ListaFinanciamiento($scope.data.producto.CodigoRamo, $scope.data.polizaGrupo.NumeroPolizaGrupo, $scope.data.modalidad.CodigoModalidad, showspin).then(function(response) {
           if (response.OperationCode == constants.operationCode.success) {
             $scope.financiamientos = response.Data;
@@ -876,7 +887,13 @@ define(['angular', 'constants', 'helper', 'lodash', 'mpfPersonConstants', 'salud
           var deferred = $q.defer();
           mainServices.fnReturnSeveralPromise([
             decesoFactory.ListarRamo(true),
-            decesoFactory.ListaMedioPago(false),
+            // decesoFactory.ListaMedioPago(undefined, false),
+            Promise.resolve({
+              "Message": "",
+              "Data": [],
+              "OperationCode": 200,
+              "TypeMessage": "success"
+            }),
             decesoFactory.ListaTipoAsegurado(false),
             saludFactory.getCurrencyType(false)
           ], showSpin).then(function(response){
