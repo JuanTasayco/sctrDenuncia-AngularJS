@@ -28,7 +28,7 @@ define([
 
     $scope.$on('ubigeo', function(_, data) {
       if(data) {
-        riesgosGeneralesService.getRestriccionUbigeo(data.mDepartamento,data.mProvincia,data.mDistrito)
+        riesgosGeneralesService.getRestriccionUbigeo(vm.cotizacion.producto.CodigoRiesgoGeneral, data.mDepartamento,data.mProvincia,data.mDistrito)
         .then(function (response) {
           const restringido = response.Data.Restringido
           if (restringido) {

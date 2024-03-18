@@ -412,9 +412,10 @@ define([
         moneda: $scope.cotizacionResumen.Moneda,
         type: "R"
       }
-      riesgosGeneralesCommonFactory.validateDescuentosVIG(paramData).then(function (response) {
+      riesgosGeneralesCommonFactory.validateDescuentoComercialVIG(paramData).then(function (response) {
         if (!$scope.estadoValidate) {
-          $scope.maximosValidate = response
+          $scope.estadoValidate = !response;
+          $scope.maximosValidate = !response
         }
       });;
     }
@@ -455,11 +456,12 @@ define([
     function validateUbigeo(){
       var cotizacionResumen = $scope.cotizacionResumen
       var restringido = false
+      var codigoRiesgoGeneral = $scope.cotizacionResumen.CodigoRiesgoGeneral;
       if (cotizacionResumen.Grupo == constantsRiesgosGenerales.GRUPO.HIDROCARBURO){
         if( cotizacionResumen.listaUbicaciones){
           for (var i = 0; i < cotizacionResumen.listaUbicaciones.length; i++) {
             var ubicacion = cotizacionResumen.listaUbicaciones[i];
-            riesgosGeneralesService.getRestriccionUbigeo(ubicacion.Departamento.Codigo, ubicacion.Provincia.Codigo,ubicacion.Distrito.Codigo)
+            riesgosGeneralesService.getRestriccionUbigeo(codigoRiesgoGeneral, ubicacion.Departamento.Codigo, ubicacion.Provincia.Codigo,ubicacion.Distrito.Codigo)
             .then(function (response) {
               if (!restringido){
                 restringido = response.Data.Restringido
@@ -470,7 +472,7 @@ define([
           }
         }
       } else {
-        riesgosGeneralesService.getRestriccionUbigeo(cotizacionResumen.Departamento.Codigo, cotizacionResumen.Provincia.Codigo,cotizacionResumen.Distrito.Codigo)
+        riesgosGeneralesService.getRestriccionUbigeo(codigoRiesgoGeneral, cotizacionResumen.Departamento.Codigo, cotizacionResumen.Provincia.Codigo,cotizacionResumen.Distrito.Codigo)
           .then(function (response) {
             restringido = response.Data.Restringido
             $scope.ubigeoValidate = restringido
