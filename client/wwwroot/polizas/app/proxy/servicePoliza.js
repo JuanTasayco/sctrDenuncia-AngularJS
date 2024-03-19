@@ -4633,9 +4633,11 @@
                                          undefined, undefined, showSpin)
                 },
                 'ListaMedioPago' : function(codigoModalidad, showSpin){
+                    var modalityCode = codigoModalidad == false ? 0 : codigoModalidad;
+
                     return httpData['get'](oimProxyPoliza.endpoint + helper.formatNamed(
-                        'api/deceso/asegurado/pago&codigoModalidad={codigoModalidad}',
-                        { 'codigoModalidad':codigoModalidad }
+                        'api/deceso/asegurado/pago/{codigoModalidad}',
+                        { 'codigoModalidad':modalityCode }
                     ),
                                          undefined, undefined, showSpin)
                 },

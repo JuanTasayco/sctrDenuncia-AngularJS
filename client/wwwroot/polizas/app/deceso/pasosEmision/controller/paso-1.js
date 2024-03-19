@@ -108,8 +108,7 @@ define(['angular', 'constants', 'helper', 'mpfPersonConstants', 'mpfPersonCompon
     function searchInfo(numDoc) {
       mainServices.fnReturnSeveralPromise([
         decesoFactory.ObtenerCotizacion(numDoc, true),
-        decesoFactory.ListarRamo(false),
-        decesoFactory.ListaMedioPago(false),
+        decesoFactory.ListarRamo(false)
       ], true).then(function (response) {
         $scope.firstStep = response[0].Data;
         $scope.asegurados = angular.copy(response[0].Data.Asegurados);
@@ -127,7 +126,7 @@ define(['angular', 'constants', 'helper', 'mpfPersonConstants', 'mpfPersonCompon
         var dateObject1 = new Date(dateParts1[2], dateParts1[1] - 1, dateParts1[0]); // month is 0-based
 
         decesoFactory.ListaMedioPago($scope.firstStep.Modalidad.CodigoModalidad, false)
-        then(function (response) {
+        .then(function (response) {
           if (response.OperationCode != constants.operationCode.success) {
             return;
           }
