@@ -248,8 +248,8 @@ define([
       return deferred.promise;
     }
 
-    function getRestriccionUbigeo(departamento, provincia, distrito) { 
-      return proxyParametro.GetRestriccionUbicacion(departamento, provincia, distrito) 
+    function getRestriccionUbigeo(producto, departamento, provincia, distrito) { 
+      return proxyParametro.GetRestriccionUbicacion(producto, departamento, provincia, distrito) 
     }
 
     function getProxyProductosByUser() {

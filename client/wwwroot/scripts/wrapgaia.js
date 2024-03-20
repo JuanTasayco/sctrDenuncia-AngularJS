@@ -1,5 +1,5 @@
 define([
-  'angular', 'helper', 'lodash',
+  'angular', 'helper', 'lodash'
 ], function(angular, helper, _) {
   //'use strict';
 
@@ -247,14 +247,29 @@ define([
     }]).config(['$httpProvider', function($httpProvider) {
       $httpProvider.interceptors.push('trustedInterceptor');
     }]).factory('trustedInterceptor', ['$sce', '$q', '$window', '$injector', function($sce, $q, $window, $injector) {
-
       var clientIp = $window.localStorage['clientIp'];
       if (!clientIp) {
-        setTimeout(function() { getClientIp() });
+        setTimeout(function() { getClientIp($window) });
       }
 
-      function getClientIp() {
-        $window.localStorage['clientIp'] = '0.0.0.0';
+      function getClientIp($window) {
+        var $http = angular.injector(['ng']).get('$http');
+        try {
+          $http.get('https://api.ipify.org?format=json')
+          .then(function(response) {
+              if (response.data.ip == '') {
+                $window.localStorage['clientIp'] = '0.0.0.0';
+              }else {
+                $window.localStorage['clientIp'] = response.data.ip;
+              }
+            }).catch(function(error) {
+              $window.localStorage['clientIp'] = '0.0.0.0';
+            })  
+        } catch (error) {
+          $window.localStorage['clientIp'] = '0.0.0.0';
+        }
+        // $window.localStorage['clientIp'] = '0.0.0.0';
+        
       }
 
       return {

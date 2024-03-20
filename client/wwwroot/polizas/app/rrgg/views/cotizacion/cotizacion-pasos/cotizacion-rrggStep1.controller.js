@@ -153,12 +153,8 @@ define([
               }catch(e) {
                 return false
               }             
-        case constantsRiesgosGenerales.GRUPO.CAR:
-            return !riesgosGeneralesFactory.esContinueStep;          
         case constantsRiesgosGenerales.GRUPO.CARLITE:
             return !riesgosGeneralesFactory.esContinueStep;       
-        case constantsRiesgosGenerales.GRUPO.VIGLIMP:
-          return !riesgosGeneralesFactory.esContinueStep;  
         default:
           return false;
       }

@@ -4632,8 +4632,13 @@
                     return httpData['get'](oimProxyPoliza.endpoint + 'api/deceso/asegurado/tipo',
                                          undefined, undefined, showSpin)
                 },
-                'ListaMedioPago' : function( showSpin){
-                    return httpData['get'](oimProxyPoliza.endpoint + 'api/deceso/asegurado/pago',
+                'ListaMedioPago' : function(codigoModalidad, showSpin){
+                    var modalityCode = codigoModalidad == false ? 0 : codigoModalidad;
+
+                    return httpData['get'](oimProxyPoliza.endpoint + helper.formatNamed(
+                        'api/deceso/asegurado/pago/{codigoModalidad}',
+                        { 'codigoModalidad':modalityCode }
+                    ),
                                          undefined, undefined, showSpin)
                 },
                 'RegistrarCotizacion' : function(cotizacion, showSpin){
