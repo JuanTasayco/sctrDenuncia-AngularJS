@@ -56,7 +56,7 @@ define(['angular', 'lodash', 'AsistenciaActions', 'wpConstant'], function (ng, _
       vm.frmConductor.codigoTipoDocumentoIdentidad = vm.frmConductor.codigoTipoDocumentoIdentidad;
       vm.frmConductor.numeroDocumentoIdentidad = data ? data.num_documento : vm.frmConductor.numeroDocumentoIdentidad;
       vm.frmConductor.nombreConductor = data ? data.nombres : null;
-      vm.frmConductor.paternoConductor = data ? `${data.ape_paterno} ${data.ape_materno}` : null;
+      vm.frmConductor.paternoConductor = data ? data.ape_paterno : null;
       vm.frmConductor.telefonoConductor = data ? data.telefono : null;
       vm.frmConductor.correoConductor = data ? data.email : null;
       vm.frmConductor.fchExpiracionLicenciConductor = null;
