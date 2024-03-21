@@ -24,6 +24,10 @@ define([
         _self.tryCancelRecurrent = _self.type != undefined && _self.type !== null && _self.type !== 0;
 
         var authe = serviceLogin.resolve(_self.type, $scope, _self);
+
+        localStorage.removeItem('local_coordinations');
+        localStorage.removeItem('local_cutoff_dates');
+
         if (authe) {
           _self.isResolveLogin = true;
           authe.init();

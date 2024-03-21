@@ -939,7 +939,15 @@ define([
       function getSendLinkPago(params) {
         return proxyPayment.getSendLinkPago(params,true);
       }
-
+      function getCoordinationTypes() {
+        return proxyPayment.getCoordinationTypes(true);
+      }
+      function registerContact(params) {
+        return proxyPayment.registerContact(params, true);
+      }
+      function getRegisteredLogs(params) {
+        return proxyPayment.getRegisteredLogs(params, true);
+      }
       function getLinkAfiliacion(params) {
         return proxyPayment.getLinkAfiliacion(params,true);
       }
@@ -966,7 +974,8 @@ define([
           "cliente": {
               "nomTomador": poliza.client.name,
               "codDocumento": poliza.client.documentNumber,
-              "tipDocumento": poliza.client.documentType
+              "tipDocumento": poliza.client.documentType,
+              "email": poliza.client.email
           },
           "poliza": {
               "compania": poliza.ramo.companyId,
@@ -1041,6 +1050,9 @@ define([
         getDataDocPagarDetalleEstado: getDataDocPagarDetalleEstado,
         getLinkPago : getLinkPago,
         getSendLinkPago : getSendLinkPago,
+        getCoordinationTypes: getCoordinationTypes,
+        registerContact: registerContact,
+        getRegisteredLogs: getRegisteredLogs,
         getLinkAfiliacion:getLinkAfiliacion,
         getSendLinkAfiliacion : getSendLinkAfiliacion,
         requestDocCartera : requestDocCartera,

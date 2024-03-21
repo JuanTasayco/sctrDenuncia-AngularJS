@@ -1,0 +1,70 @@
+<style>
+  .g-input-design input {
+    text-transform: lowercase;
+  }
+
+  .d-flex {
+    display: flex;
+  }
+
+  .g-close-modal {
+    width: 40px;
+    position: relative;
+    align-self: flex-end;
+  }
+
+  .g-close-modal span {
+    font-size: 50px;
+  }
+</style>
+<div class="page-modal modal__wrapper">
+  <div class="container mb-xs-2">
+    <div class="row">
+      <div class="col-xs-12 mb-xs-2 pl-xs-5 pr-xs-5 d-flex">
+        <h2 class="modal__title gH3 g-text-center-xs mt-xs-2"><b>ADMIN NOTIFICACIONES</b></h2>
+        <button type="button" class="close g-close-modal mt-xs-1" ng-click="closeModal($event)">
+          <span class="ico-mapfre_46_cancelaroff"></span>
+        </button>
+      </div>
+    </div>
+  </div>
+  <div class="container">
+    <div class="modal-body no-pb-xs">
+      <div class="col-xs-12 mb-xs-2">
+        <mpf-input label="{label: 'Correo dirigido a:', required: false}" name="comentario" placeholder="ESCRIBE..."
+          ng-model="notification.receiver" ng-maxlength="500"></mpf-input>
+      </div>
+      <div class="col-xs-12 mb-xs-2">
+        <mpf-input label="{label: 'Correo con copia a:', required: false}" name="comentario" placeholder="ESCRIBE..."
+          ng-model="notification.carbonCopyEmail" ng-maxlength="500"></mpf-input>
+      </div>
+      <div class="col-xs-12 mb-xs-2">
+        <div class="modal__form--col g-modal-send-email">
+          <div class="g-select-desing">
+            <label for="cutoff_dates_input" class="g-placeholder block animated">Tipo de fecha de corte:</label>
+            <select class="g-fs-16px" name="cutoff_dates" id="cutoff_dates_input"
+              ng-model="notification.selectedCuoffDateId" ng-change="changeCutoffDate(notification.selectedCuoffDateId)">
+              <option value="" hidden>SELECCIONA</option>
+              <option data-ng-repeat="item in notification.cutoffDates"
+                ng-value="item.idConfig">{{ item.descripcion }}
+              </option>
+            </select>
+            <span class="ico-mapfre_308_arrowDown ico-select"></span>
+          </div>
+        </div>
+      </div>
+      <!-- <div class="col-xs-12 mb-xs-2" ng-if="notification.cutoffCode === '5'">
+        <mpf-datepicker label="{label: 'Fecha de corte:'}" ng-model="notification.cutoffDate" format="'dd/MM/yyyy'"
+          name="modalDateSchedule" nomargin="true">
+        </mpf-datepicker>
+      </div> -->
+      <div class="col-xs-12 mt-xs-2">
+        <div class="modal__buttons-wrapper g-center-flex">
+          <button class="g-btn g-btn-verde second-design block"
+            ng-click="updateNotification($event)">ACTUALIZAR</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
