@@ -440,6 +440,7 @@ define(['angular', 'constants', 'helper', 'lodash', 'mpfPersonConstants', 'salud
         if ($scope.insuredsList.length > 0) {
           var quotationPost = {
             CodigoSistema: oimAbstractFactory.getOrigin(),
+            tokenEquifax: getTokenEquifax(oimClaims.loginUserName),
             PorDctoIntgPlaza: $scope.formVida.PorDctoIntgPlaza || 0,
             MarcaPorDctoIntegralidad: $scope.formVida.DctoIntegralidad ? 'S' : 'N',
             producto: {
