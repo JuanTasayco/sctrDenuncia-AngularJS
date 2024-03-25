@@ -93,6 +93,7 @@ define([], function () {
       LIST_EMBALAJE: 8,
       T_NETA_ANUAL: 9,
       COBERTURAS: 10,
+      MAXIMO_LOCAL_VEHICULO: 104,
       CLAS_EQUIPOS: 11,
       VAL_MAX_CONTRATO: {
         COD: 12,
