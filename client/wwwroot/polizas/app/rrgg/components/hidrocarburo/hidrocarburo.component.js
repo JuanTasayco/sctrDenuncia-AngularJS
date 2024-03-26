@@ -186,11 +186,15 @@ define([
         if (tipo === vm.constantsRrgg.DATOS.VEHICULOS) {
           if (vm.maximoVehiculo < nroItem){
             mModalAlert.showWarning("Máximo de vehiculos permitidos es: " + vm.maximoVehiculo , "¡Alerta!")
+            vm.producto.modelo.CantidadElementos = '';
+            AddDatos(0, tipo);
             return;
           }
         }else if (tipo === vm.constantsRrgg.DATOS.LOCALES) {
             if (vm.maximoVehiculo < nroItem){
               mModalAlert.showWarning("Máximo de locales permitidos es: " + vm.maximoLocal , "¡Alerta!")
+              vm.producto.modelo.CantidadElementos = '';
+              AddDatos(0, tipo);
               return;
             }
         }
