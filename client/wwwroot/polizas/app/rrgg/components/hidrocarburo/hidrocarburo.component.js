@@ -61,7 +61,7 @@ define([
           vm.producto.modelo.ValorUit = response.Data[0].Valor;
         });
 
-      riesgosGeneralesService.getProxyPametros($scope.cotizacion.producto.CodigoRiesgoGeneral, constantsRiesgosGenerales.PARAMETROS.MAXIMO_LOCAL_VEHICULO)
+      riesgosGeneralesService.getProxyPametros(vm.cotizacion.producto.CodigoRiesgoGeneral, constantsRiesgosGenerales.PARAMETROS.MAXIMO_LOCAL_VEHICULO)
         .then(function (response) {
           vm.maximoLocal = response.Data.find(function (element) { return element.Codigo === "S1218" }).Valor;
           vm.maximoVehiculo = response.Data.find(function (element) { return element.Codigo === "S1219" }).Valor;
