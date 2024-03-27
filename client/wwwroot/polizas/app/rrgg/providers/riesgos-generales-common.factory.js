@@ -536,7 +536,7 @@ define([
             if (paramData.type === "C") {
               mModalAlert.showWarning(riesgosGeneralesFactory.getSmsError(tasaMaxima, jsonData), "MAPFRE:LIMITE DE SUMA ASEGURADA")
               .then(function (){
-                deferred.resolve(false);
+                deferred.resolve(true);
               });
             } else if (paramData.type === "R") {
               deferred.resolve(false);

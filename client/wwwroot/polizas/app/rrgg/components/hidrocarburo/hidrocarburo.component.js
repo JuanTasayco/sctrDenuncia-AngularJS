@@ -60,6 +60,13 @@ define([
         .then(function (response) {
           vm.producto.modelo.ValorUit = response.Data[0].Valor;
         });
+
+      riesgosGeneralesService.getProxyPametros(vm.cotizacion.producto.CodigoRiesgoGeneral, constantsRiesgosGenerales.PARAMETROS.MAXIMO_LOCAL_VEHICULO)
+        .then(function (response) {
+          vm.maximoLocal = response.Data.find(function (element) { return element.Codigo === "S1183" }).Valor;
+          vm.maximoVehiculo = response.Data.find(function (element) { return element.Codigo === "S1184" }).Valor;
+        });
+
       if (riesgosGeneralesFactory.getEditarCotizacion()) {
         vm.producto.modelo = vm.cotizacion.form;
         vm.producto.modelo.listaUbicaciones = vm.cotizacion.form.listaUbicaciones || []
@@ -175,6 +182,23 @@ define([
         item: ''
       };
       if (cantDatos < nroItem) {
+
+        if (tipo === vm.constantsRrgg.DATOS.VEHICULOS) {
+          if (vm.maximoVehiculo < nroItem){
+            mModalAlert.showWarning("Máximo de vehiculos permitidos es: " + vm.maximoVehiculo , "¡Alerta!")
+            vm.producto.modelo.CantidadElementos = '';
+            AddDatos(0, tipo);
+            return;
+          }
+        }else if (tipo === vm.constantsRrgg.DATOS.LOCALES) {
+            if (vm.maximoVehiculo < nroItem){
+              mModalAlert.showWarning("Máximo de locales permitidos es: " + vm.maximoLocal , "¡Alerta!")
+              vm.producto.modelo.CantidadElementos = '';
+              AddDatos(0, tipo);
+              return;
+            }
+        }
+
         for (var index = (cantDatos + 1); index <= nroItem; index++) {
           if (tipo === vm.constantsRrgg.DATOS.LOCALES) {
             vm.producto.modelo.listaUbicaciones.push(angular.copy(angular.extend({ Orden: index }, defultAsegurado)))
@@ -183,6 +207,8 @@ define([
             vm.producto.modelo.listaVehiculos.push(angular.copy(angular.extend({ Orden: index }, defultAsegurado)))
           }
         }
+
+
       } else {
         if (tipo === vm.constantsRrgg.DATOS.LOCALES)
           vm.producto.modelo.listaUbicaciones = vm.producto.modelo.listaUbicaciones.slice(0, nroItem);
